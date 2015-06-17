@@ -13,8 +13,8 @@ namespace CircularBuffer
         volatile private int tail;
         volatile private T[] buffer;
 
-        [NonSerialized()]
-        private object syncRoot;
+        [NonSerialized()] 
+        private object _syncRoot = new object();
 
         public CircularBuffer(int capacity)
             : this(capacity, false)
@@ -101,7 +101,7 @@ namespace CircularBuffer
             if (!AllowOverflow &&  count > capacity - size)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 int srcIndex = offset;
                 for (int i = 0; i < count; i++, tail++, srcIndex++)
@@ -120,7 +120,7 @@ namespace CircularBuffer
             if (!AllowOverflow && size == capacity)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 buffer[tail] = item;
                 if (++tail == capacity)
@@ -131,7 +131,7 @@ namespace CircularBuffer
 
         public void Skip(int count)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 head += count;
                 if (head >= capacity)
@@ -153,7 +153,7 @@ namespace CircularBuffer
 
         public int Get(T[] dst, int offset, int count)
         {
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 int realCount = Math.Min(count, size);
                 int dstIndex = offset;
@@ -173,7 +173,7 @@ namespace CircularBuffer
             if (size == 0)
                 throw new InvalidOperationException("Buffer Empty");
 
-            lock (syncRoot)
+            lock (_syncRoot)
             {
                 var item = buffer[head];
                 if (++head == capacity)
@@ -284,9 +284,9 @@ namespace CircularBuffer
         {
             get
             {
-                if (syncRoot == null)
-                    Interlocked.CompareExchange(ref syncRoot, new object(), null);
-                return syncRoot;
+                if (_syncRoot == null)
+                    Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                return _syncRoot;
             }
         }
 

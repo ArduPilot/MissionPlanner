@@ -449,117 +449,8 @@ namespace MissionPlanner.GCSViews
                 {
                 }
 
-                Console.WriteLine("Terminal_Load run " + threadrun + " " + comPort.IsOpen);
+                startreadthread();
 
-                BUT_disconnect.Enabled = true;
-
-                var t11 = new Thread(delegate()
-                {
-                    threadrun = true;
-
-                    Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
-
-                    try
-                    {
-                        comPort.Write("\r");
-                    }
-                    catch
-                    {
-                    }
-
-                    // 10 sec
-                    waitandsleep(10000);
-
-                    Console.WriteLine("Terminal thread 1 run " + threadrun + " " + comPort.IsOpen);
-
-                    // 100 ms
-                    readandsleep(100);
-
-                    Console.WriteLine("Terminal thread 2 run " + threadrun + " " + comPort.IsOpen);
-
-                    try
-                    {
-                        if (!inlogview && comPort.IsOpen)
-                            comPort.Write("\n\n\n");
-
-                        // 1 secs
-                        if (!inlogview && comPort.IsOpen)
-                            readandsleep(1000);
-
-                        if (!inlogview && comPort.IsOpen)
-                            comPort.Write("\r\r\r?\r");
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Terminal thread 3 " + ex);
-                        ChangeConnectStatus(false);
-                        threadrun = false;
-                        return;
-                    }
-
-                    Console.WriteLine("Terminal thread 3 run " + threadrun + " " + comPort.IsOpen);
-
-                    while (threadrun)
-                    {
-                        try
-                        {
-                            Thread.Sleep(10);
-
-                            if (!threadrun)
-                                break;
-                            if (this.Disposing)
-                                break;
-                            if (inlogview)
-                                continue;
-                            if (!comPort.IsOpen)
-                            {
-                                Console.WriteLine("Comport Closed");
-                                ChangeConnectStatus(false);
-                                break;
-                            }
-                            if (comPort.BytesToRead > 0)
-                            {
-                                comPort_DataReceived(null, null);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine("Terminal thread 4 " + ex);
-                        }
-                    }
-
-                    threadrun = false;
-                    try
-                    {
-                        comPort.DtrEnable = false;
-                    }
-                    catch
-                    {
-                    }
-                    try
-                    {
-                        Console.WriteLine("term thread close run " + threadrun + " " + comPort.IsOpen);
-                        ChangeConnectStatus(false);
-                        comPort.Close();
-                    }
-                    catch
-                    {
-                    }
-
-                    Console.WriteLine("Comport thread close run " + threadrun);
-                });
-                t11.IsBackground = true;
-                t11.Name = "Terminal serial thread";
-                t11.Start();
-
-                // doesnt seem to work on mac
-                //comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
-
-                if (IsDisposed || Disposing)
-                    return;
-
-                TXT_terminal.AppendText("Opened com port\r\n");
-                inputStartPos = TXT_terminal.SelectionStart;
             }
             catch (Exception ex)
             {
@@ -567,6 +458,122 @@ namespace MissionPlanner.GCSViews
                 TXT_terminal.AppendText("Cant open serial port\r\n");
                 return;
             }
+        }
+
+        private void startreadthread()
+        {
+            Console.WriteLine("Terminal_Load run " + threadrun + " " + comPort.IsOpen);
+
+            BUT_disconnect.Enabled = true;
+
+            var t11 = new Thread(delegate()
+            {
+                threadrun = true;
+
+                Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
+
+                try
+                {
+                    comPort.Write("\r");
+                }
+                catch
+                {
+                }
+
+                // 10 sec
+                waitandsleep(10000);
+
+                Console.WriteLine("Terminal thread 1 run " + threadrun + " " + comPort.IsOpen);
+
+                // 100 ms
+                readandsleep(100);
+
+                Console.WriteLine("Terminal thread 2 run " + threadrun + " " + comPort.IsOpen);
+
+                try
+                {
+                    if (!inlogview && comPort.IsOpen)
+                        comPort.Write("\n\n\n");
+
+                    // 1 secs
+                    if (!inlogview && comPort.IsOpen)
+                        readandsleep(1000);
+
+                    if (!inlogview && comPort.IsOpen)
+                        comPort.Write("\r\r\r?\r");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Terminal thread 3 " + ex);
+                    ChangeConnectStatus(false);
+                    threadrun = false;
+                    return;
+                }
+
+                Console.WriteLine("Terminal thread 3 run " + threadrun + " " + comPort.IsOpen);
+
+                while (threadrun)
+                {
+                    try
+                    {
+                        Thread.Sleep(10);
+
+                        if (!threadrun)
+                            break;
+                        if (this.Disposing)
+                            break;
+                        if (inlogview)
+                            continue;
+                        if (!comPort.IsOpen)
+                        {
+                            Console.WriteLine("Comport Closed");
+                            ChangeConnectStatus(false);
+                            break;
+                        }
+                        if (comPort.BytesToRead > 0)
+                        {
+                            comPort_DataReceived(null, null);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Terminal thread 4 " + ex);
+                    }
+                }
+
+                threadrun = false;
+                try
+                {
+                    comPort.DtrEnable = false;
+                }
+                catch
+                {
+                }
+                try
+                {
+                    Console.WriteLine("term thread close run " + threadrun + " " + comPort.IsOpen);
+                    ChangeConnectStatus(false);
+                    comPort.Close();
+                }
+                catch
+                {
+                }
+
+                Console.WriteLine("Comport thread close run " + threadrun);
+            });
+            t11.IsBackground = true;
+            t11.Name = "Terminal serial thread";
+            t11.Start();
+
+            // doesnt seem to work on mac
+            //comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
+
+            if (IsDisposed || Disposing)
+                return;
+
+            TXT_terminal.AppendText("Opened com port\r\n");
+            inputStartPos = TXT_terminal.SelectionStart;
+
 
             TXT_terminal.Focus();
         }
@@ -658,14 +665,22 @@ namespace MissionPlanner.GCSViews
         }
 
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
-        {
-            if (MainV2.comPort.BaseStream.IsOpen)
-                MainV2.comPort.BaseStream.Close();
-
+        {  
             if (comPort.IsOpen)
             {
                 BUT_disconnect.Enabled = true;
                 return;
+            }
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                if (CMB_boardtype.Text.Contains("NSH"))
+                {
+                    start_NSHTerminal();
+                    return;
+                }
+
+                MainV2.comPort.BaseStream.Close();
             }
 
             if (CMB_boardtype.Text.Contains("APM"))
@@ -674,6 +689,28 @@ namespace MissionPlanner.GCSViews
                 start_Terminal(true);
             if (CMB_boardtype.Text.Contains("VRX"))
                 start_Terminal(true);
+        }
+
+        private void start_NSHTerminal()
+        {
+            try
+            {
+                if (MainV2.comPort != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
+                {
+                 
+                    comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.SHELL);
+
+                    comPort.BaudRate = 0;
+
+                    comPort.Open();
+
+                    startreadthread();
+                }
+            }
+            catch
+            {
+
+            }
         }
 
         private void BUT_disconnect_Click(object sender, EventArgs e)

@@ -1810,8 +1810,15 @@ namespace MissionPlanner
 
                     try
                     {
-                        if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
-                            continue;
+                        if (GCSViews.Terminal.comPort is MAVLinkSerialPort)
+                        {
+
+                        }
+                        else
+                        {
+                            if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
+                                continue;
+                        }
                     }
                     catch { }
 
