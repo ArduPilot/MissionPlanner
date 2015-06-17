@@ -133,6 +133,14 @@ namespace MissionPlanner.Utilities
             double rollangle = MainV2.comPort.MAV.cs.campointb;
             double pitchangle = MainV2.comPort.MAV.cs.campointa;
 
+            //
+            if ((float) MainV2.comPort.MAV.param["MNT_TYPE"] == 4)
+            {
+                yawangle = MainV2.comPort.MAVlist[71].cs.yaw;
+                rollangle = MainV2.comPort.MAVlist[71].cs.roll;
+                pitchangle = MainV2.comPort.MAVlist[71].cs.pitch;
+            }
+
             if (Math.Abs(rollangle) > 180 || yawangle == 0 && pitchangle == 0)
             {
                 yawangle = ConvertPwmtoAngle(axis.yaw);
