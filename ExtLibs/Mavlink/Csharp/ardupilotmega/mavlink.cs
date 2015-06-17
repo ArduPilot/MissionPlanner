@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Sat Jun 13 07:26:04 2015";
+        public const string MAVLINK_BUILD_DATE = "Thu Jun 18 07:16:49 2015";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -238,6 +238,8 @@ DEBUG = 254,
             PATHPLANNING=81, 
         	///<summary> Navigate to MISSION using a spline path. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
             SPLINE_WAYPOINT=82, 
+        	///<summary> Mission command to wait for an altitude or downwards vertical speed. This is meant for high altitude balloon launches, allowing the aircraft to be idle until either an altitude is reached or a negative vertical speed is reached (indicating early balloon burst). The wiggle time is how often to wiggle the control surfaces to prevent them seizing up. |altitude (m)| descent speed (m/s)| Wiggle Time (s)| Empty| Empty| Empty| Empty|  </summary>
+            ALTITUDE_WAIT=83, 
         	///<summary> hand control over to an external controller |On / Off (> 0.5f on)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             GUIDED_ENABLE=92, 
         	///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -302,6 +304,8 @@ DEBUG = 254,
             DO_INVERTED_FLIGHT=210, 
         	///<summary> Mission command to operate EPM gripper |gripper number (a number from 1 to max number of grippers on the vehicle)| gripper action (0=release, 1=grab. See GRIPPER_ACTIONS enum)| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_GRIPPER=211, 
+        	///<summary> Enable/disable autotune |enable (1: enable, 0:disable)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+            DO_AUTOTUNE_ENABLE=212, 
         	///<summary> Mission command to control a camera or antenna mount, using a quaternion as reference. |q1 - quaternion param #1, w (1 in null-rotation)| q2 - quaternion param #2, x (0 in null-rotation)| q3 - quaternion param #3, y (0 in null-rotation)| q4 - quaternion param #4, z (0 in null-rotation)| Empty| Empty| Empty|  </summary>
             DO_MOUNT_CONTROL_QUAT=220, 
         	///<summary> set id of master controller |System ID| Component ID| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1314,8 +1318,10 @@ DEBUG = 254,
             GPS1=2, 
         	///<summary> Second GPS port | </summary>
             GPS2=3, 
+        	///<summary> system shell | </summary>
+            SHELL=10, 
         	///<summary>  | </summary>
-            ENUM_END=4, 
+            ENUM_END=11, 
         
         };
         

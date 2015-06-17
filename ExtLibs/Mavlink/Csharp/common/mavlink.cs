@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Sat Jun 13 07:26:05 2015";
+        public const string MAVLINK_BUILD_DATE = "Thu Jun 18 07:16:50 2015";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -939,8 +939,10 @@ DEBUG = 254,
             GPS1=2, 
         	///<summary> Second GPS port | </summary>
             GPS2=3, 
+        	///<summary> system shell | </summary>
+            SHELL=10, 
         	///<summary>  | </summary>
-            ENUM_END=4, 
+            ENUM_END=11, 
         
         };
         
