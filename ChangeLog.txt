@@ -1,4 +1,9 @@
-﻿* Mission Planner 1.3.29 - 17-6-2015
+﻿* Mission Planner 1.3.30 - 19-6-2015
+ConfigRadioInput: fix yaw/thro swap
+Terminal: add nsh over mavlink
+MAVLink update
+
+* Mission Planner 1.3.29 - 17-6-2015
 DroneShare update
 fftui: add hz/rpm to point values for easy diag
 fftui: modify freq detection for single imu
