@@ -504,4 +504,28 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="Saving" xml:space="preserve">
     <value>保存中</value>
   </data>
+  <data name="Note" xml:space="preserve">
+    <value>注意</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>请拔下控制板，点击OK后再插入。
+Mission Planner将会在30秒内寻找控制板。</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>此控制板已经退出历史舞台了，Mission Planner将会上传最后一个支持的版本到您控制板。</value>
+  </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>证书无效</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>您正在使用不受支持的硬件。
+此控制板没有包含真伪性的有效证书。
+请就为您的硬件签名联系您的硬件提供商。</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>无需上传。当前固件已经安装在控制板上。</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>请在音乐播放完后再点击OK。</value>
+  </data>
 </root>
