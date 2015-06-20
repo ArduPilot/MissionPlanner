@@ -7,14 +7,14 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAccelerometerCalibrationTracker : UserControl, IActivate, IDeactivate
+    public partial class ConfigAccelerometerCalibration : UserControl, IActivate, IDeactivate
     {
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private byte count;
 
-        public ConfigAccelerometerCalibrationTracker()
+        public ConfigAccelerometerCalibration()
         {
             InitializeComponent();
         }
@@ -37,7 +37,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 try
                 {
                     MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t {command = 1, result = count});
-                        // doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
                 }
                 catch
                 {
@@ -63,19 +62,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 ThreadPool.QueueUserWorkItem(readmessage, this);
 
-                BUT_calib_accell.Text = "Click When Done";
+                BUT_calib_accell.Text = Strings.Click_when_Done;
             }
             catch (Exception ex)
             {
                 MainV2.comPort.giveComport = false;
                 Log.Error("Exception on level", ex);
-                CustomMessageBox.Show("Failed to level : ac2 2.0.37+ is required", Strings.ERROR);
+                CustomMessageBox.Show("Failed to level", Strings.ERROR);
             }
         }
 
         private static void readmessage(object item)
         {
-            var local = (ConfigAccelerometerCalibrationTracker) item;
+            var local = (ConfigAccelerometerCalibration) item;
 
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
@@ -106,7 +105,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 local.Invoke((MethodInvoker) delegate
                 {
-                    local.BUT_calib_accell.Text = "Done";
+                    local.BUT_calib_accell.Text = Strings.Done;
                     local.BUT_calib_accell.Enabled = false;
                 });
             }
@@ -129,14 +128,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 Log.Info("Sending level command (mavlink 1.0)");
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 1, 0, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 2, 0, 0);
 
-                BUT_level.Text = "Complete";
+                BUT_level.Text = Strings.Completed;
             }
             catch (Exception ex)
             {
                 Log.Error("Exception on level", ex);
-                CustomMessageBox.Show("Failed to level : ac2 2.0.37+ is required", Strings.ERROR);
+                CustomMessageBox.Show("Failed to level", Strings.ERROR);
             }
         }
     }

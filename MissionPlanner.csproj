@@ -347,11 +347,11 @@
     </Compile>
     <Compile Include="Controls\Waypoints\Spline2.cs" />
     <Compile Include="Controls\Waypoints\Spline.cs" />
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.Designer.cs">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
       <SubType>UserControl</SubType>
@@ -682,44 +682,32 @@
     <EmbeddedResource Include="FollowMe.zh-TW.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.de-DE.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.es-ES.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.fr.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.it-IT.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pl.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hant.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-TW.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.zh-Hans.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
@@ -1850,12 +1838,6 @@
     <Compile Include="Swarm\Swarm.cs" />
     <Compile Include="Swarm\VerticalWave.cs" />
     <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigArducopter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1909,12 +1891,6 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </Compile>
     <Compile Include="MagCalib.cs" />
     <Compile Include="Radio\3DRradio.cs">
@@ -2091,12 +2067,6 @@
     <EmbeddedResource Include="FollowMe.fr.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.de-DE.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
     </EmbeddedResource>
@@ -2264,24 +2234,6 @@
     <EmbeddedResource Include="SerialOutputMD.resx">
       <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
@@ -2390,24 +2342,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-Hans.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>

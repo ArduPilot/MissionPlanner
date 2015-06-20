@@ -159,8 +159,6 @@ namespace MissionPlanner.Utilities
             temp.Add(new Wizard._98DontForget());
 
             temp.Add(new GCSViews.ConfigurationView.ConfigAC_Fence());
-            temp.Add(new GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane());
-            temp.Add(new GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad());
             temp.Add(new GCSViews.ConfigurationView.ConfigAP_Limits());
             temp.Add(new GCSViews.ConfigurationView.ConfigArducopter());
             temp.Add(new GCSViews.ConfigurationView.ConfigArduplane());
