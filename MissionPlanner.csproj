@@ -636,7 +636,7 @@
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
-    <Compile Include="Utilities\NoFly.cs" />
+    <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
@@ -1250,6 +1250,7 @@
     <None Include="MissionPlanner.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="NoFly\SouthAfricaNoRPASOutlined.kmz" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

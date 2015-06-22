@@ -6,12 +6,60 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
+using Ionic.Zip;
 
-namespace MissionPlanner.Utilities
+namespace MissionPlanner.NoFly
 {
     public class NoFly
     {
-        static GMapOverlay kmlpolygonsoverlay = new GMapOverlay(); 
+        static GMapOverlay kmlpolygonsoverlay = new GMapOverlay();
+
+        private static string directory = Application.StartupPath + Path.DirectorySeparatorChar + "NoFly";
+
+        public static event EventHandler<NoFlyEventArgs> NoFlyEvent;
+
+        public class NoFlyEventArgs : EventArgs
+        {
+            public NoFlyEventArgs(GMapOverlay overlay)
+            {
+                NoFlyZones = overlay;
+            }
+
+            public GMapOverlay NoFlyZones { get; set; }
+        }
+
+        public static void Scan() 
+        {
+            var files = Directory.GetFiles(directory, "*.kmz");
+
+            foreach (var file in  files)
+            {
+                try
+                {
+                    // get a temp dir
+                    var outputDirectory = Path.GetTempPath() + Path.DirectorySeparatorChar + "mpkml" + DateTime.Now.Ticks;
+                    using (var zip = ZipFile.Read(File.OpenRead(file)))
+                    {
+                        zip.ExtractAll(outputDirectory, ExtractExistingFileAction.OverwriteSilently);
+                    }
+
+                    var kmls = Directory.GetFiles(outputDirectory, "*.kml");
+                    foreach (var kml in kmls)
+                    {
+                        LoadNoFly(kml);    
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            if (NoFlyEvent != null)
+                NoFlyEvent(null, new NoFlyEventArgs(kmlpolygonsoverlay));
+        }
+
+ 
 
         public static void LoadNoFly(string file)
         {
