@@ -44,7 +44,7 @@ namespace MissionPlanner.GCSViews
             {
                 if (comPort.IsOpen)
                 {
-                    comPort.Write("\rexit\rreboot\r");
+                    //comPort.Write("\rexit\rreboot\r");
 
                     comPort.Close();
                 }
@@ -701,6 +701,9 @@ namespace MissionPlanner.GCSViews
                     comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.SHELL);
 
                     comPort.BaudRate = 0;
+
+                    // 20 hz
+                    ((MAVLinkSerialPort) comPort).timeout = 50;
 
                     comPort.Open();
 
