@@ -73,7 +73,7 @@ namespace MissionPlanner.Controls
 
                     chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
 
-                    if ((value & ((uint)list[a].Key) << a) > 0)
+                    if ((value & (1 << list[a].Key)) > 0)
                     {
                         chk.Checked = true;
                     }
