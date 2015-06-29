@@ -329,7 +329,7 @@ namespace MissionPlanner
                     if (DateTime.Now > deadline)
                     {
                         //if (Progress != null)
-                        //    Progress(-1, "No Heatbeat Packets");
+                        //    Progress(-1, "No Heartbeat Packets");
                         countDown.Stop();
                         this.Close();
 
@@ -340,7 +340,7 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            progressWorkerEventArgs.ErrorMessage = "No Heatbeat Packets Received";
+                            progressWorkerEventArgs.ErrorMessage = "No Heartbeat Packets Received";
                             throw new Exception(@"Can not establish a connection\n
 Please check the following
 1. You have firmware loaded
