@@ -19,6 +19,7 @@ using log4net;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
+using MissionPlanner;            //I added this
 
 namespace MissionPlanner
 {
@@ -36,6 +37,7 @@ namespace MissionPlanner
         GMapOverlay routesOverlay;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
         List<PointLatLngAlt> grid;
+        List<PointLatLngAlt> myGrid = new List<PointLatLngAlt>();        //I added this to manipulate grid
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
 
@@ -43,6 +45,7 @@ namespace MissionPlanner
         public string inchpixel = "";
         public string feet_fovH = "";
         public string feet_fovV = "";
+        public double maxFlightDist = 5.000000;    //I added this variable        now this is in km for a 15 min flight time
 
         internal PointLatLng MouseDownStart = new PointLatLng();
         internal PointLatLng MouseDownEnd;
@@ -101,13 +104,13 @@ namespace MissionPlanner
         // GridUI
         public GridUI(GridPlugin plugin)
         {
-            this.plugin = plugin;
+            this.plugin = plugin;       //makes this equal to the plugin that we just sent in
 
-            InitializeComponent();
+            InitializeComponent();      //initializes variables, probably not important to look at again
 
-            map.MapProvider = plugin.Host.FDMapType;
+            map.MapProvider = plugin.Host.FDMapType;    //google maps provider - figure out what it is doing later
 
-            routesOverlay = new GMapOverlay("routes");
+            routesOverlay = new GMapOverlay("routes");  //routesOverLay ID is being set to equal a routes string
             map.Overlays.Add(routesOverlay);
 
             // Map Events
@@ -119,14 +122,14 @@ namespace MissionPlanner
             map.OnRouteEnter += new RouteEnter(map_OnRouteEnter);
             map.OnRouteLeave += new RouteLeave(map_OnRouteLeave);
 
-            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });     //adds each Polygon Point (x) to the end of the list
             if (plugin.Host.config["distunits"] != null)
                 DistUnits = plugin.Host.config["distunits"].ToString();
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
-            // set and angle that is good
+            // set an angle that is good
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
             TXT_headinghold.Text = (Math.Round(NUM_angle.Value)).ToString();
         }
@@ -506,27 +509,40 @@ namespace MissionPlanner
             }
         }
 
+        CurrentState c = new MissionPlanner.CurrentState(); //reference or instance so that HomeBase is actually home now, not a WP
         // Do Work
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            myGrid.Clear();         //reset the elements in myGrid because it'll be a new version since this function was called again
+
+            if (CHK_usespeed.Checked)    //if the use speed box is checked
+            {         //if user unchecks the box, the same speed that was previously there will be used, not the default 5 m/s
+                speed = (double)NUM_UpDownFlySpeed.Value;
+                maxFlightDist = ((double)maxFlight.Value * 60) * (speed / 1000);
+            }
+
             if (CMB_camera.Text != "")
-                doCalc();
+                    doCalc();
 
             // new grid system test
 
-            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value), (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false, (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value);
+            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value), 
+                (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, 
+                (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, 
+                (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), 
+                false, (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value);
 
-            List<PointLatLng> list2 = new List<PointLatLng>();
-
-            grid.ForEach(x => { list2.Add(x); });
+            List<PointLatLng> list2 = new List<PointLatLng>(); //not really sure what this number is because
+                                                               //doesn't seem like the numberflight path points
+            grid.ForEach(x => { list2.Add(x); });              //adds the number of WPs to list two
 
             map.HoldInvalidation = true;
-
+            //below is clearing everything on the map I think
             routesOverlay.Routes.Clear();
             routesOverlay.Polygons.Clear();
             routesOverlay.Markers.Clear();
 
-            if (grid.Count == 0)
+            if (grid.Count == 0)    //if there is nothing to plot on the map
             {
                 return;
             }
@@ -539,22 +555,36 @@ namespace MissionPlanner
             int a = 1;
             PointLatLngAlt prevpoint = grid[0];
             float routetotal = 0;
-            List<PointLatLng> segment = new List<PointLatLng>();
+            float renewedRouteTotal = 0;                                //I added this temp variable
+            List<PointLatLng> segment = new List<PointLatLng>();        //list of the WPs to add to the map
+            List<PointLatLng> segmentHome = new List<PointLatLng>();    //list of the WP from end of segment back to home
+            List<PointLatLng> segmentNext = new List<PointLatLng>();    //list of the WP for the next segment
+            GMapRoute seg;      //I added this
+            GMapRoute segHome;  //I added this too as a test variable to get dist from current point to home
+            GMapRoute segNext;  //I added this too as a test variable to get dist for the next segment
+            PointLatLngAlt homeBaseBegin = c.HomeLocation;   // grid[0];    //stores the very first point       && I added this
+            c.HomeLocation.Tag = "Home";                     //creating the home tag
+            int backHomeLines = 0;      //going to be used for debugging
+            double distance1 = 0;
 
-            foreach (var item in grid)
+            //I added so that I could see the home base in the beginning
+            var marker = new GMapMarkerWP(homeBaseBegin, "H") { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver };
+            routesOverlay.Markers.Add(marker);  //adds a H marker for home
+
+            for (int i = 0; i < grid.Count; i++)
             {
-                if (item.Tag == "M")
+                if (grid[i].Tag == "M")         //I think that this if statement just places down all of the markers we use for the segments
                 {
                     images++;
 
                     if (CHK_internals.Checked)
                     {
-                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        routesOverlay.Markers.Add(new GMarkerGoogle(grid[i], GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         a++;
 
                         segment.Add(prevpoint);
-                        segment.Add(item);
-                        prevpoint = item;
+                        segment.Add(grid[i]);
+                        prevpoint = grid[i];
                     }
                     try
                     {
@@ -576,12 +606,12 @@ namespace MissionPlanner
                             double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
 
                             List<PointLatLng> footprint = new List<PointLatLng>();
-                            footprint.Add(item.newpos(bearing + angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
-                            footprint.Add(item.newpos(bearing - angle1, dist1));
+                            footprint.Add(grid[i].newpos(bearing + angle1, dist1));
+                            footprint.Add(grid[i].newpos(bearing + 180 - angle1, dist1));
+                            footprint.Add(grid[i].newpos(bearing + 180 + angle1, dist1));
+                            footprint.Add(grid[i].newpos(bearing - angle1, dist1));
 
-                            GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
+                            GMapPolygon poly = new GMapPolygon(footprint, i.ToString());
                             poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (CHK_footprints.Checked)
@@ -591,28 +621,97 @@ namespace MissionPlanner
                     catch { }
                 }
                 else
-                {
-                    strips++;
+                {   
+                    strips++;                                   //number of line strips to connect the WPs
                     if (CHK_markers.Checked)
                     {
-                        var marker = new GMapMarkerWP(item, a.ToString()) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver };
-                        routesOverlay.Markers.Add(marker);
+                        marker = new GMapMarkerWP(grid[i], a.ToString()) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver };
+                        routesOverlay.Markers.Add(marker);      //adding new WPs to the map to fill the Polygon Points in
                     }
+                    
+                    //below is only run when the drone needs to go back home
+                    if (distance1 >= maxFlightDist)  //should be updated when the Max Flight Dist NumUpDown is changed
+                    {   //need to check if the drone can make it to both the next WP and back home before the routetotal is 10 hectares
+                        createMyGridList(i);        //creates a new list for me to manipulate only when need to return home for recharge
 
-                    segment.Add(prevpoint);
-                    segment.Add(item);
-                    prevpoint = item;
-                    a++;
+                        backHomeLines++;            //increment every time drone goes back home
+                        segment.Add(prevpoint);     //whatever beginning point the drone was at previously
+                        segment.Add(homeBaseBegin); //telling the drone to go back to home
+                        renewedRouteTotal = 0;      //reset this variable
+
+                        //making the segment for this point to home segment
+                        seg = new GMapRoute(segment, "segment" + a.ToString());     //I modified this from the above line && commented out
+                        seg.Stroke = new Pen(Color.Yellow, 4);
+                        seg.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+                        seg.IsHitTestVisible = true;
+                        if (CHK_grid.Checked)
+                            routesOverlay.Routes.Add(seg);
+                        routetotal = routetotal + (float)seg.Distance;      //routetotal is the summation of the total flight distance
+                        segment.Clear();
+
+                        //point going from home back to the point we left off
+                        segment.Add(homeBaseBegin);
+                        segment.Add(prevpoint);       //grid[i] should be at the same WP point right now
+                        seg = new GMapRoute(segment, "segment" + a.ToString());
+                        seg.Stroke = new Pen(Color.Yellow, 4);
+                        seg.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+                        seg.IsHitTestVisible = true;
+                        if (CHK_grid.Checked)
+                            routesOverlay.Routes.Add(seg);
+                        routetotal = routetotal + (float)seg.Distance;
+                        renewedRouteTotal = renewedRouteTotal + (float)seg.Distance;    //stores the distance from home to point
+
+                        segment.Clear();
+                     }
+
+                     segment.Add(prevpoint);     //adding the beginning points of the line segment to output onto the map
+                     segment.Add(grid[i]);       //ending point of line segment
+                     prevpoint = grid[i];        //new beginning point for next time around the loop       moved below at the end
+                     a++;
                 }
-                GMapRoute seg = new GMapRoute(segment, "segment" + a.ToString());
-                seg.Stroke = new Pen(Color.Yellow, 4);
+                seg = new GMapRoute(segment, "segment" + a.ToString());     //I modified this from the above line && commented out
+                seg.Stroke = new Pen(Color.Navy, 4);                        //changed base segment color
                 seg.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
                 seg.IsHitTestVisible = true;
                 if (CHK_grid.Checked)
                     routesOverlay.Routes.Add(seg);
-                routetotal = routetotal + (float)seg.Distance;
+                routetotal = routetotal + (float)seg.Distance;      //routetotal is the summation of the total flight distance
+                renewedRouteTotal = renewedRouteTotal + (float)seg.Distance; //temporary routetotal to clear upon landing
                 segment.Clear();
+
+                if (i + 1 < grid.Count)
+                {
+                    segmentHome.Add(grid[i + 1]);     //this should be the new segment from the next point to home
+                }
+                if (i + 1 > grid.Count)
+                {
+                    segmentHome.Add(grid[grid.Count - 2]);  //last point in the grid
+                }
+                if (i + 1 == grid.Count)
+                {
+                    segmentHome.Add(grid[grid.Count - 1]);  //last point in the grid
+                }
+                segmentHome.Add(homeBaseBegin);       //used to calculate the distance from point to home below
+                segHome = new GMapRoute(segmentHome, "segment home" + a.ToString());
+
+                if (i + 1 < grid.Count)
+                {
+                    segmentNext.Add(prevpoint);       //used to calculate the distance from point to home below
+                    segmentNext.Add(grid[i + 1]);     //this should be the new segment from point to home
+                }
+                else
+                {
+                    segmentNext.Add(prevpoint);     //two of the same points should give
+                    segmentNext.Add(prevpoint);     //a distance of 0 since there is no next point left
+                }
+                segNext = new GMapRoute(segmentNext, "segment next" + a.ToString());
+
+                distance1 = renewedRouteTotal + segNext.Distance + segHome.Distance;    //need to get seg.Distance of next segment
+                segmentHome.Clear();
+                segmentNext.Clear();
             }
+
+            double numShouldReturnHome = routetotal / maxFlightDist;
 
             /*      Old way of drawing route, incase something breaks using segments
             GMapRoute wproute = new GMapRoute(list2, "GridRoute");
@@ -677,9 +776,16 @@ namespace MissionPlanner
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
                 lbl_turnrad.Text = (turnrad * 2).ToString("0") + " m";
+                lbl_recharge.Text = backHomeLines.ToString();
+                lbl_shouldrecharge.Text = numShouldReturnHome.ToString();
+
+                if ((int)numShouldReturnHome > backHomeLines)
+                {
+                    CustomMessageBox.Show("Error! Bad grid! Need more flights back home. Drone will not complete mission. Move home base closer to survey area.");
+                }
             }
 
-            double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
+            double flyspeedms = CurrentState.fromSpeedDisplayUnit(speed);
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
@@ -693,6 +799,47 @@ namespace MissionPlanner
                 map.ZoomAndCenterMarkers("routes");
 
             CalcHeadingHold();
+
+            completeMyGridList();       //copies the remaining WPs over
+        }
+
+        //copies over the WPs from grid to myGrid so that I can manipulate the WPs
+        int k = 0;
+        int l = 0;
+        private void createMyGridList(int i)     //I is the next WP to add, prevpoint was the one that was just placed down
+        {
+            for (l = k; l < i; l++)      //stores from the beginning of the list to the prevpoint
+            {
+                myGrid.Add(grid[l]);     //trying a new way to write the line above
+            }
+            PointLatLngAlt temp = new PointLatLngAlt(grid[l - 1]);  //used as a copy of the first point in point - home - point sequence
+            temp.Tag = "duplicate WP";
+            myGrid.Add(c.HomeLocation);
+            myGrid.Add(temp);       //this stores the same WP from before (point - home - point sandwhich)      && grid[l - 1]
+            k = i;
+        }
+
+        void completeMyGridList()
+        {
+            for (l = k; l < grid.Count; l++) //stores from the beginning of the list to the prevpoint
+            {
+                myGrid.Add(grid[l]);     //trying a new way to write the line above
+            }
+            l = 0;      //reset global for reuse
+            k = 0;      //reset global for reuse
+        }
+
+        //puts MyGrid in to grid so that the WP list on the screen after the accept button matches the one on the Survey (Grid) screen
+        private void changeGridToMyGrid(){
+            int k = 0;
+            for (k = 0; k < grid.Count; k++)
+            {
+                grid[k] = myGrid[k];        //copy array over
+            }
+            for (int j = k; j < myGrid.Count; j++)
+            {
+                grid.Add(myGrid[j]);        //add the extra elements
+            }
         }
 
         private void AddWP(double Lng, double Lat, double Alt)
@@ -704,7 +851,7 @@ namespace MissionPlanner
 
             if (NUM_copter_delay.Value > 0)
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (double)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * CurrentState.multiplierdist);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (double)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * CurrentState.multiplierdist);        //altitude stays the same in this case during the delay
             }
             else
             {
@@ -1072,6 +1219,7 @@ namespace MissionPlanner
         }
 
         // Operators
+        //the scroll bar to the right of the screen that lets you zoom
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
             try
@@ -1084,6 +1232,7 @@ namespace MissionPlanner
             catch { }
         }
 
+        //zooming with your mouse to zoom into the map
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             try
@@ -1096,6 +1245,7 @@ namespace MissionPlanner
             catch { }
         }
 
+        //I believe that this updates all of the data on after you AutoWP -> Survey (Grid)
         private void NUM_ValueChanged(object sender, EventArgs e)
         {
             doCalc();
@@ -1344,11 +1494,12 @@ namespace MissionPlanner
 
         private void BUT_Accept_Click(object sender, EventArgs e)
         {
-            if (grid != null && grid.Count > 0)
+            changeGridToMyGrid();       //reformatting grid so that it contains the return to home WPs in the middle of the program
+            if (grid != null && grid.Count > 0)  //changed all grids to segments (?) - I dont remember what this comment meant
             {
                 MainV2.instance.FlightPlanner.quickadd = true;
 
-                if (CHK_toandland.Checked)
+                if (CHK_toandland.Checked)      //drone takeoff command
                 {
                     if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
@@ -1360,17 +1511,18 @@ namespace MissionPlanner
                     }
                 }
 
-                if (CHK_usespeed.Checked)
+                if (CHK_usespeed.Checked)       //change drone speed after takeoff if this has been checked
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)NUM_UpDownFlySpeed.Value, 0, 0, 0, 0, 0);
                 }
 
-                int i = 0;
-                grid.ForEach(plla =>
+                PointLatLngAlt temp = new PointLatLngAlt();     //temp to store the previous point
+                int i = 0;                  //WP grid list is produced/used here
+                grid.ForEach(plla =>        //plla is pointlatlngalt
                 {
                     if (i > 0)
                     {
-                        if (plla.Tag == "M")
+                        if (plla.Tag == "M")        //M represents a marker
                         {
                             if (rad_repeatservo.Checked)
                             {
@@ -1383,15 +1535,34 @@ namespace MissionPlanner
                                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                             }
                         }
-                        else
+
+                        //I added the else if below
+                        else if (plla.Tag == "Home"){
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
+                            if (CHK_usespeed.Checked)        //change speed after drone takeoff for multiple flight paths
+                            {
+                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)NUM_UpDownFlySpeed.Value, 0, 0, 0, 0, 0);
+                            }
+                        }
+
+                        else if (plla.Tag == "duplicate WP")
+                        {
+                            AddWP(temp.Lng, temp.Lat, temp.Alt);    //should be coordinates of the previous point
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
+                        }
+
+                        else    //adding all of the waypoints to the initial flight path screen now
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            temp = plla;    //store all data from previous plla to use when home happens
                         }
                     }
-                    else
+                    else    //add a camera trigger when the drone starts flying
                     {
                         AddWP(plla.Lng, plla.Lat, plla.Alt);
-                        if (rad_trigdist.Checked)
+                        if (rad_trigdist.Checked)       //camera trigger on
                         {
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
                         }
@@ -1399,12 +1570,12 @@ namespace MissionPlanner
                     ++i;
                 });
 
-                if (rad_trigdist.Checked)
+                if (rad_trigdist.Checked)       //camera trigger off
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
                 }
 
-                if (CHK_usespeed.Checked)
+                if (CHK_usespeed.Checked)       //drone speed changer
                 {
                     if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                     {
@@ -1414,7 +1585,7 @@ namespace MissionPlanner
                     }
                 }
 
-                if (CHK_toandland.Checked)
+                if (CHK_toandland.Checked)      //drone return to launch after mission command add
                 {
                     if (CHK_toandland_RTL.Checked)
                     {
@@ -1426,6 +1597,8 @@ namespace MissionPlanner
                     }
                 }
 
+                //output everything that we just did/added to the list
+                //so I need to change the lines above to insert the RETURN_TO_LAUNCH command lines
                 // Redraw the polygon in FP
                 plugin.Host.RedrawFPPolygon(list);
 
@@ -1437,7 +1610,7 @@ namespace MissionPlanner
 
                 this.Close();
             }
-            else
+            else    //if bad grid then no map is outputted to the screen and only the error message is shown
             {
                 CustomMessageBox.Show("Bad Grid", "Error");
             }
@@ -1465,6 +1638,20 @@ namespace MissionPlanner
         {
             // doCalc
             domainUpDown1_ValueChanged(sender, e);
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)   //when the max flight distance up down is changed
+        {   //get value of the NumUpDown for time(*60) and speed to multiply together for Max Flight Distance
+            maxFlightDist = ((double)maxFlight.Value*60) * (speed/1000);
+            domainUpDown1_ValueChanged(sender, e);      //send the data to the function that makes the list of all the new WPs
+        }
+
+        double speed = 5;   //speed value so that the speed doesn't affect the flight if the box isn't checked
+        private void CHK_usespeed_CheckedChanged(object sender, EventArgs e)        //for when the speed is changed
+        {
+            speed = (double)NUM_UpDownFlySpeed.Value;
+            maxFlightDist = ((double)maxFlight.Value * 60) * (speed / 1000);
+            domainUpDown1_ValueChanged(sender, e);      //send the data to the function that makes the list of all the new WPs
         }
     }
 }

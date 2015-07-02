@@ -25,6 +25,7 @@ using log4net;
 using System.Reflection;
 using MissionPlanner.Log;
 using GMap.NET.MapProviders;
+using MissionPlanner.GCSViews;  //I added
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews
@@ -1991,18 +1992,29 @@ namespace MissionPlanner.GCSViews
             ((Button)sender).Enabled = true;
         }
 
+        FlightPlanner instan = new FlightPlanner();     //creating an instance
         private void CMB_setwp_Click(object sender, EventArgs e)
         {
             CMB_setwp.Items.Clear();
 
-            CMB_setwp.Items.Add("0 (Home)");
+            CMB_setwp.Items.Add("0 (Home)");      //I commented this out
 
             if (MainV2.comPort.MAV.param["CMD_TOTAL"] != null)
             {
                 int wps = int.Parse(MainV2.comPort.MAV.param["CMD_TOTAL"].ToString());
-                for (int z = 1; z <= wps; z++)
+                for (int z = 1; z <= wps; z++)      //z = 0 was changed to z = 1
                 {
-                    CMB_setwp.Items.Add(z.ToString());
+                    //if (instan.CommandList[z] == MAVLink.MAV_CMD.TAKEOFF)      //TAKEOFF is 22
+                    //{
+                    //    string temp = "Home";
+                    //    string temp2 = z.ToString();
+                    //    string temp3 = temp2 + " " + temp;
+                    //    CMB_setwp.Items.Add(temp3);    //set home point markers for pilot ease of use
+                    //}
+                    //else
+                    //{
+                        CMB_setwp.Items.Add(z.ToString());
+                    //}
                 }
             }
 

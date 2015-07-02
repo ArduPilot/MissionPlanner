@@ -506,6 +506,7 @@
             // coords1
             // 
             this.coords1.Alt = 0D;
+            this.coords1.AltUnit = "m";
             this.coords1.Lat = 0D;
             this.coords1.Lng = 0D;
             resources.ApplyResources(this.coords1, "coords1");
@@ -767,6 +768,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
             this.insertWpToolStripMenuItem,
@@ -1308,7 +1310,7 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lbl_status;
-        private System.Windows.Forms.DataGridView Commands;
+        private System.Windows.Forms.DataGridView Commands;     //commands displays data in a customizable grid
         private System.Windows.Forms.CheckBox CHK_verifyheight;
         private Controls.MyButton BUT_Add;
         private System.Windows.Forms.TextBox TXT_WPRad;

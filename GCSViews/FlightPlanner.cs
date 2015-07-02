@@ -48,6 +48,8 @@ namespace MissionPlanner.GCSViews
         bool splinemode = false;
         altmode currentaltmode = altmode.Relative;
 
+        public List<MAVLink.MAV_CMD> CommandList = new List<MAVLink.MAV_CMD>();  //my command list
+
         bool grid = false;
 
         public static FlightPlanner instance = null;
@@ -1234,13 +1236,13 @@ namespace MissionPlanner.GCSViews
 
                     for (int a = 1; a < fullpointlist.Count; a++)
                     {
-                        if (fullpointlist[a - 1] == null)
+                        if (fullpointlist[a - 1] == null)       //check if there are still WPs left
+                            continue;                           //check current point
+
+                        if (fullpointlist[a] == null)           //check next point
                             continue;
 
-                        if (fullpointlist[a] == null)
-                            continue;
-
-                        dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);
+                        dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);     //gets the distance between the two WPs
                     }
 
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(dist + homedist, false);
@@ -1271,13 +1273,13 @@ namespace MissionPlanner.GCSViews
             List<PointLatLngAlt> splinepnts = new List<PointLatLngAlt>();
             List<PointLatLngAlt> wproute = new List<PointLatLngAlt>();
 
-            // add home - this causeszx the spline to always have a straight finish
+            // add home - this causes the spline to always have a straight finish
             fullpointlist.Add(fullpointlist[0]);
 
             for (int a = 0; a < fullpointlist.Count; a++)
             {
-                if (fullpointlist[a] == null)
-                    continue;
+                if (fullpointlist[a] == null)       //checking for empty WPs again
+                    continue;                       //goes back to the beginning of the for loop two lines up
 
                 if (fullpointlist[a].Tag2 == "spline")
                 {
@@ -1354,8 +1356,8 @@ namespace MissionPlanner.GCSViews
 
                     wproute.Add(fullpointlist[a]);
 
-                    lastpnt2 = lastpnt;
-                    lastpnt = fullpointlist[a];
+                    lastpnt2 = lastpnt;             //shift the indexes by one
+                    lastpnt = fullpointlist[a];     //increment the index of the second list point    
                 }
             }
             /*
@@ -1641,7 +1643,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BUT_write_Click(object sender, EventArgs e)
+        private void BUT_write_Click(object sender, EventArgs e)     //I changed from private to public
         {
             if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
             {
@@ -4968,9 +4970,11 @@ namespace MissionPlanner.GCSViews
 
         public void AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y, double z)
         {
-            selectedrow = Commands.Rows.Add();
+            CommandList.Add(cmd);                   //adding to the command list to keep track of the commands being used
+            
+            selectedrow = Commands.Rows.Add();      //selectedrow is an integer && add adds a new row to the collection and returns the index of the new row
 
-            Commands.Rows[selectedrow].Cells[Command.Index].Value = cmd.ToString();
+            Commands.Rows[selectedrow].Cells[Command.Index].Value = cmd.ToString(); //command.rows is a collection of objects
             ChangeColumnHeader(cmd.ToString());
 
             // switch wp to spline if spline checked

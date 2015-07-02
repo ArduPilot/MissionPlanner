@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-public partial class MAVLink
+public partial class MAVLink        //the protocol for communicating with a UAV(the drone)
 {
         public const string MAVLINK_BUILD_DATE = "Sat Apr 25 12:20:29 2015";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
@@ -209,12 +209,22 @@ DEBUG = 254,
     
         
         ///<summary>  </summary>
-        public enum MAV_CMD
+        public enum MAV_CMD     //mission command messages
         {
-    	///<summary> Navigate to MISSION. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Acceptance radius in meters (if the sphere with this radius is hit, the MISSION counts as reached)| 0 to pass through the WP, if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows trajectory control.| Desired yaw angle at MISSION (rotary wing)| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> 
+        ///Navigate to MISSION. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| 
+        ///Acceptance radius in meters (if the sphere with this radius is hit, the MISSION counts as reached)| 0 to pass through the WP, 
+        ///if > 0 radius in meters to pass by WP. Positive value for clockwise orbit, negative value for counter-clockwise orbit. Allows 
+        ///trajectory control.| Desired yaw angle at MISSION (rotary wing)| Latitude| Longitude| Altitude|  
+        ///</summary>
             WAYPOINT=16, 
-        	///<summary> Loiter around this MISSION an unlimited amount of time |Empty| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
+
+        	///<summary> 
+            ///Loiter around this MISSION an unlimited amount of time |Empty| Empty| Radius around MISSION, in meters. If
+            ///positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  
+            ///</summary>
             LOITER_UNLIM=17, 
+
         	///<summary> Loiter around this MISSION for X turns |Turns| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
             LOITER_TURNS=18, 
         	///<summary> Loiter around this MISSION for X seconds |Seconds (decimal)| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>

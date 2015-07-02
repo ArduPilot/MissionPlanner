@@ -174,7 +174,7 @@ namespace MissionPlanner.Controls
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
             _mousedown = false;
-            base.OnMouseUp(mevent);
+                base.OnMouseUp(mevent);
         }
     }
 }

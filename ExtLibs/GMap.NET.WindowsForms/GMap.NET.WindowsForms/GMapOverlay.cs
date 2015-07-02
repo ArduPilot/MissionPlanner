@@ -118,8 +118,8 @@ namespace GMap.NET.WindowsForms
          CreateEvents();
       }
 
-      void CreateEvents()
-      {
+      void CreateEvents()       //possibly just double checking to see if the below three 
+      {                         //variables has been changed since the Survey(Grid) button was clicked
          Markers.CollectionChanged += new NotifyCollectionChangedEventHandler(Markers_CollectionChanged);
          Routes.CollectionChanged += new NotifyCollectionChangedEventHandler(Routes_CollectionChanged);
          Polygons.CollectionChanged += new NotifyCollectionChangedEventHandler(Polygons_CollectionChanged);
