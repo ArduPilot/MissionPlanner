@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
-using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Models;
 using MissionPlanner.Presenter;
 using Transitions;
@@ -14,9 +13,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigCameraStab : UserControl, IActivate
     {
-        private ConfigCameraStabModel _presenter;
         private Transition[] _ErrorTransition;
         private Transition _NoErrorTransition;
+        private ConfigCameraStabModel _presenter;
 
         public ConfigCameraStab()
         {
@@ -34,29 +33,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var fadeIn = new Transition(new TransitionType_Linear(800));
             fadeIn.add(PBOX_WarningIcon, "Opacity", 1.0F);
             fadeIn.add(LBL_Error, "Opacity", 1.0F);
-           
-            _ErrorTransition = new[] { delay, fadeIn };
+
+            _ErrorTransition = new[] {delay, fadeIn};
 
             _NoErrorTransition = new Transition(new TransitionType_Linear(10));
             _NoErrorTransition.add(PBOX_WarningIcon, "Opacity", 0.0F);
             _NoErrorTransition.add(LBL_Error, "Opacity", 0.0F);
-             
+
             //setup button actions
             foreach (var btn in Controls.Cast<Control>().OfType<Button>())
                 btn.Click += HandleButtonClick;
 
 
             _presenter.PropertyChanged += (s, e) =>
-                    {
-                        if (e.PropertyName == "HasError")
-                        {
-                            SetErrorMessageOpacity();
-                        }
-                    };
-            
+            {
+                if (e.PropertyName == "HasError")
+                {
+                    SetErrorMessageOpacity();
+                }
+            };
+
             _presenter.PropertyChanged += CheckCommandStates;
-            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel)s, Color.CornflowerBlue);
-            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel)s, Color.WhiteSmoke);
+            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
+            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
 
             SetErrorMessageOpacity();
 
@@ -110,7 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         // Something has changed on the presenter - This may be an Icommand
         // enabled state, so update the buttons as appropriate
-        void CheckCommandStates(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void CheckCommandStates(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
             foreach (var btn in Controls.Cast<Control>().OfType<Button>())
             {

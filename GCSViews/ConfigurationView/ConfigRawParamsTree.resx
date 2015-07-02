@@ -344,7 +344,7 @@ format with no scaling</value>
     <value>70</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Save from file</value>
+    <value>Save to file</value>
   </data>
   <data name="&gt;&gt;BUT_save.Name" xml:space="preserve">
     <value>BUT_save</value>

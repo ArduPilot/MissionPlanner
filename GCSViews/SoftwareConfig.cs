@@ -1,42 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Windows.Forms;
+using log4net;
+using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.GCSViews.ConfigurationView;
 using MissionPlanner.Utilities;
-using log4net;
-using System.Reflection;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews
 {
     public partial class SoftwareConfig : MyUserControl, IActivate
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        static string lastpagename = "";
+        private static string lastpagename = "";
 
         public SoftwareConfig()
         {
             InitializeComponent();
-  }
+        }
 
         public void Activate()
         {
         }
 
-        private BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageViewPage Parent = null, bool advanced = false)
+        private BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText,
+            BackstageViewPage Parent = null, bool advanced = false)
         {
             try
             {
                 return backstageView.AddPage(userControl, headerText, Parent, advanced);
             }
-            catch (Exception ex) { log.Error(ex); return null; }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                return null;
+            }
         }
 
         private void SoftwareConfig_Load(object sender, EventArgs e)
@@ -62,7 +60,6 @@ namespace MissionPlanner.GCSViews
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
                         start = AddBackstageViewPage(new ConfigArduplane(), Strings.BasicTuning);
-
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
@@ -75,8 +72,12 @@ namespace MissionPlanner.GCSViews
                         start = AddBackstageViewPage(new ConfigAntennaTracker(), Strings.ExtendedTuning);
                     }
 
-                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, Strings.StandardParams);
-                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, Strings.AdvancedParams, null, true);
+                    AddBackstageViewPage(
+                        new ConfigFriendlyParams {ParameterMode = ParameterMetaDataConstants.Standard},
+                        Strings.StandardParams);
+                    AddBackstageViewPage(
+                        new ConfigFriendlyParams {ParameterMode = ParameterMetaDataConstants.Advanced},
+                        Strings.AdvancedParams, null, true);
                     AddBackstageViewPage(new ConfigRawParams(), Strings.FullParameterList, null, true);
 
                     AddBackstageViewPage(new ConfigRawParamsTree(), Strings.FullParameterTree, null, true);
@@ -109,16 +110,19 @@ namespace MissionPlanner.GCSViews
                 {
                     if (page.LinkText == lastpagename)
                     {
-                        this.backstageView.ActivatePage(page);
+                        backstageView.ActivatePage(page);
                         break;
                     }
                 }
 
 
-                if (this.backstageView.SelectedPage == null && start != null)
+                if (backstageView.SelectedPage == null && start != null)
                     backstageView.ActivatePage(start);
             }
-            catch (Exception ex) { log.Error(ex); }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private void SoftwareConfig_FormClosing(object sender, FormClosingEventArgs e)

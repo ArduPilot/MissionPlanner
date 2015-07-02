@@ -88,16 +88,20 @@ namespace MissionPlanner.Utilities
             // Either it will be pulled from a file in the ArduPlane hierarchy or the ArduCopter hierarchy
              try
              {
-                 var element = _parameterMetaDataXML.Element("Params").Element(vechileType);
-                 if (element != null && element.HasElements)
+                 var elements = _parameterMetaDataXML.Element("Params").Elements(vechileType);
+
+                 foreach (var element in elements)
                  {
-                     var node = element.Element(nodeKey);
-                     if (node != null && node.HasElements)
+                     if (element != null && element.HasElements)
                      {
-                         var metaValue = node.Element(metaKey);
-                         if (metaValue != null)
+                         var node = element.Element(nodeKey);
+                         if (node != null && node.HasElements)
                          {
-                             return metaValue.Value;
+                             var metaValue = node.Element(metaKey);
+                             if (metaValue != null)
+                             {
+                                 return metaValue.Value;
+                             }
                          }
                      }
                  }
@@ -177,6 +181,35 @@ namespace MissionPlanner.Utilities
               availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
           }
           
+
+          string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+          if (availableValues.Any())
+          {
+              var splitValues = new List<KeyValuePair<int, string>>();
+              // Add the values to the ddl
+              foreach (string val in availableValues)
+              {
+                  try
+                  {
+                      string[] valParts = val.Split(new[] { ':' });
+                      splitValues.Add(new KeyValuePair<int, string>(int.Parse(valParts[0].Trim()), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                  }
+                  catch { Console.WriteLine("Bad entry in param meta data: " + nodeKey); }
+              };
+
+              return splitValues;
+          }
+
+          return new List<KeyValuePair<int, string>>();
+      }
+
+      public static List<KeyValuePair<int, string>> GetParameterBitMaskInt(string nodeKey, string vechileType)
+      {
+          CheckLoad();
+
+          string availableValuesRaw;
+
+          availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Bitmask, vechileType);
 
           string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
           if (availableValues.Any())

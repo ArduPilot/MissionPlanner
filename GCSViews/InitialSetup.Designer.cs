@@ -45,12 +45,8 @@
             this.configTradHeli1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli();
             this.backstageViewPageframetype = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configFrameType1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType();
-            this.backstageViewPageaccelquad = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configAccelerometerCalibrationQuad1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad();
-            this.backstageViewPageaccelplane = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configAccelerometerCalibrationPlane1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane();
-            this.backstageViewPageacceltracker = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configAccelerometerCalibrationTracker1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationTracker();
+            this.backstageViewPageaccel = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configAccelerometerCalibration = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration();
             this.backstageViewPagecompass = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWCompass1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass();
             this.backstageViewPageradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -98,9 +94,7 @@
             this.backstageView.Pages.Add(this.backstageViewPagemand);
             this.backstageView.Pages.Add(this.backstageViewPagetradheli);
             this.backstageView.Pages.Add(this.backstageViewPageframetype);
-            this.backstageView.Pages.Add(this.backstageViewPageaccelquad);
-            this.backstageView.Pages.Add(this.backstageViewPageaccelplane);
-            this.backstageView.Pages.Add(this.backstageViewPageacceltracker);
+            this.backstageView.Pages.Add(this.backstageViewPageaccel);
             this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageradio);
             this.backstageView.Pages.Add(this.backstageViewPageflmode);
@@ -227,54 +221,17 @@
             // 
             resources.ApplyResources(this.configFrameType1, "configFrameType1");
             this.configFrameType1.Name = "configFrameType1";
-            // 
-            // backstageViewPageaccelquad
-            // 
-            this.backstageViewPageaccelquad.Advanced = false;
-            this.backstageViewPageaccelquad.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPageaccelquad.LinkText = "Accel Calibration";
-            this.backstageViewPageaccelquad.Page = this.configAccelerometerCalibrationQuad1;
-            this.backstageViewPageaccelquad.Parent = this.backstageViewPagemand;
-            this.backstageViewPageaccelquad.Show = true;
-            this.backstageViewPageaccelquad.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageaccelquad, "backstageViewPageaccelquad");
-            // 
-            // configAccelerometerCalibrationQuad1
-            // 
-            resources.ApplyResources(this.configAccelerometerCalibrationQuad1, "configAccelerometerCalibrationQuad1");
-            this.configAccelerometerCalibrationQuad1.Name = "configAccelerometerCalibrationQuad1";
-            // 
-            // backstageViewPageaccelplane
-            // 
-            this.backstageViewPageaccelplane.Advanced = false;
-            this.backstageViewPageaccelplane.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isPlane", true));
-            this.backstageViewPageaccelplane.LinkText = "Accel Calibration";
-            this.backstageViewPageaccelplane.Page = this.configAccelerometerCalibrationPlane1;
-            this.backstageViewPageaccelplane.Parent = this.backstageViewPagemand;
-            this.backstageViewPageaccelplane.Show = true;
-            this.backstageViewPageaccelplane.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageaccelplane, "backstageViewPageaccelplane");
-            // 
-            // configAccelerometerCalibrationPlane1
-            // 
-            resources.ApplyResources(this.configAccelerometerCalibrationPlane1, "configAccelerometerCalibrationPlane1");
-            this.configAccelerometerCalibrationPlane1.Name = "configAccelerometerCalibrationPlane1";
+          
             // 
             // backstageViewPageacceltracker
             // 
-            this.backstageViewPageacceltracker.Advanced = false;
-            this.backstageViewPageacceltracker.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isTracker", true));
-            this.backstageViewPageacceltracker.LinkText = "Accel Calibration";
-            this.backstageViewPageacceltracker.Page = this.configAccelerometerCalibrationTracker1;
-            this.backstageViewPageacceltracker.Parent = this.backstageViewPagemand;
-            this.backstageViewPageacceltracker.Show = true;
-            this.backstageViewPageacceltracker.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageacceltracker, "backstageViewPageacceltracker");
-            // 
-            // configAccelerometerCalibrationTracker1
-            // 
-            resources.ApplyResources(this.configAccelerometerCalibrationTracker1, "configAccelerometerCalibrationTracker1");
-            this.configAccelerometerCalibrationTracker1.Name = "configAccelerometerCalibrationTracker1";
+            this.backstageViewPageaccel.Advanced = false;
+            this.backstageViewPageaccel.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
+            this.backstageViewPageaccel.LinkText = "Accel Calibration";
+            this.backstageViewPageaccel.Page = this.configAccelerometerCalibration;
+            this.backstageViewPageaccel.Parent = this.backstageViewPagemand;
+            this.backstageViewPageaccel.Show = true;
+            this.backstageViewPageaccel.Spacing = 30;
             // 
             // backstageViewPagecompass
             // 
@@ -531,7 +488,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
-            this.Controls.Add(this.configAccelerometerCalibrationTracker1);
+            this.Controls.Add(this.configAccelerometerCalibration);
             this.Controls.Add(this.configHWBT1);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
@@ -554,8 +511,6 @@
         private ConfigurationView.ConfigTradHeli configTradHeli1;
         private ConfigurationView.ConfigFrameType configFrameType1;
         private ConfigurationView.ConfigHWCompass configHWCompass1;
-        private ConfigurationView.ConfigAccelerometerCalibrationQuad configAccelerometerCalibrationQuad1;
-        private ConfigurationView.ConfigAccelerometerCalibrationPlane configAccelerometerCalibrationPlane1;
         private ConfigurationView.ConfigRadioInput configRadioInput1;
         private ConfigurationView.ConfigFlightModes configFlightModes1;
         private ConfigurationView.ConfigFailSafe configFailSafe1;
@@ -575,8 +530,6 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPagetradheli;
         private Controls.BackstageView.BackstageViewPage backstageViewPageframetype;
         private Controls.BackstageView.BackstageViewPage backstageViewPagecompass;
-        private Controls.BackstageView.BackstageViewPage backstageViewPageaccelquad;
-        private Controls.BackstageView.BackstageViewPage backstageViewPageaccelplane;
         private Controls.BackstageView.BackstageViewPage backstageViewPageradio;
         private Controls.BackstageView.BackstageViewPage backstageViewPageflmode;
         private Controls.BackstageView.BackstageViewPage backstageViewPagefs;
@@ -594,8 +547,8 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPagecompassmot;
         private ConfigurationView.ConfigCompassMot configCompassMot1;
         private Controls.BackstageView.BackstageViewPage backstageViewPageMotorTest;
-        private Controls.BackstageView.BackstageViewPage backstageViewPageacceltracker;
-        private ConfigurationView.ConfigAccelerometerCalibrationTracker configAccelerometerCalibrationTracker1;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageaccel;
+        private ConfigurationView.ConfigAccelerometerCalibration configAccelerometerCalibration;
         private Controls.BackstageView.BackstageViewPage backstageViewPagehwbt;
         private ConfigurationView.ConfigHWBT configHWBT1;
     }

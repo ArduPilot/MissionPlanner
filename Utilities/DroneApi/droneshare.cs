@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
+using MissionPlanner.Utilities.DroneApi.UI;
 
 namespace MissionPlanner.Utilities.DroneApi
 {
@@ -19,12 +20,14 @@ namespace MissionPlanner.Utilities.DroneApi
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private static bool validcred = false;
+        private static string uuidcached = "";
+        private static Dictionary<string, string> accountuuids = new Dictionary<string, string>();
 
         private static string ToQueryString(NameValueCollection nvc)
         {
             var array = (from key in nvc.AllKeys
-                         from value in nvc.GetValues(key)
-                         select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
+                from value in nvc.GetValues(key)
+                select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
                 .ToArray();
             return string.Join("&", array);
         }
@@ -47,10 +50,12 @@ namespace MissionPlanner.Utilities.DroneApi
                     var crypto = new Crypto();
                     dronesharepassword = crypto.DecryptString(dronesharepassword);
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
-            InputBox.Show("Password", "Password", ref dronesharepassword,true);
+            InputBox.Show("Password", "Password", ref dronesharepassword, true);
 
             var crypto2 = new Crypto();
 
@@ -61,6 +66,9 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public static void doUpload(string file)
         {
+            if (file == null)
+                return;
+
             if (!validcred)
             {
                 doUserAndPassword();
@@ -78,44 +86,161 @@ namespace MissionPlanner.Utilities.DroneApi
                     var crypto = new Crypto();
                     dronesharepassword = crypto.DecryptString(dronesharepassword);
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
-            MAVLinkInterface mav = new MAVLinkInterface();
-            mav.BaseStream = new Comms.CommsFile();
-            mav.BaseStream.PortName = file;
-            mav.BaseStream.Open();
-            if (mav.getHeartBeat().Length == 0)
+
+            String tempguid = null;
+
+            if (!doLogin(droneshareusername, dronesharepassword))
             {
-                CustomMessageBox.Show("Invalid log");
+                CustomMessageBox.Show("Bad Credentials", Strings.ERROR);
                 return;
             }
-            mav.Close();
 
-            string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, mav.MAV.Guid , Utilities.DroneApi.APIConstants.apiKey);
+            validcred = true;
+
+            if (uuidcached == "")
+            {
+                UI.VehicleSelection veh = new VehicleSelection(accountuuids);
+                veh.ShowDialog();
+
+                tempguid = veh.uuid;
+                uuidcached = veh.uuid;
+            }
+            else
+            {
+                tempguid = uuidcached;
+            }
+
+            string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword,
+                tempguid);
 
             if (viewurl != "")
             {
                 try
                 {
-                    validcred = true;
+                    
                     System.Diagnostics.Process.Start(viewurl);
                 }
-                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to open url " + viewurl); }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Failed to open url " + viewurl);
+                }
             }
         }
 
-        public static string doUpload(string file, string userId, string userPass, string vehicleId, string apiKey)
+        public static bool doLogin(string userId, string userPass)
+        {
+            String baseUrl = APIConstants.URL_BASE;
+            NameValueCollection @params = new NameValueCollection();
+            @params.Add("api_key", APIConstants.apiKey);
+            @params.Add("login", userId);
+            @params.Add("password", userPass);
+
+            String queryParams = ToQueryString(@params);
+            String webAppUploadUrl = String.Format("{0}/api/v1/auth/login", baseUrl);
+
+            var request = (HttpWebRequest)WebRequest.Create(webAppUploadUrl);
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = queryParams.Length;
+            request.CookieContainer = cookieJar;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(ASCIIEncoding.ASCII.GetBytes(queryParams), 0, queryParams.Length);
+            }
+            try
+            {
+                var response = (HttpWebResponse) request.GetResponse();
+
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+                var JSONnobj = JSON.Instance.ToObject<object>(responseString);
+
+                var data = (Dictionary<string,object>)JSONnobj;
+
+                try
+                {
+                    var vehlist = (List<object>)data["vehicles"];
+
+                    foreach (var item in vehlist)
+                    {
+                        Dictionary<string, object> nitem = (Dictionary<string, object>) item;
+                        string name = nitem["name"].ToString();
+                        string uuid = nitem["uuid"].ToString();
+
+                        Console.WriteLine(name + " " + uuid);
+                        accountuuids[name] = uuid;
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        //http://api.3drobotics.com/swagger-ui/
+
+        public static bool doVehicleCreate(string name, string uuid)
+        {
+            String baseUrl = APIConstants.URL_BASE;
+            NameValueCollection @params = new NameValueCollection();
+            @params.Add("api_key", APIConstants.apiKey);
+            @params.Add("uuid", uuid);
+            @params.Add("name", name);
+            
+            String queryParams = ToQueryString(@params);
+            String webAppUploadUrl = String.Format("{0}/api/v1/vehicle", baseUrl);
+
+            var request = (HttpWebRequest)WebRequest.Create(webAppUploadUrl);
+            request.Method = "PUT";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = queryParams.Length;
+            request.CookieContainer = cookieJar;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(ASCIIEncoding.ASCII.GetBytes(queryParams), 0, queryParams.Length);
+            }
+            try
+            {
+                var response = (HttpWebResponse)request.GetResponse();
+
+                var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+                var JSONnobj = JSON.Instance.ToObject<object>(responseString);
+
+                var data = (Dictionary<string, object>)JSONnobj;
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public static string doUpload(string file, string userId, string userPass, string vehicleId)
         {
             if (vehicleId == null)
                 vehicleId = Guid.NewGuid().ToString();
 
             String baseUrl = APIConstants.URL_BASE;
             NameValueCollection @params = new NameValueCollection();
-            @params.Add("api_key", apiKey);
+            @params.Add("api_key", APIConstants.apiKey);
             @params.Add("login", userId);
             @params.Add("password", userPass);
-            @params.Add("privacy", "Private");
+            @params.Add("privacy", "PRIVATE");
             @params.Add("autoCreate", "false");
             String queryParams = ToQueryString(@params);
             String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}", baseUrl, vehicleId, queryParams);
@@ -123,15 +248,14 @@ namespace MissionPlanner.Utilities.DroneApi
             try
             {
                 //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
-
                 // http post
                 string JSONresp = UploadFilesToRemoteUrl(webAppUploadUrl, file, @params);
 
                 var JSONnobj = JSON.Instance.ToObject<object>(JSONresp);
 
-                object[] data = (object[])JSONnobj;
+                object[] data = (object[]) JSONnobj;
 
-                var item2 = ((Dictionary<string, object>)data[0]);
+                var item2 = ((Dictionary<string, object>) data[0]);
 
                 string answer = item2["viewURL"].ToString();
 
@@ -157,31 +281,30 @@ namespace MissionPlanner.Utilities.DroneApi
 
             return "";
         }
-    
+
 
         public static string UploadFilesToRemoteUrl(string url, string file, NameValueCollection nvc)
         {
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
-            HttpWebRequest httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest httpWebRequest2 = (HttpWebRequest) WebRequest.Create(url);
             httpWebRequest2.ContentType = "multipart/form-data; boundary=" + boundary;
             //httpWebRequest2.ContentType = APIConstants.TLOG_MIME_TYPE;
             httpWebRequest2.Method = "POST";
             httpWebRequest2.KeepAlive = true;
             httpWebRequest2.Credentials = System.Net.CredentialCache.DefaultCredentials;
-            httpWebRequest2.Accept = "application/json";
+            httpWebRequest2.Accept = "application/json, text/plain, */*";
             httpWebRequest2.AllowWriteStreamBuffering = false;
             httpWebRequest2.Timeout = 7200000; // 2 hrs
+            httpWebRequest2.CookieContainer = cookieJar;
 
             Stream memStream = new System.IO.MemoryStream();
 
-            
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             byte[] boundarybytes2 = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary);
 
-
             string formdataTemplate = "\r\n--" + boundary +
-            "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
+                                      "\r\nContent-Disposition: form-data; name=\"{0}\";\r\n\r\n{1}";
 
             foreach (string key in nvc.Keys)
             {
@@ -190,43 +313,40 @@ namespace MissionPlanner.Utilities.DroneApi
                 memStream.Write(formitembytes, 0, formitembytes.Length);
             }
 
-
             memStream.Write(boundarybytes, 0, boundarybytes.Length);
 
-            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: " + APIConstants.TLOG_MIME_TYPE + "\r\n\r\n";
+            string headerTemplate = "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: " +
+                                    APIConstants.TLOG_MIME_TYPE + "\r\n\r\n";
 
-           // for (int i = 0; i < files.Length; i++)
+            if (file.ToLower().EndsWith(".log"))
+                headerTemplate =
+                    "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+
+            string header = string.Format(headerTemplate, "file", Path.GetFileName(file));
+
+            byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+
+            memStream.Write(headerbytes, 0, headerbytes.Length);
+
+            using (FileStream fileStream = new FileStream(file, FileMode.Open,
+                FileAccess.Read))
             {
-                //string header = string.Format(headerTemplate, "file" + i, files[i]);
-                string header = string.Format(headerTemplate, "uplTheFile.tlog", Path.GetFileName(file));
+                byte[] buffer = new byte[1024];
 
-                byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
+                int bytesRead = 0;
 
-                memStream.Write(headerbytes, 0, headerbytes.Length);
-
-
-                using (FileStream fileStream = new FileStream(file, FileMode.Open,
-                    FileAccess.Read))
+                while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
-                    byte[] buffer = new byte[1024];
-
-                    int bytesRead = 0;
-
-                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
-                    {
-                        memStream.Write(buffer, 0, bytesRead);
-
-                    }
+                    memStream.Write(buffer, 0, bytesRead);
 
                 }
-
             }
 
             // write last boundry
             memStream.Write(boundarybytes2, 0, boundarybytes2.Length);
             // write last -- to last boundry
-            memStream.Write(new byte[] {(byte)'-',(byte)'-'},0,2);
-            
+            memStream.Write(new byte[] {(byte) '-', (byte) '-'}, 0, 2);
+
             httpWebRequest2.ContentLength = memStream.Length;
 
             Stream requestStream = httpWebRequest2.GetRequestStream();
@@ -249,7 +369,6 @@ namespace MissionPlanner.Utilities.DroneApi
             Stream stream2 = webResponse2.GetResponseStream();
             StreamReader reader2 = new StreamReader(stream2);
 
-
             string answer = reader2.ReadToEnd();
 
             webResponse2.Close();
@@ -258,5 +377,7 @@ namespace MissionPlanner.Utilities.DroneApi
 
             return answer;
         }
+
+        public static CookieContainer cookieJar = new CookieContainer();
     }
 }

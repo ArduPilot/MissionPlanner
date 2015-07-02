@@ -26,9 +26,10 @@ namespace MissionPlanner.Controls
         public void AddWPDist(float dist)
         {
             lock (locker)
+            {
                 wpdist.Add(dist);
-
-            totaldist = wpdist.Sum();
+                totaldist = wpdist.Sum();
+            }
         }
 
         public void ClearWPDist()
@@ -77,55 +78,62 @@ namespace MissionPlanner.Controls
                 //Parent.Invalidate(this.Bounds, true);
             }
 
-            using (Graphics etemp = Graphics.FromImage(buffer))
+            try
+            {
+                using (Graphics etemp = Graphics.FromImage(buffer))
+                {
+
+                    if (totaldist <= 0)
+                        totaldist = 100;
+
+                    // bar
+
+                    RectangleF bar = new RectangleF(4, 4, this.Width - 8, this.Height - 8);
+
+                    etemp.Clear(Color.Transparent);
+
+                    etemp.FillRectangle(brushbar, bar);
+
+                    // draw bar traveled
+
+                    RectangleF bartrav = new RectangleF(bar.X, bar.Y, bar.Width * (traveleddist / totaldist), bar.Height);
+
+                    etemp.FillRectangle(brushbar, bartrav);
+                    etemp.FillRectangle(brushbar, bartrav);
+                    etemp.FillRectangle(brushbar, bartrav);
+                    etemp.FillRectangle(brushbar, bartrav);
+                    etemp.FillRectangle(brushbar, bartrav);
+
+                    // draw wp dist
+
+                    lock (locker)
+                    {
+                        float iconwidth = this.Height / 4.0f;
+                        float trav = 0;
+                        foreach (var disttrav in wpdist)
+                        {
+                            trav += disttrav;
+
+                            if (trav > totaldist)
+                                trav = totaldist;
+
+                            etemp.FillPie(Brushes.Yellow, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, bar.Top, bar.Height / 2, bar.Height, 0, 360);
+                            //e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, 1, iconwidth, bar.Height);
+                        }
+                    }
+
+                    // draw dist traveled
+
+                    string dist = traveleddist.ToString("0");
+
+                    etemp.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Bottom - this.Font.Height);
+
+                    e.Graphics.DrawImageUnscaled(buffer, 0, 0);
+                }
+            }
+            catch (Exception ex) 
             {
 
-                if (totaldist <= 0)
-                    totaldist = 100;
-
-                // bar
-
-                RectangleF bar = new RectangleF(4, 4, this.Width - 8, this.Height - 8);
-
-                etemp.Clear(Color.Transparent);
-
-                etemp.FillRectangle(brushbar, bar);
-
-                // draw bar traveled
-
-                RectangleF bartrav = new RectangleF(bar.X, bar.Y, bar.Width * (traveleddist / totaldist), bar.Height);
-
-                etemp.FillRectangle(brushbar, bartrav);
-                etemp.FillRectangle(brushbar, bartrav);
-                etemp.FillRectangle(brushbar, bartrav);
-                etemp.FillRectangle(brushbar, bartrav);
-                etemp.FillRectangle(brushbar, bartrav);
-
-                // draw wp dist
-
-                lock (locker)
-                {
-                    float iconwidth = this.Height / 4;
-                    float trav = 0;
-                    foreach (var disttrav in wpdist)
-                    {
-                        trav += disttrav;
-
-                        if (trav > totaldist)
-                            trav = totaldist;
-
-                        etemp.FillPie(Brushes.Yellow, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, bar.Top, bar.Height / 2, bar.Height, 0, 360);
-                        //e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, 1, iconwidth, bar.Height);
-                    }
-                }
-
-                // draw dist traveled
-
-                string dist = traveleddist.ToString("0");
-
-                etemp.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Bottom - this.Font.Height);
-
-                e.Graphics.DrawImageUnscaled(buffer, 0, 0);
             }
         }
 

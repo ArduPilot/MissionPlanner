@@ -131,19 +131,20 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             // print("Processing log %s" % filename);
             // mlog = mavutil.mavlink_connection(filename, notimestamps=opts.notimestamps);
 
-            MAVLinkInterface mavint = new MAVLinkInterface();
-
-            try
+            using (MAVLinkInterface mavint = new MAVLinkInterface())
             {
-                mavint.BaseStream = new Comms.CommsFile();
-                mavint.BaseStream.PortName = logfile;
-                mavint.BaseStream.Open();
+                try
+                {
+                    mavint.BaseStream = new Comms.CommsFile();
+                    mavint.BaseStream.PortName = logfile;
+                    mavint.BaseStream.Open();
+                }
+                catch (Exception ex) { log.Error(ex); return ""; }
+
+                mavint.logreadmode = true;
+
+                return process(mavint);
             }
-            catch (Exception ex) { log.Error(ex); return ""; }
-
-            mavint.logreadmode = true;
-
-            return process(mavint);
         }
 
         public static string magfit()

@@ -48,10 +48,9 @@ namespace MissionPlanner.Log
                     continue;
                 }
 
-                MAVLinkInterface mine = new MAVLinkInterface();
-
                 try
                 {
+                    using (MAVLinkInterface mine = new MAVLinkInterface())
                     using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
                     {
                         mine.logreadmode = true;

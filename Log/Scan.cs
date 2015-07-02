@@ -22,7 +22,7 @@ namespace MissionPlanner.Log
 
                 Console.WriteLine(file);
 
-                MAVLinkInterface mavi = new MAVLinkInterface();
+                using (MAVLinkInterface mavi = new MAVLinkInterface())
                 using (mavi.logplaybackfile = new BinaryReader(File.OpenRead(file)))
                 {
                     mavi.logreadmode = true;

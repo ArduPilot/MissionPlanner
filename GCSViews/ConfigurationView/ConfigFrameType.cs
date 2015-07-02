@@ -1,19 +1,14 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 using log4net;
+using MissionPlanner.Controls;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFrameType : MyUserControl, IActivate, IDeactivate
     {
-        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
-        private const float DisabledOpacity = 0.2F;
-        private const float EnabledOpacity = 1.0F;
-
         public enum Frame
         {
             Plus = 0,
@@ -21,8 +16,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             V = 2,
             H = 3,
             VTail = 4,
-            Y = 10,            
+            Y = 10
         }
+
+        private const float DisabledOpacity = 0.2F;
+        private const float EnabledOpacity = 1.0F;
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private bool indochange;
 
         public ConfigFrameType()
         {
@@ -31,14 +31,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             configDefaultSettings1.OnChange += configDefaultSettings1_OnChange;
         }
 
-        void configDefaultSettings1_OnChange(object sender, EventArgs e)
+        public void Activate()
         {
-            this.Activate();
+            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
+            {
+                Enabled = false;
+                return;
+            }
+
+            DoChange((Frame) Enum.Parse(typeof (Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
         }
 
-        bool indochange = false;
+        public void Deactivate()
+        {
+            MainV2.comPort.giveComport = false;
+        }
 
-        void DoChange(Frame frame)
+        private void configDefaultSettings1_OnChange(object sender, EventArgs e)
+        {
+            Activate();
+        }
+
+        private void DoChange(Frame frame)
         {
             if (indochange)
                 return;
@@ -152,11 +166,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.setParam("FRAME", (int)frame);
+                MainV2.comPort.setParam("FRAME", (int) frame);
             }
             catch
             {
-                CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "FRAME"), Strings.ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, "FRAME"), Strings.ERROR,
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -167,25 +182,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             fade.run();
         }
 
-        public void Activate()
-        {
-            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
-            {
-                this.Enabled = false;
-                return;
-            }
-
-            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
-
-        }
-
-        public void Deactivate()
-        {
-            MainV2.comPort.giveComport = false;
-
-        }
-
-     
         private void radioButton_Plus_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.Plus);
@@ -245,6 +241,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             DoChange(Frame.VTail);
         }
-
     }
 }

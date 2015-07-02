@@ -43,7 +43,7 @@ namespace MissionPlanner
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
         volatile bool _giveComport = false;
 
-        
+        DateTime lastparamset = DateTime.MinValue;
 
         internal string plaintxtline = "";
         string buildplaintxtline = "";
@@ -219,9 +219,9 @@ namespace MissionPlanner
             Open(false);
         }
 
-        public void Open(bool getparams)
+        public void Open(bool getparams, bool skipconnectedcheck = false)
         {
-            if (BaseStream.IsOpen)
+            if (BaseStream.IsOpen && !skipconnectedcheck)
                 return;
 
             sysidseen.Clear();
@@ -244,6 +244,8 @@ namespace MissionPlanner
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
 
             if (ParamListChanged != null)
             {
@@ -450,7 +452,7 @@ Please check the following
             MAV.sysid = sysid;
             MAV.compid = compid;
             MAV.recvpacketcount = mgsno;
-            log.InfoFormat("ID sys {0} comp {1} ver{2}", MAV.sysid, MAV.compid, mavlinkversion);
+            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", MAV.sysid, MAV.compid, mavlinkversion, MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
         public byte[] getHeartBeat()
@@ -720,6 +722,8 @@ Please check the following
 
                         MAV.param[st] = (par.param_value);
 
+                        lastparamset = DateTime.Now;
+
                         giveComport = false;
                         //System.Threading.Thread.Sleep(100);//(int)(8.5 * 5)); // 8.5ms per byte
                         return true;
@@ -747,6 +751,8 @@ Please check the following
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
 
             if (ParamListChanged != null)
             {
@@ -1932,7 +1938,8 @@ Please check the following
         {
             mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
 
-            gps.data = data.Take(length).ToArray();
+            gps.data = new byte[110];
+            Array.Copy(data, gps.data, length);
             gps.len = length;
             gps.target_component = MAV.compid;
             gps.target_system = MAV.sysid;
@@ -2442,7 +2449,7 @@ Please check the following
             {
                 if (MAVLINK_MESSAGE_LENGTHS[buffer[5]] == 0) // pass for unknown packets
                 {
-
+                    log.InfoFormat("unknown packet type {0}", buffer[5]);
                 }
                 else
                 {
@@ -2528,7 +2535,7 @@ Please check the following
                             MAVlist[sysid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
-                            log.InfoFormat("{2} lost pkts new seqno {0} pkts lost {1}", packetSeqNo, numLost, sysid);
+                            log.InfoFormat("mav {2} seqno {0} exp {3} pkts lost {1}", packetSeqNo, numLost, sysid, expectedPacketSeqNo);
                         }
 
                         MAVlist[sysid].packetsnotlost++;
@@ -2618,6 +2625,16 @@ Please check the following
                             {
                                 MainV2.speechEngine.SpeakAsync(logdata);
                             }
+                        }
+                    }
+
+                    if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.Now) 
+                    {
+                        lastparamset = DateTime.MinValue;
+
+                        if (BaseStream.IsOpen)
+                        {
+                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
 
@@ -2790,6 +2807,22 @@ Please check the following
                     fencept.target_system = buffer[3];
 
                 MAVlist[fencept.target_system].fencepoints[fencept.idx] = fencept;
+            }
+
+            if (buffer[5] == (byte)MAVLINK_MSG_ID.PARAM_VALUE)
+            {
+                mavlink_param_value_t value = buffer.ByteArrayToStructure<mavlink_param_value_t>(6);
+
+                string st = System.Text.ASCIIEncoding.ASCII.GetString(value.param_id);
+
+                int pos = st.IndexOf('\0');
+
+                if (pos != -1)
+                {
+                    st = st.Substring(0, pos);
+                }
+
+                MAVlist[sysid].param[st] = value.param_value;
             }
         }
 
@@ -3438,6 +3471,14 @@ Please check the following
                             break;
                     }
                     break;
+                default:
+                    switch (MAVlist[sysid].aptype)
+                    {
+                        case MAV_TYPE.GIMBAL: // storm32 - name 83
+                            MAVlist[sysid].cs.firmware = MainV2.Firmwares.Gymbal;
+                            break;
+                    }
+                    break;
             }
 
             switch (MAVlist[sysid].cs.firmware)
@@ -3473,6 +3514,13 @@ Please check the following
             if (_bytesSentSubj != null)
                 _bytesSentSubj.Dispose();
             this.Close();
+
+            Terrain = null;
+
+            MirrorStream = null;
+
+            logreadmode = false;
+            logplaybackfile = null;
         }
     }
 }

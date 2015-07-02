@@ -19,3 +19,4 @@ obj/
 /logo.png
 *.vsp
 /sitl
+/cov-int

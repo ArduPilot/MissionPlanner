@@ -97,8 +97,8 @@ namespace MissionPlanner.Wizard
             {
                 if (MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
-                    imageLabel1.Text = MainV2.comPort.MAV.cs.message;
+                    //imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
+                    //imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 if (MainV2.comPort.MAV.cs.message.ToLower().Contains("level"))
                 {

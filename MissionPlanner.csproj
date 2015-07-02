@@ -119,6 +119,9 @@
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timestamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2">
       <HintPath>ExtLibs\alglibnet2.dll</HintPath>
@@ -290,6 +293,9 @@
     <Compile Include="Controls\LogAnalyzer.Designer.cs">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MavlinkCheckBoxBitMask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\MavlinkCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -305,6 +311,12 @@
     </Compile>
     <Compile Include="Controls\ServoOptions.Designer.cs">
       <DependentUpon>ServoOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SITL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SITL.Designer.cs">
+      <DependentUpon>SITL.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SysidSelector.cs">
       <SubType>Form</SubType>
@@ -335,11 +347,11 @@
     </Compile>
     <Compile Include="Controls\Waypoints\Spline2.cs" />
     <Compile Include="Controls\Waypoints\Spline.cs" />
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.Designer.cs">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
       <SubType>UserControl</SubType>
@@ -392,6 +404,7 @@
     <Compile Include="Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
+    <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -434,6 +447,7 @@
     <Compile Include="Joystick\Joy_Mount_Mode.Designer.cs">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Localizations.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
@@ -596,11 +610,18 @@
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
+    <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\DroneApi\APIConstants.cs" />
     <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
     <Compile Include="Utilities\DroneApi\DroneProto.cs" />
     <Compile Include="Utilities\DroneApi\droneshare.cs" />
+    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.Designer.cs">
+      <DependentUpon>VehicleSelection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\fft.cs" />
     <Compile Include="Utilities\fftui.cs">
       <SubType>Form</SubType>
@@ -615,6 +636,7 @@
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
+    <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
@@ -639,6 +661,15 @@
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MavlinkCheckBoxBitMask.resx">
+      <DependentUpon>MavlinkCheckBoxBitMask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SITL.resx">
+      <DependentUpon>SITL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SysidSelector.resx">
       <DependentUpon>SysidSelector.cs</DependentUpon>
     </EmbeddedResource>
@@ -651,44 +682,32 @@
     <EmbeddedResource Include="FollowMe.zh-TW.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.de-DE.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.es-ES.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.fr.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.it-IT.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pl.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hant.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-Hant.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-TW.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-TW.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.zh-Hans.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
@@ -909,12 +928,6 @@
     <EmbeddedResource Include="GCSViews\InitialSetup.zh-TW.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-Hant.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-TW.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Simulation.zh-Hant.resx">
       <DependentUpon>Simulation.cs</DependentUpon>
     </EmbeddedResource>
@@ -1018,6 +1031,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\DroneApi\UI\VehicleSelection.resx">
+      <DependentUpon>VehicleSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\fftui.resx">
       <DependentUpon>fftui.cs</DependentUpon>
@@ -1234,6 +1250,7 @@
     <None Include="MissionPlanner.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="NoFly\SouthAfricaNoRPASOutlined.kmz" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -1759,12 +1776,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAteryxSensors.Designer.cs">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Simple.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GCSViews\Simple.Designer.cs">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </Compile>
     <Compile Include="HIL\Hil.cs" />
     <Compile Include="HIL\Wind.cs" />
     <Compile Include="HIL\XPlane.cs" />
@@ -1828,12 +1839,6 @@
     <Compile Include="Swarm\Swarm.cs" />
     <Compile Include="Swarm\VerticalWave.cs" />
     <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigArducopter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1888,12 +1893,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.Designer.cs">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </Compile>
     <Compile Include="MagCalib.cs" />
     <Compile Include="Radio\3DRradio.cs">
       <SubType>UserControl</SubType>
@@ -1922,7 +1921,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HIL\Aircraft.cs" />
-    <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Log\MavlinkLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2070,12 +2068,6 @@
     <EmbeddedResource Include="FollowMe.fr.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.de-DE.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.de-DE.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
     </EmbeddedResource>
@@ -2186,32 +2178,6 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-Hans.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.de-DE.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.es-ES.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.fr.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.it-IT.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.pl.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.ru-RU.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-Hans.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.de-DE.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
@@ -2268,24 +2234,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputMD.resx">
       <DependentUpon>SerialOutputMD.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
@@ -2395,24 +2343,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-Hans.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.es-ES.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.fr.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.it-IT.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.pl.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.zh-Hans.resx">
-      <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
@@ -2894,6 +2824,7 @@
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\example6.py" />
     <Content Include="Scripts\TAKEOFF.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2970,7 +2901,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="JSBSim.exe" />
+    <Content Include="JSBSim.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="jsbsim\fgout.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -6535,7 +6468,6 @@
     <Content Include="mavelous_web\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Readme.txt" />
     <None Include="Resources\apm1.jpg" />
     <None Include="Resources\apm2.5.jpg" />
     <None Include="Resources\apm2.jpg" />

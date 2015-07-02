@@ -98,11 +98,11 @@ namespace MissionPlanner.Antenna
 
             // get center position -- pan
             buffer = SendCompactMaestroCommand(GetPos, 2, PanAddress);
-            this.PanPWMCenter = (int)((buffer[1] >> 8) | buffer[0]);
+            this.PanPWMCenter = (int)((buffer[1] << 8) | buffer[0]);
 
             // get center position -- tilt
             buffer = SendCompactMaestroCommand(GetPos, 2, TiltAddress);
-            this.TiltPWMCenter = (int)((buffer[1] >> 8) | buffer[0]);
+            this.TiltPWMCenter = (int)((buffer[1] << 8) | buffer[0]);
         }
 
         double wrap_180(double input)

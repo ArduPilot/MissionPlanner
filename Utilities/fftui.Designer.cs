@@ -53,6 +53,7 @@
             this.zedGraphControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl1.IsShowPointValues = true;
             this.zedGraphControl1.Location = new System.Drawing.Point(3, 3);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
@@ -64,6 +65,7 @@
             this.zedGraphControl1.ScrollMinY2 = 0D;
             this.zedGraphControl1.Size = new System.Drawing.Size(255, 238);
             this.zedGraphControl1.TabIndex = 0;
+            this.zedGraphControl1.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // BUT_run
             // 
@@ -83,7 +85,7 @@
             this.myButton1.Name = "myButton1";
             this.myButton1.Size = new System.Drawing.Size(75, 23);
             this.myButton1.TabIndex = 2;
-            this.myButton1.Text = "Run Log";
+            this.myButton1.Text = "Run Log - imu1";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -115,6 +117,7 @@
             this.zedGraphControl6.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl6.IsShowPointValues = true;
             this.zedGraphControl6.Location = new System.Drawing.Point(525, 247);
             this.zedGraphControl6.Name = "zedGraphControl6";
             this.zedGraphControl6.ScrollGrace = 0D;
@@ -126,12 +129,14 @@
             this.zedGraphControl6.ScrollMinY2 = 0D;
             this.zedGraphControl6.Size = new System.Drawing.Size(257, 239);
             this.zedGraphControl6.TabIndex = 5;
+            this.zedGraphControl6.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // zedGraphControl5
             // 
             this.zedGraphControl5.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl5.IsShowPointValues = true;
             this.zedGraphControl5.Location = new System.Drawing.Point(264, 247);
             this.zedGraphControl5.Name = "zedGraphControl5";
             this.zedGraphControl5.ScrollGrace = 0D;
@@ -143,12 +148,14 @@
             this.zedGraphControl5.ScrollMinY2 = 0D;
             this.zedGraphControl5.Size = new System.Drawing.Size(255, 239);
             this.zedGraphControl5.TabIndex = 4;
+            this.zedGraphControl5.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // zedGraphControl4
             // 
             this.zedGraphControl4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl4.IsShowPointValues = true;
             this.zedGraphControl4.Location = new System.Drawing.Point(3, 247);
             this.zedGraphControl4.Name = "zedGraphControl4";
             this.zedGraphControl4.ScrollGrace = 0D;
@@ -160,12 +167,14 @@
             this.zedGraphControl4.ScrollMinY2 = 0D;
             this.zedGraphControl4.Size = new System.Drawing.Size(255, 239);
             this.zedGraphControl4.TabIndex = 3;
+            this.zedGraphControl4.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // zedGraphControl3
             // 
             this.zedGraphControl3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl3.IsShowPointValues = true;
             this.zedGraphControl3.Location = new System.Drawing.Point(525, 3);
             this.zedGraphControl3.Name = "zedGraphControl3";
             this.zedGraphControl3.ScrollGrace = 0D;
@@ -177,12 +186,14 @@
             this.zedGraphControl3.ScrollMinY2 = 0D;
             this.zedGraphControl3.Size = new System.Drawing.Size(257, 238);
             this.zedGraphControl3.TabIndex = 2;
+            this.zedGraphControl3.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // zedGraphControl2
             // 
             this.zedGraphControl2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.zedGraphControl2.IsShowPointValues = true;
             this.zedGraphControl2.Location = new System.Drawing.Point(264, 3);
             this.zedGraphControl2.Name = "zedGraphControl2";
             this.zedGraphControl2.ScrollGrace = 0D;
@@ -194,6 +205,7 @@
             this.zedGraphControl2.ScrollMinY2 = 0D;
             this.zedGraphControl2.Size = new System.Drawing.Size(255, 238);
             this.zedGraphControl2.TabIndex = 1;
+            this.zedGraphControl2.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
             // 
             // NUM_bins
             // 
@@ -248,7 +260,7 @@
             this.BUT_log2.Name = "BUT_log2";
             this.BUT_log2.Size = new System.Drawing.Size(75, 23);
             this.BUT_log2.TabIndex = 8;
-            this.BUT_log2.Text = "Run Log 2";
+            this.BUT_log2.Text = "Run all imus";
             this.BUT_log2.UseVisualStyleBackColor = true;
             this.BUT_log2.Click += new System.EventHandler(this.BUT_log2_Click);
             // 

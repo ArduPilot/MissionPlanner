@@ -79,6 +79,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto WP.
+        /// </summary>
+        public static string AutoWP {
+            get {
+                return ResourceManager.GetString("AutoWP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Accel Health.
         /// </summary>
         public static string BadAccelHealth {
@@ -241,6 +250,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click when Done.
+        /// </summary>
+        public static string Click_when_Done {
+            get {
+                return ResourceManager.GetString("Click_when_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Command failed to execute
         ///.
         /// </summary>
@@ -256,6 +274,15 @@ namespace MissionPlanner {
         public static string CommunicationErrorNoConnection {
             get {
                 return ResourceManager.GetString("CommunicationErrorNoConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
             }
         }
         
@@ -377,6 +404,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ensure your props are not on the Plane/Quad.
+        /// </summary>
+        public static string EnsurePropsNotOn {
+            get {
+                return ResourceManager.GetString("EnsurePropsNotOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Epprom changed, all your setting will be lost during the update,
         ///Do you wish to continue?.
         /// </summary>
@@ -401,6 +437,15 @@ namespace MissionPlanner {
         public static string ERROR {
             get {
                 return ResourceManager.GetString("ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error binding.
+        /// </summary>
+        public static string Error_binding {
+            get {
+                return ResourceManager.GetString("Error_binding", resourceCulture);
             }
         }
         
@@ -583,6 +628,15 @@ namespace MissionPlanner {
         public static string FailedUpload {
             get {
                 return ResourceManager.GetString("FailedUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to FailSafe.
+        /// </summary>
+        public static string FailSafe {
+            get {
+                return ResourceManager.GetString("FailSafe", resourceCulture);
             }
         }
         
@@ -942,6 +996,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Put the transmitter in bind mode. Receiver is waiting..
+        /// </summary>
+        public static string Put_the_transmitter_in_bind_mode__Receiver_is_waiting {
+            get {
+                return ResourceManager.GetString("Put_the_transmitter_in_bind_mode__Receiver_is_waiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ?.
         /// </summary>
         public static string QuestionMark {
@@ -1002,6 +1065,15 @@ namespace MissionPlanner {
         public static string RunAnyway {
             get {
                 return ResourceManager.GetString("RunAnyway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving.
+        /// </summary>
+        public static string Saving {
+            get {
+                return ResourceManager.GetString("Saving", resourceCulture);
             }
         }
         

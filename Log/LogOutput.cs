@@ -223,6 +223,14 @@ namespace MissionPlanner.Log
                 {
                     gpsrawdata.Add(line);
                 }
+                else if (items[0].Contains("GRXH"))
+                {
+                    gpsrawdata.Add(line);
+                }
+                else if (items[0].Contains("GRXS"))
+                {
+                    gpsrawdata.Add(line);
+                }
                 else if (items[0].Contains("CTUN"))
                 {
                     ctunlast = items;
@@ -484,28 +492,84 @@ namespace MissionPlanner.Log
         0.0000        0.0000        0.0000                  ANTENNA: DELTA H/E/N
 G    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
 S    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
+R    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
+E    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
 G                                                           SYS / PHASE SHIFT   
                                                             END OF HEADER       ";
 
             rinexoutput.WriteLine(header);
 
+            /*
+            { LOG_GPS_RAW_MSG, sizeof(log_GPS_RAW), \  
+ 690         "GRAW", "QIHBBddfBbB", "TimeUS,WkMS,Week,numSV,sv,cpMes,prMes,doMes,mesQI,cno,lli" }, \  
+       +    { LOG_GPS_RAWH_MSG, sizeof(log_GPS_RAWH), \  
+ 692  +      "GRXH", "QdHbBB", "TimeUS,rcvTime,week,leapS,numMeas,recStat" }, \  
+ 693  +    { LOG_GPS_RAWS_MSG, sizeof(log_GPS_RAWS), \  
+ 694  +      "GRXS", "QddfBBBHBBBBB", "TimeUS,prMes,cpMes,doMes,gnss,sv,freq,lock,cno,prD,cpD,doD,trk" }, \  
+
+            */
+            /*
+GNSS Identifiers
+gnssId GNSS Type
+0 GPS
+1 SBAS
+2 Galileo
+3 BeiDou
+4 IMES
+5 QZSS
+6 GLONASS
+            */
+            //ftp://igs.org/pub/data/format/rinex302.pdf
+            //https://www.u-blox.com/images/downloads/Product_Docs/u-bloxM8_ReceiverDescriptionProtocolSpec_(UBX-13003221)_Public.pdf
+
             DateTime lastgpstime = DateTime.MinValue;
+
+            double weekms = 0, NSats = 0;
+            int week = 0;
 
             foreach (string line in gpsrawdata)
             {
+                string sattype = "G";
+
                 string[] items = line.Split(',', ':');
 
-                double weekms = double.Parse(items[DFLog.FindMessageOffset("GRAW", "WkMS")]);
-                int week = int.Parse(items[DFLog.FindMessageOffset("GRAW", "Week")]);
-                double NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "NSats")]);
-                double sv = double.Parse(items[DFLog.FindMessageOffset("GRAW", "sv")]);
-                double cpMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cpMes")]);
-                double prMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "prMes")]);
-                double doMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "doMes")]);
-                double mesQI = double.Parse(items[DFLog.FindMessageOffset("GRAW", "mesQI")]);
-                double cno = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cno")]);
-                double lli = double.Parse(items[DFLog.FindMessageOffset("GRAW", "lli")]);
+                double sv = -1, cpMes=-1, prMes=-1, doMes=-1, mesQI=-1, cno=-1, lli=-1;
+                int gnss = 0;
 
+                if (items[0].StartsWith("GRAW"))
+                {
+                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRAW", "WkMS")]);
+                    week = int.Parse(items[DFLog.FindMessageOffset("GRAW", "Week")]);
+                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "numSV")]);
+                    sv = double.Parse(items[DFLog.FindMessageOffset("GRAW", "sv")]);
+                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cpMes")]);
+                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "prMes")]);
+                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "doMes")]);
+                    mesQI = double.Parse(items[DFLog.FindMessageOffset("GRAW", "mesQI")]);
+                    cno = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cno")]);
+                    lli = double.Parse(items[DFLog.FindMessageOffset("GRAW", "lli")]);
+
+                    if (sv > 32)
+                        gnss = 1;
+                }
+                else if (items[0].StartsWith("GRXH"))
+                {
+                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
+                    week = int.Parse(items[DFLog.FindMessageOffset("GRXH", "week")]);
+                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRXH", "numMeas")]);
+                    continue;
+                }
+                else if (items[0].StartsWith("GRXS"))
+                {
+                    sv = double.Parse(items[DFLog.FindMessageOffset("GRXS", "sv")]);
+                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cpMes")]);
+                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "prMes")]);
+                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "doMes")]);
+                    gnss = int.Parse(items[DFLog.FindMessageOffset("GRXS", "gnss")]);
+                    cno = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cno")]);
+                    double locktime = double.Parse(items[DFLog.FindMessageOffset("GRXS", "lock")]);
+                    lli = 0; // OK or not known
+                }
 
                 DateTime gpstime = GetFromGps(week, weekms/1000.0);
 
@@ -522,12 +586,42 @@ G                                                           SYS / PHASE SHIFT
                     lastgpstime = gpstime;
                 }
 
-                string sattype = "G";
-                // exclude sbas sats
-                if (sv > 32)
+                if (gnss == 0)
                 {
+                    //GPS
+                    sattype = "G";
+                }
+                if (gnss == 1)
+                {
+                    //sbas
                     sattype = "S";
                     sv -= 100;
+                }
+                if (gnss == 2)
+                {
+                    //Galileo
+                    sattype = "E";
+                }
+                if (gnss == 3)
+                {
+                    //BEIDOU
+                    sattype = "C";
+                }
+                if (gnss == 4)
+                {
+                    //IMES
+                    sattype = "I";
+                }
+                if (gnss == 5)
+                {
+                    //QZSS
+                    sattype = "J";
+                    sv -= 192; // check this (100 or 192)
+                }
+                if (gnss == 6)
+                {
+                    //GLONASS
+                    sattype = "R";
                 }
 
                 // a1,i2.2,satcount*(f14.3,i1,i1)

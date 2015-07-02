@@ -139,6 +139,15 @@ namespace MissionPlanner.Log
         public static void Clear()
         {
             logformat.Clear();
+
+            GC.Collect();
+
+            // current gps time
+            gpstime = DateTime.MinValue;
+            // last time of message
+            lasttime = DateTime.MinValue;
+            // first valid gpstime
+            gpsstarttime = DateTime.MinValue;
         }
 
         public static DateTime GetFirstGpsTime(string fn)
@@ -233,7 +242,7 @@ namespace MissionPlanner.Log
 
             return answer;
         }
-
+        
         public static DFItem GetDFItemFromLine(string line, int lineno)
         {
 
@@ -265,6 +274,20 @@ namespace MissionPlanner.Log
                             try
                             {
                                 msoffset = int.Parse(items[indextimems]);
+                            }
+                            catch
+                            {
+                                gpsstarttime = DateTime.MinValue;
+                            }
+                        }
+
+                        int indextimeus = FindMessageOffset(items[0], "TimeUS");
+
+                        if (indextimeus != -1)
+                        {
+                            try
+                            {
+                                msoffset = int.Parse(items[indextimeus]) / 1000;
                             }
                             catch
                             {
@@ -323,7 +346,7 @@ namespace MissionPlanner.Log
                 {
                     item.msgtype = items[0];
                     item.items = items;
-
+                    bool timeus = false;
                     
                         if (logformat.ContainsKey(item.msgtype))
                         {
@@ -334,9 +357,18 @@ namespace MissionPlanner.Log
                                 indextimems = FindMessageOffset(item.msgtype, "T");
                             }
 
+                            if (indextimems == -1)
+                            {
+                                indextimems = FindMessageOffset(item.msgtype, "TimeUS");
+                                timeus = true;
+                            } 
+
                             if (indextimems != -1)
                             {
                                 item.timems = int.Parse(items[indextimems]);
+
+                                if (timeus)
+                                    item.timems /= 1000;
 
                                 item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
 
@@ -400,8 +432,16 @@ namespace MissionPlanner.Log
                 // get time since start of week
                 int indextimems = FindMessageOffset("GPS", "TimeMS");
 
+                if (indextimems == -1)
+                {
+                    indextimems = FindMessageOffset("GPS", "GMS");
+                }
+
                 // get week number
                 int indexweek = FindMessageOffset("GPS", "Week");
+
+                if (indexweek == -1)
+                    indexweek = FindMessageOffset("GPS", "GWk");
 
                 if (indextimems == -1 || indexweek == -1)
                     return DateTime.MinValue;

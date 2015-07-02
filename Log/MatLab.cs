@@ -21,44 +21,48 @@ namespace MissionPlanner.Log
 
         public static void ProcessTLog()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.tlog|*.tlog";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string logfile in openFileDialog1.FileNames)
+                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+                try
                 {
-                    MissionPlanner.Log.MatLab.tlog(logfile);
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                }
+                catch { } // incase dir doesnt exist
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string logfile in openFileDialog1.FileNames)
+                    {
+                        MissionPlanner.Log.MatLab.tlog(logfile);
+                    }
                 }
             }
         }
 
         public static void ProcessLog()
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Log Files|*.log;*.bin";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string logfile in openFileDialog1.FileNames)
+                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+                try
                 {
-                    MissionPlanner.Log.MatLab.ProcessLog(logfile);
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                }
+                catch { } // incase dir doesnt exist
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string logfile in openFileDialog1.FileNames)
+                    {
+                        MissionPlanner.Log.MatLab.ProcessLog(logfile);
+                    }
                 }
             }
         }
@@ -245,116 +249,117 @@ namespace MissionPlanner.Log
         public static void tlog(string logfile)
         {
             List<MLArray> mlList = new List<MLArray>();
-
-            MAVLinkInterface mine = new MAVLinkInterface();
-            try
-            {
-                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-            }
-            catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-            mine.logreadmode = true;
-
-            mine.MAV.packets.Initialize(); // clear
-
             Hashtable datappl = new Hashtable();
 
-            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+            using (MAVLinkInterface mine = new MAVLinkInterface())
             {
-                byte[] packet = mine.readPacket();
-                object data = mine.GetPacket(packet);
-
-                if (data == null)
-                    continue;
-
-                if (data is MAVLink.mavlink_heartbeat_t)
-                {
-                    if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
-                        continue;
-                }
-
-                Type test = data.GetType();
-
-                DateTime time = mine.lastlogread;
-
-                double matlabtime = GetMatLabSerialDate(time);
-
                 try
                 {
+                    mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                }
+                catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                mine.logreadmode = true;
 
-                    foreach (var field in test.GetFields())
+                mine.MAV.packets.Initialize(); // clear               
+
+                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                {
+                    byte[] packet = mine.readPacket();
+                    object data = mine.GetPacket(packet);
+
+                    if (data == null)
+                        continue;
+
+                    if (data is MAVLink.mavlink_heartbeat_t)
                     {
-                        // field.Name has the field's name.
+                        if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
+                            continue;
+                    }
 
-                        object fieldValue = field.GetValue(data); // Get value
-                        if (field.FieldType.IsArray)
+                    Type test = data.GetType();
+
+                    DateTime time = mine.lastlogread;
+
+                    double matlabtime = GetMatLabSerialDate(time);
+
+                    try
+                    {
+
+                        foreach (var field in test.GetFields())
                         {
+                            // field.Name has the field's name.
 
-                        }
-                        else
-                        {
-                            if (!datappl.ContainsKey(field.Name + "_" + field.DeclaringType.Name))
+                            object fieldValue = field.GetValue(data); // Get value
+                            if (field.FieldType.IsArray)
                             {
-                                datappl[field.Name + "_" + field.DeclaringType.Name] = new List<double[]>();
-                            }
 
-                            List<double[]> list = ((List<double[]>)datappl[field.Name + "_" + field.DeclaringType.Name]);
-
-                            object value = fieldValue;
-
-                            if (value.GetType() == typeof(Single))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(Single)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(short))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(short)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(ushort))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(ushort)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(byte))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(byte)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(sbyte))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(sbyte)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(Int32))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(Int32)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(UInt32))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(UInt32)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(ulong))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(ulong)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(long))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(long)field.GetValue(data) });
-                            }
-                            else if (value.GetType() == typeof(double))
-                            {
-                                list.Add(new double[] { matlabtime, (double)(double)field.GetValue(data) });
                             }
                             else
                             {
-                                Console.WriteLine("Unknown data type");
+                                if (!datappl.ContainsKey(field.Name + "_" + field.DeclaringType.Name))
+                                {
+                                    datappl[field.Name + "_" + field.DeclaringType.Name] = new List<double[]>();
+                                }
+
+                                List<double[]> list = ((List<double[]>)datappl[field.Name + "_" + field.DeclaringType.Name]);
+
+                                object value = fieldValue;
+
+                                if (value.GetType() == typeof(Single))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(Single)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(short))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(short)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(ushort))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(ushort)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(byte))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(byte)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(sbyte))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(sbyte)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(Int32))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(Int32)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(UInt32))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(UInt32)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(ulong))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(ulong)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(long))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(long)field.GetValue(data) });
+                                }
+                                else if (value.GetType() == typeof(double))
+                                {
+                                    list.Add(new double[] { matlabtime, (double)(double)field.GetValue(data) });
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Unknown data type");
+                                }
                             }
+
                         }
-
                     }
+                    catch { }
                 }
-                catch { }
-            }
 
-            mine.logreadmode = false;
-            mine.logplaybackfile.Close();
-            mine.logplaybackfile = null;
+                mine.logreadmode = false;
+                mine.logplaybackfile.Close();
+                mine.logplaybackfile = null;
+            }
 
             foreach (string item in datappl.Keys)
             {

@@ -75,7 +75,6 @@
             this.Params.AllColumns.Add(this.olvColumn4);
             this.Params.AllColumns.Add(this.olvColumn5);
             resources.ApplyResources(this.Params, "Params");
-            this.Params.BackColor = System.Drawing.SystemColors.ScrollBar;
             this.Params.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumn1,
             this.olvColumn2,

@@ -64,7 +64,7 @@ namespace resedit
                         Console.WriteLine("   {0}: '{1}' (Type {2})",
                                           dict.Key, dict.Value, dict.Value.GetType().Name);
 
-                        if (dict.Key.ToString().EndsWith(".ToolTip") || dict.Key.ToString().EndsWith(".Text") || dict.Key.ToString().EndsWith("HeaderText") || dict.Key.ToString().EndsWith("ToolTipText"))
+                        if (file.Contains("MissionPlanner.Strings.resources") ||  dict.Key.ToString().EndsWith(".ToolTip") || dict.Key.ToString().EndsWith(".Text") || dict.Key.ToString().EndsWith("HeaderText") || dict.Key.ToString().EndsWith("ToolTipText"))
                         {
                             dataGridView1.Rows.Add();
 

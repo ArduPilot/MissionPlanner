@@ -154,7 +154,7 @@ namespace MissionPlanner.Controls
             public bool Visible
             {
                 get { return Control.Visible; }
-                set { Control.Visible = value; }
+                set { try { Control.Visible = value; } catch { } }
             }
 
             public bool Persistent;

@@ -260,20 +260,22 @@ namespace MissionPlanner
 
         private void BUT_savecsv_Click(object sender, EventArgs e)
         {
-            SaveFileDialog ofd = new SaveFileDialog();
-            ofd.AddExtension = true;
-            ofd.DefaultExt = ".csv";
-            ofd.ShowDialog();
-            if (ofd.FileName != "")
+            using (SaveFileDialog ofd = new SaveFileDialog())
             {
-                try
+                ofd.AddExtension = true;
+                ofd.DefaultExt = ".csv";
+                ofd.ShowDialog();
+                if (ofd.FileName != "")
                 {
-                    if (sw != null)
-                        sw.Close();
-                }
-                catch { }
+                    try
+                    {
+                        if (sw != null)
+                            sw.Close();
+                    }
+                    catch { }
 
-                sw = new System.IO.StreamWriter(ofd.OpenFile());
+                    sw = new System.IO.StreamWriter(ofd.OpenFile());
+                }
             }
         }
 

@@ -121,6 +121,16 @@ namespace MissionPlanner.Controls
 
         void MavlinkNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+            string value = base.Text;
+            if (decimal.Parse(value) > base.Maximum)
+            {
+                if (CustomMessageBox.Show(ParamName + " Value out of range\nDo you want to accept the new value?", "Out of range", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    base.Maximum = decimal.Parse(value);
+                    base.Value = decimal.Parse(value);
+                }
+            }
+
             if (ValueUpdated!= null)
             {
                 this.UpdateEditText();

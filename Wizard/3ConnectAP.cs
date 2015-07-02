@@ -106,6 +106,8 @@ namespace MissionPlanner.Wizard
 
                 if (pdr.doWorkArgs.CancelRequested || !string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
                     return 0;
+
+                pdr.Dispose();
             }
 
             if (MainV2.comPort.BaseStream.IsOpen)

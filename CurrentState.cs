@@ -19,6 +19,8 @@ namespace MissionPlanner
 
         internal MAVState parent;
 
+        internal int lastautowp =-1;
+
         // multipliers
         public static float multiplierdist = 1;
         public static string DistanceUnit = "";
@@ -113,24 +115,6 @@ namespace MissionPlanner
         public float asratio { get; set; }
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed { get { return _groundspeed * multiplierspeed; } set { _groundspeed = value; } }
-        public bool lowgroundspeed { get; set; }
-        float _airspeed;
-        float _groundspeed;
-        float _verticalspeed;
-        [DisplayText("Vertical Speed (speed)")]
-        public float verticalspeed { get { if (float.IsNaN(_verticalspeed)) _verticalspeed = 0; return _verticalspeed * multiplierspeed; } set { _verticalspeed = _verticalspeed * 0.4f + value * 0.6f; } }
-        [DisplayText("Wind Direction (Deg)")]
-        public float wind_dir { get; set; }
-        [DisplayText("Wind Velocity (speed)")]
-        public float wind_vel { get; set; }
-        /// <summary>
-        /// used in wind calc
-        /// </summary>
-        double Wn_fgo;
-        /// <summary>
-        /// used for wind calc
-        /// </summary>
-        double We_fgo;
 
         // accel
         [DisplayText("Accel X")]
@@ -153,6 +137,28 @@ namespace MissionPlanner
         public float my { get; set; }
         [DisplayText("Mag Z")]
         public float mz { get; set; }
+
+        // accel2
+        [DisplayText("Accel2 X")]
+        public float ax2 { get; set; }
+        [DisplayText("Accel2 Y")]
+        public float ay2 { get; set; }
+        [DisplayText("Accel2 Z")]
+        public float az2 { get; set; }
+        // gyro2
+        [DisplayText("Gyro2 X")]
+        public float gx2 { get; set; }
+        [DisplayText("Gyro2 Y")]
+        public float gy2 { get; set; }
+        [DisplayText("Gyro2 Z")]
+        public float gz2 { get; set; }
+        // mag2
+        [DisplayText("Mag2 X")]
+        public float mx2 { get; set; }
+        [DisplayText("Mag2 Y")]
+        public float my2 { get; set; }
+        [DisplayText("Mag2 Z")]
+        public float mz2 { get; set; }
 
         [DisplayText("Mag Field")]
         public float magfield { get { return (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); } }
@@ -223,6 +229,25 @@ namespace MissionPlanner
         }
 
         float _ch3percent = -1;
+
+        public bool lowgroundspeed { get; set; }
+        float _airspeed;
+        float _groundspeed;
+        float _verticalspeed;
+        [DisplayText("Vertical Speed (speed)")]
+        public float verticalspeed { get { if (float.IsNaN(_verticalspeed)) _verticalspeed = 0; return _verticalspeed * multiplierspeed; } set { _verticalspeed = _verticalspeed * 0.4f + value * 0.6f; } }
+        [DisplayText("Wind Direction (Deg)")]
+        public float wind_dir { get; set; }
+        [DisplayText("Wind Velocity (speed)")]
+        public float wind_vel { get; set; }
+        /// <summary>
+        /// used in wind calc
+        /// </summary>
+        double Wn_fgo;
+        /// <summary>
+        /// used for wind calc
+        /// </summary>
+        double We_fgo;
 
         //nav state
         [DisplayText("Roll Target (deg)")]
@@ -343,6 +368,26 @@ namespace MissionPlanner
             }
         }
 
+        [DisplayText("Distance From Moving Base (dist)")]
+        public float DistFromMovingBase
+        {
+            get
+            {
+                if (lat == 0 && lng == 0 || MovingBase == null)
+                    return 0;
+
+                // shrinking factor for longitude going to poles direction
+                double rads = Math.Abs(MovingBase.Lat) * 0.0174532925;
+                double scaleLongDown = Math.Cos(rads);
+                double scaleLongUp = 1.0f / Math.Cos(rads);
+
+                //DST to Home
+                double dstlat = Math.Abs(MovingBase.Lat - lat) * 111319.5;
+                double dstlon = Math.Abs(MovingBase.Lng - lng) * 111319.5 * scaleLongDown;
+                return (float)Math.Sqrt((dstlat * dstlat) + (dstlon * dstlon)) * multiplierdist;
+            }
+        }
+
      [DisplayText("Elevation to Mav (deg)")]
         public float ELToMAV
         {
@@ -408,7 +453,8 @@ namespace MissionPlanner
         public float accel_cal_z { get; set; }
 
         [DisplayText("Sonar Range (meters)")]
-        public float sonarrange { get; set; }
+        public float sonarrange { get { return (float)toDistDisplayUnit(_sonarrange); } set { _sonarrange = value; } }
+        float _sonarrange = 0;
         [DisplayText("Sonar Voltage (Volt)")]
         public float sonarvoltage { get; set; }
 
@@ -540,21 +586,24 @@ namespace MissionPlanner
 
         public void ResetInternals()
         {
-            mode = "Unknown";
-            _mode = 99999;
-            messages = new List<string>();
-            useLocation = false;
-            rateattitude = 10;
-            rateposition = 3;
-            ratestatus = 2;
-            ratesensors = 2;
-            raterc = 2;
-            datetime = DateTime.MinValue;
-            battery_usedmah = 0;
-            _lastcurrent = DateTime.MinValue;
-            distTraveled = 0;
-            timeInAir = 0;
-            KIndexstatic = -1;
+            lock (this)
+            {
+                mode = "Unknown";
+                _mode = 99999;
+                messages = new List<string>();
+                useLocation = false;
+                rateattitude = 10;
+                rateposition = 3;
+                ratestatus = 2;
+                ratesensors = 2;
+                raterc = 2;
+                datetime = DateTime.MinValue;
+                battery_usedmah = 0;
+                _lastcurrent = DateTime.MinValue;
+                distTraveled = 0;
+                timeInAir = 0;
+                KIndexstatic = -1;
+            }
         }
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -754,6 +803,20 @@ namespace MissionPlanner
                         campointa = status.pointing_a / 100.0f;
                         campointb = status.pointing_b / 100.0f;
                         campointc = status.pointing_c / 100.0f;
+                    }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VIBRATION];
+
+                    if (bytearray != null)
+                    {
+                        var vibe = bytearray.ByteArrayToStructure<MAVLink.mavlink_vibration_t>(6);
+
+                        vibeclip0 = vibe.clipping_0;
+                        vibeclip1 = vibe.clipping_1;
+                        vibeclip2 = vibe.clipping_2;
+                        vibex = vibe.vibration_x;
+                        vibey = vibe.vibration_y;
+                        vibez = vibe.vibration_z;
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL];
@@ -975,6 +1038,8 @@ namespace MissionPlanner
                         Mavlink_Sensors sensors_enabled = new Mavlink_Sensors(sysstatus.onboard_control_sensors_enabled);
                         Mavlink_Sensors sensors_health = new Mavlink_Sensors(sysstatus.onboard_control_sensors_health);
                         Mavlink_Sensors sensors_present = new Mavlink_Sensors(sysstatus.onboard_control_sensors_present);
+
+                        terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
 
                         if (sensors_health.gps != sensors_enabled.gps && sensors_present.gps)
                         {
@@ -1211,6 +1276,11 @@ namespace MissionPlanner
 
                         wpno = wpcur.seq;
 
+                        if (mode.ToLower() == "auto" && wpno != 0)
+                        {
+                            lastautowp = (int)wpno;
+                        }
+
                         if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this && MainV2.getConfig("speechwaypointenabled") == "True")
                         {
                             MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechwaypoint")));
@@ -1357,6 +1427,39 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU] = null;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU2];
+                    if (bytearray != null)
+                    {
+                        var imu2 = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu2_t>(6);
+
+                        gx2 = imu2.xgyro;
+                        gy2 = imu2.ygyro;
+                        gz2 = imu2.zgyro;
+
+                        ax2 = imu2.xacc;
+                        ay2 = imu2.yacc;
+                        az2 = imu2.zacc;
+
+                        mx2 = imu2.xmag;
+                        my2 = imu2.ymag;
+                        mz2 = imu2.zmag;
+                    }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.PID_TUNING];
+                    if (bytearray != null)
+                    {
+                        var pid = bytearray.ByteArrayToStructure<MAVLink.mavlink_pid_tuning_t>(6);
+
+                        //todo: currently only deals with single axis at once
+
+                        pidff = pid.FF;
+                        pidP = pid.P;
+                        pidI = pid.I;
+                        pidD = pid.D;
+                        pidaxis = pid.axis;
+                        piddesired = pid.desired;
+                        pidachieved = pid.achieved;
+                    }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD];
                     if (bytearray != null)
@@ -1565,6 +1668,8 @@ namespace MissionPlanner
 
         public bool landed { get; set; }
 
+        public  bool terrainactive { get; set; }
+
         float _ter_curalt;
         public float ter_curalt { get { return _ter_curalt * multiplierdist; } set { _ter_curalt = value; } }
         float _ter_alt;
@@ -1600,5 +1705,31 @@ namespace MissionPlanner
         public float ekfposvert { get; set; }
 
         public float ekfteralt { get; set; }
-    }
+
+        public float pidff { get; set; }
+
+        public float pidP { get; set; }
+
+        public float pidI { get; set; }
+
+        public float pidD { get; set; }
+
+        public byte pidaxis { get; set; }
+
+        public float piddesired { get; set; }
+
+        public float pidachieved { get; set; }
+
+        public uint vibeclip0 { get; set; }
+
+        public uint vibeclip1 { get; set; }
+
+        public uint vibeclip2 { get; set; }
+
+        public float vibex { get; set; }
+
+        public float vibey { get; set; }
+
+        public float vibez { get; set; }
+    }    
 }

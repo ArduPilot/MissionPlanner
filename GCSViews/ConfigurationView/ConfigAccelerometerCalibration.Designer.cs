@@ -2,7 +2,7 @@
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigAccelerometerCalibrationTracker
+    partial class ConfigAccelerometerCalibration
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigAccelerometerCalibrationTracker));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigAccelerometerCalibration));
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_Accel_user = new System.Windows.Forms.Label();

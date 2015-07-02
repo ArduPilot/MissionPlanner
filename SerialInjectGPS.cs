@@ -121,8 +121,8 @@ namespace MissionPlanner
             {
                 try
                 {
-                    // limit to 128 byte packets
-                    byte[] buffer = new byte[128];
+                    // limit to 110 byte packets
+                    byte[] buffer = new byte[110];
 
                     while (comPort.BytesToRead > 0)
                     {

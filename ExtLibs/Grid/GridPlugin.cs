@@ -48,7 +48,7 @@ namespace MissionPlanner
             int index = col.Count;
             foreach (ToolStripItem item in col)         //increments through all of the dropdowns to find the AutoWP one
             {
-                if (item.Text.Equals("Auto WP"))        //this is what adds the Survey(Grid) part to the dropdown on AutoWP
+                if (item.Text.Equals(Strings.AutoWP)) //this is what adds the Survey(Grid) part to the dropdown on AutoWP
                 {
                     index = col.IndexOf(item);
                     ((ToolStripMenuItem)item).DropDownItems.Add(but);       //adds the Survey(Grid) dropdown

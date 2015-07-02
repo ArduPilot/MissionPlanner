@@ -341,6 +341,9 @@ Newer versions only support log download via mavlink, please see the flightdata 
   <data name="CMB_boardtype.Items2" xml:space="preserve">
     <value>VRX/VRBRAIN</value>
   </data>
+  <data name="CMB_boardtype.Items3" xml:space="preserve">
+    <value>NSH</value>
+  </data>
   <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>

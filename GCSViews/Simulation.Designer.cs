@@ -34,85 +34,81 @@
             this.CHKREV_pitch = new System.Windows.Forms.CheckBox();
             this.CHKREV_rudder = new System.Windows.Forms.CheckBox();
             this.GPSrate = new System.Windows.Forms.ComboBox();
-            this.ConnectComPort = new Controls.MyButton();
+            this.ConnectComPort = new MissionPlanner.Controls.MyButton();
             this.OutputLog = new System.Windows.Forms.RichTextBox();
-            this.TXT_roll = new Controls.MyLabel();
-            this.TXT_pitch = new Controls.MyLabel();
-            this.TXT_heading = new Controls.MyLabel();
-            this.TXT_wpdist = new Controls.MyLabel();
-            this.TXT_bererror = new Controls.MyLabel();
-            this.TXT_alterror = new Controls.MyLabel();
-            this.TXT_lat = new Controls.MyLabel();
-            this.TXT_long = new Controls.MyLabel();
-            this.TXT_alt = new Controls.MyLabel();
-            this.SaveSettings = new Controls.MyButton();
+            this.TXT_roll = new MissionPlanner.Controls.MyLabel();
+            this.TXT_pitch = new MissionPlanner.Controls.MyLabel();
+            this.TXT_heading = new MissionPlanner.Controls.MyLabel();
+            this.TXT_wpdist = new MissionPlanner.Controls.MyLabel();
+            this.TXT_bererror = new MissionPlanner.Controls.MyLabel();
+            this.TXT_alterror = new MissionPlanner.Controls.MyLabel();
+            this.TXT_lat = new MissionPlanner.Controls.MyLabel();
+            this.TXT_long = new MissionPlanner.Controls.MyLabel();
+            this.TXT_alt = new MissionPlanner.Controls.MyLabel();
+            this.SaveSettings = new MissionPlanner.Controls.MyButton();
             this.RAD_softXplanes = new System.Windows.Forms.RadioButton();
             this.RAD_softFlightGear = new System.Windows.Forms.RadioButton();
-            this.TXT_servoroll = new Controls.MyLabel();
-            this.TXT_servopitch = new Controls.MyLabel();
-            this.TXT_servorudder = new Controls.MyLabel();
-            this.TXT_servothrottle = new Controls.MyLabel();
+            this.TXT_servoroll = new MissionPlanner.Controls.MyLabel();
+            this.TXT_servopitch = new MissionPlanner.Controls.MyLabel();
+            this.TXT_servorudder = new MissionPlanner.Controls.MyLabel();
+            this.TXT_servothrottle = new MissionPlanner.Controls.MyLabel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label4 = new Controls.MyLabel();
-            this.label3 = new Controls.MyLabel();
-            this.label2 = new Controls.MyLabel();
-            this.label1 = new Controls.MyLabel();
+            this.label4 = new MissionPlanner.Controls.MyLabel();
+            this.label3 = new MissionPlanner.Controls.MyLabel();
+            this.label2 = new MissionPlanner.Controls.MyLabel();
+            this.label1 = new MissionPlanner.Controls.MyLabel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.label30 = new Controls.MyLabel();
-            this.TXT_yaw = new Controls.MyLabel();
-            this.label11 = new Controls.MyLabel();
-            this.label7 = new Controls.MyLabel();
-            this.label6 = new Controls.MyLabel();
-            this.label5 = new Controls.MyLabel();
-            this.label8 = new Controls.MyLabel();
-            this.label9 = new Controls.MyLabel();
-            this.label10 = new Controls.MyLabel();
+            this.label30 = new MissionPlanner.Controls.MyLabel();
+            this.TXT_yaw = new MissionPlanner.Controls.MyLabel();
+            this.label11 = new MissionPlanner.Controls.MyLabel();
+            this.label7 = new MissionPlanner.Controls.MyLabel();
+            this.label6 = new MissionPlanner.Controls.MyLabel();
+            this.label5 = new MissionPlanner.Controls.MyLabel();
+            this.label8 = new MissionPlanner.Controls.MyLabel();
+            this.label9 = new MissionPlanner.Controls.MyLabel();
+            this.label10 = new MissionPlanner.Controls.MyLabel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.label16 = new Controls.MyLabel();
-            this.label15 = new Controls.MyLabel();
-            this.label14 = new Controls.MyLabel();
-            this.label13 = new Controls.MyLabel();
-            this.label12 = new Controls.MyLabel();
+            this.label16 = new MissionPlanner.Controls.MyLabel();
+            this.label15 = new MissionPlanner.Controls.MyLabel();
+            this.label14 = new MissionPlanner.Controls.MyLabel();
+            this.label13 = new MissionPlanner.Controls.MyLabel();
+            this.label12 = new MissionPlanner.Controls.MyLabel();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label20 = new Controls.MyLabel();
-            this.label19 = new Controls.MyLabel();
-            this.TXT_control_mode = new Controls.MyLabel();
-            this.TXT_WP = new Controls.MyLabel();
-            this.label18 = new Controls.MyLabel();
-            this.label17 = new Controls.MyLabel();
+            this.label20 = new MissionPlanner.Controls.MyLabel();
+            this.label19 = new MissionPlanner.Controls.MyLabel();
+            this.TXT_control_mode = new MissionPlanner.Controls.MyLabel();
+            this.TXT_WP = new MissionPlanner.Controls.MyLabel();
+            this.label18 = new MissionPlanner.Controls.MyLabel();
+            this.label17 = new MissionPlanner.Controls.MyLabel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.timer_servo_graph = new System.Windows.Forms.Timer(this.components);
             this.panel6 = new System.Windows.Forms.Panel();
-            this.label28 = new Controls.MyLabel();
-            this.label29 = new Controls.MyLabel();
-            this.label27 = new Controls.MyLabel();
-            this.label25 = new Controls.MyLabel();
+            this.label28 = new MissionPlanner.Controls.MyLabel();
+            this.label29 = new MissionPlanner.Controls.MyLabel();
+            this.label27 = new MissionPlanner.Controls.MyLabel();
+            this.label25 = new MissionPlanner.Controls.MyLabel();
             this.TXT_throttlegain = new System.Windows.Forms.TextBox();
-            this.label24 = new Controls.MyLabel();
-            this.label23 = new Controls.MyLabel();
-            this.label22 = new Controls.MyLabel();
-            this.label21 = new Controls.MyLabel();
+            this.label24 = new MissionPlanner.Controls.MyLabel();
+            this.label23 = new MissionPlanner.Controls.MyLabel();
+            this.label22 = new MissionPlanner.Controls.MyLabel();
+            this.label21 = new MissionPlanner.Controls.MyLabel();
             this.TXT_ruddergain = new System.Windows.Forms.TextBox();
             this.TXT_pitchgain = new System.Windows.Forms.TextBox();
             this.TXT_rollgain = new System.Windows.Forms.TextBox();
-            this.label26 = new Controls.MyLabel();
+            this.label26 = new MissionPlanner.Controls.MyLabel();
             this.CHKdisplayall = new System.Windows.Forms.CheckBox();
             this.CHKgraphroll = new System.Windows.Forms.CheckBox();
             this.CHKgraphpitch = new System.Windows.Forms.CheckBox();
             this.CHKgraphrudder = new System.Windows.Forms.CheckBox();
             this.CHKgraphthrottle = new System.Windows.Forms.CheckBox();
-            this.but_advsettings = new Controls.MyButton();
-            this.chkSITL = new System.Windows.Forms.CheckBox();
-            this.CHK_quad = new System.Windows.Forms.CheckBox();
-            this.BUT_startfgquad = new Controls.MyButton();
-            this.BUT_startfgplane = new Controls.MyButton();
-            this.BUT_startxplane = new Controls.MyButton();
-            this.CHK_heli = new System.Windows.Forms.CheckBox();
+            this.but_advsettings = new MissionPlanner.Controls.MyButton();
+            this.BUT_startxplane = new MissionPlanner.Controls.MyButton();
             this.RAD_aerosimrc = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.RAD_JSBSim = new System.Windows.Forms.RadioButton();
             this.CHK_xplane10 = new System.Windows.Forms.CheckBox();
+            this.BUT_sitl = new MissionPlanner.Controls.MyButton();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -163,12 +159,8 @@
             // 
             // ConnectComPort
             // 
-            this.ConnectComPort.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.ConnectComPort.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.ConnectComPort, "ConnectComPort");
             this.ConnectComPort.Name = "ConnectComPort";
-            this.ConnectComPort.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.ConnectComPort.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.ConnectComPort.UseVisualStyleBackColor = true;
             this.ConnectComPort.Click += new System.EventHandler(this.ConnectComPort_Click);
             // 
@@ -234,12 +226,8 @@
             // 
             // SaveSettings
             // 
-            this.SaveSettings.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.SaveSettings.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.SaveSettings, "SaveSettings");
             this.SaveSettings.Name = "SaveSettings";
-            this.SaveSettings.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.SaveSettings.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.SaveSettings.UseVisualStyleBackColor = true;
             this.SaveSettings.Click += new System.EventHandler(this.SaveSettings_Click);
             // 
@@ -644,66 +632,17 @@
             // 
             // but_advsettings
             // 
-            this.but_advsettings.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.but_advsettings.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.but_advsettings, "but_advsettings");
             this.but_advsettings.Name = "but_advsettings";
-            this.but_advsettings.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.but_advsettings.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_advsettings.UseVisualStyleBackColor = true;
             this.but_advsettings.Click += new System.EventHandler(this.but_advsettings_Click);
             // 
-            // chkSITL
-            // 
-            resources.ApplyResources(this.chkSITL, "chkSITL");
-            this.chkSITL.Name = "chkSITL";
-            this.chkSITL.UseVisualStyleBackColor = true;
-            // 
-            // CHK_quad
-            // 
-            resources.ApplyResources(this.CHK_quad, "CHK_quad");
-            this.CHK_quad.Name = "CHK_quad";
-            this.CHK_quad.UseVisualStyleBackColor = true;
-            this.CHK_quad.CheckedChanged += new System.EventHandler(this.CHK_quad_CheckedChanged);
-            // 
-            // BUT_startfgquad
-            // 
-            this.BUT_startfgquad.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_startfgquad.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.BUT_startfgquad, "BUT_startfgquad");
-            this.BUT_startfgquad.Name = "BUT_startfgquad";
-            this.BUT_startfgquad.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_startfgquad.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_startfgquad.UseVisualStyleBackColor = true;
-            this.BUT_startfgquad.Click += new System.EventHandler(this.BUT_startfgquad_Click);
-            // 
-            // BUT_startfgplane
-            // 
-            this.BUT_startfgplane.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_startfgplane.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.BUT_startfgplane, "BUT_startfgplane");
-            this.BUT_startfgplane.Name = "BUT_startfgplane";
-            this.BUT_startfgplane.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_startfgplane.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_startfgplane.UseVisualStyleBackColor = true;
-            this.BUT_startfgplane.Click += new System.EventHandler(this.BUT_startfgplane_Click);
-            // 
             // BUT_startxplane
             // 
-            this.BUT_startxplane.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_startxplane.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_startxplane, "BUT_startxplane");
             this.BUT_startxplane.Name = "BUT_startxplane";
-            this.BUT_startxplane.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_startxplane.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_startxplane.UseVisualStyleBackColor = true;
             this.BUT_startxplane.Click += new System.EventHandler(this.BUT_startxplane_Click);
-            // 
-            // CHK_heli
-            // 
-            resources.ApplyResources(this.CHK_heli, "CHK_heli");
-            this.CHK_heli.Name = "CHK_heli";
-            this.CHK_heli.UseVisualStyleBackColor = true;
             // 
             // RAD_aerosimrc
             // 
@@ -725,19 +664,22 @@
             this.CHK_xplane10.Name = "CHK_xplane10";
             this.CHK_xplane10.UseVisualStyleBackColor = true;
             // 
+            // BUT_sitl
+            // 
+            resources.ApplyResources(this.BUT_sitl, "BUT_sitl");
+            this.BUT_sitl.Name = "BUT_sitl";
+            this.BUT_sitl.UseVisualStyleBackColor = true;
+            this.BUT_sitl.Click += new System.EventHandler(this.BUT_sitl_Click);
+            // 
             // Simulation
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_sitl);
             this.Controls.Add(this.CHK_xplane10);
             this.Controls.Add(this.RAD_JSBSim);
             this.Controls.Add(this.RAD_aerosimrc);
-            this.Controls.Add(this.CHK_heli);
             this.Controls.Add(this.BUT_startxplane);
-            this.Controls.Add(this.BUT_startfgplane);
-            this.Controls.Add(this.BUT_startfgquad);
-            this.Controls.Add(this.CHK_quad);
-            this.Controls.Add(this.chkSITL);
             this.Controls.Add(this.but_advsettings);
             this.Controls.Add(this.CHKgraphthrottle);
             this.Controls.Add(this.CHKgraphrudder);
@@ -851,15 +793,11 @@
         private Controls.MyLabel label30;
         private Controls.MyLabel TXT_yaw;
         private Controls.MyButton but_advsettings;
-        private System.Windows.Forms.CheckBox chkSITL;
-        private System.Windows.Forms.CheckBox CHK_quad;
-        private Controls.MyButton BUT_startfgquad;
-        private Controls.MyButton BUT_startfgplane;
         private Controls.MyButton BUT_startxplane;
-        private System.Windows.Forms.CheckBox CHK_heli;
         private System.Windows.Forms.RadioButton RAD_aerosimrc;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.RadioButton RAD_JSBSim;
         private System.Windows.Forms.CheckBox CHK_xplane10;
+        private Controls.MyButton BUT_sitl;
     }
 }

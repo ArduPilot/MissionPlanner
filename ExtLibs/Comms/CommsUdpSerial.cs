@@ -76,8 +76,7 @@ namespace MissionPlanner.Comms
                 return;
             }
 
-            if (client != null)
-                client.Close();
+            client.Close();
 
             string dest = Port;
 
@@ -103,7 +102,7 @@ namespace MissionPlanner.Comms
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
-            
+            frmProgressReporter.Dispose();
         }
 
         void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)

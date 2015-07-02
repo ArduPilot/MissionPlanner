@@ -39,6 +39,14 @@ namespace MissionPlanner
             IntPtr NotificationFilter,
             Int32 Flags);
 
+            // Import SetThreadExecutionState Win32 API and necessary flags
+
+            [DllImport("kernel32.dll")]
+            public static extern uint SetThreadExecutionState(uint esFlags);
+
+            public const uint ES_CONTINUOUS = 0x80000000;
+            public const uint ES_SYSTEM_REQUIRED = 0x00000001;
+
             static public int SW_SHOWNORMAL = 1;
             static public int SW_HIDE = 0;
         }
@@ -190,6 +198,19 @@ namespace MissionPlanner
         /// track last joystick packet sent. used to control rate
         /// </summary>
         DateTime lastjoystick = DateTime.Now;
+
+        /// <summary>
+        /// determine if we are running sitl
+        /// </summary>
+        public static bool sitl 
+        { 
+            get 
+            { 
+                if (MissionPlanner.Controls.SITL.SITLSEND == null) return false;
+                if (MissionPlanner.Controls.SITL.SITLSEND.Client.Connected) return true;
+                return false;
+            } 
+        }
         /// <summary>
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
@@ -249,10 +270,10 @@ namespace MissionPlanner
         {
             ArduPlane,
             ArduCopter2,
-            //ArduHeli,
             ArduRover,
             Ateryx,
-            ArduTracker
+            ArduTracker,
+            Gymbal
         }
 
         DateTime connectButtonUpdate = DateTime.Now;
@@ -304,6 +325,9 @@ namespace MissionPlanner
             Application.DoEvents();
 
             instance = this;
+
+            //disable dpi scaling
+            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
 
             InitializeComponent();
 
@@ -405,6 +429,9 @@ namespace MissionPlanner
                     int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
                     NativeMethods.ShowWindow(win, NativeMethods.SW_HIDE); // hide window
                 }
+
+                // prevent system from sleeping while mp open
+                var previousExecutionState = NativeMethods.SetThreadExecutionState(NativeMethods.ES_CONTINUOUS | NativeMethods.ES_SYSTEM_REQUIRED);
             }
 
             ChangeUnits();
@@ -586,6 +613,8 @@ namespace MissionPlanner
 
             //System.Threading.Thread.Sleep(2000);
 
+            Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+
             // make sure new enough .net framework is installed
             if (!MONO)
             {
@@ -629,6 +658,15 @@ namespace MissionPlanner
 
             // save config to test we have write access
             xmlconfig(true);
+        }
+
+        void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
+        {
+            // try prevent crash on resume
+            if (e.Mode == Microsoft.Win32.PowerModes.Suspend)
+            {
+                doDisconnect(MainV2.comPort);
+            }
         }
 
         private void BGLoadAirports(object nothing)
@@ -878,17 +916,24 @@ namespace MissionPlanner
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
+            bool skipconnectcheck = false;
             log.Info("We are connecting");
             switch (portname)
             {
+                case "preset":
+                    skipconnectcheck = true;
+                    break;
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
+                    _connectionControl.CMB_serialport.Text = "TCP";
                     break;
                 case "UDP":
                     comPort.BaseStream = new UdpSerial();
+                    _connectionControl.CMB_serialport.Text = "UDP";
                     break;
                 case "UDPCl":
                     comPort.BaseStream = new UdpSerialConnect();
+                    _connectionControl.CMB_serialport.Text = "UDPCl";
                     break;
                 case "AUTO":
                 default:
@@ -931,8 +976,8 @@ namespace MissionPlanner
                         }
                     }
 
-                    _connectionControl.CMB_serialport.Text = Comms.CommsSerialScan.portinterface.PortName;
-                    _connectionControl.CMB_baudrate.Text = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
+                    _connectionControl.CMB_serialport.Text = portname = Comms.CommsSerialScan.portinterface.PortName;
+                    _connectionControl.CMB_baudrate.Text = baud = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
                 }
 
                 log.Info("Set Portname");
@@ -981,7 +1026,7 @@ namespace MissionPlanner
                 connecttime = DateTime.Now;
 
                 // do the connect
-                comPort.Open(false);
+                comPort.Open(false, skipconnectcheck);
 
                 if (!comPort.BaseStream.IsOpen)
                 {
@@ -1588,12 +1633,19 @@ namespace MissionPlanner
 
                                 if (comPort.BaseStream.BytesToWrite < 50)
                                 {
-                                    comPort.sendPacket(rc);
+                                    if (sitl)
+                                    {
+                                        MissionPlanner.Controls.SITL.rcinput();
+                                    }
+                                    else
+                                    {
+                                        comPort.sendPacket(rc);
+                                    }
                                     count++;
                                     lastjoystick = DateTime.Now;
                                 }
-                            }
 
+                            }
                         }
                     }
                     Thread.Sleep(20);
@@ -1758,8 +1810,15 @@ namespace MissionPlanner
 
                     try
                     {
-                        if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
-                            continue;
+                        if (GCSViews.Terminal.comPort is MAVLinkSerialPort)
+                        {
+
+                        }
+                        else
+                        {
+                            if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
+                                continue;
+                        }
                     }
                     catch { }
 
@@ -2436,7 +2495,7 @@ namespace MissionPlanner
                 catch (Exception ex) { CustomMessageBox.Show(ex.ToString()); }
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.Y)) // for ryan beall
+            if (keyData == (Keys.Control | Keys.Y)) // for ryan beall and ollyw42
             {
                 // write
                 try
@@ -2481,6 +2540,8 @@ namespace MissionPlanner
                 Thread.CurrentThread.CurrentUICulture = ci;
                 config["language"] = ci.Name;
                 //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
+
+                Localizations.ConfigLang = ci;
 
                 HashSet<Control> views = new HashSet<Control> { this, FlightData, FlightPlanner, Simulation };
 

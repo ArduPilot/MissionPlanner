@@ -112,81 +112,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fliege hier hin</value>
-  </data>
-  <data name="lbl_windvel.ToolTip" xml:space="preserve">
-    <value>Geschätzte Windgeschwindigkeit</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Simple GCS</value>
-  </data>
-  <data name="TXT_alt.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lbl_winddir.ToolTip" xml:space="preserve">
-    <value>Geschätzte Windrichtung</value>
-  </data>
-  <data name="lbl_windvel.Text" xml:space="preserve">
-    <value>Geschwindigkeit: 0</value>
-  </data>
-  <data name="CB_tuning.ToolTip" xml:space="preserve">
-    <value>Zeige Einstellungsgraph, angestrebte Ausrichtung gegen tatsächliche Ausrichtung</value>
-  </data>
-  <data name="TXT_long.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lbl_hdop.Text" xml:space="preserve">
-    <value>hdop: 0</value>
-  </data>
-  <data name="connectToolStripMenuItem.Text" xml:space="preserve">
-    <value>Verbinden</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Vergrößern</value>
-  </data>
-  <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
-    <value>Hoch</value>
-  </data>
-  <data name="CHK_autopan.ToolTip" xml:space="preserve">
-    <value>Karte wandert mit der aktuellen Position</value>
-  </data>
-  <data name="trackerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Tracker</value>
-  </data>
-  <data name="CHK_autopan.Text" xml:space="preserve">
-    <value>Auto Pan</value>
-  </data>
-  <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>Vergrösserung einstellen</value>
-  </data>
-  <data name="CB_tuning.Text" xml:space="preserve">
-    <value>Tuning</value>
-  </data>
-  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
-    <value>Runter</value>
-  </data>
-  <data name="lbl_sats.Text" xml:space="preserve">
-    <value>Satelliten: 0</value>
-  </data>
-  <data name="TXT_lat.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="lbl_winddir.Text" xml:space="preserve">
-    <value>Dir: 0</value>
-  </data>
-  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>"Hierhin fliegen" - Höhe</value>
-  </data>
-  <data name="lbl_sats.ToolTip" xml:space="preserve">
-    <value>Anzahl Satelliten</value>
-  </data>
-  <data name="lbl_hdop.ToolTip" xml:space="preserve">
-    <value>gps hdop</value>
-  </data>
 </root>

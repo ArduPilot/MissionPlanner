@@ -187,17 +187,19 @@ namespace MissionPlanner
         {
             System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(GridData));
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.grid|*.grid";
-            ofd.ShowDialog();
-
-            if (File.Exists(ofd.FileName))
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                using (StreamReader sr = new StreamReader(ofd.FileName))
-                {
-                    var test = (GridData)reader.Deserialize(sr);
+                ofd.Filter = "*.grid|*.grid";
+                ofd.ShowDialog();
 
-                    loadgriddata(test);
+                if (File.Exists(ofd.FileName))
+                {
+                    using (StreamReader sr = new StreamReader(ofd.FileName))
+                    {
+                        var test = (GridData)reader.Deserialize(sr);
+
+                        loadgriddata(test);
+                    }
                 }
             }
         }
@@ -208,15 +210,17 @@ namespace MissionPlanner
 
             var griddata = savegriddata();
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "*.grid|*.grid";
-            sfd.ShowDialog();
-
-            if (sfd.FileName != "")
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                sfd.Filter = "*.grid|*.grid";
+                sfd.ShowDialog();
+
+                if (sfd.FileName != "")
                 {
-                    writer.Serialize(sw, griddata);
+                    using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                    {
+                        writer.Serialize(sw, griddata);
+                    }
                 }
             }
         }
@@ -1010,17 +1014,6 @@ namespace MissionPlanner
                     layerpolygons.Markers.Clear();
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp0, GMarkerGoogleType.blue));
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp1, GMarkerGoogleType.blue));
-
-                    if (bestcrosstrack > 0) 
-                    {
-                        bearing += 90;
-                        bearing = (bearing + 360) % 360;
-                    }
-                    else
-                    {
-                        bearing -= 90;
-                        bearing = (bearing + 360) % 360;
-                    }
 
                     bearing = ((PointLatLngAlt)mousestart).GetBearing(mousecurrent);
 

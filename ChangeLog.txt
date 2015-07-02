@@ -1,4 +1,105 @@
-﻿* Mission Planner 1.3.28
+﻿* Mission Planner 1.3.30 - 19-6-2015
+ConfigRadioInput: fix yaw/thro swap
+Terminal: add nsh over mavlink
+MAVLink update
+
+* Mission Planner 1.3.29 - 17-6-2015
+DroneShare update
+fftui: add hz/rpm to point values for easy diag
+fftui: modify freq detection for single imu
+fftui: modify to detect sample rate based on a larger sample set
+Code Cleanup
+switch back to .net 3.5 to prevent designer crash on hud
+DistanceBar: catch draw exceptions
+LogBrowse: add extra null check
+Program: add user field in error report
+configradioinput: use default input positions if no rcmap params
+Mavlineinterface: fix default fallthrough
+Add simple gymbal support
+tweak mav type display
+remove simple gui
+mavlinkinterface: modify injectgps
+SerialInjectGPS: fix buffer size
+Currentstate: add vibration message
+ConfigRawParams: speed up
+Common: fix config curruption issue
+MAVLinkInterface: add unknown packet message
+LogBrowse: change line number to time
+MAVLink: update
+ConfigFriendlyParam: speedup screen draw time
+Static analysis fixs
+Update Solution
+LocationWP: add implicit conversion
+ConfigRawParamTree: fix typo
+Mainv2: adjust font size based on screen dpi
+flightplanner: remove duplicate code
+currentstate: rearrange fields
+GridUI: fix turn radius and do change speed for non meters
+ProgressReporterDialogue: dispose form after use
+Update openfile/savefile dialog to prevent leak
+FlightPlanner: add measure distance notification
+MainV2: fix auto connect
+update default form language
+wizard: connect add firmware note
+ParamMetaDataRepo: scan multiple elements for valid paramname
+ParamMetaData: update to fix dup xml entrys
+SITL: add joystick as direct rc input.
+LogOutput: fix rinex creation
+MainSwitcher: add exception handle for invalid controls
+wizard: accelcalib update to exclude init message #38
+px4uploader: add new vender cert
+FlightPlanner: hide clear roi
+fftui: add null check
+LogBrowse: use time as default
+currentstate: add pid feedback
+MAVLink: update library
+CollectionBuffer: fix index init
+srtm: fix file move
+Fix Rel vs AMSL Altitude Logic
+srtm: remove 1 arc seconds data
+Currentstate: fix cast on sonar range
+currentstate: update sonarerange units #878
+Mavlinkinterface: send storage write 10 seconds after setparam #882
+AP_Terrain: add lib #573
+CurrentState: add terrain active flag #573
+CollectionBuffer: add bin support
+FlightData: only allow one async updateBindingSource
+currentstate:  add distfrommovingbase
+script: update example to include photo trigger
+SITL: add vs redist notice
+FlightData: Fix min windows size
+Localizations: update zh-Hans
+Localizations: let FW change to ConfigLang
+airports.csv: update
+Aitports: add seaplane base filter
+MainV2: prevent system sleep while MP open
+CurrentState: add imu2 to status tab
+MAVlinkCheckboxBitMask: add description and name
+MavlinkBitmask: add support
+Mainv2: update portname when started from place other than button press
+sysidselector: apply theme
+SITL: User interface
+DFLog: add clear function, and reset on each log load
+FlightData: fix mnt param name
+GimbalPoint: allow to run when not connected
+MAVLinkinterface: add params from stream
+FlightData: add resume mission button
+Currentstate: add prev wpno saving
+DFLog: add timeus to other messages
+DFLog: add timeUS to base time calc
+DFLog: update for new gps time field names
+LogBrowse: add timeus support to drawtime
+CollectionBuffer: implement Clear()
+BinaryLog: dont decode data we dont know about
+BinaryLog: add uint64 and int64
+Flightdata: add storm32 to gymbalpoint filter
+LogBrowse: add DrawTime to startup
+LogBrowser: speedup DrawMap creation
+MavlinkNumericUpDown: add ability to set out of range value
+LogBrowse: add simple progress to df log graph (console)
+CollectionBuffer: improve performance
+
+* Mission Planner 1.3.28
 fftui: change to higher data rate data
 currentstate: remove ekf error flags
 fft: auto detect sample rate

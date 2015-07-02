@@ -11,6 +11,7 @@ namespace MissionPlanner.Comms
         static public bool foundport = false;
         static public ICommsSerial portinterface;
 
+        static object runlock = new object();
         public static int run = 0;
         public static int running = 0;
         static bool connect = false;
@@ -21,8 +22,11 @@ namespace MissionPlanner.Comms
         {
             foundport = false;
             portinterface = null;
-            run = 0;
-            running = 0;
+            lock (runlock)
+            {
+                run = 0;
+                running = 0;
+            }
             CommsSerialScan.connect = connect;
 
             List<MAVLinkInterface> scanports = new List<MAVLinkInterface>();
@@ -42,8 +46,11 @@ namespace MissionPlanner.Comms
 
         static void doread(object o)
         {
-            run++;
-            running++;
+            lock (runlock)
+            {
+                run++;
+                running++;
+            }
 
             MAVLinkInterface port = (MAVLinkInterface)o;
 
@@ -55,8 +62,8 @@ namespace MissionPlanner.Comms
 
             redo:
 
-                if (run == 0)
-                    return;
+                    if (run == 0)
+                        return;
 
                 DateTime deadline = DateTime.Now.AddSeconds(5);
 
@@ -88,7 +95,10 @@ namespace MissionPlanner.Comms
                             doconnect();
                         }
 
-                        running--;
+                        lock (runlock)
+                        {
+                            running--;
+                        }
 
                         return;
                     }
@@ -117,7 +127,10 @@ namespace MissionPlanner.Comms
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             finally
             {
-                running--;
+                lock (runlock)
+                {
+                    running--;
+                }
             }
 
             Console.WriteLine("Scan port {0} Finished!!", port.BaseStream.PortName);

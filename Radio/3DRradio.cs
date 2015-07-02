@@ -156,26 +156,29 @@ S15: MAX_WINDOW=131
 
         bool getFirmwareLocal(uploader.Uploader.Board device)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-            openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = false;
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                try
-                {
-                    File.Copy(openFileDialog1.FileName, firmwarefile, true);
-                }
-                catch (Exception ex) {
-                    CustomMessageBox.Show("Error copying file\n"+ex.ToString(), "ERROR");
-                    return false;
-                }
-                return true;
-            }
 
-            return false;
+                openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = false;
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        File.Copy(openFileDialog1.FileName, firmwarefile, true);
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error copying file\n" + ex.ToString(), "ERROR");
+                        return false;
+                    }
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         void Sleep(int mstimeout, ICommsSerial comPort = null)

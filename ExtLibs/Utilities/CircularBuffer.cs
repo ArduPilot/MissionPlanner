@@ -13,8 +13,8 @@ namespace CircularBuffer
         volatile private int tail;
         volatile private T[] buffer;
 
-        [NonSerialized()]
-        private object syncRoot;
+        [NonSerialized()] 
+        private object _syncRoot = new object();
 
         public CircularBuffer(int capacity)
             : this(capacity, false)
@@ -101,15 +101,18 @@ namespace CircularBuffer
             if (!AllowOverflow &&  count > capacity - size)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            int srcIndex = offset;
-            for (int i = 0; i < count; i++, tail++, srcIndex++)
+            lock (_syncRoot)
             {
-                if (tail == capacity)
-                    tail = 0;
-                buffer[tail] = src[srcIndex];
+                int srcIndex = offset;
+                for (int i = 0; i < count; i++, tail++, srcIndex++)
+                {
+                    if (tail == capacity)
+                        tail = 0;
+                    buffer[tail] = src[srcIndex];
+                }
+                size = Math.Min(size + count, capacity);
+                return count;
             }
-            size = Math.Min(size + count, capacity);
-            return count;
         }
 
         public void Put(T item)
@@ -117,17 +120,23 @@ namespace CircularBuffer
             if (!AllowOverflow && size == capacity)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            buffer[tail] = item;
-            if (++tail == capacity)
-                tail = 0;
-            size++;
+            lock (_syncRoot)
+            {
+                buffer[tail] = item;
+                if (++tail == capacity)
+                    tail = 0;
+                size++;
+            }
         }
 
         public void Skip(int count)
         {
-            head += count;
-            if (head >= capacity)
-                head -= capacity;
+            lock (_syncRoot)
+            {
+                head += count;
+                if (head >= capacity)
+                    head -= capacity;
+            }
         }
 
         public T[] Get(int count)
@@ -144,16 +153,19 @@ namespace CircularBuffer
 
         public int Get(T[] dst, int offset, int count)
         {
-            int realCount = Math.Min(count, size);
-            int dstIndex = offset;
-            for (int i = 0; i < realCount; i++, head++, dstIndex++)
+            lock (_syncRoot)
             {
-                if (head == capacity)
-                    head = 0;
-                dst[dstIndex] = buffer[head];
+                int realCount = Math.Min(count, size);
+                int dstIndex = offset;
+                for (int i = 0; i < realCount; i++, head++, dstIndex++)
+                {
+                    if (head == capacity)
+                        head = 0;
+                    dst[dstIndex] = buffer[head];
+                }
+                size -= realCount;
+                return realCount;
             }
-            size -= realCount;
-            return realCount;
         }
 
         public T Get()
@@ -161,11 +173,14 @@ namespace CircularBuffer
             if (size == 0)
                 throw new InvalidOperationException("Buffer Empty");
 
-            var item = buffer[head];
-            if (++head == capacity)
-                head = 0;
-            size--;
-            return item;
+            lock (_syncRoot)
+            {
+                var item = buffer[head];
+                if (++head == capacity)
+                    head = 0;
+                size--;
+                return item;
+            }
         }
 
         public void CopyTo(T[] array)
@@ -269,9 +284,9 @@ namespace CircularBuffer
         {
             get
             {
-                if (syncRoot == null)
-                    Interlocked.CompareExchange(ref syncRoot, new object(), null);
-                return syncRoot;
+                if (_syncRoot == null)
+                    Interlocked.CompareExchange(ref _syncRoot, new object(), null);
+                return _syncRoot;
             }
         }
 

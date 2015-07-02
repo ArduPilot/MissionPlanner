@@ -27,6 +27,8 @@ namespace MissionPlanner
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("TCP Host - 14550");
             CMB_serialport.Items.Add("TCP Client");
+            CMB_serialport.Items.Add("UDP Host - 14550");
+            CMB_serialport.Items.Add("UDP Client");
 
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
             {
@@ -59,6 +61,12 @@ namespace MissionPlanner
                             return;
                         case "TCP Client":
                             MainV2.comPort.MirrorStream = new TcpSerial();
+                            break;
+                        case "UDP Host - 14550":
+                            MainV2.comPort.MirrorStream = new UdpSerial();
+                            break;
+                        case "UDP Client":
+                            MainV2.comPort.MirrorStream = new UdpSerialConnect();
                             break;
                         default:
                             MainV2.comPort.MirrorStream = new SerialPort();
