@@ -285,7 +285,7 @@ namespace MissionPlanner.Controls
 
                 //x = x * Math.Cos(yaw) - y * Math.Sin(yaw);
                 y = x * Math.Sin(yaw) + y * Math.Cos(yaw);
-                z = z;
+                //z = z;
 
                 GL.Vertex3(x + cx, y + cy, z + cz);//output vertex 
 

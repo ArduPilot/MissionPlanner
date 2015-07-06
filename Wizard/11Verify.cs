@@ -58,8 +58,8 @@ namespace MissionPlanner.Wizard
             {
                 if (lbl_accel.BackColor != Color.Green)
                 {
-                    float val1 = MainV2.comPort.GetParam("INS_ACCOFFS_X");
-                    float val2 = MainV2.comPort.GetParam("INS_ACCSCAL_X");
+                    float val1 = (float)MainV2.comPort.GetParam("INS_ACCOFFS_X");
+                    float val2 = (float)MainV2.comPort.GetParam("INS_ACCSCAL_X");
 
                     if (MainV2.comPort.GetParam("INS_ACCOFFS_X") != 0f && MainV2.comPort.GetParam("INS_ACCSCAL_X") != 1f)
                     {

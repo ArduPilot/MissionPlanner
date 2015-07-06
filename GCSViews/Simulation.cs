@@ -923,10 +923,7 @@ namespace MissionPlanner.GCSViews
 
         private void processArduPilot()
         {
-            float roll_out, pitch_out, throttle_out, rudder_out, collective_out;
-
-            collective_out = 0;
-
+            float roll_out, pitch_out, throttle_out, rudder_out;
 
             roll_out = (MainV2.comPort.MAV.cs.ch1out - 1500)/rollgain;
             pitch_out = (MainV2.comPort.MAV.cs.ch2out - 1500)/pitchgain;

@@ -101,7 +101,6 @@ namespace MissionPlanner.Utilities
         //https://gerrybeauregard.wordpress.com/2010/08/06/real-time-spectrum-analysis/
         public double[] rin(double[] data, uint bins) 
         {
-            double MIN_VALUE = 0;
             double SCALE = 20/Math.Log(10);
             int N = data.Length;
             double[] xRe = new double[N];

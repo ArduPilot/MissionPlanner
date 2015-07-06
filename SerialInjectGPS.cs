@@ -23,7 +23,6 @@ namespace MissionPlanner
         private System.Threading.Thread t12;
         private static bool threadrun = false;
 
-        static TcpListener listener;
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 
@@ -116,7 +115,6 @@ namespace MissionPlanner
         private void mainloop()
         {
             threadrun = true;
-            int counter = 0;
             while (threadrun)
             {
                 try

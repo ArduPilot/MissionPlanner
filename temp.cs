@@ -969,8 +969,6 @@ namespace MissionPlanner
 
             Firmware fw = new Firmware();
 
-            string betafirmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
-
             var list = fw.getFWList();
 
             using (XmlTextWriter xmlwriter = new XmlTextWriter(basedir + Path.DirectorySeparatorChar + @"firmware2.xml", Encoding.ASCII))

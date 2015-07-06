@@ -138,8 +138,6 @@ namespace tlogThumbnailHandler
 
                 Console.WriteLine("doing " + jpgfile);
 
-            again:
-
                 if (File.Exists(jpgfile))
                 {
                     using (FileStream stream = File.OpenRead(jpgfile))

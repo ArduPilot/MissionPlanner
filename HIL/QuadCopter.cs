@@ -300,11 +300,6 @@ namespace MissionPlanner.HIL
             return motors;
         }
 
-        private static double cosf(double p)
-        {
-            return Math.Cos(p);
-        }
-
         private static void add_motor_raw(int motor_num, double roll_fac, double pitch_fac, double yaw_fac, int testing_order)
         {
             if (motors.Length < (motor_num + 1))
