@@ -25,6 +25,7 @@ namespace MissionPlanner.GCSViews
         private int history;
         private bool inlogview;
         private int inputStartPos;
+        DateTime lastsend = DateTime.MinValue;
 
         public Terminal()
         {
@@ -231,10 +232,12 @@ namespace MissionPlanner.GCSViews
                         if (cmd == "+++")
                         {
                             comPort.Write(Encoding.ASCII.GetBytes(cmd), 0, cmd.Length);
+                            lastsend = DateTime.Now;
                         }
                         else
                         {
                             comPort.Write(Encoding.ASCII.GetBytes(cmd + "\r"), 0, cmd.Length + 1);
+                            lastsend = DateTime.Now;
                         }
                     }
                     catch
@@ -534,6 +537,20 @@ namespace MissionPlanner.GCSViews
                         {
                             comPort_DataReceived(null, null);
                         }
+
+                        if (comPort is MAVLinkSerialPort)
+                        {
+                            if (lastsend.AddMilliseconds(500) > DateTime.Now)
+                            {
+                                // 20 hz
+                                ((MAVLinkSerialPort)comPort).timeout = 50;
+                            }
+                            else
+                            {
+                                // 5 hz
+                                ((MAVLinkSerialPort)comPort).timeout = 200;
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -703,7 +720,7 @@ namespace MissionPlanner.GCSViews
                     comPort.BaudRate = 0;
 
                     // 20 hz
-                    ((MAVLinkSerialPort) comPort).timeout = 50;
+                    ((MAVLinkSerialPort)comPort).timeout = 50;
 
                     comPort.Open();
 
