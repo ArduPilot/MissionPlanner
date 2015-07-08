@@ -198,7 +198,7 @@
             resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
             this.CMB_compass_orient.FormattingEnabled = true;
             this.CMB_compass_orient.Name = "CMB_compass_orient";
-            this.CMB_compass_orient.param = null;
+            
             this.CMB_compass_orient.ParamName = null;
             // 
             // radioButton_onboard
@@ -237,7 +237,7 @@
             this.CHK_enablecompass.Name = "CHK_enablecompass";
             this.CHK_enablecompass.OffValue = 0F;
             this.CHK_enablecompass.OnValue = 1F;
-            this.CHK_enablecompass.param = null;
+            
             this.CHK_enablecompass.ParamName = null;
             this.CHK_enablecompass.UseVisualStyleBackColor = true;
             this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);

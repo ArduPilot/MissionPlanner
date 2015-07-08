@@ -19,8 +19,6 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
-        [System.ComponentModel.Browsable(true)]
-        public Hashtable param { get; set; }
 
         public float Value 
         {
@@ -47,10 +45,9 @@ namespace MissionPlanner.Controls
             this.Width = 700;
         }
 
-        public void setup(string paramname, Hashtable paramlist)
+        public void setup(string paramname, MAVLink.MAVLinkParamList paramlist)
         {
             this.ParamName = paramname;
-            this.param = paramlist;
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -62,7 +59,7 @@ namespace MissionPlanner.Controls
                 int leftside = 9;
                 int top = 9;
 
-                uint value = (uint)(float)paramlist[paramname];
+                uint value = (uint)paramlist[paramname].Value;
 
                 for (int a = 0; a < chkcount; a++)
                 {

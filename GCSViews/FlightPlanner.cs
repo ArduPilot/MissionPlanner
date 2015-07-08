@@ -2065,7 +2065,7 @@ namespace MissionPlanner.GCSViews
             {
                 log.Info("Loading wp params");
 
-                Hashtable param = new Hashtable(MainV2.comPort.MAV.param);
+                Hashtable param = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
 
                 if (param["WP_RADIUS"] != null)
                 {

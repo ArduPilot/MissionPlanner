@@ -1414,7 +1414,7 @@ namespace MissionPlanner
                 {
                     if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                     {
-                        float speed = ((float)MainV2.comPort.MAV.param["WPNAV_SPEED"]);
+                        double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
                         speed = speed / 100;
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
                     }

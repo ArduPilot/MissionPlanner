@@ -42,7 +42,7 @@
             this.CHK_enableoptflow.Name = "CHK_enableoptflow";
             this.CHK_enableoptflow.OffValue = 0F;
             this.CHK_enableoptflow.OnValue = 1F;
-            this.CHK_enableoptflow.param = null;
+            
             this.CHK_enableoptflow.ParamName = null;
             this.CHK_enableoptflow.UseVisualStyleBackColor = true;
             this.CHK_enableoptflow.CheckedChanged += new System.EventHandler(this.CHK_enableoptflow_CheckedChanged);

@@ -371,7 +371,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CMB_inputch_pan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_pan.FormattingEnabled = true;
             this.CMB_inputch_pan.Name = "CMB_inputch_pan";
-            this.CMB_inputch_pan.param = null;
+            
             this.CMB_inputch_pan.ParamName = null;
             // 
             // CMB_inputch_roll
@@ -380,7 +380,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CMB_inputch_roll.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_roll.FormattingEnabled = true;
             this.CMB_inputch_roll.Name = "CMB_inputch_roll";
-            this.CMB_inputch_roll.param = null;
+            
             this.CMB_inputch_roll.ParamName = null;
             // 
             // CMB_inputch_tilt
@@ -389,7 +389,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CMB_inputch_tilt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_tilt.FormattingEnabled = true;
             this.CMB_inputch_tilt.Name = "CMB_inputch_tilt";
-            this.CMB_inputch_tilt.param = null;
+            
             this.CMB_inputch_tilt.ParamName = null;
             // 
             // mavlinkNumericUpDownTAM
@@ -408,7 +408,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownTAM.Min = 0F;
             this.mavlinkNumericUpDownTAM.Name = "mavlinkNumericUpDownTAM";
-            this.mavlinkNumericUpDownTAM.param = null;
+            
             this.mavlinkNumericUpDownTAM.ParamName = null;
             this.mavlinkNumericUpDownTAM.Value = new decimal(new int[] {
             1000,
@@ -437,7 +437,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTAMX.Name = "mavlinkNumericUpDownTAMX";
-            this.mavlinkNumericUpDownTAMX.param = null;
+            
             this.mavlinkNumericUpDownTAMX.ParamName = null;
             this.mavlinkNumericUpDownTAMX.Value = new decimal(new int[] {
             2000,
@@ -466,7 +466,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTSM.Name = "mavlinkNumericUpDownTSM";
-            this.mavlinkNumericUpDownTSM.param = null;
+            
             this.mavlinkNumericUpDownTSM.ParamName = null;
             this.mavlinkNumericUpDownTSM.Value = new decimal(new int[] {
             1000,
@@ -495,7 +495,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownTSMX.Name = "mavlinkNumericUpDownTSMX";
-            this.mavlinkNumericUpDownTSMX.param = null;
+            
             this.mavlinkNumericUpDownTSMX.ParamName = null;
             this.mavlinkNumericUpDownTSMX.Value = new decimal(new int[] {
             2000,
@@ -510,7 +510,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxTR.Name = "mavlinkCheckBoxTR";
             this.mavlinkCheckBoxTR.OffValue = 0F;
             this.mavlinkCheckBoxTR.OnValue = 1F;
-            this.mavlinkCheckBoxTR.param = null;
+            
             this.mavlinkCheckBoxTR.ParamName = null;
             this.mavlinkCheckBoxTR.UseVisualStyleBackColor = true;
             // 
@@ -530,7 +530,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownPAM.Min = 0F;
             this.mavlinkNumericUpDownPAM.Name = "mavlinkNumericUpDownPAM";
-            this.mavlinkNumericUpDownPAM.param = null;
+            
             this.mavlinkNumericUpDownPAM.ParamName = null;
             this.mavlinkNumericUpDownPAM.Value = new decimal(new int[] {
             1000,
@@ -559,7 +559,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPAMX.Name = "mavlinkNumericUpDownPAMX";
-            this.mavlinkNumericUpDownPAMX.param = null;
+            
             this.mavlinkNumericUpDownPAMX.ParamName = null;
             this.mavlinkNumericUpDownPAMX.Value = new decimal(new int[] {
             2000,
@@ -588,7 +588,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPSM.Name = "mavlinkNumericUpDownPSM";
-            this.mavlinkNumericUpDownPSM.param = null;
+            
             this.mavlinkNumericUpDownPSM.ParamName = null;
             this.mavlinkNumericUpDownPSM.Value = new decimal(new int[] {
             1000,
@@ -617,7 +617,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownPSMX.Name = "mavlinkNumericUpDownPSMX";
-            this.mavlinkNumericUpDownPSMX.param = null;
+            
             this.mavlinkNumericUpDownPSMX.ParamName = null;
             this.mavlinkNumericUpDownPSMX.Value = new decimal(new int[] {
             2000,
@@ -632,7 +632,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxPR.Name = "mavlinkCheckBoxPR";
             this.mavlinkCheckBoxPR.OffValue = 0F;
             this.mavlinkCheckBoxPR.OnValue = 1F;
-            this.mavlinkCheckBoxPR.param = null;
+            
             this.mavlinkCheckBoxPR.ParamName = null;
             this.mavlinkCheckBoxPR.UseVisualStyleBackColor = true;
             // 
@@ -652,7 +652,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownRAM.Min = 0F;
             this.mavlinkNumericUpDownRAM.Name = "mavlinkNumericUpDownRAM";
-            this.mavlinkNumericUpDownRAM.param = null;
+            
             this.mavlinkNumericUpDownRAM.ParamName = null;
             this.mavlinkNumericUpDownRAM.Value = new decimal(new int[] {
             1000,
@@ -681,7 +681,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRAMX.Name = "mavlinkNumericUpDownRAMX";
-            this.mavlinkNumericUpDownRAMX.param = null;
+            
             this.mavlinkNumericUpDownRAMX.ParamName = null;
             this.mavlinkNumericUpDownRAMX.Value = new decimal(new int[] {
             2000,
@@ -710,7 +710,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRSM.Name = "mavlinkNumericUpDownRSM";
-            this.mavlinkNumericUpDownRSM.param = null;
+            
             this.mavlinkNumericUpDownRSM.ParamName = null;
             this.mavlinkNumericUpDownRSM.Value = new decimal(new int[] {
             1000,
@@ -739,7 +739,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownRSMX.Name = "mavlinkNumericUpDownRSMX";
-            this.mavlinkNumericUpDownRSMX.param = null;
+            
             this.mavlinkNumericUpDownRSMX.ParamName = null;
             this.mavlinkNumericUpDownRSMX.Value = new decimal(new int[] {
             2000,
@@ -754,7 +754,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxRR.Name = "mavlinkCheckBoxRR";
             this.mavlinkCheckBoxRR.OffValue = 0F;
             this.mavlinkCheckBoxRR.OnValue = 1F;
-            this.mavlinkCheckBoxRR.param = null;
+            
             this.mavlinkCheckBoxRR.ParamName = null;
             this.mavlinkCheckBoxRR.UseVisualStyleBackColor = true;
             // 
@@ -791,7 +791,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_z.Min = 0F;
             this.NUD_RETRACT_z.Name = "NUD_RETRACT_z";
-            this.NUD_RETRACT_z.param = null;
+            
             this.NUD_RETRACT_z.ParamName = null;
             this.NUD_RETRACT_z.Value = new decimal(new int[] {
             1000,
@@ -820,7 +820,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_y.Min = 0F;
             this.NUD_RETRACT_y.Name = "NUD_RETRACT_y";
-            this.NUD_RETRACT_y.param = null;
+            
             this.NUD_RETRACT_y.ParamName = null;
             this.NUD_RETRACT_y.Value = new decimal(new int[] {
             1000,
@@ -849,7 +849,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_RETRACT_x.Min = 0F;
             this.NUD_RETRACT_x.Name = "NUD_RETRACT_x";
-            this.NUD_RETRACT_x.param = null;
+            
             this.NUD_RETRACT_x.ParamName = null;
             this.NUD_RETRACT_x.Value = new decimal(new int[] {
             1000,
@@ -890,7 +890,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_z.Min = 0F;
             this.NUD_NEUTRAL_z.Name = "NUD_NEUTRAL_z";
-            this.NUD_NEUTRAL_z.param = null;
+            
             this.NUD_NEUTRAL_z.ParamName = null;
             this.NUD_NEUTRAL_z.Value = new decimal(new int[] {
             1000,
@@ -919,7 +919,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_y.Min = 0F;
             this.NUD_NEUTRAL_y.Name = "NUD_NEUTRAL_y";
-            this.NUD_NEUTRAL_y.param = null;
+            
             this.NUD_NEUTRAL_y.ParamName = null;
             this.NUD_NEUTRAL_y.Value = new decimal(new int[] {
             1000,
@@ -948,7 +948,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_NEUTRAL_x.Min = 0F;
             this.NUD_NEUTRAL_x.Name = "NUD_NEUTRAL_x";
-            this.NUD_NEUTRAL_x.param = null;
+            
             this.NUD_NEUTRAL_x.ParamName = null;
             this.NUD_NEUTRAL_x.Value = new decimal(new int[] {
             1000,
@@ -989,7 +989,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_z.Min = 0F;
             this.NUD_CONTROL_z.Name = "NUD_CONTROL_z";
-            this.NUD_CONTROL_z.param = null;
+            
             this.NUD_CONTROL_z.ParamName = null;
             this.NUD_CONTROL_z.Value = new decimal(new int[] {
             1000,
@@ -1018,7 +1018,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_y.Min = 0F;
             this.NUD_CONTROL_y.Name = "NUD_CONTROL_y";
-            this.NUD_CONTROL_y.param = null;
+            
             this.NUD_CONTROL_y.ParamName = null;
             this.NUD_CONTROL_y.Value = new decimal(new int[] {
             1000,
@@ -1047,7 +1047,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.NUD_CONTROL_x.Min = 0F;
             this.NUD_CONTROL_x.Name = "NUD_CONTROL_x";
-            this.NUD_CONTROL_x.param = null;
+            
             this.NUD_CONTROL_x.ParamName = null;
             this.NUD_CONTROL_x.Value = new decimal(new int[] {
             1000,
@@ -1061,7 +1061,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_tilt.Name = "CHK_stab_tilt";
             this.CHK_stab_tilt.OffValue = 0F;
             this.CHK_stab_tilt.OnValue = 1F;
-            this.CHK_stab_tilt.param = null;
+            
             this.CHK_stab_tilt.ParamName = null;
             this.CHK_stab_tilt.UseVisualStyleBackColor = true;
             // 
@@ -1071,7 +1071,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_roll.Name = "CHK_stab_roll";
             this.CHK_stab_roll.OffValue = 0F;
             this.CHK_stab_roll.OnValue = 1F;
-            this.CHK_stab_roll.param = null;
+            
             this.CHK_stab_roll.ParamName = null;
             this.CHK_stab_roll.UseVisualStyleBackColor = true;
             // 
@@ -1081,7 +1081,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_pan.Name = "CHK_stab_pan";
             this.CHK_stab_pan.OffValue = 0F;
             this.CHK_stab_pan.OnValue = 1F;
-            this.CHK_stab_pan.param = null;
+            
             this.CHK_stab_pan.ParamName = null;
             this.CHK_stab_pan.UseVisualStyleBackColor = true;
             // 
@@ -1129,7 +1129,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0});
             this.mavlinkNumericUpDownshut_pushed.Min = 0F;
             this.mavlinkNumericUpDownshut_pushed.Name = "mavlinkNumericUpDownshut_pushed";
-            this.mavlinkNumericUpDownshut_pushed.param = null;
+            
             this.mavlinkNumericUpDownshut_pushed.ParamName = null;
             this.mavlinkNumericUpDownshut_pushed.Value = new decimal(new int[] {
             1000,
@@ -1158,7 +1158,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownshut_notpushed.Name = "mavlinkNumericUpDownshut_notpushed";
-            this.mavlinkNumericUpDownshut_notpushed.param = null;
             this.mavlinkNumericUpDownshut_notpushed.ParamName = null;
             this.mavlinkNumericUpDownshut_notpushed.Value = new decimal(new int[] {
             2000,
@@ -1197,7 +1196,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownShutM.Name = "mavlinkNumericUpDownShutM";
-            this.mavlinkNumericUpDownShutM.param = null;
+            
             this.mavlinkNumericUpDownShutM.ParamName = null;
             this.mavlinkNumericUpDownShutM.Value = new decimal(new int[] {
             1000,
@@ -1226,7 +1225,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownShutMX.Name = "mavlinkNumericUpDownShutMX";
-            this.mavlinkNumericUpDownShutMX.param = null;
+            
             this.mavlinkNumericUpDownShutMX.ParamName = null;
             this.mavlinkNumericUpDownShutMX.Value = new decimal(new int[] {
             2000,
@@ -1273,7 +1272,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0});
             this.mavlinkNumericUpDownshut_duration.Name = "mavlinkNumericUpDownshut_duration";
-            this.mavlinkNumericUpDownshut_duration.param = null;
+            
             this.mavlinkNumericUpDownshut_duration.ParamName = null;
             this.mavlinkNumericUpDownshut_duration.Value = new decimal(new int[] {
             20,

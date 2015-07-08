@@ -210,11 +210,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var sw = 0;
                     if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH"))
                     {
-                        sw = (int) (float) MainV2.comPort.MAV.param["FLTMODE_CH"];
+                        sw = (int) MainV2.comPort.MAV.param["FLTMODE_CH"].Value;
                     }
                     else
                     {
-                        sw = (int) (float) MainV2.comPort.MAV.param["MODE_CH"];
+                        sw = (int) MainV2.comPort.MAV.param["MODE_CH"].Value;
                     }
 
                     switch (sw)

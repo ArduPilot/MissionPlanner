@@ -94,7 +94,6 @@ namespace MissionPlanner.Wizard
             this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBox1.FormattingEnabled = true;
             this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.param = null;
             this.mavlinkComboBox1.ParamName = null;
             // 
             // label4
@@ -118,7 +117,6 @@ namespace MissionPlanner.Wizard
             this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
             this.mavlinkCheckBox1.OffValue = 0F;
             this.mavlinkCheckBox1.OnValue = 1F;
-            this.mavlinkCheckBox1.param = null;
             this.mavlinkCheckBox1.ParamName = null;
             this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
             // 
@@ -209,7 +207,6 @@ namespace MissionPlanner.Wizard
             this.mavlinkCheckBox2.Name = "mavlinkCheckBox2";
             this.mavlinkCheckBox2.OffValue = 0F;
             this.mavlinkCheckBox2.OnValue = 1F;
-            this.mavlinkCheckBox2.param = null;
             this.mavlinkCheckBox2.ParamName = null;
             this.mavlinkCheckBox2.UseVisualStyleBackColor = true;
             // 

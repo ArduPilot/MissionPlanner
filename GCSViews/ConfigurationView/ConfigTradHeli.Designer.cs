@@ -208,7 +208,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDowntailspeed.Max = 1F;
             this.mavlinkNumericUpDowntailspeed.Min = 0F;
             this.mavlinkNumericUpDowntailspeed.Name = "mavlinkNumericUpDowntailspeed";
-            this.mavlinkNumericUpDowntailspeed.param = null;
+            
             this.mavlinkNumericUpDowntailspeed.ParamName = null;
             // 
             // label6
@@ -222,7 +222,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkComboBoxTailType, "mavlinkComboBoxTailType");
             this.mavlinkComboBoxTailType.FormattingEnabled = true;
             this.mavlinkComboBoxTailType.Name = "mavlinkComboBoxTailType";
-            this.mavlinkComboBoxTailType.param = null;
+            
             this.mavlinkComboBoxTailType.ParamName = null;
             // 
             // label46
@@ -541,7 +541,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.H_COLYAW.Max = 1F;
             this.H_COLYAW.Min = 0F;
             this.H_COLYAW.Name = "H_COLYAW";
-            this.H_COLYAW.param = null;
+            
             this.H_COLYAW.ParamName = null;
             this.H_COLYAW.Value = new decimal(new int[] {
             5,
@@ -575,7 +575,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.H_STAB_COL_MIN.Max = 1F;
             this.H_STAB_COL_MIN.Min = 0F;
             this.H_STAB_COL_MIN.Name = "H_STAB_COL_MIN";
-            this.H_STAB_COL_MIN.param = null;
+            
             this.H_STAB_COL_MIN.ParamName = null;
             this.H_STAB_COL_MIN.Value = new decimal(new int[] {
             20,
@@ -589,7 +589,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.H_STAB_COL_MAX.Max = 1F;
             this.H_STAB_COL_MAX.Min = 0F;
             this.H_STAB_COL_MAX.Name = "H_STAB_COL_MAX";
-            this.H_STAB_COL_MAX.param = null;
+            
             this.H_STAB_COL_MAX.ParamName = null;
             this.H_STAB_COL_MAX.Value = new decimal(new int[] {
             80,
@@ -618,7 +618,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownrunuptime.Max = 1F;
             this.mavlinkNumericUpDownrunuptime.Min = 0F;
             this.mavlinkNumericUpDownrunuptime.Name = "mavlinkNumericUpDownrunuptime";
-            this.mavlinkNumericUpDownrunuptime.param = null;
+            
             this.mavlinkNumericUpDownrunuptime.ParamName = null;
             this.mavlinkNumericUpDownrunuptime.Value = new decimal(new int[] {
             10,
@@ -637,7 +637,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkudH_RSC_RATE.Max = 1F;
             this.mavlinkudH_RSC_RATE.Min = 0F;
             this.mavlinkudH_RSC_RATE.Name = "mavlinkudH_RSC_RATE";
-            this.mavlinkudH_RSC_RATE.param = null;
+            
             this.mavlinkudH_RSC_RATE.ParamName = null;
             this.mavlinkudH_RSC_RATE.Value = new decimal(new int[] {
             10,
@@ -658,7 +658,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkudH_RSC_SETPOINT.Max = 1F;
             this.mavlinkudH_RSC_SETPOINT.Min = 0F;
             this.mavlinkudH_RSC_SETPOINT.Name = "mavlinkudH_RSC_SETPOINT";
-            this.mavlinkudH_RSC_SETPOINT.param = null;
+            
             this.mavlinkudH_RSC_SETPOINT.ParamName = null;
             this.mavlinkudH_RSC_SETPOINT.Value = new decimal(new int[] {
             100,
@@ -679,7 +679,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.H_RSC_MODE, "H_RSC_MODE");
             this.H_RSC_MODE.FormattingEnabled = true;
             this.H_RSC_MODE.Name = "H_RSC_MODE";
-            this.H_RSC_MODE.param = null;
             this.H_RSC_MODE.ParamName = null;
             // 
             // groupBox10
@@ -695,7 +694,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownland_col_min.Max = 1F;
             this.mavlinkNumericUpDownland_col_min.Min = 0F;
             this.mavlinkNumericUpDownland_col_min.Name = "mavlinkNumericUpDownland_col_min";
-            this.mavlinkNumericUpDownland_col_min.param = null;
             this.mavlinkNumericUpDownland_col_min.ParamName = null;
             this.mavlinkNumericUpDownland_col_min.Value = new decimal(new int[] {
             5,
@@ -716,7 +714,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownpitchmax.Max = 1F;
             this.mavlinkNumericUpDownpitchmax.Min = 0F;
             this.mavlinkNumericUpDownpitchmax.Name = "mavlinkNumericUpDownpitchmax";
-            this.mavlinkNumericUpDownpitchmax.param = null;
             this.mavlinkNumericUpDownpitchmax.ParamName = null;
             // 
             // mavlinkNumericUpDownrollmax
@@ -725,7 +722,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownrollmax.Max = 1F;
             this.mavlinkNumericUpDownrollmax.Min = 0F;
             this.mavlinkNumericUpDownrollmax.Name = "mavlinkNumericUpDownrollmax";
-            this.mavlinkNumericUpDownrollmax.param = null;
             this.mavlinkNumericUpDownrollmax.ParamName = null;
             // 
             // mavlinkNumericUpDown3max
@@ -734,7 +730,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown3max.Max = 1F;
             this.mavlinkNumericUpDown3max.Min = 0F;
             this.mavlinkNumericUpDown3max.Name = "mavlinkNumericUpDown3max";
-            this.mavlinkNumericUpDown3max.param = null;
             this.mavlinkNumericUpDown3max.ParamName = null;
             // 
             // mavlinkNumericUpDown3min
@@ -743,7 +738,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown3min.Max = 1F;
             this.mavlinkNumericUpDown3min.Min = 0F;
             this.mavlinkNumericUpDown3min.Name = "mavlinkNumericUpDown3min";
-            this.mavlinkNumericUpDown3min.param = null;
             this.mavlinkNumericUpDown3min.ParamName = null;
             // 
             // mavlinkNumericUpDown2max
@@ -752,7 +746,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown2max.Max = 1F;
             this.mavlinkNumericUpDown2max.Min = 0F;
             this.mavlinkNumericUpDown2max.Name = "mavlinkNumericUpDown2max";
-            this.mavlinkNumericUpDown2max.param = null;
             this.mavlinkNumericUpDown2max.ParamName = null;
             // 
             // mavlinkNumericUpDown2min
@@ -761,7 +754,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown2min.Max = 1F;
             this.mavlinkNumericUpDown2min.Min = 0F;
             this.mavlinkNumericUpDown2min.Name = "mavlinkNumericUpDown2min";
-            this.mavlinkNumericUpDown2min.param = null;
             this.mavlinkNumericUpDown2min.ParamName = null;
             // 
             // mavlinkNumericUpDown1max
@@ -770,7 +762,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown1max.Max = 1F;
             this.mavlinkNumericUpDown1max.Min = 0F;
             this.mavlinkNumericUpDown1max.Name = "mavlinkNumericUpDown1max";
-            this.mavlinkNumericUpDown1max.param = null;
             this.mavlinkNumericUpDown1max.ParamName = null;
             // 
             // mavlinkNumericUpDown1min
@@ -779,7 +770,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDown1min.Max = 1F;
             this.mavlinkNumericUpDown1min.Min = 0F;
             this.mavlinkNumericUpDown1min.Name = "mavlinkNumericUpDown1min";
-            this.mavlinkNumericUpDown1min.param = null;
+            
             this.mavlinkNumericUpDown1min.ParamName = null;
             // 
             // BUT_swash_manual

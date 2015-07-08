@@ -39,10 +39,10 @@ namespace MissionPlanner.Utilities
                         continue;
 
                     string name = items[0];
-                    float value = 0;
+                    double value = 0;
                     try
                     {
-                        value = float.Parse(items[1], System.Globalization.CultureInfo.InvariantCulture);// new System.Globalization.CultureInfo("en-US"));
+                        value = double.Parse(items[1], System.Globalization.CultureInfo.InvariantCulture);// new System.Globalization.CultureInfo("en-US"));
                     }
                     catch (Exception ex) { log.Error(ex); throw new FormatException("Invalid number on param " + name + " : " + items[1].ToString()); }
 
@@ -93,7 +93,7 @@ namespace MissionPlanner.Utilities
 
                 foreach (var item in list.Keys)
                 {
-                    float value = float.Parse(paramlist[item].ToString());
+                    double value = double.Parse(paramlist[item].ToString());
 
                     sw.WriteLine(item + "," + value.ToString(new System.Globalization.CultureInfo("en-US")));
                 }

@@ -322,7 +322,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var controlAdded = false;
 
-                    var value = ((float) MainV2.comPort.MAV.param[x.Key]).ToString("0.###");
+                    var value = (MainV2.comPort.MAV.param[x.Key].Value).ToString("0.###");
 
                     var items = Controls.Find(x.Key, true);
                     if (items.Length > 0)

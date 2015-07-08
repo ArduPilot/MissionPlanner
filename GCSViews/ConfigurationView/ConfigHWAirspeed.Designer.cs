@@ -45,7 +45,7 @@
             this.CHK_enableairspeed.Name = "CHK_enableairspeed";
             this.CHK_enableairspeed.OffValue = 0F;
             this.CHK_enableairspeed.OnValue = 1F;
-            this.CHK_enableairspeed.param = null;
+            
             this.CHK_enableairspeed.ParamName = null;
             this.CHK_enableairspeed.UseVisualStyleBackColor = true;
             this.CHK_enableairspeed.CheckedChanged += new System.EventHandler(this.CHK_enableairspeed_CheckedChanged);
@@ -71,7 +71,7 @@
             this.CHK_airspeeduse.Name = "CHK_airspeeduse";
             this.CHK_airspeeduse.OffValue = 0F;
             this.CHK_airspeeduse.OnValue = 1F;
-            this.CHK_airspeeduse.param = null;
+            
             this.CHK_airspeeduse.ParamName = null;
             this.CHK_airspeeduse.UseVisualStyleBackColor = true;
             // 
@@ -86,7 +86,7 @@
             this.mavlinkCheckBoxAirspeed_pin.DropDownWidth = 200;
             resources.ApplyResources(this.mavlinkCheckBoxAirspeed_pin, "mavlinkCheckBoxAirspeed_pin");
             this.mavlinkCheckBoxAirspeed_pin.Name = "mavlinkCheckBoxAirspeed_pin";
-            this.mavlinkCheckBoxAirspeed_pin.param = null;
+            
             this.mavlinkCheckBoxAirspeed_pin.ParamName = null;
             // 
             // lbl_airspeed_pin

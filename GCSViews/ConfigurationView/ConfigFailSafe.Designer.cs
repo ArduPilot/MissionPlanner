@@ -137,7 +137,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownlow_voltage.Max = 99F;
             this.mavlinkNumericUpDownlow_voltage.Min = 6F;
             this.mavlinkNumericUpDownlow_voltage.Name = "mavlinkNumericUpDownlow_voltage";
-            this.mavlinkNumericUpDownlow_voltage.param = null;
+            
             this.mavlinkNumericUpDownlow_voltage.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkNumericUpDownlow_voltage, resources.GetString("mavlinkNumericUpDownlow_voltage.ToolTip"));
             this.mavlinkNumericUpDownlow_voltage.Value = new decimal(new int[] {
@@ -152,7 +152,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxlong_fs.Name = "mavlinkCheckBoxlong_fs";
             this.mavlinkCheckBoxlong_fs.OffValue = 0F;
             this.mavlinkCheckBoxlong_fs.OnValue = 1F;
-            this.mavlinkCheckBoxlong_fs.param = null;
+            
             this.mavlinkCheckBoxlong_fs.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkCheckBoxlong_fs, resources.GetString("mavlinkCheckBoxlong_fs.ToolTip"));
             this.mavlinkCheckBoxlong_fs.UseVisualStyleBackColor = true;
@@ -163,7 +163,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxshort_fs.Name = "mavlinkCheckBoxshort_fs";
             this.mavlinkCheckBoxshort_fs.OffValue = 0F;
             this.mavlinkCheckBoxshort_fs.OnValue = 1F;
-            this.mavlinkCheckBoxshort_fs.param = null;
+            
             this.mavlinkCheckBoxshort_fs.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkCheckBoxshort_fs, resources.GetString("mavlinkCheckBoxshort_fs.ToolTip"));
             this.mavlinkCheckBoxshort_fs.UseVisualStyleBackColor = true;
@@ -174,7 +174,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxgcs_fs.Name = "mavlinkCheckBoxgcs_fs";
             this.mavlinkCheckBoxgcs_fs.OffValue = 0F;
             this.mavlinkCheckBoxgcs_fs.OnValue = 1F;
-            this.mavlinkCheckBoxgcs_fs.param = null;
+            
             this.mavlinkCheckBoxgcs_fs.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkCheckBoxgcs_fs, resources.GetString("mavlinkCheckBoxgcs_fs.ToolTip"));
             this.mavlinkCheckBoxgcs_fs.UseVisualStyleBackColor = true;
@@ -185,7 +185,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxthr_fs_action.Name = "mavlinkCheckBoxthr_fs_action";
             this.mavlinkCheckBoxthr_fs_action.OffValue = 0F;
             this.mavlinkCheckBoxthr_fs_action.OnValue = 1F;
-            this.mavlinkCheckBoxthr_fs_action.param = null;
+            
             this.mavlinkCheckBoxthr_fs_action.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkCheckBoxthr_fs_action, resources.GetString("mavlinkCheckBoxthr_fs_action.ToolTip"));
             this.mavlinkCheckBoxthr_fs_action.UseVisualStyleBackColor = true;
@@ -196,7 +196,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownfs_thr_value.Max = 1F;
             this.mavlinkNumericUpDownfs_thr_value.Min = 0F;
             this.mavlinkNumericUpDownfs_thr_value.Name = "mavlinkNumericUpDownfs_thr_value";
-            this.mavlinkNumericUpDownfs_thr_value.param = null;
+            
             this.mavlinkNumericUpDownfs_thr_value.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkNumericUpDownfs_thr_value, resources.GetString("mavlinkNumericUpDownfs_thr_value.ToolTip"));
             // 
@@ -206,7 +206,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownthr_fs_value.Max = 1F;
             this.mavlinkNumericUpDownthr_fs_value.Min = 0F;
             this.mavlinkNumericUpDownthr_fs_value.Name = "mavlinkNumericUpDownthr_fs_value";
-            this.mavlinkNumericUpDownthr_fs_value.param = null;
+            
             this.mavlinkNumericUpDownthr_fs_value.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkNumericUpDownthr_fs_value, resources.GetString("mavlinkNumericUpDownthr_fs_value.ToolTip"));
             // 
@@ -216,7 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxthr_fs.Name = "mavlinkCheckBoxthr_fs";
             this.mavlinkCheckBoxthr_fs.OffValue = 0F;
             this.mavlinkCheckBoxthr_fs.OnValue = 1F;
-            this.mavlinkCheckBoxthr_fs.param = null;
+      
             this.mavlinkCheckBoxthr_fs.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkCheckBoxthr_fs, resources.GetString("mavlinkCheckBoxthr_fs.ToolTip"));
             this.mavlinkCheckBoxthr_fs.UseVisualStyleBackColor = true;
@@ -227,7 +227,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkComboBox_fs_thr_enable, "mavlinkComboBox_fs_thr_enable");
             this.mavlinkComboBox_fs_thr_enable.FormattingEnabled = true;
             this.mavlinkComboBox_fs_thr_enable.Name = "mavlinkComboBox_fs_thr_enable";
-            this.mavlinkComboBox_fs_thr_enable.param = null;
+            
             this.mavlinkComboBox_fs_thr_enable.ParamName = null;
             this.mavlinkComboBox_fs_thr_enable.SubControl = null;
             this.toolTip1.SetToolTip(this.mavlinkComboBox_fs_thr_enable, resources.GetString("mavlinkComboBox_fs_thr_enable.ToolTip"));
@@ -238,7 +238,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.mavlinkComboBoxfs_batt_enable, "mavlinkComboBoxfs_batt_enable");
             this.mavlinkComboBoxfs_batt_enable.FormattingEnabled = true;
             this.mavlinkComboBoxfs_batt_enable.Name = "mavlinkComboBoxfs_batt_enable";
-            this.mavlinkComboBoxfs_batt_enable.param = null;
+            
             this.mavlinkComboBoxfs_batt_enable.ParamName = null;
             this.mavlinkComboBoxfs_batt_enable.SubControl = null;
             // 
@@ -248,7 +248,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxFS_GCS_ENABLE.Name = "mavlinkCheckBoxFS_GCS_ENABLE";
             this.mavlinkCheckBoxFS_GCS_ENABLE.OffValue = 0F;
             this.mavlinkCheckBoxFS_GCS_ENABLE.OnValue = 1F;
-            this.mavlinkCheckBoxFS_GCS_ENABLE.param = null;
+            
             this.mavlinkCheckBoxFS_GCS_ENABLE.ParamName = null;
             this.mavlinkCheckBoxFS_GCS_ENABLE.UseVisualStyleBackColor = true;
             // 
@@ -276,7 +276,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkNumericUpDownFS_BATT_MAH.Max = 99999F;
             this.mavlinkNumericUpDownFS_BATT_MAH.Min = 1000F;
             this.mavlinkNumericUpDownFS_BATT_MAH.Name = "mavlinkNumericUpDownFS_BATT_MAH";
-            this.mavlinkNumericUpDownFS_BATT_MAH.param = null;
+            
             this.mavlinkNumericUpDownFS_BATT_MAH.ParamName = null;
             this.mavlinkNumericUpDownFS_BATT_MAH.Value = new decimal(new int[] {
             131,

@@ -66,7 +66,6 @@ namespace MissionPlanner.Wizard
             this.CHK_airspeeduse.Name = "CHK_airspeeduse";
             this.CHK_airspeeduse.OffValue = 0F;
             this.CHK_airspeeduse.OnValue = 1F;
-            this.CHK_airspeeduse.param = null;
             this.CHK_airspeeduse.ParamName = null;
             this.CHK_airspeeduse.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +90,6 @@ namespace MissionPlanner.Wizard
             this.CHK_enableairspeed.Name = "CHK_enableairspeed";
             this.CHK_enableairspeed.OffValue = 0F;
             this.CHK_enableairspeed.OnValue = 1F;
-            this.CHK_enableairspeed.param = null;
             this.CHK_enableairspeed.ParamName = null;
             this.CHK_enableairspeed.UseVisualStyleBackColor = true;
             // 

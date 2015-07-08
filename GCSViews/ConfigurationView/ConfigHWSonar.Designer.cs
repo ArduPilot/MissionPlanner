@@ -53,7 +53,7 @@
             resources.GetString("CMB_sonartype.Items2"),
             resources.GetString("CMB_sonartype.Items3")});
             this.CMB_sonartype.Name = "CMB_sonartype";
-            this.CMB_sonartype.param = null;
+            
             this.CMB_sonartype.ParamName = null;
             // 
             // pictureBox3
