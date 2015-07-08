@@ -44,8 +44,8 @@ public partial class MAVLink
         public MAVLinkParam(string name, double value, MAV_PARAM_TYPE type)
         {
             Name = name;
-            Value = value;
             Type = type;
+            Value = value;
         }
 
         public MAVLinkParam(string name, float inputwire, MAV_PARAM_TYPE type)
