@@ -6409,9 +6409,6 @@
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
     <Content Include="mpdesktop.ico" />
-    <Content Include="ParameterMetaData.zh-Hans.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
