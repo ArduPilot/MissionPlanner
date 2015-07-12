@@ -1141,24 +1141,27 @@ namespace MissionPlanner.GCSViews
                         // for testing
                         try
                         {
-                            float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
-                            float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
-
-                            float temp3 = (float)MainV2.comPort.MAV.param["MNT_TYPE"];
-
-                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
-                               // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
-                               ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
-                                (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
-                                (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
+                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT"))
                             {
-                                var marker = GimbalPoint.ProjectPoint();
+                                float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
+                                float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
 
-                                if (marker != PointLatLngAlt.Zero)
+                                float temp3 = (float)MainV2.comPort.MAV.param["MNT_TYPE"];
+
+                                if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
+                                   // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
+                                   ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
+                                    (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
+                                    (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
                                 {
-                                    MainV2.comPort.MAV.cs.GimbalPoint = marker;
+                                    var marker = GimbalPoint.ProjectPoint();
 
-                                    routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker, ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                    if (marker != PointLatLngAlt.Zero)
+                                    {
+                                        MainV2.comPort.MAV.cs.GimbalPoint = marker;
+
+                                        routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker, ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                    }
                                 }
                             }
                         }
