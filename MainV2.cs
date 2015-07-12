@@ -2228,11 +2228,18 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    // get a new kindex
-                    KIndex.KIndexEvent += KIndex_KIndex;
-                    KIndex.GetKIndex();
+                    System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                    {
+                        try
+                        {
+                            // get a new kindex
+                            KIndex.KIndexEvent += KIndex_KIndex;
+                            KIndex.GetKIndex();
 
-                    MainV2.config["kindexdate"] = DateTime.Now.ToShortDateString();
+                            MainV2.config["kindexdate"] = DateTime.Now.ToShortDateString();
+                        }
+                        catch { }
+                    });
                 }
             }
             catch (Exception ex) { log.Error(ex); }
