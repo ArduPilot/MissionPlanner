@@ -31,7 +31,7 @@ namespace MissionPlanner
             InitializeComponent();
 
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            CMB_serialport.Items.Add("UDP Host - 14550");
+            CMB_serialport.Items.Add("UDP Host");
             CMB_serialport.Items.Add("UDP Client");
             CMB_serialport.Items.Add("TCP Client");
             CMB_serialport.Items.Add("NTRIP");
@@ -65,7 +65,7 @@ namespace MissionPlanner
                         case "TCP Client":
                             comPort = new TcpSerial();
                             break;
-                        case "UDP Host - 14550":
+                        case "UDP Host":
                             comPort = new UdpSerial();
                             break;
                         case "UDP Client":
@@ -136,6 +136,14 @@ namespace MissionPlanner
                     log.Error(ex);
                 }
             }
+        }
+
+        private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!CMB_serialport.Text.ToLower().Contains("com"))
+                CMB_baudrate.Enabled = false;
+            else
+                CMB_baudrate.Enabled = true;
         }
     }
 }
