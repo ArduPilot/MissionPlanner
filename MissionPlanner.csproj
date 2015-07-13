@@ -447,6 +447,19 @@
     <Compile Include="Joystick\Joy_Mount_Mode.Designer.cs">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Keyboard\globalKeyboardHook.cs" />
+    <Compile Include="Keyboard\KeyboardSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keyboard\KeyboardSetup.Designer.cs">
+      <DependentUpon>KeyboardSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Keyboard\Keyboard_Help.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Keyboard\Keyboard_Help.Designer.cs">
+      <DependentUpon>Keyboard_Help.cs</DependentUpon>
+    </Compile>
     <Compile Include="Localizations.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
@@ -969,6 +982,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_Mount_Mode.resx">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keyboard\KeyboardSetup.resx">
+      <DependentUpon>KeyboardSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Keyboard\Keyboard_Help.resx">
+      <DependentUpon>Keyboard_Help.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogIndex.resx">
       <DependentUpon>LogIndex.cs</DependentUpon>
@@ -2821,6 +2840,8 @@
     <Content Include="LogAnalyzer\UnitTest.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Controls.png" />
+    <None Include="Resources\Factors.png" />
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -6354,6 +6375,9 @@
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
     <Content Include="mpdesktop.ico" />
+    <Content Include="ParameterMetaData.zh-Hans.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

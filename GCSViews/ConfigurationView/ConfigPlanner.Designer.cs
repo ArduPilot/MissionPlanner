@@ -95,6 +95,8 @@
             this.CHK_showairports = new System.Windows.Forms.CheckBox();
             this.chk_ADSB = new System.Windows.Forms.CheckBox();
             this.chk_tfr = new System.Windows.Forms.CheckBox();
+            this.BUT_Keyboard = new MissionPlanner.Controls.MyButton();
+            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -614,10 +616,24 @@
             this.chk_tfr.UseVisualStyleBackColor = true;
             this.chk_tfr.CheckedChanged += new System.EventHandler(this.chk_tfr_CheckedChanged);
             // 
+            // BUT_Keyboard
+            // 
+            resources.ApplyResources(this.BUT_Keyboard, "BUT_Keyboard");
+            this.BUT_Keyboard.Name = "BUT_Keyboard";
+            this.BUT_Keyboard.UseVisualStyleBackColor = true;
+            this.BUT_Keyboard.Click += new System.EventHandler(this.BUT_Keyboard_Click);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.BUT_Keyboard);
             this.Controls.Add(this.chk_tfr);
             this.Controls.Add(this.chk_ADSB);
             this.Controls.Add(this.CHK_showairports);
@@ -760,5 +776,7 @@
         private System.Windows.Forms.CheckBox CHK_showairports;
         private System.Windows.Forms.CheckBox chk_ADSB;
         private System.Windows.Forms.CheckBox chk_tfr;
+        private Controls.MyButton BUT_Keyboard;
+        private System.Windows.Forms.Label label6;
     }
 }
