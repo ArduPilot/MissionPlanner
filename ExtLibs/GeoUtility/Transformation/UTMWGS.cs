@@ -58,7 +58,7 @@ namespace GeoUtility
 
             // Nord-/Süd Halbkugel
             char b = band.ToCharArray()[0];
-            if (b < 'N' && band != "")
+            if (b < 'N' && band != "" && north > 0)
             {
                 north = north - 10E+06;
             }
