@@ -1540,9 +1540,16 @@ namespace MissionPlanner.GCSViews
         {
             if (Commands.Rows.Count > 0)
             {
-                if (CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                if (sender is FlightData)
                 {
-                    return;
+
+                }
+                else
+                {
+                    if (CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                    {
+                        return;
+                    }
                 }
             }
 
