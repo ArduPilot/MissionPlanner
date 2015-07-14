@@ -811,6 +811,7 @@ namespace MissionPlanner
                     {
                         var vibe = bytearray.ByteArrayToStructure<MAVLink.mavlink_vibration_t>(6);
 
+                        vibeclip0avg = (vibe.clipping_0 - vibeclip0) * 0.1f + vibeclip0avg * 0.9f;
                         vibeclip0 = vibe.clipping_0;
                         vibeclip1 = vibe.clipping_1;
                         vibeclip2 = vibe.clipping_2;
@@ -1719,6 +1720,8 @@ namespace MissionPlanner
         public float piddesired { get; set; }
 
         public float pidachieved { get; set; }
+
+        public float vibeclip0avg { get; set; }
 
         public uint vibeclip0 { get; set; }
 
