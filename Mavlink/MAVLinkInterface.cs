@@ -329,7 +329,7 @@ namespace MissionPlanner
                     if (DateTime.Now > deadline)
                     {
                         //if (Progress != null)
-                        //    Progress(-1, "No Heartbeat Packets");
+                        //    Progress(-1, "No Heatbeat Packets");
                         countDown.Stop();
                         this.Close();
 
@@ -340,7 +340,7 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            progressWorkerEventArgs.ErrorMessage = "No Heartbeat Packets Received";
+                            progressWorkerEventArgs.ErrorMessage = "No Heatbeat Packets Received";
                             throw new Exception(@"Can not establish a connection\n
 Please check the following
 1. You have firmware loaded
@@ -1265,7 +1265,7 @@ Please check the following
 
         public bool doARM(bool armit)
         {
-            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 21196, 0, 0, 0, 0, 0);
+            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 0, 0, 0, 0, 0, 0);
         }
 
         public bool doMotorTest(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout)

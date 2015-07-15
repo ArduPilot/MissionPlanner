@@ -93,12 +93,12 @@ namespace MissionPlanner.Comms
             ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = "Connecting UDP"
+                Text = "Connecting Mavlink UDP"
             };
 
             frmProgressReporter.DoWork += frmProgressReporter_DoWork;
 
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting UDP");
+            frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting Mavlink UDP");
 
             frmProgressReporter.RunBackgroundOperationAsync();
 

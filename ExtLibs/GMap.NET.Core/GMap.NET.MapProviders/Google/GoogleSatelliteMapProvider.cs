@@ -61,6 +61,6 @@ namespace GMap.NET.MapProviders
 
        static readonly string UrlFormatServer = "khms";
       static readonly string UrlFormatRequest = "kh";
-      static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}";
+      static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/v={3}&x={5}{6}&y={7}&z={8}";
    }
 }

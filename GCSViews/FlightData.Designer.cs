@@ -28,6 +28,7 @@
             this.tableLayoutPanelQuick = new System.Windows.Forms.TableLayoutPanel();
             this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
+            this.preFlightChecklist1 = new MissionPlanner.GCSViews.ConfigurationView.PreFlightChecklist();
             this.quickView5 = new MissionPlanner.Controls.QuickView();
             this.quickView4 = new MissionPlanner.Controls.QuickView();
             this.quickView3 = new MissionPlanner.Controls.QuickView();
@@ -126,6 +127,7 @@
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.tabpreflight = new System.Windows.Forms.TabPage();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -161,6 +163,7 @@
             this.tabControlactions.SuspendLayout();
             this.contextMenuStripactionstab.SuspendLayout();
             this.tabQuick.SuspendLayout();
+            this.tabpreflight.SuspendLayout();
             this.tableLayoutPanelQuick.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
             this.tabActions.SuspendLayout();
@@ -358,6 +361,7 @@
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
             this.tabControlactions.Controls.Add(this.tabGauges);
             this.tabControlactions.Controls.Add(this.tabStatus);
+            this.tabControlactions.Controls.Add(this.tabpreflight);
             this.tabControlactions.Controls.Add(this.tabServo);
             this.tabControlactions.Controls.Add(this.tabTLogs);
             this.tabControlactions.Controls.Add(this.tablogbrowse);
@@ -472,6 +476,13 @@
             this.toolTip1.SetToolTip(this.quickView1, resources.GetString("quickView1.ToolTip"));
             this.quickView1.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
+            // tabpreflight
+            // 
+            resources.ApplyResources(this.tabpreflight, "tabpreflight");
+            this.tabpreflight.Controls.Add(this.preFlightChecklist1);
+            this.tabpreflight.Name = "tabpreflight";
+            this.tabpreflight.UseVisualStyleBackColor = true;
+            // 
             // tabActions
             // 
             this.tabActions.Controls.Add(this.BUT_resumemis);
@@ -519,6 +530,11 @@
             this.toolTip1.SetToolTip(this.BUT_mountmode, resources.GetString("BUT_mountmode.ToolTip"));
             this.BUT_mountmode.UseVisualStyleBackColor = true;
             this.BUT_mountmode.Click += new System.EventHandler(this.BUT_mountmode_Click);
+            // 
+            // preFlightChecklist1
+            // 
+            resources.ApplyResources(this.preFlightChecklist1, "preFlightChecklist1");
+            this.preFlightChecklist1.Name = "preFlightChecklist1";
             // 
             // modifyandSetSpeed
             // 
@@ -1862,6 +1878,7 @@
             this.tabQuick.ResumeLayout(false);
             this.tableLayoutPanelQuick.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
+            this.tabpreflight.ResumeLayout(false);
             this.tabActions.ResumeLayout(false);
             this.tabActionsSimple.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
@@ -1895,9 +1912,9 @@
             this.ResumeLayout(false);
 
         }
+        
 
-
-
+        
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.BindingSource bindingSource1;
@@ -1930,6 +1947,7 @@
         private System.Windows.Forms.TabPage tabGauges;
         private System.Windows.Forms.TabPage tabStatus;
         private System.Windows.Forms.TabPage tabActions;
+        private System.Windows.Forms.TabPage tabpreflight;
         private System.Windows.Forms.TabPage tabTLogs;
         private System.Windows.Forms.ComboBox CMB_modes;
         private Controls.MyButton BUT_setmode;
@@ -1982,6 +2000,7 @@
         private System.Windows.Forms.BindingSource bindingSourceHud;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelQuick;
         private System.Windows.Forms.Panel panel2;
+        private ConfigurationView.PreFlightChecklist preFlightChecklist1;
         private Controls.MyButton BUT_speed10;
         private Controls.MyButton BUT_speed5;
         private Controls.MyButton BUT_speed2;

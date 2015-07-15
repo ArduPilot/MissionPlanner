@@ -117,71 +117,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CHK_mixmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CHK_mixmode.Text" xml:space="preserve">
-    <value>副翼</value>
-  </data>
-  <data name="CHK_elevonch2rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
-  </data>
-  <data name="CHK_elevonch2rev.Text" xml:space="preserve">
-    <value>副翼通道2反转</value>
-  </data>
-  <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 16</value>
-  </data>
-  <data name="CHK_elevonrev.Text" xml:space="preserve">
-    <value>副翼反转</value>
-  </data>
-  <data name="CHK_elevonch1rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 16</value>
-  </data>
   <data name="CHK_elevonch1rev.Text" xml:space="preserve">
     <value>副翼通道1反转</value>
-  </data>
-  <data name="groupBoxElevons.Text" xml:space="preserve">
-    <value>副翼配置</value>
-  </data>
-  <data name="CHK_revch3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CHK_revch3.Text" xml:space="preserve">
-    <value>反转</value>
-  </data>
-  <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CHK_revch4.Text" xml:space="preserve">
-    <value>反转</value>
-  </data>
-  <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CHK_revch2.Text" xml:space="preserve">
-    <value>反转</value>
-  </data>
-  <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 16</value>
-  </data>
-  <data name="CHK_revch1.Text" xml:space="preserve">
-    <value>反转</value>
-  </data>
-  <data name="BUT_BindDSM8.Text" xml:space="preserve">
-    <value>DSM8对频</value>
-  </data>
-  <data name="BUT_BindDSMX.Text" xml:space="preserve">
-    <value>DSMX对频</value>
-  </data>
-  <data name="BUT_BindDSM2.Text" xml:space="preserve">
-    <value>DSM2对频</value>
   </data>
   <data name="BUT_Calibrateradio.Text" xml:space="preserve">
     <value>校准遥控</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Spektrum 对频</value>
+  <data name="CHK_elevonch2rev.Text" xml:space="preserve">
+    <value>副翼通道2反转</value>
+  </data>
+  <data name="groupBoxElevons.Text" xml:space="preserve">
+    <value>副翼配置</value>
+  </data>
+  <data name="CHK_elevonrev.Text" xml:space="preserve">
+    <value>副翼反转</value>
+  </data>
+  <data name="CHK_mixmode.Text" xml:space="preserve">
+    <value>副翼</value>
+  </data>
+  <data name="CHK_revch1.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="CHK_revch3.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="CHK_revch2.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="CHK_revch4.Text" xml:space="preserve">
+    <value>反转</value>
   </data>
 </root>

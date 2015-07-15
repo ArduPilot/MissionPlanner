@@ -540,28 +540,4 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="Saving" xml:space="preserve">
     <value>Saving</value>
   </data>
-  <data name="InvalidCert" xml:space="preserve">
-    <value>Invalid Cert</value>
-  </data>
-  <data name="Note" xml:space="preserve">
-    <value>Note</value>
-  </data>
-  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
-    <value>Please unplug the board, and then press OK and plug back in.
-Mission Planner will look for 30 seconds to find the board</value>
-  </data>
-  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
-    <value>This board has been retired, Mission Planner this will upload the last available version to your board</value>
-  </data>
-  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
-    <value>You are using unsupported hardware.
-This board does not contain a valid certificate of authenticity.
-Please contact your hardware vendor about signing your hardware.</value>
-  </data>
-  <data name="NoNeedToUpload" xml:space="preserve">
-    <value>No need to upload. already on the board</value>
-  </data>
-  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
-    <value>Please wait for the musical tones to finish before clicking OK</value>
-  </data>
 </root>

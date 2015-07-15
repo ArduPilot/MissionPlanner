@@ -34,10 +34,6 @@ namespace MissionPlanner
                     {
                         url = url.Replace("raw.github.com", "githubraw.diywrj.com");
                     }
-                    else if (url.Contains("raw.githubusercontent.com"))
-                    {
-                        url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
-                    }
                     else if (url.Contains("firmware.diydrones.com"))
                     {
                         url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");

@@ -558,7 +558,7 @@ namespace MissionPlanner.Utilities
                 {
                     if (temp.name.ToLower().Contains("arducopter")) 
                     {
-                        CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired,Strings.Note);
+                        CustomMessageBox.Show("This board has been retired, Mission Planner this will upload the last available version to your board","Note");
                     }
                 }
 
@@ -686,13 +686,13 @@ namespace MissionPlanner.Utilities
                 else
                 {
                     MainV2.comPort.BaseStream.Close();
-                    CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                    CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
                 }
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
             }
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
@@ -757,14 +757,14 @@ namespace MissionPlanner.Utilities
                     {
                         MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp","InvalidKeyException","");
                         log.Error(ex);
-                        CustomMessageBox.Show(Strings.YouAreUsingUnsupportedHardware , Strings.InvalidCert); 
+                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); 
                         up.skipotp = true;
                     }
                     catch (FormatException ex)
                     {
                         MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "FormatException", "");
                         log.Error(ex);
-                        CustomMessageBox.Show(Strings.YouAreUsingUnsupportedHardware, Strings.InvalidCert);
+                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert");
                         up.skipotp = true;
                     }
                     catch (IOException ex) 
@@ -807,7 +807,7 @@ namespace MissionPlanner.Utilities
                     {
                         up.__reboot();
                         up.close();
-                        CustomMessageBox.Show(Strings.NoNeedToUpload);
+                        CustomMessageBox.Show("No need to upload. already on the board");
                         return true;
                     }
 
@@ -830,7 +830,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     // wait for IO firmware upgrade and boot to a mavlink state
-                    CustomMessageBox.Show(Strings.PleaseWaitForTheMusicalTones);
+                    CustomMessageBox.Show("Please wait for the musical tones to finish before clicking OK");
 
                     return true;
                 }
@@ -882,13 +882,13 @@ namespace MissionPlanner.Utilities
                 else
                 {
                     MainV2.comPort.BaseStream.Close();
-                    CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                    CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
                 }
             }
             catch (Exception ex)
             {
                 log.Error(ex);
-                CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+                CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
             }
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
@@ -940,7 +940,7 @@ namespace MissionPlanner.Utilities
                     {
                         up.__reboot();
                         up.close();
-                        CustomMessageBox.Show(Strings.NoNeedToUpload);
+                        CustomMessageBox.Show("No need to upload. already on the board");
                         return true;
                     }
 
@@ -975,7 +975,7 @@ namespace MissionPlanner.Utilities
                     else
                     {
                         // wait for IO firmware upgrade and boot to a mavlink state
-                        CustomMessageBox.Show(Strings.PleaseWaitForTheMusicalTones);
+                        CustomMessageBox.Show("Please wait for the musical tones to finish before clicking OK");
                     }
                     return true;
                 }

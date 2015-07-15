@@ -395,6 +395,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\PreFlightChecklist.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\PreFlightChecklist.designer.cs">
+      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\FlightData2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -898,6 +904,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\PreFlightChecklist.resx">
+      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
@@ -1200,6 +1209,7 @@
     <None Include="airports.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Drivers\amd64\ftd2xx.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -1601,6 +1611,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hans.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
@@ -2183,6 +2194,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.de-DE.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.de-DE.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
@@ -6354,6 +6366,9 @@
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
     <Content Include="mpdesktop.ico" />
+    <Content Include="ParameterMetaData.zh-Hans.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -87,8 +87,6 @@ namespace GMap.NET.MapProviders
 
         public override void OnInitialized()
         {
-            return;
-
             if (!init && TryCorrectVersion)
             {
                 string url = string.Format("http://maps.{0}", Server);

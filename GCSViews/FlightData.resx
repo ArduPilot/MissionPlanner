@@ -1065,6 +1065,60 @@
   <data name="myButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>150, 49</value>
   </data>
+  <data name="tabpreflight.AutoScroll" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="tabpreflight.AutoScrollMargin" type="System.Drawing.Size, System.Drawing">
+    <value>0, 25</value>
+  </data>
+  <data name="preFlightChecklist1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="preFlightChecklist1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>330, 550</value>
+  </data>
+  <data name="preFlightChecklist1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;preFlightChecklist1.Name" xml:space="preserve">
+    <value>preFlightChecklist1</value>
+  </data>
+  <data name="&gt;&gt;preFlightChecklist1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.PreFlightChecklist, MissionPlanner, Version=1.1.5582.28164, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;preFlightChecklist1.Parent" xml:space="preserve">
+    <value>tabpreflight</value>
+  </data>
+  <data name="&gt;&gt;preFlightChecklist1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tabpreflight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 22</value>
+  </data>
+  <data name="tabpreflight.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 3</value>
+  </data>
+  <data name="tabpreflight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 162</value>
+  </data>
+  <data name="tabpreflight.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="tabpreflight.Text" xml:space="preserve">
+    <value>Preflight</value>
+  </data>
+  <data name="&gt;&gt;tabpreflight.Name" xml:space="preserve">
+    <value>tabpreflight</value>
+  </data>
+  <data name="&gt;&gt;tabpreflight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tabpreflight.Parent" xml:space="preserve">
+    <value>tabControlactions</value>
+  </data>
+  <data name="&gt;&gt;tabpreflight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="myButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 23</value>
   </data>

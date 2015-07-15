@@ -348,7 +348,10 @@ namespace MissionPlanner.GCSViews
         {
             CurrentGMapMarker = item;
         }
-
+        private void CheckAndBindPreFlightData()
+        {
+            preFlightChecklist1.BindData();
+        }
         void tabStatus_Resize(object sender, EventArgs e)
         {
             // localise it
@@ -851,7 +854,9 @@ namespace MissionPlanner.GCSViews
                 }
 
                 try
+                    
                 {
+                    CheckAndBindPreFlightData();
                     //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
                     updateBindingSource();
@@ -1141,27 +1146,24 @@ namespace MissionPlanner.GCSViews
                         // for testing
                         try
                         {
-                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT"))
+                            float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
+                            float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
+
+                            float temp3 = (float)MainV2.comPort.MAV.param["MNT_TYPE"];
+
+                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
+                               // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
+                               ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
+                                (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
+                                (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
                             {
-                                float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
-                                float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
+                                var marker = GimbalPoint.ProjectPoint();
 
-                                float temp3 = (float)MainV2.comPort.MAV.param["MNT_TYPE"];
-
-                                if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
-                                   // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
-                                   ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
-                                    (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
-                                    (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
+                                if (marker != PointLatLngAlt.Zero)
                                 {
-                                    var marker = GimbalPoint.ProjectPoint();
+                                    MainV2.comPort.MAV.cs.GimbalPoint = marker;
 
-                                    if (marker != PointLatLngAlt.Zero)
-                                    {
-                                        MainV2.comPort.MAV.cs.GimbalPoint = marker;
-
-                                        routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker, ToolTipMode = MarkerTooltipMode.OnMouseOver });
-                                    }
+                                    routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker, ToolTipMode = MarkerTooltipMode.OnMouseOver });
                                 }
                             }
                         }
@@ -3379,8 +3381,10 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_resumemis_Click(object sender, EventArgs e)
         {
-            if (Common.MessageShowAgain("Resume Mission", "Warning this will reprogram your mission, arm and issue a takeoff command") != DialogResult.OK)
-                return;     
+            if (Common.MessageShowAgain("Resume Mission", "Warning this will arm and issue a takeoff command") != DialogResult.OK)
+                return;
+
+      
 
             if (MainV2.comPort.BaseStream.IsOpen)
             {
@@ -3391,58 +3395,7 @@ namespace MissionPlanner.GCSViews
                 if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)
                 {
                     int timeout = 0;
-                    int lastwpno = int.Parse(lastwp);
-
-                    // scan and check wp's we are skipping
-                    // get our target wp
-                    var lastwpdata = MainV2.comPort.getWP((ushort)lastwpno);
-
-                    // get all
-                    List<Locationwp> cmds = new List<Locationwp>();
-
-                    var wpcount = MainV2.comPort.getWPCount();
-
-                    for (ushort a = 0; a < wpcount; a++)
-                    {
-                        var wpdata = MainV2.comPort.getWP(a);
-
-                        if (a == 1)
-                        {
-                            // add our resume wp as item 1 first after home
-                            cmds.Add(lastwpdata);
-                        }
-
-                        if (a < lastwpno && a != 0) // allow home
-                        {
-                            if (wpdata.id < (byte)MAVLink.MAV_CMD.LAST)
-                                continue;
-
-                            if (wpdata.id > (byte)MAVLink.MAV_CMD.DO_LAST)
-                                continue;
-                        }
-
-                        cmds.Add(wpdata);
-                    }
-
-                    ushort wpno = 0;
-                    // upload from wp 0 to end
-                    MainV2.comPort.setWPTotal((ushort)(cmds.Count));
-                  
-                    // add our do commands
-                    foreach (var loc in cmds)
-                    {
-                        MAVLink.MAV_MISSION_RESULT ans = MainV2.comPort.setWP(loc, wpno, (MAVLink.MAV_FRAME)(loc.options));
-                        if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                        {
-                            CustomMessageBox.Show("Upload wps failed " + Enum.Parse(typeof(MAVLink.MAV_CMD), loc.id.ToString()) + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
-                            return;
-                        }
-                        wpno++;
-                    }
-
-                    MainV2.comPort.setWPACK();
-
-                    FlightPlanner.instance.BUT_read_Click(this, null);
+                    int lastwpno = int.Parse(lastwp);                    
 
                     while (MainV2.comPort.MAV.cs.mode.ToLower() != "Guided".ToLower())
                     {
@@ -3474,21 +3427,20 @@ namespace MissionPlanner.GCSViews
                     }
 
                     timeout = 0;
-                    while (MainV2.comPort.MAV.cs.alt < (lastwpdata.alt - 2))
+                    while (MainV2.comPort.MAV.cs.alt < 2)
                     {
-                        MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, lastwpdata.alt);
+                        MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
                         Thread.Sleep(1000);
                         Application.DoEvents();
                         timeout++;
 
-                        if (timeout > 40)
+                        if (timeout > 30)
                         {
                             CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
                             return;
                         }
                     }
 
-                    /*
                     timeout = 0;
                     while ((int)MainV2.comPort.MAV.cs.wpno != lastwpno)
                     {
@@ -3502,7 +3454,7 @@ namespace MissionPlanner.GCSViews
                             CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
                             return;
                         }
-                    }*/
+                    }
 
                     timeout = 0;
                     while (MainV2.comPort.MAV.cs.mode.ToLower() != "AUTO".ToLower())

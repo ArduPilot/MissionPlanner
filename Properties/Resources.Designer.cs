@@ -739,6 +739,40 @@ namespace MissionPlanner.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+   
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Green_panel1
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("Green_panel1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Red_panel
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("Red_panel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Yellow_panel
+        {
+            get
+            {
+                object obj = ResourceManager.GetObject("Yellow_panel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
