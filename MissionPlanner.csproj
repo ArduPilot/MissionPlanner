@@ -395,6 +395,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\PreFlightChecklist.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\PreFlightChecklist.designer.cs">
+      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\FlightData2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -897,6 +903,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\PreFlightChecklist.resx">
+      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
       <DependentUpon>FlightData.cs</DependentUpon>

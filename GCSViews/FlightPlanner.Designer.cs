@@ -114,6 +114,11 @@
             this.lnk_kml = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.lbl_wpfile = new System.Windows.Forms.Label();
+            this.BUT_AddTakeoffWP = new MissionPlanner.Controls.MyButton();
+            this.BUT_ClearMission = new MissionPlanner.Controls.MyButton();
+            this.BUT_ElevationGraph = new MissionPlanner.Controls.MyButton();
+            this.BUT_ClearPolygon = new MissionPlanner.Controls.MyButton();
+            this.BUT_AddPolygon = new MissionPlanner.Controls.MyButton();
             this.BUT_loadwpfile = new MissionPlanner.Controls.MyButton();
             this.BUT_saveWPFile = new MissionPlanner.Controls.MyButton();
             this.panelMap = new System.Windows.Forms.Panel();
@@ -506,6 +511,7 @@
             // coords1
             // 
             this.coords1.Alt = 0D;
+            this.coords1.AltUnit = "m";
             this.coords1.Lat = 0D;
             this.coords1.Lng = 0D;
             resources.ApplyResources(this.coords1, "coords1");
@@ -686,6 +692,11 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.lbl_wpfile);
+            this.panel2.Controls.Add(this.BUT_AddTakeoffWP);
+            this.panel2.Controls.Add(this.BUT_ClearMission);
+            this.panel2.Controls.Add(this.BUT_ElevationGraph);
+            this.panel2.Controls.Add(this.BUT_ClearPolygon);
+            this.panel2.Controls.Add(this.BUT_AddPolygon);
             this.panel2.Controls.Add(this.BUT_loadwpfile);
             this.panel2.Controls.Add(this.BUT_saveWPFile);
             resources.ApplyResources(this.panel2, "panel2");
@@ -695,6 +706,41 @@
             // 
             resources.ApplyResources(this.lbl_wpfile, "lbl_wpfile");
             this.lbl_wpfile.Name = "lbl_wpfile";
+            // 
+            // BUT_AddTakeoffWP
+            // 
+            resources.ApplyResources(this.BUT_AddTakeoffWP, "BUT_AddTakeoffWP");
+            this.BUT_AddTakeoffWP.Name = "BUT_AddTakeoffWP";
+            this.BUT_AddTakeoffWP.UseVisualStyleBackColor = true;
+            this.BUT_AddTakeoffWP.Click += new System.EventHandler(this.BUT_AddTakeoffWP_Click);
+            // 
+            // BUT_ClearMission
+            // 
+            resources.ApplyResources(this.BUT_ClearMission, "BUT_ClearMission");
+            this.BUT_ClearMission.Name = "BUT_ClearMission";
+            this.BUT_ClearMission.UseVisualStyleBackColor = true;
+            this.BUT_ClearMission.Click += new System.EventHandler(this.BUT_ClearMission_Click);
+            // 
+            // BUT_ElevationGraph
+            // 
+            resources.ApplyResources(this.BUT_ElevationGraph, "BUT_ElevationGraph");
+            this.BUT_ElevationGraph.Name = "BUT_ElevationGraph";
+            this.BUT_ElevationGraph.UseVisualStyleBackColor = true;
+            this.BUT_ElevationGraph.Click += new System.EventHandler(this.BUT_ElevationGraph_Click);
+            // 
+            // BUT_ClearPolygon
+            // 
+            resources.ApplyResources(this.BUT_ClearPolygon, "BUT_ClearPolygon");
+            this.BUT_ClearPolygon.Name = "BUT_ClearPolygon";
+            this.BUT_ClearPolygon.UseVisualStyleBackColor = true;
+            this.BUT_ClearPolygon.Click += new System.EventHandler(this.BUT_ClearPolygon_Click_1);
+            // 
+            // BUT_AddPolygon
+            // 
+            resources.ApplyResources(this.BUT_AddPolygon, "BUT_AddPolygon");
+            this.BUT_AddPolygon.Name = "BUT_AddPolygon";
+            this.BUT_AddPolygon.UseVisualStyleBackColor = true;
+            this.BUT_AddPolygon.Click += new System.EventHandler(this.BUT_AddPolygon_Click_1);
             // 
             // BUT_loadwpfile
             // 
@@ -1398,8 +1444,13 @@
         private System.Windows.Forms.ToolStripMenuItem enterUTMCoordToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadSHPFileToolStripMenuItem;
         private Controls.Coords coords1;
+        private Controls.MyButton BUT_AddTakeoffWP;
         private Controls.MyButton BUT_loadwpfile;
         private Controls.MyButton BUT_saveWPFile;
+        private Controls.MyButton BUT_ClearPolygon;
+        private Controls.MyButton BUT_AddPolygon;
+        private Controls.MyButton BUT_ElevationGraph;
+        private Controls.MyButton BUT_ClearMission;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;

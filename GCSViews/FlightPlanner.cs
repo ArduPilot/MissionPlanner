@@ -2235,6 +2235,59 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
+        private void BUT_AddPolygon_Click_1(object sender, EventArgs e)
+        {
+            if (polygongridmode == false)
+            {
+                CustomMessageBox.Show("You will remain in polygon mode until you clear the polygon or create a grid/upload a fence");
+            }
+
+            polygongridmode = true;
+        }
+
+
+        private void BUT_ClearPolygon_Click_1(object sender, EventArgs e)
+        {
+            if (drawnpolygon.Overlay != null)
+            {
+                polygongridmode = false;
+                if (drawnpolygon == null)
+                    return;
+                drawnpolygon.Points.Clear();
+                drawnpolygonsoverlay.Markers.Clear();
+                drawnpolygonsoverlay.Routes.Clear();
+                drawnpolygon.Overlay.Clear();
+                drawnpolygon.Clear();
+                MainMap.Invalidate();
+
+                writeKML();
+            }
+        }
+
+        private void BUT_ElevationGraph_Click(object sender, EventArgs e)
+        {
+            //code identical to right click elevation graph function -DC
+            writeKML();
+            double homealt = MainV2.comPort.MAV.cs.HomeAlt;
+            Form temp = new ElevationProfile(pointlist, homealt, (altmode)CMB_altmode.SelectedValue);
+            ThemeManager.ApplyThemeTo(temp);
+            temp.ShowDialog();
+        }
+
+        private void BUT_ClearMission_Click(object sender, EventArgs e)
+        {
+            //code identical to right click clear mission function -DC
+            quickadd = true;
+
+            // mono fix
+            Commands.CurrentCell = null;
+
+            Commands.Rows.Clear();
+
+            selectedrow = 0;
+            quickadd = false;
+            writeKML();
+        }
         private void Commands_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
@@ -5650,7 +5703,55 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
             }
         }
+        private void BUT_AddTakeoffWP_Click(object sender, EventArgs e)
+        {
+            // same exact function as right click toolstrip menu
 
+            // altitude
+            string alt = "100";
+
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude", ref alt))
+                return;
+
+            int alti = -1;
+
+            if (!int.TryParse(alt, out alti))
+            {
+                MessageBox.Show("Bad Alt");
+                return;
+            }
+
+            // take off pitch
+            int topi = 0;
+
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            {
+                string top = "35";
+
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
+                    return;
+
+                if (!int.TryParse(top, out topi))
+                {
+                    MessageBox.Show("Bad Takeoff pitch");
+                    return;
+                }
+            }
+
+            Commands.Rows.Insert(0, 1); //always make the takeoff waypoint the first waypoint
+
+            selectedrow = 0;
+
+            Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.TAKEOFF.ToString();
+
+            Commands.Rows[selectedrow].Cells[Param1.Index].Value = topi;
+
+            Commands.Rows[selectedrow].Cells[Alt.Index].Value = alti;
+
+            ChangeColumnHeader(MAVLink.MAV_CMD.TAKEOFF.ToString());
+
+            writeKML();
+        }
         private void panelWaypoints_ExpandClick(object sender, EventArgs e)
         {
             Commands.AutoResizeColumns();
