@@ -15,6 +15,8 @@ namespace MissionPlanner.Controls
         public MyLabel myLabel1;
         public Panel panel1;
         public event EventValueChanged ValueChanged;
+        List<KeyValuePair<int, string>> list;
+        int chkcount;
 
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
@@ -32,6 +34,17 @@ namespace MissionPlanner.Controls
                 }
 
                 return answer;
+            }
+            set
+            {
+                for (int a = 0; a < chkcount; a++)
+                {
+                    CheckBox chk = (CheckBox)panel1.Controls[a];
+
+
+                        chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
+
+                }
             }
         }
 
@@ -53,9 +66,9 @@ namespace MissionPlanner.Controls
             {
                 this.Enabled = true;
 
-                var list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                chkcount = list.Count;
 
-                int chkcount = list.Count;
                 int leftside = 9;
                 int top = 9;
 
