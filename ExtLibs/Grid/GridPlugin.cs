@@ -43,8 +43,6 @@ namespace MissionPlanner
             but = new ToolStripMenuItem(temp);
             but.Click += but_Click;
 
-            MainV2.instance.FlightPlanner.ButtonSurvey.Click += but_Click;
-          
             bool hit = false;
             ToolStripItemCollection col = Host.FPMenuMap.Items;
             int index = col.Count;
