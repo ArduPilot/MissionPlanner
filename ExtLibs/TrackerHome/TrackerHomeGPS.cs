@@ -28,11 +28,11 @@ using TrackerHomeGPS;
             /* Register with Device Change event */
             Host.DeviceChanged += deviceChanged;
             /* Add to Flight Planner Map Menu */
-            ToolStripMenuItem trkrHome = new ToolStripMenuItem("Tracker Home");
+            ToolStripMenuItem trkrHome = new ToolStripMenuItem(Strings.TrackerHome);
             trkrHome.Name = "trkrHomeMenuItem";
-            ToolStripMenuItem obtainFrmMod = new ToolStripMenuItem("Obtain From Module");
+            ToolStripMenuItem obtainFrmMod = new ToolStripMenuItem(Strings.ObtainFromModule);
             obtainFrmMod.Click += setTrackerHomeFromModule;
-            ToolStripMenuItem setAtLoc = new ToolStripMenuItem("Set Here");
+            ToolStripMenuItem setAtLoc = new ToolStripMenuItem(Strings.SetHere);
             setAtLoc.Click += setFromPlannerLocation;
 
             trkrHome.DropDownItems.AddRange( new ToolStripItem[] { obtainFrmMod, setAtLoc } );
@@ -41,7 +41,7 @@ using TrackerHomeGPS;
             int index = col.Count;
             foreach (ToolStripItem item in col)
             {
-                if (item.Text.Equals("Tracker Home"))
+                if (item.Text.Equals(Strings.TrackerHome))
                 {
                     index = col.IndexOf(item);
                     col.Remove(item);
