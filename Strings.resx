@@ -564,4 +564,13 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
     <value>Please wait for the musical tones to finish before clicking OK</value>
   </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>Obtain From Module</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Set Here</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Tracker Home</value>
+  </data>
 </root>

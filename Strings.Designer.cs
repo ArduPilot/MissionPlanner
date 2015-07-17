@@ -940,6 +940,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Obtain From Module 的本地化字符串。
+        /// </summary>
+        public static string ObtainFromModule {
+            get {
+                return ResourceManager.GetString("ObtainFromModule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 OK 的本地化字符串。
         /// </summary>
         public static string OK {
@@ -1133,6 +1142,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Set Here 的本地化字符串。
+        /// </summary>
+        public static string SetHere {
+            get {
+                return ResourceManager.GetString("SetHere", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Show me again? 的本地化字符串。
         /// </summary>
         public static string ShowMeAgain {
@@ -1192,6 +1210,15 @@ namespace MissionPlanner {
         public static string Timeout {
             get {
                 return ResourceManager.GetString("Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Tracker Home 的本地化字符串。
+        /// </summary>
+        public static string TrackerHome {
+            get {
+                return ResourceManager.GetString("TrackerHome", resourceCulture);
             }
         }
         
