@@ -57,6 +57,7 @@ namespace px4uploader
             GET_OTP = 0x2a, // read a byte from OTP at the given address 
             GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
             GET_CHIP = 0x2c, // read chip version (MCU IDCODE)
+            PROTO_SET_DELAY	= 0x2d, // set minimum boot delay
             REBOOT = 0x30,
         }
 
@@ -376,7 +377,7 @@ namespace px4uploader
         public byte[] __recv(int count = 1)
         {
             // this will auto timeout
-           // Console.WriteLine("recv "+count);
+            // Console.WriteLine("recv "+count);
             byte[] c = new byte[count];
             int pos = 0;
             while (pos < count)
@@ -618,6 +619,8 @@ namespace px4uploader
 
         public void identify()
         {
+            port.DiscardInBuffer();
+
             //Console.WriteLine("0 " + DateTime.Now.Millisecond);
             // make sure we are in sync before starting
             self.__sync();
