@@ -78,6 +78,8 @@
             this.configMotor1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest();
             this.backstageViewPagehwbt = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWBT1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT();
+            this.backstageViewPageParachute = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configHWPa1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute();
             this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -111,13 +113,14 @@
             this.backstageView.Pages.Add(this.backstageViewPageAntTrack);
             this.backstageView.Pages.Add(this.backstageViewPageMotorTest);
             this.backstageView.Pages.Add(this.backstageViewPagehwbt);
+            this.backstageView.Pages.Add(this.backstageViewPageParachute);
             this.backstageView.WidthMenu = 172;
             // 
             // backstageViewPagefw
             // 
             this.backstageViewPagefw.Advanced = false;
             this.backstageViewPagefw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
-            this.backstageViewPagefw.LinkText = "安装固件";
+            this.backstageViewPagefw.LinkText = "Install Firmware";
             this.backstageViewPagefw.Page = this.configFirmware1;
             this.backstageViewPagefw.Parent = null;
             this.backstageViewPagefw.Show = true;
@@ -137,7 +140,7 @@
             // 
             this.backstageViewPagefwdisabled.Advanced = false;
             this.backstageViewPagefwdisabled.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagefwdisabled.LinkText = "安装固件";
+            this.backstageViewPagefwdisabled.LinkText = "Install Firmware";
             this.backstageViewPagefwdisabled.Page = this.configFirmwareDisabled1;
             this.backstageViewPagefwdisabled.Parent = null;
             this.backstageViewPagefwdisabled.Show = true;
@@ -152,7 +155,7 @@
             // backstageViewPagewizard
             // 
             this.backstageViewPagewizard.Advanced = false;
-            this.backstageViewPagewizard.LinkText = "向导";
+            this.backstageViewPagewizard.LinkText = "Wizard";
             this.backstageViewPagewizard.Page = this.configWizard1;
             this.backstageViewPagewizard.Parent = null;
             this.backstageViewPagewizard.Show = true;
@@ -168,7 +171,7 @@
             // 
             this.backstageViewPagemand.Advanced = false;
             this.backstageViewPagemand.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagemand.LinkText = "必要硬件";
+            this.backstageViewPagemand.LinkText = "Mandatory Hardware";
             this.backstageViewPagemand.Page = this.configMandatory1;
             this.backstageViewPagemand.Parent = null;
             this.backstageViewPagemand.Show = true;
@@ -184,7 +187,7 @@
             // 
             this.backstageViewPagetradheli.Advanced = false;
             this.backstageViewPagetradheli.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isHeli", true));
-            this.backstageViewPagetradheli.LinkText = "直升机安装";
+            this.backstageViewPagetradheli.LinkText = "Heli Setup";
             this.backstageViewPagetradheli.Page = this.configTradHeli1;
             this.backstageViewPagetradheli.Parent = this.backstageViewPagemand;
             this.backstageViewPagetradheli.Show = true;
@@ -200,7 +203,7 @@
             // 
             this.backstageViewPageframetype.Advanced = false;
             this.backstageViewPageframetype.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPageframetype.LinkText = "机架类型";
+            this.backstageViewPageframetype.LinkText = "Frame Type";
             this.backstageViewPageframetype.Page = this.configFrameType1;
             this.backstageViewPageframetype.Parent = this.backstageViewPagemand;
             this.backstageViewPageframetype.Show = true;
@@ -231,7 +234,7 @@
             // backstageViewPagecompass
             // 
             this.backstageViewPagecompass.Advanced = false;
-            this.backstageViewPagecompass.LinkText = "罗盘";
+            this.backstageViewPagecompass.LinkText = "Compass";
             this.backstageViewPagecompass.Page = this.configHWCompass1;
             this.backstageViewPagecompass.Parent = this.backstageViewPagemand;
             this.backstageViewPagecompass.Show = true;
@@ -246,7 +249,7 @@
             // backstageViewPageradio
             // 
             this.backstageViewPageradio.Advanced = false;
-            this.backstageViewPageradio.LinkText = "遥控器校准";
+            this.backstageViewPageradio.LinkText = "Radio Calibration";
             this.backstageViewPageradio.Page = this.configRadioInput1;
             this.backstageViewPageradio.Parent = this.backstageViewPagemand;
             this.backstageViewPageradio.Show = true;
@@ -261,7 +264,7 @@
             // backstageViewPageflmode
             // 
             this.backstageViewPageflmode.Advanced = false;
-            this.backstageViewPageflmode.LinkText = "飞行模式";
+            this.backstageViewPageflmode.LinkText = "Flight Modes";
             this.backstageViewPageflmode.Page = this.configFlightModes1;
             this.backstageViewPageflmode.Parent = this.backstageViewPagemand;
             this.backstageViewPageflmode.Show = true;
@@ -276,7 +279,7 @@
             // backstageViewPagefs
             // 
             this.backstageViewPagefs.Advanced = false;
-            this.backstageViewPagefs.LinkText = "故障保护";
+            this.backstageViewPagefs.LinkText = "FailSafe";
             this.backstageViewPagefs.Page = this.configFailSafe1;
             this.backstageViewPagefs.Parent = this.backstageViewPagemand;
             this.backstageViewPagefs.Show = true;
@@ -291,7 +294,7 @@
             // backstageViewPageopt
             // 
             this.backstageViewPageopt.Advanced = false;
-            this.backstageViewPageopt.LinkText = "可选硬件";
+            this.backstageViewPageopt.LinkText = "Optional Hardware";
             this.backstageViewPageopt.Page = this.configOptional1;
             this.backstageViewPageopt.Parent = null;
             this.backstageViewPageopt.Show = true;
@@ -306,7 +309,7 @@
             // backstageViewPage3drradio
             // 
             this.backstageViewPage3drradio.Advanced = false;
-            this.backstageViewPage3drradio.LinkText = "3DR电台(数传)";
+            this.backstageViewPage3drradio.LinkText = "3DR Radio";
             this.backstageViewPage3drradio.Page = this._3DRradio1;
             this.backstageViewPage3drradio.Parent = this.backstageViewPageopt;
             this.backstageViewPage3drradio.Show = true;
@@ -322,7 +325,7 @@
             // 
             this.backstageViewPagebatmon.Advanced = false;
             this.backstageViewPagebatmon.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagebatmon.LinkText = "电池监测器";
+            this.backstageViewPagebatmon.LinkText = "Battery Monitor";
             this.backstageViewPagebatmon.Page = this.configBatteryMonitoring1;
             this.backstageViewPagebatmon.Parent = this.backstageViewPageopt;
             this.backstageViewPagebatmon.Show = true;
@@ -338,7 +341,7 @@
             // 
             this.backstageViewPagecompassmot.Advanced = false;
             this.backstageViewPagecompassmot.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPagecompassmot.LinkText = "罗盘/电机 校准";
+            this.backstageViewPagecompassmot.LinkText = "Compass/Motor Calib";
             this.backstageViewPagecompassmot.Page = this.configCompassMot1;
             this.backstageViewPagecompassmot.Parent = this.backstageViewPageopt;
             this.backstageViewPagecompassmot.Show = true;
@@ -354,7 +357,7 @@
             // 
             this.backstageViewPagesonar.Advanced = false;
             this.backstageViewPagesonar.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagesonar.LinkText = "声呐";
+            this.backstageViewPagesonar.LinkText = "Sonar";
             this.backstageViewPagesonar.Page = this.configHWSonar1;
             this.backstageViewPagesonar.Parent = this.backstageViewPageopt;
             this.backstageViewPagesonar.Show = true;
@@ -370,7 +373,7 @@
             // 
             this.backstageViewPageairspeed.Advanced = false;
             this.backstageViewPageairspeed.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPageairspeed.LinkText = "空速";
+            this.backstageViewPageairspeed.LinkText = "Airspeed";
             this.backstageViewPageairspeed.Page = this.configHWAirspeed1;
             this.backstageViewPageairspeed.Parent = this.backstageViewPageopt;
             this.backstageViewPageairspeed.Show = true;
@@ -386,7 +389,7 @@
             // 
             this.backstageViewPageoptflow.Advanced = false;
             this.backstageViewPageoptflow.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPageoptflow.LinkText = "光流";
+            this.backstageViewPageoptflow.LinkText = "Optical Flow";
             this.backstageViewPageoptflow.Page = this.configHWOptFlow1;
             this.backstageViewPageoptflow.Parent = this.backstageViewPageopt;
             this.backstageViewPageoptflow.Show = true;
@@ -418,7 +421,7 @@
             // 
             this.backstageViewPagegimbal.Advanced = false;
             this.backstageViewPagegimbal.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagegimbal.LinkText = "相机云台";
+            this.backstageViewPagegimbal.LinkText = "Camera Gimbal";
             this.backstageViewPagegimbal.Page = this.configMount1;
             this.backstageViewPagegimbal.Parent = this.backstageViewPageopt;
             this.backstageViewPagegimbal.Show = true;
@@ -433,7 +436,7 @@
             // backstageViewPageAntTrack
             // 
             this.backstageViewPageAntTrack.Advanced = false;
-            this.backstageViewPageAntTrack.LinkText = "天线追踪器";
+            this.backstageViewPageAntTrack.LinkText = "Antenna tracker";
             this.backstageViewPageAntTrack.Page = this.tracker1;
             this.backstageViewPageAntTrack.Parent = this.backstageViewPageopt;
             this.backstageViewPageAntTrack.Show = true;
@@ -442,8 +445,8 @@
             // 
             // tracker1
             // 
-            resources.ApplyResources(this.tracker1, "tracker1");
             this.tracker1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
+            resources.ApplyResources(this.tracker1, "tracker1");
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
             // 
@@ -451,7 +454,7 @@
             // 
             this.backstageViewPageMotorTest.Advanced = false;
             this.backstageViewPageMotorTest.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPageMotorTest.LinkText = "电机测试";
+            this.backstageViewPageMotorTest.LinkText = "Motor Test";
             this.backstageViewPageMotorTest.Page = this.configMotor1;
             this.backstageViewPageMotorTest.Parent = this.backstageViewPageopt;
             this.backstageViewPageMotorTest.Show = true;
@@ -466,7 +469,7 @@
             // backstageViewPagehwbt
             // 
             this.backstageViewPagehwbt.Advanced = false;
-            this.backstageViewPagehwbt.LinkText = "蓝牙设置";
+            this.backstageViewPagehwbt.LinkText = "Bluetooth Setup";
             this.backstageViewPagehwbt.Page = this.configHWBT1;
             this.backstageViewPagehwbt.Parent = this.backstageViewPageopt;
             this.backstageViewPagehwbt.Show = true;
@@ -477,6 +480,22 @@
             // 
             resources.ApplyResources(this.configHWBT1, "configHWBT1");
             this.configHWBT1.Name = "configHWBT1";
+            // 
+            // backstageViewPageParachute
+            // 
+            this.backstageViewPageParachute.Advanced = false;
+            this.backstageViewPageParachute.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPageParachute.LinkText = "Parachute";
+            this.backstageViewPageParachute.Page = this.configHWPa1;
+            this.backstageViewPageParachute.Parent = this.backstageViewPageopt;
+            this.backstageViewPageParachute.Show = true;
+            this.backstageViewPageParachute.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageParachute, "backstageViewPageParachute");
+            // 
+            // configHWPa1
+            // 
+            resources.ApplyResources(this.configHWPa1, "configHWPa1");
+            this.configHWPa1.Name = "configHWPa1";
             // 
             // backstageViewPageinstfw
             // 
@@ -491,13 +510,13 @@
             // 
             // InitialSetup
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
             this.Controls.Add(this.configAccelerometerCalibration);
             this.Controls.Add(this.configHWBT1);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
+            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HardwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.HardwareConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).EndInit();
@@ -556,5 +575,7 @@
         private ConfigurationView.ConfigAccelerometerCalibration configAccelerometerCalibration;
         private Controls.BackstageView.BackstageViewPage backstageViewPagehwbt;
         private ConfigurationView.ConfigHWBT configHWBT1;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageParachute;
+        private ConfigurationView.ConfigHWParachute configHWPa1;
     }
 }
