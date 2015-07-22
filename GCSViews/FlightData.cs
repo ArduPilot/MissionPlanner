@@ -3102,6 +3102,8 @@ namespace MissionPlanner.GCSViews
                 }
 
                 scriptChecker_Tick(null, null);
+
+                MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
             else
             {
