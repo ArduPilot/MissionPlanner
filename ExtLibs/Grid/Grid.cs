@@ -42,7 +42,7 @@ namespace MissionPlanner
             TopRight = 4
         }
 
-        static void addtomap(linelatlng pos)
+        static void addtomap(linelatlng pos)        //need to figure out what should I do with this...
         {
             return;
             //List<PointLatLng> list = new List<PointLatLng>();
@@ -74,7 +74,9 @@ namespace MissionPlanner
             //map.Invalidate();
         }
 
-        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin = 0)
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, 
+            double distance, double spacing, double angle, double overshoot1,double overshoot2, 
+            StartPosition startpos, bool shutter, float minLaneSeparation, float leadin = 0)
         {
             if (spacing < 10 && spacing != 0)
                 spacing = 10;
@@ -82,17 +84,17 @@ namespace MissionPlanner
             if (distance < 5)
                 distance = 5;
 
-            if (polygon.Count == 0)
+            if (polygon.Count == 0)     //I think this returns a list of nothing if there are no WPs to make a polygon
                 return new List<PointLatLngAlt>();
 
             
-            // Make a non round number in case of corner cases
+            // Make a non round number in case of corner cases      //need to figure out why we needed to do this
             if (minLaneSeparation != 0)
                 minLaneSeparation += 0.5F;
             // Lane Separation in meters
             double minLaneSeparationINMeters = minLaneSeparation * distance;
 
-            List<PointLatLngAlt> ans = new List<PointLatLngAlt>();
+            List<PointLatLngAlt> ans = new List<PointLatLngAlt>();      //what was this used for...?
 
             // utm zone distance calcs will be done in
             int utmzone = polygon[0].GetUTMZone();
@@ -112,7 +114,7 @@ namespace MissionPlanner
             // used to determine the size of the outer grid area
             double diagdist = area.DiagDistance();
 
-            // somewhere to store out generated lines
+            // somewhere to store our generated lines
             List<linelatlng> grid = new List<linelatlng>();
             // number of lines we need
             int lines = 0;
@@ -121,7 +123,7 @@ namespace MissionPlanner
             double x = area.MidWidth;
             double y = area.MidHeight;
 
-            addtomap(new utmpos(x, y, utmzone),"Base");
+            //addtomap(new utmpos(x, y, utmzone),"Base");  //this function is all commented out...? so I commented this line out
 
             // get left extent
             double xb1 = x;
@@ -133,7 +135,7 @@ namespace MissionPlanner
 
             utmpos left = new utmpos(xb1, yb1, utmzone);
 
-            addtomap(left, "left");
+            //addtomap(left, "left");   //function doesn't do anything either
 
             // get right extent
             double xb2 = x;
@@ -145,13 +147,14 @@ namespace MissionPlanner
 
             utmpos right = new utmpos(xb2, yb2, utmzone);
 
-            addtomap(right,"right");
+            //addtomap(right,"right");  //this also does nothing
 
             // set start point to left hand side
             x = xb1;
             y = yb1;
 
             // draw the outergrid, this is a grid that cover the entire area of the rectangle plus more.
+            //this while loop is actually really important, it allows for the grid lines to be stored to output later on
             while (lines < ((diagdist + distance * 2) / distance))
             {
                 // copy the start point to generate the end point
@@ -163,23 +166,25 @@ namespace MissionPlanner
                 line.p1 = new utmpos(x, y, utmzone);
                 line.p2 = new utmpos(nx, ny, utmzone);
                 line.basepnt = new utmpos(x, y, utmzone);
-                grid.Add(line);
+                grid.Add(line);       //this code line is adding the lines produced above to the line list<T>
 
-               // addtomap(line);
+               //addtomap(line);      //not being used either
 
                 newpos(ref x, ref y, angle + 90, distance);
-                lines++;
+                lines++;              //incrementing the counter for the number of lines that was initialized above
             }
 
             // find intersections with our polygon
 
             // store lines that dont have any intersections
+            //takes only the important lines and doesn't put them in the remove list because we will need them
+            //the remove list are the lines that were created as extras that are to be removed from the full list later
             List<linelatlng> remove = new List<linelatlng>();
 
-            int gridno = grid.Count;
+            int gridno = grid.Count;    //the number of grid (lines~?) in the list<T>
 
             // cycle through our grid
-            for (int a = 0; a < gridno; a++)
+            for (int a = 0; a < gridno; a++)        //going through the whole grid lines
             {
                 double closestdistance = double.MaxValue;
                 double farestdistance = double.MinValue;
@@ -190,29 +195,31 @@ namespace MissionPlanner
                 // somewhere to store our intersections
                 List<utmpos> matchs = new List<utmpos>();
 
-                int b = -1;
+                int b = -1;         //why initialize to a -1??
                 int crosses = 0;
                 utmpos newutmpos = utmpos.Zero;
-                foreach (utmpos pnt in utmpositions)
+                foreach (utmpos pnt in utmpositions)        //how does this work exactly...?
                 {
                     b++;
-                    if (b == 0)
+                    if (b == 0)     //it will always be 0 the first time around...? So why do we need this
                     {
-                        continue;
+                        continue;   //goes back to the beginning of the for loop and this only runs once
                     }
+                    //zero would be returned into the newutmpos below if the lines were parallel
                     newutmpos = FindLineIntersection(utmpositions[b - 1], utmpositions[b], grid[a].p1, grid[a].p2);
-                    if (!newutmpos.IsZero)
-                    {
-                        crosses++;
-                        matchs.Add(newutmpos);
-                        if (closestdistance > grid[a].p1.GetDistance(newutmpos))
+                    if (!newutmpos.IsZero)      //basically means if newutmpos is not 0, i.e.: if (newutmpos != 0)
+                    {                           //so intersection was found if this line runs
+                        crosses++;              //increment counter for the number of line internsections
+                        matchs.Add(newutmpos);  //store intersection into the intersection list matchs
+                                                //now try to find if you can update the closer and farther variables
+                        if (closestdistance > grid[a].p1.GetDistance(newutmpos))  //find a closer closestdistance
                         {
                             closestpoint.y = newutmpos.y;
                             closestpoint.x = newutmpos.x;
                             closestpoint.zone = newutmpos.zone;
                             closestdistance = grid[a].p1.GetDistance(newutmpos);
                         }
-                        if (farestdistance < grid[a].p1.GetDistance(newutmpos))
+                        if (farestdistance < grid[a].p1.GetDistance(newutmpos))   //find a farther farthest distance
                         {
                             farestpoint.y = newutmpos.y;
                             farestpoint.x = newutmpos.x;
@@ -221,63 +228,64 @@ namespace MissionPlanner
                         }
                     }
                 }
-                if (crosses == 0) // outside our polygon
-                {
+                if (crosses == 0) // outside our polygon    
+                {                 //all of the lines created are outside of our polygon (made by the waypoints~?)
                     if (!PointInPolygon(grid[a].p1, utmpositions) && !PointInPolygon(grid[a].p2, utmpositions))
-                        remove.Add(grid[a]);
-                }
+                        remove.Add(grid[a]);    //I think this adds the lines with no intersections to the remove list<T>
+                }                               //which stores lines that don't have any intersections
                 else if (crosses == 1) // bad - shouldnt happen
-                {
-
+                {   //the line crosses one part of the polygon which means its a random line barely touching the polygon area
+                    //should nothing be done is crosses = 1 ?
                 }
                 else if (crosses == 2) // simple start and finish
-                {
+                {                      //there is just a straight line from point A to point B and then the flight is done
                     linelatlng line = grid[a];
-                    line.p1 = closestpoint;
-                    line.p2 = farestpoint;
+                    line.p1 = closestpoint;     //set p1 (start) to the closer of the two crosses
+                    line.p2 = farestpoint;      //set p2 (end) to the farther of the two crosses
                     grid[a] = line;
                 }
                 else // multiple intersections
-                {
-                    linelatlng line = grid[a];
+                {    //means we have to go back and forth through the polygon multiple times to cover all of the space/area
+                    linelatlng line = grid[a];      //grid has the generated lines and a is at the first index at the beginning
                     remove.Add(line);
 
-                    while (matchs.Count > 1)
+                    while (matchs.Count > 1)        //which there are still more than 1 matches
                     {
-                        linelatlng newline = new linelatlng();
+                        linelatlng newline = new linelatlng();      //is this for storing the lines to be used?
 
                         closestpoint = findClosestPoint(closestpoint, matchs);
                         newline.p1 = closestpoint;
                         matchs.Remove(closestpoint);
 
-                        closestpoint = findClosestPoint(closestpoint, matchs);
+                        closestpoint = findClosestPoint(closestpoint, matchs);      //why is this done twice?
                         newline.p2 = closestpoint;
                         matchs.Remove(closestpoint);
 
-                        newline.basepnt = line.basepnt;
+                        newline.basepnt = line.basepnt;     //basepnt is used for a base for the grid along the line
 
-                        grid.Add(newline);
+                        grid.Add(newline);    //adding this newline with a new base to the grid list of generated lines (why?)
                     }
                 }
             }
 
             // cleanup and keep only lines that pass though our polygon
-            foreach (linelatlng line in remove)
+            foreach (linelatlng line in remove)     //removes all the lines in the remove line list<T> from the grid list<T>
             {
                 grid.Remove(line);
             }
 
             // debug
-            foreach (linelatlng line in grid)
+            foreach (linelatlng line in grid)       //adds all of the lines that are good to the map
             {
-                addtomap(line);
+                addtomap(line);                     //however, this function doesn't do anything...
             }
 
-            if (grid.Count == 0)
+            if (grid.Count == 0)                    //what is this...?
                 return ans;
 
             utmpos startposutm;
 
+            //setting a new start position depending on where the user chose for it to be
             switch (startpos)
             {
                 default:
@@ -317,14 +325,14 @@ namespace MissionPlanner
             while (grid.Count > 0)
             {
                 // for each line, check which end of the line is the next closest
-                if (closest.p1.GetDistance(lastpnt) < closest.p2.GetDistance(lastpnt))
+                if (closest.p1.GetDistance(lastpnt) < closest.p2.GetDistance(lastpnt))  //is the closer point of the line is already p1
                 {
                     utmpos newstart = newpos(closest.p1, angle, -leadin);
 
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
-                    if (spacing > 0)
+                    if (spacing > 0)        //need to look and figure out what this all does later though
                     {
                         for (int d = (int)(spacing - ((closest.basepnt.GetDistance(closest.p1)) % spacing));
                             d < (closest.p1.GetDistance(closest.p2));
@@ -347,12 +355,12 @@ namespace MissionPlanner
                     lastpnt = closest.p2;
 
                     grid.Remove(closest);
-                    if (grid.Count == 0)
+                    if (grid.Count == 0)        //all lines have been added once the count reaches zero
                         break;
 
-                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
+                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);      //gets next closest line
                 }
-                else
+                else        //probably for when you need to change a line or switch the start and end of a line to match the previous one
                 {
                     utmpos newstart = newpos(closest.p2, angle, leadin);
                     addtomap(newstart, "E");

@@ -15,7 +15,7 @@ namespace MissionPlanner.Joystick
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         Device joystick;
-        JoystickState state;
+        JoystickState state;        //maybe change to Joystick state;
         public bool enabled = false;
         byte[] buttonpressed = new byte[128];
         public string name;

@@ -7,7 +7,7 @@ namespace GMap.NET.WindowsForms
     using System.Drawing.Drawing2D;
     using System.Runtime.Serialization;
     using System.Windows.Forms;
-    using GMap.NET;    
+    using GMap.NET;
 
     /// <summary>
     /// GMap.NET route

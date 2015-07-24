@@ -3386,8 +3386,8 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                string lastwp = MainV2.comPort.MAV.cs.lastautowp.ToString();
-                if (lastwp == "-1")
+                string lastwp = (MainV2.comPort.MAV.cs.persistentlastwp+1).ToString();
+                if (lastwp == "0")
                     lastwp = "1";
 
                 if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)

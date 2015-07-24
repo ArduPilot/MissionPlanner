@@ -20,6 +20,7 @@ namespace MissionPlanner
         internal MAVState parent;
 
         internal int lastautowp =-1;
+        internal int persistentlastwp = -1;  //we added this
 
         // multipliers
         public static float multiplierdist = 1;
@@ -1280,6 +1281,10 @@ namespace MissionPlanner
                         if (mode.ToLower() == "auto" && wpno != 0)
                         {
                             lastautowp = (int)wpno;
+                            if ((int)wpno > persistentlastwp)
+                            {
+                                persistentlastwp = (int)wpno;  //updates our variable
+                            }
                         }
 
                         if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this && MainV2.getConfig("speechwaypointenabled") == "True")
