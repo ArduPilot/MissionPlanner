@@ -150,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         try
                         {
-                            var value = float.Parse(row.Cells[1].Value.ToString());
+                            var value = double.Parse(row.Cells[1].Value.ToString());
 
                             data[row.Cells[0].Value.ToString()] = value;
                         }

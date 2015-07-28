@@ -95,7 +95,16 @@ namespace MissionPlanner.Utilities
                 {
                     double value = double.Parse(paramlist[item].ToString());
 
-                    sw.WriteLine(item + "," + value.ToString(new System.Globalization.CultureInfo("en-US")));
+                    string valueasstring = value.ToString(new System.Globalization.CultureInfo("en-US"));
+
+                    if (valueasstring.Contains("."))
+                    {
+                        sw.WriteLine(item + "," + ((float)value).ToString(new System.Globalization.CultureInfo("en-US")));
+                    }
+                    else
+                    {
+                        sw.WriteLine(item + "," + valueasstring);
+                    }
                 }
             }
         }
