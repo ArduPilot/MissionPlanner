@@ -108,6 +108,12 @@ namespace MissionPlanner.GCSViews
                 if (this.Disposing)
                     return;
 
+                // gather current typed data
+                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+
+                // remove typed data
+                TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
                 data = data.TrimEnd('\r'); // else added \n all by itself
@@ -127,6 +133,9 @@ namespace MissionPlanner.GCSViews
                     TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
                 }
                 inputStartPos = TXT_terminal.SelectionStart;
+
+                //add back typed text
+                TXT_terminal.AppendText(currenttypedtext);
             });
         }
 
@@ -228,6 +237,9 @@ namespace MissionPlanner.GCSViews
                                 history = cmdHistory.Count;
                             }
                         }
+
+                        log.Info("Command: "+ cmd);
+
                         // do not change this  \r is correct - no \n
                         if (cmd == "+++")
                         {
