@@ -339,6 +339,12 @@
     <Compile Include="Controls\ModifyandSet.Designer.cs">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Vibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Vibration.Designer.cs">
+      <DependentUpon>Vibration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Waypoints\Command.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -675,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Vibration.resx">
+      <DependentUpon>Vibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.zh-Hant.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>

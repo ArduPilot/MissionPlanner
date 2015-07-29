@@ -1561,5 +1561,12 @@ namespace MissionPlanner
 
             fft.Show();
         }
+
+        private void BUT_vib_Click(object sender, EventArgs e)
+        {
+            Controls.Vibration vib = new Vibration();
+
+            vib.Show();
+        }
     }
 }
