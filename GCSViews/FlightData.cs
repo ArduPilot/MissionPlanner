@@ -327,7 +327,7 @@ namespace MissionPlanner.GCSViews
 
         void mymap_Paint(object sender, PaintEventArgs e)
         {
-            distanceBar1.Invalidate();
+            distanceBar1.DoPaintRemote(e);
         }
 
         void comPort_MavChanged(object sender, EventArgs e)
