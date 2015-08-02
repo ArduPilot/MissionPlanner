@@ -510,10 +510,6 @@ namespace MissionPlanner
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
 
-                // preload
-                log.Info("Create Python");
-                Python.CreateEngine();
-
                 FlightData.Width = MyView.Width;
                 FlightPlanner.Width = MyView.Width;
                 Simulation.Width = MyView.Width;

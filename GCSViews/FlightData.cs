@@ -1552,7 +1552,7 @@ namespace MissionPlanner.GCSViews
 
 
             // Calculate the Axis Scale Ranges
-            zgc.AxisChange();
+            //zgc.AxisChange();
 
             tickStart = Environment.TickCount;
 

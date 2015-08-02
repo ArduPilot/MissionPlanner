@@ -496,6 +496,10 @@ namespace MissionPlanner.GCSViews
 
             Up.Image = Resources.up;
             Down.Image = Resources.down;
+
+            // hide the map to prevent redraws when its loaded
+            panelMap.Visible = false;
+            panelWaypoints.Expand = false;    
         }
 
         void updateCMDParams()
@@ -627,7 +631,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        private void Planner_Load(object sender, EventArgs e)
+        private void FlightPlanner_Load(object sender, EventArgs e)
         {
             quickadd = true;
 
@@ -666,10 +670,12 @@ namespace MissionPlanner.GCSViews
 
             updateCMDParams();
 
+            panelMap.Visible = false;       
+
             // mono
             panelMap.Dock = DockStyle.None;
             panelMap.Dock = DockStyle.Fill;
-            panelMap_Resize(null, null);
+            panelMap_Resize(null, null);          
 
             //set home
             try
@@ -683,9 +689,11 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception) { }
 
-            writeKML();
+            panelMap.Refresh();
 
-            panelWaypoints.Expand = false;
+            panelMap.Visible = true;
+
+            writeKML();        
 
             // switch the action and wp table
             if (MainV2.getConfig("FP_docking") == "Bottom")

@@ -139,6 +139,8 @@ namespace MissionPlanner.Controls
                 MainControl.ResumeLayout();
             }
 
+            nextscreen.Control.Refresh();
+
             nextscreen.Visible = true;
 
             current = nextscreen;
