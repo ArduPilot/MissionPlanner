@@ -592,10 +592,10 @@ namespace MissionPlanner
                 _mode = 99999;
                 messages = new List<string>();
                 useLocation = false;
-                rateattitude = 10;
-                rateposition = 3;
+                rateattitude = 6;
+                rateposition = 2;
                 ratestatus = 2;
-                ratesensors = 2;
+                ratesensors = 1;
                 raterc = 2;
                 datetime = DateTime.MinValue;
                 battery_usedmah = 0;
