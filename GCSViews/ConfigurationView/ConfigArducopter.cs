@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_I", "VEL_XY_I" }, MainV2.comPort.MAV.param);
             LOITER_LAT_IMAX.setup(0, 0, 10, 0.1f, new[] { "LOITER_LAT_IMAX", "VEL_XY_IMAX" }, MainV2.comPort.MAV.param);
             LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_P", "VEL_XY_P" }, MainV2.comPort.MAV.param);
-            RATE_PIT_FF.setup(0, 0, 1, 0.001f, "RATE_PIT_FF", MainV2.comPort.MAV.param);
+            RATE_PIT_FF.setup(0, 0, 1, 0.001f, "RATE_PIT_VFF", MainV2.comPort.MAV.param);
             RATE_PIT_D.setup(0, 0, 1, 0.001f, "RATE_PIT_D", MainV2.comPort.MAV.param);
             RATE_PIT_I.setup(0, 0, 1, 0.001f, "RATE_PIT_I", MainV2.comPort.MAV.param);
             RATE_PIT_IMAX.setup(0, 0, 10, 0.1f, "RATE_PIT_IMAX", MainV2.comPort.MAV.param);
@@ -71,9 +71,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RATE_RLL_I.setup(0, 0, 1, 0.001f, "RATE_RLL_I", MainV2.comPort.MAV.param);
             RATE_RLL_IMAX.setup(0, 0, 10, 0.1f, "RATE_RLL_IMAX", MainV2.comPort.MAV.param);
             RATE_RLL_P.setup(0, 0, 1, 0.001f, "RATE_RLL_P", MainV2.comPort.MAV.param);
-            RATE_RLL_FF.setup(0, 0, 1, 0.001f, "RATE_RLL_FF", MainV2.comPort.MAV.param);
+            RATE_RLL_FF.setup(0, 0, 1, 0.001f, "RATE_RLL_VFF", MainV2.comPort.MAV.param);
             RATE_YAW_D.setup(0, 0, 1, 0.001f, "RATE_YAW_D", MainV2.comPort.MAV.param);
-            RATE_YAW_FF.setup(0, 0, 1, 0.001f, "RATE_YAW_FF", MainV2.comPort.MAV.param);
+            RATE_YAW_FF.setup(0, 0, 1, 0.001f, "RATE_YAW_VFF", MainV2.comPort.MAV.param);
             RATE_YAW_I.setup(0, 0, 1, 0.001f, "RATE_YAW_I", MainV2.comPort.MAV.param);
             RATE_YAW_IMAX.setup(0, 0, 10, 0.1f, "RATE_YAW_IMAX", MainV2.comPort.MAV.param);
             RATE_YAW_P.setup(0, 0, 1, 0.001f, "RATE_YAW_P", MainV2.comPort.MAV.param);
