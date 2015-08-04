@@ -2378,13 +2378,14 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
+                Width = 800,
                 Height = 410,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
-                MinimizeBox = false
+                MinimizeBox = false,
+                AutoScroll = true
             };
             ThemeManager.ApplyThemeTo(selectform);
 
@@ -2416,7 +2417,7 @@ namespace MissionPlanner.GCSViews
             int col_count = (int)(Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
             int row_height = 20;
-            selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
+            //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
 
             for (int i = 0; i < fields.Count; i++)
             {
@@ -2741,13 +2742,14 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
-                Height = 250,
+                Width = 800,
+                Height = 410,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
                 MaximizeBox = false,
-                MinimizeBox = false
+                MinimizeBox = false,
+                AutoScroll = true
             };
             ThemeManager.ApplyThemeTo(selectform);
 
@@ -2779,7 +2781,7 @@ namespace MissionPlanner.GCSViews
             int col_count = (int)(Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
             int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
             int row_height = 20;
-            selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
+            //selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
 
             for (int i = 0; i < fields.Count; i++)
             {
