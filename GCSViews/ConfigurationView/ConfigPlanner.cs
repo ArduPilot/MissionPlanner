@@ -41,7 +41,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
 
             // setup language selection
-            var cultureCodes = new[] {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE"};
+            var cultureCodes = new[] {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP"};
 
             _languages = cultureCodes
                 .Select(CultureInfoEx.GetCultureInfo)
