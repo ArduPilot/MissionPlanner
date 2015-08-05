@@ -996,7 +996,7 @@ namespace MissionPlanner
 
                 log.Info("About to do dtr if needed");
                 // reset on connect logic.
-                if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                if (config["CHK_resetapmonconnect"] != null && bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
                 {
                     log.Info("set dtr rts to false");
                     comPort.BaseStream.DtrEnable = false;
