@@ -498,8 +498,7 @@ namespace MissionPlanner.GCSViews
             Down.Image = Resources.down;
 
             // hide the map to prevent redraws when its loaded
-            panelMap.Visible = false;
-            panelWaypoints.Expand = false;    
+            panelMap.Visible = false;  
         }
 
         void updateCMDParams()
