@@ -787,7 +787,7 @@ namespace MissionPlanner
                         var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>(6);
 
                         opt_m_x = optflow.flow_comp_m_x;
-                        opt_m_y = optflow.flow_comp_m_x;
+                        opt_m_y = optflow.flow_comp_m_y;
                         opt_x = optflow.flow_x;
                         opt_y = optflow.flow_y;
                         opt_qua = optflow.quality;
