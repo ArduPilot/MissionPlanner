@@ -154,7 +154,7 @@ namespace MissionPlanner
         //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
         //GPS, 3, 23524837, 1790, 10, 0.00, -35.3629379, 149.165085, 2.09, 585.41, 0.00, 129.86, 0, 4001
         // 0   1     2         3   4    5         6           7        8      9     10     11    12  13
-		int gpsweekpos = 3, timepos = 2, latpos = 6, lngpos = 7, altpos = 8, altAMSLpos = 9;
+		int gpsweekpos = 4, timepos = 3, latpos = 7, lngpos = 8, altpos = 9, altAMSLpos = 10;
         
         // ATT Msg Positions
         // ATT, 199361, 0.00, -0.40, 0.00, -3.01, 103.03, 103.03
@@ -162,7 +162,7 @@ namespace MissionPlanner
         
         // CAM Log positions
         //CAM, 36028400, 1790, 37.4155135, -3.8520916, 69.93, -3.61, -3.82, 62.93
-        int timeCAMpos = 1, weekCAMPos = 2, latCAMpos = 3, lngCAMpos = 4, altCAMpos = 5, pitchCAMATT = 6, rollCAMATT = 7, yawCAMATT = 8;
+        int timeCAMpos = 2, weekCAMPos = 3, latCAMpos = 4, lngCAMpos = 5, altCAMpos = 6, pitchCAMATT = 7, rollCAMATT = 8, yawCAMATT = 9;
 
         #region GraphicalStuff
       
