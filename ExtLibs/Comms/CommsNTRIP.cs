@@ -19,6 +19,7 @@ namespace MissionPlanner.Comms
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private Uri remoteUri;
 
         int retrys = 3;
 
@@ -90,12 +91,18 @@ namespace MissionPlanner.Comms
 
             OnSettings("NTRIP_url", url, true);
 
-            url = url.Replace("ntrip://","http://");
+            url = url.Replace("ntrip://", "http://");
 
-            Uri remoteUri = new Uri(url);
+            remoteUri = new Uri(url);
 
+            doConnect();
+        }
+
+        private void doConnect()
+        {
             string usernamePassword = remoteUri.UserInfo;
-            string auth = "Authorization: Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword))+"\r\n";
+            string auth = "Authorization: Basic " +
+                          Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword)) + "\r\n";
 
             if (usernamePassword == "")
                 auth = "";
@@ -111,8 +118,8 @@ namespace MissionPlanner.Comms
             StreamReader sr = new StreamReader(ns);
 
             string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\nHost: " + remoteUri.Host
-             + "\r\nNtrip-Version: Ntrip/1.0\r\nUser-Agent: Mission Planner\r\n"
-             + auth + "Connection: close\r\n\r\n";
+                          + "\r\nUser-Agent: Mission Planner/1.0\r\nAccept: */*\r\n"
+                          + auth + "Connection: close\r\n\r\n";
 
             sw.Write(line);
 
@@ -127,8 +134,6 @@ namespace MissionPlanner.Comms
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
 
-            client.NoDelay = true;
-            client.Client.NoDelay = true;
 
             VerifyConnected();
         }
@@ -147,7 +152,7 @@ namespace MissionPlanner.Comms
                 if (client != null && retrys > 0)
                 {
                     log.Info("ntrip reconnect");
-                    client.Connect(host,int.Parse(Port));
+                    doConnect();
                     retrys--;
                 }
 
@@ -162,7 +167,7 @@ namespace MissionPlanner.Comms
             {
                 if (length < 1) { return 0; }
 
-				return client.Client.Receive(readto, offset, length, SocketFlags.None);
+				return client.Client.Receive(readto, offset, length, SocketFlags.Partial);
 /*
                 byte[] temp = new byte[length];
                 clientbuf.Read(temp, 0, length);
