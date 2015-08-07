@@ -1219,7 +1219,7 @@ namespace MissionPlanner.Log
 
                 try
                 {
-                    if (double.Parse(item.items[index3].ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
+                    if (double.Parse(item.items[index3].ToString(), System.Globalization.CultureInfo.InvariantCulture) < 3)
                     {
                         return null;
                     }

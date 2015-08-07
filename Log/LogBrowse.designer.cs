@@ -38,12 +38,12 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.chk_time = new System.Windows.Forms.CheckBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.CMB_preselect = new System.Windows.Forms.ComboBox();
             this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
-            this.chk_time = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -131,6 +131,7 @@
             // zg1
             // 
             resources.ApplyResources(this.zg1, "zg1");
+            this.zg1.IsSynchronizeYAxes = true;
             this.zg1.Name = "zg1";
             this.zg1.ScrollGrace = 0D;
             this.zg1.ScrollMaxX = 0D;
@@ -165,6 +166,13 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             this.myGMAP1.OnRouteClick += new GMap.NET.WindowsForms.RouteClick(this.myGMAP1_OnRouteClick);
+            // 
+            // chk_time
+            // 
+            resources.ApplyResources(this.chk_time, "chk_time");
+            this.chk_time.Name = "chk_time";
+            this.chk_time.UseVisualStyleBackColor = true;
+            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
             // 
             // treeView1
             // 
@@ -206,13 +214,6 @@
             this.BUT_Graphit_R.Name = "BUT_Graphit_R";
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
-            // 
-            // chk_time
-            // 
-            resources.ApplyResources(this.chk_time, "chk_time");
-            this.chk_time.Name = "chk_time";
-            this.chk_time.UseVisualStyleBackColor = true;
-            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
             // 
             // LogBrowse
             // 
