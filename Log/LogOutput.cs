@@ -122,7 +122,7 @@ namespace MissionPlanner.Log
                     if (items[0].Contains("GPS2"))
                         return;
 
-                    if (items[DFLog.FindMessageOffset("GPS", "Status")] != "3")
+                    if (int.Parse(items[DFLog.FindMessageOffset("GPS", "Status")]) < 3)
                         return;
 
                     if (position[positionindex] == null)
