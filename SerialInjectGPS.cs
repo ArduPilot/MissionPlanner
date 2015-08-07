@@ -60,7 +60,7 @@ namespace MissionPlanner
                     {
                         case "NTRIP":
                             comPort = new CommsNTRIP();
-                            CMB_baudrate.Text = "0";
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
