@@ -370,9 +370,11 @@ namespace MissionPlanner.Log
                                 if (timeus)
                                     item.timems /= 1000;
 
-                                item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
-
-                                lasttime = item.time;
+                                if (gpsstarttime != DateTime.MinValue)
+                                {
+                                    item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
+                                    lasttime = item.time;
+                                }
                             }
                             else
                             {
