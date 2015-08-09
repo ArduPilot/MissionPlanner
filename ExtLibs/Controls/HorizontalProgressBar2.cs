@@ -39,6 +39,32 @@ namespace MissionPlanner.Controls
         System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
         public bool reverse = false;
         int displayvalue = 0;
+        bool ctladded = false;
+        bool _drawlabel = true;
+
+        [System.ComponentModel.Browsable(true),
+System.ComponentModel.Category("Mine"),
+System.ComponentModel.Description("draw text under Bar")]
+        public bool DrawLabel
+        {
+            get
+            {
+                return _drawlabel;
+            }
+            set
+            {
+                _drawlabel = value;
+                if (_drawlabel == false)
+                {
+                    if (this.Parent != null && ctladded == true)
+                    {
+                        this.Parent.Controls.Remove(lbl);
+                        this.Parent.Controls.Remove(lbl1);
+                    }
+                    ctladded = true;
+                }
+            }
+        }
 
         public HorizontalProgressBar2()
             : base()
@@ -75,10 +101,11 @@ namespace MissionPlanner.Controls
 
                 if (this.DesignMode) return;
 
-                if (this.Parent != null)
+                if (this.Parent != null && ctladded == false)
                 {
                     this.Parent.Controls.Add(lbl);
                     this.Parent.Controls.Add(lbl1);
+                    ctladded = true;
                 }
             }
         }
@@ -122,15 +149,18 @@ System.ComponentModel.Description("Text under Bar")]
 
         private void drawlbl(Graphics e)
         {
-            lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-            lbl.ClientSize = new Size(this.Width, 13);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.Text = m_Text;
+            if (DrawLabel)
+            {
+                lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
+                lbl.ClientSize = new Size(this.Width, 13);
+                lbl.TextAlign = ContentAlignment.MiddleCenter;
+                lbl.Text = m_Text;
 
-            lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-            lbl1.ClientSize = new Size(this.Width, 13);
-            lbl1.TextAlign = ContentAlignment.MiddleCenter;
-            lbl1.Text = displayvalue.ToString();
+                lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
+                lbl1.ClientSize = new Size(this.Width, 13);
+                lbl1.TextAlign = ContentAlignment.MiddleCenter;
+                lbl1.Text = Value.ToString();
+            }
 
             if (minline != 0 && maxline != 0)
             {

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.VibBarX = new MissionPlanner.Controls.VerticalProgressBar();
-            this.VibBarZ = new MissionPlanner.Controls.VerticalProgressBar();
-            this.VibBarY = new MissionPlanner.Controls.VerticalProgressBar();
+            this.VibBarX = new MissionPlanner.Controls.VerticalProgressBar2();
+            this.VibBarZ = new MissionPlanner.Controls.VerticalProgressBar2();
+            this.VibBarY = new MissionPlanner.Controls.VerticalProgressBar2();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -44,59 +44,66 @@
             this.txt_clip0 = new System.Windows.Forms.TextBox();
             this.txt_clip1 = new System.Windows.Forms.TextBox();
             this.txt_clip2 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // VibBarX
             // 
+            this.VibBarX.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
+            this.VibBarX.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.VibBarX.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VibBarX.DrawLabel = false;
             this.VibBarX.Label = null;
             this.VibBarX.Location = new System.Drawing.Point(33, 48);
             this.VibBarX.Maximum = 90;
             this.VibBarX.maxline = 60;
+            this.VibBarX.Minimum = 0;
             this.VibBarX.minline = 30;
             this.VibBarX.Name = "VibBarX";
             this.tableLayoutPanel1.SetRowSpan(this.VibBarX, 4);
             this.VibBarX.Size = new System.Drawing.Size(62, 174);
             this.VibBarX.TabIndex = 0;
-            this.VibBarX.Text = "verticalProgressBar21";
             this.VibBarX.Value = 10;
+            this.VibBarX.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             // 
             // VibBarZ
             // 
+            this.VibBarZ.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
+            this.VibBarZ.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.VibBarZ.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VibBarZ.DrawLabel = false;
             this.VibBarZ.Label = null;
             this.VibBarZ.Location = new System.Drawing.Point(169, 48);
             this.VibBarZ.Maximum = 90;
             this.VibBarZ.maxline = 60;
+            this.VibBarZ.Minimum = 0;
             this.VibBarZ.minline = 30;
             this.VibBarZ.Name = "VibBarZ";
             this.tableLayoutPanel1.SetRowSpan(this.VibBarZ, 4);
             this.VibBarZ.Size = new System.Drawing.Size(62, 174);
             this.VibBarZ.TabIndex = 1;
-            this.VibBarZ.Text = "verticalProgressBar22";
             this.VibBarZ.Value = 10;
+            this.VibBarZ.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             // 
             // VibBarY
             // 
+            this.VibBarY.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
+            this.VibBarY.BorderColor = System.Drawing.SystemColors.ActiveBorder;
             this.VibBarY.Dock = System.Windows.Forms.DockStyle.Fill;
             this.VibBarY.DrawLabel = false;
             this.VibBarY.Label = null;
             this.VibBarY.Location = new System.Drawing.Point(101, 48);
             this.VibBarY.Maximum = 90;
             this.VibBarY.maxline = 60;
+            this.VibBarY.Minimum = 0;
             this.VibBarY.minline = 30;
             this.VibBarY.Name = "VibBarY";
             this.tableLayoutPanel1.SetRowSpan(this.VibBarY, 4);
             this.VibBarY.Size = new System.Drawing.Size(62, 174);
             this.VibBarY.TabIndex = 2;
-            this.VibBarY.Text = "verticalProgressBar23";
             this.VibBarY.Value = 10;
+            this.VibBarY.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             // 
             // tableLayoutPanel1
             // 
@@ -121,8 +128,6 @@
             this.tableLayoutPanel1.Controls.Add(this.txt_clip0, 5, 2);
             this.tableLayoutPanel1.Controls.Add(this.txt_clip1, 5, 3);
             this.tableLayoutPanel1.Controls.Add(this.txt_clip2, 5, 4);
-            this.tableLayoutPanel1.Controls.Add(this.label9, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.label10, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -250,24 +255,6 @@
             this.txt_clip2.Size = new System.Drawing.Size(47, 20);
             this.txt_clip2.TabIndex = 14;
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 90);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(19, 13);
-            this.label9.TabIndex = 15;
-            this.label9.Text = "60";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 135);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(19, 13);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "30";
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -278,6 +265,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(355, 274);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Vibration";
             this.ShowIcon = false;
             this.Text = "Vibration";
@@ -289,9 +277,9 @@
 
         #endregion
 
-        private VerticalProgressBar VibBarX;
-        private VerticalProgressBar VibBarZ;
-        private VerticalProgressBar VibBarY;
+        private VerticalProgressBar2 VibBarX;
+        private VerticalProgressBar2 VibBarZ;
+        private VerticalProgressBar2 VibBarY;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label5;
@@ -305,7 +293,5 @@
         private System.Windows.Forms.TextBox txt_clip1;
         private System.Windows.Forms.TextBox txt_clip2;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
     }
 }
