@@ -44,7 +44,7 @@ namespace MissionPlanner
                 {
                     if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
-                        if (param[value].ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                        if (((float)(double)param[value]).ToString() != param2[value].ToString()) // this will throw is there is no matching key
                         {
                             Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
                             Params.Rows.Add();
