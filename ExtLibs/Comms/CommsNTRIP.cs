@@ -130,9 +130,11 @@ namespace MissionPlanner.Comms
             StreamWriter sw = new StreamWriter(ns);
             StreamReader sr = new StreamReader(ns);
 
-            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\nHost: " + remoteUri.Host
-                          + "\r\nUser-Agent: Mission Planner/1.0\r\nAccept: */*\r\n"
-                          + auth + "Connection: close\r\n\r\n";
+            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\n"
+                          + "User-Agent: NTRIP Mission Planner/1.0\r\n"
+                          + "Accept: */*\r\n"
+                          + auth 
+                          + "Connection: close\r\n\r\n";
 
             sw.Write(line);
 
