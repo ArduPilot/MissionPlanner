@@ -112,6 +112,8 @@ namespace MissionPlanner.Comms
 
             client = new TcpClient(host, int.Parse(Port));
 
+            client.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.KeepAlive, 5);
+
             NetworkStream ns = client.GetStream();
 
             StreamWriter sw = new StreamWriter(ns);
