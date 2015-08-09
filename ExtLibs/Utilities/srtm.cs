@@ -289,6 +289,13 @@ namespace MissionPlanner
                 }
                 else // get something
                 {
+                    if (filename.Contains("S00W000") || filename.Contains("S00W001") ||
+                        filename.Contains("S01W000") || filename.Contains("S01W001"))
+                    {
+                        answer.currenttype = tiletype.ocean;
+                        return answer;
+                    }
+
                     if (oceantile.Contains(filename))
                         answer.currenttype = tiletype.ocean;
 
@@ -299,7 +306,7 @@ namespace MissionPlanner
 
                         if (requestThread == null)
                         {
-                            Console.WriteLine("Getting " + filename);
+                            log.Info("Getting " + filename);
                             lock (objlock)
                             {
                                 queue.Add(filename);
@@ -316,7 +323,7 @@ namespace MissionPlanner
                             {
                                 if (!queue.Contains(filename))
                                 {
-                                    Console.WriteLine("Getting " + filename);
+                                    log.Info("Getting " + filename);
                                     queue.Add(filename);
                                 }
                             }
