@@ -125,6 +125,8 @@ namespace MissionPlanner.NoFly
 
                     kmlpolygon.Stroke.Color = Color.Purple;
 
+                    kmlpolygon.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
                     foreach (var loc in polygon.OuterBoundary.LinearRing.Coordinates)
                     {
                         kmlpolygon.Points.Add(new PointLatLng(loc.Latitude, loc.Longitude));

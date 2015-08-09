@@ -2216,6 +2216,12 @@ namespace MissionPlanner
 
             try
             {
+                NoFly.NoFly.Scan();
+            }
+            catch (Exception ex) { log.Error(ex); }
+
+            try
+            {
                 // check the last kindex date
                 if (MainV2.getConfig("kindexdate") == DateTime.Now.ToShortDateString())
                 {

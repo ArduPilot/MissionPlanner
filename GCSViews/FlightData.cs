@@ -325,6 +325,14 @@ namespace MissionPlanner.GCSViews
             MainV2_AdvancedChanged(null, null);
         }
 
+        void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
+        {
+            foreach (var poly in e.NoFlyZones.Polygons)
+            {
+                kmlpolygons.Polygons.Add(poly);
+            }
+        }
+
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
@@ -630,6 +638,8 @@ namespace MissionPlanner.GCSViews
             POI.POIModified += POI_POIModified;
 
             tfr.GotTFRs += tfr_GotTFRs;
+
+            NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = 24;
