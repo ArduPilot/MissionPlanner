@@ -95,9 +95,9 @@ namespace MissionPlanner
                 {
                     comPort.Open();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString());
                     return;
                 }
 

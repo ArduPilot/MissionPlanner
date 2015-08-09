@@ -10,6 +10,7 @@ using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
 using System.IO;
+using System.Runtime.InteropServices;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
@@ -98,6 +99,17 @@ namespace MissionPlanner.Comms
             doConnect();
         }
 
+        private byte[] TcpKeepAlive(bool On_Off, uint KeepaLiveTime, uint KeepaLiveInterval)
+        {
+            byte[] InValue = new byte[12];
+
+            Array.ConstrainedCopy(BitConverter.GetBytes(Convert.ToUInt32(On_Off)), 0, InValue, 0, 4);
+            Array.ConstrainedCopy(BitConverter.GetBytes(KeepaLiveTime), 0, InValue, 4, 4);
+            Array.ConstrainedCopy(BitConverter.GetBytes(KeepaLiveInterval), 0, InValue, 8, 4);
+
+            return InValue;
+        }
+
         private void doConnect()
         {
             string usernamePassword = remoteUri.UserInfo;
@@ -111,8 +123,7 @@ namespace MissionPlanner.Comms
             Port = remoteUri.Port.ToString();
 
             client = new TcpClient(host, int.Parse(Port));
-
-            client.Client.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.KeepAlive, 5);
+            client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true,36000000, 3000), null);
 
             NetworkStream ns = client.GetStream();
 
