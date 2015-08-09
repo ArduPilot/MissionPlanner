@@ -109,6 +109,7 @@ namespace MissionPlanner
 
             CleanupFiles();
 
+            Utilities.NGEN.doNGEN();
 
             //new AP_GPS_SBF();
 

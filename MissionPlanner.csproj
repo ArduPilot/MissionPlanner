@@ -643,6 +643,7 @@
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
+    <Compile Include="Utilities\NGEN.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
