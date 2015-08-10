@@ -1,4 +1,59 @@
-﻿* Mission Planner 1.3.30 - 19-6-2015
+﻿* Mission Planner 1.3.31 - 9-8-2015
+georefimage: update offsets #946
+FlightPlanner: fix waypoint panel size
+currentstate: fix x/y issue on optical flow #959
+MainV2: change dtr logic, default to off
+ConfigArducopter: update FF params to VFF #950
+configarducopter: add new param names #951
+configmount: rename combobox
+FlightData: make useritem/quickview selection scrolable
+configplanner: make JP language selectable
+add JP translation by Jiro Hattori & Co
+CurrentState: adjust default stream rates, to increase idle bandwidth
+GCSViews: add Parachute #906
+Localizations: update zh-Hans translations
+MavlinkCheckBoxBitMask: fix refresh chkboxes #912
+ParameterMetaDataRepository: remove zh-Hans support
+DistanceBar: fix paint issues
+Startup speed tweaks
+Vibration: Add initial moc
+Terminal: prevent command clearing on update #945
+ParamFile: fix float/double compare
+AP_GPS_SBF: update
+FlightData: add script usage
+px4uploader: clear input buffer on identify
+GridUI: fix ft/m issue
+FlightData: update resume mission to replace old mission
+CurrentState: add vibeclip0avg
+MAVlinkInterface: add force disarm #891
+UTMWGS: fix equator bug
+ParameterMetaData: remove zh-Hans ver.
+ Localizations: update urls
+Localizations: update Firmware zh-Hans
+MainV2: disable font size change of Chinese
+ConfigRadioInput: update binding zh-Hans trans
+Mavlink: heartbeat is mispelled
+CurrentState: support negative current From kozinalexey
+SerialInjectGPS: update baud rate box
+MainV2: move kindex to background thread
+flightdata: fix hidden exception
+GoogleMap: speed up init, and modify url
+CommsUDPSerial: make dialog generic
+MAVLinkParam: set type before value.
+Update internal Param system
+Terminal: change nsh timing
+Tidy Warning
+python example
+app.config: update urls so xp update still works
+LogOutput: add more rinex support
+MavlinkCheckBoxBitmask: fix masking
+SerialOutputPass: add udp options
+Terminal: nsh over mavlink tweaks
+GoogleSatelliteMap: update version no
+NoFly: update loader and callback
+ConfigAccelerometerCalibration: move to 1 accel calib screen
+
+* Mission Planner 1.3.30 - 19-6-2015
 ConfigRadioInput: fix yaw/thro swap
 Terminal: add nsh over mavlink
 MAVLink update
