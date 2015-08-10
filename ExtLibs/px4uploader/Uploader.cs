@@ -241,6 +241,14 @@ namespace px4uploader
                         libre = true;
                     }
 
+                    if (ByteArrayCompare(sn, new byte[] { 0x00, 0x38, 0x00, 0x1F, 0x34, 0x32, 0x47, 0x0D, 0x31, 0x32, 0x35, 0x33, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }))
+                    { // pixhawk lite
+                        // please sign your board via the proper process.
+                        // nuttx has an auth command. use it.
+                        print("Forged Key");
+                        throw new InvalidKeyException("Invalid Board");
+                    }
+
                     object obj = new otp();
                     byte[] test = __read_otp();
 
