@@ -339,6 +339,12 @@
     <Compile Include="Controls\ModifyandSet.Designer.cs">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\EKFStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\EKFStatus.Designer.cs">
+      <DependentUpon>EKFStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Vibration.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -700,6 +706,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\EKFStatus.resx">
+      <DependentUpon>EKFStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Vibration.resx">
       <DependentUpon>Vibration.cs</DependentUpon>
@@ -1480,7 +1489,9 @@
     <None Include="MissionPlanner.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="NoFly\SouthAfricaNoRPASOutlined.kmz" />
+    <None Include="NoFly\SouthAfricaNoRPASOutlined.kmz">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -2521,6 +2532,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-Hans.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
