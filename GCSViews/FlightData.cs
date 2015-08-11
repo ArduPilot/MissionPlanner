@@ -3535,5 +3535,19 @@ namespace MissionPlanner.GCSViews
                 }
             }
         }
+
+        private void hud1_ekfclick(object sender, EventArgs e)
+        {
+            EKFStatus frm = new EKFStatus();
+            frm.TopMost = true;
+            frm.Show();
+        }
+
+        private void hud1_vibeclick(object sender, EventArgs e)
+        {
+            Vibration frm = new Vibration();
+            frm.TopMost = true;
+            frm.Show();
+        }
     }
 }

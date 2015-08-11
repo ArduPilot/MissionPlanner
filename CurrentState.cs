@@ -860,47 +860,49 @@ namespace MissionPlanner
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT];
                     if (bytearray != null)
                     {
-                        var ekfstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>(6);
+                        var ekfstatusm = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>(6);
 
                         // > 1, between 0-1 typical > 1 = reject measurement - red
                         // 0.5 > amber
 
-                        ekfvelv = ekfstatus.velocity_variance;
-                        ekfcompv = ekfstatus.compass_variance;
-                        ekfposhor = ekfstatus.pos_horiz_variance;
-                        ekfposvert = ekfstatus.pos_vert_variance;
-                        ekfteralt = ekfstatus.terrain_alt_variance;
+                        ekfvelv = ekfstatusm.velocity_variance;
+                        ekfcompv = ekfstatusm.compass_variance;
+                        ekfposhor = ekfstatusm.pos_horiz_variance;
+                        ekfposvert = ekfstatusm.pos_vert_variance;
+                        ekfteralt = ekfstatusm.terrain_alt_variance;
 
-                        //TODO need to localize - wait for testing to complete first
+                        ekfstatus = (int)Math.Max(ekfvelv,
+                            Math.Max(ekfcompv, Math.Max(ekfposhor, Math.Max(ekfposvert, ekfteralt))));
+
                         if (ekfvelv >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "velocity variance";
+                            messageHigh = Strings.ERROR + " " + Strings.velocity_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfcompv >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "compass variance";
+                            messageHigh = Strings.ERROR + " " + Strings.compass_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfposhor >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "pos horiz variance";
+                            messageHigh = Strings.ERROR + " " + Strings.pos_horiz_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfposvert >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "pos vert variance";
+                            messageHigh = Strings.ERROR + " " + Strings.pos_vert_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfteralt >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "terrain alt variance";
+                            messageHigh = Strings.ERROR + " " + Strings.terrain_alt_variance;
                             messageHighTime = DateTime.Now;
                         }
 
                         for (int a = 1; a < (int)MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
                         {
-                            int currentbit = (ekfstatus.flags & a);
+                            int currentbit = (ekfstatusm.flags & a);
                             if (currentbit == 0)
                             {
                                 var currentflag =
@@ -1696,6 +1698,8 @@ namespace MissionPlanner
         [DisplayText("flow quality")]
         public byte opt_qua { get; set; }
 
+        public int ekfstatus { get; set; }
+
         public float ekfvelv { get; set; }
 
         public float ekfcompv { get; set; }
@@ -1731,5 +1735,6 @@ namespace MissionPlanner
         public float vibey { get; set; }
 
         public float vibez { get; set; }
+
     }    
 }

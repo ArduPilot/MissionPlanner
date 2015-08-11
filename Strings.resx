@@ -573,4 +573,19 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="TrackerHome" xml:space="preserve">
     <value>Tracker Home</value>
   </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>velocity variance</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>compass variance</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>terrain alt variance</value>
+  </data>
 </root>
