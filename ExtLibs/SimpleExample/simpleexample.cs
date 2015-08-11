@@ -55,7 +55,7 @@ namespace SimpleExample
             // read the current buffered bytes
             while (DateTime.Now < deadline)
             {
-                var packet = mavlink.ReadPacket(serialPort1.BaseStream);
+                var packet = mavlink.ReadPacketObj(serialPort1.BaseStream);
 
                 if (packet == null)
                     continue;
