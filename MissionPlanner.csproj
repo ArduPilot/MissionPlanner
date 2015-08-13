@@ -652,7 +652,7 @@
     <Compile Include="Utilities\NGEN.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
-    <Compile Include="Utilities\ImageOverFilter.cs" />
+    <None Include="Utilities\ImageOverFilter.cs" />
     <EmbeddedResource Include="Antenna\Tracker.zh-Hant.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
@@ -6794,10 +6794,6 @@
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
       <Name>AviFile</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-    </ProjectReference>
-    <ProjectReference Include="ExtLibs\BaseClasses\BaseClasses.csproj">
-      <Project>{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}</Project>
-      <Name>BaseClasses</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
       <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
