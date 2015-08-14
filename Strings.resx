@@ -596,5 +596,6 @@ Please contact your hardware vendor about signing your hardware.</value>
   </data>
   <data name="Converting_bin_to_log" xml:space="preserve">
     <value>Converting bin to log</value>
-  </data>
-</root>
+  </data>  <data name="UpdateNotFound" xml:space="preserve">
+    <value>No update available.</value>
+  </data></root>

@@ -83,7 +83,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static void CheckForUpdate()
+        public static void CheckForUpdate(bool NotifyNoUpdate=false)
         {
             var baseurl = ConfigurationManager.AppSettings["UpdateLocationVersion"];
 
@@ -184,6 +184,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         return;
                     }
                 });
+            }
+            else
+            if (NotifyNoUpdate)
+            {               
+                CustomMessageBox.Show(Strings.UpdateNotFound);
             }
         }
 
