@@ -588,4 +588,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="terrain_alt_variance" xml:space="preserve">
     <value>terrain alt variance</value>
   </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>No update available.</value>
+  </data>
 </root>
