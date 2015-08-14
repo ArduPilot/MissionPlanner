@@ -26,7 +26,7 @@ namespace MissionPlanner.GCSViews
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)
         {
-            Utilities.Update.DoUpdate();
+            Utilities.Update.CheckForUpdate(true);
         }
 
         private void CHK_showconsole_CheckedChanged(object sender, EventArgs e)
