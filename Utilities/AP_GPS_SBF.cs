@@ -61,7 +61,7 @@ namespace MissionPlanner.Utilities
             last_hdop = 999;
             sbf_state = readstate.PREAMBLE1;
 
-            var sport = new SerialPort("COM8",115200);
+            var sport = new SerialPort("COM13",115200);
 
             sport.Open();
 
@@ -81,7 +81,7 @@ namespace MissionPlanner.Utilities
             //sem, PVT, 5
 
             // setSBFOutput
-            string command2 = "sso, Stream1, COM1, PVTGeodetic+DOP+ExtEventPVTGeodetic, msec100\n";
+            string command2 = "sso, Stream1, COM2, PVTGeodetic+DOP+ExtEventPVTGeodetic, msec100\n";
             port.Write(ASCIIEncoding.ASCII.GetBytes(command2), 0, command2.Length);
 
             System.Threading.Thread.Sleep(70);
@@ -149,7 +149,9 @@ namespace MissionPlanner.Utilities
                 case readstate.PREAMBLE1:
                     if (temp == SBF_PREAMBLE1)
                         sbf_state++;
-                    sbf_msg.read = 0;
+                    else
+                        Console.Write(".");
+                    sbf_msg.read = 0;                   
                     break;
                 case readstate.PREAMBLE2:
                     if (temp == SBF_PREAMBLE2)
@@ -187,7 +189,7 @@ namespace MissionPlanner.Utilities
                     sbf_state++;
                     sbf_msg.data = new uint8_t[sbf_msg.length];
 
-                    Console.WriteLine((sbf_msg.blockid & 4095u )+ " " + sbf_msg.length);
+                    Console.WriteLine((sbf_msg.blockid & 4095u )+ " len " + sbf_msg.length);
 
                     if (sbf_msg.length % 4 != 0)
                         sbf_state = readstate.PREAMBLE1;
@@ -195,7 +197,7 @@ namespace MissionPlanner.Utilities
                 case readstate.DATA:
                     sbf_msg.data[sbf_msg.read] = temp;
                     sbf_msg.read++;
-                    if (sbf_msg.read > (sbf_msg.length - 8))
+                    if (sbf_msg.read >= (sbf_msg.length - 8))
                     {
                         uint16_t crc = crc16.ccitt(sbf_msg.blockid, 2, 0);
                         crc = crc16.ccitt(sbf_msg.length, 2, crc);
