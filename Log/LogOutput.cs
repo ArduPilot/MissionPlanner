@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -47,6 +48,8 @@ namespace MissionPlanner.Log
             public DateTime datetime;
             public string mode;
         }
+
+        public List<PointLatLngAlt> PosLatLngAlts = new List<PointLatLngAlt>();
 
         public void processLine(string line)
         {
@@ -219,67 +222,91 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else if (items[0].Contains("GRAW"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("GRXH"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("GRXS"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("CTUN"))
-                {
-                    ctunlast = items;
-                }
-                else if (items[0].Contains("NTUN"))
-                {
-                    ntunlast = items;
-                    try
-                    {
-                        // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
-                        // items = line.Split(',', ':');
-                    }
-                    catch { }
-                }
-                else if (items[0].Contains("ATT"))
-                {
-                    try
-                    {
-                        if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
-                        {
-                            Data dat = new Data();
+                     else if (items[0].Contains("POS"))
+                     {
+                         if (DFLog.logformat.ContainsKey("POS"))
+                         {
+                             int poslatindex = DFLog.FindMessageOffset("POS", "Lat");
+                             int poslngindex = DFLog.FindMessageOffset("POS", "Lng");
+                             int posaltindex = DFLog.FindMessageOffset("POS", "Alt");
 
-                            try
-                            {
-                                dat.datetime = DFLog.GetTimeGPS(lastline);
-                            }
-                            catch { }
+                             PosLatLngAlts.Add(new PointLatLngAlt(double.Parse(items[poslatindex], CultureInfo.InvariantCulture), double.Parse(items[poslngindex], CultureInfo.InvariantCulture), double.Parse(items[posaltindex], CultureInfo.InvariantCulture)));
+                         }
+                     }
+                     else if (items[0].Contains("GRAW"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("GRXH"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("GRXS"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("CTUN"))
+                     {
+                         ctunlast = items;
+                     }
+                     else if (items[0].Contains("NTUN"))
+                     {
+                         ntunlast = items;
+                         try
+                         {
+                             // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
+                             // items = line.Split(',', ':');
+                         }
+                         catch
+                         {
+                         }
+                     }
+                     else if (items[0].Contains("ATT"))
+                     {
+                         try
+                         {
+                             if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
+                             {
+                                 Data dat = new Data();
 
-                            runmodel = new Model();
+                                 try
+                                 {
+                                     dat.datetime = DFLog.GetTimeGPS(lastline);
+                                 }
+                                 catch
+                                 {
+                                 }
 
-                            runmodel.Location.longitude = lastpos.X;
-                            runmodel.Location.latitude = lastpos.Y;
-                            runmodel.Location.altitude = lastpos.Z;
+                                 runmodel = new Model();
 
-                            oldlastpos = lastpos;
+                                 runmodel.Location.longitude = lastpos.X;
+                                 runmodel.Location.latitude = lastpos.Y;
+                                 runmodel.Location.altitude = lastpos.Z;
 
-                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindMessageOffset("ATT", "Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindMessageOffset("ATT", "Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindMessageOffset("ATT", "Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
+                                 oldlastpos = lastpos;
 
-                            dat.model = runmodel;
-                            dat.ctun = ctunlast;
-                            dat.ntun = ntunlast;
+                                 runmodel.Orientation.roll =
+                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Roll")],
+                                         new System.Globalization.CultureInfo("en-US"))/-1;
+                                 runmodel.Orientation.tilt =
+                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Pitch")],
+                                         new System.Globalization.CultureInfo("en-US"))/-1;
+                                 runmodel.Orientation.heading =
+                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Yaw")],
+                                         new System.Globalization.CultureInfo("en-US"))/1;
 
-                            flightdata.Add(dat);
-                        }
-                    }
-                    catch (Exception ex) { log.Error(ex); }
-                }
+                                 dat.model = runmodel;
+                                 dat.ctun = ctunlast;
+                                 dat.ntun = ntunlast;
+
+                                 flightdata.Add(dat);
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             log.Error(ex);
+                         }
+                     }
 
                 if ((DateTime.Now - start).TotalMilliseconds > 5)
                 {
@@ -805,6 +832,26 @@ gnssId GNSS Type
 
                 fldr.Add(pm);
             }
+
+            Placemark pmPOS = new Placemark();
+            pmPOS.name = "POS Message";
+            pmPOS.LineString = new LineString();
+            pmPOS.LineString.coordinates = new Coordinates();
+            Point3D lastPoint3D = new Point3D();
+            foreach (var item in PosLatLngAlts)
+            {
+                var newpoint = new Point3D(item.Lng, item.Lat, item.Alt);
+                if (lastPoint3D.X == newpoint.X &&
+                    lastPoint3D.Y == newpoint.Y &&
+                    lastPoint3D.Z >= (newpoint.Z - 0.1) &&
+                    lastPoint3D.Z <= (newpoint.Z + 0.1)) 
+                    continue;
+
+                pmPOS.LineString.coordinates.Add(newpoint);
+                lastPoint3D = newpoint;
+            }
+            pmPOS.AddStyle(style);
+            fldr.Add(pmPOS);
 
             Folder planes = new Folder();
             planes.name = "Planes";
