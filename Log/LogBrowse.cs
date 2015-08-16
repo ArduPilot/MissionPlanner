@@ -344,8 +344,8 @@ namespace MissionPlanner.Log
 
                                 seenmessagetypes[item.msgtype] = "";
 
-                                // check first 500000 lines for max coloums needed
-                                if (b > 500000 && largelog)
+                                // check first 1000000 lines for max coloums needed
+                                if (b > 1000000 && largelog)
                                     break;
 
                                 if (largelog)
