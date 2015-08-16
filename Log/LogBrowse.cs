@@ -1096,39 +1096,54 @@ namespace MissionPlanner.Log
                 List<PointLatLng> routelist = new List<PointLatLng>();
                 List<int> samplelist = new List<int>();
 
+                List<PointLatLng> routelistpos = new List<PointLatLng>();
+                List<int> samplelistpos = new List<int>();
+
                 //zg1.GraphPane.GraphObjList.Clear();
 				
 				//check if GPS data are available
 				if (!DFLog.logformat.ContainsKey("GPS"))
                     return;
 
-                int index = DFLog.FindMessageOffset("GPS", "Lat");
-                if (index == -1)
+                int latindex = DFLog.FindMessageOffset("GPS", "Lat");
+                if (latindex == -1)
                 {
                     return;
                 }
 
-                int index2 = DFLog.FindMessageOffset("GPS", "Lng");
-                if (index2 == -1)
+                int lngindex2 = DFLog.FindMessageOffset("GPS", "Lng");
+                if (lngindex2 == -1)
                 {
                     return;
                 }
 
-                int index3 = DFLog.FindMessageOffset("GPS", "Status");
-                if (index3 == -1)
+                int statusindex3 = DFLog.FindMessageOffset("GPS", "Status");
+                if (statusindex3 == -1)
                 {
                     return;
-                }				
-				
+                }
+
+                int poslatindex = -1;
+                int poslngindex = -1;
+                int posaltindex = -1;
+                // check for POS message
+                if (DFLog.logformat.ContainsKey("POS"))
+                {
+                    poslatindex = DFLog.FindMessageOffset("POS", "Lat");
+                    poslngindex = DFLog.FindMessageOffset("POS", "Lng");
+                    posaltindex = DFLog.FindMessageOffset("POS", "Alt");
+                }
+
                 int i = 0;
                 int firstpoint = 0;
+                int firstpointpos = 0;
                 int b = 0;
 
                 foreach (var item2 in logdata)
                 {
                     b++;
 
-                    if (!item2.StartsWith("GPS"))
+                    if (!item2.StartsWith("GPS") && !item2.StartsWith("POS"))
                     {
                         i++;
                         continue;
@@ -1170,7 +1185,42 @@ namespace MissionPlanner.Log
                             }							
                         }
                     }
-					i++;
+
+                    if (item.msgtype == "POS")
+                    {
+                        var ans = getPointLatLng(item);
+
+                        if (ans.HasValue)
+                        {
+                            routelistpos.Add(ans.Value);
+                            samplelistpos.Add(i);
+
+                            if (routelistpos.Count > 1000)
+                            {
+                                //split the route in several small parts (due to memory errors)
+                                GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
+                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
+
+                                LogRouteInfo lri = new LogRouteInfo();
+                                lri.firstpoint = firstpointpos;
+                                lri.lastpoint = i;
+                                lri.samples.AddRange(samplelistpos);
+
+                                route_part.Tag = lri;
+                                route_part.IsHitTestVisible = true;
+                                mapoverlay.Routes.Add(route_part);
+                                rtcnt++;
+
+                                //clear the list and set the last point as first point for the next route
+                                routelistpos.Clear();
+                                samplelistpos.Clear();
+                                firstpointpos = i;
+                                samplelistpos.Add(firstpoint);
+                                routelistpos.Add(ans.Value);
+                            }	
+                        }
+                    }
+                    i++;
                 }
 
                 GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
@@ -1224,6 +1274,37 @@ namespace MissionPlanner.Log
                         return null;
                     }
 
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    PointLatLng pnt = new PointLatLng() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+
+                    return pnt;
+                }
+                catch { }
+            }
+
+            if (item.msgtype == "POS")
+            {
+                if (!DFLog.logformat.ContainsKey("POS"))
+                    return null;
+
+                int index = DFLog.FindMessageOffset("POS", "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = DFLog.FindMessageOffset("POS", "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
