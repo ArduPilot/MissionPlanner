@@ -166,6 +166,11 @@ namespace MissionPlanner.Log
             new displaylist() { Name = "Mechanical Failure - Stab", items = new displayitem[] { new displayitem(){ type= "ATT", field ="Roll"}, new displayitem(){ type= "ATT", field = "DesRoll"}}},
             new displaylist() { Name = "Mechanical Failure - Auto", items = new displayitem[] { new displayitem(){ type= "ATT", field ="Roll"}, new displayitem(){ type= "NTUN", field = "DRoll"}}},
             new displaylist() { Name = "Vibrations", items = new displayitem[] { new displayitem(){ type= "IMU", field ="AccX"}, new displayitem(){ type= "IMU", field ="AccY"},new displayitem(){ type= "IMU", field ="AccZ"}}},
+            new displaylist() { Name = "Vibrations 3.3", items = new displayitem[]
+            {
+                new displayitem(){ type= "VIBE", field ="VibeX"}, new displayitem(){ type= "VIBE", field ="VibeY"},new displayitem(){ type= "VIBE", field ="VibeZ"}
+            ,new displayitem(){ type= "VIBE", field ="Clip0", left =false},new displayitem(){ type= "VIBE", field ="Clip1", left =false},new displayitem(){ type= "VIBE", field ="Clip2", left =false}
+            }},
             new displaylist() { Name = "GPS Glitch", items = new displayitem[] { new displayitem(){ type= "GPS", field ="HDop"},new displayitem(){ type= "GPS", field ="NSats", left = false}}},
             new displaylist() { Name = "Power Issues", items = new displayitem[] { new displayitem(){ type= "CURR", field ="Vcc"}}},
             new displaylist() { Name = "Errors", items = new displayitem[] { new displayitem(){ type= "ERR", field ="ECode"}}},
