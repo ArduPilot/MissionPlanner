@@ -2551,7 +2551,7 @@ namespace MissionPlanner
                 config["language"] = ci.Name;
                 //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
 
-                Localizations.ConfigLang = ci;
+                L10N.ConfigLang = ci;
 
                 HashSet<Control> views = new HashSet<Control> { this, FlightData, FlightPlanner, Simulation };
 
