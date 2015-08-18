@@ -141,7 +141,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace MissionPlanner.Utilities
                 firmwareurl = this.firmwareurl;
 
             // mirror support
-            Localizations.ReplaceMirrorUrl(ref firmwareurl);
+            L10N.ReplaceMirrorUrl(ref firmwareurl);
 
             log.Info("getFWList");
 
@@ -383,7 +383,7 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         void getAPMVersion(object tempin)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
 
             try
             {
@@ -394,7 +394,7 @@ namespace MissionPlanner.Utilities
 
                 if (baseurl == "") return;
 
-                Localizations.ReplaceMirrorUrl(ref baseurl);
+                L10N.ReplaceMirrorUrl(ref baseurl);
 
                 Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
@@ -566,7 +566,7 @@ namespace MissionPlanner.Utilities
                     baseurl = getUrl(historyhash, baseurl);
 
                 // update to use mirror url
-                Localizations.ReplaceMirrorUrl(ref baseurl);
+                L10N.ReplaceMirrorUrl(ref baseurl);
 
                 log.Info("Using " + baseurl);
 

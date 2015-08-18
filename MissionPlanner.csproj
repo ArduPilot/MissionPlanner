@@ -469,7 +469,7 @@
     <Compile Include="Joystick\Joy_Mount_Mode.Designer.cs">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Localizations.cs" />
+    <Compile Include="L10N.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
@@ -3130,6 +3130,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Parachute.png" />
+    <None Include="Resources\zhHans.txt" />
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
