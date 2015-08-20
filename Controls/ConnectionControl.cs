@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
+using System.Threading;
 
 namespace MissionPlanner.Controls
 {
@@ -14,6 +15,7 @@ namespace MissionPlanner.Controls
     {
         public ConnectionControl()
         {
+            Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
             InitializeComponent();
             this.linkLabel1.Click += (sender, e) =>
                                          {
