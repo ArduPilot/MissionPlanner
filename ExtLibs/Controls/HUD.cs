@@ -1707,23 +1707,37 @@ namespace MissionPlanner.Controls
 
                 graphicsObject.ResetTransform();
 
+                vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
+
                 if (vibex > 30 || vibey > 30 || vibez > 30)
                 {
-                    vibehitzone = new Rectangle( this.Width - 18 * fontsize, this.Height - 30 - fontoffset,40,fontsize *2);
-                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, (SolidBrush)Brushes.Red, vibehitzone.X, vibehitzone.Y);
+                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, (SolidBrush) Brushes.Red, vibehitzone.X,
+                        vibehitzone.Y);
                 }
+                else
+                {
+                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, whiteBrush, vibehitzone.X,
+                        vibehitzone.Y);
+                }
+
+                ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
 
                 if (ekfstatus > 0.5)
                 {
-                    ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40,fontsize *2);
                     if (ekfstatus > 1)
                     {
-                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush)Brushes.Red, ekfhitzone.X, ekfhitzone.Y);
+                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Red, ekfhitzone.X,
+                            ekfhitzone.Y);
                     }
                     else
                     {
-                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush)Brushes.Orange, ekfhitzone.X, ekfhitzone.Y);
+                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Orange, ekfhitzone.X,
+                            ekfhitzone.Y);
                     }
+                }
+                else
+                {
+                    drawstring(graphicsObject, "EKF", font, fontsize + 2, whiteBrush, ekfhitzone.X, ekfhitzone.Y);
                 }
 
                 if (!opengl)
