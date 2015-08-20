@@ -129,10 +129,10 @@
     <value>4, 4, 4, 4</value>
   </data>
   <metadata name="backstageViewPagefw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>250, 131</value>
+    <value>670, 131</value>
   </metadata>
   <metadata name="initialSetupBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>433, 131</value>
+    <value>853, 131</value>
   </metadata>
   <data name="configFirmware1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -154,13 +154,13 @@
     <value>configFirmware1</value>
   </data>
   <data name="&gt;&gt;configFirmware1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefw.Text" xml:space="preserve">
     <value>Install Firmware</value>
   </data>
   <metadata name="backstageViewPagefwdisabled.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 131</value>
+    <value>437, 131</value>
   </metadata>
   <data name="configFirmwareDisabled1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -178,13 +178,13 @@
     <value>configFirmwareDisabled1</value>
   </data>
   <data name="&gt;&gt;configFirmwareDisabled1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
     <value>Install Firmware</value>
   </data>
   <metadata name="backstageViewPagewizard.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>419, 17</value>
+    <value>610, 17</value>
   </metadata>
   <data name="configWizard1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -202,13 +202,13 @@
     <value>configWizard1</value>
   </data>
   <data name="&gt;&gt;configWizard1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigWizard, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigWizard, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagewizard.Text" xml:space="preserve">
     <value>Wizard</value>
   </data>
   <metadata name="backstageViewPagemand.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>627, 17</value>
+    <value>818, 17</value>
   </metadata>
   <data name="configMandatory1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -226,13 +226,13 @@
     <value>configMandatory1</value>
   </data>
   <data name="&gt;&gt;configMandatory1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagemand.Text" xml:space="preserve">
     <value>Mandatory Hardware</value>
   </data>
   <metadata name="backstageViewPagetradheli.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1019, 17</value>
+    <value>1210, 17</value>
   </metadata>
   <data name="configTradHeli1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -250,13 +250,13 @@
     <value>configTradHeli1</value>
   </data>
   <data name="&gt;&gt;configTradHeli1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagetradheli.Text" xml:space="preserve">
     <value>Heli Setup</value>
   </data>
   <metadata name="backstageViewPageframetype.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1233, 17</value>
+    <value>17, 55</value>
   </metadata>
   <data name="configFrameType1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -274,13 +274,13 @@
     <value>configFrameType1</value>
   </data>
   <data name="&gt;&gt;configFrameType1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageframetype.Text" xml:space="preserve">
     <value>Frame Type</value>
   </data>
   <metadata name="backstageViewPageaccel.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
+    <value>208, 17</value>
   </metadata>
   <data name="configAccelerometerCalibration.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -298,7 +298,7 @@
     <value>configAccelerometerCalibration</value>
   </data>
   <data name="&gt;&gt;configAccelerometerCalibration.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibration, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;configAccelerometerCalibration.Parent" xml:space="preserve">
     <value>$this</value>
@@ -310,7 +310,7 @@
     <value>Accel Calibration</value>
   </data>
   <metadata name="backstageViewPagecompass.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 55</value>
+    <value>246, 55</value>
   </metadata>
   <data name="configHWCompass1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -328,13 +328,13 @@
     <value>configHWCompass1</value>
   </data>
   <data name="&gt;&gt;configHWCompass1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagecompass.Text" xml:space="preserve">
     <value>Compass</value>
   </data>
   <metadata name="backstageViewPageradio.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>238, 55</value>
+    <value>467, 55</value>
   </metadata>
   <data name="configRadioInput1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -352,13 +352,37 @@
     <value>configRadioInput1</value>
   </data>
   <data name="&gt;&gt;configRadioInput1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
     <value>Radio Calibration</value>
   </data>
+  <metadata name="backstageViewPageESC.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="configESC1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configESC1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configESC1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 424</value>
+  </data>
+  <data name="configESC1.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;configESC1.Name" xml:space="preserve">
+    <value>configESC1</value>
+  </data>
+  <data name="&gt;&gt;configESC1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="backstageViewPageESC.Text" xml:space="preserve">
+    <value>ESC Calibration</value>
+  </data>
   <metadata name="backstageViewPageflmode.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>438, 55</value>
+    <value>667, 55</value>
   </metadata>
   <data name="configFlightModes1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -376,13 +400,13 @@
     <value>configFlightModes1</value>
   </data>
   <data name="&gt;&gt;configFlightModes1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageflmode.Text" xml:space="preserve">
     <value>Flight Modes</value>
   </data>
   <metadata name="backstageViewPagefs.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>649, 55</value>
+    <value>878, 55</value>
   </metadata>
   <data name="configFailSafe1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -400,13 +424,13 @@
     <value>configFailSafe1</value>
   </data>
   <data name="&gt;&gt;configFailSafe1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefs.Text" xml:space="preserve">
     <value>FailSafe</value>
   </data>
   <metadata name="backstageViewPageopt.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>830, 17</value>
+    <value>1021, 17</value>
   </metadata>
   <data name="configOptional1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -424,13 +448,13 @@
     <value>configOptional1</value>
   </data>
   <data name="&gt;&gt;configOptional1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigOptional, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigOptional, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageopt.Text" xml:space="preserve">
     <value>Optional Hardware</value>
   </data>
   <metadata name="backstageViewPage3drradio.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>828, 55</value>
+    <value>1057, 55</value>
   </metadata>
   <data name="_3DRradio1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -451,13 +475,13 @@
     <value>_3DRradio1</value>
   </data>
   <data name="&gt;&gt;_3DRradio1.Type" xml:space="preserve">
-    <value>MissionPlanner._3DRradio, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner._3DRradio, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPage3drradio.Text" xml:space="preserve">
     <value>3DR Radio</value>
   </data>
   <metadata name="backstageViewPagebatmon.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1047, 55</value>
+    <value>17, 93</value>
   </metadata>
   <data name="configBatteryMonitoring1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -475,13 +499,13 @@
     <value>configBatteryMonitoring1</value>
   </data>
   <data name="&gt;&gt;configBatteryMonitoring1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
     <value>Battery Monitor</value>
   </data>
   <metadata name="backstageViewPagecompassmot.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>637, 131</value>
+    <value>1057, 131</value>
   </metadata>
   <data name="configCompassMot1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -499,13 +523,13 @@
     <value>configCompassMot1</value>
   </data>
   <data name="&gt;&gt;configCompassMot1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
     <value>Compass/Motor Calib</value>
   </data>
   <metadata name="backstageViewPagesonar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1262, 55</value>
+    <value>232, 93</value>
   </metadata>
   <data name="configHWSonar1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -523,13 +547,13 @@
     <value>configHWSonar1</value>
   </data>
   <data name="&gt;&gt;configHWSonar1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
     <value>Sonar</value>
   </data>
   <metadata name="backstageViewPageairspeed.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 93</value>
+    <value>434, 93</value>
   </metadata>
   <data name="configHWAirspeed1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -547,13 +571,13 @@
     <value>configHWAirspeed1</value>
   </data>
   <data name="&gt;&gt;configHWAirspeed1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
     <value>Airspeed</value>
   </data>
   <metadata name="backstageViewPageoptflow.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>236, 93</value>
+    <value>653, 93</value>
   </metadata>
   <data name="configHWOptFlow1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -571,13 +595,13 @@
     <value>configHWOptFlow1</value>
   </data>
   <data name="&gt;&gt;configHWOptFlow1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageoptflow.Text" xml:space="preserve">
     <value>Optical Flow</value>
   </data>
   <metadata name="backstageViewPageosd.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>451, 93</value>
+    <value>868, 93</value>
   </metadata>
   <data name="configHWOSD1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -595,13 +619,13 @@
     <value>configHWOSD1</value>
   </data>
   <data name="&gt;&gt;configHWOSD1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageosd.Text" xml:space="preserve">
     <value>OSD</value>
   </data>
   <metadata name="backstageViewPagegimbal.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>641, 93</value>
+    <value>1058, 93</value>
   </metadata>
   <data name="configMount1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -619,13 +643,13 @@
     <value>configMount1</value>
   </data>
   <data name="&gt;&gt;configMount1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMount, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMount, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagegimbal.Text" xml:space="preserve">
     <value>Camera Gimbal</value>
   </data>
   <metadata name="backstageViewPageAntTrack.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>851, 93</value>
+    <value>17, 131</value>
   </metadata>
   <data name="tracker1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -643,13 +667,13 @@
     <value>tracker1</value>
   </data>
   <data name="&gt;&gt;tracker1.Type" xml:space="preserve">
-    <value>MissionPlanner.Antenna.Tracker, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Antenna.Tracker, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
     <value>Antenna tracker</value>
   </data>
   <metadata name="backstageViewPageMotorTest.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>882, 131</value>
+    <value>17, 169</value>
   </metadata>
   <data name="configMotor1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -667,13 +691,13 @@
     <value>configMotor1</value>
   </data>
   <data name="&gt;&gt;configMotor1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
     <value>Motor Test</value>
   </data>
   <metadata name="backstageViewPagehwbt.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1072, 93</value>
+    <value>238, 131</value>
   </metadata>
   <data name="configHWBT1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -691,7 +715,7 @@
     <value>configHWBT1</value>
   </data>
   <data name="&gt;&gt;configHWBT1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;configHWBT1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -703,7 +727,7 @@
     <value>Bluetooth Setup</value>
   </data>
   <metadata name="backstageViewPageParachute.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>1112, 131</value>
+    <value>247, 169</value>
   </metadata>
   <data name="configHWPa1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -721,7 +745,7 @@
     <value>configHWPa1</value>
   </data>
   <data name="&gt;&gt;configHWPa1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute, MissionPlanner, Version=1.1.5679.20343, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute, MissionPlanner, Version=1.1.5710.27640, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageParachute.Text" xml:space="preserve">
     <value>Parachute</value>
@@ -745,7 +769,7 @@
     <value>0</value>
   </data>
   <metadata name="backstageViewPageinstfw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>215, 17</value>
+    <value>406, 17</value>
   </metadata>
   <data name="backstageViewPageinstfw.Text" xml:space="preserve">
     <value>Install Firmware</value>
@@ -907,6 +931,12 @@
     <value>backstageViewPageParachute</value>
   </data>
   <data name="&gt;&gt;backstageViewPageParachute.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.Name" xml:space="preserve">
+    <value>backstageViewPageESC</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPageESC.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;backstageViewPageinstfw.Name" xml:space="preserve">
