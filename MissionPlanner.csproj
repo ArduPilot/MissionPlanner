@@ -413,9 +413,13 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Georefimage.Designer.cs">
+    <Compile Include="GeoRef\Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
+    <Compile Include="GeoRef\PictureInformation.cs" />
+    <Compile Include="GeoRef\Rational.cs" />
+    <Compile Include="GeoRef\SingleLocation.cs" />
+    <Compile Include="GeoRef\VehicleLocation.cs" />
     <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
@@ -1091,13 +1095,13 @@
     <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Georefimage.ja-JP.resx">
+    <EmbeddedResource Include="GeoRef\Georefimage.ja-JP.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="georefimage.zh-Hant.resx">
+    <EmbeddedResource Include="GeoRef\georefimage.zh-Hant.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="georefimage.zh-TW.resx">
+    <EmbeddedResource Include="GeoRef\georefimage.zh-TW.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.zh-Hant.resx">
@@ -1650,10 +1654,10 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Georefimage.it-IT.resx">
+    <EmbeddedResource Include="GeoRef\Georefimage.it-IT.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Georefimage.zh-Hans.resx">
+    <EmbeddedResource Include="GeoRef\Georefimage.zh-Hans.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.de-DE.resx">
@@ -2158,7 +2162,7 @@
     <Compile Include="ResEdit.Designer.cs">
       <DependentUpon>ResEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="georefimage.cs">
+    <Compile Include="GeoRef\georefimage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HIL\Aircraft.cs" />
@@ -2439,7 +2443,7 @@
     <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Georefimage.de-DE.resx">
+    <EmbeddedResource Include="GeoRef\Georefimage.de-DE.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.de-DE.resx">
@@ -2697,7 +2701,7 @@
     <EmbeddedResource Include="GCSViews\Terminal.pl.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="georefimage.resx">
+    <EmbeddedResource Include="GeoRef\georefimage.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.fr.resx">

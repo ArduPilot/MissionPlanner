@@ -743,7 +743,7 @@ namespace MissionPlanner
 
         private void BUT_georefimage_Click(object sender, EventArgs e)
         {
-            new Georefimage().Show();
+            new GeoRef.Georefimage().Show();
         }
 
         private void BUT_follow_me_Click(object sender, EventArgs e)
