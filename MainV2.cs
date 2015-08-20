@@ -1432,7 +1432,7 @@ namespace MissionPlanner
         }
 
 
-        private void xmlconfig(bool write)
+        internal static void xmlconfig(bool write)
         {
             if (write || !File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml"))
             {
@@ -2555,8 +2555,6 @@ namespace MissionPlanner
                 Thread.CurrentThread.CurrentUICulture = ci;
                 config["language"] = ci.Name;
                 //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
-
-                L10N.ConfigLang = ci;
 
                 HashSet<Control> views = new HashSet<Control> { this, FlightData, FlightPlanner, Simulation };
 

@@ -9,9 +9,17 @@ using System.Text.RegularExpressions;
 
 namespace MissionPlanner
 {
-    public static class L10N
+    public class L10N
     {
-        public static CultureInfo ConfigLang = GetConfigLang();
+        public static CultureInfo ConfigLang;
+        
+        static L10N()
+        {
+            MainV2.xmlconfig(false);
+            ConfigLang = GetConfigLang();
+            Strings.Culture = ConfigLang;
+            //In .NET 4.5,System.Globalization.CultureInfo.DefaultThreadCurrentCulture & DefaultThreadCurrentUICulture is avaiable
+        }
 
         public static CultureInfo GetConfigLang()
         {
@@ -22,7 +30,7 @@ namespace MissionPlanner
             }
             else
             {
-                return CultureInfo.GetCultureInfo("en-US");
+                return System.Globalization.CultureInfo.CurrentUICulture;
             }
         }
 
