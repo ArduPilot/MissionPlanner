@@ -413,6 +413,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigESCCalibration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigESCCalibration.Designer.cs">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
@@ -459,7 +465,7 @@
     <Compile Include="Joystick\Joy_Mount_Mode.Designer.cs">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </Compile>
-    <Compile Include="Localizations.cs" />
+    <Compile Include="L10N.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
@@ -827,6 +833,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
       <DependentUpon>ConfigCompassMot.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.ja-JP.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
@@ -1033,6 +1042,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ja-JP.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -3064,6 +3076,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Parachute.png" />
+    <None Include="Resources\zhHans.txt" />
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

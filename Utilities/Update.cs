@@ -215,7 +215,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 baseurl = ConfigurationManager.AppSettings["BetaUpdateLocation"];
             }
 
-            ReplaceMirrorUrl(ref baseurl);
+            L10N.ReplaceMirrorUrl(ref baseurl);
 
             WebRequest request = WebRequest.Create(url);
             request.Timeout = 10000;
@@ -687,32 +687,6 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             return update;
 
 
-        }
-
-        static string ReplaceMirrorUrl(ref string url)
-        {
-            switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
-            {
-                case "zh-CN":
-                case "zh-Hans":
-                    if (url.Contains("raw.github.com"))
-                    {
-                        url = url.Replace("raw.github.com", "githubraw.diywrj.com");
-                    }
-                    else if (url.Contains("firmware.diydrones.com"))
-                    {
-                        url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
-                    }
-                    else if (url.Contains("github.com"))
-                    {
-                        url = url.Replace("github.com", "github.diywrj.com");
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            return url;
         }
     }
 }
