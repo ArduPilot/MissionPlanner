@@ -871,8 +871,7 @@ namespace MissionPlanner
                         ekfposvert = ekfstatusm.pos_vert_variance;
                         ekfteralt = ekfstatusm.terrain_alt_variance;
 
-                        ekfstatus = (int)Math.Max(ekfvelv,
-                            Math.Max(ekfcompv, Math.Max(ekfposhor, Math.Max(ekfposvert, ekfteralt))));
+                        ekfstatus = ekfstatusm.flags;
 
                         if (ekfvelv >= 1)
                         {

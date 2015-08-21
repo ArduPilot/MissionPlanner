@@ -147,6 +147,17 @@ System.ComponentModel.Description("Text under Bar")]
             }
         }
 
+             [System.ComponentModel.Browsable(true),
+System.ComponentModel.Category("Mine"),
+System.ComponentModel.Description("values scaled for display")]
+        public float DisplayScale
+        {
+            get { return _displayscale; }
+            set { _displayscale = value; }
+        }
+
+        private float _displayscale = 1;
+
         private void drawlbl(Graphics e)
         {
             if (DrawLabel)
@@ -159,7 +170,7 @@ System.ComponentModel.Description("Text under Bar")]
                 lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
                 lbl1.ClientSize = new Size(this.Width, 13);
                 lbl1.TextAlign = ContentAlignment.MiddleCenter;
-                lbl1.Text = Value.ToString();
+                lbl1.Text = (Value * _displayscale).ToString();
             }
 
             if (minline != 0 && maxline != 0)
@@ -178,15 +189,15 @@ System.ComponentModel.Description("Text under Bar")]
                     {
                         e.DrawLine(redPen, 0, (maxline - this.Minimum) / range * range2 + 0, this.Width, (maxline - this.Minimum) / range * range2 + 0);
                         e.DrawLine(redPen, 0, (minline - this.Minimum) / range * range2 + 6, this.Width, (minline - this.Minimum) / range * range2 + 6);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (maxline - this.Minimum) / range * range2 + 2);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (minline - this.Minimum) / range * range2 - 10);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, 5, (maxline - this.Minimum) / range * range2 + 2);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (minline - this.Minimum) / range * range2 - 10);
                     }
                     else
                     {
                         e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width, (this.Maximum - minline) / range * range2 + 0);
                         e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 6, this.Width, (this.Maximum - maxline) / range * range2 + 6);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (this.Maximum - minline) / range * range2 + 2);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (this.Maximum - maxline) / range * range2 - 10);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, 5, (this.Maximum - minline) / range * range2 + 2);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (this.Maximum - maxline) / range * range2 - 10);
                     }
                 }
                 else
@@ -195,15 +206,15 @@ System.ComponentModel.Description("Text under Bar")]
                     {
                         e.DrawLine(redPen, (this.Maximum - minline) / range * range2 - 0, 0, (this.Maximum - minline) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (this.Maximum - maxline) / range * range2 - 0, 0, (this.Maximum - maxline) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
                     }
                     else
                     {
                         e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 0, 0, (minline - this.Minimum) / range * range2 - 0, this.Height);
                         e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 0, 0, (maxline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
+                        e.DrawString((minline * _displayscale).ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
+                        e.DrawString((maxline * _displayscale).ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
                     }
                 }
             }
