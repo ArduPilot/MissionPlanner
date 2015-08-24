@@ -344,24 +344,27 @@ namespace MissionPlanner.Log
 
                                 seenmessagetypes[item.msgtype] = "";
 
-                                // check first 1000000 lines for max coloums needed
-                                if (b > 1000000 && largelog)
-                                    break;
-
-                                if (largelog)
-                                    continue;
-
-                                DataRow dr = m_dtCSV.NewRow();
-
-                                dr[0] = item.lineno;
-                                dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
-                                for (int a = 0; a < item.items.Length; a++)
+                                if (MainV2.MONO)
                                 {
-                                    dr[a + typecoloum] = item.items[a];
-                                }
+                                    // check first 1000000 lines for max coloums needed
+                                    if (b > 1000000 && largelog)
+                                        break;
 
-                                m_dtCSV.Rows.Add(dr);
+                                    if (largelog)
+                                        continue;
+
+                                    DataRow dr = m_dtCSV.NewRow();
+
+                                    dr[0] = item.lineno;
+                                    dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                                    for (int a = 0; a < item.items.Length; a++)
+                                    {
+                                        dr[a + typecoloum] = item.items[a];
+                                    }
+
+                                    m_dtCSV.Rows.Add(dr);
+                                }
                             }
                         }
 
@@ -1128,27 +1131,21 @@ namespace MissionPlanner.Log
                     return;
                 }
 
-                int poslatindex = -1;
-                int poslngindex = -1;
-                int posaltindex = -1;
-                // check for POS message
-                if (DFLog.logformat.ContainsKey("POS"))
+                int index3 = DFLog.FindMessageOffset("GPS", "Status");
+                if (index3 == -1)
                 {
-                    poslatindex = DFLog.FindMessageOffset("POS", "Lat");
-                    poslngindex = DFLog.FindMessageOffset("POS", "Lng");
-                    posaltindex = DFLog.FindMessageOffset("POS", "Alt");
-                }
-
+                    return;
+                }				
+				
                 int i = 0;
                 int firstpoint = 0;
-                int firstpointpos = 0;
                 int b = 0;
 
                 foreach (var item2 in logdata)
                 {
                     b++;
 
-                    if (!item2.StartsWith("GPS") && !item2.StartsWith("POS"))
+                    if (!item2.StartsWith("GPS"))
                     {
                         i++;
                         continue;
@@ -1190,42 +1187,7 @@ namespace MissionPlanner.Log
                             }							
                         }
                     }
-
-                    if (item.msgtype == "POS")
-                    {
-                        var ans = getPointLatLng(item);
-
-                        if (ans.HasValue)
-                        {
-                            routelistpos.Add(ans.Value);
-                            samplelistpos.Add(i);
-
-                            if (routelistpos.Count > 1000)
-                            {
-                                //split the route in several small parts (due to memory errors)
-                                GMapRoute route_part = new GMapRoute(routelistpos, "routepos_" + rtcnt);
-                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
-
-                                LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpointpos;
-                                lri.lastpoint = i;
-                                lri.samples.AddRange(samplelistpos);
-
-                                route_part.Tag = lri;
-                                route_part.IsHitTestVisible = true;
-                                mapoverlay.Routes.Add(route_part);
-                                rtcnt++;
-
-                                //clear the list and set the last point as first point for the next route
-                                routelistpos.Clear();
-                                samplelistpos.Clear();
-                                firstpointpos = i;
-                                samplelistpos.Add(firstpoint);
-                                routelistpos.Add(ans.Value);
-                            }	
-                        }
-                    }
-                    i++;
+					i++;
                 }
 
                 GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
@@ -1768,51 +1730,51 @@ namespace MissionPlanner.Log
             }
         }
 
-        bool GetTimeFromRow(int lineNumber, out int millis)
-        {
-            bool ret = false;
-            millis = 0;
+        //bool GetTimeFromRow(int lineNumber, out int millis)
+        //{
+        //    bool ret = false;
+        //    millis = 0;
 
-            if (!DFLog.logformat.ContainsKey("IMU"))
-                return ret;
+        //    if (!DFLog.logformat.ContainsKey("IMU"))
+        //        return ret;
 
-            int index = DFLog.FindMessageOffset("IMU", "TimeMS");
-            if (index < 0)
-                return ret;
+        //    int index = DFLog.FindMessageOffset("IMU", "TimeMS");
+        //    if (index < 0)
+        //        return ret;
 
-            const int maxSearch = 100;
+        //    const int maxSearch = 100;
 
 
-            for (int i = 0; i < maxSearch; i++)
-            {
-                for (int s = -1; s < 2; s = s + 2)
-                {
-                    int r = lineNumber + s * i;
-                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
-                    {
-                        DataRow datarow = m_dtCSV.Rows[r];
+        //    for (int i = 0; i < maxSearch; i++)
+        //    {
+        //        for (int s = -1; s < 2; s = s + 2)
+        //        {
+        //            int r = lineNumber + s * i;
+        //            if ((r >= 0) && (r < m_dtCSV.Rows.Count))
+        //            {
+        //                DataRow datarow = m_dtCSV.Rows[r];
 
-                        if (datarow[1].ToString() == "IMU")
-                        {
-                            try
-                            {
+        //                if (datarow[1].ToString() == "IMU")
+        //                {
+        //                    try
+        //                    {
 
-                                string mil = datarow[index + 2].ToString();
-                                millis = int.Parse(mil);
-                                ret = true;
-                                break;
+        //                        string mil = datarow[index + 2].ToString();
+        //                        millis = int.Parse(mil);
+        //                        ret = true;
+        //                        break;
 
-                            }
-                            catch { }
-                        }
-                    }
-                }
-                if (ret)
-                    break;
-            }
+        //                    }
+        //                    catch { }
+        //                }
+        //            }
+        //        }
+        //        if (ret)
+        //            break;
+        //    }
 
-            return ret;
-        }        
+        //    return ret;
+        //}        
 
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
@@ -1822,58 +1784,68 @@ namespace MissionPlanner.Log
             if (!DFLog.logformat.ContainsKey("GPS"))
                 return ret;
 
-            int index = DFLog.FindMessageOffset("GPS", "Lat");
-            int index2 = DFLog.FindMessageOffset("GPS", "Lng");
-            int index3 = DFLog.FindMessageOffset("GPS", "Status");
+            int index_lat = DFLog.FindMessageOffset("GPS", "Lat");
+            int index_lng = DFLog.FindMessageOffset("GPS", "Lng");
+            int index_status = DFLog.FindMessageOffset("GPS", "Status");
 
-            if ((index < 0) || (index2 < 0) || (index3 < 0))
+            if (index_lat < 0 || index_lng < 0 || index_status < 0)
                 return ret;
 
-            const int maxSearch = 100;
+            const int maxSearch = 1000;
+            int offset = maxSearch;
+            int roffset = -maxSearch;
+            bool found = false;
 
-
-            
-
-
-            for (int i = 0; i < maxSearch; i++)
+            for (int i = 0; i < maxSearch && !found; i++)
             {
-                for (int s = -1; s < 2; s = s + 2)
+                string searching = logdata[lineNumber + i];
+                if (searching.StartsWith("GPS"))
                 {
-                    int r = lineNumber + s * i;
-                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
-                    {
-                        DataRow datarow = m_dtCSV.Rows[r];
-                        string option = datarow[typecoloum].ToString();
-
-                        if (option == "GPS")
-                        {
-                            try
-                            {
-                                if (double.Parse(datarow[index3 + 2].ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
-                                {
-
-                                    continue;
-                                }
-
-                                string lat = datarow[index + 2].ToString();
-                                string lng = datarow[index2 + 2].ToString();
-
-                                //PointLatLng pnt = new PointLatLng() { };
-                                pt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
-                                pt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
-                                ret = true;
-                                break;
-
-                            }
-                            catch { }
-                        }
-                    }
+                    offset = i;
+                    found = true;
                 }
-                if (ret)
-                    break;
             }
 
+            found = false;
+            for (int i = 0; i < maxSearch && !found; i++)
+            {
+                string searching = logdata[lineNumber - i];
+                if (searching.StartsWith("GPS"))
+                {
+                    roffset = i;
+                    found = true;
+                }
+            }
+
+            if (offset < roffset)
+            {
+                lineNumber += offset;
+                ret = true;
+            }
+            else if (roffset < maxSearch)
+            {
+                lineNumber -= roffset;
+                ret = true;
+            }
+
+            if (ret == true)
+            {
+                string gpsline = logdata[lineNumber];
+                var item = DFLog.GetDFItemFromLine(gpsline, lineNumber);
+                int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
+                if (status != 3)
+                {
+                    ret = false;
+                }
+                else
+                {
+                    string lat = item.items[index_lat];
+                    string lng = item.items[index_lng];
+
+                    pt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
 
             return ret;
         }
@@ -1936,11 +1908,10 @@ namespace MissionPlanner.Log
                 MissionPlanner.Utilities.PointLatLngAlt pt3 = new MissionPlanner.Utilities.PointLatLngAlt(pt1);
                 GMapMarker pos3 = new GMarkerGoogle(pt3, GMarkerGoogleType.pink_dot);
                 markeroverlay.Markers.Add(pos3);
-            }
-
-            if (movemap)
-            {
-                myGMAP1.Position = pt1;
+                if (movemap)
+                {
+                    myGMAP1.Position = pt1;
+                }
             }
 
             //move the graph "cursor"
