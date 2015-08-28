@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
 
             for (int a = 1; a < (int)MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
             {
-                int currentbit = (MainV2.comPort.MAV.cs.ekfstatus & a);
+                int currentbit = (MainV2.comPort.MAV.cs.ekfflags & a);
 
                 var currentflag = (MAVLink.EKF_STATUS_FLAGS)Enum.Parse(typeof(MAVLink.EKF_STATUS_FLAGS), a.ToString());
 

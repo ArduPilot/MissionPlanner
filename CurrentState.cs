@@ -871,7 +871,9 @@ namespace MissionPlanner
                         ekfposvert = ekfstatusm.pos_vert_variance;
                         ekfteralt = ekfstatusm.terrain_alt_variance;
 
-                        ekfstatus = ekfstatusm.flags;
+                        ekfflags = ekfstatusm.flags;
+
+                        ekfstatus = (float)Math.Max(ekfvelv, Math.Max(ekfcompv, Math.Max(ekfposhor, Math.Max(ekfposvert, ekfteralt))));
 
                         if (ekfvelv >= 1)
                         {
@@ -1697,7 +1699,9 @@ namespace MissionPlanner
         [DisplayText("flow quality")]
         public byte opt_qua { get; set; }
 
-        public int ekfstatus { get; set; }
+        public float ekfstatus { get; set; }
+
+        public int ekfflags { get; set; }
 
         public float ekfvelv { get; set; }
 
