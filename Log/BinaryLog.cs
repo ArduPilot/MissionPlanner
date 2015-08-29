@@ -31,7 +31,7 @@ namespace MissionPlanner.Log
 
         static Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
 
-        public static void ConvertBin(string inputfn, string outputfn)
+        public static void ConvertBin(string inputfn, string outputfn, bool showui = true)
         {
             using (var stream = File.Open(outputfn, FileMode.Create))
             {
@@ -39,6 +39,7 @@ namespace MissionPlanner.Log
                 {
                     while (br.BaseStream.Position < br.BaseStream.Length)
                     {
+                        Console.WriteLine("ConvertBin "+(br.BaseStream.Position / br.BaseStream.Length)*100);
                         byte[] data = ASCIIEncoding.ASCII.GetBytes(ReadMessage(br.BaseStream));
                         stream.Write(data, 0, data.Length);
                     }

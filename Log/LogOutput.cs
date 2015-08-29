@@ -838,17 +838,19 @@ gnssId GNSS Type
             pmPOS.LineString = new LineString();
             pmPOS.LineString.coordinates = new Coordinates();
             Point3D lastPoint3D = new Point3D();
+            PointLatLngAlt lastplla = PointLatLngAlt.Zero;
             foreach (var item in PosLatLngAlts)
             {
                 var newpoint = new Point3D(item.Lng, item.Lat, item.Alt);
-                if (lastPoint3D.X == newpoint.X &&
-                    lastPoint3D.Y == newpoint.Y &&
-                    lastPoint3D.Z >= (newpoint.Z - 0.1) &&
-                    lastPoint3D.Z <= (newpoint.Z + 0.1)) 
+
+                if (item.GetDistance(lastplla) < 0.1 &&
+                    lastPoint3D.Z >= (newpoint.Z - 0.3) &&
+                    lastPoint3D.Z <= (newpoint.Z + 0.3)) 
                     continue;
 
                 pmPOS.LineString.coordinates.Add(newpoint);
                 lastPoint3D = newpoint;
+                lastplla = item;
             }
             pmPOS.AddStyle(style);
             fldr.Add(pmPOS);
