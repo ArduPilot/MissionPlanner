@@ -410,7 +410,9 @@ Please check the following
                     getParamListBG();
                 }
 
-                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT, new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = ASCIIEncoding.ASCII.GetBytes("Mission Planner " +Application.ProductVersion + "\0")});
+                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " +Application.ProductVersion + "\0");
+                Array.Resize(ref temp, 50);
+                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT, new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp});
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
                 {
