@@ -39,7 +39,7 @@ namespace MissionPlanner.Log
                 {
                     while (br.BaseStream.Position < br.BaseStream.Length)
                     {
-                        Console.WriteLine("ConvertBin "+(br.BaseStream.Position / br.BaseStream.Length)*100);
+                        Console.WriteLine("ConvertBin "+(br.BaseStream.Position / (float)br.BaseStream.Length)*100);
                         byte[] data = ASCIIEncoding.ASCII.GetBytes(ReadMessage(br.BaseStream));
                         stream.Write(data, 0, data.Length);
                     }
