@@ -216,6 +216,8 @@ namespace MissionPlanner
             {
                 MAVLink.mavlink_raw_imu_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
 
+                if (packet.xmag == 0 && packet.ymag == 0)
+                    return false;
 
                 // filter dataset
                 string item = (int)(packet.xmag / div) + "," +
