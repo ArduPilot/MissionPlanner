@@ -917,7 +917,7 @@ S15: MAX_WINDOW=131
 
                 if (multiLineResponce)
                 {
-                    DateTime deadline = DateTime.Now.AddMilliseconds(200);
+                    DateTime deadline = DateTime.Now.AddMilliseconds(1000);
                     while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
                     {
                         try
