@@ -1724,7 +1724,7 @@ namespace MissionPlanner.Controls
 
                 if (ekfstatus > 0.5)
                 {
-                    if (ekfstatus > 1)
+                    if (ekfstatus > 0.8)
                     {
                         drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Red, ekfhitzone.X,
                             ekfhitzone.Y);
