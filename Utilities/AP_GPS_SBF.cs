@@ -623,9 +623,9 @@ namespace MissionPlanner.Utilities
             public float horizontal_accuracy;
             public float vertical_accuracy;
             public bool have_vertical_velocity;//:1;      ///< does this GPS give vertical velocity?
-            bool have_speed_accuracy;//:1;
-            bool have_horizontal_accuracy;//:1;
-            bool have_vertical_accuracy;//:1;
+            public bool have_speed_accuracy;//:1;
+            public bool have_horizontal_accuracy;//:1;
+            public bool have_vertical_accuracy;//:1;
             public uint32_t last_gps_time_ms;          ///< the system time we got the last GPS timestamp, milliseconds
         }
 
