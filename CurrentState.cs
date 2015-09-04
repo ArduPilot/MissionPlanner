@@ -603,6 +603,7 @@ namespace MissionPlanner
                 distTraveled = 0;
                 timeInAir = 0;
                 KIndexstatic = -1;
+                version = new Version();
             }
         }
 
@@ -748,6 +749,25 @@ namespace MissionPlanner
                        // Console.WriteLine("RC_CHANNELS_SCALED Packet");
 
                         MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED] = null;
+                    }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION];
+
+                    if (bytearray != null) 
+                    {
+                        var version = bytearray.ByteArrayToStructure<MAVLink.mavlink_autopilot_version_t>(6);
+                        //#define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
+
+                        //		flight_sw_version	0x03040000	uint
+
+                        byte main = (byte)(version.flight_sw_version >> 24);
+                        byte sub = (byte)((version.flight_sw_version >> 16) & 0xff);
+                        byte rev = (byte)((version.flight_sw_version >> 8) & 0xff);
+                        MAVLink.FIRMWARE_VERSION_TYPE type = (MAVLink.FIRMWARE_VERSION_TYPE)(version.flight_sw_version & 0xff);
+
+                        this.version = new Version(main, sub, (int)type, rev);
+
+                        MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION] = null;
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS];
@@ -1738,6 +1758,8 @@ namespace MissionPlanner
         public float vibey { get; set; }
 
         public float vibez { get; set; }
+
+        public Version version { get; set; }
 
     }    
 }

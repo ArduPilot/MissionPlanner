@@ -403,6 +403,8 @@ Please check the following
 
                 countDown.Stop();
 
+                getVersion();
+
                 frmProgressReporter.UpdateProgressAndStatus(0, "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
                 if (getparams)
@@ -2639,7 +2641,25 @@ Please check the following
 
                         MAVlist[sysid].cs.messages.Add(logdata);
 
-                        if (sev >= 3)
+                        bool printit = false;
+
+                        // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
+                        if (MAVlist[sysid].cs.version.Major > 0 || MAVlist[sysid].cs.version.Minor > 0)
+                        {
+                            if (sev <= (byte)MAV_SEVERITY.NOTICE)
+                            {
+                                printit = true;
+                            }
+                        }
+                        else
+                        {
+                            if (sev >= 3)
+                            {
+                                printit = true;
+                            }
+                        }
+
+                        if (printit)
                         {
                             MAVlist[sysid].cs.messageHigh = logdata;
                             MAVlist[sysid].cs.messageHighTime = DateTime.Now;
@@ -2852,6 +2872,48 @@ Please check the following
                 else
                 {
                     MAVlist[sysid].param[st] = new MAVLinkParam(st, value.param_value, (MAV_PARAM_TYPE)value.param_type);
+                }
+            }
+        }
+                
+        public bool getVersion()
+        {
+            MAVLink.mavlink_autopilot_version_request_t req = new mavlink_autopilot_version_request_t();
+
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+
+            // request point
+            generatePacket((byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("getVersion Retry " + retrys + " - giv com " + giveComport);
+                        generatePacket((byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    return false;
+                }
+
+                byte[] buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION)
+                    {
+                        giveComport = false;
+
+                        return true;
+                    }
                 }
             }
         }
