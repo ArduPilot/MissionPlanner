@@ -1981,7 +1981,7 @@ namespace MissionPlanner
                             catch
                             {
                                 // dont hang this loop
-                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); });
+                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location ("+MainV2.comPort.MAV.sysid+")"); });
                             }
                         }
 
