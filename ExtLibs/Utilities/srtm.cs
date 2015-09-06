@@ -51,31 +51,18 @@ namespace MissionPlanner
 
         static srtm()
         {
-            try
-            {
-                // remove all srtm 1 seconds data
-                string[] files = Directory.GetFiles(datadirectory, "*.hgt");
 
-                foreach (var file in files)
-                {
-                    FileInfo fi = new FileInfo(file);
-                    if (fi.Length > (1201 * 1201 * 2 + 1000))
-                    {
-                        fi.MoveTo(Path.GetFileNameWithoutExtension(file) + "-1sec" + Path.GetExtension(file));
-                        lock (objlock)
-                        {
-                            queue.Add(Path.GetFileName(file));
-                        }                        
-                    }
-                }
-            }
-            catch { }
         }
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
             var answer = new altresponce();
+
+            var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
+
+            if (trytiff.currenttype == tiletype.valid)
+                return trytiff;
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;
