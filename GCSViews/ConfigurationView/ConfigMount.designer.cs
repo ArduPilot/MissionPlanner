@@ -125,6 +125,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label34 = new System.Windows.Forms.Label();
             this.mavlinkNumericUpDownshut_duration = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
+            this.CMB_mnt_type = new MissionPlanner.Controls.MavlinkComboBox();
+            this.label43 = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -1254,8 +1257,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label42, "label42");
             this.label42.Name = "label42";
             // 
+            // CMB_mnt_type
+            // 
+            this.CMB_mnt_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_mnt_type, "CMB_mnt_type");
+            this.CMB_mnt_type.FormattingEnabled = true;
+            this.CMB_mnt_type.Name = "CMB_mnt_type";
+            this.CMB_mnt_type.ParamName = null;
+            this.CMB_mnt_type.SubControl = null;
+            // 
+            // label43
+            // 
+            resources.ApplyResources(this.label43, "label43");
+            this.label43.Name = "label43";
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
             // ConfigMount
             // 
+            this.Controls.Add(this.label44);
+            this.Controls.Add(this.label43);
+            this.Controls.Add(this.CMB_mnt_type);
             this.Controls.Add(this.label42);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.mavlinkNumericUpDownshut_duration);
@@ -1469,6 +1494,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label34;
         private MavlinkNumericUpDown mavlinkNumericUpDownshut_duration;
         private System.Windows.Forms.Label label42;
+        private MavlinkComboBox CMB_mnt_type;
+        private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Label label44;
 
     }
 }

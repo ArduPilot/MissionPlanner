@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Models;
+using MissionPlanner.Utilities;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -53,6 +54,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
                 mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
             }
+
+            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()
