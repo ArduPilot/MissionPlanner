@@ -279,7 +279,7 @@ namespace MissionPlanner.Utilities
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        unsafe public struct rt27_7_29
+        public struct rt27_7_29
         {
             public uint8_t Length;
             public uint16_t Week;
