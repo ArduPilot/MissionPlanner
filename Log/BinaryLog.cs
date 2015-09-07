@@ -37,9 +37,15 @@ namespace MissionPlanner.Log
             {
                 using (BinaryReader br = new BinaryReader(File.OpenRead(inputfn)))
                 {
+                    DateTime displaytimer = DateTime.MinValue;
+
                     while (br.BaseStream.Position < br.BaseStream.Length)
                     {
-                        Console.WriteLine("ConvertBin "+(br.BaseStream.Position / (float)br.BaseStream.Length)*100);
+                        if (displaytimer.Second != DateTime.Now.Second)
+                        {
+                            Console.WriteLine("ConvertBin " + (br.BaseStream.Position/(float) br.BaseStream.Length)*100);
+                            displaytimer = DateTime.Now;
+                        }
                         byte[] data = ASCIIEncoding.ASCII.GetBytes(ReadMessage(br.BaseStream));
                         stream.Write(data, 0, data.Length);
                     }
