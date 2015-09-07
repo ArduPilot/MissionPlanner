@@ -872,6 +872,9 @@ gnssId GNSS Type
 
             foreach (PointLatLngAlt p1 in cmd)
             {
+                if (p1.Lng == 0 && p1.Lat == 0)
+                    continue;
+
                 coordswp.Add(new Point3D(p1.Lng, p1.Lat, p1.Alt));
             }
 
@@ -883,7 +886,8 @@ gnssId GNSS Type
             //pm.styleUrl = "#yellowLineGreenPoly";
             pmwp.LineString = lswp;
 
-            waypoints.Add(pmwp);
+            if (coordswp.Count > 0)
+                waypoints.Add(pmwp);
 
             int a = 0;
             int l = -1;
