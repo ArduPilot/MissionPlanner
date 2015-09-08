@@ -55,15 +55,6 @@ namespace MissionPlanner.Controls
 
                 label7.Text += currentflag.ToString().Replace("EKF_", "").ToLower() + " " +
                                   (currentbit > 0 ? "On " : "Off") + "\r\n";
-
-                if (currentbit > 0)
-                {
-                    label7.ForeColor = Color.ForestGreen;
-                }
-                else
-                {
-                    label7.ForeColor = Color.Red;
-                }
             }
         }
     }
