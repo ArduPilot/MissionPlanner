@@ -185,7 +185,7 @@ namespace MissionPlanner.Log
                 new displayitem(){ type= "IMU2", field ="AccZ",left = false},}
             },
 
-                  new displaylist() { Name = "max consistency xyz", items = new displayitem[] { 
+                  new displaylist() { Name = "mag consistency xyz", items = new displayitem[] { 
                 new displayitem(){ type= "MAG", field ="MagX"},
                 new displayitem(){ type= "MAG2", field ="MagX"},
                 new displayitem(){ type= "MAG", field ="MagY",left = false},
@@ -201,6 +201,20 @@ namespace MissionPlanner.Log
                 new displayitem(){ type= "AHRS2", field ="yaw",left = false},
                     new displayitem(){ type= "ATT", field ="pitch"},
                 new displayitem(){ type= "AHRS2", field ="pitch"},}
+            },
+
+            new displaylist() { Name = "copter loiter", items = new displayitem[] { 
+                new displayitem(){ type= "NTUN", field ="DVelX"},
+                new displayitem(){ type= "NTUN", field ="VelX"},
+                new displayitem(){ type= "NTUN", field ="DVelY"},
+                new displayitem(){ type= "NTUN", field ="VelY"},}
+            },
+
+                     new displaylist() { Name = "copter althold", items = new displayitem[] { 
+                new displayitem(){ type= "CTUN", field ="BarAlt"},
+                new displayitem(){ type= "CTUN", field ="DAlt"},
+                new displayitem(){ type= "CTUN", field ="Alt"},
+                new displayitem(){ type= "GPS", field ="Alt"},}
             },
         };
 
