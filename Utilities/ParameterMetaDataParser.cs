@@ -78,7 +78,7 @@ namespace MissionPlanner.Utilities
 
                         // Write the start element for this parameter location
                         objXmlTextWriter.WriteStartElement(element);
-                        ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation);
+                        ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim());
                         ParseParameterInformation(dataFromAddress, objXmlTextWriter);
 
                         // Write the end element for this parameter location
