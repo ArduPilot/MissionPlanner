@@ -54,7 +54,7 @@ namespace MissionPlanner.Utilities
 
         sbf_msg_parser sbf_msg = new sbf_msg_parser();
 
-        Stream port = null;// File.Open(@"C:\Users\hog\Desktop\gps data\asterx-m", FileMode.Open);
+        Stream port = File.Open(@"T:\rtk4\SEPTX.15_", FileMode.Open);
 
         public AP_GPS_SBF()
         {
@@ -62,11 +62,11 @@ namespace MissionPlanner.Utilities
             last_hdop = 999;
             sbf_state = readstate.PREAMBLE1;
 
-            var sport = new SerialPort("COM15", 115200);
+            //var sport = new SerialPort("COM15", 115200);
 
-            sport.Open();
+            //sport.Open();
 
-            port = sport.BaseStream;
+            //port = sport.BaseStream;
 
             // setcommsettings
             //string command1 = "scs, COM1, baud115200\n";
@@ -83,7 +83,7 @@ namespace MissionPlanner.Utilities
 
             // setSBFOutput
             string command2 = "sso, Stream1, USB1, PVTGeodetic+DOP+ExtEventPVTGeodetic, msec100\n";
-            port.Write(ASCIIEncoding.ASCII.GetBytes(command2), 0, command2.Length);
+            //port.Write(ASCIIEncoding.ASCII.GetBytes(command2), 0, command2.Length);
 
             System.Threading.Thread.Sleep(70);
 
@@ -98,25 +98,25 @@ namespace MissionPlanner.Utilities
             //System.Threading.Thread.Sleep(70);
 
             string command4 = "srd, High, UAV\n";
-            port.Write(ASCIIEncoding.ASCII.GetBytes(command4), 0, command4.Length);
+            //port.Write(ASCIIEncoding.ASCII.GetBytes(command4), 0, command4.Length);
 
             System.Threading.Thread.Sleep(70);
 
             string command5 = "sem, PVT, 5\n";
-            port.Write(ASCIIEncoding.ASCII.GetBytes(command5), 0, command5.Length);
+            //port.Write(ASCIIEncoding.ASCII.GetBytes(command5), 0, command5.Length);
 
             System.Threading.Thread.Sleep(70);
 
             // enable sbas "+SBAS"
             string command6 = "spm, Rover, StandAlone+DGPS+RTK\n";
-            port.Write(ASCIIEncoding.ASCII.GetBytes(command6), 0, command6.Length);
+            //port.Write(ASCIIEncoding.ASCII.GetBytes(command6), 0, command6.Length);
 
             System.Threading.Thread.Sleep(70);
-            int btr = sport.BytesToRead;
-            byte[] data = new byte[btr];
-            port.Read(data, 0, btr);
+            //int btr = sport.BytesToRead;
+            //byte[] data = new byte[btr];
+            //port.Read(data, 0, btr);
 
-            Console.WriteLine(ASCIIEncoding.ASCII.GetString(data));
+            //Console.WriteLine(ASCIIEncoding.ASCII.GetString(data));
 
             //System.Threading.Thread.Sleep(100);
 
@@ -190,7 +190,7 @@ namespace MissionPlanner.Utilities
                     sbf_state++;
                     sbf_msg.data = new uint8_t[sbf_msg.length];
 
-                    Console.WriteLine((sbf_msg.blockid & 4095u) + " len " + sbf_msg.length);
+                    //Console.WriteLine((sbf_msg.blockid & 4095u) + " len " + sbf_msg.length);
 
                     if (sbf_msg.length % 4 != 0)
                         sbf_state = readstate.PREAMBLE1;
@@ -241,6 +241,8 @@ namespace MissionPlanner.Utilities
 
             if (blockid == 4027) // obs
             {
+                return false;
+
                 Console.WriteLine("Obs");
                 var pos = 0;
 
@@ -331,6 +333,11 @@ namespace MissionPlanner.Utilities
                     {
                         state.ground_course_cd += 36000;
                     }
+
+                    state.horizontal_accuracy = (float)temp.HAccuracy * 0.01f;
+                    state.vertical_accuracy = (float)temp.VAccuracy * 0.01f;
+                    state.have_horizontal_accuracy = true;
+                    state.have_vertical_accuracy = true;
                 }
 
                 // Update position state (dont use −2·10^10)
@@ -517,6 +524,14 @@ namespace MissionPlanner.Utilities
             public uint16_t MeanCorrAge;
             public uint32_t SignalInfo;
             public uint8_t AlertFlag;
+            // rev1
+            public uint8_t NrBases;
+            public uint16_t PPPInfo;
+            // rev2
+            public uint16_t Latency;
+            public uint16_t HAccuracy;
+            public uint16_t VAccuracy;
+            public uint8_t Misc;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
