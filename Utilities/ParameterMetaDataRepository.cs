@@ -23,24 +23,27 @@ namespace MissionPlanner.Utilities
             Reload();
       }
 
-      public static void Reload()
-      {
-          string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+        public static void Reload()
+        {
+            string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
 
-          string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
+            string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
 
-          try
-          {
-              // error loading the good file, load the backup
-              if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
-              {
-                  _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileNameBackup);
-                  Console.WriteLine("Using backup param data");
-              }
-          }
-          catch { }
-      
-      }
+            try
+            {
+                if (File.Exists(paramMetaDataXMLFileName))
+                    _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
+
+                // error loading the good file, load the backup
+                if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
+                {
+                    _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileNameBackup);
+                    Console.WriteLine("Using backup param data");
+                }
+            }
+            catch { }
+
+        }
 
        /// <summary>
        /// Gets the parameter meta data.
