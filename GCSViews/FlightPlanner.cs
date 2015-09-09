@@ -2083,11 +2083,11 @@ namespace MissionPlanner.GCSViews
 
                 if (param["WP_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((float)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                    TXT_WPRad.Text = ((int)((double)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
                 }
                 if (param["WPNAV_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((float)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100)).ToString();
+                    TXT_WPRad.Text = ((int)((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100)).ToString();
                 }
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
@@ -2097,12 +2097,12 @@ namespace MissionPlanner.GCSViews
                     TXT_loiterrad.Enabled = false;
                     if (param["LOITER_RADIUS"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((float)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = ((int)((double)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
                     else if (param["WP_LOITER_RAD"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((float)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = ((int)((double)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
 
