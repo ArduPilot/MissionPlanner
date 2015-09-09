@@ -327,10 +327,13 @@ namespace MissionPlanner.GCSViews
 
         void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
         {
-            foreach (var poly in e.NoFlyZones.Polygons)
+            Invoke((Action)delegate
             {
-                kmlpolygons.Polygons.Add(poly);
-            }
+                foreach (var poly in e.NoFlyZones.Polygons)
+                {
+                    kmlpolygons.Polygons.Add(poly);
+                }
+            });
         }
 
         void mymap_Paint(object sender, PaintEventArgs e)
@@ -678,22 +681,21 @@ namespace MissionPlanner.GCSViews
 
         void tfr_GotTFRs(object sender, EventArgs e)
         {
-            foreach (var item in tfr.tfrs)
-            {
-                List<List<PointLatLng>> points = item.GetPaths();
-
-                foreach (var list in points)
-                {
-                    GMapPolygon poly = new GMapPolygon(list, item.NAME);
-
-                    poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                    tfrpolygons.Polygons.Add(poly);
-                }
-            }
-
             Invoke((Action)delegate
             {
+                foreach (var item in tfr.tfrs)
+                {
+                    List<List<PointLatLng>> points = item.GetPaths();
+
+                    foreach (var list in points)
+                    {
+                        GMapPolygon poly = new GMapPolygon(list, item.NAME);
+
+                        poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                        tfrpolygons.Polygons.Add(poly);
+                    }
+                }
                 tfrpolygons.IsVisibile = MainV2.ShowTFR;
             });
         }

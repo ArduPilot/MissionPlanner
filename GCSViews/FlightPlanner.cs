@@ -914,13 +914,13 @@ namespace MissionPlanner.GCSViews
                 m.ToolTipText = "Alt: " + alt.ToString("0");
                 m.Tag = tag;
 
-                try
+                int wpno = -1;
+                if (int.TryParse(tag, out wpno))
                 {
                     // preselect groupmarker
-                    if (groupmarkers.Contains(int.Parse(tag)))
+                    if (groupmarkers.Contains(wpno))
                         m.selected = true;
                 }
-                catch { }
 
                 //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
