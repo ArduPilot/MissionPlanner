@@ -420,7 +420,7 @@ namespace MissionPlanner.Log
 
 
 
-                        dataGridView1.Columns[0].Visible = false;
+                        //dataGridView1.Columns[0].Visible = false;
 
                         log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
@@ -1500,6 +1500,8 @@ namespace MissionPlanner.Log
         /// <param name="e"></param>
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
+            return;
+            // try and force all rows to sharedrows
             try
             {
                 var grid = sender as DataGridView;
@@ -1712,6 +1714,7 @@ namespace MissionPlanner.Log
 
         private void LogBrowse_FormClosed(object sender, FormClosedEventArgs e)
         {
+            logdata.Clear();
             logdata = null;
             m_dtCSV = null;
             dataGridView1.DataSource = null;

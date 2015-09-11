@@ -234,6 +234,7 @@ namespace MissionPlanner.Log
         public void Dispose()
         {
             basestream.Close();
+            linestartoffset.Clear();
             linestartoffset = null;
         }
     }
