@@ -60,6 +60,10 @@ namespace MissionPlanner.Utilities
 
             port = sport.BaseStream;
 
+            requestBaud();
+
+
+            sport.BaudRate = 115200;
 
             requestGSOF();
 
@@ -70,18 +74,36 @@ namespace MissionPlanner.Utilities
             read();
         }
 
+        public void requestBaud()
+        {
+            byte[] buffer =
+            {
+                0x2, 0x0, 0x64, 13, 0, 0x0, 0x0,
+                3,0,1,0,
+                0x2, 0x4,0x0,0x07, 0x0,0x0
+                    ,0x0, 0x3
+            };
+
+            uint8_t check = 0;
+            buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
+
+            port.Write(buffer, 0, buffer.Length);
+
+            System.Threading.Thread.Sleep(100);
+        }
+
         public void requestGSOF()
         {
             byte[] messages = { 1,2,8,9,12 };
 
             var st = File.OpenWrite("trim.dat");
 
-            byte count = 0;
+            byte count = 1;
             foreach (var gsofmsg in messages)
             {
                 byte[] buffer = { 0x2, 0x0, 0x64, 15, count, 0x0, 0x0,
                                     3,0,1,0,
-                                0x7,0x6, 10, 0x0, 0x2, 0, gsofmsg, 0
+                                0x7,0x6, 10, 0x0, 0x1, 0, gsofmsg, 0
                                 ,0x0, 0x3 };
 
                 uint8_t check = 0;
