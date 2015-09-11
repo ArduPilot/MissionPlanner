@@ -194,15 +194,6 @@ namespace MissionPlanner.Log
                 new displayitem(){ type= "MAG2", field ="MagZ"},}
             },
 
-                              new displaylist() { Name = "dcm ekf crosscheck", items = new displayitem[] { 
-                new displayitem(){ type= "ATT", field ="roll"},
-                new displayitem(){ type= "AHRS2", field ="roll"},
-                new displayitem(){ type= "ATT", field ="yaw",left = false},
-                new displayitem(){ type= "AHRS2", field ="yaw",left = false},
-                    new displayitem(){ type= "ATT", field ="pitch"},
-                new displayitem(){ type= "AHRS2", field ="pitch"},}
-            },
-
             new displaylist() { Name = "copter loiter", items = new displayitem[] { 
                 new displayitem(){ type= "NTUN", field ="DVelX"},
                 new displayitem(){ type= "NTUN", field ="VelX"},
@@ -215,6 +206,15 @@ namespace MissionPlanner.Log
                 new displayitem(){ type= "CTUN", field ="DAlt"},
                 new displayitem(){ type= "CTUN", field ="Alt"},
                 new displayitem(){ type= "GPS", field ="Alt"},}
+            },
+
+                             new displaylist() { Name = "ekf VEL tune", items = new displayitem[] { 
+                new displayitem(){ type= "EKF3", field ="IVN"},
+                new displayitem(){ type= "EKF3", field ="IPN"},
+                new displayitem(){ type= "EKF3", field ="IVE"},
+                new displayitem(){ type= "EKF3", field ="IPE"},
+                new displayitem(){ type= "EKF3", field ="IVD"},
+                new displayitem(){ type= "EKF3", field ="IPD"},}
             },
         };
 
@@ -276,7 +276,7 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void LogBrowse_Load(object sender, EventArgs e)
         {
             mapoverlay.Clear();
             markeroverlay.Clear();
@@ -340,7 +340,7 @@ namespace MissionPlanner.Log
 
                         log.Info("process to datagrid " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                        bool largelog = logdata.Count > 500000 ? true : false;
+                        bool largelog = true; // logdata.Count > 500000 ? true : false;
 
                         int b = 0;
 
@@ -407,6 +407,8 @@ namespace MissionPlanner.Log
                             dataGridView1.RowCount = 0;
                             dataGridView1.RowCount = logdata.Count;
                             dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
+
+                            log.Info("datagrid size set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                         }
 
 
@@ -1382,7 +1384,7 @@ namespace MissionPlanner.Log
             // clear existing lists
             zg1.GraphPane.CurveList.Clear();
             // reload
-            Form1_Load(sender, e);
+            LogBrowse_Load(sender, e);
         }
 
         private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)

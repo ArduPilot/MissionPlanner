@@ -130,7 +130,7 @@
     <value>100</value>
   </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>650, 246</value>
+    <value>650, 245</value>
   </data>
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -421,7 +421,7 @@
 </value>
   </data>
   <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 245</value>
+    <value>131, 244</value>
   </data>
   <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
