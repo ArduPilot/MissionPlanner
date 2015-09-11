@@ -273,7 +273,14 @@ namespace MissionPlanner.Log
 
             //chk_time.Checked = true;
 
+            dataGridView1.RowUnshared += dataGridView1_RowUnshared;
+
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+        }
+
+        void dataGridView1_RowUnshared(object sender, DataGridViewRowEventArgs e)
+        {
+            
         }
 
         private void LogBrowse_Load(object sender, EventArgs e)

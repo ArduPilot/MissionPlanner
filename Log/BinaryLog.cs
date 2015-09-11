@@ -29,9 +29,14 @@ namespace MissionPlanner.Log
             public byte[] labels;
         }
 
-        static Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
+        Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
 
         public static void ConvertBin(string inputfn, string outputfn, bool showui = true)
+        {
+            new BinaryLog().ConvertBini(inputfn, outputfn, showui);
+        }
+
+        void ConvertBini(string inputfn, string outputfn, bool showui = true)
         {
             using (var stream = File.Open(outputfn, FileMode.Create))
             {
@@ -53,7 +58,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        public static string ReadMessage(Stream br)
+        public string ReadMessage(Stream br)
         {
             int log_step = 0;
 
@@ -115,7 +120,7 @@ namespace MissionPlanner.Log
             return "";
         }
 
-        public static object[] ReadMessageObjects(Stream br)
+        public object[] ReadMessageObjects(Stream br)
         {
             int log_step = 0;
 
@@ -159,7 +164,7 @@ namespace MissionPlanner.Log
             return null;
         }
 
-        static object[] logEntryObjects(byte packettype, Stream br)
+        object[] logEntryObjects(byte packettype, Stream br)
         {
             switch (packettype)
             {
@@ -225,7 +230,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        private static object[] ProcessMessageObjects(byte[] message, string name, string format)
+        private object[] ProcessMessageObjects(byte[] message, string name, string format)
         {
             char[] form = format.ToCharArray();
 
@@ -328,7 +333,7 @@ namespace MissionPlanner.Log
         /// <param name="packettype">packet type</param>
         /// <param name="br">input file</param>
         /// <returns>string of converted data</returns>
-        static string logEntry(byte packettype, Stream br)
+        string logEntry(byte packettype, Stream br)
         {
             switch (packettype)
             {
@@ -423,7 +428,7 @@ namespace MissionPlanner.Log
         /// <param name="name">Message type name</param>
         /// <param name="format">format string containing packet structure</param>
         /// <returns>formated ascii string</returns>
-        static string ProcessMessage(byte[] message,string name, string format)
+        string ProcessMessage(byte[] message,string name, string format)
         {
             char[] form = format.ToCharArray();
 

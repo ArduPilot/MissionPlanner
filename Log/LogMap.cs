@@ -73,6 +73,8 @@ namespace MissionPlanner.Log
                     {
                         bool bin = logfile.ToLower().EndsWith(".bin");
 
+                        BinaryLog binlog = new BinaryLog();
+
                         using (var st = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             using (StreamReader sr = new StreamReader(st))
@@ -83,7 +85,7 @@ namespace MissionPlanner.Log
 
                                     if (bin)
                                     {
-                                        line = BinaryLog.ReadMessage(sr.BaseStream);
+                                        line = binlog.ReadMessage(sr.BaseStream);
                                     }
                                     else
                                     {
