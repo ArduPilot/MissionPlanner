@@ -40,6 +40,8 @@ namespace MissionPlanner.Log
 
         private DateTime doevent = DateTime.Now;
 
+        DFLog dflog = new DFLog();
+
         public struct Data
         {
             public Model model;
@@ -89,7 +91,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        DFLog.FMTLine(line);
+                        dflog.FMTLine(line);
                     }
                     catch { }
                 }
@@ -120,12 +122,12 @@ namespace MissionPlanner.Log
                         modelist[positionindex] = (items[1]);
                     }
                 }
-                else if (items[0].Contains("GPS") && DFLog.logformat.ContainsKey("GPS"))
+                else if (items[0].Contains("GPS") && dflog.logformat.ContainsKey("GPS"))
                 {
                     if (items[0].Contains("GPS2"))
                         return;
 
-                    if (int.Parse(items[DFLog.FindMessageOffset("GPS", "Status")]) < 3)
+                    if (int.Parse(items[dflog.FindMessageOffset("GPS", "Status")]) < 3)
                         return;
 
                     if (position[positionindex] == null)
@@ -136,11 +138,11 @@ namespace MissionPlanner.Log
 
                     // 7 agl
                     // 8 asl...
-                    double alt = double.Parse(items[DFLog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
+                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[DFLog.FindMessageOffset("GPS", "Lng")],
+                    position[positionindex].Add(new Point3D(double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")],
                         new System.Globalization.CultureInfo("en-US")),
-                        double.Parse(items[DFLog.FindMessageOffset("GPS", "Lat")],
+                        double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")],
                         new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
@@ -224,11 +226,11 @@ namespace MissionPlanner.Log
                 }
                      else if (items[0].Contains("POS"))
                      {
-                         if (DFLog.logformat.ContainsKey("POS"))
+                         if (dflog.logformat.ContainsKey("POS"))
                          {
-                             int poslatindex = DFLog.FindMessageOffset("POS", "Lat");
-                             int poslngindex = DFLog.FindMessageOffset("POS", "Lng");
-                             int posaltindex = DFLog.FindMessageOffset("POS", "Alt");
+                             int poslatindex = dflog.FindMessageOffset("POS", "Lat");
+                             int poslngindex = dflog.FindMessageOffset("POS", "Lng");
+                             int posaltindex = dflog.FindMessageOffset("POS", "Alt");
 
                              PosLatLngAlts.Add(new PointLatLngAlt(double.Parse(items[poslatindex], CultureInfo.InvariantCulture), double.Parse(items[poslngindex], CultureInfo.InvariantCulture), double.Parse(items[posaltindex], CultureInfo.InvariantCulture)));
                          }
@@ -271,7 +273,7 @@ namespace MissionPlanner.Log
 
                                  try
                                  {
-                                     dat.datetime = DFLog.GetTimeGPS(lastline);
+                                     dat.datetime = dflog.GetTimeGPS(lastline);
                                  }
                                  catch
                                  {
@@ -286,13 +288,13 @@ namespace MissionPlanner.Log
                                  oldlastpos = lastpos;
 
                                  runmodel.Orientation.roll =
-                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Roll")],
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
                                          new System.Globalization.CultureInfo("en-US"))/-1;
                                  runmodel.Orientation.tilt =
-                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Pitch")],
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
                                          new System.Globalization.CultureInfo("en-US"))/-1;
                                  runmodel.Orientation.heading =
-                                     double.Parse(items[DFLog.FindMessageOffset("ATT", "Yaw")],
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
                                          new System.Globalization.CultureInfo("en-US"))/1;
 
                                  dat.model = runmodel;
@@ -565,36 +567,36 @@ gnssId GNSS Type
 
                 if (items[0].StartsWith("GRAW"))
                 {
-                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRAW", "WkMS")]);
-                    week = int.Parse(items[DFLog.FindMessageOffset("GRAW", "Week")]);
-                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "numSV")]);
-                    sv = double.Parse(items[DFLog.FindMessageOffset("GRAW", "sv")]);
-                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cpMes")]);
-                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "prMes")]);
-                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "doMes")]);
-                    mesQI = double.Parse(items[DFLog.FindMessageOffset("GRAW", "mesQI")]);
-                    cno = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cno")]);
-                    lli = double.Parse(items[DFLog.FindMessageOffset("GRAW", "lli")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRAW", "WkMS")]);
+                    week = int.Parse(items[dflog.FindMessageOffset("GRAW", "Week")]);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRAW", "numSV")]);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRAW", "sv")]);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "cpMes")]);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "prMes")]);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "doMes")]);
+                    mesQI = double.Parse(items[dflog.FindMessageOffset("GRAW", "mesQI")]);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRAW", "cno")]);
+                    lli = double.Parse(items[dflog.FindMessageOffset("GRAW", "lli")]);
 
                     if (sv > 32)
                         gnss = 1;
                 }
                 else if (items[0].StartsWith("GRXH"))
                 {
-                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
-                    week = int.Parse(items[DFLog.FindMessageOffset("GRXH", "week")]);
-                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRXH", "numMeas")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
+                    week = int.Parse(items[dflog.FindMessageOffset("GRXH", "week")]);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRXH", "numMeas")]);
                     continue;
                 }
                 else if (items[0].StartsWith("GRXS"))
                 {
-                    sv = double.Parse(items[DFLog.FindMessageOffset("GRXS", "sv")]);
-                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cpMes")]);
-                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "prMes")]);
-                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "doMes")]);
-                    gnss = int.Parse(items[DFLog.FindMessageOffset("GRXS", "gnss")]);
-                    cno = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cno")]);
-                    double locktime = double.Parse(items[DFLog.FindMessageOffset("GRXS", "lock")]);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRXS", "sv")]);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "cpMes")]);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "prMes")]);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "doMes")]);
+                    gnss = int.Parse(items[dflog.FindMessageOffset("GRXS", "gnss")]);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRXS", "cno")]);
+                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")]);
                     lli = 0; // OK or not known
                 }
 
