@@ -1823,6 +1823,7 @@ namespace MissionPlanner.GCSViews
                 && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
             {
                 modifyandSetSpeed.Value = (decimal)(float)MainV2.comPort.MAV.param["TRIM_THROTTLE"]; // percent
+                modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
             }
         }
 

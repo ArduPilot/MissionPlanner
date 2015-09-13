@@ -232,6 +232,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Throttle.
+        /// </summary>
+        public static string ChangeThrottle {
+            get {
+                return ResourceManager.GetString("ChangeThrottle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checking .
         /// </summary>
         public static string Checking {
