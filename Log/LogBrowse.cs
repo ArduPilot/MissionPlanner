@@ -1713,7 +1713,8 @@ namespace MissionPlanner.Log
 
         private void LogBrowse_FormClosed(object sender, FormClosedEventArgs e)
         {
-            logdata.Clear();
+            if (logdata != null)
+                logdata.Clear();
             logdata = null;
             m_dtCSV = null;
             dataGridView1.DataSource = null;
