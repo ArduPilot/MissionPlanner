@@ -767,6 +767,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid home location.
+        /// </summary>
+        public static string Invalid_home_location {
+            get {
+                return ResourceManager.GetString("Invalid_home_location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid Alt.
         /// </summary>
         public static string InvalidAlt {

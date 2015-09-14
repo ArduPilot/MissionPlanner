@@ -591,4 +591,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="ChangeThrottle" xml:space="preserve">
     <value>Change Throttle</value>
   </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>Invalid home location</value>
+  </data>
 </root>

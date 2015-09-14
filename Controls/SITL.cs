@@ -110,6 +110,12 @@ namespace MissionPlanner.Controls
                 File.Copy(Application.StartupPath + Path.DirectorySeparatorChar + "JSBSim.exe", destfile);
             }
 
+            if (markeroverlay.Markers.Count == 0)
+            {
+                CustomMessageBox.Show(Strings.Invalid_home_location);
+                return;
+            }
+
             StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), @" --autotest-dir """ + Application.StartupPath.Replace('\\','/') + @"""", 1);
         }
 
