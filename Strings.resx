@@ -594,4 +594,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="Invalid_home_location" xml:space="preserve">
     <value>Invalid home location</value>
   </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>Converting bin to log</value>
+  </data>
 </root>

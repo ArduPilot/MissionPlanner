@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using MissionPlanner.Controls;
 using uint8_t = System.Byte;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -29,11 +31,53 @@ namespace MissionPlanner.Log
             public byte[] labels;
         }
 
+        private ProgressReporterDialogue prd;
+        private string inputfn;
+        private string outputfn;
+        private event convertProgress convertstatus;
+        private delegate void convertProgress(ProgressReporterDialogue prd, float progress);
+
         Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
 
         public static void ConvertBin(string inputfn, string outputfn, bool showui = true)
         {
-            new BinaryLog().ConvertBini(inputfn, outputfn, showui);
+            if (!showui)
+            {
+                new BinaryLog().ConvertBini(inputfn, outputfn, false);
+                return;
+            }
+
+            new BinaryLog().doUI(inputfn, outputfn, true);
+        }
+
+        void doUI(string inputfn, string outputfn, bool showui = true)
+        {
+            this.inputfn = inputfn;
+            this.outputfn = outputfn;
+
+            prd = new ProgressReporterDialogue();
+
+            prd.DoWork += prd_DoWork;
+
+            prd.UpdateProgressAndStatus(-1,Strings.Converting_bin_to_log);
+
+            this.convertstatus += BinaryLog_convertstatus;
+
+            ThemeManager.ApplyThemeTo(prd);
+
+            prd.RunBackgroundOperationAsync();
+
+            prd.Dispose();
+        }
+
+        void BinaryLog_convertstatus(ProgressReporterDialogue prd, float progress)
+        {
+            prd.UpdateProgressAndStatus((int)progress, Strings.Converting_bin_to_log);
+        }
+
+        void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        {
+            this.ConvertBini(inputfn, outputfn, true);
         }
 
         void ConvertBini(string inputfn, string outputfn, bool showui = true)
@@ -48,6 +92,9 @@ namespace MissionPlanner.Log
                     {
                         if (displaytimer.Second != DateTime.Now.Second)
                         {
+                            if (convertstatus != null && prd != null)
+                                convertstatus(prd, (br.BaseStream.Position / (float)br.BaseStream.Length) * 100);
+
                             Console.WriteLine("ConvertBin " + (br.BaseStream.Position/(float) br.BaseStream.Length)*100);
                             displaytimer = DateTime.Now;
                         }

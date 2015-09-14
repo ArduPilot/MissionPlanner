@@ -350,6 +350,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Converting bin to log.
+        /// </summary>
+        public static string Converting_bin_to_log {
+            get {
+                return ResourceManager.GetString("Converting_bin_to_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description: .
         /// </summary>
         public static string Desc {
