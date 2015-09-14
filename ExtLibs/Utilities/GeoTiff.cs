@@ -110,6 +110,9 @@ namespace MissionPlanner.Utilities
 
         private static void generateIndex()
         {
+            if (!Directory.Exists(srtm.datadirectory))
+                return;
+
             var files = Directory.GetFiles(srtm.datadirectory, "*.tif");
 
             foreach (var file in files)
@@ -120,8 +123,9 @@ namespace MissionPlanner.Utilities
 
                     tif.LoadFile(file);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
         }
