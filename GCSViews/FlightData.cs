@@ -1097,10 +1097,8 @@ namespace MissionPlanner.GCSViews
                             foreach (var port in MainV2.Comports)
                             {
                                 // draw the mavs seen on this port
-                                foreach (var portsysid in port.sysidseen)
+                                foreach (var MAV in port.MAVlist.GetMAVStates())
                                 {
-                                    var MAV = port.MAVlist[portsysid];
-
                                     PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
 
                                     if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MAV.cs.firmware == MainV2.Firmwares.Ateryx)

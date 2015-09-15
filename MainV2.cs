@@ -1039,7 +1039,7 @@ namespace MissionPlanner
                 }
 
                 // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.sysidseen.Count > 1)
+                if (comPort.MAVlist.Count > 1)
                 {
                     // we have more than one mav
                     // user selection of sysid
@@ -1048,18 +1048,20 @@ namespace MissionPlanner
                     id.Show();
                 }
 
-                // create a copy
-                int[] list = comPort.sysidseen.ToArray();
+                // get all mavstates
+                var list = comPort.MAVlist.GetMAVStates();
 
                 // get all the params
-                foreach (var sysid in list)
+                foreach (var mavstate in list)
                 {
-                    comPort.sysidcurrent = sysid;
+                    comPort.sysidcurrent = mavstate.sysid;
+                    comPort.compidcurrent = mavstate.compid;
                     comPort.getParamList();
                 }
 
                 // set to first seen
-                comPort.sysidcurrent = list[0];
+                comPort.sysidcurrent = list[0].sysid;
+                comPort.compidcurrent = list[0].compid;
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -2079,11 +2081,11 @@ namespace MissionPlanner
                             catch (Exception ex) { log.Error(ex); }
                         }
                         // update currentstate of sysids on the port
-                        foreach (var sysid in port.sysidseen)
+                        foreach (var MAV in port.MAVlist.GetMAVStates())
                         {
                             try
                             {
-                                port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
+                                MAV.cs.UpdateCurrentSettings(null, false, port, MAV);
                             }
                             catch (Exception ex) { log.Error(ex); }
                         }

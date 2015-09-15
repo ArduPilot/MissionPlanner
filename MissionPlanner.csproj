@@ -483,6 +483,7 @@
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="Maps\Statkart_Topo2.cs" />
+    <Compile Include="Mavlink\MAVList.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
