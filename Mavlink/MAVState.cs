@@ -15,7 +15,7 @@ namespace MissionPlanner
             this.lastvalidpacket = DateTime.MinValue;
             this.sysid = 0;
             this.compid = 0;
-            this.param = new Hashtable();
+            this.param = new MAVLinkParamList();
             this.packets = new byte[0x100][];
             this.packetseencount = new int[0x100];
             this.aptype = 0;
@@ -64,7 +64,7 @@ namespace MissionPlanner
         /// <summary>
         /// storage for whole paramater list
         /// </summary>
-        public Hashtable param { get; set; }
+        public MAVLinkParamList param { get; set; }
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
         /// <summary>

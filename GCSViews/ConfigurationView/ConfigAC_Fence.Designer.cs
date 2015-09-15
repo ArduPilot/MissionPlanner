@@ -84,7 +84,7 @@
             resources.ApplyResources(this.mavlinkComboBox2, "mavlinkComboBox2");
             this.mavlinkComboBox2.FormattingEnabled = true;
             this.mavlinkComboBox2.Name = "mavlinkComboBox2";
-            this.mavlinkComboBox2.param = null;
+            
             this.mavlinkComboBox2.ParamName = null;
             // 
             // mavlinkNumericUpDown1
@@ -93,7 +93,7 @@
             this.mavlinkNumericUpDown1.Max = 1F;
             this.mavlinkNumericUpDown1.Min = 0F;
             this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
-            this.mavlinkNumericUpDown1.param = null;
+            
             this.mavlinkNumericUpDown1.ParamName = null;
             // 
             // mavlinkNumericUpDown2
@@ -107,7 +107,7 @@
             0,
             0});
             this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
-            this.mavlinkNumericUpDown2.param = null;
+            
             this.mavlinkNumericUpDown2.ParamName = null;
             this.mavlinkNumericUpDown2.Value = new decimal(new int[] {
             30,
@@ -121,7 +121,7 @@
             this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
             this.mavlinkCheckBox1.OffValue = 0F;
             this.mavlinkCheckBox1.OnValue = 1F;
-            this.mavlinkCheckBox1.param = null;
+            
             this.mavlinkCheckBox1.ParamName = null;
             this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
             // 
@@ -136,7 +136,7 @@
             resources.ApplyResources(this.mavlinkComboBox1, "mavlinkComboBox1");
             this.mavlinkComboBox1.FormattingEnabled = true;
             this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.param = null;
+            
             this.mavlinkComboBox1.ParamName = null;
             // 
             // label4type
@@ -165,7 +165,7 @@
             this.mavlinkNumericUpDown3.Max = 1F;
             this.mavlinkNumericUpDown3.Min = 0F;
             this.mavlinkNumericUpDown3.Name = "mavlinkNumericUpDown3";
-            this.mavlinkNumericUpDown3.param = null;
+            
             this.mavlinkNumericUpDown3.ParamName = null;
             // 
             // lineSeparator2

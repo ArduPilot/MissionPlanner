@@ -36,7 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
             {
-                var dec = (float) MainV2.comPort.MAV.param["COMPASS_DEC"]*rad2deg;
+                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value*rad2deg;
 
                 var min = (dec - (int) dec)*60;
 

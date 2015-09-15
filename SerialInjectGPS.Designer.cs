@@ -40,6 +40,7 @@
             this.CMB_serialport.FormattingEnabled = true;
             resources.ApplyResources(this.CMB_serialport, "CMB_serialport");
             this.CMB_serialport.Name = "CMB_serialport";
+            this.CMB_serialport.SelectedIndexChanged += new System.EventHandler(this.CMB_serialport_SelectedIndexChanged);
             // 
             // BUT_connect
             // 

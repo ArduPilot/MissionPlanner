@@ -10,6 +10,7 @@ using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
 using System.IO;
+using System.Runtime.InteropServices;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
@@ -19,6 +20,7 @@ namespace MissionPlanner.Comms
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private Uri remoteUri;
 
         int retrys = 3;
 
@@ -90,12 +92,29 @@ namespace MissionPlanner.Comms
 
             OnSettings("NTRIP_url", url, true);
 
-            url = url.Replace("ntrip://","http://");
+            url = url.Replace("ntrip://", "http://");
 
-            Uri remoteUri = new Uri(url);
+            remoteUri = new Uri(url);
 
+            doConnect();
+        }
+
+        private byte[] TcpKeepAlive(bool On_Off, uint KeepaLiveTime, uint KeepaLiveInterval)
+        {
+            byte[] InValue = new byte[12];
+
+            Array.ConstrainedCopy(BitConverter.GetBytes(Convert.ToUInt32(On_Off)), 0, InValue, 0, 4);
+            Array.ConstrainedCopy(BitConverter.GetBytes(KeepaLiveTime), 0, InValue, 4, 4);
+            Array.ConstrainedCopy(BitConverter.GetBytes(KeepaLiveInterval), 0, InValue, 8, 4);
+
+            return InValue;
+        }
+
+        private void doConnect()
+        {
             string usernamePassword = remoteUri.UserInfo;
-            string auth = "Authorization: Basic " + Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword))+"\r\n";
+            string auth = "Authorization: Basic " +
+                          Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword)) + "\r\n";
 
             if (usernamePassword == "")
                 auth = "";
@@ -104,15 +123,18 @@ namespace MissionPlanner.Comms
             Port = remoteUri.Port.ToString();
 
             client = new TcpClient(host, int.Parse(Port));
+            client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true,36000000, 3000), null);
 
             NetworkStream ns = client.GetStream();
 
             StreamWriter sw = new StreamWriter(ns);
             StreamReader sr = new StreamReader(ns);
 
-            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\nHost: " + remoteUri.Host
-             + "\r\nNtrip-Version: Ntrip/1.0\r\nUser-Agent: Mission Planner\r\n"
-             + auth + "Connection: close\r\n\r\n";
+            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\n"
+                          + "User-Agent: NTRIP Mission Planner/1.0\r\n"
+                          + "Accept: */*\r\n"
+                          + auth 
+                          + "Connection: close\r\n\r\n";
 
             sw.Write(line);
 
@@ -127,8 +149,6 @@ namespace MissionPlanner.Comms
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
 
-            client.NoDelay = true;
-            client.Client.NoDelay = true;
 
             VerifyConnected();
         }
@@ -147,7 +167,7 @@ namespace MissionPlanner.Comms
                 if (client != null && retrys > 0)
                 {
                     log.Info("ntrip reconnect");
-                    client.Connect(host,int.Parse(Port));
+                    doConnect();
                     retrys--;
                 }
 
@@ -162,7 +182,7 @@ namespace MissionPlanner.Comms
             {
                 if (length < 1) { return 0; }
 
-				return client.Client.Receive(readto, offset, length, SocketFlags.None);
+				return client.Client.Receive(readto, offset, length, SocketFlags.Partial);
 /*
                 byte[] temp = new byte[length];
                 clientbuf.Read(temp, 0, length);

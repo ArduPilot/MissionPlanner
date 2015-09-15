@@ -327,7 +327,8 @@ namespace MissionPlanner
             instance = this;
 
             //disable dpi scaling
-            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
+            if (Font.Name != "宋体") //Chinese displayed normally when scaling. But would be too small or large using this line of code.
+                Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
 
             InitializeComponent();
 
@@ -508,10 +509,6 @@ namespace MissionPlanner
                 Simulation = new GCSViews.Simulation();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
-
-                // preload
-                log.Info("Create Python");
-                Python.CreateEngine();
 
                 FlightData.Width = MyView.Width;
                 FlightPlanner.Width = MyView.Width;
@@ -999,7 +996,7 @@ namespace MissionPlanner
 
                 log.Info("About to do dtr if needed");
                 // reset on connect logic.
-                if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                if (config["CHK_resetapmonconnect"] != null && bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
                 {
                     log.Info("set dtr rts to false");
                     comPort.BaseStream.DtrEnable = false;
@@ -1970,7 +1967,7 @@ namespace MissionPlanner
                     {
                         armedstatus = MainV2.comPort.MAV.cs.armed;
                         // status just changed to armed
-                        if (MainV2.comPort.MAV.cs.armed == true)
+                        if (MainV2.comPort.MAV.cs.armed == true && MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
                         {
                             try
                             {
@@ -1984,7 +1981,7 @@ namespace MissionPlanner
                             catch
                             {
                                 // dont hang this loop
-                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); });
+                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location ("+MainV2.comPort.MAV.sysid+")"); });
                             }
                         }
 
@@ -2219,6 +2216,12 @@ namespace MissionPlanner
 
             try
             {
+                NoFly.NoFly.Scan();
+            }
+            catch (Exception ex) { log.Error(ex); }
+
+            try
+            {
                 // check the last kindex date
                 if (MainV2.getConfig("kindexdate") == DateTime.Now.ToShortDateString())
                 {
@@ -2228,11 +2231,18 @@ namespace MissionPlanner
                 }
                 else
                 {
-                    // get a new kindex
-                    KIndex.KIndexEvent += KIndex_KIndex;
-                    KIndex.GetKIndex();
+                    System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                    {
+                        try
+                        {
+                            // get a new kindex
+                            KIndex.KIndexEvent += KIndex_KIndex;
+                            KIndex.GetKIndex();
 
-                    MainV2.config["kindexdate"] = DateTime.Now.ToShortDateString();
+                            MainV2.config["kindexdate"] = DateTime.Now.ToShortDateString();
+                        }
+                        catch { }
+                    });
                 }
             }
             catch (Exception ex) { log.Error(ex); }

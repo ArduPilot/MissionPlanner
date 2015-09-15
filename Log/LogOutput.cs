@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -39,6 +40,8 @@ namespace MissionPlanner.Log
 
         private DateTime doevent = DateTime.Now;
 
+        DFLog dflog = new DFLog();
+
         public struct Data
         {
             public Model model;
@@ -47,6 +50,8 @@ namespace MissionPlanner.Log
             public DateTime datetime;
             public string mode;
         }
+
+        public List<PointLatLngAlt> PosLatLngAlts = new List<PointLatLngAlt>();
 
         public void processLine(string line)
         {
@@ -86,7 +91,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        DFLog.FMTLine(line);
+                        dflog.FMTLine(line);
                     }
                     catch { }
                 }
@@ -117,12 +122,12 @@ namespace MissionPlanner.Log
                         modelist[positionindex] = (items[1]);
                     }
                 }
-                else if (items[0].Contains("GPS") && DFLog.logformat.ContainsKey("GPS"))
+                else if (items[0].Contains("GPS") && dflog.logformat.ContainsKey("GPS"))
                 {
                     if (items[0].Contains("GPS2"))
                         return;
 
-                    if (items[DFLog.FindMessageOffset("GPS", "Status")] != "3")
+                    if (int.Parse(items[dflog.FindMessageOffset("GPS", "Status")]) < 3)
                         return;
 
                     if (position[positionindex] == null)
@@ -133,11 +138,11 @@ namespace MissionPlanner.Log
 
                     // 7 agl
                     // 8 asl...
-                    double alt = double.Parse(items[DFLog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
+                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[DFLog.FindMessageOffset("GPS", "Lng")],
+                    position[positionindex].Add(new Point3D(double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")],
                         new System.Globalization.CultureInfo("en-US")),
-                        double.Parse(items[DFLog.FindMessageOffset("GPS", "Lat")],
+                        double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")],
                         new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
@@ -219,67 +224,91 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else if (items[0].Contains("GRAW"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("GRXH"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("GRXS"))
-                {
-                    gpsrawdata.Add(line);
-                }
-                else if (items[0].Contains("CTUN"))
-                {
-                    ctunlast = items;
-                }
-                else if (items[0].Contains("NTUN"))
-                {
-                    ntunlast = items;
-                    try
-                    {
-                        // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
-                        // items = line.Split(',', ':');
-                    }
-                    catch { }
-                }
-                else if (items[0].Contains("ATT"))
-                {
-                    try
-                    {
-                        if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
-                        {
-                            Data dat = new Data();
+                     else if (items[0].Contains("POS"))
+                     {
+                         if (dflog.logformat.ContainsKey("POS"))
+                         {
+                             int poslatindex = dflog.FindMessageOffset("POS", "Lat");
+                             int poslngindex = dflog.FindMessageOffset("POS", "Lng");
+                             int posaltindex = dflog.FindMessageOffset("POS", "Alt");
 
-                            try
-                            {
-                                dat.datetime = DFLog.GetTimeGPS(lastline);
-                            }
-                            catch { }
+                             PosLatLngAlts.Add(new PointLatLngAlt(double.Parse(items[poslatindex], CultureInfo.InvariantCulture), double.Parse(items[poslngindex], CultureInfo.InvariantCulture), double.Parse(items[posaltindex], CultureInfo.InvariantCulture)));
+                         }
+                     }
+                     else if (items[0].Contains("GRAW"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("GRXH"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("GRXS"))
+                     {
+                         gpsrawdata.Add(line);
+                     }
+                     else if (items[0].Contains("CTUN"))
+                     {
+                         ctunlast = items;
+                     }
+                     else if (items[0].Contains("NTUN"))
+                     {
+                         ntunlast = items;
+                         try
+                         {
+                             // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
+                             // items = line.Split(',', ':');
+                         }
+                         catch
+                         {
+                         }
+                     }
+                     else if (items[0].Contains("ATT"))
+                     {
+                         try
+                         {
+                             if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
+                             {
+                                 Data dat = new Data();
 
-                            runmodel = new Model();
+                                 try
+                                 {
+                                     dat.datetime = dflog.GetTimeGPS(lastline);
+                                 }
+                                 catch
+                                 {
+                                 }
 
-                            runmodel.Location.longitude = lastpos.X;
-                            runmodel.Location.latitude = lastpos.Y;
-                            runmodel.Location.altitude = lastpos.Z;
+                                 runmodel = new Model();
 
-                            oldlastpos = lastpos;
+                                 runmodel.Location.longitude = lastpos.X;
+                                 runmodel.Location.latitude = lastpos.Y;
+                                 runmodel.Location.altitude = lastpos.Z;
 
-                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindMessageOffset("ATT", "Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindMessageOffset("ATT", "Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindMessageOffset("ATT", "Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
+                                 oldlastpos = lastpos;
 
-                            dat.model = runmodel;
-                            dat.ctun = ctunlast;
-                            dat.ntun = ntunlast;
+                                 runmodel.Orientation.roll =
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
+                                         new System.Globalization.CultureInfo("en-US"))/-1;
+                                 runmodel.Orientation.tilt =
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
+                                         new System.Globalization.CultureInfo("en-US"))/-1;
+                                 runmodel.Orientation.heading =
+                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
+                                         new System.Globalization.CultureInfo("en-US"))/1;
 
-                            flightdata.Add(dat);
-                        }
-                    }
-                    catch (Exception ex) { log.Error(ex); }
-                }
+                                 dat.model = runmodel;
+                                 dat.ctun = ctunlast;
+                                 dat.ntun = ntunlast;
+
+                                 flightdata.Add(dat);
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             log.Error(ex);
+                         }
+                     }
 
                 if ((DateTime.Now - start).TotalMilliseconds > 5)
                 {
@@ -538,36 +567,36 @@ gnssId GNSS Type
 
                 if (items[0].StartsWith("GRAW"))
                 {
-                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRAW", "WkMS")]);
-                    week = int.Parse(items[DFLog.FindMessageOffset("GRAW", "Week")]);
-                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "numSV")]);
-                    sv = double.Parse(items[DFLog.FindMessageOffset("GRAW", "sv")]);
-                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cpMes")]);
-                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "prMes")]);
-                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "doMes")]);
-                    mesQI = double.Parse(items[DFLog.FindMessageOffset("GRAW", "mesQI")]);
-                    cno = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cno")]);
-                    lli = double.Parse(items[DFLog.FindMessageOffset("GRAW", "lli")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRAW", "WkMS")]);
+                    week = int.Parse(items[dflog.FindMessageOffset("GRAW", "Week")]);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRAW", "numSV")]);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRAW", "sv")]);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "cpMes")]);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "prMes")]);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "doMes")]);
+                    mesQI = double.Parse(items[dflog.FindMessageOffset("GRAW", "mesQI")]);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRAW", "cno")]);
+                    lli = double.Parse(items[dflog.FindMessageOffset("GRAW", "lli")]);
 
                     if (sv > 32)
                         gnss = 1;
                 }
                 else if (items[0].StartsWith("GRXH"))
                 {
-                    weekms = double.Parse(items[DFLog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
-                    week = int.Parse(items[DFLog.FindMessageOffset("GRXH", "week")]);
-                    NSats = double.Parse(items[DFLog.FindMessageOffset("GRXH", "numMeas")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
+                    week = int.Parse(items[dflog.FindMessageOffset("GRXH", "week")]);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRXH", "numMeas")]);
                     continue;
                 }
                 else if (items[0].StartsWith("GRXS"))
                 {
-                    sv = double.Parse(items[DFLog.FindMessageOffset("GRXS", "sv")]);
-                    cpMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cpMes")]);
-                    prMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "prMes")]);
-                    doMes = double.Parse(items[DFLog.FindMessageOffset("GRXS", "doMes")]);
-                    gnss = int.Parse(items[DFLog.FindMessageOffset("GRXS", "gnss")]);
-                    cno = double.Parse(items[DFLog.FindMessageOffset("GRXS", "cno")]);
-                    double locktime = double.Parse(items[DFLog.FindMessageOffset("GRXS", "lock")]);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRXS", "sv")]);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "cpMes")]);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "prMes")]);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "doMes")]);
+                    gnss = int.Parse(items[dflog.FindMessageOffset("GRXS", "gnss")]);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRXS", "cno")]);
+                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")]);
                     lli = 0; // OK or not known
                 }
 
@@ -806,6 +835,28 @@ gnssId GNSS Type
                 fldr.Add(pm);
             }
 
+            Placemark pmPOS = new Placemark();
+            pmPOS.name = "POS Message";
+            pmPOS.LineString = new LineString();
+            pmPOS.LineString.coordinates = new Coordinates();
+            Point3D lastPoint3D = new Point3D();
+            PointLatLngAlt lastplla = PointLatLngAlt.Zero;
+            foreach (var item in PosLatLngAlts)
+            {
+                var newpoint = new Point3D(item.Lng, item.Lat, item.Alt);
+
+                if (item.GetDistance(lastplla) < 0.1 &&
+                    lastPoint3D.Z >= (newpoint.Z - 0.3) &&
+                    lastPoint3D.Z <= (newpoint.Z + 0.3)) 
+                    continue;
+
+                pmPOS.LineString.coordinates.Add(newpoint);
+                lastPoint3D = newpoint;
+                lastplla = item;
+            }
+            pmPOS.AddStyle(style);
+            fldr.Add(pmPOS);
+
             Folder planes = new Folder();
             planes.name = "Planes";
             fldr.Add(planes);
@@ -823,6 +874,9 @@ gnssId GNSS Type
 
             foreach (PointLatLngAlt p1 in cmd)
             {
+                if (p1.Lng == 0 && p1.Lat == 0)
+                    continue;
+
                 coordswp.Add(new Point3D(p1.Lng, p1.Lat, p1.Alt));
             }
 
@@ -834,7 +888,8 @@ gnssId GNSS Type
             //pm.styleUrl = "#yellowLineGreenPoly";
             pmwp.LineString = lswp;
 
-            waypoints.Add(pmwp);
+            if (coordswp.Count > 0)
+                waypoints.Add(pmwp);
 
             int a = 0;
             int l = -1;

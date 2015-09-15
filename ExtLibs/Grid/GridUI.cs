@@ -832,7 +832,7 @@ namespace MissionPlanner
             {
                 // entered values
                 float focallen = (float)NUM_focallength.Value;
-                float flyalt = (float)NUM_altitude.Value;
+                float flyalt = (float)CurrentState.fromDistDisplayUnit((float)NUM_altitude.Value);
                 int imagewidth = int.Parse(TXT_imgwidth.Text);
                 int imageheight = int.Parse(TXT_imgheight.Text);
 
@@ -1414,7 +1414,7 @@ namespace MissionPlanner
                 {
                     if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                     {
-                        float speed = ((float)MainV2.comPort.MAV.param["WPNAV_SPEED"]);
+                        double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
                         speed = speed / 100;
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
                     }

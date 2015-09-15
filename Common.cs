@@ -813,6 +813,10 @@ namespace MissionPlanner
 
             input = input.Replace("{satcount}", (MainV2.comPort.MAV.cs.satcount).ToString("0"));
 
+            input = input.Replace("{rssi}", (MainV2.comPort.MAV.cs.rssi).ToString("0"));
+
+            input = input.Replace("{disthome}", (MainV2.comPort.MAV.cs.DistToHome).ToString("0"));
+
             return input;
         }
     }

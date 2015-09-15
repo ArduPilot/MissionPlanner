@@ -15,12 +15,12 @@ namespace MissionPlanner.Controls
         public MyLabel myLabel1;
         public Panel panel1;
         public event EventValueChanged ValueChanged;
+        List<KeyValuePair<int, string>> list;
+        int chkcount;
 
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
-        [System.ComponentModel.Browsable(true)]
-        public Hashtable param { get; set; }
 
         public float Value 
         {
@@ -35,6 +35,17 @@ namespace MissionPlanner.Controls
 
                 return answer;
             }
+            set
+            {
+                for (int a = 0; a < chkcount; a++)
+                {
+                    CheckBox chk = (CheckBox)panel1.Controls[a];
+
+
+                        chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
+
+                }
+            }
         }
 
         List<KeyValuePair<int, CheckBox>> chklist = new List<KeyValuePair<int, CheckBox>>();
@@ -47,22 +58,21 @@ namespace MissionPlanner.Controls
             this.Width = 700;
         }
 
-        public void setup(string paramname, Hashtable paramlist)
+        public void setup(string paramname, MAVLink.MAVLinkParamList paramlist)
         {
             this.ParamName = paramname;
-            this.param = paramlist;
 
             if (paramlist.ContainsKey(paramname))
             {
                 this.Enabled = true;
 
-                var list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                chkcount = list.Count;
 
-                int chkcount = list.Count;
                 int leftside = 9;
                 int top = 9;
 
-                uint value = (uint)(float)paramlist[paramname];
+                uint value = (uint)paramlist[paramname].Value;
 
                 for (int a = 0; a < chkcount; a++)
                 {

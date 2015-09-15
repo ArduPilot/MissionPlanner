@@ -23,7 +23,6 @@ namespace MissionPlanner
         private System.Threading.Thread t12;
         private static bool threadrun = false;
 
-        static TcpListener listener;
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 
@@ -32,7 +31,7 @@ namespace MissionPlanner
             InitializeComponent();
 
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            CMB_serialport.Items.Add("UDP Host - 14550");
+            CMB_serialport.Items.Add("UDP Host");
             CMB_serialport.Items.Add("UDP Client");
             CMB_serialport.Items.Add("TCP Client");
             CMB_serialport.Items.Add("NTRIP");
@@ -61,12 +60,12 @@ namespace MissionPlanner
                     {
                         case "NTRIP":
                             comPort = new CommsNTRIP();
-                            CMB_baudrate.Text = "0";
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
                             break;
-                        case "UDP Host - 14550":
+                        case "UDP Host":
                             comPort = new UdpSerial();
                             break;
                         case "UDP Client":
@@ -96,9 +95,9 @@ namespace MissionPlanner
                 {
                     comPort.Open();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString());
                     return;
                 }
 
@@ -116,7 +115,6 @@ namespace MissionPlanner
         private void mainloop()
         {
             threadrun = true;
-            int counter = 0;
             while (threadrun)
             {
                 try
@@ -138,6 +136,14 @@ namespace MissionPlanner
                     log.Error(ex);
                 }
             }
+        }
+
+        private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!CMB_serialport.Text.ToLower().Contains("com"))
+                CMB_baudrate.Enabled = false;
+            else
+                CMB_baudrate.Enabled = true;
         }
     }
 }

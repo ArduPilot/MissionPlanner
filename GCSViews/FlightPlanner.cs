@@ -496,6 +496,9 @@ namespace MissionPlanner.GCSViews
 
             Up.Image = Resources.up;
             Down.Image = Resources.down;
+
+            // hide the map to prevent redraws when its loaded
+            panelMap.Visible = false;  
         }
 
         void updateCMDParams()
@@ -627,7 +630,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        private void Planner_Load(object sender, EventArgs e)
+        private void FlightPlanner_Load(object sender, EventArgs e)
         {
             quickadd = true;
 
@@ -666,10 +669,12 @@ namespace MissionPlanner.GCSViews
 
             updateCMDParams();
 
+            panelMap.Visible = false;       
+
             // mono
             panelMap.Dock = DockStyle.None;
             panelMap.Dock = DockStyle.Fill;
-            panelMap_Resize(null, null);
+            panelMap_Resize(null, null);          
 
             //set home
             try
@@ -683,9 +688,11 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception) { }
 
-            writeKML();
+            panelMap.Refresh();
 
-            panelWaypoints.Expand = false;
+            panelMap.Visible = true;
+
+            writeKML();        
 
             // switch the action and wp table
             if (MainV2.getConfig("FP_docking") == "Bottom")
@@ -907,13 +914,13 @@ namespace MissionPlanner.GCSViews
                 m.ToolTipText = "Alt: " + alt.ToString("0");
                 m.Tag = tag;
 
-                try
+                int wpno = -1;
+                if (int.TryParse(tag, out wpno))
                 {
                     // preselect groupmarker
-                    if (groupmarkers.Contains(int.Parse(tag)))
+                    if (groupmarkers.Contains(wpno))
                         m.selected = true;
                 }
-                catch { }
 
                 //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
@@ -1540,9 +1547,16 @@ namespace MissionPlanner.GCSViews
         {
             if (Commands.Rows.Count > 0)
             {
-                if (CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                if (sender is FlightData)
                 {
-                    return;
+
+                }
+                else
+                {
+                    if (CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -2065,15 +2079,15 @@ namespace MissionPlanner.GCSViews
             {
                 log.Info("Loading wp params");
 
-                Hashtable param = new Hashtable(MainV2.comPort.MAV.param);
+                Hashtable param = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
 
                 if (param["WP_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((float)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                    TXT_WPRad.Text = ((int)((double)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
                 }
                 if (param["WPNAV_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((float)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100)).ToString();
+                    TXT_WPRad.Text = ((int)((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100)).ToString();
                 }
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
@@ -2083,12 +2097,12 @@ namespace MissionPlanner.GCSViews
                     TXT_loiterrad.Enabled = false;
                     if (param["LOITER_RADIUS"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((float)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = ((int)((double)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
                     else if (param["WP_LOITER_RAD"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((float)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = ((int)((double)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
 

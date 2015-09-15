@@ -322,7 +322,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     var controlAdded = false;
 
-                    var value = ((float) MainV2.comPort.MAV.param[x.Key]).ToString("0.###");
+                    var value = (MainV2.comPort.MAV.param[x.Key].Value).ToString("0.###");
 
                     var items = Controls.Find(x.Key, true);
                     if (items.Length > 0)
@@ -347,7 +347,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
                         {
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((MavlinkCheckBoxBitMask) items[0]).setup(x.Key, MainV2.comPort.MAV.param);
+                            ((MavlinkCheckBoxBitMask)items[0]).Value = Convert.ToSingle(value);
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }

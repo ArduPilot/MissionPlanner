@@ -743,7 +743,7 @@ namespace MissionPlanner
 
         private void BUT_georefimage_Click(object sender, EventArgs e)
         {
-            new Georefimage().Show();
+            new GeoRef.Georefimage().Show();
         }
 
         private void BUT_follow_me_Click(object sender, EventArgs e)
@@ -968,8 +968,6 @@ namespace MissionPlanner
             Directory.CreateDirectory(basedir);
 
             Firmware fw = new Firmware();
-
-            string betafirmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
 
             var list = fw.getFWList();
 
@@ -1562,6 +1560,18 @@ namespace MissionPlanner
             Utilities.fftui fft = new fftui();
 
             fft.Show();
+        }
+
+        private void BUT_vib_Click(object sender, EventArgs e)
+        {
+            Controls.Vibration vib = new Vibration();
+
+            vib.Show();
+        }
+
+        private void but_reboot_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doReboot(false);
         }
     }
 }

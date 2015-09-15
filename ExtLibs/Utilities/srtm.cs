@@ -51,31 +51,18 @@ namespace MissionPlanner
 
         static srtm()
         {
-            try
-            {
-                // remove all srtm 1 seconds data
-                string[] files = Directory.GetFiles(datadirectory, "*.hgt");
 
-                foreach (var file in files)
-                {
-                    FileInfo fi = new FileInfo(file);
-                    if (fi.Length > (1201 * 1201 * 2 + 1000))
-                    {
-                        fi.MoveTo(Path.GetFileNameWithoutExtension(file) + "-1sec" + Path.GetExtension(file));
-                        lock (objlock)
-                        {
-                            queue.Add(Path.GetFileName(file));
-                        }                        
-                    }
-                }
-            }
-            catch { }
         }
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
             var answer = new altresponce();
+
+            var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
+
+            if (trytiff.currenttype == tiletype.valid)
+                return trytiff;
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;
@@ -289,6 +276,13 @@ namespace MissionPlanner
                 }
                 else // get something
                 {
+                    if (filename.Contains("S00W000") || filename.Contains("S00W001") ||
+                        filename.Contains("S01W000") || filename.Contains("S01W001"))
+                    {
+                        answer.currenttype = tiletype.ocean;
+                        return answer;
+                    }
+
                     if (oceantile.Contains(filename))
                         answer.currenttype = tiletype.ocean;
 
@@ -299,7 +293,7 @@ namespace MissionPlanner
 
                         if (requestThread == null)
                         {
-                            Console.WriteLine("Getting " + filename);
+                            log.Info("Getting " + filename);
                             lock (objlock)
                             {
                                 queue.Add(filename);
@@ -316,7 +310,7 @@ namespace MissionPlanner
                             {
                                 if (!queue.Contains(filename))
                                 {
-                                    Console.WriteLine("Getting " + filename);
+                                    log.Info("Getting " + filename);
                                     queue.Add(filename);
                                 }
                             }
@@ -397,7 +391,7 @@ namespace MissionPlanner
 
         static void get3secfile(object name)
         {
-            string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
+            //string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
             string baseurl = "http://firmware.diydrones.com/SRTM/";
 
             // check file doesnt already exist

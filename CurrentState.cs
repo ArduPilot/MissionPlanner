@@ -210,7 +210,7 @@ namespace MissionPlanner
                 {
                     if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN") && MainV2.comPort.MAV.param.ContainsKey("RC3_MAX"))
                     {
-                        return (int)(((ch3out - (float)MainV2.comPort.MAV.param["RC3_MIN"]) / ((float)MainV2.comPort.MAV.param["RC3_MAX"] - (float)MainV2.comPort.MAV.param["RC3_MIN"])) * 100);
+                        return (int)(((ch3out - MainV2.comPort.MAV.param["RC3_MIN"].Value) / (MainV2.comPort.MAV.param["RC3_MAX"].Value - MainV2.comPort.MAV.param["RC3_MIN"].Value)) * 100);
                     }
                     else
                     {
@@ -323,7 +323,7 @@ namespace MissionPlanner
         public int battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
         private int _battery_remaining;
         [DisplayText("Bat Current (Amps)")]
-        public float current { get { return _current; } set { if (value < 0) return; if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (float)((value * 1000.0) * (datetime - _lastcurrent).TotalHours); _current = value; _lastcurrent = datetime; } }
+        public float current { get { return _current; } set { if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (float)((value * 1000.0) * (datetime - _lastcurrent).TotalHours); _current = value; _lastcurrent = datetime; } } //current may to be below zero - recuperation in arduplane
         private float _current;
         [DisplayText("Bat Watts")]
         public float watts { get { return battery_voltage * current; } }
@@ -592,10 +592,10 @@ namespace MissionPlanner
                 _mode = 99999;
                 messages = new List<string>();
                 useLocation = false;
-                rateattitude = 10;
-                rateposition = 3;
+                rateattitude = 6;
+                rateposition = 2;
                 ratestatus = 2;
-                ratesensors = 2;
+                ratesensors = 1;
                 raterc = 2;
                 datetime = DateTime.MinValue;
                 battery_usedmah = 0;
@@ -603,6 +603,7 @@ namespace MissionPlanner
                 distTraveled = 0;
                 timeInAir = 0;
                 KIndexstatic = -1;
+                version = new Version();
             }
         }
 
@@ -750,6 +751,25 @@ namespace MissionPlanner
                         MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED] = null;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION];
+
+                    if (bytearray != null) 
+                    {
+                        var version = bytearray.ByteArrayToStructure<MAVLink.mavlink_autopilot_version_t>(6);
+                        //#define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
+
+                        //		flight_sw_version	0x03040000	uint
+
+                        byte main = (byte)(version.flight_sw_version >> 24);
+                        byte sub = (byte)((version.flight_sw_version >> 16) & 0xff);
+                        byte rev = (byte)((version.flight_sw_version >> 8) & 0xff);
+                        MAVLink.FIRMWARE_VERSION_TYPE type = (MAVLink.FIRMWARE_VERSION_TYPE)(version.flight_sw_version & 0xff);
+
+                        this.version = new Version(main, sub, (int)type, rev);
+
+                        MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION] = null;
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS];
 
                     if (bytearray != null)
@@ -787,7 +807,7 @@ namespace MissionPlanner
                         var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>(6);
 
                         opt_m_x = optflow.flow_comp_m_x;
-                        opt_m_y = optflow.flow_comp_m_x;
+                        opt_m_y = optflow.flow_comp_m_y;
                         opt_x = optflow.flow_x;
                         opt_y = optflow.flow_y;
                         opt_qua = optflow.quality;
@@ -860,47 +880,50 @@ namespace MissionPlanner
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT];
                     if (bytearray != null)
                     {
-                        var ekfstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>(6);
+                        var ekfstatusm = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>(6);
 
                         // > 1, between 0-1 typical > 1 = reject measurement - red
                         // 0.5 > amber
 
-                        ekfvelv = ekfstatus.velocity_variance;
-                        ekfcompv = ekfstatus.compass_variance;
-                        ekfposhor = ekfstatus.pos_horiz_variance;
-                        ekfposvert = ekfstatus.pos_vert_variance;
-                        ekfteralt = ekfstatus.terrain_alt_variance;
+                        ekfvelv = ekfstatusm.velocity_variance;
+                        ekfcompv = ekfstatusm.compass_variance;
+                        ekfposhor = ekfstatusm.pos_horiz_variance;
+                        ekfposvert = ekfstatusm.pos_vert_variance;
+                        ekfteralt = ekfstatusm.terrain_alt_variance;
 
-                        //TODO need to localize - wait for testing to complete first
+                        ekfflags = ekfstatusm.flags;
+
+                        ekfstatus = (float)Math.Max(ekfvelv, Math.Max(ekfcompv, Math.Max(ekfposhor, Math.Max(ekfposvert, ekfteralt))));
+
                         if (ekfvelv >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "velocity variance";
+                            messageHigh = Strings.ERROR + " " + Strings.velocity_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfcompv >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "compass variance";
+                            messageHigh = Strings.ERROR + " " + Strings.compass_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfposhor >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "pos horiz variance";
+                            messageHigh = Strings.ERROR + " " + Strings.pos_horiz_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfposvert >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "pos vert variance";
+                            messageHigh = Strings.ERROR + " " + Strings.pos_vert_variance;
                             messageHighTime = DateTime.Now;
                         }
                         if (ekfteralt >= 1)
                         {
-                            messageHigh = Strings.ERROR + " " + "terrain alt variance";
+                            messageHigh = Strings.ERROR + " " + Strings.terrain_alt_variance;
                             messageHighTime = DateTime.Now;
                         }
 
                         for (int a = 1; a < (int)MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
                         {
-                            int currentbit = (ekfstatus.flags & a);
+                            int currentbit = (ekfstatusm.flags & a);
                             if (currentbit == 0)
                             {
                                 var currentflag =
@@ -1696,6 +1719,10 @@ namespace MissionPlanner
         [DisplayText("flow quality")]
         public byte opt_qua { get; set; }
 
+        public float ekfstatus { get; set; }
+
+        public int ekfflags { get; set; }
+
         public float ekfvelv { get; set; }
 
         public float ekfcompv { get; set; }
@@ -1731,5 +1758,8 @@ namespace MissionPlanner
         public float vibey { get; set; }
 
         public float vibez { get; set; }
+
+        public Version version { get; set; }
+
     }    
 }

@@ -14,8 +14,6 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
-        [System.ComponentModel.Browsable(true)]
-        public Hashtable param { get; set; }
 
         Control _control;
         Type _source;
@@ -33,7 +31,7 @@ namespace MissionPlanner.Controls
             this.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public void setup(List<KeyValuePair<int, string>> source, string paramname, Hashtable paramlist) //, string paramname2 = "", Control enabledisable = null)
+        public void setup(List<KeyValuePair<int, string>> source, string paramname, MAVLink.MAVLinkParamList paramlist) //, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
@@ -44,9 +42,7 @@ namespace MissionPlanner.Controls
             this.DataSource = source;
 
             this.ParamName = paramname;
-            this.param = paramlist;
-            //this.paramname2 = paramname2;
-            //this._control = enabledisable;
+
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -57,14 +53,14 @@ namespace MissionPlanner.Controls
 
                 var item = paramlist[paramname];
 
-                this.SelectedValue = (int)(float)paramlist[paramname];
+                this.SelectedValue = (int)paramlist[paramname].Value;
             }
 
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
         }
         
 
-        public void setup(Type source, string paramname, Hashtable paramlist)//, string paramname2 = "", Control enabledisable = null)
+        public void setup(Type source, string paramname, MAVLink.MAVLinkParamList paramlist)//, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
@@ -73,9 +69,6 @@ namespace MissionPlanner.Controls
             this.DataSource = Enum.GetNames(source);
 
             this.ParamName = paramname;
-            this.param = paramlist;
-            //this.paramname2 = paramname2;
-            //this._control = enabledisable;
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -84,7 +77,7 @@ namespace MissionPlanner.Controls
 
                 enableControl(true);
 
-                this.Text = Enum.GetName(source, (Int32)(float)paramlist[paramname]);
+                this.Text = Enum.GetName(source, (Int32)paramlist[paramname].Value);
             }
 
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);

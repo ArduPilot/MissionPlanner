@@ -329,7 +329,7 @@ namespace MissionPlanner
                     if (DateTime.Now > deadline)
                     {
                         //if (Progress != null)
-                        //    Progress(-1, "No Heatbeat Packets");
+                        //    Progress(-1, "No Heartbeat Packets");
                         countDown.Stop();
                         this.Close();
 
@@ -340,7 +340,7 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            progressWorkerEventArgs.ErrorMessage = "No Heatbeat Packets Received";
+                            progressWorkerEventArgs.ErrorMessage = "No Heartbeat Packets Received";
                             throw new Exception(@"Can not establish a connection\n
 Please check the following
 1. You have firmware loaded
@@ -403,12 +403,18 @@ Please check the following
 
                 countDown.Stop();
 
+                getVersion();
+
                 frmProgressReporter.UpdateProgressAndStatus(0, "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
                 if (getparams)
                 {
                     getParamListBG();
                 }
+
+                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " +Application.ProductVersion + "\0");
+                Array.Resize(ref temp, 50);
+                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT, new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp});
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
                 {
@@ -631,7 +637,7 @@ Please check the following
         /// <param name="paramname"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public bool setParam(string[] paramnames, float value)
+        public bool setParam(string[] paramnames, double value)
         {
             foreach (string paramname in paramnames) 
             {
@@ -648,7 +654,7 @@ Please check the following
         /// </summary>
         /// <param name="paramname">name as a string</param>
         /// <param name="value"></param>
-        public bool setParam(string paramname, float value, bool force = false)
+        public bool setParam(string paramname, double value, bool force = false)
         {
             if (!MAV.param.ContainsKey(paramname))
             {
@@ -656,7 +662,7 @@ Please check the following
                 return false;
             }
 
-            if ((float)MAV.param[paramname] == value && !force)
+            if (MAV.param[paramname].Value == value && !force)
             {
                 log.Warn("setParam " + paramname + " not modified as same");
                 return true;
@@ -671,7 +677,14 @@ Please check the following
 
             Array.Resize(ref temp, 16);
             req.param_id = temp;
-            req.param_value = (value);
+            if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+            {
+                req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE.REAL32)).float_value;
+            }
+            else
+            {
+                req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE)MAV.param_types[paramname]).float_value;
+            }
 
             generatePacket((byte)MAVLINK_MSG_ID.PARAM_SET, req);
 
@@ -720,7 +733,14 @@ Please check the following
 
                         log.Info("setParam gotback "+ st + " : " +par.param_value);
 
-                        MAV.param[st] = (par.param_value);
+                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        {
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32);
+                        }
+                        else
+                        {
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE)par.param_type);
+                        }
 
                         lastparamset = DateTime.Now;
 
@@ -758,23 +778,11 @@ Please check the following
             {
                 ParamListChanged(this, null);
             }
-
-            // nan check
-            foreach (string item in MAV.param.Keys)
-            {
-                if (float.IsNaN((float)MAV.param[item]))
-                    CustomMessageBox.Show("BAD PARAM, " + item + " = NAN \n Fix this NOW!!", Strings.ERROR);
-            }
         }
 
         void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
-            Hashtable old = new Hashtable(MAV.param);
             getParamListBG();
-            if (frmProgressReporter.doWorkArgs.CancelRequested)
-            {
-                MAV.param = old;
-            }
         }
 
         /// <summary>
@@ -786,8 +794,8 @@ Please check the following
             giveComport = true;
             List<int> indexsreceived = new List<int>();
 
-            // clear old
-            MAV.param = new Hashtable();
+            // create new list so if canceled we use the old list
+            MAVLinkParamList newparamlist = new MAVLinkParamList();
 
             int param_count = 0;
             int param_total = 1;
@@ -915,7 +923,14 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2a ");
 
-                        MAV.param[paramID] = (par.param_value);
+                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        {
+                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value, MAV_PARAM_TYPE.REAL32);
+                        }
+                        else
+                        {
+                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value, (MAV_PARAM_TYPE)par.param_type);
+                        }
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2b ");
 
@@ -977,6 +992,9 @@ Please check the following
                 throw new Exception("Missing Params");
             }
             giveComport = false;
+
+            MAV.param.Clear();
+            MAV.param.AddRange(newparamlist);
             return MAV.param;
         }
 
@@ -1065,7 +1083,14 @@ Please check the following
                         }
 
                         // update table
-                        MAV.param[st] = par.param_value;
+                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        {
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32);
+                        }
+                        else
+                        {
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE)par.param_type);
+                        }
 
                         MAV.param_types[st] = (MAV_PARAM_TYPE)par.param_type;
 
@@ -1246,7 +1271,7 @@ Please check the following
 
         public bool doARM(bool armit)
         {
-            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 0, 0, 0, 0, 0, 0);
+            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 21196, 0, 0, 0, 0, 0);
         }
 
         public bool doMotorTest(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout)
@@ -1910,11 +1935,11 @@ Please check the following
                         if (request.seq == 0)
                         {
                             if (MAV.param["WP_TOTAL"] != null)
-                                MAV.param["WP_TOTAL"] = (float)wp_total - 1;
+                                MAV.param["WP_TOTAL"].Value = wp_total - 1;
                             if (MAV.param["CMD_TOTAL"] != null)
-                                MAV.param["CMD_TOTAL"] = (float)wp_total - 1;
+                                MAV.param["CMD_TOTAL"].Value = wp_total - 1;
                             if (MAV.param["MIS_TOTAL"] != null)
-                                MAV.param["MIS_TOTAL"] = (float)wp_total - 1;
+                                MAV.param["MIS_TOTAL"].Value = wp_total - 1;
 
                             MAV.wps.Clear();
 
@@ -2616,7 +2641,25 @@ Please check the following
 
                         MAVlist[sysid].cs.messages.Add(logdata);
 
-                        if (sev >= 3)
+                        bool printit = false;
+
+                        // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
+                        if (MAVlist[sysid].cs.version.Major > 0 || MAVlist[sysid].cs.version.Minor > 0)
+                        {
+                            if (sev <= (byte)MAV_SEVERITY.NOTICE)
+                            {
+                                printit = true;
+                            }
+                        }
+                        else
+                        {
+                            if (sev >= 3)
+                            {
+                                printit = true;
+                            }
+                        }
+
+                        if (printit)
                         {
                             MAVlist[sysid].cs.messageHigh = logdata;
                             MAVlist[sysid].cs.messageHighTime = DateTime.Now;
@@ -2822,7 +2865,56 @@ Please check the following
                     st = st.Substring(0, pos);
                 }
 
-                MAVlist[sysid].param[st] = value.param_value;
+                if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                {
+                    MAVlist[sysid].param[st] = new MAVLinkParam(st, value.param_value, MAV_PARAM_TYPE.REAL32);
+                }
+                else
+                {
+                    MAVlist[sysid].param[st] = new MAVLinkParam(st, value.param_value, (MAV_PARAM_TYPE)value.param_type);
+                }
+            }
+        }
+                
+        public bool getVersion()
+        {
+            MAVLink.mavlink_autopilot_version_request_t req = new mavlink_autopilot_version_request_t();
+
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+
+            // request point
+            generatePacket((byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("getVersion Retry " + retrys + " - giv com " + giveComport);
+                        generatePacket((byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION_REQUEST, req);
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    return false;
+                }
+
+                byte[] buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.AUTOPILOT_VERSION)
+                    {
+                        giveComport = false;
+
+                        return true;
+                    }
+                }
             }
         }
 

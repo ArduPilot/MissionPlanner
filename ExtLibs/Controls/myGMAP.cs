@@ -22,6 +22,8 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
         {
+            var start = DateTime.Now;
+
             if (inOnPaint)
             {
                 Console.WriteLine("Was in onpaint Gmap th:" + System.Threading.Thread.CurrentThread.Name + " in " + otherthread);
@@ -39,6 +41,10 @@ namespace MissionPlanner.Controls
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 
             inOnPaint = false;
+
+            var end = DateTime.Now;
+
+            System.Diagnostics.Debug.WriteLine("map draw time " + (end-start).TotalMilliseconds);
         }
 
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)

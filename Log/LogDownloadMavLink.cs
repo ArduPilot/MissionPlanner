@@ -180,7 +180,7 @@ namespace MissionPlanner.Log
             logfile = logfile + ".log";
 
             // get gps time of assci log
-            DateTime logtime = DFLog.GetFirstGpsTime(logfile);
+            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
 
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)

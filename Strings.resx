@@ -540,4 +540,61 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="Saving" xml:space="preserve">
     <value>Saving</value>
   </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>Invalid Cert</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>Please unplug the board, and then press OK and plug back in.
+Mission Planner will look for 30 seconds to find the board</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>This board has been retired, Mission Planner this will upload the last available version to your board</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>You are using unsupported hardware.
+This board does not contain a valid certificate of authenticity.
+Please contact your hardware vendor about signing your hardware.</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>No need to upload. already on the board</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>Please wait for the musical tones to finish before clicking OK</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>Obtain From Module</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Set Here</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Tracker Home</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>velocity variance</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>compass variance</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>terrain alt variance</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>Change Throttle</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>Invalid home location</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>Converting bin to log</value>
+  </data>
 </root>

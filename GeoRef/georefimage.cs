@@ -16,128 +16,16 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using MissionPlanner.Log;
 
-namespace MissionPlanner
+namespace MissionPlanner.GeoRef
 {
-    partial class Georefimage : Form 
+    partial class Georefimage : Form
     {
-        enum PROCESSING_MODE
-        { 
+        private enum PROCESSING_MODE
+        {
             TIME_OFFSET,
             CAM_MSG
-        }
-
-        public class PictureInformation : SingleLocation
-        {
-            string path;
-
-            public string Path
-            {
-                get { return path; }
-                set { path = value; }
-            }
-
-            DateTime shotTimeReportedByCamera;
-
-            public DateTime ShotTimeReportedByCamera
-            {
-                get { return shotTimeReportedByCamera; }
-                set { shotTimeReportedByCamera = value; }
-            }
-
-            int width;
-            public int Width
-            {
-                get { return width; }
-                set { width = value; }
-            }
-
-            int height;
-            public int Height
-            {
-                get { return height; }
-                set { height = value; }
-            }
-
-            public PictureInformation()
-            {
-                width = 3200;
-                height = 2400;
-            }
-        }
-
-        public class SingleLocation
-        {
-            
-            DateTime time;
-
-            public DateTime Time
-            {
-                get { return time; }
-                set { time = value; }
-            }
-
-            double lat;
-
-            public double Lat
-            {
-                get { return lat; }
-                set { lat = value; }
-            }
-            double lon;
-
-            public double Lon
-            {
-                get { return lon; }
-                set { lon = value; }
-            }
-            double altAMSL;
-
-            public double AltAMSL
-            {
-                get { return altAMSL; }
-                set { altAMSL = value; }
-            }
-
-            double relAlt;
-
-            public double RelAlt
-            {
-                get { return relAlt; }
-                set { relAlt = value; }
-            }
-
-            float roll;
-
-            public float Roll
-            {
-                get { return roll; }
-                set { roll = value; }
-            }
-            float pitch;
-
-            public float Pitch
-            {
-                get { return pitch; }
-                set { pitch = value; }
-            }
-            float yaw;
-
-            public float Yaw
-            {
-                get { return yaw; }
-                set { yaw = value; }
-            }
-
-            public double getAltitude(bool AMSL)
-            {
-                return (AMSL ? AltAMSL : RelAlt);
-            }
-        }
-
-        public class VehicleLocation : SingleLocation
-        {
-            
         }
 
         private const string PHOTO_FILES_FILTER = "*.jpg;*.tif";
@@ -146,44 +34,28 @@ namespace MissionPlanner
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         // CONSTS
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        private const float rad2deg = (float) (180/Math.PI);
+        private const float deg2rad = (float) (1.0/rad2deg);
 
-        // GPS Log positions
-        //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
-        //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
-        //GPS, 3, 23524837, 1790, 10, 0.00, -35.3629379, 149.165085, 2.09, 585.41, 0.00, 129.86, 0, 4001
-        // 0   1     2         3   4    5         6           7        8      9     10     11    12  13
-		int gpsweekpos = 3, timepos = 2, latpos = 6, lngpos = 7, altpos = 8, altAMSLpos = 9;
-        
-        // ATT Msg Positions
-        // ATT, 199361, 0.00, -0.40, 0.00, -3.01, 103.03, 103.03
-        int pitchATT = 5, rollATT = 3, yawATT = 7;
-        
-        // CAM Log positions
-        //CAM, 36028400, 1790, 37.4155135, -3.8520916, 69.93, -3.61, -3.82, 62.93
-        int timeCAMpos = 1, weekCAMPos = 2, latCAMpos = 3, lngCAMpos = 4, altCAMpos = 5, pitchCAMATT = 6, rollCAMATT = 7, yawCAMATT = 8;
-
-        #region GraphicalStuff
-      
-        #endregion
-        
         // Key = path of file, Value = object with picture information
-        Dictionary<string, PictureInformation> picturesInfo;
+        private Dictionary<string, PictureInformation> picturesInfo;
 
         // Key = time in milliseconds, Value = object with location info and attitude
-        Dictionary<long, VehicleLocation> vehicleLocations;
+        private Dictionary<long, VehicleLocation> vehicleLocations;
 
-        bool useAMSLAlt;
-        int millisShutterLag = 0;
+        private bool useAMSLAlt;
+        private int millisShutterLag = 0;
 
-        Hashtable filedatecache = new Hashtable();
+        private Hashtable filedatecache = new Hashtable();
         private CheckBox chk_cammsg;
         private TextBox txt_basealt;
         private Label label28;
-        List<int> JXL_StationIDs = new List<int>();
+        private List<int> JXL_StationIDs = new List<int>();
 
-        internal Georefimage() {
+        DFLog dflog = new DFLog();
+
+        public Georefimage()
+        {
             InitializeComponent();
 
 
@@ -196,47 +68,26 @@ namespace MissionPlanner
 
             selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
 
-            // Graphic init
-            // GPS
-            NUM_GPS_Week.Value = gpsweekpos;
-            NUM_time.Value = timepos;
-            NUM_latpos.Value = latpos;
-            NUM_lngpos.Value = lngpos;
-            NUM_altpos.Value = altpos;
-            NUM_GPS_AMSL_Alt.Value = altAMSLpos;
-
-            // ATT 
-            NUM_ATT_Heading.Value = yawATT;
-            NUM_ATT_Pitch.Value = pitchATT;
-            NUM_ATT_Roll.Value = rollATT;
-
-            // CAM
-            NUM_CAM_Time.Value = timeCAMpos;
-            NUM_CAM_Week.Value = weekCAMPos;
-            NUM_CAM_Lat.Value = latCAMpos;
-            NUM_CAM_Lon.Value = lngCAMpos;
-            NUM_CAM_Alt.Value = altCAMpos;
-
-            NUM_CAM_Heading.Value = yawCAMATT;
-            NUM_CAM_Roll.Value = rollCAMATT;
-            NUM_CAM_Pitch.Value = pitchCAMATT;
-
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-
         }
 
-        DateTime getPhotoTime(string fn)
+        /// <summary>
+        /// Get a photos shutter time
+        /// </summary>
+        /// <param name="fn"></param>
+        /// <returns></returns>
+        private DateTime getPhotoTime(string fn)
         {
             DateTime dtaken = DateTime.MinValue;
 
             if (filedatecache.ContainsKey(fn))
             {
-                return (DateTime)filedatecache[fn];
+                return (DateTime) filedatecache[fn];
             }
 
             try
             {
-                
+
                 Metadata lcMetadata = null;
                 try
                 {
@@ -287,10 +138,6 @@ namespace MissionPlanner
 
                 }
 
-
-                
-
-
                 ////// old method, works, just slow
                 /*
                 Image myImage = Image.FromFile(fn);
@@ -307,22 +154,29 @@ namespace MissionPlanner
                 myImage.Dispose();
                  */
             }
-            catch { }
+            catch
+            {
+            }
 
             return dtaken;
         }
 
-        // Return List with all GPS Messages splitted in string arrays
-        Dictionary<long, VehicleLocation> readGPSMsgInLog(string fn)
+        /// <summary>
+        /// Return a list of all gps messages with there timestamp from the log
+        /// </summary>
+        /// <param name="fn"></param>
+        /// <returns></returns>
+        private Dictionary<long, VehicleLocation> readGPSMsgInLog(string fn)
         {
-            Dictionary<long, VehicleLocation> vehiclePositionList = new Dictionary<long,VehicleLocation>();
+            Dictionary<long, VehicleLocation> vehiclePositionList = new Dictionary<long, VehicleLocation>();
 
             // Telemetry Log
             if (fn.ToLower().EndsWith("tlog"))
             {
                 using (MAVLinkInterface mine = new MAVLinkInterface())
                 {
-                    mine.logplaybackfile = new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    mine.logplaybackfile =
+                        new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
                     mine.logreadmode = true;
 
                     mine.MAV.packets.Initialize(); // clear
@@ -350,7 +204,8 @@ namespace MissionPlanner
 
                         vehiclePositionList[ToMilliseconds(location.Time)] = location;
                         // 4 5 7
-                        Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
+                        Console.Write((mine.logplaybackfile.BaseStream.Position*100/
+                                       mine.logplaybackfile.BaseStream.Length) + "    \r");
                     }
                     mine.logplaybackfile.Close();
                 }
@@ -366,71 +221,84 @@ namespace MissionPlanner
                     fn = tempfile;
                 }
 
-                StreamReader sr = new StreamReader(fn);
-
-                // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
-                float currentYaw = 0f;
-                float currentRoll = 0f;
-                float currentPitch = 0f;
-
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader(fn))
                 {
-                    string line = sr.ReadLine();
 
-                    // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
-                    // So we have to look for one ATT message after having read a GPS one
-                    if (line.ToLower().StartsWith("gps"))
+                    // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
+                    float currentYaw = 0f;
+                    float currentRoll = 0f;
+                    float currentPitch = 0f;
+                    int a = 0;
+
+                    while (!sr.EndOfStream)
                     {
-                        VehicleLocation location = new VehicleLocation();
+                        a++;
+                        string line = sr.ReadLine();
 
-                        string[] gpsLineValues = line.Split(new char[] { ',', ':' });
+                        var item = dflog.GetDFItemFromLine(line, a);
+                        // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
+                        // So we have to look for one ATT message after having read a GPS one
 
-                        try
+                        if (item.msgtype == "GPS")
                         {
+                            if (!dflog.logformat.ContainsKey("GPS"))
+                                continue;
 
-                            location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
-                            location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
-                            location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
-                            location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
-                            location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
+                            int latindex = dflog.FindMessageOffset("GPS", "Lat");
+                            int lngindex = dflog.FindMessageOffset("GPS", "Lng");
+                            int altindex = dflog.FindMessageOffset("GPS", "Alt");
+                            int raltindex = dflog.FindMessageOffset("GPS", "RAlt");
 
-                            location.Roll = currentRoll;
-                            location.Pitch = currentPitch;
-                            location.Yaw = currentYaw;
+                            VehicleLocation location = new VehicleLocation();
 
+                            try
+                            {
+                                location.Time = dflog.GetTimeGPS(line);
+                                location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
+                                location.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
+                                location.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                                location.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
 
+                                location.Roll = currentRoll;
+                                location.Pitch = currentPitch;
+                                location.Yaw = currentYaw;
 
-                            long millis = ToMilliseconds(location.Time);
+                                long millis = ToMilliseconds(location.Time);
 
-                            //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
+                                //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
 
-                            if (!vehiclePositionList.ContainsKey(millis))
-                                vehiclePositionList[millis] = location;
+                                if (!vehiclePositionList.ContainsKey(millis))
+                                    vehiclePositionList[millis] = location;
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Bad GPS Line");
+                            }
                         }
-                        catch { Console.WriteLine("Bad GPS Line"); }
+                        else if (item.msgtype == "ATT")
+                        {
+                            int Rindex = dflog.FindMessageOffset("ATT", "Roll");
+                            int Pindex = dflog.FindMessageOffset("ATT", "Pitch");
+                            int Yindex = dflog.FindMessageOffset("ATT", "Yaw");
+
+                            currentRoll = float.Parse(item.items[Rindex], CultureInfo.InvariantCulture);
+                            currentPitch = float.Parse(item.items[Pindex], CultureInfo.InvariantCulture);
+                            currentYaw = float.Parse(item.items[Yindex], CultureInfo.InvariantCulture);
+
+                        }
                     }
-                    else if (line.ToLower().StartsWith("att"))
-                    {
-                        string[] attLineValues = line.Split(new char[] { ',', ':' });
-
-                        currentRoll = float.Parse(getValueFromStringArray(attLineValues, rollATT), CultureInfo.InvariantCulture);
-                        currentPitch = float.Parse(getValueFromStringArray(attLineValues, pitchATT), CultureInfo.InvariantCulture);
-                        currentYaw = float.Parse(getValueFromStringArray(attLineValues, yawATT), CultureInfo.InvariantCulture);
-
-                    }
-
-
                 }
-
-                sr.Close();
-
             }
 
             return vehiclePositionList;
         }
 
-        // Return List with all CAMs messages splitted in string arrays
-        Dictionary<long, VehicleLocation> readCAMMsgInLog(string fn)
+        /// <summary>
+        /// Return a list of all cam messages in a log with timestamp
+        /// </summary>
+        /// <param name="fn"></param>
+        /// <returns></returns>
+        private Dictionary<long, VehicleLocation> readCAMMsgInLog(string fn)
         {
             Dictionary<long, VehicleLocation> list = new Dictionary<long, VehicleLocation>();
 
@@ -447,26 +315,41 @@ namespace MissionPlanner
 
             using (StreamReader sr = new StreamReader(fn))
             {
+                int a = 0;
                 while (!sr.EndOfStream)
                 {
+                    a++;
                     string line = sr.ReadLine();
 
-                    if (line.ToLower().StartsWith("cam"))
+                    var item = dflog.GetDFItemFromLine(line, a);
+
+                    if (item.msgtype == "CAM")
                     {
-                        string[] currentCAM = line.Split(new char[] { ',', ':' });
+                        int latindex = dflog.FindMessageOffset("CAM", "Lat");
+                        int lngindex = dflog.FindMessageOffset("CAM", "Lng");
+                        int altindex = dflog.FindMessageOffset("CAM", "Alt");
+                        int raltindex = dflog.FindMessageOffset("CAM", "RelAlt");
+
+                        int rindex = dflog.FindMessageOffset("CAM", "Roll");
+                        int pindex = dflog.FindMessageOffset("CAM", "Pitch");
+                        int yindex = dflog.FindMessageOffset("CAM", "Yaw");
+
+                        int gtimeindex = dflog.FindMessageOffset("CAM", "GPSTime");
+                        int gweekindex = dflog.FindMessageOffset("CAM", "GPSWeek");
 
                         VehicleLocation p = new VehicleLocation();
 
-                        p.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos), CultureInfo.InvariantCulture));
+                        p.Time = GetTimeFromGps(int.Parse(item.items[gweekindex], CultureInfo.InvariantCulture),
+                            int.Parse(item.items[gtimeindex], CultureInfo.InvariantCulture));
 
-                        p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
-                        p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
-                        p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
-                        p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                        p.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
+                        p.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
+                        p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
+                        p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
 
-                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
-                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
-                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
+                        p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
+                        p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
+                        p.Yaw = float.Parse(item.items[yindex], CultureInfo.InvariantCulture);
 
                         list[ToMilliseconds(p.Time)] = p;
                     }
@@ -475,51 +358,6 @@ namespace MissionPlanner
             return list;
         }
 
-        // Return List with all CAMs messages splitted in string arrays
-        List<string[]> readCAMMsgInLogString(string fn)
-        {
-            List<string[]> list = new List<string[]>();
-
-            if (fn.ToLower().EndsWith("tlog"))
-                return null;
-
-            // convert bin to log
-            if (fn.ToLower().EndsWith("bin"))
-            {
-                string tempfile = Path.GetTempFileName();
-                Log.BinaryLog.ConvertBin(fn, tempfile);
-                fn = tempfile;
-            }
-
-            using (StreamReader sr = new StreamReader(fn))
-            {
-                while (!sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-
-                    if (line.ToLower().StartsWith("cam"))
-                    {
-                        string[] vals = line.Split(new char[] { ',', ':' });
-
-                        list.Add(vals);
-                    }
-                }
-            }
-            return list;
-        }
-
-        #region HelperMethods
-        
-        // return a value in an array securely
-        public string getValueFromStringArray(string[] array, int position)
-        {
-            string sResult = "-1";
-
-            if (position < array.Length)
-                sResult = array[position];
-
-            return sResult;
-        }
         public DateTime FromUTCTimeMilliseconds(long milliseconds)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -528,22 +366,21 @@ namespace MissionPlanner
 
         public DateTime GetTimeFromGps(int weeknumber, int milliseconds)
         {
-            int LEAP_SECONDS = 16;
+            int LEAP_SECONDS = 17;
 
             DateTime datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
-            DateTime week = datum.AddDays(weeknumber * 7);
+            DateTime week = datum.AddDays(weeknumber*7);
             DateTime time = week.AddMilliseconds(milliseconds);
 
             return time.AddSeconds(-LEAP_SECONDS);
 
         }
+
         public long ToMilliseconds(DateTime date)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             return Convert.ToInt64((date - epoch).TotalMilliseconds);
         }
-
-        #endregion
 
         private double EstimateOffset(string logFile, string dirWithImages)
         {
@@ -560,7 +397,7 @@ namespace MissionPlanner
             }
 
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
-                return -1;     
+                return -1;
 
             List<string> filelist = new List<string>();
             string[] exts = PHOTO_FILES_FILTER.Split(';');
@@ -578,7 +415,7 @@ namespace MissionPlanner
 
             double ans = 0;
 
-            TXT_outputlog.Clear(); 
+            TXT_outputlog.Clear();
 
             for (int a = 0; a < 4; a++)
             {
@@ -587,7 +424,8 @@ namespace MissionPlanner
 
                 DateTime photoTime = getPhotoTime(firstPhoto);
 
-                TXT_outputlog.AppendText((a+1) + " Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + " with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                TXT_outputlog.AppendText((a + 1) + " Picture " + Path.GetFileNameWithoutExtension(firstPhoto) +
+                                         " with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
                 // First GPS Message in Log time
                 List<long> times = new List<long>(vehicleLocations.Keys);
@@ -595,18 +433,19 @@ namespace MissionPlanner
                 long firstTimeInGPSMsg = times[a];
                 DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
 
-                TXT_outputlog.AppendText((a+1) + " GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                TXT_outputlog.AppendText((a + 1) + " GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
-                TXT_outputlog.AppendText((a + 1) + " Est: " + (double)(photoTime - logTime).TotalSeconds + "\n");
+                TXT_outputlog.AppendText((a + 1) + " Est: " + (double) (photoTime - logTime).TotalSeconds + "\n");
 
                 if (ans == 0)
-                    ans = (double)(photoTime - logTime).TotalSeconds;
+                    ans = (double) (photoTime - logTime).TotalSeconds;
             }
 
             return ans;
         }
 
-        private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages, float offset)
+        private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages,
+            float offset)
         {
             // Write report files
             Document kmlroot = new Document();
@@ -621,11 +460,18 @@ namespace MissionPlanner
             // Clear Stations IDs
             JXL_StationIDs.Clear();
 
-            using (StreamWriter swlogloccsv = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "loglocation.csv")) 
-            using (StreamWriter swlockml = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.kml"))
-            using (StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
-            using (StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
-            using (XmlTextWriter swloctrim = new XmlTextWriter(dirWithImages + Path.DirectorySeparatorChar + "location.jxl", Encoding.ASCII))
+            using (
+                StreamWriter swlogloccsv =
+                    new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "loglocation.csv"))
+            using (
+                StreamWriter swlockml = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.kml"))
+            using (
+                StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
+            using (
+                StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
+            using (
+                XmlTextWriter swloctrim = new XmlTextWriter(
+                    dirWithImages + Path.DirectorySeparatorChar + "location.jxl", Encoding.ASCII))
             {
                 swloctrim.Formatting = Formatting.Indented;
                 swloctrim.WriteStartDocument(false);
@@ -778,12 +624,11 @@ namespace MissionPlanner
                     coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
                 }
 
-                var ls = new LineString() { Coordinates = coords, AltitudeMode = AltitudeMode.Absolute };
+                var ls = new LineString() {Coordinates = coords, AltitudeMode = AltitudeMode.Absolute};
 
-                SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "path" };
+                SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() {Geometry = ls, Name = "path"};
 
                 kml.AddFeature(pm);
-
 
                 foreach (PictureInformation picInfo in listPhotosWithInfo.Values)
                 {
@@ -804,24 +649,27 @@ namespace MissionPlanner
                             Geometry = new SharpKml.Dom.Point()
                             {
                                 Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL),
-                                 AltitudeMode = AltitudeMode.Absolute
+                                AltitudeMode = AltitudeMode.Absolute
                             },
                             Description = new Description()
                             {
-                                Text = "<table><tr><td><img src=\"" + filename.ToLower() + "\" width=500 /></td></tr></table>"
+                                Text =
+                                    "<table><tr><td><img src=\"" + filename.ToLower() +
+                                    "\" width=500 /></td></tr></table>"
                             },
                             StyleSelector = new Style()
                             {
-                                Balloon = new BalloonStyle() { Text = "$[name]<br>$[description]" }
+                                Balloon = new BalloonStyle() {Text = "$[name]<br>$[description]"}
                             }
                         }
-                    );
+                        );
 
                     double lat = picInfo.Lat;
                     double lng = picInfo.Lon;
-                    double alpha = picInfo.Yaw + (double)num_camerarotation.Value;;
+                    double alpha = picInfo.Yaw + (double) num_camerarotation.Value;
+                    ;
 
-                    RectangleF rect = getboundingbox(lat, lng, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
+                    RectangleF rect = getboundingbox(lat, lng, alpha, (double) num_hfov.Value, (double) num_vfov.Value);
 
                     Console.WriteLine(rect);
 
@@ -847,7 +695,7 @@ namespace MissionPlanner
                             AltitudeMode = AltitudeMode.ClampToGround,
                             Bounds = new LatLonBox()
                             {
-                                Rotation = -alpha % 360,
+                                Rotation = -alpha%360,
                                 North = rect.Bottom,
                                 East = rect.Right,
                                 West = rect.Left,
@@ -858,18 +706,23 @@ namespace MissionPlanner
                                 Href = new Uri(filename.ToLower(), UriKind.Relative),
                             },
                         }
-                    );
+                        );
 
-                    swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " + picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " + picInfo.Roll);
+                    swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " +
+                                       picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " +
+                                       picInfo.Roll);
 
 
-                    swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt));
+                    swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" +
+                                       picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt));
                     swloctel.Flush();
                     swloctxt.Flush();
 
-                    lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.getAltitude(useAMSLAlt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
+                    lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon,
+                        picInfo.getAltitude(useAMSLAlt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
 
-                    log.InfoFormat(filename + " " + picInfo.Lon + " " + picInfo.Lat + " " + picInfo.getAltitude(useAMSLAlt) + "           ");
+                    log.InfoFormat(filename + " " + picInfo.Lon + " " + picInfo.Lat + " " +
+                                   picInfo.getAltitude(useAMSLAlt) + "           ");
                 }
 
                 Serializer serializer = new Serializer();
@@ -893,16 +746,17 @@ namespace MissionPlanner
             }
         }
 
-        private VehicleLocation LookForLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations, int offsettime = 2000)
+        private VehicleLocation LookForLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations,
+            int offsettime = 2000)
         {
             long time = ToMilliseconds(t);
 
             // Time at which the GPS position is actually search and found
-            long actualTime = time; 
-            int millisSTEP = 1; 
+            long actualTime = time;
+            int millisSTEP = 1;
 
             // 2 seconds (2000 ms) in the log as absolute maximum
-            int maxIteration = offsettime; 
+            int maxIteration = offsettime;
 
             bool found = false;
             int iteration = 0;
@@ -933,7 +787,8 @@ namespace MissionPlanner
         public Dictionary<string, PictureInformation> doworkGPSOFFSET(string logFile, string dirWithImages, float offset)
         {
             // Lets start over 
-            Dictionary<string, PictureInformation> picturesInformationTemp = new Dictionary<string, PictureInformation>();
+            Dictionary<string, PictureInformation> picturesInformationTemp =
+                new Dictionary<string, PictureInformation>();
 
             // Read Vehicle Locations from log. GPS Messages. Will have to do it anyway
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
@@ -997,7 +852,8 @@ namespace MissionPlanner
 
                 if (shotLocation == null)
                 {
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " NOT PROCESSED. No GPS match in the log file. Please take care\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                                             " NOT PROCESSED. No GPS match in the log file. Please take care\n");
                 }
                 else
                 {
@@ -1018,7 +874,9 @@ namespace MissionPlanner
 
                     picturesInformationTemp.Add(filename, p);
 
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " PROCESSED with GPS position found " + (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                                             " PROCESSED with GPS position found " +
+                                             (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
                 }
 
             }
@@ -1026,24 +884,11 @@ namespace MissionPlanner
             return picturesInformationTemp;
         }
 
-
-        private void GuessImageDimensions(string imagePath, out int imageWidth, out int imageHeight)
-        {
-            using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(imagePath)))
-            {
-                using (Image picture = Image.FromStream(ms))
-                {
-
-                    imageHeight = picture.Height;
-                    imageWidth = picture.Width;
-                }
-            }
-        }
-
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
         {
             // Lets start over 
-            Dictionary<string, PictureInformation> picturesInformationTemp = new Dictionary<string,PictureInformation>();
+            Dictionary<string, PictureInformation> picturesInformationTemp =
+                new Dictionary<string, PictureInformation>();
 
             TXT_outputlog.AppendText("Using AMSL Altitude " + useAMSLAlt + "\n");
 
@@ -1055,7 +900,7 @@ namespace MissionPlanner
                 if (vehicleLocations == null || vehicleLocations.Count <= 0)
                 {
                     vehicleLocations = readGPSMsgInLog(logFile);
-                
+
                     if (vehicleLocations == null || vehicleLocations.Count <= 0)
                     {
                         TXT_outputlog.AppendText("Log file problem. Aborting....\n");
@@ -1069,7 +914,7 @@ namespace MissionPlanner
             //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
             TXT_outputlog.AppendText("Reading log for CAM Messages\n");
 
-            List<string[]> list = readCAMMsgInLogString(logFile);
+            var list = readCAMMsgInLog(logFile);
 
             if (list == null)
             {
@@ -1085,7 +930,7 @@ namespace MissionPlanner
 
             string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
 
-            TXT_outputlog.AppendText("Images read : "  + files.Length + "\n");
+            TXT_outputlog.AppendText("Images read : " + files.Length + "\n");
 
             // Check that we have same number of CAMs than files
             if (files.Length != list.Count)
@@ -1098,26 +943,26 @@ namespace MissionPlanner
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
-            for (int i = 0; i < list.Count; i++)
+            int i = -1;
+            foreach (var currentCAM in list.Values)
             {
-                string[] currentCAM = list[i];
-
+                i++;
                 PictureInformation p = new PictureInformation();
 
                 // Fill shot time in Picture
                 p.ShotTimeReportedByCamera = getPhotoTime(files[i]);
 
-                DateTime dCAMMsgTime = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos), CultureInfo.InvariantCulture));
+                DateTime dCAMMsgTime = currentCAM.Time;
 
                 if (millisShutterLag == 0)
                 {
                     // Lets puts GPS time
                     p.Time = dCAMMsgTime;
 
-                    p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
-                    p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
-                    p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
-                    p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                    p.Lat = currentCAM.Lat;
+                    p.Lon = currentCAM.Lon;
+                    p.AltAMSL = currentCAM.AltAMSL;
+                    p.RelAlt = currentCAM.RelAlt;
 
                     VehicleLocation cameraLocationFromGPSMsg = null;
 
@@ -1128,7 +973,8 @@ namespace MissionPlanner
                         cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
                         if (cameraLocationFromGPSMsg != null)
                         {
-                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away" + " offset: " + (p.ShotTimeReportedByCamera - dCAMMsgTime).TotalSeconds;
+                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away" +
+                                        " offset: " + (p.ShotTimeReportedByCamera - dCAMMsgTime).TotalSeconds;
                             p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                         }
                         else
@@ -1136,9 +982,9 @@ namespace MissionPlanner
                     }
 
 
-                    p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
-                    p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
-                    p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
+                    p.Pitch = currentCAM.Pitch;
+                    p.Roll = currentCAM.Roll;
+                    p.Yaw = currentCAM.Yaw;
 
                     p.Path = files[i];
 
@@ -1146,7 +992,9 @@ namespace MissionPlanner
 
                     picturesInformationTemp.Add(picturePath, p);
 
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg +"\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) +
+                                             " processed from CAM Msg with " + millisShutterLag + " ms shutter lag. " +
+                                             logAltMsg + "\n");
 
                 }
                 else
@@ -1155,23 +1003,23 @@ namespace MissionPlanner
                     DateTime dCorrectedWithLagPhotoTime = dCAMMsgTime;
                     dCorrectedWithLagPhotoTime = dCorrectedWithLagPhotoTime.AddMilliseconds(millisShutterLag);
 
-                    VehicleLocation cameraLocationFromGPSMsg = LookForLocation(dCorrectedWithLagPhotoTime, vehicleLocations);
-
+                    VehicleLocation cameraLocationFromGPSMsg = LookForLocation(dCorrectedWithLagPhotoTime,
+                        vehicleLocations);
 
                     // Check which GPS Position is closer in time.
                     if (cameraLocationFromGPSMsg != null)
                     {
                         System.TimeSpan diffGPSTimeCAMTime = cameraLocationFromGPSMsg.Time - dCAMMsgTime;
 
-                        if (diffGPSTimeCAMTime.Milliseconds > 2 * millisShutterLag)
+                        if (diffGPSTimeCAMTime.Milliseconds > 2*millisShutterLag)
                         {
                             // Stay with CAM Message as it is closer to CorrectedTime
                             p.Time = dCAMMsgTime;
 
-                            p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
-                            p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
-                            p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
-                            p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                            p.Lat = currentCAM.Lat;
+                            p.Lon = currentCAM.Lon;
+                            p.AltAMSL = currentCAM.AltAMSL;
+                            p.RelAlt = currentCAM.RelAlt;
 
                             string logAltMsg = "RelAlt";
 
@@ -1181,7 +1029,8 @@ namespace MissionPlanner
                                 cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
                                 if (cameraLocationFromGPSMsg != null)
                                 {
-                                    logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away";
+                                    logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds +
+                                                " ms away";
                                     p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                                 }
                                 else
@@ -1189,7 +1038,9 @@ namespace MissionPlanner
                             }
 
 
-                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " processed with CAM Msg. Shutter lag too small. "  + logAltMsg + "\n");
+                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) +
+                                                     " processed with CAM Msg. Shutter lag too small. " + logAltMsg +
+                                                     "\n");
                         }
                         else
                         {
@@ -1204,27 +1055,26 @@ namespace MissionPlanner
 
                             string logAltMsg = useAMSLAlt ? "AMSL Alt" : "RelAlt";
 
-                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds + " ms ahead of CAM Msg. " + logAltMsg + "\n");
+                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) +
+                                                     " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds +
+                                                     " ms ahead of CAM Msg. " + logAltMsg + "\n");
 
                         }
 
-
-                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
-                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
-                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
+                        p.Pitch = currentCAM.Pitch;
+                        p.Roll = currentCAM.Roll;
+                        p.Yaw = currentCAM.Yaw;
 
                         p.Path = files[i];
 
                         string picturePath = files[i];
 
                         picturesInformationTemp.Add(picturePath, p);
-
-                        
-
                     }
                     else
                     {
-                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " NOT Processed. Time not found in log. Too large Shutter Lag? Try setting it to 0\n");
+                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) +
+                                                 " NOT Processed. Time not found in log. Too large Shutter Lag? Try setting it to 0\n");
                     }
 
 
@@ -1235,7 +1085,7 @@ namespace MissionPlanner
             return picturesInformationTemp;
         }
 
-        void GenFlightMission(XmlTextWriter swloctrim, int lastRecordN)
+        private void GenFlightMission(XmlTextWriter swloctrim, int lastRecordN)
         {
             swloctrim.WriteStartElement("FlightMissionRecord");
             swloctrim.WriteAttributeString("ID", (lastRecordN++).ToString("0000000"));
@@ -1260,9 +1110,10 @@ namespace MissionPlanner
             swloctrim.WriteEndElement();
         }
 
-        int GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt, double roll, double pitch, double yaw, int imgwidth, int imgheight, int lastRecordN)
+        private int GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt,
+            double roll, double pitch, double yaw, int imgwidth, int imgheight, int lastRecordN)
         {
-            Console.WriteLine("yaw {0}",yaw);
+            Console.WriteLine("yaw {0}", yaw);
 
             int photoStationID = lastRecordN++;
             int pointRecordID = lastRecordN++;
@@ -1271,7 +1122,7 @@ namespace MissionPlanner
             JXL_StationIDs.Add(photoStationID);
 
             // conver tto rads
-            yaw = -yaw * deg2rad;
+            yaw = -yaw*deg2rad;
 
             swloctrim.WriteStartElement("PhotoStationRecord");
             swloctrim.WriteAttributeString("ID", (photoStationID).ToString("0000000"));
@@ -1361,15 +1212,16 @@ namespace MissionPlanner
 
         }
 
-        RectangleF getboundingbox(double centery, double centerx, double angle, double width, double height)
+        private RectangleF getboundingbox(double centery, double centerx, double angle, double width, double height)
         {
             double lat = centery;
             double lng = centerx;
             double alpha = angle;
 
-            double ang = degrees(Math.Atan((width / 2.0)/(height / 2.0)));
+            double ang = degrees(Math.Atan((width/2.0)/(height/2.0)));
 
-            double hyplength = Math.Sqrt(Math.Pow((double)num_vfov.Value / 2.0, 2) + Math.Pow((double)num_hfov.Value / 2.0, 2));
+            double hyplength =
+                Math.Sqrt(Math.Pow((double) num_vfov.Value/2.0, 2) + Math.Pow((double) num_hfov.Value/2.0, 2));
 
             double lat1 = lat;
             double lng1 = lng;
@@ -1419,35 +1271,36 @@ namespace MissionPlanner
             Console.WriteLine("{0} {1} {2} {3}", lat1, lat2, lat3, lat4);
             Console.WriteLine("{0} {1} {2} {3}", lng1, lng2, lng3, lng4);
 
-            return new RectangleF((float)miny, (float)minx, (float)(maxy - miny), (float)(maxx - minx));
+            return new RectangleF((float) miny, (float) minx, (float) (maxy - miny), (float) (maxx - minx));
         }
 
         public static double radians(double val)
         {
-            return val * deg2rad;
-        }
-        public static double degrees(double val)
-        {
-            return val * rad2deg;
+            return val*deg2rad;
         }
 
-        void newpos(ref double lat, ref double lon, double bearing, double distance)
+        public static double degrees(double val)
+        {
+            return val*rad2deg;
+        }
+
+        private void newpos(ref double lat, ref double lon, double bearing, double distance)
         {
             // '''extrapolate latitude/longitude given a heading and distance 
             //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
             //  '''
             // from math import sin, asin, cos, atan2, radians, degrees
-            double radius_of_earth = 6378100.0;//# in meters
+            double radius_of_earth = 6378100.0; //# in meters
 
             double lat1 = radians(lat);
             double lon1 = radians(lon);
-            double brng = radians((bearing+360) % 360);
-            double dr = distance / radius_of_earth;
+            double brng = radians((bearing + 360)%360);
+            double dr = distance/radius_of_earth;
 
-            double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
-                        Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
-            double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
-                                Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
+            double lat2 = Math.Asin(Math.Sin(lat1)*Math.Cos(dr) +
+                                    Math.Cos(lat1)*Math.Sin(dr)*Math.Cos(brng));
+            double lon2 = lon1 + Math.Atan2(Math.Sin(brng)*Math.Sin(dr)*Math.Cos(lat1),
+                Math.Cos(dr) - Math.Sin(lat1)*Math.Sin(lat2));
 
             lat = degrees(lat2);
             lon = degrees(lon2);
@@ -1457,7 +1310,11 @@ namespace MissionPlanner
         private void writeGPX(string filename, Dictionary<string, PictureInformation> pictureList)
         {
 
-            using (System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII))
+            using (
+                System.Xml.XmlTextWriter xw =
+                    new System.Xml.XmlTextWriter(
+                        Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                        Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII))
             {
 
                 xw.WriteStartElement("gpx");
@@ -1511,7 +1368,9 @@ namespace MissionPlanner
             {
                 folderBrowserDialog1.SelectedPath = Path.GetDirectoryName(TXT_logfile.Text);
             }
-            catch { }
+            catch
+            {
+            }
 
             folderBrowserDialog1.ShowDialog();
 
@@ -1538,7 +1397,9 @@ namespace MissionPlanner
                             }
                         }
                     }
-                    catch { }                    
+                    catch
+                    {
+                    }
                 }
             }
         }
@@ -1556,7 +1417,9 @@ namespace MissionPlanner
             float seconds = 0;
             if (selectedProcessingMode == PROCESSING_MODE.TIME_OFFSET)
             {
-                if (float.TryParse(TXT_offsetseconds.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds) == false)
+                if (
+                    float.TryParse(TXT_offsetseconds.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds) ==
+                    false)
                 {
                     TXT_outputlog.AppendText("Offset number not in correct format. Use . as decimal separator\n");
                     return;
@@ -1576,16 +1439,19 @@ namespace MissionPlanner
                             CreateReportFiles(picturesInfo, dirPictures, seconds);
                         break;
                     case PROCESSING_MODE.CAM_MSG:
-                        {
-                            picturesInfo = doworkCAM(logFilePath, dirPictures);
-                            if (picturesInfo != null)
-                                CreateReportFiles(picturesInfo, dirPictures, seconds);
-                            break;
-                        }
+                    {
+                        picturesInfo = doworkCAM(logFilePath, dirPictures);
+                        if (picturesInfo != null)
+                            CreateReportFiles(picturesInfo, dirPictures, seconds);
+                        break;
+                    }
                 }
             }
-            catch (Exception ex) { TXT_outputlog.AppendText("Error " + ex.ToString()); }
-            
+            catch (Exception ex)
+            {
+                TXT_outputlog.AppendText("Error " + ex.ToString());
+            }
+
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
         }
@@ -1623,8 +1489,9 @@ namespace MissionPlanner
             {
                 if (useAMSLAlt)
                 {
-                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, double.Parse(txt_basealt.Text) + picInfo.AltAMSL);
-                } 
+                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon,
+                        double.Parse(txt_basealt.Text) + picInfo.AltAMSL);
+                }
                 else
                 {
                     WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.RelAlt);
@@ -1632,40 +1499,40 @@ namespace MissionPlanner
             }
 
             TXT_outputlog.AppendText("GeoTagging FINISHED \n\n");
-            
+
 
         }
 
-        byte[] coordtobytearray(double coordin)
+        private byte[] coordtobytearray(double coordin)
         {
             double coord = Math.Abs(coordin);
 
-            byte[] output = new byte[sizeof(double) * 3];
+            byte[] output = new byte[sizeof (double)*3];
 
-            int d = (int)coord;
-            int m = (int)((coord - d) * 60);
-            double s = ((((coord - d) * 60) - m) * 60);
+            int d = (int) coord;
+            int m = (int) ((coord - d)*60);
+            double s = ((((coord - d)*60) - m)*60);
             /*
 21 00 00 00 01 00 00 00--> 33/1
 18 00 00 00 01 00 00 00--> 24/1
 06 02 00 00 0A 00 00 00--> 518/10
 */
 
-            Array.Copy(BitConverter.GetBytes((uint)d), 0, output, 0, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)1), 0, output, 4, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)m), 0, output, 8, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)1), 0, output, 12, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)(s * 10)), 0, output, 16, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)10), 0, output, 20, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint) d), 0, output, 0, sizeof (uint));
+            Array.Copy(BitConverter.GetBytes((uint) 1), 0, output, 4, sizeof (uint));
+            Array.Copy(BitConverter.GetBytes((uint) m), 0, output, 8, sizeof (uint));
+            Array.Copy(BitConverter.GetBytes((uint) 1), 0, output, 12, sizeof (uint));
+            Array.Copy(BitConverter.GetBytes((uint) (s*10)), 0, output, 16, sizeof (uint));
+            Array.Copy(BitConverter.GetBytes((uint) 10), 0, output, 20, sizeof (uint));
 
             return output;
         }
 
-        void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
+        private void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
-                TXT_outputlog.AppendText("GeoTagging "+ Filename + "\n");
+                TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
                 Application.DoEvents();
 
                 using (Image Pic = Image.FromStream(ms))
@@ -1674,13 +1541,13 @@ namespace MissionPlanner
 
                     pi[0].Id = 0x0004;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof(ulong) * 3;
+                    pi[0].Len = sizeof (ulong)*3;
                     pi[0].Value = coordtobytearray(dLong);
                     Pic.SetPropertyItem(pi[0]);
 
                     pi[0].Id = 0x0002;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof(ulong) * 3;
+                    pi[0].Len = sizeof (ulong)*3;
                     pi[0].Value = coordtobytearray(dLat);
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1696,11 +1563,11 @@ namespace MissionPlanner
 
                     if (dLat < 0)
                     {
-                        pi[0].Value = new byte[] { (byte)'S', 0 };
+                        pi[0].Value = new byte[] {(byte) 'S', 0};
                     }
                     else
                     {
-                        pi[0].Value = new byte[] { (byte)'N', 0 };
+                        pi[0].Value = new byte[] {(byte) 'N', 0};
                     }
 
                     Pic.SetPropertyItem(pi[0]);
@@ -1710,11 +1577,11 @@ namespace MissionPlanner
                     pi[0].Type = 2;
                     if (dLong < 0)
                     {
-                        pi[0].Value = new byte[] { (byte)'W', 0 };
+                        pi[0].Value = new byte[] {(byte) 'W', 0};
                     }
                     else
                     {
-                        pi[0].Value = new byte[] { (byte)'E', 0 };
+                        pi[0].Value = new byte[] {(byte) 'E', 0};
                     }
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1722,7 +1589,9 @@ namespace MissionPlanner
                     string rootFolder = TXT_jpgdir.Text;
                     string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
 
-                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(Filename) + "_geotag" + Path.GetExtension(Filename);
+                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
+                                            Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
+                                            Path.GetExtension(Filename);
 
                     // Just in case
                     File.Delete(outputfilename);
@@ -1734,7 +1603,9 @@ namespace MissionPlanner
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar + "GeoRefnetworklink.kml");
+            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
+                                             Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar +
+                                             "GeoRefnetworklink.kml");
         }
 
         private void TXT_logfile_TextChanged(object sender, EventArgs e)
@@ -1763,151 +1634,27 @@ namespace MissionPlanner
             }
         }
 
-        #region GraphicalSetterEvents
+
         private void TXT_shutterLag_TextChanged(object sender, EventArgs e)
         {
-            bool convertedOK = int.TryParse(TXT_shutterLag.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out millisShutterLag);
+            bool convertedOK = int.TryParse(TXT_shutterLag.Text, NumberStyles.Integer, CultureInfo.InvariantCulture,
+                out millisShutterLag);
 
             if (!convertedOK)
                 TXT_shutterLag.Text = "0";
         }
+
         private void CHECK_AMSLAlt_Use_CheckedChanged(object sender, EventArgs e)
         {
-            useAMSLAlt = ((CheckBox)sender).Checked;
+            useAMSLAlt = ((CheckBox) sender).Checked;
 
             txt_basealt.Enabled = !useAMSLAlt;
         }
-
-        private void NUM_CAM_Time_ValueChanged(object sender, EventArgs e)
-        {
-            timeCAMpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Lat_ValueChanged(object sender, EventArgs e)
-        {
-            latCAMpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Lon_ValueChanged(object sender, EventArgs e)
-        {
-            lngCAMpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Alt_ValueChanged(object sender, EventArgs e)
-        {
-            altCAMpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Heading_ValueChanged(object sender, EventArgs e)
-        {
-            yawCAMATT = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Roll_ValueChanged(object sender, EventArgs e)
-        {
-            rollCAMATT = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_CAM_Pitch_ValueChanged(object sender, EventArgs e)
-        {
-            pitchCAMATT = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_time_ValueChanged(object sender, EventArgs e)
-        {
-            timepos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_GPS_Week_ValueChanged(object sender, EventArgs e)
-        {
-            gpsweekpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_GPS_AMSL_Alt_ValueChanged(object sender, EventArgs e)
-        {
-            altAMSLpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_latpos_ValueChanged(object sender, EventArgs e)
-        {
-            latpos  = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_lngpos_ValueChanged(object sender, EventArgs e)
-        {
-            lngpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_altpos_ValueChanged(object sender, EventArgs e)
-        {
-            altpos = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_ATT_Heading_ValueChanged(object sender, EventArgs e)
-        {
-            yawATT  = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_ATT_Roll_ValueChanged(object sender, EventArgs e)
-        {
-            rollATT = (int)((NumericUpDown)sender).Value;
-        }
-
-        private void NUM_ATT_Pitch_ValueChanged(object sender, EventArgs e)
-        {
-            pitchATT = (int)((NumericUpDown)sender).Value;
-        }
-       
-
-        private void NUM_CAM_Week_ValueChanged(object sender, EventArgs e)
-        {
-            weekCAMPos = (int)((NumericUpDown)sender).Value;
-        }
-        #endregion
 
         private void chk_cammsg_CheckedChanged(object sender, EventArgs e)
         {
             if (vehicleLocations != null)
                 vehicleLocations.Clear();
-        }
-
-
-    }
-
-    public class Rational
-    {
-        uint dem = 0;
-        uint num = 0;
-
-        public Rational(double input)
-        {
-            Value = input;
-        }
-
-        public byte[] GetBytes()
-        {
-            byte[] answer = new byte[8];
-
-            Array.Copy(BitConverter.GetBytes((uint)num), 0, answer, 0, sizeof(uint));
-            Array.Copy(BitConverter.GetBytes((uint)dem), 0, answer, 4, sizeof(uint));
-
-            return answer;
-        }
-
-        public double Value { 
-            get { 
-                return num / dem;
-            } 
-            set {
-                if ((value % 1.0) != 0)
-                {
-                    dem = 100; num = (uint)(value * dem);
-                }
-                else
-                {
-                    dem = 1; num = (uint)(value);
-                }
-            } 
         }
     }
 }

@@ -206,6 +206,16 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public DateTime messagetime { get; set; }
 
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float vibex { get; set; }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float vibey { get; set; }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float vibez { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float ekfstatus { get; set; }
+
         bool statuslast = false;
         DateTime armedtimer = DateTime.MinValue;
 
@@ -362,6 +372,46 @@ namespace MissionPlanner.Controls
             }
 
             started = true;
+        }
+
+        public event EventHandler ekfclick;
+        public event EventHandler vibeclick;
+
+        Rectangle ekfhitzone = new Rectangle();
+        Rectangle vibehitzone = new Rectangle();
+
+        protected override void OnMouseClick(MouseEventArgs e)
+        {
+            base.OnMouseClick(e);
+
+            if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
+            {
+                if (ekfclick != null)
+                    ekfclick(this, null);
+            }
+
+            if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
+            {
+                if (vibeclick != null)
+                    vibeclick(this, null);
+            }
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+
+            if (ekfhitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
+            {
+                Cursor.Current = Cursors.Hand;
+            } else if (vibehitzone.IntersectsWith(new Rectangle(e.X, e.Y, 5, 5)))
+            {
+                Cursor.Current = Cursors.Hand;
+            }
+            else
+            {
+                Cursor.Current = DefaultCursor;
+            }
         }
 
         bool inOnPaint = false;
@@ -1650,18 +1700,45 @@ namespace MissionPlanner.Controls
                     statuslast = status;
                 }
 
-                if (message != "" && messagetime.AddSeconds(15) > DateTime.Now)
+                if (message != "" && messagetime.AddSeconds(10) > DateTime.Now)
                 {
                     drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / 3);
                 }
 
-
-
                 graphicsObject.ResetTransform();
 
+                vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
 
+                if (vibex > 30 || vibey > 30 || vibez > 30)
+                {
+                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, (SolidBrush) Brushes.Red, vibehitzone.X,
+                        vibehitzone.Y);
+                }
+                else
+                {
+                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, whiteBrush, vibehitzone.X,
+                        vibehitzone.Y);
+                }
 
+                ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
 
+                if (ekfstatus > 0.5)
+                {
+                    if (ekfstatus > 0.8)
+                    {
+                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Red, ekfhitzone.X,
+                            ekfhitzone.Y);
+                    }
+                    else
+                    {
+                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Orange, ekfhitzone.X,
+                            ekfhitzone.Y);
+                    }
+                }
+                else
+                {
+                    drawstring(graphicsObject, "EKF", font, fontsize + 2, whiteBrush, ekfhitzone.X, ekfhitzone.Y);
+                }
 
                 if (!opengl)
                 {

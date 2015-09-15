@@ -85,7 +85,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // ConfigAccelerometerCalibrationTracker
+            // ConfigAccelerometerCalibration
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -96,7 +96,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.lineSeparator2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label5);
-            this.Name = "ConfigAccelerometerCalibrationTracker";
+            this.Name = "ConfigAccelerometerCalibration";
             this.ResumeLayout(false);
             this.PerformLayout();
 

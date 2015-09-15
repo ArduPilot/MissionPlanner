@@ -150,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             if (item.Value != null)
                             {
-                                var value = float.Parse(item.Value);
+                                var value = double.Parse(item.Value);
 
                                 data[item.paramname] = value;
                             }
@@ -158,7 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         if (row.Value != null)
                         {
-                            var value = float.Parse(row.Value);
+                            var value = double.Parse(row.Value);
 
                             data[row.paramname] = value;
                         }

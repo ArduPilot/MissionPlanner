@@ -86,6 +86,7 @@
             this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
             this.but_injectgps = new MissionPlanner.Controls.MyButton();
             this.BUT_fft = new MissionPlanner.Controls.MyButton();
+            this.but_reboot = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -732,11 +733,22 @@
             this.BUT_fft.UseVisualStyleBackColor = true;
             this.BUT_fft.Click += new System.EventHandler(this.BUT_fft_Click);
             // 
+            // but_reboot
+            // 
+            this.but_reboot.Location = new System.Drawing.Point(467, 149);
+            this.but_reboot.Name = "but_reboot";
+            this.but_reboot.Size = new System.Drawing.Size(75, 23);
+            this.but_reboot.TabIndex = 62;
+            this.but_reboot.Text = "reboot pixhawk";
+            this.but_reboot.UseVisualStyleBackColor = true;
+            this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_reboot);
             this.Controls.Add(this.BUT_fft);
             this.Controls.Add(this.but_injectgps);
             this.Controls.Add(this.but_sitl_comb);
@@ -810,5 +822,6 @@
         private Controls.MyButton but_sitl_comb;
         private Controls.MyButton but_injectgps;
         private Controls.MyButton BUT_fft;
+        private Controls.MyButton but_reboot;
     }
 }

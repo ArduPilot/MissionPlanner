@@ -69,6 +69,14 @@ namespace MissionPlanner.Controls
             ClearWPDist();
         }
 
+        public void DoPaintRemote(PaintEventArgs e)
+        {
+            var matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.Translate(this.Left, this.Top);
+            e.Graphics.Transform = matrix;
+            OnPaint(e);
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);

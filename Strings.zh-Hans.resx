@@ -263,7 +263,7 @@
     <value>断开连接</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>Failed to create log - wont log this session</value>
+    <value>创建日志失败 - 将不会记录本次会话</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>新固件</value>
@@ -409,7 +409,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
   </data>
   <data name="Warningrallypointdistance" xml:space="preserve">
-    <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
+    <value>警告，集结点放置在了比RALLY_LIMIT_KM还大的地方</value>
   </data>
   <data name="MagCalibMsg" xml:space="preserve">
     <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
@@ -488,5 +488,53 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   </data>
   <data name="FailSafe" xml:space="preserve">
     <value>故障保护</value>
+  </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>对频错误</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>请将发射机置于对频(bind)模式。接收机正在等待。</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>完成时点击</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>保存中</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>注意</value>
+  </data>
+  <data name="PleaseUnplugTheBoardAnd" xml:space="preserve">
+    <value>请拔下控制板，点击OK后再插入。
+Mission Planner将会在30秒内寻找控制板。</value>
+  </data>
+  <data name="ThisBoardHasBeenRetired" xml:space="preserve">
+    <value>此控制板已经退出历史舞台了，Mission Planner将会上传最后一个支持的版本到您控制板。</value>
+  </data>
+  <data name="InvalidCert" xml:space="preserve">
+    <value>证书无效</value>
+  </data>
+  <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
+    <value>您正在使用不受支持的硬件。
+此控制板没有包含真伪性的有效证书。
+请就为您的硬件签名联系您的硬件提供商。</value>
+  </data>
+  <data name="NoNeedToUpload" xml:space="preserve">
+    <value>无需上传。当前固件已经安装在控制板上。</value>
+  </data>
+  <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
+    <value>请在音乐播放完后再点击OK。</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>从模块获取</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>设置在这</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>追踪器的家</value>
   </data>
 </root>

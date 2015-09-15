@@ -1640,4 +1640,7 @@ Please visit {\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2
   <data name="BT-hc06" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BT-hc06.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="Parachute" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Parachute.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

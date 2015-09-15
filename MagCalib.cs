@@ -216,6 +216,8 @@ namespace MissionPlanner
             {
                 MAVLink.mavlink_raw_imu_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
 
+                if (packet.xmag == 0 && packet.ymag == 0)
+                    return false;
 
                 // filter dataset
                 string item = (int)(packet.xmag / div) + "," +
@@ -584,19 +586,21 @@ namespace MissionPlanner
 
             List<Tuple<float, float, float>> data2 = new List<Tuple<float, float, float>>();
 
-            var logfile = Log.DFLog.ReadLog(fn);
+            Log.DFLog dflog = new Log.DFLog();
+
+            var logfile = dflog.ReadLog(fn);
 
             foreach (var line in logfile)
             {
                 if (line.msgtype == "MAG" || line.msgtype == "MAG2")
                 {
-                    int indexmagx = Log.DFLog.FindMessageOffset(line.msgtype, "MagX");
-                    int indexmagy = Log.DFLog.FindMessageOffset(line.msgtype, "MagY");
-                    int indexmagz = Log.DFLog.FindMessageOffset(line.msgtype, "MagZ");
+                    int indexmagx = dflog.FindMessageOffset(line.msgtype, "MagX");
+                    int indexmagy = dflog.FindMessageOffset(line.msgtype, "MagY");
+                    int indexmagz = dflog.FindMessageOffset(line.msgtype, "MagZ");
 
-                    int indexoffsetx = Log.DFLog.FindMessageOffset(line.msgtype, "OfsX");
-                    int indexoffsety = Log.DFLog.FindMessageOffset(line.msgtype, "OfsY");
-                    int indexoffsetz = Log.DFLog.FindMessageOffset(line.msgtype, "OfsZ");
+                    int indexoffsetx = dflog.FindMessageOffset(line.msgtype, "OfsX");
+                    int indexoffsety = dflog.FindMessageOffset(line.msgtype, "OfsY");
+                    int indexoffsetz = dflog.FindMessageOffset(line.msgtype, "OfsZ");
 
                     if (indexmagx != -1 && indexoffsetx != -1)
                     {

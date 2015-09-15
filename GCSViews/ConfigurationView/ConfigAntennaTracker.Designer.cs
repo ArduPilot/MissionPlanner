@@ -129,7 +129,7 @@
             resources.ApplyResources(this.mavlinkComboBox1, "mavlinkComboBox1");
             this.mavlinkComboBox1.FormattingEnabled = true;
             this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.param = null;
+            
             this.mavlinkComboBox1.ParamName = null;
             // 
             // groupBox25
@@ -160,7 +160,7 @@
             this.mavlinkNumericUpDown3.Max = 1F;
             this.mavlinkNumericUpDown3.Min = 0F;
             this.mavlinkNumericUpDown3.Name = "mavlinkNumericUpDown3";
-            this.mavlinkNumericUpDown3.param = null;
+            
             this.mavlinkNumericUpDown3.ParamName = null;
             // 
             // mavlinkNumericUpDown2
@@ -169,7 +169,7 @@
             this.mavlinkNumericUpDown2.Max = 1F;
             this.mavlinkNumericUpDown2.Min = 0F;
             this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
-            this.mavlinkNumericUpDown2.param = null;
+            
             this.mavlinkNumericUpDown2.ParamName = null;
             // 
             // myTrackBar1
@@ -189,7 +189,7 @@
             this.mavlinkNumericUpDown1.Max = 1F;
             this.mavlinkNumericUpDown1.Min = 0F;
             this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
-            this.mavlinkNumericUpDown1.param = null;
+            
             this.mavlinkNumericUpDown1.ParamName = null;
             // 
             // mavlinkCheckBox1
@@ -198,7 +198,7 @@
             this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
             this.mavlinkCheckBox1.OffValue = 0F;
             this.mavlinkCheckBox1.OnValue = 1F;
-            this.mavlinkCheckBox1.param = null;
+            
             this.mavlinkCheckBox1.ParamName = null;
             this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
             // 
@@ -236,7 +236,7 @@
             resources.ApplyResources(this.mavlinkComboBox2, "mavlinkComboBox2");
             this.mavlinkComboBox2.FormattingEnabled = true;
             this.mavlinkComboBox2.Name = "mavlinkComboBox2";
-            this.mavlinkComboBox2.param = null;
+            
             this.mavlinkComboBox2.ParamName = null;
             // 
             // BUT_refreshpart
@@ -288,7 +288,7 @@
             this.mavlinkNumericUpDown4.Max = 1F;
             this.mavlinkNumericUpDown4.Min = 0F;
             this.mavlinkNumericUpDown4.Name = "mavlinkNumericUpDown4";
-            this.mavlinkNumericUpDown4.param = null;
+            
             this.mavlinkNumericUpDown4.ParamName = null;
             // 
             // mavlinkNumericUpDown5
@@ -297,7 +297,7 @@
             this.mavlinkNumericUpDown5.Max = 1F;
             this.mavlinkNumericUpDown5.Min = 0F;
             this.mavlinkNumericUpDown5.Name = "mavlinkNumericUpDown5";
-            this.mavlinkNumericUpDown5.param = null;
+            
             this.mavlinkNumericUpDown5.ParamName = null;
             // 
             // myTrackBar2
@@ -317,7 +317,7 @@
             this.mavlinkNumericUpDown6.Max = 1F;
             this.mavlinkNumericUpDown6.Min = 0F;
             this.mavlinkNumericUpDown6.Name = "mavlinkNumericUpDown6";
-            this.mavlinkNumericUpDown6.param = null;
+            
             this.mavlinkNumericUpDown6.ParamName = null;
             // 
             // mavlinkCheckBox2
@@ -326,7 +326,7 @@
             this.mavlinkCheckBox2.Name = "mavlinkCheckBox2";
             this.mavlinkCheckBox2.OffValue = 0F;
             this.mavlinkCheckBox2.OnValue = 1F;
-            this.mavlinkCheckBox2.param = null;
+            
             this.mavlinkCheckBox2.ParamName = null;
             this.mavlinkCheckBox2.UseVisualStyleBackColor = true;
             // 
@@ -359,7 +359,7 @@
             this.mavlinkNumericUpDown7.Max = 360F;
             this.mavlinkNumericUpDown7.Min = 0F;
             this.mavlinkNumericUpDown7.Name = "mavlinkNumericUpDown7";
-            this.mavlinkNumericUpDown7.param = null;
+            
             this.mavlinkNumericUpDown7.ParamName = null;
             // 
             // label4
@@ -381,7 +381,7 @@
             this.mavlinkNumericUpDown8.Max = 360F;
             this.mavlinkNumericUpDown8.Min = 0F;
             this.mavlinkNumericUpDown8.Name = "mavlinkNumericUpDown8";
-            this.mavlinkNumericUpDown8.param = null;
+            
             this.mavlinkNumericUpDown8.ParamName = null;
             // 
             // label5
@@ -411,7 +411,7 @@
             this.mavlinkNumericUpDown13.Max = 1F;
             this.mavlinkNumericUpDown13.Min = 0F;
             this.mavlinkNumericUpDown13.Name = "mavlinkNumericUpDown13";
-            this.mavlinkNumericUpDown13.param = null;
+            
             this.mavlinkNumericUpDown13.ParamName = null;
             // 
             // mavlinkNumericUpDown12
@@ -420,7 +420,7 @@
             this.mavlinkNumericUpDown12.Max = 1F;
             this.mavlinkNumericUpDown12.Min = 0F;
             this.mavlinkNumericUpDown12.Name = "mavlinkNumericUpDown12";
-            this.mavlinkNumericUpDown12.param = null;
+            
             this.mavlinkNumericUpDown12.ParamName = null;
             // 
             // mavlinkNumericUpDown11
@@ -429,7 +429,7 @@
             this.mavlinkNumericUpDown11.Max = 1F;
             this.mavlinkNumericUpDown11.Min = 0F;
             this.mavlinkNumericUpDown11.Name = "mavlinkNumericUpDown11";
-            this.mavlinkNumericUpDown11.param = null;
+            
             this.mavlinkNumericUpDown11.ParamName = null;
             // 
             // mavlinkNumericUpDown10
@@ -438,7 +438,7 @@
             this.mavlinkNumericUpDown10.Max = 1F;
             this.mavlinkNumericUpDown10.Min = 0F;
             this.mavlinkNumericUpDown10.Name = "mavlinkNumericUpDown10";
-            this.mavlinkNumericUpDown10.param = null;
+            
             this.mavlinkNumericUpDown10.ParamName = null;
             // 
             // mavlinkNumericUpDown9
@@ -447,7 +447,7 @@
             this.mavlinkNumericUpDown9.Max = 1F;
             this.mavlinkNumericUpDown9.Min = 0F;
             this.mavlinkNumericUpDown9.Name = "mavlinkNumericUpDown9";
-            this.mavlinkNumericUpDown9.param = null;
+            
             this.mavlinkNumericUpDown9.ParamName = null;
             // 
             // label9
@@ -497,7 +497,7 @@
             this.mavlinkNumericUpDown18.Max = 1F;
             this.mavlinkNumericUpDown18.Min = 0F;
             this.mavlinkNumericUpDown18.Name = "mavlinkNumericUpDown18";
-            this.mavlinkNumericUpDown18.param = null;
+            
             this.mavlinkNumericUpDown18.ParamName = null;
             // 
             // mavlinkNumericUpDown17
@@ -506,7 +506,7 @@
             this.mavlinkNumericUpDown17.Max = 1F;
             this.mavlinkNumericUpDown17.Min = 0F;
             this.mavlinkNumericUpDown17.Name = "mavlinkNumericUpDown17";
-            this.mavlinkNumericUpDown17.param = null;
+            
             this.mavlinkNumericUpDown17.ParamName = null;
             // 
             // mavlinkNumericUpDown16
@@ -515,7 +515,7 @@
             this.mavlinkNumericUpDown16.Max = 1F;
             this.mavlinkNumericUpDown16.Min = 0F;
             this.mavlinkNumericUpDown16.Name = "mavlinkNumericUpDown16";
-            this.mavlinkNumericUpDown16.param = null;
+      
             this.mavlinkNumericUpDown16.ParamName = null;
             // 
             // mavlinkNumericUpDown15
@@ -524,7 +524,7 @@
             this.mavlinkNumericUpDown15.Max = 1F;
             this.mavlinkNumericUpDown15.Min = 0F;
             this.mavlinkNumericUpDown15.Name = "mavlinkNumericUpDown15";
-            this.mavlinkNumericUpDown15.param = null;
+       
             this.mavlinkNumericUpDown15.ParamName = null;
             // 
             // mavlinkNumericUpDown14
@@ -533,7 +533,7 @@
             this.mavlinkNumericUpDown14.Max = 1F;
             this.mavlinkNumericUpDown14.Min = 0F;
             this.mavlinkNumericUpDown14.Name = "mavlinkNumericUpDown14";
-            this.mavlinkNumericUpDown14.param = null;
+
             this.mavlinkNumericUpDown14.ParamName = null;
             // 
             // label10
