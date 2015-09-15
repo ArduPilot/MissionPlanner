@@ -1694,8 +1694,10 @@ namespace MissionPlanner
         public  bool terrainactive { get; set; }
 
         float _ter_curalt;
+        [DisplayText("Terrain AGL")]
         public float ter_curalt { get { return _ter_curalt * multiplierdist; } set { _ter_curalt = value; } }
         float _ter_alt;
+        [DisplayText("Terrain GL")]
         public float ter_alt { get { return _ter_alt * multiplierdist; } set { _ter_alt = value; } }
 
         public float ter_load { get; set; }
