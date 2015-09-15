@@ -559,15 +559,18 @@ namespace MissionPlanner
                     this.Width = int.Parse(config["MainWidth"].ToString());
 
                 if (config["CMB_rateattitude"] != null)
-                    MainV2.comPort.MAV.cs.rateattitude = byte.Parse(config["CMB_rateattitude"].ToString());
+                    CurrentState.rateattitudebackup = byte.Parse(config["CMB_rateattitude"].ToString());
                 if (config["CMB_rateposition"] != null)
-                    MainV2.comPort.MAV.cs.rateposition = byte.Parse(config["CMB_rateposition"].ToString());
+                    CurrentState.ratepositionbackup = byte.Parse(config["CMB_rateposition"].ToString());
                 if (config["CMB_ratestatus"] != null)
-                    MainV2.comPort.MAV.cs.ratestatus = byte.Parse(config["CMB_ratestatus"].ToString());
+                    CurrentState.ratestatusbackup = byte.Parse(config["CMB_ratestatus"].ToString());
                 if (config["CMB_raterc"] != null)
-                    MainV2.comPort.MAV.cs.raterc = byte.Parse(config["CMB_raterc"].ToString());
+                    CurrentState.ratercbackup = byte.Parse(config["CMB_raterc"].ToString());
                 if (config["CMB_ratesensors"] != null)
-                    MainV2.comPort.MAV.cs.ratesensors = byte.Parse(config["CMB_ratesensors"].ToString());
+                    CurrentState.ratesensorsbackup = byte.Parse(config["CMB_ratesensors"].ToString());
+
+                // make sure rates propogate
+                MainV2.comPort.MAV.cs.ResetInternals();
 
                 if (config["speechenable"] != null)
                     MainV2.speechEnable = bool.Parse(config["speechenable"].ToString());
@@ -594,7 +597,7 @@ namespace MissionPlanner
             }
             catch { }
 
-            if (MainV2.comPort.MAV.cs.rateattitude == 0) // initilised to 10, configured above from save
+            if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
                 CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }

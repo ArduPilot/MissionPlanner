@@ -538,6 +538,12 @@ namespace MissionPlanner
         public byte ratesensors { get; set; }
         public byte raterc { get; set; }
 
+        internal static byte rateattitudebackup { get; set; }
+        internal static byte ratepositionbackup { get; set; }
+        internal static byte ratestatusbackup { get; set; }
+        internal static byte ratesensorsbackup { get; set; }
+        internal static byte ratercbackup { get; set; }
+
         // reference
         public DateTime datetime { get; set; }
         public DateTime gpstime { get; set; }
@@ -592,11 +598,11 @@ namespace MissionPlanner
                 _mode = 99999;
                 messages = new List<string>();
                 useLocation = false;
-                rateattitude = 6;
-                rateposition = 2;
-                ratestatus = 2;
-                ratesensors = 1;
-                raterc = 2;
+                rateattitude = rateattitudebackup;
+                rateposition = ratepositionbackup;
+                ratestatus = ratestatusbackup;
+                ratesensors = ratesensorsbackup;
+                raterc = ratercbackup;
                 datetime = DateTime.MinValue;
                 battery_usedmah = 0;
                 _lastcurrent = DateTime.MinValue;
