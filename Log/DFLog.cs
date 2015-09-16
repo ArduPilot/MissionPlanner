@@ -134,9 +134,9 @@ namespace MissionPlanner.Log
             DATA_PARACHUTE_RELEASED = 51,
         }
 
-        public static Dictionary<string, Label> logformat = new Dictionary<string, Label>();
+        public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
 
-        public static void Clear()
+        public void Clear()
         {
             logformat.Clear();
 
@@ -150,7 +150,7 @@ namespace MissionPlanner.Log
             gpsstarttime = DateTime.MinValue;
         }
 
-        public static DateTime GetFirstGpsTime(string fn)
+        public DateTime GetFirstGpsTime(string fn)
         {
             using (StreamReader sr = new StreamReader(fn)) 
             {
@@ -174,7 +174,7 @@ namespace MissionPlanner.Log
             return DateTime.MinValue;
         }
 
-        public static List<DFItem> ReadLog(string fn)
+        public List<DFItem> ReadLog(string fn)
         {
             List<DFItem> answer = new List<DFItem>();
 
@@ -187,15 +187,15 @@ namespace MissionPlanner.Log
         }
 
         // current gps time
-        static DateTime gpstime = DateTime.MinValue;
+        DateTime gpstime = DateTime.MinValue;
         // last time of message
-        static DateTime lasttime = DateTime.MinValue;
+        DateTime lasttime = DateTime.MinValue;
         // first valid gpstime
-        static DateTime gpsstarttime = DateTime.MinValue;
+        DateTime gpsstarttime = DateTime.MinValue;
 
-        static int msoffset = 0;
+        int msoffset = 0;
 
-        public static List<DFItem> ReadLog(Stream fn)
+        public List<DFItem> ReadLog(Stream fn)
         {
             Clear();
             GC.Collect();
@@ -243,7 +243,7 @@ namespace MissionPlanner.Log
             return answer;
         }
         
-        public static DFItem GetDFItemFromLine(string line, int lineno)
+        public DFItem GetDFItemFromLine(string line, int lineno)
         {
 
             //line = line.Replace(",", ",");
@@ -389,7 +389,7 @@ namespace MissionPlanner.Log
             return item;
         }
 
-        public static void FMTLine(string strLine)
+        public void FMTLine(string strLine)
         {
             try
             {
@@ -413,7 +413,7 @@ namespace MissionPlanner.Log
 
         //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
         //GPS, 3, 130040903, 1769, 10, 0.00, -35.3547178, 149.1696673, 885.52, 870.45, 24.56, 321.44, 2.450000, 127615
-        public static DateTime GetTimeGPS(string gpsline)
+        public DateTime GetTimeGPS(string gpsline)
         {
             if (gpsline.StartsWith("GPS") && logformat.Count > 0)
             {
@@ -456,7 +456,7 @@ namespace MissionPlanner.Log
 
         public static DateTime gpsTimeToTime(int week, double sec)
         {
-            int leap = 16;
+            int leap = 17;
 
             // not correct for leap seconds                   day   days  weeks  seconds
             var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
@@ -466,7 +466,7 @@ namespace MissionPlanner.Log
             return basetime.ToLocalTime();
         }
 
-        public static int FindMessageOffset(string linetype,string find)
+        public int FindMessageOffset(string linetype,string find)
         {
             if (logformat.ContainsKey(linetype))
                 return Log.DFLog.FindInArray(logformat[linetype].FieldNames, find);

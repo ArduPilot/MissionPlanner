@@ -166,16 +166,18 @@ namespace MissionPlanner.Utilities
                 double[] freqt = null;
                 double samplerate = 0;
 
+                Log.DFLog dflog = new Log.DFLog();
+
                 while (!file.EndOfStream)
                 {
-                    var item = Log.DFLog.GetDFItemFromLine(file.ReadLine(), 0);
+                    var item = dflog.GetDFItemFromLine(file.ReadLine(), 0);
 
                     if (item.msgtype == "ACC1")
                     {
-                        int offsetAX = Log.DFLog.FindMessageOffset("ACC1", "AccX");
-                        int offsetAY = Log.DFLog.FindMessageOffset("ACC1", "AccY");
-                        int offsetAZ = Log.DFLog.FindMessageOffset("ACC1", "AccZ");
-                        int offsetTime = Log.DFLog.FindMessageOffset("ACC1", "TimeUS");
+                        int offsetAX = dflog.FindMessageOffset("ACC1", "AccX");
+                        int offsetAY = dflog.FindMessageOffset("ACC1", "AccY");
+                        int offsetAZ = dflog.FindMessageOffset("ACC1", "AccZ");
+                        int offsetTime = dflog.FindMessageOffset("ACC1", "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
@@ -195,10 +197,10 @@ namespace MissionPlanner.Utilities
                     }
                     else if (item.msgtype == "GYR1")
                     {
-                        int offsetGX = Log.DFLog.FindMessageOffset("GYR1", "GyrX");
-                        int offsetGY = Log.DFLog.FindMessageOffset("GYR1", "GyrY");
-                        int offsetGZ = Log.DFLog.FindMessageOffset("GYR1", "GyrZ");
-                        int offsetTime = Log.DFLog.FindMessageOffset("ACC1", "TimeUS");
+                        int offsetGX = dflog.FindMessageOffset("GYR1", "GyrX");
+                        int offsetGY = dflog.FindMessageOffset("GYR1", "GyrY");
+                        int offsetGZ = dflog.FindMessageOffset("GYR1", "GyrZ");
+                        int offsetTime = dflog.FindMessageOffset("ACC1", "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
@@ -323,9 +325,11 @@ namespace MissionPlanner.Utilities
                 for (int a = 0; a < alldata.Length; a++)
                     alldata[a] = new datastate();
 
+                Log.DFLog dflog = new Log.DFLog();
+
                 while (!file.EndOfStream)
                 {
-                    var item = Log.DFLog.GetDFItemFromLine(file.ReadLine(), 0);
+                    var item = dflog.GetDFItemFromLine(file.ReadLine(), 0);
 
                     if (item.msgtype == null)
                     {
@@ -337,10 +341,10 @@ namespace MissionPlanner.Utilities
                         int sensorno = int.Parse(item.msgtype.Substring(3)) - 1 + 3;
                         alldata[sensorno].type = item.msgtype;
 
-                        int offsetAX = Log.DFLog.FindMessageOffset(item.msgtype, "AccX");
-                        int offsetAY = Log.DFLog.FindMessageOffset(item.msgtype, "AccY");
-                        int offsetAZ = Log.DFLog.FindMessageOffset(item.msgtype, "AccZ");
-                        int offsetTime = Log.DFLog.FindMessageOffset(item.msgtype, "TimeUS");
+                        int offsetAX = dflog.FindMessageOffset(item.msgtype, "AccX");
+                        int offsetAY = dflog.FindMessageOffset(item.msgtype, "AccY");
+                        int offsetAZ = dflog.FindMessageOffset(item.msgtype, "AccZ");
+                        int offsetTime = dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
@@ -358,10 +362,10 @@ namespace MissionPlanner.Utilities
                         int sensorno = int.Parse(item.msgtype.Substring(3)) - 1;
                         alldata[sensorno].type = item.msgtype;
 
-                        int offsetGX = Log.DFLog.FindMessageOffset(item.msgtype, "GyrX");
-                        int offsetGY = Log.DFLog.FindMessageOffset(item.msgtype, "GyrY");
-                        int offsetGZ = Log.DFLog.FindMessageOffset(item.msgtype, "GyrZ");
-                        int offsetTime = Log.DFLog.FindMessageOffset(item.msgtype, "TimeUS");
+                        int offsetGX = dflog.FindMessageOffset(item.msgtype, "GyrX");
+                        int offsetGY = dflog.FindMessageOffset(item.msgtype, "GyrY");
+                        int offsetGZ = dflog.FindMessageOffset(item.msgtype, "GyrZ");
+                        int offsetTime = dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 

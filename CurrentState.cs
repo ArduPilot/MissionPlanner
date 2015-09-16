@@ -538,6 +538,12 @@ namespace MissionPlanner
         public byte ratesensors { get; set; }
         public byte raterc { get; set; }
 
+        internal static byte rateattitudebackup { get; set; }
+        internal static byte ratepositionbackup { get; set; }
+        internal static byte ratestatusbackup { get; set; }
+        internal static byte ratesensorsbackup { get; set; }
+        internal static byte ratercbackup { get; set; }
+
         // reference
         public DateTime datetime { get; set; }
         public DateTime gpstime { get; set; }
@@ -592,17 +598,18 @@ namespace MissionPlanner
                 _mode = 99999;
                 messages = new List<string>();
                 useLocation = false;
-                rateattitude = 6;
-                rateposition = 2;
-                ratestatus = 2;
-                ratesensors = 1;
-                raterc = 2;
+                rateattitude = rateattitudebackup;
+                rateposition = ratepositionbackup;
+                ratestatus = ratestatusbackup;
+                ratesensors = ratesensorsbackup;
+                raterc = ratercbackup;
                 datetime = DateTime.MinValue;
                 battery_usedmah = 0;
                 _lastcurrent = DateTime.MinValue;
                 distTraveled = 0;
                 timeInAir = 0;
                 KIndexstatic = -1;
+                version = new Version();
             }
         }
 
@@ -750,6 +757,25 @@ namespace MissionPlanner
                         MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED] = null;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION];
+
+                    if (bytearray != null) 
+                    {
+                        var version = bytearray.ByteArrayToStructure<MAVLink.mavlink_autopilot_version_t>(6);
+                        //#define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
+
+                        //		flight_sw_version	0x03040000	uint
+
+                        byte main = (byte)(version.flight_sw_version >> 24);
+                        byte sub = (byte)((version.flight_sw_version >> 16) & 0xff);
+                        byte rev = (byte)((version.flight_sw_version >> 8) & 0xff);
+                        MAVLink.FIRMWARE_VERSION_TYPE type = (MAVLink.FIRMWARE_VERSION_TYPE)(version.flight_sw_version & 0xff);
+
+                        this.version = new Version(main, sub, (int)type, rev);
+
+                        MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION] = null;
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS];
 
                     if (bytearray != null)
@@ -871,7 +897,9 @@ namespace MissionPlanner
                         ekfposvert = ekfstatusm.pos_vert_variance;
                         ekfteralt = ekfstatusm.terrain_alt_variance;
 
-                        ekfstatus = ekfstatusm.flags;
+                        ekfflags = ekfstatusm.flags;
+
+                        ekfstatus = (float)Math.Max(ekfvelv, Math.Max(ekfcompv, Math.Max(ekfposhor, Math.Max(ekfposvert, ekfteralt))));
 
                         if (ekfvelv >= 1)
                         {
@@ -1672,8 +1700,10 @@ namespace MissionPlanner
         public  bool terrainactive { get; set; }
 
         float _ter_curalt;
+        [DisplayText("Terrain AGL")]
         public float ter_curalt { get { return _ter_curalt * multiplierdist; } set { _ter_curalt = value; } }
         float _ter_alt;
+        [DisplayText("Terrain GL")]
         public float ter_alt { get { return _ter_alt * multiplierdist; } set { _ter_alt = value; } }
 
         public float ter_load { get; set; }
@@ -1697,7 +1727,9 @@ namespace MissionPlanner
         [DisplayText("flow quality")]
         public byte opt_qua { get; set; }
 
-        public int ekfstatus { get; set; }
+        public float ekfstatus { get; set; }
+
+        public int ekfflags { get; set; }
 
         public float ekfvelv { get; set; }
 
@@ -1734,6 +1766,8 @@ namespace MissionPlanner
         public float vibey { get; set; }
 
         public float vibez { get; set; }
+
+        public Version version { get; set; }
 
     }    
 }

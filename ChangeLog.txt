@@ -1,4 +1,78 @@
-﻿* Mission Planner 1.3.31 - 9-8-2015
+﻿* Mission Planner 1.3.32 - 15-9-2015
+BinaryLog: add convert progress dialog
+LogBrowse: add null check
+Wizard: add invalid bat monitor check
+SITL: add invalid home check
+GeoTiff: add directory exists check
+FlightData: update "change speed" when no airspeed precent #1001
+add ironpython lib dll's
+DFLog: make threadsafe
+LogBrowse: memory performance change
+BinaryLog: make threadsafe
+LogBrowse: enable virtualmode for all logs
+FlightData/Planner: fix background exceptions
+ParamMetaData: fix loading primary metadata
+FlightPlanner: fix param cast
+ParamMetaData: fix param info get
+LogBrowse: add presaved log entries
+BinaryLog: make convertbin less verbose
+LogOutput: fix waypoint at 0,0
+LogIndex:  add tlog duration
+FirmwareHistory: update
+MainV2: exclude gimbals from getting home point #986
+MainV2: add sysid to home point error message #986
+mavcmd: update do_mount_control for all types #988
+ConfigMount: add mnt_type #987
+parammetadata: update backup data
+mavcmd: update headers #988
+remove requirement for unsafe
+GeoTiff: add geotiff support #985
+temp: add reset pixhawk option (no warning)
+MagCalib: dont accept 0,0 data
+3DRRadio: increase multiline responce time
+MavlinkInterface: add getVersion and fix severity display
+HUD: show ekf red at 0.8
+MAVLinkInterface: fix mp log message
+LogOutput: add POS distance filter
+EKFStatus: add color to flags
+EKFStatus: fix transposed values
+MAVLinkInterface: add mp version to tlogs
+MAVLink: update to master
+px4uploader: add another forged key
+Georef: add missing files
+EKFStatus: fix scale and flags
+GeoRef update
+HUD: always display ekf and vibe
+BaseClasses: revert .net version
+LogBrowse: increase type scan limit #972
+LogBrowse: add Vibe message preselection #971
+LogOutput: add pos message output to kml
+LogBrowse: Add POS message output
+PointLatLngAlt: add another contructor
+Common: add more speech entries
+Driver eol fix
+ImageOverFilter: remove from compile
+BaseClasses: change target framework
+EKFStatus: add #949
+Hud: add vibration and ekf #948
+simpleexample: fix example #922
+px4uploader: add forged cert check
+NoFly: add nofly support. (kmz loader from nofly dir)
+paramcompare: fix double vs float #963
+srtm: add 0,0 check
+CommsNTRIP: modify user agent.
+CommsNTRIP: tweak keepalive
+commNTRIP: add tcp keepalive
+Vibration: update to display lines
+NGEN: add ngen at startup if posible
+DFLog: improve performance on bad gps message
+CommsNTRIP: fix reconnect logic
+logbrowse: support gps fix >=3
+SerialInjectGPS: fix ntrip baud issue
+wix: fix path
+LogOutput: fix df kml with all gps lock types
+
+* Mission Planner 1.3.31 - 9-8-2015
 georefimage: update offsets #946
 FlightPlanner: fix waypoint panel size
 currentstate: fix x/y issue on optical flow #959

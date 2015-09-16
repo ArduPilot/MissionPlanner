@@ -73,6 +73,9 @@ namespace MissionPlanner.Log
                     {
                         bool bin = logfile.ToLower().EndsWith(".bin");
 
+                        BinaryLog binlog = new BinaryLog();
+                        DFLog dflog = new DFLog();
+
                         using (var st = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             using (StreamReader sr = new StreamReader(st))
@@ -83,7 +86,7 @@ namespace MissionPlanner.Log
 
                                     if (bin)
                                     {
-                                        line = BinaryLog.ReadMessage(sr.BaseStream);
+                                        line = binlog.ReadMessage(sr.BaseStream);
                                     }
                                     else
                                     {
@@ -92,14 +95,14 @@ namespace MissionPlanner.Log
 
                                     if (line.StartsWith("FMT"))
                                     {
-                                        DFLog.FMTLine(line);
+                                        dflog.FMTLine(line);
                                     }
                                     else if (line.StartsWith("GPS"))
                                     {
-                                        var item = DFLog.GetDFItemFromLine(line, 0);
+                                        var item = dflog.GetDFItemFromLine(line, 0);
 
-                                        var lat = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lat")]);
-                                        var lon = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lng")]);
+                                        var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
+                                        var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
 
                                         if (lat == 0 || lon == 0)
                                             continue;

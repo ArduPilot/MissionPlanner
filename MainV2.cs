@@ -559,15 +559,18 @@ namespace MissionPlanner
                     this.Width = int.Parse(config["MainWidth"].ToString());
 
                 if (config["CMB_rateattitude"] != null)
-                    MainV2.comPort.MAV.cs.rateattitude = byte.Parse(config["CMB_rateattitude"].ToString());
+                    CurrentState.rateattitudebackup = byte.Parse(config["CMB_rateattitude"].ToString());
                 if (config["CMB_rateposition"] != null)
-                    MainV2.comPort.MAV.cs.rateposition = byte.Parse(config["CMB_rateposition"].ToString());
+                    CurrentState.ratepositionbackup = byte.Parse(config["CMB_rateposition"].ToString());
                 if (config["CMB_ratestatus"] != null)
-                    MainV2.comPort.MAV.cs.ratestatus = byte.Parse(config["CMB_ratestatus"].ToString());
+                    CurrentState.ratestatusbackup = byte.Parse(config["CMB_ratestatus"].ToString());
                 if (config["CMB_raterc"] != null)
-                    MainV2.comPort.MAV.cs.raterc = byte.Parse(config["CMB_raterc"].ToString());
+                    CurrentState.ratercbackup = byte.Parse(config["CMB_raterc"].ToString());
                 if (config["CMB_ratesensors"] != null)
-                    MainV2.comPort.MAV.cs.ratesensors = byte.Parse(config["CMB_ratesensors"].ToString());
+                    CurrentState.ratesensorsbackup = byte.Parse(config["CMB_ratesensors"].ToString());
+
+                // make sure rates propogate
+                MainV2.comPort.MAV.cs.ResetInternals();
 
                 if (config["speechenable"] != null)
                     MainV2.speechEnable = bool.Parse(config["speechenable"].ToString());
@@ -594,7 +597,7 @@ namespace MissionPlanner
             }
             catch { }
 
-            if (MainV2.comPort.MAV.cs.rateattitude == 0) // initilised to 10, configured above from save
+            if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
                 CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
@@ -1039,7 +1042,7 @@ namespace MissionPlanner
                 }
 
                 // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.sysidseen.Count > 1)
+                if (comPort.MAVlist.Count > 1)
                 {
                     // we have more than one mav
                     // user selection of sysid
@@ -1048,18 +1051,20 @@ namespace MissionPlanner
                     id.Show();
                 }
 
-                // create a copy
-                int[] list = comPort.sysidseen.ToArray();
+                // get all mavstates
+                var list = comPort.MAVlist.GetMAVStates();
 
                 // get all the params
-                foreach (var sysid in list)
+                foreach (var mavstate in list)
                 {
-                    comPort.sysidcurrent = sysid;
+                    comPort.sysidcurrent = mavstate.sysid;
+                    comPort.compidcurrent = mavstate.compid;
                     comPort.getParamList();
                 }
 
                 // set to first seen
-                comPort.sysidcurrent = list[0];
+                comPort.sysidcurrent = list[0].sysid;
+                comPort.compidcurrent = list[0].compid;
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -1967,7 +1972,7 @@ namespace MissionPlanner
                     {
                         armedstatus = MainV2.comPort.MAV.cs.armed;
                         // status just changed to armed
-                        if (MainV2.comPort.MAV.cs.armed == true)
+                        if (MainV2.comPort.MAV.cs.armed == true && MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
                         {
                             try
                             {
@@ -1981,7 +1986,7 @@ namespace MissionPlanner
                             catch
                             {
                                 // dont hang this loop
-                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); });
+                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location ("+MainV2.comPort.MAV.sysid+")"); });
                             }
                         }
 
@@ -2079,11 +2084,11 @@ namespace MissionPlanner
                             catch (Exception ex) { log.Error(ex); }
                         }
                         // update currentstate of sysids on the port
-                        foreach (var sysid in port.sysidseen)
+                        foreach (var MAV in port.MAVlist.GetMAVStates())
                         {
                             try
                             {
-                                port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
+                                MAV.cs.UpdateCurrentSettings(null, false, port, MAV);
                             }
                             catch (Exception ex) { log.Error(ex); }
                         }

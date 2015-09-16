@@ -13,7 +13,6 @@ namespace MissionPlanner.Utilities
    public static class ParameterMetaDataRepository
    {
       private static XDocument _parameterMetaDataXML;
-      private static XDocument _parameterMetaDataXMLEn;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ParameterMetaDataRepository"/> class.
@@ -24,144 +23,71 @@ namespace MissionPlanner.Utilities
             Reload();
       }
 
-      public static void Reload()
-      {
-          string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
-          string paramMetaDataXMLFileNameEn = paramMetaDataXMLFileName;
-          bool isNotEn = false;
-          
-          /*
-          switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
-          {
-              case "zh-Hans":
-                  isNotEn = true;
-                  paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
-                  break;
-              case "zh-CN":
-                  isNotEn = true;
-                  paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
-                  break;
-              default:
-                  break;
-          }
-          */
+        public static void Reload()
+        {
+            string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
 
-          string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
+            string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
 
-          try
-          {
-              if (File.Exists(paramMetaDataXMLFileName))
-                  _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
-              if (isNotEn)
-                  if (File.Exists(paramMetaDataXMLFileNameEn))
-                      _parameterMetaDataXMLEn = XDocument.Load(paramMetaDataXMLFileNameEn);
-                  else if (File.Exists(paramMetaDataXMLFileNameBackup))
-                      _parameterMetaDataXMLEn = XDocument.Load(paramMetaDataXMLFileNameBackup);
+            try
+            {
+                if (File.Exists(paramMetaDataXMLFileName))
+                    _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
 
-          }
-          catch (Exception ex) { Console.WriteLine(ex.ToString()); } // Exception System.Xml.XmlException: Root element is missing.
+                // error loading the good file, load the backup
+                if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
+                {
+                    _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileNameBackup);
+                    Console.WriteLine("Using backup param data");
+                }
+            }
+            catch { }
 
-          try
-          {
-              // error loading the good file, load the backup
-              if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
-              {
-                  _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileNameBackup);
-                  Console.WriteLine("Using backup param data");
-              }
-          }
-          catch { }
-      
-      }
-
-      /// <summary>
-      /// Gets the parameter meta data.
-      /// </summary>
-      /// <param name="nodeKey">The node key.</param>
-      /// <param name="metaKey">The meta key.</param>
-      /// <returns></returns>
-      public static string GetParameterMetaData(string nodeKey, string metaKey, string vechileType)
-      {
-          CheckLoad();
-
-         if(_parameterMetaDataXML != null)
-         {
-            // Use this to find the endpoint node we are looking for
-            // Either it will be pulled from a file in the ArduPlane hierarchy or the ArduCopter hierarchy
-             try
-             {
-                 var elements = _parameterMetaDataXML.Element("Params").Elements(vechileType);
-
-                 foreach (var element in elements)
-                 {
-                     if (element != null && element.HasElements)
-                     {
-                         var node = element.Element(nodeKey);
-                         if (node != null && node.HasElements)
-                         {
-                             var metaValue = node.Element(metaKey);
-                             if (metaValue != null)
-                             {
-                                 return metaValue.Value;
-                             }
-                         }
-                     }
-                 }
-             }
-             catch { } // Exception System.ArgumentException: '' is an invalid expanded name.
-         }
-
-         if (_parameterMetaDataXMLEn != null)
-         {
-             try
-             {
-                 var element = _parameterMetaDataXMLEn.Element("Params").Element(vechileType);
-                 if (element != null && element.HasElements)
-                 {
-                     var node = element.Element(nodeKey);
-                     if (node != null && node.HasElements)
-                     {
-                         var metaValue = node.Element(metaKey);
-                         if (metaValue != null)
-                         {
-                             return metaValue.Value;
-                         }
-                     }
-                 }
-             }
-             catch { }
-         }
-
-         return string.Empty;
-      }
+        }
 
        /// <summary>
-       /// Return a key, value list off all options selectable
+       /// Gets the parameter meta data.
        /// </summary>
-       /// <param name="nodeKey"></param>
+       /// <param name="nodeKey">The node key.</param>
+       /// <param name="metaKey">The meta key.</param>
        /// <returns></returns>
-  /*    public List<KeyValuePair<string,string>> GetParameterOptions(string nodeKey)
-      {
-          string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values);
+       public static string GetParameterMetaData(string nodeKey, string metaKey, string vechileType)
+       {
+           CheckLoad();
 
-          string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-          if (availableValues.Any())
-          {
-              var splitValues = new List<KeyValuePair<string, string>>();
-              // Add the values to the ddl
-              foreach (string val in availableValues)
-              {
-                  string[] valParts = val.Split(new[] { ':' });
-                  splitValues.Add(new KeyValuePair<string, string>(valParts[0].Trim(), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
-              };
+           if (_parameterMetaDataXML != null)
+           {
+               // Use this to find the endpoint node we are looking for
+               // Either it will be pulled from a file in the ArduPlane hierarchy or the ArduCopter hierarchy
+               try
+               {
+                   var elements = _parameterMetaDataXML.Element("Params").Elements(vechileType);
 
-              return splitValues;
-          }
+                   foreach (var element in elements)
+                   {
+                       if (element != null && element.HasElements)
+                       {
+                           var node = element.Element(nodeKey);
+                           if (node != null && node.HasElements)
+                           {
+                               var metaValue = node.Element(metaKey);
+                               if (metaValue != null)
+                               {
+                                   return metaValue.Value;
+                               }
+                           }
+                       }
+                   }
+               }
+               catch
+               {
+               } // Exception System.ArgumentException: '' is an invalid expanded name.
+           }
 
-          return new List<KeyValuePair<string, string>>();
-      }*/
+           return string.Empty;
+       }
 
-      /// <summary>
+       /// <summary>
       /// Return a key, value list off all options selectable
       /// </summary>
       /// <param name="nodeKey"></param>
@@ -170,20 +96,7 @@ namespace MissionPlanner.Utilities
       {
           CheckLoad();
 
-          string availableValuesRaw;
-
-          if (nodeKey == "FLTMODE1" && _parameterMetaDataXMLEn != null)
-          {
-              _parameterMetaDataXML = _parameterMetaDataXMLEn;
-              availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
-              Reload();
-          }
-          else
-          {
-              availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
-          }
-          
-
+          string  availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
           string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
           if (availableValues.Any())
           {

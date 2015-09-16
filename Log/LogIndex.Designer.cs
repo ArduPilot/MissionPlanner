@@ -73,13 +73,14 @@
             this.olvColumndir.AspectName = "Directory";
             this.olvColumndir.CellPadding = null;
             this.olvColumndir.Text = "Directory";
+            this.olvColumndir.Width = 258;
             // 
             // olvColumnName
             // 
             this.olvColumnName.AspectName = "Name";
             this.olvColumnName.CellPadding = null;
             this.olvColumnName.Text = "FileName";
-            this.olvColumnName.Width = 120;
+            this.olvColumnName.Width = 178;
             // 
             // olvColumnduration
             // 

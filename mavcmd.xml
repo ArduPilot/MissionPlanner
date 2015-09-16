@@ -228,9 +228,9 @@
       <Z></Z>
     </DO_DIGICAM_CONTROL>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
@@ -493,9 +493,9 @@
       <Z></Z>
     </DO_MOUNT_CONFIGURE>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
       <P4></P4>
       <X></X>
       <Y></Y>
@@ -730,9 +730,9 @@
       <Z></Z>
     </DO_MOUNT_CONFIGURE>
     <DO_MOUNT_CONTROL>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P1>Pitch</P1>
+      <P2>Roll</P2>
+      <P3>Yaw</P3>
       <P4></P4>
       <X></X>
       <Y></Y>

@@ -232,6 +232,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change Throttle.
+        /// </summary>
+        public static string ChangeThrottle {
+            get {
+                return ResourceManager.GetString("ChangeThrottle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Checking .
         /// </summary>
         public static string Checking {
@@ -337,6 +346,15 @@ namespace MissionPlanner {
         public static string Continue {
             get {
                 return ResourceManager.GetString("Continue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Converting bin to log.
+        /// </summary>
+        public static string Converting_bin_to_log {
+            get {
+                return ResourceManager.GetString("Converting_bin_to_log", resourceCulture);
             }
         }
         
@@ -754,6 +772,15 @@ namespace MissionPlanner {
         public static string Gotparam {
             get {
                 return ResourceManager.GetString("Gotparam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid home location.
+        /// </summary>
+        public static string Invalid_home_location {
+            get {
+                return ResourceManager.GetString("Invalid_home_location", resourceCulture);
             }
         }
         

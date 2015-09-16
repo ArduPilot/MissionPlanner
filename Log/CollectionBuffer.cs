@@ -9,6 +9,7 @@ namespace MissionPlanner.Log
 {
     public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>, IDisposable
     {
+        BinaryLog binlog = new BinaryLog();
         BufferedStream basestream;
         private int _count;
         List<long> linestartoffset = new List<long>();
@@ -155,7 +156,7 @@ namespace MissionPlanner.Log
 
                 if (binary)
                 {
-                    var answer = BinaryLog.ReadMessage(basestream);
+                    var answer = binlog.ReadMessage(basestream);
 
                     currentindexcache = (object)answer;
                     indexcachelineno = index;
@@ -233,6 +234,7 @@ namespace MissionPlanner.Log
         public void Dispose()
         {
             basestream.Close();
+            linestartoffset.Clear();
             linestartoffset = null;
         }
     }

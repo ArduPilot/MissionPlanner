@@ -162,6 +162,9 @@ namespace MissionPlanner.Wizard
             if (startup)
                 return;
 
+            if (CMB_apmversion.Text.Length == 0)
+                return;
+
             int selection = int.Parse(CMB_apmversion.Text.Substring(0, 1));
 
             try

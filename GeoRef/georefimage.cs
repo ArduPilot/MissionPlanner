@@ -52,6 +52,8 @@ namespace MissionPlanner.GeoRef
         private Label label28;
         private List<int> JXL_StationIDs = new List<int>();
 
+        DFLog dflog = new DFLog();
+
         public Georefimage()
         {
             InitializeComponent();
@@ -233,25 +235,25 @@ namespace MissionPlanner.GeoRef
                         a++;
                         string line = sr.ReadLine();
 
-                        var item = DFLog.GetDFItemFromLine(line, a);
+                        var item = dflog.GetDFItemFromLine(line, a);
                         // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
                         // So we have to look for one ATT message after having read a GPS one
 
                         if (item.msgtype == "GPS")
                         {
-                            if (!DFLog.logformat.ContainsKey("GPS"))
+                            if (!dflog.logformat.ContainsKey("GPS"))
                                 continue;
 
-                            int latindex = DFLog.FindMessageOffset("GPS", "Lat");
-                            int lngindex = DFLog.FindMessageOffset("GPS", "Lng");
-                            int altindex = DFLog.FindMessageOffset("GPS", "Alt");
-                            int raltindex = DFLog.FindMessageOffset("GPS", "RAlt");
+                            int latindex = dflog.FindMessageOffset("GPS", "Lat");
+                            int lngindex = dflog.FindMessageOffset("GPS", "Lng");
+                            int altindex = dflog.FindMessageOffset("GPS", "Alt");
+                            int raltindex = dflog.FindMessageOffset("GPS", "RAlt");
 
                             VehicleLocation location = new VehicleLocation();
 
                             try
                             {
-                                location.Time = DFLog.GetTimeGPS(line);
+                                location.Time = dflog.GetTimeGPS(line);
                                 location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
                                 location.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
                                 location.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
@@ -275,9 +277,9 @@ namespace MissionPlanner.GeoRef
                         }
                         else if (item.msgtype == "ATT")
                         {
-                            int Rindex = DFLog.FindMessageOffset("ATT", "Roll");
-                            int Pindex = DFLog.FindMessageOffset("ATT", "Pitch");
-                            int Yindex = DFLog.FindMessageOffset("ATT", "Yaw");
+                            int Rindex = dflog.FindMessageOffset("ATT", "Roll");
+                            int Pindex = dflog.FindMessageOffset("ATT", "Pitch");
+                            int Yindex = dflog.FindMessageOffset("ATT", "Yaw");
 
                             currentRoll = float.Parse(item.items[Rindex], CultureInfo.InvariantCulture);
                             currentPitch = float.Parse(item.items[Pindex], CultureInfo.InvariantCulture);
@@ -319,21 +321,21 @@ namespace MissionPlanner.GeoRef
                     a++;
                     string line = sr.ReadLine();
 
-                    var item = DFLog.GetDFItemFromLine(line, a);
+                    var item = dflog.GetDFItemFromLine(line, a);
 
                     if (item.msgtype == "CAM")
                     {
-                        int latindex = DFLog.FindMessageOffset("CAM", "Lat");
-                        int lngindex = DFLog.FindMessageOffset("CAM", "Lng");
-                        int altindex = DFLog.FindMessageOffset("CAM", "Alt");
-                        int raltindex = DFLog.FindMessageOffset("CAM", "RelAlt");
+                        int latindex = dflog.FindMessageOffset("CAM", "Lat");
+                        int lngindex = dflog.FindMessageOffset("CAM", "Lng");
+                        int altindex = dflog.FindMessageOffset("CAM", "Alt");
+                        int raltindex = dflog.FindMessageOffset("CAM", "RelAlt");
 
-                        int rindex = DFLog.FindMessageOffset("CAM", "Roll");
-                        int pindex = DFLog.FindMessageOffset("CAM", "Pitch");
-                        int yindex = DFLog.FindMessageOffset("CAM", "Yaw");
+                        int rindex = dflog.FindMessageOffset("CAM", "Roll");
+                        int pindex = dflog.FindMessageOffset("CAM", "Pitch");
+                        int yindex = dflog.FindMessageOffset("CAM", "Yaw");
 
-                        int gtimeindex = DFLog.FindMessageOffset("CAM", "GPSTime");
-                        int gweekindex = DFLog.FindMessageOffset("CAM", "GPSWeek");
+                        int gtimeindex = dflog.FindMessageOffset("CAM", "GPSTime");
+                        int gweekindex = dflog.FindMessageOffset("CAM", "GPSWeek");
 
                         VehicleLocation p = new VehicleLocation();
 

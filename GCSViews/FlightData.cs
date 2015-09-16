@@ -327,10 +327,13 @@ namespace MissionPlanner.GCSViews
 
         void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
         {
-            foreach (var poly in e.NoFlyZones.Polygons)
+            Invoke((Action)delegate
             {
-                kmlpolygons.Polygons.Add(poly);
-            }
+                foreach (var poly in e.NoFlyZones.Polygons)
+                {
+                    kmlpolygons.Polygons.Add(poly);
+                }
+            });
         }
 
         void mymap_Paint(object sender, PaintEventArgs e)
@@ -678,22 +681,21 @@ namespace MissionPlanner.GCSViews
 
         void tfr_GotTFRs(object sender, EventArgs e)
         {
-            foreach (var item in tfr.tfrs)
-            {
-                List<List<PointLatLng>> points = item.GetPaths();
-
-                foreach (var list in points)
-                {
-                    GMapPolygon poly = new GMapPolygon(list, item.NAME);
-
-                    poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
-
-                    tfrpolygons.Polygons.Add(poly);
-                }
-            }
-
             Invoke((Action)delegate
             {
+                foreach (var item in tfr.tfrs)
+                {
+                    List<List<PointLatLng>> points = item.GetPaths();
+
+                    foreach (var list in points)
+                    {
+                        GMapPolygon poly = new GMapPolygon(list, item.NAME);
+
+                        poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
+                        tfrpolygons.Polygons.Add(poly);
+                    }
+                }
                 tfrpolygons.IsVisibile = MainV2.ShowTFR;
             });
         }
@@ -1095,10 +1097,8 @@ namespace MissionPlanner.GCSViews
                             foreach (var port in MainV2.Comports)
                             {
                                 // draw the mavs seen on this port
-                                foreach (var portsysid in port.sysidseen)
+                                foreach (var MAV in port.MAVlist.GetMAVStates())
                                 {
-                                    var MAV = port.MAVlist[portsysid];
-
                                     PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
 
                                     if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MAV.cs.firmware == MainV2.Firmwares.Ateryx)
@@ -1821,6 +1821,7 @@ namespace MissionPlanner.GCSViews
                 && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
             {
                 modifyandSetSpeed.Value = (decimal)(float)MainV2.comPort.MAV.param["TRIM_THROTTLE"]; // percent
+                modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
             }
         }
 

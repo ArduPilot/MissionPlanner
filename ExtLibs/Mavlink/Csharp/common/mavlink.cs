@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Thu Jun 18 07:16:50 2015";
+        public const string MAVLINK_BUILD_DATE = "Fri Aug 28 17:35:23 2015";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -259,6 +259,24 @@ DEBUG = 254,
             GIMBAL=26, 
         	///<summary>  | </summary>
             ENUM_END=27, 
+        
+        };
+        
+        ///<summary> These values define the type of firmware release.  These values indicate the first version or release of this type.  For example the first alpha release would be 64, the second would be 65. </summary>
+        public enum FIRMWARE_VERSION_TYPE
+        {
+    	///<summary> development release | </summary>
+            DEV=0, 
+        	///<summary> alpha release | </summary>
+            ALPHA=64, 
+        	///<summary> beta release | </summary>
+            BETA=128, 
+        	///<summary> release candidate | </summary>
+            RC=192, 
+        	///<summary> official stable release | </summary>
+            OFFICIAL=255, 
+        	///<summary>  | </summary>
+            ENUM_END=256, 
         
         };
         
@@ -705,7 +723,7 @@ DEBUG = 254,
             OVERRIDE_GOTO=252, 
         	///<summary> start running a mission |first_item: the first mission item to run| last_item:  the last mission item to run (after this item is run, the mission ends)|  </summary>
             MISSION_START=300, 
-        	///<summary> Arms / Disarms a component |1 to arm, 0 to disarm|  </summary>
+        	///<summary> Arms / Disarms a component |1 to arm, 0 to disarm| 0 to disarm if landed, 21196 to force disarm any time|  </summary>
             COMPONENT_ARM_DISARM=400, 
         	///<summary> Starts receiver pairing |0:Spektrum| 0:Spektrum DSM2, 1:Spektrum DSMX|  </summary>
             START_RX_PAIR=500, 
@@ -1001,8 +1019,12 @@ DEBUG = 254,
             TERRAIN=512, 
         	///<summary> Autopilot supports direct actuator control. | </summary>
             SET_ACTUATOR_TARGET=1024, 
+        	///<summary> Autopilot supports the flight termination command. | </summary>
+            FLIGHT_TERMINATION=2048, 
+        	///<summary> Autopilot supports onboard compass calibration. | </summary>
+            COMPASS_CALIBRATION=4096, 
         	///<summary>  | </summary>
-            ENUM_END=1025, 
+            ENUM_END=4097, 
         
         };
         
