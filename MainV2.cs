@@ -313,6 +313,18 @@ namespace MissionPlanner
         {
             log.Info("Mainv2 ctor");
 
+            // set this before we reset it
+            MainV2.config["NUM_tracklength"] = "200";
+
+            // create one here - but override on load
+            MainV2.config["guid"] = Guid.NewGuid().ToString();
+
+            // load config
+            xmlconfig(false);
+
+            // force language to be loaded
+            L10N.GetConfigLang();
+
             ShowAirports = true;
 
             // setup adsb
@@ -341,11 +353,6 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte)'S');
 
-            // full screen
-            //this.TopMost = true;
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
-
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
@@ -365,10 +372,6 @@ namespace MissionPlanner
 
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
-
-            //MyRenderer.currentpressed = MenuFlightData;
-
-            //MainMenu.Renderer = new MyRenderer();
 
             foreach (object obj in Enum.GetValues(typeof(Firmwares)))
             {
@@ -391,14 +394,38 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
-            // set this before we reset it
-            MainV2.config["NUM_tracklength"] = "200";
+            if (MainV2.config.ContainsKey("comport"))
+            {
+                string temp = (string)config["comport"];
 
-            // create one here - but override on load
-            MainV2.config["guid"] = Guid.NewGuid().ToString();
+                _connectionControl.CMB_serialport.SelectedIndex = _connectionControl.CMB_serialport.FindString(temp);
+                if (_connectionControl.CMB_serialport.SelectedIndex == -1)
+                {
+                    _connectionControl.CMB_serialport.Text = temp; // allows ports that dont exist - yet
+                }
+                comPort.BaseStream.PortName = temp;
+                comPortName = temp;
+            }
+            if (MainV2.config.ContainsKey("baudrate"))
+            {
 
-            // load config
-            xmlconfig(false);
+                string temp2 = (string)config["baudrate"];
+
+                _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
+                if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
+                {
+                    _connectionControl.CMB_baudrate.Text = temp2;
+                }
+            }
+            if (MainV2.config.ContainsKey("APMFirmware"))
+            {
+
+                string temp3 = (string)config["APMFirmware"];
+                _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
+                if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
+                MainV2.comPort.MAV.cs.firmware = (MainV2.Firmwares)Enum.Parse(typeof(MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
+            }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(MainV2.config["guid"].ToString());
 
@@ -1432,7 +1459,7 @@ namespace MissionPlanner
         }
 
 
-        internal static void xmlconfig(bool write)
+        void xmlconfig(bool write)
         {
             if (write || !File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml"))
             {
@@ -1486,35 +1513,6 @@ namespace MissionPlanner
                             {
                                 switch (xmlreader.Name)
                                 {
-                                    case "comport":
-                                        string temp = xmlreader.ReadString();
-
-                                        _connectionControl.CMB_serialport.SelectedIndex = _connectionControl.CMB_serialport.FindString(temp);
-                                        if (_connectionControl.CMB_serialport.SelectedIndex == -1)
-                                        {
-                                            _connectionControl.CMB_serialport.Text = temp; // allows ports that dont exist - yet
-                                        }
-                                        comPort.BaseStream.PortName = temp;
-                                        comPortName = temp;
-                                        break;
-                                    case "baudrate":
-                                        string temp2 = xmlreader.ReadString();
-
-                                        _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
-                                        if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
-                                        {
-                                            _connectionControl.CMB_baudrate.Text = temp2;
-                                            //CMB_baudrate.SelectedIndex = CMB_baudrate.FindString("57600"); ; // must exist
-                                        }
-                                        //bau = int.Parse(CMB_baudrate.Text);
-                                        break;
-                                    case "APMFirmware":
-                                        string temp3 = xmlreader.ReadString();
-                                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
-                                        if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
-                                            _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
-                                        MainV2.comPort.MAV.cs.firmware = (MainV2.Firmwares)Enum.Parse(typeof(MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
-                                        break;
                                     case "Config":
                                         break;
                                     case "xml":

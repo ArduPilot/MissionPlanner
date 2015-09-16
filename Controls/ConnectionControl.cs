@@ -15,7 +15,6 @@ namespace MissionPlanner.Controls
     {
         public ConnectionControl()
         {
-            Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
             InitializeComponent();
             this.linkLabel1.Click += (sender, e) =>
                                          {

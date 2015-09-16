@@ -15,7 +15,6 @@ namespace MissionPlanner
         
         static L10N()
         {
-            MainV2.xmlconfig(false);
             ConfigLang = GetConfigLang();
             Strings.Culture = ConfigLang;
             //In .NET 4.5,System.Globalization.CultureInfo.DefaultThreadCurrentCulture & DefaultThreadCurrentUICulture is avaiable
@@ -23,7 +22,7 @@ namespace MissionPlanner
 
         public static CultureInfo GetConfigLang()
         {
-            CultureInfo ci = CultureInfoEx.GetCultureInfo((string)MainV2.config["language"]);
+            CultureInfo ci = CultureInfoEx.GetCultureInfo(MainV2.getConfig("language"));
             if (ci != null)
             {
                 return ci;

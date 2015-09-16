@@ -389,6 +389,12 @@
     <Compile Include="Controls\DefaultSettings.Designer.cs">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigESCCalibration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigESCCalibration.Designer.cs">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -868,6 +874,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
       <DependentUpon>ConfigCompassMot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.ja-JP.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
