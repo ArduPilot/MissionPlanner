@@ -138,6 +138,13 @@ namespace MissionPlanner
         [DisplayText("Mag Z")]
         public float mz { get; set; }
 
+        [DisplayText("Mag Field")]
+        public float magfield { get { return (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); } }
+        [DisplayText("Accel Strength")]
+        public float accelsq { get { return (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f /*980.665f*/; } }
+        [DisplayText("Gyro Strength")]
+        public float gyrosq { get { return (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); } }
+
         // accel2
         [DisplayText("Accel2 X")]
         public float ax2 { get; set; }
@@ -160,12 +167,27 @@ namespace MissionPlanner
         [DisplayText("Mag2 Z")]
         public float mz2 { get; set; }
 
-        [DisplayText("Mag Field")]
-        public float magfield { get { return (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); } }
-        [DisplayText("Accel Strength")]
-        public float accelsq { get { return (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f /*980.665f*/; } }
-        [DisplayText("Gyro Strength")]
-        public float gyrosq { get { return (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); } }
+        // accel3
+        [DisplayText("Accel3 X")]
+        public float ax3 { get; set; }
+        [DisplayText("Accel3 Y")]
+        public float ay3 { get; set; }
+        [DisplayText("Accel3 Z")]
+        public float az3 { get; set; }
+        // gyro3
+        [DisplayText("Gyro3 X")]
+        public float gx3 { get; set; }
+        [DisplayText("Gyro3 Y")]
+        public float gy3 { get; set; }
+        [DisplayText("Gyro3 Z")]
+        public float gz3 { get; set; }
+        // mag3
+        [DisplayText("Mag3 X")]
+        public float mx3 { get; set; }
+        [DisplayText("Mag3 Y")]
+        public float my3 { get; set; }
+        [DisplayText("Mag3 Z")]
+        public float mz3 { get; set; }
 
         [DisplayText("Failsafe")]
         public bool failsafe { get; set; }
@@ -1472,6 +1494,25 @@ namespace MissionPlanner
                         mx2 = imu2.xmag;
                         my2 = imu2.ymag;
                         mz2 = imu2.zmag;
+                    }
+
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU3];
+                    if (bytearray != null)
+                    {
+                        var imu3 = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu3_t>(6);
+
+                        gx3 = imu3.xgyro;
+                        gy3 = imu3.ygyro;
+                        gz3 = imu3.zgyro;
+
+                        ax3 = imu3.xacc;
+                        ay3 = imu3.yacc;
+                        az3 = imu3.zacc;
+
+                        mx3 = imu3.xmag;
+                        my3 = imu3.ymag;
+                        mz3 = imu3.zmag;
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.PID_TUNING];
