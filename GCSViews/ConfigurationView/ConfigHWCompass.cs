@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -50,6 +51,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             startup = false;
+        }
+
+        public void Deactivate()
+        {
+            timer1.Stop();
         }
 
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
@@ -252,6 +258,63 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+        }
+
+        private MAVLink.mavlink_mag_cal_progress_t mprog;
+        private MAVLink.mavlink_mag_cal_report_t mrep;
+
+        private bool ReceviedPacket(byte[] packet)
+        {
+            if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
+            {
+                mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
+
+                return true;
+            }
+            else if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
+            {
+                mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
+
+                return true;
+            }
+
+            return true;
+        }
+
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> packetsub1;
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> packetsub2;
+
+        private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+
+            packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket);
+            packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket);
+
+            BUT_OBmagcalaccept.Enabled = true;
+            BUT_OBmagcalcancel.Enabled = true;
+            timer1.Start();
+        }
+
+        private void BUT_OBmagcalaccept_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_ACCEPT_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+
+            MainV2.comPort.UnSubscribeToPacketType(packetsub1);
+            MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+        }
+
+        private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+
+            MainV2.comPort.UnSubscribeToPacketType(packetsub1);
+            MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbl_obmagresult.Text = mprog.completion_pct.ToString() + "% " + mrep.ofs_x + " " + mrep.ofs_y + " " + mrep.ofs_z;
         }
     }
 }

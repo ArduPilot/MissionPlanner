@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="linkLabelmagdec.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -175,7 +175,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabelmagdec.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="label100.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="TXT_declination_deg.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -226,7 +226,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_declination_deg.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -259,7 +259,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="CHK_autodec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -286,7 +286,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_autodec.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -316,7 +316,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -340,7 +340,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -370,7 +370,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -408,8 +408,8 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
   </data>
   <data name="imageLabel1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADrwAAA68AZW8ckkAAAS+SURBVHhe7cEBDQAAAMKg909tDjcgAAAAAAAAAAAAAAAA
+        iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAABL5JREFUeF7twQENAAAAwqD3T20ONyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -429,8 +429,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACzXC7gAB9GuoowAAAABJRU5ErkJg
-        gg==
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIALNcLuAAH0a6ijAAAAAElFTkSuQmCC
 </value>
   </data>
   <data name="imageLabel1.Location" type="System.Drawing.Point, System.Drawing">
@@ -452,7 +451,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;imageLabel1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="pictureBox2.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -659,7 +658,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>CMB_compass_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5406.14104, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5739.13295, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -719,7 +718,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="TXT_declination_min.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -743,7 +742,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_declination_min.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -773,7 +772,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -803,7 +802,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
     <value>331, 205</value>
@@ -827,6 +826,144 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbl_obmagresult.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_obmagresult.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 104</value>
+  </data>
+  <data name="lbl_obmagresult.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 39</value>
+  </data>
+  <data name="lbl_obmagresult.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lbl_obmagresult.Text" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Name" xml:space="preserve">
+    <value>lbl_obmagresult</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 49</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Name" xml:space="preserve">
+    <value>BUT_OBmagcalaccept</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 78</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Name" xml:space="preserve">
+    <value>BUT_OBmagcalcancel</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_OBmagcalstart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>40, 20</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalstart.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Name" xml:space="preserve">
+    <value>BUT_OBmagcalstart</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>483, 33</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 146</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>92</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Onboard Mag Calibration</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
@@ -851,14 +988,17 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5406.14104, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5739.13295, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
+  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -867,6 +1007,12 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>650, 466</value>
+  </data>
+  <data name="&gt;&gt;timer1.Name" xml:space="preserve">
+    <value>timer1</value>
+  </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigHWCompass</value>
