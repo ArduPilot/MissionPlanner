@@ -59,6 +59,12 @@ namespace MissionPlanner.Utilities
 
                     log.InfoFormat("Coverage {0}", Area.ToString());
 
+                    // starts from top left so x + y -
+                    x += xscale / 2.0;
+                    y -= yscale / 2.0;
+
+                    log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", i, j, k, x, y, z);
+
                     GeoTiff.index.Add(this);
 
                     /*
@@ -162,8 +168,8 @@ namespace MissionPlanner.Utilities
                     }
 
                     // get answer
-                    var xf = map(lat, geotiffdata.Area.Top, geotiffdata.Area.Bottom, 0, geotiffdata.height);
-                    var yf = map(lng, geotiffdata.Area.Left, geotiffdata.Area.Right, 0, geotiffdata.width);
+                    var xf = map(lat, geotiffdata.Area.Top, geotiffdata.Area.Bottom, 0, geotiffdata.height-1);
+                    var yf = map(lng, geotiffdata.Area.Left, geotiffdata.Area.Right, 0, geotiffdata.width-1);
 
                     int x_int = (int) xf;
                     double x_frac = xf - x_int;
@@ -180,7 +186,7 @@ namespace MissionPlanner.Utilities
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
-                    double v = avg(v1, v2, -y_frac);
+                    double v = avg(v1, v2, y_frac);
 
                     if (v > -1000)
                         answer.currenttype = srtm.tiletype.valid;

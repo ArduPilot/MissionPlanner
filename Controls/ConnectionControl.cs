@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
+using System.Threading;
 
 namespace MissionPlanner.Controls
 {

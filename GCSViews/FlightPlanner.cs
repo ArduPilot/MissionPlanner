@@ -4436,20 +4436,16 @@ namespace MissionPlanner.GCSViews
             {
                 DialogResult res = CustomMessageBox.Show("Ready ripp at Zoom = " + (int)MainMap.Zoom + " ?", "GMap.NET", MessageBoxButtons.YesNo);
 
-                for (int i = 1; i <= MainMap.MaxZoom; i++)
+                if (res == DialogResult.Yes)
                 {
-                    if (res == DialogResult.Yes)
+                    for (int i = 1; i <= MainMap.Zoom; i++)
                     {
                         TilePrefetcher obj = new TilePrefetcher();
                         obj.ShowCompleteMessage = false;
                         obj.Start(area, i, MainMap.MapProvider, 100, 0);
-                    }
-                    else if (res == DialogResult.No)
-                    {
-                    }
-                    else if (res == DialogResult.Cancel)
-                    {
-                        break;
+
+                        if (obj.UserAborted)
+                            break;
                     }
                 }
             }

@@ -80,7 +80,10 @@
             this.configHWBT1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT();
             this.backstageViewPageParachute = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWPa1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute();
-            this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configESC1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration();   this.backstageViewPageBatt2 = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configBatteryMonitoring21 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2();
+                    this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,11 +102,13 @@
             this.backstageView.Pages.Add(this.backstageViewPageaccel);
             this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageradio);
+            this.backstageView.Pages.Add(this.backstageViewPageESC);
             this.backstageView.Pages.Add(this.backstageViewPageflmode);
             this.backstageView.Pages.Add(this.backstageViewPagefs);
             this.backstageView.Pages.Add(this.backstageViewPageopt);
             this.backstageView.Pages.Add(this.backstageViewPage3drradio);
             this.backstageView.Pages.Add(this.backstageViewPagebatmon);
+            this.backstageView.Pages.Add(this.backstageViewPageBatt2);
             this.backstageView.Pages.Add(this.backstageViewPagecompassmot);
             this.backstageView.Pages.Add(this.backstageViewPagesonar);
             this.backstageView.Pages.Add(this.backstageViewPageairspeed);
@@ -497,7 +502,37 @@
             resources.ApplyResources(this.configHWPa1, "configHWPa1");
             this.configHWPa1.Name = "configHWPa1";
             // 
-            // backstageViewPageinstfw
+// backstageViewPageESC
+            // 
+            this.backstageViewPageESC.Advanced = false;
+            this.backstageViewPageESC.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPageESC.LinkText = "ESC Calibration";
+            this.backstageViewPageESC.Page = this.configESC1;
+            this.backstageViewPageESC.Parent = this.backstageViewPagemand;
+            this.backstageViewPageESC.Show = true;
+            this.backstageViewPageESC.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageESC, "backstageViewPageESC");
+            // 
+            // configESC1
+            // 
+            resources.ApplyResources(this.configESC1, "configESC1");
+            this.configESC1.Name = "configESC1";
+            //   // backstageViewPageBatt2
+            // 
+            this.backstageViewPageBatt2.Advanced = false;
+            this.backstageViewPageBatt2.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
+            this.backstageViewPageBatt2.LinkText = "Battery Monitor 2";
+            this.backstageViewPageBatt2.Page = this.configBatteryMonitoring21;
+            this.backstageViewPageBatt2.Parent = this.backstageViewPageopt;
+            this.backstageViewPageBatt2.Show = true;
+            this.backstageViewPageBatt2.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageBatt2, "backstageViewPageBatt2");
+            // 
+            // configBatteryMonitoring21
+            // 
+            resources.ApplyResources(this.configBatteryMonitoring21, "configBatteryMonitoring21");
+            this.configBatteryMonitoring21.Name = "configBatteryMonitoring21";
+            //             // backstageViewPageinstfw
             // 
             this.backstageViewPageinstfw.Advanced = false;
             this.backstageViewPageinstfw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
@@ -514,6 +549,7 @@
             this.Controls.Add(this.backstageView);
             this.Controls.Add(this.configAccelerometerCalibration);
             this.Controls.Add(this.configHWBT1);
+            this.Controls.Add(this.configBatteryMonitoring21);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
             resources.ApplyResources(this, "$this");
@@ -577,5 +613,8 @@
         private ConfigurationView.ConfigHWBT configHWBT1;
         private Controls.BackstageView.BackstageViewPage backstageViewPageParachute;
         private ConfigurationView.ConfigHWParachute configHWPa1;
-    }
+    private Controls.BackstageView.BackstageViewPage backstageViewPageESC;
+        private ConfigurationView.ConfigESCCalibration configESC1;      private Controls.BackstageView.BackstageViewPage backstageViewPageBatt2;
+        private ConfigurationView.ConfigBatteryMonitoring2 configBatteryMonitoring21;
+      }
 }
