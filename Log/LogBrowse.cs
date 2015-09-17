@@ -1864,7 +1864,7 @@ namespace MissionPlanner.Log
                 string gpsline = logdata[lineNumber];
                 var item = dflog.GetDFItemFromLine(gpsline, lineNumber);
                 int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
-                if (status != 3)
+                if (status < 3)
                 {
                     ret = false;
                 }
