@@ -67,35 +67,46 @@ namespace MissionPlanner
         public struct GridData
         {
             public List<PointLatLngAlt> poly;
+            //simple
             public string camera;
             public decimal alt;
             public decimal angle;
             public bool camdir;
+            public decimal speed;
             public bool usespeed;
-            public decimal dist;
-            public decimal overshoot1;
-            public decimal overshoot2;
-            public decimal overlap;
-            public decimal sidelap;
-            public decimal spacing;
-            public string startfrom;
             public bool autotakeoff;
             public bool autotakeoff_RTL;
-            public bool alternateLanes;
-            public decimal minlaneseparation;
 
             public bool internals;
             public bool footprints;
             public bool advanced;
 
-            public bool trigdist;
-            public bool digicam;
-            public bool repeatservo;
-
+            //options
+            public decimal dist;
+            public decimal overshoot1;
+            public decimal overshoot2;
+            public decimal leadin;
+            public string startfrom;
+            public decimal overlap;
+            public decimal sidelap;
+            public decimal spacing;
             // Copter Settings
             public decimal copter_delay;
             public bool copter_headinghold_chk;
             public decimal copter_headinghold;
+            // plane settings
+            public bool alternateLanes;
+            public decimal minlaneseparation;
+
+            // camera config
+            public bool trigdist;
+            public bool digicam;
+            public bool repeatservo;
+
+            public decimal repeatservo_no;
+            public decimal repeatservo_pwm;
+            public decimal repeatservo_cycle;
+
         }
 
         // GridUI
@@ -206,18 +217,8 @@ namespace MissionPlanner
             NUM_altitude.Value = griddata.alt;
             NUM_angle.Value = griddata.angle;
             CHK_camdirection.Checked = griddata.camdir;
-
             CHK_usespeed.Checked = griddata.usespeed;
-
-            NUM_Distance.Value = griddata.dist;
-            NUM_overshoot.Value = griddata.overshoot1;
-            NUM_overshoot2.Value = griddata.overshoot2;
-            num_overlap.Value = griddata.overlap;
-            num_sidelap.Value = griddata.sidelap;
-            NUM_spacing.Value = griddata.spacing;
-
-            CMB_startfrom.Text = griddata.startfrom;
-
+            NUM_UpDownFlySpeed.Value = griddata.speed;
             CHK_toandland.Checked = griddata.autotakeoff;
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
 
@@ -225,13 +226,27 @@ namespace MissionPlanner
             CHK_footprints.Checked = griddata.footprints;
             CHK_advanced.Checked = griddata.advanced;
 
+            NUM_Distance.Value = griddata.dist;
+            NUM_overshoot.Value = griddata.overshoot1;
+            NUM_overshoot2.Value = griddata.overshoot2;
+            NUM_leadin.Value = griddata.leadin;
+            CMB_startfrom.Text = griddata.startfrom;
+            num_overlap.Value = griddata.overlap;
+            num_sidelap.Value = griddata.sidelap;
+            NUM_spacing.Value = griddata.spacing;
+            
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
             rad_repeatservo.Checked = griddata.repeatservo;
 
+            NUM_reptservo.Value = griddata.repeatservo_no;
+            num_reptpwm.Value = griddata.repeatservo_pwm;
+            NUM_repttime.Value = griddata.repeatservo_cycle;
+
             // Copter Settings
             NUM_copter_delay.Value = griddata.copter_delay;
-            //CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk; //UNcomment after adding headinghold offset function
+            CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
+            TXT_headinghold.Text = griddata.copter_headinghold.ToString();
 
             // Plane Settings
             NUM_Lane_Dist.Value = griddata.minlaneseparation;
@@ -247,19 +262,8 @@ namespace MissionPlanner
             griddata.alt = NUM_altitude.Value;
             griddata.angle = NUM_angle.Value;
             griddata.camdir = CHK_camdirection.Checked;
-
+            griddata.speed = NUM_UpDownFlySpeed.Value;
             griddata.usespeed = CHK_usespeed.Checked;
-
-
-            griddata.dist = NUM_Distance.Value;
-            griddata.overshoot1 = NUM_overshoot.Value;
-            griddata.overshoot2 = NUM_overshoot2.Value;
-            griddata.overlap = num_overlap.Value;
-            griddata.sidelap = num_sidelap.Value;
-            griddata.spacing = NUM_spacing.Value;
-
-            griddata.startfrom = CMB_startfrom.Text;
-
             griddata.autotakeoff = CHK_toandland.Checked;
             griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
 
@@ -267,17 +271,30 @@ namespace MissionPlanner
             griddata.footprints = CHK_footprints.Checked;
             griddata.advanced = CHK_advanced.Checked;
 
+            griddata.dist = NUM_Distance.Value;
+            griddata.overshoot1 = NUM_overshoot.Value;
+            griddata.overshoot2 = NUM_overshoot2.Value;
+            griddata.leadin = NUM_leadin.Value;
+            griddata.startfrom = CMB_startfrom.Text;
+            griddata.overlap = num_overlap.Value;
+            griddata.sidelap = num_sidelap.Value;
+            griddata.spacing = NUM_spacing.Value;
+            
+            // Copter Settings
+            griddata.copter_delay = NUM_copter_delay.Value;
+            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
+            griddata.copter_headinghold = decimal.Parse(TXT_headinghold.Text);
+
+            // Plane Settings
+            griddata.minlaneseparation = NUM_Lane_Dist.Value;
+
             griddata.trigdist = rad_trigdist.Checked;
             griddata.digicam = rad_digicam.Checked;
             griddata.repeatservo = rad_repeatservo.Checked;
 
-            // Copter Settings
-            griddata.copter_delay = NUM_copter_delay.Value;
-            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
-            griddata.copter_headinghold = NUM_spacing.Value;
-
-            // Plane Settings
-            griddata.minlaneseparation = NUM_Lane_Dist.Value;
+            griddata.repeatservo_no = NUM_reptservo.Value;
+            griddata.repeatservo_pwm = num_reptpwm.Value;
+            griddata.repeatservo_cycle = NUM_repttime.Value;
 
             return griddata;
         }
@@ -290,18 +307,8 @@ namespace MissionPlanner
                 loadsetting("grid_alt", NUM_altitude);
                 //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
-
                 loadsetting("grid_usespeed", CHK_usespeed);
-
-                loadsetting("grid_dist", NUM_Distance);
-                loadsetting("grid_overshoot1", NUM_overshoot);
-                loadsetting("grid_overshoot2", NUM_overshoot2);
-                loadsetting("grid_overlap", num_overlap);
-                loadsetting("grid_sidelap", num_sidelap);
-                loadsetting("grid_spacing", NUM_spacing);
-
-                loadsetting("grid_startfrom", CMB_startfrom);
-
+                loadsetting("grid_speed", NUM_UpDownFlySpeed);
                 loadsetting("grid_autotakeoff", CHK_toandland);
                 loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
 
@@ -309,10 +316,23 @@ namespace MissionPlanner
                 loadsetting("grid_footprints", CHK_footprints);
                 loadsetting("grid_advanced", CHK_advanced);
 
+                loadsetting("grid_dist", NUM_Distance);
+                loadsetting("grid_overshoot1", NUM_overshoot);
+                loadsetting("grid_overshoot2", NUM_overshoot2);
+                loadsetting("grid_leadin", NUM_leadin);
+                loadsetting("grid_startfrom", CMB_startfrom);
+                loadsetting("grid_overlap", num_overlap);
+                loadsetting("grid_sidelap", num_sidelap);
+                loadsetting("grid_spacing", NUM_spacing);
+
                 // Should probably be saved as one setting, and us logic
                 loadsetting("grid_trigdist", rad_trigdist);
                 loadsetting("grid_digicam", rad_digicam);
                 loadsetting("grid_repeatservo", rad_repeatservo);
+
+                loadsetting("grid_repeatservo_no", NUM_reptservo);
+                loadsetting("grid_repeatservo_pwm", num_reptpwm);
+                loadsetting("grid_repeatservo_cycle", NUM_repttime);
 
                 // camera last to it invokes a reload
                 loadsetting("grid_camera", CMB_camera);
