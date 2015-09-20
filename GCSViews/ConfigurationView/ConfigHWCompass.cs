@@ -260,20 +260,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private MAVLink.mavlink_mag_cal_progress_t mprog;
-        private MAVLink.mavlink_mag_cal_report_t mrep;
+        private List<MAVLink.mavlink_mag_cal_progress_t> mprog = new List<MAVLink.mavlink_mag_cal_progress_t>();
+        private List<MAVLink.mavlink_mag_cal_report_t> mrep = new List<MAVLink.mavlink_mag_cal_report_t>();
 
         private bool ReceviedPacket(byte[] packet)
         {
             if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
             {
-                mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
+                var mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
+
+                lock (this.mprog)
+                {
+                    this.mprog.Add(mprog);
+                }
 
                 return true;
             }
             else if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
             {
-                mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
+                var mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
+
+                lock (this.mrep)
+                {
+                    this.mrep.Add(mrep);
+                }
 
                 return true;
             }
@@ -302,6 +312,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+
+            timer1.Stop();
         }
 
         private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
@@ -310,11 +322,36 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
+
+            timer1.Stop();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            lbl_obmagresult.Text = mprog.completion_pct.ToString() + "% " + mrep.ofs_x + " " + mrep.ofs_y + " " + mrep.ofs_z;
+            lock (mprog)
+            {
+                foreach (var item in mprog)
+                {
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " + "\n");
+                }
+
+                mprog.Clear();
+            }
+
+            lock (mrep)
+            {
+                foreach (var item in mrep)
+                {
+                    if (item.compass_id == 0 && item.ofs_x == 0)
+                        continue;
+
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.ofs_x + " " + item.ofs_y + " " + item.ofs_z + "\n");
+                }
+
+                mrep.Clear();
+            }
+
+            lbl_obmagresult.SelectionStart = lbl_obmagresult.Text.Length - 1;
         }
     }
 }
