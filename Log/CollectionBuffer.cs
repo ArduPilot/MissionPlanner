@@ -9,7 +9,12 @@ namespace MissionPlanner.Log
 {
     public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>, IDisposable
     {
+        // used for binary log line conversion
         BinaryLog binlog = new BinaryLog();
+
+        // used for fmt messages
+        DFLog dflog = new DFLog();
+
         BufferedStream basestream;
         private int _count;
         List<long> linestartoffset = new List<long>();
@@ -41,12 +46,12 @@ namespace MissionPlanner.Log
             // back to start
             basestream.Seek(0, SeekOrigin.Begin);
 
-            _count = getlinecount();
+            setlinecount();
 
             basestream.Seek(0, SeekOrigin.Begin);
         }
 
-        int getlinecount()
+        void setlinecount()
         {
             int offset = 0;
 
@@ -84,33 +89,64 @@ namespace MissionPlanner.Log
                         read--;
                     }
                 }
-                return lineCount;
-            }
 
-            // first line starts at 0
-            linestartoffset.Add(0);
+                _count = lineCount;
 
-            while (basestream.Position < basestream.Length)
-            {
-                offset = 0;
-
-                long startpos = basestream.Position;
-
-                int read = basestream.Read(buffer, offset, buffer.Length);
-
-                while (read > 0)
+                // build fmt line database
+                int amax = Math.Min(2000, _count - 1);
+                for (int a = 0; a < amax; a++)
                 {
-                    if (buffer[offset] == '\n')
-                    {
-                        linestartoffset.Add(startpos + 1 + offset);
-                        lineCount++;
-                    }
-
-                    offset++;
-                    read--;
+                    dflog.GetDFItemFromLine(this[a].ToString(), a);
                 }
             }
-            return lineCount;
+            else
+            {
+                // first line starts at 0
+                linestartoffset.Add(0);
+
+                while (basestream.Position < basestream.Length)
+                {
+                    offset = 0;
+
+                    long startpos = basestream.Position;
+
+                    int read = basestream.Read(buffer, offset, buffer.Length);
+
+                    while (read > 0)
+                    {
+                        if (buffer[offset] == '\n')
+                        {
+                            linestartoffset.Add(startpos + 1 + offset);
+                            lineCount++;
+                        }
+
+                        offset++;
+                        read--;
+                    }
+                }
+
+                _count = lineCount;
+
+                // build fmt line database
+                int amax = Math.Min(2000, _count - 1);
+                for (int a = 0; a < amax; a++)
+                {
+                    dflog.GetDFItemFromLine(this[a].ToString(), a);
+                }
+
+                // create msg cache
+                int b = 0;
+                foreach (var item in this)
+                {
+                    var dfitem = dflog.GetDFItemFromLine(item.ToString(), b);
+
+                    var type = (byte)dflog.logformat[dfitem.msgtype].Id;
+
+                    messageindex[type].Add(linestartoffset[b]);
+
+                    b++;
+                }
+            }
         }
 
 
@@ -214,6 +250,37 @@ namespace MissionPlanner.Log
         public bool Remove(T item)
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<DFLog.DFItem> GetEnumeratorType(string type)
+        {
+            return GetEnumeratorType(new string[] { type });
+        }
+
+        public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
+        {
+            // get the ids for the passed in types
+            SortedSet<long> slist = new SortedSet<long>();
+            foreach (var type in types)
+            {
+                var typeid = (byte)dflog.logformat[type].Id;
+
+                foreach (var item in messageindex[typeid])
+                {
+                    slist.Add(item);
+                }
+            }
+
+            int position = 0; // state
+            while (position < Count)
+            {
+                position++;
+
+                if (slist.Contains(linestartoffset[position - 1]))
+                {
+                    yield return dflog.GetDFItemFromLine(this[position - 1].ToString(), position - 1);
+                }
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
