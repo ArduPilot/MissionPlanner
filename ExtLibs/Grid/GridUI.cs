@@ -1117,7 +1117,7 @@ namespace MissionPlanner
                 TXT_sensheight.Text = camera.sensorheight.ToString();
                 TXT_senswidth.Text = camera.sensorwidth.ToString();
 
-                NUM_Distance.Enabled = false;
+                //NUM_Distance.Enabled = false;
             }
 
             doCalc();
