@@ -604,6 +604,16 @@ namespace MissionPlanner
 
         internal bool MONO = false;
 
+        static CurrentState()
+        {
+            // set default telemrates
+            rateattitudebackup = 6;
+            ratepositionbackup = 2;
+            ratestatusbackup = 2;
+            ratesensorsbackup = 2;
+            ratercbackup = 2;
+        }
+
         public CurrentState()
         {
             ResetInternals();
