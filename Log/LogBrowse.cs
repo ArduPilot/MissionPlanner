@@ -1824,9 +1824,8 @@ namespace MissionPlanner.Log
                         {
                             try
                             {
-                                if (double.Parse(datarow[index3 + 2].ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
+                                if (double.Parse(datarow[index3 + 2].ToString(), System.Globalization.CultureInfo.InvariantCulture) < 3)
                                 {
-
                                     continue;
                                 }
 
