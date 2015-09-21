@@ -533,7 +533,7 @@ namespace MissionPlanner
         // Do Work
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (CMB_camera.Text != "")
+            if (CMB_camera.Text != "" && sender != NUM_Distance)
                 doCalc();
 
             // new grid system test
