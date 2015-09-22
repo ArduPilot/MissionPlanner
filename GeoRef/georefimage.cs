@@ -247,7 +247,7 @@ namespace MissionPlanner.GeoRef
                             int latindex = dflog.FindMessageOffset("GPS", "Lat");
                             int lngindex = dflog.FindMessageOffset("GPS", "Lng");
                             int altindex = dflog.FindMessageOffset("GPS", "Alt");
-                            int raltindex = dflog.FindMessageOffset("GPS", "RAlt");
+                            int raltindex = dflog.FindMessageOffset("GPS", "RelAlt");
 
                             VehicleLocation location = new VehicleLocation();
 
@@ -267,7 +267,7 @@ namespace MissionPlanner.GeoRef
 
                                 //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
 
-                                if (!vehiclePositionList.ContainsKey(millis))
+                                if ((!vehiclePositionList.ContainsKey(millis)) && (location.Time != DateTime.MinValue))
                                     vehiclePositionList[millis] = location;
                             }
                             catch
