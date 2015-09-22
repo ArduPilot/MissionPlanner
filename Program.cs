@@ -302,7 +302,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
-            if (ex.GetType() == typeof(MissingMethodException))
+            if (ex.GetType() == typeof(MissingMethodException) || ex.GetType() == typeof(TypeLoadException))
             {
                 CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
                 return;
