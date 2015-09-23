@@ -345,7 +345,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (item.compass_id == 0 && item.ofs_x == 0)
                         continue;
 
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.ofs_x + " " + item.ofs_y + " " + item.ofs_z + "\n");
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" + item.ofs_z + " fit:" + item.fitness+ "\n");
                 }
 
                 mrep.Clear();
