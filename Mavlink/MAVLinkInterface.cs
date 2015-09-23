@@ -2667,7 +2667,7 @@ Please check the following
                         // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
                         if (MAVlist[sysid, compid].cs.version.Major > 0 || MAVlist[sysid, compid].cs.version.Minor > 0)
                         {
-                            if (sev <= (byte)MAV_SEVERITY.NOTICE)
+                            if (sev <= (byte)MAV_SEVERITY.WARNING)
                             {
                                 printit = true;
                             }
