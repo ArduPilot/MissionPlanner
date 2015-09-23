@@ -16,6 +16,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -1374,81 +1375,110 @@ namespace MissionPlanner
             {
                 MainV2.instance.FlightPlanner.quickadd = true;
 
-                if (CHK_toandland.Checked)
+                if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
-                    if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
-                    }
-                    else
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
-                    }
+                    CustomMessageBox.Show("You must use Land/RTL to split a mission", Strings.ERROR);
+                    return;
                 }
 
-                if (CHK_usespeed.Checked)
-                {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0);
-                }
+                int wpsplit = (int)Math.Round(grid.Count / NUM_split.Value,MidpointRounding.AwayFromZero);
 
-                int i = 0;
-                grid.ForEach(plla =>
+                for (int splitno = 0; splitno < NUM_split.Value; splitno++)
                 {
-                    if (i > 0)
+                    int wpstart = wpsplit * splitno;
+
+                    if (CHK_toandland.Checked)
                     {
-                        if (plla.Tag == "M")
+                        if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                         {
-                            if (rad_repeatservo.Checked)
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                                (int) (30*CurrentState.multiplierdist));
+                        }
+                        else
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                                (int) (30*CurrentState.multiplierdist));
+                        }
+                    }
+
+                    if (CHK_usespeed.Checked)
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
+                            (int) ((float) NUM_UpDownFlySpeed.Value/CurrentState.multiplierspeed), 0, 0, 0, 0, 0);
+                    }
+
+
+                    int i = 0;
+                    grid.ForEach(plla =>
+                    {
+                        // skip before start point
+                        if (i < wpstart)
+                        {
+                            i++;
+                            return;
+                        }
+                        // skip after endpoint
+                        if (i >= (wpstart + wpsplit))
+                            return;
+                        if (i > wpstart)
+                        {
+                            if (plla.Tag == "M")
                             {
-                                AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)NUM_reptservo.Value, (float)num_reptpwm.Value, 999, (float)NUM_repttime.Value, 0, 0, 0);
+                                if (rad_repeatservo.Checked)
+                                {
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float) NUM_reptservo.Value,
+                                        (float) num_reptpwm.Value, 999, (float) NUM_repttime.Value, 0, 0, 0);
+                                }
+                                if (rad_digicam.Checked)
+                                {
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                                }
                             }
-                            if (rad_digicam.Checked)
+                            else
                             {
                                 AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                             }
                         }
                         else
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            if (rad_trigdist.Checked)
+                            {
+                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float) NUM_spacing.Value,
+                                    0, 0, 0, 0, 0, 0);
+                            }
                         }
-                    }
-                    else
+                        ++i;
+                    });
+
+                    if (rad_trigdist.Checked)
                     {
-                        AddWP(plla.Lng, plla.Lat, plla.Alt);
-                        if (rad_trigdist.Checked)
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                    }
+
+                    if (CHK_usespeed.Checked)
+                    {
+                        if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
+                            double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
+                            speed = speed/100;
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
                         }
                     }
-                    ++i;
-                });
 
-                if (rad_trigdist.Checked)
-                {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
-                }
-
-                if (CHK_usespeed.Checked)
-                {
-                    if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
+                    if (CHK_toandland.Checked)
                     {
-                        double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
-                        speed = speed / 100;
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
-                    }
-                }
-
-                if (CHK_toandland.Checked)
-                {
-                    if (CHK_toandland_RTL.Checked)
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
-                    }
-                    else
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, 0);
+                        if (CHK_toandland_RTL.Checked)
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
+                        }
+                        else
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,
+                                plugin.Host.cs.HomeLocation.Lat, 0);
+                        }
                     }
                 }
 
