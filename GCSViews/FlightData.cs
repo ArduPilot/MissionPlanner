@@ -654,7 +654,14 @@ namespace MissionPlanner.GCSViews
             Zoomlevel.Maximum = 24;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
 
-            CMB_mountmode.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE", MainV2.comPort.MAV.cs.firmware.ToString());
+            var item1 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE", MainV2.comPort.MAV.cs.firmware.ToString());
+            var item2 = ParameterMetaDataRepository.GetParameterOptionsInt("MNT_DEFLT_MODE", MainV2.comPort.MAV.cs.firmware.ToString());
+            if (item1.Count > 0)
+                CMB_mountmode.DataSource = item1;
+
+            if (item2.Count > 0)
+                CMB_mountmode.DataSource = item2;
+            
             CMB_mountmode.DisplayMember = "Value";
             CMB_mountmode.ValueMember = "Key";
 
@@ -3206,7 +3213,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                MainV2.comPort.setParam("MNT_MODE", (int)CMB_mountmode.SelectedValue);
+                MainV2.comPort.setParam(new string[] {"MNT_MODE", "MNT_DEFLT_MODE"}, (int)CMB_mountmode.SelectedValue);
             }
             catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
         }
