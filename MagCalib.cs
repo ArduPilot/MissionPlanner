@@ -25,8 +25,10 @@ namespace MissionPlanner
 
         static double error = 99;
         static double error2 = 99;
+        static double error3 = 99;
         static double[] ans;
         static double[] ans2;
+        static double[] ans3;
 
         static string GetColour(int pitch, int yaw)
         {
@@ -139,8 +141,11 @@ namespace MissionPlanner
             datacompass1.Clear();
             datacompass2.Clear();
             filtercompass2.Clear();
+            filtercompass3.Clear();
+            datacompass3.Clear();
             error = 99;
             error2 = 99;
+            error3 = 99;
 
             if (dointro)
                 CustomMessageBox.Show(Strings.MagCalibMsg);
@@ -160,18 +165,24 @@ namespace MissionPlanner
 
             if (ans2 != null)
                 MagCalib.SaveOffsets2(ans2);
+
+            if (ans3 != null)
+                MagCalib.SaveOffsets3(ans3);
         }
 
         // filter data points to only x number per quadrant
         static int div = 20;
         static Hashtable filtercompass1 = new Hashtable();
         static Hashtable filtercompass2 = new Hashtable();
+        static Hashtable filtercompass3 = new Hashtable();
 
         // list of x,y,z 's
         static List<Tuple<float, float, float>> datacompass1 = new List<Tuple<float, float, float>>();
 
         // list no 2
         static List<Tuple<float, float, float>> datacompass2 = new List<Tuple<float, float, float>>();
+
+        static List<Tuple<float, float, float>> datacompass3 = new List<Tuple<float, float, float>>();
 
         static bool ReceviedPacket(byte[] rawpacket)
         {
@@ -208,6 +219,43 @@ namespace MissionPlanner
                         return true;
 
                     datacompass2.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
+                }
+
+                return true;
+            }
+            else if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
+            {
+                MAVLink.mavlink_scaled_imu3_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_scaled_imu3_t>();
+
+                // filter dataset
+                string item = (int)(packet.xmag / div) + "," +
+                    (int)(packet.ymag / div) + "," +
+                    (int)(packet.zmag / div);
+
+                if (filtercompass3.ContainsKey(item))
+                {
+                    filtercompass3[item] = (int)filtercompass3[item] + 1;
+
+                    if ((int)filtercompass3[item] > 3)
+                        return false;
+                }
+                else
+                {
+                    filtercompass3[item] = 1;
+                }
+
+                // values - offsets are 0
+                float rawmx = packet.xmag;
+                float rawmy = packet.ymag;
+                float rawmz = packet.zmag;
+
+                // add data
+                lock (datacompass3)
+                {
+                    if (rawmx == 0 || rawmy == 0 || rawmz == 0)
+                        return true;
+
+                    datacompass3.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
                 }
 
                 return true;
@@ -259,19 +307,26 @@ namespace MissionPlanner
             MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
             bool havecompass2 = false;
+            bool havecompass3 = false;
 
             //compass2 get mag2 offsets
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
             {
-                //com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
-                //com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
-                //com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
-
                 MainV2.comPort.setParam("COMPASS_OFS2_X", 0, true);
                 MainV2.comPort.setParam("COMPASS_OFS2_Y", 0, true);
                 MainV2.comPort.setParam("COMPASS_OFS2_Z", 0, true);
 
                 havecompass2 = true;
+            }
+
+            //compass3
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X"))
+            {
+                MainV2.comPort.setParam("COMPASS_OFS3_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS3_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS3_Z", 0, true);
+
+                havecompass3 = true;
             }
 
             int hittarget = 14;// int.Parse(File.ReadAllText("magtarget.txt"));
@@ -302,16 +357,20 @@ namespace MissionPlanner
 
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SCALED_IMU2, ReceviedPacket);
 
+            var sub3 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SCALED_IMU3, ReceviedPacket);
+
             string extramsg = "";
 
             // clear any old data
             ((ProgressReporterSphere)sender).sphere1.Clear();
             ((ProgressReporterSphere)sender).sphere2.Clear();
+            ((ProgressReporterSphere)sender).sphere3.Clear();
 
             // keep track of data count and last lsq run
             int lastcount = 0;
             DateTime lastlsq = DateTime.MinValue;
             DateTime lastlsq2 = DateTime.MinValue;
+            DateTime lastlsq3 = DateTime.MinValue;
 
             HIL.Vector3 centre = new HIL.Vector3();
 
@@ -385,6 +444,24 @@ namespace MissionPlanner
                     }
                 }
 
+                // run lsq every second when more than 100 datapoints
+                if (datacompass3.Count > 100 && lastlsq3.Second != DateTime.Now.Second)
+                {
+                    lastlsq3 = DateTime.Now;
+                    lock (datacompass3)
+                    {
+                        var lsq = MagCalib.LeastSq(datacompass3, false);
+                        // simple validation
+                        if (Math.Abs(lsq[0]) < 999)
+                        {
+                            HIL.Vector3 centre3 = new HIL.Vector3(lsq[0], lsq[1], lsq[2]);
+                            log.Info("new centre2 " + centre3.ToString());
+
+                            ((ProgressReporterSphere)sender).sphere3.CenterPoint = new OpenTK.Vector3((float)centre3.x, (float)centre3.y, (float)centre3.z);
+                        }
+                    }
+                }
+
                 //Console.WriteLine("1a " + DateTime.Now.Millisecond);
 
                 // dont use dup data
@@ -405,6 +482,16 @@ namespace MissionPlanner
 
                     ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
                     ((ProgressReporterSphere)sender).sphere2.AimClear();
+                }
+
+                if (datacompass3.Count > 30)
+                {
+                    float raw3mx = datacompass3[datacompass3.Count - 1].Item1;
+                    float raw3my = datacompass3[datacompass3.Count - 1].Item2;
+                    float raw3mz = datacompass3[datacompass3.Count - 1].Item3;
+
+                    ((ProgressReporterSphere)sender).sphere3.AddPoint(new OpenTK.Vector3(raw3mx, raw3my, raw3mz));
+                    ((ProgressReporterSphere)sender).sphere3.AimClear();
                 }
 
                 //Console.WriteLine("2 " + DateTime.Now.Millisecond);
@@ -480,7 +567,7 @@ namespace MissionPlanner
 
             MainV2.comPort.UnSubscribeToPacketType(sub);
             MainV2.comPort.UnSubscribeToPacketType(sub2);
-
+            MainV2.comPort.UnSubscribeToPacketType(sub3);
 
             // restore old sensor rate
             MainV2.comPort.MAV.cs.ratesensors = backupratesens;
@@ -520,6 +607,7 @@ namespace MissionPlanner
                     e.CancelRequested = true;
                     ans = null;
                     ans2 = null;
+                    ans3 = null;
                     return;
                 }
             }
@@ -529,6 +617,10 @@ namespace MissionPlanner
             if (havecompass2 && datacompass2.Count > 0)
             {
                 RemoveOutliers(ref datacompass2);
+            }
+            if (havecompass3 && datacompass3.Count > 0)
+            {
+                RemoveOutliers(ref datacompass3);
             }
 
             if (datacompass1.Count < 10)
@@ -553,6 +645,12 @@ namespace MissionPlanner
             {
                 log.Info("Compass 2");
                 ans2 = MagCalib.LeastSq(datacompass2, ellipsoid);
+            }
+
+            if (havecompass3 && datacompass3.Count > 0)
+            {
+                log.Info("Compass 3");
+                ans3 = MagCalib.LeastSq(datacompass3, ellipsoid);
             }
         }
 
@@ -1020,6 +1118,42 @@ namespace MissionPlanner
                 CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
+
+        public static void SaveOffsets3(double[] ofs)
+        {
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X") && MainV2.comPort.BaseStream.IsOpen)
+            {
+                try
+                {
+                    // disable learning
+                    MainV2.comPort.setParam("COMPASS_LEARN", 0);
+
+                    //if (!MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer, (float)ofs[0], (float)ofs[1], (float)ofs[2]))
+                    {
+                        // set values
+                        MainV2.comPort.setParam("COMPASS_OFS3_X", (float)ofs[0]);
+                        MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
+                        MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
+                    }
+                    if (ofs.Length > 3)
+                    {
+                        // ellipsoid
+                    }
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Set Compass3 offset failed");
+                    return;
+                }
+
+                CustomMessageBox.Show("New compass3 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+            }
+            else
+            {
+                CustomMessageBox.Show("New compass3 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+            }
+        }
+
         /// <summary>
         /// Min or max finder
         /// </summary>
