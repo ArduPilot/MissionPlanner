@@ -167,6 +167,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
+            if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
+                return;   
+
             var temp = (Hashtable) _changes.Clone();
 
             foreach (string value in temp.Keys)
