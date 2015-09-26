@@ -885,7 +885,14 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
            unchecked
            {
-               polygon.UpdateGraphicsPath();
+               try
+               {
+                   polygon.UpdateGraphicsPath();
+               }
+               catch
+               {
+                   
+               }
            }
 #endif
        }
