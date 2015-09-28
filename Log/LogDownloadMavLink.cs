@@ -143,22 +143,34 @@ namespace MissionPlanner.Log
 
         string GetLog(ushort no)
         {
+            log.Info("GetLog "+ no);
+
             MainV2.comPort.Progress += comPort_Progress;
 
             status = serialstatus.Reading;
 
+            // used for log fn
+            byte[] hbpacket = MainV2.comPort.getHeartBeat();
+
+            if (hbpacket != null)
+                log.Info("Got hbpacket length: " + hbpacket.Length);
+
             // get df log from mav
             var ms = MainV2.comPort.GetLog(no);
+
+            if (ms != null)
+                log.Info("Got Log length: " + ms.Length);
 
             status = serialstatus.Done;
             updateDisplay();
 
             MainV2.comPort.Progress -= comPort_Progress;
 
-            // set log fn
-            byte[] hbpacket = MainV2.comPort.getHeartBeat();
-
             MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)MainV2.comPort.DebugPacket(hbpacket);
+
+            // fake a packet if something has gone wrong. we have the log
+            if (hb == null)
+                hbpacket = new byte[] { 1,1,1,'E' };
 
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
@@ -167,11 +179,14 @@ namespace MissionPlanner.Log
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
 
+            log.Info("about to write: " + logfile);
             // save memorystream to file
             using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
             {
                 bw.Write(ms.ToArray());
             }
+
+            log.Info("about to convertbin: " + logfile);
 
             // create ascii log
             BinaryLog.ConvertBin(logfile, logfile + ".log");
@@ -179,8 +194,9 @@ namespace MissionPlanner.Log
             //update the new filename
             logfile = logfile + ".log";
 
+            log.Info("about to GetFirstGpsTime: " + logfile);
             // get gps time of assci log
-            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
+            DateTime logtime =  new DFLog().GetFirstGpsTime(logfile);
 
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
