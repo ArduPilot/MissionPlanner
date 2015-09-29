@@ -42,6 +42,8 @@ namespace MissionPlanner.Log
 
         DFLog dflog = new DFLog();
 
+        private bool readmavgraphsxml_runonce = false;
+
         class DataModifer
         {
             private readonly bool isValid;
@@ -287,6 +289,11 @@ namespace MissionPlanner.Log
 
         private void readmavgraphsxml()
         {
+            if (readmavgraphsxml_runonce)
+                return;
+
+            readmavgraphsxml_runonce = true;
+
             List<graphitem> items = new List<graphitem>();
 
             using (XmlReader reader = XmlReader.Create("mavgraphs.xml"))
@@ -339,7 +346,7 @@ namespace MissionPlanner.Log
 
                 foreach (var item in items)
                 {
-                    var matchs = Regex.Matches(item, @"^([A-z0-9_]+)\.([A-z0-9_]+)$");
+                    var matchs = Regex.Matches(item.Trim(), @"^([A-z0-9_]+)\.([A-z0-9_]+)[:2]*$");
 
                     // there is a item we dont understand/abandon it
                     if (matchs.Count == 0)
@@ -541,6 +548,7 @@ namespace MissionPlanner.Log
                     readmavgraphsxml();
 
                     //CMB_preselect.DisplayMember = "Name";
+                    CMB_preselect.DataSource = null;
                     CMB_preselect.DataSource = graphs;
                 }
                 else
@@ -1722,7 +1730,7 @@ namespace MissionPlanner.Log
         {
             displaylist selectlist = (displaylist)CMB_preselect.SelectedValue;
 
-            if (selectlist.items == null)
+            if (selectlist == null || selectlist.items == null)
                 return;
 
             BUT_cleargraph_Click(null, null);
