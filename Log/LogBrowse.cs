@@ -11,6 +11,7 @@ using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
+using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
@@ -130,7 +131,7 @@ namespace MissionPlanner.Log
 
             public static string GetNodeName(string parent, string child)
             {
-                return parent + ":" + child;
+                return parent + "." + child;
             }
                        
         }
@@ -264,19 +265,108 @@ namespace MissionPlanner.Log
             mapoverlay = new GMapOverlay("overlay");
             markeroverlay = new GMapOverlay("markers");
 
-            myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
+            if (GCSViews.FlightData.mymap != null)
+                myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
             myGMAP1.Overlays.Add(mapoverlay);
             myGMAP1.Overlays.Add(markeroverlay);
-
-            //CMB_preselect.DisplayMember = "Name";
-            CMB_preselect.DataSource = graphs;
 
             //chk_time.Checked = true;
 
             dataGridView1.RowUnshared += dataGridView1_RowUnshared;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+        }
+
+        public class graphitem
+        {
+            public string name;
+            public List<string> expressions = new List<string>();
+            public string description;
+        }
+
+        private void readmavgraphsxml()
+        {
+            List<graphitem> items = new List<graphitem>();
+
+            using (XmlReader reader = XmlReader.Create("mavgraphs.xml"))
+            {
+                while (reader.Read())
+                {
+                    if (reader.ReadToFollowing("graph"))
+                    {
+                        graphitem newGraphitem = new graphitem();
+
+                        for (int a = 0; a < reader.AttributeCount; a++)
+                        {
+                            reader.MoveToAttribute(a);
+                            if (reader.Name.ToLower() == "name")
+                            {
+                                newGraphitem.name = reader.Value;
+                            }
+                        }
+
+                        reader.MoveToElement();
+
+                        XmlReader inner = reader.ReadSubtree();
+
+                        while (inner.Read())
+                        {
+                            if (inner.IsStartElement())
+                            {
+                                if (inner.Name.ToLower() == "expression")
+                                    newGraphitem.expressions.Add(inner.ReadString().Trim());
+                                else if (inner.Name.ToLower() == "description")
+                                    newGraphitem.description = inner.ReadString().Trim();
+                            }
+                        }
+
+                        processGraphItem(newGraphitem);
+
+                        items.Add(newGraphitem);
+                    }
+                }
+            }
+        }
+
+        void processGraphItem(graphitem graphitem)
+        {
+            List<displayitem> list = new List<displayitem>();
+
+            foreach (var expression in graphitem.expressions)
+            {
+                var items = expression.Split(new char[] {' ', '\t', '\n'}, StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var item in items)
+                {
+                    var matchs = Regex.Matches(item, @"^([A-z0-9_]+)\.([A-z0-9_]+)$");
+
+                    // there is a item we dont understand/abandon it
+                    if (matchs.Count == 0)
+                        break;
+
+                    foreach (Match match in matchs)
+                    {
+                        var temp = new displayitem();
+                        // right axis
+                        if (item.EndsWith(":2"))
+                            temp.left = false;
+
+                        temp.type = match.Groups[1].Value.ToString();
+                        temp.field = match.Groups[2].Value.ToString();
+
+                        list.Add(temp);
+                    }                    
+                }
+            }
+
+            var dispitem = new displaylist()
+            {
+                Name = graphitem.name,
+                items = list.ToArray()
+            };
+
+            graphs.Add(dispitem);
         }
 
         void dataGridView1_RowUnshared(object sender, DataGridViewRowEventArgs e)
@@ -446,6 +536,12 @@ namespace MissionPlanner.Log
                         this.Close();
                         return;
                     }
+
+                    // update preselection graphs
+                    readmavgraphsxml();
+
+                    //CMB_preselect.DisplayMember = "Name";
+                    CMB_preselect.DataSource = graphs;
                 }
                 else
                 {
@@ -713,12 +809,19 @@ namespace MissionPlanner.Log
             GraphItem(type, fieldname, left);
         }
 
-        void GraphItem(string type, string fieldname, bool left = true)
+        void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true)
         {
             double a = 0; // row counter
             int error = 0;
             DataModifer dataModifier = new DataModifer();
             string nodeName = DataModifer.GetNodeName(type, fieldname);
+
+            foreach (var curve in zg1.GraphPane.CurveList)
+            {
+                // its already on the graph, abort
+                if (curve.Label.Text.StartsWith(nodeName))
+                    return;
+            }
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
@@ -743,7 +846,8 @@ namespace MissionPlanner.Log
 
             if (!dflog.logformat.ContainsKey(type))
             {
-                CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
+                if (displayerror)
+                    CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
                 return;
             }
 
@@ -818,7 +922,7 @@ namespace MissionPlanner.Log
 
             LineItem myCurve;
 
-            myCurve = zg1.GraphPane.AddCurve(header, list1, colours[zg1.GraphPane.CurveList.Count % colours.Length], SymbolType.None);
+            myCurve = zg1.GraphPane.AddCurve(type+"."+header, list1, colours[zg1.GraphPane.CurveList.Count % colours.Length], SymbolType.None);
 
             leftorrightaxis(left, myCurve);
 
@@ -1599,7 +1703,7 @@ namespace MissionPlanner.Log
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Text))
+                        if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text))
                         {
                             removeitems.Add(item);
                             //break;
@@ -1627,7 +1731,7 @@ namespace MissionPlanner.Log
             {
                 try
                 {
-                    GraphItem(item.type, item.field, item.left);
+                    GraphItem(item.type, item.field, item.left, false);
                 }
                 catch { }
             }

@@ -168,10 +168,6 @@ namespace MissionPlanner.Log
 
             MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)MainV2.comPort.DebugPacket(hbpacket);
 
-            // fake a packet if something has gone wrong. we have the log
-            if (hb == null)
-                hbpacket = new byte[] { 1,1,1,'E' };
-
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
              + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + no + ".bin";

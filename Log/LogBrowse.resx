@@ -130,7 +130,7 @@
     <value>10</value>
   </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>650, 244</value>
+    <value>650, 243</value>
   </data>
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -154,13 +154,13 @@
     <value>3, 3</value>
   </data>
   <data name="BUT_Graphit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 23</value>
+    <value>71, 23</value>
   </data>
   <data name="BUT_Graphit.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
   <data name="BUT_Graphit.Text" xml:space="preserve">
-    <value>Graph this data Left</value>
+    <value>Graph Left</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit.Name" xml:space="preserve">
     <value>BUT_Graphit</value>
@@ -178,7 +178,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_cleargraph.Location" type="System.Drawing.Point, System.Drawing">
-    <value>245, 3</value>
+    <value>158, 3</value>
   </data>
   <data name="BUT_cleargraph.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -205,7 +205,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_loadlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>326, 3</value>
+    <value>239, 3</value>
   </data>
   <data name="BUT_loadlog.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -355,7 +355,7 @@
     <value>NoControl</value>
   </data>
   <data name="chk_time.Location" type="System.Drawing.Point, System.Drawing">
-    <value>567, 7</value>
+    <value>484, 7</value>
   </data>
   <data name="chk_time.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 17</value>
@@ -421,7 +421,7 @@
 </value>
   </data>
   <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 243</value>
+    <value>131, 242</value>
   </data>
   <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -439,10 +439,10 @@
     <value>1</value>
   </data>
   <data name="CMB_preselect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>650, 5</value>
+    <value>561, 5</value>
   </data>
   <data name="CMB_preselect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 21</value>
+    <value>220, 21</value>
   </data>
   <data name="CMB_preselect.TabIndex" type="System.Int32, mscorlib">
     <value>37</value>
@@ -463,7 +463,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_removeitem.Location" type="System.Drawing.Point, System.Drawing">
-    <value>407, 3</value>
+    <value>320, 3</value>
   </data>
   <data name="BUT_removeitem.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -493,7 +493,7 @@
     <value>True</value>
   </data>
   <data name="CHK_map.Location" type="System.Drawing.Point, System.Drawing">
-    <value>488, 7</value>
+    <value>401, 7</value>
   </data>
   <data name="CHK_map.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 17</value>
@@ -520,16 +520,16 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_Graphit_R.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 3</value>
+    <value>80, 3</value>
   </data>
   <data name="BUT_Graphit_R.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 23</value>
+    <value>72, 23</value>
   </data>
   <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
     <value>34</value>
   </data>
   <data name="BUT_Graphit_R.Text" xml:space="preserve">
-    <value>Graph this data Right</value>
+    <value>Graph Right</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
     <value>BUT_Graphit_R</value>

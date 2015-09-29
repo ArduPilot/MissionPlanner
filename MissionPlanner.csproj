@@ -3152,6 +3152,9 @@
     </Content>
     <None Include="Resources\Parachute.png" />
     <None Include="Resources\zhHans.txt" />
+    <Content Include="mavgraphs.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
