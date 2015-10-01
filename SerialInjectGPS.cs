@@ -64,12 +64,15 @@ namespace MissionPlanner
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host":
                             comPort = new UdpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Client":
                             comPort = new UdpSerialConnect();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:
                             comPort = new SerialPort();

@@ -567,36 +567,36 @@ gnssId GNSS Type
 
                 if (items[0].StartsWith("GRAW"))
                 {
-                    weekms = double.Parse(items[dflog.FindMessageOffset("GRAW", "WkMS")]);
-                    week = int.Parse(items[dflog.FindMessageOffset("GRAW", "Week")]);
-                    NSats = double.Parse(items[dflog.FindMessageOffset("GRAW", "numSV")]);
-                    sv = double.Parse(items[dflog.FindMessageOffset("GRAW", "sv")]);
-                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "cpMes")]);
-                    prMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "prMes")]);
-                    doMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "doMes")]);
-                    mesQI = double.Parse(items[dflog.FindMessageOffset("GRAW", "mesQI")]);
-                    cno = double.Parse(items[dflog.FindMessageOffset("GRAW", "cno")]);
-                    lli = double.Parse(items[dflog.FindMessageOffset("GRAW", "lli")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRAW", "WkMS")], CultureInfo.InvariantCulture);
+                    week = int.Parse(items[dflog.FindMessageOffset("GRAW", "Week")], CultureInfo.InvariantCulture);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRAW", "numSV")], CultureInfo.InvariantCulture);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRAW", "sv")], CultureInfo.InvariantCulture);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "cpMes")], CultureInfo.InvariantCulture);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "prMes")], CultureInfo.InvariantCulture);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRAW", "doMes")], CultureInfo.InvariantCulture);
+                    mesQI = double.Parse(items[dflog.FindMessageOffset("GRAW", "mesQI")], CultureInfo.InvariantCulture);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRAW", "cno")], CultureInfo.InvariantCulture);
+                    lli = double.Parse(items[dflog.FindMessageOffset("GRAW", "lli")], CultureInfo.InvariantCulture);
 
                     if (sv > 32)
                         gnss = 1;
                 }
                 else if (items[0].StartsWith("GRXH"))
                 {
-                    weekms = double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")]) * 1000.0;
-                    week = int.Parse(items[dflog.FindMessageOffset("GRXH", "week")]);
-                    NSats = double.Parse(items[dflog.FindMessageOffset("GRXH", "numMeas")]);
+                    weekms = double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")], CultureInfo.InvariantCulture) * 1000.0;
+                    week = int.Parse(items[dflog.FindMessageOffset("GRXH", "week")], CultureInfo.InvariantCulture);
+                    NSats = double.Parse(items[dflog.FindMessageOffset("GRXH", "numMeas")], CultureInfo.InvariantCulture);
                     continue;
                 }
                 else if (items[0].StartsWith("GRXS"))
                 {
-                    sv = double.Parse(items[dflog.FindMessageOffset("GRXS", "sv")]);
-                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "cpMes")]);
-                    prMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "prMes")]);
-                    doMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "doMes")]);
-                    gnss = int.Parse(items[dflog.FindMessageOffset("GRXS", "gnss")]);
-                    cno = double.Parse(items[dflog.FindMessageOffset("GRXS", "cno")]);
-                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")]);
+                    sv = double.Parse(items[dflog.FindMessageOffset("GRXS", "sv")], CultureInfo.InvariantCulture);
+                    cpMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "cpMes")], CultureInfo.InvariantCulture);
+                    prMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "prMes")], CultureInfo.InvariantCulture);
+                    doMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "doMes")], CultureInfo.InvariantCulture);
+                    gnss = int.Parse(items[dflog.FindMessageOffset("GRXS", "gnss")], CultureInfo.InvariantCulture);
+                    cno = double.Parse(items[dflog.FindMessageOffset("GRXS", "cno")], CultureInfo.InvariantCulture);
+                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")], CultureInfo.InvariantCulture);
                     lli = 0; // OK or not known
                 }
 

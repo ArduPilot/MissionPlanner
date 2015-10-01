@@ -134,9 +134,9 @@ namespace MissionPlanner.Utilities
             double pitchangle = MainV2.comPort.MAV.cs.campointa;
 
             //
-            if ((float) MainV2.comPort.MAV.param["MNT_TYPE"] == 4)
+            if ((double) MainV2.comPort.MAV.param["MNT_TYPE"] == 4)
             {
-                yawangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent,67].cs.yaw;
+                yawangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent, 67].cs.yaw;
                 rollangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent, 67].cs.roll;
                 pitchangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent, 67].cs.pitch;
             }

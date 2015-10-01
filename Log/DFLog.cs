@@ -365,10 +365,12 @@ namespace MissionPlanner.Log
 
                             if (indextimems != -1)
                             {
-                                item.timems = int.Parse(items[indextimems]);
+                                var ntime = long.Parse(items[indextimems]);
 
                                 if (timeus)
-                                    item.timems /= 1000;
+                                    ntime /= 1000;
+
+                                item.timems = (int)ntime;
 
                                 if (gpsstarttime != DateTime.MinValue)
                                 {
@@ -427,7 +429,8 @@ namespace MissionPlanner.Log
 
                 if (indexstatus != -1)
                 {
-                    if (items[indexstatus].Trim() != "3" && items[indexstatus].Trim() != "2")
+                    // 3d lock or better
+                    if (items[indexstatus].Trim() == "0" || items[indexstatus].Trim() == "1" || items[indexstatus].Trim() == "2")
                         return DateTime.MinValue;
                 }
 

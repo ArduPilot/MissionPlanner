@@ -13,6 +13,7 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chk_auto;
         public Sphere sphere1;
+        public Sphere sphere3;
 
         public bool autoaccept = true;
 
@@ -42,6 +43,7 @@ namespace MissionPlanner.Controls
             this.sphere2 = new MissionPlanner.Controls.Sphere();
             this.label1 = new System.Windows.Forms.Label();
             this.chk_auto = new System.Windows.Forms.CheckBox();
+            this.sphere3 = new MissionPlanner.Controls.Sphere();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -87,9 +89,18 @@ namespace MissionPlanner.Controls
             this.chk_auto.UseVisualStyleBackColor = true;
             this.chk_auto.CheckedChanged += new System.EventHandler(this.chk_auto_CheckedChanged);
             // 
+            // sphere3
+            // 
+            resources.ApplyResources(this.sphere3, "sphere3");
+            this.sphere3.BackColor = System.Drawing.Color.Black;
+            this.sphere3.Name = "sphere3";
+            this.sphere3.rotatewithdata = true;
+            this.sphere3.VSync = false;
+            // 
             // ProgressReporterSphere
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.sphere3);
             this.Controls.Add(this.chk_auto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sphere2);
@@ -102,6 +113,7 @@ namespace MissionPlanner.Controls
             this.Controls.SetChildIndex(this.sphere2, 0);
             this.Controls.SetChildIndex(this.label1, 0);
             this.Controls.SetChildIndex(this.chk_auto, 0);
+            this.Controls.SetChildIndex(this.sphere3, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -16,6 +16,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
@@ -67,35 +68,46 @@ namespace MissionPlanner
         public struct GridData
         {
             public List<PointLatLngAlt> poly;
+            //simple
             public string camera;
             public decimal alt;
             public decimal angle;
             public bool camdir;
+            public decimal speed;
             public bool usespeed;
-            public decimal dist;
-            public decimal overshoot1;
-            public decimal overshoot2;
-            public decimal overlap;
-            public decimal sidelap;
-            public decimal spacing;
-            public string startfrom;
             public bool autotakeoff;
             public bool autotakeoff_RTL;
-            public bool alternateLanes;
-            public decimal minlaneseparation;
 
             public bool internals;
             public bool footprints;
             public bool advanced;
 
-            public bool trigdist;
-            public bool digicam;
-            public bool repeatservo;
-
+            //options
+            public decimal dist;
+            public decimal overshoot1;
+            public decimal overshoot2;
+            public decimal leadin;
+            public string startfrom;
+            public decimal overlap;
+            public decimal sidelap;
+            public decimal spacing;
             // Copter Settings
             public decimal copter_delay;
             public bool copter_headinghold_chk;
             public decimal copter_headinghold;
+            // plane settings
+            public bool alternateLanes;
+            public decimal minlaneseparation;
+
+            // camera config
+            public bool trigdist;
+            public bool digicam;
+            public bool repeatservo;
+
+            public decimal repeatservo_no;
+            public decimal repeatservo_pwm;
+            public decimal repeatservo_cycle;
+
         }
 
         // GridUI
@@ -206,18 +218,8 @@ namespace MissionPlanner
             NUM_altitude.Value = griddata.alt;
             NUM_angle.Value = griddata.angle;
             CHK_camdirection.Checked = griddata.camdir;
-
             CHK_usespeed.Checked = griddata.usespeed;
-
-            NUM_Distance.Value = griddata.dist;
-            NUM_overshoot.Value = griddata.overshoot1;
-            NUM_overshoot2.Value = griddata.overshoot2;
-            num_overlap.Value = griddata.overlap;
-            num_sidelap.Value = griddata.sidelap;
-            NUM_spacing.Value = griddata.spacing;
-
-            CMB_startfrom.Text = griddata.startfrom;
-
+            NUM_UpDownFlySpeed.Value = griddata.speed;
             CHK_toandland.Checked = griddata.autotakeoff;
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
 
@@ -225,13 +227,27 @@ namespace MissionPlanner
             CHK_footprints.Checked = griddata.footprints;
             CHK_advanced.Checked = griddata.advanced;
 
+            NUM_Distance.Value = griddata.dist;
+            NUM_overshoot.Value = griddata.overshoot1;
+            NUM_overshoot2.Value = griddata.overshoot2;
+            NUM_leadin.Value = griddata.leadin;
+            CMB_startfrom.Text = griddata.startfrom;
+            num_overlap.Value = griddata.overlap;
+            num_sidelap.Value = griddata.sidelap;
+            NUM_spacing.Value = griddata.spacing;
+            
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
             rad_repeatservo.Checked = griddata.repeatservo;
 
+            NUM_reptservo.Value = griddata.repeatservo_no;
+            num_reptpwm.Value = griddata.repeatservo_pwm;
+            NUM_repttime.Value = griddata.repeatservo_cycle;
+
             // Copter Settings
             NUM_copter_delay.Value = griddata.copter_delay;
-            //CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk; //UNcomment after adding headinghold offset function
+            CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
+            TXT_headinghold.Text = griddata.copter_headinghold.ToString();
 
             // Plane Settings
             NUM_Lane_Dist.Value = griddata.minlaneseparation;
@@ -247,19 +263,8 @@ namespace MissionPlanner
             griddata.alt = NUM_altitude.Value;
             griddata.angle = NUM_angle.Value;
             griddata.camdir = CHK_camdirection.Checked;
-
+            griddata.speed = NUM_UpDownFlySpeed.Value;
             griddata.usespeed = CHK_usespeed.Checked;
-
-
-            griddata.dist = NUM_Distance.Value;
-            griddata.overshoot1 = NUM_overshoot.Value;
-            griddata.overshoot2 = NUM_overshoot2.Value;
-            griddata.overlap = num_overlap.Value;
-            griddata.sidelap = num_sidelap.Value;
-            griddata.spacing = NUM_spacing.Value;
-
-            griddata.startfrom = CMB_startfrom.Text;
-
             griddata.autotakeoff = CHK_toandland.Checked;
             griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
 
@@ -267,17 +272,30 @@ namespace MissionPlanner
             griddata.footprints = CHK_footprints.Checked;
             griddata.advanced = CHK_advanced.Checked;
 
+            griddata.dist = NUM_Distance.Value;
+            griddata.overshoot1 = NUM_overshoot.Value;
+            griddata.overshoot2 = NUM_overshoot2.Value;
+            griddata.leadin = NUM_leadin.Value;
+            griddata.startfrom = CMB_startfrom.Text;
+            griddata.overlap = num_overlap.Value;
+            griddata.sidelap = num_sidelap.Value;
+            griddata.spacing = NUM_spacing.Value;
+            
+            // Copter Settings
+            griddata.copter_delay = NUM_copter_delay.Value;
+            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
+            griddata.copter_headinghold = decimal.Parse(TXT_headinghold.Text);
+
+            // Plane Settings
+            griddata.minlaneseparation = NUM_Lane_Dist.Value;
+
             griddata.trigdist = rad_trigdist.Checked;
             griddata.digicam = rad_digicam.Checked;
             griddata.repeatservo = rad_repeatservo.Checked;
 
-            // Copter Settings
-            griddata.copter_delay = NUM_copter_delay.Value;
-            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
-            griddata.copter_headinghold = NUM_spacing.Value;
-
-            // Plane Settings
-            griddata.minlaneseparation = NUM_Lane_Dist.Value;
+            griddata.repeatservo_no = NUM_reptservo.Value;
+            griddata.repeatservo_pwm = num_reptpwm.Value;
+            griddata.repeatservo_cycle = NUM_repttime.Value;
 
             return griddata;
         }
@@ -290,18 +308,8 @@ namespace MissionPlanner
                 loadsetting("grid_alt", NUM_altitude);
                 //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
-
                 loadsetting("grid_usespeed", CHK_usespeed);
-
-                loadsetting("grid_dist", NUM_Distance);
-                loadsetting("grid_overshoot1", NUM_overshoot);
-                loadsetting("grid_overshoot2", NUM_overshoot2);
-                loadsetting("grid_overlap", num_overlap);
-                loadsetting("grid_sidelap", num_sidelap);
-                loadsetting("grid_spacing", NUM_spacing);
-
-                loadsetting("grid_startfrom", CMB_startfrom);
-
+                loadsetting("grid_speed", NUM_UpDownFlySpeed);
                 loadsetting("grid_autotakeoff", CHK_toandland);
                 loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
 
@@ -309,10 +317,23 @@ namespace MissionPlanner
                 loadsetting("grid_footprints", CHK_footprints);
                 loadsetting("grid_advanced", CHK_advanced);
 
+                loadsetting("grid_dist", NUM_Distance);
+                loadsetting("grid_overshoot1", NUM_overshoot);
+                loadsetting("grid_overshoot2", NUM_overshoot2);
+                loadsetting("grid_leadin", NUM_leadin);
+                loadsetting("grid_startfrom", CMB_startfrom);
+                loadsetting("grid_overlap", num_overlap);
+                loadsetting("grid_sidelap", num_sidelap);
+                loadsetting("grid_spacing", NUM_spacing);
+
                 // Should probably be saved as one setting, and us logic
                 loadsetting("grid_trigdist", rad_trigdist);
                 loadsetting("grid_digicam", rad_digicam);
                 loadsetting("grid_repeatservo", rad_repeatservo);
+
+                loadsetting("grid_repeatservo_no", NUM_reptservo);
+                loadsetting("grid_repeatservo_pwm", num_reptpwm);
+                loadsetting("grid_repeatservo_cycle", NUM_repttime);
 
                 // camera last to it invokes a reload
                 loadsetting("grid_camera", CMB_camera);
@@ -513,7 +534,7 @@ namespace MissionPlanner
         // Do Work
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (CMB_camera.Text != "")
+            if (CMB_camera.Text != "" && sender != NUM_Distance)
                 doCalc();
 
             // new grid system test
@@ -1117,7 +1138,7 @@ namespace MissionPlanner
                 TXT_sensheight.Text = camera.sensorheight.ToString();
                 TXT_senswidth.Text = camera.sensorwidth.ToString();
 
-                NUM_Distance.Enabled = false;
+                //NUM_Distance.Enabled = false;
             }
 
             doCalc();
@@ -1354,81 +1375,110 @@ namespace MissionPlanner
             {
                 MainV2.instance.FlightPlanner.quickadd = true;
 
-                if (CHK_toandland.Checked)
+                if (NUM_split.Value > 1 && CHK_toandland.Checked != true)
                 {
-                    if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
-                    }
-                    else
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
-                    }
+                    CustomMessageBox.Show("You must use Land/RTL to split a mission", Strings.ERROR);
+                    return;
                 }
 
-                if (CHK_usespeed.Checked)
-                {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0);
-                }
+                int wpsplit = (int)Math.Round(grid.Count / NUM_split.Value,MidpointRounding.AwayFromZero);
 
-                int i = 0;
-                grid.ForEach(plla =>
+                for (int splitno = 0; splitno < NUM_split.Value; splitno++)
                 {
-                    if (i > 0)
+                    int wpstart = wpsplit * splitno;
+
+                    if (CHK_toandland.Checked)
                     {
-                        if (plla.Tag == "M")
+                        if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                         {
-                            if (rad_repeatservo.Checked)
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                                (int) (30*CurrentState.multiplierdist));
+                        }
+                        else
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                                (int) (30*CurrentState.multiplierdist));
+                        }
+                    }
+
+                    if (CHK_usespeed.Checked)
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
+                            (int) ((float) NUM_UpDownFlySpeed.Value/CurrentState.multiplierspeed), 0, 0, 0, 0, 0);
+                    }
+
+
+                    int i = 0;
+                    grid.ForEach(plla =>
+                    {
+                        // skip before start point
+                        if (i < wpstart)
+                        {
+                            i++;
+                            return;
+                        }
+                        // skip after endpoint
+                        if (i >= (wpstart + wpsplit))
+                            return;
+                        if (i > wpstart)
+                        {
+                            if (plla.Tag == "M")
                             {
-                                AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)NUM_reptservo.Value, (float)num_reptpwm.Value, 999, (float)NUM_repttime.Value, 0, 0, 0);
+                                if (rad_repeatservo.Checked)
+                                {
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float) NUM_reptservo.Value,
+                                        (float) num_reptpwm.Value, 999, (float) NUM_repttime.Value, 0, 0, 0);
+                                }
+                                if (rad_digicam.Checked)
+                                {
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                                }
                             }
-                            if (rad_digicam.Checked)
+                            else
                             {
                                 AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                             }
                         }
                         else
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            if (rad_trigdist.Checked)
+                            {
+                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float) NUM_spacing.Value,
+                                    0, 0, 0, 0, 0, 0);
+                            }
                         }
-                    }
-                    else
+                        ++i;
+                    });
+
+                    if (rad_trigdist.Checked)
                     {
-                        AddWP(plla.Lng, plla.Lat, plla.Alt);
-                        if (rad_trigdist.Checked)
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                    }
+
+                    if (CHK_usespeed.Checked)
+                    {
+                        if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
+                            double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
+                            speed = speed/100;
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
                         }
                     }
-                    ++i;
-                });
 
-                if (rad_trigdist.Checked)
-                {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
-                }
-
-                if (CHK_usespeed.Checked)
-                {
-                    if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
+                    if (CHK_toandland.Checked)
                     {
-                        double speed = MainV2.comPort.MAV.param["WPNAV_SPEED"].Value;
-                        speed = speed / 100;
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
-                    }
-                }
-
-                if (CHK_toandland.Checked)
-                {
-                    if (CHK_toandland_RTL.Checked)
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
-                    }
-                    else
-                    {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, 0);
+                        if (CHK_toandland_RTL.Checked)
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
+                        }
+                        else
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,
+                                plugin.Host.cs.HomeLocation.Lat, 0);
+                        }
                     }
                 }
 

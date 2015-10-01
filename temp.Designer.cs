@@ -54,14 +54,12 @@
             this.but_maplogs = new MissionPlanner.Controls.MyButton();
             this.butlogindex = new MissionPlanner.Controls.MyButton();
             this.but_structtest = new MissionPlanner.Controls.MyButton();
-            this.but_rtspurl = new MissionPlanner.Controls.MyButton();
             this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label26 = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -359,16 +357,6 @@
             this.but_structtest.UseVisualStyleBackColor = true;
             this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
             // 
-            // but_rtspurl
-            // 
-            this.but_rtspurl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.but_rtspurl.Location = new System.Drawing.Point(3, 444);
-            this.but_rtspurl.Name = "but_rtspurl";
-            this.but_rtspurl.Size = new System.Drawing.Size(113, 15);
-            this.but_rtspurl.TabIndex = 55;
-            this.but_rtspurl.Text = "rtsp";
-            this.but_rtspurl.Click += new System.EventHandler(this.but_rtspurl_Click);
-            // 
             // but_armandtakeoff
             // 
             this.but_armandtakeoff.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -389,7 +377,6 @@
             this.tableLayoutPanel1.Controls.Add(this.label25, 1, 24);
             this.tableLayoutPanel1.Controls.Add(this.label24, 1, 23);
             this.tableLayoutPanel1.Controls.Add(this.label23, 1, 22);
-            this.tableLayoutPanel1.Controls.Add(this.label22, 1, 21);
             this.tableLayoutPanel1.Controls.Add(this.label21, 1, 20);
             this.tableLayoutPanel1.Controls.Add(this.label20, 1, 19);
             this.tableLayoutPanel1.Controls.Add(this.label19, 1, 18);
@@ -399,7 +386,6 @@
             this.tableLayoutPanel1.Controls.Add(this.but_maplogs, 0, 24);
             this.tableLayoutPanel1.Controls.Add(this.label17, 1, 16);
             this.tableLayoutPanel1.Controls.Add(this.but_gimbaltest, 0, 23);
-            this.tableLayoutPanel1.Controls.Add(this.but_rtspurl, 0, 21);
             this.tableLayoutPanel1.Controls.Add(this.label16, 1, 15);
             this.tableLayoutPanel1.Controls.Add(this.but_structtest, 0, 20);
             this.tableLayoutPanel1.Controls.Add(this.label15, 1, 14);
@@ -505,15 +491,6 @@
             this.label23.TabIndex = 69;
             this.label23.Text = "quad: arm and takeoff";
             // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(122, 441);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(192, 13);
-            this.label22.TabIndex = 68;
-            this.label22.Text = "open a rstp stream for the hud bg video";
-            // 
             // label21
             // 
             this.label21.AutoSize = true;
@@ -573,9 +550,9 @@
             this.label15.AutoSize = true;
             this.label15.Location = new System.Drawing.Point(122, 294);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(204, 13);
+            this.label15.Size = new System.Drawing.Size(252, 13);
             this.label15.TabIndex = 61;
-            this.label15.Text = "create a exclusive passthrough to the gps";
+            this.label15.Text = "create a exclusive passthrough to the gps (port 500)";
             // 
             // label14
             // 
@@ -790,7 +767,6 @@
         private Controls.MyButton but_maplogs;
         private Controls.MyButton butlogindex;
         private Controls.MyButton but_structtest;
-        private Controls.MyButton but_rtspurl;
         private Controls.MyButton but_armandtakeoff;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label17;
@@ -815,7 +791,6 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;

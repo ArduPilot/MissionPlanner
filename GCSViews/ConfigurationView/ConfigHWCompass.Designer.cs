@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWCompass));
             this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.linkLabelmagdec = new System.Windows.Forms.LinkLabel();
@@ -53,13 +54,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.lbl_obmagresult = new System.Windows.Forms.TextBox();
+            this.BUT_OBmagcalaccept = new MissionPlanner.Controls.MyButton();
+            this.BUT_OBmagcalcancel = new MissionPlanner.Controls.MyButton();
+            this.BUT_OBmagcalstart = new MissionPlanner.Controls.MyButton();
             this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_MagCalibrationLive
@@ -198,8 +209,8 @@
             resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
             this.CMB_compass_orient.FormattingEnabled = true;
             this.CMB_compass_orient.Name = "CMB_compass_orient";
-            
             this.CMB_compass_orient.ParamName = null;
+            this.CMB_compass_orient.SubControl = null;
             // 
             // radioButton_onboard
             // 
@@ -231,33 +242,87 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.lbl_obmagresult);
+            this.groupBox4.Controls.Add(this.BUT_OBmagcalaccept);
+            this.groupBox4.Controls.Add(this.BUT_OBmagcalcancel);
+            this.groupBox4.Controls.Add(this.BUT_OBmagcalstart);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // lbl_obmagresult
+            // 
+            resources.ApplyResources(this.lbl_obmagresult, "lbl_obmagresult");
+            this.lbl_obmagresult.Name = "lbl_obmagresult";
+            this.lbl_obmagresult.ReadOnly = true;
+            // 
+            // BUT_OBmagcalaccept
+            // 
+            resources.ApplyResources(this.BUT_OBmagcalaccept, "BUT_OBmagcalaccept");
+            this.BUT_OBmagcalaccept.Name = "BUT_OBmagcalaccept";
+            this.BUT_OBmagcalaccept.UseVisualStyleBackColor = true;
+            this.BUT_OBmagcalaccept.Click += new System.EventHandler(this.BUT_OBmagcalaccept_Click);
+            // 
+            // BUT_OBmagcalcancel
+            // 
+            resources.ApplyResources(this.BUT_OBmagcalcancel, "BUT_OBmagcalcancel");
+            this.BUT_OBmagcalcancel.Name = "BUT_OBmagcalcancel";
+            this.BUT_OBmagcalcancel.UseVisualStyleBackColor = true;
+            this.BUT_OBmagcalcancel.Click += new System.EventHandler(this.BUT_OBmagcalcancel_Click);
+            // 
+            // BUT_OBmagcalstart
+            // 
+            resources.ApplyResources(this.BUT_OBmagcalstart, "BUT_OBmagcalstart");
+            this.BUT_OBmagcalstart.Name = "BUT_OBmagcalstart";
+            this.BUT_OBmagcalstart.UseVisualStyleBackColor = true;
+            this.BUT_OBmagcalstart.Click += new System.EventHandler(this.BUT_OBmagcalstart_Click);
+            // 
             // CHK_enablecompass
             // 
             resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
             this.CHK_enablecompass.Name = "CHK_enablecompass";
-            this.CHK_enablecompass.OffValue = 0F;
-            this.CHK_enablecompass.OnValue = 1F;
-            
+            this.CHK_enablecompass.OffValue = 0D;
+            this.CHK_enablecompass.OnValue = 1D;
             this.CHK_enablecompass.ParamName = null;
             this.CHK_enablecompass.UseVisualStyleBackColor = true;
             this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.BUT_MagCalibrationLive);
+            this.groupBox5.Controls.Add(this.linkLabel1);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
             // ConfigHWCompass
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.TXT_declination_min);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.imageLabel1);
-            this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.CHK_enablecompass);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.CHK_autodec);
-            this.Controls.Add(this.BUT_MagCalibrationLive);
             this.Controls.Add(this.linkLabelmagdec);
             this.Controls.Add(this.label100);
             this.Controls.Add(this.TXT_declination_deg);
@@ -270,6 +335,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,5 +371,13 @@
         private System.Windows.Forms.RadioButton rb_px4pixhawk;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private Controls.MyButton BUT_OBmagcalaccept;
+        private Controls.MyButton BUT_OBmagcalcancel;
+        private Controls.MyButton BUT_OBmagcalstart;
+        private System.Windows.Forms.TextBox lbl_obmagresult;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label4;
     }
 }

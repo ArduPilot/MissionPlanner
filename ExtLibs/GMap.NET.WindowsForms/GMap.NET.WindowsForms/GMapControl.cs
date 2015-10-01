@@ -817,8 +817,9 @@ namespace GMap.NET.WindowsForms
       {
          route.LocalPoints.Clear();
 
-         foreach(GMap.NET.PointLatLng pg in route.Points)
+         for (int i = 0; i < route.Points.Count; i++)
          {
+            PointLatLng pg = route.Points[i]; 
             GPoint p = FromLatLngToLocal(pg);
 
 #if !PocketPC
@@ -855,8 +856,9 @@ namespace GMap.NET.WindowsForms
        {
            polygon.LocalPoints.Clear();
 
-           foreach (GMap.NET.PointLatLng pg in polygon.Points)
+           for (int i = 0; i < polygon.Points.Count; i++) 
            {
+               PointLatLng pg = polygon.Points[i]; 
                GPoint p = FromLatLngToLocal(pg);
 
 #if !PocketPC
@@ -883,7 +885,14 @@ namespace GMap.NET.WindowsForms
 #if !PocketPC
            unchecked
            {
-               polygon.UpdateGraphicsPath();
+               try
+               {
+                   polygon.UpdateGraphicsPath();
+               }
+               catch
+               {
+                   
+               }
            }
 #endif
        }
