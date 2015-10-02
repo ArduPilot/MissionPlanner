@@ -32,28 +32,23 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWCompass));
             this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.linkLabelmagdec = new System.Windows.Forms.LinkLabel();
-            this.label100 = new System.Windows.Forms.Label();
             this.TXT_declination_deg = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.imageLabel1 = new MissionPlanner.Controls.ImageLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.rb_px4pixhawk = new System.Windows.Forms.RadioButton();
+            this.groupBoxQuickSetup = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.buttonAPMExternal = new System.Windows.Forms.Button();
+            this.QuickAPM25 = new System.Windows.Forms.Button();
+            this.buttonQuickPixhawk = new System.Windows.Forms.Button();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.radioButtonmanual = new System.Windows.Forms.RadioButton();
-            this.radioButton_external = new System.Windows.Forms.RadioButton();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.CMB_compass_orient = new MissionPlanner.Controls.MavlinkComboBox();
-            this.radioButton_onboard = new System.Windows.Forms.RadioButton();
+            this.CMB_compass1_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.TXT_declination_min = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.lbl_obmagresult = new System.Windows.Forms.TextBox();
             this.BUT_OBmagcalaccept = new MissionPlanner.Controls.MyButton();
@@ -63,14 +58,31 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
+            this.mavlinkCheckBoxCompassLearn = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.groupBoxCompass1 = new System.Windows.Forms.GroupBox();
+            this.mavlinkCheckBoxCompass1Use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxCompass1External = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.groupBoxCompass2 = new System.Windows.Forms.GroupBox();
+            this.mavlinkCheckBoxCompass2External = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxCompass2Use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB_compass2_orient = new MissionPlanner.Controls.MavlinkComboBox();
+            this.groupBoxCompass3 = new System.Windows.Forms.GroupBox();
+            this.mavlinkCheckBoxCompass3External = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxCompass3Use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB3_compass_orient = new MissionPlanner.Controls.MavlinkComboBox();
+            this.labelPrimaryCompass = new System.Windows.Forms.Label();
+            this.mavlinkComboBox1 = new MissionPlanner.Controls.MavlinkComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.groupBoxQuickSetup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            this.groupBoxGeneralSettings.SuspendLayout();
+            this.groupBoxCompass1.SuspendLayout();
+            this.groupBoxCompass2.SuspendLayout();
+            this.groupBoxCompass3.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_MagCalibrationLive
@@ -87,24 +99,11 @@
             this.linkLabelmagdec.TabStop = true;
             this.linkLabelmagdec.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
-            // label100
-            // 
-            resources.ApplyResources(this.label100, "label100");
-            this.label100.Name = "label100";
-            // 
             // TXT_declination_deg
             // 
             resources.ApplyResources(this.TXT_declination_deg, "TXT_declination_deg");
             this.TXT_declination_deg.Name = "TXT_declination_deg";
             this.TXT_declination_deg.Validated += new System.EventHandler(this.TXT_declination_Validated);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BackgroundImage = global::MissionPlanner.Properties.Resources.compass;
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.TabStop = false;
             // 
             // CHK_autodec
             // 
@@ -131,17 +130,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // imageLabel1
-            // 
-            this.imageLabel1.Image = ((System.Drawing.Image)(resources.GetObject("imageLabel1.Image")));
-            resources.ApplyResources(this.imageLabel1, "imageLabel1");
-            this.imageLabel1.Name = "imageLabel1";
-            // 
             // pictureBox2
             // 
             this.pictureBox2.BackgroundImage = global::MissionPlanner.Properties.Resources.apmp2;
@@ -150,26 +138,44 @@
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
             // 
-            // groupBox1
+            // groupBoxQuickSetup
             // 
-            this.groupBox1.Controls.Add(this.rb_px4pixhawk);
-            this.groupBox1.Controls.Add(this.pictureBox4);
-            this.groupBox1.Controls.Add(this.radioButtonmanual);
-            this.groupBox1.Controls.Add(this.radioButton_external);
-            this.groupBox1.Controls.Add(this.pictureBox3);
-            this.groupBox1.Controls.Add(this.CMB_compass_orient);
-            this.groupBox1.Controls.Add(this.radioButton_onboard);
-            this.groupBox1.Controls.Add(this.pictureBox2);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
+            this.groupBoxQuickSetup.Controls.Add(this.label1);
+            this.groupBoxQuickSetup.Controls.Add(this.buttonAPMExternal);
+            this.groupBoxQuickSetup.Controls.Add(this.QuickAPM25);
+            this.groupBoxQuickSetup.Controls.Add(this.buttonQuickPixhawk);
+            this.groupBoxQuickSetup.Controls.Add(this.pictureBox4);
+            this.groupBoxQuickSetup.Controls.Add(this.pictureBox3);
+            this.groupBoxQuickSetup.Controls.Add(this.pictureBox2);
+            resources.ApplyResources(this.groupBoxQuickSetup, "groupBoxQuickSetup");
+            this.groupBoxQuickSetup.Name = "groupBoxQuickSetup";
+            this.groupBoxQuickSetup.TabStop = false;
             // 
-            // rb_px4pixhawk
+            // label1
             // 
-            resources.ApplyResources(this.rb_px4pixhawk, "rb_px4pixhawk");
-            this.rb_px4pixhawk.Name = "rb_px4pixhawk";
-            this.rb_px4pixhawk.UseVisualStyleBackColor = true;
-            this.rb_px4pixhawk.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // buttonAPMExternal
+            // 
+            resources.ApplyResources(this.buttonAPMExternal, "buttonAPMExternal");
+            this.buttonAPMExternal.Name = "buttonAPMExternal";
+            this.buttonAPMExternal.UseVisualStyleBackColor = true;
+            this.buttonAPMExternal.Click += new System.EventHandler(this.buttonAPMExternal_Click);
+            // 
+            // QuickAPM25
+            // 
+            resources.ApplyResources(this.QuickAPM25, "QuickAPM25");
+            this.QuickAPM25.Name = "QuickAPM25";
+            this.QuickAPM25.UseVisualStyleBackColor = true;
+            this.QuickAPM25.Click += new System.EventHandler(this.QuickAPM25_Click);
+            // 
+            // buttonQuickPixhawk
+            // 
+            resources.ApplyResources(this.buttonQuickPixhawk, "buttonQuickPixhawk");
+            this.buttonQuickPixhawk.Name = "buttonQuickPixhawk";
+            this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
+            this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
             // pictureBox4
             // 
@@ -179,22 +185,6 @@
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.TabStop = false;
             // 
-            // radioButtonmanual
-            // 
-            resources.ApplyResources(this.radioButtonmanual, "radioButtonmanual");
-            this.radioButtonmanual.Checked = true;
-            this.radioButtonmanual.Name = "radioButtonmanual";
-            this.radioButtonmanual.TabStop = true;
-            this.radioButtonmanual.UseVisualStyleBackColor = true;
-            this.radioButtonmanual.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // radioButton_external
-            // 
-            resources.ApplyResources(this.radioButton_external, "radioButton_external");
-            this.radioButton_external.Name = "radioButton_external";
-            this.radioButton_external.UseVisualStyleBackColor = true;
-            this.radioButton_external.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
             // pictureBox3
             // 
             this.pictureBox3.BackgroundImage = global::MissionPlanner.Properties.Resources.maggps;
@@ -203,21 +193,14 @@
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;
             // 
-            // CMB_compass_orient
+            // CMB_compass1_orient
             // 
-            this.CMB_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
-            this.CMB_compass_orient.FormattingEnabled = true;
-            this.CMB_compass_orient.Name = "CMB_compass_orient";
-            this.CMB_compass_orient.ParamName = null;
-            this.CMB_compass_orient.SubControl = null;
-            // 
-            // radioButton_onboard
-            // 
-            resources.ApplyResources(this.radioButton_onboard, "radioButton_onboard");
-            this.radioButton_onboard.Name = "radioButton_onboard";
-            this.radioButton_onboard.UseVisualStyleBackColor = true;
-            this.radioButton_onboard.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.CMB_compass1_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass1_orient, "CMB_compass1_orient");
+            this.CMB_compass1_orient.FormattingEnabled = true;
+            this.CMB_compass1_orient.Name = "CMB_compass1_orient";
+            this.CMB_compass1_orient.ParamName = null;
+            this.CMB_compass1_orient.SubControl = null;
             // 
             // TXT_declination_min
             // 
@@ -234,13 +217,6 @@
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.label1);
-            resources.ApplyResources(this.groupBox3, "groupBox3");
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.TabStop = false;
             // 
             // groupBox4
             // 
@@ -306,39 +282,174 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
+            // groupBoxGeneralSettings
+            // 
+            this.groupBoxGeneralSettings.Controls.Add(this.mavlinkComboBox1);
+            this.groupBoxGeneralSettings.Controls.Add(this.labelPrimaryCompass);
+            this.groupBoxGeneralSettings.Controls.Add(this.mavlinkCheckBoxCompassLearn);
+            this.groupBoxGeneralSettings.Controls.Add(this.CHK_enablecompass);
+            this.groupBoxGeneralSettings.Controls.Add(this.CHK_autodec);
+            this.groupBoxGeneralSettings.Controls.Add(this.label2);
+            this.groupBoxGeneralSettings.Controls.Add(this.label3);
+            this.groupBoxGeneralSettings.Controls.Add(this.TXT_declination_min);
+            this.groupBoxGeneralSettings.Controls.Add(this.TXT_declination_deg);
+            this.groupBoxGeneralSettings.Controls.Add(this.linkLabelmagdec);
+            resources.ApplyResources(this.groupBoxGeneralSettings, "groupBoxGeneralSettings");
+            this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
+            this.groupBoxGeneralSettings.TabStop = false;
+            // 
+            // mavlinkCheckBoxCompassLearn
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompassLearn, "mavlinkCheckBoxCompassLearn");
+            this.mavlinkCheckBoxCompassLearn.Name = "mavlinkCheckBoxCompassLearn";
+            this.mavlinkCheckBoxCompassLearn.OffValue = 0D;
+            this.mavlinkCheckBoxCompassLearn.OnValue = 1D;
+            this.mavlinkCheckBoxCompassLearn.ParamName = null;
+            this.mavlinkCheckBoxCompassLearn.UseVisualStyleBackColor = true;
+            this.mavlinkCheckBoxCompassLearn.CheckedChanged += new System.EventHandler(this.CHK_compasslearn_CheckedChanged);
+            // 
+            // groupBoxCompass1
+            // 
+            this.groupBoxCompass1.Controls.Add(this.mavlinkCheckBoxCompass1External);
+            this.groupBoxCompass1.Controls.Add(this.mavlinkCheckBoxCompass1Use);
+            this.groupBoxCompass1.Controls.Add(this.CMB_compass1_orient);
+            resources.ApplyResources(this.groupBoxCompass1, "groupBoxCompass1");
+            this.groupBoxCompass1.Name = "groupBoxCompass1";
+            this.groupBoxCompass1.TabStop = false;
+            // 
+            // mavlinkCheckBoxCompass1Use
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass1Use, "mavlinkCheckBoxCompass1Use");
+            this.mavlinkCheckBoxCompass1Use.Name = "mavlinkCheckBoxCompass1Use";
+            this.mavlinkCheckBoxCompass1Use.OffValue = 0D;
+            this.mavlinkCheckBoxCompass1Use.OnValue = 1D;
+            this.mavlinkCheckBoxCompass1Use.ParamName = null;
+            this.mavlinkCheckBoxCompass1Use.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxCompass1External
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass1External, "mavlinkCheckBoxCompass1External");
+            this.mavlinkCheckBoxCompass1External.Name = "mavlinkCheckBoxCompass1External";
+            this.mavlinkCheckBoxCompass1External.OffValue = 0D;
+            this.mavlinkCheckBoxCompass1External.OnValue = 1D;
+            this.mavlinkCheckBoxCompass1External.ParamName = null;
+            this.mavlinkCheckBoxCompass1External.UseVisualStyleBackColor = true;
+            // 
+            // groupBoxCompass2
+            // 
+            this.groupBoxCompass2.Controls.Add(this.mavlinkCheckBoxCompass2External);
+            this.groupBoxCompass2.Controls.Add(this.mavlinkCheckBoxCompass2Use);
+            this.groupBoxCompass2.Controls.Add(this.CMB_compass2_orient);
+            resources.ApplyResources(this.groupBoxCompass2, "groupBoxCompass2");
+            this.groupBoxCompass2.Name = "groupBoxCompass2";
+            this.groupBoxCompass2.TabStop = false;
+            // 
+            // mavlinkCheckBoxCompass2External
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass2External, "mavlinkCheckBoxCompass2External");
+            this.mavlinkCheckBoxCompass2External.Name = "mavlinkCheckBoxCompass2External";
+            this.mavlinkCheckBoxCompass2External.OffValue = 0D;
+            this.mavlinkCheckBoxCompass2External.OnValue = 1D;
+            this.mavlinkCheckBoxCompass2External.ParamName = null;
+            this.mavlinkCheckBoxCompass2External.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxCompass2Use
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass2Use, "mavlinkCheckBoxCompass2Use");
+            this.mavlinkCheckBoxCompass2Use.Name = "mavlinkCheckBoxCompass2Use";
+            this.mavlinkCheckBoxCompass2Use.OffValue = 0D;
+            this.mavlinkCheckBoxCompass2Use.OnValue = 1D;
+            this.mavlinkCheckBoxCompass2Use.ParamName = null;
+            this.mavlinkCheckBoxCompass2Use.UseVisualStyleBackColor = true;
+            // 
+            // CMB_compass2_orient
+            // 
+            this.CMB_compass2_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass2_orient, "CMB_compass2_orient");
+            this.CMB_compass2_orient.FormattingEnabled = true;
+            this.CMB_compass2_orient.Name = "CMB_compass2_orient";
+            this.CMB_compass2_orient.ParamName = null;
+            this.CMB_compass2_orient.SubControl = null;
+            // 
+            // groupBoxCompass3
+            // 
+            this.groupBoxCompass3.Controls.Add(this.mavlinkCheckBoxCompass3External);
+            this.groupBoxCompass3.Controls.Add(this.mavlinkCheckBoxCompass3Use);
+            this.groupBoxCompass3.Controls.Add(this.CMB3_compass_orient);
+            resources.ApplyResources(this.groupBoxCompass3, "groupBoxCompass3");
+            this.groupBoxCompass3.Name = "groupBoxCompass3";
+            this.groupBoxCompass3.TabStop = false;
+            // 
+            // mavlinkCheckBoxCompass3External
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass3External, "mavlinkCheckBoxCompass3External");
+            this.mavlinkCheckBoxCompass3External.Name = "mavlinkCheckBoxCompass3External";
+            this.mavlinkCheckBoxCompass3External.OffValue = 0D;
+            this.mavlinkCheckBoxCompass3External.OnValue = 1D;
+            this.mavlinkCheckBoxCompass3External.ParamName = null;
+            this.mavlinkCheckBoxCompass3External.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkCheckBoxCompass3Use
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxCompass3Use, "mavlinkCheckBoxCompass3Use");
+            this.mavlinkCheckBoxCompass3Use.Name = "mavlinkCheckBoxCompass3Use";
+            this.mavlinkCheckBoxCompass3Use.OffValue = 0D;
+            this.mavlinkCheckBoxCompass3Use.OnValue = 1D;
+            this.mavlinkCheckBoxCompass3Use.ParamName = null;
+            this.mavlinkCheckBoxCompass3Use.UseVisualStyleBackColor = true;
+            // 
+            // CMB3_compass_orient
+            // 
+            this.CMB3_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB3_compass_orient, "CMB3_compass_orient");
+            this.CMB3_compass_orient.FormattingEnabled = true;
+            this.CMB3_compass_orient.Name = "CMB3_compass_orient";
+            this.CMB3_compass_orient.ParamName = null;
+            this.CMB3_compass_orient.SubControl = null;
+            // 
+            // labelPrimaryCompass
+            // 
+            resources.ApplyResources(this.labelPrimaryCompass, "labelPrimaryCompass");
+            this.labelPrimaryCompass.Name = "labelPrimaryCompass";
+            // 
+            // mavlinkComboBox1
+            // 
+            this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBox1, "mavlinkComboBox1");
+            this.mavlinkComboBox1.FormattingEnabled = true;
+            this.mavlinkComboBox1.Name = "mavlinkComboBox1";
+            this.mavlinkComboBox1.ParamName = null;
+            this.mavlinkComboBox1.SubControl = null;
+            // 
             // ConfigHWCompass
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBoxCompass3);
+            this.Controls.Add(this.groupBoxCompass2);
+            this.Controls.Add(this.groupBoxCompass1);
+            this.Controls.Add(this.groupBoxGeneralSettings);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.TXT_declination_min);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.imageLabel1);
-            this.Controls.Add(this.CHK_enablecompass);
+            this.Controls.Add(this.groupBoxQuickSetup);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.CHK_autodec);
-            this.Controls.Add(this.linkLabelmagdec);
-            this.Controls.Add(this.label100);
-            this.Controls.Add(this.TXT_declination_deg);
-            this.Controls.Add(this.pictureBox1);
             this.Name = "ConfigHWCompass";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.groupBoxQuickSetup.ResumeLayout(false);
+            this.groupBoxQuickSetup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            this.groupBox3.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.groupBoxGeneralSettings.ResumeLayout(false);
+            this.groupBoxGeneralSettings.PerformLayout();
+            this.groupBoxCompass1.ResumeLayout(false);
+            this.groupBoxCompass2.ResumeLayout(false);
+            this.groupBoxCompass3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -348,29 +459,20 @@
 
         private Controls.MyButton BUT_MagCalibrationLive;
         private System.Windows.Forms.LinkLabel linkLabelmagdec;
-        private System.Windows.Forms.Label label100;
         private System.Windows.Forms.TextBox TXT_declination_deg;
         private Controls.MavlinkCheckBox CHK_enablecompass;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.CheckBox CHK_autodec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
-        private Controls.MavlinkComboBox CMB_compass_orient;
+        private Controls.MavlinkComboBox CMB_compass1_orient;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.Label label1;
-        private Controls.ImageLabel imageLabel1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton radioButtonmanual;
-        private System.Windows.Forms.RadioButton radioButton_external;
+        private System.Windows.Forms.GroupBox groupBoxQuickSetup;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.RadioButton radioButton_onboard;
         private System.Windows.Forms.TextBox TXT_declination_min;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton rb_px4pixhawk;
         private System.Windows.Forms.PictureBox pictureBox4;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.MyButton BUT_OBmagcalaccept;
         private Controls.MyButton BUT_OBmagcalcancel;
@@ -379,5 +481,24 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button buttonAPMExternal;
+        private System.Windows.Forms.Button QuickAPM25;
+        private System.Windows.Forms.Button buttonQuickPixhawk;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox groupBoxGeneralSettings;
+        private System.Windows.Forms.GroupBox groupBoxCompass1;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompassLearn;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass1External;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass1Use;
+        private Controls.MavlinkComboBox mavlinkComboBox1;
+        private System.Windows.Forms.Label labelPrimaryCompass;
+        private System.Windows.Forms.GroupBox groupBoxCompass2;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass2External;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass2Use;
+        private Controls.MavlinkComboBox CMB_compass2_orient;
+        private System.Windows.Forms.GroupBox groupBoxCompass3;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass3External;
+        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass3Use;
+        private Controls.MavlinkComboBox CMB3_compass_orient;
     }
 }

@@ -29,7 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
-            CMB_compass_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+            CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
 
 
             CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param, TXT_declination_deg);
@@ -229,13 +229,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (radioButton_onboard.Checked && sender == radioButton_onboard)
                 {
-                    CMB_compass_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
+                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
                     MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
                 }
 
                 if (radioButton_external.Checked && sender == radioButton_external)
                 {
-                    CMB_compass_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
+                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
                     MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
                 }
 
@@ -245,11 +245,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
                             MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        CMB_compass_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
+                        CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
                     }
                     else
                     {
-                        CMB_compass_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
+                        CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
                         MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
                     }
                 }
@@ -352,6 +352,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             lbl_obmagresult.SelectionStart = lbl_obmagresult.Text.Length - 1;
+        }
+
+        private void buttonQuickPixhawk_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void QuickAPM25_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonAPMExternal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CHK_compasslearn_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["COMPASS_LEARN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("COMPASS_LEARN", ((CheckBox)sender).Checked ? 1 : 0);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set COMPASS_LEARN Failed");
+            }
         }
     }
 }
