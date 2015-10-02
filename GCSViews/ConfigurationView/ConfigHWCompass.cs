@@ -216,50 +216,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (!MainV2.comPort.BaseStream.IsOpen)
-            {
-                CustomMessageBox.Show(Strings.ErrorNotConnected);
-                MainV2.View.Reload();
-                return;
-            }
-
-            try
-            {
-                if (radioButton_onboard.Checked && sender == radioButton_onboard)
-                {
-                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
-                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
-                }
-
-                if (radioButton_external.Checked && sender == radioButton_external)
-                {
-                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
-                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
-                }
-
-                if (rb_px4pixhawk.Checked && sender == rb_px4pixhawk)
-                {
-                    if (
-                        CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
-                            MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
-                    }
-                    else
-                    {
-                        CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
-                        MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
-                    }
-                }
-            }
-            catch (Exception)
-            {
-                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
-            }
-        }
-
         private List<MAVLink.mavlink_mag_cal_progress_t> mprog = new List<MAVLink.mavlink_mag_cal_progress_t>();
         private List<MAVLink.mavlink_mag_cal_report_t> mrep = new List<MAVLink.mavlink_mag_cal_report_t>();
 
@@ -356,17 +312,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void buttonQuickPixhawk_Click(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show(Strings.ErrorNotConnected);
+                MainV2.View.Reload();
+                return;
+            }
 
+            try
+            {
+                if (
+                        CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
+                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                }
+                else
+                {
+                    CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                }
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+            }
         }
 
         private void QuickAPM25_Click(object sender, EventArgs e)
         {
-
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show(Strings.ErrorNotConnected);
+                MainV2.View.Reload();
+                return;
+            }
+            try
+            {
+                CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+            }
         }
 
         private void buttonAPMExternal_Click(object sender, EventArgs e)
         {
-
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show(Strings.ErrorNotConnected);
+                MainV2.View.Reload();
+                return;
+            }
+            try
+            {
+                CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
+            }
+            catch (Exception)
+            {
+                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+            }
         }
 
         private void CHK_compasslearn_CheckedChanged(object sender, EventArgs e)
