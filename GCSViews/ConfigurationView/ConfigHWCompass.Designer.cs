@@ -63,22 +63,22 @@
             this.LBL_primary_compass = new System.Windows.Forms.Label();
             this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass1 = new System.Windows.Forms.GroupBox();
+            this.LBL_compass1_mot = new System.Windows.Forms.Label();
+            this.LBL_compass1_offset = new System.Windows.Forms.Label();
             this.CHK_compass1_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass1_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass2 = new System.Windows.Forms.GroupBox();
+            this.LBL_compass2_mot = new System.Windows.Forms.Label();
+            this.LBL_compass2_offset = new System.Windows.Forms.Label();
             this.CHK_compass2_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass2_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass2_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBoxCompass3 = new System.Windows.Forms.GroupBox();
+            this.LBL_compass3_mot = new System.Windows.Forms.Label();
+            this.LBL_compass3_offset = new System.Windows.Forms.Label();
             this.CHK_compass3_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass3_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass3_orient = new MissionPlanner.Controls.MavlinkComboBox();
-            this.LBL_compass1_offset = new System.Windows.Forms.Label();
-            this.LBL_compass2_offset = new System.Windows.Forms.Label();
-            this.LBL_compass3_offset = new System.Windows.Forms.Label();
-            this.LBL_compass1_mot = new System.Windows.Forms.Label();
-            this.LBL_compass2_mot = new System.Windows.Forms.Label();
-            this.LBL_compass3_mot = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBoxQuickSetup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -339,6 +339,16 @@
             this.groupBoxCompass1.Name = "groupBoxCompass1";
             this.groupBoxCompass1.TabStop = false;
             // 
+            // LBL_compass1_mot
+            // 
+            resources.ApplyResources(this.LBL_compass1_mot, "LBL_compass1_mot");
+            this.LBL_compass1_mot.Name = "LBL_compass1_mot";
+            // 
+            // LBL_compass1_offset
+            // 
+            resources.ApplyResources(this.LBL_compass1_offset, "LBL_compass1_offset");
+            this.LBL_compass1_offset.Name = "LBL_compass1_offset";
+            // 
             // CHK_compass1_external
             // 
             resources.ApplyResources(this.CHK_compass1_external, "CHK_compass1_external");
@@ -347,6 +357,7 @@
             this.CHK_compass1_external.OnValue = 1D;
             this.CHK_compass1_external.ParamName = null;
             this.CHK_compass1_external.UseVisualStyleBackColor = true;
+            this.CHK_compass1_external.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // CHK_compass1_use
             // 
@@ -356,6 +367,7 @@
             this.CHK_compass1_use.OnValue = 1D;
             this.CHK_compass1_use.ParamName = null;
             this.CHK_compass1_use.UseVisualStyleBackColor = true;
+            this.CHK_compass1_use.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // groupBoxCompass2
             // 
@@ -368,6 +380,16 @@
             this.groupBoxCompass2.Name = "groupBoxCompass2";
             this.groupBoxCompass2.TabStop = false;
             // 
+            // LBL_compass2_mot
+            // 
+            resources.ApplyResources(this.LBL_compass2_mot, "LBL_compass2_mot");
+            this.LBL_compass2_mot.Name = "LBL_compass2_mot";
+            // 
+            // LBL_compass2_offset
+            // 
+            resources.ApplyResources(this.LBL_compass2_offset, "LBL_compass2_offset");
+            this.LBL_compass2_offset.Name = "LBL_compass2_offset";
+            // 
             // CHK_compass2_external
             // 
             resources.ApplyResources(this.CHK_compass2_external, "CHK_compass2_external");
@@ -376,6 +398,7 @@
             this.CHK_compass2_external.OnValue = 1D;
             this.CHK_compass2_external.ParamName = null;
             this.CHK_compass2_external.UseVisualStyleBackColor = true;
+            this.CHK_compass2_external.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // CHK_compass2_use
             // 
@@ -385,6 +408,7 @@
             this.CHK_compass2_use.OnValue = 1D;
             this.CHK_compass2_use.ParamName = null;
             this.CHK_compass2_use.UseVisualStyleBackColor = true;
+            this.CHK_compass2_use.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // CMB_compass2_orient
             // 
@@ -406,6 +430,16 @@
             this.groupBoxCompass3.Name = "groupBoxCompass3";
             this.groupBoxCompass3.TabStop = false;
             // 
+            // LBL_compass3_mot
+            // 
+            resources.ApplyResources(this.LBL_compass3_mot, "LBL_compass3_mot");
+            this.LBL_compass3_mot.Name = "LBL_compass3_mot";
+            // 
+            // LBL_compass3_offset
+            // 
+            resources.ApplyResources(this.LBL_compass3_offset, "LBL_compass3_offset");
+            this.LBL_compass3_offset.Name = "LBL_compass3_offset";
+            // 
             // CHK_compass3_external
             // 
             resources.ApplyResources(this.CHK_compass3_external, "CHK_compass3_external");
@@ -414,6 +448,7 @@
             this.CHK_compass3_external.OnValue = 1D;
             this.CHK_compass3_external.ParamName = null;
             this.CHK_compass3_external.UseVisualStyleBackColor = true;
+            this.CHK_compass3_external.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // CHK_compass3_use
             // 
@@ -423,6 +458,7 @@
             this.CHK_compass3_use.OnValue = 1D;
             this.CHK_compass3_use.ParamName = null;
             this.CHK_compass3_use.UseVisualStyleBackColor = true;
+            this.CHK_compass3_use.CheckedChanged += new System.EventHandler(this.CHK_compass);
             // 
             // CMB_compass3_orient
             // 
@@ -432,36 +468,6 @@
             this.CMB_compass3_orient.Name = "CMB_compass3_orient";
             this.CMB_compass3_orient.ParamName = null;
             this.CMB_compass3_orient.SubControl = null;
-            // 
-            // LBL_compass1_offset
-            // 
-            resources.ApplyResources(this.LBL_compass1_offset, "LBL_compass1_offset");
-            this.LBL_compass1_offset.Name = "LBL_compass1_offset";
-            // 
-            // LBL_compass2_offset
-            // 
-            resources.ApplyResources(this.LBL_compass2_offset, "LBL_compass2_offset");
-            this.LBL_compass2_offset.Name = "LBL_compass2_offset";
-            // 
-            // LBL_compass3_offset
-            // 
-            resources.ApplyResources(this.LBL_compass3_offset, "LBL_compass3_offset");
-            this.LBL_compass3_offset.Name = "LBL_compass3_offset";
-            // 
-            // LBL_compass1_mot
-            // 
-            resources.ApplyResources(this.LBL_compass1_mot, "LBL_compass1_mot");
-            this.LBL_compass1_mot.Name = "LBL_compass1_mot";
-            // 
-            // LBL_compass2_mot
-            // 
-            resources.ApplyResources(this.LBL_compass2_mot, "LBL_compass2_mot");
-            this.LBL_compass2_mot.Name = "LBL_compass2_mot";
-            // 
-            // LBL_compass3_mot
-            // 
-            resources.ApplyResources(this.LBL_compass3_mot, "LBL_compass3_mot");
-            this.LBL_compass3_mot.Name = "LBL_compass3_mot";
             // 
             // ConfigHWCompass
             // 

@@ -98,6 +98,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 groupBoxCompass3.Hide();
             }
 
+            ShowRelevantFields();
+
             startup = false;
         }
 
@@ -451,5 +453,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Set COMPASS_LEARN Failed");
             }
         }
+        
+
+        
+        private void CHK_compass(object sender, EventArgs e)
+        {
+            ShowRelevantFields();
+        }
+
+        private void ShowRelevantFields()
+        {
+            CMB_compass1_orient.Visible = CHK_compass1_external.Checked;
+            CMB_compass2_orient.Visible = CHK_compass2_external.Checked;
+            CMB_compass3_orient.Visible = CHK_compass3_external.Checked;
+
+            LBL_compass1_mot.Visible = CHK_compass1_use.Checked;
+            LBL_compass1_offset.Visible = CHK_compass1_use.Checked;
+
+            LBL_compass2_mot.Visible = CHK_compass2_use.Checked;
+            LBL_compass2_offset.Visible = CHK_compass2_use.Checked;
+
+            LBL_compass3_mot.Visible = CHK_compass3_use.Checked;
+            LBL_compass3_offset.Visible = CHK_compass3_use.Checked;
+        }
     }
+
+
 }
