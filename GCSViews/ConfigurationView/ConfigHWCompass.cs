@@ -63,8 +63,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Compass 2 settings
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
             {
-                CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
+                CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param);
                 CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
                 CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
@@ -82,8 +82,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN3"))
             {
-                CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param);
+                CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
                 CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
 
                 LBL_compass3_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() +
@@ -375,8 +375,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // with the different firmware versions, and I changed something about the externality
                 MainV2.comPort.setParam("COMPASS_USE", 1);
                 MainV2.comPort.setParam("COMPASS_USE2", 1);
-                MainV2.comPort.setParam("COMPASS_EXTERN", 1);
+                MainV2.comPort.setParam("COMPASS_USE3", 0);
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
                 MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
+
+                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam("COMPASS_LEARN", 1);
+
                 if (
                         CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
                             MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -393,6 +399,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+            Activate();
         }
 
         private void QuickAPM25_Click(object sender, EventArgs e)
@@ -406,14 +413,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                MainV2.comPort.setParam("COMPASS_USE1", 1);
+                MainV2.comPort.setParam("COMPASS_USE2", 0);
+                MainV2.comPort.setParam("COMPASS_USE3", 0);
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
-
+                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
+                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam("COMPASS_LEARN", 1);
 
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+            Activate();
         }
 
         private void buttonAPMExternal_Click(object sender, EventArgs e)
@@ -428,11 +442,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
+                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
+                MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
+
+                MainV2.comPort.setParam("COMPASS_USE1", 1);
+                MainV2.comPort.setParam("COMPASS_USE2", 0);
+                MainV2.comPort.setParam("COMPASS_USE3", 0);
+
+                MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
+                MainV2.comPort.setParam("COMPASS_LEARN", 1);
+
             }
             catch (Exception)
             {
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
             }
+            Activate();
         }
 
         private void CHK_compasslearn_CheckedChanged(object sender, EventArgs e)
