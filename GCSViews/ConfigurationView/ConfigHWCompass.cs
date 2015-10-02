@@ -31,58 +31,71 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
-            CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
-           
-
+            // General Compass Settings
             CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param);
-
-            CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param, TXT_declination_deg);
-
-            CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param, TXT_declination_deg);
-            CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param, TXT_declination_deg);
-            
-            // APM2 doesn't actually contain these parameters compasses #2 and #3, so we disable all the 
-            // controls that reference them
-            if(MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
-            {
-                CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param, TXT_declination_deg);
-                CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
-                CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
-                CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
-
-            }
-            else
-            {
-                CHK_compass2_external.Hide();
-                CHK_compass3_external.Hide();
-                CHK_compass1_use.Hide();
-                CHK_compass2_use.Hide();
-                CHK_compass3_use.Hide();
-                CMB_compass2_orient.Hide();
-                CMB_compass3_orient.Hide();
-                LBL_primary_compass.Hide();
-                CMB_primary_compass.Hide();
-                groupBoxCompass2.Hide();
-                groupBoxCompass3.Hide();
-            }
-
-
+            CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
             {
-                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value*rad2deg;
+                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value * rad2deg;
 
-                var min = (dec - (int) dec)*60;
+                var min = (dec - (int)dec) * 60;
 
-                TXT_declination_deg.Text = ((int) dec).ToString("0");
+                TXT_declination_deg.Text = ((int)dec).ToString("0");
                 TXT_declination_min.Text = min.ToString("0");
             }
 
             if (MainV2.comPort.MAV.param["COMPASS_AUTODEC"] != null)
             {
                 CHK_autodec.Checked = MainV2.comPort.MAV.param["COMPASS_AUTODEC"].ToString() == "1" ? true : false;
+            }
+
+            // Compass 1 settings
+            CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
+            CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
+            CMB_compass1_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+            LBL_compass1_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() +
+                ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS_Y"].ToString() +
+                ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS_Z"].ToString();
+            LBL_compass1_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT_X"].ToString() +
+                ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT_Y"].ToString() +
+                ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT_Z"].ToString();
+
+            // Compass 2 settings
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
+            {
+                CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
+                CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
+
+                LBL_compass2_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS2_X"].ToString() +
+               ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS2_Y"].ToString() +
+               ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS2_Z"].ToString();
+                LBL_compass2_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT2_X"].ToString() +
+                    ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT2_Y"].ToString() +
+                    ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT2_Z"].ToString();
+            }
+            else
+            {
+                groupBoxCompass2.Hide();
+            }
+
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN3"))
+            {
+                CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
+
+                LBL_compass3_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() +
+               ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS_Y"].ToString() +
+               ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS_Z"].ToString();
+                LBL_compass3_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT3_X"].ToString() +
+                    ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT3_Y"].ToString() +
+                    ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT3_Z"].ToString();
+            }
+            else
+            {
+                groupBoxCompass3.Hide();
             }
 
             startup = false;

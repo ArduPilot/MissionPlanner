@@ -73,6 +73,12 @@
             this.CHK_compass3_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass3_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass3_orient = new MissionPlanner.Controls.MavlinkComboBox();
+            this.LBL_compass1_offset = new System.Windows.Forms.Label();
+            this.LBL_compass2_offset = new System.Windows.Forms.Label();
+            this.LBL_compass3_offset = new System.Windows.Forms.Label();
+            this.LBL_compass1_mot = new System.Windows.Forms.Label();
+            this.LBL_compass2_mot = new System.Windows.Forms.Label();
+            this.LBL_compass3_mot = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBoxQuickSetup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -324,6 +330,8 @@
             // 
             // groupBoxCompass1
             // 
+            this.groupBoxCompass1.Controls.Add(this.LBL_compass1_mot);
+            this.groupBoxCompass1.Controls.Add(this.LBL_compass1_offset);
             this.groupBoxCompass1.Controls.Add(this.CHK_compass1_external);
             this.groupBoxCompass1.Controls.Add(this.CHK_compass1_use);
             this.groupBoxCompass1.Controls.Add(this.CMB_compass1_orient);
@@ -351,6 +359,8 @@
             // 
             // groupBoxCompass2
             // 
+            this.groupBoxCompass2.Controls.Add(this.LBL_compass2_mot);
+            this.groupBoxCompass2.Controls.Add(this.LBL_compass2_offset);
             this.groupBoxCompass2.Controls.Add(this.CHK_compass2_external);
             this.groupBoxCompass2.Controls.Add(this.CHK_compass2_use);
             this.groupBoxCompass2.Controls.Add(this.CMB_compass2_orient);
@@ -387,6 +397,8 @@
             // 
             // groupBoxCompass3
             // 
+            this.groupBoxCompass3.Controls.Add(this.LBL_compass3_mot);
+            this.groupBoxCompass3.Controls.Add(this.LBL_compass3_offset);
             this.groupBoxCompass3.Controls.Add(this.CHK_compass3_external);
             this.groupBoxCompass3.Controls.Add(this.CHK_compass3_use);
             this.groupBoxCompass3.Controls.Add(this.CMB_compass3_orient);
@@ -421,6 +433,36 @@
             this.CMB_compass3_orient.ParamName = null;
             this.CMB_compass3_orient.SubControl = null;
             // 
+            // LBL_compass1_offset
+            // 
+            resources.ApplyResources(this.LBL_compass1_offset, "LBL_compass1_offset");
+            this.LBL_compass1_offset.Name = "LBL_compass1_offset";
+            // 
+            // LBL_compass2_offset
+            // 
+            resources.ApplyResources(this.LBL_compass2_offset, "LBL_compass2_offset");
+            this.LBL_compass2_offset.Name = "LBL_compass2_offset";
+            // 
+            // LBL_compass3_offset
+            // 
+            resources.ApplyResources(this.LBL_compass3_offset, "LBL_compass3_offset");
+            this.LBL_compass3_offset.Name = "LBL_compass3_offset";
+            // 
+            // LBL_compass1_mot
+            // 
+            resources.ApplyResources(this.LBL_compass1_mot, "LBL_compass1_mot");
+            this.LBL_compass1_mot.Name = "LBL_compass1_mot";
+            // 
+            // LBL_compass2_mot
+            // 
+            resources.ApplyResources(this.LBL_compass2_mot, "LBL_compass2_mot");
+            this.LBL_compass2_mot.Name = "LBL_compass2_mot";
+            // 
+            // LBL_compass3_mot
+            // 
+            resources.ApplyResources(this.LBL_compass3_mot, "LBL_compass3_mot");
+            this.LBL_compass3_mot.Name = "LBL_compass3_mot";
+            // 
             // ConfigHWCompass
             // 
             resources.ApplyResources(this, "$this");
@@ -448,8 +490,11 @@
             this.groupBoxGeneralSettings.ResumeLayout(false);
             this.groupBoxGeneralSettings.PerformLayout();
             this.groupBoxCompass1.ResumeLayout(false);
+            this.groupBoxCompass1.PerformLayout();
             this.groupBoxCompass2.ResumeLayout(false);
+            this.groupBoxCompass2.PerformLayout();
             this.groupBoxCompass3.ResumeLayout(false);
+            this.groupBoxCompass3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -500,5 +545,11 @@
         private Controls.MavlinkCheckBox CHK_compass3_external;
         private Controls.MavlinkCheckBox CHK_compass3_use;
         private Controls.MavlinkComboBox CMB_compass3_orient;
+        private System.Windows.Forms.Label LBL_compass1_mot;
+        private System.Windows.Forms.Label LBL_compass1_offset;
+        private System.Windows.Forms.Label LBL_compass2_mot;
+        private System.Windows.Forms.Label LBL_compass2_offset;
+        private System.Windows.Forms.Label LBL_compass3_mot;
+        private System.Windows.Forms.Label LBL_compass3_offset;
     }
 }
