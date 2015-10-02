@@ -1870,16 +1870,11 @@ namespace MissionPlanner.Log
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
             bool ret = false;
+            int index_lat = -1;
+            int index_lng = -1;
             pt = new PointLatLng();
 
-            if (!dflog.logformat.ContainsKey("GPS"))
-                return ret;
-
-            int index_lat = dflog.FindMessageOffset("GPS", "Lat");
-            int index_lng = dflog.FindMessageOffset("GPS", "Lng");
-            int index_status = dflog.FindMessageOffset("GPS", "Status");
-
-            if (index_lat < 0 || index_lng < 0 || index_status < 0)
+            if (!dflog.logformat.ContainsKey("GPS") && !dflog.logformat.ContainsKey("POS"))
                 return ret;
 
             const int maxSearch = 1000;
@@ -1890,7 +1885,7 @@ namespace MissionPlanner.Log
             for (int i = 0; i < maxSearch && !found; i++)
             {
                 string searching = logdata[lineNumber + i];
-                if (searching.StartsWith("GPS"))
+                if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
                 {
                     offset = i;
                     found = true;
@@ -1901,7 +1896,7 @@ namespace MissionPlanner.Log
             for (int i = 0; i < maxSearch && !found; i++)
             {
                 string searching = logdata[lineNumber - i];
-                if (searching.StartsWith("GPS"))
+                if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
                 {
                     roffset = i;
                     found = true;
@@ -1923,12 +1918,29 @@ namespace MissionPlanner.Log
             {
                 string gpsline = logdata[lineNumber];
                 var item = dflog.GetDFItemFromLine(gpsline, lineNumber);
-                int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
-                if (status < 3)
+                if (gpsline.StartsWith("GPS"))
                 {
-                    ret = false;
+                    index_lat = dflog.FindMessageOffset("GPS", "Lat");
+                    index_lng = dflog.FindMessageOffset("GPS", "Lng");
+                    int index_status = dflog.FindMessageOffset("GPS", "Status");
+                
+                    if (index_status < 0)
+                        ret = false;
+
+                    int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
+                    if (status < 3)
+                        ret = false;
                 }
-                else
+                else if (gpsline.StartsWith("POS"))
+                {
+                    index_lat = dflog.FindMessageOffset("POS", "Lat");
+                    index_lng = dflog.FindMessageOffset("POS", "Lng");
+                }
+
+                if (index_lat < 0 || index_lng < 0)
+                    ret = false;
+
+                if (ret)
                 {
                     string lat = item.items[index_lat];
                     string lng = item.items[index_lng];
