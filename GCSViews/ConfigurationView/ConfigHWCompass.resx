@@ -550,7 +550,7 @@
     <value>CMB_compass1_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -808,7 +808,7 @@
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
@@ -870,85 +870,85 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="mavlinkComboBox1.Enabled" type="System.Boolean, mscorlib">
+  <data name="CMB_primary_compass.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkComboBox1.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CMB_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
     <value>121, 44</value>
   </data>
-  <data name="mavlinkComboBox1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CMB_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 21</value>
   </data>
-  <data name="mavlinkComboBox1.TabIndex" type="System.Int32, mscorlib">
+  <data name="CMB_primary_compass.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox1.Name" xml:space="preserve">
-    <value>mavlinkComboBox1</value>
+  <data name="&gt;&gt;CMB_primary_compass.Name" xml:space="preserve">
+    <value>CMB_primary_compass</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CMB_primary_compass.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CMB_primary_compass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CMB_primary_compass.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="labelPrimaryCompass.AutoSize" type="System.Boolean, mscorlib">
+  <data name="LBL_primary_compass.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="labelPrimaryCompass.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="LBL_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 44</value>
   </data>
-  <data name="labelPrimaryCompass.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="LBL_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
-  <data name="labelPrimaryCompass.TabIndex" type="System.Int32, mscorlib">
+  <data name="LBL_primary_compass.TabIndex" type="System.Int32, mscorlib">
     <value>92</value>
   </data>
-  <data name="labelPrimaryCompass.Text" xml:space="preserve">
+  <data name="LBL_primary_compass.Text" xml:space="preserve">
     <value>Primary Compass:</value>
   </data>
-  <data name="&gt;&gt;labelPrimaryCompass.Name" xml:space="preserve">
-    <value>labelPrimaryCompass</value>
+  <data name="&gt;&gt;LBL_primary_compass.Name" xml:space="preserve">
+    <value>LBL_primary_compass</value>
   </data>
-  <data name="&gt;&gt;labelPrimaryCompass.Type" xml:space="preserve">
+  <data name="&gt;&gt;LBL_primary_compass.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;labelPrimaryCompass.Parent" xml:space="preserve">
+  <data name="&gt;&gt;LBL_primary_compass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
   </data>
-  <data name="&gt;&gt;labelPrimaryCompass.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;LBL_primary_compass.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass_learn.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass_learn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass_learn.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 168</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass_learn.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass_learn.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
   </data>
-  <data name="mavlinkCheckBoxCompassLearn.Text" xml:space="preserve">
+  <data name="CHK_compass_learn.Text" xml:space="preserve">
     <value>Automatically learn offsets</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompassLearn.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompassLearn</value>
+  <data name="&gt;&gt;CHK_compass_learn.Name" xml:space="preserve">
+    <value>CHK_compass_learn</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompassLearn.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass_learn.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompassLearn.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass_learn.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompassLearn.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass_learn.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="groupBoxGeneralSettings.Location" type="System.Drawing.Point, System.Drawing">
@@ -975,64 +975,64 @@
   <data name="&gt;&gt;groupBoxGeneralSettings.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass1_external.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass1_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass1_external.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 39</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass1_external.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass1_external.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1External.Text" xml:space="preserve">
+  <data name="CHK_compass1_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1External.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass1External</value>
+  <data name="&gt;&gt;CHK_compass1_external.Name" xml:space="preserve">
+    <value>CHK_compass1_external</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1External.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1External.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1External.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass1_external.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass1_use.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass1_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass1_use.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 19</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass1_use.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass1_use.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
   </data>
-  <data name="mavlinkCheckBoxCompass1Use.Text" xml:space="preserve">
+  <data name="CHK_compass1_use.Text" xml:space="preserve">
     <value>Use this compass</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1Use.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass1Use</value>
+  <data name="&gt;&gt;CHK_compass1_use.Name" xml:space="preserve">
+    <value>CHK_compass1_use</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1Use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1Use.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass1Use.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass1_use.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="groupBoxCompass1.Location" type="System.Drawing.Point, System.Drawing">
@@ -1059,64 +1059,64 @@
   <data name="&gt;&gt;groupBoxCompass1.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass2_external.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass2_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass2_external.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 39</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass2_external.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass2_external.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2External.Text" xml:space="preserve">
+  <data name="CHK_compass2_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2External.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass2External</value>
+  <data name="&gt;&gt;CHK_compass2_external.Name" xml:space="preserve">
+    <value>CHK_compass2_external</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2External.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2External.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2External.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass2_external.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass2_use.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass2_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass2_use.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 19</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass2_use.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass2_use.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
   </data>
-  <data name="mavlinkCheckBoxCompass2Use.Text" xml:space="preserve">
+  <data name="CHK_compass2_use.Text" xml:space="preserve">
     <value>Use this compass</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2Use.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass2Use</value>
+  <data name="&gt;&gt;CHK_compass2_use.Name" xml:space="preserve">
+    <value>CHK_compass2_use</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2Use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2Use.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass2Use.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass2_use.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="CMB_compass2_orient.Enabled" type="System.Boolean, mscorlib">
@@ -1135,7 +1135,7 @@
     <value>CMB_compass2_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1167,88 +1167,88 @@
   <data name="&gt;&gt;groupBoxCompass2.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass3_external.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass3_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass3_external.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 39</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass3_external.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass3_external.TabIndex" type="System.Int32, mscorlib">
     <value>43</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3External.Text" xml:space="preserve">
+  <data name="CHK_compass3_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3External.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass3External</value>
+  <data name="&gt;&gt;CHK_compass3_external.Name" xml:space="preserve">
+    <value>CHK_compass3_external</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3External.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3External.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3External.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass3_external.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.Enabled" type="System.Boolean, mscorlib">
+  <data name="CHK_compass3_use.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="CHK_compass3_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CHK_compass3_use.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 19</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CHK_compass3_use.Size" type="System.Drawing.Size, System.Drawing">
     <value>148, 23</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass3_use.TabIndex" type="System.Int32, mscorlib">
     <value>42</value>
   </data>
-  <data name="mavlinkCheckBoxCompass3Use.Text" xml:space="preserve">
+  <data name="CHK_compass3_use.Text" xml:space="preserve">
     <value>Use this compass</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3Use.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxCompass3Use</value>
+  <data name="&gt;&gt;CHK_compass3_use.Name" xml:space="preserve">
+    <value>CHK_compass3_use</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3Use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3Use.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
   </data>
-  <data name="&gt;&gt;mavlinkCheckBoxCompass3Use.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CHK_compass3_use.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="CMB3_compass_orient.Enabled" type="System.Boolean, mscorlib">
+  <data name="CMB_compass3_orient.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="CMB3_compass_orient.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="CMB_compass3_orient.Location" type="System.Drawing.Point, System.Drawing">
     <value>30, 68</value>
   </data>
-  <data name="CMB3_compass_orient.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="CMB_compass3_orient.Size" type="System.Drawing.Size, System.Drawing">
     <value>164, 21</value>
   </data>
-  <data name="CMB3_compass_orient.TabIndex" type="System.Int32, mscorlib">
+  <data name="CMB_compass3_orient.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
   </data>
-  <data name="&gt;&gt;CMB3_compass_orient.Name" xml:space="preserve">
-    <value>CMB3_compass_orient</value>
+  <data name="&gt;&gt;CMB_compass3_orient.Name" xml:space="preserve">
+    <value>CMB_compass3_orient</value>
   </data>
-  <data name="&gt;&gt;CMB3_compass_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5751.36839, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5752.32888, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;CMB3_compass_orient.Parent" xml:space="preserve">
+  <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
   </data>
-  <data name="&gt;&gt;CMB3_compass_orient.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;CMB_compass3_orient.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="groupBoxCompass3.Location" type="System.Drawing.Point, System.Drawing">

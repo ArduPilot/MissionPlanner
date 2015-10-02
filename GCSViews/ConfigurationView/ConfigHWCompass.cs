@@ -13,6 +13,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private const float deg2rad = (float) (1.0/rad2deg);
         private bool startup;
 
+        private enum CompassNumber { C1 = 0, C2, C3 };
+
         public ConfigHWCompass()
         {
             InitializeComponent();
@@ -30,9 +32,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
 
             CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+           
 
+            CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param);
 
-            CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param, TXT_declination_deg);
+            CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param, TXT_declination_deg);
+
+            CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param, TXT_declination_deg);
+            CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param, TXT_declination_deg);
+            
+            // APM2 doesn't actually contain these parameters compasses #2 and #3, so we disable all the 
+            // controls that reference them
+            if(MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
+            {
+                CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param, TXT_declination_deg);
+                CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
+                CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
+                CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
+
+            }
+            else
+            {
+                CHK_compass2_external.Hide();
+                CHK_compass3_external.Hide();
+                CHK_compass1_use.Hide();
+                CHK_compass2_use.Hide();
+                CHK_compass3_use.Hide();
+                CMB_compass2_orient.Hide();
+                CMB_compass3_orient.Hide();
+                LBL_primary_compass.Hide();
+                CMB_primary_compass.Hide();
+                groupBoxCompass2.Hide();
+                groupBoxCompass3.Hide();
+            }
 
 
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
@@ -321,6 +356,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
+                // TODO: check this code against the original. I don't understand what the original does
+                // with the different firmware versions, and I changed something about the externality
+                MainV2.comPort.setParam("COMPASS_USE", 1);
+                MainV2.comPort.setParam("COMPASS_USE2", 1);
+                MainV2.comPort.setParam("COMPASS_EXTERN", 1);
+                MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
                 if (
                         CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
                             MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -351,6 +392,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+
+
             }
             catch (Exception)
             {

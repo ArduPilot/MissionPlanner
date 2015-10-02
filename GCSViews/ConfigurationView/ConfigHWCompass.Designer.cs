@@ -59,20 +59,20 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
-            this.mavlinkCheckBoxCompassLearn = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB_primary_compass = new MissionPlanner.Controls.MavlinkComboBox();
+            this.LBL_primary_compass = new System.Windows.Forms.Label();
+            this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass1 = new System.Windows.Forms.GroupBox();
-            this.mavlinkCheckBoxCompass1Use = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxCompass1External = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass1_external = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass1_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass2 = new System.Windows.Forms.GroupBox();
-            this.mavlinkCheckBoxCompass2External = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxCompass2Use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass2_external = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass2_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass2_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBoxCompass3 = new System.Windows.Forms.GroupBox();
-            this.mavlinkCheckBoxCompass3External = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxCompass3Use = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CMB3_compass_orient = new MissionPlanner.Controls.MavlinkComboBox();
-            this.labelPrimaryCompass = new System.Windows.Forms.Label();
-            this.mavlinkComboBox1 = new MissionPlanner.Controls.MavlinkComboBox();
+            this.CHK_compass3_external = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_compass3_use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB_compass3_orient = new MissionPlanner.Controls.MavlinkComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBoxQuickSetup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
@@ -284,9 +284,9 @@
             // 
             // groupBoxGeneralSettings
             // 
-            this.groupBoxGeneralSettings.Controls.Add(this.mavlinkComboBox1);
-            this.groupBoxGeneralSettings.Controls.Add(this.labelPrimaryCompass);
-            this.groupBoxGeneralSettings.Controls.Add(this.mavlinkCheckBoxCompassLearn);
+            this.groupBoxGeneralSettings.Controls.Add(this.CMB_primary_compass);
+            this.groupBoxGeneralSettings.Controls.Add(this.LBL_primary_compass);
+            this.groupBoxGeneralSettings.Controls.Add(this.CHK_compass_learn);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_enablecompass);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_autodec);
             this.groupBoxGeneralSettings.Controls.Add(this.label2);
@@ -298,69 +298,83 @@
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
             this.groupBoxGeneralSettings.TabStop = false;
             // 
-            // mavlinkCheckBoxCompassLearn
+            // CMB_primary_compass
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompassLearn, "mavlinkCheckBoxCompassLearn");
-            this.mavlinkCheckBoxCompassLearn.Name = "mavlinkCheckBoxCompassLearn";
-            this.mavlinkCheckBoxCompassLearn.OffValue = 0D;
-            this.mavlinkCheckBoxCompassLearn.OnValue = 1D;
-            this.mavlinkCheckBoxCompassLearn.ParamName = null;
-            this.mavlinkCheckBoxCompassLearn.UseVisualStyleBackColor = true;
-            this.mavlinkCheckBoxCompassLearn.CheckedChanged += new System.EventHandler(this.CHK_compasslearn_CheckedChanged);
+            this.CMB_primary_compass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_primary_compass, "CMB_primary_compass");
+            this.CMB_primary_compass.FormattingEnabled = true;
+            this.CMB_primary_compass.Name = "CMB_primary_compass";
+            this.CMB_primary_compass.ParamName = null;
+            this.CMB_primary_compass.SubControl = null;
+            // 
+            // LBL_primary_compass
+            // 
+            resources.ApplyResources(this.LBL_primary_compass, "LBL_primary_compass");
+            this.LBL_primary_compass.Name = "LBL_primary_compass";
+            // 
+            // CHK_compass_learn
+            // 
+            resources.ApplyResources(this.CHK_compass_learn, "CHK_compass_learn");
+            this.CHK_compass_learn.Name = "CHK_compass_learn";
+            this.CHK_compass_learn.OffValue = 0D;
+            this.CHK_compass_learn.OnValue = 1D;
+            this.CHK_compass_learn.ParamName = null;
+            this.CHK_compass_learn.UseVisualStyleBackColor = true;
+            this.CHK_compass_learn.CheckedChanged += new System.EventHandler(this.CHK_compasslearn_CheckedChanged);
             // 
             // groupBoxCompass1
             // 
-            this.groupBoxCompass1.Controls.Add(this.mavlinkCheckBoxCompass1External);
-            this.groupBoxCompass1.Controls.Add(this.mavlinkCheckBoxCompass1Use);
+            this.groupBoxCompass1.Controls.Add(this.CHK_compass1_external);
+            this.groupBoxCompass1.Controls.Add(this.CHK_compass1_use);
             this.groupBoxCompass1.Controls.Add(this.CMB_compass1_orient);
             resources.ApplyResources(this.groupBoxCompass1, "groupBoxCompass1");
             this.groupBoxCompass1.Name = "groupBoxCompass1";
             this.groupBoxCompass1.TabStop = false;
             // 
-            // mavlinkCheckBoxCompass1Use
+            // CHK_compass1_external
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass1Use, "mavlinkCheckBoxCompass1Use");
-            this.mavlinkCheckBoxCompass1Use.Name = "mavlinkCheckBoxCompass1Use";
-            this.mavlinkCheckBoxCompass1Use.OffValue = 0D;
-            this.mavlinkCheckBoxCompass1Use.OnValue = 1D;
-            this.mavlinkCheckBoxCompass1Use.ParamName = null;
-            this.mavlinkCheckBoxCompass1Use.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass1_external, "CHK_compass1_external");
+            this.CHK_compass1_external.Name = "CHK_compass1_external";
+            this.CHK_compass1_external.OffValue = 0D;
+            this.CHK_compass1_external.OnValue = 1D;
+            this.CHK_compass1_external.ParamName = null;
+            this.CHK_compass1_external.UseVisualStyleBackColor = true;
             // 
-            // mavlinkCheckBoxCompass1External
+            // CHK_compass1_use
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass1External, "mavlinkCheckBoxCompass1External");
-            this.mavlinkCheckBoxCompass1External.Name = "mavlinkCheckBoxCompass1External";
-            this.mavlinkCheckBoxCompass1External.OffValue = 0D;
-            this.mavlinkCheckBoxCompass1External.OnValue = 1D;
-            this.mavlinkCheckBoxCompass1External.ParamName = null;
-            this.mavlinkCheckBoxCompass1External.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass1_use, "CHK_compass1_use");
+            this.CHK_compass1_use.Name = "CHK_compass1_use";
+            this.CHK_compass1_use.OffValue = 0D;
+            this.CHK_compass1_use.OnValue = 1D;
+            this.CHK_compass1_use.ParamName = null;
+            this.CHK_compass1_use.UseVisualStyleBackColor = true;
             // 
             // groupBoxCompass2
             // 
-            this.groupBoxCompass2.Controls.Add(this.mavlinkCheckBoxCompass2External);
-            this.groupBoxCompass2.Controls.Add(this.mavlinkCheckBoxCompass2Use);
+            this.groupBoxCompass2.Controls.Add(this.CHK_compass2_external);
+            this.groupBoxCompass2.Controls.Add(this.CHK_compass2_use);
             this.groupBoxCompass2.Controls.Add(this.CMB_compass2_orient);
             resources.ApplyResources(this.groupBoxCompass2, "groupBoxCompass2");
             this.groupBoxCompass2.Name = "groupBoxCompass2";
             this.groupBoxCompass2.TabStop = false;
             // 
-            // mavlinkCheckBoxCompass2External
+            // CHK_compass2_external
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass2External, "mavlinkCheckBoxCompass2External");
-            this.mavlinkCheckBoxCompass2External.Name = "mavlinkCheckBoxCompass2External";
-            this.mavlinkCheckBoxCompass2External.OffValue = 0D;
-            this.mavlinkCheckBoxCompass2External.OnValue = 1D;
-            this.mavlinkCheckBoxCompass2External.ParamName = null;
-            this.mavlinkCheckBoxCompass2External.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass2_external, "CHK_compass2_external");
+            this.CHK_compass2_external.Name = "CHK_compass2_external";
+            this.CHK_compass2_external.OffValue = 0D;
+            this.CHK_compass2_external.OnValue = 1D;
+            this.CHK_compass2_external.ParamName = null;
+            this.CHK_compass2_external.UseVisualStyleBackColor = true;
             // 
-            // mavlinkCheckBoxCompass2Use
+            // CHK_compass2_use
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass2Use, "mavlinkCheckBoxCompass2Use");
-            this.mavlinkCheckBoxCompass2Use.Name = "mavlinkCheckBoxCompass2Use";
-            this.mavlinkCheckBoxCompass2Use.OffValue = 0D;
-            this.mavlinkCheckBoxCompass2Use.OnValue = 1D;
-            this.mavlinkCheckBoxCompass2Use.ParamName = null;
-            this.mavlinkCheckBoxCompass2Use.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass2_use, "CHK_compass2_use");
+            this.CHK_compass2_use.Name = "CHK_compass2_use";
+            this.CHK_compass2_use.OffValue = 0D;
+            this.CHK_compass2_use.OnValue = 1D;
+            this.CHK_compass2_use.ParamName = null;
+            this.CHK_compass2_use.UseVisualStyleBackColor = true;
             // 
             // CMB_compass2_orient
             // 
@@ -373,53 +387,39 @@
             // 
             // groupBoxCompass3
             // 
-            this.groupBoxCompass3.Controls.Add(this.mavlinkCheckBoxCompass3External);
-            this.groupBoxCompass3.Controls.Add(this.mavlinkCheckBoxCompass3Use);
-            this.groupBoxCompass3.Controls.Add(this.CMB3_compass_orient);
+            this.groupBoxCompass3.Controls.Add(this.CHK_compass3_external);
+            this.groupBoxCompass3.Controls.Add(this.CHK_compass3_use);
+            this.groupBoxCompass3.Controls.Add(this.CMB_compass3_orient);
             resources.ApplyResources(this.groupBoxCompass3, "groupBoxCompass3");
             this.groupBoxCompass3.Name = "groupBoxCompass3";
             this.groupBoxCompass3.TabStop = false;
             // 
-            // mavlinkCheckBoxCompass3External
+            // CHK_compass3_external
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass3External, "mavlinkCheckBoxCompass3External");
-            this.mavlinkCheckBoxCompass3External.Name = "mavlinkCheckBoxCompass3External";
-            this.mavlinkCheckBoxCompass3External.OffValue = 0D;
-            this.mavlinkCheckBoxCompass3External.OnValue = 1D;
-            this.mavlinkCheckBoxCompass3External.ParamName = null;
-            this.mavlinkCheckBoxCompass3External.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass3_external, "CHK_compass3_external");
+            this.CHK_compass3_external.Name = "CHK_compass3_external";
+            this.CHK_compass3_external.OffValue = 0D;
+            this.CHK_compass3_external.OnValue = 1D;
+            this.CHK_compass3_external.ParamName = null;
+            this.CHK_compass3_external.UseVisualStyleBackColor = true;
             // 
-            // mavlinkCheckBoxCompass3Use
+            // CHK_compass3_use
             // 
-            resources.ApplyResources(this.mavlinkCheckBoxCompass3Use, "mavlinkCheckBoxCompass3Use");
-            this.mavlinkCheckBoxCompass3Use.Name = "mavlinkCheckBoxCompass3Use";
-            this.mavlinkCheckBoxCompass3Use.OffValue = 0D;
-            this.mavlinkCheckBoxCompass3Use.OnValue = 1D;
-            this.mavlinkCheckBoxCompass3Use.ParamName = null;
-            this.mavlinkCheckBoxCompass3Use.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_compass3_use, "CHK_compass3_use");
+            this.CHK_compass3_use.Name = "CHK_compass3_use";
+            this.CHK_compass3_use.OffValue = 0D;
+            this.CHK_compass3_use.OnValue = 1D;
+            this.CHK_compass3_use.ParamName = null;
+            this.CHK_compass3_use.UseVisualStyleBackColor = true;
             // 
-            // CMB3_compass_orient
+            // CMB_compass3_orient
             // 
-            this.CMB3_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.CMB3_compass_orient, "CMB3_compass_orient");
-            this.CMB3_compass_orient.FormattingEnabled = true;
-            this.CMB3_compass_orient.Name = "CMB3_compass_orient";
-            this.CMB3_compass_orient.ParamName = null;
-            this.CMB3_compass_orient.SubControl = null;
-            // 
-            // labelPrimaryCompass
-            // 
-            resources.ApplyResources(this.labelPrimaryCompass, "labelPrimaryCompass");
-            this.labelPrimaryCompass.Name = "labelPrimaryCompass";
-            // 
-            // mavlinkComboBox1
-            // 
-            this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBox1, "mavlinkComboBox1");
-            this.mavlinkComboBox1.FormattingEnabled = true;
-            this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.ParamName = null;
-            this.mavlinkComboBox1.SubControl = null;
+            this.CMB_compass3_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass3_orient, "CMB_compass3_orient");
+            this.CMB_compass3_orient.FormattingEnabled = true;
+            this.CMB_compass3_orient.Name = "CMB_compass3_orient";
+            this.CMB_compass3_orient.ParamName = null;
+            this.CMB_compass3_orient.SubControl = null;
             // 
             // ConfigHWCompass
             // 
@@ -487,18 +487,18 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBoxGeneralSettings;
         private System.Windows.Forms.GroupBox groupBoxCompass1;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompassLearn;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass1External;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass1Use;
-        private Controls.MavlinkComboBox mavlinkComboBox1;
-        private System.Windows.Forms.Label labelPrimaryCompass;
+        private Controls.MavlinkCheckBox CHK_compass_learn;
+        private Controls.MavlinkCheckBox CHK_compass1_external;
+        private Controls.MavlinkCheckBox CHK_compass1_use;
+        private Controls.MavlinkComboBox CMB_primary_compass;
+        private System.Windows.Forms.Label LBL_primary_compass;
         private System.Windows.Forms.GroupBox groupBoxCompass2;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass2External;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass2Use;
+        private Controls.MavlinkCheckBox CHK_compass2_external;
+        private Controls.MavlinkCheckBox CHK_compass2_use;
         private Controls.MavlinkComboBox CMB_compass2_orient;
         private System.Windows.Forms.GroupBox groupBoxCompass3;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass3External;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxCompass3Use;
-        private Controls.MavlinkComboBox CMB3_compass_orient;
+        private Controls.MavlinkCheckBox CHK_compass3_external;
+        private Controls.MavlinkCheckBox CHK_compass3_use;
+        private Controls.MavlinkComboBox CMB_compass3_orient;
     }
 }
