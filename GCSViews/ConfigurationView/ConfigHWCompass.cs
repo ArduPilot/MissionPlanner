@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing;
 using MissionPlanner.Controls;
 
 // TODO: round offsets and mots
@@ -17,6 +18,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private const float rad2deg = (float) (180/Math.PI);
         private const float deg2rad = (float) (1.0/rad2deg);
+        private const int THRESHOLD_OFS_RED = 100;
+        private const int THRESHOLD_OFS_YELLOW = 50;
         private bool startup;
 
         private enum CompassNumber { C1 = 0, C2, C3 };
@@ -60,10 +63,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
             CMB_compass1_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+
+            int offset1_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS_X"];
+            int offset1_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS_Y"];
+            int offset1_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS_Z"];
+            // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
+            if (absmax(offset1_x, offset1_y, offset1_z) > THRESHOLD_OFS_RED)
+                LBL_compass1_offset.ForeColor = Color.Red;
+            else if (absmax(offset1_x, offset1_y, offset1_z) > THRESHOLD_OFS_YELLOW)
+                LBL_compass1_offset.ForeColor = Color.Yellow;
+            else if (offset1_x == 0 && offset1_y == 0 & offset1_z == 0)
+                LBL_compass1_offset.ForeColor = Color.Red;
+            else
+                LBL_compass1_offset.ForeColor = Color.Green;
+           
+
             LBL_compass1_offset.Text = "OFFSETS    X: " + 
-                ((int)MainV2.comPort.MAV.param["COMPASS_OFS_X"]).ToString() +
-                ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS_Y"]).ToString() +
-                ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS_Z"]).ToString();
+                offset1_x.ToString() +
+                ",   Y: " + offset1_y.ToString() +
+                ",   Z: " + offset1_z.ToString();
             LBL_compass1_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
                 ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
                 ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
@@ -76,9 +94,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
                 CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
-                LBL_compass2_offset.Text = "OFFSETS    X: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_X"]).ToString() +
-               ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_Y"]).ToString() +
-               ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_Z"]).ToString();
+                int offset2_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_X"];
+                int offset2_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Y"];
+                int offset2_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Z"];
+                // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
+                if (absmax(offset2_x, offset2_y, offset2_z) > THRESHOLD_OFS_RED)
+                    LBL_compass2_offset.ForeColor = Color.Red;
+                else if (absmax(offset2_x, offset2_y, offset2_z) > THRESHOLD_OFS_YELLOW)
+                    LBL_compass2_offset.ForeColor = Color.Yellow;
+                else if (offset2_x == 0 && offset2_y == 0 & offset2_z == 0)
+                    LBL_compass2_offset.ForeColor = Color.Red;
+                else
+                    LBL_compass2_offset.ForeColor = Color.Green;
+
+
+                LBL_compass2_offset.Text = "OFFSETS    X: " +
+                    offset2_x.ToString() +
+                    ",   Y: " + offset2_y.ToString() +
+                    ",   Z: " + offset2_z.ToString();
                 LBL_compass2_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
                     ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
                     ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
@@ -94,9 +127,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
                 CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
 
-                LBL_compass3_offset.Text = "OFFSETS    X: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"]).ToString() +
-               ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"]).ToString() +
-               ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"]).ToString();
+                int offset3_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
+                int offset3_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
+                int offset3_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"];
+                // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
+                if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_RED)
+                    LBL_compass3_offset.ForeColor = Color.Red;
+                else if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_YELLOW)
+                    LBL_compass3_offset.ForeColor = Color.Yellow;
+                else if (offset3_x == 0 && offset3_y == 0 & offset3_z == 0)
+                    LBL_compass3_offset.ForeColor = Color.Red;
+                else
+                    LBL_compass3_offset.ForeColor = Color.Green;
+
+
+                LBL_compass3_offset.Text = "OFFSETS    X: " +
+                    offset3_x.ToString() +
+                    ",   Y: " + offset3_y.ToString() +
+                    ",   Z: " + offset3_z.ToString();
                 LBL_compass3_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
                     ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
                     ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
@@ -111,6 +159,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
         }
 
+        // Find the maximum absolute value of three values. Used to detect abnormally high or
+        // low compass offsets.
+        private int absmax(int val1, int val2, int val3)
+        {
+            return Math.Max(Math.Max(Math.Abs(val1), Math.Abs(val2)), Math.Abs(val3));
+        }
         public void Deactivate()
         {
             timer1.Stop();
