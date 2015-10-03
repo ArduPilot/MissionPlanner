@@ -37,14 +37,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.groupBoxQuickSetup = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonAPMExternal = new System.Windows.Forms.Button();
             this.QuickAPM25 = new System.Windows.Forms.Button();
             this.buttonQuickPixhawk = new System.Windows.Forms.Button();
-            this.pictureBox4 = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.CMB_compass1_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.TXT_declination_min = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -79,10 +75,6 @@
             this.CHK_compass3_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass3_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass3_orient = new MissionPlanner.Controls.MavlinkComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            this.groupBoxQuickSetup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -136,27 +128,6 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked_1);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BackgroundImage = global::MissionPlanner.Properties.Resources.apmp2;
-            resources.ApplyResources(this.pictureBox2, "pictureBox2");
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.TabStop = false;
-            // 
-            // groupBoxQuickSetup
-            // 
-            this.groupBoxQuickSetup.Controls.Add(this.label1);
-            this.groupBoxQuickSetup.Controls.Add(this.buttonAPMExternal);
-            this.groupBoxQuickSetup.Controls.Add(this.QuickAPM25);
-            this.groupBoxQuickSetup.Controls.Add(this.buttonQuickPixhawk);
-            this.groupBoxQuickSetup.Controls.Add(this.pictureBox4);
-            this.groupBoxQuickSetup.Controls.Add(this.pictureBox3);
-            this.groupBoxQuickSetup.Controls.Add(this.pictureBox2);
-            resources.ApplyResources(this.groupBoxQuickSetup, "groupBoxQuickSetup");
-            this.groupBoxQuickSetup.Name = "groupBoxQuickSetup";
-            this.groupBoxQuickSetup.TabStop = false;
-            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
@@ -182,22 +153,6 @@
             this.buttonQuickPixhawk.Name = "buttonQuickPixhawk";
             this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
             this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
-            // 
-            // pictureBox4
-            // 
-            this.pictureBox4.BackgroundImage = global::MissionPlanner.Properties.Resources.pixhawk;
-            resources.ApplyResources(this.pictureBox4, "pictureBox4");
-            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox4.Name = "pictureBox4";
-            this.pictureBox4.TabStop = false;
-            // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BackgroundImage = global::MissionPlanner.Properties.Resources.maggps;
-            resources.ApplyResources(this.pictureBox3, "pictureBox3");
-            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.TabStop = false;
             // 
             // CMB_compass1_orient
             // 
@@ -473,6 +428,10 @@
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.buttonAPMExternal);
+            this.Controls.Add(this.QuickAPM25);
+            this.Controls.Add(this.buttonQuickPixhawk);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBoxCompass3);
             this.Controls.Add(this.groupBoxCompass2);
             this.Controls.Add(this.groupBoxCompass1);
@@ -480,15 +439,9 @@
             this.Controls.Add(this.label4);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBoxQuickSetup);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Name = "ConfigHWCompass";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            this.groupBoxQuickSetup.ResumeLayout(false);
-            this.groupBoxQuickSetup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -517,13 +470,9 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.MavlinkComboBox CMB_compass1_orient;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.GroupBox groupBoxQuickSetup;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.TextBox TXT_declination_min;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.MyButton BUT_OBmagcalaccept;
         private Controls.MyButton BUT_OBmagcalcancel;

@@ -5,6 +5,12 @@ using System.Diagnostics;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 
+// TODO: round offsets and mots
+// TODO: color-code high offsets
+// TODO: work on calibration page
+// TODO: double-check logic of Pixhawk button
+// TODO: test everything
+
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass : UserControl, IActivate
@@ -49,16 +55,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_autodec.Checked = MainV2.comPort.MAV.param["COMPASS_AUTODEC"].ToString() == "1" ? true : false;
             }
 
+           
             // Compass 1 settings
             CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
             CMB_compass1_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
-            LBL_compass1_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() +
-                ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS_Y"].ToString() +
-                ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS_Z"].ToString();
-            LBL_compass1_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT_X"].ToString() +
-                ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT_Y"].ToString() +
-                ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT_Z"].ToString();
+            LBL_compass1_offset.Text = "OFFSETS    X: " + 
+                ((int)MainV2.comPort.MAV.param["COMPASS_OFS_X"]).ToString() +
+                ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS_Y"]).ToString() +
+                ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS_Z"]).ToString();
+            LBL_compass1_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
+                ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
+                ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
 
             // Compass 2 settings
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
@@ -68,12 +76,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
                 CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
-                LBL_compass2_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS2_X"].ToString() +
-               ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS2_Y"].ToString() +
-               ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS2_Z"].ToString();
-                LBL_compass2_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT2_X"].ToString() +
-                    ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT2_Y"].ToString() +
-                    ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT2_Z"].ToString();
+                LBL_compass2_offset.Text = "OFFSETS    X: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_X"]).ToString() +
+               ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_Y"]).ToString() +
+               ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS2_Z"]).ToString();
+                LBL_compass2_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
+                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
+                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
             }
             else
             {
@@ -86,12 +94,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
                 CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
 
-                LBL_compass3_offset.Text = "OFFSETS    X: " + MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() +
-               ",   Y: " + MainV2.comPort.MAV.param["COMPASS_OFS_Y"].ToString() +
-               ",   Z: " + MainV2.comPort.MAV.param["COMPASS_OFS_Z"].ToString();
-                LBL_compass3_mot.Text = "MOT        X: " + MainV2.comPort.MAV.param["COMPASS_MOT3_X"].ToString() +
-                    ",   Y: " + MainV2.comPort.MAV.param["COMPASS_MOT3_Y"].ToString() +
-                    ",   Z: " + MainV2.comPort.MAV.param["COMPASS_MOT3_Z"].ToString();
+                LBL_compass3_offset.Text = "OFFSETS    X: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"]).ToString() +
+               ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"]).ToString() +
+               ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"]).ToString();
+                LBL_compass3_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
+                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
+                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
             }
             else
             {
