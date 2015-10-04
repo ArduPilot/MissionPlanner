@@ -379,7 +379,15 @@ namespace MissionPlanner
                 // slow down execution
                 System.Threading.Thread.Sleep(10);
 
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +"\n"+ extramsg);
+                string str = "Got + " + datacompass1.Count + " samples\n" +
+                    "Compass 1 error: " + error;
+                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
+                    str += "\nCompass 2 error: " + error2;
+                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X"))
+                    str += "\nCompass 3 error: " + error3;
+                str += "\n" + extramsg;
+
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, str);
 
                 if (e.CancelRequested)
                 {
@@ -1072,15 +1080,15 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #1 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
-                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
 
@@ -1107,15 +1115,15 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass2 offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #2 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
-                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
 
@@ -1142,11 +1150,11 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass3 offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #3 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New compass3 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #3 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {

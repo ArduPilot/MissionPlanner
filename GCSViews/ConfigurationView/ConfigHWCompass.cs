@@ -6,11 +6,20 @@ using System.Windows.Forms;
 using System.Drawing;
 using MissionPlanner.Controls;
 
-// TODO: round offsets and mots
-// TODO: color-code high offsets
-// TODO: work on calibration page
+// Compass Calibration Page
+//  - magcalib.cs has logic and progressreportersphere.cs has UI
+
+// TODO: rename "compass" to "compass1" on calibration results page
+// TODO: force a reload of offset parameters after calibration
 // TODO: double-check logic of Pixhawk button
 // TODO: test everything
+// TODO: update the parameter list after live calibration
+// TODO: ensure primary compass label and combo box disappeaer from APM2
+
+// Q. Should calibration necessarily entail turning off COMPASS_LEARN
+// Q. Should I edit EKF compass learning parameter as well here
+// Q: yellow/red thresholds set to 600 (compass error) and 400 (arbitrary)
+
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -18,8 +27,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private const float rad2deg = (float) (180/Math.PI);
         private const float deg2rad = (float) (1.0/rad2deg);
-        private const int THRESHOLD_OFS_RED = 100;
-        private const int THRESHOLD_OFS_YELLOW = 50;
+        private const int THRESHOLD_OFS_RED = 600;
+        private const int THRESHOLD_OFS_YELLOW = 400;
         private bool startup;
 
         private enum CompassNumber { C1 = 0, C2, C3 };
@@ -58,7 +67,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_autodec.Checked = MainV2.comPort.MAV.param["COMPASS_AUTODEC"].ToString() == "1" ? true : false;
             }
 
-           
+
             // Compass 1 settings
             CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
@@ -76,9 +85,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 LBL_compass1_offset.ForeColor = Color.Red;
             else
                 LBL_compass1_offset.ForeColor = Color.Green;
-           
 
-            LBL_compass1_offset.Text = "OFFSETS    X: " + 
+
+            LBL_compass1_offset.Text = "OFFSETS    X: " +
                 offset1_x.ToString() +
                 ",   Y: " + offset1_y.ToString() +
                 ",   Z: " + offset1_z.ToString();
@@ -86,18 +95,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
                 ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
 
+
             // Compass 2 settings
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
             {
                 CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
                 CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param);
                 CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
+
                 CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
                 int offset2_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_X"];
                 int offset2_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Y"];
                 int offset2_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Z"];
-                // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
+
                 if (absmax(offset2_x, offset2_y, offset2_z) > THRESHOLD_OFS_RED)
                     LBL_compass2_offset.ForeColor = Color.Red;
                 else if (absmax(offset2_x, offset2_y, offset2_z) > THRESHOLD_OFS_YELLOW)
@@ -130,7 +141,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 int offset3_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
                 int offset3_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
                 int offset3_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"];
-                // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
+        
                 if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_RED)
                     LBL_compass3_offset.ForeColor = Color.Red;
                 else if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_YELLOW)
@@ -173,6 +184,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
             MagCalib.DoGUIMagCalib();
+            Activate(); // Necessary to refresh offset values displayed on form
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -562,6 +574,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             LBL_compass3_mot.Visible = CHK_compass3_use.Checked;
             LBL_compass3_offset.Visible = CHK_compass3_use.Checked;
+
+            // Toggle primary compass controls as appropriate
+            CMB_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
+            LBL_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
         }
     }
 
