@@ -1072,6 +1072,13 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS_Z", (float)ofs[2]);
                     }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS_Z");
+                    }
 
                     if (ofs.Length > 3)
                     {
@@ -1108,6 +1115,13 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS2_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS2_Z", (float)ofs[2]);
                     }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS2_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS2_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+                    }
                     if (ofs.Length > 3)
                     {
                         // ellipsoid
@@ -1136,12 +1150,19 @@ namespace MissionPlanner
                     // disable learning
                     MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
-                    //if (!MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer, (float)ofs[0], (float)ofs[1], (float)ofs[2]))
+                    if (!MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer, (float)ofs[0], (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
                         MainV2.comPort.setParam("COMPASS_OFS3_X", (float)ofs[0]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
+                    }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS3_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS3_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS3_Z");
                     }
                     if (ofs.Length > 3)
                     {
