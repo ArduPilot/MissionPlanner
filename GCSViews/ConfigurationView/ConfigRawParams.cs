@@ -29,6 +29,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
+        string searchfor = "";
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -52,6 +54,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             startup = false;
+
+            Params.Focus();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -66,6 +70,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 BUT_find_Click(null, null);
                 return true;
+            }
+
+            if (keyData >= Keys.A && keyData <= Keys.Z || keyData == Keys.Back)
+            {
+                if (keyData == Keys.Back)
+                {
+                    if (searchfor.Length > 0)
+                    {
+                        searchfor = searchfor.Substring(0, searchfor.Length - 1);
+                    }
+                }
+                else
+                {
+                    searchfor += keyData;
+                }
+
+                filterList(searchfor);
             }
 
             return false;
@@ -433,23 +454,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_find_Click(object sender, EventArgs e)
         {
-            var searchfor = "";
+            InputBox.TextChanged += InputBox_TextChanged;
             InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
 
-            foreach (DataGridViewRow row in Params.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
-                    {
-                        row.Visible = true;
-                        break;
-                    }
-                    row.Visible = false;
-                }
-            }
+            filterList(searchfor);
+        }
 
-            Params.Refresh();
+        void InputBox_TextChanged(object sender, EventArgs e)
+        {
+            var textbox = sender as TextBox;
+
+            var searchfor = textbox.Text;
+
+            filterList(searchfor);
+        }
+
+        void filterList(string searchfor) 
+        {
+            if (searchfor.Length >= 2 || searchfor.Length == 0)
+            {
+                foreach (DataGridViewRow row in Params.Rows)
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
+                        {
+                            row.Visible = true;
+                            break;
+                        }
+                        row.Visible = false;
+                    }
+                }
+
+                Params.Refresh();
+            }
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
