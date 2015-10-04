@@ -19,7 +19,7 @@ using MissionPlanner.Controls;
 // Q. Should calibration necessarily entail turning off COMPASS_LEARN
 // Q. Should I edit EKF compass learning parameter as well here
 // Q: yellow/red thresholds set to 600 (compass error) and 400 (arbitrary)
-
+// Q. Localizati
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -87,7 +87,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 LBL_compass1_offset.ForeColor = Color.Green;
 
 
-            LBL_compass1_offset.Text = "OFFSETS    X: " +
+            LBL_compass1_offset.Text = "OFFSETS  X: " +
                 offset1_x.ToString() +
                 ",   Y: " + offset1_y.ToString() +
                 ",   Z: " + offset1_z.ToString();
@@ -119,7 +119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     LBL_compass2_offset.ForeColor = Color.Green;
 
 
-                LBL_compass2_offset.Text = "OFFSETS    X: " +
+                LBL_compass2_offset.Text = "OFFSETS  X: " +
                     offset2_x.ToString() +
                     ",   Y: " + offset2_y.ToString() +
                     ",   Z: " + offset2_z.ToString();
@@ -152,7 +152,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     LBL_compass3_offset.ForeColor = Color.Green;
 
 
-                LBL_compass3_offset.Text = "OFFSETS    X: " +
+                LBL_compass3_offset.Text = "OFFSETS  X: " +
                     offset3_x.ToString() +
                     ",   Y: " + offset3_y.ToString() +
                     ",   Z: " + offset3_z.ToString();
@@ -250,18 +250,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CHK_enablecompass_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox) sender).Checked)
-            {
-                CHK_autodec.Enabled = true;
-                TXT_declination_deg.Enabled = true;
-                TXT_declination_min.Enabled = true;
-            }
-            else
-            {
-                CHK_autodec.Enabled = false;
-                TXT_declination_deg.Enabled = false;
-                TXT_declination_min.Enabled = false;
-            }
+            // I am commenting this out with caution. I don't see why
+            // enabling/disabling the compass shoudl change whether or
+            // not autodec is enabled, but am keeping code here and commented
+            // just in case I'm missing something.
+            //if (((CheckBox) sender).Checked)
+            //{
+            //    CHK_autodec.Enabled = true;
+            //    TXT_declination_deg.Enabled = true;
+            //    TXT_declination_min.Enabled = true;
+            // }
+            //else
+            //{
+            //    CHK_autodec.Enabled = false;
+            //    TXT_declination_deg.Enabled = false;
+            //    TXT_declination_min.Enabled = false;
+            //}
 
             if (startup)
                 return;
@@ -562,6 +566,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void ShowRelevantFields()
         {
+            TXT_declination_deg.Enabled = !CHK_autodec.Checked;
+            TXT_declination_min.Enabled = !CHK_autodec.Checked;
+
             CMB_compass1_orient.Visible = CHK_compass1_external.Checked;
             CMB_compass2_orient.Visible = CHK_compass2_external.Checked;
             CMB_compass3_orient.Visible = CHK_compass3_external.Checked;
