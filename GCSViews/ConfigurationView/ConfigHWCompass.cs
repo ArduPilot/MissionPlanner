@@ -6,21 +6,6 @@ using System.Windows.Forms;
 using System.Drawing;
 using MissionPlanner.Controls;
 
-// Compass Calibration Page
-//  - magcalib.cs has logic and progressreportersphere.cs has UI
-
-// TODO: rename "compass" to "compass1" on calibration results page
-// TODO: force a reload of offset parameters after calibration
-// TODO: double-check logic of Pixhawk button
-// TODO: test everything
-// TODO: update the parameter list after live calibration
-// TODO: ensure primary compass label and combo box disappeaer from APM2
-
-// Q. Should calibration necessarily entail turning off COMPASS_LEARN
-// Q. Should I edit EKF compass learning parameter as well here
-// Q: yellow/red thresholds set to 600 (compass error) and 400 (arbitrary)
-// Q. Localizati
-
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass : UserControl, IActivate
