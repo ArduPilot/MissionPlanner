@@ -130,7 +130,7 @@
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_MagCalibrationLive.TabIndex" type="System.Int32, mscorlib">
-    <value>47</value>
+    <value>0</value>
   </data>
   <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
     <value>Live Calibration</value>
@@ -160,7 +160,7 @@
     <value>104, 13</value>
   </data>
   <data name="linkLabelmagdec.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>9</value>
   </data>
   <data name="linkLabelmagdec.Text" xml:space="preserve">
     <value>Declination WebSite</value>
@@ -187,7 +187,7 @@
     <value>53, 20</value>
   </data>
   <data name="TXT_declination_deg.TabIndex" type="System.Int32, mscorlib">
-    <value>37</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;TXT_declination_deg.Name" xml:space="preserve">
     <value>TXT_declination_deg</value>
@@ -211,7 +211,7 @@
     <value>177, 22</value>
   </data>
   <data name="CHK_autodec.TabIndex" type="System.Int32, mscorlib">
-    <value>49</value>
+    <value>3</value>
   </data>
   <data name="CHK_autodec.Text" xml:space="preserve">
     <value>Obtain declination automatically</value>
@@ -241,7 +241,7 @@
     <value>167, 20</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>66</value>
+    <value>0</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Compass</value>
@@ -268,7 +268,7 @@
     <value>644, 5</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>65</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
     <value>groupBox2</value>
@@ -295,7 +295,7 @@
     <value>90, 13</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
+    <value>1</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>Youtube Example</value>
@@ -322,7 +322,7 @@
     <value>218, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>97</value>
+    <value>2</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Select device to quick-configure parameters:</value>
@@ -346,7 +346,7 @@
     <value>151, 23</value>
   </data>
   <data name="buttonAPMExternal.TabIndex" type="System.Int32, mscorlib">
-    <value>96</value>
+    <value>5</value>
   </data>
   <data name="buttonAPMExternal.Text" xml:space="preserve">
     <value>APM and External Compass</value>
@@ -370,7 +370,7 @@
     <value>144, 23</value>
   </data>
   <data name="QuickAPM25.TabIndex" type="System.Int32, mscorlib">
-    <value>95</value>
+    <value>4</value>
   </data>
   <data name="QuickAPM25.Text" xml:space="preserve">
     <value>APM2.5 (Internal Compass)</value>
@@ -394,7 +394,7 @@
     <value>114, 23</value>
   </data>
   <data name="buttonQuickPixhawk.TabIndex" type="System.Int32, mscorlib">
-    <value>94</value>
+    <value>3</value>
   </data>
   <data name="buttonQuickPixhawk.Text" xml:space="preserve">
     <value>Pixhawk/PX4</value>
@@ -421,13 +421,13 @@
     <value>182, 21</value>
   </data>
   <data name="CMB_compass1_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Name" xml:space="preserve">
     <value>CMB_compass1_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -445,7 +445,7 @@
     <value>53, 20</value>
   </data>
   <data name="TXT_declination_min.TabIndex" type="System.Int32, mscorlib">
-    <value>88</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;TXT_declination_min.Name" xml:space="preserve">
     <value>TXT_declination_min</value>
@@ -472,7 +472,7 @@
     <value>47, 13</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>89</value>
+    <value>5</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Degrees</value>
@@ -502,7 +502,7 @@
     <value>44, 13</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>90</value>
+    <value>7</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Minutes</value>
@@ -565,7 +565,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_OBmagcalaccept.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>1</value>
   </data>
   <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
     <value>Accept</value>
@@ -595,7 +595,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_OBmagcalcancel.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
     <value>Cancel</value>
@@ -646,7 +646,7 @@
     <value>269, 126</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>92</value>
+    <value>12</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Onboard Mag Calibration</value>
@@ -676,7 +676,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
+    <value>0</value>
   </data>
   <data name="CHK_enablecompass.Text" xml:space="preserve">
     <value>Enable compasses</value>
@@ -685,7 +685,7 @@
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
@@ -703,7 +703,7 @@
     <value>172, 57</value>
   </data>
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>93</value>
+    <value>10</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Mission Planner Mag Calibration</value>
@@ -730,7 +730,7 @@
     <value>23, 13</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>94</value>
+    <value>11</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>OR</value>
@@ -751,19 +751,19 @@
     <value>False</value>
   </data>
   <data name="CMB_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 44</value>
+    <value>108, 44</value>
   </data>
   <data name="CMB_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 21</value>
+    <value>92, 21</value>
   </data>
   <data name="CMB_primary_compass.TabIndex" type="System.Int32, mscorlib">
-    <value>93</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;CMB_primary_compass.Name" xml:space="preserve">
     <value>CMB_primary_compass</value>
   </data>
   <data name="&gt;&gt;CMB_primary_compass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_primary_compass.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
@@ -775,13 +775,13 @@
     <value>True</value>
   </data>
   <data name="LBL_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 48</value>
+    <value>12, 48</value>
   </data>
   <data name="LBL_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
   </data>
   <data name="LBL_primary_compass.TabIndex" type="System.Int32, mscorlib">
-    <value>92</value>
+    <value>1</value>
   </data>
   <data name="LBL_primary_compass.Text" xml:space="preserve">
     <value>Primary Compass:</value>
@@ -811,7 +811,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass_learn.TabIndex" type="System.Int32, mscorlib">
-    <value>91</value>
+    <value>0</value>
   </data>
   <data name="CHK_compass_learn.Text" xml:space="preserve">
     <value>Automatically learn offsets</value>
@@ -820,7 +820,7 @@
     <value>CHK_compass_learn</value>
   </data>
   <data name="&gt;&gt;CHK_compass_learn.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass_learn.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
@@ -835,7 +835,7 @@
     <value>615, 85</value>
   </data>
   <data name="groupBoxGeneralSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>95</value>
+    <value>6</value>
   </data>
   <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
     <value>General Compass Settings</value>
@@ -865,7 +865,7 @@
     <value>31, 13</value>
   </data>
   <data name="LBL_compass1_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
+    <value>4</value>
   </data>
   <data name="LBL_compass1_mot.Text" xml:space="preserve">
     <value>MOT</value>
@@ -892,7 +892,7 @@
     <value>48, 13</value>
   </data>
   <data name="LBL_compass1_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>82</value>
+    <value>3</value>
   </data>
   <data name="LBL_compass1_offset.Text" xml:space="preserve">
     <value>OFFSET</value>
@@ -922,7 +922,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass1_external.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>1</value>
   </data>
   <data name="CHK_compass1_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
@@ -931,7 +931,7 @@
     <value>CHK_compass1_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -952,7 +952,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass1_use.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>0</value>
   </data>
   <data name="CHK_compass1_use.Text" xml:space="preserve">
     <value>Use this compass</value>
@@ -961,7 +961,7 @@
     <value>CHK_compass1_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
@@ -976,7 +976,7 @@
     <value>200, 150</value>
   </data>
   <data name="groupBoxCompass1.TabIndex" type="System.Int32, mscorlib">
-    <value>96</value>
+    <value>7</value>
   </data>
   <data name="groupBoxCompass1.Text" xml:space="preserve">
     <value>Compass #1</value>
@@ -1006,7 +1006,7 @@
     <value>31, 13</value>
   </data>
   <data name="LBL_compass2_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>84</value>
+    <value>4</value>
   </data>
   <data name="LBL_compass2_mot.Text" xml:space="preserve">
     <value>MOT</value>
@@ -1036,7 +1036,7 @@
     <value>48, 13</value>
   </data>
   <data name="LBL_compass2_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
+    <value>3</value>
   </data>
   <data name="LBL_compass2_offset.Text" xml:space="preserve">
     <value>OFFSET</value>
@@ -1066,7 +1066,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass2_external.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>1</value>
   </data>
   <data name="CHK_compass2_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
@@ -1075,7 +1075,7 @@
     <value>CHK_compass2_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1096,7 +1096,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass2_use.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>0</value>
   </data>
   <data name="CHK_compass2_use.Text" xml:space="preserve">
     <value>Use this compass</value>
@@ -1105,7 +1105,7 @@
     <value>CHK_compass2_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1123,13 +1123,13 @@
     <value>182, 21</value>
   </data>
   <data name="CMB_compass2_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Name" xml:space="preserve">
     <value>CMB_compass2_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass2</value>
@@ -1144,7 +1144,7 @@
     <value>200, 150</value>
   </data>
   <data name="groupBoxCompass2.TabIndex" type="System.Int32, mscorlib">
-    <value>97</value>
+    <value>8</value>
   </data>
   <data name="groupBoxCompass2.Text" xml:space="preserve">
     <value>Compass #2</value>
@@ -1174,7 +1174,7 @@
     <value>31, 13</value>
   </data>
   <data name="LBL_compass3_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>84</value>
+    <value>4</value>
   </data>
   <data name="LBL_compass3_mot.Text" xml:space="preserve">
     <value>MOT</value>
@@ -1204,7 +1204,7 @@
     <value>48, 13</value>
   </data>
   <data name="LBL_compass3_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>83</value>
+    <value>3</value>
   </data>
   <data name="LBL_compass3_offset.Text" xml:space="preserve">
     <value>OFFSET</value>
@@ -1234,7 +1234,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass3_external.TabIndex" type="System.Int32, mscorlib">
-    <value>43</value>
+    <value>1</value>
   </data>
   <data name="CHK_compass3_external.Text" xml:space="preserve">
     <value>Externally mounted</value>
@@ -1243,7 +1243,7 @@
     <value>CHK_compass3_external</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1264,7 +1264,7 @@
     <value>148, 23</value>
   </data>
   <data name="CHK_compass3_use.TabIndex" type="System.Int32, mscorlib">
-    <value>42</value>
+    <value>0</value>
   </data>
   <data name="CHK_compass3_use.Text" xml:space="preserve">
     <value>Use this compass</value>
@@ -1273,7 +1273,7 @@
     <value>CHK_compass3_use</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1291,13 +1291,13 @@
     <value>182, 21</value>
   </data>
   <data name="CMB_compass3_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;CMB_compass3_orient.Name" xml:space="preserve">
     <value>CMB_compass3_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.16069, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5754.37589, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass3</value>
@@ -1312,7 +1312,7 @@
     <value>200, 150</value>
   </data>
   <data name="groupBoxCompass3.TabIndex" type="System.Int32, mscorlib">
-    <value>98</value>
+    <value>9</value>
   </data>
   <data name="groupBoxCompass3.Text" xml:space="preserve">
     <value>Compass #3</value>

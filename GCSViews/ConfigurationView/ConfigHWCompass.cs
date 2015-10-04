@@ -31,7 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private const int THRESHOLD_OFS_YELLOW = 400;
         private bool startup;
 
-        private enum CompassNumber { C1 = 0, C2, C3 };
+        private enum CompassNumber { Compass1 = 0, Compass2, Compass3 };
 
         public ConfigHWCompass()
         {
@@ -91,7 +91,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 offset1_x.ToString() +
                 ",   Y: " + offset1_y.ToString() +
                 ",   Z: " + offset1_z.ToString();
-            LBL_compass1_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
+            LBL_compass1_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
                 ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
                 ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
 
@@ -123,7 +123,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     offset2_x.ToString() +
                     ",   Y: " + offset2_y.ToString() +
                     ",   Z: " + offset2_z.ToString();
-                LBL_compass2_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
+                LBL_compass2_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
                     ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
                     ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
             }
@@ -156,7 +156,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     offset3_x.ToString() +
                     ",   Y: " + offset3_y.ToString() +
                     ",   Z: " + offset3_z.ToString();
-                LBL_compass3_mot.Text = "MOT        X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
+                LBL_compass3_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
                     ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
                     ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
             }
