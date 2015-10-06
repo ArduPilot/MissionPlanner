@@ -38,9 +38,9 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonAPMExternal = new System.Windows.Forms.Button();
-            this.QuickAPM25 = new System.Windows.Forms.Button();
-            this.buttonQuickPixhawk = new System.Windows.Forms.Button();
+            this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
+            this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
+            this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
             this.CMB_compass1_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.TXT_declination_min = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -481,9 +481,9 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button buttonAPMExternal;
-        private System.Windows.Forms.Button QuickAPM25;
-        private System.Windows.Forms.Button buttonQuickPixhawk;
+        private Controls.MyButton buttonAPMExternal;
+        private Controls.MyButton QuickAPM25;
+        private Controls.MyButton buttonQuickPixhawk;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBoxGeneralSettings;
         private System.Windows.Forms.GroupBox groupBoxCompass1;
