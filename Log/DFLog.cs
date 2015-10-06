@@ -458,7 +458,7 @@ namespace MissionPlanner.Log
         }
 
         public static DateTime gpsTimeToTime(int week, double sec)
-        {
+        { 
             int leap = 17;
 
             // not correct for leap seconds                   day   days  weeks  seconds
@@ -466,7 +466,7 @@ namespace MissionPlanner.Log
             basetime = basetime.AddDays(week * 7);
             basetime = basetime.AddSeconds((sec - leap));
 
-            return basetime.ToLocalTime();
+            return basetime; //.ToLocalTime(); /* S.Q. Why convert into local time and NOT in georefimage.cs:GetTimeFromGps() function ? */
         }
 
         public int FindMessageOffset(string linetype,string find)
