@@ -419,7 +419,7 @@ namespace MissionPlanner.GeoRef
 
             TXT_outputlog.Clear();
 
-            for (int a = 0; a < 4; a++)
+            for (int a = 0; a < Math.Min(Math.Min(files.Length,vehicleLocations.Count),10); a++)
             {
                 // First Photo time
                 string firstPhoto = files[a];
@@ -435,7 +435,14 @@ namespace MissionPlanner.GeoRef
                 long firstTimeInGPSMsg = times[a];
                 DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
 
-                TXT_outputlog.AppendText((a + 1) + " GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                if (chk_cammsg.Checked)
+                {
+                    TXT_outputlog.AppendText((a + 1) + " CAM Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                }
+                else
+                {
+                    TXT_outputlog.AppendText((a + 1) + " GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                }
 
                 TXT_outputlog.AppendText((a + 1) + " Est: " + (double) (photoTime - logTime).TotalSeconds + "\n");
 
@@ -786,6 +793,51 @@ namespace MissionPlanner.GeoRef
             return location;
         }
 
+        /// <summary>
+        /// Look for both sides, starting from DateTime t to [t-offsettime ; t+offsettime]
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="listLocations"></param>
+        /// <param name="offsettime"></param>
+        /// <returns></returns>
+        private VehicleLocation LookForClosestLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations,
+            int offsettime = 2000)
+        {
+            long time = ToMilliseconds(t);
+
+            // Time at which the GPS position is actually search and found
+            int millisSTEP = 200;
+            int offset = 0;
+
+            // 2 seconds (2000 ms) in the log as absolute maximum
+            int maxIteration = offsettime / millisSTEP;
+
+            bool found = false;
+            int iteration = 0;
+            VehicleLocation location = null;
+
+            // look for each sides of the target time (==the closest CAM/GPS from this DateTime t with this offsettime)
+            while (!found && iteration < maxIteration)
+            {
+                found = listLocations.ContainsKey(time + offset);
+                if (found)
+                    location = listLocations[time + offset];
+                else
+                {
+                    found = listLocations.ContainsKey(time - offset);
+                    if (found)
+                        location = listLocations[time - offset];
+                    else
+                    {
+                        offset += millisSTEP;
+                        iteration++;
+                    }
+                }
+            }
+
+            return location;
+        }
+
         public Dictionary<string, PictureInformation> doworkGPSOFFSET(string logFile, string dirWithImages, float offset)
         {
             // Lets start over 
@@ -886,6 +938,165 @@ namespace MissionPlanner.GeoRef
             return picturesInformationTemp;
         }
 
+        public Dictionary<string, PictureInformation> doworkCAMOFFSET(string logFile, string dirWithImages)
+        {
+            // Lets start over 
+            Dictionary<string, PictureInformation> picturesInformationTemp =
+                new Dictionary<string, PictureInformation>();
+
+            Dictionary<long, VehicleLocation> gpsvehicleLocations = null;
+
+            TXT_outputlog.AppendText("Reading log for CAM Messages\n");
+            vehicleLocations = readCAMMsgInLog(logFile);
+            if (millisShutterLag != 0)
+            {
+                gpsvehicleLocations = readGPSMsgInLog(logFile);
+            }
+
+            TXT_outputlog.AppendText("Read images\n");
+
+            List<string> filelist = new List<string>();
+            string[] exts = PHOTO_FILES_FILTER.Split(';');
+            foreach (var ext in exts)
+            {
+                filelist.AddRange(Directory.GetFiles(dirWithImages, ext));
+            }
+
+            string[] files = filelist.ToArray();
+            TXT_outputlog.AppendText("Images read : " + files.Length + "\n");
+
+            // Check that we have at least one picture
+            if (files.Length <= 0)
+            {
+                TXT_outputlog.AppendText("Not enought files found.  Aborting..... \n");
+                return null;
+            }
+            Array.Sort(files, Comparer.DefaultInvariant);
+
+            // store all photos time
+            TXT_outputlog.AppendText("Storing photos time.....\n");
+            List<DateTime> photosTimes = new List<DateTime>();
+            DateTime time;
+            for (int i = 0; i < files.Length; i++)
+            {
+                time = getPhotoTime(files[i]);
+                photosTimes.Add(time);
+                //TXT_outputlog.AppendText("Img " + filename + ": " + ToMilliseconds(time) + "\n");
+            }
+
+
+            // estimate best CAM offset within 1sec across correctedTime
+            double offset = 0;
+            double bestOffset = 0;
+            double score = 0;
+            double bestScore = 0;
+            int nbrPhotos = 0;
+            int bestNbrPhotos = 0;
+            VehicleLocation shotLocation = null;
+            List<long> vecs =new List<long>(vehicleLocations.Keys);
+            vecs.Sort();
+
+            offset = (photosTimes[0] - FromUTCTimeMilliseconds(vecs[0])).TotalSeconds;
+            for (double essai = offset - 1; essai <= offset + 1; essai += 0.2)
+            {
+                nbrPhotos = 0;
+                score = 0;
+
+                foreach (DateTime dt in photosTimes)
+                {
+                    DateTime correctedTime = dt.AddSeconds(-essai);
+                    shotLocation = LookForClosestLocation(correctedTime, vehicleLocations, 1000);
+                    if (shotLocation != null)
+                    {
+                        score += Math.Pow((correctedTime - shotLocation.Time).TotalSeconds, 3);
+                        nbrPhotos++;
+                    }
+
+                }
+                if (nbrPhotos!=0) score = score / nbrPhotos;
+                TXT_outputlog.AppendText("offset " + essai + " ; Score :" + score + " ; Nbr Photo : " + nbrPhotos + "\n");
+
+                // result
+                if (nbrPhotos > bestNbrPhotos)
+                {
+                    bestNbrPhotos = nbrPhotos;
+                    bestScore = score;
+                    bestOffset = essai;
+                }
+                else if (nbrPhotos == bestNbrPhotos)
+                {
+                    if (Math.Abs(score) < Math.Abs(bestScore))
+                    {
+                        bestScore = score;
+                        bestOffset = essai;
+                    }
+                }
+            }
+            offset = bestOffset;
+            TXT_outputlog.AppendText("Best offset :" + offset + "....\n");
+
+
+            // We assume that picture names are in ascending order in time
+            for (int i = 0; i < files.Length; i++)
+            {
+                string filename = files[i];
+                PictureInformation p = new PictureInformation();
+
+                // Fill shot time in Picture
+                p.ShotTimeReportedByCamera = photosTimes[i];
+                DateTime correctedTime = p.ShotTimeReportedByCamera.AddSeconds(-offset);
+
+                // Lookfor corresponding Location in vehicleLocationList
+                // Look for the closest CAM msg. That could be an already used CAM msg, as pictures's precision is @1seconde and CAM/GPS msg precision is @200millisec
+                // shutter lag offset ?
+                if (millisShutterLag == 0)
+                {
+                    shotLocation = LookForClosestLocation(correctedTime, vehicleLocations, 2000);
+                }
+                else
+                {
+                    shotLocation = LookForClosestLocation(correctedTime.AddMilliseconds(millisShutterLag), gpsvehicleLocations, 2000);
+                }
+
+
+                if (shotLocation == null)
+                {
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                                             " NOT PROCESSED. No CAM match in the log file. Please take care\n");
+                }
+                else
+                {
+                    p.Lat = shotLocation.Lat;
+                    p.Lon = shotLocation.Lon;
+                    p.AltAMSL = shotLocation.AltAMSL;
+                    p.RelAlt = shotLocation.RelAlt;
+                    p.Pitch = shotLocation.Pitch;
+                    p.Roll = shotLocation.Roll;
+                    p.Yaw = shotLocation.Yaw;
+                    p.Time = shotLocation.Time;
+                    p.Path = filename;
+                    picturesInformationTemp.Add(filename, p);
+                    if (millisShutterLag == 0)
+                    {
+                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                                             " PROCESSED with CAM position found " +
+                                             (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
+                    }
+                    else
+                    {
+                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                                             " PROCESSED with GPS position found " +
+                                             (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
+                    }
+
+                }
+
+            }
+
+
+            return picturesInformationTemp;
+        }
+
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
         {
             // Lets start over 
@@ -937,8 +1148,10 @@ namespace MissionPlanner.GeoRef
             // Check that we have same number of CAMs than files
             if (files.Length != list.Count)
             {
-                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. Check it!\n");
-                return null;
+                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. -> Sam's method instead !\n");
+                TXT_outputlog.AppendText("---\n");
+
+                return doworkCAMOFFSET(logFile, dirWithImages);
             }
 
             Array.Sort(files, Comparer.DefaultInvariant);
