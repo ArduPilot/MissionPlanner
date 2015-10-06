@@ -66,12 +66,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return true;
             }
 
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                BUT_find_Click(null, null);
-                return true;
-            }
-
             return false;
         }
 
