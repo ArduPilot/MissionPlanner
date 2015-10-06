@@ -379,7 +379,15 @@ namespace MissionPlanner
                 // slow down execution
                 System.Threading.Thread.Sleep(10);
 
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +"\n"+ extramsg);
+                string str = "Got + " + datacompass1.Count + " samples\n" +
+                    "Compass 1 error: " + error;
+                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
+                    str += "\nCompass 2 error: " + error2;
+                if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS3_X"))
+                    str += "\nCompass 3 error: " + error3;
+                str += "\n" + extramsg;
+
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, str);
 
                 if (e.CancelRequested)
                 {
@@ -1064,6 +1072,13 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS_Z", (float)ofs[2]);
                     }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS_Z");
+                    }
 
                     if (ofs.Length > 3)
                     {
@@ -1072,15 +1087,15 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #1 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
-                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #1 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
 
@@ -1100,6 +1115,13 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS2_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS2_Z", (float)ofs[2]);
                     }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS2_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS2_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+                    }
                     if (ofs.Length > 3)
                     {
                         // ellipsoid
@@ -1107,15 +1129,15 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass2 offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #2 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
-                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #2 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
 
@@ -1128,12 +1150,19 @@ namespace MissionPlanner
                     // disable learning
                     MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
-                    //if (!MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer, (float)ofs[0], (float)ofs[1], (float)ofs[2]))
+                    if (!MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer, (float)ofs[0], (float)ofs[1], (float)ofs[2]))
                     {
                         // set values
                         MainV2.comPort.setParam("COMPASS_OFS3_X", (float)ofs[0]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
+                    }
+                    else
+                    {
+                        // Need to reload these params into the param list if SetSensorOffsets() was used
+                        MainV2.comPort.GetParam("COMPASS_OFS3_X");
+                        MainV2.comPort.GetParam("COMPASS_OFS3_Y");
+                        MainV2.comPort.GetParam("COMPASS_OFS3_Z");
                     }
                     if (ofs.Length > 3)
                     {
@@ -1142,11 +1171,11 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set Compass3 offset failed");
+                    CustomMessageBox.Show("Setting new offsets for compass #3 failed");
                     return;
                 }
 
-                CustomMessageBox.Show("New compass3 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets for compass #3 are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
