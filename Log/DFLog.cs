@@ -458,7 +458,7 @@ namespace MissionPlanner.Log
         }
 
         public static DateTime gpsTimeToTime(int week, double sec)
-        {
+        { 
             int leap = 17;
 
             // not correct for leap seconds                   day   days  weeks  seconds

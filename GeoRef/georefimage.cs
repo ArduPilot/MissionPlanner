@@ -792,7 +792,7 @@ namespace MissionPlanner.GeoRef
 
             return location;
         }
-
+        
         /// <summary>
         /// Look for both sides, starting from DateTime t to [t-offsettime ; t+offsettime]
         /// </summary>
