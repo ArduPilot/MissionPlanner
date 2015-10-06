@@ -52,10 +52,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
 
-
             startup = false;
 
-            Params.Focus();
+            txt_search.Focus();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -64,29 +63,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 BUT_writePIDS_Click(null, null);
                 return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                BUT_find_Click(null, null);
-                return true;
-            }
-
-            if (keyData >= Keys.A && keyData <= Keys.Z || keyData == Keys.Back)
-            {
-                if (keyData == Keys.Back)
-                {
-                    if (searchfor.Length > 0)
-                    {
-                        searchfor = searchfor.Substring(0, searchfor.Length - 1);
-                    }
-                }
-                else
-                {
-                    searchfor += keyData;
-                }
-
-                filterList(searchfor);
             }
 
             return false;
@@ -452,23 +428,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_find_Click(object sender, EventArgs e)
-        {
-            InputBox.TextChanged += InputBox_TextChanged;
-            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
-
-            filterList(searchfor);
-        }
-
-        void InputBox_TextChanged(object sender, EventArgs e)
-        {
-            var textbox = sender as TextBox;
-
-            var searchfor = textbox.Text;
-
-            filterList(searchfor);
-        }
-
         void filterList(string searchfor) 
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
@@ -557,6 +516,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string name;
             public float normalvalue;
             public float scale;
+        }
+
+        private void txt_search_TextChanged(object sender, EventArgs e)
+        {
+            filterList(txt_search.Text);
         }
     }
 }

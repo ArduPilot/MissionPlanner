@@ -449,26 +449,26 @@ namespace MissionPlanner.Log
 
                                 seenmessagetypes[item.msgtype] = "";
 
-                                // check first 1000000 lines for max coloums needed
-                                if (b > 1000000 && largelog)
-                                    break;
+                                    // check first 1000000 lines for max coloums needed
+                                    if (b > 1000000 && largelog)
+                                        break;
 
-                                if (largelog)
-                                    continue;
+                                    if (largelog)
+                                        continue;
 
-                                DataRow dr = m_dtCSV.NewRow();
+                                    DataRow dr = m_dtCSV.NewRow();
 
-                                dr[0] = item.lineno;
-                                dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                                    dr[0] = item.lineno;
+                                    dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
 
-                                for (int a = 0; a < item.items.Length; a++)
-                                {
-                                    dr[a + typecoloum] = item.items[a];
+                                    for (int a = 0; a < item.items.Length; a++)
+                                    {
+                                        dr[a + typecoloum] = item.items[a];
+                                    }
+
+                                    m_dtCSV.Rows.Add(dr);
                                 }
-
-                                m_dtCSV.Rows.Add(dr);
                             }
-                        }
 
                         log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
@@ -1225,8 +1225,8 @@ namespace MissionPlanner.Log
                     poslatindex = dflog.FindMessageOffset("POS", "Lat");
                     poslngindex = dflog.FindMessageOffset("POS", "Lng");
                     posaltindex = dflog.FindMessageOffset("POS", "Alt");
-                }
-
+                }				
+				
                 int i = 0;
                 int firstpoint = 0;
                 int firstpointpos = 0;
@@ -1304,7 +1304,7 @@ namespace MissionPlanner.Log
                             }	
                         }
                     }
-                    i++;
+					i++;
                 }
 
                 GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
@@ -1904,62 +1904,85 @@ namespace MissionPlanner.Log
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
             bool ret = false;
+            int index_lat = -1;
+            int index_lng = -1;
             pt = new PointLatLng();
 
-            if (!dflog.logformat.ContainsKey("GPS"))
+            if (!dflog.logformat.ContainsKey("GPS") && !dflog.logformat.ContainsKey("POS"))
                 return ret;
 
-            int index = dflog.FindMessageOffset("GPS", "Lat");
-            int index2 = dflog.FindMessageOffset("GPS", "Lng");
-            int index3 = dflog.FindMessageOffset("GPS", "Status");
+            const int maxSearch = 1000;
+            int offset = maxSearch;
+            int roffset = -maxSearch;
+            bool found = false;
 
-            if ((index < 0) || (index2 < 0) || (index3 < 0))
-                return ret;
-
-            const int maxSearch = 100;
-
-
-            
-
-
-            for (int i = 0; i < maxSearch; i++)
+            for (int i = 0; i < maxSearch && !found; i++)
             {
-                for (int s = -1; s < 2; s = s + 2)
+                string searching = logdata[lineNumber + i];
+                if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
                 {
-                    int r = lineNumber + s * i;
-                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
-                    {
-                        DataRow datarow = m_dtCSV.Rows[r];
-                        string option = datarow[typecoloum].ToString();
-
-                        if (option == "GPS")
-                        {
-                            try
-                            {
-                                if (double.Parse(datarow[index3 + 2].ToString(), System.Globalization.CultureInfo.InvariantCulture) < 3)
-                                {
-                                    continue;
-                                }
-
-                                string lat = datarow[index + 2].ToString();
-                                string lng = datarow[index2 + 2].ToString();
-
-                                //PointLatLng pnt = new PointLatLng() { };
-                                pt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
-                                pt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
-                                ret = true;
-                                break;
-
-                            }
-                            catch { }
-                        }
-                    }
+                    offset = i;
+                    found = true;
                 }
-                if (ret)
-                    break;
             }
 
+            found = false;
+            for (int i = 0; i < maxSearch && !found; i++)
+            {
+                string searching = logdata[lineNumber - i];
+                if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
+                {
+                    roffset = i;
+                    found = true;
+                }
+            }
+
+            if (offset < roffset)
+            {
+                lineNumber += offset;
+                ret = true;
+            }
+            else if (roffset < maxSearch)
+            {
+                lineNumber -= roffset;
+                ret = true;
+            }
+
+            if (ret == true)
+            {
+                string gpsline = logdata[lineNumber];
+                var item = dflog.GetDFItemFromLine(gpsline, lineNumber);
+                if (gpsline.StartsWith("GPS"))
+                {
+                    index_lat = dflog.FindMessageOffset("GPS", "Lat");
+                    index_lng = dflog.FindMessageOffset("GPS", "Lng");
+                    int index_status = dflog.FindMessageOffset("GPS", "Status");
+                
+                    if (index_status < 0)
+                        ret = false;
+
+                    int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
+                    if (status < 3)
+                        ret = false;
+                }
+                else if (gpsline.StartsWith("POS"))
+                {
+                    index_lat = dflog.FindMessageOffset("POS", "Lat");
+                    index_lng = dflog.FindMessageOffset("POS", "Lng");
+                }
+
+                if (index_lat < 0 || index_lng < 0)
+                    ret = false;
+
+                if (ret)
+                {
+                    string lat = item.items[index_lat];
+                    string lng = item.items[index_lng];
+
+                    pt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+                }
+            }
 
             return ret;
         }
@@ -2022,11 +2045,10 @@ namespace MissionPlanner.Log
                 MissionPlanner.Utilities.PointLatLngAlt pt3 = new MissionPlanner.Utilities.PointLatLngAlt(pt1);
                 GMapMarker pos3 = new GMarkerGoogle(pt3, GMarkerGoogleType.pink_dot);
                 markeroverlay.Markers.Add(pos3);
-            }
-
-            if (movemap)
-            {
-                myGMAP1.Position = pt1;
+                if (movemap)
+                {
+                    myGMAP1.Position = pt1;
+                }
             }
 
             //move the graph "cursor"
