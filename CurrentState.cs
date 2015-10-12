@@ -640,7 +640,6 @@ namespace MissionPlanner
                 _lastcurrent = DateTime.MinValue;
                 distTraveled = 0;
                 timeInAir = 0;
-                KIndexstatic = -1;
                 version = new Version();
             }
         }
@@ -1763,7 +1762,7 @@ namespace MissionPlanner
 
         public float ter_space { get; set; }
 
-        public static float KIndexstatic = -1;
+        public static int KIndexstatic = -1;
 
         public int KIndex { get { return (int)CurrentState.KIndexstatic; } }
 
