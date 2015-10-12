@@ -156,8 +156,8 @@
             // 
             // CMB_compass1_orient
             // 
-            this.CMB_compass1_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_compass1_orient, "CMB_compass1_orient");
+            this.CMB_compass1_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_compass1_orient.FormattingEnabled = true;
             this.CMB_compass1_orient.Name = "CMB_compass1_orient";
             this.CMB_compass1_orient.ParamName = null;
@@ -181,11 +181,11 @@
             // 
             // groupBox4
             // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.lbl_obmagresult);
             this.groupBox4.Controls.Add(this.BUT_OBmagcalaccept);
             this.groupBox4.Controls.Add(this.BUT_OBmagcalcancel);
             this.groupBox4.Controls.Add(this.BUT_OBmagcalstart);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -232,9 +232,9 @@
             // 
             // groupBox5
             // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.BUT_MagCalibrationLive);
             this.groupBox5.Controls.Add(this.linkLabel1);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -245,6 +245,7 @@
             // 
             // groupBoxGeneralSettings
             // 
+            resources.ApplyResources(this.groupBoxGeneralSettings, "groupBoxGeneralSettings");
             this.groupBoxGeneralSettings.Controls.Add(this.CMB_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.LBL_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_compass_learn);
@@ -255,14 +256,13 @@
             this.groupBoxGeneralSettings.Controls.Add(this.TXT_declination_min);
             this.groupBoxGeneralSettings.Controls.Add(this.TXT_declination_deg);
             this.groupBoxGeneralSettings.Controls.Add(this.linkLabelmagdec);
-            resources.ApplyResources(this.groupBoxGeneralSettings, "groupBoxGeneralSettings");
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
             this.groupBoxGeneralSettings.TabStop = false;
             // 
             // CMB_primary_compass
             // 
-            this.CMB_primary_compass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_primary_compass, "CMB_primary_compass");
+            this.CMB_primary_compass.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_primary_compass.FormattingEnabled = true;
             this.CMB_primary_compass.Name = "CMB_primary_compass";
             this.CMB_primary_compass.ParamName = null;
@@ -285,12 +285,12 @@
             // 
             // groupBoxCompass1
             // 
+            resources.ApplyResources(this.groupBoxCompass1, "groupBoxCompass1");
             this.groupBoxCompass1.Controls.Add(this.LBL_compass1_mot);
             this.groupBoxCompass1.Controls.Add(this.LBL_compass1_offset);
             this.groupBoxCompass1.Controls.Add(this.CHK_compass1_external);
             this.groupBoxCompass1.Controls.Add(this.CHK_compass1_use);
             this.groupBoxCompass1.Controls.Add(this.CMB_compass1_orient);
-            resources.ApplyResources(this.groupBoxCompass1, "groupBoxCompass1");
             this.groupBoxCompass1.Name = "groupBoxCompass1";
             this.groupBoxCompass1.TabStop = false;
             // 
@@ -326,12 +326,12 @@
             // 
             // groupBoxCompass2
             // 
+            resources.ApplyResources(this.groupBoxCompass2, "groupBoxCompass2");
             this.groupBoxCompass2.Controls.Add(this.LBL_compass2_mot);
             this.groupBoxCompass2.Controls.Add(this.LBL_compass2_offset);
             this.groupBoxCompass2.Controls.Add(this.CHK_compass2_external);
             this.groupBoxCompass2.Controls.Add(this.CHK_compass2_use);
             this.groupBoxCompass2.Controls.Add(this.CMB_compass2_orient);
-            resources.ApplyResources(this.groupBoxCompass2, "groupBoxCompass2");
             this.groupBoxCompass2.Name = "groupBoxCompass2";
             this.groupBoxCompass2.TabStop = false;
             // 
@@ -367,8 +367,8 @@
             // 
             // CMB_compass2_orient
             // 
-            this.CMB_compass2_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_compass2_orient, "CMB_compass2_orient");
+            this.CMB_compass2_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_compass2_orient.FormattingEnabled = true;
             this.CMB_compass2_orient.Name = "CMB_compass2_orient";
             this.CMB_compass2_orient.ParamName = null;
@@ -376,12 +376,12 @@
             // 
             // groupBoxCompass3
             // 
+            resources.ApplyResources(this.groupBoxCompass3, "groupBoxCompass3");
             this.groupBoxCompass3.Controls.Add(this.LBL_compass3_mot);
             this.groupBoxCompass3.Controls.Add(this.LBL_compass3_offset);
             this.groupBoxCompass3.Controls.Add(this.CHK_compass3_external);
             this.groupBoxCompass3.Controls.Add(this.CHK_compass3_use);
             this.groupBoxCompass3.Controls.Add(this.CMB_compass3_orient);
-            resources.ApplyResources(this.groupBoxCompass3, "groupBoxCompass3");
             this.groupBoxCompass3.Name = "groupBoxCompass3";
             this.groupBoxCompass3.TabStop = false;
             // 
@@ -417,8 +417,8 @@
             // 
             // CMB_compass3_orient
             // 
-            this.CMB_compass3_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_compass3_orient, "CMB_compass3_orient");
+            this.CMB_compass3_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_compass3_orient.FormattingEnabled = true;
             this.CMB_compass3_orient.Name = "CMB_compass3_orient";
             this.CMB_compass3_orient.ParamName = null;
