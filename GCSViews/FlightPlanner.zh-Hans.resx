@@ -346,10 +346,10 @@
     <value />
   </data>
   <data name="BUT_Add.Text" xml:space="preserve">
-    <value>添加以下</value>
+    <value>在下方添加</value>
   </data>
   <data name="BUT_Add.ToolTip" xml:space="preserve">
-    <value>添加一行到网格下</value>
+    <value>在网格下添加一行</value>
   </data>
   <data name="panelWaypoints.Text" xml:space="preserve">
     <value>航点</value>
