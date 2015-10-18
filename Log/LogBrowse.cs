@@ -1908,6 +1908,9 @@ namespace MissionPlanner.Log
             int index_lng = -1;
             pt = new PointLatLng();
 
+            if (lineNumber >= logdata.Count)
+                return ret;
+
             if (!dflog.logformat.ContainsKey("GPS") && !dflog.logformat.ContainsKey("POS"))
                 return ret;
 
