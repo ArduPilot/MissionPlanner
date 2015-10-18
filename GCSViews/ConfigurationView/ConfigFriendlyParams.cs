@@ -14,43 +14,61 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFriendlyParams : UserControl, IActivate
     {
+        string searchfor = "";
+
         private void BUT_Find_Click(object sender, EventArgs e)
         {
             y = 10;
-
-            var searchfor = "";
+            InputBox.TextChanged += InputBox_TextChanged;
             InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
 
-            foreach (Control ctl in tableLayoutPanel1.Controls)
+            filterList(searchfor);
+        }
+
+        private void InputBox_TextChanged(object sender, EventArgs e)
+        {
+            var textbox = sender as TextBox;
+
+            var searchfor = textbox.Text;
+
+            filterList(searchfor);
+        }
+
+        void filterList(string searchfor)
+        {
+            if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
-                if (ctl.GetType() == typeof (RangeControl))
+                foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
-                    var rng = (RangeControl) ctl;
-                    if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
-                        rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                    if (ctl.GetType() == typeof(RangeControl))
                     {
-                        ctl.Visible = true;
-                        ctl.Location = new Point(ctl.Location.X, y);
-                        y += ctl.Height;
+                        var rng = (RangeControl)ctl;
+                        if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
+                            rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
                     }
-                    else
+                    else if (ctl.GetType() == typeof(ValuesControl))
                     {
-                        ctl.Visible = false;
-                    }
-                }
-                else if (ctl.GetType() == typeof (ValuesControl))
-                {
-                    var vctl = (ValuesControl) ctl;
-                    if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
-                        vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
-                    {
-                        ctl.Visible = true;
-                        ctl.Location = new Point(ctl.Location.X, y);
-                        y += ctl.Height;
-                    }
-                    else
-                    {
-                        ctl.Visible = false;
+                        var vctl = (ValuesControl)ctl;
+                        if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
+                            vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
                     }
                 }
             }

@@ -817,6 +817,8 @@ namespace MissionPlanner
 
             input = input.Replace("{disthome}", (MainV2.comPort.MAV.cs.DistToHome).ToString("0"));
 
+            input = input.Replace("{timeinair}", (new TimeSpan(0,0,0,(int)MainV2.comPort.MAV.cs.timeInAir)).ToString());
+
             return input;
         }
     }

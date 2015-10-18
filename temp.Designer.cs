@@ -85,6 +85,7 @@
             this.but_injectgps = new MissionPlanner.Controls.MyButton();
             this.BUT_fft = new MissionPlanner.Controls.MyButton();
             this.but_reboot = new MissionPlanner.Controls.MyButton();
+            this.BUT_QNH = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -720,11 +721,22 @@
             this.but_reboot.UseVisualStyleBackColor = true;
             this.but_reboot.Click += new System.EventHandler(this.but_reboot_Click);
             // 
+            // BUT_QNH
+            // 
+            this.BUT_QNH.Location = new System.Drawing.Point(467, 178);
+            this.BUT_QNH.Name = "BUT_QNH";
+            this.BUT_QNH.Size = new System.Drawing.Size(75, 23);
+            this.BUT_QNH.TabIndex = 63;
+            this.BUT_QNH.Text = "QNH";
+            this.BUT_QNH.UseVisualStyleBackColor = true;
+            this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.BUT_QNH);
             this.Controls.Add(this.but_reboot);
             this.Controls.Add(this.BUT_fft);
             this.Controls.Add(this.but_injectgps);
@@ -798,5 +810,6 @@
         private Controls.MyButton but_injectgps;
         private Controls.MyButton BUT_fft;
         private Controls.MyButton but_reboot;
+        private Controls.MyButton BUT_QNH;
     }
 }

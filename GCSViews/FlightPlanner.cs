@@ -4238,7 +4238,7 @@ namespace MissionPlanner.GCSViews
         {
             timer1.Start();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 && MainV2.comPort.MAV.cs.version < new Version(3,4))
             {
                 CMB_altmode.Visible = false;
             }

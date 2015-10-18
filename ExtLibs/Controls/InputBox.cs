@@ -15,6 +15,8 @@ namespace MissionPlanner.Controls
 
         public static string value = "";
 
+        public static event EventHandler TextChanged;
+
         //from http://www.csharp-examples.net/inputbox/
         public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
         {
@@ -59,6 +61,8 @@ namespace MissionPlanner.Controls
             form.Text = title;
             label.Text = promptText;
             textBox.Text = value;
+
+            textBox.TextChanged +=textBox_TextChanged;
 
             buttonOk.Text = "OK";
             buttonCancel.Text = "Cancel";
@@ -108,9 +112,17 @@ namespace MissionPlanner.Controls
 
             form.Dispose();
 
+            TextChanged = null;
+
             form = null;
 
             return dialogResult;
+        }
+
+        static void textBox_TextChanged(object sender, EventArgs e)
+        {
+            if (TextChanged != null)
+                TextChanged(sender, e);
         }
     }
 }

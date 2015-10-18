@@ -29,6 +29,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
+        string searchfor = "";
+
         public ConfigRawParams()
         {
             InitializeComponent();
@@ -50,8 +52,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
 
-
             startup = false;
+
+            txt_search.Focus();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -59,12 +62,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (keyData == (Keys.Control | Keys.S))
             {
                 BUT_writePIDS_Click(null, null);
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                BUT_find_Click(null, null);
                 return true;
             }
 
@@ -431,25 +428,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_find_Click(object sender, EventArgs e)
+        void filterList(string searchfor) 
         {
-            var searchfor = "";
-            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
-
-            foreach (DataGridViewRow row in Params.Rows)
+            if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
-                foreach (DataGridViewCell cell in row.Cells)
+                foreach (DataGridViewRow row in Params.Rows)
                 {
-                    if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
+                    foreach (DataGridViewCell cell in row.Cells)
                     {
-                        row.Visible = true;
-                        break;
+                        if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
+                        {
+                            row.Visible = true;
+                            break;
+                        }
+                        row.Visible = false;
                     }
-                    row.Visible = false;
                 }
-            }
 
-            Params.Refresh();
+                Params.Refresh();
+            }
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -519,6 +516,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string name;
             public float normalvalue;
             public float scale;
+        }
+
+        private void txt_search_TextChanged(object sender, EventArgs e)
+        {
+            filterList(txt_search.Text);
         }
     }
 }

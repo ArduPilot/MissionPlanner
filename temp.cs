@@ -1573,5 +1573,17 @@ namespace MissionPlanner
         {
             MainV2.comPort.doReboot(false);
         }
+
+        private void BUT_QNH_Click(object sender, EventArgs e)
+        {
+            string currentQNH = MainV2.comPort.GetParam("GND_ABS_PRESS").ToString();
+
+            if (InputBox.Show("QNH", "Enter the QNH in pascals (103040 = 1030.4 hPa)", ref currentQNH) == DialogResult.OK)
+            {
+                double newQNH = double.Parse(currentQNH);
+
+                MainV2.comPort.setParam("GND_ABS_PRESS", newQNH);
+            }
+        }
     }
 }

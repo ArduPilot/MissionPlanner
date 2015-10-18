@@ -1820,10 +1820,14 @@ namespace MissionPlanner
                                 continue;
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
 
                     // update connect/disconnect button and info stats
-                    UpdateConnectIcon();
+                    try
+                    {
+                        UpdateConnectIcon();
+                    }
+                    catch (Exception ex) { log.Error(ex); }
 
                     // 30 seconds interval speech options
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
