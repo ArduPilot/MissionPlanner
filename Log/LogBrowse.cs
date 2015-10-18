@@ -1916,7 +1916,7 @@ namespace MissionPlanner.Log
             int roffset = -maxSearch;
             bool found = false;
 
-            for (int i = 0; i < maxSearch && !found; i++)
+            for (int i = 0; i < maxSearch && lineNumber + i < logdata.Count && !found; i++)
             {
                 string searching = logdata[lineNumber + i];
                 if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
@@ -1927,7 +1927,7 @@ namespace MissionPlanner.Log
             }
 
             found = false;
-            for (int i = 0; i < maxSearch && !found; i++)
+            for (int i = 0; i < maxSearch && lineNumber - i >= 0 && !found; i++)
             {
                 string searching = logdata[lineNumber - i];
                 if (searching.StartsWith("GPS") || searching.StartsWith("POS"))
