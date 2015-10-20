@@ -1368,6 +1368,18 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT] = null;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RPM];
+
+                    if (bytearray != null)
+                    {
+                        var rpm = bytearray.ByteArrayToStructure<MAVLink.mavlink_rpm_t>(6);
+
+                        rpm1 = rpm.rpm1;
+                        rpm2 = rpm.rpm2;
+
+                        //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT] = null;
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_RAW];
                     if (bytearray != null)
                     {
@@ -1820,5 +1832,8 @@ namespace MissionPlanner
 
         public Version version { get; set; }
 
+        public float rpm1 { get; set; }
+
+        public float rpm2 { get; set; }
     }    
 }
