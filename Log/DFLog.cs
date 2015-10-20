@@ -54,6 +54,7 @@ namespace MissionPlanner.Log
             EKF_CHECK = 16,
             FAILSAFE_EKF = 17,
             BARO = 18,
+            CPU = 19,
         }
 
         public enum error_code
@@ -94,6 +95,7 @@ namespace MissionPlanner.Log
             DATA_MAVLINK_INT16 = 3,
             DATA_MAVLINK_INT8 = 4,
             DATA_AP_STATE = 7,
+            DATA_SYSTEM_TIME_SET               = 8,
             DATA_INIT_SIMPLE_BEARING = 9,
             DATA_ARMED = 10,
             DATA_DISARMED = 11,
@@ -132,6 +134,15 @@ namespace MissionPlanner.Log
             DATA_PARACHUTE_DISABLED = 49,
             DATA_PARACHUTE_ENABLED = 50,
             DATA_PARACHUTE_RELEASED = 51,
+            DATA_LANDING_GEAR_DEPLOYED = 52,
+            DATA_LANDING_GEAR_RETRACTED = 53,
+            DATA_MOTORS_EMERGENCY_STOPPED = 54,
+            DATA_MOTORS_EMERGENCY_STOP_CLEARED = 55,
+            DATA_MOTORS_INTERLOCK_DISABLED = 56,
+            DATA_MOTORS_INTERLOCK_ENABLED = 57,
+            DATA_ROTOR_RUNUP_COMPLETE = 58, // Heli only
+            DATA_ROTOR_SPEED_BELOW_CRITICAL = 59, // Heli only
+            DATA_EKF_ALT_RESET = 60,
         }
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
