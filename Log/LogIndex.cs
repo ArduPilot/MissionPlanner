@@ -92,7 +92,7 @@ namespace MissionPlanner.Log
 
                         while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                         {
-                            mine.getHeartBeat();
+                            mine.readPacket();
 
                             if (mine.lastlogread > end)
                                 end = mine.lastlogread;

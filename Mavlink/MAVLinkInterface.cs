@@ -2326,6 +2326,8 @@ Please check the following
                         if (logreadmode)
                         {
                             buffer = readlogPacketMavlink();
+                            if (buffer.Length == 0)
+                                return new byte[0];
                         }
                         else
                         {
