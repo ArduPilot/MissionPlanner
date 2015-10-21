@@ -1926,14 +1926,14 @@ namespace MissionPlanner.GCSViews
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 
                 // m
-                port.setParam("WP_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
+                port.setParam("WP_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
 
                 // cm's
-                port.setParam("WPNAV_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100);
+                port.setParam("WPNAV_RADIUS", float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist * 100.0);
 
                 try
                 {
-                    port.setParam(new[] { "LOITER_RAD", "WP_LOITER_RAD" }, int.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist);
+                    port.setParam(new[] { "LOITER_RAD", "WP_LOITER_RAD" }, float.Parse(TXT_loiterrad.Text) / CurrentState.multiplierdist);
                 }
                 catch
                 {
@@ -2083,11 +2083,11 @@ namespace MissionPlanner.GCSViews
 
                 if (param["WP_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((double)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                    TXT_WPRad.Text = (((double)param["WP_RADIUS"] * CurrentState.multiplierdist)).ToString();
                 }
                 if (param["WPNAV_RADIUS"] != null)
                 {
-                    TXT_WPRad.Text = ((int)((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100)).ToString();
+                    TXT_WPRad.Text = (((double)param["WPNAV_RADIUS"] * CurrentState.multiplierdist / 100.0)).ToString();
                 }
 
                 log.Info("param WP_RADIUS " + TXT_WPRad.Text);
@@ -2097,12 +2097,12 @@ namespace MissionPlanner.GCSViews
                     TXT_loiterrad.Enabled = false;
                     if (param["LOITER_RADIUS"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((double)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = (((double)param["LOITER_RADIUS"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
                     else if (param["WP_LOITER_RAD"] != null)
                     {
-                        TXT_loiterrad.Text = ((int)((double)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
+                        TXT_loiterrad.Text = (((double)param["WP_LOITER_RAD"] * CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
 
@@ -2177,16 +2177,16 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_WPRad_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int isNumber = 0;
+            float isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
         private void TXT_WPRad_Leave(object sender, EventArgs e)
         {
-            int isNumber = 0;
-            if (!int.TryParse(TXT_WPRad.Text, out isNumber))
+            float isNumber = 0;
+            if (!float.TryParse(TXT_WPRad.Text, out isNumber))
             {
                 TXT_WPRad.Text = "30";
             }
@@ -2200,20 +2200,20 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_loiterrad_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int isNumber = 0;
+            float isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
 
             if (e.KeyChar == '-')
                 return;
 
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
         private void TXT_loiterrad_Leave(object sender, EventArgs e)
         {
-            int isNumber = 0;
-            if (!int.TryParse(TXT_loiterrad.Text, out isNumber))
+            float isNumber = 0;
+            if (!float.TryParse(TXT_loiterrad.Text, out isNumber))
             {
                 TXT_loiterrad.Text = "45";
             }
@@ -2221,16 +2221,16 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_DefaultAlt_KeyPress(object sender, KeyPressEventArgs e)
         {
-            int isNumber = 0;
+            float isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
-            e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
+            e.Handled = !float.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
         private void TXT_DefaultAlt_Leave(object sender, EventArgs e)
         {
-            int isNumber = 0;
-            if (!int.TryParse(TXT_DefaultAlt.Text, out isNumber))
+            float isNumber = 0;
+            if (!float.TryParse(TXT_DefaultAlt.Text, out isNumber))
             {
                 TXT_DefaultAlt.Text = "100";
             }
