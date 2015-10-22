@@ -1068,14 +1068,15 @@ namespace MissionPlanner
                     return;
                 }
 
+                _connectionControl.cmb_sysid.Enabled = false;
+
                 // 3dr radio is hidden as no hb packet is ever emitted
                 if (comPort.MAVlist.Count > 1)
                 {
                     // we have more than one mav
                     // user selection of sysid
-                    MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-
-                    id.Show();
+                    _connectionControl.cmb_sysid.DataSource = MainV2.comPort.MAVlist.GetRawIDS();
+                    _connectionControl.cmb_sysid.Enabled = true;
                 }
 
                 // get all mavstates
