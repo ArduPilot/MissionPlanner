@@ -141,6 +141,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
+            this.chk_stopstart = new System.Windows.Forms.CheckBox();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -321,6 +322,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.chk_stopstart);
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.label16);
@@ -1129,6 +1131,12 @@
             this.TRK_zoom.Value = 2F;
             this.TRK_zoom.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
+            // chk_stopstart
+            // 
+            resources.ApplyResources(this.chk_stopstart, "chk_stopstart");
+            this.chk_stopstart.Name = "chk_stopstart";
+            this.chk_stopstart.UseVisualStyleBackColor = true;
+            // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1297,5 +1305,6 @@
         private System.Windows.Forms.NumericUpDown NUM_leadin;
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.NumericUpDown NUM_split;
+        private System.Windows.Forms.CheckBox chk_stopstart;
     }
 }

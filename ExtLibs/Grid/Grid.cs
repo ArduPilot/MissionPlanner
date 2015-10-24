@@ -320,6 +320,7 @@ namespace MissionPlanner
                 if (closest.p1.GetDistance(lastpnt) < closest.p2.GetDistance(lastpnt))
                 {
                     utmpos newstart = newpos(closest.p1, angle, -leadin);
+                    newstart.Tag = "S";
 
                     addtomap(newstart, "S");
                     ans.Add(newstart);
@@ -341,6 +342,7 @@ namespace MissionPlanner
 
 
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
+                    newend.Tag = "E";
                     addtomap(newend, "E");
                     ans.Add(newend);
 
@@ -355,7 +357,8 @@ namespace MissionPlanner
                 else
                 {
                     utmpos newstart = newpos(closest.p2, angle, leadin);
-                    addtomap(newstart, "E");
+                    newstart.Tag = "S";
+                    addtomap(newstart, "S");
                     ans.Add(newstart);
 
                     if (spacing > 0)
@@ -374,6 +377,7 @@ namespace MissionPlanner
                     }
 
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
+                    newend.Tag = "E";
                  //   if (overshoot2 > 0)
                  //       ans.Add(new utmpos(closest.p1) { Tag = "M" });
                     addtomap(newend, "E");

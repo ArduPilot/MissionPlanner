@@ -104,6 +104,8 @@ namespace MissionPlanner
             public bool digicam;
             public bool repeatservo;
 
+            public bool breaktrigdist;
+
             public decimal repeatservo_no;
             public decimal repeatservo_pwm;
             public decimal repeatservo_cycle;
@@ -239,6 +241,7 @@ namespace MissionPlanner
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
             rad_repeatservo.Checked = griddata.repeatservo;
+            chk_stopstart.Checked = griddata.breaktrigdist;
 
             NUM_reptservo.Value = griddata.repeatservo_no;
             num_reptpwm.Value = griddata.repeatservo_pwm;
@@ -292,6 +295,7 @@ namespace MissionPlanner
             griddata.trigdist = rad_trigdist.Checked;
             griddata.digicam = rad_digicam.Checked;
             griddata.repeatservo = rad_repeatservo.Checked;
+            griddata.breaktrigdist = chk_stopstart.Checked;
 
             griddata.repeatservo_no = NUM_reptservo.Value;
             griddata.repeatservo_pwm = num_reptpwm.Value;
@@ -330,6 +334,7 @@ namespace MissionPlanner
                 loadsetting("grid_trigdist", rad_trigdist);
                 loadsetting("grid_digicam", rad_digicam);
                 loadsetting("grid_repeatservo", rad_repeatservo);
+                loadsetting("grid_breakstopstart", chk_stopstart);
 
                 loadsetting("grid_repeatservo_no", NUM_reptservo);
                 loadsetting("grid_repeatservo_pwm", num_reptpwm);
@@ -403,6 +408,7 @@ namespace MissionPlanner
             plugin.Host.config["grid_trigdist"] = rad_trigdist.Checked.ToString();
             plugin.Host.config["grid_digicam"] = rad_digicam.Checked.ToString();
             plugin.Host.config["grid_repeatservo"] = rad_repeatservo.Checked.ToString();
+            plugin.Host.config["grid_breakstopstart"] = chk_stopstart.Checked.ToString();
 
             // Copter Settings
             plugin.Host.config["grid_copter_delay"] = NUM_copter_delay.Value.ToString();
@@ -1439,6 +1445,23 @@ namespace MissionPlanner
                             else
                             {
                                 AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                if (chk_stopstart.Checked)
+                                {
+                                    if (rad_trigdist.Checked)
+                                    {
+                                        if (plla.Tag == "S")
+                                        {
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
+                                                (float) NUM_spacing.Value,
+                                                0, 0, 0, 0, 0, 0);
+                                        }
+                                        else if (plla.Tag == "E")
+                                        {
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0,
+                                                0, 0, 0, 0, 0, 0);
+                                        }
+                                    }
+                                }
                             }
                         }
                         else
@@ -1453,6 +1476,7 @@ namespace MissionPlanner
                         ++i;
                     });
 
+                    // end
                     if (rad_trigdist.Checked)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
