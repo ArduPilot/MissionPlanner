@@ -228,13 +228,13 @@
     <value>3, 33</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+    <value>40, 13</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Link Stats...</value>
+    <value>Stats...</value>
   </data>
   <data name="linkLabel1.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -255,10 +255,10 @@
     <value>False</value>
   </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 31</value>
+    <value>49, 31</value>
   </data>
   <data name="cmb_sysid.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 21</value>
+    <value>151, 21</value>
   </data>
   <data name="cmb_sysid.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
