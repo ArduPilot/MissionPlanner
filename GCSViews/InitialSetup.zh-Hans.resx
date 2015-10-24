@@ -140,7 +140,7 @@
     <value>1000, 450</value>
   </data>
   <data name="backstageViewPagecompass.Text" xml:space="preserve">
-    <value>罗盘</value>
+    <value>指南针</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
     <value>遥控器校准</value>
@@ -161,7 +161,7 @@
     <value>电池监测器</value>
   </data>
   <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>罗盘/电机 校准</value>
+    <value>指南针/电机 校准</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
     <value>声呐</value>
@@ -195,5 +195,8 @@
   </data>
   <data name="backstageViewPageESC.Text" xml:space="preserve">
     <value>电调校准</value>
+  </data>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>电池监测器2</value>
   </data>
 </root>

@@ -60,6 +60,7 @@
             // 
             resources.ApplyResources(this.BUT_compare, "BUT_compare");
             this.BUT_compare.Name = "BUT_compare";
+            this.toolTip1.SetToolTip(this.BUT_compare, resources.GetString("BUT_compare.ToolTip"));
             this.BUT_compare.UseVisualStyleBackColor = true;
             this.BUT_compare.Click += new System.EventHandler(this.BUT_compare_Click);
             // 
@@ -67,6 +68,7 @@
             // 
             resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
             this.BUT_rerequestparams.Name = "BUT_rerequestparams";
+            this.toolTip1.SetToolTip(this.BUT_rerequestparams, resources.GetString("BUT_rerequestparams.ToolTip"));
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
@@ -74,6 +76,7 @@
             // 
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
+            this.toolTip1.SetToolTip(this.BUT_writePIDS, resources.GetString("BUT_writePIDS.ToolTip"));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 
@@ -81,6 +84,7 @@
             // 
             resources.ApplyResources(this.BUT_save, "BUT_save");
             this.BUT_save.Name = "BUT_save";
+            this.toolTip1.SetToolTip(this.BUT_save, resources.GetString("BUT_save.ToolTip"));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -88,16 +92,17 @@
             // 
             resources.ApplyResources(this.BUT_load, "BUT_load");
             this.BUT_load.Name = "BUT_load";
+            this.toolTip1.SetToolTip(this.BUT_load, resources.GetString("BUT_load.ToolTip"));
             this.BUT_load.UseVisualStyleBackColor = true;
             this.BUT_load.Click += new System.EventHandler(this.BUT_load_Click);
             // 
             // Params
             // 
+            resources.ApplyResources(this.Params, "Params");
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.Black;
             this.Params.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            resources.ApplyResources(this.Params, "Params");
             this.Params.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.Maroon;
@@ -133,6 +138,7 @@
             this.Params.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.Params.RowHeadersVisible = false;
             this.Params.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToDisplayedHeaders;
+            this.toolTip1.SetToolTip(this.Params, resources.GetString("Params.ToolTip"));
             this.Params.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.Params_CellValueChanged);
             // 
             // Command
@@ -179,11 +185,13 @@
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
+            this.toolTip1.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
             // 
             // BUT_paramfileload
             // 
             resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
             this.BUT_paramfileload.Name = "BUT_paramfileload";
+            this.toolTip1.SetToolTip(this.BUT_paramfileload, resources.GetString("BUT_paramfileload.ToolTip"));
             this.BUT_paramfileload.UseVisualStyleBackColor = true;
             this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
             // 
@@ -192,12 +200,14 @@
             resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
             this.CMB_paramfiles.FormattingEnabled = true;
             this.CMB_paramfiles.Name = "CMB_paramfiles";
+            this.toolTip1.SetToolTip(this.CMB_paramfiles, resources.GetString("CMB_paramfiles.ToolTip"));
             this.CMB_paramfiles.SelectedIndexChanged += new System.EventHandler(this.CMB_paramfiles_SelectedIndexChanged);
             // 
             // BUT_reset_params
             // 
             resources.ApplyResources(this.BUT_reset_params, "BUT_reset_params");
             this.BUT_reset_params.Name = "BUT_reset_params";
+            this.toolTip1.SetToolTip(this.BUT_reset_params, resources.GetString("BUT_reset_params.ToolTip"));
             this.BUT_reset_params.UseVisualStyleBackColor = true;
             this.BUT_reset_params.Click += new System.EventHandler(this.BUT_reset_params_Click);
             // 
@@ -205,15 +215,18 @@
             // 
             resources.ApplyResources(this.txt_search, "txt_search");
             this.txt_search.Name = "txt_search";
+            this.toolTip1.SetToolTip(this.txt_search, resources.GetString("txt_search.ToolTip"));
             this.txt_search.TextChanged += new System.EventHandler(this.txt_search_TextChanged);
             // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
+            this.toolTip1.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
             // 
             // ConfigRawParams
             // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txt_search);
@@ -228,7 +241,7 @@
             this.Controls.Add(this.BUT_load);
             this.Controls.Add(this.Params);
             this.Name = "ConfigRawParams";
-            resources.ApplyResources(this, "$this");
+            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

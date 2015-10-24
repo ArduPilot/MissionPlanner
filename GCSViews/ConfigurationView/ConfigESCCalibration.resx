@@ -221,14 +221,14 @@
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Instructions:
-1.Complete Radio Calibration
-2.Remove propellers from vehicle, unplug battery
-3.Push this button to enabled ESC Calibration and reboot board
-4.Plug in battery
-5.Push safety switch (if present) and wait for ESC tones
-6.Unplug and plug back in battery
-7.Arm and test motors spin
-8.Unplug battery, re-attach propellers</value>
+1. Complete Radio Calibration
+2. Remove propellers from vehicle, unplug battery
+3. Push this button to enabled ESC Calibration and reboot board
+4. Plug in battery
+5. Push safety switch (if present) and wait for ESC tones
+6. Unplug and plug back in battery
+7. Arm and test motors spin
+8. Unplug battery, re-attach propellers</value>
   </data>
   <data name="labelRC.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 11pt, style=Bold</value>
@@ -284,7 +284,7 @@
   <data name="buttonStart.Text" xml:space="preserve">
     <value>Start</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
-  </metadata>
+  </data>
 </root>
