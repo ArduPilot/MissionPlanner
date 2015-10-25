@@ -226,7 +226,7 @@
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(149, 36);
             this.label10.TabIndex = 24;
-            this.label10.Text = "Remote in FBWA";
+            this.label10.Text = "Remote in Manual Mode";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblRemote
