@@ -200,7 +200,12 @@ namespace MissionPlanner.Utilities
             return trans.MathTransform.TransformList(data);
         }
 
-
+        /// <summary>
+        /// direct solution of geodetic problem
+        /// </summary>
+        /// <param name="azimuth"></param>
+        /// <param name="distance"></param>
+        /// <returns></returns>
         public PointLatLngAlt newpos(double bearing, double distance)
         {
             // '''extrapolate latitude/longitude given a heading and distance 

@@ -567,7 +567,7 @@ namespace MissionPlanner
 
             int strips = 0;
             int images = 0;
-            int a = 1;
+            int a = 1; //image number
             PointLatLngAlt prevpoint = grid[0];
             float routetotal = 0;
             List<PointLatLng> segment = new List<PointLatLng>();
@@ -606,6 +606,7 @@ namespace MissionPlanner
 
                             double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
 
+                            //4 vertex of image footprint
                             List<PointLatLng> footprint = new List<PointLatLng>();
                             footprint.Add(item.newpos(bearing + angle1, dist1));
                             footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
