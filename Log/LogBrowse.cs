@@ -827,7 +827,8 @@ namespace MissionPlanner.Log
             foreach (var curve in zg1.GraphPane.CurveList)
             {
                 // its already on the graph, abort
-                if (curve.Label.Text.StartsWith(nodeName))
+                if (curve.Label.Text.Equals(nodeName) ||
+                    curve.Label.Text.Equals(nodeName+" R"))
                     return;
             }
 
@@ -1711,7 +1712,8 @@ namespace MissionPlanner.Log
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text))
+                        if (item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text) || 
+                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text + " R"))
                         {
                             removeitems.Add(item);
                             //break;
