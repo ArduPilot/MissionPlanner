@@ -623,6 +623,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to connect to SITL instance.
+        /// </summary>
+        public static string Failed_to_connect_to_SITL_instance {
+            get {
+                return ResourceManager.GetString("Failed_to_connect_to_SITL_instance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed download.
         /// </summary>
         public static string FailedDownload {
@@ -1330,6 +1339,15 @@ namespace MissionPlanner {
         public static string UpdateFound {
             get {
                 return ResourceManager.GetString("UpdateFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No update available..
+        /// </summary>
+        public static string UpdateNotFound {
+            get {
+                return ResourceManager.GetString("UpdateNotFound", resourceCulture);
             }
         }
         

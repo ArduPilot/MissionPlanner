@@ -87,7 +87,19 @@ namespace MissionPlanner.Controls
                     }
                     else
                     {
-                        current.Control = (MyUserControl)Activator.CreateInstance(type);
+                        try
+                        {
+                            current.Control = (MyUserControl) Activator.CreateInstance(type);
+                        }
+                        catch
+                        {
+                            try
+                            {
+                                current.Control = (MyUserControl) Activator.CreateInstance(type);
+                            } catch
+                            {
+                            }
+                        }
                     }
 
                     // set the next new instance as not visible
@@ -100,6 +112,9 @@ namespace MissionPlanner.Controls
 
             // find next screen
             Screen nextscreen = screens.Single(s => s.Name == name);
+
+            if (nextscreen == null)
+                return;
 
             MainControl.SuspendLayout();
             nextscreen.Control.SuspendLayout();

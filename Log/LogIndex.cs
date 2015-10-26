@@ -78,6 +78,9 @@ namespace MissionPlanner.Log
 
                         mine.getHeartBeat();
 
+                        loginfo.Date = mine.lastlogread;
+                        loginfo.Aircraft = mine.sysidcurrent;
+
                         var start = mine.lastlogread;
 
                         try
@@ -92,7 +95,7 @@ namespace MissionPlanner.Log
 
                         while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                         {
-                            mine.getHeartBeat();
+                            mine.readPacket();
 
                             if (mine.lastlogread > end)
                                 end = mine.lastlogread;
@@ -102,15 +105,16 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                //objectListView1.AddObject(loginfo);
+                objectListView1.AddObject(loginfo);
 
                 logs.Add(loginfo);
             }
-
+            /*
             this.Invoke((MethodInvoker)delegate
             {
                 objectListView1.AddObjects(logs);
             });
+             */
         }
 
         public class loginfo
@@ -120,6 +124,8 @@ namespace MissionPlanner.Log
             public string Directory { get { return Path.GetDirectoryName(fullname); } }
             public Image img { get; set; }
             public string Duration { get; set; }
+            public DateTime Date { get; set; }
+            public int Aircraft { get; set; }
 
             public loginfo()
             {

@@ -108,6 +108,9 @@ namespace MissionPlanner.GCSViews
                 if (this.Disposing)
                     return;
 
+                if (inputStartPos > TXT_terminal.Text.Length)
+                    inputStartPos = TXT_terminal.Text.Length - 1;
+
                 // gather current typed data
                 string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
 

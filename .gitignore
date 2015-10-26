@@ -20,3 +20,4 @@ obj/
 *.vsp
 /sitl
 /cov-int
+*.pyc

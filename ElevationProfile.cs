@@ -34,6 +34,14 @@ namespace MissionPlanner
 
             planlocs = locs;
 
+            for (int a = 0; a < planlocs.Count; a++) 
+            {
+                if (planlocs[a].Tag.Contains("ROI")) {
+                    planlocs.RemoveAt(a);
+                    a--;
+                }
+            }
+
             if (planlocs.Count <= 1)
             {
                 CustomMessageBox.Show("Please plan something first", Strings.ERROR);
@@ -65,7 +73,7 @@ namespace MissionPlanner
             frm.Close();
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-        }
+        } 
 
         private void ElevationProfile_Load(object sender, EventArgs e)
         {

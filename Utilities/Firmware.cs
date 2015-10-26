@@ -141,7 +141,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace MissionPlanner.Utilities
                 firmwareurl = this.firmwareurl;
 
             // mirror support
-            Localizations.ReplaceMirrorUrl(ref firmwareurl);
+            L10N.ReplaceMirrorUrl(ref firmwareurl);
 
             log.Info("getFWList");
 
@@ -383,7 +383,7 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         void getAPMVersion(object tempin)
         {
-            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
+            System.Threading.Thread.CurrentThread.CurrentUICulture = L10N.ConfigLang;
 
             try
             {
@@ -394,7 +394,7 @@ namespace MissionPlanner.Utilities
 
                 if (baseurl == "") return;
 
-                Localizations.ReplaceMirrorUrl(ref baseurl);
+                L10N.ReplaceMirrorUrl(ref baseurl);
 
                 Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
@@ -566,7 +566,7 @@ namespace MissionPlanner.Utilities
                     baseurl = getUrl(historyhash, baseurl);
 
                 // update to use mirror url
-                Localizations.ReplaceMirrorUrl(ref baseurl);
+                L10N.ReplaceMirrorUrl(ref baseurl);
 
                 log.Info("Using " + baseurl);
 
@@ -739,58 +739,6 @@ namespace MissionPlanner.Utilities
 
                     // test if pausing here stops - System.TimeoutException: The write timed out.
                     System.Threading.Thread.Sleep(500);
-
-                    try
-                    {
-                        up.verifyotp();
-
-                        if (up.libre)
-                        {
-                            MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "libre", "");
-                        }
-                        else 
-                        {
-                            MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "Pass", "");
-                        }
-                    }
-                    catch (Org.BouncyCastle.Security.InvalidKeyException ex) 
-                    {
-                        MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp","InvalidKeyException","");
-                        log.Error(ex);
-                        CustomMessageBox.Show(Strings.YouAreUsingUnsupportedHardware , Strings.InvalidCert); 
-                        up.skipotp = true;
-                    }
-                    catch (FormatException ex)
-                    {
-                        MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "FormatException", "");
-                        log.Error(ex);
-                        CustomMessageBox.Show(Strings.YouAreUsingUnsupportedHardware, Strings.InvalidCert);
-                        up.skipotp = true;
-                    }
-                    catch (IOException ex) 
-                    {
-                        MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "IOException", "");
-                        log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
-                        up.close();
-                        return false;
-                    }
-                    catch (TimeoutException ex)
-                    {
-                        MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "TimeoutException", "");
-                        log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
-                        up.close();
-                        return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        MissionPlanner.Utilities.Tracking.AddEvent("FWUpload", "verifyotp", "Exception", "");
-                        log.Error(ex);
-                        CustomMessageBox.Show("lost communication with the board. " + ex.ToString(), "lost comms");
-                        up.close();
-                        return false;
-                    }
 
                     try
                     {

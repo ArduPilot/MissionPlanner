@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
+using System.Threading;
 
 namespace MissionPlanner.Controls
 {
@@ -74,6 +75,17 @@ namespace MissionPlanner.Controls
                                   new Point(e.Bounds.X, e.Bounds.Y));
 
             e.DrawFocusRectangle();
+        }
+
+        private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MainV2.comPort.sysidcurrent = (int)cmb_sysid.SelectedValue / 256;
+            MainV2.comPort.compidcurrent = (int)cmb_sysid.SelectedValue % 256;
+        }
+
+        private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
+        {
+            e.Value = MainV2.comPort.MAVlist[(int)e.Value / 256, (int)e.Value % 256].aptype.ToString() + "-" + ((int)e.Value % 256);
         }
 
     }

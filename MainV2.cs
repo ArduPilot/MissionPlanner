@@ -313,6 +313,18 @@ namespace MissionPlanner
         {
             log.Info("Mainv2 ctor");
 
+            // set this before we reset it
+            MainV2.config["NUM_tracklength"] = "200";
+
+            // create one here - but override on load
+            MainV2.config["guid"] = Guid.NewGuid().ToString();
+
+            // load config
+            xmlconfig(false);
+
+            // force language to be loaded
+            L10N.GetConfigLang();
+
             ShowAirports = true;
 
             // setup adsb
@@ -341,11 +353,6 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte)'S');
 
-            // full screen
-            //this.TopMost = true;
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            //this.WindowState = FormWindowState.Maximized;
-
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
@@ -365,10 +372,6 @@ namespace MissionPlanner
 
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
-
-            //MyRenderer.currentpressed = MenuFlightData;
-
-            //MainMenu.Renderer = new MyRenderer();
 
             foreach (object obj in Enum.GetValues(typeof(Firmwares)))
             {
@@ -391,14 +394,38 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
-            // set this before we reset it
-            MainV2.config["NUM_tracklength"] = "200";
+            if (MainV2.config.ContainsKey("comport"))
+            {
+                string temp = (string)config["comport"];
 
-            // create one here - but override on load
-            MainV2.config["guid"] = Guid.NewGuid().ToString();
+                _connectionControl.CMB_serialport.SelectedIndex = _connectionControl.CMB_serialport.FindString(temp);
+                if (_connectionControl.CMB_serialport.SelectedIndex == -1)
+                {
+                    _connectionControl.CMB_serialport.Text = temp; // allows ports that dont exist - yet
+                }
+                comPort.BaseStream.PortName = temp;
+                comPortName = temp;
+            }
+            if (MainV2.config.ContainsKey("baudrate"))
+            {
 
-            // load config
-            xmlconfig(false);
+                string temp2 = (string)config["baudrate"];
+
+                _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
+                if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
+                {
+                    _connectionControl.CMB_baudrate.Text = temp2;
+                }
+            }
+            if (MainV2.config.ContainsKey("APMFirmware"))
+            {
+
+                string temp3 = (string)config["APMFirmware"];
+                _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
+                if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
+                MainV2.comPort.MAV.cs.firmware = (MainV2.Firmwares)Enum.Parse(typeof(MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
+            }
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(MainV2.config["guid"].ToString());
 
@@ -559,15 +586,18 @@ namespace MissionPlanner
                     this.Width = int.Parse(config["MainWidth"].ToString());
 
                 if (config["CMB_rateattitude"] != null)
-                    MainV2.comPort.MAV.cs.rateattitude = byte.Parse(config["CMB_rateattitude"].ToString());
+                    CurrentState.rateattitudebackup = byte.Parse(config["CMB_rateattitude"].ToString());
                 if (config["CMB_rateposition"] != null)
-                    MainV2.comPort.MAV.cs.rateposition = byte.Parse(config["CMB_rateposition"].ToString());
+                    CurrentState.ratepositionbackup = byte.Parse(config["CMB_rateposition"].ToString());
                 if (config["CMB_ratestatus"] != null)
-                    MainV2.comPort.MAV.cs.ratestatus = byte.Parse(config["CMB_ratestatus"].ToString());
+                    CurrentState.ratestatusbackup = byte.Parse(config["CMB_ratestatus"].ToString());
                 if (config["CMB_raterc"] != null)
-                    MainV2.comPort.MAV.cs.raterc = byte.Parse(config["CMB_raterc"].ToString());
+                    CurrentState.ratercbackup = byte.Parse(config["CMB_raterc"].ToString());
                 if (config["CMB_ratesensors"] != null)
-                    MainV2.comPort.MAV.cs.ratesensors = byte.Parse(config["CMB_ratesensors"].ToString());
+                    CurrentState.ratesensorsbackup = byte.Parse(config["CMB_ratesensors"].ToString());
+
+                // make sure rates propogate
+                MainV2.comPort.MAV.cs.ResetInternals();
 
                 if (config["speechenable"] != null)
                     MainV2.speechEnable = bool.Parse(config["speechenable"].ToString());
@@ -594,7 +624,7 @@ namespace MissionPlanner
             }
             catch { }
 
-            if (MainV2.comPort.MAV.cs.rateattitude == 0) // initilised to 10, configured above from save
+            if (CurrentState.rateattitudebackup == 0) // initilised to 10, configured above from save
             {
                 CustomMessageBox.Show("NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
@@ -1038,28 +1068,31 @@ namespace MissionPlanner
                     return;
                 }
 
+                _connectionControl.cmb_sysid.Enabled = false;
+
                 // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.sysidseen.Count > 1)
+                if (comPort.MAVlist.Count > 1)
                 {
                     // we have more than one mav
                     // user selection of sysid
-                    MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-
-                    id.Show();
+                    _connectionControl.cmb_sysid.DataSource = MainV2.comPort.MAVlist.GetRawIDS();
+                    _connectionControl.cmb_sysid.Enabled = true;
                 }
 
-                // create a copy
-                int[] list = comPort.sysidseen.ToArray();
+                // get all mavstates
+                var list = comPort.MAVlist.GetMAVStates();
 
                 // get all the params
-                foreach (var sysid in list)
+                foreach (var mavstate in list)
                 {
-                    comPort.sysidcurrent = sysid;
+                    comPort.sysidcurrent = mavstate.sysid;
+                    comPort.compidcurrent = mavstate.compid;
                     comPort.getParamList();
                 }
 
                 // set to first seen
-                comPort.sysidcurrent = list[0];
+                comPort.sysidcurrent = list[0].sysid;
+                comPort.compidcurrent = list[0].compid;
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -1427,7 +1460,7 @@ namespace MissionPlanner
         }
 
 
-        private void xmlconfig(bool write)
+        void xmlconfig(bool write)
         {
             if (write || !File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml"))
             {
@@ -1481,35 +1514,6 @@ namespace MissionPlanner
                             {
                                 switch (xmlreader.Name)
                                 {
-                                    case "comport":
-                                        string temp = xmlreader.ReadString();
-
-                                        _connectionControl.CMB_serialport.SelectedIndex = _connectionControl.CMB_serialport.FindString(temp);
-                                        if (_connectionControl.CMB_serialport.SelectedIndex == -1)
-                                        {
-                                            _connectionControl.CMB_serialport.Text = temp; // allows ports that dont exist - yet
-                                        }
-                                        comPort.BaseStream.PortName = temp;
-                                        comPortName = temp;
-                                        break;
-                                    case "baudrate":
-                                        string temp2 = xmlreader.ReadString();
-
-                                        _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
-                                        if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
-                                        {
-                                            _connectionControl.CMB_baudrate.Text = temp2;
-                                            //CMB_baudrate.SelectedIndex = CMB_baudrate.FindString("57600"); ; // must exist
-                                        }
-                                        //bau = int.Parse(CMB_baudrate.Text);
-                                        break;
-                                    case "APMFirmware":
-                                        string temp3 = xmlreader.ReadString();
-                                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
-                                        if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
-                                            _connectionControl.TOOL_APMFirmware.SelectedIndex = 0;
-                                        MainV2.comPort.MAV.cs.firmware = (MainV2.Firmwares)Enum.Parse(typeof(MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
-                                        break;
                                     case "Config":
                                         break;
                                     case "xml":
@@ -1817,10 +1821,14 @@ namespace MissionPlanner
                                 continue;
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
 
                     // update connect/disconnect button and info stats
-                    UpdateConnectIcon();
+                    try
+                    {
+                        UpdateConnectIcon();
+                    }
+                    catch (Exception ex) { log.Error(ex); }
 
                     // 30 seconds interval speech options
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
@@ -2079,11 +2087,11 @@ namespace MissionPlanner
                             catch (Exception ex) { log.Error(ex); }
                         }
                         // update currentstate of sysids on the port
-                        foreach (var sysid in port.sysidseen)
+                        foreach (var MAV in port.MAVlist.GetMAVStates())
                         {
                             try
                             {
-                                port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
+                                MAV.cs.UpdateCurrentSettings(null, false, port, MAV);
                             }
                             catch (Exception ex) { log.Error(ex); }
                         }
@@ -2550,8 +2558,6 @@ namespace MissionPlanner
                 Thread.CurrentThread.CurrentUICulture = ci;
                 config["language"] = ci.Name;
                 //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
-
-                Localizations.ConfigLang = ci;
 
                 HashSet<Control> views = new HashSet<Control> { this, FlightData, FlightPlanner, Simulation };
 

@@ -752,7 +752,7 @@ namespace MissionPlanner.Log
 
                 // to get first packet time
                 MavlinkInterface.getHeartBeat();
-                MavlinkInterface.setAPType(MavlinkInterface.MAV.sysid);
+                MavlinkInterface.setAPType(MavlinkInterface.MAV.sysid, MavlinkInterface.MAV.compid);
 
                 DateTime startlogtime = MavlinkInterface.lastlogread;
 

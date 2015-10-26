@@ -286,7 +286,7 @@ namespace MissionPlanner
                     if (oceantile.Contains(filename))
                         answer.currenttype = tiletype.ocean;
 
-                    if (zoom >= 12)
+                    if (zoom >= 7)
                     {
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
@@ -431,7 +431,7 @@ namespace MissionPlanner
 
             // if there are no http exceptions, and the list is >= 20, then everything above is valid
             // 15760 is all srtm3 and srtm1
-            if (list.Count >= 12 && checkednames > 14000)
+            if (list.Count >= 12 && checkednames > 14000 && !oceantile.Contains((string)name))
             {
                 // we must be an ocean tile - no matchs
                 oceantile.Add((string)name);
@@ -444,11 +444,15 @@ namespace MissionPlanner
             {
                 WebRequest req = HttpWebRequest.Create(url);
 
+                log.Info("Get " + url);
+
                 using (WebResponse res = req.GetResponse())
                 using (Stream resstream = res.GetResponseStream())
                 using (BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
                 {
                     byte[] buf1 = new byte[1024];
+
+                    int size = 0;
 
                     while (resstream.CanRead)
                     {
@@ -458,9 +462,12 @@ namespace MissionPlanner
                             break;
                         bw.Write(buf1, 0, len);
 
+                        size += len;
                     }
 
                     bw.Close();
+
+                    log.Info("Got " + url + " " + size);
 
                     FastZip fzip = new FastZip();
 
