@@ -487,7 +487,7 @@ namespace MissionPlanner
 
         public enum speeds
         {
-            ms,
+            meters_per_second,
             fps,
             kph,
             mph,

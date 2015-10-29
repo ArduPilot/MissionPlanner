@@ -2617,7 +2617,7 @@ namespace MissionPlanner
                 {
                     switch ((Common.speeds)Enum.Parse(typeof(Common.speeds), MainV2.config["speedunits"].ToString()))
                     {
-                        case Common.speeds.ms:
+                        case Common.speeds.meters_per_second:
                             CurrentState.multiplierspeed = 1;
                             CurrentState.SpeedUnit = "m/s";
                             break;
