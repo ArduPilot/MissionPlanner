@@ -176,7 +176,7 @@ namespace MissionPlanner.Utilities
             temp.Add(new GCSViews.ConfigurationView.ConfigHWCompass());
             temp.Add(new GCSViews.ConfigurationView.ConfigHWOptFlow());
             temp.Add(new GCSViews.ConfigurationView.ConfigHWOSD());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHWSonar());
+            temp.Add(new GCSViews.ConfigurationView.ConfigHWRangeFinder());
             temp.Add(new GCSViews.ConfigurationView.ConfigMandatory());
             temp.Add(new GCSViews.ConfigurationView.ConfigMount());
             temp.Add(new GCSViews.ConfigurationView.ConfigOptional());

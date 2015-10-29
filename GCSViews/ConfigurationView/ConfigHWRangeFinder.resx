@@ -147,7 +147,7 @@
     <value>CMB_sonartype</value>
   </data>
   <data name="&gt;&gt;CMB_sonartype.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5543.11952, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5777.30697, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_sonartype.Parent" xml:space="preserve">
     <value>$this</value>
@@ -193,13 +193,13 @@
     <value>7, 5</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 20</value>
+    <value>114, 20</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Sonar</value>
+    <value>RangeFinder</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

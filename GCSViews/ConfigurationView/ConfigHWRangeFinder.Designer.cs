@@ -1,6 +1,6 @@
 ﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigHWSonar
+    partial class ConfigHWRangeFinder
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWSonar));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWRangeFinder));
             this.CMB_sonartype = new MissionPlanner.Controls.MavlinkComboBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,8 +53,8 @@
             resources.GetString("CMB_sonartype.Items2"),
             resources.GetString("CMB_sonartype.Items3")});
             this.CMB_sonartype.Name = "CMB_sonartype";
-            
             this.CMB_sonartype.ParamName = null;
+            this.CMB_sonartype.SubControl = null;
             // 
             // pictureBox3
             // 
