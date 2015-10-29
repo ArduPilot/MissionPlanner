@@ -279,20 +279,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 BUT_Calibrateradio.Text = Strings.Saving;
                 try
                 {
-                    if (rcmin[a] != rcmax[a])
+                    if (rcmin[a] + 10 < rcmax[a]) //Don't save if value haven't changed by 10
                     {
                         MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MIN", rcmin[a]);
                         MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_MAX", rcmax[a]);
+                        if (rctrim[a] < 1195 || rctrim[a] > 1205)
+                            MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a]);
                     }
-                    if (rctrim[a] < 1195 || rctrim[a] > 1205)
-                        MainV2.comPort.setParam("RC" + (a + 1).ToString("0") + "_TRIM", rctrim[a]);
                 }
                 catch
                 {
                     CustomMessageBox.Show("Failed to set Channel " + (a + 1));
                 }
+                if(rcmin[a] + 10 >= rcmax[a])
+                    data = data + "CH" + (a + 1) + " Not changed\n";
+                else
+                    data = data + "CH" + (a + 1) + " " + rcmin[a] + " | " + rcmax[a] + "\n";
 
-                data = data + "CH" + (a + 1) + " " + rcmin[a] + " | " + rcmax[a] + "\n";
             }
 
             MainV2.comPort.MAV.cs.raterc = oldrc;
