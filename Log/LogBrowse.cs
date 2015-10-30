@@ -1712,8 +1712,8 @@ namespace MissionPlanner.Log
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text) || 
-                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text + " R"))
+                        if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text+" ") ||
+                            item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " R "))
                         {
                             removeitems.Add(item);
                             //break;
