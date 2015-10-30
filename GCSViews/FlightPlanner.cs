@@ -1509,7 +1509,7 @@ namespace MissionPlanner.GCSViews
         {
             using (SaveFileDialog fd = new SaveFileDialog())
             {
-                fd.Filter = "Ardupilot Mission (*.txt)|*.*";
+                fd.Filter = "Ardupilot Mission (*.txt)|(*.waypoints)|*.*";
                 fd.DefaultExt = ".txt";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
@@ -1519,7 +1519,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         StreamWriter sw = new StreamWriter(file);
-                        sw.WriteLine("QGC WPL 110");
+                        sw.WriteLine("QGC WPL 120");
                         try
                         {
                             sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" + double.Parse(TXT_homelat.Text).ToString("0.000000", new CultureInfo("en-US")) + "\t" + double.Parse(TXT_homelng.Text).ToString("0.000000", new CultureInfo("en-US")) + "\t" + double.Parse(TXT_homealt.Text).ToString("0.000000", new CultureInfo("en-US")) + "\t1");
