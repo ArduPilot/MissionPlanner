@@ -548,8 +548,8 @@
             // 
             // modifyandSetSpeed
             // 
-            this.modifyandSetSpeed.ButtonText = "改速度";
             resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
+            this.modifyandSetSpeed.ButtonText = "Change Speed";
             this.modifyandSetSpeed.Name = "modifyandSetSpeed";
             this.modifyandSetSpeed.Value = new decimal(new int[] {
             100,
@@ -561,8 +561,8 @@
             // 
             // modifyandSetAlt
             // 
-            this.modifyandSetAlt.ButtonText = "改高度";
             resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
+            this.modifyandSetAlt.ButtonText = "Change Alt";
             this.modifyandSetAlt.Name = "modifyandSetAlt";
             this.modifyandSetAlt.Value = new decimal(new int[] {
             100,
