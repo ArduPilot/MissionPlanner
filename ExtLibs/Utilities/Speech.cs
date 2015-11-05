@@ -7,9 +7,10 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    public class Speech: IDisposable
+    public class Speech : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         SpeechSynthesizer _speechwindows;
         System.Diagnostics.Process _speechlinux;
@@ -23,13 +24,9 @@ namespace MissionPlanner.Utilities
             get
             {
                 if (MONO)
-                {
                     return _state;
-                }
                 else
-                {
                     return _speechwindows.State;
-                }
             }
         }
 
@@ -41,13 +38,9 @@ namespace MissionPlanner.Utilities
             log.Info("TTS: init, mono = " + MONO);
 
             if (MONO)
-            {
                 _state = SynthesizerState.Ready;
-            }
             else
-            {
                 _speechwindows = new SpeechSynthesizer();
-            }
         }
 
         public void SpeakAsync(string text)
@@ -72,7 +65,6 @@ namespace MissionPlanner.Utilities
                         _speechlinux.Exited += new EventHandler(_speechlinux_Exited);
 
                         log.Info("TTS: start " + _speechlinux.StartTime);
-
                     }
 
                     _state = SynthesizerState.Speaking;
@@ -81,14 +73,12 @@ namespace MissionPlanner.Utilities
 
                     _speechlinux.Close();
                 }
-                catch { } // ignore errors
+                catch {} // ignore errors
 
                 _state = SynthesizerState.Ready;
             }
             else
-            {
                 _speechwindows.SpeakAsync(text);
-            }
 
             log.Info("TTS: say " + text);
         }
@@ -108,7 +98,7 @@ namespace MissionPlanner.Utilities
                     if (_speechlinux != null)
                         _speechlinux.Close();
                 }
-                catch { }
+                catch {}
                 _state = SynthesizerState.Ready;
             }
             else
@@ -117,7 +107,7 @@ namespace MissionPlanner.Utilities
                 {
                     _speechwindows.SpeakAsyncCancelAll();
                 }
-                catch { } // System.PlatformNotSupportedException:
+                catch {} // System.PlatformNotSupportedException:
             }
         }
 

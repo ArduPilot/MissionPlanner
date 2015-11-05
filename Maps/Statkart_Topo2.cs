@@ -19,9 +19,7 @@ namespace MissionPlanner.Maps
     {
         public static readonly Statkart_Topo2 Instance;
 
-        Statkart_Topo2()
-        {
-        }
+        Statkart_Topo2() {}
 
         static Statkart_Topo2()
         {
@@ -37,42 +35,34 @@ namespace MissionPlanner.Maps
         #region GMapProvider Members
 
         readonly Guid id = new Guid("24855c2f-7f75-4074-a30b-ac3ce3287237");
+
         public override Guid Id
         {
-            get
-            {
-                return id;
-            }
+            get { return id; }
         }
 
         readonly string name = "Statkart_Topo2";
+
         public override string Name
         {
-            get
-            {
-                return name;
-            }
+            get { return name; }
         }
 
         GMapProvider[] overlays;
+
         public override GMapProvider[] Overlays
         {
             get
             {
                 if (overlays == null)
-                {
-                    overlays = new GMapProvider[] { this };
-                }
+                    overlays = new GMapProvider[] {this};
                 return overlays;
             }
         }
 
         public override PureProjection Projection
         {
-            get
-            {
-                return MercatorProjection.Instance;
-            }
+            get { return MercatorProjection.Instance; }
         }
 
         public override PureImage GetTileImage(GPoint pos, int zoom)
@@ -86,7 +76,6 @@ namespace MissionPlanner.Maps
 
         string MakeTileImageUrl(GPoint pos, int zoom, string language)
         {
-
             string ret;
 
             this.RefererUrl = "http://www.norgeskart.no/";
@@ -98,6 +87,7 @@ namespace MissionPlanner.Maps
 
         //http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom=%1&x=%2&y=%3              
 
-        public static string CustomURL = "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={0}&x={1}&y={2}";
+        public static string CustomURL =
+            "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={0}&x={1}&y={2}";
     }
 }

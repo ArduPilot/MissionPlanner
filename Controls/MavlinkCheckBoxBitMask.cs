@@ -22,16 +22,14 @@ namespace MissionPlanner.Controls
         public string ParamName { get; set; }
 
 
-        public float Value 
+        public float Value
         {
             get
             {
                 float answer = 0;
 
                 for (int a = 0; a < chklist.Count; a++)
-                {
                     answer += chklist[a].Value.Checked ? (1 << chklist[a].Key) : 0;
-                }
 
                 return answer;
             }
@@ -42,8 +40,7 @@ namespace MissionPlanner.Controls
                     CheckBox chk = (CheckBox)panel1.Controls[a];
 
 
-                        chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
-
+                    chk.Checked = (((uint)value & (1 << list[a].Key)) > 0);
                 }
             }
         }
@@ -66,7 +63,8 @@ namespace MissionPlanner.Controls
             {
                 this.Enabled = true;
 
-                list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName,
+                    MainV2.comPort.MAV.cs.firmware.ToString());
                 chkcount = list.Count;
 
                 int leftside = 9;
@@ -84,11 +82,9 @@ namespace MissionPlanner.Controls
                     chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
 
                     if ((value & (1 << list[a].Key)) > 0)
-                    {
                         chk.Checked = true;
-                    }
 
-                    chklist.Add(new KeyValuePair<int,CheckBox>(list[a].Key,chk));
+                    chklist.Add(new KeyValuePair<int, CheckBox>(list[a].Key, chk));
                     panel1.Controls.Add(chk);
 
                     chk.CheckedChanged += MavlinkCheckBoxBitMask_CheckedChanged;
@@ -106,12 +102,10 @@ namespace MissionPlanner.Controls
 
                 this.panel1.Height = top + 25;
 
-                    //this.Height = top + 25;
+                //this.Height = top + 25;
             }
             else
-            {
                 this.Enabled = false;
-            }
         }
 
         void MavlinkCheckBoxBitMask_CheckedChanged(object sender, EventArgs e)
@@ -127,8 +121,8 @@ namespace MissionPlanner.Controls
                 if (ans == false)
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }
-            catch 
-            { 
+            catch
+            {
                 CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }
         }
@@ -144,9 +138,11 @@ namespace MissionPlanner.Controls
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor =
+                ((System.Windows.Forms.AnchorStyles)
+                    ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                       | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -180,8 +176,10 @@ namespace MissionPlanner.Controls
             // 
             // myLabel1
             // 
-            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myLabel1.Anchor =
+                ((System.Windows.Forms.AnchorStyles)
+                    (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
             this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.myLabel1.Location = new System.Drawing.Point(3, 3);
             this.myLabel1.Name = "myLabel1";
@@ -200,9 +198,6 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        
     }
 }

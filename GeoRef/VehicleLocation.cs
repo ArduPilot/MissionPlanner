@@ -5,8 +5,5 @@ using System.Text;
 
 namespace MissionPlanner.GeoRef
 {
-    public class VehicleLocation : SingleLocation
-    {
-
-    }
+    public class VehicleLocation : SingleLocation {}
 }

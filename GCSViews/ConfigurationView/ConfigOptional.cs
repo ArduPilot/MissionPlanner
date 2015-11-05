@@ -10,8 +10,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
-        public void Activate()
-        {
-        }
+        public void Activate() {}
     }
 }

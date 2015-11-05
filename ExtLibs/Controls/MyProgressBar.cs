@@ -25,6 +25,7 @@ namespace MissionPlanner.Controls
         [DefaultValue(100)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public int Maximum { get; set; }
+
         //
         // Summary:
         //     Gets or sets the minimum value of the range of the control.
@@ -38,6 +39,7 @@ namespace MissionPlanner.Controls
         [DefaultValue(0)]
         [RefreshProperties(RefreshProperties.Repaint)]
         public int Minimum { get; set; }
+
         //
         // Summary:
         //     Gets or sets the current position of the progress bar.
@@ -62,15 +64,33 @@ namespace MissionPlanner.Controls
         internal Color _Outline = Color.FromArgb(150, 171, 112);
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-        public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; } }
+        public Color BGGradTop
+        {
+            get { return _BGGradTop; }
+            set { _BGGradTop = value; }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; } }
+        public Color BGGradBot
+        {
+            get { return _BGGradBot; }
+            set { _BGGradBot = value; }
+        }
 
         // i want to ignore forecolor
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-        public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
+        public Color TextColor
+        {
+            get { return _TextColor; }
+            set { _TextColor = value; }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-        public Color Outline { get { return _Outline; } set { _Outline = value; } }
+        public Color Outline
+        {
+            get { return _Outline; }
+            set { _Outline = value; }
+        }
 
         public MyProgressBar()
         {
@@ -104,11 +124,12 @@ namespace MissionPlanner.Controls
                 delta = 100;
             int position = (int)((Value / (float)delta) * this.Width);
 
-            Rectangle outside = new Rectangle(new Point(1, 1), new System.Drawing.Size(this.Width - 2,this.Height - 2));
+            Rectangle outside = new Rectangle(new Point(1, 1), new System.Drawing.Size(this.Width - 2, this.Height - 2));
 
-            LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+            LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot,
+                LinearGradientMode.Vertical);
 
-            Rectangle progressdone = new Rectangle(new Point(1, 1), new System.Drawing.Size(position,this.Height -2));
+            Rectangle progressdone = new Rectangle(new Point(1, 1), new System.Drawing.Size(position, this.Height - 2));
 
             if (Style == ProgressBarStyle.Marquee)
                 progressdone = new Rectangle(new Point(position, 1), new System.Drawing.Size(BarSize, this.Height - 2));
@@ -118,7 +139,7 @@ namespace MissionPlanner.Controls
             // draw the progress
             e.Graphics.FillRectangle(linear, progressdone);
             // draw the outside
-            e.Graphics.DrawRectangle(new Pen(Outline,1),new Rectangle(0,0,this.Width-1,this.Height-1));
+            e.Graphics.DrawRectangle(new Pen(Outline, 1), new Rectangle(0, 0, this.Width - 1, this.Height - 1));
         }
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -127,12 +148,10 @@ namespace MissionPlanner.Controls
         }
 
         ProgressBarStyle _style = ProgressBarStyle.Continuous;
+
         public ProgressBarStyle Style
         {
-            get 
-            { 
-                return _style; 
-            }
+            get { return _style; }
             set
             {
                 _style = value;
@@ -144,7 +163,7 @@ namespace MissionPlanner.Controls
                 else
                 {
                     if (marquee.Enabled)
-                        marquee.Stop(); 
+                        marquee.Stop();
                 }
 
                 this.Invalidate();

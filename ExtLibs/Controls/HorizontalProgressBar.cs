@@ -9,9 +9,7 @@ using System.Windows.Forms;
 using AGaugeApp;
 using System.IO.Ports;
 using System.Threading;
-
 using System.Security.Cryptography.X509Certificates;
-
 using System.Net;
 using System.Net.Sockets;
 using System.Xml; // config file
@@ -19,9 +17,7 @@ using System.Runtime.InteropServices; // dll imports
 using log4net;
 using MissionPlanner;
 using System.Reflection;
-
 using System.IO;
-
 using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
@@ -37,14 +33,11 @@ namespace MissionPlanner.Controls
         bool _drawlabel = true;
 
         [System.ComponentModel.Browsable(true),
-System.ComponentModel.Category("Mine"),
-System.ComponentModel.Description("draw text under Bar")]
+         System.ComponentModel.Category("Mine"),
+         System.ComponentModel.Description("draw text under Bar")]
         public bool DrawLabel
         {
-            get
-            {
-                return _drawlabel;
-            }
+            get { return _drawlabel; }
             set
             {
                 _drawlabel = value;
@@ -59,6 +52,7 @@ System.ComponentModel.Description("draw text under Bar")]
                 }
             }
         }
+
         System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
         System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
 
@@ -81,13 +75,9 @@ System.ComponentModel.Description("draw text under Bar")]
                 _value = value;
                 int ans = value + offset;
                 if (ans <= base.Minimum)
-                {
                     ans = base.Minimum + 1; // prevent an exception for the -1 hack
-                }
                 else if (ans >= base.Maximum)
-                {
                     ans = base.Maximum;
-                }
                 base.Value = ans;
                 //drawlbl();
                 base.Value = ans - 1;
@@ -112,12 +102,12 @@ System.ComponentModel.Description("draw text under Bar")]
                 _min = value;
                 if (_min < 0)
                 {
-                    base.Minimum = 0; offset = (_max - value) / 2; base.Maximum = _max - value;
+                    base.Minimum = 0;
+                    offset = (_max - value) / 2;
+                    base.Maximum = _max - value;
                 }
                 else
-                {
                     base.Minimum = value;
-                }
 
                 if (this.DesignMode) return;
 
@@ -130,23 +120,26 @@ System.ComponentModel.Description("draw text under Bar")]
             }
         }
 
-        public new int Maximum { get { return _max; } set { _max = value; base.Maximum = value; } }
+        public new int Maximum
+        {
+            get { return _max; }
+            set
+            {
+                _max = value;
+                base.Maximum = value;
+            }
+        }
 
         [System.ComponentModel.Browsable(true),
-System.ComponentModel.Category("Mine"),
-System.ComponentModel.Description("Text under Bar")]
+         System.ComponentModel.Category("Mine"),
+         System.ComponentModel.Description("Text under Bar")]
         public string Label
         {
-            get
-            {
-                return m_Text;
-            }
+            get { return m_Text; }
             set
             {
                 if (m_Text != value)
-                {
                     m_Text = value;
-                }
             }
         }
 
@@ -177,24 +170,48 @@ System.ComponentModel.Description("Text under Bar")]
                     {
                         range2 = this.Height;
                         if (minline != 0)
-                            e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width, (this.Maximum - minline) / range * range2 + 0);
+                        {
+                            e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width,
+                                (this.Maximum - minline) / range * range2 + 0);
+                        }
                         if (maxline != 0)
-                            e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 0, this.Width, (this.Maximum - maxline) / range * range2 + 0);
+                        {
+                            e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 0, this.Width,
+                                (this.Maximum - maxline) / range * range2 + 0);
+                        }
                         if (minline != 0)
-                            e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5, (this.Maximum - minline) / range * range2 + 2);
+                        {
+                            e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5,
+                                (this.Maximum - minline) / range * range2 + 2);
+                        }
                         if (maxline != 0)
-                            e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5, (this.Maximum - maxline) / range * range2 - 15);
+                        {
+                            e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5,
+                                (this.Maximum - maxline) / range * range2 - 15);
+                        }
                     }
                     else
                     {
                         if (minline != 0)
-                            e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 3, 0, (minline - this.Minimum) / range * range2 - 3, this.Height);
+                        {
+                            e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 3, 0,
+                                (minline - this.Minimum) / range * range2 - 3, this.Height);
+                        }
                         if (maxline != 0)
-                            e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 3, 0, (maxline - this.Minimum) / range * range2 - 3, this.Height);
+                        {
+                            e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 3, 0,
+                                (maxline - this.Minimum) / range * range2 - 3, this.Height);
+                        }
                         if (minline != 0)
-                            e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black, (minline - this.Minimum) / range * range2 - 35, 5);
+                        {
+                            e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black,
+                                (minline - this.Minimum) / range * range2 - 35, 5);
+                        }
                         if (maxline != 0)
-                            e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black, (maxline - this.Minimum) / range * range2 - 3, 5);
+                        {
+                            e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black,
+                                (maxline - this.Minimum) / range * range2 - 3, 5);
+                        }
                     }
                 }
             }

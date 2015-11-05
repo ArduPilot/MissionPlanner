@@ -64,10 +64,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
-            catch
-            {
-
-            }
+            catch {}
         }
     }
 }

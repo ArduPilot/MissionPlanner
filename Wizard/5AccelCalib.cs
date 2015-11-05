@@ -44,7 +44,12 @@ namespace MissionPlanner.Wizard
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
                 MainV2.comPort.giveComport = true;
             }
-            catch { busy = false; CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); return; }
+            catch
+            {
+                busy = false;
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                return;
+            }
 
             // start thread to update display
             System.Threading.ThreadPool.QueueUserWorkItem(readmessage, this);
@@ -60,7 +65,9 @@ namespace MissionPlanner.Wizard
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
 
-            while (!(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") || MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
+            while (
+                !(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") ||
+                  MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
             {
                 try
                 {
@@ -73,7 +80,10 @@ namespace MissionPlanner.Wizard
                     // update user display
                     local.UpdateUserMessage();
                 }
-                catch { break; }
+                catch
+                {
+                    break;
+                }
             }
 
             busy = false;
@@ -88,7 +98,7 @@ namespace MissionPlanner.Wizard
                     local.BUT_continue.Enabled = false;
                 });
             }
-            catch { }
+            catch {}
         }
 
         public void UpdateUserMessage()
@@ -146,9 +156,13 @@ namespace MissionPlanner.Wizard
 
             try
             {
-                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() {command = 1, result = count});
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex); Wizard.instance.Close(); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex);
+                Wizard.instance.Close();
+            }
         }
     }
 }

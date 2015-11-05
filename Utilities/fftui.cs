@@ -24,7 +24,6 @@ namespace MissionPlanner.Utilities
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-
                 ofd.Filter = "*.wav|*.wav";
 
                 ofd.ShowDialog();
@@ -60,15 +59,13 @@ namespace MissionPlanner.Utilities
                         ZedGraph.PointPairList ppl = new ZedGraph.PointPairList();
 
                         for (int b = 0; b < fftanswer.Length; b++)
-                        {
                             ppl.Add(freqt[b], fftanswer[b]);
-                        }
 
                         double xMin, xMax, yMin, yMax;
 
                         var curve = new LineItem("FFT", ppl, Color.Red, SymbolType.Diamond);
 
-                        curve.GetRange(out xMin, out xMax, out yMin, out  yMax, true, false, zedGraphControl1.GraphPane);
+                        curve.GetRange(out xMin, out xMax, out yMin, out yMax, true, false, zedGraphControl1.GraphPane);
 
                         zedGraphControl1.GraphPane.XAxis.Title.Text = "Freq Hz";
                         zedGraphControl1.GraphPane.YAxis.Title.Text = "Amplitude";
@@ -122,7 +119,6 @@ namespace MissionPlanner.Utilities
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-
                 ofd.Filter = "*.log|*.log";
 
                 ofd.ShowDialog();
@@ -153,10 +149,16 @@ namespace MissionPlanner.Utilities
                 avg.Add(new double[N / 2]);
                 avg.Add(new double[N / 2]);
 
-                object[] datas = new object[] { datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ };
-                string[] datashead = new string[] { "GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ" };
-                Color[] color = new Color[] { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
-                ZedGraphControl[] ctls = new ZedGraphControl[] { zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5, zedGraphControl6 };
+                object[] datas = new object[] {datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ};
+                string[] datashead = new string[]
+                {"GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ"};
+                Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange};
+                ZedGraphControl[] ctls = new ZedGraphControl[]
+                {
+                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
+                    zedGraphControl6
+                };
 
                 int samplecounta = 0;
                 int samplecountg = 0;
@@ -190,7 +192,7 @@ namespace MissionPlanner.Utilities
                         datainAX[samplecounta] = double.Parse(item.items[offsetAX]);
                         datainAY[samplecounta] = double.Parse(item.items[offsetAY]);
                         datainAZ[samplecounta] = double.Parse(item.items[offsetAZ]);
-                        
+
                         samplecounta++;
 
                         lasttime = time;
@@ -224,9 +226,7 @@ namespace MissionPlanner.Utilities
                             var fftanswer = fft.rin((double[])itemlist, (uint)bins);
 
                             for (int b = 0; b < N / 2; b++)
-                            {
                                 avg[inputdataindex][b] += fftanswer[b] * (1.0 / (N / 2.0));
-                            }
 
                             samplecounta = 0;
                             samplecountg = 0;
@@ -244,9 +244,9 @@ namespace MissionPlanner.Utilities
                 // 0 out all data befor cutoff
                 for (int inputdataindex = 0; inputdataindex < 6; inputdataindex++)
                 {
-                    for (int b = 0; b < N/2; b++)
+                    for (int b = 0; b < N / 2; b++)
                     {
-                        if (freqt[b] < (double) NUM_startfreq.Value)
+                        if (freqt[b] < (double)NUM_startfreq.Value)
                         {
                             avg[inputdataindex][b] = 0;
                             continue;
@@ -271,7 +271,9 @@ namespace MissionPlanner.Utilities
 
                     ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
                     ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
-                    ctls[controlindex].GraphPane.Title.Text = "FFT " + datashead[controlindex] + " - " + Path.GetFileName(ofd.FileName) + " - " + samplerate + "hz input";
+                    ctls[controlindex].GraphPane.Title.Text = "FFT " + datashead[controlindex] + " - " +
+                                                              Path.GetFileName(ofd.FileName) + " - " + samplerate +
+                                                              "hz input";
 
                     ctls[controlindex].GraphPane.CurveList.Clear();
 
@@ -301,9 +303,8 @@ namespace MissionPlanner.Utilities
         {
             Utilities.FFT2 fft = new FFT2();
             using (
-                        OpenFileDialog ofd = new OpenFileDialog())
+                OpenFileDialog ofd = new OpenFileDialog())
             {
-
                 ofd.Filter = "*.log|*.log";
 
                 ofd.ShowDialog();
@@ -317,8 +318,13 @@ namespace MissionPlanner.Utilities
 
                 int N = 1 << bins;
 
-                Color[] color = new Color[] { Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange };
-                ZedGraphControl[] ctls = new ZedGraphControl[] { zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5, zedGraphControl6 };
+                Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+                ZedGraphControl[] ctls = new ZedGraphControl[]
+                {
+                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
+                    zedGraphControl6
+                };
 
                 // 3 imus * 2 sets of measurements(gyr/acc)
                 datastate[] alldata = new datastate[3 * 2];
@@ -332,9 +338,7 @@ namespace MissionPlanner.Utilities
                     var item = dflog.GetDFItemFromLine(file.ReadLine(), 0);
 
                     if (item.msgtype == null)
-                    {
                         continue;
-                    }
 
                     if (item.msgtype.StartsWith("ACC"))
                     {
@@ -349,7 +353,10 @@ namespace MissionPlanner.Utilities
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
                         if (time != alldata[sensorno].lasttime)
-                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 + (time - alldata[sensorno].lasttime) * 0.01;
+                        {
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
+                        }
 
                         alldata[sensorno].lasttime = time;
 
@@ -370,7 +377,10 @@ namespace MissionPlanner.Utilities
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
                         if (time != alldata[sensorno].lasttime)
-                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 + (time - alldata[sensorno].lasttime) * 0.01;
+                        {
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
+                        }
 
                         alldata[sensorno].lasttime = time;
 
@@ -432,7 +442,9 @@ namespace MissionPlanner.Utilities
 
                     ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
                     ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
-                    ctls[controlindex].GraphPane.Title.Text = "FFT " + sensordata.type + " - " + Path.GetFileName(ofd.FileName) + " - " + samplerate + "hz input";
+                    ctls[controlindex].GraphPane.Title.Text = "FFT " + sensordata.type + " - " +
+                                                              Path.GetFileName(ofd.FileName) + " - " + samplerate +
+                                                              "hz input";
 
                     ctls[controlindex].GraphPane.CurveList.Clear();
 
@@ -454,7 +466,7 @@ namespace MissionPlanner.Utilities
 
         private string zedGraphControl_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)
         {
-            return String.Format("{0} hz/{1} rpm", curve[iPt].X,curve[iPt].X * 60.0);
+            return String.Format("{0} hz/{1} rpm", curve[iPt].X, curve[iPt].X * 60.0);
         }
     }
 }

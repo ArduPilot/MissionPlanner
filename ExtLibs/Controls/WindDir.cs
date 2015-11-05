@@ -16,7 +16,6 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             this.BackColor = Color.Transparent;
             this.DoubleBuffered = true;
-
         }
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -27,48 +26,67 @@ namespace MissionPlanner.Controls
         double maxspeed = 10;
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
-        public double Direction { get { return _direction; } set { if (_direction == (value + 180)) return; _direction = (value + 180); this.Invalidate(); } }
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
-        public double Speed { get { return _speed; } set { if (_speed == value) return; _speed = value; this.Invalidate(); } }
+        public double Direction
+        {
+            get { return _direction; }
+            set
+            {
+                if (_direction == (value + 180)) return;
+                _direction = (value + 180);
+                this.Invalidate();
+            }
+        }
 
-        Pen blackpen = new Pen(Color.Black,2);
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
+        public double Speed
+        {
+            get { return _speed; }
+            set
+            {
+                if (_speed == value) return;
+                _speed = value;
+                this.Invalidate();
+            }
+        }
+
+        Pen blackpen = new Pen(Color.Black, 2);
         Pen redpen = new Pen(Color.Red, 2);
 
         protected override void OnPaint(PaintEventArgs e)
         {
-           // e.Graphics.Clear(Color.Transparent);
+            // e.Graphics.Clear(Color.Transparent);
 
             try
             {
-
-               // Bitmap bg = new Bitmap(this.Width, this.Height);
+                // Bitmap bg = new Bitmap(this.Width, this.Height);
 
                 //this.Visible = false;
 
-               // this.Parent.DrawToBitmap(bg, this.ClientRectangle);
+                // this.Parent.DrawToBitmap(bg, this.ClientRectangle);
 
-               // this.BackgroundImage = bg;
+                // this.BackgroundImage = bg;
 
                 //this.Visible = true;
             }
-            catch { }
+            catch {}
 
             if (_direction > 360)
                 _direction = _direction % 360;
 
             base.OnPaint(e);
 
-            Rectangle outside = new Rectangle(1,1,this.Width - 3, this.Height -3);
+            Rectangle outside = new Rectangle(1, 1, this.Width - 3, this.Height - 3);
 
             e.Graphics.DrawArc(blackpen, outside, 0, 360);
 
-            Rectangle inside = new Rectangle(this.Width / 4,this.Height / 4, (this.Width/4) * 2,(this.Height / 4) * 2);
+            Rectangle inside = new Rectangle(this.Width / 4, this.Height / 4, (this.Width / 4) * 2,
+                (this.Height / 4) * 2);
 
             e.Graphics.DrawArc(blackpen, inside, 0, 360);
 
             double x = (this.Width / 2) * Math.Cos((_direction - 90) * deg2rad);
 
-            double y = (this.Height / 2) * Math.Sin((_direction-90) * deg2rad);
+            double y = (this.Height / 2) * Math.Sin((_direction - 90) * deg2rad);
 
             // full scale is 10ms
 
@@ -79,11 +97,11 @@ namespace MissionPlanner.Controls
 
             if (x != 0 || y != 0)
             {
-                float outx =  (float)(this.Width / 2 + x);
-                float outy =  (float)(this.Height / 2 + y);
+                float outx = (float)(this.Width / 2 + x);
+                float outy = (float)(this.Height / 2 + y);
 
                 //line
-                e.Graphics.DrawLine(redpen, this.Width / 2, this.Height / 2,outx,outy);
+                e.Graphics.DrawLine(redpen, this.Width / 2, this.Height / 2, outx, outy);
 
                 // arrow
 
@@ -94,7 +112,7 @@ namespace MissionPlanner.Controls
 
                 x1 = (this.Width / 7) * (float)Math.Cos((_direction + 60 + 180) * deg2rad);
                 y1 = (this.Height / 7) * (float)Math.Sin((_direction + 60 + 180) * deg2rad);
-                
+
                 e.Graphics.DrawLine(redpen, outx, outy, outx - x1, outy - y1);
             }
 
@@ -103,7 +121,6 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
-            
             base.OnPaintBackground(e);
             //e.Graphics.Clear(Color.Transparent);
         }

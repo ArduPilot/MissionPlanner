@@ -11,7 +11,8 @@ namespace MissionPlanner.Utilities
 {
     public class KIndex
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static string kindexurl = "http://services.swpc.noaa.gov/text/wwv.txt";
 
@@ -44,7 +45,7 @@ namespace MissionPlanner.Utilities
 
                 Match match = kregex.Match(content);
 
-                if (match.Success) 
+                if (match.Success)
                 {
                     string number = match.Groups[1].Value;
 

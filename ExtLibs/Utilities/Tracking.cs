@@ -14,7 +14,7 @@ namespace MissionPlanner.Utilities
     public class Tracking
     {
         private static readonly ILog log =
-     LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static string currentscreen = "";
 
@@ -37,8 +37,7 @@ namespace MissionPlanner.Utilities
             exception,
             timing,
 
-            appview      ,
-
+            appview,
         }
 
         public static bool OptOut = false;
@@ -81,7 +80,8 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("sr",
+                Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -111,9 +111,10 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("sr",
+                Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
-            Console.WriteLine("Open "+page + " " + title);
+            Console.WriteLine("Open " + page + " " + title);
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -140,7 +141,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                string[] lines = ex.StackTrace.Split(new char[] { '\n' });
+                string[] lines = ex.StackTrace.Split(new char[] {'\n'});
 
                 string reportline = "";
 
@@ -154,21 +155,23 @@ namespace MissionPlanner.Utilities
                 }
                 // 150 bytes
 
-                reportline = reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.", "");
+                reportline = reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.",
+                    "");
 
                 param.Add(new KeyValuePair<string, string>("exd", ex.Message + reportline));
             }
-            catch 
-            { 
+            catch
+            {
                 param.Add(new KeyValuePair<string, string>("exd", ex.Message));
             }
             param.Add(new KeyValuePair<string, string>("exf", "0"));
 
-            param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0,140)));
+            param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0, 140)));
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("sr",
+                Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -202,7 +205,8 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("sr",
+                Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -234,7 +238,8 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
-            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+            param.Add(new KeyValuePair<string, string>("sr",
+                Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
@@ -246,10 +251,10 @@ namespace MissionPlanner.Utilities
 
             try
             {
-
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(secureTrackingEndpoint);
                 httpWebRequest.ServicePoint.Expect100Continue = false;
-                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " ("+ Environment.OSVersion.VersionString +")";
+                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " (" +
+                                           Environment.OSVersion.VersionString + ")";
                 //httpWebRequest.ContentType = "text/plain";
                 httpWebRequest.Method = "POST";
 
@@ -261,9 +266,7 @@ namespace MissionPlanner.Utilities
                 data1.Add(new KeyValuePair<string, string>("cd4", Environment.ProcessorCount.ToString()));
 
                 foreach (KeyValuePair<string, string> item in data1)
-                {
                     data += "&" + item.Key + "=" + HttpUtility.UrlEncode(item.Value);
-                }
 
                 data = data.TrimStart(new char[] {'&'});
 
@@ -277,7 +280,6 @@ namespace MissionPlanner.Utilities
 
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
-
                     streamWriter.Write(data);
                     streamWriter.Flush();
 
@@ -288,12 +290,10 @@ namespace MissionPlanner.Utilities
                         log.Debug(httpResponse.StatusCode);
                     }
                     else
-                    {
                         log.Debug(httpResponse.StatusCode);
-                    }
                 }
             }
-            catch { }
+            catch {}
         }
     }
 }

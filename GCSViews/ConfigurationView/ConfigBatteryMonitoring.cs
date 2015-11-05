@@ -25,15 +25,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
             if (MainV2.comPort.MAV.param["BATT_MONITOR"] != null)
             {
-                if ((float) MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
+                if ((float)MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
                 {
                     CMB_batmontype.SelectedIndex = getIndex(CMB_batmontype,
-                        (int) float.Parse(MainV2.comPort.MAV.param["BATT_MONITOR"].ToString()));
+                        (int)float.Parse(MainV2.comPort.MAV.param["BATT_MONITOR"].ToString()));
                 }
                 else
-                {
                     CMB_batmontype.SelectedIndex = 0;
-                }
             }
 
             if (MainV2.comPort.MAV.param["BATT_CAPACITY"] != null)
@@ -58,39 +56,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.config["speechbatteryenabled"] != null &&
                 MainV2.config["speechbatteryenabled"].ToString() == "True" && MainV2.config["speechenable"] != null &&
                 MainV2.config["speechenable"].ToString() == "True")
-            {
                 CHK_speechbattery.Checked = true;
-            }
             else
-            {
                 CHK_speechbattery.Checked = false;
-            }
 
             // determine the sensor type
             if (TXT_ampspervolt.Text == (13.6612).ToString() && TXT_divider.Text == (4.127115).ToString())
-            {
                 CMB_batmonsensortype.SelectedIndex = 1;
-            }
             else if (TXT_ampspervolt.Text == (27.3224).ToString() && TXT_divider.Text == (15.70105).ToString())
-            {
                 CMB_batmonsensortype.SelectedIndex = 2;
-            }
             else if (TXT_ampspervolt.Text == (54.64481).ToString() && TXT_divider.Text == (15.70105).ToString())
-            {
                 CMB_batmonsensortype.SelectedIndex = 3;
-            }
             else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10.10101).ToString())
-            {
                 CMB_batmonsensortype.SelectedIndex = 4;
-            }
             else if (TXT_ampspervolt.Text == (17).ToString() && TXT_divider.Text == (12.02).ToString())
-            {
                 CMB_batmonsensortype.SelectedIndex = 5;
-            }
             else
-            {
                 CMB_batmonsensortype.SelectedIndex = 0;
-            }
 
             // determine the board type
             if (MainV2.comPort.MAV.param["BATT_VOLT_PIN"] != null)
@@ -99,21 +81,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var value = (double)MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
                 if (value == 0) // apm1
-                {
                     CMB_apmversion.SelectedIndex = 0;
-                }
                 else if (value == 1) // apm2
-                {
                     CMB_apmversion.SelectedIndex = 1;
-                }
                 else if (value == 13) // apm2.5
-                {
                     CMB_apmversion.SelectedIndex = 2;
-                }
                 else if (value == 100) // px4
-                {
                     CMB_apmversion.SelectedIndex = 3;
-                }
                 else if (value == 2)
                 {
                     // pixhawk
@@ -128,19 +102,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     // vrbrain 5 or micro
                     if ((double)MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
-                    {
                         CMB_apmversion.SelectedIndex = 5;
-                    }
                     else
-                    {
                         CMB_apmversion.SelectedIndex = 6;
-                    }
                 }
             }
             else
-            {
                 CMB_apmversion.Enabled = false;
-            }
 
             startup = false;
 
@@ -161,10 +129,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             try
             {
-                if (((CheckBox) sender).Checked == false)
-                {
+                if (((CheckBox)sender).Checked == false)
                     CMB_batmontype.SelectedIndex = 0;
-                }
                 else
                 {
                     if (CMB_batmontype.SelectedIndex <= 0)
@@ -185,18 +151,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
-            if (startup || ((TextBox) sender).Enabled == false)
+            if (startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
                 if (MainV2.comPort.MAV.param["BATT_CAPACITY"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
-                {
                     MainV2.comPort.setParam("BATT_CAPACITY", float.Parse(TXT_battcapacity.Text));
-                }
             }
             catch
             {
@@ -211,9 +173,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["BATT_MONITOR"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
                 {
                     var selection = int.Parse(CMB_batmontype.Text.Substring(0, 1));
@@ -264,7 +224,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
         {
-            if (startup || ((TextBox) sender).Enabled == false)
+            if (startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -273,7 +233,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_divider.Text);
                 if (voltage == 0)
                     return;
-                var new_divider = (measuredvoltage*divider)/voltage;
+                var new_divider = (measuredvoltage * divider) / voltage;
                 TXT_divider.Text = new_divider.ToString();
             }
             catch
@@ -300,7 +260,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_divider_Validated(object sender, EventArgs e)
         {
-            if (startup || ((TextBox) sender).Enabled == false)
+            if (startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -320,7 +280,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
         {
-            if (startup || ((TextBox) sender).Enabled == false)
+            if (startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -344,12 +304,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var mvperamp = 73.20f;
 
                 // ~ 3.295v
-                var topvolt = (maxvolt*mvpervolt)/1000;
+                var topvolt = (maxvolt * mvpervolt) / 1000;
                 // ~ 3.294v
-                var topamps = (maxamps*mvperamp)/1000;
+                var topamps = (maxamps * mvperamp) / 1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider.Text = (maxvolt / topvolt).ToString();
+                TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
             else if (selection == 2) // atto 90
             {
@@ -358,11 +318,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var mvpervolt = 63.69f;
                 var mvperamp = 36.60f;
 
-                var topvolt = (maxvolt*mvpervolt)/1000;
-                var topamps = (maxamps*mvperamp)/1000;
+                var topvolt = (maxvolt * mvpervolt) / 1000;
+                var topamps = (maxamps * mvperamp) / 1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider.Text = (maxvolt / topvolt).ToString();
+                TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
             else if (selection == 3) // atto 180
             {
@@ -371,11 +331,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var mvpervolt = 63.69f;
                 var mvperamp = 18.30f;
 
-                var topvolt = (maxvolt*mvpervolt)/1000;
-                var topamps = (maxamps*mvperamp)/1000;
+                var topvolt = (maxvolt * mvpervolt) / 1000;
+                var topamps = (maxamps * mvperamp) / 1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider.Text = (maxvolt / topvolt).ToString();
+                TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
             else if (selection == 4) // 3dr iv
             {
@@ -384,11 +344,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var mvpervolt = 99f;
                 var mvperamp = 55.55f;
 
-                var topvolt = (maxvolt*mvpervolt)/1000;
-                var topamps = (maxamps*mvperamp)/1000;
+                var topvolt = (maxvolt * mvpervolt) / 1000;
+                var topamps = (maxamps * mvperamp) / 1000;
 
-                TXT_divider.Text = (maxvolt/topvolt).ToString();
-                TXT_ampspervolt.Text = (maxamps/topamps).ToString();
+                TXT_divider.Text = (maxvolt / topvolt).ToString();
+                TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
             else if (selection == 5) // 3dr 4 in one esc
             {
@@ -527,11 +487,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // enable the battery event
-            MainV2.config["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
+            MainV2.config["speechbatteryenabled"] = ((CheckBox)sender).Checked.ToString();
             // enable speech engine
             MainV2.config["speechenable"] = true.ToString();
 
-            if (((CheckBox) sender).Checked)
+            if (((CheckBox)sender).Checked)
             {
                 var speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (MainV2.config["speechbattery"] != null)
@@ -579,7 +539,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void txt_meascurrent_Validated(object sender, EventArgs e)
         {
-            if (startup || ((TextBox) sender).Enabled == false)
+            if (startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -588,7 +548,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_ampspervolt.Text);
                 if (current == 0)
                     return;
-                var new_divider = (measuredcurrent*divider)/current;
+                var new_divider = (measuredcurrent * divider) / current;
                 TXT_ampspervolt.Text = new_divider.ToString();
             }
             catch

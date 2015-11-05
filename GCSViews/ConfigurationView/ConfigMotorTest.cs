@@ -69,7 +69,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
             Controls.Add(but);
-
         }
 
         private int get_motormax()
@@ -109,9 +108,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int)(double)MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
-            {
                 motormax = 0;
-            }
 
             return motormax;
         }
@@ -123,18 +120,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             int motormax = this.get_motormax();
             for (int i = 1; i <= motormax; i++)
-            {
                 testMotor(i, speed, time);
-            }
         }
 
         private void but_StopAll(object sender, EventArgs e)
         {
             int motormax = this.get_motormax();
             for (int i = 1; i <= motormax; i++)
-            {
                 testMotor(i, 0, 0);
-            }
         }
 
         private void but_Click(object sender, EventArgs e)
@@ -154,11 +147,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void testMotor(int motor, int speed, int time)
         {
-
-            if (!MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, speed, time))
-            {
+            if (
+                !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, speed,
+                    time))
                 CustomMessageBox.Show("Command was denied by the autopilot");
-            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

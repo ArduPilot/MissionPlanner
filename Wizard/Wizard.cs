@@ -43,7 +43,7 @@ namespace MissionPlanner.Wizard
             wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAC", new _8OptionalItemsAC(), true));
             wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAP", new _8OptionalItemsAP(), true));
             wiz_main.AddScreen(new MainSwitcher.Screen("Radio Calib", new _9RadioCalibration(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("Flight Modes",new _10FlightModes(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Flight Modes", new _10FlightModes(), true));
             wiz_main.AddScreen(new MainSwitcher.Screen("Verify", new _11Verify(), true));
             wiz_main.AddScreen(new MainSwitcher.Screen("Failsafe", new _12FailSafe(), true));
             wiz_main.AddScreen(new MainSwitcher.Screen("GeoFence", new _13GeoFence(), true));
@@ -53,26 +53,18 @@ namespace MissionPlanner.Wizard
             if (MainV2.comPort.BaseStream.IsOpen)
             {
                 if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
-                {
                     wiz_main.ShowScreen("AccelCalib");
-                }
                 else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER ||
-                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR ||
-                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR ||
-                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR ||
-                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
-                {
+                         MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR ||
+                         MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR ||
+                         MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR ||
+                         MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
                     wiz_main.ShowScreen("FrameType");
-                }
                 else
-                {
                     wiz_main.ShowScreen("Intro");
-                }
             }
             else
-            {
                 wiz_main.ShowScreen("Intro");
-            }
 
             history.Add(wiz_main.current.Name);
 
@@ -87,12 +79,10 @@ namespace MissionPlanner.Wizard
             {
                 bool busy = ((IWizard)(wiz_main.current.Control)).WizardBusy();
                 if (busy)
-                {
                     return;
-                }
             }
 
-            if (wiz_main.screens.IndexOf(wiz_main.current) ==( wiz_main.screens.Count-1))
+            if (wiz_main.screens.IndexOf(wiz_main.current) == (wiz_main.screens.Count - 1))
             {
                 this.Close();
                 return;
@@ -110,18 +100,12 @@ namespace MissionPlanner.Wizard
 
             // enable the back button if we leave the start point
             if (wiz_main.screens.IndexOf(wiz_main.current) >= 1)
-            {
                 BUT_Back.Enabled = true;
-            }
 
             if (wiz_main.current == wiz_main.screens.Last())
-            {
                 BUT_Next.Text = "Finish";
-            }
             else
-            {
                 BUT_Next.Text = "Next >>";
-            }
         }
 
         public void GoBack()
@@ -143,9 +127,7 @@ namespace MissionPlanner.Wizard
 
             // disable the back button if we go back to start
             if (wiz_main.screens.IndexOf(wiz_main.current) == 0)
-            {
                 BUT_Back.Enabled = false;
-            }
         }
 
         private void BUT_Back_Click(object sender, EventArgs e)
@@ -155,9 +137,7 @@ namespace MissionPlanner.Wizard
             {
                 bool busy = ((IWizard)(wiz_main.current.Control)).WizardBusy();
                 if (busy)
-                {
                     return;
-                }
             }
 
             GoBack();
@@ -172,9 +152,7 @@ namespace MissionPlanner.Wizard
             {
                 progresspages = ((IWizard)(wiz_main.current.Control)).WizardValidate();
                 if (progresspages == 0)
-                {
                     return;
-                }
             }
 
             GoNext(progresspages);
@@ -186,7 +164,7 @@ namespace MissionPlanner.Wizard
             {
                 wiz_main.ShowScreen("");
             }
-            catch { }
+            catch {}
         }
     }
 }

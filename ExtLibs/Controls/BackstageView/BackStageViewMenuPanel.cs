@@ -27,7 +27,7 @@ namespace MissionPlanner.Controls.BackstageView
                 pevent.Graphics.FillRectangle(brush, rc);
             }
 
-            pevent.Graphics.DrawLine(new Pen(PencilBorderColor), Width-1,0,Width-1,Height);
+            pevent.Graphics.DrawLine(new Pen(PencilBorderColor), Width - 1, 0, Width - 1, Height);
         }
 
         protected override void OnResize(System.EventArgs eventargs)

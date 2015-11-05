@@ -47,8 +47,8 @@ namespace MissionPlanner.HIL
         public Matrix3 transposed()
         {
             return new Matrix3(new Vector3(self.a.x, self.b.x, self.c.x),
-                           new Vector3(self.a.y, self.b.y, self.c.y),
-                           new Vector3(self.a.z, self.b.z, self.c.z));
+                new Vector3(self.a.y, self.b.y, self.c.y),
+                new Vector3(self.a.z, self.b.z, self.c.z));
         }
 
 
@@ -111,26 +111,25 @@ namespace MissionPlanner.HIL
         public static Vector3 operator *(Matrix3 self, Vector3 v)
         {
             return new Vector3(self.a.x * v.x + self.a.y * v.y + self.a.z * v.z,
-                           self.b.x * v.x + self.b.y * v.y + self.b.z * v.z,
-                           self.c.x * v.x + self.c.y * v.y + self.c.z * v.z);
+                self.b.x * v.x + self.b.y * v.y + self.b.z * v.z,
+                self.c.x * v.x + self.c.y * v.y + self.c.z * v.z);
         }
 
         public static Matrix3 operator *(Matrix3 self, Matrix3 m)
         {
             return new Matrix3(new Vector3(self.a.x * m.a.x + self.a.y * m.b.x + self.a.z * m.c.x,
-                                   self.a.x * m.a.y + self.a.y * m.b.y + self.a.z * m.c.y,
-                                   self.a.x * m.a.z + self.a.y * m.b.z + self.a.z * m.c.z),
-                           new Vector3(self.b.x * m.a.x + self.b.y * m.b.x + self.b.z * m.c.x,
-                                   self.b.x * m.a.y + self.b.y * m.b.y + self.b.z * m.c.y,
-                                   self.b.x * m.a.z + self.b.y * m.b.z + self.b.z * m.c.z),
-                           new Vector3(self.c.x * m.a.x + self.c.y * m.b.x + self.c.z * m.c.x,
-                                   self.c.x * m.a.y + self.c.y * m.b.y + self.c.z * m.c.y,
-                                   self.c.x * m.a.z + self.c.y * m.b.z + self.c.z * m.c.z));
+                self.a.x * m.a.y + self.a.y * m.b.y + self.a.z * m.c.y,
+                self.a.x * m.a.z + self.a.y * m.b.z + self.a.z * m.c.z),
+                new Vector3(self.b.x * m.a.x + self.b.y * m.b.x + self.b.z * m.c.x,
+                    self.b.x * m.a.y + self.b.y * m.b.y + self.b.z * m.c.y,
+                    self.b.x * m.a.z + self.b.y * m.b.z + self.b.z * m.c.z),
+                new Vector3(self.c.x * m.a.x + self.c.y * m.b.x + self.c.z * m.c.x,
+                    self.c.x * m.a.y + self.c.y * m.b.y + self.c.z * m.c.y,
+                    self.c.x * m.a.z + self.c.y * m.b.z + self.c.z * m.c.z));
         }
 
         public static Matrix3 operator *(Matrix3 self, double v)
         {
-
             return new Matrix3(self.a * v, self.b * v, self.c * v);
         }
 

@@ -29,14 +29,10 @@ namespace MissionPlanner.Utilities
                 foreach (string line in lines)
                 {
                     if (line.StartsWith("#"))
-                    {
                         continue;
-                    }
                     string[] kv = Regex.Split(line, "=");
                     if (kv.Length == 2)
-                    {
                         strings[kv[0]] = kv[1];
-                    }
                 }
             }
         }
@@ -44,13 +40,9 @@ namespace MissionPlanner.Utilities
         public static string GetString(string key)
         {
             if (strings.ContainsKey(key))
-            {
                 return strings[key];
-            }
             else
-            {
                 return key;
-            }
         }
     }
 }

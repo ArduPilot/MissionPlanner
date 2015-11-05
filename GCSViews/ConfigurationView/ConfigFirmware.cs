@@ -92,9 +92,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             softwares = fw.getFWList(firmwareurl);
 
             foreach (var soft in softwares)
-            {
                 updateDisplayNameInvoke(soft);
-            }
         }
 
         /// <summary>
@@ -136,7 +134,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void updateDisplayNameInvoke(Firmware.software temp)
         {
-            Invoke((MethodInvoker) delegate { updateDisplayName(temp); });
+            Invoke((MethodInvoker)delegate { updateDisplayName(temp); });
         }
 
         private void updateDisplayName(Firmware.software temp)
@@ -221,9 +219,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureAntennaTracker.Tag = temp;
             }
             else
-            {
                 log.Info("No Home " + temp.name + " " + temp.url2560);
-            }
         }
 
         private void findfirmware(Firmware.software fwtoupload)
@@ -236,9 +232,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     MainV2.comPort.BaseStream.Close();
                 }
-                catch
-                {
-                }
+                catch {}
                 fw.Progress -= fw_Progress;
                 fw.Progress += fw_Progress1;
 
@@ -257,21 +251,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         CustomMessageBox.Show(Strings.WarningAC32, Strings.Warning);
                 }
                 else
-                {
                     CustomMessageBox.Show(Strings.ErrorUploadingFirmware, Strings.ERROR);
-                }
             }
         }
 
         private void pictureBoxFW_Click(object sender, EventArgs e)
         {
-            if (((Control) sender).Tag.GetType() != typeof (Firmware.software))
+            if (((Control)sender).Tag.GetType() != typeof(Firmware.software))
             {
                 CustomMessageBox.Show(Strings.ErrorFirmwareFile, Strings.ERROR);
                 return;
             }
 
-            findfirmware((Firmware.software) ((Control) sender).Tag);
+            findfirmware((Firmware.software)((Control)sender).Tag);
         }
 
         private void up_LogEvent(string message, int level = 0)
@@ -282,7 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void up_ProgressEvent(double completed)
         {
-            progress.Value = (int) completed;
+            progress.Value = (int)completed;
             Application.DoEvents();
         }
 
@@ -376,7 +368,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // Get the response.
                 var response = request.GetResponse();
                 // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
+                log.Info(((HttpWebResponse)response).StatusDescription);
                 // Get the stream containing content returned by the server.
                 dataStream = response.GetResponseStream();
 
@@ -402,12 +394,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         progress.Value = 50;
-                            // (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
+                        // (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
                         progress.Refresh();
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                     var len = dataStream.Read(buf1, 0, 1024);
                     if (len == 0)
                         break;
@@ -475,9 +465,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CustomMessageBox.Show("Please ignore the unplug and plug back in when uploading flight firmware.");
                 }
                 else
-                {
                     throw new Exception();
-                }
             }
             catch
             {

@@ -18,7 +18,9 @@ namespace MissionPlanner.Controls
     public partial class SITL : Form
     {
         Uri sitlurl = new Uri("http://firmware.diydrones.com/Tools/MissionPlanner/sitl/");
-        string sitldirectory = Application.StartupPath + Path.DirectorySeparatorChar + "sitl" + Path.DirectorySeparatorChar;
+
+        string sitldirectory = Application.StartupPath + Path.DirectorySeparatorChar + "sitl" +
+                               Path.DirectorySeparatorChar;
 
         GMapOverlay markeroverlay;
 
@@ -49,7 +51,6 @@ namespace MissionPlanner.Controls
         ///tmp/.build/APMrover2.elf -Mrover -O-34.98106,117.85201,40,0 
         ///tmp/.build/ArduPlane.elf -Mjsbsim -O-34.98106,117.85201,40,0 --autotest-dir ./
         ///tmp/.build/ArduCopter.elf -Mheli -O-34.98106,117.85201,40,0 
-
         ~SITL()
         {
             try
@@ -57,7 +58,7 @@ namespace MissionPlanner.Controls
                 if (simulator != null)
                     simulator.Kill();
             }
-            catch { }
+            catch {}
         }
 
         public SITL()
@@ -88,7 +89,7 @@ namespace MissionPlanner.Controls
                 if (simulator != null)
                     simulator.Kill();
             }
-            catch { }
+            catch {}
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
@@ -97,7 +98,8 @@ namespace MissionPlanner.Controls
 
         private void pictureBoxplane_Click(object sender, EventArgs e)
         {
-            Common.MessageShowAgain("MS Visual C++ Runtime 2013", "Please note that the plane sim requires\n'Visual C++ Redistributable Packages for Visual Studio 2013' to run.\n https://www.microsoft.com/en-us/download/details.aspx?id=40784");
+            Common.MessageShowAgain("MS Visual C++ Runtime 2013",
+                "Please note that the plane sim requires\n'Visual C++ Redistributable Packages for Visual Studio 2013' to run.\n https://www.microsoft.com/en-us/download/details.aspx?id=40784");
 
             var exepath = CheckandGetSITLImage("ArduPlane.elf");
 
@@ -116,7 +118,8 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-            StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), @" --autotest-dir """ + Application.StartupPath.Replace('\\','/') + @"""", 1);
+            StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value),
+                @" --autotest-dir """ + Application.StartupPath.Replace('\\', '/') + @"""", 1);
         }
 
         private void pictureBoxrover_Click(object sender, EventArgs e)
@@ -142,7 +145,8 @@ namespace MissionPlanner.Controls
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
         {
-            return String.Format("{0},{1},{2},{3}", homelocation.Lat, homelocation.Lng, srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt, heading);
+            return String.Format("{0},{1},{2},{3}", homelocation.Lat, homelocation.Lng,
+                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt, heading);
         }
 
         private string CheckandGetSITLImage(string filename)
@@ -151,7 +155,8 @@ namespace MissionPlanner.Controls
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
 
-            Common.getFilefromNet(fullurl.ToString(), sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe");
+            Common.getFilefromNet(fullurl.ToString(),
+                sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe");
 
             load.Refresh();
 
@@ -217,7 +222,7 @@ namespace MissionPlanner.Controls
             }
             catch
             {
-                CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance,Strings.ERROR);
+                CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
             }
 
             this.Close();
@@ -228,18 +233,26 @@ namespace MissionPlanner.Controls
             try
             {
                 byte[] rcreceiver = new byte[2 * 8];
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver, 2, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver, 4, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver, 6, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech5), 0, rcreceiver, 8, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech6), 0, rcreceiver, 10, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech7), 0, rcreceiver, 12, 2);
-                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech8), 0, rcreceiver, 14, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver,
+                    0, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver,
+                    2, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver,
+                    4, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver,
+                    6, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech5), 0, rcreceiver,
+                    8, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech6), 0, rcreceiver,
+                    10, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech7), 0, rcreceiver,
+                    12, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech8), 0, rcreceiver,
+                    14, 2);
 
                 SITLSEND.Send(rcreceiver, rcreceiver.Length);
             }
-            catch { }
+            catch {}
         }
 
         private void myGMAP1_OnMarkerEnter(GMapMarker item)
@@ -259,9 +272,7 @@ namespace MissionPlanner.Controls
             if (onmarker)
             {
                 if (e.Button == MouseButtons.Left)
-                {
                     homemarker.Position = myGMAP1.FromLocalToLatLng(e.X, e.Y);
-                }
             }
             else if (mousedown)
             {
@@ -274,7 +285,7 @@ namespace MissionPlanner.Controls
                 {
                     myGMAP1.Position = new PointLatLng(myGMAP1.Position.Lat + latdif, myGMAP1.Position.Lng + lngdif);
                 }
-                catch { }
+                catch {}
             }
         }
 

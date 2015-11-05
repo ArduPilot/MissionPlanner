@@ -34,9 +34,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // low battery
             if (MainV2.comPort.MAV.param.ContainsKey("LOW_VOLT"))
-            {
                 mavlinkNumericUpDownlow_voltage.setup(6, 99, 1, 0.1f, "LOW_VOLT", MainV2.comPort.MAV.param, PNL_low_bat);
-            }
             else
             {
                 mavlinkNumericUpDownlow_voltage.setup(6, 99, 1, 0.1f, "FS_BATT_VOLTAGE", MainV2.comPort.MAV.param,
@@ -77,34 +75,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-            {
                 Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/failsafe/"));
-            }
             else
-            {
                 Process.Start(new ProcessStartInfo("http://plane.ardupilot.com/wiki/failsafe/"));
-            }
         }
 
         private void lbl_armed_Paint(object sender, PaintEventArgs e)
         {
             lbl_armed.SuspendLayout();
             if (lbl_armed.Text == "True")
-            {
                 lbl_armed.Text = "Armed";
-            }
             else if (lbl_armed.Text == "False")
-            {
                 lbl_armed.Text = "Disarmed";
-            }
             lbl_armed.ResumeLayout();
         }
 
@@ -123,21 +111,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var gps = "";
 
             if (_gpsfix == 0)
-            {
                 gps = ("GPS: No GPS");
-            }
             else if (_gpsfix == 1)
-            {
                 gps = ("GPS: No Fix");
-            }
             else if (_gpsfix == 2)
-            {
                 gps = ("GPS: 3D Fix");
-            }
             else if (_gpsfix == 3)
-            {
                 gps = ("GPS: 3D Fix");
-            }
             lbl_gpslock.SuspendLayout();
             lbl_gpslock.Text = gps;
             lbl_gpslock.ResumeLayout();
@@ -149,19 +129,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FS_THR_VALUE"))
                 {
-                    if (MainV2.comPort.MAV.cs.ch3in < (float) MainV2.comPort.MAV.param["FS_THR_VALUE"])
-                    {
+                    if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
                         lbl_currentmode.ForeColor = Color.Red;
-                    }
                     else
-                    {
                         lbl_currentmode.ForeColor = Color.White;
-                    }
                 }
             }
-            catch
-            {
-            }
+            catch {}
         }
     }
 }

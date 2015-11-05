@@ -28,7 +28,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (item.EndsWith("_FUNCTION") && MainV2.comPort.MAV.param[item].ToString() == "27")
                 {
-                    mavlinkComboBoxServoNum.Text = item.Replace("_FUNCTION","");
+                    mavlinkComboBoxServoNum.Text = item.Replace("_FUNCTION", "");
                     break;
                 }
             }
@@ -44,7 +44,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             options.Add(new KeyValuePair<int, string>(3, "Fourth Relay"));
             options.Add(new KeyValuePair<int, string>(10, "Servo"));
             mavlinkComboBoxType.setup(options, "CHUTE_TYPE", MainV2.comPort.MAV.param);
-            
+
             mavlinkNumericUpDownResting.setup(1000, 2000, 1, 1, "CHUTE_SERVO_OFF", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownDeploy.setup(1000, 2000, 1, 1, "CHUTE_SERVO_ON", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownMinAlt.setup(0, 32000, 1, 1, "CHUTE_ALT_MIN", MainV2.comPort.MAV.param);
@@ -72,9 +72,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         continue;
 
                     if (ans == number)
-                    {
                         MainV2.comPort.setParam(item + "_FUNCTION", 0);
-                    }
                 }
             }
         }

@@ -31,7 +31,10 @@ namespace MissionPlanner.Log
                     if (logfile.ToLower().EndsWith(".tlog"))
                     {
                         using (MAVLinkInterface mine = new MAVLinkInterface())
-                        using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                        using (
+                            mine.logplaybackfile =
+                                new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            )
                         {
                             mine.logreadmode = true;
 
@@ -49,7 +52,7 @@ namespace MissionPlanner.Log
                                     if (MainV2.speechEngine != null)
                                         MainV2.speechEngine.SpeakAsyncCancelAll();
                                 }
-                                catch { }
+                                catch {}
 
                                 if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                                 {
@@ -67,7 +70,6 @@ namespace MissionPlanner.Log
                                 }
                             }
                         }
-
                     }
                     else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                     {
@@ -85,18 +87,12 @@ namespace MissionPlanner.Log
                                     string line = "";
 
                                     if (bin)
-                                    {
                                         line = binlog.ReadMessage(sr.BaseStream);
-                                    }
                                     else
-                                    {
                                         line = sr.ReadLine();
-                                    }
 
                                     if (line.StartsWith("FMT"))
-                                    {
                                         dflog.FMTLine(line);
-                                    }
                                     else if (line.StartsWith("GPS"))
                                     {
                                         var item = dflog.GetDFItemFromLine(line, 0);
@@ -147,16 +143,14 @@ namespace MissionPlanner.Log
                         map = null;
                     }
                     else
-                    {
                         DoTextMap(logfile + ".jpg", "No gps data");
-                    }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     if (ex.ToString().Contains("Mavlink 0.9"))
                         DoTextMap(logfile + ".jpg", "Old log\nMavlink 0.9");
 
-                    continue; 
+                    continue;
                 }
             }
         }
@@ -176,9 +170,9 @@ namespace MissionPlanner.Log
             map = null;
         }
 
-        static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size) 
+        static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size)
         {
-            double lon =  loc.Lng;
+            double lon = loc.Lng;
             double lat = loc.Lat;
 
             double lonscale = (lon - area.Left) * (size.Width - 0) / (area.Right - area.Left) + 0;
@@ -208,7 +202,6 @@ namespace MissionPlanner.Log
                 topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
                 rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
                 pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
-
             }
 
             // get type list at new zoom level
@@ -233,7 +226,6 @@ namespace MissionPlanner.Log
                             Exception ex;
                             using (GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage)
                             {
-
                                 if (tile != null)
                                 {
                                     using (tile)

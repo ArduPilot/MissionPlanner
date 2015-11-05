@@ -50,9 +50,7 @@ namespace MissionPlanner.Utilities.DroneApi
                     var crypto = new Crypto();
                     dronesharepassword = crypto.DecryptString(dronesharepassword);
                 }
-                catch
-                {
-                }
+                catch {}
             }
 
             InputBox.Show("Password", "Password", ref dronesharepassword, true);
@@ -70,9 +68,7 @@ namespace MissionPlanner.Utilities.DroneApi
                 return;
 
             if (!validcred)
-            {
                 doUserAndPassword();
-            }
 
             string droneshareusername = MainV2.getConfig("droneshareusername");
 
@@ -86,9 +82,7 @@ namespace MissionPlanner.Utilities.DroneApi
                     var crypto = new Crypto();
                     dronesharepassword = crypto.DecryptString(dronesharepassword);
                 }
-                catch
-                {
-                }
+                catch {}
             }
 
 
@@ -111,9 +105,7 @@ namespace MissionPlanner.Utilities.DroneApi
                 uuidcached = veh.uuid;
             }
             else
-            {
                 tempguid = uuidcached;
-            }
 
             string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword,
                 tempguid);
@@ -122,7 +114,6 @@ namespace MissionPlanner.Utilities.DroneApi
             {
                 try
                 {
-                    
                     System.Diagnostics.Process.Start(viewurl);
                 }
                 catch (Exception ex)
@@ -156,13 +147,13 @@ namespace MissionPlanner.Utilities.DroneApi
             }
             try
             {
-                var response = (HttpWebResponse) request.GetResponse();
+                var response = (HttpWebResponse)request.GetResponse();
 
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 var JSONnobj = JSON.Instance.ToObject<object>(responseString);
 
-                var data = (Dictionary<string,object>)JSONnobj;
+                var data = (Dictionary<string, object>)JSONnobj;
 
                 try
                 {
@@ -170,7 +161,7 @@ namespace MissionPlanner.Utilities.DroneApi
 
                     foreach (var item in vehlist)
                     {
-                        Dictionary<string, object> nitem = (Dictionary<string, object>) item;
+                        Dictionary<string, object> nitem = (Dictionary<string, object>)item;
                         string name = nitem["name"].ToString();
                         string uuid = nitem["uuid"].ToString();
 
@@ -178,10 +169,7 @@ namespace MissionPlanner.Utilities.DroneApi
                         accountuuids[name] = uuid;
                     }
                 }
-                catch
-                {
-
-                }
+                catch {}
             }
             catch
             {
@@ -199,7 +187,7 @@ namespace MissionPlanner.Utilities.DroneApi
             @params.Add("api_key", APIConstants.apiKey);
             @params.Add("uuid", uuid);
             @params.Add("name", name);
-            
+
             String queryParams = ToQueryString(@params);
             String webAppUploadUrl = String.Format("{0}/api/v1/vehicle", baseUrl);
 
@@ -253,9 +241,9 @@ namespace MissionPlanner.Utilities.DroneApi
 
                 var JSONnobj = JSON.Instance.ToObject<object>(JSONresp);
 
-                object[] data = (object[]) JSONnobj;
+                object[] data = (object[])JSONnobj;
 
-                var item2 = ((Dictionary<string, object>) data[0]);
+                var item2 = ((Dictionary<string, object>)data[0]);
 
                 string answer = item2["viewURL"].ToString();
 
@@ -287,7 +275,7 @@ namespace MissionPlanner.Utilities.DroneApi
         {
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
-            HttpWebRequest httpWebRequest2 = (HttpWebRequest) WebRequest.Create(url);
+            HttpWebRequest httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest2.ContentType = "multipart/form-data; boundary=" + boundary;
             //httpWebRequest2.ContentType = APIConstants.TLOG_MIME_TYPE;
             httpWebRequest2.Method = "POST";
@@ -319,8 +307,10 @@ namespace MissionPlanner.Utilities.DroneApi
                                     APIConstants.TLOG_MIME_TYPE + "\r\n\r\n";
 
             if (file.ToLower().EndsWith(".log"))
+            {
                 headerTemplate =
                     "Content-Disposition: form-data; name=\"{0}\"; filename=\"{1}\"\r\nContent-Type: application/octet-stream\r\n\r\n";
+            }
 
             string header = string.Format(headerTemplate, "file", Path.GetFileName(file));
 
@@ -338,14 +328,13 @@ namespace MissionPlanner.Utilities.DroneApi
                 while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     memStream.Write(buffer, 0, bytesRead);
-
                 }
             }
 
             // write last boundry
             memStream.Write(boundarybytes2, 0, boundarybytes2.Length);
             // write last -- to last boundry
-            memStream.Write(new byte[] {(byte) '-', (byte) '-'}, 0, 2);
+            memStream.Write(new byte[] {(byte)'-', (byte)'-'}, 0, 2);
 
             httpWebRequest2.ContentLength = memStream.Length;
 

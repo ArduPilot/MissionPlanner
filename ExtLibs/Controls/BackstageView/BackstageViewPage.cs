@@ -7,7 +7,6 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls.BackstageView
 {
-
     /// <summary>
     /// Data structure to hold information about a 'tab' in the <see cref="BackstageView"/>
     /// </summary>
@@ -25,7 +24,8 @@ namespace MissionPlanner.Controls.BackstageView
             Show = true;
         }
 
-        public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent = null, bool advanced = false)
+        public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent = null,
+            bool advanced = false)
         {
             Show = true;
             Page = page;
@@ -47,7 +47,11 @@ namespace MissionPlanner.Controls.BackstageView
         [EditorAttribute(
             "System.ComponentModel.Design.MultilineStringEditor, System.Design",
             "System.Drawing.Design.UITypeEditor"), Localizable(true)]
-        public string Text { get { return LinkText; } set { LinkText = value; } }
+        public string Text
+        {
+            get { return LinkText; }
+            set { LinkText = value; }
+        }
 
         public BackstageViewPage Parent { get; set; }
 
@@ -55,7 +59,11 @@ namespace MissionPlanner.Controls.BackstageView
 
         public int Spacing
         {
-            get { if (_spaceoverride != -1) return _spaceoverride; return ButtonSpacing; }
+            get
+            {
+                if (_spaceoverride != -1) return _spaceoverride;
+                return ButtonSpacing;
+            }
             set { _spaceoverride = value; }
         }
 
@@ -74,17 +82,12 @@ namespace MissionPlanner.Controls.BackstageView
             get
             {
                 if (bindingContext == null)
-                {
                     bindingContext = new BindingContext();
-                }
 
                 return bindingContext;
             }
 
-            set
-            {
-                bindingContext = value;
-            }
+            set { bindingContext = value; }
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
@@ -93,9 +96,7 @@ namespace MissionPlanner.Controls.BackstageView
             get
             {
                 if (dataBindings == null)
-                {
                     dataBindings = new ControlBindingsCollection(this);
-                }
                 return dataBindings;
             }
         }

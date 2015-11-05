@@ -13,25 +13,22 @@ namespace MissionPlanner.Swarm
     /// <summary>
     /// Follow the leader
     /// </summary>
-    class Formation: Swarm
+    class Formation : Swarm
     {
-
         Dictionary<MAVLinkInterface, HIL.Vector3> offsets = new Dictionary<MAVLinkInterface, HIL.Vector3>();
-        
+
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
         public void setOffsets(MAVLinkInterface mav, double x, double y, double z)
         {
-            offsets[mav] = new HIL.Vector3(x,y,z);
+            offsets[mav] = new HIL.Vector3(x, y, z);
             //log.Info(mav.ToString() + " " + offsets[mav].ToString());
         }
 
         public HIL.Vector3 getOffsets(MAVLinkInterface mav)
         {
             if (offsets.ContainsKey(mav))
-            {
                 return offsets[mav];
-            }
 
             return new HIL.Vector3(offsets.Count, 0, 0);
         }
@@ -53,7 +50,7 @@ namespace MissionPlanner.Swarm
                 return;
 
             Console.WriteLine(DateTime.Now);
-            Console.WriteLine("Leader {0} {1} {2}",masterpos.Lat,masterpos.Lng,masterpos.Alt);
+            Console.WriteLine("Leader {0} {1} {2}", masterpos.Lat, masterpos.Lng, masterpos.Alt);
 
             int a = 0;
             foreach (var port in MainV2.Comports)
@@ -72,11 +69,12 @@ namespace MissionPlanner.Swarm
 
                     int utmzone = (int)((masterpos.Lng - -186.0) / 6.0);
 
-                    IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, masterpos.Lat < 0 ? false : true);
+                    IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
+                        masterpos.Lat < 0 ? false : true);
 
                     ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-                    double[] pll1 = { target.Lng, target.Lat };
+                    double[] pll1 = {target.Lng, target.Lat};
 
                     double[] p1 = trans.MathTransform.Transform(pll1);
 
@@ -92,19 +90,23 @@ namespace MissionPlanner.Swarm
                     target.Lng = point[0];
                     target.Alt += ((HIL.Vector3)offsets[port]).z;
 
-                    port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = target.Lat, lng = target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                    port.setGuidedModeWP(new Locationwp()
+                    {
+                        alt = (float)target.Alt,
+                        lat = target.Lat,
+                        lng = target.Lng,
+                        id = (byte)MAVLink.MAV_CMD.WAYPOINT
+                    });
 
                     Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
-
                 }
-                catch (Exception ex) { Console.WriteLine("Failed to send command " + port.ToString() + "\n" + ex.ToString()); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Failed to send command " + port.ToString() + "\n" + ex.ToString());
+                }
 
                 a++;
             }
-
-
         }
-
-
     }
 }

@@ -28,18 +28,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             // prevent memory leak
             foreach (Control ctl in panel1.Controls)
-            {
                 ctl.Dispose();
-            }
 
             y = 10;
 
             LoadXML(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "acsimplepids.xml");
         }
 
-        private void ConfigSimplePids_Load(object sender, EventArgs e)
-        {
-        }
+        private void ConfigSimplePids_Load(object sender, EventArgs e) {}
 
         /// <summary>
         ///     The template xml for the screen
@@ -99,9 +95,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                         {
                                             relation.MoveToElement();
                                             if (relation.Name == "param")
-                                            {
                                                 relitem.paramaname = inner.ReadString();
-                                            }
                                             else if (relation.Name == "multiplier")
                                             {
                                                 relitem.multiplier = float.Parse(inner.ReadString(),
@@ -128,7 +122,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!MainV2.comPort.MAV.param.ContainsKey(item.paramname))
                     return;
 
-                var value = (float) MainV2.comPort.MAV.param[item.paramname];
+                var value = (float)MainV2.comPort.MAV.param[item.paramname];
 
                 if (value < item.min)
                     item.min = value;
@@ -183,10 +177,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             var value = float.Parse(Value, CultureInfo.InvariantCulture);
 
-            var rc = ((RangeControl) sender);
+            var rc = ((RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);
 
-            var relitems = ((configitem) rc.Tag).relations;
+            var relitems = ((configitem)rc.Tag).relations;
 
             try
             {
@@ -203,8 +197,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.setParam(item.paramaname, value*item.multiplier);
-                    TXT_info.AppendText("set " + item.paramaname + " " + value*item.multiplier + "\r\n");
+                    MainV2.comPort.setParam(item.paramaname, value * item.multiplier);
+                    TXT_info.AppendText("set " + item.paramaname + " " + value * item.multiplier + "\r\n");
                 }
                 catch (Exception ex)
                 {

@@ -25,7 +25,7 @@ namespace System.Windows.Forms
         public void Close(object sender, FormClosingEventArgs e)
         {
             if (FormClosing != null)
-                FormClosing(sender,e);
+                FormClosing(sender, e);
         }
 
         public void Close()
@@ -39,7 +39,7 @@ namespace System.Windows.Forms
             {
                 base.WndProc(ref m);
             }
-            catch { }
+            catch {}
         }
     }
 }

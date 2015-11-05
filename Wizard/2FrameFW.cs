@@ -20,9 +20,7 @@ namespace MissionPlanner.Wizard
         public int WizardValidate()
         {
             if (Wizard.config.ContainsKey("fwframe"))
-            {
                 return 1;
-            }
             return 0;
         }
 
@@ -30,6 +28,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         void setfwframe(object sender)
         {
             // only remembers the last selected item
@@ -48,9 +47,7 @@ namespace MissionPlanner.Wizard
             foreach (var ctl in this.panel1.Controls)
             {
                 if (ctl.GetType() == typeof(PictureBoxMouseOver))
-                {
                     (ctl as PictureBoxMouseOver).selected = false;
-                }
             }
         }
     }

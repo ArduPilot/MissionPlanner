@@ -34,11 +34,14 @@ namespace MissionPlanner.Joystick
                 DeviceList joysticklist = Joystick.getDevices();
 
                 foreach (DeviceInstance device in joysticklist)
-                {
                     CMB_joysticks.Items.Add(device.ProductName);
-                }
             }
-            catch { CustomMessageBox.Show("Error geting joystick list: do you have the directx redist installed?"); this.Close(); return; }
+            catch
+            {
+                CustomMessageBox.Show("Error geting joystick list: do you have the directx redist installed?");
+                this.Close();
+                return;
+            }
 
             if (CMB_joysticks.Items.Count > 0 && CMB_joysticks.SelectedIndex == -1)
                 CMB_joysticks.SelectedIndex = 0;
@@ -48,7 +51,7 @@ namespace MissionPlanner.Joystick
                 if (MainV2.config.ContainsKey("joystick_name") && MainV2.config["joystick_name"].ToString() != "")
                     CMB_joysticks.Text = MainV2.config["joystick_name"].ToString();
             }
-            catch { }
+            catch {}
 
             CMB_CH1.DataSource = (Enum.GetValues(typeof(Joystick.joystickaxis)));
             CMB_CH2.DataSource = (Enum.GetValues(typeof(Joystick.joystickaxis)));
@@ -63,7 +66,7 @@ namespace MissionPlanner.Joystick
             {
                 CHK_elevons.Checked = bool.Parse(MainV2.config["joy_elevons"].ToString());
             }
-            catch { } // IF 1 DOESNT EXIST NONE WILL
+            catch {} // IF 1 DOESNT EXIST NONE WILL
 
             var tempjoystick = new Joystick();
 
@@ -92,13 +95,9 @@ namespace MissionPlanner.Joystick
             var ctl = this.Controls.Find(ctlname, false)[0];
 
             if (ctl is CheckBox)
-            {
                 ((CheckBox)ctl).Checked = (value.ToLower() == "false") ? false : true;
-            }
             else
-            {
                 ((Control)ctl).Text = value;
-            }
         }
 
         int[] getButtonNumbers()
@@ -106,9 +105,7 @@ namespace MissionPlanner.Joystick
             int[] temp = new int[128];
             temp[0] = -1;
             for (int a = 0; a < temp.Length - 1; a++)
-            {
                 temp[a + 1] = a;
-            }
             return temp;
         }
 
@@ -121,7 +118,7 @@ namespace MissionPlanner.Joystick
                     if (MainV2.joystick != null)
                         MainV2.joystick.UnAcquireJoyStick();
                 }
-                catch { }
+                catch {}
 
                 // all config is loaded from the xmls
                 Joystick joy = new Joystick();
@@ -147,7 +144,6 @@ namespace MissionPlanner.Joystick
 
                 MainV2.joystick = null;
 
-                
 
                 //timer1.Stop();
 
@@ -158,7 +154,7 @@ namespace MissionPlanner.Joystick
         private void BUT_save_Click(object sender, EventArgs e)
         {
             Joystick.self.saveconfig();
-           
+
             MainV2.config["joy_elevons"] = CHK_elevons.Checked;
         }
 
@@ -174,21 +170,53 @@ namespace MissionPlanner.Joystick
                     {
                         joy = new Joystick();
                         if (CMB_CH1.Text != "")
-                            joy.setChannel(1, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH1.Text), revCH1.Checked, int.Parse(expo_ch1.Text));
+                        {
+                            joy.setChannel(1,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH1.Text),
+                                revCH1.Checked, int.Parse(expo_ch1.Text));
+                        }
                         if (CMB_CH2.Text != "")
-                            joy.setChannel(2, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH2.Text), revCH2.Checked, int.Parse(expo_ch2.Text));
+                        {
+                            joy.setChannel(2,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH2.Text),
+                                revCH2.Checked, int.Parse(expo_ch2.Text));
+                        }
                         if (CMB_CH3.Text != "")
-                            joy.setChannel(3, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH3.Text), revCH3.Checked, int.Parse(expo_ch3.Text));
+                        {
+                            joy.setChannel(3,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH3.Text),
+                                revCH3.Checked, int.Parse(expo_ch3.Text));
+                        }
                         if (CMB_CH4.Text != "")
-                            joy.setChannel(4, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH4.Text), revCH4.Checked, int.Parse(expo_ch4.Text));
+                        {
+                            joy.setChannel(4,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH4.Text),
+                                revCH4.Checked, int.Parse(expo_ch4.Text));
+                        }
                         if (CMB_CH5.Text != "")
-                            joy.setChannel(5, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH5.Text), revCH5.Checked, int.Parse(expo_ch5.Text));
+                        {
+                            joy.setChannel(5,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH5.Text),
+                                revCH5.Checked, int.Parse(expo_ch5.Text));
+                        }
                         if (CMB_CH6.Text != "")
-                            joy.setChannel(6, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH6.Text), revCH6.Checked, int.Parse(expo_ch6.Text));
+                        {
+                            joy.setChannel(6,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH6.Text),
+                                revCH6.Checked, int.Parse(expo_ch6.Text));
+                        }
                         if (CMB_CH7.Text != "")
-                            joy.setChannel(7, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH7.Text), revCH7.Checked, int.Parse(expo_ch7.Text));
+                        {
+                            joy.setChannel(7,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH7.Text),
+                                revCH7.Checked, int.Parse(expo_ch7.Text));
+                        }
                         if (CMB_CH8.Text != "")
-                            joy.setChannel(8, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH8.Text), revCH8.Checked, int.Parse(expo_ch8.Text));
+                        {
+                            joy.setChannel(8,
+                                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), CMB_CH8.Text),
+                                revCH8.Checked, int.Parse(expo_ch8.Text));
+                        }
 
                         joy.elevons = CHK_elevons.Checked;
 
@@ -236,11 +264,9 @@ namespace MissionPlanner.Joystick
             {
                 ex.ToString();
                 if (MainV2.joystick != null && MainV2.joystick.enabled == true)
-                {
                     BUT_enable_Click(null, null);
-                }
             }
-            catch { }
+            catch {}
 
             progressBarRoll.Value = MainV2.comPort.MAV.cs.rcoverridech1;
             progressBarPith.Value = MainV2.comPort.MAV.cs.rcoverridech2;
@@ -265,7 +291,6 @@ namespace MissionPlanner.Joystick
             catch
             {
                 //Exception Error in the application. -2147024866 (DIERR_INPUTLOST)
-
             }
 
             try
@@ -274,10 +299,11 @@ namespace MissionPlanner.Joystick
                 {
                     string name = (f).ToString();
 
-                    ((HorizontalProgressBar)this.Controls.Find("hbar" + name, false)[0]).Value = MainV2.joystick.isButtonPressed(f) ? 100 : 0;
+                    ((HorizontalProgressBar)this.Controls.Find("hbar" + name, false)[0]).Value =
+                        MainV2.joystick.isButtonPressed(f) ? 100 : 0;
                 }
             }
-            catch { } // this is for buttons - silent fail
+            catch {} // this is for buttons - silent fail
         }
 
         private void CMB_joysticks_Click(object sender, EventArgs e)
@@ -287,9 +313,7 @@ namespace MissionPlanner.Joystick
             DeviceList joysticklist = Joystick.getDevices();
 
             foreach (DeviceInstance device in joysticklist)
-            {
                 CMB_joysticks.Items.Add(device.ProductName);
-            }
 
             if (CMB_joysticks.Items.Count > 0 && CMB_joysticks.SelectedIndex == -1)
                 CMB_joysticks.SelectedIndex = 0;
@@ -343,28 +367,32 @@ namespace MissionPlanner.Joystick
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(1, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(1,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(2, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(2,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH3_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(3, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(3,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH4_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(4, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(4,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void cmbbutton_SelectedIndexChanged(object sender, EventArgs e)
@@ -397,11 +425,11 @@ namespace MissionPlanner.Joystick
             var config = Joystick.self.getButton(int.Parse(name));
 
             // do this here so putting in text works
-            this.Controls.AddRange(new Control[] { butlabel, butnumberlist, but_detect, hbar, cmbaction, but_settings });
+            this.Controls.AddRange(new Control[] {butlabel, butnumberlist, but_detect, hbar, cmbaction, but_settings});
 
             butlabel.Location = new Point(x, y);
             butlabel.Size = new Size(47, 13);
-            butlabel.Text = "Button " + (int.Parse(name)  +1);
+            butlabel.Text = "Button " + (int.Parse(name) + 1);
 
             butnumberlist.Location = new Point(72, y);
             butnumberlist.Size = new Size(70, 21);
@@ -409,9 +437,9 @@ namespace MissionPlanner.Joystick
             butnumberlist.DropDownStyle = ComboBoxStyle.DropDownList;
             butnumberlist.Name = "cmbbutton" + name;
             //if (MainV2.config["butno" + name] != null)
-              //  butnumberlist.Text = (MainV2.config["butno" + name].ToString());
+            //  butnumberlist.Text = (MainV2.config["butno" + name].ToString());
             //if (config.buttonno != -1)
-                butnumberlist.Text = config.buttonno.ToString();
+            butnumberlist.Text = config.buttonno.ToString();
             butnumberlist.SelectedIndexChanged += new EventHandler(cmbbutton_SelectedIndexChanged);
 
             but_detect.Location = new Point(BUT_detch1.Left, y);
@@ -427,16 +455,17 @@ namespace MissionPlanner.Joystick
             cmbaction.Location = new Point(hbar.Right + 5, y);
             cmbaction.Size = new Size(100, 21);
 
-            cmbaction.DataSource = Enum.GetNames(typeof(Joystick.buttonfunction)); //Common.getModesList(MainV2.comPort.MAV.cs);
+            cmbaction.DataSource = Enum.GetNames(typeof(Joystick.buttonfunction));
+                //Common.getModesList(MainV2.comPort.MAV.cs);
             //cmbaction.ValueMember = "Key";
             //cmbaction.DisplayMember = "Value";
             cmbaction.Tag = name;
             cmbaction.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbaction.Name = "cmbaction" + name;
             //if (MainV2.config["butaction" + name] != null)
-              //  cmbaction.Text = MainV2.config["butaction" + name].ToString();
+            //  cmbaction.Text = MainV2.config["butaction" + name].ToString();
             //if (config.function != Joystick.buttonfunction.ChangeMode)
-                cmbaction.Text = config.function.ToString();
+            cmbaction.Text = config.function.ToString();
             cmbaction.SelectedIndexChanged += cmbaction_SelectedIndexChanged;
 
             but_settings.Location = new Point(cmbaction.Right + 5, y);
@@ -454,15 +483,16 @@ namespace MissionPlanner.Joystick
         {
             int num = int.Parse(((Control)sender).Tag.ToString());
             var config = Joystick.self.getButton(num);
-            config.function = (Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction), ((Control)sender).Text);
-            Joystick.self.setButton(num,config);
+            config.function =
+                (Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction), ((Control)sender).Text);
+            Joystick.self.setButton(num, config);
         }
 
         void but_settings_Click(object sender, EventArgs e)
         {
             var cmb = ((Control)sender).Tag as ComboBox;
 
-            switch ((Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction),cmb.SelectedItem.ToString()))
+            switch ((Joystick.buttonfunction)Enum.Parse(typeof(Joystick.buttonfunction), cmb.SelectedItem.ToString()))
             {
                 case Joystick.buttonfunction.ChangeMode:
                     new Joy_ChangeMode((string)cmb.Tag).ShowDialog();
@@ -489,7 +519,7 @@ namespace MissionPlanner.Joystick
                     new Joy_Button_axis((string)cmb.Tag).ShowDialog();
                     break;
                 default:
-                    CustomMessageBox.Show("No settings to set","No settings");
+                    CustomMessageBox.Show("No settings to set", "No settings");
                     break;
             }
         }
@@ -501,7 +531,7 @@ namespace MissionPlanner.Joystick
                 if (MainV2.joystick != null && MainV2.joystick.enabled == false)
                     MainV2.joystick.UnAcquireJoyStick();
             }
-            catch { }
+            catch {}
         }
 
         private void JoystickSetup_FormClosed(object sender, FormClosedEventArgs e)
@@ -518,9 +548,7 @@ namespace MissionPlanner.Joystick
         private void CHK_elevons_CheckedChanged(object sender, EventArgs e)
         {
             if (MainV2.joystick == null)
-            {
                 return;
-            }
             MainV2.joystick.elevons = CHK_elevons.Checked;
         }
 
@@ -528,28 +556,32 @@ namespace MissionPlanner.Joystick
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(5, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(5,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH6_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(6, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(6,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH7_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(7, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(7,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void CMB_CH8_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup || MainV2.joystick == null)
                 return;
-            MainV2.joystick.setAxis(8, (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
+            MainV2.joystick.setAxis(8,
+                (Joystick.joystickaxis)Enum.Parse(typeof(Joystick.joystickaxis), ((ComboBox)sender).Text));
         }
 
         private void BUT_detch5_Click(object sender, EventArgs e)

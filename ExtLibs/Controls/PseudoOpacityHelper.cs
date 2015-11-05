@@ -10,7 +10,7 @@ namespace MissionPlanner.Controls
         {
             var bgcolor = c.BackColor;
             int alpha = 255 - ((int)(opacity * 255));
-            
+
             var opacityColor = Color.FromArgb(alpha, bgcolor.R, bgcolor.G, bgcolor.B);
             using (var brush = new SolidBrush(opacityColor))
             {

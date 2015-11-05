@@ -17,15 +17,16 @@ namespace MissionPlanner.Wizard
             InitializeComponent();
         }
 
-        public int  WizardValidate()
+        public int WizardValidate()
         {
             //check if we have a valid selection 
-            if (Wizard.config.ContainsKey("fwtype")) {
+            if (Wizard.config.ContainsKey("fwtype"))
+            {
                 if (Wizard.config["fwtype"].ToString() == "copter")
                     // check if its a quad, and show the frame type screen
                     return 1;
                 else
-                    // skip the frame type screen as its not valid for anythine else
+                // skip the frame type screen as its not valid for anythine else
                     return 2;
             }
 
@@ -36,6 +37,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         void setfwtype(object sender)
         {
             // only remembers the last selected item

@@ -40,23 +40,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.config["speechbatteryenabled"] != null &&
                 MainV2.config["speechbatteryenabled"].ToString() == "True" && MainV2.config["speechenable"] != null &&
                 MainV2.config["speechenable"].ToString() == "True")
-            {
                 CHK_speechbattery.Checked = true;
-            }
             else
-            {
                 CHK_speechbattery.Checked = false;
-            }
 
             //http://plane.ardupilot.com/wiki/common-pixhawk-overview/#pixhawk_analog_input_pins_virtual_pin_firmware_mapped_pin_id
             //
 
             mavlinkComboBox1.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BATT2_MONITOR",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_MONITOR", MainV2.comPort.MAV.param);
+                MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_MONITOR", MainV2.comPort.MAV.param);
             mavlinkComboBox2.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BATT2_VOLT_PIN",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_VOLT_PIN", MainV2.comPort.MAV.param);
+                MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_VOLT_PIN", MainV2.comPort.MAV.param);
             mavlinkComboBox3.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BATT2_CURR_PIN",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_CURR_PIN", MainV2.comPort.MAV.param);
+                MainV2.comPort.MAV.cs.firmware.ToString()), "BATT2_CURR_PIN", MainV2.comPort.MAV.param);
 
             _startup = false;
 
@@ -70,28 +66,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_battcapacity_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
                 if (MainV2.comPort.MAV.param["BATT2_CAPACITY"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
-                {
                     MainV2.comPort.setParam("BATT2_CAPACITY", float.Parse(TXT_battcapacity.Text));
-                }
             }
             catch
             {
                 CustomMessageBox.Show("Set BATT2_CAPACITY Failed", Strings.ERROR);
             }
         }
-        
+
         private void TXT_measuredvoltage_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -100,7 +92,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_divider.Text);
                 if (voltage == 0)
                     return;
-                var newDivider = (measuredvoltage*divider)/voltage;
+                var newDivider = (measuredvoltage * divider) / voltage;
                 TXT_divider.Text = newDivider.ToString();
             }
             catch
@@ -121,7 +113,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_divider_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -135,7 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void TXT_ampspervolt_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -172,11 +164,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // enable the battery event
-            MainV2.config["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
+            MainV2.config["speechbatteryenabled"] = ((CheckBox)sender).Checked.ToString();
             // enable speech engine
             MainV2.config["speechenable"] = true.ToString();
 
-            if (((CheckBox) sender).Checked)
+            if (((CheckBox)sender).Checked)
             {
                 var speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (MainV2.config["speechbattery"] != null)
@@ -224,7 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void txt_meascurrent_Validated(object sender, EventArgs e)
         {
-            if (_startup || ((TextBox) sender).Enabled == false)
+            if (_startup || ((TextBox)sender).Enabled == false)
                 return;
             try
             {
@@ -233,7 +225,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var divider = float.Parse(TXT_ampspervolt.Text);
                 if (current == 0)
                     return;
-                var newDivider = (measuredcurrent*divider)/current;
+                var newDivider = (measuredcurrent * divider) / current;
                 TXT_ampspervolt.Text = newDivider.ToString();
             }
             catch

@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls
         public MyButton Button1;
         public MyButton Button2;
 
-        public string SelectedItem ="";
+        public string SelectedItem = "";
 
         public OptionForm()
         {
@@ -28,7 +28,6 @@ namespace MissionPlanner.Controls
 
         private void myButton1_Click(object sender, EventArgs e)
         {
-
             this.Close();
         }
 

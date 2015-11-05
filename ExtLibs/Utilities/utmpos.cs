@@ -45,7 +45,7 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator double[](utmpos a)
         {
-            return new double[] { a.x, a.y };
+            return new double[] {a.x, a.y};
         }
 
         public static implicit operator PointLatLngAlt(utmpos a)
@@ -55,7 +55,10 @@ namespace MissionPlanner.Utilities
 
         public PointLatLngAlt ToLLA()
         {
-            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y, zone < 0 ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
+            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y,
+                zone < 0
+                    ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South
+                    : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
 
             PointLatLngAlt ans = ((GeoUtility.GeoSystem.Geographic)utm);
             if (this.Tag != null)
@@ -96,9 +99,7 @@ namespace MissionPlanner.Utilities
         public override bool Equals(object obj)
         {
             if (!(obj is utmpos))
-            {
                 return false;
-            }
             return (((((utmpos)obj).x == this.x) && (((utmpos)obj).y == this.y)) && obj.GetType().Equals(base.GetType()));
         }
 
@@ -128,7 +129,13 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public bool IsZero { get { if (this == Zero) return true; return false; } }
+        public bool IsZero
+        {
+            get
+            {
+                if (this == Zero) return true;
+                return false;
+            }
+        }
     }
-
 }

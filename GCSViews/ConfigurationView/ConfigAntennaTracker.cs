@@ -30,9 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-            {
                 Enabled = true;
-            }
             else
             {
                 Enabled = false;
@@ -98,7 +96,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -113,8 +111,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 // If we have just started a new line, skip all the whitespace.    
                 if (currentLinePosition == 0)
+                {
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                    {
                         textIndex++;
+                    }
+                }
                 // Append the next character.     
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
@@ -138,58 +140,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             float value = 0;
-            var name = ((Control) sender).Name;
+            var name = ((Control)sender).Name;
 
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof (NumericUpDown))
+                if (sender.GetType() == typeof(NumericUpDown))
                 {
-                    value = (float) ((NumericUpDown) sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
+                    value = (float)((NumericUpDown)sender).Value;
+                    MAVLinkInterface.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof (ComboBox))
+                else if (sender.GetType() == typeof(ComboBox))
                 {
-                    value = (int) ((ComboBox) sender).SelectedValue;
+                    value = (int)((ComboBox)sender).SelectedValue;
                     changes[name] = value;
                 }
-                ((Control) sender).BackColor = Color.Green;
+                ((Control)sender).BackColor = Color.Green;
             }
             catch (Exception)
             {
-                ((Control) sender).BackColor = Color.Red;
+                ((Control)sender).BackColor = Color.Red;
             }
         }
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    if ((float) changes[value] > MainV2.comPort.MAV.param[value].Value * 2.0f)
+                    if ((float)changes[value] > MainV2.comPort.MAV.param[value].Value * 2.0f)
+                    {
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
                                 "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
+                    }
 
-                    MainV2.comPort.setParam(value, (float) changes[value]);
+                    MainV2.comPort.setParam(value, (float)changes[value]);
 
                     try
                     {
                         // set control as well
                         var textControls = Controls.Find(value, true);
                         if (textControls.Length > 0)
-                        {
                             textControls[0].BackColor = Color.FromArgb(0x43, 0x44, 0x45);
-                        }
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
                 catch
                 {
@@ -208,7 +208,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -220,7 +220,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -231,12 +231,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
 
             updateparam(this);
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
 
             Activate();
@@ -246,32 +246,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof (NumericUpDown) == ctl.GetType() || typeof (ComboBox) == ctl.GetType())
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
                 {
                     try
                     {
                         MainV2.comPort.GetParam(ctl.Name);
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
 
                 if (ctl.Controls.Count > 0)
-                {
                     updateparam(ctl);
-                }
             }
         }
 
         private void BUT_test_yaw_Click(object sender, EventArgs e)
         {
             var output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum,
-                (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+                (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float) output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
             }
             catch
             {
@@ -282,11 +278,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_test_pitch_Click(object sender, EventArgs e)
         {
             var output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum,
-                (double) mavlinkNumericUpDown6.Value, (double) mavlinkNumericUpDown5.Value);
+                (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float) output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
             }
             catch
             {
@@ -296,7 +292,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
-            return (x - in_min)*(out_max - out_min)/(in_max - in_min) + out_min;
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
     }
 }

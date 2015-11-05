@@ -13,13 +13,10 @@ namespace CircularBuffer
         volatile private int tail;
         volatile private T[] buffer;
 
-        [NonSerialized()] 
-        private object _syncRoot = new object();
+        [NonSerialized()] private object _syncRoot = new object();
 
         public CircularBuffer(int capacity)
-            : this(capacity, false)
-        {
-        }
+            : this(capacity, false) {}
 
         public CircularBuffer(int capacity, bool allowOverflow)
         {
@@ -34,11 +31,7 @@ namespace CircularBuffer
             AllowOverflow = allowOverflow;
         }
 
-        public bool AllowOverflow
-        {
-            get;
-            set;
-        }
+        public bool AllowOverflow { get; set; }
 
         public int Capacity
         {
@@ -77,7 +70,7 @@ namespace CircularBuffer
                 if (item == null && buffer[bufferIndex] == null)
                     return true;
                 else if ((buffer[bufferIndex] != null) &&
-                    comparer.Equals(buffer[bufferIndex], item))
+                         comparer.Equals(buffer[bufferIndex], item))
                     return true;
             }
 
@@ -98,7 +91,7 @@ namespace CircularBuffer
 
         public int Put(T[] src, int offset, int count)
         {
-            if (!AllowOverflow &&  count > capacity - size)
+            if (!AllowOverflow && count > capacity - size)
                 throw new InvalidOperationException("Buffer Overflow");
 
             lock (_syncRoot)

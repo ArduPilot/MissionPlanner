@@ -38,11 +38,13 @@ namespace MissionPlanner.Plugin
                 Type[] types = asm.GetTypes();
                 Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
+                {
                     if (type.IsAssignableFrom((Type)t))
                     {
                         pluginInfo = t;
                         break;
                     }
+                }
 
                 if (pluginInfo != null)
                 {
@@ -65,14 +67,13 @@ namespace MissionPlanner.Plugin
                     }
                 }
             }
-            catch (Exception)
-            {
-            }
+            catch (Exception) {}
         }
 
         public static void LoadAll()
         {
-            string path = Application.StartupPath +  Path.DirectorySeparatorChar+ "plugins" +  Path.DirectorySeparatorChar;
+            string path = Application.StartupPath + Path.DirectorySeparatorChar + "plugins" +
+                          Path.DirectorySeparatorChar;
 
             if (!Directory.Exists(path))
                 return;

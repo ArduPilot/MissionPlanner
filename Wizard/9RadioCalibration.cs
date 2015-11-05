@@ -37,6 +37,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         private void BUT_continue_Click(object sender, EventArgs e)
         {
             label3.Visible = false;

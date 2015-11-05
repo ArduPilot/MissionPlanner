@@ -19,9 +19,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-            {
                 Enabled = true;
-            }
             else
             {
                 Enabled = false;
@@ -40,13 +38,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Button)sender).Enabled = false;
 
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
                     MessageBox.Show("Unable - UAV airborne");
-                    ((Button) sender).Enabled = true;
+                    ((Button)sender).Enabled = true;
                     return;
                 }
                 //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
@@ -56,19 +54,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MessageBox.Show("Failed to Zero Attitude");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         private void BUT_zero_press_Click(object sender, EventArgs e)
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Button)sender).Enabled = false;
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
                     MessageBox.Show("Unable - UAV airborne");
-                    ((Button) sender).Enabled = true;
+                    ((Button)sender).Enabled = true;
                     return;
                 }
 
@@ -79,7 +77,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MessageBox.Show("The Command failed to execute");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         private void timer1_Tick(object sender, EventArgs e)

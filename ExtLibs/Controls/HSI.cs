@@ -21,7 +21,11 @@ namespace MissionPlanner.Controls
         public int Heading
         {
             get { return _heading; }
-            set { _heading = value; this.Invalidate(); }
+            set
+            {
+                _heading = value;
+                this.Invalidate();
+            }
         }
 
         [System.ComponentModel.Browsable(true)]
@@ -39,9 +43,7 @@ namespace MissionPlanner.Controls
             if (Disposing)
                 return;
             if (!ThisReallyVisible())
-            {
                 return;
-            }
 
             base.Invalidate();
         }
@@ -54,7 +56,7 @@ namespace MissionPlanner.Controls
         {
             //Control ctl = Control.FromHandle(this.Handle);
             return this.Visible;
-        } 
+        }
 
         public HSI()
         {
@@ -70,7 +72,7 @@ namespace MissionPlanner.Controls
             int _radiusinside = (int)(Width / 3.6f);
             int _radiusoutside = (int)(Width / 2.2f);
 
-           // drawnheading = false;
+            // drawnheading = false;
 
             if (drawnheading == false || this.DesignMode)
             {
@@ -83,33 +85,37 @@ namespace MissionPlanner.Controls
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                 //Graphics g = e.Graphics;
 
-                g.TranslateTransform(this.Width/2,this.Height /2);
+                g.TranslateTransform(this.Width / 2, this.Height / 2);
 
                 int font = this.Width / 14;
 
                 for (int a = 0; a <= 360; a += 5)
                 {
-                    if (a == 0) 
+                    if (a == 0)
                     {
-                        g.DrawString("N".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        g.DrawString("N".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                            new PointF(-font, -_radiusoutside));
 
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
                     }
                     else if (a == 90)
                     {
-                        g.DrawString("E".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        g.DrawString("E".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                            new PointF(-font, -_radiusoutside));
 
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
                     }
                     else if (a == 180)
                     {
-                        g.DrawString("S".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        g.DrawString("S".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                            new PointF(-font, -_radiusoutside));
 
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
                     }
                     else if (a == 270)
                     {
-                        g.DrawString("W".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        g.DrawString("W".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                            new PointF(-font, -_radiusoutside));
 
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
                     }
@@ -119,18 +125,15 @@ namespace MissionPlanner.Controls
                     }
                     else if ((a % 30) == 0) // number labeled
                     {
-                        g.DrawString((a / 10).ToString("0").PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        g.DrawString((a / 10).ToString("0").PadLeft(2), new Font(FontFamily.GenericSansSerif, font),
+                            Brushes.White, new PointF(-font, -_radiusoutside));
 
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
                     }
                     else if (a % 10 == 0) // larger line
-                    {
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 7);
-                    }
                     else if (a % 5 == 0) // small line
-                    {
                         g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 4);
-                    } 
 
                     g.RotateTransform(5);
                 }
@@ -143,11 +146,11 @@ namespace MissionPlanner.Controls
             e.Graphics.TranslateTransform(Width / 2, Height / 2);
             e.Graphics.RotateTransform(-Heading);
 
-            e.Graphics.DrawImage(_headingimage, new Rectangle(-Width / 2, - Height/2,Width,Height));
+            e.Graphics.DrawImage(_headingimage, new Rectangle(-Width / 2, -Height / 2, Width, Height));
 
             e.Graphics.RotateTransform(Heading);
 
-            Pen or = new Pen(Color.DarkOrange,2);
+            Pen or = new Pen(Color.DarkOrange, 2);
             // body
             e.Graphics.DrawLine(or, 0, 30, 0, -10);
             // wing
@@ -155,7 +158,7 @@ namespace MissionPlanner.Controls
             //tail
             e.Graphics.DrawLine(or, -10, 25, 10, 25);
 
-            e.Graphics.DrawLine(new Pen(Color.White,2),0,-_radiusoutside,0,-_radiusinside);
+            e.Graphics.DrawLine(new Pen(Color.White, 2), 0, -_radiusoutside, 0, -_radiusinside);
 
             e.Graphics.RotateTransform(NavHeading - Heading);
 
@@ -170,7 +173,7 @@ namespace MissionPlanner.Controls
 
             e.Graphics.DrawLines(or, headbug);
 
-          //  this.Invalidate();
+            //  this.Invalidate();
         }
 
         protected override void OnResize(EventArgs e)
@@ -180,6 +183,5 @@ namespace MissionPlanner.Controls
             this.Invalidate();
             drawnheading = false;
         }
-
     }
 }

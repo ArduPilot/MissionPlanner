@@ -30,10 +30,16 @@ namespace MissionPlanner.Controls.BackstageView
 
         private List<BackstageViewPage> expanded = new List<BackstageViewPage>();
 
-        public BackstageViewPage SelectedPage { get { return _activePage; } }
+        public BackstageViewPage SelectedPage
+        {
+            get { return _activePage; }
+        }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public BackstageViewCollection Pages { get { return _items; } }
+        public BackstageViewCollection Pages
+        {
+            get { return _items; }
+        }
 
         /// <summary>
         /// Show advanced items or not
@@ -42,10 +48,7 @@ namespace MissionPlanner.Controls.BackstageView
 
         public int WidthMenu
         {
-            get
-            {
-                return pnlMenu.Width;
-            }
+            get { return pnlMenu.Width; }
             set
             {
                 int delta = value - pnlMenu.Width;
@@ -94,10 +97,7 @@ namespace MissionPlanner.Controls.BackstageView
 
         public override Color BackColor
         {
-            get
-            {
-                return base.BackColor;
-            }
+            get { return base.BackColor; }
             set
             {
                 base.BackColor = value;
@@ -190,18 +190,19 @@ namespace MissionPlanner.Controls.BackstageView
         /// <summary>
         /// Add a page (tab) to this backstage view. Will be added at the end/bottom
         /// </summary>
-        public BackstageViewPage AddPage(UserControl userControl, string headerText, BackstageViewPage Parent, bool advanced)
+        public BackstageViewPage AddPage(UserControl userControl, string headerText, BackstageViewPage Parent,
+            bool advanced)
         {
             var page = new BackstageViewPage(userControl, headerText, Parent, advanced)
-                           {
-                               Page =
-                                   {
-                                       //Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-                                       Location = new Point(0, 0),
-                                       Dock = DockStyle.Fill,
-                                       Visible = false,
-                                   }
-                           };
+            {
+                Page =
+                {
+                    //Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                    Location = new Point(0, 0),
+                    Dock = DockStyle.Fill,
+                    Visible = false,
+                }
+            };
 
             _items.Add(page);
 
@@ -230,9 +231,7 @@ namespace MissionPlanner.Controls.BackstageView
             int heightextra = 0;
 
             if (haschild)
-            {
                 label = ">> " + label;
-            }
             if (child)
             {
                 int count = label.Split('\n').Count();
@@ -241,21 +240,21 @@ namespace MissionPlanner.Controls.BackstageView
             }
 
             var lnkButton = new BackstageViewButton
-                                {
-                                    Text = label,
-                                    Tag = page,
-                                    Top = ButtonTopPos,
-                                    // Top = _items.TakeWhile(i => i != page).Sum(i => i.Spacing),
-                                    Width = this.pnlMenu.Width,
-                                    Height = ButtonHeight + heightextra,
-                                    ContentPageColor = this.BackColor,
-                                    PencilBorderColor = _buttonsAreaPencilColor,
-                                    SelectedTextColor = _selectedTextColor,
-                                    UnSelectedTextColor = _unSelectedTextColor,
-                                    HighlightColor1 = _highlightColor1,
-                                    HighlightColor2 = _highlightColor2,
-                                    //Dock = DockStyle.Bottom
-                                };
+            {
+                Text = label,
+                Tag = page,
+                Top = ButtonTopPos,
+                // Top = _items.TakeWhile(i => i != page).Sum(i => i.Spacing),
+                Width = this.pnlMenu.Width,
+                Height = ButtonHeight + heightextra,
+                ContentPageColor = this.BackColor,
+                PencilBorderColor = _buttonsAreaPencilColor,
+                SelectedTextColor = _selectedTextColor,
+                UnSelectedTextColor = _unSelectedTextColor,
+                HighlightColor1 = _highlightColor1,
+                HighlightColor2 = _highlightColor2,
+                //Dock = DockStyle.Bottom
+            };
 
             pnlMenu.Controls.Add(lnkButton);
             lnkButton.Click += this.ButtonClick;
@@ -272,9 +271,7 @@ namespace MissionPlanner.Controls.BackstageView
                 {
                     bool children = PageHasChildren(CurrentPage);
                     if (!children)
-                    {
                         return;
-                    }
                 }
             }
 
@@ -292,9 +289,7 @@ namespace MissionPlanner.Controls.BackstageView
                 {
                     // skip advanced pages if we are not advanced
                     if (page.Advanced && !Advanced)
-                    {
                         continue;
-                    }
 
                     // its a base item. we want it
                     if (((BackstageViewPage)page).Parent == null)
@@ -307,13 +302,9 @@ namespace MissionPlanner.Controls.BackstageView
                         if (CurrentPage == page && children)
                         {
                             if (expanded.Contains((BackstageViewPage)page))
-                            {
                                 expanded.Remove((BackstageViewPage)page);
-                            }
                             else
-                            {
                                 expanded.Add((BackstageViewPage)page);
-                            }
                         }
 
                         // check for children
@@ -332,20 +323,15 @@ namespace MissionPlanner.Controls.BackstageView
                                     }
                                     // draw all the siblings
                                     if (expanded.Contains((BackstageViewPage)page) || this.DesignMode)
-                                    {
                                         CreateLinkButton((BackstageViewPage)childrenpage, false, true);
-                                    }
                                 }
                             }
                         }
                         continue;
                     }
-
                 }
                 else
-                {
                     ButtonTopPos += page.Spacing;
-                }
             }
 
             pnlMenu.ResumeLayout(false);
@@ -361,9 +347,7 @@ namespace MissionPlanner.Controls.BackstageView
                 if (child.GetType() == typeof(BackstageViewPage))
                 {
                     if (((BackstageViewPage)child).Parent == parent)
-                    {
                         return true;
-                    }
                 }
             }
 
@@ -390,6 +374,7 @@ namespace MissionPlanner.Controls.BackstageView
          * Care must be given to lifecycle here - two pages can now be interacted with 
          * 'simultaneously'
          */
+
         private void lnkButton_DoubleClick(object sender, EventArgs e)
         {
             var backstageViewButton = ((BackstageViewButton)sender);
@@ -463,9 +448,7 @@ namespace MissionPlanner.Controls.BackstageView
 
             // Deactivate old page
             if (_activePage != null && _activePage.Page is IDeactivate)
-            {
                 ((IDeactivate)(_activePage.Page)).Deactivate();
-            }
 
             // deactivate the old page - obsolete way of notifying activation
             //_activePage.Page.Close();
@@ -477,14 +460,16 @@ namespace MissionPlanner.Controls.BackstageView
             }
 
             try
-            { // if the button was on an expanded tab. when we leave it no longer exits
+            {
+                // if the button was on an expanded tab. when we leave it no longer exits
                 if (_activePage != null)
                 {
-                    var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == _activePage);
+                    var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>()
+                        .Single(b => b.Tag == _activePage);
                     oldButton.IsSelected = false;
                 }
             }
-            catch { }
+            catch {}
 
             associatedPage.Page.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -494,16 +479,14 @@ namespace MissionPlanner.Controls.BackstageView
             // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
             // so plain old user controls can be added
             if (associatedPage.Page is IActivate)
-            {
                 ((IActivate)(associatedPage.Page)).Activate();
-            }
 
             try
             {
                 var newButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == associatedPage);
                 newButton.IsSelected = true;
             }
-            catch { }
+            catch {}
 
             _activePage = associatedPage;
         }
@@ -524,9 +507,7 @@ namespace MissionPlanner.Controls.BackstageView
                     ((BackstageViewPage)page).Page.Dispose();
                 }
                 else
-                {
                     ((BackstageViewPage)page).Page.Dispose();
-                }
             }
         }
 

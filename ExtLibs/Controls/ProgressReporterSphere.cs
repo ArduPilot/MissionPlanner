@@ -24,20 +24,19 @@ namespace MissionPlanner.Controls
             {
                 if (ConfigurationManager.AppSettings["sphereautocomplete"] != null)
                 {
-
                     string value = ConfigurationManager.AppSettings["sphereautocomplete"].ToString();
                     autoaccept = bool.Parse(value);
-
                 }
             }
-            catch { }
+            catch {}
 
             chk_auto.Checked = autoaccept;
         }
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressReporterSphere));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(ProgressReporterSphere));
             this.sphere1 = new MissionPlanner.Controls.Sphere();
             this.CHK_rotate = new System.Windows.Forms.CheckBox();
             this.sphere2 = new MissionPlanner.Controls.Sphere();
@@ -116,7 +115,6 @@ namespace MissionPlanner.Controls
             this.Controls.SetChildIndex(this.sphere3, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private void CHK_rotate_CheckedChanged(object sender, EventArgs e)
@@ -135,13 +133,14 @@ namespace MissionPlanner.Controls
 
                 config.AppSettings.Settings.Remove("sphereautocomplete");
 
-                config.AppSettings.Settings.Add(new KeyValueConfigurationElement("sphereautocomplete", autoaccept.ToString()));
+                config.AppSettings.Settings.Add(new KeyValueConfigurationElement("sphereautocomplete",
+                    autoaccept.ToString()));
 
                 config.Save(ConfigurationSaveMode.Modified);
 
                 ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
             }
-            catch { }
+            catch {}
         }
     }
 }

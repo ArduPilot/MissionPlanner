@@ -81,9 +81,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var dr = ofd.ShowDialog();
 
                 if (dr == DialogResult.OK)
-                {
                     loadparamsfromfile(ofd.FileName);
-                }
             }
         }
 
@@ -165,28 +163,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
-                return;   
+                return;
 
-            var temp = (Hashtable) _changes.Clone();
+            var temp = (Hashtable)_changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float) _changes[value]);
+                    MainV2.comPort.setParam(value, (float)_changes[value]);
 
                     try
                     {
                         // set control as well
                         var textControls = Controls.Find(value, true);
                         if (textControls.Length > 0)
-                        {
                             ThemeManager.ApplyThemeTo(textControls[0]);
-                        }
                     }
-                    catch
-                    {
-                    }
+                    catch {}
 
                     try
                     {
@@ -201,9 +195,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
                         }
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
                 catch
                 {
@@ -245,7 +237,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -258,7 +250,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 startup = true;
 
@@ -285,7 +277,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 double min = 0;
                 double max = 0;
 
-                var value = (string) Params[e.ColumnIndex, e.RowIndex].Value;
+                var value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
 
                 var newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
 
@@ -299,15 +291,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 Params[Command.Index, e.RowIndex].Value +
                                 " value is out of range. Do you want to continue?", "Out of range",
                                 MessageBoxButtons.YesNo) == DialogResult.No)
-                        {
                             return;
-                        }
                     }
                 }
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
                 _changes[Params[Command.Index, e.RowIndex].Value] =
-                    float.Parse(((string) Params[e.ColumnIndex, e.RowIndex].Value));
+                    float.Parse(((string)Params[e.ColumnIndex, e.RowIndex].Value));
             }
             catch (Exception)
             {
@@ -322,7 +312,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -337,8 +327,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 // If we have just started a new line, skip all the whitespace.    
                 if (currentLinePosition == 0)
+                {
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                    {
                         textIndex++;
+                    }
+                }
                 // Append the next character.     
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
@@ -374,7 +368,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 rowlist.Add(row);
                 row.CreateCells(Params);
                 row.Cells[Command.Index].Value = value;
-                row.Cells[Value.Index].Value = ((float) MainV2.comPort.MAV.param[value]).ToString();
+                row.Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
@@ -410,11 +404,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (paramfiles == null)
-                {
                     paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
-                }
 
-                BeginInvoke((Action) delegate
+                BeginInvoke((Action)delegate
                 {
                     CMB_paramfiles.DataSource = paramfiles.ToArray();
                     CMB_paramfiles.DisplayMember = "name";
@@ -428,7 +420,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        void filterList(string searchfor) 
+        void filterList(string searchfor)
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
@@ -456,7 +448,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 var data = GitHubContent.GetFileContent("diydrones", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
@@ -466,9 +458,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 ThemeManager.ApplyThemeTo(paramCompareForm);
                 if (paramCompareForm.ShowDialog() == DialogResult.OK)
-                {
                     CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
-                }
 
                 // no activate the user needs to click write.
                 //this.Activate();
@@ -479,9 +469,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
+        private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e) {}
 
         private void BUT_reset_params_Click(object sender, EventArgs e)
         {

@@ -34,9 +34,10 @@ namespace MissionPlanner
 
             planlocs = locs;
 
-            for (int a = 0; a < planlocs.Count; a++) 
+            for (int a = 0; a < planlocs.Count; a++)
             {
-                if (planlocs[a].Tag.Contains("ROI")) {
+                if (planlocs[a].Tag.Contains("ROI"))
+                {
                     planlocs.RemoveAt(a);
                     a--;
                 }
@@ -56,15 +57,14 @@ namespace MissionPlanner
                 if (loc == null)
                     continue;
 
-                if (lastloc != null) {
+                if (lastloc != null)
                     distance += (int)loc.GetDistance(lastloc);
-                }
                 lastloc = loc;
             }
 
             this.homealt = homealt / CurrentState.multiplierdist;
 
-            Form frm = Common.LoadingBox("Loading", "using srtm data");//Downloading Google Earth Data
+            Form frm = Common.LoadingBox("Loading", "using srtm data"); //Downloading Google Earth Data
 
             gelocs = getGEAltPath(planlocs);
 
@@ -73,7 +73,7 @@ namespace MissionPlanner
             frm.Close();
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-        } 
+        }
 
         private void ElevationProfile_Load(object sender, EventArgs e)
         {
@@ -91,15 +91,15 @@ namespace MissionPlanner
                 if (geloc == null)
                     continue;
 
-                list2.Add(a,geloc.Alt);
+                list2.Add(a, geloc.Alt);
 
-                Console.WriteLine("GE "+geloc.Lng + "," + geloc.Lat + "," + geloc.Alt);
+                Console.WriteLine("GE " + geloc.Lng + "," + geloc.Lat + "," + geloc.Alt);
 
-                a+=increment;
+                a += increment;
             }
 
             // Planner Plot
-            a=0;
+            a = 0;
             int count = 0;
             PointLatLngAlt lastloc = null;
             foreach (PointLatLngAlt planloc in planlocs)
@@ -108,9 +108,7 @@ namespace MissionPlanner
                     continue;
 
                 if (lastloc != null)
-                {
                     a += planloc.GetDistance(lastloc);
-                }
 
                 // deal with at mode
                 if (altmode == GCSViews.FlightPlanner.altmode.Terrain)
@@ -158,7 +156,7 @@ namespace MissionPlanner
 
                 double dist = last.GetDistance(loc);
 
-                int points = (int)(dist / 10)+1;
+                int points = (int)(dist / 10) + 1;
 
                 double deltalat = (last.Lat - loc.Lat);
                 double deltalng = (last.Lng - loc.Lng);
@@ -215,19 +213,25 @@ namespace MissionPlanner
                 if (loc == null)
                     continue;
 
-                coords = coords + loc.Lat.ToString(new System.Globalization.CultureInfo("en-US")) + "," + loc.Lng.ToString(new System.Globalization.CultureInfo("en-US")) + "|";
+                coords = coords + loc.Lat.ToString(new System.Globalization.CultureInfo("en-US")) + "," +
+                         loc.Lng.ToString(new System.Globalization.CultureInfo("en-US")) + "|";
             }
             coords = coords.Remove(coords.Length - 1);
 
             if (list.Count < 2 || coords.Length > (2048 - 256))
             {
-                CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km", Strings.ERROR);
+                CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km",
+                    Strings.ERROR);
                 return answer;
             }
 
             try
             {
-                using (XmlTextReader xmlreader = new XmlTextReader("http://maps.google.com/maps/api/elevation/xml?path=" + coords + "&samples=" + (distance / 100).ToString(new System.Globalization.CultureInfo("en-US")) + "&sensor=false"))
+                using (
+                    XmlTextReader xmlreader =
+                        new XmlTextReader("http://maps.google.com/maps/api/elevation/xml?path=" + coords + "&samples=" +
+                                          (distance / 100).ToString(new System.Globalization.CultureInfo("en-US")) +
+                                          "&sensor=false"))
                 {
                     while (xmlreader.Read())
                     {
@@ -237,7 +241,7 @@ namespace MissionPlanner
                             case "elevation":
                                 alt = double.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
                                 Console.WriteLine("DO it " + lat + " " + lng + " " + alt);
-                                PointLatLngAlt loc = new PointLatLngAlt(lat,lng,alt,"");
+                                PointLatLngAlt loc = new PointLatLngAlt(lat, lng, alt, "");
                                 answer.Add(loc);
                                 pos++;
                                 break;
@@ -253,7 +257,10 @@ namespace MissionPlanner
                     }
                 }
             }
-            catch { CustomMessageBox.Show("Error getting GE data", Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show("Error getting GE data", Strings.ERROR);
+            }
 
             return answer;
         }
@@ -317,10 +324,7 @@ namespace MissionPlanner
             {
                 zg1.AxisChange();
             }
-            catch { }
-
-
-
+            catch {}
         }
     }
 }

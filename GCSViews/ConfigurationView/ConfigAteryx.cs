@@ -36,9 +36,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-            {
                 Enabled = true;
-            }
             else
             {
                 Enabled = false;
@@ -58,7 +56,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -73,8 +71,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 // If we have just started a new line, skip all the whitespace.    
                 if (currentLinePosition == 0)
+                {
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                    {
                         textIndex++;
+                    }
+                }
                 // Append the next character.     
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
@@ -87,13 +89,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (Control ctl in inctl.Controls)
             {
                 if (ctl.Controls.Count > 0)
-                {
                     disableNumericUpDownControls(ctl);
-                }
-                if (ctl.GetType() == typeof (NumericUpDown))
-                {
+                if (ctl.GetType() == typeof(NumericUpDown))
                     ctl.Enabled = false;
-                }
             }
         }
 
@@ -115,20 +113,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     try
                     {
-                        if (ctl.GetType() == typeof (NumericUpDown))
+                        if (ctl.GetType() == typeof(NumericUpDown))
                         {
-                            var thisctl = ((NumericUpDown) ctl);
+                            var thisctl = ((NumericUpDown)ctl);
                             thisctl.Maximum = 9000;
                             thisctl.Minimum = -9000;
-                            thisctl.Value = (decimal) (float) MainV2.comPort.MAV.param[value];
-                            thisctl.Increment = (decimal) 0.001;
+                            thisctl.Value = (decimal)(float)MainV2.comPort.MAV.param[value];
+                            thisctl.Increment = (decimal)0.001;
                             if (thisctl.Name.EndsWith("_P") || thisctl.Name.EndsWith("_I") ||
                                 thisctl.Name.EndsWith("_D")
                                 || thisctl.Name.EndsWith("_LOW") || thisctl.Name.EndsWith("_HIGH") || thisctl.Value == 0
                                 || thisctl.Value.ToString("0.###", new CultureInfo("en-US")).Contains("."))
-                            {
                                 thisctl.DecimalPlaces = 3;
-                            }
                             else
                             {
                                 thisctl.Increment = 1;
@@ -149,26 +145,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 try
                                 {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings) tooltips[value]).desc);
+                                    toolTip1.SetToolTip(ctl, ((paramsettings)tooltips[value]).desc);
                                 }
-                                catch
-                                {
-                                }
+                                catch {}
                             }
                             thisctl.Validated += EEPROM_View_float_TextChanged;
                         }
-                        else if (ctl.GetType() == typeof (ComboBox))
+                        else if (ctl.GetType() == typeof(ComboBox))
                         {
-                            var thisctl = ((ComboBox) ctl);
+                            var thisctl = ((ComboBox)ctl);
 
-                            thisctl.SelectedIndex = (int) (float) MainV2.comPort.MAV.param[value];
+                            thisctl.SelectedIndex = (int)(float)MainV2.comPort.MAV.param[value];
 
                             thisctl.Validated += ComboBox_Validated;
                         }
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
                 if (text.Length == 0)
                 {
@@ -190,51 +182,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
         {
             float value = 0;
-            var name = ((Control) sender).Name;
+            var name = ((Control)sender).Name;
 
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof (NumericUpDown))
+                if (sender.GetType() == typeof(NumericUpDown))
                 {
-                    value = float.Parse(((Control) sender).Text);
+                    value = float.Parse(((Control)sender).Text);
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof (ComboBox))
+                else if (sender.GetType() == typeof(ComboBox))
                 {
-                    value = ((ComboBox) sender).SelectedIndex;
+                    value = ((ComboBox)sender).SelectedIndex;
                     changes[name] = value;
                 }
-                ((Control) sender).BackColor = Color.Green;
+                ((Control)sender).BackColor = Color.Green;
             }
             catch (Exception)
             {
-                ((Control) sender).BackColor = Color.Red;
+                ((Control)sender).BackColor = Color.Red;
             }
         }
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable) changes.Clone();
+            var temp = (Hashtable)changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float) changes[value]);
+                    MainV2.comPort.setParam(value, (float)changes[value]);
 
                     try
                     {
                         // set control as well
                         var textControls = Controls.Find(value, true);
                         if (textControls.Length > 0)
-                        {
                             textControls[0].BackColor = Color.FromArgb(0x43, 0x44, 0x45);
-                        }
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
                 catch
                 {
@@ -253,7 +241,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control) sender).Enabled = false;
+            ((Control)sender).Enabled = false;
 
             try
             {
@@ -265,37 +253,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
 
-            ((Control) sender).Enabled = true;
+            ((Control)sender).Enabled = true;
 
             Activate();
         }
 
-        private void groupBox7_Enter(object sender, EventArgs e)
-        {
-        }
+        private void groupBox7_Enter(object sender, EventArgs e) {}
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-        }
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e) {}
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
-        {
-        }
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e) {}
 
-        private void numericUpDown15_ValueChanged(object sender, EventArgs e)
-        {
-        }
+        private void numericUpDown15_ValueChanged(object sender, EventArgs e) {}
 
         private void BUT_write_flash_Click(object sender, EventArgs e)
         {
             try
             {
-                ((Button) sender).Enabled = false;
+                ((Button)sender).Enabled = false;
 
                 if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 10.0))
                 {
                     MessageBox.Show("Unable - UAV airborne");
-                    ((Button) sender).Enabled = true;
+                    ((Button)sender).Enabled = true;
                     return;
                 }
 
@@ -306,7 +286,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MessageBox.Show("The Command failed to execute");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         private void BUT_read_flash_Click(object sender, EventArgs e)
@@ -319,7 +299,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if ((MainV2.comPort.MAV.cs.airspeed > 7.0) || (MainV2.comPort.MAV.cs.groundspeed > 7.0))
                     {
                         MessageBox.Show("Unable - UAV airborne");
-                        ((Button) sender).Enabled = true;
+                        ((Button)sender).Enabled = true;
                         return;
                     }
                     //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
@@ -330,7 +310,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MessageBox.Show("The Command failed to execute");
             }
-            ((Button) sender).Enabled = true;
+            ((Button)sender).Enabled = true;
         }
 
         public struct paramsettings // hk's

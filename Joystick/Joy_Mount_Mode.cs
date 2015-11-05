@@ -21,7 +21,8 @@ namespace MissionPlanner.Joystick
 
             comboBox1.ValueMember = "Key";
             comboBox1.DisplayMember = "Value";
-            comboBox1.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE", MainV2.comPort.MAV.cs.firmware.ToString());
+            comboBox1.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE",
+                MainV2.comPort.MAV.cs.firmware.ToString());
 
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 

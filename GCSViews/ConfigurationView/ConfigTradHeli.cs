@@ -72,9 +72,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 if (MainV2.comPort.MAV.param.ContainsKey("H_FLYBAR_MODE"))
-                {
                     fbl_modeFBL.Checked = MainV2.comPort.MAV.param["H_FLYBAR_MODE"].ToString() == "0" ? true : false;
-                }
 
                 foreach (string value in MainV2.comPort.MAV.param.Keys)
                 {
@@ -84,27 +82,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var control = Controls.Find(value, true);
                     if (control.Length > 0)
                     {
-                        if (control[0].GetType() == typeof (TextBox))
+                        if (control[0].GetType() == typeof(TextBox))
                         {
-                            var temp = (TextBox) control[0];
+                            var temp = (TextBox)control[0];
                             var option = MainV2.comPort.MAV.param[value].ToString();
                             temp.Text = option;
                         }
-                        if (control[0].GetType() == typeof (NumericUpDown))
+                        if (control[0].GetType() == typeof(NumericUpDown))
                         {
-                            var temp = (NumericUpDown) control[0];
+                            var temp = (NumericUpDown)control[0];
                             var option = MainV2.comPort.MAV.param[value].ToString();
                             temp.Text = option;
                         }
-                        if (control[0].GetType() == typeof (CheckBox))
+                        if (control[0].GetType() == typeof(CheckBox))
                         {
-                            var temp = (CheckBox) control[0];
+                            var temp = (CheckBox)control[0];
                             var option = MainV2.comPort.MAV.param[value].ToString();
                             temp.Checked = option == "1" ? true : false;
                         }
-                        if (control[0].GetType() == typeof (MyTrackBar))
+                        if (control[0].GetType() == typeof(MyTrackBar))
                         {
-                            var temp = (MyTrackBar) control[0];
+                            var temp = (MyTrackBar)control[0];
                             var option = MainV2.comPort.MAV.param[value].ToString();
                             temp.Value = int.Parse(option);
                         }
@@ -116,9 +114,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 HS3_REV.Checked = MainV2.comPort.MAV.param["HS3_REV"].ToString() == "-1";
                 HS4_REV.Checked = MainV2.comPort.MAV.param["HS4_REV"].ToString() == "-1";
             }
-            catch
-            {
-            }
+            catch {}
             startup = false;
         }
 
@@ -136,13 +132,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("H_SWASH_TYPE", ((RadioButton) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("H_SWASH_TYPE", ((RadioButton)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -226,9 +218,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (int.Parse(HS4_MAX.Text) < HS4.maxline)
                     HS4_MAX.Text = HS4.maxline.ToString();
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         private void HS3_Paint(object sender, PaintEventArgs e)
@@ -240,9 +230,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (int.Parse(H_COL_MAX.Text) < HS3.maxline)
                     H_COL_MAX.Text = HS3.maxline.ToString();
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         private void COL_MAX__Enter(object sender, EventArgs e)
@@ -287,7 +275,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void PWM_Validating(object sender, CancelEventArgs e)
         {
-            var temp = (Control) (sender);
+            var temp = (Control)(sender);
 
             var tempint = 0;
             if (int.TryParse(temp.Text, out tempint))
@@ -296,9 +284,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     temp.Text = "900";
             }
             else
-            {
                 CustomMessageBox.Show("Bad Min PWM");
-            }
 
             if (int.TryParse(temp.Text, out tempint))
             {
@@ -306,9 +292,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     temp.Text = "2100";
             }
             else
-            {
                 CustomMessageBox.Show("Bad Max PWM");
-            }
         }
 
         private void TXT_srvpos1_Validating(object sender, CancelEventArgs e)
@@ -316,23 +300,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
             Gservoloc.Value0 = test;
 
             try
             {
                 MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
-                MainV2.comPort.setParam(((TextBox) sender).Name, test);
+                MainV2.comPort.setParam(((TextBox)sender).Name, test);
                 Thread.Sleep(100);
                 MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
             }
             catch
             {
-                CustomMessageBox.Show("Set " + ((TextBox) sender).Name + " failed");
+                CustomMessageBox.Show("Set " + ((TextBox)sender).Name + " failed");
             }
         }
 
@@ -341,23 +323,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
             Gservoloc.Value1 = test;
 
             try
             {
                 MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
-                MainV2.comPort.setParam(((TextBox) sender).Name, test);
+                MainV2.comPort.setParam(((TextBox)sender).Name, test);
                 Thread.Sleep(100);
                 MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
             }
             catch
             {
-                CustomMessageBox.Show("Set " + ((TextBox) sender).Name + " failed");
+                CustomMessageBox.Show("Set " + ((TextBox)sender).Name + " failed");
             }
         }
 
@@ -366,23 +346,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
             Gservoloc.Value2 = test;
 
             try
             {
                 MainV2.comPort.setParam("H_SV_MAN", 1); // randy request
-                MainV2.comPort.setParam(((TextBox) sender).Name, test);
+                MainV2.comPort.setParam(((TextBox)sender).Name, test);
                 Thread.Sleep(100);
                 MainV2.comPort.setParam("H_SV_MAN", 0); // randy request - last
             }
             catch
             {
-                CustomMessageBox.Show("Set " + ((TextBox) sender).Name + " failed");
+                CustomMessageBox.Show("Set " + ((TextBox)sender).Name + " failed");
             }
         }
 
@@ -406,56 +384,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+            MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == false ? 1.0f : -1.0f);
         }
 
         private void HS2_REV_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+            MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == false ? 1.0f : -1.0f);
         }
 
         private void HS3_REV_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+            MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == false ? 1.0f : -1.0f);
         }
 
         private void HS4_REV_CheckedChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+            MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == false ? 1.0f : -1.0f);
         }
 
         private void HS1_TRIM_ValueChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+            MainV2.comPort.setParam(((NumericUpDown)sender).Name, (float)((NumericUpDown)sender).Value);
         }
 
         private void HS2_TRIM_ValueChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+            MainV2.comPort.setParam(((NumericUpDown)sender).Name, (float)((NumericUpDown)sender).Value);
         }
 
         private void HS3_TRIM_ValueChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+            MainV2.comPort.setParam(((NumericUpDown)sender).Name, (float)((NumericUpDown)sender).Value);
         }
 
         private void HS4_TRIM_ValueChanged(object sender, EventArgs e)
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+            MainV2.comPort.setParam(((NumericUpDown)sender).Name, (float)((NumericUpDown)sender).Value);
         }
 
         private void ROL_MAX__Validating(object sender, CancelEventArgs e)
@@ -463,12 +441,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing || !Enabled)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
-            MainV2.comPort.setParam(((TextBox) sender).Name, test);
+            MainV2.comPort.setParam(((TextBox)sender).Name, test);
         }
 
         private void PIT_MAX__Validating(object sender, CancelEventArgs e)
@@ -476,12 +452,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing || !Enabled)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
-            MainV2.comPort.setParam(((TextBox) sender).Name, test);
+            MainV2.comPort.setParam(((TextBox)sender).Name, test);
         }
 
         private void GYR_GAIN__Validating(object sender, CancelEventArgs e)
@@ -489,14 +463,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup || Disposing || !Enabled)
                 return;
             var test = 0;
-            if (!int.TryParse(((TextBox) sender).Text, out test))
-            {
+            if (!int.TryParse(((TextBox)sender).Text, out test))
                 e.Cancel = true;
-            }
 
             try
             {
-                MainV2.comPort.setParam(((TextBox) sender).Name, test);
+                MainV2.comPort.setParam(((TextBox)sender).Name, test);
             }
             catch
             {
@@ -508,7 +480,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (startup)
                 return;
-            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked ? 1.0f : 0.0f);
+            MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked ? 1.0f : 0.0f);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -517,9 +489,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
             }
-            catch
-            {
-            }
+            catch {}
 
             if (MainV2.comPort.MAV.param["H_SV_MAN"] == null || MainV2.comPort.MAV.param["H_SV_MAN"].ToString() == "0")
                 return;
@@ -530,11 +500,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (HS4.minline == 0)
                 HS4.minline = 2200;
 
-            HS3.minline = Math.Min(HS3.minline, (int) MainV2.comPort.MAV.cs.ch3in);
-            HS3.maxline = Math.Max(HS3.maxline, (int) MainV2.comPort.MAV.cs.ch3in);
+            HS3.minline = Math.Min(HS3.minline, (int)MainV2.comPort.MAV.cs.ch3in);
+            HS3.maxline = Math.Max(HS3.maxline, (int)MainV2.comPort.MAV.cs.ch3in);
 
-            HS4.minline = Math.Min(HS4.minline, (int) MainV2.comPort.MAV.cs.ch4in);
-            HS4.maxline = Math.Max(HS4.maxline, (int) MainV2.comPort.MAV.cs.ch4in);
+            HS4.minline = Math.Min(HS4.minline, (int)MainV2.comPort.MAV.cs.ch4in);
+            HS4.maxline = Math.Max(HS4.maxline, (int)MainV2.comPort.MAV.cs.ch4in);
 
             if (!inpwmdetect)
             {
@@ -550,9 +520,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     HS4.maxline = int.Parse(HS4_MIN.Text);
                     HS4.minline = int.Parse(HS4_MAX.Text);
                 }
-                catch
-                {
-                }
+                catch {}
             }
         }
 
@@ -577,13 +545,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["H_FLYBAR_MODE"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
                     MainV2.comPort.setParam("H_FLYBAR_MODE", fbl_modeFBL.Checked ? 0 : 1);
-                }
             }
             catch
             {

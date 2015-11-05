@@ -30,6 +30,7 @@ namespace MissionPlanner.Utilities
      * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
      * IN THE SOFTWARE.
      */
+
     public class FFT2
     {
         // Element for linked list in which we store the
@@ -37,28 +38,27 @@ namespace MissionPlanner.Utilities
         // for sequential access it's faster than array index.
         class FFTElement
         {
-            public double re = 0.0;     // Real component
-            public double im = 0.0;     // Imaginary component
-            public FFTElement next;     // Next element in linked list
-            public uint revTgt;         // Target position post bit-reversal
+            public double re = 0.0; // Real component
+            public double im = 0.0; // Imaginary component
+            public FFTElement next; // Next element in linked list
+            public uint revTgt; // Target position post bit-reversal
         }
 
-        private uint m_logN = 0;        // log2 of FFT size
-        private uint m_N = 0;           // FFT size
-        private FFTElement[] m_X;       // Vector of linked list elements
+        private uint m_logN = 0; // log2 of FFT size
+        private uint m_N = 0; // FFT size
+        private FFTElement[] m_X; // Vector of linked list elements
 
         /**
          *
          */
-        public FFT2()
-        {
-        }
+        public FFT2() {}
 
         /**
          * Initialize class to perform FFT of specified size.
          *
          * @param   logN    Log2 of FFT length. e.g. for 512 pt FFT, logN = 9.
          */
+
         public void init(
             uint logN)
         {
@@ -99,9 +99,9 @@ namespace MissionPlanner.Utilities
         // max hz = 1/2 sample rate
 
         //https://gerrybeauregard.wordpress.com/2010/08/06/real-time-spectrum-analysis/
-        public double[] rin(double[] data, uint bins) 
+        public double[] rin(double[] data, uint bins)
         {
-            double SCALE = 20/Math.Log(10);
+            double SCALE = 20 / Math.Log(10);
             int N = data.Length;
             double[] xRe = new double[N];
             double[] xIm = new double[N];
@@ -112,8 +112,8 @@ namespace MissionPlanner.Utilities
 
             // Hanning analysis window
             double[] m_win = new double[N];
-            for (int i = 0; i < N; i++ )
-                m_win[i] = (4.0/N) * 0.5*(1-Math.Cos(2*Math.PI*i/N));
+            for (int i = 0; i < N; i++)
+                m_win[i] = (4.0 / N) * 0.5 * (1 - Math.Cos(2 * Math.PI * i / N));
 
             // create Real and apply hanning window
             for (int a = 0; a < data.Length; a++)
@@ -150,15 +150,16 @@ namespace MissionPlanner.Utilities
          * @param   xIm     Imaginary part of input/output -vertical
          * @param   inverse If true, do an inverse FFT
          */
+
         public void run(
             double[] xRe,
             double[] xIm,
             bool inverse = false)
         {
             uint numFlies = m_N >> 1; // Number of butterflies per sub-FFT
-            uint span = m_N >> 1;     // Width of the butterfly
-            uint spacing = m_N;         // Distance between start of sub-FFTs
-            uint wIndexStep = 1;        // Increment for twiddle table index
+            uint span = m_N >> 1; // Width of the butterfly
+            uint spacing = m_N; // Distance between start of sub-FFTs
+            uint wIndexStep = 1; // Increment for twiddle table index
 
             // Copy data into linked complex number objects
             // If it's an IFFT, we divide by N while we're at it
@@ -230,10 +231,10 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
-                numFlies >>= 1;   // Divide by 2 by right shift
+                numFlies >>= 1; // Divide by 2 by right shift
                 span >>= 1;
                 spacing >>= 1;
-                wIndexStep <<= 1;     // Multiply by 2 by left shift
+                wIndexStep <<= 1; // Multiply by 2 by left shift
             }
 
             // The algorithm leaves the result in a scrambled order.
@@ -256,6 +257,7 @@ namespace MissionPlanner.Utilities
          * @param   x       Number to be bit-reverse.
          * @param   numBits Number of bits in the number.
          */
+
         private uint BitReverse(
             uint x,
             uint numBits)

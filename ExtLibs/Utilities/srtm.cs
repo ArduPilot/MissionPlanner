@@ -12,9 +12,10 @@ using log4net;
 
 namespace MissionPlanner
 {
-    public class srtm: IDisposable
+    public class srtm : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public enum tiletype
         {
@@ -49,10 +50,7 @@ namespace MissionPlanner
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
-        static srtm()
-        {
-
-        }
+        static srtm() {}
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
@@ -71,8 +69,9 @@ namespace MissionPlanner
             //		lng	117.94178754638671	double
             // 		alt	70	short
 
-            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
-            int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
+            int x = (lng < 0) ? (int)(lng - 1) : (int)lng; //(int)Math.Floor(lng);
+            int y = (lat < 0) ? (int)(lat - 1) : (int)lat;
+            ; //(int)Math.Floor(lat);
 
             string ns;
             if (y > 0)
@@ -96,25 +95,22 @@ namespace MissionPlanner
 
             try
             {
-
                 if (cache.ContainsKey(filename) || File.Exists(datadirectory + Path.DirectorySeparatorChar + filename))
-                { // srtm hgt files
+                {
+                    // srtm hgt files
 
                     int size = -1;
 
                     // add to cache
                     if (!cache.ContainsKey(filename))
                     {
-                        FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+                        FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename,
+                            FileMode.Open, FileAccess.Read, FileShare.Read);
 
                         if (fs.Length == (1201 * 1201 * 2))
-                        {
                             size = 1201;
-                        }
                         else if (fs.Length == (3601 * 3601 * 2))
-                        {
                             size = 3601;
-                        }
                         else
                             return answer;
 
@@ -143,13 +139,9 @@ namespace MissionPlanner
                     }
 
                     if (cache[filename].Length == (1201 * 1201))
-                    {
                         size = 1201;
-                    }
                     else if (cache[filename].Length == (3601 * 3601))
-                    {
                         size = 3601;
-                    }
                     else
                         return answer;
 
@@ -183,7 +175,8 @@ namespace MissionPlanner
                     return answer;
                 }
 
-                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" + Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
+                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" +
+                                   Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
 
                 if (File.Exists(datadirectory + Path.DirectorySeparatorChar + filename2))
                 {
@@ -219,30 +212,19 @@ namespace MissionPlanner
                             //hgtdata = new int[nox * noy];
                         }
                         else if (line.StartsWith("xllcorner"))
-                        {
                             left = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
                         else if (line.StartsWith("yllcorner"))
-                        {
                             top = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
                         else if (line.StartsWith("cellsize"))
-                        {
                             cellsize = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
                         else if (line.StartsWith("NODATA_value"))
-                        {
                             nodata = int.Parse(line.Substring(line.IndexOf(' ')));
-                        }
                         else
                         {
-                            string[] data = line.Split(new char[] { ' ' });
+                            string[] data = line.Split(new char[] {' '});
 
                             if (data.Length == (nox + 1))
                             {
-
-
-
                                 wantcol = (float)((lng - Math.Round(left, 0)));
 
                                 wantrow = (float)((lat - Math.Round(top, 0)));
@@ -254,7 +236,8 @@ namespace MissionPlanner
 
                                 if (rowcounter == wantrow)
                                 {
-                                    Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top, data[(int)wantcol], (nox + wantcol * cellsize));
+                                    Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top,
+                                        data[(int)wantcol], (nox + wantcol * cellsize));
 
                                     answer.currenttype = tiletype.valid;
                                     answer.alt = int.Parse(data[(int)wantcol]);
@@ -264,9 +247,6 @@ namespace MissionPlanner
                                 rowcounter++;
                             }
                         }
-
-
-
                     }
 
                     //sr.Close();
@@ -317,9 +297,12 @@ namespace MissionPlanner
                         }
                     }
                 }
-
             }
-            catch { answer.alt = 0; answer.currenttype = tiletype.invalid; }
+            catch
+            {
+                answer.alt = 0;
+                answer.currenttype = tiletype.invalid;
+            }
 
             return answer;
         }
@@ -337,9 +320,7 @@ namespace MissionPlanner
         static MemoryStream readFile(string filename)
         {
             if (filecache.ContainsKey(filename))
-            {
                 return (MemoryStream)filecache[filename];
-            }
             else
             {
                 FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
@@ -367,9 +348,7 @@ namespace MissionPlanner
                     lock (objlock)
                     {
                         if (queue.Count > 0)
-                        {
                             item = queue[0];
-                        }
                     }
 
                     if (item != "")
@@ -382,7 +361,7 @@ namespace MissionPlanner
                     }
                 }
                 catch (Exception ex)
-                { 
+                {
                     log.Error(ex);
                 }
                 Thread.Sleep(1000);
@@ -448,7 +427,9 @@ namespace MissionPlanner
 
                 using (WebResponse res = req.GetResponse())
                 using (Stream resstream = res.GetResponseStream())
-                using (BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
+                using (
+                    BinaryWriter bw =
+                        new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
                 {
                     byte[] buf1 = new byte[1024];
 
@@ -456,7 +437,6 @@ namespace MissionPlanner
 
                     while (resstream.CanRead)
                     {
-
                         int len = resstream.Read(buf1, 0, 1024);
                         if (len == 0)
                             break;
@@ -511,7 +491,6 @@ namespace MissionPlanner
                 using (WebResponse res = req.GetResponse())
                 using (StreamReader resstream = new StreamReader(res.GetResponseStream()))
                 {
-
                     string data = resstream.ReadToEnd();
 
                     Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
@@ -534,10 +513,7 @@ namespace MissionPlanner
 
                 using (StreamWriter sw = new StreamWriter(datadirectory + Path.DirectorySeparatorChar + name))
                 {
-                    list.ForEach(x =>
-                    {
-                        sw.WriteLine((string)x);
-                    });
+                    list.ForEach(x => { sw.WriteLine((string)x); });
 
                     sw.Close();
                 }

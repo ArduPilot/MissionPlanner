@@ -9,9 +9,9 @@ namespace MissionPlanner.Controls
 {
     public partial class FlashMessage : Label
     {
-        private const int fadeInterval = 20;    //time in ms between "frames" of animation
-        private const int fadeDuration = 200;   //overall animation duration in ms in one direction
-        private const int desiredHeight = 20;   //desired height to animate to
+        private const int fadeInterval = 20; //time in ms between "frames" of animation
+        private const int fadeDuration = 200; //overall animation duration in ms in one direction
+        private const int desiredHeight = 20; //desired height to animate to
         private const int inOutDelay = 800 / fadeInterval; //number in ms between in and out
         private const float fadeStepValue = desiredHeight * (float)fadeInterval / (float)fadeDuration;
         private int inOutDelayCounter;
@@ -26,9 +26,12 @@ namespace MissionPlanner.Controls
         {
             Visible = false;
 
-            Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
-            Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            Anchor =
+                ((System.Windows.Forms.AnchorStyles)
+                    (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
+            Font = new System.Drawing.Font("Microsoft Sans Serif", 9.25F, System.Drawing.FontStyle.Bold,
+                System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             Location = new Point(0, 0);
             TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 
@@ -40,9 +43,7 @@ namespace MissionPlanner.Controls
         public void FadeInOut(string msg, bool success)
         {
             if (Visible)
-            {
-                messages.Enqueue(new { msg = msg, success = success });
-            }
+                messages.Enqueue(new {msg = msg, success = success});
             else
             {
                 if (this.Parent != null) Width = this.Parent.ClientSize.Width;
@@ -93,17 +94,23 @@ namespace MissionPlanner.Controls
         {
             bool done = false;
             heightVisible += (int)Math.Round(direction * fadeStepValue);
-            if (heightVisible < 0) { done = true; heightVisible = 0; }
-            if (heightVisible > desiredHeight) { done = true; heightVisible = desiredHeight; }
+            if (heightVisible < 0)
+            {
+                done = true;
+                heightVisible = 0;
+            }
+            if (heightVisible > desiredHeight)
+            {
+                done = true;
+                heightVisible = desiredHeight;
+            }
             Height = heightVisible;
             if (done)
             {
                 if (inOut)
                 {
                     if (--inOutDelayCounter == 0)
-                    {
                         FadeOut(disposeOnComplete);
-                    }
                 }
                 else
                 {
@@ -125,10 +132,8 @@ namespace MissionPlanner.Controls
                     {
                         fadeTimer.Enabled = false;
                         Visible = false;
-                        if (direction == -1)    //hide after fadeOut
-                        {
+                        if (direction == -1) //hide after fadeOut
                             if (disposeOnComplete) this.Dispose();
-                        }
                     }
                 }
             }

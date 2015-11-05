@@ -42,9 +42,7 @@ namespace MissionPlanner
                 // run the evaluation function
                 answer = RunCode(results);
             }
-            else
-            {
-            }
+            else {}
 
             return answer;
         }
@@ -95,7 +93,7 @@ namespace MissionPlanner
         {
             //actually compile the code
             CompilerResults results = compiler.CompileAssemblyFromSource(
-                                        parms, source);
+                parms, source);
 
             //Do we have any compiler errors?
             if (results.Errors.Count > 0)
@@ -128,9 +126,7 @@ namespace MissionPlanner
                 // if the word is found in the math member map, add a Math prefix to it
                 bool isContainedInMathLibrary = _mathMembersMap[m.Value.ToUpper()] != null;
                 if (replacelist.Contains(m.Value) == false && isContainedInMathLibrary)
-                {
                     eval = eval.Replace(m.Value, "Math." + _mathMembersMap[m.Value.ToUpper()]);
-                }
 
                 // we matched it already, so don't allow us to replace it again
                 replacelist.Add(m.Value);
@@ -153,7 +149,6 @@ namespace MissionPlanner
             // compile the code into an assembly
             CompilerResults results = CompileCode(compiler, parms, _source.ToString());
             return results;
-
         }
 
         static ArrayList _mathMembers = new ArrayList();
@@ -231,7 +226,6 @@ namespace MissionPlanner
                             }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -248,6 +242,7 @@ namespace MissionPlanner
             field.Attributes = accessLevel;
             return field;
         }
+
         public static CodeMemberField FieldVariable(string fieldName, Type type, MemberAttributes accessLevel)
         {
             CodeMemberField field = new CodeMemberField(type, fieldName);
@@ -266,7 +261,8 @@ namespace MissionPlanner
         {
             CodeMemberProperty myProperty = new CodeMemberProperty();
             myProperty.Name = propertyName;
-            myProperty.Comments.Add(new CodeCommentStatement(String.Format("The {0} property is the returned result", propertyName)));
+            myProperty.Comments.Add(
+                new CodeCommentStatement(String.Format("The {0} property is the returned result", propertyName)));
             myProperty.Attributes = MemberAttributes.Public;
             myProperty.Type = new CodeTypeReference(type);
             myProperty.HasGet = true;
@@ -322,7 +318,6 @@ namespace MissionPlanner
             classDeclaration.Members.Add(defaultConstructor);
 
 
-
             //property
             classDeclaration.Members.Add(MakeProperty("Answer", "answer", typeof(object)));
 
@@ -359,4 +354,3 @@ namespace MissionPlanner
         }
     }
 }
-

@@ -16,25 +16,26 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public string desc
         {
-            get
-            {
-                return labelWithPseudoOpacity1.Text;
-            }
+            get { return labelWithPseudoOpacity1.Text; }
             set
             {
                 if (labelWithPseudoOpacity1.Text == value)
                     return;
-                
+
                 labelWithPseudoOpacity1.Text = value;
             }
         }
+
         [System.ComponentModel.Browsable(true)]
-        public double number { get { return double.Parse(labelWithPseudoOpacity2.Text); } 
-            set {
+        public double number
+        {
+            get { return double.Parse(labelWithPseudoOpacity2.Text); }
+            set
+            {
                 string ans = (value).ToString(_numberformat);
-                if (labelWithPseudoOpacity2.Text == ans) 
+                if (labelWithPseudoOpacity2.Text == ans)
                     return;
-                
+
                 string before = labelWithPseudoOpacity2.Text;
                 labelWithPseudoOpacity2.Text = ans;
 
@@ -45,11 +46,28 @@ namespace MissionPlanner.Controls
         }
 
         string _numberformat = "0.00";
-        [System.ComponentModel.Browsable(true)]
-        public string numberformat { get { return _numberformat; } set { _numberformat = value; this.Invalidate(); } }
 
         [System.ComponentModel.Browsable(true)]
-        public Color numberColor { get { return labelWithPseudoOpacity2.ForeColor; } set { if (labelWithPseudoOpacity2.ForeColor == value) return; labelWithPseudoOpacity2.ForeColor = value; } }
+        public string numberformat
+        {
+            get { return _numberformat; }
+            set
+            {
+                _numberformat = value;
+                this.Invalidate();
+            }
+        }
+
+        [System.ComponentModel.Browsable(true)]
+        public Color numberColor
+        {
+            get { return labelWithPseudoOpacity2.ForeColor; }
+            set
+            {
+                if (labelWithPseudoOpacity2.ForeColor == value) return;
+                labelWithPseudoOpacity2.ForeColor = value;
+            }
+        }
 
         public QuickView()
         {
@@ -96,9 +114,9 @@ namespace MissionPlanner.Controls
 
             //SizeF extenttest2 = Graphics.FromHwnd(this.Handle).MeasureString(labelWithPseudoOpacity2.Text, this.Font);
 
-         //   SizeF extent2 = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
+            //   SizeF extent2 = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
 
-           // extent = extenttest;
+            // extent = extenttest;
 
             float hRatio = (labelWithPseudoOpacity2.Height) / (float)(extent.Height);
             float wRatio = this.Width / (float)extent.Width;
@@ -109,7 +127,8 @@ namespace MissionPlanner.Controls
             if (newSize < 8)
                 newSize = 8;
 
-            labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);
+            labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2,
+                labelWithPseudoOpacity2.Font.Style);
         }
 
         protected override void OnResize(EventArgs e)
@@ -118,8 +137,6 @@ namespace MissionPlanner.Controls
             this.ResizeRedraw = true;
 
             GetFontSize();
-
-          
         }
 
         private void QuickView_Resize(object sender, EventArgs e)

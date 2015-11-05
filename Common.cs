@@ -13,9 +13,7 @@ using MissionPlanner.Attributes;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-
 using System.Security.Cryptography.X509Certificates;
-
 using System.Net;
 using System.Net.Sockets;
 using System.Xml; // config file
@@ -25,16 +23,13 @@ using ZedGraph; // Graphs
 using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Utilities;
-
 using System.IO;
-
 using System.Drawing.Drawing2D;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 
 namespace MissionPlanner
 {
-
     /// <summary>
     /// used to override the drawing of the waypoint box bounding
     /// </summary>
@@ -43,7 +38,15 @@ namespace MissionPlanner
     {
         public Pen Pen = new Pen(Brushes.White, 2);
 
-        public Color Color { get { return Pen.Color; } set { if (!initcolor.HasValue) initcolor = value; Pen.Color = value; } }
+        public Color Color
+        {
+            get { return Pen.Color; }
+            set
+            {
+                if (!initcolor.HasValue) initcolor = value;
+                Pen.Color = value;
+            }
+        }
 
         Color? initcolor = null;
 
@@ -85,18 +88,29 @@ namespace MissionPlanner
             //if (Pen.Color == Color.Blue)
             //  Pen.Color = Color.White;
 
-            double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-            double height = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
+            double width =
+                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+            double height =
+                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
             double m2pixelwidth = Overlay.Control.Width / width;
             double m2pixelheight = Overlay.Control.Height / height;
 
-            GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);// MainMap.FromLatLngToLocal(wpradposition);
+            GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);
+                // MainMap.FromLatLngToLocal(wpradposition);
 
             if (m2pixelheight > 0.5)
-                g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
-
+            {
+                g.DrawArc(Pen,
+                    new System.Drawing.Rectangle(
+                        LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2),
+                        LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,
+                        (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+            }
         }
     }
+
     [Serializable]
     public class GMapMarkerADSBPlane : GMapMarker
     {
@@ -126,7 +140,7 @@ namespace MissionPlanner
             {
                 g.RotateTransform(heading);
             }
-            catch { }
+            catch {}
             g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
 
             g.Transform = temp;
@@ -149,24 +163,24 @@ namespace MissionPlanner
         }
 
         public override void OnRender(Graphics g)
-        {        
+        {
             if (selected)
             {
                 g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
-                g.DrawArc(Pens.Red,new Rectangle(this.LocalPosition,this.Size),0,360);
+                g.DrawArc(Pens.Red, new Rectangle(this.LocalPosition, this.Size), 0, 360);
             }
 
             base.OnRender(g);
 
-            var midw = LocalPosition.X + 10 ;
-            var midh = LocalPosition.Y + 3 ;
+            var midw = LocalPosition.X + 10;
+            var midh = LocalPosition.Y + 3;
 
             var txtsize = TextRenderer.MeasureText(wpno, SystemFonts.DefaultFont);
 
             if (txtsize.Width > 15)
                 midw -= 4;
 
-                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black , new PointF(midw, midh));
+            g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black, new PointF(midw, midh));
 
             //Matrix temp = g.Transform;
             //g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
@@ -186,7 +200,10 @@ namespace MissionPlanner
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width, global::MissionPlanner.Properties.Resources.rover.Height);
+        static readonly System.Drawing.Size SizeSt =
+            new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width,
+                global::MissionPlanner.Properties.Resources.rover.Height);
+
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -213,20 +230,26 @@ namespace MissionPlanner
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
             }
-            catch { }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
+            catch {}
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length,
+                (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
+                (float)Math.Sin((cog - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                (float)Math.Sin((target - 90) * deg2rad) * length);
             // anti NaN
 
             try
             {
                 g.RotateTransform(heading);
             }
-            catch { }
-            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.rover, global::MissionPlanner.Properties.Resources.rover.Width / -2, global::MissionPlanner.Properties.Resources.rover.Height / -2);
+            catch {}
+            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.rover,
+                global::MissionPlanner.Properties.Resources.rover.Width / -2,
+                global::MissionPlanner.Properties.Resources.rover.Height / -2);
 
             g.Transform = temp;
         }
@@ -266,20 +289,25 @@ namespace MissionPlanner
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
             }
-            catch { }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
+            catch {}
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length,
+                (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
+                (float)Math.Sin((cog - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                (float)Math.Sin((target - 90) * deg2rad) * length);
             // anti NaN
             try
             {
-
                 float desired_lead_dist = 100;
 
 
-                double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+                double width =
+                    (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                        Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
                 double m2pixelwidth = Overlay.Control.Width / width;
 
                 float alpha = ((desired_lead_dist * (float)m2pixelwidth) / MainV2.comPort.MAV.cs.radius) * rad2deg;
@@ -288,35 +316,39 @@ namespace MissionPlanner
                 {
                     // fixme 
 
-                    float p1 = (float)Math.Cos((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius +
+                               MainV2.comPort.MAV.cs.radius;
 
-                    float p2 = (float)Math.Sin((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius +
+                               MainV2.comPort.MAV.cs.radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(MainV2.comPort.MAV.cs.radius) * 2, Math.Abs(MainV2.comPort.MAV.cs.radius) * 2, cog, alpha);
-
+                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(MainV2.comPort.MAV.cs.radius) * 2,
+                        Math.Abs(MainV2.comPort.MAV.cs.radius) * 2, cog, alpha);
                 }
 
                 else if (MainV2.comPort.MAV.cs.radius > 1)
                 {
                     // correct
 
-                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius +
+                               MainV2.comPort.MAV.cs.radius;
 
-                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius +
+                               MainV2.comPort.MAV.cs.radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, MainV2.comPort.MAV.cs.radius * 2, MainV2.comPort.MAV.cs.radius * 2, cog - 180, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, MainV2.comPort.MAV.cs.radius * 2,
+                        MainV2.comPort.MAV.cs.radius * 2, cog - 180, alpha);
                 }
-
             }
 
-            catch { }
+            catch {}
 
 
             try
             {
                 g.RotateTransform(heading);
             }
-            catch { }
+            catch {}
             g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
 
             g.Transform = temp;
@@ -355,22 +387,26 @@ namespace MissionPlanner
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
             }
-            catch { }
+            catch {}
             //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
+                (float)Math.Sin((cog - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                (float)Math.Sin((target - 90) * deg2rad) * length);
             // anti NaN
             try
             {
                 g.RotateTransform(heading);
             }
-            catch { }
+            catch {}
 
             g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
 
-            g.DrawString(sysid.ToString(),new Font(FontFamily.GenericMonospace,15,FontStyle.Bold),Brushes.Red,-8,-8);
+            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
+                -8);
 
             g.Transform = temp;
         }
@@ -406,18 +442,21 @@ namespace MissionPlanner
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
             }
-            catch { }
+            catch {}
             //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
+                (float)Math.Sin((cog - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                (float)Math.Sin((target - 90) * deg2rad) * length);
             // anti NaN
             try
             {
                 g.RotateTransform(heading);
             }
-            catch { }
+            catch {}
             g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
 
             g.Transform = temp;
@@ -453,14 +492,16 @@ namespace MissionPlanner
             try
             {
                 // heading
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
 
                 // target
-                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                    (float)Math.Sin((target - 90) * deg2rad) * length);
             }
-            catch { }
+            catch {}
 
-            g.DrawImage(icon,-20,-20,40,40);
+            g.DrawImage(icon, -20, -20, 40, 40);
 
             g.Transform = temp;
         }
@@ -469,7 +510,8 @@ namespace MissionPlanner
 
     class NoCheckCertificatePolicy : ICertificatePolicy
     {
-        public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem)
+        public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request,
+            int certificateProblem)
         {
             return true;
         }
@@ -479,6 +521,7 @@ namespace MissionPlanner
     public class Common
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public enum distances
         {
             Meters,
@@ -532,44 +575,25 @@ namespace MissionPlanner
 
         public enum ap_product
         {
-            [DisplayText("HIL")]
-            AP_PRODUCT_ID_NONE = 0x00,	// Hardware in the loop
-            [DisplayText("APM1 1280")]
-            AP_PRODUCT_ID_APM1_1280 = 0x01,// APM1 with 1280 CPUs
-            [DisplayText("APM1 2560")]
-            AP_PRODUCT_ID_APM1_2560 = 0x02,// APM1 with 2560 CPUs
-            [DisplayText("SITL")]
-            AP_PRODUCT_ID_SITL = 0x03,// Software in the loop
-            [DisplayText("PX4")]
-            AP_PRODUCT_ID_PX4 = 0x04,   // PX4 on NuttX
-            [DisplayText("PX4 FMU 2")]
-            AP_PRODUCT_ID_PX4_V2 = 0x05,   // PX4 FMU2 on NuttX
-            [DisplayText("APM2 ES C4")]
-            AP_PRODUCT_ID_APM2ES_REV_C4 = 0x14,// APM2 with MPU6000ES_REV_C4
-            [DisplayText("APM2 ES C5")]
-            AP_PRODUCT_ID_APM2ES_REV_C5 = 0x15,	// APM2 with MPU6000ES_REV_C5
-            [DisplayText("APM2 ES D6")]
-            AP_PRODUCT_ID_APM2ES_REV_D6 = 0x16,	// APM2 with MPU6000ES_REV_D6
-            [DisplayText("APM2 ES D7")]
-            AP_PRODUCT_ID_APM2ES_REV_D7 = 0x17,	// APM2 with MPU6000ES_REV_D7
-            [DisplayText("APM2 ES D8")]
-            AP_PRODUCT_ID_APM2ES_REV_D8 = 0x18,	// APM2 with MPU6000ES_REV_D8	
-            [DisplayText("APM2 C4")]
-            AP_PRODUCT_ID_APM2_REV_C4 = 0x54,// APM2 with MPU6000_REV_C4 	
-            [DisplayText("APM2 C5")]
-            AP_PRODUCT_ID_APM2_REV_C5 = 0x55,	// APM2 with MPU6000_REV_C5 	
-            [DisplayText("APM2 D6")]
-            AP_PRODUCT_ID_APM2_REV_D6 = 0x56,	// APM2 with MPU6000_REV_D6 		
-            [DisplayText("APM2 D7")]
-            AP_PRODUCT_ID_APM2_REV_D7 = 0x57,	// APM2 with MPU6000_REV_D7 	
-            [DisplayText("APM2 D8")]
-            AP_PRODUCT_ID_APM2_REV_D8 = 0x58,	// APM2 with MPU6000_REV_D8 	
-            [DisplayText("APM2 D9")]
-            AP_PRODUCT_ID_APM2_REV_D9 = 0x59,	// APM2 with MPU6000_REV_D9 
-            [DisplayText("FlyMaple")]
-            AP_PRODUCT_ID_FLYMAPLE = 0x100,   // Flymaple with ITG3205, ADXL345, HMC5883, BMP085
-            [DisplayText("Linux")]
-            AP_PRODUCT_ID_L3G4200D = 0x101,   // Linux with L3G4200D and ADXL345
+            [DisplayText("HIL")] AP_PRODUCT_ID_NONE = 0x00, // Hardware in the loop
+            [DisplayText("APM1 1280")] AP_PRODUCT_ID_APM1_1280 = 0x01, // APM1 with 1280 CPUs
+            [DisplayText("APM1 2560")] AP_PRODUCT_ID_APM1_2560 = 0x02, // APM1 with 2560 CPUs
+            [DisplayText("SITL")] AP_PRODUCT_ID_SITL = 0x03, // Software in the loop
+            [DisplayText("PX4")] AP_PRODUCT_ID_PX4 = 0x04, // PX4 on NuttX
+            [DisplayText("PX4 FMU 2")] AP_PRODUCT_ID_PX4_V2 = 0x05, // PX4 FMU2 on NuttX
+            [DisplayText("APM2 ES C4")] AP_PRODUCT_ID_APM2ES_REV_C4 = 0x14, // APM2 with MPU6000ES_REV_C4
+            [DisplayText("APM2 ES C5")] AP_PRODUCT_ID_APM2ES_REV_C5 = 0x15, // APM2 with MPU6000ES_REV_C5
+            [DisplayText("APM2 ES D6")] AP_PRODUCT_ID_APM2ES_REV_D6 = 0x16, // APM2 with MPU6000ES_REV_D6
+            [DisplayText("APM2 ES D7")] AP_PRODUCT_ID_APM2ES_REV_D7 = 0x17, // APM2 with MPU6000ES_REV_D7
+            [DisplayText("APM2 ES D8")] AP_PRODUCT_ID_APM2ES_REV_D8 = 0x18, // APM2 with MPU6000ES_REV_D8	
+            [DisplayText("APM2 C4")] AP_PRODUCT_ID_APM2_REV_C4 = 0x54, // APM2 with MPU6000_REV_C4 	
+            [DisplayText("APM2 C5")] AP_PRODUCT_ID_APM2_REV_C5 = 0x55, // APM2 with MPU6000_REV_C5 	
+            [DisplayText("APM2 D6")] AP_PRODUCT_ID_APM2_REV_D6 = 0x56, // APM2 with MPU6000_REV_D6 		
+            [DisplayText("APM2 D7")] AP_PRODUCT_ID_APM2_REV_D7 = 0x57, // APM2 with MPU6000_REV_D7 	
+            [DisplayText("APM2 D8")] AP_PRODUCT_ID_APM2_REV_D8 = 0x58, // APM2 with MPU6000_REV_D8 	
+            [DisplayText("APM2 D9")] AP_PRODUCT_ID_APM2_REV_D9 = 0x59, // APM2 with MPU6000_REV_D9 
+            [DisplayText("FlyMaple")] AP_PRODUCT_ID_FLYMAPLE = 0x100, // Flymaple with ITG3205, ADXL345, HMC5883, BMP085
+            [DisplayText("Linux")] AP_PRODUCT_ID_L3G4200D = 0x101, // Linux with L3G4200D and ADXL345
         }
 
         public static bool getFilefromNet(string url, string saveto)
@@ -580,7 +604,8 @@ namespace MissionPlanner
                 //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
 
                 ServicePointManager.ServerCertificateValidationCallback =
-    new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+                    new System.Net.Security.RemoteCertificateValidationCallback(
+                        (sender, certificate, chain, policyErrors) => { return true; });
 
                 log.Info(url);
                 // Create a request using a URL that can receive a post. 
@@ -604,7 +629,8 @@ namespace MissionPlanner
                     {
                         if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
                         {
-                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified + " vs " + new FileInfo(saveto).LastWriteTime);
+                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
+                                     " vs " + new FileInfo(saveto).LastWriteTime);
                             response.Close();
                             return true;
                         }
@@ -644,7 +670,11 @@ namespace MissionPlanner
 
                 return true;
             }
-            catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
+            catch (Exception ex)
+            {
+                log.Info("getFilefromNet(): " + ex.ToString());
+                return false;
+            }
         }
 
         public static List<KeyValuePair<int, string>> getModesList(CurrentState cs)
@@ -653,23 +683,27 @@ namespace MissionPlanner
 
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString()); //same as apm
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString()); //same as apm
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1", cs.firmware.ToString());
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1",
+                    cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduTracker)
@@ -692,7 +726,8 @@ namespace MissionPlanner
         {
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
             form.Text = title;
@@ -703,7 +738,7 @@ namespace MissionPlanner
             label.AutoSize = true;
 
             form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label });
+            form.Controls.AddRange(new Control[] {label});
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
@@ -725,13 +760,14 @@ namespace MissionPlanner
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             CheckBox chk = new CheckBox();
             Controls.MyButton buttonOk = new Controls.MyButton();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
             form.Text = title;
             label.Text = promptText;
 
-            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_").Replace('+','_'));
+            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_").Replace('+', '_'));
             chk.AutoSize = true;
             chk.Text = Strings.ShowMeAgain;
             chk.Checked = true;
@@ -757,7 +793,7 @@ namespace MissionPlanner
             label.AutoSize = true;
 
             form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label, chk, buttonOk });
+            form.Controls.AddRange(new Control[] {label, chk, buttonOk});
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedDialog;
             form.StartPosition = FormStartPosition.CenterScreen;
@@ -783,13 +819,9 @@ namespace MissionPlanner
         public static string speechConversion(string input)
         {
             if (MainV2.comPort.MAV.cs.wpno == 0)
-            {
                 input = input.Replace("{wpn}", "Home");
-            }
             else
-            {
                 input = input.Replace("{wpn}", MainV2.comPort.MAV.cs.wpno.ToString());
-            }
 
             input = input.Replace("{asp}", MainV2.comPort.MAV.cs.airspeed.ToString("0"));
 
@@ -817,7 +849,8 @@ namespace MissionPlanner
 
             input = input.Replace("{disthome}", (MainV2.comPort.MAV.cs.DistToHome).ToString("0"));
 
-            input = input.Replace("{timeinair}", (new TimeSpan(0,0,0,(int)MainV2.comPort.MAV.cs.timeInAir)).ToString());
+            input = input.Replace("{timeinair}",
+                (new TimeSpan(0, 0, 0, (int)MainV2.comPort.MAV.cs.timeInAir)).ToString());
 
             return input;
         }

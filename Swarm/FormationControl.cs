@@ -40,13 +40,9 @@ namespace MissionPlanner.Swarm
         void FollowLeaderControl_MouseWheel(object sender, MouseEventArgs e)
         {
             if (e.Delta < 0)
-            {
                 grid1.setScale(grid1.getScale() + 4);
-            }
             else
-            {
                 grid1.setScale(grid1.getScale() - 4);
-            }
         }
 
         void updateicons()
@@ -75,9 +71,7 @@ namespace MissionPlanner.Swarm
             foreach (var port in MainV2.Comports)
             {
                 if (port.ToString() == CMB_mavs.Text)
-                {
                     MainV2.comPort = port;
-                }
             }
         }
 
@@ -92,14 +86,13 @@ namespace MissionPlanner.Swarm
 
             if (SwarmInterface != null)
             {
-                new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
+                new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
                 BUT_Start.Text = Strings.Stop;
             }
         }
 
         void mainloop()
         {
-
             threadrun = true;
 
             while (threadrun)
@@ -118,33 +111,25 @@ namespace MissionPlanner.Swarm
         private void BUT_Arm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Arm();
-            }
         }
 
         private void BUT_Disarm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Disarm();
-            }
         }
 
         private void BUT_Takeoff_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Takeoff();
-            }
         }
 
         private void BUT_Land_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Land();
-            }
         }
 
         private void BUT_leader_Click(object sender, EventArgs e)
@@ -157,14 +142,14 @@ namespace MissionPlanner.Swarm
                 {
                     var vector = SwarmInterface.getOffsets(port);
 
-                    SwarmInterface.setOffsets(port,(float)( vector.x - vectorlead.x),(float)(vector.y - vectorlead.y),(float)(vector.z - vectorlead.z));
+                    SwarmInterface.setOffsets(port, (float)(vector.x - vectorlead.x), (float)(vector.y - vectorlead.y),
+                        (float)(vector.z - vectorlead.z));
                 }
 
                 SwarmInterface.setLeader(MainV2.comPort);
                 updateicons();
                 BUT_Start.Enabled = true;
                 BUT_Updatepos.Enabled = true;
-
             }
         }
 
@@ -194,7 +179,7 @@ namespace MissionPlanner.Swarm
 
             MainV2.Comports.Add(com2);
 
-           // CMB_mavs.DataSource = MainV2.Comports;
+            // CMB_mavs.DataSource = MainV2.Comports;
 
             //CMB_mavs.DataSource
 
@@ -212,16 +197,17 @@ namespace MissionPlanner.Swarm
 
             int utmzone = (int)((leader.MAV.cs.lng - -186.0) / 6.0);
 
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, leader.MAV.cs.lat < 0 ? false : true);
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
+                leader.MAV.cs.lat < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-            double[] masterpll = { leader.MAV.cs.lng, leader.MAV.cs.lat };
+            double[] masterpll = {leader.MAV.cs.lng, leader.MAV.cs.lat};
 
             // get leader utm coords
             double[] masterutm = trans.MathTransform.Transform(masterpll);
 
-            double[] mavpll = { mav.MAV.cs.lng, mav.MAV.cs.lat };
+            double[] mavpll = {mav.MAV.cs.lng, mav.MAV.cs.lat};
 
             //getLeader follower utm coords
             double[] mavutm = trans.MathTransform.Transform(mavpll);
@@ -237,9 +223,7 @@ namespace MissionPlanner.Swarm
                 ico.z = 0;
             }
             else
-            {
                 ((Formation)SwarmInterface).setOffsets(mav, x, y, z);
-            }
         }
 
         private void Control_FormClosing(object sender, FormClosingEventArgs e)
@@ -251,7 +235,7 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                port.MAV.cs.UpdateCurrentSettings(null,true,port);
+                port.MAV.cs.UpdateCurrentSettings(null, true, port);
 
                 if (port == SwarmInterface.Leader)
                     continue;
@@ -272,9 +256,7 @@ namespace MissionPlanner.Swarm
             foreach (Control ctl in PNL_status.Controls)
             {
                 if (!MainV2.Comports.Contains((MAVLinkInterface)ctl.Tag))
-                {
                     ctl.Dispose();
-                }
             }
 
             // setup new
@@ -290,7 +272,8 @@ namespace MissionPlanner.Swarm
                         ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
                         ((Status)ctl).Mode.Text = port.MAV.cs.mode;
                         ((Status)ctl).MAV.Text = port.ToString();
-                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," + port.MAV.GuidedMode.z;
+                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
+                                                    port.MAV.GuidedMode.z;
                     }
                 }
 

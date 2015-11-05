@@ -39,6 +39,7 @@ namespace MissionPlanner
 
         /// <summary> graph builder interface. </summary>
         private IFilterGraph2 m_FilterGraph = null;
+
         private IMediaControl m_mediaCtrl = null;
 
         IAMExtendedSeeking m_mediaextseek = null;
@@ -56,6 +57,7 @@ namespace MissionPlanner
 
         /// <summary> Dimensions of the image, calculated once in constructor. </summary>
         private IntPtr m_handle = IntPtr.Zero;
+
         private int m_videoWidth;
         private int m_videoHeight;
         private int m_stride;
@@ -66,10 +68,13 @@ namespace MissionPlanner
         IntPtr ip = IntPtr.Zero;
 
         public bool DSplugin = false;
-        Bitmap trans = new Bitmap(5,5,PixelFormat.Format32bppArgb);
+        Bitmap trans = new Bitmap(5, 5, PixelFormat.Format32bppArgb);
         Thread timer1;
 
-        public string textbox { set { textBox1.Text = value; } }
+        public string textbox
+        {
+            set { textBox1.Text = value; }
+        }
 
         public OSDVideo()
         {
@@ -84,43 +89,48 @@ namespace MissionPlanner
 
         void OSDVideo_camimage(Image camimage)
         {
-          //  camimage = new Bitmap(640, 480, PixelFormat.Format32bppArgb);
+            //  camimage = new Bitmap(640, 480, PixelFormat.Format32bppArgb);
 
-            hud1.bgimage = camimage;// new Bitmap(camimage, hud1.Size);
+            hud1.bgimage = camimage; // new Bitmap(camimage, hud1.Size);
             //Application.DoEvents();
         }
 
-        private void saveconfig() 
+        private void saveconfig()
         {
             try
             {
-                using (StreamWriter sw = new StreamWriter(Path.GetDirectoryName(txtAviFileName.Text) + Path.DirectorySeparatorChar + "osdvideo.txt"))
+                using (
+                    StreamWriter sw =
+                        new StreamWriter(Path.GetDirectoryName(txtAviFileName.Text) + Path.DirectorySeparatorChar +
+                                         "osdvideo.txt"))
                 {
                     sw.WriteLine(txtAviFileName.Text);
                     sw.WriteLine(txt_tlog.Text);
                     sw.WriteLine(trackBar1.Value);
                 }
             }
-            catch { }
+            catch {}
         }
 
         private void loadconfig()
         {
             try
             {
-                using (StreamReader sr = new StreamReader(Path.GetDirectoryName(txtAviFileName.Text) + Path.DirectorySeparatorChar + "osdvideo.txt"))
+                using (
+                    StreamReader sr =
+                        new StreamReader(Path.GetDirectoryName(txtAviFileName.Text) + Path.DirectorySeparatorChar +
+                                         "osdvideo.txt"))
                 {
                     txtAviFileName.Text = sr.ReadLine();
                     txt_tlog.Text = sr.ReadLine();
                     trackBar1.Value = int.Parse(sr.ReadLine());
                 }
             }
-            catch { }
+            catch {}
         }
 
         private void startup()
         {
-
             dolog();
 
             if (DSplugin)
@@ -136,7 +146,7 @@ namespace MissionPlanner
             {
                 th.Abort();
             }
-            catch { }
+            catch {}
 
             th = new System.Threading.Thread(delegate() { StartCapture(); });
             th.Name = "Video Thread";
@@ -189,7 +199,7 @@ namespace MissionPlanner
 
                 // Start building the graph
                 hr = capGraph.SetFiltergraph(m_FilterGraph);
-                DsError.ThrowExceptionForHR(hr);                
+                DsError.ThrowExceptionForHR(hr);
 
                 // Add the video source
                 hr = m_FilterGraph.AddSourceFilter(txtAviFileName.Text, "File Source (Async.)", out capFilter);
@@ -211,7 +221,11 @@ namespace MissionPlanner
                     ffdshow = (IBaseFilter)comobj; // error ocurrs! raised exception
                     comobj = null;
                 }
-                catch { CustomMessageBox.Show("Please install/reinstall ffdshow"); return; }
+                catch
+                {
+                    CustomMessageBox.Show("Please install/reinstall ffdshow");
+                    return;
+                }
 
                 hr = m_FilterGraph.AddFilter(ffdshow, "ffdshow");
                 DsError.ThrowExceptionForHR(hr);
@@ -225,7 +239,7 @@ namespace MissionPlanner
                 DsError.ThrowExceptionForHR(hr);
 
 
-                IBaseFilter vidrender = (IBaseFilter) new VideoRenderer();
+                IBaseFilter vidrender = (IBaseFilter)new VideoRenderer();
                 hr = m_FilterGraph.AddFilter(vidrender, "Render");
                 DsError.ThrowExceptionForHR(hr);
 
@@ -238,17 +252,17 @@ namespace MissionPlanner
 
                 IPin samppin = DsFindPin.ByName(baseGrabFlt, "Input");
 
-                hr =m_FilterGraph.Connect(captpin,ffdpinin);
-                DsError.ThrowExceptionForHR(hr); 
-               hr = m_FilterGraph.Connect(ffdpinout, samppin);
-               DsError.ThrowExceptionForHR(hr);
+                hr = m_FilterGraph.Connect(captpin, ffdpinin);
+                DsError.ThrowExceptionForHR(hr);
+                hr = m_FilterGraph.Connect(ffdpinout, samppin);
+                DsError.ThrowExceptionForHR(hr);
 
-               FileWriter filewritter = new FileWriter();
-               IFileSinkFilter filemux = (IFileSinkFilter)filewritter;
-               //filemux.SetFileName("test.avi",);
+                FileWriter filewritter = new FileWriter();
+                IFileSinkFilter filemux = (IFileSinkFilter)filewritter;
+                //filemux.SetFileName("test.avi",);
 
-               //hr = capGraph.RenderStream(null, MediaType.Video, capFilter, null, vidrender);
-              // DsError.ThrowExceptionForHR(hr); 
+                //hr = capGraph.RenderStream(null, MediaType.Video, capFilter, null, vidrender);
+                // DsError.ThrowExceptionForHR(hr); 
 
                 SaveSizeInfo(sampGrabber);
 
@@ -276,10 +290,7 @@ namespace MissionPlanner
                 Start();
             }
             else
-            {
-
                 MessageBox.Show("File does not exist");
-            }
         }
 
         void dolog()
@@ -290,9 +301,14 @@ namespace MissionPlanner
             {
                 try
                 {
-                    mine.logplaybackfile = new BinaryReader(File.Open(txt_tlog.Text, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    mine.logplaybackfile =
+                        new BinaryReader(File.Open(txt_tlog.Text, FileMode.Open, FileAccess.Read, FileShare.Read));
                 }
-                catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                catch
+                {
+                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    return;
+                }
                 mine.logreadmode = true;
 
                 mine.MAV.packets.Initialize(); // clear
@@ -325,7 +341,8 @@ namespace MissionPlanner
                         if (MainV2.speechEngine != null)
                             MainV2.speechEngine.SpeakAsyncCancelAll();
                     }
-                    catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                    catch {}
+                        // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
                     // if ((float)(cs.lat + cs.lng + cs.alt) != oldlatlngsum
                     //     && cs.lat != 0 && cs.lng != 0)
@@ -334,14 +351,15 @@ namespace MissionPlanner
 
                     if (!flightdata.ContainsKey(nexttime))
                     {
-                        Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
+                        Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " +
+                                          (float)(cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
                         CurrentState cs2 = (CurrentState)cs.Clone();
 
                         try
                         {
                             flightdata.Add(nexttime, cs2);
                         }
-                        catch { }
+                        catch {}
 
                         oldlatlngsum = (cs.lat + cs.lng + cs.alt);
                     }
@@ -364,77 +382,63 @@ namespace MissionPlanner
             {
                 try
                 {
-                 //   GC.Collect();
+                    //   GC.Collect();
 
-                  //  long mem = GC.GetTotalMemory(true) / 1024 / 1024;
+                    //  long mem = GC.GetTotalMemory(true) / 1024 / 1024;
 
-                   // Console.WriteLine("mem "+mem);
+                    // Console.WriteLine("mem "+mem);
                     System.Threading.Thread.Sleep(20); // 25 fps
 
                     if (flightdata.Count == 0)
                         break;
-                  //  videopos = videopos.AddMilliseconds(1000 / 25);
+                    //  videopos = videopos.AddMilliseconds(1000 / 25);
 
-//                    m_mediaseek = m_FilterGraph as IMediaSeeking;
+                    //                    m_mediaseek = m_FilterGraph as IMediaSeeking;
 
-                  //  m_mediapos.put_CurrentPosition((vidpos - startlogtime).TotalSeconds);
-
-                  
+                    //  m_mediapos.put_CurrentPosition((vidpos - startlogtime).TotalSeconds);
 
 
                     //m_mediaseek.SetTimeFormat(TimeFormat.MediaTime);
 
                     //long poscurrent = 0;
                     //long posend = 0;
-                 
-//                    m_mediaseek.GetPositions(out poscurrent,out posend);
-             
-                    DateTime cstimestamp = videopos.AddSeconds(trackBar1.Value).AddMilliseconds(-(videopos.Millisecond % 20));
+
+                    //                    m_mediaseek.GetPositions(out poscurrent,out posend);
+
+                    DateTime cstimestamp =
+                        videopos.AddSeconds(trackBar1.Value).AddMilliseconds(-(videopos.Millisecond % 20));
 
                     int tb = trackBar1.Value;
 
                     if (flightdata.ContainsKey(cstimestamp))
-                    {
                         cs = flightdata[cstimestamp];
-                    }
                     else if (flightdata.ContainsKey(cstimestamp.AddMilliseconds(-20)))
-                    {
                         cs = flightdata[cstimestamp.AddMilliseconds(-20)];
-                    }
                     else if (flightdata.ContainsKey(cstimestamp.AddMilliseconds(-40)))
-                    {
                         cs = flightdata[cstimestamp.AddMilliseconds(-40)];
-                    }
 
-                  //  Console.WriteLine("Update CS");
+                    //  Console.WriteLine("Update CS");
 
-                    Console.WriteLine("log "+ cs.datetime);
+                    Console.WriteLine("log " + cs.datetime);
 
                     hud1.datetime = cs.datetime;
-                    
+
                     //cs.UpdateCurrentSettings(bindingSource1,true,MainV2.comPort);
 
                     bindingSource1.DataSource = cs;
                     bindingSource1.ResetBindings(false);
-
                 }
                 catch (ThreadAbortException)
                 {
                     break;
                 }
-                catch
-                {
-
-                }
+                catch {}
             }
         }
 
         public int Stride
         {
-            get
-            {
-                return m_stride;
-            }
+            get { return m_stride; }
         }
 
         /// <summary> capture the next image </summary>
@@ -446,7 +450,7 @@ namespace MissionPlanner
             try
             {
                 // Start waiting
-              //  if (!m_PictureReady.WaitOne(5000, false))
+                //  if (!m_PictureReady.WaitOne(5000, false))
                 {
                     //throw new Exception("Timeout waiting to get picture");
                 }
@@ -515,7 +519,7 @@ namespace MissionPlanner
                 }
             }
 
-            return 30;        
+            return 30;
         }
 
         private List<int> GetAudioStreams(string filename)
@@ -554,12 +558,11 @@ namespace MissionPlanner
             DsError.ThrowExceptionForHR(hr);
 
             if ((media.formatType != FormatType.VideoInfo) || (media.formatPtr == IntPtr.Zero))
-            {
                 throw new NotSupportedException("Unknown Grabber Media Format");
-            }
 
             // Grab the size info
-            VideoInfoHeader videoInfoHeader = (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
+            VideoInfoHeader videoInfoHeader =
+                (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
             m_videoWidth = videoInfoHeader.BmiHeader.Width;
             m_videoHeight = videoInfoHeader.BmiHeader.Height;
             m_stride = m_videoWidth * (videoInfoHeader.BmiHeader.BitCount / 8);
@@ -613,17 +616,11 @@ namespace MissionPlanner
                 dlg.Filter = filter;
                 dlg.RestoreDirectory = true;
                 if (ctl.Text.Length > 0)
-                {
                     dlg.InitialDirectory = GetCurrentFilePath(ctl);
-                }
                 if (dlg.ShowDialog(this) == DialogResult.OK)
-                {
                     return dlg.FileName;
-                }
                 else
-                {
                     return null;
-                }
             }
         }
 
@@ -639,19 +636,26 @@ namespace MissionPlanner
             {
                 m_mediaCtrl.Stop();
             }
-            catch { }
+            catch {}
             try
             {
                 frame = framecount;
                 th.Abort();
             }
-            catch { }
+            catch {}
 
             try
             {
-                newManager = new AviManager(System.IO.Path.GetDirectoryName(txtAviFileName.Text) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(txtAviFileName.Text) + "-overlay.avi", false);
+                newManager =
+                    new AviManager(
+                        System.IO.Path.GetDirectoryName(txtAviFileName.Text) + System.IO.Path.DirectorySeparatorChar +
+                        System.IO.Path.GetFileNameWithoutExtension(txtAviFileName.Text) + "-overlay.avi", false);
             }
-            catch { CustomMessageBox.Show(Strings.InvalidFileName, Strings.ERROR); return; }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidFileName, Strings.ERROR);
+                return;
+            }
 
 
             //newManager.Close();
@@ -682,9 +686,7 @@ namespace MissionPlanner
                 int iBufferLen = pSample.GetSize();
 
                 if (pSample.GetSize() > m_stride * m_videoHeight)
-                {
                     throw new Exception("Buffer is wrong size");
-                }
 
                 NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
 
@@ -710,13 +712,11 @@ namespace MissionPlanner
             if (BufferLen <= m_stride * m_videoHeight)
             {
                 // Copy the frame to the buffer
-               // CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                // CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
                 m_handle = pBuffer;
             }
             else
-            {
                 throw new Exception("Buffer is wrong size");
-            }
 
             try
             {
@@ -725,10 +725,10 @@ namespace MissionPlanner
                 image = new Bitmap(m_videoWidth, m_videoHeight, m_stride, PixelFormat.Format24bppRgb, m_handle);
                 Console.WriteLine("1a " + DateTime.Now.Millisecond);
 
-                    image.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                image.RotateFlip(RotateFlipType.RotateNoneFlipY);
 
-                    Console.WriteLine("1b " + DateTime.Now.Millisecond);
-                
+                Console.WriteLine("1b " + DateTime.Now.Millisecond);
+
 
                 hud1.HoldInvalidation = true;
                 hud1.opengl = true;
@@ -741,14 +741,14 @@ namespace MissionPlanner
                 }
 
                 Console.WriteLine("1c " + DateTime.Now.Millisecond);
-    
+
                 hud1.Refresh();
 
                 Console.WriteLine("1d " + DateTime.Now.Millisecond);
 
                 Bitmap bmp = (Bitmap)hud1.objBitmap.Clone();
 
-              //  bmp.Save(framecount+".bmp");
+                //  bmp.Save(framecount+".bmp");
 
                 Console.WriteLine("1e " + DateTime.Now.Millisecond);
 
@@ -756,7 +756,7 @@ namespace MissionPlanner
                 {
                     //double frate = GetFrameRate(txtAviFileName.Text);
 
-                    double frate = Math.Round(10000000.0 / m_avgtimeperframe,0);
+                    double frate = Math.Round(10000000.0 / m_avgtimeperframe, 0);
 
                     newStream = newManager.AddVideoStream(true, frate, bmp);
                 }
@@ -766,24 +766,27 @@ namespace MissionPlanner
                 addframe(bmp);
                 lock (avienclock)
                 {
-                //    System.Threading.ThreadPool.QueueUserWorkItem(addframe, bmp);
+                    //    System.Threading.ThreadPool.QueueUserWorkItem(addframe, bmp);
                 }
 
 
                 Console.WriteLine("3 " + DateTime.Now.Millisecond);
-
-            }//System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
-            catch (Exception ex) { Console.WriteLine("Grab bmp failed " + ex.ToString()); }
+            }
+                //System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
+            catch (Exception ex)
+            {
+                Console.WriteLine("Grab bmp failed " + ex.ToString());
+            }
 
 
             return 0;
         }
 
         object avienclock = new object();
-       
 
-        void addframe(object bmp) {
 
+        void addframe(object bmp)
+        {
             lock (avienclock)
             {
                 newStream.AddFrame((Bitmap)bmp);
@@ -795,16 +798,14 @@ namespace MissionPlanner
         {
             String fileName = GetFileName("Tlog (*.tlog)|*.tlog", txt_tlog);
             if (fileName != null)
-            {
                 txt_tlog.Text = fileName;
-            }
         }
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             hud1.Invalidate();
 
-            label1.Text = "time offset in seconds "+trackBar1.Value;
+            label1.Text = "time offset in seconds " + trackBar1.Value;
 
             saveconfig();
         }
@@ -822,13 +823,13 @@ namespace MissionPlanner
 
                 th.Abort();
             }
-            catch { }
+            catch {}
 
             try
             {
                 m_mediaCtrl.Stop();
             }
-            catch { }
+            catch {}
 
             try
             {
@@ -837,7 +838,7 @@ namespace MissionPlanner
 
                 th.Abort();
             }
-            catch { }
+            catch {}
         }
 
         private void CHK_fullres_CheckedChanged(object sender, EventArgs e)

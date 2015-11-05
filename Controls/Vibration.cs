@@ -20,10 +20,7 @@ namespace MissionPlanner.Controls
             timer1.Start();
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e) {}
 
         private void timer1_Tick(object sender, EventArgs e)
         {

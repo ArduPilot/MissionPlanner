@@ -12,8 +12,7 @@ using u8 = System.Byte;
 /// <summary>
 /// based off ftp://pserver.samba.org/pub/unpacked/picturebook/avi.c
 /// </summary>
-
-public class AviWriter: IDisposable
+public class AviWriter : IDisposable
 {
     /*
 avi debug: * LIST-root size:1233440040 pos:0
@@ -37,44 +36,47 @@ avi debug: stream[0] video(MJPG) 1280x720 24bpp 30.000300fps
     public struct AVIINDEXENTRY
     {
         [MarshalAs(
-                UnmanagedType.ByValArray,
-                SizeConst = 4)]
-        public char[] ckid;
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] ckid;
+
         public u32 dwFlags;
         public u32 dwChunkOffset;
         public u32 dwChunkLength;
-};
+    };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct riff_head
     {
         [MarshalAs(
-                UnmanagedType.ByValArray,
-                SizeConst = 4)]
-        public char[] riff; /* "RIFF" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] riff; /* "RIFF" */
+
         public u32 size;
+
         [MarshalAs(
-        UnmanagedType.ByValArray,
-        SizeConst = 4)]
-        public char[] avistr; /* "AVI " */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] avistr; /* "AVI " */
     };
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct stream_head
-    { /* 56 bytes */
+    {
+        /* 56 bytes */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] strh; /* "strh" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] strh; /* "strh" */
+
         public u32 size;
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] vids; /* "vids" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] vids; /* "vids" */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] codec; /* codec name */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] codec; /* codec name */
+
         public u32 flags;
         public u32 reserved1;
         public u32 initialframes;
@@ -93,11 +95,13 @@ SizeConst = 4)]
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct avi_head
-    { /* 64 bytes */
+    {
+        /* 64 bytes */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] avih; /* "avih" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] avih; /* "avih" */
+
         public u32 size;
         public u32 time; /* microsec per frame? 1e6 / fps ?? */
         public u32 maxbytespersec;
@@ -114,45 +118,53 @@ SizeConst = 4)]
         public u32 start;
         public u32 length; /* what units?? fps*nframes ?? */
     };
+
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct list_head
-    { /* 12 bytes */
+    {
+        /* 12 bytes */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] list; /* "LIST" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] list; /* "LIST" */
+
         public u32 size;
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] type;
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] type;
     };
+
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct db_head
     {
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] db; /* "00db" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] db; /* "00db" */
+
         public u32 size;
     };
+
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct frame_head
-    { /* 48 bytes */
+    {
+        /* 48 bytes */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] strf; /* "strf" */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] strf; /* "strf" */
+
         public u32 size;
         public UInt32 size2; /* repeat of previous field? */
         public Int32 width;
         public Int32 height;
         public Int16 planes; /* 1 */
         public Int16 bitcount; /* 24 */
+
         [MarshalAs(
-UnmanagedType.ByValArray,
-SizeConst = 4)]
-        public char[] codec; /* MJPG */
+            UnmanagedType.ByValArray,
+            SizeConst = 4)] public char[] codec; /* MJPG */
+
         public UInt32 unpackedsize; /* 3 * w * h */
         public Int32 r1;
         public Int32 r2;
@@ -211,6 +223,7 @@ SizeConst = 4)]
     }
 
     /* start writing an AVI file */
+
     public void avi_start(string filename)
     {
         lock (locker)
@@ -231,18 +244,25 @@ SizeConst = 4)]
 
 
     /* add a jpeg frame to an AVI file */
+
     public void avi_add(u8[] buf, uint size)
     {
         lock (locker)
         {
             uint osize = size;
             Console.WriteLine(DateTime.Now.Millisecond + " avi frame");
-            db_head db = new db_head { db = "00dc".ToCharArray(), size = size };
+            db_head db = new db_head {db = "00dc".ToCharArray(), size = size};
             fd.Write(StructureToByteArray(db), 0, Marshal.SizeOf(db));
             uint offset = (uint)fd.Position;
             fd.Write(buf, 0, (int)size);
 
-            indexs.Add(new AVIINDEXENTRY() { ckid = "00dc".ToCharArray(), dwChunkLength = size, dwChunkOffset = (offset - 8212 + 4), dwFlags = 0x10 });
+            indexs.Add(new AVIINDEXENTRY()
+            {
+                ckid = "00dc".ToCharArray(),
+                dwChunkLength = size,
+                dwChunkOffset = (offset - 8212 + 4),
+                dwFlags = 0x10
+            });
 
             while (fd.Position % 2 != 0)
             {
@@ -258,15 +278,16 @@ SizeConst = 4)]
                 avi_add(buf, osize);
                 Console.WriteLine("Extra frame");
             }
-        }        
+        }
     }
 
-    void strcpy(ref char[] to,string orig)
+    void strcpy(ref char[] to, string orig)
     {
         to = orig.ToCharArray();
     }
 
     /* finish writing the AVI file - filling in the header */
+
     public void avi_end(int width, int height, int fps)
     {
         this.width = width;
@@ -276,14 +297,14 @@ SizeConst = 4)]
             targetfps = fps;
         }
 
-        riff_head rh = new riff_head { riff = "RIFF".ToCharArray(), size = 0, avistr = "AVI ".ToCharArray() };
-        list_head lh1 = new list_head { list = "LIST".ToCharArray(), size = 0, type = "hdrl".ToCharArray() };
+        riff_head rh = new riff_head {riff = "RIFF".ToCharArray(), size = 0, avistr = "AVI ".ToCharArray()};
+        list_head lh1 = new list_head {list = "LIST".ToCharArray(), size = 0, type = "hdrl".ToCharArray()};
         avi_head ah = new avi_head();
-        list_head lh2 = new list_head { list = "LIST".ToCharArray(), size = 0, type = "strl".ToCharArray() };
+        list_head lh2 = new list_head {list = "LIST".ToCharArray(), size = 0, type = "strl".ToCharArray()};
         stream_head sh = new stream_head();
         frame_head fh = new frame_head();
-        list_head junk = new list_head() { list = "JUNK".ToCharArray(), size = 0 };
-        list_head lh3 = new list_head { list = "LIST".ToCharArray(), size = 0, type = "movi".ToCharArray() };
+        list_head junk = new list_head() {list = "JUNK".ToCharArray(), size = 0};
+        list_head lh3 = new list_head {list = "LIST".ToCharArray(), size = 0, type = "movi".ToCharArray()};
 
         //bzero(&ah, sizeof(ah));
         strcpy(ref ah.avih, "avih");
@@ -326,9 +347,9 @@ SizeConst = 4)]
         uint indexlength = (uint)(indexs.Count * 16) + 8; // header as well
 
         rh.size = (u32)(Marshal.SizeOf(lh1) + Marshal.SizeOf(ah) + Marshal.SizeOf(lh2) + Marshal.SizeOf(sh) +
-            Marshal.SizeOf(fh) + Marshal.SizeOf(lh3) +//); // 212
-            nframes * Marshal.SizeOf((new db_head())) +
-            totalsize + indexlength + 7980); // needs junk length + list movi header
+                        Marshal.SizeOf(fh) + Marshal.SizeOf(lh3) + //); // 212
+                        nframes * Marshal.SizeOf((new db_head())) +
+                        totalsize + indexlength + 7980); // needs junk length + list movi header
         lh1.size = (u32)(4 + Marshal.SizeOf(ah) + Marshal.SizeOf(lh2) + Marshal.SizeOf(sh) + Marshal.SizeOf(fh));
         ah.size = (u32)(Marshal.SizeOf(ah) - 8);
         lh2.size = (u32)(4 + Marshal.SizeOf(sh) + Marshal.SizeOf(fh));
@@ -336,13 +357,13 @@ SizeConst = 4)]
         fh.size = (u32)(Marshal.SizeOf(fh) - 8);
         fh.size2 = fh.size;
         lh3.size = (u32)(4 +
-            nframes * Marshal.SizeOf((new db_head())) +
-            totalsize);
+                         nframes * Marshal.SizeOf((new db_head())) +
+                         totalsize);
         junk.size = 8204 - lh1.size - 12 - 12 - 12 - 4; // junk head, list head, rif head , 4
         long pos = fd.Position;
         fd.Seek(0, SeekOrigin.Begin);
 
-        fd.Write(StructureToByteArray(rh),0, Marshal.SizeOf(rh));
+        fd.Write(StructureToByteArray(rh), 0, Marshal.SizeOf(rh));
         fd.Write(StructureToByteArray(lh1), 0, Marshal.SizeOf(lh1));
         fd.Write(StructureToByteArray(ah), 0, Marshal.SizeOf(ah));
         fd.Write(StructureToByteArray(lh2), 0, Marshal.SizeOf(lh2));
@@ -360,19 +381,16 @@ SizeConst = 4)]
         //fd.Seek(-(fd.Position % 2), SeekOrigin.End); // is either 0 or -1
         fd.Seek(0, SeekOrigin.End);
 
-        db_head idx1 = new db_head() { db = "idx1".ToCharArray(), size = (uint)(indexs.Count * 16) };
+        db_head idx1 = new db_head() {db = "idx1".ToCharArray(), size = (uint)(indexs.Count * 16)};
 
         fd.Write(StructureToByteArray(idx1), 0, Marshal.SizeOf(idx1));
 
         foreach (AVIINDEXENTRY index in indexs)
-        {
             fd.Write(StructureToByteArray(index), 0, Marshal.SizeOf(index));
-        }
     }
 
     byte[] StructureToByteArray(object obj)
     {
-
         int len = Marshal.SizeOf(obj);
 
         byte[] arr = new byte[len];
@@ -386,6 +404,5 @@ SizeConst = 4)]
         Marshal.FreeHGlobal(ptr);
 
         return arr;
-
     }
 }

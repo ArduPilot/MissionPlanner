@@ -59,22 +59,22 @@ namespace MissionPlanner
 
             using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(fileBrowseOtpbin.filename)))
             {
-            //    bw.Write('P');
-            //    bw.Write('X');
-            //    bw.Write('4');
-            //    bw.Write('\0');
+                //    bw.Write('P');
+                //    bw.Write('X');
+                //    bw.Write('4');
+                //    bw.Write('\0');
 
-            //    bw.Write(byte.Parse(txt_id.Text, System.Globalization.NumberStyles.HexNumber));
+                //    bw.Write(byte.Parse(txt_id.Text, System.Globalization.NumberStyles.HexNumber));
 
-             //   bw.Write(int.Parse(txt_vid.Text, System.Globalization.NumberStyles.HexNumber));
-             //   bw.Write(int.Parse(txt_pid.Text, System.Globalization.NumberStyles.HexNumber));
+                //   bw.Write(int.Parse(txt_vid.Text, System.Globalization.NumberStyles.HexNumber));
+                //   bw.Write(int.Parse(txt_pid.Text, System.Globalization.NumberStyles.HexNumber));
 
-            //    for (int a = 0; a < 32; a++)
-             //   {
-             //       bw.Write((byte)0xff);
-             //   }
+                //    for (int a = 0; a < 32; a++)
+                //   {
+                //       bw.Write((byte)0xff);
+                //   }
 
-             //   bw.Seek(32, SeekOrigin.Begin);
+                //   bw.Seek(32, SeekOrigin.Begin);
                 bw.Write(signedhash);
             }
 
@@ -106,24 +106,24 @@ namespace MissionPlanner
                         rd.ReadByte(); //advance 1 byte
                         break;
                     case 0x8230:
-                        rd.ReadInt16();  //advance 2 bytes
+                        rd.ReadInt16(); //advance 2 bytes
                         break;
                     default:
-                        Debug.Assert(false);     // Improper ASN.1 format
+                        Debug.Assert(false); // Improper ASN.1 format
                         return null;
                 }
 
                 shortValue = rd.ReadUInt16();
                 if (shortValue != 0x0102) // (version number)
                 {
-                    Debug.Assert(false);     // Improper ASN.1 format, unexpected version number
+                    Debug.Assert(false); // Improper ASN.1 format, unexpected version number
                     return null;
                 }
 
                 byteValue = rd.ReadByte();
                 if (byteValue != 0x00)
                 {
-                    Debug.Assert(false);     // Improper ASN.1 format
+                    Debug.Assert(false); // Improper ASN.1 format
                     return null;
                 }
 
@@ -135,7 +135,11 @@ namespace MissionPlanner
                 CspParameters parms = new CspParameters();
                 parms.Flags = CspProviderFlags.NoFlags;
                 parms.KeyContainerName = Guid.NewGuid().ToString().ToUpperInvariant();
-                parms.ProviderType = ((Environment.OSVersion.Version.Major > 5) || ((Environment.OSVersion.Version.Major == 5) && (Environment.OSVersion.Version.Minor >= 1))) ? 0x18 : 1;
+                parms.ProviderType = ((Environment.OSVersion.Version.Major > 5) ||
+                                      ((Environment.OSVersion.Version.Major == 5) &&
+                                       (Environment.OSVersion.Version.Minor >= 1)))
+                    ? 0x18
+                    : 1;
 
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(parms);
                 RSAParameters rsAparams = new RSAParameters();
@@ -191,24 +195,20 @@ namespace MissionPlanner
                 int count;
 
                 byteValue = rd.ReadByte();
-                if (byteValue != 0x02)        // indicates an ASN.1 integer value follows
+                if (byteValue != 0x02) // indicates an ASN.1 integer value follows
                     return 0;
 
                 byteValue = rd.ReadByte();
                 if (byteValue == 0x81)
-                {
-                    count = rd.ReadByte();    // data size is the following byte
-                }
+                    count = rd.ReadByte(); // data size is the following byte
                 else if (byteValue == 0x82)
                 {
-                    byte hi = rd.ReadByte();  // data size in next 2 bytes
+                    byte hi = rd.ReadByte(); // data size in next 2 bytes
                     byte lo = rd.ReadByte();
-                    count = BitConverter.ToUInt16(new[] { lo, hi }, 0);
+                    count = BitConverter.ToUInt16(new[] {lo, hi}, 0);
                 }
                 else
-                {
-                    count = byteValue;        // we already have the data size
-                }
+                    count = byteValue; // we already have the data size
 
                 //remove high order zeros in data
                 while (rd.ReadByte() == 0x00)
@@ -228,7 +228,8 @@ namespace MissionPlanner
             /// <returns></returns>
             public static byte[] GetBytesFromPEM(string pemString, PemStringType type)
             {
-                string header; string footer;
+                string header;
+                string footer;
 
                 switch (type)
                 {
@@ -263,15 +264,11 @@ namespace MissionPlanner
                 {
                     byte[] buf = new byte[alignSize];
                     for (int i = 0; i < inputBytesSize; ++i)
-                    {
                         buf[i + (alignSize - inputBytesSize)] = inputBytes[i];
-                    }
                     return buf;
                 }
                 else
-                {
-                    return inputBytes;      // Already aligned, or doesn't need alignment
-                }
+                    return inputBytes; // Already aligned, or doesn't need alignment
             }
         }
 
@@ -294,7 +291,8 @@ namespace MissionPlanner
                     // It's not an even power of 2, so round it up to the nearest power of 2.
                     assumedLength = (int)(logbase + 1.0);
                     assumedLength = (int)(Math.Pow(2, assumedLength));
-                    System.Diagnostics.Debug.Assert(false);  // Can this really happen in the field?  I've never seen it, so if it happens
+                    System.Diagnostics.Debug.Assert(false);
+                        // Can this really happen in the field?  I've never seen it, so if it happens
                     // you should verify that this really does the 'right' thing!
                 }
 
@@ -350,7 +348,7 @@ namespace MissionPlanner
         {
             px4uploader.Uploader up;
 
-            CustomMessageBox.Show("Please unplug press ok, and plug board in","px4");
+            CustomMessageBox.Show("Please unplug press ok, and plug board in", "px4");
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
             while (DateTime.Now < DEADLINE)
@@ -359,7 +357,6 @@ namespace MissionPlanner
 
                 foreach (string port in allports)
                 {
-
                     Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
 
                     try
@@ -376,25 +373,26 @@ namespace MissionPlanner
                     try
                     {
                         up.identify();
-                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type,
+                            up.board_rev, up.bl_rev, up.fw_maxsize, port);
 
                         byte[] sn = up.__get_sn();
 
                         StringBuilder sb = new StringBuilder();
 
-                       Console.Write("SN: ");
-                    for (int s = 0; s < sn.Length; s += 1)
-                    {
-                        Console.Write(sn[s].ToString("X2"));
-                        sb.Append(sn[s].ToString("X2"));
-                    }
+                        Console.Write("SN: ");
+                        for (int s = 0; s < sn.Length; s += 1)
+                        {
+                            Console.Write(sn[s].ToString("X2"));
+                            sb.Append(sn[s].ToString("X2"));
+                        }
 
-                    txtboardsn.Text = sb.ToString();
+                        txtboardsn.Text = sb.ToString();
 
-                    up.close();
+                        up.close();
 
-                    CustomMessageBox.Show("Done");
-                    return;
+                        CustomMessageBox.Show("Done");
+                        return;
                     }
                     catch (Exception)
                     {
@@ -403,10 +401,8 @@ namespace MissionPlanner
                         up.close();
                         continue;
                     }
-
                 }
             }
         }
     }
-
 }

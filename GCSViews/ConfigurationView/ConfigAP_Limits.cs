@@ -25,15 +25,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void ProcessChange(object sender, EventArgs e)
         {
-            if (sender.GetType() == typeof (CheckBox))
+            if (sender.GetType() == typeof(CheckBox))
             {
-                var chk = ((CheckBox) sender);
+                var chk = ((CheckBox)sender);
                 MainV2.comPort.setParam(chk.Name, chk.Checked ? 1 : 0);
             }
-            else if (sender.GetType() == typeof (NumericUpDown))
+            else if (sender.GetType() == typeof(NumericUpDown))
             {
-                var nud = ((NumericUpDown) sender);
-                MainV2.comPort.setParam(nud.Name, (float) nud.Value);
+                var nud = ((NumericUpDown)sender);
+                MainV2.comPort.setParam(nud.Name, (float)nud.Value);
             }
         }
 
@@ -46,13 +46,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             if (LIM_ENABLED.Checked)
-            {
                 groupBox1.Enabled = true;
-            }
             else
-            {
                 groupBox1.Enabled = false;
-            }
 
             ProcessChange(sender, e);
         }
@@ -60,13 +56,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void LIM_REQUIRED_CheckedChanged(object sender, EventArgs e)
         {
             if (LIM_REQUIRED.Checked)
-            {
                 groupBox5.Enabled = true;
-            }
             else
-            {
                 groupBox5.Enabled = false;
-            }
 
             ProcessChange(sender, e);
         }
@@ -80,23 +72,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var ctls = Controls.Find(key, true);
                 if (ctls.Length > 0)
                 {
-                    if (ctls[0].GetType() == typeof (CheckBox))
+                    if (ctls[0].GetType() == typeof(CheckBox))
                     {
-                        var chk = ((CheckBox) ctls[0]);
+                        var chk = ((CheckBox)ctls[0]);
                         Console.WriteLine(chk.Name + " " + copy[key]);
 
-                        chk.Checked = (float) copy[key] == 1 ? true : false;
+                        chk.Checked = (float)copy[key] == 1 ? true : false;
                         chk.Enabled = true;
                     }
-                    else if (ctls[0].GetType() == typeof (NumericUpDown))
+                    else if (ctls[0].GetType() == typeof(NumericUpDown))
                     {
-                        var nud = ((NumericUpDown) ctls[0]);
+                        var nud = ((NumericUpDown)ctls[0]);
                         Console.WriteLine(nud.Name + " " + copy[key]);
                         // set new max
-                        if ((decimal) (float) copy[key] > nud.Maximum)
-                            nud.Maximum = (decimal) (float) copy[key];
+                        if ((decimal)(float)copy[key] > nud.Maximum)
+                            nud.Maximum = (decimal)(float)copy[key];
 
-                        nud.Value = (decimal) (float) copy[key];
+                        nud.Value = (decimal)(float)copy[key];
                         nud.Enabled = true;
                     }
                 }

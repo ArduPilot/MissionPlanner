@@ -13,6 +13,7 @@ namespace MissionPlanner.Controls
     {
         public string filename { get; set; }
         public string Filter { get; set; }
+
         [DefaultValue(true)]
         public bool OpenFile { get; set; }
 
@@ -38,7 +39,7 @@ namespace MissionPlanner.Controls
                 filename = saveFileDialog1.FileName;
             }
 
-            
+
             textBox1.Text = filename;
         }
 

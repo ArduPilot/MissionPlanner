@@ -34,31 +34,23 @@ namespace MissionPlanner.Antenna
             CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             if (threadrun)
-            {
                 BUT_connect.Text = "Disconnect";
-            }
 
             foreach (string value in MainV2.config.Keys)
             {
                 if (value.StartsWith("Tracker_"))
                 {
-                    var ctls = Controls.Find(value.Replace("Tracker_",""),true);
+                    var ctls = Controls.Find(value.Replace("Tracker_", ""), true);
 
                     foreach (Control ctl in ctls)
                     {
                         if (typeof(TextBox) == ctl.GetType() ||
                             typeof(ComboBox) == ctl.GetType())
-                        {
                             ctl.Text = MainV2.config[value].ToString();
-                        }
                         else if (typeof(TrackBar) == ctl.GetType())
-                        {
                             ((TrackBar)ctl).Value = int.Parse(MainV2.config[value].ToString());
-                        }
                         else if (typeof(CheckBox) == ctl.GetType())
-                        {
                             ((CheckBox)ctl).Checked = bool.Parse(MainV2.config[value].ToString());
-                        }
                     }
                 }
             }
@@ -76,17 +68,11 @@ namespace MissionPlanner.Antenna
             {
                 if (typeof(TextBox) == ctl.GetType() ||
                     typeof(ComboBox) == ctl.GetType())
-                {
                     MainV2.config["Tracker_" + ctl.Name] = ctl.Text;
-                }
                 if (typeof(TrackBar) == ctl.GetType())
-                {
                     MainV2.config["Tracker_" + ctl.Name] = ((TrackBar)ctl).Value;
-                }
                 if (typeof(CheckBox) == ctl.GetType())
-                {
                     MainV2.config["Tracker_" + ctl.Name] = ((CheckBox)ctl).Checked;
-                }
             }
         }
 
@@ -113,9 +99,7 @@ namespace MissionPlanner.Antenna
             }
 
             if (tracker != null && tracker.ComPort != null && tracker.ComPort.IsOpen)
-            {
                 tracker.ComPort.Close();
-            }
 
             if (CMB_interface.Text == interfaces.Maestro.ToString())
                 tracker = new Antenna.Maestro();
@@ -132,7 +116,11 @@ namespace MissionPlanner.Antenna
                     BaudRate = int.Parse(CMB_baudrate.Text)
                 };
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR);
+                return;
+            }
 
             try
             {
@@ -158,7 +146,11 @@ namespace MissionPlanner.Antenna
                 tracker.TiltSpeed = int.Parse(TXT_tiltspeed.Text);
                 tracker.TiltAccel = int.Parse(TXT_tiltaccel.Text);
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.InvalidNumberEntered + ex.Message, Strings.ERROR); return; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.InvalidNumberEntered + ex.Message, Strings.ERROR);
+                return;
+            }
 
             if (tracker.Init())
             {
@@ -174,7 +166,8 @@ namespace MissionPlanner.Antenna
                     {
                         tracker.PanAndTilt(0, 0);
                     }
-                    catch (Exception ex) { 
+                    catch (Exception ex)
+                    {
                         CustomMessageBox.Show("Failed to set initial pan and tilt\n" + ex.Message, Strings.ERROR);
                         tracker.Close();
                         return;
@@ -182,7 +175,7 @@ namespace MissionPlanner.Antenna
 
                     foreach (Control ctl in Controls)
                     {
-                        if(ctl.Name.StartsWith("TXT_"))
+                        if (ctl.Name.StartsWith("TXT_"))
                             ctl.Enabled = false;
 
                         if (ctl.Name.StartsWith("CMB_"))
@@ -195,7 +188,7 @@ namespace MissionPlanner.Antenna
                         IsBackground = true,
                         Name = "Antenna Tracker"
                     };
-                    t12.Start();                     
+                    t12.Start();
                 }
             }
 
@@ -213,7 +206,7 @@ namespace MissionPlanner.Antenna
                     tracker.PanAndTilt(MainV2.comPort.MAV.cs.AZToMAV, MainV2.comPort.MAV.cs.ELToMAV);
                     System.Threading.Thread.Sleep(100);
                 }
-                catch { }
+                catch {}
             }
         }
 
@@ -253,15 +246,9 @@ namespace MissionPlanner.Antenna
             TRK_tilttrim.Maximum = range / 2;
         }
 
-        private void CHK_revpan_CheckedChanged(object sender, EventArgs e)
-        {
+        private void CHK_revpan_CheckedChanged(object sender, EventArgs e) {}
 
-        }
-
-        private void CHK_revtilt_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void CHK_revtilt_CheckedChanged(object sender, EventArgs e) {}
 
         public void Deactivate()
         {
@@ -275,7 +262,6 @@ namespace MissionPlanner.Antenna
 
         void tm1_Tick(object item)
         {
-            
             float snr = MainV2.comPort.MAV.cs.localsnrdb;
             float best = snr;
 
@@ -284,7 +270,7 @@ namespace MissionPlanner.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid 3dr radio",Strings.ERROR);
+                CustomMessageBox.Show("No valid 3dr radio", Strings.ERROR);
                 return;
             }
 
@@ -296,8 +282,9 @@ namespace MissionPlanner.Antenna
 
 
             // scan half range within 30 degrees
-            float ans = checkpos((pan - float.Parse(TXT_panrange.Text) / 4), (pan + float.Parse(TXT_panrange.Text) / 4) - 1, 30);
-            
+            float ans = checkpos((pan - float.Parse(TXT_panrange.Text) / 4),
+                (pan + float.Parse(TXT_panrange.Text) / 4) - 1, 30);
+
             // scan new range within 30 - little overlap
             ans = checkpos((-30 + ans), (30 + ans), 5);
 
@@ -305,7 +292,6 @@ namespace MissionPlanner.Antenna
             ans = checkpos((-5 + ans), (5 + ans), 1);
 
             setpan(ans);
-
         }
 
         void setpan(float no)
@@ -317,11 +303,14 @@ namespace MissionPlanner.Antenna
                     TRK_pantrim.Value = (int)no;
                     TRK_pantrim_Scroll(null, null);
                 }
-                catch { return; }
+                catch
+                {
+                    return;
+                }
             });
         }
 
-        float checkpos(float start, float end,float scale)
+        float checkpos(float start, float end, float scale)
         {
             float lastsnr = 0;
             float best = 0;
@@ -340,7 +329,6 @@ namespace MissionPlanner.Antenna
 
                 if (MainV2.comPort.MAV.cs.localsnrdb > lastsnr)
                 {
- 
                     best = n;
                     lastsnr = MainV2.comPort.MAV.cs.localsnrdb;
                 }
@@ -367,15 +355,9 @@ namespace MissionPlanner.Antenna
             }
         }
 
-        private void TXT_centerpan_TextChanged(object sender, EventArgs e)
-        {
+        private void TXT_centerpan_TextChanged(object sender, EventArgs e) {}
 
-        }
-
-        private void TXT_centertilt_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void TXT_centertilt_TextChanged(object sender, EventArgs e) {}
 
         private void TXT_panspeed_TextChanged(object sender, EventArgs e)
         {
@@ -384,7 +366,6 @@ namespace MissionPlanner.Antenna
             int.TryParse(TXT_panspeed.Text, out speed);
             if (tracker != null)
                 tracker.PanSpeed = speed;
-
         }
 
         private void TXT_tiltspeed_TextChanged(object sender, EventArgs e)

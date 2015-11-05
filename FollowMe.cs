@@ -43,7 +43,9 @@ namespace MissionPlanner
                 CMB_updaterate.Text = updaterate.ToString();
             }
 
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
+            MissionPlanner.Utilities.Tracking.AddPage(
+                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(),
+                System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
@@ -60,30 +62,37 @@ namespace MissionPlanner
                 {
                     comPort.PortName = CMB_serialport.Text;
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidPortName, Strings.ERROR); return; }
-                try {
-                comPort.BaudRate = int.Parse(CMB_baudrate.Text);
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidPortName, Strings.ERROR);
+                    return;
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR); return; }
-                try {
-                comPort.Open();
+                try
+                {
+                    comPort.BaudRate = int.Parse(CMB_baudrate.Text);
                 }
-                catch (Exception ex) 
-                { 
-                    CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR); return;           
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR);
+                    return;
+                }
+                try
+                {
+                    comPort.Open();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR);
+                    return;
                 }
 
 
                 string alt = "100";
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                {
                     alt = (10 * CurrentState.multiplierdist).ToString("0");
-                }
                 else
-                {
                     alt = (100 * CurrentState.multiplierdist).ToString("0");
-                }
                 if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
                     return;
 
@@ -125,7 +134,7 @@ namespace MissionPlanner
                     //string line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA", DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.gpsstatus, MainV2.comPort.MAV.cs.satcount, MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.alt, "M", 0, "M", "");
                     if (line.StartsWith("$GPGGA")) // 
                     {
-                        string[] items = line.Trim().Split(',','*');
+                        string[] items = line.Trim().Split(',', '*');
 
                         if (items[15] != GetChecksum(line.Trim()))
                         {
@@ -155,15 +164,16 @@ namespace MissionPlanner
 
                         gotolocation.Alt = intalt; // double.Parse(line.Substring(c9, c10 - c9 - 1)) +
 
-                        gotolocation.Tag = "Sats "+ items[7] + " hdop " + items[8] ;
-
+                        gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8];
                     }
 
 
-                    if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0 && gotolocation.Alt != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
+                    if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0 &&
+                        gotolocation.Alt != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
                     {
-                        nextsend = DateTime.Now.AddMilliseconds(1000/updaterate);
-                        Console.WriteLine("Sending follow wp " +DateTime.Now.ToString("h:MM:ss")+" "+ gotolocation.Lat + " " + gotolocation.Lng + " " +gotolocation.Alt);
+                        nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
+                        Console.WriteLine("Sending follow wp " + DateTime.Now.ToString("h:MM:ss") + " " +
+                                          gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt);
                         lastgotolocation = new PointLatLngAlt(gotolocation);
 
                         Locationwp gotohere = new Locationwp();
@@ -177,7 +187,7 @@ namespace MissionPlanner
                         {
                             updateLocationLabel(gotohere);
                         }
-                        catch { }
+                        catch {}
 
                         if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.giveComport == false)
                         {
@@ -189,11 +199,17 @@ namespace MissionPlanner
 
                                 MainV2.comPort.giveComport = false;
                             }
-                            catch { MainV2.comPort.giveComport = false; }
+                            catch
+                            {
+                                MainV2.comPort.giveComport = false;
+                            }
                         }
                     }
                 }
-                catch { System.Threading.Thread.Sleep((int)(1000 / updaterate)); }
+                catch
+                {
+                    System.Threading.Thread.Sleep((int)(1000 / updaterate));
+                }
             }
 
             sw.Close();
@@ -203,17 +219,18 @@ namespace MissionPlanner
         {
             if (!Instance.IsDisposed)
             {
-                Instance.BeginInvoke((MethodInvoker)delegate
-                 {
-                     Instance.LBL_location.Text = gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt + " " + gotolocation.Tag;
-                 }
-            );
+                Instance.BeginInvoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            Instance.LBL_location.Text = gotolocation.Lat + " " + gotolocation.Lng + " " +
+                                                         gotolocation.Alt + " " + gotolocation.Tag;
+                        }
+                    );
             }
         }
 
-        private void SerialOutput_FormClosing(object sender, FormClosingEventArgs e)
-        {
-        }
+        private void SerialOutput_FormClosing(object sender, FormClosingEventArgs e) {}
 
         // Calculates the checksum for a sentence
         string GetChecksum(string sentence)
@@ -255,8 +272,10 @@ namespace MissionPlanner
             {
                 updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
             }
-            catch { CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR);
+            }
         }
-
     }
 }

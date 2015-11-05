@@ -13,10 +13,10 @@ namespace MissionPlanner.Controls
     {
         public new event EventHandler Click;
 
-       // [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-      //  public Label Label { get { return label1; } set { label1 = value; } }
-      //  [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-      //  public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
+        // [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //  public Label Label { get { return label1; } set { label1 = value; } }
+        //  [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        //  public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
 
         public ImageLabel()
         {
@@ -33,9 +33,24 @@ namespace MissionPlanner.Controls
         }
 
         [System.ComponentModel.Browsable(true)]
-        public Image Image {
+        public Image Image
+        {
             get { return PictureBox.Image; }
-            set { try { PictureBox.Image = value; } catch { try { PictureBox.Image = value; } catch { } } }
+            set
+            {
+                try
+                {
+                    PictureBox.Image = value;
+                }
+                catch
+                {
+                    try
+                    {
+                        PictureBox.Image = value;
+                    }
+                    catch {}
+                }
+            }
         }
 
         [System.ComponentModel.Browsable(true)]
@@ -48,9 +63,7 @@ namespace MissionPlanner.Controls
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             if (Click != null)
-            {
-                Click(this,new EventArgs());
-            }
+                Click(this, new EventArgs());
         }
     }
 }
