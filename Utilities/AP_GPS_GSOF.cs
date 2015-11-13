@@ -52,9 +52,9 @@ namespace MissionPlanner.Utilities
 
         AP_GPS_SBF.GPS_State state = new AP_GPS_SBF.GPS_State();
 
-        public AP_GPS_GSOF()
+        public AP_GPS_GSOF(string portname)
         {
-            var sport = new SerialPort("COM19", 38400);
+            var sport = new SerialPort(portname, 38400);
 
             sport.Open();
 

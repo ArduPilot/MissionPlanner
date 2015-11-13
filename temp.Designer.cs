@@ -86,6 +86,7 @@
             this.BUT_fft = new MissionPlanner.Controls.MyButton();
             this.but_reboot = new MissionPlanner.Controls.MyButton();
             this.BUT_QNH = new MissionPlanner.Controls.MyButton();
+            this.but_trimble = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -731,11 +732,22 @@
             this.BUT_QNH.UseVisualStyleBackColor = true;
             this.BUT_QNH.Click += new System.EventHandler(this.BUT_QNH_Click);
             // 
+            // but_trimble
+            // 
+            this.but_trimble.Location = new System.Drawing.Point(467, 207);
+            this.but_trimble.Name = "but_trimble";
+            this.but_trimble.Size = new System.Drawing.Size(75, 23);
+            this.but_trimble.TabIndex = 64;
+            this.but_trimble.Text = "trimble";
+            this.but_trimble.UseVisualStyleBackColor = true;
+            this.but_trimble.Click += new System.EventHandler(this.but_trimble_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_trimble);
             this.Controls.Add(this.BUT_QNH);
             this.Controls.Add(this.but_reboot);
             this.Controls.Add(this.BUT_fft);
@@ -811,5 +823,6 @@
         private Controls.MyButton BUT_fft;
         private Controls.MyButton but_reboot;
         private Controls.MyButton BUT_QNH;
+        private Controls.MyButton but_trimble;
     }
 }

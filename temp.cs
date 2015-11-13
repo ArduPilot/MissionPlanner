@@ -1585,5 +1585,14 @@ namespace MissionPlanner
                 MainV2.comPort.setParam("GND_ABS_PRESS", newQNH);
             }
         }
+
+        private void but_trimble_Click(object sender, EventArgs e)
+        {
+            string port = "com1";
+            if (InputBox.Show("enter comport", "enter comport", ref port) == DialogResult.OK)
+            {
+                new AP_GPS_GSOF(port);
+            }
+        }
     }
 }
