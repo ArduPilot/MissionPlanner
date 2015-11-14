@@ -19,9 +19,7 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
         }
 
-        public void Activate()
-        {
-        }
+        public void Activate() {}
 
         private BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText,
             BackstageViewPage Parent = null, bool advanced = false)
@@ -58,19 +56,13 @@ namespace MissionPlanner.GCSViews
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                    {
                         start = AddBackstageViewPage(new ConfigArduplane(), Strings.BasicTuning);
-                    }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-                    {
                         start = AddBackstageViewPage(new ConfigArdurover(), Strings.BasicTuning);
-                    }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-                    {
                         start = AddBackstageViewPage(new ConfigAntennaTracker(), Strings.ExtendedTuning);
-                    }
 
                     AddBackstageViewPage(
                         new ConfigFriendlyParams {ParameterMode = ParameterMetaDataConstants.Standard},
@@ -91,16 +83,12 @@ namespace MissionPlanner.GCSViews
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-                    {
                         start = AddBackstageViewPage(new ConfigRawParams(), Strings.FullParameterList, null, true);
-                    }
 
                     AddBackstageViewPage(new ConfigPlanner(), "Planner");
                 }
                 else
-                {
                     start = AddBackstageViewPage(new ConfigPlanner(), "Planner");
-                }
 
                 // apply theme before trying to display it
                 ThemeManager.ApplyThemeTo(this);

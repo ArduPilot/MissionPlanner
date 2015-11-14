@@ -31,9 +31,7 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("UDP Client");
 
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
-            {
                 BUT_connect.Text = Strings.Stop;
-            }
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
@@ -54,7 +52,7 @@ namespace MissionPlanner
                         case "TCP Host - 14550":
                         case "TCP Host":
                             MainV2.comPort.MirrorStream = new TcpSerial();
-                            listener = new TcpListener(System.Net.IPAddress.Any,14550);
+                            listener = new TcpListener(System.Net.IPAddress.Any, 14550);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = Strings.Stop;
@@ -74,17 +72,29 @@ namespace MissionPlanner
                             break;
                     }
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidPortName); return; }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                    return;
+                }
                 try
                 {
                     MainV2.comPort.MirrorStream.BaudRate = int.Parse(CMB_baudrate.Text);
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidBaudRate); return; }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidBaudRate);
+                    return;
+                }
                 try
                 {
                     MainV2.comPort.MirrorStream.Open();
                 }
-                catch { CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??"); return; }
+                catch
+                {
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    return;
+                }
             }
         }
 

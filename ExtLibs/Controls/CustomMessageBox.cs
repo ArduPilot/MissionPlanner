@@ -13,7 +13,7 @@ namespace System
         const int FORM_Y_MARGIN = 10;
         const int FORM_X_MARGIN = 16;
 
-       public delegate void ThemeManager(Control ctl);
+        public delegate void ThemeManager(Control ctl);
 
         public static event ThemeManager ApplyTheme;
 
@@ -45,14 +45,15 @@ namespace System
             {
                 Application.OpenForms[0].Invoke((Action)delegate
                 {
-                    Console.WriteLine("CustomMessageBox thread running invoke " + System.Threading.Thread.CurrentThread.Name);
-                    answer =  ShowUI(text, caption, buttons, icon);
+                    Console.WriteLine("CustomMessageBox thread running invoke " +
+                                      System.Threading.Thread.CurrentThread.Name);
+                    answer = ShowUI(text, caption, buttons, icon);
                 });
             }
             else
             {
                 Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
-                answer =  ShowUI(text, caption, buttons, icon);
+                answer = ShowUI(text, caption, buttons, icon);
             }
 
             return answer;
@@ -60,7 +61,6 @@ namespace System
 
         static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
-
             if (text == null)
                 text = "";
 
@@ -92,30 +92,30 @@ namespace System
                 textSize.Width += SystemIcons.Question.Width;
 
             var msgBoxFrm = new Form
-                                {
-                                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                                    ShowInTaskbar = true,
-                                    StartPosition = FormStartPosition.CenterParent,
-                                    Text = caption,
-                                    MaximizeBox = false,
-                                    MinimizeBox = false,
-                                    Width = textSize.Width + 50,
-                                    Height = textSize.Height + 120,
-                                    TopMost = true,
-                                    AutoScaleMode = AutoScaleMode.None,
-                                };
+            {
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                ShowInTaskbar = true,
+                StartPosition = FormStartPosition.CenterParent,
+                Text = caption,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Width = textSize.Width + 50,
+                Height = textSize.Height + 120,
+                TopMost = true,
+                AutoScaleMode = AutoScaleMode.None,
+            };
 
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
             int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
 
             var lblMessage = new Label
-                                 {
-                                     Left = 58,
-                                     Top = 15,
-                                     Width = textSize.Width + 10,
-                                     Height = textSize.Height + 10,
-                                     Text = text
-                                 };
+            {
+                Left = 58,
+                Top = 15,
+                Width = textSize.Width + 10,
+                Height = textSize.Height + 10,
+                Text = text
+            };
 
             msgBoxFrm.Controls.Add(lblMessage);
 
@@ -123,7 +123,15 @@ namespace System
 
             if (link != "" && linktext != "")
             {
-                var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
+                var linklbl = new LinkLabel
+                {
+                    Left = lblMessage.Left,
+                    Top = lblMessage.Bottom,
+                    Width = lblMessage.Width,
+                    Height = 15,
+                    Text = linktext,
+                    Tag = link
+                };
                 linklbl.Click += linklbl_Click;
 
                 msgBoxFrm.Controls.Add(linklbl);
@@ -132,16 +140,14 @@ namespace System
             var actualIcon = getMessageBoxIcon(icon);
 
             if (actualIcon == null)
-            {
                 lblMessage.Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN);
-            }
             else
             {
                 var iconPbox = new PictureBox
-                                   {
-                                       Image = actualIcon.ToBitmap(),
-                                       Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
-                                   };
+                {
+                    Image = actualIcon.ToBitmap(),
+                    Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
+                };
                 msgBoxFrm.Controls.Add(iconPbox);
             }
 
@@ -155,11 +161,11 @@ namespace System
                     ApplyTheme(msgBoxFrm);
                 //ThemeManager.ApplyThemeTo(msgBoxFrm);
             }
-            catch { }
+            catch {}
 
             DialogResult test;
 
-                test = msgBoxFrm.ShowDialog();
+            test = msgBoxFrm.ShowDialog();
 
             DialogResult answer = _state;
 
@@ -192,14 +198,16 @@ namespace System
                     currentLinePosition = 0;
                 }
                 // reset line lnegth counter on existing new line
-                if (text[textIndex] == Environment.NewLine[Environment.NewLine.Length -1])
-                {
+                if (text[textIndex] == Environment.NewLine[Environment.NewLine.Length - 1])
                     currentLinePosition = 1;
-                }
                 // If we have just started a new line, skip all the whitespace.    
                 if (currentLinePosition == 0)
+                {
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                    {
                         textIndex++;
+                    }
+                }
                 // Append the next character.     
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
@@ -220,14 +228,18 @@ namespace System
             {
                 case MessageBoxButtons.OK:
                     var but = new MyButton
-                                  {
-                                      Size = new Size(75, 23),
-                                      Text = "OK",
-                                      Left = msgBoxFrm.Width - 100 - FORM_X_MARGIN,
-                                      Top = msgBoxFrm.Height - 40 - FORM_Y_MARGIN - titleHeight
-                                  };
+                    {
+                        Size = new Size(75, 23),
+                        Text = "OK",
+                        Left = msgBoxFrm.Width - 100 - FORM_X_MARGIN,
+                        Top = msgBoxFrm.Height - 40 - FORM_Y_MARGIN - titleHeight
+                    };
 
-                    but.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };
+                    but.Click += delegate
+                    {
+                        _state = DialogResult.OK;
+                        msgBoxFrm.Close();
+                    };
                     msgBoxFrm.Controls.Add(but);
                     msgBoxFrm.AcceptButton = but;
                     break;
@@ -245,7 +257,11 @@ namespace System
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
 
-                    butyes.Click += delegate { _state = DialogResult.Yes; msgBoxFrm.Close(); };
+                    butyes.Click += delegate
+                    {
+                        _state = DialogResult.Yes;
+                        msgBoxFrm.Close();
+                    };
                     msgBoxFrm.Controls.Add(butyes);
                     msgBoxFrm.AcceptButton = butyes;
 
@@ -257,7 +273,11 @@ namespace System
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
 
-                    butno.Click += delegate { _state = DialogResult.No; msgBoxFrm.Close(); };
+                    butno.Click += delegate
+                    {
+                        _state = DialogResult.No;
+                        msgBoxFrm.Close();
+                    };
                     msgBoxFrm.Controls.Add(butno);
                     msgBoxFrm.CancelButton = butno;
                     break;
@@ -275,7 +295,11 @@ namespace System
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
 
-                    butok.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };
+                    butok.Click += delegate
+                    {
+                        _state = DialogResult.OK;
+                        msgBoxFrm.Close();
+                    };
                     msgBoxFrm.Controls.Add(butok);
                     msgBoxFrm.AcceptButton = butok;
 
@@ -287,7 +311,11 @@ namespace System
                         Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
                     };
 
-                    butcancel.Click += delegate { _state = DialogResult.Cancel; msgBoxFrm.Close(); };
+                    butcancel.Click += delegate
+                    {
+                        _state = DialogResult.Cancel;
+                        msgBoxFrm.Close();
+                    };
                     msgBoxFrm.Controls.Add(butcancel);
                     msgBoxFrm.CancelButton = butcancel;
                     break;
@@ -318,6 +346,5 @@ namespace System
                     return null;
             }
         }
-
     }
 }

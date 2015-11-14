@@ -7,14 +7,24 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public class PictureBoxMouseOver: PictureBox
+    public class PictureBoxMouseOver : PictureBox
     {
         public Image ImageNormal { get; set; }
         public Image ImageOver { get; set; }
 
         bool mouseover = false;
         bool _selected = false;
-        public bool selected { get { return _selected; } set { _selected = value; ChangePicture(); this.Invalidate(); } }
+
+        public bool selected
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                ChangePicture();
+                this.Invalidate();
+            }
+        }
 
         protected override void OnMouseEnter(EventArgs e)
         {
@@ -37,16 +47,11 @@ namespace MissionPlanner.Controls
         void ChangePicture()
         {
             if (mouseover || selected)
-            {
                 Image = ImageOver;
-            }
             else
-            {
                 Image = ImageNormal;
-            }
 
             this.Invalidate();
         }
-
     }
 }

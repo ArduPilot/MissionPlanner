@@ -11,8 +11,7 @@ using GeoUtility.GeoSystem;
 
 namespace MissionPlanner.Utilities
 {
-
-    public class PointLatLngAlt: IComparable
+    public class PointLatLngAlt : IComparable
     {
         public static readonly PointLatLngAlt Zero = new PointLatLngAlt();
         public double Lat = 0;
@@ -36,10 +35,7 @@ namespace MissionPlanner.Utilities
             this.Tag = tag;
         }
 
-        public PointLatLngAlt()
-        {
-
-        }
+        public PointLatLngAlt() {}
 
         public PointLatLngAlt(GMap.NET.PointLatLng pll)
         {
@@ -94,18 +90,18 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator double[](PointLatLngAlt a)
         {
-            return new double[] { a.Lng, a.Lat };
+            return new double[] {a.Lng, a.Lat};
         }
 
         public static implicit operator PointLatLngAlt(double[] a)
         {
-            return new PointLatLngAlt() { Lng =  a[0], Lat = a[1] };
+            return new PointLatLngAlt() {Lng = a[0], Lat = a[1]};
         }
 
         public static implicit operator PointLatLngAlt(GeoUtility.GeoSystem.Geographic geo)
         {
-            return new PointLatLngAlt() { Lat = geo.Latitude, Lng = geo.Longitude};
-        }        
+            return new PointLatLngAlt() {Lat = geo.Latitude, Lng = geo.Longitude};
+        }
 
         public override bool Equals(Object pllaobj)
         {
@@ -115,13 +111,11 @@ namespace MissionPlanner.Utilities
                 return false;
 
             if (this.Lat == plla.Lat &&
-            this.Lng == plla.Lng &&
-            this.Alt == plla.Alt &&
-            this.color == plla.color &&
-            this.Tag == plla.Tag)
-            {
+                this.Lng == plla.Lng &&
+                this.Alt == plla.Alt &&
+                this.color == plla.color &&
+                this.Tag == plla.Tag)
                 return true;
-            }
             return false;
         }
 
@@ -158,9 +152,12 @@ namespace MissionPlanner.Utilities
             return mgrs.ToString();
         }
 
-        public static PointLatLngAlt FromUTM(int zone,double x, double y)
+        public static PointLatLngAlt FromUTM(int zone, double x, double y)
         {
-            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y, zone < 0 ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
+            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y,
+                zone < 0
+                    ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South
+                    : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
 
             PointLatLngAlt ans = ((GeoUtility.GeoSystem.Geographic)utm);
 
@@ -169,17 +166,18 @@ namespace MissionPlanner.Utilities
 
         public double[] ToUTM()
         {
-           return ToUTM(GetUTMZone());
+            return ToUTM(GetUTMZone());
         }
 
         // force a zone
         public double[] ToUTM(int utmzone)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), Lat < 0 ? false : true);
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone),
+                Lat < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-            double[] pll = { Lng, Lat };
+            double[] pll = {Lng, Lat};
 
             // get leader utm coords
             double[] utmxy = trans.MathTransform.Transform(pll);
@@ -189,7 +187,8 @@ namespace MissionPlanner.Utilities
 
         public static List<double[]> ToUTM(int utmzone, List<PointLatLngAlt> list)
         {
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), list[0].Lat < 0 ? false : true);
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone),
+                list[0].Lat < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
@@ -207,7 +206,7 @@ namespace MissionPlanner.Utilities
             //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
             //  '''
             // from math import sin, asin, cos, atan2, radians, degrees
-            double radius_of_earth = 6378100.0;//# in meters
+            double radius_of_earth = 6378100.0; //# in meters
 
             double lat1 = deg2rad * (this.Lat);
             double lon1 = deg2rad * (this.Lng);
@@ -215,9 +214,9 @@ namespace MissionPlanner.Utilities
             double dr = distance / radius_of_earth;
 
             double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
-                        Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
+                                    Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
             double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
-                                Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
+                Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
 
             double latout = rad2deg * (lat2);
             double lngout = rad2deg * (lon2);
@@ -245,7 +244,8 @@ namespace MissionPlanner.Utilities
             var longitudeDifference = deg2rad * (p2.Lng - this.Lng);
 
             var y = Math.Sin(longitudeDifference) * Math.Cos(latitude2);
-            var x = Math.Cos(latitude1) * Math.Sin(latitude2) - Math.Sin(latitude1) * Math.Cos(latitude2) * Math.Cos(longitudeDifference);
+            var x = Math.Cos(latitude1) * Math.Sin(latitude2) -
+                    Math.Sin(latitude1) * Math.Cos(latitude2) * Math.Cos(longitudeDifference);
 
             return (rad2deg * (Math.Atan2(y, x)) + 360) % 360;
         }
@@ -263,7 +263,8 @@ namespace MissionPlanner.Utilities
             double num4 = p2.Lng * 0.017453292519943295;
             double num5 = num4 - num2;
             double num6 = num3 - d;
-            double num7 = Math.Pow(Math.Sin(num6 / 2.0), 2.0) + ((Math.Cos(d) * Math.Cos(num3)) * Math.Pow(Math.Sin(num5 / 2.0), 2.0));
+            double num7 = Math.Pow(Math.Sin(num6 / 2.0), 2.0) +
+                          ((Math.Cos(d) * Math.Cos(num3)) * Math.Pow(Math.Sin(num5 / 2.0), 2.0));
             double num8 = 2.0 * Math.Atan2(Math.Sqrt(num7), Math.Sqrt(1.0 - num7));
             return (6371 * num8) * 1000.0; // M
         }
@@ -296,9 +297,7 @@ namespace MissionPlanner.Utilities
             double wpnothis = 0;
 
             if (!double.TryParse(this.Tag, out wpnothis))
-            {
                 return 0;
-            }
 
             if (double.TryParse(pnt.Tag, out wpno))
             {
@@ -307,12 +306,9 @@ namespace MissionPlanner.Utilities
                 if (wpno > wpnothis)
                     return -1;
                 return 0;
-            } 
-            else 
-            {
-                return 0;
             }
+            else
+                return 0;
         }
     }
-
 }

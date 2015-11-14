@@ -37,22 +37,25 @@ namespace MissionPlanner.Utilities
         {
             if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
             {
-                MAVLink.mavlink_terrain_request_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
+                MAVLink.mavlink_terrain_request_t packet =
+                    rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
 
                 if (issending)
                     return false;
 
                 lastrequest = packet;
 
-                log.Info("received TERRAIN_REQUEST " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " space " + packet.grid_spacing + " " + Convert.ToString((long)packet.mask, 2));
+                log.Info("received TERRAIN_REQUEST " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " space " +
+                         packet.grid_spacing + " " + Convert.ToString((long)packet.mask, 2));
 
                 System.Threading.ThreadPool.QueueUserWorkItem(QueueSendGrid);
             }
             else if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
-                MAVLink.mavlink_terrain_report_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
-                log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded + " " + packet.pending);
-
+                MAVLink.mavlink_terrain_report_t packet =
+                    rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
+                log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded +
+                         " " + packet.pending);
             }
             return false;
         }
@@ -77,7 +80,8 @@ namespace MissionPlanner.Utilities
                         int bitgridspacing = lastrequest.grid_spacing * 4;
 
                         // get the new point, based on our current bit.
-                        var newplla = new PointLatLngAlt(lat, lon).gps_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
+                        var newplla = new PointLatLngAlt(lat, lon).gps_offset(bitgridspacing * (i % 8),
+                            bitgridspacing * (int)Math.Floor(i / 8.0));
 
                         // send a 4*4 grid, based on the lat lon of the bitmask
                         SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
@@ -87,17 +91,19 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
-            catch (Exception ex) { log.Error(ex); }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             finally
             {
                 issending = false;
-
             }
         }
 
         void SendGrid(double lat, double lon, ushort grid_spacing, byte bit)
         {
-            log.Info("SendGrid "+ lat + " " + lon + " space " + grid_spacing + " bit "+ bit);
+            log.Info("SendGrid " + lat + " " + lon + " space " + grid_spacing + " bit " + bit);
 
             MAVLink.mavlink_terrain_data_t resp = new MAVLink.mavlink_terrain_data_t();
             resp.grid_spacing = grid_spacing;

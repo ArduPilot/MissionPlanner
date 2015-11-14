@@ -14,6 +14,7 @@ namespace MissionPlanner.Controls
         string otherthread = "";
         int lastx = 0;
         int lasty = 0;
+
         public myGMAP()
             : base()
         {
@@ -26,7 +27,8 @@ namespace MissionPlanner.Controls
 
             if (inOnPaint)
             {
-                Console.WriteLine("Was in onpaint Gmap th:" + System.Threading.Thread.CurrentThread.Name + " in " + otherthread);
+                Console.WriteLine("Was in onpaint Gmap th:" + System.Threading.Thread.CurrentThread.Name + " in " +
+                                  otherthread);
                 return;
             }
 
@@ -38,13 +40,16 @@ namespace MissionPlanner.Controls
             {
                 base.OnPaint(e);
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
 
             inOnPaint = false;
 
             var end = DateTime.Now;
 
-            System.Diagnostics.Debug.WriteLine("map draw time " + (end-start).TotalMilliseconds);
+            System.Diagnostics.Debug.WriteLine("map draw time " + (end - start).TotalMilliseconds);
         }
 
         protected override void OnMouseMove(System.Windows.Forms.MouseEventArgs e)
@@ -60,7 +65,10 @@ namespace MissionPlanner.Controls
 
                 base.OnMouseMove(e);
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
     }
 }

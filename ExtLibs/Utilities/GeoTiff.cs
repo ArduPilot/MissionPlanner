@@ -55,7 +55,7 @@ namespace MissionPlanner.Utilities
 
                     log.InfoFormat("Scale ({0},{1},{2})", xscale, yscale, zscale);
 
-                    Area = new RectLatLng(y, x, width*xscale, height*yscale);
+                    Area = new RectLatLng(y, x, width * xscale, height * yscale);
 
                     log.InfoFormat("Coverage {0}", Area.ToString());
 
@@ -158,9 +158,7 @@ namespace MissionPlanner.Utilities
                                 tiff.ReadScanline(scanline, row);
 
                                 for (int col = 0; col < geotiffdata.width; col++)
-                                {
-                                    altdata[row, col] = (short) ((scanline[col*2 + 1] << 8) + scanline[col*2]);
-                                }
+                                    altdata[row, col] = (short)((scanline[col * 2 + 1] << 8) + scanline[col * 2]);
                             }
                         }
 
@@ -168,13 +166,13 @@ namespace MissionPlanner.Utilities
                     }
 
                     // get answer
-                    var xf = map(lat, geotiffdata.Area.Top, geotiffdata.Area.Bottom, 0, geotiffdata.height-1);
-                    var yf = map(lng, geotiffdata.Area.Left, geotiffdata.Area.Right, 0, geotiffdata.width-1);
+                    var xf = map(lat, geotiffdata.Area.Top, geotiffdata.Area.Bottom, 0, geotiffdata.height - 1);
+                    var yf = map(lng, geotiffdata.Area.Left, geotiffdata.Area.Right, 0, geotiffdata.width - 1);
 
-                    int x_int = (int) xf;
+                    int x_int = (int)xf;
                     double x_frac = xf - x_int;
 
-                    int y_int = (int) yf;
+                    int y_int = (int)yf;
                     double y_frac = yf - y_int;
 
                     // y_int = (geotiffdata.height - 2) - y_int;
@@ -205,12 +203,12 @@ namespace MissionPlanner.Utilities
 
         private static double avg(double v1, double v2, double weight)
         {
-            return v2*weight + v1*(1 - weight);
+            return v2 * weight + v1 * (1 - weight);
         }
 
         private static double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
-            return (x - in_min)*(out_max - out_min)/(in_max - in_min) + out_min;
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
     }
 }

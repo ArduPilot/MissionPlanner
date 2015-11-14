@@ -54,22 +54,17 @@ namespace MissionPlanner.Swarm
                     continue;
 
                 if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
-                    port.setGuidedModeWP(new Locationwp() { alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng });
+                    port.setGuidedModeWP(new Locationwp() {alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng});
             }
         }
 
         public void Land()
         {
             foreach (var port in MainV2.Comports)
-            {
                 port.setMode("Land");
-            }
         }
 
-        public void Stop()
-        {
-
-        }
+        public void Stop() {}
 
         public abstract void Update();
 

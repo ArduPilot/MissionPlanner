@@ -16,8 +16,8 @@ namespace hires
                 out long lpFrequency);
         }
 
-        private long start=0;
-        private long stop=0;
+        private long start = 0;
+        private long stop = 0;
 
         // static - so this value used in all instances of 
         private static double frequency = getFrequency();
@@ -42,10 +42,7 @@ namespace hires
 
         public double Elapsed
         {
-            get
-            {
-                return (double)(stop - start) / frequency;
-            }
+            get { return (double)(stop - start) / frequency; }
         }
     }
 }

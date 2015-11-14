@@ -6,8 +6,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWOptFlow : UserControl, IActivate
     {
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
+        private const float rad2deg = (float)(180 / Math.PI);
+        private const float deg2rad = (float)(1.0 / rad2deg);
         private bool startup;
 
         public ConfigHWOptFlow()
@@ -39,13 +39,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["FLOW_ENABLE"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("FLOW_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("FLOW_ENABLE", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {

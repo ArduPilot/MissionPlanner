@@ -23,11 +23,14 @@ namespace MissionPlanner.Utilities
                 listener.Start();
 
                 listener.BeginAcceptTcpClient(
-      new AsyncCallback(DoAcceptTcpClientCallback),
-      listener);
+                    new AsyncCallback(DoAcceptTcpClientCallback),
+                    listener);
             }
-            catch { Console.WriteLine("TCP Console fail: port 2300"); return; }
-
+            catch
+            {
+                Console.WriteLine("TCP Console fail: port 2300");
+                return;
+            }
         }
 
         // Process the client connection.
@@ -42,8 +45,8 @@ namespace MissionPlanner.Utilities
 
             // setup for next listener
             listener.BeginAcceptTcpClient(
-new AsyncCallback(DoAcceptTcpClientCallback),
-listener);
+                new AsyncCallback(DoAcceptTcpClientCallback),
+                listener);
 
             // Process the connection here. (Add the client to a
             // server table, read data, etc.)
@@ -65,7 +68,7 @@ listener);
             {
                 client.GetStream().WriteByte(thing);
             }
-            catch { }
+            catch {}
         }
     }
 }

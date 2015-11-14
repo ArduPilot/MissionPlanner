@@ -43,9 +43,7 @@ namespace MissionPlanner
 
                 MainV2.Comports.Add(mav);
             }
-            catch (Exception ex)
-            {
-            }
+            catch (Exception ex) {}
         }
     }
 }

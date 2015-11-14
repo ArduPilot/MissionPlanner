@@ -10,7 +10,7 @@ using log4net;
 
 namespace MissionPlanner.Arduino
 {
-    public class ArduinoSTKv2 : SerialPort,IArduinoComms
+    public class ArduinoSTKv2 : SerialPort, IArduinoComms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;
@@ -59,7 +59,7 @@ namespace MissionPlanner.Arduino
             data[a] = ck;
             a++;
 
-            this.Write(data,0,a);
+            this.Write(data, 0, a);
             //Console.WriteLine("about to read packet");
 
             byte[] ret = readpacket();
@@ -72,10 +72,10 @@ namespace MissionPlanner.Arduino
             return ret;
         }
 
-        byte[] readpacket() 
+        byte[] readpacket()
         {
             byte[] temp = new byte[4000];
-            byte[] mes = new byte[2] { 0x0, 0xC0 }; // fail
+            byte[] mes = new byte[2] {0x0, 0xC0}; // fail
             int a = 7;
             int count = 0;
 
@@ -88,7 +88,10 @@ namespace MissionPlanner.Arduino
                 {
                     temp[count] = (byte)this.ReadByte();
                 }
-                catch { break; }
+                catch
+                {
+                    break;
+                }
 
 
                 //Console.Write("{1}", temp[0], (char)temp[0]);
@@ -107,9 +110,7 @@ namespace MissionPlanner.Arduino
                 }
 
                 if (count >= 5)
-                {
                     mes[count - 5] = temp[count];
-                }
 
                 count++;
             }
@@ -119,7 +120,7 @@ namespace MissionPlanner.Arduino
             {
                 temp[count] = (byte)this.ReadByte();
             }
-            catch { }
+            catch {}
 
             count++;
 
@@ -138,16 +139,14 @@ namespace MissionPlanner.Arduino
         public bool connectAP()
         {
             if (!this.IsOpen)
-            {
                 return false;
-            }
 
             Thread.Sleep(100);
 
             int a = 0;
             while (a < 5)
             {
-                byte[] temp = new byte[] { 0x6, 0,0,0,0};
+                byte[] temp = new byte[] {0x6, 0, 0, 0, 0};
                 temp = this.genstkv2packet(temp);
                 a++;
                 Thread.Sleep(50);
@@ -155,11 +154,9 @@ namespace MissionPlanner.Arduino
                 try
                 {
                     if (temp[0] == 6 && temp[1] == 0 && temp.Length == 2)
-                    {
                         return true;
-                    }
                 }
-                catch { }
+                catch {}
             }
             return false;
         }
@@ -172,6 +169,7 @@ namespace MissionPlanner.Arduino
         {
             return connectAP();
         }
+
         /// <summary>
         /// Syncs after a private command has been sent
         /// </summary>
@@ -179,11 +177,10 @@ namespace MissionPlanner.Arduino
         public bool sync()
         {
             if (!this.IsOpen)
-            {
                 return false;
-            }
             return true;
         }
+
         /// <summary>
         /// Downloads the eeprom with the given length - set Address first
         /// </summary>
@@ -192,12 +189,10 @@ namespace MissionPlanner.Arduino
         public byte[] download(short length)
         {
             if (!this.IsOpen)
-            {
                 throw new Exception();
-            }
             byte[] data = new byte[length];
 
-            byte[] temp = new byte[] { 0x16, (byte)((length >> 8) & 0xff), (byte)((length >> 0) & 0xff) };
+            byte[] temp = new byte[] {0x16, (byte)((length >> 8) & 0xff), (byte)((length >> 0) & 0xff)};
             temp = this.genstkv2packet(temp);
 
             Array.Copy(temp, 2, data, 0, length);
@@ -208,12 +203,10 @@ namespace MissionPlanner.Arduino
         public byte[] downloadflash(short length)
         {
             if (!this.IsOpen)
-            {
                 throw new Exception("Port Closed");
-            }
             byte[] data = new byte[length];
 
-            byte[] temp = new byte[] { 0x14, (byte)((length >> 8) & 0xff), (byte)((length >> 0) & 0xff) };
+            byte[] temp = new byte[] {0x14, (byte)((length >> 8) & 0xff), (byte)((length >> 0) & 0xff)};
             temp = this.genstkv2packet(temp);
 
             Array.Copy(temp, 2, data, 0, length);
@@ -224,9 +217,7 @@ namespace MissionPlanner.Arduino
         public bool uploadflash(byte[] data, int startfrom, int length, int startaddress)
         {
             if (!this.IsOpen)
-            {
                 return false;
-            }
             int loops = (length / 0x100);
             int totalleft = length;
             int sending = 0;
@@ -234,13 +225,9 @@ namespace MissionPlanner.Arduino
             for (int a = 0; a <= loops; a++)
             {
                 if (totalleft > 0x100)
-                {
                     sending = 0x100;
-                }
                 else
-                {
                     sending = totalleft;
-                }
 
                 //startaddress = 256;
                 if (sending == 0)
@@ -251,7 +238,7 @@ namespace MissionPlanner.Arduino
 
                 // 0x13          
 
-                byte[] command = new byte[] { (byte)0x13, (byte)(sending >> 8), (byte)(sending & 0xff) };
+                byte[] command = new byte[] {(byte)0x13, (byte)(sending >> 8), (byte)(sending & 0xff)};
 
                 log.InfoFormat((startfrom + (length - totalleft)) + " - " + sending);
 
@@ -284,27 +271,26 @@ namespace MissionPlanner.Arduino
         public bool setaddress(int address)
         {
             if (!this.IsOpen)
-            {
                 return false;
-            }
 
             if (address % 2 == 1)
-            {
                 throw new Exception("Address must be an even number");
-            }
-                
+
             log.InfoFormat("Sending address   " + ((address / 2)));
 
             int tempstart = address / 2; // words
-            byte[] temp = new byte[] { 0x6, (byte)((tempstart >> 24) & 0xff), (byte)((tempstart >> 16) & 0xff), (byte)((tempstart >> 8) & 0xff), (byte)((tempstart >> 0) & 0xff) };
+            byte[] temp = new byte[]
+            {
+                0x6, (byte)((tempstart >> 24) & 0xff), (byte)((tempstart >> 16) & 0xff), (byte)((tempstart >> 8) & 0xff),
+                (byte)((tempstart >> 0) & 0xff)
+            };
             temp = this.genstkv2packet(temp);
 
             if (temp[1] == 0)
-            {
                 return true;
-            }
             return false;
         }
+
         /// <summary>
         /// Upload data at preset address
         /// </summary>
@@ -313,12 +299,10 @@ namespace MissionPlanner.Arduino
         /// <param name="length">length to send</param>
         /// <param name="startaddress">sets eeprom start programing address</param>
         /// <returns>true = passed, false = failed</returns>
-        public bool upload(byte[] data,short startfrom,short length, short startaddress)
+        public bool upload(byte[] data, short startfrom, short length, short startaddress)
         {
             if (!this.IsOpen)
-            {
                 return false;
-            }
             int loops = (length / 0x100);
             int totalleft = length;
             int sending = 0;
@@ -326,13 +310,9 @@ namespace MissionPlanner.Arduino
             for (int a = 0; a <= loops; a++)
             {
                 if (totalleft > 0x100)
-                {
                     sending = 0x100;
-                }
                 else
-                {
                     sending = totalleft;
-                }
 
                 //startaddress = 256;
                 if (sending == 0)
@@ -343,7 +323,7 @@ namespace MissionPlanner.Arduino
 
                 // 0x13          
 
-                byte[] command = new byte[] { (byte)0x15, (byte)(sending >> 8), (byte)(sending & 0xff) };
+                byte[] command = new byte[] {(byte)0x15, (byte)(sending >> 8), (byte)(sending & 0xff)};
 
                 log.InfoFormat((startfrom + (length - totalleft)) + " - " + sending);
 
@@ -357,7 +337,7 @@ namespace MissionPlanner.Arduino
 
 
                 if (Progress != null)
-                    Progress((int)(((float)startaddress / (float)length) * 100),"");
+                    Progress((int)(((float)startaddress / (float)length) * 100), "");
 
                 if (command[1] != 0)
                 {
@@ -374,17 +354,17 @@ namespace MissionPlanner.Arduino
             byte sig2 = 0x00;
             byte sig3 = 0x00;
 
-            byte[] command = new byte[] { (byte)0x1b, 0, 0, 0, 0 };
+            byte[] command = new byte[] {(byte)0x1b, 0, 0, 0, 0};
             command = this.genstkv2packet(command);
 
             sig1 = command[2];
 
-            command = new byte[] { (byte)0x1b, 0, 0, 0, 1 };
+            command = new byte[] {(byte)0x1b, 0, 0, 0, 1};
             command = this.genstkv2packet(command);
 
             sig2 = command[2];
 
-            command = new byte[] { (byte)0x1b, 0, 0, 0, 2 };
+            command = new byte[] {(byte)0x1b, 0, 0, 0, 2};
             command = this.genstkv2packet(command);
 
             sig3 = command[2];
@@ -401,21 +381,21 @@ namespace MissionPlanner.Arduino
             return null;
         }
 
-        public new bool Close() {
-
+        public new bool Close()
+        {
             try
             {
-                byte[] command = new byte[] { (byte)0x11 };
+                byte[] command = new byte[] {(byte)0x11};
                 genstkv2packet(command);
             }
-            catch { }
+            catch {}
 
             try
             {
                 if (base.IsOpen)
                     base.Close();
             }
-            catch { }
+            catch {}
 
             base.DtrEnable = false;
             base.RtsEnable = false;

@@ -74,7 +74,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private static void readmessage(object item)
         {
-            var local = (ConfigAccelerometerCalibration) item;
+            var local = (ConfigAccelerometerCalibration)item;
 
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
@@ -103,20 +103,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                local.Invoke((MethodInvoker) delegate
+                local.Invoke((MethodInvoker)delegate
                 {
                     local.BUT_calib_accell.Text = Strings.Done;
                     local.BUT_calib_accell.Enabled = false;
                 });
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         public void UpdateUserMessage()
         {
-            Invoke((MethodInvoker) delegate
+            Invoke((MethodInvoker)delegate
             {
                 if (!MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
                     lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;

@@ -16,7 +16,7 @@ namespace MissionPlanner.Comms
         public static int running = 0;
         static bool connect = false;
 
-       static  int[] bauds = new int[] { 115200, 57600, 38400, 19200, 9600 };
+        static int[] bauds = new int[] {115200, 57600, 38400, 19200, 9600};
 
         static public void Scan(bool connect = false)
         {
@@ -35,13 +35,14 @@ namespace MissionPlanner.Comms
 
             foreach (string port in portlist)
             {
-                scanports.Add(new MAVLinkInterface() { BaseStream = new SerialPort() { PortName = port, BaudRate = bauds[0] } });
+                scanports.Add(new MAVLinkInterface()
+                {
+                    BaseStream = new SerialPort() {PortName = port, BaudRate = bauds[0]}
+                });
             }
 
             foreach (MAVLinkInterface inter in scanports)
-            {
                 System.Threading.ThreadPool.QueueUserWorkItem(doread, inter);
-            }
         }
 
         static void doread(object o)
@@ -60,10 +61,10 @@ namespace MissionPlanner.Comms
 
                 int baud = 0;
 
-            redo:
+                redo:
 
-                    if (run == 0)
-                        return;
+                if (run == 0)
+                    return;
 
                 DateTime deadline = DateTime.Now.AddSeconds(5);
 
@@ -77,13 +78,14 @@ namespace MissionPlanner.Comms
                     {
                         packet = port.readPacket();
                     }
-                    catch { }
+                    catch {}
 
                     if (packet.Length > 0)
                     {
                         port.BaseStream.Close();
 
-                        Console.WriteLine("Found Mavlink on port {0} at {1}", port.BaseStream.PortName, port.BaseStream.BaudRate);
+                        Console.WriteLine("Found Mavlink on port {0} at {1}", port.BaseStream.PortName,
+                            port.BaseStream.BaudRate);
 
                         foundport = true;
                         portinterface = port.BaseStream;
@@ -122,9 +124,12 @@ namespace MissionPlanner.Comms
                 {
                     port.BaseStream.Close();
                 }
-                catch { }
+                catch {}
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             finally
             {
                 lock (runlock)
@@ -139,23 +144,16 @@ namespace MissionPlanner.Comms
         static void doconnect()
         {
             if (MainV2.instance == null)
-            {
                 MainV2.comPort.Open(false);
-            }
             else
             {
-
                 if (MainV2.instance.InvokeRequired)
                 {
-                    MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-                    {
-                        MainV2.comPort.Open(true);
-                    });
+                    MainV2.instance.BeginInvoke(
+                        (System.Windows.Forms.MethodInvoker)delegate() { MainV2.comPort.Open(true); });
                 }
                 else
-                {
                     MainV2.comPort.Open(true);
-                }
             }
         }
     }

@@ -13,10 +13,7 @@ namespace MissionPlanner.Controls.BackstageView
     {
         public BackstageViewPage this[int Index]
         {
-            get
-            {
-                return (BackstageViewPage)List[Index];
-            }
+            get { return (BackstageViewPage)List[Index]; }
         }
 
         public bool Contains(BackstageViewPage itemType)
@@ -43,6 +40,5 @@ namespace MissionPlanner.Controls.BackstageView
         {
             return List.IndexOf(itemType);
         }
-
     }
 }

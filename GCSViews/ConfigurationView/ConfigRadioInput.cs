@@ -53,10 +53,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 //setup bindings
-                chroll = (int) (float) MainV2.comPort.MAV.param["RCMAP_ROLL"];
-                chpitch = (int) (float) MainV2.comPort.MAV.param["RCMAP_PITCH"];
+                chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
+                chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
                 chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
-                chyaw = (int) (float) MainV2.comPort.MAV.param["RCMAP_YAW"];
+                chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
             }
 
             BARroll.DataBindings.Clear();
@@ -84,9 +84,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 // force this screen to work
                 MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
             }
-            catch
-            {
-            }
+            catch {}
 
             startup = true;
 
@@ -100,9 +98,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CHK_elevonch1rev.Checked = MainV2.comPort.MAV.param["ELEVON_CH1_REV"].ToString() == "1";
                     CHK_elevonch2rev.Checked = MainV2.comPort.MAV.param["ELEVON_CH2_REV"].ToString() == "1";
                 }
-                catch
-                {
-                } // this will fail on arducopter
+                catch {} // this will fail on arducopter
             }
             else
             {
@@ -126,9 +122,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CHK_revch4.Checked = MainV2.comPort.MAV.param["RC4_REV"].ToString() == "-1";
                 }
             }
-            catch
-            {
-            } //(Exception ex) { CustomMessageBox.Show("Missing RC rev Param " + ex.ToString()); }
+            catch {} //(Exception ex) { CustomMessageBox.Show("Missing RC rev Param " + ex.ToString()); }
             startup = false;
         }
 
@@ -176,9 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 10);
             }
-            catch
-            {
-            }
+            catch {}
 
             BUT_Calibrateradio.Text = Strings.Click_when_Done;
 
@@ -223,35 +215,33 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     rcmin[7] = Math.Min(rcmin[7], MainV2.comPort.MAV.cs.ch8in);
                     rcmax[7] = Math.Max(rcmax[7], MainV2.comPort.MAV.cs.ch8in);
 
-                    BARroll.minline = (int) rcmin[chroll - 1];
-                    BARroll.maxline = (int) rcmax[chroll - 1];
+                    BARroll.minline = (int)rcmin[chroll - 1];
+                    BARroll.maxline = (int)rcmax[chroll - 1];
 
-                    BARpitch.minline = (int) rcmin[chpitch - 1];
-                    BARpitch.maxline = (int) rcmax[chpitch - 1];
+                    BARpitch.minline = (int)rcmin[chpitch - 1];
+                    BARpitch.maxline = (int)rcmax[chpitch - 1];
 
-                    BARthrottle.minline = (int) rcmin[chthro - 1];
-                    BARthrottle.maxline = (int) rcmax[chthro - 1];
+                    BARthrottle.minline = (int)rcmin[chthro - 1];
+                    BARthrottle.maxline = (int)rcmax[chthro - 1];
 
-                    BARyaw.minline = (int) rcmin[chyaw - 1];
-                    BARyaw.maxline = (int) rcmax[chyaw - 1];
+                    BARyaw.minline = (int)rcmin[chyaw - 1];
+                    BARyaw.maxline = (int)rcmax[chyaw - 1];
 
-                    BAR5.minline = (int) rcmin[4];
-                    BAR5.maxline = (int) rcmax[4];
+                    BAR5.minline = (int)rcmin[4];
+                    BAR5.maxline = (int)rcmax[4];
 
-                    BAR6.minline = (int) rcmin[5];
-                    BAR6.maxline = (int) rcmax[5];
+                    BAR6.minline = (int)rcmin[5];
+                    BAR6.maxline = (int)rcmax[5];
 
-                    BAR7.minline = (int) rcmin[6];
-                    BAR7.maxline = (int) rcmax[6];
+                    BAR7.minline = (int)rcmin[6];
+                    BAR7.maxline = (int)rcmax[6];
 
-                    BAR8.minline = (int) rcmin[7];
-                    BAR8.maxline = (int) rcmax[7];
+                    BAR8.minline = (int)rcmin[7];
+                    BAR8.maxline = (int)rcmax[7];
                 }
             }
 
-            if (rcmin[0] > 800 && rcmin[0] < 2200)
-            {
-            }
+            if (rcmin[0] > 800 && rcmin[0] < 2200) {}
             else
             {
                 CustomMessageBox.Show("Bad channel 1 input, canceling");
@@ -304,9 +294,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, oldrc);
             }
-            catch
-            {
-            }
+            catch {}
 
             CustomMessageBox.Show(
                 "Here are the detected radio options\nNOTE Channels not connected are displayed as 1500 +-2\nNormal values are around 1100 | 1900\nChannel:Min | Max \n" +
@@ -322,13 +310,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["ELEVON_MIXING"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("ELEVON_MIXING", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("ELEVON_MIXING", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -343,13 +327,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["ELEVON_REVERSE"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("ELEVON_REVERSE", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("ELEVON_REVERSE", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -364,13 +344,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["ELEVON_CH1_REV"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("ELEVON_CH1_REV", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("ELEVON_CH1_REV", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -385,13 +361,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["ELEVON_CH2_REV"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("ELEVON_CH2_REV", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("ELEVON_CH2_REV", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -401,43 +373,43 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CHK_revch1_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel("RC1_REV", ((CheckBox) sender).Checked, BARroll);
+            reverseChannel("RC1_REV", ((CheckBox)sender).Checked, BARroll);
         }
 
         private void CHK_revch2_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel("RC2_REV", ((CheckBox) sender).Checked, BARpitch);
+            reverseChannel("RC2_REV", ((CheckBox)sender).Checked, BARpitch);
         }
 
         private void CHK_revch3_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel("RC3_REV", ((CheckBox) sender).Checked, BARthrottle);
+            reverseChannel("RC3_REV", ((CheckBox)sender).Checked, BARthrottle);
         }
 
         private void CHK_revch4_CheckedChanged(object sender, EventArgs e)
         {
-            reverseChannel("RC4_REV", ((CheckBox) sender).Checked, BARyaw);
+            reverseChannel("RC4_REV", ((CheckBox)sender).Checked, BARyaw);
         }
 
         private void reverseChannel(string name, bool normalreverse, Control progressbar)
         {
             if (normalreverse)
             {
-                ((HorizontalProgressBar2) progressbar).reverse = true;
-                ((HorizontalProgressBar2) progressbar).BackgroundColor = Color.FromArgb(148, 193, 31);
-                ((HorizontalProgressBar2) progressbar).ValueColor = Color.FromArgb(0x43, 0x44, 0x45);
+                ((HorizontalProgressBar2)progressbar).reverse = true;
+                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(148, 193, 31);
+                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(0x43, 0x44, 0x45);
             }
             else
             {
-                ((HorizontalProgressBar2) progressbar).reverse = false;
-                ((HorizontalProgressBar2) progressbar).BackgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
-                ((HorizontalProgressBar2) progressbar).ValueColor = Color.FromArgb(148, 193, 31);
+                ((HorizontalProgressBar2)progressbar).reverse = false;
+                ((HorizontalProgressBar2)progressbar).BackgroundColor = Color.FromArgb(0x43, 0x44, 0x45);
+                ((HorizontalProgressBar2)progressbar).ValueColor = Color.FromArgb(148, 193, 31);
             }
 
             if (startup)
                 return;
             if (MainV2.comPort.MAV.param["SWITCH_ENABLE"] != null &&
-                (float) MainV2.comPort.MAV.param["SWITCH_ENABLE"] == 1)
+                (float)MainV2.comPort.MAV.param["SWITCH_ENABLE"] == 1)
             {
                 try
                 {
@@ -467,7 +439,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
 
         private void BUT_BindradiodsmX_Click(object sender, EventArgs e)
@@ -477,7 +452,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
 
         private void BUT_Bindradiodsm8_Click(object sender, EventArgs e)
@@ -487,7 +465,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
     }
 }

@@ -9,10 +9,12 @@ namespace MissionPlanner.Antenna
     class ArduTracker : ITrackerOutput
     {
         public SerialPort ComPort { get; set; }
+
         /// <summary>
         ///  0-360
         /// </summary>
         public double TrimPan { get; set; }
+
         /// <summary>
         /// -90 - 90
         /// </summary>
@@ -31,8 +33,17 @@ namespace MissionPlanner.Antenna
         public int PanAccel { get; set; }
         public int TiltAccel { get; set; }
 
-        public bool PanReverse { get { return _panreverse == 1; } set { _panreverse = value == true ? -1 : 1; } }
-        public bool TiltReverse { get { return _tiltreverse == 1; } set { _tiltreverse = value == true ? -1 : 1; } }
+        public bool PanReverse
+        {
+            get { return _panreverse == 1; }
+            set { _panreverse = value == true ? -1 : 1; }
+        }
+
+        public bool TiltReverse
+        {
+            get { return _tiltreverse == 1; }
+            set { _tiltreverse = value == true ? -1 : 1; }
+        }
 
         int _panreverse = 1;
         int _tiltreverse = 1;
@@ -42,16 +53,15 @@ namespace MissionPlanner.Antenna
 
         public bool Init()
         {
-
             if ((PanStartRange - PanEndRange) == 0)
             {
-                CustomMessageBox.Show(Strings.InvalidPanRange,Strings.ERROR);
+                CustomMessageBox.Show(Strings.InvalidPanRange, Strings.ERROR);
                 return false;
             }
 
             if ((TiltStartRange - TiltEndRange) == 0)
             {
-                CustomMessageBox.Show(Strings.InvalidTiltRange,Strings.ERROR);
+                CustomMessageBox.Show(Strings.InvalidTiltRange, Strings.ERROR);
                 return false;
             }
 
@@ -59,14 +69,17 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Open();
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return false; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR);
+                return false;
+            }
 
             return true;
         }
+
         public bool Setup()
         {
-
-
             return true;
         }
 
@@ -145,7 +158,7 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Close();
             }
-            catch { }
+            catch {}
             return true;
         }
 
@@ -157,6 +170,5 @@ namespace MissionPlanner.Antenna
                 return (short)max;
             return (short)input;
         }
-
     }
 }

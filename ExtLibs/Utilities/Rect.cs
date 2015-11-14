@@ -12,11 +12,25 @@ namespace MissionPlanner.Utilities
         public double Left;
         public double Right;
 
-        public double Width { get { return Right - Left; } }
-        public double Height { get { return Top - Bottom; } }
+        public double Width
+        {
+            get { return Right - Left; }
+        }
 
-        public double MidWidth { get { return ((Right - Left) / 2) + Left; } }
-        public double MidHeight { get { return ((Top - Bottom) / 2) + Bottom; } }
+        public double Height
+        {
+            get { return Top - Bottom; }
+        }
+
+        public double MidWidth
+        {
+            get { return ((Right - Left) / 2) + Left; }
+        }
+
+        public double MidHeight
+        {
+            get { return ((Top - Bottom) / 2) + Bottom; }
+        }
 
         public Rect(double Left, double Top, double Width, double Height)
         {
@@ -31,7 +45,5 @@ namespace MissionPlanner.Utilities
             // pythagarus
             return Math.Sqrt(Math.Pow(Width, 2) + Math.Pow(Height, 2));
         }
-
     }
-
 }

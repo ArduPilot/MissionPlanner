@@ -36,7 +36,7 @@ namespace MissionPlanner.Log
         int receivedbytes = 0;
 
         //List<Model> orientation = new List<Model>();
- 
+
         Object thisLock = new Object();
         DateTime start = DateTime.Now;
 
@@ -66,11 +66,13 @@ namespace MissionPlanner.Log
                 try
                 {
                     if (comPort.BytesToRead > 0)
-                    {
                         return;
-                    }
                 }
-                catch { threadrun = false; return; }
+                catch
+                {
+                    threadrun = false;
+                    return;
+                }
             }
         }
 
@@ -83,11 +85,13 @@ namespace MissionPlanner.Log
                 try
                 {
                     if (comPort.BytesToRead > 0)
-                    {
                         comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
-                    }
                 }
-                catch { threadrun = false; return; }
+                catch
+                {
+                    threadrun = false;
+                    return;
+                }
             }
         }
 
@@ -119,9 +123,7 @@ namespace MissionPlanner.Log
                     // try provoke a response
                     comPort.Write("\n\n?\r\n\n");
                 }
-                catch
-                {
-                }
+                catch {}
 
                 // 10 sec
                 waitandsleep(10000);
@@ -147,9 +149,7 @@ namespace MissionPlanner.Log
                     if (comPort.IsOpen)
                         comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
                 }
-                catch
-                {
-                }
+                catch {}
 
                 while (threadrun)
                 {
@@ -171,7 +171,7 @@ namespace MissionPlanner.Log
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) { Name = "comport reader", IsBackground = true };
+            }) {Name = "comport reader", IsBackground = true};
             t11.Start();
 
             // doesnt seem to work on mac
@@ -185,17 +185,13 @@ namespace MissionPlanner.Log
                 //CHK_logs.Items.Clear();
                 //for (int a = 1; a <= logcount; a++)
                 if (!CHK_logs.Items.Contains(logcount))
-                {
                     CHK_logs.Items.Add(logcount);
-                }
             };
             try
             {
                 BeginInvoke(m);
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         void updateDisplay()
@@ -203,14 +199,14 @@ namespace MissionPlanner.Log
             if (start.Second != DateTime.Now.Second)
             {
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    try
-    {
-        if (comPort.IsOpen)
-        TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
-    }
-    catch { }
-});
+                {
+                    try
+                    {
+                        if (comPort.IsOpen)
+                            TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
+                    }
+                    catch {}
+                });
                 start = DateTime.Now;
             }
         }
@@ -247,24 +243,22 @@ namespace MissionPlanner.Log
                     {
                         case serialstatus.Connecting:
 
-                            if (line.Contains("ENTER") || line.Contains("GROUND START") || line.Contains("reset to FLY") || line.Contains("interactive setup") || line.Contains("CLI") || line.Contains("Ardu"))
+                            if (line.Contains("ENTER") || line.Contains("GROUND START") || line.Contains("reset to FLY") ||
+                                line.Contains("interactive setup") || line.Contains("CLI") || line.Contains("Ardu"))
                             {
                                 try
                                 {
                                     //System.Threading.Thread.Sleep(200);
                                     //comPort.Write("\n\n\n\n");
                                 }
-                                catch { }
+                                catch {}
 
                                 System.Threading.Thread.Sleep(500);
 
                                 // clear history
-                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.Clear();
-});
+                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate() { TXT_seriallog.Clear(); });
 
-                               // comPort.Write("logs\r");
+                                // comPort.Write("logs\r");
                                 status = serialstatus.Done;
                             }
                             break;
@@ -275,23 +269,28 @@ namespace MissionPlanner.Log
 
                             if (logtime != DateTime.MinValue)
                             {
-                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
+                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar +
+                                                        logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                                 try
                                 {
                                     File.Move(logfile, newlogfilename);
                                     logfile = newlogfilename;
                                 }
-                                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, Strings.ERROR); }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                    CustomMessageBox.Show(
+                                        "Failed to rename file " + logfile + "\nto " + newlogfilename, Strings.ERROR);
+                                }
                             }
 
                             TextReader tr = new StreamReader(logfile);
 
                             //
 
-                            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.AppendText("Creating KML for " + logfile);
-});
+                            this.Invoke(
+                                (System.Windows.Forms.MethodInvoker)
+                                    delegate() { TXT_seriallog.AppendText("Creating KML for " + logfile); });
 
                             LogOutput lo = new LogOutput();
 
@@ -306,57 +305,54 @@ namespace MissionPlanner.Log
                             {
                                 lo.writeKML(logfile + ".kml");
                             }
-                            catch { } // usualy invalid lat long error
+                            catch {} // usualy invalid lat long error
                             status = serialstatus.Done;
                             comPort.DiscardInBuffer();
                             break;
                         case serialstatus.Createfile:
                             receivedbytes = 0;
                             Directory.CreateDirectory(MainV2.LogDir);
-                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
+                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar +
+                                      DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
                             status = serialstatus.Waiting;
                             lock (thisLock)
                             {
-                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.Clear();
-});
+                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate() { TXT_seriallog.Clear(); });
                             }
                             //if (line.Contains("Dumping Log"))
-                            {
-                                status = serialstatus.Reading;
-                            }
+                        {
+                            status = serialstatus.Reading;
+                        }
                             break;
                         case serialstatus.Done:
                             // 
-                           // if (line.Contains("start") && line.Contains("end"))
+                            // if (line.Contains("start") && line.Contains("end"))
+                        {
+                            Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
+                            if (regex2.IsMatch(line))
                             {
-                                Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
-                                if (regex2.IsMatch(line))
-                                {
-                                    MatchCollection matchs = regex2.Matches(line);
-                                    logcount = int.Parse(matchs[0].Groups[1].Value);
-                                    genchkcombo(logcount);
-                                    //status = serialstatus.Done;
-                                }
+                                MatchCollection matchs = regex2.Matches(line);
+                                logcount = int.Parse(matchs[0].Groups[1].Value);
+                                genchkcombo(logcount);
+                                //status = serialstatus.Done;
                             }
+                        }
                             if (line.Contains("No logs"))
-                            {
                                 status = serialstatus.Done;
-                            }
                             break;
                         case serialstatus.Reading:
                             if (line.Contains("packets read") || line.Contains("Done") || line.Contains("logs enabled"))
                             {
                                 status = serialstatus.Closefile;
-                                Console.Write("CloseFile: " +line);
+                                Console.Write("CloseFile: " + line);
                                 break;
                             }
                             sw.Write(line);
                             continue;
                         case serialstatus.Waiting:
-                            if (line.Contains("Dumping Log") || line.Contains("GPS:") || line.Contains("NTUN:") || line.Contains("CTUN:") || line.Contains("PM:"))
+                            if (line.Contains("Dumping Log") || line.Contains("GPS:") || line.Contains("NTUN:") ||
+                                line.Contains("CTUN:") || line.Contains("PM:"))
                             {
                                 status = serialstatus.Reading;
                                 Console.Write("Reading: " + line);
@@ -367,50 +363,43 @@ namespace MissionPlanner.Log
                     {
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
-
                             Console.Write(line);
 
-                            TXT_seriallog.AppendText(line.Replace((char)0x0,' '));
+                            TXT_seriallog.AppendText(line.Replace((char)0x0, ' '));
 
                             // auto scroll
                             if (TXT_seriallog.TextLength >= 10000)
-                            {
                                 TXT_seriallog.Text = TXT_seriallog.Text.Substring(TXT_seriallog.TextLength / 2);
-                            }
 
                             TXT_seriallog.SelectionStart = TXT_seriallog.Text.Length;
 
                             TXT_seriallog.ScrollToCaret();
 
                             TXT_seriallog.Refresh();
-
                         });
-
-
-
                     }
                 }
 
                 //log.Info("exit while");
             }
-            catch (Exception ex) { CustomMessageBox.Show("Error reading data" + ex.ToString()); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Error reading data" + ex.ToString());
+            }
         }
 
-   
+
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
             threadrun = false;
             System.Threading.Thread.Sleep(500);
             if (comPort.IsOpen)
-            {
                 comPort.Close();
-            }
         }
 
         private void CHK_logs_Click(object sender, EventArgs e)
         {
             ListBox lb = sender as ListBox;
-
         }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
@@ -423,7 +412,13 @@ namespace MissionPlanner.Log
                     return;
                 }
 
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString())); });
+                System.Threading.Thread t11 =
+                    new System.Threading.Thread(
+                        delegate()
+                        {
+                            downloadthread(int.Parse(CHK_logs.Items[0].ToString()),
+                                int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString()));
+                        });
                 t11.Name = "Log Download All thread";
                 t11.Start();
             }
@@ -447,12 +442,14 @@ namespace MissionPlanner.Log
                     {
                         System.Threading.Thread.Sleep(100);
                     }
-
                 }
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message,Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+            }
         }
 
         private void downloadsinglethread()
@@ -480,7 +477,10 @@ namespace MissionPlanner.Log
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+            }
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
@@ -504,7 +504,10 @@ namespace MissionPlanner.Log
                 status = serialstatus.Done;
                 CHK_logs.Items.Clear();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+            }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)
@@ -519,7 +522,7 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch {} // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -539,7 +542,11 @@ namespace MissionPlanner.Log
 
                             tr.Close();
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" +
+                                                  ex.ToString());
+                        }
 
                         lo.writeKML(logfile + ".kml");
 
@@ -562,7 +569,7 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch {} // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -578,7 +585,6 @@ namespace MissionPlanner.Log
                             TextReader tr = new StreamReader(logfile);
 
 
-
                             while (tr.Peek() != -1)
                             {
                                 lo.processLine(tr.ReadLine());
@@ -586,7 +592,11 @@ namespace MissionPlanner.Log
 
                             tr.Close();
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                            continue;
+                        }
 
                         lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
@@ -596,7 +606,7 @@ namespace MissionPlanner.Log
             }
         }
 
- 
+
         private void BUT_dumpdf_Click(object sender, EventArgs e)
         {
             if (status == serialstatus.Done)
@@ -627,13 +637,10 @@ namespace MissionPlanner.Log
                         DialogResult res = sfd.ShowDialog();
 
                         if (res == System.Windows.Forms.DialogResult.OK)
-                        {
                             BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
-                        }
                     }
                 }
             }
         }
-
     }
 }

@@ -13,7 +13,6 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
-
 using DirectShowLib;
 
 
@@ -28,6 +27,7 @@ namespace WebCamService
 
         /// <summary> graph builder interface. </summary>
         private IFilterGraph2 m_FilterGraph = null;
+
         private IMediaControl m_mediaCtrl = null;
 
         /// <summary> so we can wait for the async job to finish </summary>
@@ -41,6 +41,7 @@ namespace WebCamService
 
         /// <summary> Dimensions of the image, calculated once in constructor. </summary>
         private IntPtr m_handle = IntPtr.Zero;
+
         private int m_videoWidth;
         private int m_videoHeight;
         private int m_stride;
@@ -68,8 +69,7 @@ namespace WebCamService
                 int y,
                 [MarshalAs(UnmanagedType.LPWStr)] string lpszCaption,
                 int cObjects,
-                [MarshalAs(UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown)] 
-            ref object ppUnk,
+                [MarshalAs(UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown)] ref object ppUnk,
                 int cPages,
                 IntPtr lpPageClsID,
                 int lcid,
@@ -79,9 +79,7 @@ namespace WebCamService
 
         #endregion
 
-        public Capture()
-        {
-        }
+        public Capture() {}
 
         /// <summary> Use capture with selected media caps</summary>
         public Capture(int iDeviceNum, AMMediaType media)
@@ -92,9 +90,7 @@ namespace WebCamService
             capDevices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
 
             if (iDeviceNum + 1 > capDevices.Length)
-            {
                 throw new Exception("No video capture devices found at that index!");
-            }
 
             try
             {
@@ -113,7 +109,6 @@ namespace WebCamService
                 timer1 = new Thread(timer);
                 timer1.IsBackground = true;
                 timer1.Start();
-
             }
             catch
             {
@@ -130,19 +125,15 @@ namespace WebCamService
             {
                 try
                 {
-                    System.Threading.Thread.Sleep(1000/25); // 25 fps
+                    System.Threading.Thread.Sleep(1000 / 25); // 25 fps
 
                     timer1_Tick(this, null);
-
                 }
                 catch (ThreadAbortException)
                 {
                     break;
                 }
-                catch
-                {
-
-                }
+                catch {}
             }
         }
 
@@ -153,9 +144,7 @@ namespace WebCamService
                 timer1.Abort();
 
             if (camimage != null)
-            {
                 camimage(null); // clear last pic
-            }
             CloseInterfaces();
             if (m_PictureReady != null)
             {
@@ -163,6 +152,7 @@ namespace WebCamService
                 m_PictureReady = null;
             }
         }
+
         // Destructor
         ~Capture()
         {
@@ -171,25 +161,19 @@ namespace WebCamService
 
         public int Width
         {
-            get
-            {
-                return m_videoWidth;
-            }
+            get { return m_videoWidth; }
         }
+
         public int Height
         {
-            get
-            {
-                return m_videoHeight;
-            }
+            get { return m_videoHeight; }
         }
+
         public int Stride
         {
-            get
-            {
-                return m_stride;
-            }
+            get { return m_stride; }
         }
+
         /// <summary> capture the next image </summary>
         public IntPtr GetBitMap()
         {
@@ -206,7 +190,7 @@ namespace WebCamService
                 Start();
 
                 // Start waiting
-                if ( ! m_PictureReady.WaitOne(5000, false) )
+                if (!m_PictureReady.WaitOne(5000, false))
                 {
                     //throw new Exception("Timeout waiting to get picture");
                 }
@@ -217,21 +201,23 @@ namespace WebCamService
                 Marshal.FreeCoTaskMem(m_handle);
                 throw;
             }
-	
+
             // Got one
             return m_handle;
         }
+
         // Start the capture graph
         public void Start()
         {
             if (!m_bRunning)
             {
                 int hr = m_mediaCtrl.Run();
-                DsError.ThrowExceptionForHR( hr );
+                DsError.ThrowExceptionForHR(hr);
 
                 m_bRunning = true;
             }
         }
+
         // Pause the capture graph.
         // Running the graph takes up a lot of resources.  Pause it when it
         // isn't needed.
@@ -240,7 +226,7 @@ namespace WebCamService
             if (m_bRunning)
             {
                 int hr = m_mediaCtrl.Pause();
-                DsError.ThrowExceptionForHR( hr );
+                DsError.ThrowExceptionForHR(hr);
 
                 m_bRunning = false;
             }
@@ -255,9 +241,7 @@ namespace WebCamService
             capDevices = DsDevice.GetDevicesOfCat(FilterCategory.VideoInputDevice);
 
             foreach (DsDevice dev in capDevices)
-            {
                 list.Add(dev.Name);
-            }
 
             return list;
         }
@@ -270,11 +254,13 @@ namespace WebCamService
                 image = new Bitmap(this.Width, this.Height, this.Stride, PixelFormat.Format24bppRgb, ip);
                 image.RotateFlip(RotateFlipType.RotateNoneFlipY);
                 if (camimage != null)
-                {
                     camimage(image);
-                }
-            }//System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
-            catch { Console.WriteLine("Grab bmp failed"); }
+            }
+                //System.Windows.Forms.CustomMessageBox.Show("Problem with capture device, grabbing frame took longer than 5 sec");
+            catch
+            {
+                Console.WriteLine("Grab bmp failed");
+            }
         }
 
         /// <summary> build the capture graph for grabber. </summary>
@@ -287,12 +273,12 @@ namespace WebCamService
             ICaptureGraphBuilder2 capGraph = null;
 
             // Get the graphbuilder object
-            m_FilterGraph = (IFilterGraph2) new FilterGraph();
+            m_FilterGraph = (IFilterGraph2)new FilterGraph();
             m_mediaCtrl = m_FilterGraph as IMediaControl;
             try
             {
                 // Get the ICaptureGraphBuilder2
-                capGraph = (ICaptureGraphBuilder2) new CaptureGraphBuilder2();
+                capGraph = (ICaptureGraphBuilder2)new CaptureGraphBuilder2();
                 /*
                 // check for crossbar
                 var capDevices2 = DsDevice.GetDevicesOfCat(FilterCategory.AMKSCrossbar);
@@ -328,22 +314,23 @@ namespace WebCamService
                 }*/
 
                 // Get the SampleGrabber interface
-                sampGrabber = (ISampleGrabber) new SampleGrabber();
+                sampGrabber = (ISampleGrabber)new SampleGrabber();
 
                 // Start building the graph
-                hr = capGraph.SetFiltergraph( m_FilterGraph );
-                DsError.ThrowExceptionForHR( hr );
+                hr = capGraph.SetFiltergraph(m_FilterGraph);
+                DsError.ThrowExceptionForHR(hr);
 
                 // Add the video device
                 hr = m_FilterGraph.AddSourceFilterForMoniker(dev.Mon, null, "Video input", out capFilter);
-                DsError.ThrowExceptionForHR( hr );
+                DsError.ThrowExceptionForHR(hr);
 
                 // add video crossbar
                 // thanks to Andrew Fernie - this is to get tv tuner cards working
                 IAMCrossbar crossbar = null;
                 object o;
 
-                hr = capGraph.FindInterface(PinCategory.Capture, MediaType.Video, capFilter, typeof(IAMCrossbar).GUID, out o);
+                hr = capGraph.FindInterface(PinCategory.Capture, MediaType.Video, capFilter, typeof(IAMCrossbar).GUID,
+                    out o);
                 if (hr >= 0)
                 {
                     crossbar = (IAMCrossbar)o;
@@ -384,22 +371,21 @@ namespace WebCamService
                 DsError.ThrowExceptionForHR(hr);
 
                 //
-                IBaseFilter baseGrabFlt = (IBaseFilter)	sampGrabber;
+                IBaseFilter baseGrabFlt = (IBaseFilter)sampGrabber;
                 ConfigureSampleGrabber(sampGrabber);
 
                 // Add the frame grabber to the graph
-                hr = m_FilterGraph.AddFilter( baseGrabFlt, "Ds.NET Grabber" );
-                DsError.ThrowExceptionForHR( hr );
+                hr = m_FilterGraph.AddFilter(baseGrabFlt, "Ds.NET Grabber");
+                DsError.ThrowExceptionForHR(hr);
 
                 SetConfigParms(capGraph, capFilter, media);
 
-                hr = capGraph.RenderStream(PinCategory.Capture, MediaType.Video, capFilter, pAVIDecompressor, baseGrabFlt);
+                hr = capGraph.RenderStream(PinCategory.Capture, MediaType.Video, capFilter, pAVIDecompressor,
+                    baseGrabFlt);
                 if (hr < 0)
-                {
                     hr = capGraph.RenderStream(PinCategory.Capture, MediaType.Video, capFilter, null, baseGrabFlt);
-                }
 
-                DsError.ThrowExceptionForHR( hr );
+                DsError.ThrowExceptionForHR(hr);
 
                 SaveSizeInfo(sampGrabber);
             }
@@ -429,16 +415,15 @@ namespace WebCamService
 
             // Get the media type from the SampleGrabber
             AMMediaType media = new AMMediaType();
-            hr = sampGrabber.GetConnectedMediaType( media );
-            DsError.ThrowExceptionForHR( hr );
+            hr = sampGrabber.GetConnectedMediaType(media);
+            DsError.ThrowExceptionForHR(hr);
 
-            if( (media.formatType != FormatType.VideoInfo) || (media.formatPtr == IntPtr.Zero) )
-            {
-                throw new NotSupportedException( "Unknown Grabber Media Format" );
-            }
+            if ((media.formatType != FormatType.VideoInfo) || (media.formatPtr == IntPtr.Zero))
+                throw new NotSupportedException("Unknown Grabber Media Format");
 
             // Grab the size info
-            VideoInfoHeader videoInfoHeader = (VideoInfoHeader) Marshal.PtrToStructure( media.formatPtr, typeof(VideoInfoHeader) );
+            VideoInfoHeader videoInfoHeader =
+                (VideoInfoHeader)Marshal.PtrToStructure(media.formatPtr, typeof(VideoInfoHeader));
             m_videoWidth = videoInfoHeader.BmiHeader.Width;
             m_videoHeight = videoInfoHeader.BmiHeader.Height;
             m_stride = m_videoWidth * (videoInfoHeader.BmiHeader.BitCount / 8);
@@ -446,6 +431,7 @@ namespace WebCamService
             DsUtils.FreeAMMediaType(media);
             media = null;
         }
+
         private void ConfigureSampleGrabber(ISampleGrabber sampGrabber)
         {
             AMMediaType media;
@@ -453,20 +439,20 @@ namespace WebCamService
 
             // Set the media type to Video/RBG24
             media = new AMMediaType();
-            media.majorType	= MediaType.Video;
-            media.subType	= MediaSubType.RGB24;
+            media.majorType = MediaType.Video;
+            media.subType = MediaSubType.RGB24;
             media.formatType = FormatType.VideoInfo;
             sampGrabber.SetBufferSamples(false);
             sampGrabber.SetOneShot(false);
-            hr = sampGrabber.SetMediaType( media );
-            DsError.ThrowExceptionForHR( hr );
+            hr = sampGrabber.SetMediaType(media);
+            DsError.ThrowExceptionForHR(hr);
 
             DsUtils.FreeAMMediaType(media);
             media = null;
 
             // Configure the samplegrabber
-            hr = sampGrabber.SetCallback( this, 1 );
-            DsError.ThrowExceptionForHR( hr );
+            hr = sampGrabber.SetCallback(this, 1);
+            DsError.ThrowExceptionForHR(hr);
         }
 
         // Set the Framerate, and video size
@@ -477,13 +463,11 @@ namespace WebCamService
 
             // Find the stream config interface
             hr = capGraph.FindInterface(
-                PinCategory.Capture, MediaType.Video, capFilter, typeof(IAMStreamConfig).GUID, out o );
+                PinCategory.Capture, MediaType.Video, capFilter, typeof(IAMStreamConfig).GUID, out o);
 
             IAMStreamConfig videoStreamConfig = o as IAMStreamConfig;
             if (videoStreamConfig == null)
-            {
                 throw new Exception("Failed to get IAMStreamConfig");
-            }           
 
             // Set the new format
             try
@@ -491,9 +475,7 @@ namespace WebCamService
                 hr = videoStreamConfig.SetFormat(media);
                 DsError.ThrowExceptionForHR(hr);
             }
-            catch { }
-
-                
+            catch {}
 
 
             DsUtils.FreeAMMediaType(media);
@@ -507,7 +489,7 @@ namespace WebCamService
 
             try
             {
-                if( m_mediaCtrl != null )
+                if (m_mediaCtrl != null)
                 {
                     // Stop the graph
                     hr = m_mediaCtrl.Stop();
@@ -527,7 +509,7 @@ namespace WebCamService
         }
 
         /// <summary> sample callback, NOT USED. </summary>
-        int ISampleGrabberCB.SampleCB( double SampleTime, IMediaSample pSample )
+        int ISampleGrabberCB.SampleCB(double SampleTime, IMediaSample pSample)
         {
             if (!m_bGotOne)
             {
@@ -540,9 +522,7 @@ namespace WebCamService
                 int iBufferLen = pSample.GetSize();
 
                 if (pSample.GetSize() > m_stride * m_videoHeight)
-                {
                     throw new Exception("Buffer is wrong size");
-                }
 
                 NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
 
@@ -555,20 +535,18 @@ namespace WebCamService
         }
 
         /// <summary> buffer callback, COULD BE FROM FOREIGN THREAD. </summary>
-        int ISampleGrabberCB.BufferCB( double SampleTime, IntPtr pBuffer, int BufferLen )
+        int ISampleGrabberCB.BufferCB(double SampleTime, IntPtr pBuffer, int BufferLen)
         {
             if (!m_bGotOne)
             {
                 // The buffer should be long enought
-                if(BufferLen <= m_stride * m_videoHeight)
+                if (BufferLen <= m_stride * m_videoHeight)
                 {
                     // Copy the frame to the buffer
                     NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
                 }
                 else
-                {
                     throw new Exception("Buffer is wrong size");
-                }
 
                 // Set bGotOne to prevent further calls until we
                 // request a new bitmap.
@@ -578,9 +556,7 @@ namespace WebCamService
                 m_PictureReady.Set();
             }
             else
-            {
                 m_Dropped++;
-            }
             return 0;
         }
     }

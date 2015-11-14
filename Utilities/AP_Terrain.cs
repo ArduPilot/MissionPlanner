@@ -14,12 +14,11 @@ namespace MissionPlanner.Utilities
         calculate lookahead rise in terrain. This returns extra altitude
         needed to clear upcoming terrain in meters
         */
+
         float lookahead(Locationwp loc, float bearing, float distance, float climb_ratio)
         {
             if (!enable || grid_spacing <= 0)
-            {
                 return 0;
-            }
 
             //Locationwp loc;
             //if (!ahrs.get_position(loc))
@@ -48,9 +47,7 @@ namespace MissionPlanner.Utilities
                 {
                     float rise = (height - base_height) - climb;
                     if (rise > lookahead_estimate)
-                    {
                         lookahead_estimate = rise;
-                    }
                 }
             }
 
@@ -67,6 +64,7 @@ namespace MissionPlanner.Utilities
 
         This function costs about 20 microseconds on Pixhawk
         */
+
         bool height_amsl(Locationwp loc, ref float height)
         {
             height = (float)srtm.getAltitude(loc.lat, loc.lng).alt;
@@ -80,6 +78,7 @@ namespace MissionPlanner.Utilities
         * positions, so it keeps the accuracy even when dealing with small
         * distances and floating point numbers
         */
+
         void location_update(Locationwp loc, float bearing, float distance)
         {
             float ofs_north = cosf(radians(bearing)) * distance;
@@ -91,6 +90,7 @@ namespace MissionPlanner.Utilities
         *  extrapolate latitude/longitude given distances north and east
         *  This function costs about 80 usec on an AVR2560
         */
+
         void location_offset(Locationwp loc, float ofs_north, float ofs_east)
         {
             if (!is_zero(ofs_north) || !is_zero(ofs_east))

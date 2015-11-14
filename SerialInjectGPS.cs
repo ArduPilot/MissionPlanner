@@ -17,7 +17,7 @@ namespace MissionPlanner
     public partial class SerialInjectGPS : Form
     {
         private static readonly ILog log =
-        LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         internal static ICommsSerial comPort = new SerialPort();
         private System.Threading.Thread t12;
@@ -37,9 +37,7 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("NTRIP");
 
             if (threadrun)
-            {
                 BUT_connect.Text = Strings.Stop;
-            }
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
@@ -100,7 +98,8 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString());
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
+                                          ex.ToString());
                     return;
                 }
 

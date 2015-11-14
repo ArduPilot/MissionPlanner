@@ -10,13 +10,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass : UserControl, IActivate
     {
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
+        private const float rad2deg = (float)(180 / Math.PI);
+        private const float deg2rad = (float)(1.0 / rad2deg);
         private const int THRESHOLD_OFS_RED = 600;
         private const int THRESHOLD_OFS_YELLOW = 400;
         private bool startup;
 
-        private enum CompassNumber { Compass1 = 0, Compass2, Compass3 };
+        private enum CompassNumber
+        {
+            Compass1 = 0,
+            Compass2,
+            Compass3
+        };
 
         public ConfigHWCompass()
         {
@@ -48,9 +53,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             if (MainV2.comPort.MAV.param["COMPASS_AUTODEC"] != null)
-            {
                 CHK_autodec.Checked = MainV2.comPort.MAV.param["COMPASS_AUTODEC"].ToString() == "1" ? true : false;
-            }
 
 
             // Compass 1 settings
@@ -73,12 +76,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             LBL_compass1_offset.Text = "OFFSETS  X: " +
-                offset1_x.ToString() +
-                ",   Y: " + offset1_y.ToString() +
-                ",   Z: " + offset1_z.ToString();
+                                       offset1_x.ToString() +
+                                       ",   Y: " + offset1_y.ToString() +
+                                       ",   Z: " + offset1_z.ToString();
             LBL_compass1_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
-                ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
-                ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
+                                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
+                                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
 
 
             // Compass 2 settings
@@ -105,17 +108,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                 LBL_compass2_offset.Text = "OFFSETS  X: " +
-                    offset2_x.ToString() +
-                    ",   Y: " + offset2_y.ToString() +
-                    ",   Z: " + offset2_z.ToString();
-                LBL_compass2_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
-                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
-                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
+                                           offset2_x.ToString() +
+                                           ",   Y: " + offset2_y.ToString() +
+                                           ",   Z: " + offset2_z.ToString();
+                LBL_compass2_mot.Text = "MOT          X: " +
+                                        ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
+                                        ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
+                                        ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
             }
             else
-            {
                 groupBoxCompass2.Hide();
-            }
 
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN3"))
             {
@@ -126,7 +128,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 int offset3_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
                 int offset3_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
                 int offset3_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"];
-        
+
                 if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_RED)
                     LBL_compass3_offset.ForeColor = Color.Red;
                 else if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_YELLOW)
@@ -138,17 +140,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                 LBL_compass3_offset.Text = "OFFSETS  X: " +
-                    offset3_x.ToString() +
-                    ",   Y: " + offset3_y.ToString() +
-                    ",   Z: " + offset3_z.ToString();
-                LBL_compass3_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
-                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
-                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
+                                           offset3_x.ToString() +
+                                           ",   Y: " + offset3_y.ToString() +
+                                           ",   Z: " + offset3_z.ToString();
+                LBL_compass3_mot.Text = "MOT          X: " +
+                                        ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
+                                        ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
+                                        ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
             }
             else
-            {
                 groupBoxCompass3.Hide();
-            }
 
             ShowRelevantFields();
 
@@ -161,6 +162,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             return Math.Max(Math.Max(Math.Abs(val1), Math.Abs(val2)), Math.Abs(val3));
         }
+
         public void Deactivate()
         {
             timer1.Stop();
@@ -199,9 +201,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["COMPASS_DEC"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
                 {
                     var dec = 0.0f;
@@ -214,9 +214,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         dec = float.Parse(deg);
 
                         if (dec < 0)
-                            dec -= (float.Parse(min)/60);
+                            dec -= (float.Parse(min) / 60);
                         else
-                            dec += (float.Parse(min)/60);
+                            dec += (float.Parse(min) / 60);
                     }
                     catch
                     {
@@ -224,7 +224,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam("COMPASS_DEC", dec*deg2rad);
+                    MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                 }
             }
             catch
@@ -257,13 +257,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["MAG_ENABLE"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("MAG_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("MAG_ENABLE", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -286,7 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void CHK_autodec_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox) sender).Checked)
+            if (((CheckBox)sender).Checked)
             {
                 TXT_declination_deg.Enabled = false;
 
@@ -303,13 +299,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["COMPASS_AUTODEC"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("COMPASS_AUTODEC", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("COMPASS_AUTODEC", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {
@@ -401,7 +393,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 foreach (var item in mprog)
                 {
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " + "\n");
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " +
+                                               "\n");
                 }
 
                 mprog.Clear();
@@ -414,7 +407,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (item.compass_id == 0 && item.ofs_x == 0)
                         continue;
 
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" + item.ofs_z + " fit:" + item.fitness+ "\n");
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" +
+                                               item.ofs_z + " fit:" + item.fitness + "\n");
                 }
 
                 mrep.Clear();
@@ -447,11 +441,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
 
                 if (
-                        CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
-                            MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
+                    CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
                     CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
-                }
                 else
                 {
                     CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
@@ -484,7 +476,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
                 MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
-
             }
             catch (Exception)
             {
@@ -514,7 +505,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
-
             }
             catch (Exception)
             {
@@ -528,22 +518,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["COMPASS_LEARN"] == null)
-                {
                     CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
-                }
                 else
-                {
                     MainV2.comPort.setParam("COMPASS_LEARN", ((CheckBox)sender).Checked ? 1 : 0);
-                }
             }
             catch
             {
                 CustomMessageBox.Show("Set COMPASS_LEARN Failed");
             }
         }
-        
 
-        
+
         private void CHK_compass(object sender, EventArgs e)
         {
             ShowRelevantFields();
@@ -572,6 +557,4 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             LBL_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
         }
     }
-
-
 }

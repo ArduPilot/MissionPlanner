@@ -22,7 +22,7 @@ namespace MissionPlanner.HIL
             IPEndPoint ipep = new IPEndPoint(IPAddress.Any, recvPort);
 
             SimulatorRECV = new Socket(AddressFamily.InterNetwork,
-                            SocketType.Dgram, ProtocolType.Udp);
+                SocketType.Dgram, ProtocolType.Udp);
 
             SimulatorRECV.Bind(ipep);
 
@@ -45,12 +45,12 @@ namespace MissionPlanner.HIL
             {
                 SimulatorRECV.Close();
             }
-            catch { }
+            catch {}
             try
             {
                 XplanesSEND.Close();
             }
-            catch { }
+            catch {}
         }
 
         public override void GetFromSim(ref sitl_fdm sitldata)
@@ -66,7 +66,7 @@ namespace MissionPlanner.HIL
                         receviedbytes = SimulatorRECV.ReceiveFrom(udpdata, ref Remote);
                     }
                 }
-                catch { }
+                catch {}
 
                 if (udpdata[0] == 'D' && udpdata[1] == 'A')
                 {
@@ -81,14 +81,22 @@ namespace MissionPlanner.HIL
 
                         DATA[index] = new float[8];
 
-                        DATA[index][0] = BitConverter.ToSingle(udpdata, count + 1 * 4); ;
-                        DATA[index][1] = BitConverter.ToSingle(udpdata, count + 2 * 4); ;
-                        DATA[index][2] = BitConverter.ToSingle(udpdata, count + 3 * 4); ;
-                        DATA[index][3] = BitConverter.ToSingle(udpdata, count + 4 * 4); ;
-                        DATA[index][4] = BitConverter.ToSingle(udpdata, count + 5 * 4); ;
-                        DATA[index][5] = BitConverter.ToSingle(udpdata, count + 6 * 4); ;
-                        DATA[index][6] = BitConverter.ToSingle(udpdata, count + 7 * 4); ;
-                        DATA[index][7] = BitConverter.ToSingle(udpdata, count + 8 * 4); ;
+                        DATA[index][0] = BitConverter.ToSingle(udpdata, count + 1 * 4);
+                        ;
+                        DATA[index][1] = BitConverter.ToSingle(udpdata, count + 2 * 4);
+                        ;
+                        DATA[index][2] = BitConverter.ToSingle(udpdata, count + 3 * 4);
+                        ;
+                        DATA[index][3] = BitConverter.ToSingle(udpdata, count + 4 * 4);
+                        ;
+                        DATA[index][4] = BitConverter.ToSingle(udpdata, count + 5 * 4);
+                        ;
+                        DATA[index][5] = BitConverter.ToSingle(udpdata, count + 6 * 4);
+                        ;
+                        DATA[index][6] = BitConverter.ToSingle(udpdata, count + 7 * 4);
+                        ;
+                        DATA[index][7] = BitConverter.ToSingle(udpdata, count + 8 * 4);
+                        ;
 
                         count += 36; // 8 * float
                     }
@@ -124,14 +132,17 @@ namespace MissionPlanner.HIL
                     sitldata.longitude = (DATA[20][1]);
                     sitldata.altitude = (DATA[20][2] * ft2m);
 
-                    sitldata.speedN = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
-                    sitldata.speedE = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                    sitldata.speedN = DATA[21][3]; // (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
+                    sitldata.speedE = -DATA[21][5]; // (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
 
                     Matrix3 dcm = new Matrix3();
                     dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
 
                     // rad = tas^2 / (tan(angle) * G)
-                    float turnrad = (float)(((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / (float)(9.8f * Math.Tan(sitldata.rollDeg * deg2rad)));
+                    float turnrad =
+                        (float)
+                            (((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) /
+                             (float)(9.8f * Math.Tan(sitldata.rollDeg * deg2rad)));
 
                     float gload = (float)(1 / Math.Cos(sitldata.rollDeg * deg2rad)); // calculated Gs
 
@@ -140,7 +151,8 @@ namespace MissionPlanner.HIL
 
                     Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.8));
 
-                    Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
+                    Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad),
+                        centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
                     accel_body -= centrip_accel;
 
@@ -150,10 +162,10 @@ namespace MissionPlanner.HIL
 
                     //      Console.WriteLine(accel_body.ToString());
                     //      Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
-
                 }
             }
         }
+
         public override void SendToSim()
         {
             roll_out = (float)MainV2.comPort.MAV.cs.hilch1 / rollgain;
@@ -172,9 +184,7 @@ namespace MissionPlanner.HIL
             byte[] Xplane = new byte[5 + 36 + 36];
 
             if (heli)
-            {
                 Xplane = new byte[5 + 36 + 36 + 36];
-            }
 
             Xplane[0] = (byte)'D';
             Xplane[1] = (byte)'A';
@@ -236,10 +246,13 @@ namespace MissionPlanner.HIL
             try
             {
                 XplanesSEND.Send(Xplane, Xplane.Length);
-
             }
-            catch (Exception e) { log.Info("Xplanes udp send error " + e.Message); }
+            catch (Exception e)
+            {
+                log.Info("Xplanes udp send error " + e.Message);
+            }
         }
+
         public override void SendToAP(sitl_fdm sitldata)
         {
             TimeSpan gpsspan = DateTime.Now - lastgpsupdate;
@@ -294,13 +307,14 @@ namespace MissionPlanner.HIL
                 airspeed = (float)sitldata.airspeed
             });
         }
-        public override void GetFromAP() { }
+
+        public override void GetFromAP() {}
 
         public void MoveToPos(double lat, double lon, double alt, float roll, float pitch, float yaw)
         {
             // sending only 1 packet instead of many.
 
-            byte[] Xplane = new byte[5 + 4 + 3*8+6 * 4];
+            byte[] Xplane = new byte[5 + 4 + 3 * 8 + 6 * 4];
 
             Xplane[0] = (byte)'V';
             Xplane[1] = (byte)'E';
@@ -335,9 +349,11 @@ namespace MissionPlanner.HIL
             try
             {
                 XplanesSEND.Send(Xplane, Xplane.Length);
-
             }
-            catch (Exception e) { log.Info("Xplanes udp send error " + e.Message); }
+            catch (Exception e)
+            {
+                log.Info("Xplanes udp send error " + e.Message);
+            }
         }
 
         void setupXplane()
@@ -396,10 +412,11 @@ namespace MissionPlanner.HIL
             try
             {
                 XplanesSEND.Send(Xplane, Xplane.Length);
-
             }
-            catch (Exception e) { log.Info("Xplanes udp send error " + e.Message); }
-
+            catch (Exception e)
+            {
+                log.Info("Xplanes udp send error " + e.Message);
+            }
         }
 
         public void Dispose()

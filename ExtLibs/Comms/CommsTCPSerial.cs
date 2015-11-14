@@ -13,7 +13,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
-    public class TcpSerial : CommsBase,  ICommsSerial, IDisposable
+    public class TcpSerial : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public TcpClient client = new TcpClient();
@@ -24,7 +24,11 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+
+        public Stream BaseStream
+        {
+            get { return this.BaseStream; }
+        }
 
         public TcpSerial()
         {
@@ -34,41 +38,53 @@ namespace MissionPlanner.Comms
             Port = "5760";
         }
 
-        public void toggleDTR()
-        {
-        }
+        public void toggleDTR() {}
 
         public string Port { get; set; }
 
-        public int ReadTimeout
-        {
-            get;// { return client.ReceiveTimeout; }
-            set;// { client.ReceiveTimeout = value; }
+        public int ReadTimeout { get; // { return client.ReceiveTimeout; }
+            set; // { client.ReceiveTimeout = value; }
         }
 
-        public int ReadBufferSize {get;set;}
+        public int ReadBufferSize { get; set; }
 
         public int BaudRate { get; set; }
         public StopBits StopBits { get; set; }
-        public  Parity Parity { get; set; }
-        public  int DataBits { get; set; }
+        public Parity Parity { get; set; }
+        public int DataBits { get; set; }
 
         public string PortName { get; set; }
 
-        public  int BytesToRead
+        public int BytesToRead
         {
-            get { /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/ return (int)client.Available; }
+            get
+            {
+                /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/
+                return (int)client.Available;
+            }
         }
 
-        public int BytesToWrite { get { return 0; } }
-
-        public bool IsOpen { get { try { return client.Client.Connected; } catch { return false; } } }
-
-        public bool DtrEnable
+        public int BytesToWrite
         {
-            get;
-            set;
+            get { return 0; }
         }
+
+        public bool IsOpen
+        {
+            get
+            {
+                try
+                {
+                    return client.Client.Connected;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DtrEnable { get; set; }
 
         public void Open()
         {
@@ -89,14 +105,12 @@ namespace MissionPlanner.Comms
 
             //if (!MainV2.MONO)
             {
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
-                {
+                if (System.Windows.Forms.DialogResult.Cancel ==
+                    InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
                     throw new Exception("Canceled by request");
-                }
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote Port", "Enter remote port", ref dest))
-                {
+                if (System.Windows.Forms.DialogResult.Cancel ==
+                    InputBox.Show("remote Port", "Enter remote port", ref dest))
                     throw new Exception("Canceled by request");
-                }
             }
 
             Port = dest;
@@ -122,7 +136,7 @@ namespace MissionPlanner.Comms
                 {
                     client.Close();
                 }
-                catch { }
+                catch {}
 
                 // this should only happen if we have established a connection in the first place
                 if (client != null && retrys > 0)
@@ -136,15 +150,16 @@ namespace MissionPlanner.Comms
             }
         }
 
-        public  int Read(byte[] readto,int offset,int length)
+        public int Read(byte[] readto, int offset, int length)
         {
             VerifyConnected();
             try
             {
-                if (length < 1) { return 0; }
+                if (length < 1)
+                    return 0;
 
-				return client.Client.Receive(readto, offset, length, SocketFlags.None);
-/*
+                return client.Client.Receive(readto, offset, length, SocketFlags.None);
+                /*
                 byte[] temp = new byte[length];
                 clientbuf.Read(temp, 0, length);
 
@@ -152,10 +167,13 @@ namespace MissionPlanner.Comms
 
                 return length;*/
             }
-            catch { throw new Exception("Socket Closed"); }
+            catch
+            {
+                throw new Exception("Socket Closed");
+            }
         }
 
-        public  int ReadByte()
+        public int ReadByte()
         {
             VerifyConnected();
             int count = 0;
@@ -171,12 +189,12 @@ namespace MissionPlanner.Comms
             return buffer[0];
         }
 
-        public  int ReadChar()
+        public int ReadChar()
         {
             return ReadByte();
         }
 
-        public  string ReadExisting() 
+        public string ReadExisting()
         {
             VerifyConnected();
             byte[] data = new byte[client.Available];
@@ -188,47 +206,49 @@ namespace MissionPlanner.Comms
             return line;
         }
 
-        public  void WriteLine(string line)
+        public void WriteLine(string line)
         {
             VerifyConnected();
             line = line + "\n";
             Write(line);
         }
 
-        public  void Write(string line)
+        public void Write(string line)
         {
             VerifyConnected();
             byte[] data = new System.Text.ASCIIEncoding().GetBytes(line);
             Write(data, 0, data.Length);
         }
 
-        public  void Write(byte[] write, int offset, int length)
+        public void Write(byte[] write, int offset, int length)
         {
             VerifyConnected();
             try
             {
-                client.Client.Send(write, length,SocketFlags.None);
+                client.Client.Send(write, length, SocketFlags.None);
             }
-            catch { }//throw new Exception("Comport / Socket Closed"); }
+            catch {} //throw new Exception("Comport / Socket Closed"); }
         }
 
-        public  void DiscardInBuffer()
+        public void DiscardInBuffer()
         {
             VerifyConnected();
             int size = (int)client.Available;
             byte[] crap = new byte[size];
-            log.InfoFormat("TcpSerial DiscardInBuffer {0}",size);
+            log.InfoFormat("TcpSerial DiscardInBuffer {0}", size);
             Read(crap, 0, size);
         }
 
-        public  string ReadLine() {
+        public string ReadLine()
+        {
             byte[] temp = new byte[4000];
             int count = 0;
             int timeout = 0;
 
             while (timeout <= 100)
             {
-                if (!this.IsOpen) { break; }
+                if (!this.IsOpen)
+                    break;
                 if (this.BytesToRead > 0)
                 {
                     byte letter = (byte)this.ReadByte();
@@ -236,16 +256,16 @@ namespace MissionPlanner.Comms
                     temp[count] = letter;
 
                     if (letter == '\n') // normal line
-                    {
                         break;
-                    }
 
 
                     count++;
                     if (count == temp.Length)
                         break;
                     timeout = 0;
-                } else {
+                }
+                else
+                {
                     timeout++;
                     System.Threading.Thread.Sleep(5);
                 }
@@ -266,13 +286,13 @@ namespace MissionPlanner.Comms
                     client.Close();
                 }
             }
-            catch { }
+            catch {}
 
             try
             {
                 client.Close();
             }
-            catch { }
+            catch {}
 
             client = new TcpClient();
         }

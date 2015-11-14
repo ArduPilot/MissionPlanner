@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Warnings
 {
-    public class WarningControl: UserControl
+    public class WarningControl : UserControl
     {
         public event EventHandler ReloadList;
 
@@ -28,7 +28,6 @@ namespace MissionPlanner.Warnings
             CMB_Source.DataSource = item.GetOptions();
 
 
-
             custwarning = item;
 
             updateDisplay();
@@ -44,16 +43,11 @@ namespace MissionPlanner.Warnings
         }
 
         CustomWarning _custwarn;
-        public CustomWarning custwarning 
-        { 
-            get 
-            {
-                return _custwarn; 
-            }
-            set 
-            {
-                _custwarn = value;
-            }
+
+        public CustomWarning custwarning
+        {
+            get { return _custwarn; }
+            set { _custwarn = value; }
         }
 
         private ComboBox CMB_condition;
@@ -66,7 +60,7 @@ namespace MissionPlanner.Warnings
         // posible child
         //private CustomWarning item;
         //private CurrentState currentState;
-    
+
         private void InitializeComponent()
         {
             this.CMB_Source = new System.Windows.Forms.ComboBox();
@@ -104,16 +98,20 @@ namespace MissionPlanner.Warnings
             // 
             this.NUM_warning.DecimalPlaces = 2;
             this.NUM_warning.Location = new System.Drawing.Point(190, 3);
-            this.NUM_warning.Maximum = new decimal(new int[] {
-            99999,
-            0,
-            0,
-            0});
-            this.NUM_warning.Minimum = new decimal(new int[] {
-            99999,
-            0,
-            0,
-            -2147483648});
+            this.NUM_warning.Maximum = new decimal(new int[]
+            {
+                99999,
+                0,
+                0,
+                0
+            });
+            this.NUM_warning.Minimum = new decimal(new int[]
+            {
+                99999,
+                0,
+                0,
+                -2147483648
+            });
             this.NUM_warning.Name = "NUM_warning";
             this.NUM_warning.Size = new System.Drawing.Size(65, 20);
             this.NUM_warning.TabIndex = 2;
@@ -125,11 +123,13 @@ namespace MissionPlanner.Warnings
             this.NUM_repeattime.Name = "NUM_repeattime";
             this.NUM_repeattime.Size = new System.Drawing.Size(39, 20);
             this.NUM_repeattime.TabIndex = 3;
-            this.NUM_repeattime.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
+            this.NUM_repeattime.Value = new decimal(new int[]
+            {
+                10,
+                0,
+                0,
+                0
+            });
             this.NUM_repeattime.ValueChanged += new System.EventHandler(this.NUM_repeattime_ValueChanged);
             // 
             // TXT_warningtext
@@ -176,37 +176,39 @@ namespace MissionPlanner.Warnings
             ((System.ComponentModel.ISupportInitialize)(this.NUM_repeattime)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         private void CMB_Source_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-            custwarning.SetField(CMB_Source.Text);
+                custwarning.SetField(CMB_Source.Text);
         }
 
         private void CMB_condition_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-            custwarning.ConditionType = (CustomWarning.Conditional)Enum.Parse(typeof(CustomWarning.Conditional), CMB_condition.Text);
+            {
+                custwarning.ConditionType =
+                    (CustomWarning.Conditional)Enum.Parse(typeof(CustomWarning.Conditional), CMB_condition.Text);
+            }
         }
 
         private void NUM_warning_ValueChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-            custwarning.Warning = (double)NUM_warning.Value;
+                custwarning.Warning = (double)NUM_warning.Value;
         }
 
         private void TXT_warningtext_TextChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-            custwarning.Text = TXT_warningtext.Text;
+                custwarning.Text = TXT_warningtext.Text;
         }
 
         private void NUM_repeattime_ValueChanged(object sender, EventArgs e)
         {
             if (custwarning != null)
-            custwarning.RepeatTime = (int)NUM_repeattime.Value;
+                custwarning.RepeatTime = (int)NUM_repeattime.Value;
         }
 
         private void but_addchild_Click(object sender, EventArgs e)
@@ -214,7 +216,7 @@ namespace MissionPlanner.Warnings
             custwarning.Child = new CustomWarning();
 
             if (ReloadList != null)
-                ReloadList(this,null);
+                ReloadList(this, null);
         }
 
         private void but_remove_Click(object sender, EventArgs e)
@@ -224,16 +226,14 @@ namespace MissionPlanner.Warnings
                 WarningEngine.warnings.Remove(custwarning);
 
                 foreach (var item in WarningEngine.warnings)
-                {
-                    removewarning(item,custwarning);
-                }
+                    removewarning(item, custwarning);
             }
-            
+
             if (ReloadList != null)
                 ReloadList(this, null);
         }
 
-        void removewarning(CustomWarning lookin, CustomWarning removeme) 
+        void removewarning(CustomWarning lookin, CustomWarning removeme)
         {
             // depth first check children
             if (lookin.Child != null)
@@ -242,13 +242,9 @@ namespace MissionPlanner.Warnings
             if (lookin.Child == removeme)
             {
                 if (lookin.Child.Child != null)
-                {
                     lookin.Child = lookin.Child.Child;
-                }
                 else
-                {
                     lookin.Child = null;
-                }
                 return;
             }
         }

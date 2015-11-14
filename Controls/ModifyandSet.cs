@@ -13,13 +13,23 @@ namespace MissionPlanner.Controls
     {
         [System.ComponentModel.Browsable(true)]
         public NumericUpDown NumericUpDown { get; set; }
+
         [System.ComponentModel.Browsable(true)]
         public MyButton Button { get; set; }
 
         [System.ComponentModel.Browsable(true)]
-        public String ButtonText { get { return Button.Text; } set { Button.Text = value; } }
+        public String ButtonText
+        {
+            get { return Button.Text; }
+            set { Button.Text = value; }
+        }
+
         [System.ComponentModel.Browsable(true)]
-        public Decimal Value { get { return NumericUpDown.Value; } set { NumericUpDown.Value = value; } }
+        public Decimal Value
+        {
+            get { return NumericUpDown.Value; }
+            set { NumericUpDown.Value = value; }
+        }
 
         public new event EventHandler Click;
         public event EventHandler ValueChanged;

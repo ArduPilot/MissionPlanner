@@ -26,13 +26,14 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         public void Activate()
-        { 
-            timer1.Start(); 
+        {
+            timer1.Start();
         }
 
         public void Deactivate()
-        { 
+        {
             timer1.Stop();
         }
 
@@ -47,9 +48,7 @@ namespace MissionPlanner.Wizard
             foreach (var ctl in this.panel1.Controls)
             {
                 if (ctl.GetType() == typeof(PictureBoxMouseOver))
-                {
                     (ctl as PictureBoxMouseOver).selected = false;
-                }
             }
         }
 
@@ -85,7 +84,10 @@ namespace MissionPlanner.Wizard
             {
                 System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=DmsueBS0J3E");
             }
-            catch { CustomMessageBox.Show("Your default http association is not set correctly."); }
+            catch
+            {
+                CustomMessageBox.Show("Your default http association is not set correctly.");
+            }
         }
 
         int step = 0;
@@ -120,14 +122,9 @@ namespace MissionPlanner.Wizard
                 case 4:
                     west = new HIL.Vector3(MainV2.comPort.MAV.cs.mx, MainV2.comPort.MAV.cs.my, MainV2.comPort.MAV.cs.mz);
                     label5.Text = "Calculating";
-                    if (docalc())
-                    {
-
-                    }
+                    if (docalc()) {}
                     else
-                    {
                         label5.Text = "Error, please try again, verify where north is.";
-                    }
                     BUT_compassorient.Text = Strings.Start;
                     step = 0;
                     return;
@@ -176,7 +173,7 @@ namespace MissionPlanner.Wizard
                 //south -= magoff;
                 //west -= magoff;
             }
-            catch { }
+            catch {}
 
             foreach (Common.Rotation item in Enum.GetValues(typeof(Common.Rotation)))
             {
@@ -223,9 +220,7 @@ namespace MissionPlanner.Wizard
             if (value >= (target - margin))
             {
                 if (value <= (target + margin))
-                {
                     return true;
-                }
             }
             return false;
         }

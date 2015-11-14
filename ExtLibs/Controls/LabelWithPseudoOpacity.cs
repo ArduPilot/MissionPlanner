@@ -48,14 +48,8 @@ namespace MissionPlanner.Controls
 
         public new bool DoubleBuffered
         {
-            get
-            {
-                return base.DoubleBuffered;
-            }
-            set
-            {
-                base.DoubleBuffered = value;
-            }
+            get { return base.DoubleBuffered; }
+            set { base.DoubleBuffered = value; }
         }
     }
 }

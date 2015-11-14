@@ -51,9 +51,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             y += ctl.Height;
                         }
                         else
-                        {
                             ctl.Visible = false;
-                        }
                     }
                     else if (ctl.GetType() == typeof(ValuesControl))
                     {
@@ -66,9 +64,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             y += ctl.Height;
                         }
                         else
-                        {
                             ctl.Visible = false;
-                        }
                     }
                 }
             }
@@ -178,7 +174,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -191,7 +187,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 Activate();
             }
@@ -261,9 +257,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     ((!string.IsNullOrEmpty(parameterMode) && parameterMode == ParameterMode) ||
                      // The user type is empty and this is in Advanced mode
                      string.IsNullOrEmpty(parameterMode) && ParameterMode == ParameterMetaDataConstants.Advanced))
-                {
                     _params.Add(x.ToString(), displayName);
-                }
             });
             _params = _params.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
@@ -292,9 +286,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 SortParamList();
                 Console.WriteLine("Sorted " + DateTime.Now.ToString("ss.fff"));
             }
-            catch
-            {
-            }
+            catch {}
 
             // get the params if nothing exists already
             if (_params != null && _params.Count == 0)
@@ -345,28 +337,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var items = Controls.Find(x.Key, true);
                     if (items.Length > 0)
                     {
-                        if (items[0].GetType() == typeof (RangeControl))
+                        if (items[0].GetType() == typeof(RangeControl))
                         {
-                            ((RangeControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((RangeControl) items[0]).DeAttachEvents();
-                            ((RangeControl) items[0]).Value = value;
-                            ThemeManager.ApplyThemeTo(((RangeControl) items[0]));
-                            ((RangeControl) items[0]).AttachEvents();
-                            ((RangeControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((RangeControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((RangeControl)items[0]).DeAttachEvents();
+                            ((RangeControl)items[0]).Value = value;
+                            ThemeManager.ApplyThemeTo(((RangeControl)items[0]));
+                            ((RangeControl)items[0]).AttachEvents();
+                            ((RangeControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (ValuesControl))
+                        if (items[0].GetType() == typeof(ValuesControl))
                         {
-                            ((ValuesControl) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((ValuesControl) items[0]).Value = value;
-                            ((ValuesControl) items[0]).ValueChanged += Control_ValueChanged;
+                            ((ValuesControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((ValuesControl)items[0]).Value = value;
+                            ((ValuesControl)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
-                        if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
+                        if (items[0].GetType() == typeof(MavlinkCheckBoxBitMask))
                         {
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged -= Control_ValueChanged;
                             ((MavlinkCheckBoxBitMask)items[0]).Value = Convert.ToSingle(value);
-                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask)items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
                     }
@@ -548,9 +540,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var returnDescription = new StringBuilder();
 
             if (!string.IsNullOrEmpty(units))
-            {
                 returnDescription.Append(string.Format(Strings.Units, units, Environment.NewLine));
-            }
 
             if (!string.IsNullOrEmpty(description))
             {
@@ -565,10 +555,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var appendtext = string.Format("{0} ", descriptionParts[i]);
                     returnDescription.Append(appendtext);
 
-                    if (i != 0 && i%(width/40) == 0)
-                    {
+                    if (i != 0 && i % (width / 40) == 0)
                         returnDescription.Append(Environment.NewLine);
-                    }
                 }
             }
 

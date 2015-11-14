@@ -22,8 +22,8 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         string lastline = "";
-        string[] ctunlast = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-        string[] ntunlast = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+        string[] ctunlast = new string[] {"", "", "", "", "", "", "", "", "", "", "", "", "", ""};
+        string[] ntunlast = new string[] {"", "", "", "", "", "", "", "", "", "", "", "", "", ""};
 
         // wp list
         List<PointLatLngAlt> cmd = new List<PointLatLngAlt>();
@@ -69,18 +69,12 @@ namespace MissionPlanner.Log
                 DateTime start = DateTime.Now;
 
                 if (line.ToLower().Contains("ArduCopter"))
-                {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
-                }
                 if (line.ToLower().Contains("ArduPlane"))
-                {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-                }
                 if (line.ToLower().Contains("ArduRover"))
-                {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
-                }
-                
+
 
                 line = line.Replace(", ", ",");
                 line = line.Replace(": ", ":");
@@ -93,7 +87,7 @@ namespace MissionPlanner.Log
                     {
                         dflog.FMTLine(line);
                     }
-                    catch { }
+                    catch {}
                 }
                 else if (items[0].Contains("CMD"))
                 {
@@ -101,7 +95,12 @@ namespace MissionPlanner.Log
                     {
                         if (int.Parse(items[3]) <= (int)MAVLink.MAV_CMD.LAST) // wps
                         {
-                            PointLatLngAlt temp = new PointLatLngAlt(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")), double.Parse(items[8], new System.Globalization.CultureInfo("en-US")), double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), items[2].ToString());
+                            PointLatLngAlt temp =
+                                new PointLatLngAlt(
+                                    double.Parse(items[7], new System.Globalization.CultureInfo("en-US")),
+                                    double.Parse(items[8], new System.Globalization.CultureInfo("en-US")),
+                                    double.Parse(items[6], new System.Globalization.CultureInfo("en-US")),
+                                    items[2].ToString());
                             cmd.Add(temp);
                         }
                     }
@@ -111,16 +110,14 @@ namespace MissionPlanner.Log
                     positionindex++;
 
                     while (modelist.Count < positionindex + 1)
+                    {
                         modelist.Add("");
+                    }
 
                     if (items.Length == 4)
-                    {
                         modelist[positionindex] = (items[2]);
-                    }
                     else
-                    {
                         modelist[positionindex] = (items[1]);
-                    }
                 }
                 else if (items[0].Contains("GPS") && dflog.logformat.ContainsKey("GPS"))
                 {
@@ -138,17 +135,19 @@ namespace MissionPlanner.Log
 
                     // 7 agl
                     // 8 asl...
-                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
+                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")],
+                        new System.Globalization.CultureInfo("en-US"));
 
                     position[positionindex].Add(new Point3D(double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")],
                         new System.Globalization.CultureInfo("en-US")),
                         double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")],
-                        new System.Globalization.CultureInfo("en-US")), alt));
+                            new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
+                else if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" &&
+                         lastline != line) // check gps line and fixed status
                 {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
 
@@ -166,7 +165,9 @@ namespace MissionPlanner.Log
                         alt = double.Parse(items[7], new System.Globalization.CultureInfo("en-US"));
 
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), double.Parse(items[4], new System.Globalization.CultureInfo("en-US")), alt));
+                    position[positionindex].Add(
+                        new Point3D(double.Parse(items[5], new System.Globalization.CultureInfo("en-US")),
+                            double.Parse(items[4], new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
@@ -183,14 +184,17 @@ namespace MissionPlanner.Log
 
                     double alt = double.Parse(items[5], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[4], new System.Globalization.CultureInfo("en-US")), double.Parse(items[3], new System.Globalization.CultureInfo("en-US")), alt));
+                    position[positionindex].Add(
+                        new Point3D(double.Parse(items[4], new System.Globalization.CultureInfo("en-US")),
+                            double.Parse(items[3], new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
-
                 }
-                else if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12) ||
-                        (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 14))
+                else if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" &&
+                          lastline != line && items.Length == 12) ||
+                         (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" &&
+                          lastline != line && items.Length == 14))
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
@@ -202,12 +206,15 @@ namespace MissionPlanner.Log
                     // 9 asl...
                     double alt = double.Parse(items[9], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")), double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), alt));
+                    position[positionindex].Add(
+                        new Point3D(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")),
+                            double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line && items.Length == 11) // check gps line and fixed status
+                else if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" &&
+                         lastline != line && items.Length == 11) // check gps line and fixed status
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
@@ -219,101 +226,93 @@ namespace MissionPlanner.Log
                     // 8 asl...
                     double alt = double.Parse(items[8], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), alt));
+                    position[positionindex].Add(
+                        new Point3D(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")),
+                            double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                     else if (items[0].Contains("POS"))
-                     {
-                         if (dflog.logformat.ContainsKey("POS"))
-                         {
-                             int poslatindex = dflog.FindMessageOffset("POS", "Lat");
-                             int poslngindex = dflog.FindMessageOffset("POS", "Lng");
-                             int posaltindex = dflog.FindMessageOffset("POS", "Alt");
+                else if (items[0].Contains("POS"))
+                {
+                    if (dflog.logformat.ContainsKey("POS"))
+                    {
+                        int poslatindex = dflog.FindMessageOffset("POS", "Lat");
+                        int poslngindex = dflog.FindMessageOffset("POS", "Lng");
+                        int posaltindex = dflog.FindMessageOffset("POS", "Alt");
 
-                             PosLatLngAlts.Add(new PointLatLngAlt(double.Parse(items[poslatindex], CultureInfo.InvariantCulture), double.Parse(items[poslngindex], CultureInfo.InvariantCulture), double.Parse(items[posaltindex], CultureInfo.InvariantCulture)));
-                         }
-                     }
-                     else if (items[0].Contains("GRAW"))
-                     {
-                         gpsrawdata.Add(line);
-                     }
-                     else if (items[0].Contains("GRXH"))
-                     {
-                         gpsrawdata.Add(line);
-                     }
-                     else if (items[0].Contains("GRXS"))
-                     {
-                         gpsrawdata.Add(line);
-                     }
-                     else if (items[0].Contains("CTUN"))
-                     {
-                         ctunlast = items;
-                     }
-                     else if (items[0].Contains("NTUN"))
-                     {
-                         ntunlast = items;
-                         try
-                         {
-                             // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
-                             // items = line.Split(',', ':');
-                         }
-                         catch
-                         {
-                         }
-                     }
-                     else if (items[0].Contains("ATT"))
-                     {
-                         try
-                         {
-                             if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
-                             {
-                                 Data dat = new Data();
+                        PosLatLngAlts.Add(
+                            new PointLatLngAlt(
+                                double.Parse(items[poslatindex], CultureInfo.InvariantCulture),
+                                double.Parse(items[poslngindex], CultureInfo.InvariantCulture),
+                                double.Parse(items[posaltindex], CultureInfo.InvariantCulture)));
+                    }
+                }
+                else if (items[0].Contains("GRAW"))
+                    gpsrawdata.Add(line);
+                else if (items[0].Contains("GRXH"))
+                    gpsrawdata.Add(line);
+                else if (items[0].Contains("GRXS"))
+                    gpsrawdata.Add(line);
+                else if (items[0].Contains("CTUN"))
+                    ctunlast = items;
+                else if (items[0].Contains("NTUN"))
+                {
+                    ntunlast = items;
+                    try
+                    {
+                        // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
+                        // items = line.Split(',', ':');
+                    }
+                    catch {}
+                }
+                else if (items[0].Contains("ATT"))
+                {
+                    try
+                    {
+                        if (lastpos.X != 0 && oldlastpos.X != lastpos.X && oldlastpos.Y != lastpos.Y)
+                        {
+                            Data dat = new Data();
 
-                                 try
-                                 {
-                                     dat.datetime = dflog.GetTimeGPS(lastline);
-                                 }
-                                 catch
-                                 {
-                                 }
+                            try
+                            {
+                                dat.datetime = dflog.GetTimeGPS(lastline);
+                            }
+                            catch {}
 
-                                 runmodel = new Model();
+                            runmodel = new Model();
 
-                                 runmodel.Location.longitude = lastpos.X;
-                                 runmodel.Location.latitude = lastpos.Y;
-                                 runmodel.Location.altitude = lastpos.Z;
+                            runmodel.Location.longitude = lastpos.X;
+                            runmodel.Location.latitude = lastpos.Y;
+                            runmodel.Location.altitude = lastpos.Z;
 
-                                 oldlastpos = lastpos;
+                            oldlastpos = lastpos;
 
-                                 runmodel.Orientation.roll =
-                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
-                                         new System.Globalization.CultureInfo("en-US"))/-1;
-                                 runmodel.Orientation.tilt =
-                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
-                                         new System.Globalization.CultureInfo("en-US"))/-1;
-                                 runmodel.Orientation.heading =
-                                     double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
-                                         new System.Globalization.CultureInfo("en-US"))/1;
+                            runmodel.Orientation.roll =
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
+                                    new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.tilt =
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
+                                    new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.heading =
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
+                                    new System.Globalization.CultureInfo("en-US")) / 1;
 
-                                 dat.model = runmodel;
-                                 dat.ctun = ctunlast;
-                                 dat.ntun = ntunlast;
+                            dat.model = runmodel;
+                            dat.ctun = ctunlast;
+                            dat.ntun = ntunlast;
 
-                                 flightdata.Add(dat);
-                             }
-                         }
-                         catch (Exception ex)
-                         {
-                             log.Error(ex);
-                         }
-                     }
+                            flightdata.Add(dat);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
+                }
 
                 if ((DateTime.Now - start).TotalMilliseconds > 5)
-                {
                     Console.WriteLine(line);
-                }
             }
             catch (Exception)
             {
@@ -325,7 +324,8 @@ namespace MissionPlanner.Log
         {
             StreamWriter stream = new StreamWriter(File.Open(filename, FileMode.Create));
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-            string header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n     <Document>   <name>Paths</name>    <description>Path</description>\n    <Style id=\"yellowLineGreenPoly\">      <LineStyle>        <color>7f00ffff</color>        <width>4</width>      </LineStyle>      <PolyStyle>        <color>7f00ff00</color>      </PolyStyle>    </Style>\n  ";
+            string header =
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\" xmlns:kml=\"http://www.opengis.net/kml/2.2\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n     <Document>   <name>Paths</name>    <description>Path</description>\n    <Style id=\"yellowLineGreenPoly\">      <LineStyle>        <color>7f00ffff</color>        <width>4</width>      </LineStyle>      <PolyStyle>        <color>7f00ff00</color>      </PolyStyle>    </Style>\n  ";
             stream.Write(header);
 
             StringBuilder kml = new StringBuilder();
@@ -351,12 +351,17 @@ namespace MissionPlanner.Log
             <gx:duration>" + ((gpspackets - lastgpspacket) * 0.1) + @"</gx:duration>
             <gx:flyToMode>smooth</gx:flyToMode>
             <Camera>
-                <longitude>" + mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")) + @"</longitude>
-                <latitude>" + mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")) + @"</latitude>
-                <altitude>" + mod.model.Location.altitude.ToString(new System.Globalization.CultureInfo("en-US")) + @"</altitude>
+                <longitude>" + mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")) +
+                            @"</longitude>
+                <latitude>" + mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")) +
+                            @"</latitude>
+                <altitude>" + mod.model.Location.altitude.ToString(new System.Globalization.CultureInfo("en-US")) +
+                            @"</altitude>
                 <roll>" + mod.model.Orientation.roll.ToString(new System.Globalization.CultureInfo("en-US")) + @"</roll>
-                <tilt>" + (90 - mod.model.Orientation.tilt).ToString(new System.Globalization.CultureInfo("en-US")) + @"</tilt>
-                <heading>" + mod.model.Orientation.heading.ToString(new System.Globalization.CultureInfo("en-US")) + @"</heading>              
+                <tilt>" + (90 - mod.model.Orientation.tilt).ToString(new System.Globalization.CultureInfo("en-US")) +
+                            @"</tilt>
+                <heading>" + mod.model.Orientation.heading.ToString(new System.Globalization.CultureInfo("en-US")) +
+                            @"</heading>              
                 <altitudeMode>absolute</altitudeMode>
             </Camera>
         </gx:FlyTo>
@@ -373,7 +378,7 @@ namespace MissionPlanner.Log
                 <name>Flight Do</name> 
                 <gx:Playlist>
                     " + data +
-                @"</gx:Playlist> 
+                       @"</gx:Playlist> 
             </gx:Tour>
         </Folder>
     </Document>
@@ -391,7 +396,8 @@ namespace MissionPlanner.Log
             zipStream.UseZip64 = UseZip64.Off; // older zipfile
 
             // entry 1
-            string entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            string entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             ZipEntry newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -408,10 +414,12 @@ namespace MissionPlanner.Log
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "block_plane_0.dae";
+            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                       "block_plane_0.dae";
 
             // entry 2
-            entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -427,7 +435,7 @@ namespace MissionPlanner.Log
             zipStream.CloseEntry();
 
 
-            zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
+            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
             zipStream.Close();
 
             positionindex = 0;
@@ -440,7 +448,10 @@ namespace MissionPlanner.Log
 
         public void writeGPX(string filename)
         {
-            System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
+            System.Xml.XmlTextWriter xw =
+                new System.Xml.XmlTextWriter(
+                    Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                    Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
 
             xw.WriteStartElement("gpx");
             xw.WriteAttributeString("creator", MainV2.instance.Text);
@@ -455,15 +466,21 @@ namespace MissionPlanner.Log
             foreach (Data mod in flightdata)
             {
                 xw.WriteStartElement("trkpt");
-                xw.WriteAttributeString("lat", mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")));
-                xw.WriteAttributeString("lon", mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lat",
+                    mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lon",
+                    mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
 
-                xw.WriteElementString("ele", mod.model.Location.altitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("ele",
+                    mod.model.Location.altitude.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("time", mod.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
-                xw.WriteElementString("course", (mod.model.Orientation.heading).ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("course",
+                    (mod.model.Orientation.heading).ToString(new System.Globalization.CultureInfo("en-US")));
 
-                xw.WriteElementString("roll", mod.model.Orientation.roll.ToString(new System.Globalization.CultureInfo("en-US")));
-                xw.WriteElementString("pitch", mod.model.Orientation.tilt.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("roll",
+                    mod.model.Orientation.roll.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("pitch",
+                    mod.model.Orientation.tilt.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("mode", mod.mode);
 
                 //xw.WriteElementString("speed", mod.model.Orientation.);
@@ -480,10 +497,12 @@ namespace MissionPlanner.Log
             foreach (Data mod in flightdata)
             {
                 xw.WriteStartElement("wpt");
-                xw.WriteAttributeString("lat", mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")));
-                xw.WriteAttributeString("lon", mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lat",
+                    mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lon",
+                    mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("name", (a++).ToString());
-                xw.WriteEndElement();//wpt
+                xw.WriteEndElement(); //wpt
             }
 
             xw.WriteEndElement(); // gpx
@@ -504,7 +523,8 @@ namespace MissionPlanner.Log
             if (gpsrawdata.Count == 0)
                 return;
 
-            string file = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".obs";
+            string file = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                          Path.GetFileNameWithoutExtension(filename) + ".obs";
 
             var rinexoutput = new StreamWriter(file);
 
@@ -562,7 +582,7 @@ gnssId GNSS Type
 
                 string[] items = line.Split(',', ':');
 
-                double sv = -1, cpMes=-1, prMes=-1, doMes=-1, mesQI=-1, cno=-1, lli=-1;
+                double sv = -1, cpMes = -1, prMes = -1, doMes = -1, mesQI = -1, cno = -1, lli = -1;
                 int gnss = 0;
 
                 if (items[0].StartsWith("GRAW"))
@@ -583,7 +603,9 @@ gnssId GNSS Type
                 }
                 else if (items[0].StartsWith("GRXH"))
                 {
-                    weekms = double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")], CultureInfo.InvariantCulture) * 1000.0;
+                    weekms =
+                        double.Parse(items[dflog.FindMessageOffset("GRXH", "rcvTime")], CultureInfo.InvariantCulture) *
+                        1000.0;
                     week = int.Parse(items[dflog.FindMessageOffset("GRXH", "week")], CultureInfo.InvariantCulture);
                     NSats = double.Parse(items[dflog.FindMessageOffset("GRXH", "numMeas")], CultureInfo.InvariantCulture);
                     continue;
@@ -596,18 +618,20 @@ gnssId GNSS Type
                     doMes = double.Parse(items[dflog.FindMessageOffset("GRXS", "doMes")], CultureInfo.InvariantCulture);
                     gnss = int.Parse(items[dflog.FindMessageOffset("GRXS", "gnss")], CultureInfo.InvariantCulture);
                     cno = double.Parse(items[dflog.FindMessageOffset("GRXS", "cno")], CultureInfo.InvariantCulture);
-                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")], CultureInfo.InvariantCulture);
+                    double locktime = double.Parse(items[dflog.FindMessageOffset("GRXS", "lock")],
+                        CultureInfo.InvariantCulture);
                     lli = 0; // OK or not known
                 }
 
-                DateTime gpstime = GetFromGps(week, weekms/1000.0);
+                DateTime gpstime = GetFromGps(week, weekms / 1000.0);
 
                 if (week == 0)
                     continue;
 
                 if (lastgpstime != gpstime)
                 {
-                    rinexoutput.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2}{5,11}  {6,1}{7,3}", gpstime.Year, gpstime.Month,
+                    rinexoutput.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2}{5,11}  {6,1}{7,3}", gpstime.Year,
+                        gpstime.Month,
                         gpstime.Day, gpstime.Hour, gpstime.Minute,
                         (gpstime.Second + (gpstime.Millisecond / 1000.0)).ToString("0.0000000",
                             System.Globalization.CultureInfo.InvariantCulture), 0, NSats);
@@ -685,13 +709,13 @@ gnssId GNSS Type
             try
             {
                 int ai
-                   = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
                 int ri
-                   = Int32.Parse(r, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(r, System.Globalization.NumberStyles.HexNumber);
                 int gi
-                   = Int32.Parse(g, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(g, System.Globalization.NumberStyles.HexNumber);
                 int bi
-                   = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
                 color = Color.FromArgb(ai, ri, gi, bi);
             }
             catch
@@ -723,9 +747,13 @@ gnssId GNSS Type
 
                 writeRinex(filename);
             }
-            catch { }
+            catch {}
 
-            Color[] colours = { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet, Color.Pink };
+            Color[] colours =
+            {
+                Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo,
+                Color.Violet, Color.Pink
+            };
 
             AltitudeMode altmode = AltitudeMode.absolute;
 
@@ -739,7 +767,7 @@ gnssId GNSS Type
             Style style1 = new Style();
             style1.Id = "spray";
             style1.Add(new LineStyle(HexStringToColor("4c0000ff"), 0));
-            style1.Add(new PolyStyle() { Color = HexStringToColor("4c0000ff") });
+            style1.Add(new PolyStyle() {Color = HexStringToColor("4c0000ff")});
 
             PolyStyle pstyle = new PolyStyle();
             pstyle.Color = HexStringToColor("7f00ff00");
@@ -824,10 +852,10 @@ gnssId GNSS Type
                 stylecode = colours[g % (colours.Length - 1)].ToArgb();
 
                 Style style2 = new Style();
-                Color color = Color.FromArgb(0xff, (stylecode >> 16) & 0xff, (stylecode >> 8) & 0xff, (stylecode >> 0) & 0xff);
+                Color color = Color.FromArgb(0xff, (stylecode >> 16) & 0xff, (stylecode >> 8) & 0xff,
+                    (stylecode >> 0) & 0xff);
                 log.Info("colour " + color.ToArgb().ToString("X") + " " + color.ToKnownColor().ToString());
                 style2.Add(new LineStyle(color, 4));
-
 
 
                 pm.AddStyle(style2);
@@ -847,7 +875,7 @@ gnssId GNSS Type
 
                 if (item.GetDistance(lastplla) < 0.1 &&
                     lastPoint3D.Z >= (newpoint.Z - 0.3) &&
-                    lastPoint3D.Z <= (newpoint.Z + 0.3)) 
+                    lastPoint3D.Z <= (newpoint.Z + 0.3))
                     continue;
 
                 pmPOS.LineString.coordinates.Add(newpoint);
@@ -905,9 +933,7 @@ gnssId GNSS Type
                 if (lastmodel != null)
                 {
                     if (lastmodel.Location.Equals(mod.model.Location))
-                    {
                         continue;
-                    }
                 }
                 Placemark pmplane = new Placemark();
                 pmplane.name = "Plane " + a;
@@ -934,12 +960,12 @@ gnssId GNSS Type
               </table>
             ]]>";
                 }
-                catch { }
+                catch {}
 
                 try
                 {
-
-                    pmplane.Point = new KmlPoint((float)model.Location.longitude, (float)model.Location.latitude, (float)model.Location.altitude);
+                    pmplane.Point = new KmlPoint((float)model.Location.longitude, (float)model.Location.latitude,
+                        (float)model.Location.altitude);
                     pmplane.Point.AltitudeMode = altmode;
 
                     Link link = new Link();
@@ -951,7 +977,7 @@ gnssId GNSS Type
 
                     planes.Add(pmplane);
                 }
-                catch { } // bad lat long value
+                catch {} // bad lat long value
 
                 lastmodel = mod.model;
 
@@ -964,13 +990,15 @@ gnssId GNSS Type
 
             // create kmz - aka zip file
 
-            FileStream fs = File.Open(filename.ToLower().Replace(".log.kml", ".kmz").Replace(".bin.kml", ".kmz"), FileMode.Create);
+            FileStream fs = File.Open(filename.ToLower().Replace(".log.kml", ".kmz").Replace(".bin.kml", ".kmz"),
+                FileMode.Create);
             ZipOutputStream zipStream = new ZipOutputStream(fs);
             zipStream.SetLevel(9); //0-9, 9 being the highest level of compression
             zipStream.UseZip64 = UseZip64.Off; // older zipfile
 
             // entry 1
-            string entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            string entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             ZipEntry newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -987,10 +1015,12 @@ gnssId GNSS Type
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "block_plane_0.dae";
+            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                       "block_plane_0.dae";
 
             // entry 2
-            entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -1006,7 +1036,7 @@ gnssId GNSS Type
             zipStream.CloseEntry();
 
 
-            zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
+            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
             zipStream.Close();
 
             positionindex = 0;
@@ -1015,6 +1045,5 @@ gnssId GNSS Type
             position = new List<Core.Geometry.Point3D>[200];
             cmd.Clear();
         }
-
     }
 }

@@ -19,9 +19,7 @@ namespace MissionPlanner.GCSViews
             {
                 CHK_showconsole.Checked = MainV2.config["showconsole"].ToString() == "True";
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)

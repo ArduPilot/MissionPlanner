@@ -24,7 +24,10 @@ namespace MissionPlanner.Utilities
 
         static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
 
-        public static int GetAirportCount { get { lock (locker) return airports.Count; } }
+        public static int GetAirportCount
+        {
+            get { lock (locker) return airports.Count; }
+        }
 
         static PointLatLngAlt currentcenter = PointLatLngAlt.Zero;
 
@@ -71,9 +74,7 @@ namespace MissionPlanner.Utilities
                 foreach (PointLatLngAlt item in airports)
                 {
                     if (item.GetDistance(centerpoint) < proximity)
-                    {
                         cache.Add(item);
-                    }
                 }
 
                 log.Info("getAirports done " + (DateTime.Now - start).TotalSeconds + " sec");
@@ -91,9 +92,7 @@ namespace MissionPlanner.Utilities
                     foreach (PointLatLngAlt item in airports)
                     {
                         if (item.GetDistance(plla) < 1000) // 1000m
-                        {
                             return;
-                        }
                     }
                 }
 
@@ -116,8 +115,6 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    
-
                     string name = items[1];
                     int latOffset = 0;
                     while (name[0] == '"' && name[name.Length - 1] != '"')
@@ -141,7 +138,7 @@ namespace MissionPlanner.Utilities
                     AddAirport(newap);
                     //Console.WriteLine(newap);
                 }
-                catch { }
+                catch {}
             }
         }
 
@@ -164,7 +161,8 @@ namespace MissionPlanner.Utilities
                     if (items[1].Length != 6) // "xxxx"
                         continue;
 
-                    if (items[2].Contains("small_airport") || items[2].Contains("seaplane_base") || items[2].Contains("heliport") || items[2].Contains("closed"))
+                    if (items[2].Contains("small_airport") || items[2].Contains("seaplane_base") ||
+                        items[2].Contains("heliport") || items[2].Contains("closed"))
                         continue;
 
 
@@ -187,24 +185,24 @@ namespace MissionPlanner.Utilities
                     AddAirport(newap);
                     //Console.WriteLine(newap);
                 }
-                catch { }
+                catch {}
             }
         }
 
         /// <summary>
-      /// Field 01 - ICAO Code: 4 character ICAO code 
-      /// Field 02 - IATA Code: 3 character IATA code 
-      /// Field 03 - Airport Name: string of varying length 
-      /// Field 04 - City,Town or Suburb: string of varying length 
-      /// Field 05 - Country: string of varying length 
-      /// Field 06 - Latitude Degrees: 2 ASCII characters representing one numeric value 
-      /// Field 07 - Latitude Minutes: 2 ASCII characters representing one numeric value 
-      /// Field 08 - Latitude Seconds: 2 ASCII characters representing one numeric value 
-      /// Field 09 - Latitude Direction: 1 ASCII character either N or S representing compass direction 
-      /// Field 10 - Longitude Degrees: 2 ASCII characters representing one numeric value 
-      /// Field 11 - Longitude Minutes: 2 ASCII characters representing one numeric value 
-      /// Field 12 - Longitude Seconds: 2 ASCII characters representing one numeric value 
-      /// Field 13 - Longitude Direction: 1 ASCII character either E or W representing compass direction 
+        /// Field 01 - ICAO Code: 4 character ICAO code 
+        /// Field 02 - IATA Code: 3 character IATA code 
+        /// Field 03 - Airport Name: string of varying length 
+        /// Field 04 - City,Town or Suburb: string of varying length 
+        /// Field 05 - Country: string of varying length 
+        /// Field 06 - Latitude Degrees: 2 ASCII characters representing one numeric value 
+        /// Field 07 - Latitude Minutes: 2 ASCII characters representing one numeric value 
+        /// Field 08 - Latitude Seconds: 2 ASCII characters representing one numeric value 
+        /// Field 09 - Latitude Direction: 1 ASCII character either N or S representing compass direction 
+        /// Field 10 - Longitude Degrees: 2 ASCII characters representing one numeric value 
+        /// Field 11 - Longitude Minutes: 2 ASCII characters representing one numeric value 
+        /// Field 12 - Longitude Seconds: 2 ASCII characters representing one numeric value 
+        /// Field 13 - Longitude Direction: 1 ASCII character either E or W representing compass direction 
         /// Field 14 - Altitude: varying sequence of ASCII characters representing a numeric value corresponding to the airport's altitude from mean sea level (ie: "123" or "-123") 
         /// </summary>
         /// <param name="fn"></param>
@@ -218,8 +216,12 @@ namespace MissionPlanner.Utilities
 
                 string name = items[2].Trim('"');
 
-                double lat = double.Parse(items[5], CultureInfo.InvariantCulture) + double.Parse(items[6], CultureInfo.InvariantCulture) / 60 + double.Parse(items[7], CultureInfo.InvariantCulture) / 3600;
-                double lng = double.Parse(items[9], CultureInfo.InvariantCulture) + double.Parse(items[10], CultureInfo.InvariantCulture) / 60 + double.Parse(items[11], CultureInfo.InvariantCulture) / 3600;
+                double lat = double.Parse(items[5], CultureInfo.InvariantCulture) +
+                             double.Parse(items[6], CultureInfo.InvariantCulture) / 60 +
+                             double.Parse(items[7], CultureInfo.InvariantCulture) / 3600;
+                double lng = double.Parse(items[9], CultureInfo.InvariantCulture) +
+                             double.Parse(items[10], CultureInfo.InvariantCulture) / 60 +
+                             double.Parse(items[11], CultureInfo.InvariantCulture) / 3600;
 
                 if (items[8] == "S")
                     lat *= -1;

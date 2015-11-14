@@ -50,9 +50,7 @@ namespace MissionPlanner.GCSViews
                     comPort.Close();
                 }
             }
-            catch
-            {
-            }
+            catch {}
 
             MainV2.instance.MenuConnect.Visible = true;
         }
@@ -74,14 +72,12 @@ namespace MissionPlanner.GCSViews
 
                     while (comPort.IsOpen && comPort.BytesToRead > 0 && !inlogview)
                     {
-                        var indata = (byte) comPort.ReadByte();
+                        var indata = (byte)comPort.ReadByte();
 
                         buffer[a] = indata;
 
                         if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == '\n' || buffer[a] == 0x1b)
-                        {
                             a++;
-                        }
 
                         if (indata == '\n')
                             break;
@@ -103,7 +99,7 @@ namespace MissionPlanner.GCSViews
 
         private void addText(string data)
         {
-            BeginInvoke((MethodInvoker) delegate
+            BeginInvoke((MethodInvoker)delegate
             {
                 if (this.Disposing)
                     return;
@@ -112,7 +108,8 @@ namespace MissionPlanner.GCSViews
                     inputStartPos = TXT_terminal.Text.Length - 1;
 
                 // gather current typed data
-                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
+                    TXT_terminal.Text.Length - inputStartPos);
 
                 // remove typed data
                 TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
@@ -121,7 +118,7 @@ namespace MissionPlanner.GCSViews
 
                 data = data.TrimEnd('\r'); // else added \n all by itself
                 data = data.Replace("\0", "");
-                data = data.Replace((char) 0x1b + "[K", ""); // remove control code
+                data = data.Replace((char)0x1b + "[K", ""); // remove control code
                 TXT_terminal.AppendText(data);
 
                 if (data.Contains("\b"))
@@ -131,10 +128,8 @@ namespace MissionPlanner.GCSViews
                 }
 
                 // erase to end of line. in our case jump to end of line
-                if (data.Contains((char) 0x1b + "[K"))
-                {
+                if (data.Contains((char)0x1b + "[K"))
                     TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-                }
                 inputStartPos = TXT_terminal.SelectionStart;
 
                 //add back typed text
@@ -200,13 +195,9 @@ namespace MissionPlanner.GCSViews
             try
             {
                 if (comPort != null && comPort.IsOpen)
-                {
                     comPort.Close();
-                }
             }
-            catch
-            {
-            } // Exception System.IO.IOException: The specified port does not exist.
+            catch {} // Exception System.IO.IOException: The specified port does not exist.
 
             //System.Threading.Thread.Sleep(400);
         }
@@ -241,7 +232,7 @@ namespace MissionPlanner.GCSViews
                             }
                         }
 
-                        log.Info("Command: "+ cmd);
+                        log.Info("Command: " + cmd);
 
                         // do not change this  \r is correct - no \n
                         if (cmd == "+++")
@@ -282,9 +273,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     if (!comPort.IsOpen || comPort.BytesToRead > 0)
-                    {
                         return;
-                    }
                 }
                 catch
                 {
@@ -305,9 +294,7 @@ namespace MissionPlanner.GCSViews
                     if (!comPort.IsOpen)
                         return;
                     if (comPort.BytesToRead > 0)
-                    {
                         comPort_DataReceived(null, null);
-                    }
                 }
                 catch
                 {
@@ -331,7 +318,7 @@ namespace MissionPlanner.GCSViews
                     comPort = new SerialPort();
                     comPort.PortName = MainV2.comPortName;
                     comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
-                    comPort.ReadBufferSize = 1024*1024*4;
+                    comPort.ReadBufferSize = 1024 * 1024 * 4;
                 }
                 catch
                 {
@@ -364,7 +351,7 @@ namespace MissionPlanner.GCSViews
                     Thread.Sleep(400);
                 }
 
-                comPort.ReadBufferSize = 1024*1024*4;
+                comPort.ReadBufferSize = 1024 * 1024 * 4;
 
                 comPort.PortName = MainV2.comPortName;
 
@@ -396,9 +383,7 @@ namespace MissionPlanner.GCSViews
                             {
                                 mine.BaseStream.Close();
                             }
-                            catch
-                            {
-                            }
+                            catch {}
                         }
                         else
                         {
@@ -409,16 +394,12 @@ namespace MissionPlanner.GCSViews
                                 mine.BaseStream.Write("reboot\r");
                                 mine.BaseStream.Write("exit\rreboot\r");
                             }
-                            catch
-                            {
-                            }
+                            catch {}
                             try
                             {
                                 mine.BaseStream.Close();
                             }
-                            catch
-                            {
-                            }
+                            catch {}
                         }
                     }
 
@@ -441,9 +422,7 @@ namespace MissionPlanner.GCSViews
                             if (!comPort.IsOpen)
                                 comPort.Open();
                         }
-                        catch
-                        {
-                        }
+                        catch {}
                         Thread.Sleep(200);
                         a++;
                     }
@@ -463,12 +442,9 @@ namespace MissionPlanner.GCSViews
                 {
                     comPort.DiscardInBuffer();
                 }
-                catch
-                {
-                }
+                catch {}
 
                 startreadthread();
-
             }
             catch (Exception ex)
             {
@@ -494,9 +470,7 @@ namespace MissionPlanner.GCSViews
                 {
                     comPort.Write("\r");
                 }
-                catch
-                {
-                }
+                catch {}
 
                 // 10 sec
                 waitandsleep(10000);
@@ -549,9 +523,7 @@ namespace MissionPlanner.GCSViews
                             break;
                         }
                         if (comPort.BytesToRead > 0)
-                        {
                             comPort_DataReceived(null, null);
-                        }
 
                         if (comPort is MAVLinkSerialPort)
                         {
@@ -578,18 +550,14 @@ namespace MissionPlanner.GCSViews
                 {
                     comPort.DtrEnable = false;
                 }
-                catch
-                {
-                }
+                catch {}
                 try
                 {
                     Console.WriteLine("term thread close run " + threadrun + " " + comPort.IsOpen);
                     ChangeConnectStatus(false);
                     comPort.Close();
                 }
-                catch
-                {
-                }
+                catch {}
 
                 Console.WriteLine("Comport thread close run " + threadrun);
             });
@@ -615,16 +583,12 @@ namespace MissionPlanner.GCSViews
             if (IsDisposed || Disposing)
                 return;
 
-            Invoke((MethodInvoker) delegate
+            Invoke((MethodInvoker)delegate
             {
                 if (connected && BUT_disconnect.Enabled == false)
-                {
                     BUT_disconnect.Enabled = true;
-                }
                 else if (!connected && BUT_disconnect.Enabled)
-                {
                     BUT_disconnect.Enabled = false;
-                }
             });
         }
 
@@ -638,9 +602,7 @@ namespace MissionPlanner.GCSViews
                     var data = encoding.GetBytes("exit\rsetup\rshow\r");
                     comPort.Write(data, 0, data.Length);
                 }
-                catch
-                {
-                }
+                catch {}
             }
             TXT_terminal.Focus();
         }
@@ -655,9 +617,7 @@ namespace MissionPlanner.GCSViews
                     var data = encoding.GetBytes("exit\rsetup\r\nradio\r");
                     comPort.Write(data, 0, data.Length);
                 }
-                catch
-                {
-                }
+                catch {}
             }
             TXT_terminal.Focus();
         }
@@ -672,9 +632,7 @@ namespace MissionPlanner.GCSViews
                     var data = encoding.GetBytes("exit\rtest\r?\r\n");
                     comPort.Write(data, 0, data.Length);
                 }
-                catch
-                {
-                }
+                catch {}
             }
             TXT_terminal.Focus();
         }
@@ -697,7 +655,7 @@ namespace MissionPlanner.GCSViews
         }
 
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
-        {  
+        {
             if (comPort.IsOpen)
             {
                 BUT_disconnect.Enabled = true;
@@ -729,7 +687,6 @@ namespace MissionPlanner.GCSViews
             {
                 if (MainV2.comPort != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
                 {
-                 
                     comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.SHELL);
 
                     comPort.BaudRate = 0;
@@ -742,10 +699,7 @@ namespace MissionPlanner.GCSViews
                     startreadthread();
                 }
             }
-            catch
-            {
-
-            }
+            catch {}
         }
 
         private void BUT_disconnect_Click(object sender, EventArgs e)
@@ -756,15 +710,11 @@ namespace MissionPlanner.GCSViews
                 {
                     comPort.Write("reboot\n");
                 }
-                catch
-                {
-                }
+                catch {}
                 comPort.Close();
                 TXT_terminal.AppendText("Closed\n");
             }
-            catch
-            {
-            }
+            catch {}
         }
     }
 }

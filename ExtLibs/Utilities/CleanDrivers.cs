@@ -19,36 +19,39 @@ namespace MissionPlanner.Utilities
 
         public static void Clean()
         {
-            string[] files = Directory.GetFiles(@"c:\windows\inf\", "*.inf",SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(@"c:\windows\inf\", "*.inf", SearchOption.AllDirectories);
 
             foreach (string file in files)
             {
                 using (StreamReader sr = new StreamReader(File.OpenRead(file)))
                 {
-
                     // USB\VID_26AC    3dr
                     // USB\VID_2341   arduino
 
                     while (sr.BaseStream != null && !sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        if (line.ToUpper().Contains(@"USB\VID_26AC"))// || line.ToUpper().Contains(@"USB\VID_2341"))
+                        if (line.ToUpper().Contains(@"USB\VID_26AC")) // || line.ToUpper().Contains(@"USB\VID_2341"))
                         {
                             try
                             {
                                 Console.WriteLine(file);
 
-                              //  File.Delete(file);
+                                //  File.Delete(file);
                             }
-                            catch { }
+                            catch {}
 
                             if (GetOSArchitecture() == 64)
                             {
-                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx64.exe", @"/u """ + file + @""" /d");
+                                System.Diagnostics.Process.Start(
+                                    Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx64.exe",
+                                    @"/u """ + file + @""" /d");
                             }
                             else
                             {
-                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx86.exe", @"/u """ + file + @""" /d");
+                                System.Diagnostics.Process.Start(
+                                    Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx86.exe",
+                                    @"/u """ + file + @""" /d");
                             }
                         }
                     }

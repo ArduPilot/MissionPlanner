@@ -7,8 +7,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWAirspeed : UserControl, IActivate
     {
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
+        private const float rad2deg = (float)(180 / Math.PI);
+        private const float deg2rad = (float)(1.0 / rad2deg);
         private bool startup;
 
         public ConfigHWAirspeed()
@@ -62,13 +62,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (MainV2.comPort.MAV.param["ARSPD_ENABLE"] == null)
-                {
                     CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
-                }
                 else
-                {
-                    MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox) sender).Checked ? 1 : 0);
-                }
+                    MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox)sender).Checked ? 1 : 0);
             }
             catch
             {

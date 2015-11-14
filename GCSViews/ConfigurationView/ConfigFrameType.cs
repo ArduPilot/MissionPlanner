@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            DoChange((Frame) Enum.Parse(typeof (Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
+            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
         }
 
         public void Deactivate()
@@ -166,7 +166,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                MainV2.comPort.setParam("FRAME", (int) frame);
+                MainV2.comPort.setParam("FRAME", (int)frame);
             }
             catch
             {

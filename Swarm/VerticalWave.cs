@@ -8,7 +8,5 @@ namespace MissionPlanner.Swarm
     /// <summary>
     /// Create a wave effect
     /// </summary>
-    class VerticalWave
-    {
-    }
+    class VerticalWave {}
 }

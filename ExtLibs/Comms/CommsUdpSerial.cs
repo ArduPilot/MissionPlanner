@@ -21,7 +21,11 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+
+        public Stream BaseStream
+        {
+            get { return this.BaseStream; }
+        }
 
         public UdpSerial()
         {
@@ -31,42 +35,45 @@ namespace MissionPlanner.Comms
             Port = "14550";
         }
 
-        public void toggleDTR()
-        {
-        }
+        public void toggleDTR() {}
 
         public string Port { get; set; }
 
-        public int ReadTimeout
-        {
-            get;// { return client.ReceiveTimeout; }
-            set;// { client.ReceiveTimeout = value; }
+        public int ReadTimeout { get; // { return client.ReceiveTimeout; }
+            set; // { client.ReceiveTimeout = value; }
         }
 
-        public int ReadBufferSize {get;set;}
+        public int ReadBufferSize { get; set; }
 
         public int BaudRate { get; set; }
         public StopBits StopBits { get; set; }
-        public  Parity Parity { get; set; }
-        public  int DataBits { get; set; }
+        public Parity Parity { get; set; }
+        public int DataBits { get; set; }
 
         public string PortName { get; set; }
 
-        public  int BytesToRead
+        public int BytesToRead
         {
             get { return client.Available + rbuffer.Length - rbufferread; }
         }
 
-        public int BytesToWrite { get {return 0;} }
+        public int BytesToWrite
+        {
+            get { return 0; }
+        }
 
         private bool _isopen = false;
-        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } }
 
-        public bool DtrEnable
+        public bool IsOpen
         {
-            get;
-            set;
+            get
+            {
+                if (client.Client == null) return false;
+                return _isopen;
+            }
         }
+
+        public bool DtrEnable { get; set; }
 
         public void Open()
         {
@@ -82,10 +89,9 @@ namespace MissionPlanner.Comms
 
             dest = OnSettings("UDP_port", dest);
 
-            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
-            {
+            if (System.Windows.Forms.DialogResult.Cancel ==
+                InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
                 return;
-            }
             Port = dest;
 
             OnSettings("UDP_port", Port, true);
@@ -110,11 +116,9 @@ namespace MissionPlanner.Comms
             try
             {
                 if (client != null)
-                {
                     client.Close();
-                }
             }
-            catch { }
+            catch {}
 
             client = new UdpClient(int.Parse(Port));
 
@@ -130,7 +134,7 @@ namespace MissionPlanner.Comms
                     {
                         client.Close();
                     }
-                    catch { }
+                    catch {}
                     return;
                 }
 
@@ -150,9 +154,7 @@ namespace MissionPlanner.Comms
             catch (Exception ex)
             {
                 if (client != null && client.Client.Connected)
-                {
                     client.Close();
-                }
                 log.Info(ex.ToString());
                 //CustomMessageBox.Show("Please check your Firewall settings\nPlease try running this command\n1.    Run the following command in an elevated command prompt to disable Windows Firewall temporarily:\n    \nNetsh advfirewall set allprofiles state off\n    \nNote: This is just for test; please turn it back on with the command 'Netsh advfirewall set allprofiles state on'.\n", "Error");
                 throw new Exception("The socket/serialproxy is closed " + e);
@@ -168,12 +170,13 @@ namespace MissionPlanner.Comms
             }
         }
 
-        public int Read(byte[] readto,int offset,int length)
+        public int Read(byte[] readto, int offset, int length)
         {
             VerifyConnected();
             try
             {
-                if (length < 1) { return 0; }
+                if (length < 1)
+                    return 0;
 
                 // check if we are at the end of our current allocation
                 if (rbufferread == rbuffer.Length)
@@ -198,9 +201,7 @@ namespace MissionPlanner.Comms
 
                 // prevent read past end of array
                 if ((rbuffer.Length - rbufferread) < length)
-                {
                     length = (rbuffer.Length - rbufferread);
-                }
 
                 Array.Copy(rbuffer, rbufferread, readto, offset, length);
 
@@ -208,10 +209,13 @@ namespace MissionPlanner.Comms
 
                 return length;
             }
-            catch { throw; }
+            catch
+            {
+                throw;
+            }
         }
 
-        public  int ReadByte()
+        public int ReadByte()
         {
             VerifyConnected();
             int count = 0;
@@ -227,12 +231,12 @@ namespace MissionPlanner.Comms
             return buffer[0];
         }
 
-        public  int ReadChar()
+        public int ReadChar()
         {
             return ReadByte();
         }
 
-        public  string ReadExisting() 
+        public string ReadExisting()
         {
             VerifyConnected();
             byte[] data = new byte[client.Available];
@@ -244,47 +248,49 @@ namespace MissionPlanner.Comms
             return line;
         }
 
-        public  void WriteLine(string line)
+        public void WriteLine(string line)
         {
             VerifyConnected();
             line = line + "\n";
             Write(line);
         }
 
-        public  void Write(string line)
+        public void Write(string line)
         {
             VerifyConnected();
             byte[] data = new System.Text.ASCIIEncoding().GetBytes(line);
             Write(data, 0, data.Length);
         }
 
-        public  void Write(byte[] write, int offset, int length)
+        public void Write(byte[] write, int offset, int length)
         {
             VerifyConnected();
             try
             {
                 client.Send(write, length, RemoteIpEndPoint);
             }
-            catch { }//throw new Exception("Comport / Socket Closed"); }
+            catch {} //throw new Exception("Comport / Socket Closed"); }
         }
 
-        public  void DiscardInBuffer()
+        public void DiscardInBuffer()
         {
             VerifyConnected();
             int size = client.Available;
             byte[] crap = new byte[size];
-            log.InfoFormat("UdpSerial DiscardInBuffer {0}",size);
+            log.InfoFormat("UdpSerial DiscardInBuffer {0}", size);
             Read(crap, 0, size);
         }
 
-        public  string ReadLine() {
+        public string ReadLine()
+        {
             byte[] temp = new byte[4000];
             int count = 0;
             int timeout = 0;
 
             while (timeout <= 100)
             {
-                if (!this.IsOpen) { break; }
+                if (!this.IsOpen)
+                    break;
                 if (this.BytesToRead > 0)
                 {
                     byte letter = (byte)this.ReadByte();
@@ -292,16 +298,16 @@ namespace MissionPlanner.Comms
                     temp[count] = letter;
 
                     if (letter == '\n') // normal line
-                    {
                         break;
-                    }
 
 
                     count++;
                     if (count == temp.Length)
                         break;
                     timeout = 0;
-                } else {
+                }
+                else
+                {
                     timeout++;
                     System.Threading.Thread.Sleep(5);
                 }
@@ -316,9 +322,7 @@ namespace MissionPlanner.Comms
         {
             _isopen = false;
             if (client != null)
-            {
                 client.Close();
-            }
 
             client = new UdpClient();
         }

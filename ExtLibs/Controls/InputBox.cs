@@ -28,15 +28,11 @@ namespace MissionPlanner.Controls
             // ensure we run this on the right thread - mono - mac
             if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
             {
-                Application.OpenForms[0].Invoke((MethodInvoker)delegate
-                {
-                    answer = ShowUI(title, promptText, passin, password);
-                });
+                Application.OpenForms[0].Invoke(
+                    (MethodInvoker)delegate { answer = ShowUI(title, promptText, passin, password); });
             }
             else
-            {
                 answer = ShowUI(title, promptText, passin, password);
-            }
 
             value = InputBox.value;
 
@@ -62,7 +58,7 @@ namespace MissionPlanner.Controls
             label.Text = promptText;
             textBox.Text = value;
 
-            textBox.TextChanged +=textBox_TextChanged;
+            textBox.TextChanged += textBox_TextChanged;
 
             buttonOk.Text = "OK";
             buttonCancel.Text = "Cancel";
@@ -80,7 +76,7 @@ namespace MissionPlanner.Controls
             buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
 
             form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
+            form.Controls.AddRange(new Control[] {label, textBox, buttonOk, buttonCancel});
             form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
             form.FormBorderStyle = FormBorderStyle.FixedSingle;
             form.StartPosition = FormStartPosition.CenterScreen;

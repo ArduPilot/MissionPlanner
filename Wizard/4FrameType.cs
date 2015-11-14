@@ -39,7 +39,8 @@ namespace MissionPlanner.Wizard
 
             selected = true;
 
-            switch (option) {
+            switch (option)
+            {
                 case "x":
                     MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.X);
                     break;
@@ -66,7 +67,8 @@ namespace MissionPlanner.Wizard
             {
                 setframeType(sender);
             }
-            catch {
+            catch
+            {
                 CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
             }
@@ -77,9 +79,7 @@ namespace MissionPlanner.Wizard
             foreach (var ctl in this.panel1.Controls)
             {
                 if (ctl.GetType() == typeof(PictureBoxMouseOver))
-                {
                     (ctl as PictureBoxMouseOver).selected = false;
-                }
             }
         }
 
@@ -92,7 +92,7 @@ namespace MissionPlanner.Wizard
                 return;
             }
 
-            if (MainV2.comPort.MAV.param.ContainsKey("FRAME")) 
+            if (MainV2.comPort.MAV.param.ContainsKey("FRAME"))
             {
                 ConfigFrameType.Frame frame = (ConfigFrameType.Frame)(int)(float)MainV2.comPort.MAV.param["FRAME"];
 

@@ -16,7 +16,7 @@ namespace MissionPlanner
         System.Threading.Thread t12;
         static bool threadrun = false;
         static internal SerialPort comPort = new SerialPort();
-        static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0,0,0,"Home");
+        static internal PointLatLngAlt HomeLoc = new PointLatLngAlt(0, 0, 0, "Home");
 
         public SerialOutputMD()
         {
@@ -25,9 +25,7 @@ namespace MissionPlanner
             CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             if (threadrun)
-            {
                 BUT_connect.Text = Strings.Stop;
-            }
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
@@ -46,13 +44,29 @@ namespace MissionPlanner
                 {
                     comPort.PortName = CMB_serialport.Text;
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidPortName); return; }
-                try {
-                comPort.BaudRate = int.Parse(CMB_baudrate.Text);
-                } catch {CustomMessageBox.Show(Strings.InvalidBaudRate); return;}
-                try {
-                comPort.Open();
-                } catch {CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??"); return;}
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                    return;
+                }
+                try
+                {
+                    comPort.BaudRate = int.Parse(CMB_baudrate.Text);
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidBaudRate);
+                    return;
+                }
+                try
+                {
+                    comPort.Open();
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    return;
+                }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
@@ -108,9 +122,9 @@ namespace MissionPlanner
 
                     writeline("#1,28,07,2,1,1,1,2,16000,0,2,");
 
-                 //   writeline("#2,100,99,98,97,96,95,94,93,92,");
+                    //   writeline("#2,100,99,98,97,96,95,94,93,92,");
 
-                   // writeline("#3,100,120,140,160,");
+                    // writeline("#3,100,120,140,160,");
 
                     int week, seconds;
                     GetGPSTime(out week, out seconds);
@@ -119,28 +133,34 @@ namespace MissionPlanner
 
                     //    writeline("#4,counter/2,111732000,1595,0,");
 
-                    double x,y,z;
+                    double x, y, z;
 
-                    GetGeo(out x, out y, out z, MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt);
+                    GetGeo(out x, out y, out z, MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng,
+                        MainV2.comPort.MAV.cs.alt);
 
-                    writeline(string.Format("#5,{0},{1},{2},{3},{4},", x * 100, y * 100, z*100, MainV2.comPort.MAV.cs.gpshdop + 0.01, MainV2.comPort.MAV.cs.satcount));
+                    writeline(string.Format("#5,{0},{1},{2},{3},{4},", x * 100, y * 100, z * 100,
+                        MainV2.comPort.MAV.cs.gpshdop + 0.01, MainV2.comPort.MAV.cs.satcount));
 
-                    writeline(string.Format("#6,{0},{1},{2},{3},", MainV2.comPort.MAV.cs.groundspeed * Math.Sin(MainV2.comPort.MAV.cs.groundcourse * deg2rad),
+                    writeline(string.Format("#6,{0},{1},{2},{3},",
+                        MainV2.comPort.MAV.cs.groundspeed * Math.Sin(MainV2.comPort.MAV.cs.groundcourse * deg2rad),
                         MainV2.comPort.MAV.cs.groundspeed * Math.Cos(MainV2.comPort.MAV.cs.groundcourse * deg2rad),
-                        MainV2.comPort.MAV.cs.verticalspeed,2));
+                        MainV2.comPort.MAV.cs.verticalspeed, 2));
 
-                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll * deg2rad, MainV2.comPort.MAV.cs.pitch * deg2rad, MainV2.comPort.MAV.cs.yaw * deg2rad));
+                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll * deg2rad,
+                        MainV2.comPort.MAV.cs.pitch * deg2rad, MainV2.comPort.MAV.cs.yaw * deg2rad));
 
-                    writeline(string.Format("#8,{0},{1},{2},", MainV2.comPort.MAV.cs.alt , MainV2.comPort.MAV.cs.alt , MainV2.comPort.MAV.cs.press_temp));
+                    writeline(string.Format("#8,{0},{1},{2},", MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.alt,
+                        MainV2.comPort.MAV.cs.press_temp));
 
-                    writeline(string.Format("#9,{0},{1},{2},", MainV2.comPort.MAV.cs.mx, MainV2.comPort.MAV.cs.my, MainV2.comPort.MAV.cs.mz));
+                    writeline(string.Format("#9,{0},{1},{2},", MainV2.comPort.MAV.cs.mx, MainV2.comPort.MAV.cs.my,
+                        MainV2.comPort.MAV.cs.mz));
 
-                  //  writeline(string.Format("#10,{0},{1},{2},", 1.354,-1.549,0.972));
+                    //  writeline(string.Format("#10,{0},{1},{2},", 1.354,-1.549,0.972));
 
                     System.Threading.Thread.Sleep(100);
                     counter++;
                 }
-                catch { }
+                catch {}
             }
         }
 
@@ -154,7 +174,7 @@ namespace MissionPlanner
 
         void GetGPSTime(out int weeknumber, out int seconds)
         {
-            DateTime datum = new DateTime(1980, 1, 6, 0, 0, 0,DateTimeKind.Utc);
+            DateTime datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
 
             TimeSpan ts = DateTime.Now - datum;
 
@@ -162,7 +182,7 @@ namespace MissionPlanner
 
             ts = DateTime.Now - GetFromGps(weeknumber, 0);
 
-            seconds =  (int)ts.TotalSeconds;
+            seconds = (int)ts.TotalSeconds;
         }
 
 
@@ -193,14 +213,13 @@ namespace MissionPlanner
 
             alt = alt * 0.0001;
 
-                        // var rrnrm  = radcur (flat);
-            var rn = wgs84a;/// (Math.Sqrt(1-esq)*(slat*slat));// rrnrm[1];
-            var re = wgs84a;// rrnrm[0];
+            // var rrnrm  = radcur (flat);
+            var rn = wgs84a; /// (Math.Sqrt(1-esq)*(slat*slat));// rrnrm[1];
+            var re = wgs84a; // rrnrm[0];
 
             x = (rn + alt) * clat * clon;
             y = (rn + alt) * clat * slon;
             z = ((1 - esq) * rn + (alt)) * slat;
-
         }
 
         void writeline(string line)
@@ -212,19 +231,12 @@ namespace MissionPlanner
         {
             byte ans = 0;
             foreach (char ch in line.ToCharArray())
-            {
                 ans += (byte)ch;
-            }
             ans = (byte)(ans ^ 0xff);
 
             return ans;
         }
 
-        private void SerialOutput_FormClosing(object sender, FormClosingEventArgs e)
-        {
-        }
-
-   
-
+        private void SerialOutput_FormClosing(object sender, FormClosingEventArgs e) {}
     }
 }

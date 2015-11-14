@@ -6,8 +6,6 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-
 using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.Controls
@@ -27,30 +25,64 @@ namespace MissionPlanner.Controls
         internal Color _TextColor;
         internal Color _Outline;
 
-       bool inOnPaint = false;
+        bool inOnPaint = false;
 
-       [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-       [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
-       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
-       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
+        public Color BGGradTop
+        {
+            get { return _BGGradTop; }
+            set
+            {
+                _BGGradTop = value;
+                this.Invalidate();
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
+        public Color BGGradBot
+        {
+            get { return _BGGradBot; }
+            set
+            {
+                _BGGradBot = value;
+                this.Invalidate();
+            }
+        }
 
         // i want to ignore forecolor
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
-         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
-         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
-         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
+        public Color TextColor
+        {
+            get { return _TextColor; }
+            set
+            {
+                _TextColor = value;
+                this.Invalidate();
+            }
+        }
 
-         public MyButton()
-         {
-             _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
-             _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
-             _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
-             _Outline = Color.FromArgb(0x79, 0x94, 0x29);
-         }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
+        public Color Outline
+        {
+            get { return _Outline; }
+            set
+            {
+                _Outline = value;
+                this.Invalidate();
+            }
+        }
+
+        public MyButton()
+        {
+            _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
+            _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+            _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
+            _Outline = Color.FromArgb(0x79, 0x94, 0x29);
+        }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
@@ -71,7 +103,8 @@ namespace MissionPlanner.Controls
 
                 Rectangle outside = new Rectangle(0, 0, this.Width, this.Height);
 
-                LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
+                LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot,
+                    LinearGradientMode.Vertical);
 
                 Pen mypen = new Pen(Outline, 1);
 
@@ -97,7 +130,7 @@ namespace MissionPlanner.Controls
                 // bl
                 outline.AddArc(0, height - wid, wid, wid, 90, 90);
                 // left line
-                outline.AddLine(0, height - wid, 0, wid - wid /2);
+                outline.AddLine(0, height - wid, 0, wid - wid / 2);
 
 
                 gr.FillPath(linear, outline);
@@ -138,8 +171,8 @@ namespace MissionPlanner.Controls
 
                 gr.DrawString(display, this.Font, mybrush, outside, stringFormat);
             }
-            catch { }
-            
+            catch {}
+
             inOnPaint = false;
         }
 

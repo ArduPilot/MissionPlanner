@@ -36,12 +36,14 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
-        public void setup(float Min, float Max, float Scale, float Increment, string paramname, MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
+        public void setup(float Min, float Max, float Scale, float Increment, string paramname,
+            MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
-            setup(Min, Max, Scale, Increment, new string[] { paramname }, paramlist, enabledisable);
+            setup(Min, Max, Scale, Increment, new string[] {paramname}, paramlist, enabledisable);
         }
 
-        public void setup(float Min, float Max, float Scale, float Increment, string[] paramname, MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
+        public void setup(float Min, float Max, float Scale, float Increment, string[] paramname,
+            MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
         {
             this.ValueChanged -= MavlinkNumericUpDown_ValueChanged;
 
@@ -63,7 +65,8 @@ namespace MissionPlanner.Controls
             if (Min == Max)
             {
                 double mint = Min, maxt = Max;
-                ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt, MainV2.comPort.MAV.cs.firmware.ToString());
+                ParameterMetaDataRepository.GetParameterRange(ParamName, ref mint, ref maxt,
+                    MainV2.comPort.MAV.cs.firmware.ToString());
                 Min = (float)mint;
                 Max = (float)maxt;
             }
@@ -73,7 +76,7 @@ namespace MissionPlanner.Controls
             this.Maximum = (decimal)(Max);
             this.Increment = (decimal)(Increment);
             this.DecimalPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)Increment)[3])[2];
-  
+
             this._control = enabledisable;
 
             if (paramlist.ContainsKey(ParamName))
@@ -96,7 +99,6 @@ namespace MissionPlanner.Controls
                     this.Maximum = value;
 
                 base.Value = value;
-
             }
             else
             {
@@ -121,14 +123,16 @@ namespace MissionPlanner.Controls
             string value = base.Text;
             if (decimal.Parse(value) > base.Maximum)
             {
-                if (CustomMessageBox.Show(ParamName + " Value out of range\nDo you want to accept the new value?", "Out of range", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (
+                    CustomMessageBox.Show(ParamName + " Value out of range\nDo you want to accept the new value?",
+                        "Out of range", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     base.Maximum = decimal.Parse(value);
                     base.Value = decimal.Parse(value);
                 }
             }
 
-            if (ValueUpdated!= null)
+            if (ValueUpdated != null)
             {
                 this.UpdateEditText();
                 ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float)base.Value * (float)_scale));
@@ -139,10 +143,12 @@ namespace MissionPlanner.Controls
             {
                 bool ans = MainV2.comPort.setParam(ParamName, (float)base.Value * (float)_scale);
                 if (ans == false)
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,ParamName), Strings.ERROR);
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }
-            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+            }
         }
-
     }
 }

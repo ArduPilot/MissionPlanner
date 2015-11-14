@@ -10,8 +10,12 @@ namespace MissionPlanner.Comms
     public class CommsFile : CommsBase, ICommsSerial
     {
         // Methods
-        public void Close() { BaseStream.Close(); }
-        public void DiscardInBuffer() { }
+        public void Close()
+        {
+            BaseStream.Close();
+        }
+
+        public void DiscardInBuffer() {}
 
         public int bps { get; set; }
         int currentbps = 0;
@@ -34,12 +38,13 @@ namespace MissionPlanner.Comms
             bps = 10000;
             BaseStream = File.OpenRead(PortName);
         }
+
         public int Read(byte[] buffer, int offset, int count)
         {
             if (!IsOpen)
                 throw new EndOfStreamException("File not open");
 
-            while (true) 
+            while (true)
             {
                 // check if we have credit and continue
                 if (count < bytecredit)
@@ -65,7 +70,7 @@ namespace MissionPlanner.Comms
                     break;
                 }
 
-                System.Threading.Thread.Sleep(1);      
+                System.Threading.Thread.Sleep(1);
             }
 
             lastread = DateTime.Now;
@@ -92,27 +97,62 @@ namespace MissionPlanner.Comms
 
             return ret;
         }
-        //int Read(char[] buffer, int offset, int count);
-        public int ReadByte() { return BaseStream.ReadByte(); }
-        public int ReadChar() { return BaseStream.ReadByte(); }
-        public string ReadExisting() { return ""; }
-        public string ReadLine() { return ""; }
-        //string ReadTo(string value);
-        public void Write(string text) { }
-        public void Write(byte[] buffer, int offset, int count) { }
-        //void Write(char[] buffer, int offset, int count);
-        public void WriteLine(string text) { }
 
-        public void toggleDTR() { }
+        //int Read(char[] buffer, int offset, int count);
+        public int ReadByte()
+        {
+            return BaseStream.ReadByte();
+        }
+
+        public int ReadChar()
+        {
+            return BaseStream.ReadByte();
+        }
+
+        public string ReadExisting()
+        {
+            return "";
+        }
+
+        public string ReadLine()
+        {
+            return "";
+        }
+
+        //string ReadTo(string value);
+        public void Write(string text) {}
+        public void Write(byte[] buffer, int offset, int count) {}
+        //void Write(char[] buffer, int offset, int count);
+        public void WriteLine(string text) {}
+
+        public void toggleDTR() {}
 
         // Properties
         public Stream BaseStream { get; private set; }
         public int BaudRate { get; set; }
-        public int BytesToRead { get { if (!BaseStream.CanRead) return 0; return (int)(BaseStream.Length - BaseStream.Position); } }
+
+        public int BytesToRead
+        {
+            get
+            {
+                if (!BaseStream.CanRead) return 0;
+                return (int)(BaseStream.Length - BaseStream.Position);
+            }
+        }
+
         public int BytesToWrite { get; set; }
-        public int DataBits  { get; set; }
+        public int DataBits { get; set; }
         public bool DtrEnable { get; set; }
-        public bool IsOpen { get { if (BaseStream != null && BaseStream.CanRead) { return BaseStream.Position < BaseStream.Length; } return false; } }
+
+        public bool IsOpen
+        {
+            get
+            {
+                if (BaseStream != null && BaseStream.CanRead)
+                    return BaseStream.Position < BaseStream.Length;
+                return false;
+            }
+        }
 
         public Parity Parity { get; set; }
 

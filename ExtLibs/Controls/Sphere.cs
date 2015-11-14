@@ -8,7 +8,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace MissionPlanner.Controls
 {
-    public class Sphere: OpenTK.GLControl
+    public class Sphere : OpenTK.GLControl
     {
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
@@ -21,7 +21,7 @@ namespace MissionPlanner.Controls
 
         public float scale = 300;
 
-        Vector3 eye = new Vector3(1,1,1);
+        Vector3 eye = new Vector3(1, 1, 1);
 
         float minx, maxx, miny, maxy, minz, maxz;
         private double yaw;
@@ -87,26 +87,25 @@ namespace MissionPlanner.Controls
                 yaw += -5 * deg2rad;
                 this.Invalidate();
                 return true;
-            } 
+            }
             if (keyData == System.Windows.Forms.Keys.Right)
             {
                 yaw += 5 * deg2rad;
                 this.Invalidate();
                 return true;
-            } 
+            }
             if (keyData == System.Windows.Forms.Keys.Up)
             {
                 pitch += 5 * deg2rad;
                 this.Invalidate();
                 return true;
-            } 
+            }
             if (keyData == System.Windows.Forms.Keys.Down)
             {
                 pitch += -5 * deg2rad;
                 this.Invalidate();
                 return true;
             }
-
 
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -121,7 +120,7 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-           // radians += 5 * deg2rad;
+            // radians += 5 * deg2rad;
 
             if (rotatewithdata)
                 yaw += 5 * deg2rad;
@@ -130,7 +129,7 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            double max = Math.Max(Math.Max((maxx - minx)/2,(maxy - miny)/2),(maxz - minz)/2);
+            double max = Math.Max(Math.Max((maxx - minx) / 2, (maxy - miny) / 2), (maxz - minz) / 2);
 
             if (max < 300)
                 max = 400;
@@ -139,7 +138,8 @@ namespace MissionPlanner.Controls
 
             if (points.Count > 0)
             {
-                Vector3 current = new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z);
+                Vector3 current = new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y,
+                    points[points.Count - 1].Z);
 
                 //yaw = Math.Atan2(points[points.Count - 1].X, points[points.Count - 1].Y);
             }
@@ -166,7 +166,8 @@ namespace MissionPlanner.Controls
 
             //Console.WriteLine("eye "+ eye.ToString());
             //(maxx + minx) / 2, (maxy + miny) / 2, (maxz + minz) / 2
-            Matrix4 modelview = Matrix4.LookAt(eye.X, eye.Y, eye.Z, 0,0,0, 0, 0, 1); // CenterPoint.X, CenterPoint.Y, CenterPoint.Z
+            Matrix4 modelview = Matrix4.LookAt(eye.X, eye.Y, eye.Z, 0, 0, 0, 0, 0, 1);
+                // CenterPoint.X, CenterPoint.Y, CenterPoint.Z
             GL.MatrixMode(MatrixMode.Modelview);
 
             GL.LoadMatrix(ref modelview);
@@ -181,7 +182,7 @@ namespace MissionPlanner.Controls
             GL.Begin(PrimitiveType.Lines);
 
             // +tivs
-            GL.Color3(Color.FromArgb(0,0,255));
+            GL.Color3(Color.FromArgb(0, 0, 255));
             GL.Vertex3(0, 0, 0);
             GL.Vertex3(0, 0, max);
 
@@ -211,7 +212,7 @@ namespace MissionPlanner.Controls
 
             //GL.Rotate(Pitch, 0, 0, 0);
             //GL.Rotate(Roll, 0, 0, 0);
-           // GL.Rotate(Yaw, 0, 0, 0);
+            // GL.Rotate(Yaw, 0, 0, 0);
 
             GL.Begin(PrimitiveType.Points);
 
@@ -224,7 +225,7 @@ namespace MissionPlanner.Controls
                     float rangey = maxy - miny;
                     float rangez = maxz - minz;
 
-                    int valuex = (int)Math.Abs((((item.X ) / rangex) * 254)) & 0xff;
+                    int valuex = (int)Math.Abs((((item.X) / rangex) * 254)) & 0xff;
                     int valuey = (int)Math.Abs((((item.Y) / rangey) * 254)) & 0xff;
                     int valuez = (int)Math.Abs((((item.Z) / rangez) * 254)) & 0xff;
 
@@ -257,8 +258,11 @@ namespace MissionPlanner.Controls
                 GL.Color3(Color.Red);
 
                 if (points.Count > 0)
-                    GL.Vertex3(new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z) + CenterPoint);
-
+                {
+                    GL.Vertex3(
+                        new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z) +
+                        CenterPoint);
+                }
             }
 
             GL.End();
@@ -277,18 +281,17 @@ namespace MissionPlanner.Controls
             GL.Begin(PrimitiveType.LineLoop);
             for (int ii = 0; ii < num_segments; ii++)
             {
-                double theta = 2.0f * 3.1415926f * (double)ii / (double)num_segments;//get the current angle 
+                double theta = 2.0f * 3.1415926f * (double)ii / (double)num_segments; //get the current angle 
 
-                double x = r * Math.Cos(theta);//calculate the x component 
-                double y = 0;//r * Math.Sin(theta);//calculate the y component 
-                double z = r * Math.Sin(theta);//calculate the y component 
+                double x = r * Math.Cos(theta); //calculate the x component 
+                double y = 0; //r * Math.Sin(theta);//calculate the y component 
+                double z = r * Math.Sin(theta); //calculate the y component 
 
                 //x = x * Math.Cos(yaw) - y * Math.Sin(yaw);
                 y = x * Math.Sin(yaw) + y * Math.Cos(yaw);
                 //z = z;
 
-                GL.Vertex3(x + cx, y + cy, z + cz);//output vertex 
-
+                GL.Vertex3(x + cx, y + cy, z + cz); //output vertex 
             }
             GL.End();
         }

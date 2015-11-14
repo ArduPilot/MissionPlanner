@@ -20,10 +20,7 @@ namespace MissionPlanner.Controls
             timer1.Start();
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e) {}
 
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -36,7 +33,7 @@ namespace MissionPlanner.Controls
             // restore colours
             Utilities.ThemeManager.ApplyThemeTo(this);
 
-            foreach (var item in new VerticalProgressBar2[] { ekfvel, ekfposh, ekfposv, ekfcompass, ekfterrain })
+            foreach (var item in new VerticalProgressBar2[] {ekfvel, ekfposh, ekfposv, ekfcompass, ekfterrain})
             {
                 if (item.Value > 50)
                     item.ValueColor = Color.Orange;
@@ -54,7 +51,7 @@ namespace MissionPlanner.Controls
                 var currentflag = (MAVLink.EKF_STATUS_FLAGS)Enum.Parse(typeof(MAVLink.EKF_STATUS_FLAGS), a.ToString());
 
                 label7.Text += currentflag.ToString().Replace("EKF_", "").ToLower() + " " +
-                                  (currentbit > 0 ? "On " : "Off") + "\r\n";
+                               (currentbit > 0 ? "On " : "Off") + "\r\n";
             }
         }
     }

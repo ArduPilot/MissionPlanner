@@ -23,7 +23,7 @@ namespace MissionPlanner.Utilities
 
         public static void POIAdd(PointLatLngAlt Point)
         {
-              if (Point == null)
+            if (Point == null)
                 return;
 
             PointLatLngAlt pnt = Point;
@@ -92,7 +92,8 @@ namespace MissionPlanner.Utilities
                     {
                         foreach (var item in POI.POIs)
                         {
-                            string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" + item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag + "\r\n";
+                            string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
+                                          item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag + "\r\n";
                             byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
                             file.Write(buffer, 0, buffer.Length);
                         }
@@ -110,7 +111,11 @@ namespace MissionPlanner.Utilities
 
             foreach (var pnt in POIs)
             {
-                poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = pnt.Tag });
+                poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot)
+                {
+                    ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                    ToolTipText = pnt.Tag
+                });
             }
         }
     }

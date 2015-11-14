@@ -48,22 +48,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             _presenter.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == "HasError")
-                {
                     SetErrorMessageOpacity();
-                }
             };
 
             _presenter.PropertyChanged += CheckCommandStates;
-            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel) s, Color.CornflowerBlue);
-            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel) s, Color.WhiteSmoke);
+            LNK_wiki.MouseEnter += (s, e) => FadeLinkTo((LinkLabel)s, Color.CornflowerBlue);
+            LNK_wiki.MouseLeave += (s, e) => FadeLinkTo((LinkLabel)s, Color.WhiteSmoke);
 
             SetErrorMessageOpacity();
 
             // Fix for mono bug where binding sources do not respect INPC notifications on POCOs
             if (MainV2.MONO)
-            {
                 _presenter.PropertyChanged += (s, e) => presenterBindingSource.ResetBindings(false);
-            }
 
             _presenter.Load();
         }
@@ -81,9 +77,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //Transition.runChain(_ErrorTransition);
             }
             else
-            {
                 _NoErrorTransition.run();
-            }
         }
 
         private static void FadeLinkTo(LinkLabel l, Color c)
@@ -102,8 +96,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var cmd = (sender as Button).Tag as ICommand;
 
                 if (cmd != null)
+                {
                     if (cmd.CanExecute(null))
                         cmd.Execute(null);
+                }
             }
         }
 

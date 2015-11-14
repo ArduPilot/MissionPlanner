@@ -28,7 +28,7 @@ namespace MissionPlanner.Controls.BackstageView
 
             this.Width = 150;
             this.Height = 30;
-            
+
             this.ResumeLayout(false);
         }
 
@@ -62,63 +62,63 @@ namespace MissionPlanner.Controls.BackstageView
         protected override void OnPaint(PaintEventArgs pevent)
         {
             if (this.Parent != null)
-            {
                 ((BackStageViewMenuPanel)this.Parent).PaintBackground(pevent);
-            }
 
-           Graphics g = pevent.Graphics;
+            Graphics g = pevent.Graphics;
 
             // Now the little 'arrow' thingy if we are selected and the selected bg grad
-           if (_isSelected)
-           {
-               //var rect1 = new Rectangle(0, 0, Width / 1, Height);
-               var rect2 = new Rectangle(0, 0, Width, Height);
+            if (_isSelected)
+            {
+                //var rect1 = new Rectangle(0, 0, Width / 1, Height);
+                var rect2 = new Rectangle(0, 0, Width, Height);
 
-              // g.FillRectangle(new LinearGradientBrush(rect1, HighlightColor1, HighlightColor2, LinearGradientMode.Horizontal), rect1);
-               g.FillRectangle(new LinearGradientBrush(rect2, HighlightColor2, HighlightColor1, LinearGradientMode.Horizontal), rect2);
+                // g.FillRectangle(new LinearGradientBrush(rect1, HighlightColor1, HighlightColor2, LinearGradientMode.Horizontal), rect1);
+                g.FillRectangle(
+                    new LinearGradientBrush(rect2, HighlightColor2, HighlightColor1, LinearGradientMode.Horizontal),
+                    rect2);
 
-               var butPen = new Pen(HighlightColor1);
-               g.DrawLine(butPen, 0, 0, Width, 0);
-               g.DrawLine(butPen, 0, Height - 1, Width, Height - 1);
+                var butPen = new Pen(HighlightColor1);
+                g.DrawLine(butPen, 0, 0, Width, 0);
+                g.DrawLine(butPen, 0, Height - 1, Width, Height - 1);
 
-               var arrowBrush = new SolidBrush(this.ContentPageColor);
+                var arrowBrush = new SolidBrush(this.ContentPageColor);
 
-               var midheight = Height / 2;
-               var arSize = 8;
+                var midheight = Height / 2;
+                var arSize = 8;
 
-               var arrowPoints = new[]
-                                     {
-                                         new Point(Width, midheight + arSize),
-                                         new Point(Width - arSize, midheight),
-                                         new Point(Width, midheight - arSize)
-                                     };
+                var arrowPoints = new[]
+                {
+                    new Point(Width, midheight + arSize),
+                    new Point(Width - arSize, midheight),
+                    new Point(Width, midheight - arSize)
+                };
 
-               g.DrawString(Text, new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold), new SolidBrush(SelectedTextColor), 5, 6);
+                g.DrawString(Text, new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold),
+                    new SolidBrush(SelectedTextColor), 5, 6);
 
-               var pencilBrush = new Pen(this.PencilBorderColor);
+                var pencilBrush = new Pen(this.PencilBorderColor);
 
-               g.DrawLine(pencilBrush, Width - 1, 0, Width - 1, Height - 1);
-               g.FillPolygon(arrowBrush, arrowPoints); 
+                g.DrawLine(pencilBrush, Width - 1, 0, Width - 1, Height - 1);
+                g.FillPolygon(arrowBrush, arrowPoints);
 
-               g.DrawPolygon(pencilBrush, arrowPoints);
+                g.DrawPolygon(pencilBrush, arrowPoints);
+            }
+            else
+            {
+                if (_isMouseOver)
+                {
+                    var brush = new SolidBrush(Color.FromArgb(10, 0xA0, 0xA0, 0xA0));
 
-               
-           }
-           else
-           {
-               if (_isMouseOver)
-               {
-                   var brush = new SolidBrush(Color.FromArgb(10, 0xA0, 0xA0, 0xA0));
+                    g.FillRectangle(brush, this.ClientRectangle);
 
-                   g.FillRectangle(brush, this.ClientRectangle);
+                    var butPen = new Pen(PencilBorderColor);
+                    g.DrawLine(butPen, 0, 0, Width, 0);
+                    g.DrawLine(butPen, 0, Height - 1, Width, Height - 1);
+                }
 
-                   var butPen = new Pen(PencilBorderColor);
-                   g.DrawLine(butPen, 0, 0, Width, 0);
-                   g.DrawLine(butPen, 0, Height - 1, Width, Height - 1);
-               }
-
-               g.DrawString(Text, new Font(FontFamily.GenericSansSerif, 10,FontStyle.Bold), new SolidBrush(this.UnSelectedTextColor), 5, 6);
-           }
+                g.DrawString(Text, new Font(FontFamily.GenericSansSerif, 10, FontStyle.Bold),
+                    new SolidBrush(this.UnSelectedTextColor), 5, 6);
+            }
         }
 
 
@@ -134,7 +134,6 @@ namespace MissionPlanner.Controls.BackstageView
             _isMouseOver = false;
             base.OnMouseLeave(e);
             this.Invalidate();
-
         }
 
         /*

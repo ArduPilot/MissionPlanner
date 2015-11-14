@@ -79,9 +79,9 @@ namespace MissionPlanner.Utilities
             byte[] buffer =
             {
                 0x2, 0x0, 0x64, 13, 0, 0x0, 0x0,
-                3,0,1,0,
-                0x2, 0x4,0x0,0x07, 0x0,0x0
-                    ,0x0, 0x3
+                3, 0, 1, 0,
+                0x2, 0x4, 0x0, 0x07, 0x0, 0x0
+                , 0x0, 0x3
             };
 
             uint8_t check = 0;
@@ -94,24 +94,27 @@ namespace MissionPlanner.Utilities
 
         public void requestGSOF()
         {
-            byte[] messages = { 1,2,8,9,12 };
+            byte[] messages = {1, 2, 8, 9, 12};
 
             var st = File.OpenWrite("trim.dat");
 
             byte count = 1;
             foreach (var gsofmsg in messages)
             {
-                byte[] buffer = { 0x2, 0x0, 0x64, 15, count, 0x0, 0x0,
-                                    3,0,1,0,
-                                0x7,0x6, 10, 0x0, 0x1, 0, gsofmsg, 0
-                                ,0x0, 0x3 };
+                byte[] buffer =
+                {
+                    0x2, 0x0, 0x64, 15, count, 0x0, 0x0,
+                    3, 0, 1, 0,
+                    0x7, 0x6, 10, 0x0, 0x1, 0, gsofmsg, 0
+                    , 0x0, 0x3
+                };
 
                 uint8_t check = 0;
                 buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
 
                 port.Write(buffer, 0, buffer.Length);
 
-                st.Write(buffer,0,buffer.Length);
+                st.Write(buffer, 0, buffer.Length);
 
                 System.Threading.Thread.Sleep(100);
 
@@ -123,11 +126,14 @@ namespace MissionPlanner.Utilities
 
         public void requestPostion()
         {
-            byte[] buffer = { 0x2, 0x0, 0x64, 20, 0, 0x0, 0x0, //appfile
-                                    3,0,1,0, // file control information block
-                                0x7, 11, 4, 0x0, 0x2, 0, // output message record
-                                0xf,0x1,0,0,0,0,0xf0 // output message rt17/27
-                                ,0x0, 0x3 }; // checksum and END
+            byte[] buffer =
+            {
+                0x2, 0x0, 0x64, 20, 0, 0x0, 0x0, //appfile
+                3, 0, 1, 0, // file control information block
+                0x7, 11, 4, 0x0, 0x2, 0, // output message record
+                0xf, 0x1, 0, 0, 0, 0, 0xf0 // output message rt17/27
+                , 0x0, 0x3
+            }; // checksum and END
 
             uint8_t check = 0;
             buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
@@ -188,17 +194,13 @@ namespace MissionPlanner.Utilities
                     gsof_msg.read++;
                     gsof_msg.checksumcalc += temp;
                     if (gsof_msg.read >= gsof_msg.length)
-                    {
                         gsof_state = gsof_msg_parser_t.CHECKSUM;
-                    }
                     break;
                 case gsof_msg_parser_t.CHECKSUM:
                     gsof_msg.checksum = temp;
                     gsof_state = gsof_msg_parser_t.ENDTX;
                     if (gsof_msg.checksum == gsof_msg.checksumcalc)
-                    {
                         return process_message();
-                    }
                     break;
                 case gsof_msg_parser_t.ENDTX:
                     gsof_msg.endtx = temp;
@@ -216,12 +218,12 @@ namespace MissionPlanner.Utilities
 
         private double ToRad(double p)
         {
-            return p * (Math.PI/180);
-        }        
+            return p * (Math.PI / 180);
+        }
 
         private double SwapDouble(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(double)];
+            uint8_t[] dst = new uint8_t[sizeof (double)];
             dst[0] = src[pos + 7];
             dst[1] = src[pos + 6];
             dst[2] = src[pos + 5];
@@ -231,12 +233,12 @@ namespace MissionPlanner.Utilities
             dst[6] = src[pos + 1];
             dst[7] = src[pos + 0];
 
-            return BitConverter.ToDouble(dst,0);
+            return BitConverter.ToDouble(dst, 0);
         }
 
         private float SwapFloat(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(float)];
+            uint8_t[] dst = new uint8_t[sizeof (float)];
             dst[0] = src[pos + 3];
             dst[1] = src[pos + 2];
             dst[2] = src[pos + 1];
@@ -248,7 +250,7 @@ namespace MissionPlanner.Utilities
 
         private UInt32 SwapUint32(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(UInt32)];
+            uint8_t[] dst = new uint8_t[sizeof (UInt32)];
             dst[0] = src[pos + 3];
             dst[1] = src[pos + 2];
             dst[2] = src[pos + 1];
@@ -259,7 +261,7 @@ namespace MissionPlanner.Utilities
 
         private UInt16 SwapUint16(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(UInt16)];
+            uint8_t[] dst = new uint8_t[sizeof (UInt16)];
             dst[0] = src[pos + 1];
             dst[1] = src[pos + 0];
 
@@ -272,14 +274,13 @@ namespace MissionPlanner.Utilities
 
             unchecked
             {
-
                 if ((data[0] & 0x80) != 0)
                 {
                     r |= (long)0xffff000000000000;
-                 //   r |= (long)0xffffffffffffffff;
+                    //   r |= (long)0xffffffffffffffff;
                 }
-            }   
-                
+            }
+
             r |= (long)data[0] << 40;
             r |= (long)data[1] << 32;
             r |= (long)data[2] << 24;
@@ -316,10 +317,8 @@ namespace MissionPlanner.Utilities
             public uint8_t Pos_Proc_Type;
             // Pos Block
             public uint8_t PosLength;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-            public uint8_t[] Lat;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-            public uint8_t[] Lng;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)] public uint8_t[] Lat;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)] public uint8_t[] Lng;
             public int32_t Alt;
             public int32_t veln;
             public int32_t vele;
@@ -339,7 +338,8 @@ namespace MissionPlanner.Utilities
 
         private bool process_message()
         {
-            Console.WriteLine("packet: "+gsof_msg.packettype.ToString("X") + " len: " + gsof_msg.length + " status: " + gsof_msg.status );
+            Console.WriteLine("packet: " + gsof_msg.packettype.ToString("X") + " len: " + gsof_msg.length + " status: " +
+                              gsof_msg.status);
 
             if (gsof_msg.packettype == 0x57) // RAWDATA 
             {
@@ -362,13 +362,14 @@ namespace MissionPlanner.Utilities
                     double p17 = Math.Pow(2, 17);
                     double p4 = Math.Pow(2, 4);
 
-                    var test2 = (rt27_7_29) gsof_msg.data.ByteArrayToStructureBigEndian<rt27_7_29>(4);
+                    var test2 = (rt27_7_29)gsof_msg.data.ByteArrayToStructureBigEndian<rt27_7_29>(4);
 
                     long lat = byte2long(test2.Lat);
                     long lng = byte2long(test2.Lng);
 
-                    Console.WriteLine("{0} {1} {2} {3} {4} {5} ", lat / p40, lng / p39, -34.98 * p40, test2.Alt / p12, (test2.veln / p21), (test2.vele / p21), (test2.velu / p21),
-                            test2.rx_clock_offset / p26, test2.rx_clock_drift / p17, test2.hdop / p4);
+                    Console.WriteLine("{0} {1} {2} {3} {4} {5} ", lat / p40, lng / p39, -34.98 * p40, test2.Alt / p12,
+                        (test2.veln / p21), (test2.vele / p21), (test2.velu / p21),
+                        test2.rx_clock_offset / p26, test2.rx_clock_drift / p17, test2.hdop / p4);
                 }
             }
 
@@ -406,19 +407,18 @@ namespace MissionPlanner.Utilities
                         if ((vflag & 1) == 1)
                         {
                             state.ground_speed = SwapFloat(gsof_msg.data, a + 1);
-                            state.ground_course_cd = (int32_t) (ToDeg(SwapFloat(gsof_msg.data, a + 5))*100);
+                            state.ground_course_cd = (int32_t)(ToDeg(SwapFloat(gsof_msg.data, a + 5)) * 100);
                             fill_3d_velocity();
                             state.velocity.Z = -SwapFloat(gsof_msg.data, a + 9);
                             state.have_vertical_velocity = true;
                         }
                     }
                     else if (output_type == 9) //dop
-                    {
                         state.hdop = (uint16_t)(SwapFloat(gsof_msg.data, a + 4) * 100);
-                    }
                     else if (output_type == 12) // position sigma
                     {
-                        state.horizontal_accuracy = (SwapFloat(gsof_msg.data, a + 4) + SwapFloat(gsof_msg.data, a + 8)) / 2;
+                        state.horizontal_accuracy = (SwapFloat(gsof_msg.data, a + 4) + SwapFloat(gsof_msg.data, a + 8)) /
+                                                    2;
                         state.vertical_accuracy = SwapFloat(gsof_msg.data, a + 16);
                         state.have_horizontal_accuracy = true;
                         state.have_vertical_accuracy = true;
@@ -440,27 +440,21 @@ namespace MissionPlanner.Utilities
                             {
                                 state.status = AP_GPS_SBF.GPS_Status.GPS_OK_FIX_3D_DGPS;
                                 if ((posf2 & 4) == 4)
-                                {
                                     state.status = AP_GPS_SBF.GPS_Status.GPS_OK_FIX_3D_RTK;
-                                }
                             }
                         }
                         else
-                        {
                             state.status = AP_GPS_SBF.GPS_Status.NO_FIX;
-                        }
                     }
 
-                    a += output_length-1u;
+                    a += output_length - 1u;
                 }
 
 
-                Type t = state.GetType();//where obj is object whose properties you need.
+                Type t = state.GetType(); //where obj is object whose properties you need.
                 FieldInfo[] pi = t.GetFields();
                 foreach (var p in pi)
-                {
                     System.Console.WriteLine(p.Name + "    " + p.GetValue(state).ToString());
-                }
 
                 return true;
             }

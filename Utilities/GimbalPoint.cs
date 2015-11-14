@@ -20,9 +20,11 @@ namespace MissionPlanner.Utilities
         }
 
         /// returns the angle (degrees*100) that the RC_Channel input is receiving
-        static float angle_input(bool rev, float radio_in, float radio_min, float radio_max, float angle_min, float angle_max)
+        static float angle_input(bool rev, float radio_in, float radio_min, float radio_max, float angle_min,
+            float angle_max)
         {
-            return (rev ? -1.0f : 1.0f) * (radio_in - radio_min) * (angle_max - angle_min) / (radio_max - radio_min) + (rev ? angle_max : angle_min);
+            return (rev ? -1.0f : 1.0f) * (radio_in - radio_min) * (angle_max - angle_min) / (radio_max - radio_min) +
+                   (rev ? angle_max : angle_min);
         }
 
         static int channelpwm(int channel)
@@ -99,7 +101,8 @@ namespace MissionPlanner.Utilities
                 return new PointF();
             double numer = ((start1.Y - start2.Y) * (end2.X - start2.X)) - ((start1.X - start2.X) * (end2.Y - start2.Y));
             double r = numer / denom;
-            double numer2 = ((start1.Y - start2.Y) * (end1.X - start1.X)) - ((start1.X - start2.X) * (end1.Y - start1.Y));
+            double numer2 = ((start1.Y - start2.Y) * (end1.X - start1.X)) -
+                            ((start1.X - start2.X) * (end1.Y - start1.Y));
             double s = numer2 / denom;
             if ((r < 0 || r > 1) || (s < 0 || s > 1))
                 return new PointF();
@@ -118,14 +121,14 @@ namespace MissionPlanner.Utilities
             MainV2.comPort.GetMountStatus();
 
             // this should be looking at rc_channel function
-            yawchannel =  (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_PAN"];
+            yawchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_PAN"];
 
             pitchchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_TILT"];
 
             rollchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_ROLL"];
 
             //if (!MainV2.comPort.BaseStream.IsOpen)
-              //  return PointLatLngAlt.Zero;
+            //  return PointLatLngAlt.Zero;
 
             PointLatLngAlt currentlocation = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
 
@@ -134,7 +137,7 @@ namespace MissionPlanner.Utilities
             double pitchangle = MainV2.comPort.MAV.cs.campointa;
 
             //
-            if ((double) MainV2.comPort.MAV.param["MNT_TYPE"] == 4)
+            if ((double)MainV2.comPort.MAV.param["MNT_TYPE"] == 4)
             {
                 yawangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent, 67].cs.yaw;
                 rollangle = MainV2.comPort.MAVlist[MainV2.comPort.sysidcurrent, 67].cs.roll;
@@ -172,8 +175,10 @@ namespace MissionPlanner.Utilities
                 double distflat = Math.Tan((90 + pitchangle) * deg2rad) * (MainV2.comPort.MAV.cs.altasl);
 
                 // x is dist from plane, y is alt
-                var newpoint = FindLineIntersection(new PointF(0,MainV2.comPort.MAV.cs.altasl), new PointF((float)distflat, 0),
-                    new PointF((float)distout, (float)newposdist.Alt), new PointF((float)distout + 50, (float)newposdist2.Alt));
+                var newpoint = FindLineIntersection(new PointF(0, MainV2.comPort.MAV.cs.altasl),
+                    new PointF((float)distflat, 0),
+                    new PointF((float)distout, (float)newposdist.Alt),
+                    new PointF((float)distout + 50, (float)newposdist2.Alt));
 
                 if (newpoint.X != 0)
                 {

@@ -22,9 +22,7 @@ namespace MissionPlanner.HIL
             int pos = st.IndexOf('\0');
 
             if (pos != -1)
-            {
                 st = st.Substring(0, pos);
-            }
 
             return st;
         }
@@ -40,10 +38,16 @@ namespace MissionPlanner.HIL
         public const float RAD_TO_DEG = 57.295779513082320876798154814105f;
 
         // are two floats equal
-        public static bool is_equal(float fVal1, float fVal2) { return fabsf(fVal1 - fVal2) < Single.Epsilon ? true : false; }
+        public static bool is_equal(float fVal1, float fVal2)
+        {
+            return fabsf(fVal1 - fVal2) < Single.Epsilon ? true : false;
+        }
 
-// is a float is zero
-        public static bool is_zero(float fVal1) { return fabsf(fVal1) < Single.Epsilon ? true : false; }
+        // is a float is zero
+        public static bool is_zero(float fVal1)
+        {
+            return fabsf(fVal1) < Single.Epsilon ? true : false;
+        }
 
 
         public static Int32 labs(double val)
@@ -60,50 +64,62 @@ namespace MissionPlanner.HIL
         {
             return (float)System.Math.Sin(val);
         }
+
         public static float cosf(double val)
         {
             return (float)System.Math.Cos(val);
         }
+
         public static double sin(double val)
         {
             return System.Math.Sin(val);
         }
+
         public static double cos(double val)
         {
             return System.Math.Cos(val);
         }
+
         public static double acos(double val)
         {
             return System.Math.Acos(val);
         }
+
         public static float asinf(float val)
         {
             return (float)System.Math.Asin(val);
         }
+
         public static double asin(double val)
         {
             return System.Math.Asin(val);
         }
+
         public static double atan2(double val, double val2)
         {
             return System.Math.Atan2(val, val2);
         }
+
         public static double radians(double val)
         {
             return val * deg2rad;
         }
+
         public static double degrees(double val)
         {
             return val * rad2deg;
         }
+
         public static double sqrt(double val)
         {
             return System.Math.Sqrt(val);
         }
+
         public static float sqrtf(float val)
         {
             return (float)System.Math.Sqrt(val);
         }
+
         public static double abs(double val)
         {
             return System.Math.Abs(val);
@@ -122,9 +138,7 @@ namespace MissionPlanner.HIL
             // constrain_float(). The normal float semantics already handle -Inf
             // and +Inf
             if (isnan(amt))
-            {
                 return (low + high) * 0.5f;
-            }
             return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
         }
 
@@ -135,17 +149,11 @@ namespace MissionPlanner.HIL
         public static float safe_asin(float v)
         {
             if (isnan(v))
-            {
                 return 0.0f;
-            }
             if (v >= 1.0f)
-            {
                 return PI / 2;
-            }
             if (v <= -1.0f)
-            {
                 return -PI / 2;
-            }
             return asinf(v);
         }
 
@@ -158,9 +166,7 @@ namespace MissionPlanner.HIL
         {
             float ret = sqrtf(v);
             if (isnan(ret))
-            {
                 return 0;
-            }
             return ret;
         }
 
@@ -168,9 +174,7 @@ namespace MissionPlanner.HIL
         {
             int[] range = new int[no];
             for (int a = 0; a < no; a++)
-            {
                 range[a] = a;
-            }
             return range;
         }
 
@@ -184,7 +188,7 @@ namespace MissionPlanner.HIL
             return System.Math.Tan(val);
         }
 
-        public static int len(object[] data) 
+        public static int len(object[] data)
         {
             return data.Length;
         }
@@ -195,7 +199,7 @@ namespace MissionPlanner.HIL
         }
 
         public static Tuple<double, double, double> EarthRatesToBodyRates(double roll, double pitch, double yaw,
-                                 double rollRate, double pitchRate, double yawRate)
+            double rollRate, double pitchRate, double yawRate)
         {
             //convert the angular velocities from earth frame to
             //body frame. Thanks to James Goppert for the formula
@@ -219,7 +223,7 @@ namespace MissionPlanner.HIL
         }
 
         public static Tuple<double, double, double> EarthRatesToBodyRatesRyan(double roll, double pitch, double yaw,
-                         double x, double y, double z)
+            double x, double y, double z)
         {
             // thanks to ryan beall
 
@@ -232,9 +236,11 @@ namespace MissionPlanner.HIL
 
             var P = Po * cos(psi) * cos(theta) - Ro * sin(theta) + Qo * cos(theta) * sin(psi);
 
-            var Q = Qo * (cos(phi) * cos(psi) + sin(phi) * sin(psi) * sin(theta)) - Po * (cos(phi) * sin(psi) - cos(psi) * sin(phi) * sin(theta)) + Ro * cos(theta) * sin(phi);
+            var Q = Qo * (cos(phi) * cos(psi) + sin(phi) * sin(psi) * sin(theta)) -
+                    Po * (cos(phi) * sin(psi) - cos(psi) * sin(phi) * sin(theta)) + Ro * cos(theta) * sin(phi);
 
-            var R = Po * (sin(phi) * sin(psi) + cos(phi) * cos(psi) * sin(theta)) - Qo * (cos(psi) * sin(phi) - cos(phi) * sin(psi) * sin(theta)) + Ro * cos(phi) * cos(theta);
+            var R = Po * (sin(phi) * sin(psi) + cos(phi) * cos(psi) * sin(theta)) -
+                    Qo * (cos(psi) * sin(phi) - cos(phi) * sin(psi) * sin(theta)) + Ro * cos(phi) * cos(theta);
 
 
             //            P = 0;
@@ -246,7 +252,7 @@ namespace MissionPlanner.HIL
         }
 
         public static Tuple<double, double, double> EarthRatesToBodyRatesMine(double roll, double pitch, double yaw,
-                 double rollRate, double pitchRate, double yawRate)
+            double rollRate, double pitchRate, double yawRate)
         {
             // thanks to ryan beall
 
@@ -259,7 +265,8 @@ namespace MissionPlanner.HIL
 
             var Q = Po * cos(psi) + Qo * sin(psi);
 
-            var P = Po * sin(psi) + Qo * cos(psi); ;
+            var P = Po * sin(psi) + Qo * cos(psi);
+            ;
 
             var R = Ro;
 
@@ -300,7 +307,8 @@ namespace MissionPlanner.HIL
              * */
         }
 
-        public static Tuple<double, double, double> OGLtoBCBF(double phi, double theta, double psi, double x, double y, double z)
+        public static Tuple<double, double, double> OGLtoBCBF(double phi, double theta, double psi, double x, double y,
+            double z)
         {
             double x_NED, y_NED, z_NED;
             double Cr, Cp, Cy;
@@ -357,18 +365,18 @@ namespace MissionPlanner.HIL
         /// <param name="beta"></param>
         public static void FLIGHTtoBCBF(ref float x, ref float y, ref float z, float alpha, float beta)
         {
-            ﻿float Ca = (float)Math.Cos(alpha);
-             float Cb = (float)Math.Cos(beta);
-             float Sa = (float)Math.Sin(alpha);
-             float Sb = (float)Math.Sin(beta);
+            float Ca = (float)Math.Cos(alpha);
+            float Cb = (float)Math.Cos(beta);
+            float Sa = (float)Math.Sin(alpha);
+            float Sb = (float)Math.Sin(beta);
 
-             float X_plane = (x * Ca * Cb) - (z * Sa * Cb) - (y * Sb);
-             float Y_plane = (z * Sa * Sb) - (x * Ca * Sb) - (y * Cb);
-             float Z_plane = (x * Sa) + (z * Ca);
+            float X_plane = (x * Ca * Cb) - (z * Sa * Cb) - (y * Sb);
+            float Y_plane = (z * Sa * Sb) - (x * Ca * Sb) - (y * Cb);
+            float Z_plane = (x * Sa) + (z * Ca);
 
-             x = X_plane;
-            ﻿y = Y_plane;
-            ﻿z = Z_plane;
+            x = X_plane;
+            y = Y_plane;
+            z = Z_plane;
         }
 
         public static Vector3 BodyRatesToEarthRates(Matrix3 dcm, Vector3 gyro)
@@ -401,13 +409,14 @@ namespace MissionPlanner.HIL
         }
 
 
-        public void gps_newpos(double lat, double lon, double bearing, double distance, ref double latitude, ref double longitude)
+        public void gps_newpos(double lat, double lon, double bearing, double distance, ref double latitude,
+            ref double longitude)
         {
             // '''extrapolate latitude/longitude given a heading and distance 
             //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
             //  '''
             // from math import sin, asin, cos, atan2, radians, degrees
-            double radius_of_earth = 6378100.0;//# in meters
+            double radius_of_earth = 6378100.0; //# in meters
 
             double lat1 = radians(lat);
             double lon1 = radians(lon);
@@ -415,9 +424,9 @@ namespace MissionPlanner.HIL
             double dr = distance / radius_of_earth;
 
             double lat2 = asin(sin(lat1) * cos(dr) +
-                        cos(lat1) * sin(dr) * cos(brng));
+                               cos(lat1) * sin(dr) * cos(brng));
             double lon2 = lon1 + atan2(sin(brng) * sin(dr) * cos(lat1),
-                                cos(dr) - sin(lat1) * sin(lat2));
+                cos(dr) - sin(lat1) * sin(lat2));
 
             latitude = degrees(lat2);
             longitude = degrees(lon2);

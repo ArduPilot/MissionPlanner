@@ -37,9 +37,7 @@ namespace MissionPlanner.Swarm
             foreach (var port in MainV2.Comports)
             {
                 if (port.ToString() == CMB_mavs.Text)
-                {
                     MainV2.comPort = port;
-                }
             }
         }
 
@@ -54,14 +52,13 @@ namespace MissionPlanner.Swarm
 
             if (SwarmInterface != null)
             {
-                new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
+                new System.Threading.Thread(mainloop) {IsBackground = true}.Start();
                 BUT_Start.Text = Strings.Stop;
             }
         }
 
         void mainloop()
         {
-
             threadrun = true;
 
             while (threadrun)
@@ -80,33 +77,25 @@ namespace MissionPlanner.Swarm
         private void BUT_Arm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Arm();
-            }
         }
 
         private void BUT_Disarm_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Disarm();
-            }
         }
 
         private void BUT_Takeoff_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Takeoff();
-            }
         }
 
         private void BUT_Land_Click(object sender, EventArgs e)
         {
             if (SwarmInterface != null)
-            {
                 SwarmInterface.Land();
-            }
         }
 
         private void BUT_leader_Click(object sender, EventArgs e)
@@ -158,9 +147,7 @@ namespace MissionPlanner.Swarm
             foreach (Control ctl in PNL_status.Controls)
             {
                 if (!MainV2.Comports.Contains((MAVLinkInterface)ctl.Tag))
-                {
                     ctl.Dispose();
-                }
             }
 
             // setup new
@@ -176,7 +163,8 @@ namespace MissionPlanner.Swarm
                         ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
                         ((Status)ctl).Mode.Text = port.MAV.cs.mode;
                         ((Status)ctl).MAV.Text = port.ToString();
-                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," + port.MAV.GuidedMode.z;
+                        ((Status)ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
+                                                    port.MAV.GuidedMode.z;
                     }
                 }
 

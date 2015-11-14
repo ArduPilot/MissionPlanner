@@ -15,14 +15,8 @@ namespace CircularBuffer
 
         public override long Position
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
+            set { throw new NotImplementedException(); }
         }
 
         public int Capacity
@@ -61,9 +55,7 @@ namespace CircularBuffer
             return buffer.ToArray();
         }
 
-        public override void Flush()
-        {
-        }
+        public override void Flush() {}
 
         public override void Write(byte[] buffer, int offset, int count)
         {
@@ -74,7 +66,7 @@ namespace CircularBuffer
         {
             this.buffer.Put(value);
         }
-        
+
         public override int Read(byte[] buffer, int offset, int count)
         {
             return this.buffer.Get(buffer, offset, count);
@@ -84,7 +76,7 @@ namespace CircularBuffer
         {
             return this.buffer.Get();
         }
-        
+
         public override long Seek(long offset, SeekOrigin origin)
         {
             throw new NotImplementedException();

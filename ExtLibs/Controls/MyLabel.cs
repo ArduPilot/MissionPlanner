@@ -24,7 +24,11 @@ namespace MissionPlanner.Controls
         StringFormat stringFormat = new StringFormat();
 
         [System.ComponentModel.Browsable(true)]
-        public bool resize { get { return autosize; } set { autosize = value; } }
+        public bool resize
+        {
+            get { return autosize; }
+            set { autosize = value; }
+        }
 
         public MyLabel()
         {
@@ -34,13 +38,9 @@ namespace MissionPlanner.Controls
 
         public override string Text
         {
-            get
-            {
-                return label;
-            }
+            get { return label; }
             set
             {
-
                 if (value == null)
                     return;
 
@@ -56,7 +56,7 @@ namespace MissionPlanner.Controls
                     {
                         SizeF textSize = Measure.MeasureString(g, this.Font, value);
                         this.Width = (int)textSize.Width;
-                    }                    
+                    }
                 }
 
                 if (this.Visible && this.ThisReallyVisible())
@@ -82,10 +82,7 @@ namespace MissionPlanner.Controls
 
         public override Color BackColor
         {
-            get
-            {
-                return base.BackColor;
-            }
+            get { return base.BackColor; }
             set
             {
                 base.BackColor = value;
@@ -97,10 +94,7 @@ namespace MissionPlanner.Controls
 
         public override System.Drawing.Color ForeColor
         {
-            get
-            {
-                return base.ForeColor;
-            }
+            get { return base.ForeColor; }
             set
             {
                 base.ForeColor = value;
@@ -113,7 +107,7 @@ namespace MissionPlanner.Controls
         {
             base.OnPaint(e);
 
-           // TextRenderer.DrawText(e.Graphics, label, this.Font, new Point(0, 0), ForeColor);
+            // TextRenderer.DrawText(e.Graphics, label, this.Font, new Point(0, 0), ForeColor);
 
             e.Graphics.DrawString(label, this.Font, s, new PointF(0, this.Height / 2.0f), stringFormat);
         }
@@ -124,14 +118,14 @@ namespace MissionPlanner.Controls
 
             base.OnPaintBackground(pevent);
         }
-        
+
         protected override void WndProc(ref Message m) // seems to crash here on linux... so try ignore it
         {
             try
             {
                 base.WndProc(ref m);
             }
-            catch { }
+            catch {}
         }
     }
 }

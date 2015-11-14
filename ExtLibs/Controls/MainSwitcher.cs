@@ -19,10 +19,20 @@ namespace MissionPlanner.Controls
         public Screen current;
         UserControl MainControl = new UserControl();
 
-        public int Width { get { return MainControl.Width; } }
-        public int Height { get { return MainControl.Height; } }
+        public int Width
+        {
+            get { return MainControl.Width; }
+        }
 
-        public Control.ControlCollection Controls { get { return MainControl.Controls; } }
+        public int Height
+        {
+            get { return MainControl.Height; }
+        }
+
+        public Control.ControlCollection Controls
+        {
+            get { return MainControl.Controls; }
+        }
 
         public MainSwitcher(Control Parent)
         {
@@ -59,9 +69,7 @@ namespace MissionPlanner.Controls
                 MainControl.Controls.Remove(current.Control);
 
                 if (current.Control is IDeactivate)
-                {
                     ((IDeactivate)(current.Control)).Deactivate();
-                }
 
                 // check if we need to remove the current control
                 if (!current.Persistent)
@@ -80,25 +88,22 @@ namespace MissionPlanner.Controls
                     // create new instance on gui thread
                     if (MainControl.InvokeRequired)
                     {
-                        MainControl.Invoke((MethodInvoker) delegate
-                        {
-                            current.Control = (MyUserControl) Activator.CreateInstance(type);
-                        });
+                        MainControl.Invoke(
+                            (MethodInvoker)delegate { current.Control = (MyUserControl)Activator.CreateInstance(type); });
                     }
                     else
                     {
                         try
                         {
-                            current.Control = (MyUserControl) Activator.CreateInstance(type);
+                            current.Control = (MyUserControl)Activator.CreateInstance(type);
                         }
                         catch
                         {
                             try
                             {
-                                current.Control = (MyUserControl) Activator.CreateInstance(type);
-                            } catch
-                            {
+                                current.Control = (MyUserControl)Activator.CreateInstance(type);
                             }
+                            catch {}
                         }
                     }
 
@@ -130,9 +135,7 @@ namespace MissionPlanner.Controls
             MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
 
             if (nextscreen.Control is IActivate)
-            {
                 ((IActivate)(nextscreen.Control)).Activate();
-            }
 
             if (ApplyTheme != null)
                 ApplyTheme(nextscreen.Control);
@@ -171,7 +174,14 @@ namespace MissionPlanner.Controls
             public bool Visible
             {
                 get { return Control.Visible; }
-                set { try { Control.Visible = value; } catch { } }
+                set
+                {
+                    try
+                    {
+                        Control.Visible = value;
+                    }
+                    catch {}
+                }
             }
 
             public bool Persistent;
@@ -187,9 +197,7 @@ namespace MissionPlanner.Controls
         public void Dispose()
         {
             if (current.Control is IDeactivate)
-            {
                 ((IDeactivate)(current.Control)).Deactivate();
-            }
 
             foreach (var item in screens)
             {
@@ -199,7 +207,7 @@ namespace MissionPlanner.Controls
                     item.Control.Close();
                     item.Control.Dispose();
                 }
-                catch { }
+                catch {}
             }
 
             MainControl.Dispose();

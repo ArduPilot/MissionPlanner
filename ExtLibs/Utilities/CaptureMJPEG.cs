@@ -13,7 +13,7 @@ namespace MissionPlanner.Utilities
     public class CaptureMJPEG
     {
         private static readonly ILog log =
-    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         static Thread asyncthread;
         static bool running = false;
@@ -36,8 +36,8 @@ namespace MissionPlanner.Utilities
                 IsBackground = true,
                 Priority = ThreadPriority.BelowNormal,
                 Name = "mjpg stream reader"
-            }; 
-            
+            };
+
             asyncthread.Start();
         }
 
@@ -50,7 +50,8 @@ namespace MissionPlanner.Utilities
         {
             StringBuilder sb = new StringBuilder();
 
-            while (true) {
+            while (true)
+            {
                 byte by = br.ReadByte();
                 sb.Append((char)by);
                 if (by == '\n')
@@ -64,17 +65,16 @@ namespace MissionPlanner.Utilities
 
         static void getUrl()
         {
-
             running = true;
             try
             {
-
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = HttpWebRequest.Create(URL);
                 // Set the Method property of the request to POST.
                 request.Method = "GET";
 
-                ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip |
+                                                                   DecompressionMethods.Deflate;
 
                 request.Headers.Add("Accept-Encoding", "gzip,deflate");
 
@@ -136,7 +136,6 @@ namespace MissionPlanner.Utilities
                             {
                                 offset += len;
                                 length -= len;
-
                             }
                             /*
                             BinaryWriter sw = new BinaryWriter(File.OpenWrite("test.jpg"));
@@ -161,14 +160,18 @@ namespace MissionPlanner.Utilities
                                 if (OnNewImage != null)
                                     OnNewImage(frame, new EventArgs());
                             }
-                            catch { }
+                            catch {}
                         }
 
                         // blank line at end of data
                         System.Threading.Thread.Sleep(1);
                         ReadLine(br);
                     }
-                    catch (Exception ex) { log.Info(ex); break; }
+                    catch (Exception ex)
+                    {
+                        log.Info(ex);
+                        break;
+                    }
                 }
 
                 // clear last image
@@ -177,18 +180,16 @@ namespace MissionPlanner.Utilities
 
                 dataStream.Close();
                 response.Close();
-
             }
-            catch (Exception ex) { log.Error(ex); }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             running = false;
         }
 
-        static void getUrlRTSP()
-        {
-
-        
-        }
+        static void getUrlRTSP() {}
 
         static Dictionary<string, string> getHeader(BinaryReader stream)
         {
@@ -200,16 +201,14 @@ namespace MissionPlanner.Utilities
             {
                 line = ReadLine(stream);
 
-                string[] items = line.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] items = line.Split(new char[] {':'}, StringSplitOptions.RemoveEmptyEntries);
 
 
                 if (items.Length == 2)
                     answer.Add(items[0].Trim(), items[1].Trim());
-
             } while (line != "");
 
             return answer;
         }
-
     }
 }

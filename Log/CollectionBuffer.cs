@@ -28,19 +28,15 @@ namespace MissionPlanner.Log
 
         public CollectionBuffer(Stream instream)
         {
-            for (int a = 0; a <= byte.MaxValue; a++) 
-            {
+            for (int a = 0; a <= byte.MaxValue; a++)
                 messageindex[(byte)a] = new List<long>();
-            }
 
-            basestream = new BufferedStream(instream,1024*256);
+            basestream = new BufferedStream(instream, 1024 * 256);
 
             if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
             {
                 if (basestream.ReadByte() == BinaryLog.HEAD_BYTE2)
-                {
                     binary = true;
-                }
             }
 
             // back to start
@@ -95,9 +91,7 @@ namespace MissionPlanner.Log
                 // build fmt line database
                 int amax = Math.Min(2000, _count - 1);
                 for (int a = 0; a < amax; a++)
-                {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
-                }
             }
             else
             {
@@ -130,9 +124,7 @@ namespace MissionPlanner.Log
                 // build fmt line database
                 int amax = Math.Min(2000, _count - 1);
                 for (int a = 0; a < amax; a++)
-                {
                     dflog.GetDFItemFromLine(this[a].ToString(), a);
-                }
 
                 // create msg cache
                 int b = 0;
@@ -174,16 +166,12 @@ namespace MissionPlanner.Log
                     return (T)currentindexcache;
 
                 long startoffset = linestartoffset[index];
-                long endoffset=startoffset;
+                long endoffset = startoffset;
 
                 if ((index + 1) >= linestartoffset.Count)
-                {
                     endoffset = basestream.Length;
-                }
                 else
-                {
                     endoffset = linestartoffset[index + 1];
-                }
 
                 int length = (int)(endoffset - startoffset);
 
@@ -209,10 +197,7 @@ namespace MissionPlanner.Log
 
                 return (T)currentindexcache;
             }
-            set
-            {
-                throw new NotImplementedException();
-            }
+            set { throw new NotImplementedException(); }
         }
 
         public void Add(T item)
@@ -254,7 +239,7 @@ namespace MissionPlanner.Log
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string type)
         {
-            return GetEnumeratorType(new string[] { type });
+            return GetEnumeratorType(new string[] {type});
         }
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string[] types)
@@ -266,9 +251,7 @@ namespace MissionPlanner.Log
                 var typeid = (byte)dflog.logformat[type].Id;
 
                 foreach (var item in messageindex[typeid])
-                {
                     slist.Add(item);
-                }
             }
 
             int position = 0; // state
@@ -277,9 +260,7 @@ namespace MissionPlanner.Log
                 position++;
 
                 if (slist.Contains(linestartoffset[position - 1]))
-                {
                     yield return dflog.GetDFItemFromLine(this[position - 1].ToString(), position - 1);
-                }
             }
         }
 
@@ -289,7 +270,7 @@ namespace MissionPlanner.Log
             while (position < Count)
             {
                 position++;
-                yield return this[position-1];
+                yield return this[position - 1];
             }
         }
 

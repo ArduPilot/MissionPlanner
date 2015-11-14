@@ -47,13 +47,19 @@ namespace MissionPlanner.Plugin
         /// <param name="gui"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public virtual bool SetupUI(int gui = 0, object data = null) { return true; }
+        public virtual bool SetupUI(int gui = 0, object data = null)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Run at NextRun time - loop is run in a background thread. and is shared with other plugins
         /// </summary>
         /// <returns></returns>
-        public virtual bool Loop() { return true; }
+        public virtual bool Loop()
+        {
+            return true;
+        }
 
         /// <summary>
         /// run at a specific hz rate.
@@ -65,7 +71,6 @@ namespace MissionPlanner.Plugin
         /// </summary>
         /// <returns></returns>
         public abstract bool Exit();
-
     }
 
     public class PluginHost
@@ -75,63 +80,98 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public event MainV2.WMDeviceChangeEventHandler DeviceChanged;
 
-        internal void ProcessDeviceChanged(MainV2.WM_DEVICECHANGE_enum dc) {
+        internal void ProcessDeviceChanged(MainV2.WM_DEVICECHANGE_enum dc)
+        {
             if (DeviceChanged != null)
             {
                 try
                 {
                     DeviceChanged(dc);
                 }
-                catch {  }
+                catch {}
             }
         }
 
         /// <summary>
         /// access to all the current stats of the mav
         /// </summary>
-        public CurrentState cs { get { return MainV2.comPort.MAV.cs; } }
+        public CurrentState cs
+        {
+            get { return MainV2.comPort.MAV.cs; }
+        }
 
         /// <summary>
         /// access to mavlink functions
         /// </summary>
-        public MAVLinkInterface comPort { get { return MainV2.comPort; } }
+        public MAVLinkInterface comPort
+        {
+            get { return MainV2.comPort; }
+        }
 
         /// <summary>
         /// access to mp settings
         /// </summary>
-        public Hashtable config { get { return MainV2.config; } }
+        public Hashtable config
+        {
+            get { return MainV2.config; }
+        }
 
         /// <summary>
         /// add things to flightdata map menu
         /// </summary>
-        public ContextMenuStrip FDMenuMap { get { return MainV2.instance.FlightData.contextMenuStripMap; } }
+        public ContextMenuStrip FDMenuMap
+        {
+            get { return MainV2.instance.FlightData.contextMenuStripMap; }
+        }
 
         /// <summary>
         /// The point where the menu was drawn
         /// </summary>
-        public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.MouseDownStart; } }
+        public PointLatLng FDMenuMapPosition
+        {
+            get { return MainV2.instance.FlightData.MouseDownStart; }
+        }
 
-        public GMapProvider FDMapType { get { return FlightData.mymap.MapProvider; } }
+        public GMapProvider FDMapType
+        {
+            get { return FlightData.mymap.MapProvider; }
+        }
 
         /// <summary>
         /// add things to flightdata hud menu
         /// </summary>
-        public ContextMenuStrip FDMenuHud { get { return MainV2.instance.FlightData.contextMenuStripHud; } }
+        public ContextMenuStrip FDMenuHud
+        {
+            get { return MainV2.instance.FlightData.contextMenuStripHud; }
+        }
 
         /// <summary>
         /// add things to flightplanner map menu
         /// </summary>
-        public ContextMenuStrip FPMenuMap { get { return MainV2.instance.FlightPlanner.contextMenuStrip1; } }
+        public ContextMenuStrip FPMenuMap
+        {
+            get { return MainV2.instance.FlightPlanner.contextMenuStrip1; }
+        }
 
         /// <summary>
         /// The point where the menu was drawn
         /// </summary>
-        public PointLatLng FPMenuMapPosition { get { return MainV2.instance.FlightPlanner.MouseDownEnd; } }
+        public PointLatLng FPMenuMapPosition
+        {
+            get { return MainV2.instance.FlightPlanner.MouseDownEnd; }
+        }
 
         /// <summary>
         /// The polygon drawn by the user on the FP page
         /// </summary>
-        public GMapPolygon FPDrawnPolygon { get { return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points), "Poly Copy") { Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke }; } }
+        public GMapPolygon FPDrawnPolygon
+        {
+            get
+            {
+                return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points),
+                    "Poly Copy") {Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke};
+            }
+        }
 
         public void RedrawFPPolygon(List<PointLatLngAlt> list)
         {
@@ -149,7 +189,8 @@ namespace MissionPlanner.Plugin
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="z"></param>
-        public void AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y, double z)
+        public void AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
+            double z)
         {
             MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z);
         }

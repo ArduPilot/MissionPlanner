@@ -14,6 +14,7 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.HIL;
 using ZedGraph;
+
 // config file
 // dll imports
 // Graphs
@@ -28,10 +29,10 @@ namespace MissionPlanner.GCSViews
         private const int FG_MAX_ENGINES = 4;
         private const int FG_MAX_WHEELS = 3;
         private const int FG_MAX_TANKS = 4;
-        private const float ft2m = (float) (1.0/3.2808399);
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
-        private const float kts2fps = (float) 1.68780986;
+        private const float ft2m = (float)(1.0 / 3.2808399);
+        private const float rad2deg = (float)(180 / Math.PI);
+        private const float deg2rad = (float)(1.0 / rad2deg);
+        private const float kts2fps = (float)1.68780986;
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly MAVLinkInterface comPort = MainV2.comPort;
         private readonly float[][] DATA = new float[113][];
@@ -42,7 +43,7 @@ namespace MissionPlanner.GCSViews
         private readonly RollingPointPairList list4 = new RollingPointPairList(1200);
         private readonly List<string> position = new List<string>();
         // 1000 hz = 1000ms
-        private readonly double simstep = 1.0/1000;
+        private readonly double simstep = 1.0 / 1000;
         private readonly sitl_fdm[] sitl_fdmbuffer = new sitl_fdm[5];
         private TDataFromAeroSimRC aeroin;
         private bool displayfull;
@@ -83,7 +84,7 @@ namespace MissionPlanner.GCSViews
         private int throttlegain = 10000;
         //string logdata = "";
         private int tickStart;
-        private byte[] udpdata = new byte[113*9 + 5]; // 113 types - 9 items per type (index+8) + 5 byte header
+        private byte[] udpdata = new byte[113 * 9 + 5]; // 113 types - 9 items per type (index+8) + 5 byte header
         private UdpClient XplanesSEND;
 
         public Simulation()
@@ -183,9 +184,7 @@ namespace MissionPlanner.GCSViews
                     {
                         JSBSimSEND.Client.Send(Encoding.ASCII.GetBytes("\n\nexit\n"));
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                 }
                 if (SimulatorRECV != null)
                     SimulatorRECV.Close();
@@ -303,9 +302,7 @@ namespace MissionPlanner.GCSViews
                 MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t {target_system = MainV2.comPort.MAV.sysid},
                     MAVLink.MAV_MODE_FLAG.HIL_ENABLED);
             }
-            catch
-            {
-            }
+            catch {}
 
             while (threadrun == 1)
             {
@@ -317,9 +314,7 @@ namespace MissionPlanner.GCSViews
                     {
                         comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                     }
-                    catch
-                    {
-                    }
+                    catch {}
                     lastdata = DateTime.Now; // prevent flooding
                 }
 
@@ -358,7 +353,7 @@ namespace MissionPlanner.GCSViews
                     {
                         var receiveBytes = new byte[28];
 
-                        var remote = (EndPoint) (new IPEndPoint(IPAddress.Any, 5502));
+                        var remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 5502));
 
                         var recv = SITLRCRECV.ReceiveFrom(receiveBytes, ref remote);
 
@@ -376,9 +371,7 @@ namespace MissionPlanner.GCSViews
                             {
                                 processArduPilot();
                             }
-                            catch
-                            {
-                            }
+                            catch {}
 
                             simsendtime = DateTime.Now;
 
@@ -390,9 +383,7 @@ namespace MissionPlanner.GCSViews
                         }
                     }
                 }
-                catch
-                {
-                }
+                catch {}
                 try
                 {
                     if (MavLink != null && MavLink.Client != null && MavLink.Client.Connected && MavLink.Available > 0)
@@ -404,14 +395,12 @@ namespace MissionPlanner.GCSViews
                         comPort.BaseStream.Write(receiveBytes, 0, receiveBytes.Length);
                     }
                 }
-                catch
-                {
-                }
+                catch {}
                 //if (comPort.BaseStream.IsOpen == false) { break; }
                 try
                 {
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null, true, MainV2.comPort);
-                        // when true this uses alot more cpu time
+                    // when true this uses alot more cpu time
 
                     if ((DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
@@ -449,9 +438,7 @@ namespace MissionPlanner.GCSViews
                 if (SimulatorRECV != null)
                     SimulatorRECV.Close();
             }
-            catch
-            {
-            }
+            catch {}
 
             SimulatorRECV = new Socket(AddressFamily.InterNetwork,
                 SocketType.Dgram, ProtocolType.Udp);
@@ -524,7 +511,7 @@ namespace MissionPlanner.GCSViews
         {
             var sitldata = new sitl_fdm();
 
-            sitldata.timestamp = (ulong) (simtime*1.0e6);
+            sitldata.timestamp = (ulong)(simtime * 1.0e6);
 
             if (data[0] == 'D' && data[1] == 'A')
             {
@@ -539,21 +526,21 @@ namespace MissionPlanner.GCSViews
 
                     DATA[index] = new float[8];
 
-                    DATA[index][0] = BitConverter.ToSingle(data, count + 1*4);
+                    DATA[index][0] = BitConverter.ToSingle(data, count + 1 * 4);
                     ;
-                    DATA[index][1] = BitConverter.ToSingle(data, count + 2*4);
+                    DATA[index][1] = BitConverter.ToSingle(data, count + 2 * 4);
                     ;
-                    DATA[index][2] = BitConverter.ToSingle(data, count + 3*4);
+                    DATA[index][2] = BitConverter.ToSingle(data, count + 3 * 4);
                     ;
-                    DATA[index][3] = BitConverter.ToSingle(data, count + 4*4);
+                    DATA[index][3] = BitConverter.ToSingle(data, count + 4 * 4);
                     ;
-                    DATA[index][4] = BitConverter.ToSingle(data, count + 5*4);
+                    DATA[index][4] = BitConverter.ToSingle(data, count + 5 * 4);
                     ;
-                    DATA[index][5] = BitConverter.ToSingle(data, count + 6*4);
+                    DATA[index][5] = BitConverter.ToSingle(data, count + 6 * 4);
                     ;
-                    DATA[index][6] = BitConverter.ToSingle(data, count + 7*4);
+                    DATA[index][6] = BitConverter.ToSingle(data, count + 7 * 4);
                     ;
-                    DATA[index][7] = BitConverter.ToSingle(data, count + 8*4);
+                    DATA[index][7] = BitConverter.ToSingle(data, count + 8 * 4);
                     ;
 
                     count += 36; // 8 * float
@@ -566,9 +553,9 @@ namespace MissionPlanner.GCSViews
                     sitldata.pitchDeg = (DATA[18][0]);
                     sitldata.rollDeg = (DATA[18][1]);
                     sitldata.yawDeg = (DATA[18][2]);
-                    sitldata.pitchRate = (DATA[17][0]*rad2deg);
-                    sitldata.rollRate = (DATA[17][1]*rad2deg);
-                    sitldata.yawRate = (DATA[17][2]*rad2deg);
+                    sitldata.pitchRate = (DATA[17][0] * rad2deg);
+                    sitldata.rollRate = (DATA[17][1] * rad2deg);
+                    sitldata.yawRate = (DATA[17][2] * rad2deg);
 
                     sitldata.heading = DATA[19][2];
 
@@ -581,9 +568,9 @@ namespace MissionPlanner.GCSViews
                     sitldata.pitchDeg = (DATA[17][0]);
                     sitldata.rollDeg = (DATA[17][1]);
                     sitldata.yawDeg = (DATA[17][2]);
-                    sitldata.pitchRate = (DATA[16][0]*rad2deg);
-                    sitldata.rollRate = (DATA[16][1]*rad2deg);
-                    sitldata.yawRate = (DATA[16][2]*rad2deg);
+                    sitldata.pitchRate = (DATA[16][0] * rad2deg);
+                    sitldata.rollRate = (DATA[16][1] * rad2deg);
+                    sitldata.yawRate = (DATA[16][2] * rad2deg);
 
                     sitldata.heading = (DATA[18][2]); // 18-2
 
@@ -593,35 +580,35 @@ namespace MissionPlanner.GCSViews
                     sitldata.speedD = -DATA[21][4];
                 }
 
-                sitldata.airspeed = ((DATA[3][5]*.44704));
+                sitldata.airspeed = ((DATA[3][5] * .44704));
 
                 sitldata.latitude = (DATA[20][0]);
                 sitldata.longitude = (DATA[20][1]);
-                sitldata.altitude = (DATA[20][2]*ft2m);
+                sitldata.altitude = (DATA[20][2] * ft2m);
 
 
                 //http://en.wikipedia.org/wiki/Banked_turn
 
                 var dcm = new Matrix3();
-                dcm.from_euler(sitldata.rollDeg*deg2rad, sitldata.pitchDeg*deg2rad, sitldata.yawDeg*deg2rad);
+                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
 
                 // v squared in m/s
-                var v_sq = (float) ((DATA[3][7]*0.44704)*(DATA[3][7]*0.44704));
+                var v_sq = (float)((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704));
 
                 // rad = tas^2 / (tan(angle) * G)
-                var turnrad = v_sq/(float) (9.808f*Math.Tan(sitldata.rollDeg*deg2rad));
+                var turnrad = v_sq / (float)(9.808f * Math.Tan(sitldata.rollDeg * deg2rad));
 
-                var gload = (float) (1/Math.Cos(sitldata.rollDeg*deg2rad)); // calculated Gs
+                var gload = (float)(1 / Math.Cos(sitldata.rollDeg * deg2rad)); // calculated Gs
 
                 // a = v^2/r
-                var centripaccel = v_sq/turnrad;
+                var centripaccel = v_sq / turnrad;
 
-                var accel_body = dcm.transposed()*(new Vector3(0, 0, -9.808));
+                var accel_body = dcm.transposed() * (new Vector3(0, 0, -9.808));
 
-                var centrip_accel = new Vector3(0, -centripaccel*Math.Cos(sitldata.rollDeg*deg2rad),
-                    centripaccel*Math.Sin(sitldata.rollDeg*deg2rad));
+                var centrip_accel = new Vector3(0, -centripaccel * Math.Cos(sitldata.rollDeg * deg2rad),
+                    centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
-                var pitchpart = centrip_accel.y*Math.Cos(sitldata.pitchDeg*deg2rad);
+                var pitchpart = centrip_accel.y * Math.Cos(sitldata.pitchDeg * deg2rad);
                 //centrip_accel.x += pitchpart;
                 //centrip_accel.y += pitchpart;
 
@@ -629,7 +616,7 @@ namespace MissionPlanner.GCSViews
                 //centrip_accel.y = -centripaccel;
                 accel_body -= centrip_accel;
 
-                var velocitydelta = dcm.transposed()*
+                var velocitydelta = dcm.transposed() *
                                     (new Vector3((sitldata_old.speedN - sitldata.speedN),
                                         (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
 
@@ -645,10 +632,10 @@ namespace MissionPlanner.GCSViews
                 // a = dv / dt
 
                 // 50 hz = 0.02sec
-                var accel_mine_body = dcm.transposed()*
-                                      (new Vector3((sitldata_old.speedN - sitldata.speedN)/0.02,
-                                          (sitldata_old.speedE - sitldata.speedE)/0.02,
-                                          (sitldata_old.speedD - sitldata.speedD)/0.02));
+                var accel_mine_body = dcm.transposed() *
+                                      (new Vector3((sitldata_old.speedN - sitldata.speedN) / 0.02,
+                                          (sitldata_old.speedE - sitldata.speedE) / 0.02,
+                                          (sitldata_old.speedD - sitldata.speedD) / 0.02));
 
                 // Console.WriteLine("G"+accel_body.ToString());
                 //  Console.WriteLine("M"+accel_mine_body.ToString());
@@ -717,23 +704,23 @@ namespace MissionPlanner.GCSViews
 
                 aeroin = data.ByteArrayToStructure<TDataFromAeroSimRC>(0);
 
-                sitldata.pitchDeg = (aeroin.Model_fPitch*rad2deg);
-                sitldata.rollDeg = (aeroin.Model_fRoll*-1*rad2deg);
-                sitldata.yawDeg = ((aeroin.Model_fHeading*rad2deg));
+                sitldata.pitchDeg = (aeroin.Model_fPitch * rad2deg);
+                sitldata.rollDeg = (aeroin.Model_fRoll * -1 * rad2deg);
+                sitldata.yawDeg = ((aeroin.Model_fHeading * rad2deg));
 
-                sitldata.pitchRate = aeroin.Model_fAngVel_Body_X*rad2deg;
-                sitldata.rollRate = aeroin.Model_fAngVel_Body_Y*rad2deg;
-                sitldata.yawRate = -aeroin.Model_fAngVel_Body_Z*rad2deg;
+                sitldata.pitchRate = aeroin.Model_fAngVel_Body_X * rad2deg;
+                sitldata.rollRate = aeroin.Model_fAngVel_Body_Y * rad2deg;
+                sitldata.yawRate = -aeroin.Model_fAngVel_Body_Z * rad2deg;
 
                 // calc gravity
                 var dcm = new Matrix3();
-                dcm.from_euler(sitldata.rollDeg*deg2rad, sitldata.pitchDeg*deg2rad, sitldata.yawDeg*deg2rad);
+                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
 
-                var accel_body = dcm.transposed()*(new Vector3(0, 0, -9.8)); // -9.8
+                var accel_body = dcm.transposed() * (new Vector3(0, 0, -9.8)); // -9.8
 
-                sitldata.xAccel = aeroin.Model_fAccel_Body_Y/9.808 + accel_body.x; // pitch - back forward-
-                sitldata.yAccel = aeroin.Model_fAccel_Body_X/9.808 + accel_body.y; // roll - left right-
-                sitldata.zAccel = -aeroin.Model_fAccel_Body_Z/9.808 + accel_body.z;
+                sitldata.xAccel = aeroin.Model_fAccel_Body_Y / 9.808 + accel_body.x; // pitch - back forward-
+                sitldata.yAccel = aeroin.Model_fAccel_Body_X / 9.808 + accel_body.y; // roll - left right-
+                sitldata.zAccel = -aeroin.Model_fAccel_Body_Z / 9.808 + accel_body.z;
 
                 //  Console.WriteLine("2 {0,20} {1,20} {2,20}", aeroin.Model_fAccel_Body_X.ToString("0.000"), aeroin.Model_fAccel_Body_Y.ToString("0.000"), aeroin.Model_fAccel_Body_Z.ToString("0.000"));
 
@@ -748,7 +735,7 @@ namespace MissionPlanner.GCSViews
                 var xvec = aeroin.Model_fVelY - aeroin.Model_fWindVelY;
                 var yvec = aeroin.Model_fVelX - aeroin.Model_fWindVelX;
 
-                sitldata.airspeed = ((float) Math.Sqrt((yvec*yvec) + (xvec*xvec)));
+                sitldata.airspeed = ((float)Math.Sqrt((yvec * yvec) + (xvec * xvec)));
             }
             else if (receviedbytes == 408)
             {
@@ -756,33 +743,33 @@ namespace MissionPlanner.GCSViews
 
                 lastfdmdata = fdm;
 
-                sitldata.timestamp = (ulong) (simtime*1.0e6);
+                sitldata.timestamp = (ulong)(simtime * 1.0e6);
                 sitldata.altitude = (fdm.altitude);
-                sitldata.latitude = (fdm.latitude*rad2deg);
-                sitldata.longitude = (fdm.longitude*rad2deg);
+                sitldata.latitude = (fdm.latitude * rad2deg);
+                sitldata.longitude = (fdm.longitude * rad2deg);
 
-                sitldata.rollDeg = fdm.phi*rad2deg;
-                sitldata.pitchDeg = fdm.theta*rad2deg;
-                sitldata.yawDeg = fdm.psi*rad2deg;
+                sitldata.rollDeg = fdm.phi * rad2deg;
+                sitldata.pitchDeg = fdm.theta * rad2deg;
+                sitldata.yawDeg = fdm.psi * rad2deg;
 
-                sitldata.rollRate = fdm.phidot*rad2deg;
-                sitldata.pitchRate = fdm.thetadot*rad2deg;
-                sitldata.yawRate = fdm.psidot*rad2deg;
+                sitldata.rollRate = fdm.phidot * rad2deg;
+                sitldata.pitchRate = fdm.thetadot * rad2deg;
+                sitldata.yawRate = fdm.psidot * rad2deg;
 
-                sitldata.speedN = fdm.v_north*ft2m;
-                sitldata.speedE = fdm.v_east*ft2m;
-                sitldata.speedD = fdm.v_down*ft2m;
+                sitldata.speedN = fdm.v_north * ft2m;
+                sitldata.speedE = fdm.v_east * ft2m;
+                sitldata.speedD = fdm.v_down * ft2m;
 
-                sitldata.xAccel = (fdm.A_X_pilot*9.808/32.2); // pitch
-                sitldata.yAccel = (fdm.A_Y_pilot*9.808/32.2); // roll
-                sitldata.zAccel = (fdm.A_Z_pilot/32.2*9.808);
+                sitldata.xAccel = (fdm.A_X_pilot * 9.808 / 32.2); // pitch
+                sitldata.yAccel = (fdm.A_Y_pilot * 9.808 / 32.2); // roll
+                sitldata.zAccel = (fdm.A_Z_pilot / 32.2 * 9.808);
 
-                sitldata.airspeed = fdm.vcas*0.5144444f; //  knots to m/s
+                sitldata.airspeed = fdm.vcas * 0.5144444f; //  knots to m/s
 
                 //Console.WriteLine("1 {0} {1} {2} {3}",(float)sitldata.rollDeg,MainV2.comPort.MAV.cs.roll,sitldata.pitchDeg,MainV2.comPort.MAV.cs.pitch);
 
                 if (RAD_JSBSim.Checked)
-                    sitldata.airspeed = fdm.vcas*ft2m; //  fps to m/s
+                    sitldata.airspeed = fdm.vcas * ft2m; //  fps to m/s
             }
             else
             {
@@ -804,12 +791,12 @@ namespace MissionPlanner.GCSViews
                 lastgpsupdate = DateTime.Now;
 
                 // save current fix = 3
-                sitl_fdmbuffer[gpsbufferindex%sitl_fdmbuffer.Length] = sitldata;
+                sitl_fdmbuffer[gpsbufferindex % sitl_fdmbuffer.Length] = sitldata;
 
                 //                Console.WriteLine((gpsbufferindex % gpsbuffer.Length) + " " + ((gpsbufferindex + (gpsbuffer.Length - 1)) % gpsbuffer.Length));
 
                 // return buffer index + 5 = (3 + 5) = 8 % 6 = 2
-                oldgps = sitl_fdmbuffer[(gpsbufferindex + (sitl_fdmbuffer.Length - 1))%sitl_fdmbuffer.Length];
+                oldgps = sitl_fdmbuffer[(gpsbufferindex + (sitl_fdmbuffer.Length - 1)) % sitl_fdmbuffer.Length];
 
                 //comPort.sendPacket(oldgps);
 
@@ -820,31 +807,31 @@ namespace MissionPlanner.GCSViews
             var hilstate = new MAVLink.mavlink_hil_state_t();
 
             var epochBegin = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
-            hilstate.time_usec = (ulong) ((DateTime.Now.Ticks - epochBegin.Ticks)/10); // microsec
+            hilstate.time_usec = (ulong)((DateTime.Now.Ticks - epochBegin.Ticks) / 10); // microsec
 
-            hilstate.lat = (int) (oldgps.latitude*1e7); // * 1E7
-            hilstate.lon = (int) (oldgps.longitude*1e7); // * 1E7
-            hilstate.alt = (int) (oldgps.altitude*1000); // mm
+            hilstate.lat = (int)(oldgps.latitude * 1e7); // * 1E7
+            hilstate.lon = (int)(oldgps.longitude * 1e7); // * 1E7
+            hilstate.alt = (int)(oldgps.altitude * 1000); // mm
 
             //   Console.WriteLine(hilstate.alt);
 
             // Console.WriteLine("{0} {1} {2}", sitldata.rollDeg.ToString("0.0"), sitldata.pitchDeg.ToString("0.0"), sitldata.yawDeg.ToString("0.0"));
 
 
-            hilstate.pitch = (float) sitldata.pitchDeg*deg2rad; // (rad)
-            hilstate.pitchspeed = (float) sitldata.pitchRate*deg2rad; // (rad/s)
-            hilstate.roll = (float) sitldata.rollDeg*deg2rad; // (rad)
-            hilstate.rollspeed = (float) sitldata.rollRate*deg2rad; // (rad/s)
-            hilstate.yaw = (float) sitldata.yawDeg*deg2rad; // (rad)
-            hilstate.yawspeed = (float) sitldata.yawRate*deg2rad; // (rad/s)
+            hilstate.pitch = (float)sitldata.pitchDeg * deg2rad; // (rad)
+            hilstate.pitchspeed = (float)sitldata.pitchRate * deg2rad; // (rad/s)
+            hilstate.roll = (float)sitldata.rollDeg * deg2rad; // (rad)
+            hilstate.rollspeed = (float)sitldata.rollRate * deg2rad; // (rad/s)
+            hilstate.yaw = (float)sitldata.yawDeg * deg2rad; // (rad)
+            hilstate.yawspeed = (float)sitldata.yawRate * deg2rad; // (rad/s)
 
-            hilstate.vx = (short) (sitldata.speedN*100); // m/s * 100 - lat
-            hilstate.vy = (short) (sitldata.speedE*100); // m/s * 100 - long
-            hilstate.vz = (short) (sitldata.speedD*100); // m/s * 100 - + speed down
+            hilstate.vx = (short)(sitldata.speedN * 100); // m/s * 100 - lat
+            hilstate.vy = (short)(sitldata.speedE * 100); // m/s * 100 - long
+            hilstate.vz = (short)(sitldata.speedD * 100); // m/s * 100 - + speed down
 
-            hilstate.xacc = (short) (sitldata.xAccel*101.957); // (mg)
-            hilstate.yacc = (short) (sitldata.yAccel*101.957); // (mg)
-            hilstate.zacc = (short) (sitldata.zAccel*101.957); // (mg)
+            hilstate.xacc = (short)(sitldata.xAccel * 101.957); // (mg)
+            hilstate.yacc = (short)(sitldata.yAccel * 101.957); // (mg)
+            hilstate.zacc = (short)(sitldata.zAccel * 101.957); // (mg)
 
 
             packetcount++;
@@ -866,9 +853,9 @@ namespace MissionPlanner.GCSViews
             //comPort.sendPacket(new MAVLink.mavlink_vfr_hud_t() { airspeed = (float)sitldata.airspeed } );
 
             var pres = new MAVLink.mavlink_raw_pressure_t();
-            var calc = (101325*Math.Pow(1 - 2.25577*Math.Pow(10, -5)*sitldata.altitude, 5.25588));
-                // updated from valid gps
-            pres.press_diff1 = (short) (int) (calc - 101325); // 0 alt is 0 pa
+            var calc = (101325 * Math.Pow(1 - 2.25577 * Math.Pow(10, -5) * sitldata.altitude, 5.25588));
+            // updated from valid gps
+            pres.press_diff1 = (short)(int)(calc - 101325); // 0 alt is 0 pa
 
             // comPort.sendPacket(pres);
         }
@@ -892,21 +879,21 @@ namespace MissionPlanner.GCSViews
             try
             {
                 // Update Sim stuff
-                BeginInvoke((MethodInvoker) delegate
+                BeginInvoke((MethodInvoker)delegate
                 {
                     TXT_servoroll.Text = roll_out.ToString("0.000");
                     TXT_servopitch.Text = pitch_out.ToString("0.000");
                     TXT_servorudder.Text = rudder_out.ToString("0.000");
                     TXT_servothrottle.Text = throttle_out.ToString("0.000");
 
-                    TXT_lat.Text = (lat*rad2deg).ToString("0.00000");
-                    TXT_long.Text = (lng*rad2deg).ToString("0.00000");
+                    TXT_lat.Text = (lat * rad2deg).ToString("0.00000");
+                    TXT_long.Text = (lng * rad2deg).ToString("0.00000");
                     TXT_alt.Text = (alt).ToString("0.00");
 
-                    TXT_roll.Text = (roll*rad2deg).ToString("0.000");
-                    TXT_pitch.Text = (pitch*rad2deg).ToString("0.000");
-                    TXT_heading.Text = (heading*rad2deg).ToString("0.000");
-                    TXT_yaw.Text = (yaw*rad2deg).ToString("0.000");
+                    TXT_roll.Text = (roll * rad2deg).ToString("0.000");
+                    TXT_pitch.Text = (pitch * rad2deg).ToString("0.000");
+                    TXT_heading.Text = (heading * rad2deg).ToString("0.000");
+                    TXT_yaw.Text = (yaw * rad2deg).ToString("0.000");
 
                     TXT_wpdist.Text = MainV2.comPort.MAV.cs.wp_dist.ToString();
                     TXT_bererror.Text = MainV2.comPort.MAV.cs.ber_error.ToString();
@@ -917,7 +904,7 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-                Invoke((MethodInvoker) delegate { OutputLog.AppendText("NO SIM data - exep\n"); });
+                Invoke((MethodInvoker)delegate { OutputLog.AppendText("NO SIM data - exep\n"); });
             }
         }
 
@@ -925,10 +912,10 @@ namespace MissionPlanner.GCSViews
         {
             float roll_out, pitch_out, throttle_out, rudder_out;
 
-            roll_out = (MainV2.comPort.MAV.cs.ch1out - 1500)/rollgain;
-            pitch_out = (MainV2.comPort.MAV.cs.ch2out - 1500)/pitchgain;
-            throttle_out = (MainV2.comPort.MAV.cs.ch3out - 1500)/throttlegain;
-            rudder_out = (MainV2.comPort.MAV.cs.ch4out - 1500)/ruddergain;
+            roll_out = (MainV2.comPort.MAV.cs.ch1out - 1500) / rollgain;
+            pitch_out = (MainV2.comPort.MAV.cs.ch2out - 1500) / pitchgain;
+            throttle_out = (MainV2.comPort.MAV.cs.ch3out - 1500) / throttlegain;
+            rudder_out = (MainV2.comPort.MAV.cs.ch4out - 1500) / ruddergain;
 
 
             // Limit min and max
@@ -942,43 +929,27 @@ namespace MissionPlanner.GCSViews
                 if (displayfull)
                 {
                     // This updates the servo graphs
-                    var time = (Environment.TickCount - tickStart)/1000.0;
+                    var time = (Environment.TickCount - tickStart) / 1000.0;
 
                     if (CHKgraphroll.Checked)
-                    {
                         list.Add(time, roll_out);
-                    }
                     else
-                    {
                         list.Clear();
-                    }
                     if (CHKgraphpitch.Checked)
-                    {
                         list2.Add(time, pitch_out);
-                    }
                     else
-                    {
                         list2.Clear();
-                    }
                     if (CHKgraphrudder.Checked)
-                    {
                         list3.Add(time, rudder_out);
-                    }
                     else
-                    {
                         list3.Clear();
-                    }
                     if (CHKgraphthrottle.Checked)
-                    {
                         list4.Add(time, throttle_out);
-                    }
                     else
-                    {
                         list4.Clear();
-                    }
                 }
 
-                if (packetssent%10 == 0) // reduce cpu usage
+                if (packetssent % 10 == 0) // reduce cpu usage
                 {
                     if (RAD_softXplanes.Checked)
                     {
@@ -987,14 +958,16 @@ namespace MissionPlanner.GCSViews
                             var xplane9 = !CHK_xplane10.Checked;
                             if (xplane9)
                             {
-                                updateScreenDisplay(DATA[20][0]*deg2rad, DATA[20][1]*deg2rad, DATA[20][2]*.3048,
-                                    DATA[18][1]*deg2rad, DATA[18][0]*deg2rad, DATA[19][2]*deg2rad, DATA[18][2]*deg2rad,
+                                updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048,
+                                    DATA[18][1] * deg2rad, DATA[18][0] * deg2rad, DATA[19][2] * deg2rad,
+                                    DATA[18][2] * deg2rad,
                                     roll_out, pitch_out, rudder_out, throttle_out);
                             }
                             else
                             {
-                                updateScreenDisplay(DATA[20][0]*deg2rad, DATA[20][1]*deg2rad, DATA[20][2]*.3048,
-                                    DATA[17][1]*deg2rad, DATA[17][0]*deg2rad, DATA[18][2]*deg2rad, DATA[17][2]*deg2rad,
+                                updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048,
+                                    DATA[17][1] * deg2rad, DATA[17][0] * deg2rad, DATA[18][2] * deg2rad,
+                                    DATA[17][2] * deg2rad,
                                     roll_out, pitch_out, rudder_out, throttle_out);
                             }
                         }
@@ -1002,14 +975,14 @@ namespace MissionPlanner.GCSViews
 
                     if (RAD_softFlightGear.Checked || RAD_JSBSim.Checked)
                     {
-                        updateScreenDisplay(lastfdmdata.latitude, lastfdmdata.longitude, lastfdmdata.altitude*.3048,
+                        updateScreenDisplay(lastfdmdata.latitude, lastfdmdata.longitude, lastfdmdata.altitude * .3048,
                             lastfdmdata.phi, lastfdmdata.theta, lastfdmdata.psi, lastfdmdata.psi, roll_out, pitch_out,
                             rudder_out, throttle_out);
                     }
 
                     if (RAD_aerosimrc.Checked)
                     {
-                        updateScreenDisplay(aeroin.Model_fLatitude*deg2rad, aeroin.Model_fLongitude*deg2rad,
+                        updateScreenDisplay(aeroin.Model_fLatitude * deg2rad, aeroin.Model_fLongitude * deg2rad,
                             aeroin.Model_fPosZ, aeroin.Model_fRoll, aeroin.Model_fPitch, aeroin.Model_fHeading,
                             aeroin.Model_fHeading, roll_out, pitch_out, rudder_out, throttle_out);
                     }
@@ -1025,30 +998,28 @@ namespace MissionPlanner.GCSViews
             if (RAD_aerosimrc.Checked)
             {
                 //AeroSimRC
-                var AeroSimRC = new byte[4*8]; // StructureToByteArray(fg);
+                var AeroSimRC = new byte[4 * 8]; // StructureToByteArray(fg);
 
-                Array.Copy(BitConverter.GetBytes((double) (roll_out*REV_roll)), 0, AeroSimRC, 0, 8);
-                Array.Copy(BitConverter.GetBytes((double) (pitch_out*REV_pitch*-1)), 0, AeroSimRC, 8, 8);
-                Array.Copy(BitConverter.GetBytes((double) (rudder_out*REV_rudder)), 0, AeroSimRC, 16, 8);
-                Array.Copy(BitConverter.GetBytes((double) ((throttle_out*2) - 1)), 0, AeroSimRC, 24, 8);
+                Array.Copy(BitConverter.GetBytes((double)(roll_out * REV_roll)), 0, AeroSimRC, 0, 8);
+                Array.Copy(BitConverter.GetBytes((double)(pitch_out * REV_pitch * -1)), 0, AeroSimRC, 8, 8);
+                Array.Copy(BitConverter.GetBytes((double)(rudder_out * REV_rudder)), 0, AeroSimRC, 16, 8);
+                Array.Copy(BitConverter.GetBytes((double)((throttle_out * 2) - 1)), 0, AeroSimRC, 24, 8);
 
 
                 try
                 {
                     SimulatorRECV.SendTo(AeroSimRC, Remote);
                 }
-                catch
-                {
-                }
+                catch {}
             }
 
             //JSBSim
 
             if (RAD_JSBSim.Checked)
             {
-                roll_out = Constrain(roll_out*REV_roll, -1f, 1f);
-                pitch_out = Constrain(-pitch_out*REV_pitch, -1f, 1f);
-                rudder_out = Constrain(rudder_out*REV_rudder, -1f, 1f);
+                roll_out = Constrain(roll_out * REV_roll, -1f, 1f);
+                pitch_out = Constrain(-pitch_out * REV_pitch, -1f, 1f);
+                rudder_out = Constrain(rudder_out * REV_rudder, -1f, 1f);
 
                 throttle_out = Constrain(throttle_out, -0.0f, 1f);
 
@@ -1070,12 +1041,12 @@ namespace MissionPlanner.GCSViews
             {
                 //if (packetssent % 2 == 0) { return; } // short supply buffer.. seems to reduce lag
 
-                var FlightGear = new byte[4*8]; // StructureToByteArray(fg);
+                var FlightGear = new byte[4 * 8]; // StructureToByteArray(fg);
 
-                Array.Copy(BitConverter.GetBytes((double) (roll_out*REV_roll)), 0, FlightGear, 0, 8);
-                Array.Copy(BitConverter.GetBytes((double) (pitch_out*REV_pitch*-1)), 0, FlightGear, 8, 8);
-                Array.Copy(BitConverter.GetBytes((double) (rudder_out*REV_rudder)), 0, FlightGear, 16, 8);
-                Array.Copy(BitConverter.GetBytes((double) (throttle_out)), 0, FlightGear, 24, 8);
+                Array.Copy(BitConverter.GetBytes((double)(roll_out * REV_roll)), 0, FlightGear, 0, 8);
+                Array.Copy(BitConverter.GetBytes((double)(pitch_out * REV_pitch * -1)), 0, FlightGear, 8, 8);
+                Array.Copy(BitConverter.GetBytes((double)(rudder_out * REV_rudder)), 0, FlightGear, 16, 8);
+                Array.Copy(BitConverter.GetBytes((double)(throttle_out)), 0, FlightGear, 24, 8);
 
                 Array.Reverse(FlightGear, 0, 8);
                 Array.Reverse(FlightGear, 8, 8);
@@ -1101,10 +1072,10 @@ namespace MissionPlanner.GCSViews
                 var Xplane = new byte[5 + 36 + 36];
 
 
-                Xplane[0] = (byte) 'D';
-                Xplane[1] = (byte) 'A';
-                Xplane[2] = (byte) 'T';
-                Xplane[3] = (byte) 'A';
+                Xplane[0] = (byte)'D';
+                Xplane[1] = (byte)'A';
+                Xplane[2] = (byte)'T';
+                Xplane[3] = (byte)'A';
                 Xplane[4] = 0;
 
                 Array.Copy(BitConverter.GetBytes(25), 0, Xplane, 5, 4); // packet index
@@ -1123,12 +1094,12 @@ namespace MissionPlanner.GCSViews
 
                 Array.Copy(BitConverter.GetBytes(11), 0, Xplane, 41, 4); // packet index
 
-                Array.Copy(BitConverter.GetBytes(pitch_out*REV_pitch), 0, Xplane, 45, 4); // start data
-                Array.Copy(BitConverter.GetBytes(roll_out*REV_roll), 0, Xplane, 49, 4);
-                Array.Copy(BitConverter.GetBytes(rudder_out*REV_rudder), 0, Xplane, 53, 4);
+                Array.Copy(BitConverter.GetBytes(pitch_out * REV_pitch), 0, Xplane, 45, 4); // start data
+                Array.Copy(BitConverter.GetBytes(roll_out * REV_roll), 0, Xplane, 49, 4);
+                Array.Copy(BitConverter.GetBytes(rudder_out * REV_rudder), 0, Xplane, 53, 4);
                 Array.Copy(BitConverter.GetBytes(-999), 0, Xplane, 57, 4);
 
-                Array.Copy(BitConverter.GetBytes((float) (roll_out*REV_roll*0.5)), 0, Xplane, 61, 4);
+                Array.Copy(BitConverter.GetBytes((float)(roll_out * REV_roll * 0.5)), 0, Xplane, 61, 4);
                 Array.Copy(BitConverter.GetBytes(-999), 0, Xplane, 65, 4);
                 Array.Copy(BitConverter.GetBytes(-999), 0, Xplane, 69, 4);
                 Array.Copy(BitConverter.GetBytes(-999), 0, Xplane, 73, 4);
@@ -1150,12 +1121,12 @@ namespace MissionPlanner.GCSViews
             {
                 // sending only 1 packet instead of many.
 
-                var Xplane = new byte[5 + 4*8];
+                var Xplane = new byte[5 + 4 * 8];
 
-                Xplane[0] = (byte) 'D';
-                Xplane[1] = (byte) 'S';
-                Xplane[2] = (byte) 'E';
-                Xplane[3] = (byte) 'L';
+                Xplane[0] = (byte)'D';
+                Xplane[1] = (byte)'S';
+                Xplane[2] = (byte)'E';
+                Xplane[3] = (byte)'L';
                 Xplane[4] = 0;
 
                 if (CHK_xplane10.Checked)
@@ -1227,48 +1198,32 @@ namespace MissionPlanner.GCSViews
             return arr;
         }
 
-        private void RAD_softXplanes_CheckedChanged(object sender, EventArgs e)
-        {
-        }
+        private void RAD_softXplanes_CheckedChanged(object sender, EventArgs e) {}
 
-        private void RAD_softFlightGear_CheckedChanged(object sender, EventArgs e)
-        {
-        }
+        private void RAD_softFlightGear_CheckedChanged(object sender, EventArgs e) {}
 
         private void CHKREV_roll_CheckedChanged(object sender, EventArgs e)
         {
             if (CHKREV_roll.Checked)
-            {
                 REV_roll = -1;
-            }
             else
-            {
                 REV_roll = 1;
-            }
         }
 
         private void CHKREV_pitch_CheckedChanged(object sender, EventArgs e)
         {
             if (CHKREV_pitch.Checked)
-            {
                 REV_pitch = -1;
-            }
             else
-            {
                 REV_pitch = 1;
-            }
         }
 
         private void CHKREV_rudder_CheckedChanged(object sender, EventArgs e)
         {
             if (CHKREV_rudder.Checked)
-            {
                 REV_rudder = -1;
-            }
             else
-            {
                 REV_rudder = 1;
-            }
         }
 
         private void GPSrate_SelectedIndexChanged(object sender, EventArgs e)
@@ -1277,17 +1232,13 @@ namespace MissionPlanner.GCSViews
             {
                 GPS_rate = int.Parse(GPSrate.Text); //GPSrate.SelectedItem.ToString());
             }
-            catch
-            {
-            }
+            catch {}
         }
 
         private void OutputLog_TextChanged(object sender, EventArgs e)
         {
             if (OutputLog.TextLength >= 10000)
-            {
-                OutputLog.Text = OutputLog.Text.Substring(OutputLog.TextLength/2);
-            }
+                OutputLog.Text = OutputLog.Text.Substring(OutputLog.TextLength / 2);
 
             // auto scroll
             OutputLog.SelectionStart = OutputLog.Text.Length;
@@ -1300,27 +1251,19 @@ namespace MissionPlanner.GCSViews
         private float Constrain(float value, float min, float max)
         {
             if (value > max)
-            {
                 value = max;
-            }
             if (value < min)
-            {
                 value = min;
-            }
             return value;
         }
 
         private short Constrain(double value, double min, double max)
         {
             if (value > max)
-            {
                 value = max;
-            }
             if (value < min)
-            {
                 value = min;
-            }
-            return (short) value;
+            return (short)value;
         }
 
         public void CreateChart(ZedGraphControl zgc)
@@ -1401,7 +1344,7 @@ namespace MissionPlanner.GCSViews
                 return;
 
             // Time is measured in seconds
-            var time = (Environment.TickCount - tickStart)/1000.0;
+            var time = (Environment.TickCount - tickStart) / 1000.0;
 
             // Keep the X scale at a rolling 30 second interval, with one
             // major step between the max X value and the end of the axis
@@ -1416,9 +1359,7 @@ namespace MissionPlanner.GCSViews
             {
                 zg1.AxisChange();
             }
-            catch
-            {
-            }
+            catch {}
             // Force a redraw
             zg1.Invalidate();
         }
@@ -1457,9 +1398,7 @@ namespace MissionPlanner.GCSViews
             xmlconfig(true);
         }
 
-        private void CHK_quad_CheckedChanged(object sender, EventArgs e)
-        {
-        }
+        private void CHK_quad_CheckedChanged(object sender, EventArgs e) {}
 
         private void BUT_startfgquad_Click(object sender, EventArgs e)
         {
@@ -1490,20 +1429,14 @@ namespace MissionPlanner.GCSViews
                     extra = " --fg-root=\"C:\\Program Files (x86)\\FlightGear 2.4.0\\data\"";
                 }
                 else if (File.Exists(@"/usr/games/fgfs"))
-                {
                     ofd.InitialDirectory = @"/usr/games";
-                }
 
                 if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
-                    {
                         MainV2.config["fgexe"] = ofd.FileName;
-                    }
                     else
-                    {
                         ofd.FileName = MainV2.config["fgexe"].ToString();
-                    }
 
                     if (!MainV2.MONO)
                     {
@@ -1536,36 +1469,22 @@ namespace MissionPlanner.GCSViews
             })
             {
                 if (File.Exists(@"C:\Program Files (x86)\FlightGear\bin\Win32\fgfs.exe"))
-                {
                     ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear\bin\Win32\";
-                }
                 else if (File.Exists(@"C:\Program Files\FlightGear\bin\Win32\fgfs.exe"))
-                {
                     ofd.InitialDirectory = @"C:\Program Files\FlightGear\bin\Win32\";
-                }
                 else if (File.Exists(@"C:\Program Files\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-                {
                     ofd.InitialDirectory = @"C:\Program Files\FlightGear 2.4.0\bin\Win32\";
-                }
                 else if (File.Exists(@"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-                {
                     ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\";
-                }
                 else if (File.Exists(@"/usr/games/fgfs"))
-                {
                     ofd.InitialDirectory = @"/usr/games";
-                }
 
                 if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
-                    {
                         MainV2.config["fgexe"] = ofd.FileName;
-                    }
                     else
-                    {
                         ofd.FileName = MainV2.config["fgexe"].ToString();
-                    }
 
                     if (!MainV2.MONO)
                     {
@@ -1600,20 +1519,14 @@ namespace MissionPlanner.GCSViews
                 {
                     ofd.InitialDirectory = Path.GetDirectoryName(MainV2.config["xplaneexe"].ToString());
                 }
-                catch
-                {
-                }
+                catch {}
 
                 if (File.Exists(MainV2.getConfig("xplaneexe")) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
-                    {
                         MainV2.config["xplaneexe"] = ofd.FileName;
-                    }
                     else
-                    {
                         ofd.FileName = MainV2.config["xplaneexe"].ToString();
-                    }
 
                     var P = new Process();
                     P.StartInfo.FileName = ofd.FileName;
@@ -1661,7 +1574,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception)
             {
-                Invoke((MethodInvoker) delegate { OutputLog.AppendText("Bad Gains!!!\n"); });
+                Invoke((MethodInvoker)delegate { OutputLog.AppendText("Bad Gains!!!\n"); });
             }
         }
 
@@ -1764,7 +1677,7 @@ namespace MissionPlanner.GCSViews
             // Integration Time
             //---------------------
             public float Simulation_fIntegrationTimeStep;
-                // integration time step in seconds. This is the simulated time since last call to AeroSIMRC_Plugin_Run()
+            // integration time step in seconds. This is the simulated time since last call to AeroSIMRC_Plugin_Run()
 
             //---------------------
             // Channels
@@ -1773,12 +1686,14 @@ namespace MissionPlanner.GCSViews
             [MarshalAs(
                 UnmanagedType.ByValArray,
                 SizeConst = AEROSIMRC_MAX_CHANNELS)] public float[] Channel_afValue_TX;
-                // [-1, 1] channel positions at TX sticks (i.e. raw stick positions)
+
+            // [-1, 1] channel positions at TX sticks (i.e. raw stick positions)
 
             [MarshalAs(
                 UnmanagedType.ByValArray,
                 SizeConst = AEROSIMRC_MAX_CHANNELS)] public float[] Channel_afValue_RX;
-                // [-1, 1] channel positions at RX (i.e. after TX mixes)
+
+            // [-1, 1] channel positions at RX (i.e. after TX mixes)
 
             // Use the following constants as indexes for the channel arrays
             // The simulator uses internally the channel numbers for Transmitter Mode 2 (regardless of mode selected by user)
@@ -1879,7 +1794,7 @@ namespace MissionPlanner.GCSViews
             public float Model_fWindVelY;
 
             public float Model_fWindVelZ;
-                // m/s   Velocity of the wind (with gusts) at model position (useful to compute air vel)
+            // m/s   Velocity of the wind (with gusts) at model position (useful to compute air vel)
 
             // Engine/Motor Revs per minute
             public float Model_fEngine1_RPM;
@@ -1978,34 +1893,34 @@ namespace MissionPlanner.GCSViews
             private readonly uint num_engines; // Number of valid engines
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly uint[] eng_state;
-                // Engine state (off, cranking, running)
+            // Engine state (off, cranking, running)
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] rpm;
-                // Engine RPM rev/min
+            // Engine RPM rev/min
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] fuel_flow;
-                // Fuel flow gallons/hr
+            // Fuel flow gallons/hr
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] fuel_px;
-                // Fuel pressure psi
+            // Fuel pressure psi
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] egt;
-                // Exhuast gas temp deg F
+            // Exhuast gas temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] cht;
-                // Cylinder head temp deg F
+            // Cylinder head temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] mp_osi;
-                // Manifold pressure
+            // Manifold pressure
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] tit;
-                // Turbine Inlet Temperature
+            // Turbine Inlet Temperature
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] oil_temp;
-                // Oil temp deg F
+            // Oil temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] oil_px;
-                // Oil pressure psi
+            // Oil pressure psi
 
             // Consumables
             private readonly uint num_tanks; // Max number of fuel tanks

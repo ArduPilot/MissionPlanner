@@ -45,9 +45,7 @@ namespace MissionPlanner.Models
         public bool CanExecute(object parameter)
         {
             if (_canExecute == null)
-            {
                 return true;
-            }
 
             return _canExecute(parameter);
         }

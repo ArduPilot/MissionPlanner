@@ -27,13 +27,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             foreach (string item in copy.Keys)
             {
                 if (item == "RC3_MIN" && MainV2.comPort.MAV.param[item].ToString() == "1100")
-                {
                     RcCalmin = false;
-                }
                 else if (item == "RC3_MAX" && MainV2.comPort.MAV.param[item].ToString() == "1900")
-                {
                     RcCalmax = false;
-                }
                 else if (item == "ESC_CALIBRATION")
                 {
                     if (MainV2.comPort.MAV.param[item].ToString() == "2")
@@ -42,9 +38,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         buttonStart.Enabled = false;
                     }
                     else
-                    {
                         buttonStart.Text = "Start";
-                    }
                 }
             }
 

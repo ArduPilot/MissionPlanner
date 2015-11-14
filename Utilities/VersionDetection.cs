@@ -28,9 +28,7 @@ namespace MissionPlanner.Utilities
                 string verstring = match.Groups[1].Value.ToString() + "." + match.Groups[2].Value.ToString();
 
                 if (!String.IsNullOrEmpty(match.Groups[4].Value))
-                {
                     verstring += "." + match.Groups[4].Value.ToString();
-                }
                 if (!String.IsNullOrEmpty(match.Groups[5].Value))
                 {
                     // -rc

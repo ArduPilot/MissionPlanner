@@ -23,12 +23,12 @@ namespace MissionPlanner.Utilities.DroneApi.UI
 
         private void CMB_vehicle_Format(object sender, ListControlConvertEventArgs e)
         {
-            e.Value = ((KeyValuePair<string, string>) e.Value).Key;
+            e.Value = ((KeyValuePair<string, string>)e.Value).Key;
         }
 
         private void BUT_Select_Click(object sender, EventArgs e)
         {
-            uuid = ((KeyValuePair<string, string>) CMB_vehicle.SelectedValue).Value.ToString();
+            uuid = ((KeyValuePair<string, string>)CMB_vehicle.SelectedValue).Value.ToString();
 
             this.Close();
         }

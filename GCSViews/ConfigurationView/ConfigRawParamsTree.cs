@@ -82,9 +82,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var dr = ofd.ShowDialog();
 
                 if (dr == DialogResult.OK)
-                {
                     loadparamsfromfile(ofd.FileName);
-                }
             }
         }
 
@@ -170,15 +168,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             if (Common.MessageShowAgain("Write Raw Params Tree", "Are you Sure?") != DialogResult.OK)
-                return; 
+                return;
 
-            var temp = (Hashtable) _changes.Clone();
+            var temp = (Hashtable)_changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float) _changes[value]);
+                    MainV2.comPort.setParam(value, (float)_changes[value]);
 
                     _changes.Remove(value);
                 }
@@ -226,7 +224,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (DialogResult.OK ==
                 CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
-                ((Control) sender).Enabled = false;
+                ((Control)sender).Enabled = false;
 
                 try
                 {
@@ -239,7 +237,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
 
-                ((Control) sender).Enabled = true;
+                ((Control)sender).Enabled = true;
 
                 startup = true;
 
@@ -253,7 +251,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var lineLength = (int)Math.Sqrt(text.Length) * 2;
             var sb = new StringBuilder();
             var currentLinePosition = 0;
             for (var textIndex = 0; textIndex < text.Length; textIndex++)
@@ -268,8 +266,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 // If we have just started a new line, skip all the whitespace.    
                 if (currentLinePosition == 0)
+                {
                     while (textIndex < text.Length && char.IsWhiteSpace(text[textIndex]))
+                    {
                         textIndex++;
+                    }
+                }
                 // Append the next character.     
                 if (textIndex < text.Length) sb.Append(text[textIndex]);
                 currentLinePosition++;
@@ -288,7 +290,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Params.CanExpandGetter = delegate(object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 if (y.children != null && y.children.Count > 0)
                     return true;
                 return false;
@@ -296,7 +298,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Params.ChildrenGetter = delegate(object x)
             {
-                var y = (data) x;
+                var y = (data)x;
                 return new ArrayList(y.children);
             };
 
@@ -325,7 +327,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 data.root = split[0];
 
                 data.paramname = value;
-                data.Value = ((float) MainV2.comPort.MAV.param[value]).ToString();
+                data.Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
@@ -345,9 +347,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
 
                     if (lastroot.root == split[0])
-                    {
                         lastroot.children.Add(data);
-                    }
                     else
                     {
                         var newroot = new data {root = split[0], paramname = split[0]};
@@ -380,11 +380,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 if (paramfiles == null)
-                {
                     paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
-                }
 
-                BeginInvoke((Action) delegate
+                BeginInvoke((Action)delegate
                 {
                     CMB_paramfiles.DataSource = paramfiles.ToArray();
                     CMB_paramfiles.DisplayMember = "name";
@@ -416,7 +414,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 var data = GitHubContent.GetFileContent("diydrones", "ardupilot",
-                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
+                    ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
@@ -428,9 +426,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 ThemeManager.ApplyThemeTo(paramCompareForm);
                 if (paramCompareForm.ShowDialog() == DialogResult.OK)
-                {
                     CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
-                }
 
                 // no activate the user needs to click write.
                 //this.Activate();
@@ -513,24 +509,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 }
 
-                if (ParameterMetaDataRepository.GetParameterRange(((data) e.RowObject).paramname, ref min, ref max,
+                if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max,
                     MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
                         if (
                             CustomMessageBox.Show(
-                                ((data) e.RowObject).paramname + " value is out of range. Do you want to continue?",
+                                ((data)e.RowObject).paramname + " value is out of range. Do you want to continue?",
                                 "Out of range", MessageBoxButtons.YesNo) == DialogResult.No)
-                        {
                             return;
-                        }
                     }
                 }
 
-                _changes[((data) e.RowObject).paramname] = newvalue;
+                _changes[((data)e.RowObject).paramname] = newvalue;
 
-                ((data) e.RowObject).Value = e.NewValue.ToString();
+                ((data)e.RowObject).Value = e.NewValue.ToString();
 
                 var typer = e.RowObject.GetType();
 
@@ -544,7 +538,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (e != null && e.ListView != null && e.ListView.Items.Count > 0)
             {
-                if (_changes.ContainsKey(((data) e.Model).paramname))
+                if (_changes.ContainsKey(((data)e.Model).paramname))
                     e.Item.BackColor = Color.Green;
                 else
                     e.Item.BackColor = BackColor;

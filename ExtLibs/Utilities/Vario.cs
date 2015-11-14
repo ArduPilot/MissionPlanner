@@ -13,7 +13,11 @@ namespace MissionPlanner.Utilities
 
         public static string Running
         {
-            get { if (run) return "Stop Vario"; return "Start Vario"; }
+            get
+            {
+                if (run) return "Stop Vario";
+                return "Start Vario";
+            }
         }
 
         public static void SetValue(float climbrate)
@@ -27,11 +31,10 @@ namespace MissionPlanner.Utilities
 
             while (run)
             {
-                float note = climbrate *30 + MidTone;
+                float note = climbrate * 30 + MidTone;
 
                 try
                 {
-
                     if (Math.Abs(climbrate) > 0.3)
                     {
                         // freq , duration
@@ -41,19 +44,15 @@ namespace MissionPlanner.Utilities
                             System.Threading.Thread.Sleep(20);
                         }
                         else
-                        {
                             Console.Beep((int)note - 50, 600);
-                        }
                     }
                     else
                     {
                         // sleep when there is no sound required
                         System.Threading.Thread.Sleep(100);
                     }
-
                 }
-                catch { }
-
+                catch {}
             }
         }
 

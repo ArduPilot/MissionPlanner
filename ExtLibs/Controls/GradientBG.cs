@@ -14,22 +14,29 @@ namespace MissionPlanner.Controls
     {
         [Browsable(true)]
         public Color CenterColor { get; set; }
+
         [Browsable(true)]
         public Color OutsideColor { get; set; }
 
         [
-        Browsable(true),
-        Description("Image"),
-     DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
-     ]
-        public PictureBox Image { get { return this._Image; } }
+            Browsable(true),
+            Description("Image"),
+            DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
+        ]
+        public PictureBox Image
+        {
+            get { return this._Image; }
+        }
 
         [
-    Browsable(true),
-    Description("Label"),
- DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
- ]
-        public Label Label { get { return this._Label; } }
+            Browsable(true),
+            Description("Label"),
+            DesignerSerializationVisibility(DesignerSerializationVisibility.Content)
+        ]
+        public Label Label
+        {
+            get { return this._Label; }
+        }
 
         public GradientBG()
         {
@@ -42,7 +49,8 @@ namespace MissionPlanner.Controls
         {
             base.OnPaintBackground(e);
 
-            LinearGradientBrush lgb = new LinearGradientBrush(this.Bounds, OutsideColor, CenterColor, LinearGradientMode.Vertical);
+            LinearGradientBrush lgb = new LinearGradientBrush(this.Bounds, OutsideColor, CenterColor,
+                LinearGradientMode.Vertical);
 
             e.Graphics.FillRectangle(lgb, this.Bounds);
 
