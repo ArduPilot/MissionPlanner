@@ -402,7 +402,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         progress.Value = 50;
-                            // (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
+                        // (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
                         progress.Refresh();
                     }
                     catch

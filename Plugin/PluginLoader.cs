@@ -36,9 +36,9 @@ namespace MissionPlanner.Plugin
             try
             {
                 Type[] types = asm.GetTypes();
-                Type type = typeof(MissionPlanner.Plugin.Plugin);
+                Type type = typeof (MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
-                    if (type.IsAssignableFrom((Type)t))
+                    if (type.IsAssignableFrom((Type) t))
                     {
                         pluginInfo = t;
                         break;
@@ -49,7 +49,7 @@ namespace MissionPlanner.Plugin
                     log.Info("Plugin Load " + file);
 
                     Object o = Activator.CreateInstance(pluginInfo);
-                    Plugin plugin = (Plugin)o;
+                    Plugin plugin = (Plugin) o;
 
                     plugin.Assembly = asm;
 
@@ -72,7 +72,8 @@ namespace MissionPlanner.Plugin
 
         public static void LoadAll()
         {
-            string path = Application.StartupPath +  Path.DirectorySeparatorChar+ "plugins" +  Path.DirectorySeparatorChar;
+            string path = Application.StartupPath + Path.DirectorySeparatorChar + "plugins" +
+                          Path.DirectorySeparatorChar;
 
             if (!Directory.Exists(path))
                 return;

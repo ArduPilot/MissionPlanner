@@ -7,7 +7,6 @@ namespace MissionPlanner.GeoRef
 {
     public class SingleLocation
     {
-
         DateTime time;
 
         public DateTime Time
@@ -23,6 +22,7 @@ namespace MissionPlanner.GeoRef
             get { return lat; }
             set { lat = value; }
         }
+
         double lon;
 
         public double Lon
@@ -30,6 +30,7 @@ namespace MissionPlanner.GeoRef
             get { return lon; }
             set { lon = value; }
         }
+
         double altAMSL;
 
         public double AltAMSL
@@ -53,6 +54,7 @@ namespace MissionPlanner.GeoRef
             get { return roll; }
             set { roll = value; }
         }
+
         float pitch;
 
         public float Pitch
@@ -60,6 +62,7 @@ namespace MissionPlanner.GeoRef
             get { return pitch; }
             set { pitch = value; }
         }
+
         float yaw;
 
         public float Yaw

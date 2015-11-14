@@ -22,21 +22,20 @@ namespace MissionPlanner.Controls
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            ekfvel.Value = (int)(MainV2.comPort.MAV.cs.ekfvelv * 100);
-            ekfposh.Value = (int)(MainV2.comPort.MAV.cs.ekfposhor * 100);
-            ekfposv.Value = (int)(MainV2.comPort.MAV.cs.ekfposvert * 100);
-            ekfcompass.Value = (int)(MainV2.comPort.MAV.cs.ekfcompv * 100);
-            ekfterrain.Value = (int)(MainV2.comPort.MAV.cs.ekfteralt * 100);
+            ekfvel.Value = (int) (MainV2.comPort.MAV.cs.ekfvelv*100);
+            ekfposh.Value = (int) (MainV2.comPort.MAV.cs.ekfposhor*100);
+            ekfposv.Value = (int) (MainV2.comPort.MAV.cs.ekfposvert*100);
+            ekfcompass.Value = (int) (MainV2.comPort.MAV.cs.ekfcompv*100);
+            ekfterrain.Value = (int) (MainV2.comPort.MAV.cs.ekfteralt*100);
 
             // restore colours
             Utilities.ThemeManager.ApplyThemeTo(this);
 
-            foreach (var item in new VerticalProgressBar2[] { ekfvel, ekfposh, ekfposv, ekfcompass, ekfterrain })
+            foreach (var item in new VerticalProgressBar2[] {ekfvel, ekfposh, ekfposv, ekfcompass, ekfterrain})
             {
                 if (item.Value > 50)
                     item.ValueColor = Color.Orange;
@@ -47,14 +46,14 @@ namespace MissionPlanner.Controls
 
             label7.Text = "";
 
-            for (int a = 1; a < (int)MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
+            for (int a = 1; a < (int) MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
             {
                 int currentbit = (MainV2.comPort.MAV.cs.ekfflags & a);
 
-                var currentflag = (MAVLink.EKF_STATUS_FLAGS)Enum.Parse(typeof(MAVLink.EKF_STATUS_FLAGS), a.ToString());
+                var currentflag = (MAVLink.EKF_STATUS_FLAGS) Enum.Parse(typeof (MAVLink.EKF_STATUS_FLAGS), a.ToString());
 
                 label7.Text += currentflag.ToString().Replace("EKF_", "").ToLower() + " " +
-                                  (currentbit > 0 ? "On " : "Off") + "\r\n";
+                               (currentbit > 0 ? "On " : "Off") + "\r\n";
             }
         }
     }

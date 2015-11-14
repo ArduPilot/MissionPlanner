@@ -23,7 +23,8 @@ namespace MissionPlanner.Swarm
             if (Leader == null)
                 Leader = MainV2.comPort;
 
-            trail.Add(new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, ""));
+            trail.Add(new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt,
+                ""));
         }
 
         public override void SendCommand()
@@ -32,34 +33,40 @@ namespace MissionPlanner.Swarm
                 return;
 
             // get the path
-               List<PointLatLngAlt> newpositions = PlanMove();
-               int a = 0;
+            List<PointLatLngAlt> newpositions = PlanMove();
+            int a = 0;
 
-                foreach (var port in MainV2.Comports)
+            foreach (var port in MainV2.Comports)
+            {
+                if (port == Leader)
+                    continue;
+
+                // check we have a valid point for this mav
+                if (a < newpositions.Count)
                 {
-                    if (port == Leader)
-                        continue;
+                    // get the point for this sepecific mav
+                    PointLatLngAlt target = newpositions[a];
 
-                    // check we have a valid point for this mav
-                    if (a < newpositions.Count)
+                    // send it
+                    port.setGuidedModeWP(new Locationwp()
                     {
-                        // get the point for this sepecific mav
-                        PointLatLngAlt target = newpositions[a];
-
-                        // send it
-                        port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = target.Lat, lng = target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
-                    }
+                        alt = (float) target.Alt,
+                        lat = target.Lat,
+                        lng = target.Lng,
+                        id = (byte) MAVLink.MAV_CMD.WAYPOINT
+                    });
                 }
-        }       
+            }
+        }
 
-         List<PointLatLngAlt> PlanMove()
+        List<PointLatLngAlt> PlanMove()
         {
             List<PointLatLngAlt> currentpos = new List<PointLatLngAlt>();
 
             // get current pos
             foreach (var port in MainV2.Comports)
             {
-               currentpos.Add(new PointLatLngAlt(port.MAV.cs.lat, port.MAV.cs.lng, port.MAV.cs.alt, ""));
+                currentpos.Add(new PointLatLngAlt(port.MAV.cs.lat, port.MAV.cs.lng, port.MAV.cs.alt, ""));
             }
 
             // check they are not to close already
@@ -70,7 +77,7 @@ namespace MissionPlanner.Swarm
                 {
                     double dist = lla.GetDistance(lla2);
 
-                    if (dist < (FollowDistance / 2))
+                    if (dist < (FollowDistance/2))
                     {
                         // do nothing yet
                         //Stop();
@@ -98,7 +105,7 @@ namespace MissionPlanner.Swarm
             return pathwithseperation;
 
             // find closest MAV
-            
+
 
             // check intersect
         }
@@ -108,7 +115,7 @@ namespace MissionPlanner.Swarm
             // get the start point for the distance
             int start = trail.IndexOf(from);
 
-            for (int i = start+1; i < trail.Count; i++)
+            for (int i = start + 1; i < trail.Count; i++)
             {
                 double dist = from.GetDistance(trail[i]); // 2d distance
                 if (dist > FollowDistance)

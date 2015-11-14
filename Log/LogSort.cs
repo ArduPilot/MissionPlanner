@@ -25,7 +25,9 @@ namespace MissionPlanner.Log
                     {
                         File.Delete(logfile);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                     continue;
                 }
 
@@ -35,7 +37,7 @@ namespace MissionPlanner.Log
                     try
                     {
                         string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
-                 + "SMALL" + Path.DirectorySeparatorChar;
+                                         + "SMALL" + Path.DirectorySeparatorChar;
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
@@ -44,14 +46,18 @@ namespace MissionPlanner.Log
 
                         movefileusingmask(logfile, destdir);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                     continue;
                 }
 
                 try
                 {
                     using (MAVLinkInterface mine = new MAVLinkInterface())
-                    using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    using (
+                        mine.logplaybackfile =
+                            new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
                     {
                         mine.logreadmode = true;
 
@@ -63,22 +69,27 @@ namespace MissionPlanner.Log
                             mine.logplaybackfile.Close();
 
                             if (!Directory.Exists(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD"))
-                                Directory.CreateDirectory(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD");
+                                Directory.CreateDirectory(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                                                          "BAD");
 
-                            log.Info("Move log bad " + logfile + " to " + Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
+                            log.Info("Move log bad " + logfile + " to " + Path.GetDirectoryName(logfile) +
+                                     Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
+                                     Path.GetFileName(logfile));
 
-                            movefileusingmask(logfile, Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar);
+                            movefileusingmask(logfile,
+                                Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" +
+                                Path.DirectorySeparatorChar);
                             continue;
                         }
 
-                        MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket);
+                        MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket);
 
                         mine.logreadmode = false;
                         mine.logplaybackfile.Close();
 
                         string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
-                            + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                            + hbpacket[3] + Path.DirectorySeparatorChar;
+                                         + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                         + hbpacket[3] + Path.DirectorySeparatorChar;
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
@@ -86,14 +97,17 @@ namespace MissionPlanner.Log
                         movefileusingmask(logfile, destdir);
                     }
                 }
-                catch { continue; }
+                catch
+                {
+                    continue;
+                }
             }
         }
 
         static void movefileusingmask(string logfile, string destdir)
         {
             string dir = Path.GetDirectoryName(logfile);
-            string filter = Path.GetFileNameWithoutExtension(logfile)+"*";
+            string filter = Path.GetFileNameWithoutExtension(logfile) + "*";
 
             string[] files = Directory.GetFiles(dir, filter);
             foreach (var file in files)

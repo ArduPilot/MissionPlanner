@@ -56,14 +56,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
+                MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()
         {
-            var copy = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
+            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
 
-            CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter), (Int32)(double)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
+            CMB_shuttertype.SelectedItem = Enum.GetName(typeof (ChannelCameraShutter),
+                (Int32) (double) MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
             foreach (string item in copy.Keys)
             {

@@ -22,7 +22,7 @@ namespace MissionPlanner.Utilities
                     continue;
 
                 double dist = prevpoint.GetDistance(point);
-                if (dist < (distm* 1.1))
+                if (dist < (distm*1.1))
                     continue;
 
                 double bearing = prevpoint.GetBearing(point);
@@ -34,7 +34,7 @@ namespace MissionPlanner.Utilities
             }
 
             if (leftoffsetpoints.Count <= 1)
-                return  new List<PointLatLngAlt>();
+                return new List<PointLatLngAlt>();
 
             //
             List<PointLatLngAlt> polygonPoints = new List<PointLatLngAlt>();

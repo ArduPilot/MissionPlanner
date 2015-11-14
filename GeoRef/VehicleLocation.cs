@@ -7,6 +7,5 @@ namespace MissionPlanner.GeoRef
 {
     public class VehicleLocation : SingleLocation
     {
-
     }
 }

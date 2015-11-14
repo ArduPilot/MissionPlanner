@@ -15,12 +15,12 @@ namespace MissionPlanner
     public partial class RAW_Sensor : Form
     {
         // for graph
-        RollingPointPairList list1 = new RollingPointPairList(10 * 50);
-        RollingPointPairList list2 = new RollingPointPairList(10 * 50);
-        RollingPointPairList list3 = new RollingPointPairList(10 * 50);
-        RollingPointPairList list4 = new RollingPointPairList(10 * 50);
-        RollingPointPairList list5 = new RollingPointPairList(10 * 50);
-        RollingPointPairList list6 = new RollingPointPairList(10 * 50);
+        RollingPointPairList list1 = new RollingPointPairList(10*50);
+        RollingPointPairList list2 = new RollingPointPairList(10*50);
+        RollingPointPairList list3 = new RollingPointPairList(10*50);
+        RollingPointPairList list4 = new RollingPointPairList(10*50);
+        RollingPointPairList list5 = new RollingPointPairList(10*50);
+        RollingPointPairList list6 = new RollingPointPairList(10*50);
         object thisLock = new object();
 
         int tickStart = 0;
@@ -41,7 +41,7 @@ namespace MissionPlanner
             public Color color;
         }
 
-        public void CreateChart(ZedGraphControl zgc,string Title, string XAxis, string YAxis)
+        public void CreateChart(ZedGraphControl zgc, string Title, string XAxis, string YAxis)
         {
             GraphPane myPane = zgc.GraphPane;
 
@@ -93,13 +93,11 @@ namespace MissionPlanner
             zgc.AxisChange();
 
             tickStart = Environment.TickCount;
-
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            double time = (Environment.TickCount - tickStart) / 1000.0;
+            double time = (Environment.TickCount - tickStart)/1000.0;
 
             // Make sure that the curvelist has at least one curve
             if (zg1.GraphPane == null || zg1.GraphPane.CurveList.Count <= 0)
@@ -134,7 +132,9 @@ namespace MissionPlanner
             {
                 zg1.AxisChange();
             }
-            catch { }
+            catch
+            {
+            }
             // Force a redraw
             zg1.Invalidate();
         }
@@ -149,50 +149,71 @@ namespace MissionPlanner
             {
                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource);
             }
-            catch { }
+            catch
+            {
+            }
 
             if (sw != null && sw.BaseStream.CanWrite)
             {
-                sw.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6}",DateTime.Now.ToString(), MainV2.comPort.MAV.cs.ax, MainV2.comPort.MAV.cs.ay, MainV2.comPort.MAV.cs.az, MainV2.comPort.MAV.cs.gx,MainV2.comPort.MAV.cs.gy, MainV2.comPort.MAV.cs.gz));
+                sw.WriteLine(string.Format("{0},{1},{2},{3},{4},{5},{6}", DateTime.Now.ToString(),
+                    MainV2.comPort.MAV.cs.ax, MainV2.comPort.MAV.cs.ay, MainV2.comPort.MAV.cs.az,
+                    MainV2.comPort.MAV.cs.gx, MainV2.comPort.MAV.cs.gy, MainV2.comPort.MAV.cs.gz));
             }
 
-            double time = (Environment.TickCount - tickStart) / 1000.0;
+            double time = (Environment.TickCount - tickStart)/1000.0;
 
             if (chkax.Checked)
             {
                 list1.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.ax);
             }
-            else { list1.Clear(); }
+            else
+            {
+                list1.Clear();
+            }
             if (chkay.Checked)
             {
                 list2.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.ay);
             }
-            else { list2.Clear(); }
+            else
+            {
+                list2.Clear();
+            }
             if (chkaz.Checked)
             {
                 list3.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.az);
             }
-            else { list3.Clear(); }
+            else
+            {
+                list3.Clear();
+            }
             if (chkgx.Checked)
             {
                 list4.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.gx);
             }
-            else { list4.Clear(); }
+            else
+            {
+                list4.Clear();
+            }
             if (chkgy.Checked)
             {
                 list5.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.gy);
             }
-            else { list5.Clear(); }
+            else
+            {
+                list5.Clear();
+            }
             if (chkgz.Checked)
             {
                 list6.Add(time, MissionPlanner.MainV2.comPort.MAV.cs.gz);
             }
-            else { list6.Clear(); }
+            else
+            {
+                list6.Clear();
+            }
         }
 
         private void ACM_Setup_Load(object sender, EventArgs e)
         {
-
             timer2serial.Interval = 10;
             timer2serial.Enabled = true;
             timer2serial.Start();
@@ -202,8 +223,6 @@ namespace MissionPlanner
             tabControl.SelectedTab = tabRawSensor;
 
             //tabControl1_SelectedIndexChanged(sender, e);
-
-
         }
 
         private void ACM_Setup_FormClosed(object sender, FormClosedEventArgs e)
@@ -215,7 +234,9 @@ namespace MissionPlanner
                     if (sw != null)
                         sw.Close();
                 }
-                catch { }
+                catch
+                {
+                }
             }
             timer1.Stop();
             timer2serial.Stop();
@@ -223,37 +244,39 @@ namespace MissionPlanner
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-                    try
-                    {
-                        if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
-                        {
-                            CustomMessageBox.Show("Please connect first");
-                            this.Close();
-                        }
+            try
+            {
+                if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
+                {
+                    CustomMessageBox.Show("Please connect first");
+                    this.Close();
+                }
 
-                        //comPort.DtrEnable = true;
-                        //comPort.Open();
-                        //comPort.stopall(true); // ensure off
+                //comPort.DtrEnable = true;
+                //comPort.Open();
+                //comPort.stopall(true); // ensure off
 
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTENDED_STATUS, 0); // mode gps raw
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.POSITION, 3); // request location
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA1, 3); // request attitude
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA2, 3); // request vfr
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RC_CHANNELS, 3); // request rc info
-                    }
-                    catch
-                    {
-                        CustomMessageBox.Show("Comport open failed");
-                        return;
-                    }
-                timer1.Start();
+                //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTENDED_STATUS, 0); // mode gps raw
+                //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.POSITION, 3); // request location
+                //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA1, 3); // request attitude
+                //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA2, 3); // request vfr
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+                    // request raw sensor
+                //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RC_CHANNELS, 3); // request rc info
+            }
+            catch
+            {
+                CustomMessageBox.Show("Comport open failed");
+                return;
+            }
+            timer1.Start();
         }
 
         private void CMB_rawupdaterate_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.cs.ratesensors = (byte)int.Parse(CMB_rawupdaterate.Text);
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, (byte)int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
+            MainV2.comPort.MAV.cs.ratesensors = (byte) int.Parse(CMB_rawupdaterate.Text);
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,
+                (byte) int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
         }
 
         System.IO.StreamWriter sw = null;
@@ -272,14 +295,13 @@ namespace MissionPlanner
                         if (sw != null)
                             sw.Close();
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     sw = new System.IO.StreamWriter(ofd.OpenFile());
                 }
             }
         }
-
     }
-
-
 }

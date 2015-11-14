@@ -28,10 +28,11 @@ namespace MissionPlanner.Swarm
 
         public bool Vertical { get; set; }
 
-        public void setScale(int dist) 
+        public void setScale(int dist)
         {
-            if (dist > 6) {
-            ydist = xdist = dist;
+            if (dist > 6)
+            {
+                ydist = xdist = dist;
             }
             this.Invalidate();
         }
@@ -50,52 +51,52 @@ namespace MissionPlanner.Swarm
         {
             base.OnPaint(e);
 
-            xline = (this.Width - 1) / (float)xdist;
+            xline = (this.Width - 1)/(float) xdist;
 
-            yline = (this.Height - 1) / (float)ydist;
+            yline = (this.Height - 1)/(float) ydist;
 
             //lines
             for (float x = 0; x <= xdist; x++)
             {
                 // middle
-                if (x == xdist / 2)
+                if (x == xdist/2)
                 {
-                    
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Silver, x * xline, 0, x * xline, this.Height);
+                    e.Graphics.DrawLine(Pens.Silver, x*xline, 0, x*xline, this.Height);
                 }
             }
 
             for (float y = 0; y <= ydist; y++)
             {
                 // middle
-                if (y == ydist / 2.0f)
+                if (y == ydist/2.0f)
                 {
-                   
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.Silver, 0, y * yline, this.Width, y * yline);
+                    e.Graphics.DrawLine(Pens.Silver, 0, y*yline, this.Width, y*yline);
                 }
             }
 
             // draw the middle lines
-            e.Graphics.DrawLine(Pens.Green, xdist / 2 * xline, 0, xdist / 2 * xline, this.Height);
-            e.Graphics.DrawLine(Pens.Green, 0, ydist / 2 * yline, this.Width, ydist / 2 * yline);
+            e.Graphics.DrawLine(Pens.Green, xdist/2*xline, 0, xdist/2*xline, this.Height);
+            e.Graphics.DrawLine(Pens.Green, 0, ydist/2*yline, this.Width, ydist/2*yline);
 
             //text
             for (float x = 1; x <= xdist; x++)
             {
-                if (x % 2 == 0)
-                    e.Graphics.DrawString(((xdist / -2) + x).ToString(), SystemFonts.DefaultFont, Brushes.Red, x * xline, 0.0f, StringFormat.GenericDefault);
+                if (x%2 == 0)
+                    e.Graphics.DrawString(((xdist/-2) + x).ToString(), SystemFonts.DefaultFont, Brushes.Red, x*xline,
+                        0.0f, StringFormat.GenericDefault);
             }
 
             for (float y = 0; y <= ydist; y++)
             {
-                if (y % 2 == 0)
-                    e.Graphics.DrawString((((ydist / -2) + y) * -1).ToString(), SystemFonts.DefaultFont, Brushes.Red, 0.0f, y * yline, StringFormat.GenericDefault);
+                if (y%2 == 0)
+                    e.Graphics.DrawString((((ydist/-2) + y)*-1).ToString(), SystemFonts.DefaultFont, Brushes.Red, 0.0f,
+                        y*yline, StringFormat.GenericDefault);
             }
 
             //icons
@@ -105,11 +106,11 @@ namespace MissionPlanner.Swarm
                 {
                     if (Vertical)
                     {
-                        ico.OnPaintVertical(e, xdist, ydist,this.Width,this.Height);
+                        ico.OnPaintVertical(e, xdist, ydist, this.Width, this.Height);
                     }
                     else
                     {
-                        ico.OnPaint(e, xdist, ydist,this.Width,this.Height);
+                        ico.OnPaint(e, xdist, ydist, this.Width, this.Height);
                     }
                 }
             }
@@ -151,8 +152,8 @@ namespace MissionPlanner.Swarm
                 }
             }
 
-            Console.WriteLine("ADD MAV {0} {1} {2}",x,y,z);
-            icons.Add(new icon() { interf = mav, y=y, z = z,x = x, Movable = movable, Name = mav.ToString() });
+            Console.WriteLine("ADD MAV {0} {1} {2}", x, y, z);
+            icons.Add(new icon() {interf = mav, y = y, z = z, x = x, Movable = movable, Name = mav.ToString()});
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -165,21 +166,33 @@ namespace MissionPlanner.Swarm
                 {
                     if (Vertical)
                     {
-                        mouseover.z = (ydist / -2 + e.Y / yline) * -1;
+                        mouseover.z = (ydist/-2 + e.Y/yline)*-1;
                     }
                     else
                     {
-                        mouseover.x = xdist / -2 + e.X / xline;
-                        mouseover.y = (ydist / -2 + e.Y / yline) * -1;
+                        mouseover.x = xdist/-2 + e.X/xline;
+                        mouseover.y = (ydist/-2 + e.Y/yline)*-1;
                     }
 
-                    if (mouseover.x < xdist / -2.0f) { mouseover.x = xdist / -2.0f; }
-                    if (mouseover.x > xdist / 2.0f) { mouseover.x = xdist / 2.0f; }
-                    if (mouseover.y < ydist / -2.0f) { mouseover.y = ydist / -2.0f; }
-                    if (mouseover.y > ydist / 2.0f) { mouseover.y = ydist / 2.0f; }
+                    if (mouseover.x < xdist/-2.0f)
+                    {
+                        mouseover.x = xdist/-2.0f;
+                    }
+                    if (mouseover.x > xdist/2.0f)
+                    {
+                        mouseover.x = xdist/2.0f;
+                    }
+                    if (mouseover.y < ydist/-2.0f)
+                    {
+                        mouseover.y = ydist/-2.0f;
+                    }
+                    if (mouseover.y > ydist/2.0f)
+                    {
+                        mouseover.y = ydist/2.0f;
+                    }
 
                     if (UpdateOffsets != null)
-                        UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z,mouseover);
+                        UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z, mouseover);
 
                     this.Invalidate();
                 }
@@ -214,7 +227,6 @@ namespace MissionPlanner.Swarm
                     {
                         mouseover = ico;
                     }
-
                 }
             }
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
@@ -241,45 +253,46 @@ namespace MissionPlanner.Swarm
             public MAVLinkInterface interf = null;
             public bool Movable = true;
 
-            public void OnPaint(PaintEventArgs e,int xdist, int ydist,int width, int height)
+            public void OnPaint(PaintEventArgs e, int xdist, int ydist, int width, int height)
             {
-                bounds.X = width / 2 + width / xdist * x - icosize / 2;
-                bounds.Y = height / 2 - height / ydist * y - icosize / 2;
+                bounds.X = width/2 + width/xdist*x - icosize/2;
+                bounds.Y = height/2 - height/ydist*y - icosize/2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 
 
                 e.Graphics.DrawPie(new Pen(Color), bounds, 0, 359);
 
-                e.Graphics.DrawString(Name, SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Top, StringFormat.GenericDefault);
-                e.Graphics.DrawString(z.ToString(), SystemFonts.DefaultFont, Brushes.Red, bounds.Right,bounds.Bottom, StringFormat.GenericDefault);
+                e.Graphics.DrawString(Name, SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Top,
+                    StringFormat.GenericDefault);
+                e.Graphics.DrawString(z.ToString(), SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Bottom,
+                    StringFormat.GenericDefault);
                 // e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2, e.ClipRectangle.Height / 2 + e.ClipRectangle.Height / ydist * y - icosize / 2, icosize, icosize                
             }
 
             public bool MouseInside()
             {
-
                 return false;
             }
 
             public void OnPaintVertical(PaintEventArgs e, int xdist, int ydist, int width, int height)
             {
-                bounds.X = width / 2 + width / xdist * x - icosize / 2;
-                bounds.Y = height / 2 - height / ydist * z - icosize / 2;
+                bounds.X = width/2 + width/xdist*x - icosize/2;
+                bounds.Y = height/2 - height/ydist*z - icosize/2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 
 
                 e.Graphics.DrawPie(new Pen(Color), bounds, 0, 359);
 
-                e.Graphics.DrawString(Name, SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Top, StringFormat.GenericDefault);
+                e.Graphics.DrawString(Name, SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Top,
+                    StringFormat.GenericDefault);
                 //e.Graphics.DrawString(z.ToString(), SystemFonts.DefaultFont, Brushes.Red, bounds.Right, bounds.Bottom, StringFormat.GenericDefault);
                 // e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2, e.ClipRectangle.Height / 2 + e.ClipRectangle.Height / ydist * y - icosize / 2, icosize, icosize                
             }
 
             public void MouseOver(PaintEventArgs e)
             {
-
             }
         }
 
@@ -294,7 +307,7 @@ namespace MissionPlanner.Swarm
                 mouseover.z = float.Parse(output);
 
                 if (UpdateOffsets != null)
-                    UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z,mouseover);
+                    UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z, mouseover);
 
                 this.Invalidate();
             }

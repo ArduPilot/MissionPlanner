@@ -29,10 +29,8 @@ namespace MissionPlanner.Log
 
                     try
                     {
-
                         while (mavi.logplaybackfile.BaseStream.Position < mavi.logplaybackfile.BaseStream.Length)
                         {
-
                             byte[] packet = mavi.readPacket();
 
                             if (packet.Length == 0)
@@ -42,7 +40,7 @@ namespace MissionPlanner.Log
 
                             if (objectds is MAVLink.mavlink_param_value_t)
                             {
-                                MAVLink.mavlink_param_value_t param = (MAVLink.mavlink_param_value_t)objectds;
+                                MAVLink.mavlink_param_value_t param = (MAVLink.mavlink_param_value_t) objectds;
 
                                 if (ASCIIEncoding.ASCII.GetString(param.param_id).Contains("INS_PRODUCT_ID"))
                                 {
@@ -59,9 +57,10 @@ namespace MissionPlanner.Log
 
                             if (objectds is MAVLink.mavlink_raw_imu_t)
                             {
-                                MAVLink.mavlink_raw_imu_t rawimu = (MAVLink.mavlink_raw_imu_t)objectds;
+                                MAVLink.mavlink_raw_imu_t rawimu = (MAVLink.mavlink_raw_imu_t) objectds;
 
-                                if (board && Math.Abs(rawimu.xacc) > 2000 && Math.Abs(rawimu.yacc) > 2000 && Math.Abs(rawimu.zacc) > 2000)
+                                if (board && Math.Abs(rawimu.xacc) > 2000 && Math.Abs(rawimu.yacc) > 2000 &&
+                                    Math.Abs(rawimu.zacc) > 2000)
                                 {
                                     //CustomMessageBox.Show("Bad Log " + file);
                                     badfiles.Add(file);
@@ -70,13 +69,16 @@ namespace MissionPlanner.Log
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
             }
 
             if (badfiles.Count > 0)
             {
-                FileStream fs = File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + "SearchResults.zip", FileMode.Create);
+                FileStream fs = File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + "SearchResults.zip",
+                    FileMode.Create);
                 ZipOutputStream zipStream = new ZipOutputStream(fs);
                 zipStream.SetLevel(9); //0-9, 9 being the highest level of compression
                 zipStream.UseZip64 = UseZip64.Off; // older zipfile
@@ -85,7 +87,8 @@ namespace MissionPlanner.Log
                 foreach (var file in badfiles)
                 {
                     // entry 2
-                    string entryName = ZipEntry.CleanName(Path.GetFileName(file)); // Removes drive from name and fixes slash direction
+                    string entryName = ZipEntry.CleanName(Path.GetFileName(file));
+                        // Removes drive from name and fixes slash direction
                     ZipEntry newEntry = new ZipEntry(entryName);
                     newEntry.DateTime = DateTime.Now;
 
@@ -101,10 +104,12 @@ namespace MissionPlanner.Log
                     zipStream.CloseEntry();
                 }
 
-                zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
+                zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
                 zipStream.Close();
 
-                CustomMessageBox.Show("Added " + badfiles.Count + " logs to " + MainV2.LogDir + Path.DirectorySeparatorChar + "SearchResults.zip\n Please send this file to Craig Elder <craig@3drobotics.com>");
+                CustomMessageBox.Show("Added " + badfiles.Count + " logs to " + MainV2.LogDir +
+                                      Path.DirectorySeparatorChar +
+                                      "SearchResults.zip\n Please send this file to Craig Elder <craig@3drobotics.com>");
             }
             else
             {

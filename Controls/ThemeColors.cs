@@ -88,7 +88,9 @@ namespace MissionPlanner.Controls
                 TXT_butbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
                 TXT_butbord.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 }

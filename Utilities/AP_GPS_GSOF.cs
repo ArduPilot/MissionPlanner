@@ -69,7 +69,7 @@ namespace MissionPlanner.Utilities
 
             //requestPostion();
 
-            gsof_msg.data = new byte[1024 * 20];
+            gsof_msg.data = new byte[1024*20];
 
             read();
         }
@@ -79,13 +79,13 @@ namespace MissionPlanner.Utilities
             byte[] buffer =
             {
                 0x2, 0x0, 0x64, 13, 0, 0x0, 0x0,
-                3,0,1,0,
-                0x2, 0x4,0x0,0x07, 0x0,0x0
-                    ,0x0, 0x3
+                3, 0, 1, 0,
+                0x2, 0x4, 0x0, 0x07, 0x0, 0x0
+                , 0x0, 0x3
             };
 
             uint8_t check = 0;
-            buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
+            buffer[buffer.Length - 2] = (byte) (buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
 
             port.Write(buffer, 0, buffer.Length);
 
@@ -94,24 +94,27 @@ namespace MissionPlanner.Utilities
 
         public void requestGSOF()
         {
-            byte[] messages = { 1,2,8,9,12 };
+            byte[] messages = {1, 2, 8, 9, 12};
 
             var st = File.OpenWrite("trim.dat");
 
             byte count = 1;
             foreach (var gsofmsg in messages)
             {
-                byte[] buffer = { 0x2, 0x0, 0x64, 15, count, 0x0, 0x0,
-                                    3,0,1,0,
-                                0x7,0x6, 10, 0x0, 0x1, 0, gsofmsg, 0
-                                ,0x0, 0x3 };
+                byte[] buffer =
+                {
+                    0x2, 0x0, 0x64, 15, count, 0x0, 0x0,
+                    3, 0, 1, 0,
+                    0x7, 0x6, 10, 0x0, 0x1, 0, gsofmsg, 0
+                    , 0x0, 0x3
+                };
 
                 uint8_t check = 0;
-                buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
+                buffer[buffer.Length - 2] = (byte) (buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
 
                 port.Write(buffer, 0, buffer.Length);
 
-                st.Write(buffer,0,buffer.Length);
+                st.Write(buffer, 0, buffer.Length);
 
                 System.Threading.Thread.Sleep(100);
 
@@ -123,14 +126,17 @@ namespace MissionPlanner.Utilities
 
         public void requestPostion()
         {
-            byte[] buffer = { 0x2, 0x0, 0x64, 20, 0, 0x0, 0x0, //appfile
-                                    3,0,1,0, // file control information block
-                                0x7, 11, 4, 0x0, 0x2, 0, // output message record
-                                0xf,0x1,0,0,0,0,0xf0 // output message rt17/27
-                                ,0x0, 0x3 }; // checksum and END
+            byte[] buffer =
+            {
+                0x2, 0x0, 0x64, 20, 0, 0x0, 0x0, //appfile
+                3, 0, 1, 0, // file control information block
+                0x7, 11, 4, 0x0, 0x2, 0, // output message record
+                0xf, 0x1, 0, 0, 0, 0, 0xf0 // output message rt17/27
+                , 0x0, 0x3
+            }; // checksum and END
 
             uint8_t check = 0;
-            buffer[buffer.Length - 2] = (byte)(buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
+            buffer[buffer.Length - 2] = (byte) (buffer.Sum(num => num) - 3 - 2); // 3 = etx 2 = stx
 
             port.Write(buffer, 0, buffer.Length);
         }
@@ -146,9 +152,9 @@ namespace MissionPlanner.Utilities
             {
                 //port->read()
                 var temp = port.ReadByte();
-                ret |= parse((byte)temp);
+                ret |= parse((byte) temp);
 
-                st.WriteByte((byte)temp);
+                st.WriteByte((byte) temp);
             }
 
             return ret;
@@ -211,17 +217,17 @@ namespace MissionPlanner.Utilities
 
         private double ToDeg(double p)
         {
-            return p * (180 / Math.PI);
+            return p*(180/Math.PI);
         }
 
         private double ToRad(double p)
         {
-            return p * (Math.PI/180);
-        }        
+            return p*(Math.PI/180);
+        }
 
         private double SwapDouble(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(double)];
+            uint8_t[] dst = new uint8_t[sizeof (double)];
             dst[0] = src[pos + 7];
             dst[1] = src[pos + 6];
             dst[2] = src[pos + 5];
@@ -231,12 +237,12 @@ namespace MissionPlanner.Utilities
             dst[6] = src[pos + 1];
             dst[7] = src[pos + 0];
 
-            return BitConverter.ToDouble(dst,0);
+            return BitConverter.ToDouble(dst, 0);
         }
 
         private float SwapFloat(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(float)];
+            uint8_t[] dst = new uint8_t[sizeof (float)];
             dst[0] = src[pos + 3];
             dst[1] = src[pos + 2];
             dst[2] = src[pos + 1];
@@ -248,7 +254,7 @@ namespace MissionPlanner.Utilities
 
         private UInt32 SwapUint32(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(UInt32)];
+            uint8_t[] dst = new uint8_t[sizeof (UInt32)];
             dst[0] = src[pos + 3];
             dst[1] = src[pos + 2];
             dst[2] = src[pos + 1];
@@ -259,7 +265,7 @@ namespace MissionPlanner.Utilities
 
         private UInt16 SwapUint16(byte[] src, uint32_t pos)
         {
-            uint8_t[] dst = new uint8_t[sizeof(UInt16)];
+            uint8_t[] dst = new uint8_t[sizeof (UInt16)];
             dst[0] = src[pos + 1];
             dst[1] = src[pos + 0];
 
@@ -272,30 +278,29 @@ namespace MissionPlanner.Utilities
 
             unchecked
             {
-
                 if ((data[0] & 0x80) != 0)
                 {
-                    r |= (long)0xffff000000000000;
-                 //   r |= (long)0xffffffffffffffff;
+                    r |= (long) 0xffff000000000000;
+                    //   r |= (long)0xffffffffffffffff;
                 }
-            }   
-                
-            r |= (long)data[0] << 40;
-            r |= (long)data[1] << 32;
-            r |= (long)data[2] << 24;
-            r |= (long)data[3] << 16;
-            r |= (long)data[4] << 8;
-            r |= (long)data[5];
+            }
 
-            return (long)r;
+            r |= (long) data[0] << 40;
+            r |= (long) data[1] << 32;
+            r |= (long) data[2] << 24;
+            r |= (long) data[3] << 16;
+            r |= (long) data[4] << 8;
+            r |= (long) data[5];
+
+            return (long) r;
         }
 
         void fill_3d_velocity()
         {
-            double gps_heading = ToRad(state.ground_course_cd * 0.01);
+            double gps_heading = ToRad(state.ground_course_cd*0.01);
 
-            state.velocity.X = state.ground_speed * (float)Math.Cos(gps_heading);
-            state.velocity.Y = state.ground_speed * (float)Math.Sin(gps_heading);
+            state.velocity.X = state.ground_speed*(float) Math.Cos(gps_heading);
+            state.velocity.Y = state.ground_speed*(float) Math.Sin(gps_heading);
             state.velocity.Z = 0;
             state.have_vertical_velocity = false;
         }
@@ -316,10 +321,8 @@ namespace MissionPlanner.Utilities
             public uint8_t Pos_Proc_Type;
             // Pos Block
             public uint8_t PosLength;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-            public uint8_t[] Lat;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)]
-            public uint8_t[] Lng;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)] public uint8_t[] Lat;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6)] public uint8_t[] Lng;
             public int32_t Alt;
             public int32_t veln;
             public int32_t vele;
@@ -339,7 +342,8 @@ namespace MissionPlanner.Utilities
 
         private bool process_message()
         {
-            Console.WriteLine("packet: "+gsof_msg.packettype.ToString("X") + " len: " + gsof_msg.length + " status: " + gsof_msg.status );
+            Console.WriteLine("packet: " + gsof_msg.packettype.ToString("X") + " len: " + gsof_msg.length + " status: " +
+                              gsof_msg.status);
 
             if (gsof_msg.packettype == 0x57) // RAWDATA 
             {
@@ -367,8 +371,9 @@ namespace MissionPlanner.Utilities
                     long lat = byte2long(test2.Lat);
                     long lng = byte2long(test2.Lng);
 
-                    Console.WriteLine("{0} {1} {2} {3} {4} {5} ", lat / p40, lng / p39, -34.98 * p40, test2.Alt / p12, (test2.veln / p21), (test2.vele / p21), (test2.velu / p21),
-                            test2.rx_clock_offset / p26, test2.rx_clock_drift / p17, test2.hdop / p4);
+                    Console.WriteLine("{0} {1} {2} {3} {4} {5} ", lat/p40, lng/p39, -34.98*p40, test2.Alt/p12,
+                        (test2.veln/p21), (test2.vele/p21), (test2.velu/p21),
+                        test2.rx_clock_offset/p26, test2.rx_clock_drift/p17, test2.hdop/p4);
                 }
             }
 
@@ -394,9 +399,9 @@ namespace MissionPlanner.Utilities
 
                     if (output_type == 2) // position
                     {
-                        state.location.lat = (int32_t)(ToDeg(SwapDouble(gsof_msg.data, a)) * 1e7);
-                        state.location.lng = (int32_t)(ToDeg(SwapDouble(gsof_msg.data, a + 8)) * 1e7);
-                        state.location.alt = (int32_t)(SwapDouble(gsof_msg.data, a + 16) * 1e2);
+                        state.location.lat = (int32_t) (ToDeg(SwapDouble(gsof_msg.data, a))*1e7);
+                        state.location.lng = (int32_t) (ToDeg(SwapDouble(gsof_msg.data, a + 8))*1e7);
+                        state.location.alt = (int32_t) (SwapDouble(gsof_msg.data, a + 16)*1e2);
 
                         state.last_gps_time_ms = state.time_week_ms;
                     }
@@ -414,11 +419,12 @@ namespace MissionPlanner.Utilities
                     }
                     else if (output_type == 9) //dop
                     {
-                        state.hdop = (uint16_t)(SwapFloat(gsof_msg.data, a + 4) * 100);
+                        state.hdop = (uint16_t) (SwapFloat(gsof_msg.data, a + 4)*100);
                     }
                     else if (output_type == 12) // position sigma
                     {
-                        state.horizontal_accuracy = (SwapFloat(gsof_msg.data, a + 4) + SwapFloat(gsof_msg.data, a + 8)) / 2;
+                        state.horizontal_accuracy = (SwapFloat(gsof_msg.data, a + 4) + SwapFloat(gsof_msg.data, a + 8))/
+                                                    2;
                         state.vertical_accuracy = SwapFloat(gsof_msg.data, a + 16);
                         state.have_horizontal_accuracy = true;
                         state.have_vertical_accuracy = true;
@@ -451,11 +457,11 @@ namespace MissionPlanner.Utilities
                         }
                     }
 
-                    a += output_length-1u;
+                    a += output_length - 1u;
                 }
 
 
-                Type t = state.GetType();//where obj is object whose properties you need.
+                Type t = state.GetType(); //where obj is object whose properties you need.
                 FieldInfo[] pi = t.GetFields();
                 foreach (var p in pi)
                 {

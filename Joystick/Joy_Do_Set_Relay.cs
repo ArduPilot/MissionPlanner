@@ -28,7 +28,7 @@ namespace MissionPlanner.Joystick
         {
             var config = MainV2.joystick.getButton(int.Parse(this.Tag.ToString()));
 
-            config.p1 = (float)numericUpDown1.Value;
+            config.p1 = (float) numericUpDown1.Value;
 
             MainV2.joystick.setButton(int.Parse(this.Tag.ToString()), config);
         }

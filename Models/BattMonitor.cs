@@ -86,23 +86,23 @@ namespace MissionPlanner.Models
                 curpin = 2
             });
             pinlist.Add(new PinNumbers()
-             {
-                 Name = "APM2+ - 3DR Power Module",
-                 volpin = 13,
-                 curpin = 12
-             });
+            {
+                Name = "APM2+ - 3DR Power Module",
+                volpin = 13,
+                curpin = 12
+            });
             pinlist.Add(new PinNumbers()
- {
-     Name = "PX4",
-     volpin = 100,
-     curpin = 101
- });
+            {
+                Name = "PX4",
+                volpin = 100,
+                curpin = 101
+            });
             pinlist.Add(new PinNumbers()
- {
-     Name = "PIXHAWK",
-     volpin = 2,
-     curpin = 3
- });
+            {
+                Name = "PIXHAWK",
+                volpin = 2,
+                curpin = 3
+            });
 
             modeslist.Add(new MonitorModes()
             {
@@ -181,11 +181,25 @@ namespace MissionPlanner.Models
             public float mvpervolt = 0;
             public float mvperamp = 0;
 
-            public float topvolt { get { return (maxvolt * mvpervolt) / 1000.0f; } }
-            public float topamps { get { return (maxamps * mvperamp) / 1000.0f; } }
+            public float topvolt
+            {
+                get { return (maxvolt*mvpervolt)/1000.0f; }
+            }
 
-            public float voltspervolt { get { return (maxvolt / topvolt); } }
-            public float ampspervolt { get { return (maxamps / topamps); } }
+            public float topamps
+            {
+                get { return (maxamps*mvperamp)/1000.0f; }
+            }
+
+            public float voltspervolt
+            {
+                get { return (maxvolt/topvolt); }
+            }
+
+            public float ampspervolt
+            {
+                get { return (maxamps/topamps); }
+            }
 
             public override string ToString()
             {

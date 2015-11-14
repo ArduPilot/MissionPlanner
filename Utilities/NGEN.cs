@@ -66,7 +66,6 @@ namespace MissionPlanner.Utilities
             }
             catch
             {
-
             }
         }
     }

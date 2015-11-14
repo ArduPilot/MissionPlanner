@@ -16,18 +16,14 @@ using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Core;
-
 using SharpKml.Base;
 using SharpKml.Dom;
 using SharpKml.Dom.GX;
-
 using System.Reflection;
 using System.Xml;
 using log4net;
 using ZedGraph; // Graphs
-
 using MissionPlanner.Utilities;
-
 using System.CodeDom.Compiler;
 using MissionPlanner;
 using MissionPlanner.Controls;
@@ -36,7 +32,8 @@ namespace MissionPlanner.Log
 {
     public partial class MavlinkLog : Form
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         List<CurrentState> flightdata = new List<CurrentState>();
 
@@ -70,11 +67,15 @@ namespace MissionPlanner.Log
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-            Color[] colours = { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet, Color.Pink };
+            Color[] colours =
+            {
+                Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo,
+                Color.Violet, Color.Pink
+            };
 
             Document kml = new Document();
 
-            Tour tour = new Tour() { Name = "First Person View" };
+            Tour tour = new Tour() {Name = "First Person View"};
             Playlist tourplaylist = new Playlist();
 
             AddNamespace(kml, "gx", "http://www.google.com/kml/ext/2.2");
@@ -82,7 +83,6 @@ namespace MissionPlanner.Log
             Style style = new Style();
             style.Id = "yellowLineGreenPoly";
             style.Line = new LineStyle(new Color32(HexStringToColor("7f00ffff")), 4);
-
 
 
             PolygonStyle pstyle = new PolygonStyle();
@@ -97,7 +97,9 @@ namespace MissionPlanner.Log
             LabelStyle lst = new LabelStyle();
             lst.Scale = 0;
             stylet.Icon = ico;
-            ico.Icon = new IconStyle.IconLink(new Uri("http://earth.google.com/images/kml-icons/track-directional/track-none.png"));
+            ico.Icon =
+                new IconStyle.IconLink(
+                    new Uri("http://earth.google.com/images/kml-icons/track-directional/track-none.png"));
             stylet.Icon.Scale = 0.5;
             stylet.Label = lst;
 
@@ -127,8 +129,7 @@ namespace MissionPlanner.Log
             }
             foreach (CurrentState cs in flightdata)
             {
-
-                progressBar1.Value = 50 + (int)((float)a / (float)flightdata.Count * 100.0f / 2.0f);
+                progressBar1.Value = 50 + (int) ((float) a/(float) flightdata.Count*100.0f/2.0f);
                 progressBar1.Refresh();
 
                 if (starttime == DateTime.MinValue)
@@ -163,7 +164,7 @@ namespace MissionPlanner.Log
                     mode = cs.mode;
                     starttime = cs.datetime;
 
-                    stylecolor = colours[c % (colours.Length - 1)];
+                    stylecolor = colours[c%(colours.Length - 1)];
 
                     Style style2 = new Style();
                     style2.Line = new LineStyle(new Color32(stylecolor), 4);
@@ -192,7 +193,7 @@ namespace MissionPlanner.Log
 
                 FlyTo flyto = new FlyTo();
 
-                flyto.Duration = (cs.datetime - lasttime).TotalMilliseconds / 1000.0;
+                flyto.Duration = (cs.datetime - lasttime).TotalMilliseconds/1000.0;
 
                 flyto.Mode = FlyToMode.Smooth;
                 SharpKml.Dom.Camera cam = new SharpKml.Dom.Camera();
@@ -202,7 +203,7 @@ namespace MissionPlanner.Log
                 cam.Altitude = location.Altitude;
                 cam.Heading = cs.yaw;
                 cam.Roll = -cs.roll;
-                cam.Tilt = (90 - (cs.pitch * -1));
+                cam.Tilt = (90 - (cs.pitch*-1));
 
                 cam.GXTimePrimitive = tstamp;
 
@@ -216,7 +217,6 @@ namespace MissionPlanner.Log
 
                 Placemark pmplane = new Placemark();
                 pmplane.Name = "Point " + a;
-
 
 
                 pmplane.Time = tstamp;
@@ -262,7 +262,9 @@ namespace MissionPlanner.Log
 
                     pmplane.Description = desc;
                 }
-                catch { }
+                catch
+                {
+                }
 
                 SharpKml.Dom.Link link = new SharpKml.Dom.Link();
                 link.Href = new Uri("block_plane_0.dae", UriKind.Relative);
@@ -317,7 +319,8 @@ namespace MissionPlanner.Log
             zipStream.UseZip64 = UseZip64.Off; // older zipfile
 
             // entry 1
-            string entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            string entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             ZipEntry newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -326,7 +329,7 @@ namespace MissionPlanner.Log
             // Zip the file in buffered chunks
             // the "using" will close the stream even if an exception occurs
             byte[] buffer = new byte[4096];
-            using (FileStream streamReader = File.Open(filename,FileMode.Open,FileAccess.Read,FileShare.ReadWrite))
+            using (FileStream streamReader = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
                 StreamUtils.Copy(streamReader, zipStream, buffer);
             }
@@ -334,10 +337,12 @@ namespace MissionPlanner.Log
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "block_plane_0.dae";
+            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                       "block_plane_0.dae";
 
             // entry 2
-            entryName = ZipEntry.CleanName(Path.GetFileName(filename)); // Removes drive from name and fixes slash direction
+            entryName = ZipEntry.CleanName(Path.GetFileName(filename));
+                // Removes drive from name and fixes slash direction
             newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -353,20 +358,18 @@ namespace MissionPlanner.Log
             zipStream.CloseEntry();
 
 
-            zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
+            zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
             zipStream.Close();
-
-
         }
 
         static void AddNamespace(Element element, string prefix, string uri)
         {
             // The Namespaces property is marked as internal.
-            PropertyInfo property = typeof(Element).GetProperty(
+            PropertyInfo property = typeof (Element).GetProperty(
                 "Namespaces",
                 BindingFlags.Instance | BindingFlags.NonPublic);
 
-            var namespaces = (XmlNamespaceManager)property.GetValue(element, null);
+            var namespaces = (XmlNamespaceManager) property.GetValue(element, null);
             namespaces.AddNamespace(prefix, uri);
         }
 
@@ -374,10 +377,12 @@ namespace MissionPlanner.Log
         {
             try
             {
-             //   if (selectform != null)
-              //      selectform.Close();
+                //   if (selectform != null)
+                //      selectform.Close();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)
@@ -413,9 +418,15 @@ namespace MissionPlanner.Log
                         {
                             try
                             {
-                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                mine.logplaybackfile =
+                                    new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            catch (Exception ex)
+                            {
+                                log.Debug(ex.ToString());
+                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                return;
+                            }
                             mine.logreadmode = true;
 
                             mine.MAV.packets.Initialize(); // clear
@@ -426,7 +437,10 @@ namespace MissionPlanner.Log
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                int percent =
+                                    (int)
+                                        ((float) mine.logplaybackfile.BaseStream.Position/
+                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -451,7 +465,10 @@ namespace MissionPlanner.Log
                                     if (MainV2.speechEngine != null)
                                         MainV2.speechEngine.SpeakAsyncCancelAll();
                                 }
-                                catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                                catch
+                                {
+                                }
+                                    // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
                                 if ((mine.MAV.cs.lat + mine.MAV.cs.lng) != oldlatlngsum
                                     && mine.MAV.cs.lat != 0 && mine.MAV.cs.lng != 0)
@@ -460,7 +477,7 @@ namespace MissionPlanner.Log
                                         continue;
 
                                     // Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng) + "!=" + oldlatlngsum);
-                                    CurrentState cs2 = (CurrentState)mine.MAV.cs.Clone();
+                                    CurrentState cs2 = (CurrentState) mine.MAV.cs.Clone();
 
                                     flightdata.Add(cs2);
 
@@ -490,7 +507,7 @@ namespace MissionPlanner.Log
                             log.Info(mine.MAV.cs.firmware + " : " + logfile);
 
                             writeGPX(logfile);
-                            writeKML(logfile + ".kml", double.Parse(basealtstring) / CurrentState.multiplierdist);
+                            writeKML(logfile + ".kml", double.Parse(basealtstring)/CurrentState.multiplierdist);
 
                             flightdata.Clear();
 
@@ -503,7 +520,10 @@ namespace MissionPlanner.Log
 
         private void writeGPX(string filename)
         {
-            System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
+            System.Xml.XmlTextWriter xw =
+                new System.Xml.XmlTextWriter(
+                    Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                    Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
 
             xw.WriteStartElement("gpx");
             xw.WriteAttributeString("creator", MainV2.instance.Text);
@@ -557,7 +577,7 @@ namespace MissionPlanner.Log
                 xw.WriteElementString("name", (a++).ToString());
                 xw.WriteElementString("time", cs.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
                 xw.WriteElementString("ele", cs.altasl.ToString(new System.Globalization.CultureInfo("en-US")));
-                xw.WriteEndElement();//wpt
+                xw.WriteEndElement(); //wpt
             }
 
             xw.WriteEndElement();
@@ -582,13 +602,13 @@ namespace MissionPlanner.Log
             try
             {
                 int ai
-                   = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
                 int ri
-                   = Int32.Parse(r, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(r, System.Globalization.NumberStyles.HexNumber);
                 int gi
-                   = Int32.Parse(g, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(g, System.Globalization.NumberStyles.HexNumber);
                 int bi
-                   = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
+                    = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
                 color = Color.FromArgb(ai, ri, gi, bi);
             }
             catch
@@ -612,7 +632,9 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -622,19 +644,30 @@ namespace MissionPlanner.Log
                         {
                             try
                             {
-                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                mine.logplaybackfile =
+                                    new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            catch (Exception ex)
+                            {
+                                log.Debug(ex.ToString());
+                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                return;
+                            }
 
                             mine.logreadmode = true;
 
                             mine.MAV.packets.Initialize(); // clear
 
-                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".txt");
+                            StreamWriter sw =
+                                new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                                                 Path.GetFileNameWithoutExtension(logfile) + ".txt");
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                int percent =
+                                    (int)
+                                        ((float) mine.logplaybackfile.BaseStream.Position/
+                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -663,7 +696,6 @@ namespace MissionPlanner.Log
 
         private void BUT_graphmavlog_Click(object sender, EventArgs e)
         {
-
             //http://devreminder.wordpress.com/net/net-framework-fundamentals/c-dynamic-math-expression-evaluation/
             //http://www.c-sharpcorner.com/UploadFile/mgold/CodeDomCalculator08082005003253AM/CodeDomCalculator.aspx
 
@@ -677,7 +709,9 @@ namespace MissionPlanner.Log
                 {
                     //  openFileDialog1.InitialDirectory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"logs" + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
                 openFileDialog1.Filter = "Telemetry Log|*.tlog";
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
@@ -702,29 +736,33 @@ namespace MissionPlanner.Log
                         zg1.Invalidate();
                         zg1.AxisChange();
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
             }
         }
 
-        static int[] ColourValues = new int[] { 
-            0xFF0000,0x00FF00,0x0000FF,0xFFFF00,0xFF00FF,0x00FFFF,
-            0x800000,0x008000,0x000080,0x808000,/*0x800080,0x008080,  */
-            0xC00000,0x00C000,0x0000C0,0xC0C000,0xC000C0,0x00C0C0,
-          /*  0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
+        static int[] ColourValues = new int[]
+        {
+            0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF,
+            0x800000, 0x008000, 0x000080, 0x808000, /*0x800080,0x008080,  */
+            0xC00000, 0x00C000, 0x0000C0, 0xC0C000, 0xC000C0, 0x00C0C0,
+            /*  0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
            0x200000,0x002000,0x000020,0x202000,0x200020,0x002020, 
             0x600000,0x006000,0x000060,0x606000,0x600060,0x006060,  
             0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
             0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
         };
-       // Form selectform;
+
+        // Form selectform;
 
         private List<string> GetLogFileValidFields(string logfile)
         {
-           // if (selectform != null && !selectform.IsDisposed)
-           //     selectform.Close();
+            // if (selectform != null && !selectform.IsDisposed)
+            //     selectform.Close();
 
-           // selectform = SelectDataToGraphForm();
+            // selectform = SelectDataToGraphForm();
 
             Hashtable seenIt = new Hashtable();
 
@@ -736,14 +774,20 @@ namespace MissionPlanner.Log
             this.packetdata.Clear();
 
             colorStep = 0;
-            
+
             using (MAVLinkInterface MavlinkInterface = new MAVLinkInterface())
-            {                
+            {
                 try
                 {
-                    MavlinkInterface.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    MavlinkInterface.logplaybackfile =
+                        new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                 }
-                catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return options; }
+                catch (Exception ex)
+                {
+                    log.Debug(ex.ToString());
+                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                    return options;
+                }
                 MavlinkInterface.logreadmode = true;
 
                 MavlinkInterface.MAV.packets.Initialize(); // clear
@@ -756,10 +800,14 @@ namespace MissionPlanner.Log
 
                 DateTime startlogtime = MavlinkInterface.lastlogread;
 
-                while (MavlinkInterface.logplaybackfile.BaseStream.Position < MavlinkInterface.logplaybackfile.BaseStream.Length)
+                while (MavlinkInterface.logplaybackfile.BaseStream.Position <
+                       MavlinkInterface.logplaybackfile.BaseStream.Length)
                 {
-                    int percent = (int)((float)MavlinkInterface.logplaybackfile.BaseStream.Position / (float)MavlinkInterface.logplaybackfile.BaseStream.Length * 100.0f);
-                    if (progressBar1.Value != percent) 
+                    int percent =
+                        (int)
+                            ((float) MavlinkInterface.logplaybackfile.BaseStream.Position/
+                             (float) MavlinkInterface.logplaybackfile.BaseStream.Length*100.0f);
+                    if (progressBar1.Value != percent)
                     {
                         progressBar1.Value = percent;
                         progressBar1.Refresh();
@@ -781,22 +829,23 @@ namespace MissionPlanner.Log
 
                     if (data is MAVLink.mavlink_heartbeat_t)
                     {
-                        if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
+                        if (((MAVLink.mavlink_heartbeat_t) data).type == (byte) MAVLink.MAV_TYPE.GCS)
                             continue;
                     }
 
                     Type test = data.GetType();
 
-                    
-                    if (true) {
+
+                    if (true)
+                    {
                         string packetname = test.Name.Replace("mavlink_", "").Replace("_t", "").ToUpper();
 
                         if (!packetdata.ContainsKey(packetname))
                         {
-                            packetdata[packetname] = new Dictionary<DateTime,object>();
+                            packetdata[packetname] = new Dictionary<DateTime, object>();
                         }
 
-                        Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>)packetdata[packetname];
+                        Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>) packetdata[packetname];
 
                         //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
                         DateTime time = MavlinkInterface.lastlogread;
@@ -812,7 +861,6 @@ namespace MissionPlanner.Log
 
                         if (field.FieldType.IsArray)
                         {
-
                         }
                         else
                         {
@@ -826,7 +874,8 @@ namespace MissionPlanner.Log
                             if (!this.datappl.ContainsKey(field.Name + " " + field.DeclaringType.Name))
                                 this.datappl[field.Name + " " + field.DeclaringType.Name] = new PointPairList();
 
-                            PointPairList list = ((PointPairList)this.datappl[field.Name + " " + field.DeclaringType.Name]);
+                            PointPairList list =
+                                ((PointPairList) this.datappl[field.Name + " " + field.DeclaringType.Name]);
 
                             object value = fieldValue;
                             // seconds scale
@@ -834,45 +883,45 @@ namespace MissionPlanner.Log
 
                             XDate time = new XDate(MavlinkInterface.lastlogread);
 
-                            if (value.GetType() == typeof(Single))
+                            if (value.GetType() == typeof (Single))
                             {
-                                list.Add(time, (Single)field.GetValue(data));
+                                list.Add(time, (Single) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(short))
+                            else if (value.GetType() == typeof (short))
                             {
-                                list.Add(time, (short)field.GetValue(data));
+                                list.Add(time, (short) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(ushort))
+                            else if (value.GetType() == typeof (ushort))
                             {
-                                list.Add(time, (ushort)field.GetValue(data));
+                                list.Add(time, (ushort) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(byte))
+                            else if (value.GetType() == typeof (byte))
                             {
-                                list.Add(time, (byte)field.GetValue(data));
+                                list.Add(time, (byte) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(sbyte))
+                            else if (value.GetType() == typeof (sbyte))
                             {
-                                list.Add(time, (sbyte)field.GetValue(data));
+                                list.Add(time, (sbyte) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(Int32))
+                            else if (value.GetType() == typeof (Int32))
                             {
-                                list.Add(time, (Int32)field.GetValue(data));
+                                list.Add(time, (Int32) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(UInt32))
+                            else if (value.GetType() == typeof (UInt32))
                             {
-                                list.Add(time, (UInt32)field.GetValue(data));
+                                list.Add(time, (UInt32) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(ulong))
+                            else if (value.GetType() == typeof (ulong))
                             {
-                                list.Add(time, (ulong)field.GetValue(data));
+                                list.Add(time, (ulong) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(long))
+                            else if (value.GetType() == typeof (long))
                             {
-                                list.Add(time, (long)field.GetValue(data));
+                                list.Add(time, (long) field.GetValue(data));
                             }
-                            else if (value.GetType() == typeof(double))
+                            else if (value.GetType() == typeof (double))
                             {
-                                list.Add(time, (double)field.GetValue(data));
+                                list.Add(time, (double) field.GetValue(data));
                             }
 
                             else
@@ -889,24 +938,29 @@ namespace MissionPlanner.Log
 
                 try
                 {
-
                     dospecial("GPS_RAW_INT");
                 }
-                catch (Exception ex) { log.Info(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    log.Info(ex.ToString());
+                }
                 try
                 {
                     addMagField();
                     addDistHome();
                     addIMUTime();
                 }
-                catch (Exception ex) { log.Info(ex.ToString()); }
+                catch (Exception ex)
+                {
+                    log.Info(ex.ToString());
+                }
 
                 // custom sort based on packet name
-                options.Sort(delegate(string c1, string c2) { return String.Compare(c1,c2);});
+                options.Sort(delegate(string c1, string c2) { return String.Compare(c1, c2); });
                 //String.Compare(c1.Substring(0,c1.IndexOf('.')),c2.Substring(0,c2.IndexOf('.')))
 
                 // this needs sorting
-            /*    string lastitem = "";
+                /*    string lastitem = "";
                 foreach (string item in options)
                 {
                     var items = item.Split('.');
@@ -919,10 +973,9 @@ namespace MissionPlanner.Log
                 // add new treeview
                 ResetTreeView(options);
 
-              //  selectform.Show();
+                //  selectform.Show();
 
                 progressBar1.Value = 100;
-
             }
 
             return selection;
@@ -930,7 +983,7 @@ namespace MissionPlanner.Log
 
         public static T Cast<T>(object o)
         {
-            return (T)o;
+            return (T) o;
         }
 
         void dospecial(string PacketName)
@@ -939,7 +992,7 @@ namespace MissionPlanner.Log
 
             try
             {
-                temp = (Dictionary<DateTime, object>)packetdata[PacketName];
+                temp = (Dictionary<DateTime, object>) packetdata[PacketName];
             }
             catch
             {
@@ -978,12 +1031,11 @@ namespace MissionPlanner.Log
                 this.datappl[field] = new PointPairList();
 
 
-
                 MethodInfo mi = RunCode(results);
 
 
                 // from here
-                PointPairList result = (PointPairList)this.datappl[field];
+                PointPairList result = (PointPairList) this.datappl[field];
 
                 try
                 {
@@ -995,10 +1047,12 @@ namespace MissionPlanner.Log
                     foreach (DateTime time in temp.Keys)
                     {
                         XDate time2 = new XDate(time);
-                        result.Add(time2, (double)mi.Invoke(assemblyInstance, new object[] { temp[time] }));
+                        result.Add(time2, (double) mi.Invoke(assemblyInstance, new object[] {temp[time]}));
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
             else
             {
@@ -1039,7 +1093,6 @@ namespace MissionPlanner.Log
                             }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -1053,9 +1106,9 @@ namespace MissionPlanner.Log
         {
             // eg RAW_IMU.xmag to "xmag mavlink_raw_imu_t"
 
-            string[] items = name.ToLower().Split(new char[] {'.',' '});
+            string[] items = name.ToLower().Split(new char[] {'.', ' '});
 
-            PointPairList list = ((PointPairList)this.datappl[items[1] + " mavlink_" + items[0] + "_t"]);
+            PointPairList list = ((PointPairList) this.datappl[items[1] + " mavlink_" + items[0] + "_t"]);
 
             return list;
         }
@@ -1068,17 +1121,16 @@ namespace MissionPlanner.Log
 
             this.datappl[field] = new PointPairList();
 
-            PointPairList list = ((PointPairList)this.datappl[field]);
+            PointPairList list = ((PointPairList) this.datappl[field]);
 
-            PointPairList listx = ((PointPairList)this.datappl["xmag mavlink_raw_imu_t"]);
-            PointPairList listy = ((PointPairList)this.datappl["ymag mavlink_raw_imu_t"]);
-            PointPairList listz = ((PointPairList)this.datappl["zmag mavlink_raw_imu_t"]);
+            PointPairList listx = ((PointPairList) this.datappl["xmag mavlink_raw_imu_t"]);
+            PointPairList listy = ((PointPairList) this.datappl["ymag mavlink_raw_imu_t"]);
+            PointPairList listz = ((PointPairList) this.datappl["zmag mavlink_raw_imu_t"]);
 
             //(float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2));
 
             for (int a = 0; a < listx.Count; a++)
             {
-                
                 double ans = Math.Sqrt(Math.Pow(listx[a].Y, 2) + Math.Pow(listy[a].Y, 2) + Math.Pow(listz[a].Y, 2));
 
                 //Console.WriteLine("{0} {1} {2} {3}", ans, listx[a].Y, listy[a].Y, listz[a].Y);
@@ -1095,21 +1147,21 @@ namespace MissionPlanner.Log
 
             this.datappl[field] = new PointPairList();
 
-            PointPairList list = ((PointPairList)this.datappl[field]);
+            PointPairList list = ((PointPairList) this.datappl[field]);
 
-            PointPairList listtime = ((PointPairList)this.datappl["time_usec mavlink_raw_imu_t"]);
+            PointPairList listtime = ((PointPairList) this.datappl["time_usec mavlink_raw_imu_t"]);
 
             double lastrealtime = listtime[0].X;
-            double lastvalue = listtime[0].Y * 1.0e-6;
+            double lastvalue = listtime[0].Y*1.0e-6;
 
             for (int a = 0; a < listtime.Count; a++)
             {
-                double delta = ((listtime[a].Y * 1.0e-6) - lastvalue);
+                double delta = ((listtime[a].Y*1.0e-6) - lastvalue);
 
                 // convert to seconds
                 list.Add(listtime[a].X, delta);
 
-                lastvalue = listtime[a].Y * 1.0e-6;
+                lastvalue = listtime[a].Y*1.0e-6;
                 lastrealtime = listtime[a].X;
             }
         }
@@ -1124,18 +1176,18 @@ namespace MissionPlanner.Log
 
             PointLatLngAlt home = new PointLatLngAlt();
 
-            PointPairList list = ((PointPairList)this.datappl[field]);
+            PointPairList list = ((PointPairList) this.datappl[field]);
 
-            PointPairList listfix = ((PointPairList)this.datappl["fix_type mavlink_gps_raw_int_t"]);
-            PointPairList listx = ((PointPairList)this.datappl["lat mavlink_gps_raw_int_t"]);
-            PointPairList listy = ((PointPairList)this.datappl["lon mavlink_gps_raw_int_t"]);
-            PointPairList listz = ((PointPairList)this.datappl["alt mavlink_gps_raw_int_t"]);
+            PointPairList listfix = ((PointPairList) this.datappl["fix_type mavlink_gps_raw_int_t"]);
+            PointPairList listx = ((PointPairList) this.datappl["lat mavlink_gps_raw_int_t"]);
+            PointPairList listy = ((PointPairList) this.datappl["lon mavlink_gps_raw_int_t"]);
+            PointPairList listz = ((PointPairList) this.datappl["alt mavlink_gps_raw_int_t"]);
 
             for (int a = 0; a < listfix.Count; a++)
             {
                 if (listfix[a].Y == 3)
                 {
-                    home = new PointLatLngAlt(listx[a].Y / 10000000.0, listy[a].Y / 10000000.0, listz[a].Y / 1000.0, "Home");
+                    home = new PointLatLngAlt(listx[a].Y/10000000.0, listy[a].Y/10000000.0, listz[a].Y/1000.0, "Home");
                     break;
                 }
             }
@@ -1144,8 +1196,9 @@ namespace MissionPlanner.Log
 
             for (int a = 0; a < listx.Count; a++)
             {
-
-                double ans = home.GetDistance(new PointLatLngAlt(listx[a].Y / 10000000.0, listy[a].Y / 10000000.0, listz[a].Y / 1000.0, "Point"));
+                double ans =
+                    home.GetDistance(new PointLatLngAlt(listx[a].Y/10000000.0, listy[a].Y/10000000.0, listz[a].Y/1000.0,
+                        "Point"));
 
                 //Console.WriteLine("{0} {1} {2} {3}", ans, listx[a].Y, listy[a].Y, listz[a].Y);
 
@@ -1167,9 +1220,9 @@ namespace MissionPlanner.Log
                 var item1text = items[0].Replace("mavlink_", "").Replace("_t", "").ToUpper();
                 var item2text = items[1];
 
-                if (!addedrootnodes.ContainsKey(item1text)) 
+                if (!addedrootnodes.ContainsKey(item1text))
                 {
-                    tn = new TreeNode(item1text); 
+                    tn = new TreeNode(item1text);
                     treeView1.Nodes.Add(tn);
                     addedrootnodes[item1text] = 1;
                 }
@@ -1207,7 +1260,6 @@ namespace MissionPlanner.Log
 
         private void AddDataOption(Form selectform, string Name)
         {
-
             CheckBox chk_box = new CheckBox();
 
             log.Info("Add Option " + Name);
@@ -1240,14 +1292,14 @@ namespace MissionPlanner.Log
             if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 // dont action a already draw item
-                if (!((CheckBox)sender).Checked)
+                if (!((CheckBox) sender).Checked)
                 {
                     rightclick = true;
-                    ((CheckBox)sender).Checked = true;
+                    ((CheckBox) sender).Checked = true;
                 }
                 else
                 {
-                    ((CheckBox)sender).Checked = false;
+                    ((CheckBox) sender).Checked = false;
                 }
                 rightclick = false;
             }
@@ -1258,28 +1310,30 @@ namespace MissionPlanner.Log
 
         void chk_box_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
-                selection.Add(((CheckBox)sender).Name);
+                selection.Add(((CheckBox) sender).Name);
 
                 LineItem myCurve;
 
-                int colorvalue = ColourValues[colorStep % ColourValues.Length];
+                int colorvalue = ColourValues[colorStep%ColourValues.Length];
                 colorStep++;
                 Console.WriteLine("Color " + colorvalue);
 
-                myCurve = zg1.GraphPane.AddCurve(((CheckBox)sender).Name.Replace("mavlink_", ""), (PointPairList)datappl[((CheckBox)sender).Name], Color.FromArgb(unchecked(colorvalue + (int)0xff000000)), SymbolType.None);
+                myCurve = zg1.GraphPane.AddCurve(((CheckBox) sender).Name.Replace("mavlink_", ""),
+                    (PointPairList) datappl[((CheckBox) sender).Name],
+                    Color.FromArgb(unchecked(colorvalue + (int) 0xff000000)), SymbolType.None);
 
-                myCurve.Tag = ((CheckBox)sender).Name;
+                myCurve.Tag = ((CheckBox) sender).Name;
 
                 if (myCurve.Tag.ToString() == "roll mavlink_attitude_t" ||
                     myCurve.Tag.ToString() == "pitch mavlink_attitude_t" ||
                     myCurve.Tag.ToString() == "yaw mavlink_attitude_t")
                 {
-                    PointPairList ppl = new PointPairList((PointPairList)datappl[((CheckBox)sender).Name]);
+                    PointPairList ppl = new PointPairList((PointPairList) datappl[((CheckBox) sender).Name]);
                     for (int a = 0; a < ppl.Count; a++)
                     {
-                        ppl[a].Y = ppl[a].Y * (180.0 / Math.PI);
+                        ppl[a].Y = ppl[a].Y*(180.0/Math.PI);
                     }
 
                     myCurve.Points = ppl;
@@ -1287,7 +1341,7 @@ namespace MissionPlanner.Log
 
                 double xMin, xMax, yMin, yMax;
 
-                myCurve.GetRange(out xMin, out xMax, out yMin, out  yMax, true, false, zg1.GraphPane);
+                myCurve.GetRange(out xMin, out xMax, out yMin, out yMax, true, false, zg1.GraphPane);
 
                 if (rightclick || (yMin > 850 && yMax < 2100 && yMin < 2100))
                 {
@@ -1300,12 +1354,12 @@ namespace MissionPlanner.Log
             }
             else
             {
-                selection.Remove(((CheckBox)sender).Name);
+                selection.Remove(((CheckBox) sender).Name);
                 foreach (var item in zg1.GraphPane.CurveList)
                 {
                     if (item.Tag == null)
                         continue;
-                    if (item.Tag.ToString() == ((CheckBox)sender).Name)
+                    if (item.Tag.ToString() == ((CheckBox) sender).Name)
                     {
                         zg1.GraphPane.CurveList.Remove(item);
                         break;
@@ -1323,7 +1377,9 @@ namespace MissionPlanner.Log
                 zg1.Invalidate();
                 zg1.AxisChange();
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         int x = 10;
@@ -1365,29 +1421,41 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-
                         using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
                             try
                             {
-                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                mine.logplaybackfile =
+                                    new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            catch (Exception ex)
+                            {
+                                log.Debug(ex.ToString());
+                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                return;
+                            }
                             mine.logreadmode = true;
 
                             mine.MAV.packets.Initialize(); // clear
 
-                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".csv");
+                            StreamWriter sw =
+                                new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                                                 Path.GetFileNameWithoutExtension(logfile) + ".csv");
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                int percent =
+                                    (int)
+                                        ((float) mine.logplaybackfile.BaseStream.Position/
+                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1426,7 +1494,9 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -1438,17 +1508,29 @@ namespace MissionPlanner.Log
                             {
                                 try
                                 {
-                                    mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                    mine.logplaybackfile =
+                                        new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read,
+                                            FileShare.Read));
                                 }
-                                catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                                catch (Exception ex)
+                                {
+                                    log.Debug(ex.ToString());
+                                    CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                    return;
+                                }
 
                                 mine.logreadmode = true;
 
                                 mine.MAV.packets.Initialize(); // clear
 
-                                StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".param");
+                                StreamWriter sw =
+                                    new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                                                     Path.GetFileNameWithoutExtension(logfile) + ".param");
 
-                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                int percent =
+                                    (int)
+                                        ((float) mine.logplaybackfile.BaseStream.Position/
+                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1472,7 +1554,10 @@ namespace MissionPlanner.Log
                             }
                             CustomMessageBox.Show("File Saved with log file");
                         }
-                        catch { CustomMessageBox.Show("Error Extracting params"); }
+                        catch
+                        {
+                            CustomMessageBox.Show("Error Extracting params");
+                        }
                     }
                 }
             }
@@ -1490,22 +1575,29 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-
                         int wplists = 0;
 
                         using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
                             try
                             {
-                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                mine.logplaybackfile =
+                                    new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            catch (Exception ex)
+                            {
+                                log.Debug(ex.ToString());
+                                CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                                return;
+                            }
 
                             mine.logreadmode = true;
 
@@ -1513,7 +1605,10 @@ namespace MissionPlanner.Log
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                int percent =
+                                    (int)
+                                        ((float) mine.logplaybackfile.BaseStream.Position/
+                                         (float) mine.logplaybackfile.BaseStream.Length*100.0f);
                                 if (progressBar1.Value != percent)
                                 {
                                     progressBar1.Value = percent;
@@ -1525,7 +1620,9 @@ namespace MissionPlanner.Log
                                 {
                                     count = mine.getWPCount();
                                 }
-                                catch { }
+                                catch
+                                {
+                                }
 
                                 if (count == 0)
                                 {
@@ -1533,35 +1630,50 @@ namespace MissionPlanner.Log
                                 }
 
 
-
-                                StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + "-" + wplists + ".waypoints");
+                                StreamWriter sw =
+                                    new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                                                     Path.GetFileNameWithoutExtension(logfile) + "-" + wplists +
+                                                     ".waypoints");
 
                                 sw.WriteLine("QGC WPL 120");
                                 try
                                 {
                                     //get mission count info 
-                                    var item = mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT].ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
-                                    mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
-                                    sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " + item.target_system);
+                                    var item =
+                                        mine.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.MISSION_COUNT]
+                                            .ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
+                                    mine.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
+                                    sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " +
+                                                 item.target_system);
                                 }
-                                catch { }
+                                catch
+                                {
+                                }
                                 for (ushort a = 0; a < count; a++)
                                 {
                                     Locationwp wp = mine.getWP(a);
                                     //sw.WriteLine(item + "\t" + mine.param[item]);
-                                    byte mode = (byte)wp.id;
+                                    byte mode = (byte) wp.id;
 
                                     sw.Write((a + 1)); // seq
                                     sw.Write("\t" + 0); // current
-                                    sw.Write("\t" + (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
+                                    sw.Write("\t" + (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
                                     sw.Write("\t" + mode);
-                                    sw.Write("\t" + wp.p1.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + wp.p2.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + wp.p3.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + (wp.alt / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.p1.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.p2.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.p3.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" +
+                                             (wp.alt/CurrentState.multiplierdist).ToString("0.000000",
+                                                 new System.Globalization.CultureInfo("en-US")));
                                     sw.Write("\t" + 1);
                                     sw.WriteLine("");
                                 }
@@ -1592,7 +1704,6 @@ namespace MissionPlanner.Log
 
         private void BUT_droneshare_Click(object sender, EventArgs e)
         {
-
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
                 openFileDialog1.Filter = "Logs|*.tlog;*.log;*.bin";
@@ -1602,7 +1713,9 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -1612,7 +1725,10 @@ namespace MissionPlanner.Log
                         {
                             Utilities.DroneApi.droneshare.doUpload(logfile);
                         }
-                        catch (Exception ex) { CustomMessageBox.Show(ex.Message); }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(ex.Message);
+                        }
                     }
                 }
             }
@@ -1650,7 +1766,8 @@ namespace MissionPlanner.Log
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Text) && item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
+                        if (item.Label.Text.StartsWith(e.Node.Text) &&
+                            item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
                         {
                             removeitems.Add(item);
                             //break;
@@ -1668,7 +1785,7 @@ namespace MissionPlanner.Log
                 if (e.Node.Checked)
                 {
                     e.Node.Checked = false;
-                   /* foreach (var child in e.Node.Nodes)
+                    /* foreach (var child in e.Node.Nodes)
                     {
                         ((TreeNode)child).Checked = true;
                         var newe = new TreeNodeMouseClickEventArgs((TreeNode)child, e.Button, e.Clicks, e.X, e.Y);
@@ -1678,7 +1795,6 @@ namespace MissionPlanner.Log
                 }
                 else
                 {
-
                 }
             }
         }
@@ -1687,12 +1803,12 @@ namespace MissionPlanner.Log
         {
             rightclick = !leftaxis;
 
-            chk_box_CheckedChanged(new CheckBox() { Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true }, null);
+            chk_box_CheckedChanged(
+                new CheckBox() {Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true}, null);
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
-
         }
     }
 }

@@ -59,9 +59,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             HLD_LAT_P.setup(0, 0, 1, 0.001f, new[] {"HLD_LAT_P", "POS_XY_P"}, MainV2.comPort.MAV.param);
             LOITER_LAT_D.setup(0, 0, 1, 0.001f, "LOITER_LAT_D", MainV2.comPort.MAV.param);
-            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_I", "VEL_XY_I" }, MainV2.comPort.MAV.param);
-            LOITER_LAT_IMAX.setup(0, 0, 10, 1f, new[] { "LOITER_LAT_IMAX", "VEL_XY_IMAX" }, MainV2.comPort.MAV.param);
-            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] { "LOITER_LAT_P", "VEL_XY_P" }, MainV2.comPort.MAV.param);
+            LOITER_LAT_I.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_I", "VEL_XY_I"}, MainV2.comPort.MAV.param);
+            LOITER_LAT_IMAX.setup(0, 0, 10, 1f, new[] {"LOITER_LAT_IMAX", "VEL_XY_IMAX"}, MainV2.comPort.MAV.param);
+            LOITER_LAT_P.setup(0, 0, 1, 0.001f, new[] {"LOITER_LAT_P", "VEL_XY_P"}, MainV2.comPort.MAV.param);
             RATE_PIT_FF.setup(0, 0, 1, 0.001f, "RATE_PIT_VFF", MainV2.comPort.MAV.param);
             RATE_PIT_D.setup(0, 0, 1, 0.001f, "RATE_PIT_D", MainV2.comPort.MAV.param);
             RATE_PIT_I.setup(0, 0, 1, 0.001f, "RATE_PIT_I", MainV2.comPort.MAV.param);
@@ -85,7 +85,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             THR_ACCEL_IMAX.setup(0, 0, 10, 1f, new[] {"THR_ACCEL_IMAX", "ACCEL_Z_IMAX"}, MainV2.comPort.MAV.param);
             THR_ACCEL_P.setup(0, 0, 1, 0.001f, new[] {"THR_ACCEL_P", "ACCEL_Z_P"}, MainV2.comPort.MAV.param);
             THR_ALT_P.setup(0, 0, 1, 0.001f, new[] {"THR_ALT_P", "POS_Z_P"}, MainV2.comPort.MAV.param);
-            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P","VEL_Z_P"}, MainV2.comPort.MAV.param);
+            THR_RATE_P.setup(0, 0, 1, 0.001f, new[] {"THR_RATE_P", "VEL_Z_P"}, MainV2.comPort.MAV.param);
             WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_LOIT_SPEED", MainV2.comPort.MAV.param);
             WPNAV_RADIUS.setup(0, 0, 1, 0.001f, "WPNAV_RADIUS", MainV2.comPort.MAV.param);
             WPNAV_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_SPEED", MainV2.comPort.MAV.param);

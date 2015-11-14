@@ -24,6 +24,7 @@ namespace MissionPlanner.GeoRef
         }
 
         int width;
+
         public int Width
         {
             get { return width; }
@@ -31,6 +32,7 @@ namespace MissionPlanner.GeoRef
         }
 
         int height;
+
         public int Height
         {
             get { return height; }
@@ -43,5 +45,4 @@ namespace MissionPlanner.GeoRef
             height = 2400;
         }
     }
-
 }

@@ -41,7 +41,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
 
             // setup language selection
-            var cultureCodes = new[] {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP"};
+            var cultureCodes = new[]
+            {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP"};
 
             _languages = cultureCodes
                 .Select(CultureInfoEx.GetCultureInfo)
@@ -471,9 +472,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.rateattitude = byte.Parse(((ComboBox) sender).Text);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude);
-                // request attitude
+            // request attitude
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude);
-                // request vfr
+            // request vfr
         }
 
         private void CMB_rateposition_SelectedIndexChanged(object sender, EventArgs e)
@@ -484,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.rateposition = byte.Parse(((ComboBox) sender).Text);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition);
-                // request gps
+            // request gps
         }
 
         private void CMB_ratestatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -495,7 +496,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.ratestatus = byte.Parse(((ComboBox) sender).Text);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus);
-                // mode
+            // mode
         }
 
         private void CMB_raterc_SelectedIndexChanged(object sender, EventArgs e)
@@ -506,7 +507,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.raterc = byte.Parse(((ComboBox) sender).Text);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc);
-                // request rc info 
+            // request rc info 
         }
 
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
@@ -517,9 +518,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.ratesensors = byte.Parse(((ComboBox) sender).Text);
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
-                // request extra stuff - tridge
+            // request extra stuff - tridge
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
-                // request raw sensor
+            // request raw sensor
         }
 
         private void CHK_mavdebug_CheckedChanged(object sender, EventArgs e)
@@ -556,7 +557,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         ref speechstring))
                     return;
                 MainV2.config["speechaltheight"] = (double.Parse(speechstring)/CurrentState.multiplierdist).ToString();
-                    // save as m
+                // save as m
             }
         }
 

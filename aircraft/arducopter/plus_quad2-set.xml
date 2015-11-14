@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!--
 ************************************************************************
 Arducotper UAV Model
@@ -64,7 +65,7 @@ Arducotper UAV Model
   <payload>
     <weight>
       <name type="string">Payload</name>
-      <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+      <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]" />
       <min-lb type="double">0.0</min-lb>
       <max-lb type="double">1.0</max-lb>
     </weight>
@@ -72,21 +73,21 @@ Arducotper UAV Model
   <nasal>
     <plus_quad2>
       <script>
-         setlistener("/sim/signals/fdm-initialized", func {
-             var left  = screen.display.new(20, 10);
-             left.add("/controls/engines/engine[0]/throttle");
-             left.add("/controls/engines/engine[1]/throttle");
-             left.add("/controls/engines/engine[2]/throttle");
-             left.add("/controls/engines/engine[3]/throttle");
+        setlistener("/sim/signals/fdm-initialized", func {
+        var left  = screen.display.new(20, 10);
+        left.add("/controls/engines/engine[0]/throttle");
+        left.add("/controls/engines/engine[1]/throttle");
+        left.add("/controls/engines/engine[2]/throttle");
+        left.add("/controls/engines/engine[3]/throttle");
 
-             var right = screen.display.new(-250, 20);
-             right.add("/position/altitude-agl-ft");
-             right.add("/orientation/roll-deg");
-             right.add("/orientation/pitch-deg");
-             right.add("/orientation/heading-deg");
-             right.add("/instrumentation/gps/indicated-ground-speed-kt");
-         });
-        </script>
+        var right = screen.display.new(-250, 20);
+        right.add("/position/altitude-agl-ft");
+        right.add("/orientation/roll-deg");
+        right.add("/orientation/pitch-deg");
+        right.add("/orientation/heading-deg");
+        right.add("/instrumentation/gps/indicated-ground-speed-kt");
+        });
+      </script>
     </plus_quad2>
   </nasal>
 </PropertyList>

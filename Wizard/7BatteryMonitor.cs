@@ -25,13 +25,28 @@ namespace MissionPlanner.Wizard
             public float mvpervolt = 0;
             public float mvperamp = 0;
 
-            public float topvolt { get { return (maxvolt * mvpervolt) / 1000.0f; } }
-            public float topamps { get { return (maxamps * mvperamp) / 1000.0f; } }
+            public float topvolt
+            {
+                get { return (maxvolt*mvpervolt)/1000.0f; }
+            }
 
-            public float voltspervolt { get { return (maxvolt / topvolt); } }
-            public float ampspervolt { get { return (maxamps / topamps); } }
+            public float topamps
+            {
+                get { return (maxamps*mvperamp)/1000.0f; }
+            }
 
-            public override string ToString() {
+            public float voltspervolt
+            {
+                get { return (maxvolt/topvolt); }
+            }
+
+            public float ampspervolt
+            {
+                get { return (maxamps/topamps); }
+            }
+
+            public override string ToString()
+            {
                 return Name;
             }
         }
@@ -59,7 +74,7 @@ namespace MissionPlanner.Wizard
 
                 //Sensor 3DR 4in 1 ESC with 
 
- //AMP_PER_VOLT: 17
+                //AMP_PER_VOLT: 17
 //VOLT_DIVIDER: 12.02
             });
 
@@ -95,7 +110,6 @@ namespace MissionPlanner.Wizard
                 mvpervolt = 63.69f,
                 mvperamp = 18.30f
             });
-
         }
 
         public void Activate()
@@ -107,12 +121,17 @@ namespace MissionPlanner.Wizard
             {
                 if (!MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
                 {
-                    CustomMessageBox.Show("Missing BATT_CAPACITY param, something is wrong.", Strings.ERROR); MainV2.comPort.getParamList();
+                    CustomMessageBox.Show("Missing BATT_CAPACITY param, something is wrong.", Strings.ERROR);
+                    MainV2.comPort.getParamList();
                 }
 
                 txt_mah.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
             }
-            catch { Console.WriteLine("no BATT_CAPACITY param"); this.Close(); }
+            catch
+            {
+                Console.WriteLine("no BATT_CAPACITY param");
+                this.Close();
+            }
 
             switch (MainV2.comPort.MAV.Product_ID)
             {
@@ -132,7 +151,8 @@ namespace MissionPlanner.Wizard
                     CMB_apmversion.SelectedIndex = 1;
                     break;
                 default:
-                    if (MainV2.comPort.MAV.Product_ID >= Common.ap_product.AP_PRODUCT_ID_APM2_REV_C4 && MainV2.comPort.MAV.Product_ID <= Common.ap_product.AP_PRODUCT_ID_APM2_REV_D9)
+                    if (MainV2.comPort.MAV.Product_ID >= Common.ap_product.AP_PRODUCT_ID_APM2_REV_C4 &&
+                        MainV2.comPort.MAV.Product_ID <= Common.ap_product.AP_PRODUCT_ID_APM2_REV_D9)
                         CMB_apmversion.SelectedIndex = 2;
                     break;
             }
@@ -148,7 +168,11 @@ namespace MissionPlanner.Wizard
                 if (!MainV2.comPort.setParam("BATT_CAPACITY", batterysize))
                     throw new Exception("BATT_CAPACITY Not Set");
             }
-            catch { CustomMessageBox.Show("Failed to set battery size, please check your input"); return 0; }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set battery size, please check your input");
+                return 0;
+            }
 
             return 1;
         }
@@ -157,6 +181,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -200,19 +225,20 @@ namespace MissionPlanner.Wizard
                     MainV2.comPort.setParam("BATT_CURR_PIN", 3);
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_????_PIN Failed"); }
+            catch
+            {
+                CustomMessageBox.Show("Set BATT_????_PIN Failed");
+            }
         }
 
         private void CMB_sensor_SelectedIndexChanged(object sender, EventArgs e)
         {
-            sensor sensorselected = ((sensor)((ComboBox)sender).SelectedValue);
+            sensor sensorselected = ((sensor) ((ComboBox) sender).SelectedValue);
 
             try
             {
-
                 if (sensorselected.Name != "None")
                 {
-
                     MainV2.comPort.setParam("BATT_AMP_PERVOLT", sensorselected.ampspervolt);
 
                     MainV2.comPort.setParam("BATT_VOLT_MULT", sensorselected.voltspervolt);
@@ -226,7 +252,10 @@ namespace MissionPlanner.Wizard
                     MainV2.comPort.setParam("BATT_MONITOR", 0);
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_MONITOR Failed"); }
+            catch
+            {
+                CustomMessageBox.Show("Set BATT_MONITOR Failed");
+            }
         }
     }
 }

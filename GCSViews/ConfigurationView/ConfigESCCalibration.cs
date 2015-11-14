@@ -22,7 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             bool RcCalmin = true;
             bool RcCalmax = true;
-            var copy = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
+            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
 
             foreach (string item in copy.Keys)
             {

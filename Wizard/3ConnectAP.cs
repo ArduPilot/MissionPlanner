@@ -24,44 +24,44 @@ namespace MissionPlanner.Wizard
 
         public _3ConnectAP()
         {
-            fwmap.Add(new KeyValuePair<string,string>("rover", "ar2"));
-            fwmap.Add(new KeyValuePair<string,string>("rover", "APMRover"));
+            fwmap.Add(new KeyValuePair<string, string>("rover", "ar2"));
+            fwmap.Add(new KeyValuePair<string, string>("rover", "APMRover"));
 
-            fwmap.Add(new KeyValuePair<string,string>("plane","AP-"));
-            fwmap.Add(new KeyValuePair<string,string>("plane", "apm1/ArduPlane"));
+            fwmap.Add(new KeyValuePair<string, string>("plane", "AP-"));
+            fwmap.Add(new KeyValuePair<string, string>("plane", "apm1/ArduPlane"));
 
-            fwmap.Add(new KeyValuePair<string,string>("planehil", "APHIL-"));
-            fwmap.Add(new KeyValuePair<string,string>("planehil", "apm1-hilsensors/ArduPlane"));
+            fwmap.Add(new KeyValuePair<string, string>("planehil", "APHIL-"));
+            fwmap.Add(new KeyValuePair<string, string>("planehil", "apm1-hilsensors/ArduPlane"));
 
-            fwmap.Add(new KeyValuePair<string,string>("quad","ac2-quad-"));
-            fwmap.Add(new KeyValuePair<string,string>("quad", "1-quad/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("quad", "ac2-quad-"));
+            fwmap.Add(new KeyValuePair<string, string>("quad", "1-quad/ArduCopter"));
 
             fwmap.Add(new KeyValuePair<string, string>("trap", "ac2-quad-"));
             fwmap.Add(new KeyValuePair<string, string>("trap", "1-quad/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("tri","ac2-tri"));
-            fwmap.Add(new KeyValuePair<string,string>("tri", "-tri/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("tri", "ac2-tri"));
+            fwmap.Add(new KeyValuePair<string, string>("tri", "-tri/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("hexa","ac2-hexa"));
-            fwmap.Add(new KeyValuePair<string,string>("hexa", "-hexa/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("hexa", "ac2-hexa"));
+            fwmap.Add(new KeyValuePair<string, string>("hexa", "-hexa/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("y6", "ac2-y6"));
-            fwmap.Add(new KeyValuePair<string,string>("y6", "-y6/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("y6", "ac2-y6"));
+            fwmap.Add(new KeyValuePair<string, string>("y6", "-y6/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("heli", "ac2-heli-"));
-            fwmap.Add(new KeyValuePair<string,string>("heli", "-heli/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("heli", "ac2-heli-"));
+            fwmap.Add(new KeyValuePair<string, string>("heli", "-heli/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("helihil", "ac2-helhil"));
-            fwmap.Add(new KeyValuePair<string,string>("helihil", "-heli-hil/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("helihil", "ac2-helhil"));
+            fwmap.Add(new KeyValuePair<string, string>("helihil", "-heli-hil/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("quadhil", "ac2-quadhil"));
-            fwmap.Add(new KeyValuePair<string,string>("quadhil", "-quad-hil/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("quadhil", "ac2-quadhil"));
+            fwmap.Add(new KeyValuePair<string, string>("quadhil", "-quad-hil/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("x8", "ac2-octaquad-"));
-            fwmap.Add(new KeyValuePair<string,string>("x8", "-octa-quad/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("x8", "ac2-octaquad-"));
+            fwmap.Add(new KeyValuePair<string, string>("x8", "-octa-quad/ArduCopter"));
 
-            fwmap.Add(new KeyValuePair<string,string>("octa", "ac2-octa-"));
-            fwmap.Add(new KeyValuePair<string,string>("octa", "-octa/ArduCopter"));
+            fwmap.Add(new KeyValuePair<string, string>("octa", "ac2-octa-"));
+            fwmap.Add(new KeyValuePair<string, string>("octa", "-octa/ArduCopter"));
 
 
             InitializeComponent();
@@ -75,7 +75,8 @@ namespace MissionPlanner.Wizard
             {
                 if (CMB_port.Text == "")
                 {
-                    if (SerialPort.GetNiceName((string)port).ToLower().Contains("arduino") || SerialPort.GetNiceName((string)port).ToLower().Contains("px4"))
+                    if (SerialPort.GetNiceName((string) port).ToLower().Contains("arduino") ||
+                        SerialPort.GetNiceName((string) port).ToLower().Contains("px4"))
                     {
                         CMB_port.Text = port.ToString();
                         break;
@@ -123,7 +124,8 @@ namespace MissionPlanner.Wizard
             // try again
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Error connecting. Please unplug, plug back in, wait 10 seconds, and click OK","Try Again");
+                CustomMessageBox.Show("Error connecting. Please unplug, plug back in, wait 10 seconds, and click OK",
+                    "Try Again");
                 MainV2.comPort.Open(true);
             }
 
@@ -142,7 +144,7 @@ namespace MissionPlanner.Wizard
                     // check if its a rover, and show the compass cal screen - skip accel
                     return 3;
                 else
-                    // skip the frame type screen as its not valid for anythine else
+                // skip the frame type screen as its not valid for anythine else
                     return 2;
             }
 
@@ -153,10 +155,11 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             // upload fw
-            
+
             Utilities.Firmware fw = new Utilities.Firmware();
             fw.Progress += fw_Progress;
             string firmwareurl = "";
@@ -183,26 +186,29 @@ namespace MissionPlanner.Wizard
             }
 
             string target = Wizard.config["fwframe"].ToString();
-            
+
 
             if (e.CancelRequested)
             {
                 e.CancelAcknowledged = true;
                 return;
             }
-            
+
             foreach (var sw in swlist)
             {
-                foreach (KeyValuePair<string,string> parturl in fwmap)
+                foreach (KeyValuePair<string, string> parturl in fwmap)
                 {
-                    if (target.ToLower() == parturl.Key.ToLower() && sw.url2560.ToLower().Contains(parturl.Value.ToString().ToLower()))
+                    if (target.ToLower() == parturl.Key.ToLower() &&
+                        sw.url2560.ToLower().Contains(parturl.Value.ToString().ToLower()))
                     {
                         try
                         {
-                            fwdone = fw.update(comport, sw,"");
+                            fwdone = fw.update(comport, sw, "");
                             //fwdone = true;
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                         if (fwdone == false)
                         {
                             e.ErrorMessage = "Error uploading Firmware";
@@ -214,7 +220,7 @@ namespace MissionPlanner.Wizard
                 if (fwdone)
                     break;
             }
-            
+
             if (e.CancelRequested)
             {
                 e.CancelAcknowledged = true;
@@ -243,10 +249,10 @@ namespace MissionPlanner.Wizard
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                 e.Graphics.FillRectangle(new SolidBrush(SystemColors.Highlight),
-                                         e.Bounds);
+                    e.Bounds);
             else
                 e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
-                                         e.Bounds);
+                    e.Bounds);
 
             string text = combo.Items[e.Index].ToString();
             if (!MainV2.MONO)
@@ -255,8 +261,8 @@ namespace MissionPlanner.Wizard
             }
 
             e.Graphics.DrawString(text, e.Font,
-                                  new SolidBrush(combo.ForeColor),
-                                  new Point(e.Bounds.X, e.Bounds.Y));
+                new SolidBrush(combo.ForeColor),
+                new Point(e.Bounds.X, e.Bounds.Y));
 
             e.DrawFocusRectangle();
         }

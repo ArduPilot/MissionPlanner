@@ -16,7 +16,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private const int THRESHOLD_OFS_YELLOW = 400;
         private bool startup;
 
-        private enum CompassNumber { Compass1 = 0, Compass2, Compass3 };
+        private enum CompassNumber
+        {
+            Compass1 = 0,
+            Compass2,
+            Compass3
+        };
 
         public ConfigHWCompass()
         {
@@ -39,11 +44,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
             {
-                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value * rad2deg;
+                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value*rad2deg;
 
-                var min = (dec - (int)dec) * 60;
+                var min = (dec - (int) dec)*60;
 
-                TXT_declination_deg.Text = ((int)dec).ToString("0");
+                TXT_declination_deg.Text = ((int) dec).ToString("0");
                 TXT_declination_min.Text = min.ToString("0");
             }
 
@@ -56,11 +61,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Compass 1 settings
             CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
-            CMB_compass1_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+            CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
 
-            int offset1_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS_X"];
-            int offset1_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS_Y"];
-            int offset1_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS_Z"];
+            int offset1_x = (int) MainV2.comPort.MAV.param["COMPASS_OFS_X"];
+            int offset1_y = (int) MainV2.comPort.MAV.param["COMPASS_OFS_Y"];
+            int offset1_z = (int) MainV2.comPort.MAV.param["COMPASS_OFS_Z"];
             // Turn offsets red if any offset exceeds a threshold, or all values are 0 (not yet calibrated)
             if (absmax(offset1_x, offset1_y, offset1_z) > THRESHOLD_OFS_RED)
                 LBL_compass1_offset.ForeColor = Color.Red;
@@ -73,12 +78,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             LBL_compass1_offset.Text = "OFFSETS  X: " +
-                offset1_x.ToString() +
-                ",   Y: " + offset1_y.ToString() +
-                ",   Z: " + offset1_z.ToString();
-            LBL_compass1_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
-                ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
-                ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
+                                       offset1_x.ToString() +
+                                       ",   Y: " + offset1_y.ToString() +
+                                       ",   Z: " + offset1_z.ToString();
+            LBL_compass1_mot.Text = "MOT          X: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT_X"]).ToString() +
+                                    ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT_Y"]).ToString() +
+                                    ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
 
 
             // Compass 2 settings
@@ -86,13 +91,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
                 CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param);
-                CMB_compass2_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
+                CMB_compass2_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
 
-                CMB_primary_compass.setup(typeof(CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
+                CMB_primary_compass.setup(typeof (CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
-                int offset2_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_X"];
-                int offset2_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Y"];
-                int offset2_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS2_Z"];
+                int offset2_x = (int) MainV2.comPort.MAV.param["COMPASS_OFS2_X"];
+                int offset2_y = (int) MainV2.comPort.MAV.param["COMPASS_OFS2_Y"];
+                int offset2_z = (int) MainV2.comPort.MAV.param["COMPASS_OFS2_Z"];
 
                 if (absmax(offset2_x, offset2_y, offset2_z) > THRESHOLD_OFS_RED)
                     LBL_compass2_offset.ForeColor = Color.Red;
@@ -105,12 +110,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                 LBL_compass2_offset.Text = "OFFSETS  X: " +
-                    offset2_x.ToString() +
-                    ",   Y: " + offset2_y.ToString() +
-                    ",   Z: " + offset2_z.ToString();
-                LBL_compass2_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
-                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
-                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
+                                           offset2_x.ToString() +
+                                           ",   Y: " + offset2_y.ToString() +
+                                           ",   Z: " + offset2_z.ToString();
+                LBL_compass2_mot.Text = "MOT          X: " +
+                                        ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_X"]).ToString() +
+                                        ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
+                                        ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
             }
             else
             {
@@ -121,12 +127,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param);
                 CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
-                CMB_compass3_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
+                CMB_compass3_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
 
-                int offset3_x = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
-                int offset3_y = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
-                int offset3_z = (int)MainV2.comPort.MAV.param["COMPASS_OFS3_Z"];
-        
+                int offset3_x = (int) MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
+                int offset3_y = (int) MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
+                int offset3_z = (int) MainV2.comPort.MAV.param["COMPASS_OFS3_Z"];
+
                 if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_RED)
                     LBL_compass3_offset.ForeColor = Color.Red;
                 else if (absmax(offset3_x, offset3_y, offset3_z) > THRESHOLD_OFS_YELLOW)
@@ -138,12 +144,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
                 LBL_compass3_offset.Text = "OFFSETS  X: " +
-                    offset3_x.ToString() +
-                    ",   Y: " + offset3_y.ToString() +
-                    ",   Z: " + offset3_z.ToString();
-                LBL_compass3_mot.Text = "MOT          X: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
-                    ",   Y: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
-                    ",   Z: " + ((int)MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
+                                           offset3_x.ToString() +
+                                           ",   Y: " + offset3_y.ToString() +
+                                           ",   Z: " + offset3_z.ToString();
+                LBL_compass3_mot.Text = "MOT          X: " +
+                                        ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_X"]).ToString() +
+                                        ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
+                                        ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
             }
             else
             {
@@ -161,6 +168,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             return Math.Max(Math.Max(Math.Abs(val1), Math.Abs(val2)), Math.Abs(val3));
         }
+
         public void Deactivate()
         {
             timer1.Stop();
@@ -334,7 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private bool ReceviedPacket(byte[] packet)
         {
-            if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
+            if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
             {
                 var mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
 
@@ -345,7 +353,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 return true;
             }
-            else if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
+            else if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
             {
                 var mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
 
@@ -401,7 +409,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 foreach (var item in mprog)
                 {
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " + "\n");
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " +
+                                               "\n");
                 }
 
                 mprog.Clear();
@@ -414,7 +423,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (item.compass_id == 0 && item.ofs_x == 0)
                         continue;
 
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" + item.ofs_z + " fit:" + item.fitness+ "\n");
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" +
+                                               item.ofs_z + " fit:" + item.fitness + "\n");
                 }
 
                 mrep.Clear();
@@ -447,14 +457,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
 
                 if (
-                        CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
-                            MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "",
+                        MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
                 }
                 else
                 {
-                    CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                    CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
                     MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
                 }
             }
@@ -475,7 +485,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             try
             {
-                CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_NONE;
                 MainV2.comPort.setParam("COMPASS_USE1", 1);
                 MainV2.comPort.setParam("COMPASS_USE2", 0);
                 MainV2.comPort.setParam("COMPASS_USE3", 0);
@@ -484,7 +494,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
                 MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
-
             }
             catch (Exception)
             {
@@ -503,7 +512,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             try
             {
-                CMB_compass1_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                CMB_compass1_orient.SelectedIndex = (int) Common.Rotation.ROTATION_ROLL_180;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
                 MainV2.comPort.setParam("COMPASS_EXTERN2", 0);
                 MainV2.comPort.setParam("COMPASS_EXTERN3", 0);
@@ -514,7 +523,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 MainV2.comPort.setParam("COMPASS_PRIMARY", 0);
                 MainV2.comPort.setParam("COMPASS_LEARN", 1);
-
             }
             catch (Exception)
             {
@@ -533,7 +541,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MainV2.comPort.setParam("COMPASS_LEARN", ((CheckBox)sender).Checked ? 1 : 0);
+                    MainV2.comPort.setParam("COMPASS_LEARN", ((CheckBox) sender).Checked ? 1 : 0);
                 }
             }
             catch
@@ -541,9 +549,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Set COMPASS_LEARN Failed");
             }
         }
-        
 
-        
+
         private void CHK_compass(object sender, EventArgs e)
         {
             ShowRelevantFields();
@@ -572,6 +579,4 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             LBL_primary_compass.Visible = MainV2.comPort.MAV.param.ContainsKey("COMPASS_PRIMARY");
         }
     }
-
-
 }

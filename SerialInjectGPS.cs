@@ -17,7 +17,7 @@ namespace MissionPlanner
     public partial class SerialInjectGPS : Form
     {
         private static readonly ILog log =
-        LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         internal static ICommsSerial comPort = new SerialPort();
         private System.Threading.Thread t12;
@@ -100,7 +100,8 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString());
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
+                                          ex.ToString());
                     return;
                 }
 
@@ -129,7 +130,7 @@ namespace MissionPlanner
                     {
                         int read = comPort.Read(buffer, 0, Math.Min(buffer.Length, comPort.BytesToRead));
 
-                        MainV2.comPort.InjectGpsData(buffer, (byte)read);
+                        MainV2.comPort.InjectGpsData(buffer, (byte) read);
                     }
 
                     System.Threading.Thread.Sleep(10);

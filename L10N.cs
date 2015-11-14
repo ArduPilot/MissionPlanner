@@ -12,7 +12,7 @@ namespace MissionPlanner
     public class L10N
     {
         public static CultureInfo ConfigLang;
-        
+
         static L10N()
         {
             ConfigLang = GetConfigLang();

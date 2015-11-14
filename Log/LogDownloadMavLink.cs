@@ -72,7 +72,9 @@ namespace MissionPlanner.Log
                 {
                     genchkcombo(item.id);
 
-                    TXT_seriallog.AppendText(item.id + "\t" + new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(item.time_utc).ToLocalTime() + "\test size:\t" + item.size +"\r\n");
+                    TXT_seriallog.AppendText(item.id + "\t" +
+                                             new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
+                                                 item.time_utc).ToLocalTime() + "\test size:\t" + item.size + "\r\n");
                 }
 
                 if (list.Count == 0)
@@ -80,7 +82,11 @@ namespace MissionPlanner.Log
                     TXT_seriallog.AppendText("No logs to download");
                 }
             }
-            catch { CustomMessageBox.Show(Strings.ErrorLogList, Strings.ERROR); this.Close(); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorLogList, Strings.ERROR);
+                this.Close();
+            }
 
             status = serialstatus.Done;
         }
@@ -112,19 +118,20 @@ namespace MissionPlanner.Log
 
             if (start.Second != DateTime.Now.Second)
             {
-                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    try
-    {
-
-        TXT_status.Text = status.ToString() + " " + receivedbytes;
-    }
-    catch { }
-});
+                this.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                {
+                    try
+                    {
+                        TXT_status.Text = status.ToString() + " " + receivedbytes;
+                    }
+                    catch
+                    {
+                    }
+                });
                 start = DateTime.Now;
             }
         }
-      
+
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
             if (status == serialstatus.Done)
@@ -135,7 +142,13 @@ namespace MissionPlanner.Log
                     return;
                 }
 
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString())); });
+                System.Threading.Thread t11 =
+                    new System.Threading.Thread(
+                        delegate()
+                        {
+                            downloadthread(int.Parse(CHK_logs.Items[0].ToString()),
+                                int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString()));
+                        });
                 t11.Name = "Log Download All thread";
                 t11.Start();
             }
@@ -143,7 +156,7 @@ namespace MissionPlanner.Log
 
         string GetLog(ushort no)
         {
-            log.Info("GetLog "+ no);
+            log.Info("GetLog " + no);
 
             MainV2.comPort.Progress += comPort_Progress;
 
@@ -166,11 +179,12 @@ namespace MissionPlanner.Log
 
             MainV2.comPort.Progress -= comPort_Progress;
 
-            MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)MainV2.comPort.DebugPacket(hbpacket);
+            MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
 
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
-             + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + no + ".bin";
+                      + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                      + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " +
+                      no + ".bin";
 
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -192,14 +206,15 @@ namespace MissionPlanner.Log
 
             log.Info("about to GetFirstGpsTime: " + logfile);
             // get gps time of assci log
-            DateTime logtime =  new DFLog().GetFirstGpsTime(logfile);
+            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
 
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
             {
                 string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
-             + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
+                                        + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                        + hbpacket[3] + Path.DirectorySeparatorChar +
+                                        logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                 try
                 {
                     File.Move(logfile, newlogfilename);
@@ -207,7 +222,11 @@ namespace MissionPlanner.Log
                     File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
                     logfile = newlogfilename;
                 }
-                catch  { CustomMessageBox.Show(Strings.ErrorRenameFile+ " " + logfile + "\nto " + newlogfilename, Strings.ERROR); }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.ErrorRenameFile + " " + logfile + "\nto " + newlogfilename,
+                        Strings.ERROR);
+                }
             }
 
             return logfile;
@@ -224,10 +243,9 @@ namespace MissionPlanner.Log
             TextReader tr = new StreamReader(logfile);
             //
 
-            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-            {
-                TXT_seriallog.AppendText("Creating KML for " + logfile + "\n");
-            });
+            this.Invoke(
+                (System.Windows.Forms.MethodInvoker)
+                    delegate() { TXT_seriallog.AppendText("Creating KML for " + logfile + "\n"); });
 
             LogOutput lo = new LogOutput();
 
@@ -242,7 +260,9 @@ namespace MissionPlanner.Log
             {
                 lo.writeKML(logfile + ".kml");
             }
-            catch { } // usualy invalid lat long error
+            catch
+            {
+            } // usualy invalid lat long error
             status = serialstatus.Done;
             updateDisplay();
         }
@@ -255,7 +275,7 @@ namespace MissionPlanner.Log
                 {
                     currentlog = a;
 
-                    var logname = GetLog((ushort)a);
+                    var logname = GetLog((ushort) a);
 
                     CreateLog(logname);
 
@@ -265,7 +285,10 @@ namespace MissionPlanner.Log
                         {
                             Utilities.DroneApi.droneshare.doUpload(logname);
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Droneshare upload failed " + ex.ToString()); }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
+                        }
                     }
                 }
 
@@ -274,7 +297,10 @@ namespace MissionPlanner.Log
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error in log " + currentlog); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
+            }
         }
 
         private void downloadsinglethread()
@@ -283,11 +309,11 @@ namespace MissionPlanner.Log
             {
                 for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
                 {
-                    int a = (int)CHK_logs.CheckedItems[i];
+                    int a = (int) CHK_logs.CheckedItems[i];
 
                     currentlog = a;
 
-                    var logname = GetLog((ushort)a);
+                    var logname = GetLog((ushort) a);
 
                     CreateLog(logname);
 
@@ -297,7 +323,10 @@ namespace MissionPlanner.Log
                         {
                             Utilities.DroneApi.droneshare.doUpload(logname);
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Droneshare upload failed " + ex.ToString()); }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
+                        }
                     }
                 }
 
@@ -306,7 +335,10 @@ namespace MissionPlanner.Log
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error in log " + currentlog); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
+            }
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
@@ -321,7 +353,8 @@ namespace MissionPlanner.Log
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Are you sure?", "sure", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+            if (CustomMessageBox.Show("Are you sure?", "sure", MessageBoxButtons.YesNo) ==
+                System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
@@ -331,7 +364,10 @@ namespace MissionPlanner.Log
                     updateDisplay();
                     CHK_logs.Items.Clear();
                 }
-                catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                }
             }
         }
 
@@ -347,7 +383,9 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -367,7 +405,11 @@ namespace MissionPlanner.Log
 
                             tr.Close();
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" +
+                                                  ex.ToString());
+                        }
 
                         lo.writeKML(logfile + ".kml");
 
@@ -390,7 +432,9 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch { } // incase dir doesnt exist
+                catch
+                {
+                } // incase dir doesnt exist
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -412,7 +456,11 @@ namespace MissionPlanner.Log
 
                             tr.Close();
                         }
-                        catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                            continue;
+                        }
 
                         lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
@@ -449,7 +497,6 @@ namespace MissionPlanner.Log
 
         private void chk_droneshare_CheckedChanged(object sender, EventArgs e)
         {
-
         }
     }
 }

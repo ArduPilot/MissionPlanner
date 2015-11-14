@@ -31,7 +31,8 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
-        public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist, Control enabledisable = null)
+        public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist,
+            Control enabledisable = null)
         {
             base.CheckedChanged -= MavlinkCheckBox_CheckedChanged;
 
@@ -89,7 +90,10 @@ namespace MissionPlanner.Controls
                     if (ans == false)
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }
-                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
+                catch
+                {
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
             }
             else
             {
@@ -98,12 +102,13 @@ namespace MissionPlanner.Controls
                 {
                     bool ans = MainV2.comPort.setParam(ParamName, OffValue);
                     if (ans == false)
-                        CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,ParamName), Strings.ERROR);
+                        CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
                 }
-                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
+                catch
+                {
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
+                }
             }
         }
-
-        
     }
 }

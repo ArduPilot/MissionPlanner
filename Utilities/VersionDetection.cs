@@ -39,7 +39,7 @@ namespace MissionPlanner.Utilities
                 if (!String.IsNullOrEmpty(match.Groups[6].Value))
                 {
                     // convert a to 1, b to 2, etc, it will break at j
-                    verstring += "." + (char)((match.Groups[6].Value.ToString().ToLower()[0]) - 0x30);
+                    verstring += "." + (char) ((match.Groups[6].Value.ToString().ToLower()[0]) - 0x30);
                 }
 
                 Version version = new Version(verstring);

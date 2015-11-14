@@ -97,7 +97,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_apmversion.Enabled = true;
 
-                var value = (double)MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
+                var value = (double) MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
                 if (value == 0) // apm1
                 {
                     CMB_apmversion.SelectedIndex = 0;
@@ -127,7 +127,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else if (value == 10)
                 {
                     // vrbrain 5 or micro
-                    if ((double)MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
+                    if ((double) MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
                     {
                         CMB_apmversion.SelectedIndex = 5;
                     }

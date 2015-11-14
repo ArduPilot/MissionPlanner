@@ -38,14 +38,13 @@ namespace MissionPlanner
             readingScript = script;
             writer = readingScript.OutputWriter;
             //Only enable if writer is not null
-            updateoutput.Enabled = (writer != null);//*/
+            updateoutput.Enabled = (writer != null); //*/
         }
 
         private void BUT_clear_Click(object sender, EventArgs e)
         {
             textOutput.Text = "";
         }
-
 
 
         private void updateoutput_Tick(object sender, EventArgs e)
