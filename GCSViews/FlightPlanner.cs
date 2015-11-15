@@ -4776,7 +4776,7 @@ namespace MissionPlanner.GCSViews
 
                 if (res == DialogResult.Yes)
                 {
-                    for (int i = 1; i <= MainMap.Zoom; i++)
+                    for (int i = 1; i <= MainMap.MaxZoom; i++)
                     {
                         TilePrefetcher obj = new TilePrefetcher();
                         obj.ShowCompleteMessage = false;
