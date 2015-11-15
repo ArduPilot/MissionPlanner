@@ -19,15 +19,19 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public bool connect()
         {
-            client = new TcpClient(APIConstants.DEFAULT_SERVER,APIConstants.DEFAULT_TCP_PORT);
+            client = new TcpClient(APIConstants.DEFAULT_SERVER, APIConstants.DEFAULT_TCP_PORT);
 
             client.NoDelay = true;
 
             start = DateTime.Now;
 
-            st = new BufferedStream(client.GetStream(),8000);
+            st = new BufferedStream(client.GetStream(), 8000);
 
-            Envelope ping = new Envelope() { ping = new PingMsg() { nonce = new Random().Next(int.MaxValue) } , type = Envelope.MsgCode.PingMsgCode };
+            Envelope ping = new Envelope()
+            {
+                ping = new PingMsg() {nonce = new Random().Next(int.MaxValue)},
+                type = Envelope.MsgCode.PingMsgCode
+            };
 
             DateTime deadline = DateTime.Now.AddMilliseconds(3000);
             while (DateTime.Now < deadline)
@@ -41,16 +45,15 @@ namespace MissionPlanner.Utilities.DroneApi
                 if (pingresp != null && pingresp.pingResponse != null)
                     return true;
             }
-            
-            throw new IOException("No Response");
 
+            throw new IOException("No Response");
         }
 
         public bool loginUser(string user, string password)
         {
-            LoginMsg m = new LoginMsg() { username = user, password = password, code = LoginRequestCode.LOGIN };
+            LoginMsg m = new LoginMsg() {username = user, password = password, code = LoginRequestCode.LOGIN};
 
-            Envelope msg = new Envelope() { login = m, type = Envelope.MsgCode.LoginMsgCode };
+            Envelope msg = new Envelope() {login = m, type = Envelope.MsgCode.LoginMsgCode};
 
             send(msg);
 
@@ -69,9 +72,9 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public bool startMission()
         {
-            StartMissionMsg m = new StartMissionMsg() { uuid = Guid.NewGuid().ToString(), keep = false };
+            StartMissionMsg m = new StartMissionMsg() {uuid = Guid.NewGuid().ToString(), keep = false};
 
-            Envelope msg = new Envelope() { startMission = m, type = Envelope.MsgCode.StartMissionMsgCode };
+            Envelope msg = new Envelope() {startMission = m, type = Envelope.MsgCode.StartMissionMsgCode};
 
             send(msg);
 
@@ -80,9 +83,15 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public bool setVechileId(string guid, int gcsinterface, int sysid, bool canAcceptCommands = true)
         {
-            SenderIdMsg m = new SenderIdMsg() { vehicleUUID = guid, gcsInterface = gcsinterface, sysId = sysid, canAcceptCommands = canAcceptCommands };
+            SenderIdMsg m = new SenderIdMsg()
+            {
+                vehicleUUID = guid,
+                gcsInterface = gcsinterface,
+                sysId = sysid,
+                canAcceptCommands = canAcceptCommands
+            };
 
-            Envelope msg = new Envelope() { setSender = m, type = Envelope.MsgCode.SenderIdMsgCode };
+            Envelope msg = new Envelope() {setSender = m, type = Envelope.MsgCode.SenderIdMsgCode};
 
             send(msg);
 
@@ -97,7 +106,7 @@ namespace MissionPlanner.Utilities.DroneApi
             mavmsg.srcInterface = gcsinterface;
             //mavmsg.deltaT = (long)((DateTime.Now - start).TotalMilliseconds * 1000);
 
-            Envelope msg = new Envelope() { mavlink = mavmsg, type = Envelope.MsgCode.MavlinkMsgCode };
+            Envelope msg = new Envelope() {mavlink = mavmsg, type = Envelope.MsgCode.MavlinkMsgCode};
 
             send(msg);
         }
@@ -132,7 +141,5 @@ namespace MissionPlanner.Utilities.DroneApi
             client = null;
             st = null;
         }
-
-
     }
 }

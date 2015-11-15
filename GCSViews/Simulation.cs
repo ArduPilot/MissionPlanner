@@ -14,6 +14,7 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.HIL;
 using ZedGraph;
+
 // config file
 // dll imports
 // Graphs
@@ -411,7 +412,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null, true, MainV2.comPort);
-                        // when true this uses alot more cpu time
+                    // when true this uses alot more cpu time
 
                     if ((DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
@@ -867,7 +868,7 @@ namespace MissionPlanner.GCSViews
 
             var pres = new MAVLink.mavlink_raw_pressure_t();
             var calc = (101325*Math.Pow(1 - 2.25577*Math.Pow(10, -5)*sitldata.altitude, 5.25588));
-                // updated from valid gps
+            // updated from valid gps
             pres.press_diff1 = (short) (int) (calc - 101325); // 0 alt is 0 pa
 
             // comPort.sendPacket(pres);
@@ -1764,7 +1765,7 @@ namespace MissionPlanner.GCSViews
             // Integration Time
             //---------------------
             public float Simulation_fIntegrationTimeStep;
-                // integration time step in seconds. This is the simulated time since last call to AeroSIMRC_Plugin_Run()
+            // integration time step in seconds. This is the simulated time since last call to AeroSIMRC_Plugin_Run()
 
             //---------------------
             // Channels
@@ -1773,12 +1774,14 @@ namespace MissionPlanner.GCSViews
             [MarshalAs(
                 UnmanagedType.ByValArray,
                 SizeConst = AEROSIMRC_MAX_CHANNELS)] public float[] Channel_afValue_TX;
-                // [-1, 1] channel positions at TX sticks (i.e. raw stick positions)
+
+            // [-1, 1] channel positions at TX sticks (i.e. raw stick positions)
 
             [MarshalAs(
                 UnmanagedType.ByValArray,
                 SizeConst = AEROSIMRC_MAX_CHANNELS)] public float[] Channel_afValue_RX;
-                // [-1, 1] channel positions at RX (i.e. after TX mixes)
+
+            // [-1, 1] channel positions at RX (i.e. after TX mixes)
 
             // Use the following constants as indexes for the channel arrays
             // The simulator uses internally the channel numbers for Transmitter Mode 2 (regardless of mode selected by user)
@@ -1879,7 +1882,7 @@ namespace MissionPlanner.GCSViews
             public float Model_fWindVelY;
 
             public float Model_fWindVelZ;
-                // m/s   Velocity of the wind (with gusts) at model position (useful to compute air vel)
+            // m/s   Velocity of the wind (with gusts) at model position (useful to compute air vel)
 
             // Engine/Motor Revs per minute
             public float Model_fEngine1_RPM;
@@ -1978,34 +1981,34 @@ namespace MissionPlanner.GCSViews
             private readonly uint num_engines; // Number of valid engines
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly uint[] eng_state;
-                // Engine state (off, cranking, running)
+            // Engine state (off, cranking, running)
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] rpm;
-                // Engine RPM rev/min
+            // Engine RPM rev/min
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] fuel_flow;
-                // Fuel flow gallons/hr
+            // Fuel flow gallons/hr
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] fuel_px;
-                // Fuel pressure psi
+            // Fuel pressure psi
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] egt;
-                // Exhuast gas temp deg F
+            // Exhuast gas temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] cht;
-                // Cylinder head temp deg F
+            // Cylinder head temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] mp_osi;
-                // Manifold pressure
+            // Manifold pressure
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] tit;
-                // Turbine Inlet Temperature
+            // Turbine Inlet Temperature
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] oil_temp;
-                // Oil temp deg F
+            // Oil temp deg F
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)] private readonly float[] oil_px;
-                // Oil pressure psi
+            // Oil pressure psi
 
             // Consumables
             private readonly uint num_tanks; // Max number of fuel tanks

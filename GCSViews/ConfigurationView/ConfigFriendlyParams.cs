@@ -40,9 +40,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
-                    if (ctl.GetType() == typeof(RangeControl))
+                    if (ctl.GetType() == typeof (RangeControl))
                     {
-                        var rng = (RangeControl)ctl;
+                        var rng = (RangeControl) ctl;
                         if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
@@ -55,9 +55,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ctl.Visible = false;
                         }
                     }
-                    else if (ctl.GetType() == typeof(ValuesControl))
+                    else if (ctl.GetType() == typeof (ValuesControl))
                     {
-                        var vctl = (ValuesControl)ctl;
+                        var vctl = (ValuesControl) ctl;
                         if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
                             vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
                         {
@@ -365,7 +365,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
                         {
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((MavlinkCheckBoxBitMask)items[0]).Value = Convert.ToSingle(value);
+                            ((MavlinkCheckBoxBitMask) items[0]).Value = Convert.ToSingle(value);
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }

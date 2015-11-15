@@ -38,6 +38,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             // GPS - every pass
@@ -58,8 +59,8 @@ namespace MissionPlanner.Wizard
             {
                 if (lbl_accel.BackColor != Color.Green)
                 {
-                    float val1 = (float)MainV2.comPort.GetParam("INS_ACCOFFS_X");
-                    float val2 = (float)MainV2.comPort.GetParam("INS_ACCSCAL_X");
+                    float val1 = (float) MainV2.comPort.GetParam("INS_ACCOFFS_X");
+                    float val2 = (float) MainV2.comPort.GetParam("INS_ACCSCAL_X");
 
                     if (MainV2.comPort.GetParam("INS_ACCOFFS_X") != 0f && MainV2.comPort.GetParam("INS_ACCSCAL_X") != 1f)
                     {
@@ -73,10 +74,13 @@ namespace MissionPlanner.Wizard
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             // COMPASS
-            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X") && MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() != "0")
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X") &&
+                MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() != "0")
             {
                 lbl_compass.BackColor = Color.Green;
                 chk_compass.Checked = true;
@@ -90,13 +94,17 @@ namespace MissionPlanner.Wizard
             // RC
             if (MainV2.comPort.MAV.param.ContainsKey("RC1_MIN"))
             {
-                if (((float)MainV2.comPort.MAV.param["RC1_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC1_MAX"]) > 1700 &&
-                    ((float)MainV2.comPort.MAV.param["RC2_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC2_MAX"]) > 1700 &&
-                    ((float)MainV2.comPort.MAV.param["RC3_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC3_MAX"]) > 1700 &&
-                    ((float)MainV2.comPort.MAV.param["RC4_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC4_MAX"]) > 1700 &&
-                    ((float)MainV2.comPort.MAV.param["RC3_MIN"]) != 1100 && ((float)MainV2.comPort.MAV.param["RC3_MAX"]) != 1900)
+                if (((float) MainV2.comPort.MAV.param["RC1_MIN"]) < 1300 &&
+                    ((float) MainV2.comPort.MAV.param["RC1_MAX"]) > 1700 &&
+                    ((float) MainV2.comPort.MAV.param["RC2_MIN"]) < 1300 &&
+                    ((float) MainV2.comPort.MAV.param["RC2_MAX"]) > 1700 &&
+                    ((float) MainV2.comPort.MAV.param["RC3_MIN"]) < 1300 &&
+                    ((float) MainV2.comPort.MAV.param["RC3_MAX"]) > 1700 &&
+                    ((float) MainV2.comPort.MAV.param["RC4_MIN"]) < 1300 &&
+                    ((float) MainV2.comPort.MAV.param["RC4_MAX"]) > 1700 &&
+                    ((float) MainV2.comPort.MAV.param["RC3_MIN"]) != 1100 &&
+                    ((float) MainV2.comPort.MAV.param["RC3_MAX"]) != 1900)
                 {
-
                     lbl_rc.BackColor = Color.Green;
                     chk_rc.Checked = true;
                 }
@@ -120,7 +128,9 @@ namespace MissionPlanner.Wizard
                 {
                     MainV2.comPort.doARM(false);
                 }
-                catch { }
+                catch
+                {
+                }
                 chk_perarm.Checked = true;
             }
             else

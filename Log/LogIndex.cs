@@ -14,7 +14,8 @@ namespace MissionPlanner.Log
 {
     public partial class LogIndex : Form
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public LogIndex()
         {
@@ -51,7 +52,7 @@ namespace MissionPlanner.Log
             {
                 if (!File.Exists(file + ".jpg"))
                 {
-                    LogMap.MapLogs(new string[] { file });
+                    LogMap.MapLogs(new string[] {file});
                 }
 
                 var loginfo = new loginfo();
@@ -69,9 +70,15 @@ namespace MissionPlanner.Log
                     {
                         try
                         {
-                            mine.logplaybackfile = new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
+                            mine.logplaybackfile =
+                                new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
                         }
-                        catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                        catch (Exception ex)
+                        {
+                            log.Debug(ex.ToString());
+                            CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                            return;
+                        }
                         mine.logreadmode = true;
 
                         mine.MAV.packets.Initialize(); // clear
@@ -87,7 +94,7 @@ namespace MissionPlanner.Log
                         {
                             mine.logplaybackfile.BaseStream.Seek(-100000, SeekOrigin.End);
                         }
-                        catch 
+                        catch
                         {
                         }
 
@@ -120,8 +127,17 @@ namespace MissionPlanner.Log
         public class loginfo
         {
             public string fullname { get; set; }
-            public string Name { get { return Path.GetFileName(fullname); } }
-            public string Directory { get { return Path.GetDirectoryName(fullname); } }
+
+            public string Name
+            {
+                get { return Path.GetFileName(fullname); }
+            }
+
+            public string Directory
+            {
+                get { return Path.GetDirectoryName(fullname); }
+            }
+
             public Image img { get; set; }
             public string Duration { get; set; }
             public DateTime Date { get; set; }
@@ -137,20 +153,20 @@ namespace MissionPlanner.Log
             if (e.ColumnIndex != 0)
                 return;
 
-            loginfo info = (loginfo)e.Model;
+            loginfo info = (loginfo) e.Model;
 
             if (info.img == null)
                 return;
 
-            ImageDecoration decoration = new ImageDecoration(new Bitmap(info.img,150,150),255);
+            ImageDecoration decoration = new ImageDecoration(new Bitmap(info.img, 150, 150), 255);
             //decoration.ShrinkToWidth = true;
             decoration.AdornmentCorner = ContentAlignment.TopCenter;
             decoration.ReferenceCorner = ContentAlignment.TopCenter;
             e.SubItem.Decoration = decoration;
 
-           // TextDecoration td = new TextDecoration("test", ContentAlignment.BottomCenter);
+            // TextDecoration td = new TextDecoration("test", ContentAlignment.BottomCenter);
 
-           // e.SubItem.Decorations.Add(td);
+            // e.SubItem.Decorations.Add(td);
 
             Application.DoEvents();
         }

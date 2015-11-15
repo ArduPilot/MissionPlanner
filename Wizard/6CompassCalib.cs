@@ -26,13 +26,14 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         public void Activate()
-        { 
-            timer1.Start(); 
+        {
+            timer1.Start();
         }
 
         public void Deactivate()
-        { 
+        {
             timer1.Stop();
         }
 
@@ -46,7 +47,7 @@ namespace MissionPlanner.Wizard
         {
             foreach (var ctl in this.panel1.Controls)
             {
-                if (ctl.GetType() == typeof(PictureBoxMouseOver))
+                if (ctl.GetType() == typeof (PictureBoxMouseOver))
                 {
                     (ctl as PictureBoxMouseOver).selected = false;
                 }
@@ -85,7 +86,10 @@ namespace MissionPlanner.Wizard
             {
                 System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=DmsueBS0J3E");
             }
-            catch { CustomMessageBox.Show("Your default http association is not set correctly."); }
+            catch
+            {
+                CustomMessageBox.Show("Your default http association is not set correctly.");
+            }
         }
 
         int step = 0;
@@ -122,7 +126,6 @@ namespace MissionPlanner.Wizard
                     label5.Text = "Calculating";
                     if (docalc())
                     {
-
                     }
                     else
                     {
@@ -135,8 +138,8 @@ namespace MissionPlanner.Wizard
             step++;
         }
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
 
         float calcheading(HIL.Vector3 mag)
         {
@@ -144,16 +147,16 @@ namespace MissionPlanner.Wizard
             dcm_matrix.from_euler(0, 0, 0);
 
             // Tilt compensated magnetic field Y component:
-            double headY = mag.y * dcm_matrix.c.z - mag.z * dcm_matrix.c.y;
+            double headY = mag.y*dcm_matrix.c.z - mag.z*dcm_matrix.c.y;
 
             // Tilt compensated magnetic field X component:
-            double headX = mag.x + dcm_matrix.c.x * (headY - mag.x * dcm_matrix.c.x);
+            double headX = mag.x + dcm_matrix.c.x*(headY - mag.x*dcm_matrix.c.x);
 
             // magnetic heading
             // 6/4/11 - added constrain to keep bad values from ruining DCM Yaw - Jason S.
-            double heading = constrain_float((float)Math.Atan2(-headY, headX), -3.15f, 3.15f);
+            double heading = constrain_float((float) Math.Atan2(-headY, headX), -3.15f, 3.15f);
 
-            return (float)((heading * rad2deg) + 360) % 360f;
+            return (float) ((heading*rad2deg) + 360)%360f;
         }
 
         float constrain_float(float input, float min, float max)
@@ -176,9 +179,11 @@ namespace MissionPlanner.Wizard
                 //south -= magoff;
                 //west -= magoff;
             }
-            catch { }
+            catch
+            {
+            }
 
-            foreach (Common.Rotation item in Enum.GetValues(typeof(Common.Rotation)))
+            foreach (Common.Rotation item in Enum.GetValues(typeof (Common.Rotation)))
             {
                 // copy them, as we dont want to change the originals
                 HIL.Vector3 northc = new HIL.Vector3(north);
@@ -218,7 +223,7 @@ namespace MissionPlanner.Wizard
             value += 360;
             target += 360;
 
-            Console.WriteLine("{0} = {1} within +-{2}", value % 360, target % 360, margin);
+            Console.WriteLine("{0} = {1} within +-{2}", value%360, target%360, margin);
 
             if (value >= (target - margin))
             {
@@ -232,7 +237,7 @@ namespace MissionPlanner.Wizard
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            float target = (MainV2.comPort.MAV.cs.yaw % 90);
+            float target = (MainV2.comPort.MAV.cs.yaw%90);
 
             if (target > 45)
                 target -= 90f;

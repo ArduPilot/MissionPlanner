@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
-                return;   
+                return;
 
             var temp = (Hashtable) _changes.Clone();
 
@@ -428,7 +428,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        void filterList(string searchfor) 
+        void filterList(string searchfor)
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {

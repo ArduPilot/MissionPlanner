@@ -55,7 +55,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //setup bindings
                 chroll = (int) (float) MainV2.comPort.MAV.param["RCMAP_ROLL"];
                 chpitch = (int) (float) MainV2.comPort.MAV.param["RCMAP_PITCH"];
-                chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
+                chthro = (int) (float) MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
                 chyaw = (int) (float) MainV2.comPort.MAV.param["RCMAP_YAW"];
             }
 
@@ -467,7 +467,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
 
         private void BUT_BindradiodsmX_Click(object sender, EventArgs e)
@@ -477,7 +480,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
 
         private void BUT_Bindradiodsm8_Click(object sender, EventArgs e)
@@ -487,7 +493,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
                 CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show(Strings.Error_binding); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.Error_binding);
+            }
         }
     }
 }

@@ -122,7 +122,6 @@ namespace MissionPlanner.Utilities.DroneApi
             {
                 try
                 {
-                    
                     System.Diagnostics.Process.Start(viewurl);
                 }
                 catch (Exception ex)
@@ -144,7 +143,7 @@ namespace MissionPlanner.Utilities.DroneApi
             String queryParams = ToQueryString(@params);
             String webAppUploadUrl = String.Format("{0}/api/v1/auth/login", baseUrl);
 
-            var request = (HttpWebRequest)WebRequest.Create(webAppUploadUrl);
+            var request = (HttpWebRequest) WebRequest.Create(webAppUploadUrl);
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = queryParams.Length;
@@ -162,11 +161,11 @@ namespace MissionPlanner.Utilities.DroneApi
 
                 var JSONnobj = JSON.Instance.ToObject<object>(responseString);
 
-                var data = (Dictionary<string,object>)JSONnobj;
+                var data = (Dictionary<string, object>) JSONnobj;
 
                 try
                 {
-                    var vehlist = (List<object>)data["vehicles"];
+                    var vehlist = (List<object>) data["vehicles"];
 
                     foreach (var item in vehlist)
                     {
@@ -180,7 +179,6 @@ namespace MissionPlanner.Utilities.DroneApi
                 }
                 catch
                 {
-
                 }
             }
             catch
@@ -199,11 +197,11 @@ namespace MissionPlanner.Utilities.DroneApi
             @params.Add("api_key", APIConstants.apiKey);
             @params.Add("uuid", uuid);
             @params.Add("name", name);
-            
+
             String queryParams = ToQueryString(@params);
             String webAppUploadUrl = String.Format("{0}/api/v1/vehicle", baseUrl);
 
-            var request = (HttpWebRequest)WebRequest.Create(webAppUploadUrl);
+            var request = (HttpWebRequest) WebRequest.Create(webAppUploadUrl);
             request.Method = "PUT";
             request.ContentType = "application/x-www-form-urlencoded";
             request.ContentLength = queryParams.Length;
@@ -215,13 +213,13 @@ namespace MissionPlanner.Utilities.DroneApi
             }
             try
             {
-                var response = (HttpWebResponse)request.GetResponse();
+                var response = (HttpWebResponse) request.GetResponse();
 
                 var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
 
                 var JSONnobj = JSON.Instance.ToObject<object>(responseString);
 
-                var data = (Dictionary<string, object>)JSONnobj;
+                var data = (Dictionary<string, object>) JSONnobj;
             }
             catch
             {
@@ -338,7 +336,6 @@ namespace MissionPlanner.Utilities.DroneApi
                 while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
                 {
                     memStream.Write(buffer, 0, bytesRead);
-
                 }
             }
 

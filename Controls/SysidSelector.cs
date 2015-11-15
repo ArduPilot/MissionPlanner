@@ -22,8 +22,8 @@ namespace MissionPlanner.Controls
 
         private void cmb_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.sysidcurrent = (int)cmb_sysid.SelectedValue/ 256;
-            MainV2.comPort.compidcurrent = (int)cmb_sysid.SelectedValue % 256;
+            MainV2.comPort.sysidcurrent = (int) cmb_sysid.SelectedValue/256;
+            MainV2.comPort.compidcurrent = (int) cmb_sysid.SelectedValue%256;
         }
 
         private void myButton1_Click(object sender, EventArgs e)
@@ -33,7 +33,8 @@ namespace MissionPlanner.Controls
 
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
-            e.Value = MainV2.comPort.MAVlist[(int)e.Value / 256, (int)e.Value % 256].aptype.ToString() + "-" + ((int)e.Value%256);
+            e.Value = MainV2.comPort.MAVlist[(int) e.Value/256, (int) e.Value%256].aptype.ToString() + "-" +
+                      ((int) e.Value%256);
         }
     }
 }

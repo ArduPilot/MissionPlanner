@@ -7,7 +7,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls.Waypoints
 {
-    public class Spline: MissionPlanner.HIL.Utils
+    public class Spline : MissionPlanner.HIL.Utils
     {
         float spline_t;
         Vector3 current_position;
@@ -36,19 +36,19 @@ namespace MissionPlanner.Controls.Waypoints
             spline_p1 = p1;
             spline_p2 = p2;
             spline_p0_prime = new Vector3();
-            double yaw = (currentpos.GetBearing(p1) + 360) % 360;
-            spline_p0_prime.x = .000001 * Math.Sin(yaw * deg2rad);
-            spline_p0_prime.y = .000001 * Math.Cos(yaw * deg2rad);
+            double yaw = (currentpos.GetBearing(p1) + 360)%360;
+            spline_p0_prime.x = .000001*Math.Sin(yaw*deg2rad);
+            spline_p0_prime.y = .000001*Math.Cos(yaw*deg2rad);
             spline_p0_prime.z = spline_p1.z - spline_p0.z;
 
             initialize_spline_segment();
 
             int steps = 30;
 
-            foreach (var step in range(steps +1))
+            foreach (var step in range(steps + 1))
             {
-                spline_t = (1f / steps) * step;
-                spline_t_sq = spline_t * spline_t;
+                spline_t = (1f/steps)*step;
+                spline_t_sq = spline_t*spline_t;
                 evaluate_spline();
                 answer.Add(new PointLatLngAlt(spline_target.x, spline_target.y, spline_target.z, ""));
             }
@@ -64,7 +64,7 @@ namespace MissionPlanner.Controls.Waypoints
 
             List<PointLatLngAlt> answer = new List<PointLatLngAlt>();
 
-            entryyaw = (entryyaw + 360) % 360;
+            entryyaw = (entryyaw + 360)%360;
 
             spline_t = spline_t_sq = 0.0f;
 
@@ -78,28 +78,27 @@ namespace MissionPlanner.Controls.Waypoints
             if (!staticstart)
             {
                 // we are in lat long units.
-                spline_p0_prime.x = .001 * Math.Cos(entryyaw * deg2rad);
-                spline_p0_prime.y = .001 * Math.Sin(entryyaw * deg2rad);
+                spline_p0_prime.x = .001*Math.Cos(entryyaw*deg2rad);
+                spline_p0_prime.y = .001*Math.Sin(entryyaw*deg2rad);
             }
             spline_p0_prime.z = spline_p1.z - spline_p0.z;
 
             initialize_spline_segment();
 
-            foreach (int p in  range(wplist.Count-1)) 
+            foreach (int p in  range(wplist.Count - 1))
             {
-                foreach (var step in range(steps)) 
+                foreach (var step in range(steps))
                 {
-                    spline_t = (1f / steps) * step;
-                    spline_t_sq = spline_t * spline_t;
+                    spline_t = (1f/steps)*step;
+                    spline_t_sq = spline_t*spline_t;
                     evaluate_spline();
-                    answer.Add(new PointLatLngAlt(spline_target.x,spline_target.y,spline_target.z,""));
+                    answer.Add(new PointLatLngAlt(spline_target.x, spline_target.y, spline_target.z, ""));
                 }
-                next_spline_segment();  
+                next_spline_segment();
             }
 
 
             answer.Add(wplist[wplist.Count - 1]);
-
 
 
             return answer;
@@ -109,12 +108,12 @@ namespace MissionPlanner.Controls.Waypoints
         void initialize_spline_segment()
         {
             // derivative of spline at p1 is based on difference of previous and next points
-            spline_p1_prime = (spline_p2 - spline_p0) / SPLINE_TENSION;
+            spline_p1_prime = (spline_p2 - spline_p0)/SPLINE_TENSION;
 
 
             // compute a and b vectors used in spline formula
-            spline_a = spline_p0 * 2.0f - spline_p1 * 2.0f + spline_p0_prime + spline_p1_prime;
-            spline_b = spline_p1 * 3.0f - spline_p0 * 3.0f - spline_p0_prime * 2.0f - spline_p1_prime;
+            spline_a = spline_p0*2.0f - spline_p1*2.0f + spline_p0_prime + spline_p1_prime;
+            spline_b = spline_p1*3.0f - spline_p0*3.0f - spline_p0_prime*2.0f - spline_p1_prime;
         }
 
         // continue to the next spline segment
@@ -151,9 +150,9 @@ namespace MissionPlanner.Controls.Waypoints
         void evaluate_spline()
         {
             // evaluate spline t cubed
-            float t_cu = spline_t_sq * spline_t;
+            float t_cu = spline_t_sq*spline_t;
 
-            spline_target = spline_a * t_cu + spline_b * spline_t_sq + spline_p0_prime * spline_t + spline_p0;
+            spline_target = spline_a*t_cu + spline_b*spline_t_sq + spline_p0_prime*spline_t + spline_p0;
         }
     }
 }

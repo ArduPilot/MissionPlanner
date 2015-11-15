@@ -21,20 +21,20 @@ namespace MissionPlanner.HIL
             // to the APM executable to update the simulator state
             // All values are little-endian
             public double latitude, longitude; // degrees
-            public double altitude;  // MSL
-            public double heading;   // degrees
+            public double altitude; // MSL
+            public double heading; // degrees
             public double speedN, speedE; // m/s
-            public double xAccel, yAccel, zAccel;       // m/s/s in body frame
+            public double xAccel, yAccel, zAccel; // m/s/s in body frame
             public double rollRate, pitchRate, yawRate; // degrees/s/s in earth frame
-            public double rollDeg, pitchDeg, yawDeg;    // euler angles, degrees
+            public double rollDeg, pitchDeg, yawDeg; // euler angles, degrees
             public double airspeed; // m/s
             public UInt32 magic; // 0x4c56414e
         };
 
-        public const float ft2m = (float)(1.0 / 3.2808399);
-        public const float rad2deg = (float)(180 / Math.PI);
-        public const float deg2rad = (float)(1.0 / rad2deg);
-        public const float kts2fps = (float)1.68780986;
+        public const float ft2m = (float) (1.0/3.2808399);
+        public const float rad2deg = (float) (180/Math.PI);
+        public const float deg2rad = (float) (1.0/rad2deg);
+        public const float kts2fps = (float) 1.68780986;
 
         internal DateTime lastgpsupdate = DateTime.Now;
         internal sitl_fdm[] sitl_fdmbuffer = new sitl_fdm[5];
@@ -78,16 +78,28 @@ namespace MissionPlanner.HIL
 
         internal float Constrain(float value, float min, float max)
         {
-            if (value > max) { value = max; }
-            if (value < min) { value = min; }
+            if (value > max)
+            {
+                value = max;
+            }
+            if (value < min)
+            {
+                value = min;
+            }
             return value;
         }
 
         internal short Constrain(double value, double min, double max)
         {
-            if (value > max) { value = max; }
-            if (value < min) { value = min; }
-            return (short)value;
+            if (value > max)
+            {
+                value = max;
+            }
+            if (value < min)
+            {
+                value = min;
+            }
+            return (short) value;
         }
     }
 }

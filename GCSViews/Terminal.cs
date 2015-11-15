@@ -112,7 +112,8 @@ namespace MissionPlanner.GCSViews
                     inputStartPos = TXT_terminal.Text.Length - 1;
 
                 // gather current typed data
-                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
+                string currenttypedtext = TXT_terminal.Text.Substring(inputStartPos,
+                    TXT_terminal.Text.Length - inputStartPos);
 
                 // remove typed data
                 TXT_terminal.Text = TXT_terminal.Text.Remove(inputStartPos, TXT_terminal.Text.Length - inputStartPos);
@@ -241,7 +242,7 @@ namespace MissionPlanner.GCSViews
                             }
                         }
 
-                        log.Info("Command: "+ cmd);
+                        log.Info("Command: " + cmd);
 
                         // do not change this  \r is correct - no \n
                         if (cmd == "+++")
@@ -468,7 +469,6 @@ namespace MissionPlanner.GCSViews
                 }
 
                 startreadthread();
-
             }
             catch (Exception ex)
             {
@@ -558,12 +558,12 @@ namespace MissionPlanner.GCSViews
                             if (lastsend.AddMilliseconds(500) > DateTime.Now)
                             {
                                 // 20 hz
-                                ((MAVLinkSerialPort)comPort).timeout = 50;
+                                ((MAVLinkSerialPort) comPort).timeout = 50;
                             }
                             else
                             {
                                 // 5 hz
-                                ((MAVLinkSerialPort)comPort).timeout = 200;
+                                ((MAVLinkSerialPort) comPort).timeout = 200;
                             }
                         }
                     }
@@ -697,7 +697,7 @@ namespace MissionPlanner.GCSViews
         }
 
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
-        {  
+        {
             if (comPort.IsOpen)
             {
                 BUT_disconnect.Enabled = true;
@@ -729,13 +729,12 @@ namespace MissionPlanner.GCSViews
             {
                 if (MainV2.comPort != null && MainV2.comPort.BaseStream != null && MainV2.comPort.BaseStream.IsOpen)
                 {
-                 
                     comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.SHELL);
 
                     comPort.BaudRate = 0;
 
                     // 20 hz
-                    ((MAVLinkSerialPort)comPort).timeout = 50;
+                    ((MAVLinkSerialPort) comPort).timeout = 50;
 
                     comPort.Open();
 
@@ -744,7 +743,6 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
-
             }
         }
 

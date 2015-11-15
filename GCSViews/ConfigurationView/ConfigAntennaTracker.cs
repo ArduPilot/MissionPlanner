@@ -170,7 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    if ((float) changes[value] > MainV2.comPort.MAV.param[value].Value * 2.0f)
+                    if ((float) changes[value] > MainV2.comPort.MAV.param[value].Value*2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
                                 "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)

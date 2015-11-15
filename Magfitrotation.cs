@@ -12,7 +12,7 @@ namespace MissionPlanner
     public class Magfitrotation : HIL.Utils
     {
         private static readonly ILog log =
-       LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
 
         // copy of https://github.com/mavlink/mavlink/blob/master/pymavlink/tools/magfit_rotation_gyro.py
@@ -38,7 +38,7 @@ namespace MissionPlanner
 
             public bool is_90_degrees()
             {
-                return (self.roll % 90 == 0) && (self.pitch % 90 == 0) && (self.yaw % 90 == 0);
+                return (self.roll%90 == 0) && (self.pitch%90 == 0) && (self.yaw%90 == 0);
             }
 
             public override string ToString()
@@ -48,46 +48,47 @@ namespace MissionPlanner
         }
 
         //# the rotations used in APM
-        static Rotation[] rotations = {
-    new Rotation("ROTATION_NONE",                      0,   0,   0),
-    new Rotation("ROTATION_YAW_45",                    0,   0,  45),
-    new Rotation("ROTATION_YAW_90",                    0,   0,  90),
-    new Rotation("ROTATION_YAW_135",                   0,   0, 135),
-    new Rotation("ROTATION_YAW_180",                   0,   0, 180),
-    new Rotation("ROTATION_YAW_225",                   0,   0, 225),
-    new Rotation("ROTATION_YAW_270",                   0,   0, 270),
-new     Rotation("ROTATION_YAW_315",                   0,   0, 315),
-new     Rotation("ROTATION_ROLL_180",                180,   0,   0),
-new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
- new    Rotation("ROTATION_ROLL_180_YAW_90",         180,   0,  90),
- new    Rotation("ROTATION_ROLL_180_YAW_135",        180,   0, 135),
- new    Rotation("ROTATION_PITCH_180",                 0, 180,   0),
- new    Rotation("ROTATION_ROLL_180_YAW_225",        180,   0, 225),
- new    Rotation("ROTATION_ROLL_180_YAW_270",        180,   0, 270),
- new    Rotation("ROTATION_ROLL_180_YAW_315",        180,   0, 315),
- new    Rotation("ROTATION_ROLL_90",                  90,   0,   0),
- new    Rotation("ROTATION_ROLL_90_YAW_45",           90,   0,  45),
-   new  Rotation("ROTATION_ROLL_90_YAW_90",           90,   0,  90),
-  new   Rotation("ROTATION_ROLL_90_YAW_135",          90,   0, 135),
- new    Rotation("ROTATION_ROLL_270",                270,   0,   0),
- new    Rotation("ROTATION_ROLL_270_YAW_45",         270,   0,  45),
- new    Rotation("ROTATION_ROLL_270_YAW_90",         270,   0,  90),
- new    Rotation("ROTATION_ROLL_270_YAW_135",        270,   0, 135),
- new    Rotation("ROTATION_PITCH_90",                  0,  90,   0),
- new    Rotation("ROTATION_PITCH_270",                 0, 270,   0),    
- new    Rotation("ROTATION_PITCH_180_YAW_90",          0, 180,  90),    
- new    Rotation("ROTATION_PITCH_180_YAW_270",         0, 180, 270),    
- new    Rotation("ROTATION_ROLL_90_PITCH_90",         90,  90,   0),    
- new    Rotation("ROTATION_ROLL_180_PITCH_90",       180,  90,   0),    
- new    Rotation("ROTATION_ROLL_270_PITCH_90",       270,  90,   0),    
- new    Rotation("ROTATION_ROLL_90_PITCH_180",        90, 180,   0),    
- new    Rotation("ROTATION_ROLL_270_PITCH_180",      270, 180,   0),    
- new    Rotation("ROTATION_ROLL_90_PITCH_270",        90, 270,   0),    
-  new   Rotation("ROTATION_ROLL_180_PITCH_270",      180, 270,   0),    
-  new   Rotation("ROTATION_ROLL_270_PITCH_270",      270, 270,   0),    
- new    Rotation("ROTATION_ROLL_90_PITCH_180_YAW_90", 90, 180,  90),    
- new    Rotation("ROTATION_ROLL_90_YAW_270",          90,   0, 270)
-                       };
+        static Rotation[] rotations =
+        {
+            new Rotation("ROTATION_NONE", 0, 0, 0),
+            new Rotation("ROTATION_YAW_45", 0, 0, 45),
+            new Rotation("ROTATION_YAW_90", 0, 0, 90),
+            new Rotation("ROTATION_YAW_135", 0, 0, 135),
+            new Rotation("ROTATION_YAW_180", 0, 0, 180),
+            new Rotation("ROTATION_YAW_225", 0, 0, 225),
+            new Rotation("ROTATION_YAW_270", 0, 0, 270),
+            new Rotation("ROTATION_YAW_315", 0, 0, 315),
+            new Rotation("ROTATION_ROLL_180", 180, 0, 0),
+            new Rotation("ROTATION_ROLL_180_YAW_45", 180, 0, 45),
+            new Rotation("ROTATION_ROLL_180_YAW_90", 180, 0, 90),
+            new Rotation("ROTATION_ROLL_180_YAW_135", 180, 0, 135),
+            new Rotation("ROTATION_PITCH_180", 0, 180, 0),
+            new Rotation("ROTATION_ROLL_180_YAW_225", 180, 0, 225),
+            new Rotation("ROTATION_ROLL_180_YAW_270", 180, 0, 270),
+            new Rotation("ROTATION_ROLL_180_YAW_315", 180, 0, 315),
+            new Rotation("ROTATION_ROLL_90", 90, 0, 0),
+            new Rotation("ROTATION_ROLL_90_YAW_45", 90, 0, 45),
+            new Rotation("ROTATION_ROLL_90_YAW_90", 90, 0, 90),
+            new Rotation("ROTATION_ROLL_90_YAW_135", 90, 0, 135),
+            new Rotation("ROTATION_ROLL_270", 270, 0, 0),
+            new Rotation("ROTATION_ROLL_270_YAW_45", 270, 0, 45),
+            new Rotation("ROTATION_ROLL_270_YAW_90", 270, 0, 90),
+            new Rotation("ROTATION_ROLL_270_YAW_135", 270, 0, 135),
+            new Rotation("ROTATION_PITCH_90", 0, 90, 0),
+            new Rotation("ROTATION_PITCH_270", 0, 270, 0),
+            new Rotation("ROTATION_PITCH_180_YAW_90", 0, 180, 90),
+            new Rotation("ROTATION_PITCH_180_YAW_270", 0, 180, 270),
+            new Rotation("ROTATION_ROLL_90_PITCH_90", 90, 90, 0),
+            new Rotation("ROTATION_ROLL_180_PITCH_90", 180, 90, 0),
+            new Rotation("ROTATION_ROLL_270_PITCH_90", 270, 90, 0),
+            new Rotation("ROTATION_ROLL_90_PITCH_180", 90, 180, 0),
+            new Rotation("ROTATION_ROLL_270_PITCH_180", 270, 180, 0),
+            new Rotation("ROTATION_ROLL_90_PITCH_270", 90, 270, 0),
+            new Rotation("ROTATION_ROLL_180_PITCH_270", 180, 270, 0),
+            new Rotation("ROTATION_ROLL_270_PITCH_270", 270, 270, 0),
+            new Rotation("ROTATION_ROLL_90_PITCH_180_YAW_90", 90, 180, 90),
+            new Rotation("ROTATION_ROLL_90_YAW_270", 90, 0, 270)
+        };
 
         static Vector3 mag_fixup(Vector3 mag, float AHRS_ORIENTATION, float COMPASS_ORIENT, float COMPASS_EXTERNAL)
         {
@@ -95,28 +96,29 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             if (COMPASS_EXTERNAL == 0 && AHRS_ORIENTATION != 0)
             {
                 //# undo any board orientation
-                mag = rotations[(int)AHRS_ORIENTATION].r.transposed() * mag;
+                mag = rotations[(int) AHRS_ORIENTATION].r.transposed()*mag;
             }
             //# undo any compass orientation
             if (COMPASS_ORIENT != 0)
             {
-                mag = rotations[(int)COMPASS_ORIENT].r.transposed() * mag;
+                mag = rotations[(int) COMPASS_ORIENT].r.transposed()*mag;
             }
             return mag;
         }
 
-        static void add_errors(Vector3 mag, Vector3 gyr, Vector3 last_mag, double deltat, double[] total_error, Rotation[] rotations)
+        static void add_errors(Vector3 mag, Vector3 gyr, Vector3 last_mag, double deltat, double[] total_error,
+            Rotation[] rotations)
         {
             foreach (var i in range(len(rotations)))
             {
-               // if (!rotations[i].is_90_degrees())
+                // if (!rotations[i].is_90_degrees())
                 //    continue;
                 Matrix3 r = rotations[i].r;
                 Matrix3 m = new Matrix3();
-                m.rotate(gyr * deltat);
-                Vector3 rmag1 = r * last_mag;
-                Vector3 rmag2 = r * mag;
-                Vector3 rmag3 = m.transposed() * rmag1;
+                m.rotate(gyr*deltat);
+                Vector3 rmag1 = r*last_mag;
+                Vector3 rmag2 = r*mag;
+                Vector3 rmag3 = m.transposed()*rmag1;
                 Vector3 err = rmag3 - rmag2;
                 total_error[i] += err.length();
             }
@@ -139,7 +141,11 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
                     mavint.BaseStream.PortName = logfile;
                     mavint.BaseStream.Open();
                 }
-                catch (Exception ex) { log.Error(ex); return ""; }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                    return "";
+                }
 
                 mavint.logreadmode = true;
 
@@ -187,25 +193,25 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
                     continue;
                 if (packet is MAVLink.mavlink_param_value_t)
                 {
-                    MAVLink.mavlink_param_value_t m = (MAVLink.mavlink_param_value_t)packet;
+                    MAVLink.mavlink_param_value_t m = (MAVLink.mavlink_param_value_t) packet;
                     if (str(m.param_id) == "AHRS_ORIENTATION")
-                        AHRS_ORIENTATION = (int)(m.param_value);
+                        AHRS_ORIENTATION = (int) (m.param_value);
                     if (str(m.param_id) == "COMPASS_ORIENT")
-                        COMPASS_ORIENT = (int)(m.param_value);
+                        COMPASS_ORIENT = (int) (m.param_value);
                     if (str(m.param_id) == "COMPASS_EXTERNAL")
-                        COMPASS_EXTERNAL = (int)(m.param_value);
+                        COMPASS_EXTERNAL = (int) (m.param_value);
                 }
 
                 if (packet is MAVLink.mavlink_raw_imu_t)
                 {
-                    MAVLink.mavlink_raw_imu_t m = (MAVLink.mavlink_raw_imu_t)packet;
+                    MAVLink.mavlink_raw_imu_t m = (MAVLink.mavlink_raw_imu_t) packet;
                     Vector3 mag = new Vector3(m.xmag, m.ymag, m.zmag);
                     mag = mag_fixup(mag, AHRS_ORIENTATION, COMPASS_ORIENT, COMPASS_EXTERNAL);
-                    Vector3 gyr = new Vector3(m.xgyro, m.ygyro, m.zgyro) * 0.001;
+                    Vector3 gyr = new Vector3(m.xgyro, m.ygyro, m.zgyro)*0.001;
                     double usec = m.time_usec;
                     if (last_mag != null && gyr.length() > radians(5.0))
                     {
-                        add_errors(mag, gyr, last_mag, (usec - last_usec) * 1.0e-6, total_error, rotations);
+                        add_errors(mag, gyr, last_mag, (usec - last_usec)*1.0e-6, total_error, rotations);
                         count += 1;
                     }
                     last_mag = mag;
@@ -218,8 +224,8 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             foreach (var i in range(len(rotations)))
             {
                 Rotation r = rotations[i];
-              //  if (!r.is_90_degrees())
-              //      continue;
+                //  if (!r.is_90_degrees())
+                //      continue;
 
                 //if ( opts.verbose) {
                 //  print("%s err=%.2f" % (r, total_error[i]/count));}
@@ -230,7 +236,7 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
                 }
             }
             Rotation rans = rotations[best_i];
-            Console.WriteLine("Best rotation is {0} err={1} from {2} points", rans, best_err / count, count);
+            Console.WriteLine("Best rotation is {0} err={1} from {2} points", rans, best_err/count, count);
             //print("Best rotation is %s err=%.2f from %u points" % (r, best_err/count, count));
             return rans.name;
         }

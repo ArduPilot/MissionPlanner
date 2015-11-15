@@ -12,7 +12,8 @@ namespace MissionPlanner.Utilities
 {
     public class LogAnalyzer
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static string CheckLogFile(string FileName)
         {
@@ -28,8 +29,11 @@ namespace MissionPlanner.Utilities
 
             paths.Add(Environment.CurrentDirectory);
 
-            paths.Add(Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" + Path.DirectorySeparatorChar + "LogAnalyzer.py"));
-            paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages");
+            paths.Add(
+                Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" +
+                                      Path.DirectorySeparatorChar + "LogAnalyzer.py"));
+            paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar +
+                      "site-packages");
 
             engine.SetSearchPaths(paths);
 
@@ -78,7 +82,12 @@ LogAnalyzer.main()
 
                 stringresult = Encoding.ASCII.GetString(memstream.GetBuffer());
             }
-            catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, Strings.ERROR); return ""; }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                return "";
+            }
 
             engine = null;
 
@@ -138,7 +147,10 @@ LogAnalyzer.main()
                                             break;
                                     }
                                 }
-                                catch (Exception ex) { log.Error(ex); }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
                         }
                     }
@@ -167,7 +179,7 @@ LogAnalyzer.main()
                                     case "status":
                                         res.status = subtree.ReadString();
                                         break;
-                                    case "message": 
+                                    case "message":
                                         res.message = subtree.ReadString();
                                         break;
                                     case "data":

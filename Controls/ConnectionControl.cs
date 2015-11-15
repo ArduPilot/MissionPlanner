@@ -17,16 +17,28 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
             this.linkLabel1.Click += (sender, e) =>
-                                         {
-                                             if (ShowLinkStats!=null)
-                                                 ShowLinkStats.Invoke(this, EventArgs.Empty);
-                                         };
+            {
+                if (ShowLinkStats != null)
+                    ShowLinkStats.Invoke(this, EventArgs.Empty);
+            };
         }
 
         public event EventHandler ShowLinkStats;
-        public ComboBox CMB_baudrate { get { return this.cmb_Baud; } }
-        public ComboBox CMB_serialport { get { return this.cmb_Connection; } }
-        public ComboBox TOOL_APMFirmware { get { return this.cmb_ConnectionType; } }
+
+        public ComboBox CMB_baudrate
+        {
+            get { return this.cmb_Baud; }
+        }
+
+        public ComboBox CMB_serialport
+        {
+            get { return this.cmb_Connection; }
+        }
+
+        public ComboBox TOOL_APMFirmware
+        {
+            get { return this.cmb_ConnectionType; }
+        }
 
         /// <summary>
         /// Called from the main form - set whether we are connected or not currently.
@@ -59,34 +71,34 @@ namespace MissionPlanner.Controls
             ComboBox combo = sender as ComboBox;
             if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                 e.Graphics.FillRectangle(new SolidBrush(SystemColors.Highlight),
-                                         e.Bounds);
+                    e.Bounds);
             else
                 e.Graphics.FillRectangle(new SolidBrush(combo.BackColor),
-                                         e.Bounds);
+                    e.Bounds);
 
             string text = combo.Items[e.Index].ToString();
             if (!MainV2.MONO)
             {
-                text = text + " "+ SerialPort.GetNiceName(text);
+                text = text + " " + SerialPort.GetNiceName(text);
             }
 
             e.Graphics.DrawString(text, e.Font,
-                                  new SolidBrush(combo.ForeColor),
-                                  new Point(e.Bounds.X, e.Bounds.Y));
+                new SolidBrush(combo.ForeColor),
+                new Point(e.Bounds.X, e.Bounds.Y));
 
             e.DrawFocusRectangle();
         }
 
         private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.sysidcurrent = (int)cmb_sysid.SelectedValue / 256;
-            MainV2.comPort.compidcurrent = (int)cmb_sysid.SelectedValue % 256;
+            MainV2.comPort.sysidcurrent = (int) cmb_sysid.SelectedValue/256;
+            MainV2.comPort.compidcurrent = (int) cmb_sysid.SelectedValue%256;
         }
 
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
-            e.Value = MainV2.comPort.MAVlist[(int)e.Value / 256, (int)e.Value % 256].aptype.ToString() + "-" + ((int)e.Value % 256);
+            e.Value = MainV2.comPort.MAVlist[(int) e.Value/256, (int) e.Value%256].aptype.ToString() + "-" +
+                      ((int) e.Value%256);
         }
-
     }
 }

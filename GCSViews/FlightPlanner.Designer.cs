@@ -1370,7 +1370,7 @@
         private BSE.Windows.Forms.Panel panelWaypoints;
         private BSE.Windows.Forms.Panel panelAction;
         private System.Windows.Forms.Panel panelMap;
-        private Controls.myGMAP MainMap;
+        public Controls.myGMAP MainMap;
         private Controls.MyTrackBar trackBar1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lbl_distance;

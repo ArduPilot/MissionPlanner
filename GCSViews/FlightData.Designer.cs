@@ -194,46 +194,35 @@
             // 
             // MainH
             // 
-            resources.ApplyResources(this.MainH, "MainH");
             this.MainH.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.MainH, "MainH");
             this.MainH.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
             this.MainH.Name = "MainH";
             // 
             // MainH.Panel1
             // 
-            resources.ApplyResources(this.MainH.Panel1, "MainH.Panel1");
             this.MainH.Panel1.Controls.Add(this.SubMainLeft);
-            this.toolTip1.SetToolTip(this.MainH.Panel1, resources.GetString("MainH.Panel1.ToolTip"));
             // 
             // MainH.Panel2
             // 
-            resources.ApplyResources(this.MainH.Panel2, "MainH.Panel2");
             this.MainH.Panel2.Controls.Add(this.tableMap);
-            this.toolTip1.SetToolTip(this.MainH.Panel2, resources.GetString("MainH.Panel2.ToolTip"));
-            this.toolTip1.SetToolTip(this.MainH, resources.GetString("MainH.ToolTip"));
             // 
             // SubMainLeft
             // 
-            resources.ApplyResources(this.SubMainLeft, "SubMainLeft");
             this.SubMainLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.SubMainLeft, "SubMainLeft");
             this.SubMainLeft.Name = "SubMainLeft";
             // 
             // SubMainLeft.Panel1
             // 
-            resources.ApplyResources(this.SubMainLeft.Panel1, "SubMainLeft.Panel1");
             this.SubMainLeft.Panel1.Controls.Add(this.hud1);
-            this.toolTip1.SetToolTip(this.SubMainLeft.Panel1, resources.GetString("SubMainLeft.Panel1.ToolTip"));
             // 
             // SubMainLeft.Panel2
             // 
-            resources.ApplyResources(this.SubMainLeft.Panel2, "SubMainLeft.Panel2");
             this.SubMainLeft.Panel2.Controls.Add(this.tabControlactions);
-            this.toolTip1.SetToolTip(this.SubMainLeft.Panel2, resources.GetString("SubMainLeft.Panel2.ToolTip"));
-            this.toolTip1.SetToolTip(this.SubMainLeft, resources.GetString("SubMainLeft.ToolTip"));
             // 
             // hud1
             // 
-            resources.ApplyResources(this.hud1, "hud1");
             this.hud1.airspeed = 0F;
             this.hud1.alt = 0F;
             this.hud1.BackColor = System.Drawing.Color.Black;
@@ -279,6 +268,7 @@
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("xtrack_error", this.bindingSourceHud, "xtrack_error", true));
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.disttowp = 0F;
+            resources.ApplyResources(this.hud1, "hud1");
             this.hud1.ekfstatus = 0F;
             this.hud1.failsafe = false;
             this.hud1.gpsfix = 0F;
@@ -307,7 +297,6 @@
             this.hud1.targetalt = 0F;
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;
-            this.toolTip1.SetToolTip(this.hud1, resources.GetString("hud1.ToolTip"));
             this.hud1.turnrate = 0F;
             this.hud1.UseOpenGL = true;
             this.hud1.verticalspeed = 0F;
@@ -324,7 +313,6 @@
             // 
             // contextMenuStripHud
             // 
-            resources.ApplyResources(this.contextMenuStripHud, "contextMenuStripHud");
             this.contextMenuStripHud.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.recordHudToAVIToolStripMenuItem,
             this.stopRecordToolStripMenuItem,
@@ -333,42 +321,42 @@
             this.userItemsToolStripMenuItem,
             this.russianHudToolStripMenuItem});
             this.contextMenuStripHud.Name = "contextMenuStrip2";
-            this.toolTip1.SetToolTip(this.contextMenuStripHud, resources.GetString("contextMenuStripHud.ToolTip"));
+            resources.ApplyResources(this.contextMenuStripHud, "contextMenuStripHud");
             // 
             // recordHudToAVIToolStripMenuItem
             // 
-            resources.ApplyResources(this.recordHudToAVIToolStripMenuItem, "recordHudToAVIToolStripMenuItem");
             this.recordHudToAVIToolStripMenuItem.Name = "recordHudToAVIToolStripMenuItem";
+            resources.ApplyResources(this.recordHudToAVIToolStripMenuItem, "recordHudToAVIToolStripMenuItem");
             this.recordHudToAVIToolStripMenuItem.Click += new System.EventHandler(this.recordHudToAVIToolStripMenuItem_Click);
             // 
             // stopRecordToolStripMenuItem
             // 
-            resources.ApplyResources(this.stopRecordToolStripMenuItem, "stopRecordToolStripMenuItem");
             this.stopRecordToolStripMenuItem.Name = "stopRecordToolStripMenuItem";
+            resources.ApplyResources(this.stopRecordToolStripMenuItem, "stopRecordToolStripMenuItem");
             this.stopRecordToolStripMenuItem.Click += new System.EventHandler(this.stopRecordToolStripMenuItem_Click);
             // 
             // setMJPEGSourceToolStripMenuItem
             // 
-            resources.ApplyResources(this.setMJPEGSourceToolStripMenuItem, "setMJPEGSourceToolStripMenuItem");
             this.setMJPEGSourceToolStripMenuItem.Name = "setMJPEGSourceToolStripMenuItem";
+            resources.ApplyResources(this.setMJPEGSourceToolStripMenuItem, "setMJPEGSourceToolStripMenuItem");
             this.setMJPEGSourceToolStripMenuItem.Click += new System.EventHandler(this.setMJPEGSourceToolStripMenuItem_Click);
             // 
             // setAspectRatioToolStripMenuItem
             // 
-            resources.ApplyResources(this.setAspectRatioToolStripMenuItem, "setAspectRatioToolStripMenuItem");
             this.setAspectRatioToolStripMenuItem.Name = "setAspectRatioToolStripMenuItem";
+            resources.ApplyResources(this.setAspectRatioToolStripMenuItem, "setAspectRatioToolStripMenuItem");
             this.setAspectRatioToolStripMenuItem.Click += new System.EventHandler(this.setAspectRatioToolStripMenuItem_Click);
             // 
             // userItemsToolStripMenuItem
             // 
-            resources.ApplyResources(this.userItemsToolStripMenuItem, "userItemsToolStripMenuItem");
             this.userItemsToolStripMenuItem.Name = "userItemsToolStripMenuItem";
+            resources.ApplyResources(this.userItemsToolStripMenuItem, "userItemsToolStripMenuItem");
             this.userItemsToolStripMenuItem.Click += new System.EventHandler(this.hud_UserItem);
             // 
             // russianHudToolStripMenuItem
             // 
-            resources.ApplyResources(this.russianHudToolStripMenuItem, "russianHudToolStripMenuItem");
             this.russianHudToolStripMenuItem.Name = "russianHudToolStripMenuItem";
+            resources.ApplyResources(this.russianHudToolStripMenuItem, "russianHudToolStripMenuItem");
             this.russianHudToolStripMenuItem.Click += new System.EventHandler(this.russianHudToolStripMenuItem_Click);
             // 
             // bindingSourceHud
@@ -377,7 +365,6 @@
             // 
             // tabControlactions
             // 
-            resources.ApplyResources(this.tabControlactions, "tabControlactions");
             this.tabControlactions.ContextMenuStrip = this.contextMenuStripactionstab;
             this.tabControlactions.Controls.Add(this.tabQuick);
             this.tabControlactions.Controls.Add(this.tabpreflight);
@@ -390,24 +377,23 @@
             this.tabControlactions.Controls.Add(this.tablogbrowse);
             this.tabControlactions.Controls.Add(this.tabScripts);
             this.tabControlactions.Controls.Add(this.tabPagemessages);
+            resources.ApplyResources(this.tabControlactions, "tabControlactions");
             this.tabControlactions.Name = "tabControlactions";
             this.tabControlactions.SelectedIndex = 0;
-            this.toolTip1.SetToolTip(this.tabControlactions, resources.GetString("tabControlactions.ToolTip"));
             this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
             this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
             // contextMenuStripactionstab
             // 
-            resources.ApplyResources(this.contextMenuStripactionstab, "contextMenuStripactionstab");
             this.contextMenuStripactionstab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.dropOutToolStripMenuItem});
             this.contextMenuStripactionstab.Name = "contextMenuStripactionstab";
-            this.toolTip1.SetToolTip(this.contextMenuStripactionstab, resources.GetString("contextMenuStripactionstab.ToolTip"));
+            resources.ApplyResources(this.contextMenuStripactionstab, "contextMenuStripactionstab");
             // 
             // dropOutToolStripMenuItem
             // 
-            resources.ApplyResources(this.dropOutToolStripMenuItem, "dropOutToolStripMenuItem");
             this.dropOutToolStripMenuItem.Name = "dropOutToolStripMenuItem";
+            resources.ApplyResources(this.dropOutToolStripMenuItem, "dropOutToolStripMenuItem");
             this.dropOutToolStripMenuItem.Click += new System.EventHandler(this.dropOutToolStripMenuItem_Click);
             // 
             // tabQuick
@@ -415,7 +401,6 @@
             resources.ApplyResources(this.tabQuick, "tabQuick");
             this.tabQuick.Controls.Add(this.tableLayoutPanelQuick);
             this.tabQuick.Name = "tabQuick";
-            this.toolTip1.SetToolTip(this.tabQuick, resources.GetString("tabQuick.ToolTip"));
             this.tabQuick.UseVisualStyleBackColor = true;
             this.tabQuick.Resize += new System.EventHandler(this.tabQuick_Resize);
             // 
@@ -429,18 +414,16 @@
             this.tableLayoutPanelQuick.Controls.Add(this.quickView2, 1, 0);
             this.tableLayoutPanelQuick.Controls.Add(this.quickView1, 0, 0);
             this.tableLayoutPanelQuick.Name = "tableLayoutPanelQuick";
-            this.toolTip1.SetToolTip(this.tableLayoutPanelQuick, resources.GetString("tableLayoutPanelQuick.ToolTip"));
             // 
             // quickView6
             // 
-            resources.ApplyResources(this.quickView6, "quickView6");
             this.quickView6.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "DistToHome", true));
             this.quickView6.desc = "DistToMAV";
+            resources.ApplyResources(this.quickView6, "quickView6");
             this.quickView6.Name = "quickView6";
             this.quickView6.number = 0D;
             this.quickView6.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(252)))));
             this.quickView6.numberformat = "0.00";
-            this.toolTip1.SetToolTip(this.quickView6, resources.GetString("quickView6.ToolTip"));
             this.quickView6.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // bindingSourceQuickTab
@@ -449,57 +432,53 @@
             // 
             // quickView5
             // 
-            resources.ApplyResources(this.quickView5, "quickView5");
             this.quickView5.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "verticalspeed", true));
             this.quickView5.desc = "verticalspeed";
+            resources.ApplyResources(this.quickView5, "quickView5");
             this.quickView5.Name = "quickView5";
             this.quickView5.number = 0D;
             this.quickView5.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(254)))), ((int)(((byte)(86)))));
             this.quickView5.numberformat = "0.00";
-            this.toolTip1.SetToolTip(this.quickView5, resources.GetString("quickView5.ToolTip"));
             this.quickView5.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // quickView4
             // 
-            resources.ApplyResources(this.quickView4, "quickView4");
             this.quickView4.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "yaw", true));
             this.quickView4.desc = "yaw";
+            resources.ApplyResources(this.quickView4, "quickView4");
             this.quickView4.Name = "quickView4";
             this.quickView4.number = 0D;
             this.quickView4.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(83)))));
             this.quickView4.numberformat = "0.00";
-            this.toolTip1.SetToolTip(this.quickView4, resources.GetString("quickView4.ToolTip"));
             this.quickView4.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // quickView3
             // 
-            resources.ApplyResources(this.quickView3, "quickView3");
             this.quickView3.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "wp_dist", true));
             this.quickView3.desc = "wp_dist";
+            resources.ApplyResources(this.quickView3, "quickView3");
             this.quickView3.Name = "quickView3";
             this.quickView3.number = 0D;
             this.quickView3.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(96)))), ((int)(((byte)(91)))));
             this.quickView3.numberformat = "0.00";
-            this.toolTip1.SetToolTip(this.quickView3, resources.GetString("quickView3.ToolTip"));
             this.quickView3.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // quickView2
             // 
-            resources.ApplyResources(this.quickView2, "quickView2");
             this.quickView2.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "groundspeed", true));
             this.quickView2.desc = "groundspeed";
+            resources.ApplyResources(this.quickView2, "quickView2");
             this.quickView2.Name = "quickView2";
             this.quickView2.number = 9999.99D;
             this.quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(132)))), ((int)(((byte)(46)))));
             this.quickView2.numberformat = "0.00";
-            this.toolTip1.SetToolTip(this.quickView2, resources.GetString("quickView2.ToolTip"));
             this.quickView2.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
             // quickView1
             // 
-            resources.ApplyResources(this.quickView1, "quickView1");
             this.quickView1.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "alt", true));
             this.quickView1.desc = "alt";
+            resources.ApplyResources(this.quickView1, "quickView1");
             this.quickView1.Name = "quickView1";
             this.quickView1.number = 0D;
             this.quickView1.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(209)))), ((int)(((byte)(151)))), ((int)(((byte)(248)))));
@@ -512,18 +491,15 @@
             resources.ApplyResources(this.tabpreflight, "tabpreflight");
             this.tabpreflight.Controls.Add(this.preFlightChecklist1);
             this.tabpreflight.Name = "tabpreflight";
-            this.toolTip1.SetToolTip(this.tabpreflight, resources.GetString("tabpreflight.ToolTip"));
             this.tabpreflight.UseVisualStyleBackColor = true;
             // 
             // preFlightChecklist1
             // 
             resources.ApplyResources(this.preFlightChecklist1, "preFlightChecklist1");
             this.preFlightChecklist1.Name = "preFlightChecklist1";
-            this.toolTip1.SetToolTip(this.preFlightChecklist1, resources.GetString("preFlightChecklist1.ToolTip"));
             // 
             // tabActions
             // 
-            resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Controls.Add(this.BUT_resumemis);
             this.tabActions.Controls.Add(this.CMB_mountmode);
             this.tabActions.Controls.Add(this.BUT_mountmode);
@@ -544,25 +520,23 @@
             this.tabActions.Controls.Add(this.BUT_RAWSensor);
             this.tabActions.Controls.Add(this.BUTrestartmission);
             this.tabActions.Controls.Add(this.BUTactiondo);
+            resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Name = "tabActions";
-            this.toolTip1.SetToolTip(this.tabActions, resources.GetString("tabActions.ToolTip"));
             this.tabActions.UseVisualStyleBackColor = true;
             // 
             // BUT_resumemis
             // 
             resources.ApplyResources(this.BUT_resumemis, "BUT_resumemis");
             this.BUT_resumemis.Name = "BUT_resumemis";
-            this.toolTip1.SetToolTip(this.BUT_resumemis, resources.GetString("BUT_resumemis.ToolTip"));
             this.BUT_resumemis.UseVisualStyleBackColor = true;
             this.BUT_resumemis.Click += new System.EventHandler(this.BUT_resumemis_Click);
             // 
             // CMB_mountmode
             // 
-            resources.ApplyResources(this.CMB_mountmode, "CMB_mountmode");
             this.CMB_mountmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_mountmode.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_mountmode, "CMB_mountmode");
             this.CMB_mountmode.Name = "CMB_mountmode";
-            this.toolTip1.SetToolTip(this.CMB_mountmode, resources.GetString("CMB_mountmode.ToolTip"));
             // 
             // BUT_mountmode
             // 
@@ -574,10 +548,9 @@
             // 
             // modifyandSetSpeed
             // 
+            this.modifyandSetSpeed.ButtonText = "Change Speed";
             resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
-            this.modifyandSetSpeed.ButtonText = "改速度";
             this.modifyandSetSpeed.Name = "modifyandSetSpeed";
-            this.toolTip1.SetToolTip(this.modifyandSetSpeed, resources.GetString("modifyandSetSpeed.ToolTip"));
             this.modifyandSetSpeed.Value = new decimal(new int[] {
             100,
             0,
@@ -588,10 +561,9 @@
             // 
             // modifyandSetAlt
             // 
+            this.modifyandSetAlt.ButtonText = "Change Alt";
             resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
-            this.modifyandSetAlt.ButtonText = "改高度";
             this.modifyandSetAlt.Name = "modifyandSetAlt";
-            this.toolTip1.SetToolTip(this.modifyandSetAlt, resources.GetString("modifyandSetAlt.ToolTip"));
             this.modifyandSetAlt.Value = new decimal(new int[] {
             100,
             0,
@@ -641,13 +613,12 @@
             // 
             // CMB_setwp
             // 
-            resources.ApplyResources(this.CMB_setwp, "CMB_setwp");
             this.CMB_setwp.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_setwp.FormattingEnabled = true;
             this.CMB_setwp.Items.AddRange(new object[] {
             resources.GetString("CMB_setwp.Items")});
+            resources.ApplyResources(this.CMB_setwp, "CMB_setwp");
             this.CMB_setwp.Name = "CMB_setwp";
-            this.toolTip1.SetToolTip(this.CMB_setwp, resources.GetString("CMB_setwp.ToolTip"));
             this.CMB_setwp.Click += new System.EventHandler(this.CMB_setwp_Click);
             // 
             // BUT_setwp
@@ -660,11 +631,10 @@
             // 
             // CMB_modes
             // 
-            resources.ApplyResources(this.CMB_modes, "CMB_modes");
             this.CMB_modes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_modes.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_modes, "CMB_modes");
             this.CMB_modes.Name = "CMB_modes";
-            this.toolTip1.SetToolTip(this.CMB_modes, resources.GetString("CMB_modes.ToolTip"));
             this.CMB_modes.Click += new System.EventHandler(this.CMB_modes_Click);
             // 
             // BUT_setmode
@@ -685,12 +655,11 @@
             // 
             // CMB_action
             // 
-            resources.ApplyResources(this.CMB_action, "CMB_action");
             this.CMB_action.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_action.DropDownWidth = 110;
             this.CMB_action.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_action, "CMB_action");
             this.CMB_action.Name = "CMB_action";
-            this.toolTip1.SetToolTip(this.CMB_action, resources.GetString("CMB_action.ToolTip"));
             // 
             // BUT_Homealt
             // 
@@ -726,12 +695,11 @@
             // 
             // tabActionsSimple
             // 
-            resources.ApplyResources(this.tabActionsSimple, "tabActionsSimple");
             this.tabActionsSimple.Controls.Add(this.myButton1);
             this.tabActionsSimple.Controls.Add(this.myButton2);
             this.tabActionsSimple.Controls.Add(this.myButton3);
+            resources.ApplyResources(this.tabActionsSimple, "tabActionsSimple");
             this.tabActionsSimple.Name = "tabActionsSimple";
-            this.toolTip1.SetToolTip(this.tabActionsSimple, resources.GetString("tabActionsSimple.ToolTip"));
             this.tabActionsSimple.UseVisualStyleBackColor = true;
             // 
             // myButton1
@@ -760,21 +728,20 @@
             // 
             // tabGauges
             // 
-            resources.ApplyResources(this.tabGauges, "tabGauges");
             this.tabGauges.Controls.Add(this.Gvspeed);
             this.tabGauges.Controls.Add(this.Gheading);
             this.tabGauges.Controls.Add(this.Galt);
             this.tabGauges.Controls.Add(this.Gspeed);
+            resources.ApplyResources(this.tabGauges, "tabGauges");
             this.tabGauges.Name = "tabGauges";
-            this.toolTip1.SetToolTip(this.tabGauges, resources.GetString("tabGauges.ToolTip"));
             this.tabGauges.UseVisualStyleBackColor = true;
             this.tabGauges.Resize += new System.EventHandler(this.tabPage1_Resize);
             // 
             // Gvspeed
             // 
-            resources.ApplyResources(this.Gvspeed, "Gvspeed");
             this.Gvspeed.BackColor = System.Drawing.Color.Transparent;
             this.Gvspeed.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
+            resources.ApplyResources(this.Gvspeed, "Gvspeed");
             this.Gvspeed.BaseArcColor = System.Drawing.Color.Transparent;
             this.Gvspeed.BaseArcRadius = 60;
             this.Gvspeed.BaseArcStart = 20;
@@ -907,7 +874,6 @@
             this.Gvspeed.ScaleNumbersRotation = 0;
             this.Gvspeed.ScaleNumbersStartScaleLine = 1;
             this.Gvspeed.ScaleNumbersStepScaleLines = 1;
-            this.toolTip1.SetToolTip(this.Gvspeed, resources.GetString("Gvspeed.ToolTip"));
             this.Gvspeed.Value = 0F;
             this.Gvspeed.Value0 = 0F;
             this.Gvspeed.Value1 = 0F;
@@ -920,21 +886,20 @@
             // 
             // Gheading
             // 
-            resources.ApplyResources(this.Gheading, "Gheading");
             this.Gheading.BackColor = System.Drawing.Color.Transparent;
             this.Gheading.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
+            resources.ApplyResources(this.Gheading, "Gheading");
             this.Gheading.DataBindings.Add(new System.Windows.Forms.Binding("Heading", this.bindingSourceGaugesTab, "yaw", true));
             this.Gheading.DataBindings.Add(new System.Windows.Forms.Binding("NavHeading", this.bindingSourceGaugesTab, "nav_bearing", true));
             this.Gheading.Heading = 0;
             this.Gheading.Name = "Gheading";
             this.Gheading.NavHeading = 0;
-            this.toolTip1.SetToolTip(this.Gheading, resources.GetString("Gheading.ToolTip"));
             // 
             // Galt
             // 
-            resources.ApplyResources(this.Galt, "Galt");
             this.Galt.BackColor = System.Drawing.Color.Transparent;
             this.Galt.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
+            resources.ApplyResources(this.Galt, "Galt");
             this.Galt.BaseArcColor = System.Drawing.Color.Transparent;
             this.Galt.BaseArcRadius = 60;
             this.Galt.BaseArcStart = 270;
@@ -1069,7 +1034,6 @@
             this.Galt.ScaleNumbersRotation = 0;
             this.Galt.ScaleNumbersStartScaleLine = 1;
             this.Galt.ScaleNumbersStepScaleLines = 1;
-            this.toolTip1.SetToolTip(this.Galt, resources.GetString("Galt.ToolTip"));
             this.Galt.Value = 0F;
             this.Galt.Value0 = 0F;
             this.Galt.Value1 = 0F;
@@ -1078,9 +1042,9 @@
             // 
             // Gspeed
             // 
-            resources.ApplyResources(this.Gspeed, "Gspeed");
             this.Gspeed.BackColor = System.Drawing.Color.Transparent;
             this.Gspeed.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
+            resources.ApplyResources(this.Gspeed, "Gspeed");
             this.Gspeed.BaseArcColor = System.Drawing.Color.Transparent;
             this.Gspeed.BaseArcRadius = 70;
             this.Gspeed.BaseArcStart = 135;
@@ -1226,14 +1190,12 @@
             // 
             resources.ApplyResources(this.tabStatus, "tabStatus");
             this.tabStatus.Name = "tabStatus";
-            this.toolTip1.SetToolTip(this.tabStatus, resources.GetString("tabStatus.ToolTip"));
             // 
             // tabServo
             // 
-            resources.ApplyResources(this.tabServo, "tabServo");
             this.tabServo.Controls.Add(this.flowLayoutPanelServos);
+            resources.ApplyResources(this.tabServo, "tabServo");
             this.tabServo.Name = "tabServo";
-            this.toolTip1.SetToolTip(this.tabServo, resources.GetString("tabServo.ToolTip"));
             this.tabServo.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanelServos
@@ -1247,63 +1209,54 @@
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions6);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions7);
             this.flowLayoutPanelServos.Name = "flowLayoutPanelServos";
-            this.toolTip1.SetToolTip(this.flowLayoutPanelServos, resources.GetString("flowLayoutPanelServos.ToolTip"));
             // 
             // servoOptions1
             // 
             resources.ApplyResources(this.servoOptions1, "servoOptions1");
             this.servoOptions1.Name = "servoOptions1";
             this.servoOptions1.thisservo = 5;
-            this.toolTip1.SetToolTip(this.servoOptions1, resources.GetString("servoOptions1.ToolTip"));
             // 
             // servoOptions2
             // 
             resources.ApplyResources(this.servoOptions2, "servoOptions2");
             this.servoOptions2.Name = "servoOptions2";
             this.servoOptions2.thisservo = 6;
-            this.toolTip1.SetToolTip(this.servoOptions2, resources.GetString("servoOptions2.ToolTip"));
             // 
             // servoOptions3
             // 
             resources.ApplyResources(this.servoOptions3, "servoOptions3");
             this.servoOptions3.Name = "servoOptions3";
             this.servoOptions3.thisservo = 7;
-            this.toolTip1.SetToolTip(this.servoOptions3, resources.GetString("servoOptions3.ToolTip"));
             // 
             // servoOptions4
             // 
             resources.ApplyResources(this.servoOptions4, "servoOptions4");
             this.servoOptions4.Name = "servoOptions4";
             this.servoOptions4.thisservo = 8;
-            this.toolTip1.SetToolTip(this.servoOptions4, resources.GetString("servoOptions4.ToolTip"));
             // 
             // servoOptions5
             // 
             resources.ApplyResources(this.servoOptions5, "servoOptions5");
             this.servoOptions5.Name = "servoOptions5";
             this.servoOptions5.thisservo = 9;
-            this.toolTip1.SetToolTip(this.servoOptions5, resources.GetString("servoOptions5.ToolTip"));
             // 
             // servoOptions6
             // 
             resources.ApplyResources(this.servoOptions6, "servoOptions6");
             this.servoOptions6.Name = "servoOptions6";
             this.servoOptions6.thisservo = 10;
-            this.toolTip1.SetToolTip(this.servoOptions6, resources.GetString("servoOptions6.ToolTip"));
             // 
             // servoOptions7
             // 
             resources.ApplyResources(this.servoOptions7, "servoOptions7");
             this.servoOptions7.Name = "servoOptions7";
             this.servoOptions7.thisservo = 11;
-            this.toolTip1.SetToolTip(this.servoOptions7, resources.GetString("servoOptions7.ToolTip"));
             // 
             // tabTLogs
             // 
-            resources.ApplyResources(this.tabTLogs, "tabTLogs");
             this.tabTLogs.Controls.Add(this.tableLayoutPaneltlogs);
+            resources.ApplyResources(this.tabTLogs, "tabTLogs");
             this.tabTLogs.Name = "tabTLogs";
-            this.toolTip1.SetToolTip(this.tabTLogs, resources.GetString("tabTLogs.ToolTip"));
             this.tabTLogs.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPaneltlogs
@@ -1318,13 +1271,11 @@
             this.tableLayoutPaneltlogs.Controls.Add(this.BUT_playlog, 0, 1);
             this.tableLayoutPaneltlogs.Controls.Add(this.panel2, 1, 2);
             this.tableLayoutPaneltlogs.Name = "tableLayoutPaneltlogs";
-            this.toolTip1.SetToolTip(this.tableLayoutPaneltlogs, resources.GetString("tableLayoutPaneltlogs.ToolTip"));
             // 
             // BUT_loadtelem
             // 
             resources.ApplyResources(this.BUT_loadtelem, "BUT_loadtelem");
             this.BUT_loadtelem.Name = "BUT_loadtelem";
-            this.toolTip1.SetToolTip(this.BUT_loadtelem, resources.GetString("BUT_loadtelem.ToolTip"));
             this.BUT_loadtelem.UseVisualStyleBackColor = true;
             this.BUT_loadtelem.Click += new System.EventHandler(this.BUT_loadtelem_Click);
             // 
@@ -1333,14 +1284,12 @@
             resources.ApplyResources(this.lbl_playbackspeed, "lbl_playbackspeed");
             this.lbl_playbackspeed.Name = "lbl_playbackspeed";
             this.lbl_playbackspeed.resize = false;
-            this.toolTip1.SetToolTip(this.lbl_playbackspeed, resources.GetString("lbl_playbackspeed.ToolTip"));
             // 
             // lbl_logpercent
             // 
             resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
             this.lbl_logpercent.Name = "lbl_logpercent";
             this.lbl_logpercent.resize = false;
-            this.toolTip1.SetToolTip(this.lbl_logpercent, resources.GetString("lbl_logpercent.ToolTip"));
             // 
             // tracklog
             // 
@@ -1348,22 +1297,19 @@
             this.tracklog.Maximum = 100;
             this.tracklog.Name = "tracklog";
             this.tracklog.TickFrequency = 5;
-            this.toolTip1.SetToolTip(this.tracklog, resources.GetString("tracklog.ToolTip"));
             this.tracklog.Scroll += new System.EventHandler(this.tracklog_Scroll);
             // 
             // LBL_logfn
             // 
-            resources.ApplyResources(this.LBL_logfn, "LBL_logfn");
             this.tableLayoutPaneltlogs.SetColumnSpan(this.LBL_logfn, 2);
+            resources.ApplyResources(this.LBL_logfn, "LBL_logfn");
             this.LBL_logfn.Name = "LBL_logfn";
             this.LBL_logfn.resize = false;
-            this.toolTip1.SetToolTip(this.LBL_logfn, resources.GetString("LBL_logfn.ToolTip"));
             // 
             // BUT_log2kml
             // 
             resources.ApplyResources(this.BUT_log2kml, "BUT_log2kml");
             this.BUT_log2kml.Name = "BUT_log2kml";
-            this.toolTip1.SetToolTip(this.BUT_log2kml, resources.GetString("BUT_log2kml.ToolTip"));
             this.BUT_log2kml.UseVisualStyleBackColor = true;
             this.BUT_log2kml.Click += new System.EventHandler(this.BUT_log2kml_Click);
             // 
@@ -1371,13 +1317,11 @@
             // 
             resources.ApplyResources(this.BUT_playlog, "BUT_playlog");
             this.BUT_playlog.Name = "BUT_playlog";
-            this.toolTip1.SetToolTip(this.BUT_playlog, resources.GetString("BUT_playlog.ToolTip"));
             this.BUT_playlog.UseVisualStyleBackColor = true;
             this.BUT_playlog.Click += new System.EventHandler(this.BUT_playlog_Click);
             // 
             // panel2
             // 
-            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Controls.Add(this.label2);
             this.panel2.Controls.Add(this.BUT_speed10);
             this.panel2.Controls.Add(this.BUT_speed5);
@@ -1386,21 +1330,19 @@
             this.panel2.Controls.Add(this.BUT_speed1_2);
             this.panel2.Controls.Add(this.BUT_speed1_4);
             this.panel2.Controls.Add(this.BUT_speed1_10);
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
-            this.toolTip1.SetToolTip(this.panel2, resources.GetString("panel2.ToolTip"));
             // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.toolTip1.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
             // 
             // BUT_speed10
             // 
             resources.ApplyResources(this.BUT_speed10, "BUT_speed10");
             this.BUT_speed10.Name = "BUT_speed10";
             this.BUT_speed10.Tag = "10";
-            this.toolTip1.SetToolTip(this.BUT_speed10, resources.GetString("BUT_speed10.ToolTip"));
             this.BUT_speed10.UseVisualStyleBackColor = true;
             this.BUT_speed10.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1409,7 +1351,6 @@
             resources.ApplyResources(this.BUT_speed5, "BUT_speed5");
             this.BUT_speed5.Name = "BUT_speed5";
             this.BUT_speed5.Tag = "5";
-            this.toolTip1.SetToolTip(this.BUT_speed5, resources.GetString("BUT_speed5.ToolTip"));
             this.BUT_speed5.UseVisualStyleBackColor = true;
             this.BUT_speed5.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1418,7 +1359,6 @@
             resources.ApplyResources(this.BUT_speed2, "BUT_speed2");
             this.BUT_speed2.Name = "BUT_speed2";
             this.BUT_speed2.Tag = "2";
-            this.toolTip1.SetToolTip(this.BUT_speed2, resources.GetString("BUT_speed2.ToolTip"));
             this.BUT_speed2.UseVisualStyleBackColor = true;
             this.BUT_speed2.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1427,7 +1367,6 @@
             resources.ApplyResources(this.BUT_speed1, "BUT_speed1");
             this.BUT_speed1.Name = "BUT_speed1";
             this.BUT_speed1.Tag = "1";
-            this.toolTip1.SetToolTip(this.BUT_speed1, resources.GetString("BUT_speed1.ToolTip"));
             this.BUT_speed1.UseVisualStyleBackColor = true;
             this.BUT_speed1.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1436,7 +1375,6 @@
             resources.ApplyResources(this.BUT_speed1_2, "BUT_speed1_2");
             this.BUT_speed1_2.Name = "BUT_speed1_2";
             this.BUT_speed1_2.Tag = "0.5";
-            this.toolTip1.SetToolTip(this.BUT_speed1_2, resources.GetString("BUT_speed1_2.ToolTip"));
             this.BUT_speed1_2.UseVisualStyleBackColor = true;
             this.BUT_speed1_2.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1445,7 +1383,6 @@
             resources.ApplyResources(this.BUT_speed1_4, "BUT_speed1_4");
             this.BUT_speed1_4.Name = "BUT_speed1_4";
             this.BUT_speed1_4.Tag = "0.25";
-            this.toolTip1.SetToolTip(this.BUT_speed1_4, resources.GetString("BUT_speed1_4.ToolTip"));
             this.BUT_speed1_4.UseVisualStyleBackColor = true;
             this.BUT_speed1_4.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
@@ -1454,28 +1391,25 @@
             resources.ApplyResources(this.BUT_speed1_10, "BUT_speed1_10");
             this.BUT_speed1_10.Name = "BUT_speed1_10";
             this.BUT_speed1_10.Tag = "0.1";
-            this.toolTip1.SetToolTip(this.BUT_speed1_10, resources.GetString("BUT_speed1_10.ToolTip"));
             this.BUT_speed1_10.UseVisualStyleBackColor = true;
             this.BUT_speed1_10.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
             // tablogbrowse
             // 
-            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
             this.tablogbrowse.Controls.Add(this.BUT_loganalysis);
             this.tablogbrowse.Controls.Add(this.BUT_DFMavlink);
             this.tablogbrowse.Controls.Add(this.but_dflogtokml);
             this.tablogbrowse.Controls.Add(this.but_bintolog);
             this.tablogbrowse.Controls.Add(this.BUT_matlab);
             this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
+            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
             this.tablogbrowse.Name = "tablogbrowse";
-            this.toolTip1.SetToolTip(this.tablogbrowse, resources.GetString("tablogbrowse.ToolTip"));
             this.tablogbrowse.UseVisualStyleBackColor = true;
             // 
             // BUT_loganalysis
             // 
             resources.ApplyResources(this.BUT_loganalysis, "BUT_loganalysis");
             this.BUT_loganalysis.Name = "BUT_loganalysis";
-            this.toolTip1.SetToolTip(this.BUT_loganalysis, resources.GetString("BUT_loganalysis.ToolTip"));
             this.BUT_loganalysis.UseVisualStyleBackColor = true;
             this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
@@ -1483,7 +1417,6 @@
             // 
             resources.ApplyResources(this.BUT_DFMavlink, "BUT_DFMavlink");
             this.BUT_DFMavlink.Name = "BUT_DFMavlink";
-            this.toolTip1.SetToolTip(this.BUT_DFMavlink, resources.GetString("BUT_DFMavlink.ToolTip"));
             this.BUT_DFMavlink.UseVisualStyleBackColor = true;
             this.BUT_DFMavlink.Click += new System.EventHandler(this.BUT_DFMavlink_Click);
             // 
@@ -1491,7 +1424,6 @@
             // 
             resources.ApplyResources(this.but_dflogtokml, "but_dflogtokml");
             this.but_dflogtokml.Name = "but_dflogtokml";
-            this.toolTip1.SetToolTip(this.but_dflogtokml, resources.GetString("but_dflogtokml.ToolTip"));
             this.but_dflogtokml.UseVisualStyleBackColor = true;
             this.but_dflogtokml.Click += new System.EventHandler(this.but_dflogtokml_Click);
             // 
@@ -1499,7 +1431,6 @@
             // 
             resources.ApplyResources(this.but_bintolog, "but_bintolog");
             this.but_bintolog.Name = "but_bintolog";
-            this.toolTip1.SetToolTip(this.but_bintolog, resources.GetString("but_bintolog.ToolTip"));
             this.but_bintolog.UseVisualStyleBackColor = true;
             this.but_bintolog.Click += new System.EventHandler(this.but_bintolog_Click);
             // 
@@ -1507,7 +1438,6 @@
             // 
             resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
             this.BUT_matlab.Name = "BUT_matlab";
-            this.toolTip1.SetToolTip(this.BUT_matlab, resources.GetString("BUT_matlab.ToolTip"));
             this.BUT_matlab.UseVisualStyleBackColor = true;
             this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
             // 
@@ -1515,13 +1445,11 @@
             // 
             resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
             this.BUT_logbrowse.Name = "BUT_logbrowse";
-            this.toolTip1.SetToolTip(this.BUT_logbrowse, resources.GetString("BUT_logbrowse.ToolTip"));
             this.BUT_logbrowse.UseVisualStyleBackColor = true;
             this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
             // 
             // tabScripts
             // 
-            resources.ApplyResources(this.tabScripts, "tabScripts");
             this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
             this.tabScripts.Controls.Add(this.BUT_edit_selected);
             this.tabScripts.Controls.Add(this.labelSelectedScript);
@@ -1529,8 +1457,8 @@
             this.tabScripts.Controls.Add(this.BUT_abort_script);
             this.tabScripts.Controls.Add(this.labelScriptStatus);
             this.tabScripts.Controls.Add(this.BUT_select_script);
+            resources.ApplyResources(this.tabScripts, "tabScripts");
             this.tabScripts.Name = "tabScripts";
-            this.toolTip1.SetToolTip(this.tabScripts, resources.GetString("tabScripts.ToolTip"));
             this.tabScripts.UseVisualStyleBackColor = true;
             // 
             // checkBoxRedirectOutput
@@ -1539,14 +1467,12 @@
             this.checkBoxRedirectOutput.Checked = true;
             this.checkBoxRedirectOutput.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBoxRedirectOutput.Name = "checkBoxRedirectOutput";
-            this.toolTip1.SetToolTip(this.checkBoxRedirectOutput, resources.GetString("checkBoxRedirectOutput.ToolTip"));
             this.checkBoxRedirectOutput.UseVisualStyleBackColor = true;
             // 
             // BUT_edit_selected
             // 
             resources.ApplyResources(this.BUT_edit_selected, "BUT_edit_selected");
             this.BUT_edit_selected.Name = "BUT_edit_selected";
-            this.toolTip1.SetToolTip(this.BUT_edit_selected, resources.GetString("BUT_edit_selected.ToolTip"));
             this.BUT_edit_selected.UseVisualStyleBackColor = true;
             this.BUT_edit_selected.Click += new System.EventHandler(this.BUT_edit_selected_Click);
             // 
@@ -1554,13 +1480,11 @@
             // 
             resources.ApplyResources(this.labelSelectedScript, "labelSelectedScript");
             this.labelSelectedScript.Name = "labelSelectedScript";
-            this.toolTip1.SetToolTip(this.labelSelectedScript, resources.GetString("labelSelectedScript.ToolTip"));
             // 
             // BUT_run_script
             // 
             resources.ApplyResources(this.BUT_run_script, "BUT_run_script");
             this.BUT_run_script.Name = "BUT_run_script";
-            this.toolTip1.SetToolTip(this.BUT_run_script, resources.GetString("BUT_run_script.ToolTip"));
             this.BUT_run_script.UseVisualStyleBackColor = true;
             this.BUT_run_script.Click += new System.EventHandler(this.BUT_run_script_Click);
             // 
@@ -1568,7 +1492,6 @@
             // 
             resources.ApplyResources(this.BUT_abort_script, "BUT_abort_script");
             this.BUT_abort_script.Name = "BUT_abort_script";
-            this.toolTip1.SetToolTip(this.BUT_abort_script, resources.GetString("BUT_abort_script.ToolTip"));
             this.BUT_abort_script.UseVisualStyleBackColor = true;
             this.BUT_abort_script.Click += new System.EventHandler(this.BUT_abort_script_Click);
             // 
@@ -1576,29 +1499,25 @@
             // 
             resources.ApplyResources(this.labelScriptStatus, "labelScriptStatus");
             this.labelScriptStatus.Name = "labelScriptStatus";
-            this.toolTip1.SetToolTip(this.labelScriptStatus, resources.GetString("labelScriptStatus.ToolTip"));
             // 
             // BUT_select_script
             // 
             resources.ApplyResources(this.BUT_select_script, "BUT_select_script");
             this.BUT_select_script.Name = "BUT_select_script";
-            this.toolTip1.SetToolTip(this.BUT_select_script, resources.GetString("BUT_select_script.ToolTip"));
             this.BUT_select_script.UseVisualStyleBackColor = true;
             this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
             // 
             // tabPagemessages
             // 
-            resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
             this.tabPagemessages.Controls.Add(this.txt_messagebox);
+            resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
             this.tabPagemessages.Name = "tabPagemessages";
-            this.toolTip1.SetToolTip(this.tabPagemessages, resources.GetString("tabPagemessages.ToolTip"));
             this.tabPagemessages.UseVisualStyleBackColor = true;
             // 
             // txt_messagebox
             // 
             resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
             this.txt_messagebox.Name = "txt_messagebox";
-            this.toolTip1.SetToolTip(this.txt_messagebox, resources.GetString("txt_messagebox.ToolTip"));
             // 
             // tableMap
             // 
@@ -1606,7 +1525,6 @@
             this.tableMap.Controls.Add(this.splitContainer1, 0, 0);
             this.tableMap.Controls.Add(this.panel1, 0, 1);
             this.tableMap.Name = "tableMap";
-            this.toolTip1.SetToolTip(this.tableMap, resources.GetString("tableMap.ToolTip"));
             // 
             // splitContainer1
             // 
@@ -1615,14 +1533,11 @@
             // 
             // splitContainer1.Panel1
             // 
-            resources.ApplyResources(this.splitContainer1.Panel1, "splitContainer1.Panel1");
             this.splitContainer1.Panel1.Controls.Add(this.zg1);
-            this.toolTip1.SetToolTip(this.splitContainer1.Panel1, resources.GetString("splitContainer1.Panel1.ToolTip"));
             this.splitContainer1.Panel1Collapsed = true;
             // 
             // splitContainer1.Panel2
             // 
-            resources.ApplyResources(this.splitContainer1.Panel2, "splitContainer1.Panel2");
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
@@ -1634,8 +1549,6 @@
             this.splitContainer1.Panel2.Controls.Add(this.lbl_sats);
             this.splitContainer1.Panel2.Controls.Add(this.gMapControl1);
             this.splitContainer1.Panel2.Controls.Add(this.TRK_zoom);
-            this.toolTip1.SetToolTip(this.splitContainer1.Panel2, resources.GetString("splitContainer1.Panel2.ToolTip"));
-            this.toolTip1.SetToolTip(this.splitContainer1, resources.GetString("splitContainer1.ToolTip"));
             // 
             // zg1
             // 
@@ -1648,12 +1561,10 @@
             this.zg1.ScrollMinX = 0D;
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
-            this.toolTip1.SetToolTip(this.zg1, resources.GetString("zg1.ToolTip"));
             this.zg1.DoubleClick += new System.EventHandler(this.zg1_DoubleClick);
             // 
             // contextMenuStripMap
             // 
-            resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             this.contextMenuStripMap.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goHereToolStripMenuItem,
             this.flyToHereAltToolStripMenuItem,
@@ -1664,69 +1575,69 @@
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
-            this.toolTip1.SetToolTip(this.contextMenuStripMap, resources.GetString("contextMenuStripMap.ToolTip"));
+            resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
             // goHereToolStripMenuItem
             // 
-            resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Name = "goHereToolStripMenuItem";
+            resources.ApplyResources(this.goHereToolStripMenuItem, "goHereToolStripMenuItem");
             this.goHereToolStripMenuItem.Click += new System.EventHandler(this.goHereToolStripMenuItem_Click);
             // 
             // flyToHereAltToolStripMenuItem
             // 
-            resources.ApplyResources(this.flyToHereAltToolStripMenuItem, "flyToHereAltToolStripMenuItem");
             this.flyToHereAltToolStripMenuItem.Name = "flyToHereAltToolStripMenuItem";
+            resources.ApplyResources(this.flyToHereAltToolStripMenuItem, "flyToHereAltToolStripMenuItem");
             this.flyToHereAltToolStripMenuItem.Click += new System.EventHandler(this.flyToHereAltToolStripMenuItem_Click);
             // 
             // addPoiToolStripMenuItem
             // 
-            resources.ApplyResources(this.addPoiToolStripMenuItem, "addPoiToolStripMenuItem");
             this.addPoiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteToolStripMenuItem,
             this.saveFileToolStripMenuItem});
             this.addPoiToolStripMenuItem.Name = "addPoiToolStripMenuItem";
+            resources.ApplyResources(this.addPoiToolStripMenuItem, "addPoiToolStripMenuItem");
             this.addPoiToolStripMenuItem.Click += new System.EventHandler(this.addPoiToolStripMenuItem_Click);
             // 
             // deleteToolStripMenuItem
             // 
-            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
             this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
             this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
             // 
             // saveFileToolStripMenuItem
             // 
-            resources.ApplyResources(this.saveFileToolStripMenuItem, "saveFileToolStripMenuItem");
             this.saveFileToolStripMenuItem.Name = "saveFileToolStripMenuItem";
+            resources.ApplyResources(this.saveFileToolStripMenuItem, "saveFileToolStripMenuItem");
             this.saveFileToolStripMenuItem.Click += new System.EventHandler(this.saveFileToolStripMenuItem_Click);
             // 
             // pointCameraHereToolStripMenuItem
             // 
-            resources.ApplyResources(this.pointCameraHereToolStripMenuItem, "pointCameraHereToolStripMenuItem");
             this.pointCameraHereToolStripMenuItem.Name = "pointCameraHereToolStripMenuItem";
+            resources.ApplyResources(this.pointCameraHereToolStripMenuItem, "pointCameraHereToolStripMenuItem");
             this.pointCameraHereToolStripMenuItem.Click += new System.EventHandler(this.pointCameraHereToolStripMenuItem_Click);
             // 
             // triggerCameraToolStripMenuItem
             // 
-            resources.ApplyResources(this.triggerCameraToolStripMenuItem, "triggerCameraToolStripMenuItem");
             this.triggerCameraToolStripMenuItem.Name = "triggerCameraToolStripMenuItem";
+            resources.ApplyResources(this.triggerCameraToolStripMenuItem, "triggerCameraToolStripMenuItem");
             this.triggerCameraToolStripMenuItem.Click += new System.EventHandler(this.triggerCameraToolStripMenuItem_Click);
             // 
             // flightPlannerToolStripMenuItem
             // 
-            resources.ApplyResources(this.flightPlannerToolStripMenuItem, "flightPlannerToolStripMenuItem");
             this.flightPlannerToolStripMenuItem.Name = "flightPlannerToolStripMenuItem";
+            resources.ApplyResources(this.flightPlannerToolStripMenuItem, "flightPlannerToolStripMenuItem");
             this.flightPlannerToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerToolStripMenuItem_Click);
             // 
             // setHomeHereToolStripMenuItem
             // 
-            resources.ApplyResources(this.setHomeHereToolStripMenuItem, "setHomeHereToolStripMenuItem");
             this.setHomeHereToolStripMenuItem.Name = "setHomeHereToolStripMenuItem";
+            resources.ApplyResources(this.setHomeHereToolStripMenuItem, "setHomeHereToolStripMenuItem");
             this.setHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
             // 
             // takeOffToolStripMenuItem
             // 
-            resources.ApplyResources(this.takeOffToolStripMenuItem, "takeOffToolStripMenuItem");
             this.takeOffToolStripMenuItem.Name = "takeOffToolStripMenuItem";
+            resources.ApplyResources(this.takeOffToolStripMenuItem, "takeOffToolStripMenuItem");
             this.takeOffToolStripMenuItem.Click += new System.EventHandler(this.takeOffToolStripMenuItem_Click);
             // 
             // distanceBar1
@@ -1734,20 +1645,18 @@
             resources.ApplyResources(this.distanceBar1, "distanceBar1");
             this.distanceBar1.BackColor = System.Drawing.Color.Transparent;
             this.distanceBar1.Name = "distanceBar1";
-            this.toolTip1.SetToolTip(this.distanceBar1, resources.GetString("distanceBar1.ToolTip"));
             this.distanceBar1.totaldist = 100F;
             this.distanceBar1.traveleddist = 0F;
             // 
             // windDir1
             // 
-            resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.Direction = 180D;
+            resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
-            this.toolTip1.SetToolTip(this.windDir1, resources.GetString("windDir1.ToolTip"));
             // 
             // bindingSource1
             // 
@@ -1758,28 +1667,24 @@
             resources.ApplyResources(this.label6, "label6");
             this.label6.ForeColor = System.Drawing.Color.White;
             this.label6.Name = "label6";
-            this.toolTip1.SetToolTip(this.label6, resources.GetString("label6.ToolTip"));
             // 
             // label5
             // 
             resources.ApplyResources(this.label5, "label5");
             this.label5.ForeColor = System.Drawing.Color.Green;
             this.label5.Name = "label5";
-            this.toolTip1.SetToolTip(this.label5, resources.GetString("label5.ToolTip"));
             // 
             // label3
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.label3.Name = "label3";
-            this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
             // 
             // label4
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.ForeColor = System.Drawing.Color.Red;
             this.label4.Name = "label4";
-            this.toolTip1.SetToolTip(this.label4, resources.GetString("label4.ToolTip"));
             // 
             // lbl_hdop
             // 
@@ -1799,11 +1704,11 @@
             // 
             // gMapControl1
             // 
-            resources.ApplyResources(this.gMapControl1, "gMapControl1");
             this.gMapControl1.BackColor = System.Drawing.Color.Black;
             this.gMapControl1.Bearing = 0F;
             this.gMapControl1.CanDragMap = true;
             this.gMapControl1.ContextMenuStrip = this.contextMenuStripMap;
+            resources.ApplyResources(this.gMapControl1, "gMapControl1");
             this.gMapControl1.EmptyTileColor = System.Drawing.Color.Gray;
             this.gMapControl1.GrayScaleMode = false;
             this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
@@ -1820,7 +1725,6 @@
             this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
             this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.gMapControl1.ShowTileGridLines = false;
-            this.toolTip1.SetToolTip(this.gMapControl1, resources.GetString("gMapControl1.ToolTip"));
             this.gMapControl1.Zoom = 3D;
             this.gMapControl1.Click += new System.EventHandler(this.gMapControl1_Click);
             this.gMapControl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.gMapControl1_MouseDown);
@@ -1837,24 +1741,21 @@
             this.TRK_zoom.SmallChange = 1F;
             this.TRK_zoom.TickFrequency = 1F;
             this.TRK_zoom.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.toolTip1.SetToolTip(this.TRK_zoom, resources.GetString("TRK_zoom.ToolTip"));
             this.TRK_zoom.Value = 1F;
             this.TRK_zoom.Scroll += new System.EventHandler(this.TRK_zoom_Scroll);
             // 
             // panel1
             // 
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Controls.Add(this.coords1);
             this.panel1.Controls.Add(this.Zoomlevel);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.toolTip1.SetToolTip(this.panel1, resources.GetString("panel1.ToolTip"));
             // 
             // coords1
             // 
-            resources.ApplyResources(this.coords1, "coords1");
             this.coords1.Alt = 0D;
             this.coords1.AltUnit = "m";
             this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Alt", this.bindingSource1, "alt", true));
@@ -1862,8 +1763,8 @@
             this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Lng", this.bindingSource1, "lng", true));
             this.coords1.Lat = 0D;
             this.coords1.Lng = 0D;
+            resources.ApplyResources(this.coords1, "coords1");
             this.coords1.Name = "coords1";
-            this.toolTip1.SetToolTip(this.coords1, resources.GetString("coords1.ToolTip"));
             this.coords1.Vertical = false;
             // 
             // Zoomlevel
@@ -1899,7 +1800,6 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             this.label1.resize = false;
-            this.toolTip1.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
             // 
             // CHK_autopan
             // 
@@ -1968,9 +1868,8 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.MainH);
-            this.MinimumSize = new System.Drawing.Size(1008, 426);
+            this.MinimumSize = new System.Drawing.Size(1008, 462);
             this.Name = "FlightData";
-            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FlightData_FormClosing);
             this.Load += new System.EventHandler(this.FlightData_Load);
             this.Resize += new System.EventHandler(this.FlightData_Resize);
@@ -2053,7 +1952,7 @@
         private System.Windows.Forms.NumericUpDown Zoomlevel;
         private Controls.MyLabel label1;
         private System.Windows.Forms.CheckBox CHK_autopan;
-        private Controls.myGMAP gMapControl1;
+        public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         private System.Windows.Forms.TabControl tabControlactions;
         private System.Windows.Forms.TabPage tabGauges;

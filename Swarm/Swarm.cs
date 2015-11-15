@@ -54,7 +54,7 @@ namespace MissionPlanner.Swarm
                     continue;
 
                 if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
-                    port.setGuidedModeWP(new Locationwp() { alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng });
+                    port.setGuidedModeWP(new Locationwp() {alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng});
             }
         }
 
@@ -68,7 +68,6 @@ namespace MissionPlanner.Swarm
 
         public void Stop()
         {
-
         }
 
         public abstract void Update();

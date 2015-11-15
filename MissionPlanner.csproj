@@ -544,11 +544,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.Designer.cs">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWSonar.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWSonar.Designer.cs">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.Designer.cs">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWAirspeed.cs">
       <SubType>UserControl</SubType>
@@ -993,14 +993,14 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.zh-Hans.resx">
       <DependentUpon>ConfigHWParachute.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.ja-JP.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.ja-JP.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-Hant.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hant.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-TW.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-TW.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.ja-JP.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
@@ -1832,26 +1832,26 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.de-DE.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.de-DE.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.es-ES.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.es-ES.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.fr.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.fr.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.it-IT.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.it-IT.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.pl.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.pl.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-Hans.resx">
-      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hans.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.de-DE.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>

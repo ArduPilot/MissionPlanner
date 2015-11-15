@@ -14,6 +14,7 @@ namespace MissionPlanner.Utilities
         calculate lookahead rise in terrain. This returns extra altitude
         needed to clear upcoming terrain in meters
         */
+
         float lookahead(Locationwp loc, float bearing, float distance, float climb_ratio)
         {
             if (!enable || grid_spacing <= 0)
@@ -41,7 +42,7 @@ namespace MissionPlanner.Utilities
             while (distance > 0)
             {
                 location_update(loc, bearing, grid_spacing);
-                climb += climb_ratio * grid_spacing;
+                climb += climb_ratio*grid_spacing;
                 distance -= grid_spacing;
                 float height = 0;
                 if (height_amsl(loc, ref height))
@@ -67,9 +68,10 @@ namespace MissionPlanner.Utilities
 
         This function costs about 20 microseconds on Pixhawk
         */
+
         bool height_amsl(Locationwp loc, ref float height)
         {
-            height = (float)srtm.getAltitude(loc.lat, loc.lng).alt;
+            height = (float) srtm.getAltitude(loc.lat, loc.lng).alt;
             return true;
         }
 
@@ -80,10 +82,11 @@ namespace MissionPlanner.Utilities
         * positions, so it keeps the accuracy even when dealing with small
         * distances and floating point numbers
         */
+
         void location_update(Locationwp loc, float bearing, float distance)
         {
-            float ofs_north = cosf(radians(bearing)) * distance;
-            float ofs_east = sinf(radians(bearing)) * distance;
+            float ofs_north = cosf(radians(bearing))*distance;
+            float ofs_east = sinf(radians(bearing))*distance;
             location_offset(loc, ofs_north, ofs_east);
         }
 
@@ -91,12 +94,13 @@ namespace MissionPlanner.Utilities
         *  extrapolate latitude/longitude given distances north and east
         *  This function costs about 80 usec on an AVR2560
         */
+
         void location_offset(Locationwp loc, float ofs_north, float ofs_east)
         {
             if (!is_zero(ofs_north) || !is_zero(ofs_east))
             {
-                int32_t dlat = (int32_t)(ofs_north * LOCATION_SCALING_FACTOR_INV);
-                int32_t dlng = (int32_t)((ofs_east * LOCATION_SCALING_FACTOR_INV) / longitude_scale(loc));
+                int32_t dlat = (int32_t) (ofs_north*LOCATION_SCALING_FACTOR_INV);
+                int32_t dlng = (int32_t) ((ofs_east*LOCATION_SCALING_FACTOR_INV)/longitude_scale(loc));
                 loc.lat += dlat;
                 loc.lng += dlng;
             }
@@ -113,9 +117,9 @@ namespace MissionPlanner.Utilities
                 // the same scale factor.
                 return scale;
             }
-            scale = cosf(loc.lat * 1.0e-7f * DEG_TO_RAD);
+            scale = cosf(loc.lat*1.0e-7f*DEG_TO_RAD);
             scale = constrain_float(scale, 0.01f, 1.0f);
-            last_lat = (int32_t)loc.lat;
+            last_lat = (int32_t) loc.lat;
             return scale;
         }
     }

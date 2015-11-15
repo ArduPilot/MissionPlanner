@@ -9,28 +9,28 @@ using MissionPlanner.Models;
 
 namespace MissionPlanner.Presenter
 {
-   public class ConfigCameraStabModel : INotifyPropertyChanged, IDataErrorInfo
+    public class ConfigCameraStabModel : INotifyPropertyChanged, IDataErrorInfo
     {
-       private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-       // These are lightweight PropertyMetaData objects, just so that populating defaults
-       // and saving etc can be done programatically, rather than explicitely
-       // This is starting to step on the toes of PropertyDescriptor etc in System.Componentmodel,
-       // however I wanted to keep 'normal' CLR properties here for testability, and more certain Mono
-       // compatibility
+        // These are lightweight PropertyMetaData objects, just so that populating defaults
+        // and saving etc can be done programatically, rather than explicitely
+        // This is starting to step on the toes of PropertyDescriptor etc in System.Componentmodel,
+        // however I wanted to keep 'normal' CLR properties here for testability, and more certain Mono
+        // compatibility
         private readonly List<PropertyMap> _propertyMap = new List<PropertyMap>
-                        {
-                            PropertyMap.Create<int>("CameraPitchMin", "CAM_P_MIN", 1000),
-                            PropertyMap.Create<int>("CameraPitchMax", "CAM_P_MAX", 2000),
-                            PropertyMap.Create<int>("CameraPitchTrim", "CAM_P_TRIM", 1500),
-                            PropertyMap.Create<bool>("CameraPitchReverse", "CAM_P_REV", false),
-                            PropertyMap.Create<float>("CameraPitchGain", "CAM_P_G", 1.0F),
-                            PropertyMap.Create<int>("CameraRollMin", "CAM_R_MIN", 1000),
-                            PropertyMap.Create<int>("CameraRollMax", "CAM_R_MAX", 2000),
-                            PropertyMap.Create<int>("CameraRollTrim", "CAM_R_TRIM", 1500),
-                            PropertyMap.Create<bool>("CameraRollReverse", "CAM_R_REV", false),
-                            PropertyMap.Create<float>("CameraRollGain", "CAM_R_G", 1.0F),
-                        };
+        {
+            PropertyMap.Create<int>("CameraPitchMin", "CAM_P_MIN", 1000),
+            PropertyMap.Create<int>("CameraPitchMax", "CAM_P_MAX", 2000),
+            PropertyMap.Create<int>("CameraPitchTrim", "CAM_P_TRIM", 1500),
+            PropertyMap.Create<bool>("CameraPitchReverse", "CAM_P_REV", false),
+            PropertyMap.Create<float>("CameraPitchGain", "CAM_P_G", 1.0F),
+            PropertyMap.Create<int>("CameraRollMin", "CAM_R_MIN", 1000),
+            PropertyMap.Create<int>("CameraRollMax", "CAM_R_MAX", 2000),
+            PropertyMap.Create<int>("CameraRollTrim", "CAM_R_TRIM", 1500),
+            PropertyMap.Create<bool>("CameraRollReverse", "CAM_R_REV", false),
+            PropertyMap.Create<float>("CameraRollGain", "CAM_R_G", 1.0F),
+        };
 
         private CameraAxisProperties _pitchAxis;
         private CameraAxisProperties _rollAxis;
@@ -173,7 +173,7 @@ namespace MissionPlanner.Presenter
             set
             {
                 if (_rollAxis.Trim == value) return;
-                 _rollAxis.Trim= value;
+                _rollAxis.Trim = value;
                 RaisePropertyChanged("CameraRollTrim");
             }
         }
@@ -209,7 +209,7 @@ namespace MissionPlanner.Presenter
 
         private bool hasError;
 
-       public bool HasError
+        public bool HasError
         {
             get { return hasError; }
 
@@ -224,19 +224,19 @@ namespace MissionPlanner.Presenter
         #endregion
 
         private void GetCameraStabVals()
-       {
-           foreach (var p in _propertyMap)
-           {
-               var pinfo = GetType().GetProperty(p.PresenterPropertyName);
-               var paramVal = GetParam(p.ApmPropertyName, p.PropertyType);
-               pinfo.SetValue(this, paramVal, null);
-           }
-
+        {
+            foreach (var p in _propertyMap)
+            {
+                var pinfo = GetType().GetProperty(p.PresenterPropertyName);
+                var paramVal = GetParam(p.ApmPropertyName, p.PropertyType);
+                pinfo.SetValue(this, paramVal, null);
+            }
         }
 
         private void SetDefaults()
         {
-            _propertyMap.ForEach(p => GetType().GetProperty(p.PresenterPropertyName).SetValue(this, p.DefaultValue, null));
+            _propertyMap.ForEach(
+                p => GetType().GetProperty(p.PresenterPropertyName).SetValue(this, p.DefaultValue, null));
         }
 
         private void WriteValues()
@@ -249,9 +249,9 @@ namespace MissionPlanner.Presenter
                 try
                 {
                     // handle boolean
-                    if (val.GetType() == typeof(Boolean))
+                    if (val.GetType() == typeof (Boolean))
                     {
-                        if (!_mavlink.setParam(p.ApmPropertyName, ((Boolean)val) ? 1 : -1))
+                        if (!_mavlink.setParam(p.ApmPropertyName, ((Boolean) val) ? 1 : -1))
                             log.Error("Error setting Camstab parameter");
                     }
                     else
@@ -272,8 +272,8 @@ namespace MissionPlanner.Presenter
             if (_mavlink.MAV.param.ContainsKey(paramName))
             {
                 return paramType == typeof (bool)
-                           ? _mavlink.MAV.param[paramName].ToString() == "1"
-                           : Convert.ChangeType(_mavlink.MAV.param[paramName].ToString(), paramType);
+                    ? _mavlink.MAV.param[paramName].ToString() == "1"
+                    : Convert.ChangeType(_mavlink.MAV.param[paramName].ToString(), paramType);
             }
             log.ErrorFormat("Could not get param {0}", paramName);
             return null;
@@ -359,7 +359,7 @@ namespace MissionPlanner.Presenter
                 {
                     PresenterPropertyName = presenterPropertyName,
                     ApmPropertyName = apmPropertyName,
-                    PropertyType = typeof(T),
+                    PropertyType = typeof (T),
                     DefaultValue = defaultVal
                 };
             }

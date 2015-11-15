@@ -14,7 +14,7 @@
       This shows the ground speed of the vehicle
     </description>
   </graph>
-  
+
   <graph name='Attitude/Roll and Pitch'>
     <description>Roll and Pitch</description>
     <expression>degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
@@ -26,9 +26,9 @@
     <expression>degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch) degrees(AHRS2.roll) degrees(AHRS2.pitch)</expression>
     <expression>ATT.Roll ATT.Pitch AHR2.Roll AHR2.Pitch</expression>
   </graph>
-  
+
   <graph name='Attitude/Attitude Control'>
-  <description>Desired versus achieved roll and pitch. This shows you how well the attitude controller are for your aircraft. In a well tuned aircraft the desired and achieved roll and pitch should match to within a couple of degrees for any portion of the flight where stabilisation is enabled.</description>
+    <description>Desired versus achieved roll and pitch. This shows you how well the attitude controller are for your aircraft. In a well tuned aircraft the desired and achieved roll and pitch should match to within a couple of degrees for any portion of the flight where stabilisation is enabled.</description>
     <expression>NAV_CONTROLLER_OUTPUT.nav_roll NAV_CONTROLLER_OUTPUT.nav_pitch degrees(ATTITUDE.roll) degrees(ATTITUDE.pitch)</expression>
     <expression>ATT.DesRoll ATT.Roll ATT.DesPitch ATT.Pitch</expression>
     <expression>CTUN.NavRoll CTUN.Roll CTUN.NavPitch CTUN.Pitch</expression>
@@ -51,7 +51,7 @@
     <expression>SCALED_IMU3.xacc*9.81*0.001 SCALED_IMU3.yacc*9.81*0.001 SCALED_IMU3.zacc*9.81*0.001</expression>
     <expression>IMU3.AccX IMU3.AccY IMU3.AccZ sqrt(IMU3.AccX**2+IMU3.AccY**2+IMU3.AccZ**2)</expression>
   </graph>
-  
+
   <graph name='Sensors/Accelerometer/Accelerometer Comparison'>
     <description>Accelerometer Comparison</description>
     <expression>
@@ -221,25 +221,29 @@
     </expression>
   </graph>
 
- <graph name='Sensors/Lidar/Rangefinder vs Baro'>
-  <description>Rangefinders vs Barometric Altitude</description>
-  <expression>BARO.Alt RFND.Dist1 RFND.Dist2</expression>
- </graph>
+  <graph name='Sensors/Lidar/Rangefinder vs Baro'>
+    <description>Rangefinders vs Barometric Altitude</description>
+    <expression>BARO.Alt RFND.Dist1 RFND.Dist2</expression>
+  </graph>
 
- <graph name='Plane/PID Tuning/Pitch Controller'>
-  <description>This shows how well the pitch controller is tracking the desired pitch rate.
-For a well tuned aircraft PIDP.Des should match the smoothed IMU.GyrY value. 
-If PIDP.I has a constant positive value then it means the aircraft is a bit tail heavy, and the integrator is learning the elevator offset needed to keep the aircraft level. If PIDP.I has a constant negative value then the aircraft is a bit nose heavy.
-You should also check PIDP.D and look for signs of oscillation, in which case PTCH2SRV_D is too high.</description>
-  <expression>PIDP.Des PIDP.P PIDP.I PIDP.D lowpass(degrees(IMU.GyrY),"gy",0.9)</expression>
- </graph>
+  <graph name='Plane/PID Tuning/Pitch Controller'>
+    <description>
+      This shows how well the pitch controller is tracking the desired pitch rate.
+      For a well tuned aircraft PIDP.Des should match the smoothed IMU.GyrY value.
+      If PIDP.I has a constant positive value then it means the aircraft is a bit tail heavy, and the integrator is learning the elevator offset needed to keep the aircraft level. If PIDP.I has a constant negative value then the aircraft is a bit nose heavy.
+      You should also check PIDP.D and look for signs of oscillation, in which case PTCH2SRV_D is too high.
+    </description>
+    <expression>PIDP.Des PIDP.P PIDP.I PIDP.D lowpass(degrees(IMU.GyrY),"gy",0.9)</expression>
+  </graph>
 
- <graph name='Plane/PID Tuning/Roll Controller'>
-  <description>This shows how well the roll controller is tracking the desired roll rate.
-For a well tuned aircraft PIDR.Des should match the smoothed IMU.GyrX value. 
-If PIDR.I has a constant positive value then it means the aircraft is trimmed to roll to the left side, and the integrator is learning the aileron offset needed to keep the aircraft level. If PIDR.I has a constant negative value then the aircraft is trimmed a bit to the right.</description>
-  <expression>PIDR.Des PIDR.P PIDR.I PIDR.D lowpass(degrees(IMU.GyrX),"gx",0.9)</expression>
- </graph>
+  <graph name='Plane/PID Tuning/Roll Controller'>
+    <description>
+      This shows how well the roll controller is tracking the desired roll rate.
+      For a well tuned aircraft PIDR.Des should match the smoothed IMU.GyrX value.
+      If PIDR.I has a constant positive value then it means the aircraft is trimmed to roll to the left side, and the integrator is learning the aileron offset needed to keep the aircraft level. If PIDR.I has a constant negative value then the aircraft is trimmed a bit to the right.
+    </description>
+    <expression>PIDR.Des PIDR.P PIDR.I PIDR.D lowpass(degrees(IMU.GyrX),"gx",0.9)</expression>
+  </graph>
 
   <graph name='EKF/Normalised GPS Innovations'>
     <description>Normalised GPS Innovations</description>
@@ -434,6 +438,3 @@ If PIDR.I has a constant positive value then it means the aircraft is trimmed to
 
 
 </graphs>
-
-
-

@@ -21,16 +21,15 @@ namespace MissionPlanner.Maps
 
         Custom()
         {
-
         }
 
         static Custom()
         {
             Instance = new Custom();
 
-            Type mytype = typeof(GMapProviders);
+            Type mytype = typeof (GMapProviders);
             FieldInfo field = mytype.GetField("DbHash", BindingFlags.Static | BindingFlags.NonPublic);
-            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>)field.GetValue(Instance);
+            Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>) field.GetValue(Instance);
 
             list.Add(Instance.DbId, Instance);
         }
@@ -38,31 +37,28 @@ namespace MissionPlanner.Maps
         #region GMapProvider Members
 
         readonly Guid id = new Guid("4574228D-B552-4CAF-89AE-F20951BBDB2B");
+
         public override Guid Id
         {
-            get
-            {
-                return id;
-            }
+            get { return id; }
         }
 
         readonly string name = "Custom";
+
         public override string Name
         {
-            get
-            {
-                return name;
-            }
+            get { return name; }
         }
 
         GMapProvider[] overlays;
+
         public override GMapProvider[] Overlays
         {
             get
             {
                 if (overlays == null)
                 {
-                    overlays = new GMapProvider[] { this };
+                    overlays = new GMapProvider[] {this};
                 }
                 return overlays;
             }
@@ -70,10 +66,7 @@ namespace MissionPlanner.Maps
 
         public override PureProjection Projection
         {
-            get
-            {
-                return MercatorProjection.Instance;
-            }
+            get { return MercatorProjection.Instance; }
         }
 
         public override PureImage GetTileImage(GPoint pos, int zoom)

@@ -46,28 +46,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 chBoxTel.Checked = false;
             }
 
-            int cells = (int)(MainV2.comPort.MAV.cs.battery_voltage/4.22) + 1;
+            int cells = (int) (MainV2.comPort.MAV.cs.battery_voltage/4.22) + 1;
 
-            if (MainV2.comPort.MAV.cs.battery_voltage >= (cells * 4))
+            if (MainV2.comPort.MAV.cs.battery_voltage >= (cells*4))
             {
-                lblBattery.Text = "Voltage > " + (cells * 4).ToString("0.00");
+                lblBattery.Text = "Voltage > " + (cells*4).ToString("0.00");
                 lblBattery.BackColor = Color.Green;
                 chBoxBattery.Checked = true;
             }
-            else if (MainV2.comPort.MAV.cs.battery_voltage >= (cells * 3.6) && MainV2.comPort.MAV.cs.battery_voltage < (cells * 4))
+            else if (MainV2.comPort.MAV.cs.battery_voltage >= (cells*3.6) &&
+                     MainV2.comPort.MAV.cs.battery_voltage < (cells*4))
             {
-                lblBattery.Text = "Voltage between " + (cells * 3.6).ToString("0.00") + " and " + (cells * 4).ToString("0.00");
+                lblBattery.Text = "Voltage between " + (cells*3.6).ToString("0.00") + " and " +
+                                  (cells*4).ToString("0.00");
                 lblBattery.BackColor = Color.Yellow;
                 chBoxBattery.Checked = true;
             }
             else
             {
-                lblBattery.Text = "Voltage less than " + (cells * 3.6).ToString("0.00");
+                lblBattery.Text = "Voltage less than " + (cells*3.6).ToString("0.00");
                 lblBattery.BackColor = Color.Red;
                 chBoxBattery.Checked = false;
             }
 
-            if (MainV2.comPort.MAV.cs.mode.Equals("FBWA", StringComparison.OrdinalIgnoreCase) || MainV2.comPort.MAV.cs.mode.Equals("stabalize", StringComparison.OrdinalIgnoreCase) || MainV2.comPort.MAV.cs.mode.Equals("manual", StringComparison.OrdinalIgnoreCase))
+            if (MainV2.comPort.MAV.cs.mode.Equals("FBWA", StringComparison.OrdinalIgnoreCase) ||
+                MainV2.comPort.MAV.cs.mode.Equals("stabalize", StringComparison.OrdinalIgnoreCase) ||
+                MainV2.comPort.MAV.cs.mode.Equals("manual", StringComparison.OrdinalIgnoreCase))
             {
                 lblRemote.Text = MainV2.comPort.MAV.cs.mode;
                 lblRemote.BackColor = Color.Green;

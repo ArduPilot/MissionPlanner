@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="us-ascii"?>
+
 <Aircraft>
   <Vehicle>
     <name>3DR_Y6</name>
-	<turn_rad_m>0.1</turn_rad_m>
-	<min_alt_m>7</min_alt_m>
-	<max_alt_m>120</max_alt_m>
-	<min_vel_ms>1</min_vel_ms>
-	<max_vel_ms>16</max_vel_ms>
+    <turn_rad_m>0.1</turn_rad_m>
+    <min_alt_m>7</min_alt_m>
+    <max_alt_m>120</max_alt_m>
+    <min_vel_ms>1</min_vel_ms>
+    <max_vel_ms>16</max_vel_ms>
   </Vehicle>
 
   <Vehicle>
     <name>3DR_X8</name>
-	<turn_rad_m>0.1</turn_rad_m>
-	<min_alt_m>7</min_alt_m>
-	<max_alt_m>120</max_alt_m>
-	<min_vel_ms>1</min_vel_ms>
+    <turn_rad_m>0.1</turn_rad_m>
+    <min_alt_m>7</min_alt_m>
+    <max_alt_m>120</max_alt_m>
+    <min_vel_ms>1</min_vel_ms>
     <max_vel_ms>20</max_vel_ms>
   </Vehicle>
 
   <Vehicle>
     <name>3DR_Iris</name>
-	<turn_rad_m>0.1</turn_rad_m>
-	<min_alt_m>7</min_alt_m>
-	<max_alt_m>120</max_alt_m>
-	<min_vel_ms>1</min_vel_ms>
+    <turn_rad_m>0.1</turn_rad_m>
+    <min_alt_m>7</min_alt_m>
+    <max_alt_m>120</max_alt_m>
+    <min_vel_ms>1</min_vel_ms>
     <max_vel_ms>15</max_vel_ms>
-  
-</Vehicle>
-  
-  
+
+  </Vehicle>
+
 
   <Vehicle>
     <name>3DR_Aero</name>
-	<turn_rad_m>50</turn_rad_m>
-	<min_alt_m>20</min_alt_m>
-	<max_alt_m>120</max_alt_m>
-	<min_vel_ms>9</min_vel_ms>
+    <turn_rad_m>50</turn_rad_m>
+    <min_alt_m>20</min_alt_m>
+    <max_alt_m>120</max_alt_m>
+    <min_vel_ms>9</min_vel_ms>
     <max_vel_ms>25</max_vel_ms>
   </Vehicle>
-  
+
   <Vehicle>
     <name>3DR X8-M</name>
     <turn_rad_m>0.1</turn_rad_m>
@@ -56,5 +56,5 @@
     <min_vel_ms>10</min_vel_ms>
     <max_vel_ms>25</max_vel_ms>
   </Vehicle>
-  
+
 </Aircraft>

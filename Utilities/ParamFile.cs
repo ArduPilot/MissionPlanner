@@ -12,7 +12,7 @@ namespace MissionPlanner.Utilities
     public class ParamFile
     {
         private static readonly ILog log =
-          LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public static Hashtable loadParamFile(string Filename)
         {
@@ -33,7 +33,7 @@ namespace MissionPlanner.Utilities
                     if (line.StartsWith("#"))
                         continue;
 
-                    string[] items = line.Split(new char[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] items = line.Split(new char[] {' ', ',', '\t'}, StringSplitOptions.RemoveEmptyEntries);
 
                     if (items.Length != 2)
                         continue;
@@ -42,9 +42,14 @@ namespace MissionPlanner.Utilities
                     double value = 0;
                     try
                     {
-                        value = double.Parse(items[1], System.Globalization.CultureInfo.InvariantCulture);// new System.Globalization.CultureInfo("en-US"));
+                        value = double.Parse(items[1], System.Globalization.CultureInfo.InvariantCulture);
+                            // new System.Globalization.CultureInfo("en-US"));
                     }
-                    catch (Exception ex) { log.Error(ex); throw new FormatException("Invalid number on param " + name + " : " + items[1].ToString()); }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                        throw new FormatException("Invalid number on param " + name + " : " + items[1].ToString());
+                    }
 
                     if (name == "SYSID_SW_MREV")
                         continue;
@@ -99,7 +104,8 @@ namespace MissionPlanner.Utilities
 
                     if (valueasstring.Contains("."))
                     {
-                        sw.WriteLine(item + "," + ((float)value).ToString(new System.Globalization.CultureInfo("en-US")));
+                        sw.WriteLine(item + "," +
+                                     ((float) value).ToString(new System.Globalization.CultureInfo("en-US")));
                     }
                     else
                     {

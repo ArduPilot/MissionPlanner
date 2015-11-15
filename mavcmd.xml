@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!-- TAGS ARE CASE SENSATIVE -->
 <CMD>
   <AC2>
@@ -18,7 +19,7 @@
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
-      <Z>Alt</Z>      
+      <Z>Alt</Z>
     </SPLINE_WAYPOINT>
     <LOITER_TURNS>
       <P1>Turns</P1>
@@ -75,7 +76,7 @@
       <Z>Alt</Z>
     </TAKEOFF>
     <GUIDED_ENABLE>
-    <P1>on=1/off=0</P1>
+      <P1>on=1/off=0</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -320,7 +321,7 @@
       <X></X>
       <Y></Y>
       <Z>Alt</Z>
-    </CONTINUE_AND_CHANGE_ALT>    
+    </CONTINUE_AND_CHANGE_ALT>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>

@@ -16,7 +16,7 @@ namespace MissionPlanner.Mavlink
         {
             get
             {
-                int id = (byte)sysid*256 + (byte)compid;
+                int id = (byte) sysid*256 + (byte) compid;
 
                 if (!masterlist.ContainsKey(id))
                     return new MAVState();
@@ -25,13 +25,16 @@ namespace MissionPlanner.Mavlink
             }
             set
             {
-                int id = (byte)sysid * 256 + (byte)compid;
+                int id = (byte) sysid*256 + (byte) compid;
 
                 masterlist[id] = value;
             }
         }
 
-        public int Count { get { return masterlist.Count; } }
+        public int Count
+        {
+            get { return masterlist.Count; }
+        }
 
         public List<int> GetRawIDS()
         {
@@ -61,7 +64,7 @@ namespace MissionPlanner.Mavlink
 
         internal void Create(byte sysid, byte compid)
         {
-            int id = (byte)sysid * 256 + (byte)compid;
+            int id = (byte) sysid*256 + (byte) compid;
 
             if (!masterlist.ContainsKey(id))
                 masterlist[id] = new MAVState();

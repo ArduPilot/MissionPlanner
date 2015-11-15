@@ -9,10 +9,12 @@ namespace MissionPlanner.Antenna
     class ArduTracker : ITrackerOutput
     {
         public SerialPort ComPort { get; set; }
+
         /// <summary>
         ///  0-360
         /// </summary>
         public double TrimPan { get; set; }
+
         /// <summary>
         /// -90 - 90
         /// </summary>
@@ -31,8 +33,17 @@ namespace MissionPlanner.Antenna
         public int PanAccel { get; set; }
         public int TiltAccel { get; set; }
 
-        public bool PanReverse { get { return _panreverse == 1; } set { _panreverse = value == true ? -1 : 1; } }
-        public bool TiltReverse { get { return _tiltreverse == 1; } set { _tiltreverse = value == true ? -1 : 1; } }
+        public bool PanReverse
+        {
+            get { return _panreverse == 1; }
+            set { _panreverse = value == true ? -1 : 1; }
+        }
+
+        public bool TiltReverse
+        {
+            get { return _tiltreverse == 1; }
+            set { _tiltreverse = value == true ? -1 : 1; }
+        }
 
         int _panreverse = 1;
         int _tiltreverse = 1;
@@ -42,16 +53,15 @@ namespace MissionPlanner.Antenna
 
         public bool Init()
         {
-
             if ((PanStartRange - PanEndRange) == 0)
             {
-                CustomMessageBox.Show(Strings.InvalidPanRange,Strings.ERROR);
+                CustomMessageBox.Show(Strings.InvalidPanRange, Strings.ERROR);
                 return false;
             }
 
             if ((TiltStartRange - TiltEndRange) == 0)
             {
-                CustomMessageBox.Show(Strings.InvalidTiltRange,Strings.ERROR);
+                CustomMessageBox.Show(Strings.InvalidTiltRange, Strings.ERROR);
                 return false;
             }
 
@@ -59,14 +69,17 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Open();
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return false; }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR);
+                return false;
+            }
 
             return true;
         }
+
         public bool Setup()
         {
-
-
             return true;
         }
 
@@ -101,7 +114,7 @@ namespace MissionPlanner.Antenna
             short PointAtAngle = Constrain(wrap_180(Angle - TrimPan), PanStartRange, PanEndRange);
 
             // conver the angle into a 0-pwmrange value
-            int target = (int)((((PointAtAngle / range) * 2.0) * (PanPWMRange / 2) * _panreverse + centerpos));
+            int target = (int) ((((PointAtAngle/range)*2.0)*(PanPWMRange/2)*_panreverse + centerpos));
 
             // Console.WriteLine("P " + Angle + " " + target + " " + PointAtAngle);
 
@@ -116,7 +129,7 @@ namespace MissionPlanner.Antenna
 
             short PointAtAngle = Constrain((Angle - TrimTilt), TiltStartRange, TiltEndRange);
 
-            int target = (int)((((PointAtAngle / range) * 2.0) * (TiltPWMRange / 2) * _tiltreverse + TiltPWMCenter));
+            int target = (int) ((((PointAtAngle/range)*2.0)*(TiltPWMRange/2)*_tiltreverse + TiltPWMCenter));
 
             // Console.WriteLine("T " + Angle + " " + target + " " + PointAtAngle);
 
@@ -145,18 +158,19 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Close();
             }
-            catch { }
+            catch
+            {
+            }
             return true;
         }
 
         short Constrain(double input, double min, double max)
         {
             if (input < min)
-                return (short)min;
+                return (short) min;
             if (input > max)
-                return (short)max;
-            return (short)input;
+                return (short) max;
+            return (short) input;
         }
-
     }
 }

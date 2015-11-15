@@ -170,7 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             if (Common.MessageShowAgain("Write Raw Params Tree", "Are you Sure?") != DialogResult.OK)
-                return; 
+                return;
 
             var temp = (Hashtable) _changes.Clone();
 
@@ -404,7 +404,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 Params.UseFiltering = false;
                 Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.ToLower());
-                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter)Params.ModelFilter);
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
                 Params.UseFiltering = true;
             }
         }

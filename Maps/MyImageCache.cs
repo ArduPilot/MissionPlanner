@@ -24,7 +24,8 @@ namespace MissionPlanner.Maps
         {
             Instance = this;
 
-            CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "gmapcache" + Path.DirectorySeparatorChar;
+            CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                            "gmapcache" + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -32,10 +33,7 @@ namespace MissionPlanner.Maps
         /// </summary>
         public string CacheLocation
         {
-            get
-            {
-                return cache;
-            }
+            get { return cache; }
             set
             {
                 cache = value;
@@ -52,14 +50,16 @@ namespace MissionPlanner.Maps
                     {
                         Directory.CreateDirectory(dir);
                     }
-                    catch { CustomMessageBox.Show("Error creating cache directory " + dir + ", the program will now exit."); Application.Exit(); }
+                    catch
+                    {
+                        CustomMessageBox.Show("Error creating cache directory " + dir + ", the program will now exit.");
+                        Application.Exit();
+                    }
                 }
 
                 Created = true;
             }
         }
-
-
 
         #region PureImageCache Members
 
@@ -70,7 +70,9 @@ namespace MissionPlanner.Maps
             {
                 try
                 {
-                    string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type).Name + Path.DirectorySeparatorChar + zoom + Path.DirectorySeparatorChar + pos.Y + Path.DirectorySeparatorChar + pos.X + ".jpg";
+                    string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type).Name +
+                                  Path.DirectorySeparatorChar + zoom + Path.DirectorySeparatorChar + pos.Y +
+                                  Path.DirectorySeparatorChar + pos.X + ".jpg";
                     string dir = Path.GetDirectoryName(file);
                     Directory.CreateDirectory(dir);
                     using (BinaryWriter sw = new BinaryWriter(File.OpenWrite(file)))
@@ -95,12 +97,16 @@ namespace MissionPlanner.Maps
             PureImage ret = null;
             try
             {
-                string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type).Name + Path.DirectorySeparatorChar + zoom + Path.DirectorySeparatorChar + pos.Y + Path.DirectorySeparatorChar + pos.X + ".jpg";
+                string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type).Name +
+                              Path.DirectorySeparatorChar + zoom + Path.DirectorySeparatorChar + pos.Y +
+                              Path.DirectorySeparatorChar + pos.X + ".jpg";
                 if (File.Exists(file))
                 {
-                    using (BinaryReader sr = new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    using (
+                        BinaryReader sr =
+                            new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read)))
                     {
-                        byte[] tile = sr.ReadBytes((int)sr.BaseStream.Length);
+                        byte[] tile = sr.ReadBytes((int) sr.BaseStream.Length);
 
                         MemoryStream stm = new MemoryStream(tile, 0, tile.Length, false, true);
 
@@ -131,14 +137,15 @@ namespace MissionPlanner.Maps
             if (!type.HasValue)
                 return 0;
 
-            string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type.Value).Name + Path.DirectorySeparatorChar;
+            string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type.Value).Name +
+                          Path.DirectorySeparatorChar;
 
-            if (!Directory.Exists(file)) 
+            if (!Directory.Exists(file))
             {
                 return 0;
             }
 
-            string[] files = Directory.GetFiles(file,"*.jpg",SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(file, "*.jpg", SearchOption.AllDirectories);
 
             foreach (var filen in files)
             {
@@ -147,7 +154,9 @@ namespace MissionPlanner.Maps
                     File.Delete(filen);
                     affectedRows++;
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             files = Directory.GetFiles(file, "*.png", SearchOption.AllDirectories);
@@ -159,7 +168,9 @@ namespace MissionPlanner.Maps
                     File.Delete(filen);
                     affectedRows++;
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             return affectedRows;

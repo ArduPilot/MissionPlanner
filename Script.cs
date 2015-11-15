@@ -76,16 +76,14 @@ namespace MissionPlanner
         }
 
         public object mavlink_connection(string device, int baud = 115200, int source_system = 255,
-                       bool write = false, bool append = false,
-                       bool robust_parsing = true, bool notimestamps = false, bool input = true)
+            bool write = false, bool append = false,
+            bool robust_parsing = true, bool notimestamps = false, bool input = true)
         {
-
             return null;
         }
 
         public object recv_match(string condition = null, string type = null, bool blocking = false)
         {
-
             return null;
         }
 
@@ -127,7 +125,7 @@ namespace MissionPlanner
         public float GetParam(string param)
         {
             if (MainV2.comPort.MAV.param[param] != null)
-                return (float)MainV2.comPort.MAV.param[param];
+                return (float) MainV2.comPort.MAV.param[param];
 
             return 0.0f;
         }

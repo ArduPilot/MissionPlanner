@@ -44,7 +44,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (var a = 1; a <= motormax; a++)
             {
                 but = new MyButton();
-                but.Text = "Test motor " + (char)((a - 1) + 'A');
+                but.Text = "Test motor " + (char) ((a - 1) + 'A');
                 but.Location = new Point(x, y);
                 but.Click += but_Click;
                 but.Tag = a;
@@ -69,7 +69,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
             Controls.Add(but);
-
         }
 
         private int get_motormax()
@@ -88,25 +87,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 motormax = 4;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int)(double)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
                 motormax = 4;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)(double)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR)
             {
                 motormax = 6;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int)(double)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR)
             {
                 motormax = 8;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int)(double)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
             {
@@ -118,8 +117,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_TestAll(object sender, EventArgs e)
         {
-            int speed = (int)NUM_thr_percent.Value;
-            int time = (int)NUM_duration.Value;
+            int speed = (int) NUM_thr_percent.Value;
+            int time = (int) NUM_duration.Value;
 
             int motormax = this.get_motormax();
             for (int i = 1; i <= motormax; i++)
@@ -139,11 +138,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_Click(object sender, EventArgs e)
         {
-            int speed = (int)NUM_thr_percent.Value;
-            int time = (int)NUM_duration.Value;
+            int speed = (int) NUM_thr_percent.Value;
+            int time = (int) NUM_duration.Value;
             try
             {
-                var motor = (int)((MyButton)sender).Tag;
+                var motor = (int) ((MyButton) sender).Tag;
                 this.testMotor(motor, speed, time);
             }
             catch (Exception ex)
@@ -154,8 +153,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void testMotor(int motor, int speed, int time)
         {
-
-            if (!MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, speed, time))
+            if (
+                !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, speed,
+                    time))
             {
                 CustomMessageBox.Show("Command was denied by the autopilot");
             }
@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://copter.ardupilot.com/wiki/motor-setup/");
+                Process.Start("http://copter.ardupilot.com/wiki/connect-escs-and-motors/");
             }
             catch
             {

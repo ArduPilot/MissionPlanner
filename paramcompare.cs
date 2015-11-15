@@ -13,6 +13,7 @@ namespace MissionPlanner
     public partial class ParamCompare : Form
     {
         public delegate void dtlvcallbackHandler(string param, float value);
+
         public event dtlvcallbackHandler dtlvcallback;
 
         DataGridView dgv;
@@ -44,7 +45,8 @@ namespace MissionPlanner
                 {
                     if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
-                        if (((float)(double)param[value]).ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                        if (((float) (double) param[value]).ToString() != param2[value].ToString())
+                            // this will throw is there is no matching key
                         {
                             Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
                             Params.Rows.Add();
@@ -56,8 +58,10 @@ namespace MissionPlanner
                         }
                     }
                 }
-                catch { };//if (Params.RowCount > 1) { Params.Rows.RemoveAt(Params.RowCount - 1); } }
-
+                catch
+                {
+                }
+                ; //if (Params.RowCount > 1) { Params.Rows.RemoveAt(Params.RowCount - 1); } }
             }
             Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
         }
@@ -70,27 +74,33 @@ namespace MissionPlanner
                 {
                     foreach (DataGridViewRow row in Params.Rows)
                     {
-                        if ((bool)row.Cells[Use.Index].Value == true)
+                        if ((bool) row.Cells[Use.Index].Value == true)
                         {
                             if (dtlvcallback != null)
-                                dtlvcallback(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                                dtlvcallback(row.Cells[Command.Index].Value.ToString().Trim(),
+                                    float.Parse(row.Cells[newvalue.Index].Value.ToString()));
                             else
-                                MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                                MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(),
+                                    float.Parse(row.Cells[newvalue.Index].Value.ToString()));
                         }
                     }
                 }
-                catch { CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR); return; }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+                    return;
+                }
             }
             else
             {
-
                 foreach (DataGridViewRow row in Params.Rows)
                 {
-                    if ((bool)row.Cells[Use.Index].Value == true)
+                    if ((bool) row.Cells[Use.Index].Value == true)
                     {
                         foreach (DataGridViewRow dgvr in dgv.Rows)
                         {
-                            if (dgvr.Cells[0].Value.ToString().Trim() == row.Cells[Command.Index].Value.ToString().Trim())
+                            if (dgvr.Cells[0].Value.ToString().Trim() ==
+                                row.Cells[Command.Index].Value.ToString().Trim())
                             {
                                 dgvr.Cells[1].Value = row.Cells[newvalue.Index].Value.ToString();
                                 break;

@@ -21,7 +21,10 @@ namespace MissionPlanner.Warnings
             {
                 LoadConfig();
             }
-            catch { Console.WriteLine("Failed to read WArning config file "+ warningconfigfile); }
+            catch
+            {
+                Console.WriteLine("Failed to read WArning config file " + warningconfigfile);
+            }
         }
 
         public static void LoadConfig()
@@ -29,18 +32,22 @@ namespace MissionPlanner.Warnings
             if (!File.Exists(warningconfigfile))
                 return;
 
-            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<CustomWarning>), new Type[] { typeof(CustomWarning) });
+            System.Xml.Serialization.XmlSerializer reader =
+                new System.Xml.Serialization.XmlSerializer(typeof (List<CustomWarning>),
+                    new Type[] {typeof (CustomWarning)});
 
             using (StreamReader sr = new StreamReader(warningconfigfile))
             {
-                warnings = (List<CustomWarning>)reader.Deserialize(sr);
+                warnings = (List<CustomWarning>) reader.Deserialize(sr);
             }
         }
 
         public static void SaveConfig()
         {
             // save config
-            System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(List<CustomWarning>), new Type[] { typeof(CustomWarning) });
+            System.Xml.Serialization.XmlSerializer writer =
+                new System.Xml.Serialization.XmlSerializer(typeof (List<CustomWarning>),
+                    new Type[] {typeof (CustomWarning)});
 
             using (StreamWriter sw = new StreamWriter(warningconfigfile))
             {
@@ -88,7 +95,8 @@ namespace MissionPlanner.Warnings
                                 {
                                     if (MainV2.speechEnable)
                                     {
-                                        while (MainV2.speechEngine.State != System.Speech.Synthesis.SynthesizerState.Ready)
+                                        while (MainV2.speechEngine.State !=
+                                               System.Speech.Synthesis.SynthesizerState.Ready)
                                             System.Threading.Thread.Sleep(10);
 
                                         MainV2.speechEngine.SpeakAsync(item.SayText());
@@ -97,11 +105,12 @@ namespace MissionPlanner.Warnings
                                     MainV2.comPort.MAV.cs.messageHigh = item.SayText();
                                     MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
                                 }
-
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 System.Threading.Thread.Sleep(100);
@@ -111,12 +120,12 @@ namespace MissionPlanner.Warnings
         static bool checkCond(CustomWarning item)
         {
             // if there is a child go recursive
-            if (item.Child != null) 
+            if (item.Child != null)
             {
                 if (item.CheckValue() && checkCond(item.Child))
                     return true;
-            } 
-            else 
+            }
+            else
             {
                 // is no child then simple check
                 if (item.CheckValue())

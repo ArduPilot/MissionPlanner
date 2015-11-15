@@ -37,7 +37,7 @@ namespace MissionPlanner.Utilities
 
         static T GetObject<T>(Dictionary<string, object> dict)
         {
-            Type type = typeof(T);
+            Type type = typeof (T);
             var obj = Activator.CreateInstance(type);
 
             foreach (var kv in dict)
@@ -45,26 +45,27 @@ namespace MissionPlanner.Utilities
                 if (type.GetField(kv.Key) != null)
                     type.GetField(kv.Key).SetValue(obj, kv.Value);
                 if (type.GetProperty(kv.Key) != null)
-                    type.GetProperty(kv.Key).SetValue(obj, kv.Value,null);
+                    type.GetProperty(kv.Key).SetValue(obj, kv.Value, null);
             }
-            return (T)obj;
+            return (T) obj;
         }
 
         public static List<FileInfo> GetDirContent(string owner, string repo, string path, string filter = "")
         {
-            if (path != "") {
+            if (path != "")
+            {
                 path = "/contents" + path;
             }
 
-            path = path.TrimEnd('/','\\');
+            path = path.TrimEnd('/', '\\');
 
             List<FileInfo> answer = new List<FileInfo>();
 
-            string url = String.Format("{0}/{1}/{2}{3}",githubapiurl, owner, repo, path);
+            string url = String.Format("{0}/{1}/{2}{3}", githubapiurl, owner, repo, path);
 
             WebRequest wr = WebRequest.Create(url);
-            ((HttpWebRequest)wr).AllowAutoRedirect = true;
-            ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            ((HttpWebRequest) wr).AllowAutoRedirect = true;
+            ((HttpWebRequest) wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
             var response = wr.GetResponse();
             var respstream = response.GetResponseStream();
 
@@ -77,11 +78,11 @@ namespace MissionPlanner.Utilities
 
             var output = fastJSON.JSON.Instance.ToObject<object[]>(content);
 
-            foreach (Dictionary<string,object> item in output) 
+            foreach (Dictionary<string, object> item in output)
             {
-                FileInfo fi = (FileInfo)GetObject<FileInfo>(item);
-             //   string t1 = item["type"].ToString();
-             //   string t2 =item["path"].ToString();
+                FileInfo fi = (FileInfo) GetObject<FileInfo>(item);
+                //   string t1 = item["type"].ToString();
+                //   string t2 =item["path"].ToString();
 
                 if (fi.name.ToLower().Contains(filter.ToLower()))
                 {
@@ -103,8 +104,8 @@ namespace MissionPlanner.Utilities
             string url = String.Format("{0}/{1}/{2}{3}", githubapiurl, owner, repo, path);
 
             WebRequest wr = WebRequest.Create(url);
-            ((HttpWebRequest)wr).AllowAutoRedirect = true;
-            ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            ((HttpWebRequest) wr).AllowAutoRedirect = true;
+            ((HttpWebRequest) wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
             var response = wr.GetResponse();
             var respstream = response.GetResponseStream();
 
@@ -112,13 +113,11 @@ namespace MissionPlanner.Utilities
 
             respstream.Close();
 
-            Dictionary<string,object> output = (Dictionary<string,object>)fastJSON.JSON.Instance.Parse(content);
+            Dictionary<string, object> output = (Dictionary<string, object>) fastJSON.JSON.Instance.Parse(content);
 
             byte[] filecontent = Convert.FromBase64String(output["content"].ToString());
 
             return filecontent;
         }
-
-        
     }
 }

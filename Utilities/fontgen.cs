@@ -23,26 +23,29 @@ namespace MissionPlanner.Utilities
 
                 // It fits, back out
                 if (size.Height <= proposedSize.Height &&
-                     size.Width <= proposedSize.Width) { return font; }
+                    size.Width <= proposedSize.Width)
+                {
+                    return font;
+                }
 
                 // Try a smaller font (90% of old size)
                 Font oldFont = font;
-                font = new Font(font.Name, (float)(font.Size * .9), font.Style);
+                font = new Font(font.Name, (float) (font.Size*.9), font.Style);
                 oldFont.Dispose();
             }
         }
 
-        public static void dowork() 
+        public static void dowork()
         {
             char letter = '0';
 
-            StreamWriter file = new StreamWriter(File.Open("fonts.txt",FileMode.Create));
+            StreamWriter file = new StreamWriter(File.Open("fonts.txt", FileMode.Create));
 
             //var flags = TextFormatFlags.Default;// TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;// |  TextFormatFlags.GlyphOverhangPadding;
 
             for (; letter <= 'Z'; letter++)
             {
-                Font font = new Font("Arial Narrow", 7,FontStyle.Regular);
+                Font font = new Font("Arial Narrow", 7, FontStyle.Regular);
 
                 Bitmap bmp = new Bitmap(width, height);
 
@@ -58,19 +61,20 @@ namespace MissionPlanner.Utilities
 
                 var fsize = g.MeasureString(letter.ToString(), font);
 
-                g.DrawString(letter.ToString(), font, Brushes.Black, 0,0);
+                g.DrawString(letter.ToString(), font, Brushes.Black, 0, 0);
 
                 try
                 {
-                   // bmp = new Bitmap(bmp, new Size(8, 16));
+                    // bmp = new Bitmap(bmp, new Size(8, 16));
                     if (letter >= ':' && letter <= '@')
                         continue;
 
-                    bmp.Save("!"+letter + ".bmp");                    
+                    bmp.Save("!" + letter + ".bmp");
 
                     string outlet = letter.ToString().ToLower();
 
-                    switch (letter) {
+                    switch (letter)
+                    {
                         case '0':
                             outlet = "ze";
                             break;
@@ -101,7 +105,6 @@ namespace MissionPlanner.Utilities
                         case '9':
                             outlet = "ni";
                             break;
-
                     }
 
                     file.Write("byte " + outlet + "[16] = {");
@@ -115,11 +118,10 @@ namespace MissionPlanner.Utilities
                             var pix = bmp.GetPixel(w, h);
                             if (pix.R == 255 && pix.G == 255 && pix.B == 255)
                             {
-                                chr += (byte)(1 << w);
+                                chr += (byte) (1 << w);
                             }
                             else
                             {
-
                             }
                         }
 
@@ -128,11 +130,12 @@ namespace MissionPlanner.Utilities
 
                     file.WriteLine("};");
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             file.Close();
         }
-
     }
 }

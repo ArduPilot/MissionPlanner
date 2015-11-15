@@ -63,7 +63,7 @@
             this.backstageViewPagecompassmot = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configCompassMot1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot();
             this.backstageViewPagesonar = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configHWSonar1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar();
+            this.ConfigHWRangeFinder1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWRangeFinder();
             this.backstageViewPageairspeed = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWAirspeed1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed();
             this.backstageViewPageoptflow = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -362,8 +362,8 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             // 
             this.backstageViewPagesonar.Advanced = false;
             this.backstageViewPagesonar.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagesonar.LinkText = "Sonar";
-            this.backstageViewPagesonar.Page = this.configHWSonar1;
+            this.backstageViewPagesonar.LinkText = "RangeFinder";
+            this.backstageViewPagesonar.Page = this.ConfigHWRangeFinder1;
             this.backstageViewPagesonar.Parent = this.backstageViewPageopt;
             this.backstageViewPagesonar.Show = true;
             this.backstageViewPagesonar.Spacing = 30;
@@ -371,8 +371,8 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             // 
             // configHWSonar1
             // 
-            resources.ApplyResources(this.configHWSonar1, "configHWSonar1");
-            this.configHWSonar1.Name = "configHWSonar1";
+            resources.ApplyResources(this.ConfigHWRangeFinder1, "configHWSonar1");
+            this.ConfigHWRangeFinder1.Name = "configHWSonar1";
             // 
             // backstageViewPageairspeed
             // 
@@ -576,7 +576,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
         private ConfigurationView.ConfigFailSafe configFailSafe1;
         private _3DRradio _3DRradio1;
         private ConfigurationView.ConfigBatteryMonitoring configBatteryMonitoring1;
-        private ConfigurationView.ConfigHWSonar configHWSonar1;
+        private ConfigurationView.ConfigHWRangeFinder ConfigHWRangeFinder1;
         private ConfigurationView.ConfigHWAirspeed configHWAirspeed1;
         private ConfigurationView.ConfigHWOptFlow configHWOptFlow1;
         private ConfigurationView.ConfigHWOSD configHWOSD1;

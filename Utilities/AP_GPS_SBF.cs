@@ -18,8 +18,8 @@ namespace MissionPlanner.Utilities
 {
     class AP_GPS_SBF
     {
-        const uint8_t SBF_PREAMBLE1 = (byte)'$';
-        const uint8_t SBF_PREAMBLE2 = (byte)'@';
+        const uint8_t SBF_PREAMBLE1 = (byte) '$';
+        const uint8_t SBF_PREAMBLE2 = (byte) '@';
 
         public enum readstate
         {
@@ -43,7 +43,6 @@ namespace MissionPlanner.Utilities
             public uint8_t[] data;
             public uint16_t read;
         }
-
 
 
         readstate sbf_state;
@@ -120,7 +119,7 @@ namespace MissionPlanner.Utilities
 
             //System.Threading.Thread.Sleep(100);
 
-            sbf_msg.data = new byte[1024 * 20];
+            sbf_msg.data = new byte[1024*20];
             read();
         }
 
@@ -135,9 +134,9 @@ namespace MissionPlanner.Utilities
             {
                 //port->read()
                 var temp = port.ReadByte();
-                ret |= parse((byte)temp);
+                ret |= parse((byte) temp);
 
-                st.WriteByte((byte)temp);
+                st.WriteByte((byte) temp);
             }
 
             return ret;
@@ -170,7 +169,7 @@ namespace MissionPlanner.Utilities
                     sbf_state++;
                     break;
                 case readstate.CRC2:
-                    sbf_msg.crc += (uint16_t)(temp << 8);
+                    sbf_msg.crc += (uint16_t) (temp << 8);
                     sbf_state++;
                     break;
                 case readstate.BLOCKID1:
@@ -178,7 +177,7 @@ namespace MissionPlanner.Utilities
                     sbf_state++;
                     break;
                 case readstate.BLOCKID2:
-                    sbf_msg.blockid += (uint16_t)(temp << 8);
+                    sbf_msg.blockid += (uint16_t) (temp << 8);
                     sbf_state++;
                     break;
                 case readstate.LENGTH1:
@@ -186,13 +185,13 @@ namespace MissionPlanner.Utilities
                     sbf_state++;
                     break;
                 case readstate.LENGTH2:
-                    sbf_msg.length += (uint16_t)(temp << 8);
+                    sbf_msg.length += (uint16_t) (temp << 8);
                     sbf_state++;
                     sbf_msg.data = new uint8_t[sbf_msg.length];
 
                     //Console.WriteLine((sbf_msg.blockid & 4095u) + " len " + sbf_msg.length);
 
-                    if (sbf_msg.length % 4 != 0)
+                    if (sbf_msg.length%4 != 0)
                         sbf_state = readstate.PREAMBLE1;
                     break;
                 case readstate.DATA:
@@ -214,7 +213,6 @@ namespace MissionPlanner.Utilities
                         {
                             crc_error_counter++;
                         }
-
                     }
                     break;
             }
@@ -222,18 +220,20 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
-        const double CLIGHT = 299792458.0;   /* speed of light (m/s) */
+        const double CLIGHT = 299792458.0; /* speed of light (m/s) */
 
-        static double[] lam = new double[] {            /* carrier wave length (m) */
-    CLIGHT/FREQ1,CLIGHT/FREQ2,CLIGHT/FREQ5,CLIGHT/FREQ6,CLIGHT/FREQ7,CLIGHT/FREQ8
-};
+        static double[] lam = new double[]
+        {
+            /* carrier wave length (m) */
+            CLIGHT/FREQ1, CLIGHT/FREQ2, CLIGHT/FREQ5, CLIGHT/FREQ6, CLIGHT/FREQ7, CLIGHT/FREQ8
+        };
 
-        const double FREQ1 = 1.57542E9;           /* L1/E1  frequency (Hz) */
-        const double FREQ2 = 1.22760E9;        /* L2     frequency (Hz) */
-        const double FREQ5 = 1.17645E9;        /* L5/E5a frequency (Hz) */
-        const double FREQ6 = 1.27875E9;        /* E6/LEX frequency (Hz) */
-        const double FREQ7 = 1.20714E9;        /* E5b    frequency (Hz) */
-        const double FREQ8 = 1.191795E9;        /* E5a+b  frequency (Hz) */
+        const double FREQ1 = 1.57542E9; /* L1/E1  frequency (Hz) */
+        const double FREQ2 = 1.22760E9; /* L2     frequency (Hz) */
+        const double FREQ5 = 1.17645E9; /* L5/E5a frequency (Hz) */
+        const double FREQ6 = 1.27875E9; /* E6/LEX frequency (Hz) */
+        const double FREQ7 = 1.20714E9; /* E5b    frequency (Hz) */
+        const double FREQ8 = 1.191795E9; /* E5a+b  frequency (Hz) */
 
         private bool process_message()
         {
@@ -246,7 +246,7 @@ namespace MissionPlanner.Utilities
                 Console.WriteLine("Obs");
                 var pos = 0;
 
-                var m4027 = (msg4027)sbf_msg.data.ByteArrayToStructure<msg4027>(pos);
+                var m4027 = (msg4027) sbf_msg.data.ByteArrayToStructure<msg4027>(pos);
 
                 var sizemsg4027 = Marshal.SizeOf(m4027);
 
@@ -257,61 +257,62 @@ namespace MissionPlanner.Utilities
 
                 for (int a = 0; a < m4027.N1; a++)
                 {
-                    var meas1 = (MeasEpochChannelType1)sbf_msg.data.ByteArrayToStructure<MeasEpochChannelType1>(pos);
+                    var meas1 = (MeasEpochChannelType1) sbf_msg.data.ByteArrayToStructure<MeasEpochChannelType1>(pos);
 
                     pos += sizemsgmeas1;
 
-                    double code = ((meas1.Misc & 15) * 4294967296 + meas1.CodeLSB) * 0.001;
-                    double doppler = meas1.Doppler * 0.0001;
-                    double carrier = code / lam[0] + (meas1.CarrierMSB * 65536 + meas1.CarrierLSB) * 0.001;
-                    double snr = meas1.CN0 * 0.25 + 10;
-                    type type1 = (type)(meas1.Type & 31);
+                    double code = ((meas1.Misc & 15)*4294967296 + meas1.CodeLSB)*0.001;
+                    double doppler = meas1.Doppler*0.0001;
+                    double carrier = code/lam[0] + (meas1.CarrierMSB*65536 + meas1.CarrierLSB)*0.001;
+                    double snr = meas1.CN0*0.25 + 10;
+                    type type1 = (type) (meas1.Type & 31);
 
-                    Console.WriteLine("SV " + meas1.SVID + " " + type1 + " " + snr + " " + code + " " + carrier + " " + doppler);
+                    Console.WriteLine("SV " + meas1.SVID + " " + type1 + " " + snr + " " + code + " " + carrier + " " +
+                                      doppler);
 
                     for (int b = 0; b < meas1.N2; b++)
                     {
-                        var meas2 = (MeasEpochChannelType2)sbf_msg.data.ByteArrayToStructure<MeasEpochChannelType2>(pos);
+                        var meas2 =
+                            (MeasEpochChannelType2) sbf_msg.data.ByteArrayToStructure<MeasEpochChannelType2>(pos);
 
                         pos += sizemsgmeas2;
 
                         // need to fix carrier base
 
                         int32_t CodeOffsetMSB
-                               = ExtendSignBit(meas2.OffsetMSB, 3);
+                            = ExtendSignBit(meas2.OffsetMSB, 3);
                         int32_t DopplerOffsetMSB
-                          = ExtendSignBit(meas2.OffsetMSB >> 3, 5);
+                            = ExtendSignBit(meas2.OffsetMSB >> 3, 5);
 
-                        double cno = meas2.CN0 * 0.25 + 10;
-                        type type2 = (type)(meas2.Type & 31);
-                        double code2 = code + (CodeOffsetMSB * 65536 + meas2.CodeOffsetLSB) * 0.001;
-                        double carrier2 = code2 / lam[1] + (meas2.CarrierMSB * 65536 + meas2.CarrierLSB) * 0.001;
-                        double doppler2 = meas1.Doppler * (lam[0] / lam[1]) + (DopplerOffsetMSB * 65536 + meas2.DopplerOffsetLSB) * 0.0001;
+                        double cno = meas2.CN0*0.25 + 10;
+                        type type2 = (type) (meas2.Type & 31);
+                        double code2 = code + (CodeOffsetMSB*65536 + meas2.CodeOffsetLSB)*0.001;
+                        double carrier2 = code2/lam[1] + (meas2.CarrierMSB*65536 + meas2.CarrierLSB)*0.001;
+                        double doppler2 = meas1.Doppler*(lam[0]/lam[1]) +
+                                          (DopplerOffsetMSB*65536 + meas2.DopplerOffsetLSB)*0.0001;
 
-                        Console.WriteLine("SV " + meas1.SVID + " " + type2 + " " + cno + " " + code2 + " " + carrier2 + " " + doppler2);
-
+                        Console.WriteLine("SV " + meas1.SVID + " " + type2 + " " + cno + " " + code2 + " " + carrier2 +
+                                          " " + doppler2);
                     }
                 }
             }
             // ExtEventPVTGeodetic
             if (blockid == 4038)
             {
-                var temp = (msg4038)sbf_msg.data.ByteArrayToStructure<msg4038>(0);
-
-
+                var temp = (msg4038) sbf_msg.data.ByteArrayToStructure<msg4038>(0);
             }
             // PVTGeodetic
             if (blockid == 4007) // geo position
             {
-                var temp = (msg4007)sbf_msg.data.ByteArrayToStructure<msg4007>(0);
+                var temp = (msg4007) sbf_msg.data.ByteArrayToStructure<msg4007>(0);
 
-                Console.WriteLine("pos " + temp.WNc + " " + (temp.TOW * 0.001));
+                Console.WriteLine("pos " + temp.WNc + " " + (temp.TOW*0.001));
 
                 // Update time state
                 if (temp.WNc != 65535)
                 {
                     state.time_week = temp.WNc;
-                    state.time_week_ms = (uint32_t)(temp.TOW);
+                    state.time_week_ms = (uint32_t) (temp.TOW);
                 }
 
                 state.hdop = last_hdop;
@@ -319,23 +320,23 @@ namespace MissionPlanner.Utilities
                 // Update velocity state (dont use −2·10^10)
                 if (temp.Vn > -20000000000)
                 {
-                    state.velocity[0] = (float)(temp.Vn / 1000.0);
-                    state.velocity[1] = (float)(temp.Ve / 1000.0);
-                    state.velocity[2] = (float)(-temp.Vu / 1000.0);
+                    state.velocity[0] = (float) (temp.Vn/1000.0);
+                    state.velocity[1] = (float) (temp.Ve/1000.0);
+                    state.velocity[2] = (float) (-temp.Vu/1000.0);
 
                     state.have_vertical_velocity = true;
 
-                    float ground_vector_sq = state.velocity[0] * state.velocity[0] + state.velocity[1] * state.velocity[1];
-                    state.ground_speed = (float)safe_sqrt(ground_vector_sq);
+                    float ground_vector_sq = state.velocity[0]*state.velocity[0] + state.velocity[1]*state.velocity[1];
+                    state.ground_speed = (float) safe_sqrt(ground_vector_sq);
 
-                    state.ground_course_cd = (int32_t)(100 * ToDeg(atan2f(state.velocity[1], state.velocity[0])));
+                    state.ground_course_cd = (int32_t) (100*ToDeg(atan2f(state.velocity[1], state.velocity[0])));
                     if (state.ground_course_cd < 0)
                     {
                         state.ground_course_cd += 36000;
                     }
 
-                    state.horizontal_accuracy = (float)temp.HAccuracy * 0.01f;
-                    state.vertical_accuracy = (float)temp.VAccuracy * 0.01f;
+                    state.horizontal_accuracy = (float) temp.HAccuracy*0.01f;
+                    state.vertical_accuracy = (float) temp.VAccuracy*0.01f;
                     state.have_horizontal_accuracy = true;
                     state.have_vertical_accuracy = true;
                 }
@@ -343,9 +344,9 @@ namespace MissionPlanner.Utilities
                 // Update position state (dont use −2·10^10)
                 if (temp.Latitude > -20000000000)
                 {
-                    state.location.lat = (int32_t)(ToDeg(temp.Latitude) * 1e7);
-                    state.location.lng = (int32_t)(ToDeg(temp.Longitude) * 1e7);
-                    state.location.alt = (int32_t)(temp.Height * 1e2);
+                    state.location.lat = (int32_t) (ToDeg(temp.Latitude)*1e7);
+                    state.location.lng = (int32_t) (ToDeg(temp.Longitude)*1e7);
+                    state.location.alt = (int32_t) (temp.Height*1e2);
                 }
 
                 if (temp.NrSV != 255)
@@ -389,7 +390,7 @@ namespace MissionPlanner.Utilities
                 if ((temp.Mode & 128) > 0) // gps only has 2d fix
                     state.status = GPS_Status.GPS_OK_FIX_2D;
 
-                Type t = state.GetType();//where obj is object whose properties you need.
+                Type t = state.GetType(); //where obj is object whose properties you need.
                 FieldInfo[] pi = t.GetFields();
                 foreach (var p in pi)
                 {
@@ -400,9 +401,9 @@ namespace MissionPlanner.Utilities
             }
             if (blockid == 4001) // dops
             {
-                var temp = (msg4001)sbf_msg.data.ByteArrayToStructure<msg4001>(0);
+                var temp = (msg4001) sbf_msg.data.ByteArrayToStructure<msg4001>(0);
 
-                Console.WriteLine("dop " + temp.WNc + " " + (temp.TOW * 0.001) + " " + temp.HDOP);
+                Console.WriteLine("dop " + temp.WNc + " " + (temp.TOW*0.001) + " " + temp.HDOP);
 
                 last_hdop = temp.HDOP;
             }
@@ -413,23 +414,37 @@ namespace MissionPlanner.Utilities
         enum type
         {
             GPS_L1CA = 0,
-            GPS_L1PY, GPS_L2PY, GPS_L2C, GPS_L5,
+            GPS_L1PY,
+            GPS_L2PY,
+            GPS_L2C,
+            GPS_L5,
 
-            QZSS_L1CA = 6, QZSS_L2C, GLO_L1CA,
+            QZSS_L1CA = 6,
+            QZSS_L2C,
+            GLO_L1CA,
 
-            GLO_L2P = 10, GLO_L2CA, GLO_L3,
+            GLO_L2P = 10,
+            GLO_L2CA,
+            GLO_L3,
 
             GAL_L1BC = 17,
 
-            GAL_E6BC = 19, GAL_E5a, GAL_E5b, GAL_E5,
+            GAL_E6BC = 19,
+            GAL_E5a,
+            GAL_E5b,
+            GAL_E5,
 
-            GEO_L1CA = 24, GEO_L5, QZSS_L5,
+            GEO_L1CA = 24,
+            GEO_L5,
+            QZSS_L5,
 
-            CMP_L1 = 28, CMP_E5b, CMP_B3
+            CMP_L1 = 28,
+            CMP_E5b,
+            CMP_B3
         }
 
         int32_t ExtendSignBit(int32_t x, int32_t N)
-        /* extend the sign bit of a 2's complement N-bit integer
+            /* extend the sign bit of a 2's complement N-bit integer
          *
          * Arguments:
          *   x:  the N-bit integer in two's complement
@@ -496,7 +511,6 @@ namespace MissionPlanner.Utilities
             public uint16_t CodeOffsetLSB;
             public uint16_t CarrierLSB;
             public uint16_t DopplerOffsetLSB;
-
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -583,7 +597,7 @@ namespace MissionPlanner.Utilities
 
         private double ToDeg(double p)
         {
-            return p * (180 / Math.PI);
+            return p*(180/Math.PI);
         }
 
         private double atan2f(double p1, double p2)
@@ -593,31 +607,48 @@ namespace MissionPlanner.Utilities
 
         public struct Location
         {
+            public uint8_t options;
 
-            public uint8_t options;                                /// allows writing all flags to eeprom as one byte
+            /// allows writing all flags to eeprom as one byte
 
             // by making alt 24 bit we can make p1 in a command 16 bit,
             // allowing an accurate angle in centi-degrees. This keeps the
             // storage cost per mission item at 15 bytes, and allows mission
             // altitudes of up to +/- 83km
-            public int32_t alt;                                     ///< param 2 - Altitude in centimeters (meters * 100)
-            public int32_t lat;                                        ///< param 3 - Lattitude * 10**7
-            public int32_t lng;                                        ///< param 4 - Longitude * 10**7
-                                                                       ///
+            public int32_t alt;
+
+            ///< param 2 - Altitude in centimeters (meters * 100)
+            public int32_t lat;
+
+            ///< param 3 - Lattitude * 10**7
+            public int32_t lng;
+
+            ///< param 4 - Longitude * 10**7
+            ///
             public override string ToString()
             {
-                return lat + ", " + lng + ", " +alt;
+                return lat + ", " + lng + ", " + alt;
             }
         };
 
         public enum GPS_Status
         {
-            NO_GPS = 0,             ///< No GPS connected/detected
-            NO_FIX = 1,             ///< Receiving valid GPS messages but no lock
-            GPS_OK_FIX_2D = 2,      ///< Receiving valid messages and 2D lock
-            GPS_OK_FIX_3D = 3,      ///< Receiving valid messages and 3D lock
-            GPS_OK_FIX_3D_DGPS = 4, ///< Receiving valid messages and 3D lock with differential improvements
-            GPS_OK_FIX_3D_RTK = 5,  ///< Receiving valid messages and 3D lock, with relative-positioning improvements
+            NO_GPS = 0,
+
+            ///< No GPS connected/detected
+            NO_FIX = 1,
+
+            ///< Receiving valid GPS messages but no lock
+            GPS_OK_FIX_2D = 2,
+
+            ///< Receiving valid messages and 2D lock
+            GPS_OK_FIX_3D = 3,
+
+            ///< Receiving valid messages and 3D lock
+            GPS_OK_FIX_3D_DGPS = 4,
+
+            ///< Receiving valid messages and 3D lock with differential improvements
+            GPS_OK_FIX_3D_RTK = 5, ///< Receiving valid messages and 3D lock, with relative-positioning improvements
         };
 
         public struct GPS_State
@@ -625,25 +656,43 @@ namespace MissionPlanner.Utilities
             public uint8_t instance; // the instance number of this GPS
 
             // all the following fields must all be filled by the backend driver
-            public GPS_Status status;                  ///< driver fix status
-            public uint32_t time_week_ms;              ///< GPS time (milliseconds from start of GPS week)
-            public uint16_t time_week;                 ///< GPS week number
-            public Location location;                  ///< last fix location
-            public float ground_speed;                 ///< ground speed in m/sec
-            public int32_t ground_course_cd;           ///< ground course in 100ths of a degree
-            public uint16_t hdop;                      ///< horizontal dilution of precision in cm
-            public uint8_t num_sats;                   ///< Number of visible satelites        
-            public Vector3f velocity;                  ///< 3D velocitiy in m/s, in NED format
+            public GPS_Status status;
+
+            ///< driver fix status
+            public uint32_t time_week_ms;
+
+            ///< GPS time (milliseconds from start of GPS week)
+            public uint16_t time_week;
+
+            ///< GPS week number
+            public Location location;
+
+            ///< last fix location
+            public float ground_speed;
+
+            ///< ground speed in m/sec
+            public int32_t ground_course_cd;
+
+            ///< ground course in 100ths of a degree
+            public uint16_t hdop;
+
+            ///< horizontal dilution of precision in cm
+            public uint8_t num_sats;
+
+            ///< Number of visible satelites        
+            public Vector3f velocity;
+
+            ///< 3D velocitiy in m/s, in NED format
             public float speed_accuracy;
+
             public float horizontal_accuracy;
             public float vertical_accuracy;
-            public bool have_vertical_velocity;//:1;      ///< does this GPS give vertical velocity?
-            public bool have_speed_accuracy;//:1;
-            public bool have_horizontal_accuracy;//:1;
-            public bool have_vertical_accuracy;//:1;
-            public uint32_t last_gps_time_ms;          ///< the system time we got the last GPS timestamp, milliseconds
+            public bool have_vertical_velocity; //:1;      ///< does this GPS give vertical velocity?
+            public bool have_speed_accuracy; //:1;
+            public bool have_horizontal_accuracy; //:1;
+            public bool have_vertical_accuracy; //:1;
+            public uint32_t last_gps_time_ms; ///< the system time we got the last GPS timestamp, milliseconds
         }
-
 
 
         public class crc16
@@ -666,7 +715,7 @@ namespace MissionPlanner.Utilities
                 {
                     byte data = indata[total - count];
 
-                    crc = (ushort)((crc << 8) ^ table[((crc >> 8) ^ (0xff & data))]);
+                    crc = (ushort) ((crc << 8) ^ table[((crc >> 8) ^ (0xff & data))]);
 
                     count--;
                 }
@@ -683,12 +732,12 @@ namespace MissionPlanner.Utilities
                     for (int i = 0; i < table.Length; i++)
                     {
                         temp = 0;
-                        a = (ushort)(i << 8);
+                        a = (ushort) (i << 8);
                         for (int j = 0; j < 8; j++)
                         {
                             if (((temp ^ a) & 0x8000) != 0)
                             {
-                                temp = (ushort)((temp << 1) ^ poly);
+                                temp = (ushort) ((temp << 1) ^ poly);
                             }
                             else
                             {
