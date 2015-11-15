@@ -86,16 +86,14 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show(
-                        "Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString(),
-                        Strings.ERROR);
+                    CustomMessageBox.Show(Strings.ErrorConnecting + "\n" + ex.ToString(), Strings.ERROR);
                     return;
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
                     IsBackground = true,
-                    Name = "Nmea base Input"
+                    Name = "movingbase Input"
                 };
                 t12.Start();
 

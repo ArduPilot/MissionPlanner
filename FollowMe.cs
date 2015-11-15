@@ -112,7 +112,7 @@ namespace MissionPlanner
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
                     IsBackground = true,
-                    Name = "Nmea Input"
+                    Name = "followme Input"
                 };
                 t12.Start();
 
@@ -166,7 +166,7 @@ namespace MissionPlanner
                         if (items[5] == "W")
                             gotolocation.Lng *= -1;
 
-                        gotolocation.Alt = intalt; // double.Parse(line.Substring(c9, c10 - c9 - 1)) +
+                        gotolocation.Alt = intalt;
 
                         gotolocation.Tag = "Sats " + items[7] + " hdop " + items[8];
                     }
