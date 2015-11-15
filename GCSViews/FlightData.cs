@@ -348,6 +348,8 @@ namespace MissionPlanner.GCSViews
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
+            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
+
             HUD.Custom.src = MainV2.comPort.MAV.cs;
 
             CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
