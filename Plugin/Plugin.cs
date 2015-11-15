@@ -95,6 +95,17 @@ namespace MissionPlanner.Plugin
         }
 
         /// <summary>
+        /// access to the main form, this is on a diffrent thread.
+        /// </summary>
+        public MainV2 MainForm
+        {
+            get
+            {
+                return MainV2.instance;
+            }
+        }
+
+        /// <summary>
         /// access to all the current stats of the mav
         /// </summary>
         public CurrentState cs
@@ -178,6 +189,28 @@ namespace MissionPlanner.Plugin
         public void RedrawFPPolygon(List<PointLatLngAlt> list)
         {
             MainV2.instance.FlightPlanner.redrawPolygonSurvey(list);
+        }
+
+        /// <summary>
+        /// the map control in flightplanner
+        /// </summary>
+        public GMapControl FPGMapControl
+        {
+            get
+            {
+                return MainV2.instance.FlightPlanner.MainMap;
+            }
+        }
+
+        /// <summary>
+        /// the map control in flightdata
+        /// </summary>
+        public GMapControl FDGMapControl
+        {
+            get
+            {
+                return MainV2.instance.FlightData.gMapControl1;
+            }
         }
 
         /// <summary>
