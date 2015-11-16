@@ -164,7 +164,9 @@ namespace MissionPlanner.Comms
 
                 // prevent read past end of array
                 if ((rbuffer.Length - rbufferread) < length)
-                    return 0;
+                {
+                    length = (rbuffer.Length - rbufferread);
+                }
 
                 Array.Copy(rbuffer, rbufferread, readto, offset, length);
 
