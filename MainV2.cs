@@ -1670,7 +1670,8 @@ namespace MissionPlanner
 
                     xmlwriter.WriteElementString("comport", comPortName);
 
-                    xmlwriter.WriteElementString("baudrate", _connectionControl.CMB_baudrate.Text);
+                    if (_connectionControl != null)
+                        xmlwriter.WriteElementString("baudrate", _connectionControl.CMB_baudrate.Text);
 
                     xmlwriter.WriteElementString("APMFirmware", MainV2.comPort.MAV.cs.firmware.ToString());
 
