@@ -2365,7 +2365,7 @@ namespace MissionPlanner.GCSViews
 
         private void CheckAndBindPreFlightData()
         {
-            this.Invoke((Action) delegate { preFlightChecklist1.BindData(); });
+            //this.Invoke((Action) delegate { preFlightChecklist1.BindData(); });
         }
 
         private void Gspeed_DoubleClick(object sender, EventArgs e)
