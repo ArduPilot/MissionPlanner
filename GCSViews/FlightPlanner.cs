@@ -2824,7 +2824,8 @@ namespace MissionPlanner.GCSViews
                 if (DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
 
-                string szCapabilityRequest = url + "?version=1.1.0&Request=GetCapabilities&service=WMS";
+                // Build get capability request.
+                string szCapabilityRequest = BuildGetCapabilitityRequest(url);
 
                 XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
                 ProcessWmsCapabilitesRequest(xCapabilityResponse);
@@ -2832,6 +2833,37 @@ namespace MissionPlanner.GCSViews
                 MainV2.config["WMSserver"] = url;
                 WMSProvider.CustomWMSURL = url;
             }
+        }
+
+        /// <summary>
+        /// Builds the get Capability request.
+        /// </summary>
+        /// <param name="serverUrl">The server URL.</param>
+        /// <returns></returns>
+        private string BuildGetCapabilitityRequest(string serverUrl)
+        {
+            // What happens if the URL already has  '?'. 
+            // For example: http://foo.com?Token=yyyy
+            // In this example, the get capability request should be 
+            // http://foo.com?Token=yyyy&version=1.1.0&Request=GetCapabilities&service=WMS but not
+            // http://foo.com?Token=yyyy?version=1.1.0&Request=GetCapabilities&service=WMS
+
+            // If the URL doesn't contain '?', append it.
+            if (!serverUrl.Contains("?"))
+            {
+                serverUrl += "?";
+            }
+            else
+            {
+                // Check if the URL already has query strings.
+                // If the URL doesn't have query strings, '?' comes at the end.
+                if (!serverUrl.EndsWith("?"))
+                {
+                    // Already have query string, so add '&' before adding other query strings.
+                    serverUrl += "&";
+                }
+            }
+            return serverUrl + "version=1.1.0&Request=GetCapabilities&service=WMS";
         }
 
         /**
