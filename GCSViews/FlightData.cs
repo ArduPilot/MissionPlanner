@@ -353,6 +353,8 @@ namespace MissionPlanner.GCSViews
             HUD.Custom.src = MainV2.comPort.MAV.cs;
 
             CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;

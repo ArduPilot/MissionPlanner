@@ -306,6 +306,22 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MAVLinkParamChanged.cs" />
+    <Compile Include="Controls\PreFlight\CheckListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListControl.Designer.cs">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListItem.cs" />
+    <Compile Include="Controls\PreFlight\CheckListInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListEditor.Designer.cs">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -351,14 +367,7 @@
     <Compile Include="Controls\Vibration.Designer.cs">
       <DependentUpon>Vibration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Waypoints\Command.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Waypoints\Command.Designer.cs">
-      <DependentUpon>Command.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Waypoints\Spline2.cs" />
-    <Compile Include="Controls\Waypoints\Spline.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -425,10 +434,10 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PreFlightChecklist.cs">
+    <Compile Include="Controls\PreFlight\PreFlightChecklist.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\PreFlightChecklist.designer.cs">
+    <Compile Include="Controls\PreFlight\PreFlightChecklist.designer.cs">
       <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </Compile>
     <Compile Include="GeoRef\Georefimage.Designer.cs">
@@ -712,6 +721,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModifyandSet.ja-JP.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListControl.resx">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListInput.resx">
+      <DependentUpon>CheckListInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListEditor.resx">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.ja-JP.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
@@ -1101,7 +1119,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\PreFlightChecklist.resx">
+    <EmbeddedResource Include="Controls\PreFlight\PreFlightChecklist.resx">
       <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ja-JP.resx">
@@ -1705,9 +1723,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionControl.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Waypoints\Command.resx">
-      <DependentUpon>Command.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.it-IT.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
