@@ -2987,13 +2987,12 @@ namespace MissionPlanner.GCSViews
                     }
                     szListLayerName.Add(name);
 
-                    szLayerSelection += string.Format("{0}: {1}, ", iSelect, title);
+                    szLayerSelection += string.Format("{0}: {1}\n ", iSelect, title);
                     //mixing control and formatting is not optimal...
                     iSelect++;
                 }
             }
-            
-
+           
             //only select layer if there is one
             if (szListLayerName.Count != 0)
             {
@@ -3001,8 +3000,8 @@ namespace MissionPlanner.GCSViews
                 string szUserSelection = "";
                 if (DialogResult.Cancel ==
                     InputBox.Show("WMS Server",
-                        "The following layers were detected: " + szLayerSelection +
-                        "please choose one by typing the associated number.", ref szUserSelection))
+                        "The following layers were detected:\n " + szLayerSelection +
+                        "Please choose one by typing the associated number.", ref szUserSelection))
                     return;
                 int iUserSelection = 0;
                 try
