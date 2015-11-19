@@ -722,9 +722,6 @@
     <EmbeddedResource Include="Controls\ModifyandSet.ja-JP.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\PreFlight\CheckListControl.resx">
-      <DependentUpon>CheckListControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\PreFlight\CheckListInput.resx">
       <DependentUpon>CheckListInput.cs</DependentUpon>
     </EmbeddedResource>

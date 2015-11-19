@@ -1601,8 +1601,8 @@ namespace MissionPlanner.GCSViews
         {
             using (SaveFileDialog fd = new SaveFileDialog())
             {
-                fd.Filter = "Ardupilot Mission (*.waypoints)|(*.txt)|*.*";
-                fd.DefaultExt = ".txt";
+                fd.Filter = "Ardupilot Mission|*.waypoints;*.txt";
+                fd.DefaultExt = ".waypoints";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
@@ -1611,7 +1611,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         StreamWriter sw = new StreamWriter(file);
-                        sw.WriteLine("QGC WPL 120");
+                        sw.WriteLine("QGC WPL 110");
                         try
                         {
                             sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" +
@@ -2508,7 +2508,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported Types|*.txt;*.shp|Ardupilot Mission (*.txt)|*.*|Shape file|*.shp";
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
@@ -5045,8 +5045,8 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "Ardupilot Mission (*.txt)|*.*";
-                fd.DefaultExt = ".txt";
+                fd.Filter = "Ardupilot Mission|*.waypoints,*.txt";
+                fd.DefaultExt = ".waypoints";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "")
