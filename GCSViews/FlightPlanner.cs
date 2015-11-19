@@ -2955,20 +2955,44 @@ namespace MissionPlanner.GCSViews
             }
 
 
-            //the server is capable of serving our requests - now check if there is a layer to be selected
-            //format: layer -> layer -> name
+            // the server is capable of serving our requests - now check if there is a layer to be selected
+            // Display layer title in the input box instead of layer name.
+            // format: layer -> layer -> name
+            //         layer -> layer -> title
             string szLayerSelection = "";
             int iSelect = 0;
             List<string> szListLayerName = new List<string>();
-            XmlNodeList layerELements = xCapabilitesResponse.SelectNodes("//Layer/Layer/Name", nsmgr);
-            foreach (XmlNode nameNode in layerELements)
+            // Loop through all layers.
+            XmlNodeList layerElements = xCapabilitesResponse.SelectNodes("//Layer/Layer", nsmgr);
+            foreach (XmlNode layerElement in layerElements)
             {
-                szLayerSelection += string.Format("{0}: " + nameNode.InnerText + ", ", iSelect);
-                    //mixing control and formatting is not optimal...
-                szListLayerName.Add(nameNode.InnerText);
-                iSelect++;
-            }
+                // Get Name element.
+                var nameNode = layerElement.SelectSingleNode("Name", nsmgr);
 
+                // Skip if no name element is found.
+                if (nameNode != null)
+                {
+                    var name = nameNode.InnerText;
+                    // Set the default title as the layer name. 
+                    var title = name;
+                    // Get Title element.
+                    var titleNode = layerElement.SelectSingleNode("Title", nsmgr);
+                    if (titleNode != null)
+                    {
+                        var titleText = titleNode.InnerText;
+                        if (!string.IsNullOrWhiteSpace(titleText))
+                        {
+                            title = titleText;
+                        }
+                    }
+                    szListLayerName.Add(name);
+
+                    szLayerSelection += string.Format("{0}: {1}, ", iSelect, title);
+                    //mixing control and formatting is not optimal...
+                    iSelect++;
+                }
+            }
+            
 
             //only select layer if there is one
             if (szListLayerName.Count != 0)
