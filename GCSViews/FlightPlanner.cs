@@ -5045,7 +5045,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "Ardupilot Mission|*.waypoints,*.txt";
+                fd.Filter = "Ardupilot Mission|*.waypoints;*.txt";
                 fd.DefaultExt = ".waypoints";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
