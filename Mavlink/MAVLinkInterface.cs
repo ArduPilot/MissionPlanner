@@ -2767,14 +2767,16 @@ Please check the following
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
-                        log.Info(DateTime.Now + " " + logdata);
+                        log.Info(DateTime.Now + " " + sev + " " + logdata);
 
                         MAVlist[sysid, compid].cs.messages.Add(logdata);
 
                         bool printit = false;
 
                         // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
-                        if (MAVlist[sysid, compid].cs.version.Major > 0 || MAVlist[sysid, compid].cs.version.Minor > 0)
+                        // copter 3.4+
+                        // plane 3.4+
+                        if (MAVlist[sysid, compid].cs.version.Major > 0 || MAVlist[sysid, compid].cs.version.Minor >= 4)
                         {
                             if (sev <= (byte) MAV_SEVERITY.WARNING)
                             {
