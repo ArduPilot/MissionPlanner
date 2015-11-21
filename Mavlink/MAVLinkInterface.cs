@@ -3357,22 +3357,22 @@ Please check the following
             generatePacket((byte) MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
 
             DateTime start = DateTime.Now;
-            int retrys = 3;
+            int retrys = 5;
 
             while (true)
             {
-                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                if (!(start.AddMilliseconds(1000) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
-                        log.Info("GetLogList Retry " + retrys + " - giv com " + giveComport);
+                        log.Info("GetLogEntry Retry " + retrys + " - giv com " + giveComport);
                         generatePacket((byte) MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - GetLogList");
+                    throw new Exception("Timeout on read - GetLogEntry");
                 }
 
                 buffer = readPacket();
