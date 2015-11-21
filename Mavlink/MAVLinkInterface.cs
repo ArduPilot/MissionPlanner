@@ -1751,7 +1751,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(800) > DateTime.Now)) // apm times out after 1000ms
+                if (!(start.AddMilliseconds(3500) > DateTime.Now)) // apm times out after 5000ms
                 {
                     if (retrys > 0)
                     {
