@@ -6070,5 +6070,40 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             Commands.AutoResizeColumns();
         }
+
+        private void textToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string text = "";
+            InputBox.Show("Enter String", "Enter String (requires 1CamBam_Stick_3 font)", ref text);
+            string size = "5";
+            InputBox.Show("Enter size", "Enter size", ref size);
+
+            using (Font font = new System.Drawing.Font("1CamBam_Stick_3", float.Parse(size) * 1.35f, FontStyle.Regular))
+            using (GraphicsPath gp = new GraphicsPath())
+            using (StringFormat sf = new StringFormat())
+            {
+                sf.Alignment = StringAlignment.Near;
+                sf.LineAlignment = StringAlignment.Near;
+                gp.AddString(text, font.FontFamily, (int) font.Style, font.Size, new PointF(0, 0), sf);
+
+                utmpos basepos = new utmpos(MouseDownStart);
+
+                foreach (var pathPoint in gp.PathPoints)
+                {
+                    utmpos newpos = new utmpos(basepos);
+
+                    newpos.x += pathPoint.X;
+                    newpos.y += -pathPoint.Y;
+
+                    var newlla = newpos.ToLLA();
+                    quickadd = true;
+                    AddWPToMap(newlla.Lat, newlla.Lng, int.Parse(TXT_DefaultAlt.Text));
+                    
+                }
+
+                quickadd = false;
+                writeKML();
+            }
+        }
     }
 }
