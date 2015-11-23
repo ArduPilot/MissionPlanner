@@ -2644,11 +2644,25 @@ Please check the following
                 MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost*0.8f);
             }
 
-            // if its a gcs packet - extract wp's and return
-            if (buffer.Length >= 5 && (sysid == 255 || sysid == 253) && logreadmode) // gcs packet
+            // extract wp's from stream
+            if (buffer.Length >= 5)
             {
                 getWPsfromstream(ref buffer, sysid, compid);
+            }
+
+            // if its a gcs packet - dont process further
+            if (buffer.Length >= 5 && (sysid == 255 || sysid == 253) && logreadmode) // gcs packet
+            {
                 return buffer; // new byte[0];
+            }
+
+            // 3dr radios dont send a hb, so no mavstate is ever created, this overrides that behavior
+            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51,68))
+            {
+                // create an item
+                MAVlist[sysid, compid] = MAVlist[sysid, compid];
+                MAVlist[sysid, compid].sysid = sysid;
+                MAVlist[sysid, compid].compid = compid;
             }
 
             try
@@ -2952,7 +2966,10 @@ Please check the following
                 mavlink_mission_count_t wp = buffer.ByteArrayToStructure<mavlink_mission_count_t>(6);
 
                 if (wp.target_system == gcssysid)
-                    wp.target_system = buffer[3];
+                {
+                    wp.target_system = sysid;
+                    wp.target_component = compid;
+                }
 
                 MAVlist[wp.target_system, wp.target_component].wps.Clear();
             }
@@ -2962,7 +2979,10 @@ Please check the following
                 mavlink_mission_item_t wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
 
                 if (wp.target_system == gcssysid)
-                    wp.target_system = buffer[3];
+                {
+                    wp.target_system = sysid;
+                    wp.target_component = compid;
+                }
 
                 if (wp.current == 2)
                 {
@@ -2983,7 +3003,10 @@ Please check the following
                 mavlink_rally_point_t rallypt = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
 
                 if (rallypt.target_system == gcssysid)
-                    rallypt.target_system = buffer[3];
+                {
+                    rallypt.target_system = sysid;
+                    rallypt.target_component = compid;
+                }
 
                 MAVlist[rallypt.target_system, rallypt.target_component].rallypoints[rallypt.idx] = rallypt;
 
@@ -2996,7 +3019,10 @@ Please check the following
                 mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
 
                 if (fencept.target_system == gcssysid)
-                    fencept.target_system = buffer[3];
+                {
+                    fencept.target_system = sysid;
+                    fencept.target_component = compid;
+                }
 
                 MAVlist[fencept.target_system, fencept.target_component].fencepoints[fencept.idx] = fencept;
             }
