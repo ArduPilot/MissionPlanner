@@ -39,7 +39,7 @@ namespace GMap.NET.WindowsForms
       }
 
       private PointLatLng position;
-      public PointLatLng Position
+      public virtual PointLatLng Position
       {
          get
          {
