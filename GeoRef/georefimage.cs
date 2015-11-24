@@ -435,6 +435,8 @@ namespace MissionPlanner.GeoRef
 
                 if (ans == 0)
                     ans = (double) (photoTime - logTime).TotalSeconds;
+                else
+                    ans = ans*0.5 + (photoTime - logTime).TotalSeconds*0.5;
             }
 
             return ans;
