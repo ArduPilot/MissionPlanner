@@ -4566,6 +4566,8 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            Radius = (int)(Radius / CurrentState.multiplierdist);
+
             if (!int.TryParse(Pointsin, out Points))
             {
                 CustomMessageBox.Show("Bad Point value");
@@ -4618,8 +4620,6 @@ namespace MissionPlanner.GCSViews
 
             quickadd = false;
             writeKML();
-
-            //drawnpolygon.Points.Add(new PointLatLng(start.Lat, start.Lng));
         }
 
         public void Activate()
