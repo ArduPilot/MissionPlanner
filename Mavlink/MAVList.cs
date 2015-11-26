@@ -12,11 +12,17 @@ namespace MissionPlanner.Mavlink
     {
         private Dictionary<int, MAVState> masterlist = new Dictionary<int, MAVState>();
 
+        private Dictionary<int, MAVState> hiddenlist = new Dictionary<int, MAVState>();
+
         public MAVState this[int sysid, int compid]
         {
             get
             {
                 int id = (byte) sysid*256 + (byte) compid;
+
+                // 3dr radio special case
+                if (sysid == 51 && compid == 68)
+                    return new MAVState();
 
                 if (!masterlist.ContainsKey(id))
                     return new MAVState();
@@ -26,6 +32,13 @@ namespace MissionPlanner.Mavlink
             set
             {
                 int id = (byte) sysid*256 + (byte) compid;
+
+                // 3dr radio special case
+                if (sysid == 51 && compid == 68)
+                {
+                    hiddenlist[id] = value;
+                    return;
+                }
 
                 masterlist[id] = value;
             }
