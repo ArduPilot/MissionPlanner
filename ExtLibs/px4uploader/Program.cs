@@ -119,12 +119,6 @@ namespace px4uploader
 
                     try
                     {
-                        up.verifyotp();
-                    }
-                    catch (Exception ex)  { Console.WriteLine(ex.ToString()); up.close(); return false; }
-
-                    try
-                    {
                         up.currentChecksum(fw);
                     }
                     catch (Exception ex) { Console.WriteLine("No need to upload. already on the board" + ex.ToString()); up.close(); return true; }
