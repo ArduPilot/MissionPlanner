@@ -21,8 +21,8 @@ namespace MissionPlanner.Mavlink
                 int id = (byte) sysid*256 + (byte) compid;
 
                 // 3dr radio special case
-                if (sysid == 51 && compid == 68)
-                    return new MAVState();
+                if (hiddenlist.ContainsKey(id))
+                    return hiddenlist[id];
 
                 if (!masterlist.ContainsKey(id))
                     return new MAVState();
@@ -67,6 +67,12 @@ namespace MissionPlanner.Mavlink
         public bool Contains(byte sysid, byte compid)
         {
             foreach (var item in masterlist)
+            {
+                if (item.Value.sysid == sysid && item.Value.compid == compid)
+                    return true;
+            }
+
+            foreach (var item in hiddenlist)
             {
                 if (item.Value.sysid == sysid && item.Value.compid == compid)
                     return true;
