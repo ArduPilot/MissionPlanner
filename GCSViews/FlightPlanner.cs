@@ -135,6 +135,8 @@ namespace MissionPlanner.GCSViews
             {
                 selectedrow = int.Parse(pointno) - 1;
                 Commands.CurrentCell = Commands[1, selectedrow];
+                // depending on the dragged item, selectedrow can be reset 
+                selectedrow = int.Parse(pointno) - 1;
             }
             catch
             {
@@ -3019,6 +3021,7 @@ namespace MissionPlanner.GCSViews
 
         void groupmarkeradd(GMapMarker marker)
         {
+            System.Diagnostics.Debug.WriteLine("add marker " + marker.Tag.ToString());
             groupmarkers.Add(int.Parse(marker.Tag.ToString()));
             if (marker is GMapMarkerWP)
             {
@@ -3117,7 +3120,9 @@ namespace MissionPlanner.GCSViews
                         foreach (KeyValuePair<string, PointLatLng> item in dest)
                         {
                             var value = item.Value;
+                            quickadd = true;
                             callMeDrag(item.Key, value.Lat, value.Lng, -1);
+                            quickadd = false;
                         }
 
                         MainMap.SelectedArea = RectLatLng.Empty;
