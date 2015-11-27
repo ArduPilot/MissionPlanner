@@ -40,12 +40,26 @@ namespace SimpleExample
             // set timeout to 2 seconds
             serialPort1.ReadTimeout = 2000;
 
-            try
+
+            while (serialPort1.IsOpen)
             {
-                // try read a hb packet from the comport
-                var hb = readsomedata<MAVLink.mavlink_heartbeat_t>();
+                try
+                {
+                    // try read a hb packet from the comport
+                    var hb = readsomedata<MAVLink.mavlink_heartbeat_t>();
+
+                    var att = readsomedata<MAVLink.mavlink_attitude_t>();
+
+                    Console.WriteLine(att.pitch*57.2958 + " " + att.roll*57.2958);
+                }
+                catch
+                {
+                }
+
+                System.Threading.Thread.Sleep(1);
+                Application.DoEvents();
+
             }
-            catch { }
         }
 
         T readsomedata<T>(int timeout = 2000)
