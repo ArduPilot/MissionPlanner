@@ -434,12 +434,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PreFlight\PreFlightChecklist.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\PreFlight\PreFlightChecklist.designer.cs">
-      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
-    </Compile>
     <Compile Include="GeoRef\Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
@@ -1115,9 +1109,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\PreFlight\PreFlightChecklist.resx">
-      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ja-JP.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -3074,6 +3065,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ChangeLog.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="checklistDefault.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DLLs\fftpack_lite.dll">

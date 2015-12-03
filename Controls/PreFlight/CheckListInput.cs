@@ -138,7 +138,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.but_addchild.Location = new System.Drawing.Point(631, 1);
             this.but_addchild.Name = "but_addchild";
             this.but_addchild.Size = new System.Drawing.Size(25, 20);
-            this.but_addchild.TabIndex = 5;
+            this.but_addchild.TabIndex = 7;
             this.but_addchild.Text = "+";
             this.but_addchild.UseVisualStyleBackColor = true;
             this.but_addchild.Click += new System.EventHandler(this.but_addchild_Click);
@@ -148,7 +148,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.but_remove.Location = new System.Drawing.Point(662, 1);
             this.but_remove.Name = "but_remove";
             this.but_remove.Size = new System.Drawing.Size(25, 20);
-            this.but_remove.TabIndex = 6;
+            this.but_remove.TabIndex = 8;
             this.but_remove.Text = "-";
             this.but_remove.UseVisualStyleBackColor = true;
             this.but_remove.Click += new System.EventHandler(this.but_remove_Click);
@@ -161,7 +161,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.CMB_colour1.Location = new System.Drawing.Point(503, 1);
             this.CMB_colour1.Name = "CMB_colour1";
             this.CMB_colour1.Size = new System.Drawing.Size(50, 21);
-            this.CMB_colour1.TabIndex = 7;
+            this.CMB_colour1.TabIndex = 5;
             this.CMB_colour1.SelectedIndexChanged += new System.EventHandler(this.CMB_colour1_SelectedIndexChanged);
             // 
             // CMB_colour2
@@ -172,7 +172,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.CMB_colour2.Location = new System.Drawing.Point(559, 1);
             this.CMB_colour2.Name = "CMB_colour2";
             this.CMB_colour2.Size = new System.Drawing.Size(50, 21);
-            this.CMB_colour2.TabIndex = 8;
+            this.CMB_colour2.TabIndex = 6;
             this.CMB_colour2.SelectedIndexChanged += new System.EventHandler(this.CMB_colour2_SelectedIndexChanged);
             // 
             // TXT_desc
@@ -180,7 +180,7 @@ namespace MissionPlanner.Controls.PreFlight
             this.TXT_desc.Location = new System.Drawing.Point(261, 3);
             this.TXT_desc.Name = "TXT_desc";
             this.TXT_desc.Size = new System.Drawing.Size(236, 20);
-            this.TXT_desc.TabIndex = 9;
+            this.TXT_desc.TabIndex = 3;
             this.TXT_desc.Text = "GPS Hdop";
             this.TXT_desc.TextChanged += new System.EventHandler(this.TXT_desc_TextChanged);
             // 

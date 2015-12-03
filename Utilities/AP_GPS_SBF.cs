@@ -48,12 +48,13 @@ namespace MissionPlanner.Utilities
         readstate sbf_state;
         ushort last_hdop;
         uint32_t crc_error_counter;
+        bool validcommand = false;
 
         GPS_State state = new GPS_State();
 
         sbf_msg_parser sbf_msg = new sbf_msg_parser();
 
-        Stream port = File.Open(@"T:\rtk4\SEPTX.15_", FileMode.Open);
+        Stream port = null;//File.Open(@"T:\rtk4\SEPTX.15_", FileMode.Open);
 
         public AP_GPS_SBF()
         {
@@ -61,11 +62,11 @@ namespace MissionPlanner.Utilities
             last_hdop = 999;
             sbf_state = readstate.PREAMBLE1;
 
-            //var sport = new SerialPort("COM15", 115200);
+            var sport = new SerialPort("com10", 115200);
 
-            //sport.Open();
+            sport.Open();
 
-            //port = sport.BaseStream;
+            port = sport.BaseStream;
 
             // setcommsettings
             //string command1 = "scs, COM1, baud115200\n";
@@ -81,8 +82,9 @@ namespace MissionPlanner.Utilities
             //sem, PVT, 5
 
             // setSBFOutput
+            validcommand = false;
             string command2 = "sso, Stream1, USB1, PVTGeodetic+DOP+ExtEventPVTGeodetic, msec100\n";
-            //port.Write(ASCIIEncoding.ASCII.GetBytes(command2), 0, command2.Length);
+            port.Write(ASCIIEncoding.ASCII.GetBytes(command2), 0, command2.Length);
 
             System.Threading.Thread.Sleep(70);
 
@@ -111,8 +113,8 @@ namespace MissionPlanner.Utilities
             //port.Write(ASCIIEncoding.ASCII.GetBytes(command6), 0, command6.Length);
 
             System.Threading.Thread.Sleep(70);
-            //int btr = sport.BytesToRead;
-            //byte[] data = new byte[btr];
+            int btr = sport.BytesToRead;
+            byte[] data = new byte[btr];
             //port.Read(data, 0, btr);
 
             //Console.WriteLine(ASCIIEncoding.ASCII.GetString(data));
@@ -149,6 +151,8 @@ namespace MissionPlanner.Utilities
                 case readstate.PREAMBLE1:
                     if (temp == SBF_PREAMBLE1)
                         sbf_state++;
+                    else if (temp == '$')
+                        sbf_state++;
                     else
                         Console.Write(".");
                     sbf_msg.read = 0;
@@ -157,6 +161,10 @@ namespace MissionPlanner.Utilities
                     if (temp == SBF_PREAMBLE2)
                     {
                         sbf_state++;
+                    }
+                    else if (temp == 'R')
+                    {
+                        validcommand = true;
                     }
                     else
                     {

@@ -17,6 +17,8 @@ namespace MissionPlanner.Controls.PreFlight
 
         public string configfile = "checklist.xml";
 
+        public string configfiledefault = "checklistDefault.xml";
+
         int rowcount = 0;
 
         internal struct internaldata
@@ -136,14 +138,25 @@ namespace MissionPlanner.Controls.PreFlight
 
         public void LoadConfig()
         {
+            string loadfile = configfile;
+
             if (!File.Exists(configfile))
-                return;
+            {
+                if (!File.Exists(configfiledefault))
+                {
+                    return;
+                }
+                else
+                {
+                    loadfile = configfiledefault;
+                }
+            }
 
             System.Xml.Serialization.XmlSerializer reader =
                 new System.Xml.Serialization.XmlSerializer(typeof(List<CheckListItem>),
                     new Type[] { typeof(CheckListItem) });
 
-            using (StreamReader sr = new StreamReader(configfile))
+            using (StreamReader sr = new StreamReader(loadfile))
             {
                 CheckListItems = (List<CheckListItem>)reader.Deserialize(sr);
             }
