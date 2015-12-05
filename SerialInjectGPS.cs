@@ -24,6 +24,8 @@ namespace MissionPlanner
         internal static ICommsSerial comPort = new SerialPort();
         // rtcm detection
         private Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
+        // sbp detection
+        private Utilities.sbp sbp = new Utilities.sbp();
         // background thread 
         private System.Threading.Thread t12;
         private static bool threadrun = false;
@@ -191,7 +193,15 @@ namespace MissionPlanner
                         for (int a = 0; a < read; a++)
                         {
                             int seen = -1;
+                            // rtcm
                             if ((seen = rtcm3.Read(buffer[a])) > 0)
+                            {
+                                if (!msgseen.ContainsKey(seen))
+                                    msgseen[seen] = 0;
+                                msgseen[seen] = (int)msgseen[seen] + 1;
+                            }
+                            // sbp
+                            if ((seen = sbp.read(buffer[a])) > 0)
                             {
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;

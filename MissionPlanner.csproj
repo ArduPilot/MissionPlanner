@@ -1575,6 +1575,7 @@
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\rtcm3.cs" />
+    <Compile Include="Utilities\sbp.cs" />
     <Compile Include="Utilities\SignXML.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
