@@ -14,6 +14,12 @@ namespace MissionPlanner.Mavlink
 
         private Dictionary<int, MAVState> hiddenlist = new Dictionary<int, MAVState>();
 
+        public MAVList()
+        {
+            // add blank item
+            hiddenlist.Add(0,new MAVState());
+        }
+
         public MAVState this[int sysid, int compid]
         {
             get
