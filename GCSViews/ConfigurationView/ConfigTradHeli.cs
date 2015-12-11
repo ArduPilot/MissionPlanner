@@ -573,5 +573,100 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Set H_SV_MAN Failed");
             }
         }
+
+        private void myButtonH_SV_MANmanual_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_SV_MAN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_SV_MAN", 1);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_SV_MAN Failed");
+            }
+        }
+
+        private void myButtonH_SV_MANmax_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_SV_MAN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_SV_MAN", 2);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_SV_MAN Failed");
+            }
+        }
+
+        private void myButtonH_SV_MANzero_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_SV_MAN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_SV_MAN", 3);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_SV_MAN Failed");
+            }
+        }
+
+        private void myButtonH_SV_MANmin_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_SV_MAN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_SV_MAN", 4);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_SV_MAN Failed");
+            }
+        }
+
+        private void myButtonH_SV_MANtest_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_SV_MAN"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_SV_MAN", 5);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_SV_MAN Failed");
+            }
+        }
     }
 }

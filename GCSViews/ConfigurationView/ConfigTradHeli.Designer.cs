@@ -106,11 +106,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.HS3 = new MissionPlanner.Controls.VerticalProgressBar2();
             this.Gservoloc = new AGaugeApp.AGauge();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.myButton6 = new MissionPlanner.Controls.MyButton();
-            this.myButton5 = new MissionPlanner.Controls.MyButton();
-            this.myButton4 = new MissionPlanner.Controls.MyButton();
-            this.myButton3 = new MissionPlanner.Controls.MyButton();
-            this.myButton2 = new MissionPlanner.Controls.MyButton();
+            this.myButtonH_SV_MANtest = new MissionPlanner.Controls.MyButton();
+            this.myButtonH_SV_MANmin = new MissionPlanner.Controls.MyButton();
+            this.myButtonH_SV_MANzero = new MissionPlanner.Controls.MyButton();
+            this.myButtonH_SV_MANmax = new MissionPlanner.Controls.MyButton();
+            this.myButtonH_SV_MANmanual = new MissionPlanner.Controls.MyButton();
             this.myButtonH_SV_MAN = new MissionPlanner.Controls.MyButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -943,45 +943,50 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.myButton6);
-            this.groupBox6.Controls.Add(this.myButton5);
-            this.groupBox6.Controls.Add(this.myButton4);
-            this.groupBox6.Controls.Add(this.myButton3);
-            this.groupBox6.Controls.Add(this.myButton2);
+            this.groupBox6.Controls.Add(this.myButtonH_SV_MANtest);
+            this.groupBox6.Controls.Add(this.myButtonH_SV_MANmin);
+            this.groupBox6.Controls.Add(this.myButtonH_SV_MANzero);
+            this.groupBox6.Controls.Add(this.myButtonH_SV_MANmax);
+            this.groupBox6.Controls.Add(this.myButtonH_SV_MANmanual);
             this.groupBox6.Controls.Add(this.myButtonH_SV_MAN);
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
-            // myButton6
+            // myButtonH_SV_MANtest
             // 
-            resources.ApplyResources(this.myButton6, "myButton6");
-            this.myButton6.Name = "myButton6";
-            this.myButton6.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.myButtonH_SV_MANtest, "myButtonH_SV_MANtest");
+            this.myButtonH_SV_MANtest.Name = "myButtonH_SV_MANtest";
+            this.myButtonH_SV_MANtest.UseVisualStyleBackColor = true;
+            this.myButtonH_SV_MANtest.Click += new System.EventHandler(this.myButtonH_SV_MANtest_Click);
             // 
-            // myButton5
+            // myButtonH_SV_MANmin
             // 
-            resources.ApplyResources(this.myButton5, "myButton5");
-            this.myButton5.Name = "myButton5";
-            this.myButton5.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.myButtonH_SV_MANmin, "myButtonH_SV_MANmin");
+            this.myButtonH_SV_MANmin.Name = "myButtonH_SV_MANmin";
+            this.myButtonH_SV_MANmin.UseVisualStyleBackColor = true;
+            this.myButtonH_SV_MANmin.Click += new System.EventHandler(this.myButtonH_SV_MANmin_Click);
             // 
-            // myButton4
+            // myButtonH_SV_MANzero
             // 
-            resources.ApplyResources(this.myButton4, "myButton4");
-            this.myButton4.Name = "myButton4";
-            this.myButton4.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.myButtonH_SV_MANzero, "myButtonH_SV_MANzero");
+            this.myButtonH_SV_MANzero.Name = "myButtonH_SV_MANzero";
+            this.myButtonH_SV_MANzero.UseVisualStyleBackColor = true;
+            this.myButtonH_SV_MANzero.Click += new System.EventHandler(this.myButtonH_SV_MANzero_Click);
             // 
-            // myButton3
+            // myButtonH_SV_MANmax
             // 
-            resources.ApplyResources(this.myButton3, "myButton3");
-            this.myButton3.Name = "myButton3";
-            this.myButton3.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.myButtonH_SV_MANmax, "myButtonH_SV_MANmax");
+            this.myButtonH_SV_MANmax.Name = "myButtonH_SV_MANmax";
+            this.myButtonH_SV_MANmax.UseVisualStyleBackColor = true;
+            this.myButtonH_SV_MANmax.Click += new System.EventHandler(this.myButtonH_SV_MANmax_Click);
             // 
-            // myButton2
+            // myButtonH_SV_MANmanual
             // 
-            resources.ApplyResources(this.myButton2, "myButton2");
-            this.myButton2.Name = "myButton2";
-            this.myButton2.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.myButtonH_SV_MANmanual, "myButtonH_SV_MANmanual");
+            this.myButtonH_SV_MANmanual.Name = "myButtonH_SV_MANmanual";
+            this.myButtonH_SV_MANmanual.UseVisualStyleBackColor = true;
+            this.myButtonH_SV_MANmanual.Click += new System.EventHandler(this.myButtonH_SV_MANmanual_Click);
             // 
             // myButtonH_SV_MAN
             // 
@@ -1414,11 +1419,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkNumericUpDown mavlinkNumericUpDownrunuptime;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox6;
-        private MyButton myButton6;
-        private MyButton myButton5;
-        private MyButton myButton4;
-        private MyButton myButton3;
-        private MyButton myButton2;
+        private MyButton myButtonH_SV_MANtest;
+        private MyButton myButtonH_SV_MANmin;
+        private MyButton myButtonH_SV_MANzero;
+        private MyButton myButtonH_SV_MANmax;
+        private MyButton myButtonH_SV_MANmanual;
         private MyButton myButtonH_SV_MAN;
         private System.Windows.Forms.Label label2;
         private MavlinkNumericUpDown mavlinkNumericUpDownH_PHANG;
