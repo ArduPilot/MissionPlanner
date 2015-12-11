@@ -1039,21 +1039,15 @@ namespace MissionPlanner
                     if (software.urlvrbrainv52 != "")
                         xmlwriter.WriteElementString("urlvrbrainv52",
                             new Uri(software.urlvrbrainv52).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrherov10 != "")
-                        xmlwriter.WriteElementString("urlvrherov10",
-                            new Uri(software.urlvrherov10).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrcorev10 != "")
+                        xmlwriter.WriteElementString("urlvrcorev10",
+                            new Uri(software.urlvrcorev10).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrubrainv51 != "")
                         xmlwriter.WriteElementString("urlvrubrainv51",
                             new Uri(software.urlvrubrainv51).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrubrainv52 != "")
                         xmlwriter.WriteElementString("urlvrubrainv52",
                             new Uri(software.urlvrubrainv52).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrgimbalv20 != "")
-                        xmlwriter.WriteElementString("urlvrgimbalv20",
-                            new Uri(software.urlvrgimbalv20).LocalPath.TrimStart('/', '\\'));
-                    if (software.urlvrugimbalv11 != "")
-                        xmlwriter.WriteElementString("urlvrugimbalv11",
-                            new Uri(software.urlvrugimbalv11).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
@@ -1106,9 +1100,9 @@ namespace MissionPlanner
                         Common.getFilefromNet(software.urlvrbrainv52,
                             basedir + new Uri(software.urlvrbrainv52).LocalPath);
                     }
-                    if (software.urlvrherov10 != "")
+                    if (software.urlvrcorev10 != "")
                     {
-                        Common.getFilefromNet(software.urlvrherov10, basedir + new Uri(software.urlvrherov10).LocalPath);
+                        Common.getFilefromNet(software.urlvrcorev10, basedir + new Uri(software.urlvrcorev10).LocalPath);
                     }
                     if (software.urlvrubrainv51 != "")
                     {
@@ -1119,16 +1113,6 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlvrubrainv52,
                             basedir + new Uri(software.urlvrubrainv52).LocalPath);
-                    }
-                    if (software.urlvrgimbalv20 != "")
-                    {
-                        Common.getFilefromNet(software.urlvrgimbalv20,
-                            basedir + new Uri(software.urlvrgimbalv20).LocalPath);
-                    }
-                    if (software.urlvrugimbalv11 != "")
-                    {
-                        Common.getFilefromNet(software.urlvrugimbalv11,
-                            basedir + new Uri(software.urlvrugimbalv11).LocalPath);
                     }
                 }
 
