@@ -153,6 +153,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             timer1.Stop();
+            startup = true;
         }
 
         private void CHK_enablebattmon_CheckedChanged(object sender, EventArgs e)
