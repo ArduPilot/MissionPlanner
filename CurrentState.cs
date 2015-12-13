@@ -1241,6 +1241,18 @@ namespace MissionPlanner
                         vibey = vibe.vibration_y;
                         vibez = vibe.vibration_z;
                     }
+                    
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE];
+
+                    if (bytearray != null)
+                    {
+                        var adsb = bytearray.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>(6);
+
+                        MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat,adsb.lon,adsb.altitude/1000,adsb.heading,adsb.ICAO_address.ToString("X5"));
+                        MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
+
+                        MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE] = null;
+                    }
 
                     bytearray = MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL];
 
