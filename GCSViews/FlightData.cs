@@ -1245,16 +1245,16 @@ namespace MissionPlanner.GCSViews
                         {
                             if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT"))
                             {
-                                float temp1 = (float) MainV2.comPort.MAV.param["MNT_STAB_TILT"];
-                                float temp2 = (float) MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
+                                float temp1 = MainV2.comPort.MAV.param["MNT_STAB_TILT"].float_value;
+                                float temp2 = MainV2.comPort.MAV.param["MNT_STAB_ROLL"].float_value;
 
-                                float temp3 = (float) MainV2.comPort.MAV.param["MNT_TYPE"];
+                                float temp3 = MainV2.comPort.MAV.param["MNT_TYPE"].float_value;
 
                                 if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
                                     // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
-                                    ((float) MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
-                                     (float) MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
-                                    (float) MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
+                                    (MainV2.comPort.MAV.param["MNT_STAB_TILT"].float_value == 1 &&
+                                      MainV2.comPort.MAV.param["MNT_STAB_ROLL"].float_value == 0) ||
+                                     MainV2.comPort.MAV.param["MNT_TYPE"].float_value == 4) // storm driver
                                 {
                                     var marker = GimbalPoint.ProjectPoint();
 
