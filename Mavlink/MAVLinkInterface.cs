@@ -2733,6 +2733,15 @@ Please check the following
                             MAVlist[sysidcurrent, compidcurrent].packets[buffer[5]] = buffer;
                             MAVlist[sysidcurrent, compidcurrent].packetseencount[buffer[5]]++;
                         }
+
+                        // adsb packets are forwarded and can be from any sysid/compid
+                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE)
+                        {
+                            var adsb = buffer.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>(6);
+
+                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading, adsb.ICAO_address.ToString("X5"));
+                            MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
+                        }
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
