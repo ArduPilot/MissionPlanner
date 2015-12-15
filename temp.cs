@@ -22,6 +22,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using log4net;
+using LibVLC.NET;
 using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
 using MissionPlanner.Controls;
@@ -1647,6 +1648,11 @@ namespace MissionPlanner
             {
                 new AP_GPS_GSOF(port);
             }
+        }
+
+        private void myButton_vlc_Click(object sender, EventArgs e)
+        {
+            new vlcrender().Start(FlightData.myhud.Width,FlightData.myhud.Height);
         }
     }
 }

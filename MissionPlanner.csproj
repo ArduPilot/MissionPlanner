@@ -1582,6 +1582,7 @@
     <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Utilities\VersionDetection.cs" />
+    <Compile Include="Utilities\vlcrender.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
@@ -3095,6 +3096,7 @@
     <Content Include="DLLs\NumpyDotNet.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj" />
     <Content Include="LogAnalyzer\DataflashLog.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -6929,6 +6931,10 @@
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj">
+      <Project>{bb06dff7-4f41-4b9d-a3c3-3b6d2b8702b6}</Project>
+      <Name>LibVLC.NET</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
       <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>
