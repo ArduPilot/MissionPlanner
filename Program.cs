@@ -186,18 +186,23 @@ namespace MissionPlanner
 
         static string GetStackTrace(Exception e)
         {
-            StackTrace st = new System.Diagnostics.StackTrace(e);
             string stackTrace = "";
-            foreach (StackFrame frame in st.GetFrames())
+            try
             {
-                stackTrace = "at " + frame.GetMethod().Module.Name + "." +
-                             frame.GetMethod().ReflectedType.Name + "."
-                             + frame.GetMethod().Name
-                             + "  (IL offset: 0x" + frame.GetILOffset().ToString("x") + ")\n" + stackTrace;
+                StackTrace st = new System.Diagnostics.StackTrace(e);
+                foreach (StackFrame frame in st.GetFrames())
+                {
+                    stackTrace = "at " + frame.GetMethod().Module.Name + "." +
+                                 frame.GetMethod().ReflectedType.Name + "."
+                                 + frame.GetMethod().Name
+                                 + "  (IL offset: 0x" + frame.GetILOffset().ToString("x") + ")\n" + stackTrace;
+                }
+                Console.Write(stackTrace);
+                Console.WriteLine("Message: " + e.Message);
             }
-            Console.Write(stackTrace);
-            Console.WriteLine("Message: " + e.Message);
-
+            catch
+            {
+            }
             return stackTrace;
         }
 
@@ -245,8 +250,8 @@ namespace MissionPlanner
                 // return;
             }
             // windows and mono
-            if (ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose") ||
-                ex.StackTrace.Contains("System.IO.Ports.SerialPortStream.Dispose"))
+            if (ex.StackTrace != null && ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose") ||
+                ex.StackTrace != null && ex.StackTrace.Contains("System.IO.Ports.SerialPortStream.Dispose"))
             {
                 log.Error(ex);
                 return; // ignore

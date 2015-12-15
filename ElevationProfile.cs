@@ -36,7 +36,7 @@ namespace MissionPlanner
 
             for (int a = 0; a < planlocs.Count; a++)
             {
-                if (planlocs[a].Tag != null && planlocs[a].Tag.Contains("ROI"))
+                if (planlocs[a] == null || planlocs[a].Tag != null && planlocs[a].Tag.Contains("ROI"))
                 {
                     planlocs.RemoveAt(a);
                     a--;
