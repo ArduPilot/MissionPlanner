@@ -139,11 +139,12 @@ namespace MissionPlanner.Log
                 foreach (var item in this)
                 {
                     var dfitem = dflog.GetDFItemFromLine(item.ToString(), b);
+                    if (dfitem.msgtype != null && dflog.logformat.ContainsKey(dfitem.msgtype))
+                    {
+                        var type = (byte)dflog.logformat[dfitem.msgtype].Id;
 
-                    var type = (byte) dflog.logformat[dfitem.msgtype].Id;
-
-                    messageindex[type].Add(linestartoffset[b]);
-
+                        messageindex[type].Add(linestartoffset[b]);
+                    }
                     b++;
                 }
             }
@@ -260,11 +261,14 @@ namespace MissionPlanner.Log
             SortedSet<long> slist = new SortedSet<long>();
             foreach (var type in types)
             {
-                var typeid = (byte) dflog.logformat[type].Id;
-
-                foreach (var item in messageindex[typeid])
+                if (dflog.logformat.ContainsKey(type))
                 {
-                    slist.Add(item);
+                    var typeid = (byte) dflog.logformat[type].Id;
+
+                    foreach (var item in messageindex[typeid])
+                    {
+                        slist.Add(item);
+                    }
                 }
             }
 
