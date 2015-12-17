@@ -24,6 +24,7 @@ namespace MissionPlanner.Utilities
         LibVLCLibrary.libvlc_video_display_cb vlc_picture_delegate;
 
         public string playurl = "rtsp://192.168.1.253:554/Streaming/Channels/1";
+
         public void Start(int Width, int Height)
         {
             if (store.Count > 0)
@@ -70,6 +71,16 @@ namespace MissionPlanner.Utilities
             library.libvlc_release(inst);
 
             LibVLCLibrary.Free(library);
+
+            library = null;
+
+            if (imageIntPtr != null)
+                Marshal.FreeHGlobal(imageIntPtr);
+        }
+
+        ~vlcrender()
+        {
+            Stop();
         }
 
         IntPtr imageIntPtr = IntPtr.Zero;

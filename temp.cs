@@ -1652,7 +1652,14 @@ namespace MissionPlanner
 
         private void myButton_vlc_Click(object sender, EventArgs e)
         {
-            new vlcrender().Start(FlightData.myhud.Width,FlightData.myhud.Height);
+            var render = new vlcrender();
+
+            string url = render.playurl;
+            if (InputBox.Show("enter url", "enter url", ref url) == DialogResult.OK)
+            {
+                render.playurl = url;
+                render.Start(FlightData.myhud.Width, FlightData.myhud.Height);
+            }
         }
     }
 }
