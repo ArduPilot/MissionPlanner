@@ -217,7 +217,7 @@
       <P4>ISO</P4>
       <X>ExposureMode</X>
       <Y>CommandID</Y>
-      <Z>Engine Cut-Off</Z>
+      <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
       <P1>On/Off</P1>
@@ -473,7 +473,7 @@
       <P4>ISO</P4>
       <X>ExposureMode</X>
       <Y>CommandID</Y>
-      <Z>Engine Cut-Off</Z>
+      <Z></Z>
     </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
       <P1>On/Off</P1>
