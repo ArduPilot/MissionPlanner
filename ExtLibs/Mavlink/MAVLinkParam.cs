@@ -154,6 +154,11 @@ public partial class MAVLink
             return (float)v.Value;
         }
 
+        public static explicit operator double(MAVLinkParam v)
+        {
+            return (double)v.Value;
+        }
+
         public override string ToString()
         {
             return Value.ToString();
