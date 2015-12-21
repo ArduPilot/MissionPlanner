@@ -54,6 +54,7 @@
             this.label22 = new System.Windows.Forms.Label();
             this.tabCamera = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.chk_stopstart = new System.Windows.Forms.CheckBox();
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
@@ -141,7 +142,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
-            this.chk_stopstart = new System.Windows.Forms.CheckBox();
+            this.label38 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -335,6 +336,12 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // chk_stopstart
+            // 
+            resources.ApplyResources(this.chk_stopstart, "chk_stopstart");
+            this.chk_stopstart.Name = "chk_stopstart";
+            this.chk_stopstart.UseVisualStyleBackColor = true;
             // 
             // label18
             // 
@@ -853,6 +860,7 @@
             // 
             // tabSimple
             // 
+            this.tabSimple.Controls.Add(this.label38);
             this.tabSimple.Controls.Add(this.groupBox6);
             this.tabSimple.Controls.Add(this.groupBox4);
             this.tabSimple.Controls.Add(this.BUT_Accept);
@@ -1131,11 +1139,10 @@
             this.TRK_zoom.Value = 2F;
             this.TRK_zoom.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
-            // chk_stopstart
+            // label38
             // 
-            resources.ApplyResources(this.chk_stopstart, "chk_stopstart");
-            this.chk_stopstart.Name = "chk_stopstart";
-            this.chk_stopstart.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.label38, "label38");
+            this.label38.Name = "label38";
             // 
             // GridUI
             // 
@@ -1176,6 +1183,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).EndInit();
             this.tabSimple.ResumeLayout(false);
+            this.tabSimple.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_split)).EndInit();
@@ -1306,5 +1314,6 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.NumericUpDown NUM_split;
         private System.Windows.Forms.CheckBox chk_stopstart;
+        private System.Windows.Forms.Label label38;
     }
 }

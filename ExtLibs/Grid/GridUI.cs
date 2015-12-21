@@ -78,6 +78,8 @@ namespace MissionPlanner
             public bool autotakeoff;
             public bool autotakeoff_RTL;
 
+            public decimal splitmission;
+
             public bool internals;
             public bool footprints;
             public bool advanced;
@@ -224,6 +226,7 @@ namespace MissionPlanner
             NUM_UpDownFlySpeed.Value = griddata.speed;
             CHK_toandland.Checked = griddata.autotakeoff;
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
+            NUM_split.Value = griddata.splitmission;
 
             CHK_internals.Checked = griddata.internals;
             CHK_footprints.Checked = griddata.footprints;
@@ -270,6 +273,7 @@ namespace MissionPlanner
             griddata.usespeed = CHK_usespeed.Checked;
             griddata.autotakeoff = CHK_toandland.Checked;
             griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
+            griddata.splitmission = NUM_split.Value;
 
             griddata.internals = CHK_internals.Checked;
             griddata.footprints = CHK_footprints.Checked;
