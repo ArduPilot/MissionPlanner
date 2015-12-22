@@ -668,6 +668,7 @@
     <Compile Include="Utilities\fftui.Designer.cs">
       <DependentUpon>fftui.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\fitCurve.cs" />
     <Compile Include="Utilities\fontgen.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
