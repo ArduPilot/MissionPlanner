@@ -340,6 +340,14 @@ namespace MissionPlanner
         public float ch6out { get; set; }
         public float ch7out { get; set; }
         public float ch8out { get; set; }
+        public float ch9out { get; set; }
+        public float ch10out { get; set; }
+        public float ch11out { get; set; }
+        public float ch12out { get; set; }
+        public float ch13out { get; set; }
+        public float ch14out { get; set; }
+        public float ch15out { get; set; }
+        public float ch16out { get; set; }
 
         public float ch3percent
         {
@@ -1806,15 +1814,28 @@ namespace MissionPlanner
                     if (bytearray != null)
                     {
                         var servoout = bytearray.ByteArrayToStructure<MAVLink.mavlink_servo_output_raw_t>(6);
-
-                        ch1out = servoout.servo1_raw;
-                        ch2out = servoout.servo2_raw;
-                        ch3out = servoout.servo3_raw;
-                        ch4out = servoout.servo4_raw;
-                        ch5out = servoout.servo5_raw;
-                        ch6out = servoout.servo6_raw;
-                        ch7out = servoout.servo7_raw;
-                        ch8out = servoout.servo8_raw;
+                        if (servoout.port == 0)
+                        {
+                            ch1out = servoout.servo1_raw;
+                            ch2out = servoout.servo2_raw;
+                            ch3out = servoout.servo3_raw;
+                            ch4out = servoout.servo4_raw;
+                            ch5out = servoout.servo5_raw;
+                            ch6out = servoout.servo6_raw;
+                            ch7out = servoout.servo7_raw;
+                            ch8out = servoout.servo8_raw;
+                        }
+                        else if (servoout.port == 1)
+                        {
+                            ch9out = servoout.servo1_raw;
+                            ch10out = servoout.servo2_raw;
+                            ch11out = servoout.servo3_raw;
+                            ch12out = servoout.servo4_raw;
+                            ch13out = servoout.servo5_raw;
+                            ch14out = servoout.servo6_raw;
+                            ch15out = servoout.servo7_raw;
+                            ch16out = servoout.servo8_raw;
+                        }
 
                         MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW] = null;
                     }
