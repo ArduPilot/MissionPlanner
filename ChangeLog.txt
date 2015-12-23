@@ -1,4 +1,40 @@
-﻿* Mission Planner 1.3.33 - 8-12-2015
+﻿* Mission Planner 1.3.34 - 24-12-2015
+temp: make gps passthrough static
+LogBrowse: add full path to xml
+add null exception checks
+drivers: fix eol
+fitCurve: add
+CurrentState: add servo_output port checking #1090
+Translation es-ES
+VRBRAIN: change description of some USB drivers and added missing drivers
+VRBRAIN: added firmware management for new board VR Brain Core 1.0 and deleted unnecessary boards
+VRBRAIN: added detection for new board VR Brain Core 1.0 and deleted unnecessary boards
+add camera Sony Alpha NEX-7
+mavcmd: remove engine cut off reference #1070
+GridUI: add missing field to save/load #1071
+FlightPlanner: make fields public #1074
+Joystick: update buttonaxis min range #1080
+MAVLinkParam: add explicit double conversion #1085
+BinaryLog: add more detection rules #1089
+vlcrender: add custom url support
+MAVLink: upstream update
+CollectionBuffer: fix null exception #1075
+vlc intergration
+LibVLC.Net
+ElevationProfile: fix null exception #1084
+Tracking: add exception fix
+FlightData: check zoom level on startup
+ElevationGraph: add null check #1084
+FlightData: fix conversion exception
+ADSB: accept from and sysid/compid
+CurrentState: add adsb
+MAVLink: update
+MagCalib: fix compass 3 calib
+ConfigBattery: update for mono exit
+ConfigTradHeli: update buttons
+ConfigTradHeli: update
+
+* Mission Planner 1.3.33 - 8-12-2015
 ThemeManager: fix tree view under high contrast
 LogBrowse: handle currupt log better
 SBP: add inject gps sbp detection
