@@ -208,6 +208,11 @@ namespace MissionPlanner
 
         static void handleException(Exception ex)
         {
+            if (ex.Message == "Safe handle has been closed")
+            {
+                return;
+            }
+
             MissionPlanner.Utilities.Tracking.AddException(ex);
 
             log.Debug(ex.ToString());

@@ -113,7 +113,7 @@ namespace MissionPlanner.Controls
             // find next screen
             Screen nextscreen = screens.Single(s => s.Name == name);
 
-            if (nextscreen == null)
+            if (nextscreen == null || nextscreen.Control == null)
                 return;
 
             MainControl.SuspendLayout();
