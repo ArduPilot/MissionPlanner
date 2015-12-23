@@ -386,7 +386,7 @@ namespace MissionPlanner.Log
 
             List<graphitem> items = new List<graphitem>();
 
-            using (XmlReader reader = XmlReader.Create("mavgraphs.xml"))
+            using (XmlReader reader = XmlReader.Create(Application.StartupPath + Path.DirectorySeparatorChar + "mavgraphs.xml"))
             {
                 while (reader.Read())
                 {
