@@ -1155,11 +1155,11 @@ namespace MissionPlanner
             frm.Show();
         }
 
-        MAVLinkSerialPort comport;
+        static MAVLinkSerialPort comport;
 
-        TcpListener listener;
+        static TcpListener listener;
 
-        TcpClient client;
+        static TcpClient client;
 
         private void but_mavserialport_Click(object sender, EventArgs e)
         {
