@@ -79,7 +79,7 @@ namespace MissionPlanner.Controls
             string text = combo.Items[e.Index].ToString();
             if (!MainV2.MONO)
             {
-                //text = text + " " + SerialPort.GetNiceName(text);
+                text = text + " " + SerialPort.GetNiceName(text);
             }
 
             e.Graphics.DrawString(text, e.Font,
