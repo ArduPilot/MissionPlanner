@@ -1766,6 +1766,10 @@ namespace MissionPlanner.GCSViews
                             param1 = 1; // gyro
                         param3 = 1; // baro / airspeed
                     }
+                    if (CMB_action.Text == "PREFLIGHT_REBOOT_SHUTDOWN")
+                    {
+                        param1 = 1; // reboot
+                    }
 
                     MainV2.comPort.doCommand((MAVLink.MAV_CMD) Enum.Parse(typeof (MAVLink.MAV_CMD), CMB_action.Text),
                         param1, 0, param3, 0, 0, 0, 0);
