@@ -77,6 +77,12 @@ namespace MissionPlanner.Arduino
                         return boards.px4v2;
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
+                    {
+                        log.Info("is a pixracer");
+                        return boards.px4v2;
+                    }
+
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
                     {
                         log.Info("is a px4v2 bootloader");
