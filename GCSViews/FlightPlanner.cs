@@ -3558,8 +3558,10 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_homelat_Enter(object sender, EventArgs e)
         {
+            if (!sethome)
+                CustomMessageBox.Show("Click on the Map to set Home ");
             sethome = true;
-            CustomMessageBox.Show("Click on the Map to set Home ");
+            
         }
 
         private void Planner_Resize(object sender, EventArgs e)
