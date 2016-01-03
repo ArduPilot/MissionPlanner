@@ -1561,6 +1561,7 @@
             this.zg1.ScrollMinX = 0D;
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
+            zg1.Visible = true;
             this.zg1.DoubleClick += new System.EventHandler(this.zg1_DoubleClick);
             // 
             // contextMenuStripMap
