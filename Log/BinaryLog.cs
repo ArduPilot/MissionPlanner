@@ -372,7 +372,6 @@ namespace MissionPlanner.Log
                         break;
                     default:
                         return null;
-                        break;
                 }
             }
             return answer.ToArray();
@@ -609,7 +608,6 @@ namespace MissionPlanner.Log
                         break;
                     default:
                         return "Bad Conversion";
-                        break;
                 }
             }
 

@@ -157,7 +157,7 @@ namespace MissionPlanner.Utilities
                 st.WriteByte((byte) temp);
             }
 
-            return ret;
+            //return ret;
         }
 
         private bool parse(uint8_t temp)

@@ -1000,6 +1000,7 @@ namespace MissionPlanner
                 distTraveled = 0;
                 timeInAir = 0;
                 version = new Version();
+                voltageflag = MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
             }
         }
 
