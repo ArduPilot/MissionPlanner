@@ -253,6 +253,7 @@ namespace MissionPlanner.GCSViews
                 list.Add("PREFLIGHT_CALIBRATION");
                 list.Add("MISSION_START");
                 list.Add("PREFLIGHT_REBOOT_SHUTDOWN");
+                list.Add("Trigger Camera NOW");
                 //DO_SET_SERVO
                 //DO_REPEAT_SERVO
             }
@@ -1466,6 +1467,10 @@ namespace MissionPlanner.GCSViews
                             {
                                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
                             }
+                            else if (tabControlactions.SelectedTab == tabPagePreFlight)
+                            {
+                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                            }
                         }
                         else
                         {
@@ -1748,6 +1753,12 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
+            if (CMB_action.Text == "Trigger Camera NOW")
+            {
+                MainV2.comPort.setDigicamControl(true);
+                return;
+            }
+
             if (
                 CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action",
                     MessageBoxButtons.YesNo) == DialogResult.Yes)
