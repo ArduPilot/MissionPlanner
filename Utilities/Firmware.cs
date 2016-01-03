@@ -680,7 +680,7 @@ namespace MissionPlanner.Utilities
         /// upload to px4 standalone
         /// </summary>
         /// <param name="filename"></param>
-        public bool UploadPX4(string filename)
+        public bool UploadPX4(string filename, BoardDetect.boards board)
         {
             Uploader up;
             updateProgress(0, "Reading Hex File");
@@ -700,7 +700,6 @@ namespace MissionPlanner.Utilities
                 // check if we are seeing heartbeats
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
-                BoardDetect.boards board = BoardDetect.DetectBoard(MainV2.comPortName);
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
@@ -824,7 +823,7 @@ namespace MissionPlanner.Utilities
         /// upload to vrbrain standalone
         /// </summary>
         /// <param name="filename"></param>
-        public bool UploadVRBRAIN(string filename)
+        public bool UploadVRBRAIN(string filename, BoardDetect.boards board)
         {
             px4uploader.Uploader up;
             updateProgress(0, "Reading Hex File");
@@ -844,7 +843,6 @@ namespace MissionPlanner.Utilities
                 // check if we are seeing heartbeats
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
-                BoardDetect.boards board = BoardDetect.DetectBoard(MainV2.comPortName);
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
@@ -994,7 +992,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    return UploadPX4(filename);
+                    return UploadPX4(filename, board);
                 }
                 catch (MissingFieldException)
                 {
@@ -1008,7 +1006,7 @@ namespace MissionPlanner.Utilities
                 board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrcorev10 ||
                 board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52)
             {
-                return UploadVRBRAIN(filename);
+                return UploadVRBRAIN(filename, board);
             }
 
             byte[] FLASH = new byte[1];
