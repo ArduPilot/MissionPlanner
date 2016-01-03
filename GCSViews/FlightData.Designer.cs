@@ -1561,7 +1561,6 @@
             this.zg1.ScrollMinX = 0D;
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
-            zg1.Visible = true;
             this.zg1.DoubleClick += new System.EventHandler(this.zg1_DoubleClick);
             // 
             // contextMenuStripMap
@@ -1644,7 +1643,7 @@
             // distanceBar1
             // 
             resources.ApplyResources(this.distanceBar1, "distanceBar1");
-            this.distanceBar1.BackColor = System.Drawing.Color.Transparent;
+            this.distanceBar1.BackColor = System.Drawing.Color.Black;
             this.distanceBar1.Name = "distanceBar1";
             this.distanceBar1.totaldist = 100F;
             this.distanceBar1.traveleddist = 0F;
@@ -1654,7 +1653,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;

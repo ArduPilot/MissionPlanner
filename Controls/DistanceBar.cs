@@ -46,15 +46,15 @@ namespace MissionPlanner.Controls
             get
             {
                 CreateParams parms = base.CreateParams;
-                parms.ExStyle |= 0x20;
+                //parms.ExStyle |= 0x20;
                 return parms;
             }
         }
 
         public DistanceBar()
         {
-            SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            SetStyle(ControlStyles.Opaque, true);
+            //SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            //SetStyle(ControlStyles.Opaque, true);
 
             this.DoubleBuffered = false;
 
@@ -63,7 +63,7 @@ namespace MissionPlanner.Controls
             totaldist = 100;
 
 
-            this.BackColor = Color.Transparent;
+            //this.BackColor = Color.Transparent;
 
             ClearWPDist();
         }
