@@ -176,31 +176,40 @@ namespace MissionPlanner.Log
                 log.Info("Got hbpacket length: " + hbpacket.Length);
 
             // get df log from mav
-            var ms = MainV2.comPort.GetLog(no);
-
-            if (ms != null)
-                log.Info("Got Log length: " + ms.Length);
-
-            status = serialstatus.Done;
-            updateDisplay();
-
-            MainV2.comPort.Progress -= comPort_Progress;
-
-            MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
-
-            logfile = MainV2.LogDir + Path.DirectorySeparatorChar
-                      + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                      + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " +
-                      no + ".bin";
-
-            // make log dir
-            Directory.CreateDirectory(Path.GetDirectoryName(logfile));
-
-            log.Info("about to write: " + logfile);
-            // save memorystream to file
-            using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
+            using (var ms = MainV2.comPort.GetLog(no))
             {
-                bw.Write(ms.ToArray());
+                ms.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                if (ms != null)
+                    log.Info("Got Log length: " + ms.BaseStream.Length);
+
+                status = serialstatus.Done;
+                updateDisplay();
+
+                MainV2.comPort.Progress -= comPort_Progress;
+
+                MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
+
+                logfile = MainV2.LogDir + Path.DirectorySeparatorChar
+                          + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                          + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") +
+                          " " +
+                          no + ".bin";
+
+                // make log dir
+                Directory.CreateDirectory(Path.GetDirectoryName(logfile));
+
+                log.Info("about to write: " + logfile);
+                // save memorystream to file
+                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
+                {
+                    byte[] buffer = new byte[256*1024];
+                    while (ms.BaseStream.Position < ms.BaseStream.Length)
+                    {
+                        int read = ms.BaseStream.Read(buffer, 0, buffer.Length);
+                        bw.Write(buffer, 0, read);
+                    }
+                }    
             }
 
             log.Info("about to convertbin: " + logfile);

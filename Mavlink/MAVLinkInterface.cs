@@ -3159,9 +3159,9 @@ Please check the following
             }
         }
 
-        public MemoryStream GetLog(ushort no)
+        public StreamWriter GetLog(ushort no)
         {
-            MemoryStream ms = new MemoryStream();
+            StreamWriter ms = new StreamWriter(Path.GetTempFileName());
             Hashtable set = new Hashtable();
 
             giveComport = true;
@@ -3227,8 +3227,8 @@ Please check the following
                         // record what we have received
                         set[(data.ofs/90).ToString()] = 1;
 
-                        ms.Seek((long) data.ofs, SeekOrigin.Begin);
-                        ms.Write(data.data, 0, data.count);
+                        ms.BaseStream.Seek((long) data.ofs, SeekOrigin.Begin);
+                        ms.BaseStream.Write(data.data, 0, data.count);
 
                         // update new start point
                         req.ofs = data.ofs + data.count;
@@ -3260,11 +3260,11 @@ Please check the following
             log.Info("set count " + set.Count);
             log.Info("count total " + ((totallength)/90 + 1));
             log.Info("totallength " + totallength);
-            log.Info("current length " + ms.Length);
+            log.Info("current length " + ms.BaseStream.Length);
 
             while (true)
             {
-                if (totallength == ms.Length && set.Count >= ((totallength)/90 + 1))
+                if (totallength == ms.BaseStream.Length && set.Count >= ((totallength) / 90 + 1))
                 {
                     giveComport = false;
                     return ms;
@@ -3314,8 +3314,8 @@ Please check the following
                         // record what we have received
                         set[(data.ofs/90).ToString()] = 1;
 
-                        ms.Seek((long) data.ofs, SeekOrigin.Begin);
-                        ms.Write(data.data, 0, data.count);
+                        ms.BaseStream.Seek((long)data.ofs, SeekOrigin.Begin);
+                        ms.BaseStream.Write(data.data, 0, data.count);
 
                         // update new start point
                         req.ofs = data.ofs + data.count;
