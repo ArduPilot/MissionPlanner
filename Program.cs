@@ -123,6 +123,7 @@ namespace MissionPlanner
             Splash.Show();
 
             Application.DoEvents();
+            Application.DoEvents();
 
             try
             {
