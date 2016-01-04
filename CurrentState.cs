@@ -585,7 +585,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage == 0) _battery_voltage = value;
-                _battery_voltage = value*0.1f + _battery_voltage*0.9f;
+                _battery_voltage = value*0.2f + _battery_voltage*0.8f;
             }
         }
 
@@ -636,7 +636,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage2 == 0) _battery_voltage2 = value;
-                _battery_voltage2 = value*0.1f + _battery_voltage2*0.9f;
+                _battery_voltage2 = value*0.2f + _battery_voltage2*0.8f;
             }
         }
 
@@ -1815,32 +1815,18 @@ namespace MissionPlanner
                     if (bytearray != null)
                     {
                         var servoout = bytearray.ByteArrayToStructure<MAVLink.mavlink_servo_output_raw_t>(6);
-                        if (servoout.port == 0)
-                        {
-                            ch1out = servoout.servo1_raw;
-                            ch2out = servoout.servo2_raw;
-                            ch3out = servoout.servo3_raw;
-                            ch4out = servoout.servo4_raw;
-                            ch5out = servoout.servo5_raw;
-                            ch6out = servoout.servo6_raw;
-                            ch7out = servoout.servo7_raw;
-                            ch8out = servoout.servo8_raw;
-                        }
-                        else if (servoout.port == 1)
-                        {
-                            ch9out = servoout.servo1_raw;
-                            ch10out = servoout.servo2_raw;
-                            ch11out = servoout.servo3_raw;
-                            ch12out = servoout.servo4_raw;
-                            ch13out = servoout.servo5_raw;
-                            ch14out = servoout.servo6_raw;
-                            ch15out = servoout.servo7_raw;
-                            ch16out = servoout.servo8_raw;
-                        }
+
+                        ch1out = servoout.servo1_raw;
+                        ch2out = servoout.servo2_raw;
+                        ch3out = servoout.servo3_raw;
+                        ch4out = servoout.servo4_raw;
+                        ch5out = servoout.servo5_raw;
+                        ch6out = servoout.servo6_raw;
+                        ch7out = servoout.servo7_raw;
+                        ch8out = servoout.servo8_raw;
 
                         MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW] = null;
                     }
-
 
                     bytearray = MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU];
                     if (bytearray != null)
