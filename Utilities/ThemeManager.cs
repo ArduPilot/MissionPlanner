@@ -42,6 +42,13 @@ namespace MissionPlanner.Utilities
             Custom,
         }
 
+        // Initialize to the default theme (BurntKermit)
+        public static Color BGColor = Color.FromArgb(0x26, 0x27, 0x28);
+        public static Color ControlBGColor = Color.FromArgb(0x43, 0x44, 0x45);
+        public static Color TextColor = Color.White;
+        public static Color ButBG;
+        public static Color ButBorder;
+
         /// <summary>
         /// Change the current theme. Existing controls are not affected
         /// </summary>
@@ -685,8 +692,6 @@ mc:Ignorable=""d""
                     ApplyTestTheme(ctl, 1);
             }
         }
-
-        public static Color BGColor, ControlBGColor, TextColor, ButBG, ButBorder;
 
         private static void ApplyHighContrast(Control temp, int level)
         {
