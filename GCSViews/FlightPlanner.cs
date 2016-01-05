@@ -5027,6 +5027,10 @@ namespace MissionPlanner.GCSViews
             {
                 setfromMap(y, x, (int)z, Math.Round(p1, 1));
             }
+            else if (cmd == MAVLink.MAV_CMD.LOITER_UNLIM)
+            {
+                setfromMap(y, x, (int)z);
+            }
             else
             {
                 Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
