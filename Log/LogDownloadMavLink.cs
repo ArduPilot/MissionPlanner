@@ -178,10 +178,10 @@ namespace MissionPlanner.Log
             // get df log from mav
             using (var ms = MainV2.comPort.GetLog(no))
             {
-                ms.BaseStream.Seek(0, SeekOrigin.Begin);
+                ms.Seek(0, SeekOrigin.Begin);
 
                 if (ms != null)
-                    log.Info("Got Log length: " + ms.BaseStream.Length);
+                    log.Info("Got Log length: " + ms.Length);
 
                 status = serialstatus.Done;
                 updateDisplay();
@@ -204,9 +204,9 @@ namespace MissionPlanner.Log
                 using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
                 {
                     byte[] buffer = new byte[256*1024];
-                    while (ms.BaseStream.Position < ms.BaseStream.Length)
+                    while (ms.Position < ms.Length)
                     {
-                        int read = ms.BaseStream.Read(buffer, 0, buffer.Length);
+                        int read = ms.Read(buffer, 0, buffer.Length);
                         bw.Write(buffer, 0, read);
                     }
                 }    
