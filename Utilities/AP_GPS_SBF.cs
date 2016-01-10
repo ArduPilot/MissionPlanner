@@ -249,8 +249,6 @@ namespace MissionPlanner.Utilities
 
             if (blockid == 4027) // obs
             {
-                return false;
-
                 Console.WriteLine("Obs");
                 var pos = 0;
 

@@ -15,7 +15,6 @@ namespace MissionPlanner
 {
     public partial class ConnectionOptions : Form
     {
-        static TcpListener listener;
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 

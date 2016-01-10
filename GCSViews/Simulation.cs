@@ -79,7 +79,6 @@ namespace MissionPlanner.GCSViews
         private sitl_fdm sitldata_old;
         private string SITLIP = "127.0.0.1";
         private Socket SITLRCRECV;
-        private UdpClient SITLSEND;
         public int threadrun;
         private int throttlegain = 10000;
         //string logdata = "";

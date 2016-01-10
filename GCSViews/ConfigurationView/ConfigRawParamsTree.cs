@@ -29,8 +29,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // ?
         internal bool startup = true;
 
-        string searchfor = "";
-
         public ConfigRawParamsTree()
         {
             InitializeComponent();
