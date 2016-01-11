@@ -574,5 +574,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             filterList(txt_search.Text);
         }
+
+        private void Params_CellClick(object sender, CellClickEventArgs e)
+        {
+            // Only process the Description column
+            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+                return;
+
+            try
+            {
+                string descStr = e.SubItem.ModelValue.ToString();
+                ConfigRawParams.CheckForUrlAndLaunchInBrowser(descStr);
+            }
+            catch { }
+        }
     }
 }
