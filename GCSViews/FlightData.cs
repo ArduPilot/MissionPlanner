@@ -3166,7 +3166,8 @@ namespace MissionPlanner.GCSViews
         {
             Console.WriteLine("HUD resize " + hud1.Width + " " + hud1.Height); // +"\n"+ System.Environment.StackTrace);
 
-            SubMainLeft.SplitterDistance = hud1.Height;
+            if (hud1.Parent == this.SubMainLeft.Panel1)
+                SubMainLeft.SplitterDistance = hud1.Height;
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3813,6 +3814,32 @@ namespace MissionPlanner.GCSViews
             Vibration frm = new Vibration();
             frm.TopMost = true;
             frm.Show();
+        }
+
+        private void SwapHud1AndMap()
+        {
+            if (this.huddropout)
+                return;
+
+            MainH.Panel2.SuspendLayout();
+
+            if (this.SubMainLeft.Panel1.Controls.Contains(hud1))
+            {
+                MainH.Panel2.Controls.Add(hud1);
+                SubMainLeft.Panel1.Controls.Add(tableMap);
+            }
+            else
+            {
+                MainH.Panel2.Controls.Add(tableMap);
+                SubMainLeft.Panel1.Controls.Add(hud1);
+            }
+
+            MainH.Panel2.ResumeLayout();
+        }
+
+        private void swapWithMapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwapHud1AndMap();
         }
     }
 }
