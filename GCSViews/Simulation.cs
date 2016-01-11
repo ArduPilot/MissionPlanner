@@ -102,7 +102,6 @@ namespace MissionPlanner.GCSViews
             XplanesSEND = null;
             SimulatorRECV = null;
             SITLRCRECV = null;
-            SITLSEND = null;
         }
 
         private void Simulation_Load(object sender, EventArgs e)
