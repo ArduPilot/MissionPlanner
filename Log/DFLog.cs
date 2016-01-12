@@ -485,7 +485,14 @@ namespace MissionPlanner.Log
                 if (indextimems == -1 || indexweek == -1)
                     return DateTime.MinValue;
 
-                return gpsTimeToTime(int.Parse(items[indexweek]), int.Parse(items[indextimems])/1000.0);
+                try
+                {
+                    return gpsTimeToTime(int.Parse(items[indexweek]), long.Parse(items[indextimems]) / 1000.0);
+                }
+                catch 
+                {
+                    return DateTime.MinValue;
+                }
             }
 
             return DateTime.MinValue;
