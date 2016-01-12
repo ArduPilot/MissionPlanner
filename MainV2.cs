@@ -2458,7 +2458,7 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
 
-            ThreadPool.QueueUserWorkItem(BGGetAlmanac);
+            //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
             try
             {
