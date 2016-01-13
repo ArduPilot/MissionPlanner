@@ -256,7 +256,12 @@ namespace MissionPlanner.Controls
         Pen whitePen = new Pen(Color.White, 2);
 
         object bgimagelock = new object();
-        public Image bgimage { set { lock (bgimagelock) { try { _bgimage = (Image)value; } catch { _bgimage = null; } this.Invalidate(); } } }
+
+        public Image bgimage
+        {
+            set { lock (bgimagelock) { try { _bgimage = (Image)value; } catch { _bgimage = null; } this.Invalidate(); } }
+            get { return _bgimage; }
+        }
         Image _bgimage;
 
         // move these global as they rarely change - reduce GC

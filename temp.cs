@@ -1642,7 +1642,7 @@ namespace MissionPlanner
             if (InputBox.Show("enter url", "enter url", ref url) == DialogResult.OK)
             {
                 render.playurl = url;
-                render.Start(FlightData.myhud.Width, FlightData.myhud.Height);
+                render.Start();
             }
         }
     }
