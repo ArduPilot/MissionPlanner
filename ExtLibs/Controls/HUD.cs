@@ -610,17 +610,20 @@ namespace MissionPlanner.Controls
             {
                 if (img == null)
                     return;
-                //bitmap = new Bitmap(512,512);
 
-                bitmap = ResizeImage(img, bitmap.Width, bitmap.Height);
+                // If the image is already a bitmap then simply use it.
+                // Otherwise resize the image.
+                bitmap = img as Bitmap ?? ResizeImage(img, bitmap.Width, bitmap.Height);
 
                 GL.DeleteTexture(texture);
 
                 GL.GenTextures(1, out texture);
                 GL.BindTexture(TextureTarget.Texture2D, texture);
 
-                BitmapData data = bitmap.LockBits(new System.Drawing.Rectangle(0, 0, bitmap.Width, bitmap.Height),
-        ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                BitmapData data = bitmap.LockBits(
+                    new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                    ImageLockMode.ReadOnly,
+                    System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
                 //Console.WriteLine("w {0} h {1}",data.Width, data.Height);
 
