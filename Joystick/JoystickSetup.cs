@@ -139,7 +139,12 @@ namespace MissionPlanner.Joystick
 
                 joy.elevons = CHK_elevons.Checked;
 
-                joy.start(CMB_joysticks.Text);
+                //show error message if a joystick is not connected when Enable is clicked
+                if (!joy.start(CMB_joysticks.Text))
+                {
+                    CustomMessageBox.Show("Please Connect a Joystick", "No Joystick");
+                    return;
+                }
 
                 MainV2.config["joystick_name"] = CMB_joysticks.Text;
 
