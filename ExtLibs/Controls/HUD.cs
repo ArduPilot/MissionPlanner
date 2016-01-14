@@ -52,6 +52,7 @@ namespace MissionPlanner.Controls
         public int huddrawtime = 0;
 
         public bool opengl { get { return UseOpenGL; } set { UseOpenGL = value; } }
+        public bool npotSupported { get; private set; }
 
         public bool SixteenXNine = false;
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
@@ -350,6 +351,10 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
                     GL.Enable(EnableCap.Blend);
 
+                    string versionString = GL.GetString(StringName.Version);
+                    string majorString = versionString.Split(' ')[0];
+                    var v = new Version(majorString);
+                    npotSupported = v.Major >= 2;
                 }
                 catch (Exception ex) { log.Error("HUD opengl onload 1 ", ex); }
 
@@ -616,9 +621,16 @@ namespace MissionPlanner.Controls
                 if (img == null)
                     return;
 
-                // If the image is already a bitmap then simply use it.
-                // Otherwise resize the image.
-                bitmap = img as Bitmap ?? ResizeImage(img, bitmap.Width, bitmap.Height);
+                // If the image is already a bitmap and we support NPOT textures then simply use it.
+                if (npotSupported && img is Bitmap)
+                {
+                    bitmap = (Bitmap)img;
+                }
+                else
+                {
+                    // Otherwise we have to resize img to be POT.
+                    bitmap = ResizeImage(img, bitmap.Width, bitmap.Height);
+                }
 
                 GL.DeleteTexture(texture);
 
