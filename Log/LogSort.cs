@@ -61,7 +61,14 @@ namespace MissionPlanner.Log
                     {
                         mine.logreadmode = true;
 
+                        var midpoint = mine.logplaybackfile.BaseStream.Length / 2;
+
+                        mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
+
                         byte[] hbpacket = mine.getHeartBeat();
+                        byte[] hbpacket1 = mine.getHeartBeat();
+                        byte[] hbpacket2 = mine.getHeartBeat();
+                        byte[] hbpacket3 = mine.getHeartBeat();
 
                         if (hbpacket.Length == 0)
                         {
@@ -83,6 +90,35 @@ namespace MissionPlanner.Log
                         }
 
                         MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket);
+                        if (hbpacket1.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb1 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket1);
+                        }
+
+                        if (hbpacket1.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb2 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket2);
+                        }
+
+                        if (hbpacket1.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb3 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket3);
+                        }
+
+                        // find most appropriate
+                        if (mine.MAVlist.Count > 1)
+                        {
+                            foreach (var mav in mine.MAVlist.GetMAVStates())
+                            {
+                                if (mav.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                    continue;
+                                if (mav.aptype == MAVLink.MAV_TYPE.GCS)
+                                    continue;
+
+                                mine.sysidcurrent = mav.sysid;
+                                mine.compidcurrent = mav.compid;
+                            }
+                        }
 
                         mine.logreadmode = false;
                         mine.logplaybackfile.Close();
