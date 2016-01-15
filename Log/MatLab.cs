@@ -147,7 +147,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        param[items[1]] = double.Parse(items[2], CultureInfo.InvariantCulture);
+                        param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
                     }
                     catch
                     {
@@ -175,13 +175,11 @@ namespace MissionPlanner.Log
 
                     for (int n = 1; n < items.Length; n++)
                     {
-                        try
-                        {
-                            dbarray[n] = double.Parse(items[n], CultureInfo.InvariantCulture);
-                        }
-                        catch
-                        {
-                        }
+                        double dbl = 0;
+
+                        double.TryParse(items[n], NumberStyles.Any, CultureInfo.InvariantCulture, out dbl);
+
+                        dbarray[n] = dbl;
                     }
 
                     if (!data.ContainsKey(items[0]))
