@@ -95,17 +95,17 @@
     <Compile Include="com\drew\imaging\tiff\TiffMetadataReader.cs" />
     <Compile Include="com\drew\imaging\tiff\TiffProcessingException.cs" />
     <Content Include="exif.xslt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="sampleFile.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="dontcare.snk" />
     <None Include="MetadataExtractor.dtd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="MetadataExtractorNew.dtd">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
