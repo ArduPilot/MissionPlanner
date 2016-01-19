@@ -159,7 +159,7 @@ namespace MissionPlanner.Utilities
                                 }
 
                                 if (OnNewImage != null)
-                                    OnNewImage(frame, new EventArgs());
+                                    OnNewImage(frame, EventArgs.Empty);
                             }
                             catch { }
                         }
@@ -173,7 +173,7 @@ namespace MissionPlanner.Utilities
 
                 // clear last image
                 if (OnNewImage != null)
-                    OnNewImage(null, new EventArgs());
+                    OnNewImage(null, EventArgs.Empty);
 
                 dataStream.Close();
                 response.Close();

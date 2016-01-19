@@ -626,7 +626,7 @@ namespace MissionPlanner.Utilities
                             if (plla.Lat == 0 && plla.Lng == 0)
                                 continue;
                             if (UpdatePlanePosition != null && plla != null)
-                                UpdatePlanePosition(plla, new EventArgs());
+                                UpdatePlanePosition(plla, EventArgs.Empty);
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
                             Console.WriteLine(plane.ID + " " + plla);
                         }
@@ -682,7 +682,7 @@ namespace MissionPlanner.Utilities
                                 continue;
 
                             if (UpdatePlanePosition != null && plane != null)
-                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident), new EventArgs());
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident), EventArgs.Empty);
                         }
                         else if (strArray[1] == "4")
                         {
@@ -770,7 +770,7 @@ namespace MissionPlanner.Utilities
                                     continue;
                                 plla.Heading = (float)plane.heading;
                                 if (UpdatePlanePosition != null && plla != null)
-                                    UpdatePlanePosition(plla, new EventArgs());
+                                    UpdatePlanePosition(plla, EventArgs.Empty);
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
                                 Console.WriteLine(plla);
                             }
