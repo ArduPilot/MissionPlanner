@@ -2057,7 +2057,7 @@ namespace MissionPlanner.Controls
 
         public void doResize()
         {
-            OnResize(new EventArgs());
+            OnResize(EventArgs.Empty);
         }
 
         protected override void OnResize(EventArgs e)

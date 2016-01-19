@@ -194,7 +194,7 @@ namespace MissionPlanner.GCSViews
                 {
                     using (var cb = new CheckBox {Name = option, Checked = true})
                     {
-                        chk_box_CheckedChanged(cb, new EventArgs());
+                        chk_box_CheckedChanged(cb, EventArgs.Empty);
                     }
                 }
             }
@@ -202,19 +202,19 @@ namespace MissionPlanner.GCSViews
             {
                 using (var cb = new CheckBox {Name = "roll", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, new EventArgs());
+                    chk_box_CheckedChanged(cb, EventArgs.Empty);
                 }
                 using (var cb = new CheckBox {Name = "pitch", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, new EventArgs());
+                    chk_box_CheckedChanged(cb, EventArgs.Empty);
                 }
                 using (var cb = new CheckBox {Name = "nav_roll", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, new EventArgs());
+                    chk_box_CheckedChanged(cb, EventArgs.Empty);
                 }
                 using (var cb = new CheckBox {Name = "nav_pitch", Checked = true})
                 {
-                    chk_box_CheckedChanged(cb, new EventArgs());
+                    chk_box_CheckedChanged(cb, EventArgs.Empty);
                 }
             }
 
@@ -508,7 +508,7 @@ namespace MissionPlanner.GCSViews
         {
             log.Info("Activate Called");
 
-            OnResize(new EventArgs());
+            OnResize(EventArgs.Empty);
 
             if (CB_tuning.Checked)
                 ZedGraphTimer.Start();

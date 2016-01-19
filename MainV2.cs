@@ -201,7 +201,7 @@ namespace MissionPlanner
                 MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
 
                 if (AdvancedChanged != null)
-                    AdvancedChanged(null, new EventArgs());
+                    AdvancedChanged(null, EventArgs.Empty);
             }
         }
 

@@ -94,7 +94,7 @@ namespace MissionPlanner.GCSViews
         ~Simulation()
         {
             if (threadrun == 1)
-                ConnectComPort_Click(new object(), new EventArgs());
+                ConnectComPort_Click(new object(), EventArgs.Empty);
 
             Dispose(false);
 

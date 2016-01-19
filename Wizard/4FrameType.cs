@@ -101,19 +101,19 @@ namespace MissionPlanner.Wizard
                 switch (frame)
                 {
                     case ConfigFrameType.Frame.X:
-                        pictureBox_Click(pictureBoxMouseOverX, new EventArgs());
+                        pictureBox_Click(pictureBoxMouseOverX, EventArgs.Empty);
                         break;
                     case ConfigFrameType.Frame.Plus:
-                        pictureBox_Click(pictureBoxMouseOverplus, new EventArgs());
+                        pictureBox_Click(pictureBoxMouseOverplus, EventArgs.Empty);
                         break;
                     case ConfigFrameType.Frame.V:
-                        pictureBox_Click(pictureBoxMouseOvertrap, new EventArgs());
+                        pictureBox_Click(pictureBoxMouseOvertrap, EventArgs.Empty);
                         break;
                     case ConfigFrameType.Frame.H:
-                        pictureBox_Click(pictureBoxMouseOverH, new EventArgs());
+                        pictureBox_Click(pictureBoxMouseOverH, EventArgs.Empty);
                         break;
                     case ConfigFrameType.Frame.Y:
-                        pictureBox_Click(pictureBoxMouseOverY, new EventArgs());
+                        pictureBox_Click(pictureBoxMouseOverY, EventArgs.Empty);
                         break;
                 }
             }
