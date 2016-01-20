@@ -651,12 +651,18 @@ namespace MissionPlanner.Controls
 
                 bitmap.UnlockBits(data);
 
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                bool polySmoothEnabled = GL.IsEnabled(EnableCap.PolygonSmooth);
+                if (polySmoothEnabled)
+                    GL.Disable(EnableCap.PolygonSmooth);
 
                 GL.Enable(EnableCap.Texture2D);
 
                 GL.BindTexture(TextureTarget.Texture2D, this._texture);
+
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
 
                 GL.Begin(PrimitiveType.TriangleStrip);
 
@@ -668,6 +674,9 @@ namespace MissionPlanner.Controls
                 GL.End();
 
                 GL.Disable(EnableCap.Texture2D);
+
+                if (polySmoothEnabled)
+                    GL.Enable(EnableCap.PolygonSmooth);
             }
             else
             {
