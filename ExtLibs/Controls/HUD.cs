@@ -611,7 +611,7 @@ namespace MissionPlanner.Controls
             return destImage;
         }
 
-        int texture;
+        int _texture = 0;
         Bitmap bitmap = new Bitmap(512, 512);
 
         public void DrawImage(Image img, int x, int y, int width, int height)
@@ -632,10 +632,12 @@ namespace MissionPlanner.Controls
                     bitmap = ResizeImage(img, bitmap.Width, bitmap.Height);
                 }
 
-                GL.DeleteTexture(texture);
+                if (this._texture == 0)
+                {
+                    GL.GenTextures(1, out this._texture);
+                }
 
-                GL.GenTextures(1, out texture);
-                GL.BindTexture(TextureTarget.Texture2D, texture);
+                GL.BindTexture(TextureTarget.Texture2D, this._texture);
 
                 BitmapData data = bitmap.LockBits(
                     new Rectangle(0, 0, bitmap.Width, bitmap.Height),
@@ -654,7 +656,7 @@ namespace MissionPlanner.Controls
 
                 GL.Enable(EnableCap.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, texture);
+                GL.BindTexture(TextureTarget.Texture2D, this._texture);
 
                 GL.Begin(PrimitiveType.TriangleStrip);
 
@@ -2103,6 +2105,9 @@ namespace MissionPlanner.Controls
 
                 if (opengl)
                 {
+                    GL.DeleteTexture(this._texture);
+                    this._texture = 0;
+
                     foreach (character texid in charDict.Values)
                     {
                         if (texid.gltextureid != 0)
