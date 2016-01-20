@@ -656,12 +656,12 @@ namespace MissionPlanner.Controls
 
                 GL.BindTexture(TextureTarget.Texture2D, texture);
 
-                GL.Begin(PrimitiveType.Quads);
+                GL.Begin(PrimitiveType.TriangleStrip);
 
-                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0, this.Height);
-                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(this.Width, this.Height);
-                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(this.Width, 0);
                 GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0, 0);
+                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0, this.Height);
+                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(this.Width, 0);
+                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(this.Width, this.Height);
 
                 GL.End();
 
