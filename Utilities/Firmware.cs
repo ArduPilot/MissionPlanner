@@ -62,6 +62,7 @@ namespace MissionPlanner.Utilities
             public string url2560_2;
             public string urlpx4v1;
             public string urlpx4v2;
+            public string urlpx4v4;
             public string urlvrbrainv40;
             public string urlvrbrainv45;
             public string urlvrbrainv50;
@@ -180,6 +181,7 @@ namespace MissionPlanner.Utilities
             string url2560_2 = "";
             string px4 = "";
             string px4v2 = "";
+            string px4v4 = "";
             string vrbrainv40 = "";
             string vrbrainv45 = "";
             string vrbrainv50 = "";
@@ -229,6 +231,9 @@ namespace MissionPlanner.Utilities
                             case "urlpx4v2":
                                 px4v2 = xmlreader.ReadString();
                                 break;
+                            case "urlpx4v4":
+                                px4v4 = xmlreader.ReadString();
+                                break;
                             case "urlvrbrainv40":
                                 vrbrainv40 = xmlreader.ReadString();
                                 break;
@@ -272,6 +277,7 @@ namespace MissionPlanner.Utilities
                                     temp.url2560_2 = url2560_2;
                                     temp.urlpx4v1 = px4;
                                     temp.urlpx4v2 = px4v2;
+                                    temp.urlpx4v4 = px4v4;
                                     temp.urlvrbrainv40 = vrbrainv40;
                                     temp.urlvrbrainv45 = vrbrainv45;
                                     temp.urlvrbrainv50 = vrbrainv50;
@@ -316,6 +322,7 @@ namespace MissionPlanner.Utilities
                                 url2560_2 = "";
                                 px4 = "";
                                 px4v2 = "";
+                                px4v4 = "";
                                 vrbrainv40 = "";
                                 vrbrainv45 = "";
                                 vrbrainv50 = "";
@@ -482,7 +489,7 @@ namespace MissionPlanner.Utilities
 
                 int apmformat_version = -1; // fail continue
 
-                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2 &&
+                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2 && board != BoardDetect.boards.px4v4 &&
                     board != BoardDetect.boards.vrbrainv40 && board != BoardDetect.boards.vrbrainv45 &&
                     board != BoardDetect.boards.vrbrainv50 && board != BoardDetect.boards.vrbrainv51 &&
                     board != BoardDetect.boards.vrbrainv52 && board != BoardDetect.boards.vrcorev10 &&
@@ -534,6 +541,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v2)
                 {
                     baseurl = temp.urlpx4v2.ToString();
+                }
+                else if (board == BoardDetect.boards.px4v4)
+                {
+                    baseurl = temp.urlpx4v4.ToString();
                 }
                 else if (board == BoardDetect.boards.vrbrainv40)
                 {

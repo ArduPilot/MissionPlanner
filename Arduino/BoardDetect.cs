@@ -22,6 +22,7 @@ namespace MissionPlanner.Arduino
             b2560v2, // apm 2+
             px4, // px3
             px4v2, // pixhawk
+            px4v4, // pixracer
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
@@ -79,8 +80,8 @@ namespace MissionPlanner.Arduino
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
                     {
-                        log.Info("is a pixracer");
-                        return boards.px4v2;
+                        log.Info("is a px4v4 pixracer");
+                        return boards.px4v4;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
@@ -158,8 +159,13 @@ namespace MissionPlanner.Arduino
                 else
                 {
                     if (DialogResult.Yes ==
-                        CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                        CustomMessageBox.Show("Is this a PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                     {
+                        if (DialogResult.Yes ==
+                            CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))
+                        {
+                            return boards.px4v4;
+                        }
                         if (DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
                         {

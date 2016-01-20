@@ -1025,6 +1025,9 @@ namespace MissionPlanner
                     if (software.urlpx4v2 != "")
                         xmlwriter.WriteElementString("urlpx4v2",
                             new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlpx4v4 != "")
+                        xmlwriter.WriteElementString("urlpx4v4",
+                            new Uri(software.urlpx4v4).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrbrainv40 != "")
                         xmlwriter.WriteElementString("urlvrbrainv40",
                             new Uri(software.urlvrbrainv40).LocalPath.TrimStart('/', '\\'));
@@ -1074,6 +1077,10 @@ namespace MissionPlanner
                     if (software.urlpx4v2 != "")
                     {
                         Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
+                    }
+                    if (software.urlpx4v4 != "")
+                    {
+                        Common.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
                     }
 
                     if (software.urlvrbrainv40 != "")
