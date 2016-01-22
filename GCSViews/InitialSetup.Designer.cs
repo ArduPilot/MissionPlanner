@@ -274,7 +274,7 @@
             this.backstageViewPageESC.LinkText = "ESC Calibration";
             this.backstageViewPageESC.Page = this.configESC1;
             this.backstageViewPageESC.Parent = this.backstageViewPagemand;
-            this.backstageViewPageESC.Show = true;
+            this.backstageViewPageESC.Show = false;
             this.backstageViewPageESC.Spacing = 30;
             resources.ApplyResources(this.backstageViewPageESC, "backstageViewPageESC");
             // 
