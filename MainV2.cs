@@ -812,8 +812,15 @@ namespace MissionPlanner
 
             Comports.Add(comPort);
 
+            MainV2.comPort.MavChanged += comPort_MavChanged;
+
             // save config to test we have write access
             xmlconfig(true);
+        }
+
+        void comPort_MavChanged(object sender, EventArgs e)
+        {
+            instance.MyView.Reload();
         }
 
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
