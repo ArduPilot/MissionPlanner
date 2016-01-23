@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wix", "wix\wix.csproj", "{76374F95-C343-4ACC-B86F-7ECFDD668F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DRRadio", "3DRRadio\3DRRadio.csproj", "{B8943726-04B0-4477-BFDA-E156A0CD98A4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikRadio", "3DRRadio\SikRadio.csproj", "{B8943726-04B0-4477-BFDA-E156A0CD98A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdupilotMegaPlanner10", "ExtLibs\ArdupilotMegaPlanner10\ArdupilotMegaPlanner10.csproj", "{B1538F7F-C82B-4678-9397-880F92848BFB}"
 EndProject

@@ -806,19 +806,19 @@ namespace MissionPlanner
         public float brklevel { get; set; }
         public bool armed { get; set; }
 
-        // 3dr radio
-        [DisplayText("3DR Radio rssi")]
+        // Sik radio
+        [DisplayText("Sik Radio rssi")]
         public float rssi { get; set; }
 
-        [DisplayText("3DR Radio remote rssi")]
+        [DisplayText("Sik Radio remote rssi")]
         public float remrssi { get; set; }
 
         public byte txbuffer { get; set; }
 
-        [DisplayText("3DR Radio noise")]
+        [DisplayText("Sik Radio noise")]
         public float noise { get; set; }
 
-        [DisplayText("3DR Radio remote noise")]
+        [DisplayText("Sik Radio remote noise")]
         public float remnoise { get; set; }
 
         public ushort rxerrors { get; set; }
@@ -828,7 +828,7 @@ namespace MissionPlanner
         private DateTime lastrssi = DateTime.Now;
         private DateTime lastremrssi = DateTime.Now;
 
-        [DisplayText("3DR Radio snr")]
+        [DisplayText("Sik Radio snr")]
         public float localsnrdb
         {
             get
@@ -843,7 +843,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("3DR Radio remote snr")]
+        [DisplayText("Sik Radio remote snr")]
         public float remotesnrdb
         {
             get
@@ -858,7 +858,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("3DR Radio est dist (m)")]
+        [DisplayText("Sik Radio est dist (m)")]
         public float DistRSSIRemain
         {
             get

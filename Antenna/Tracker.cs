@@ -292,7 +292,7 @@ namespace MissionPlanner.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid 3dr radio", Strings.ERROR);
+                CustomMessageBox.Show("No valid sik radio", Strings.ERROR);
                 return;
             }
 

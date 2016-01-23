@@ -59,7 +59,7 @@
             this.backstageViewPageopt = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configOptional1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigOptional();
             this.backstageViewPageSikradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this._3DRradio1 = new MissionPlanner._3DRradio();
+            this._3DRradio1 = new MissionPlanner.Sikradio();
             this.backstageViewPagebatmon = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configBatteryMonitoring1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring();
             this.backstageViewPageBatt2 = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -577,7 +577,7 @@
         private ConfigurationView.ConfigRadioInput configRadioInput1;
         private ConfigurationView.ConfigFlightModes configFlightModes1;
         private ConfigurationView.ConfigFailSafe configFailSafe1;
-        private _3DRradio _3DRradio1;
+        private Sikradio _3DRradio1;
         private ConfigurationView.ConfigBatteryMonitoring configBatteryMonitoring1;
         private ConfigurationView.ConfigHWRangeFinder ConfigHWRangeFinder1;
         private ConfigurationView.ConfigHWAirspeed configHWAirspeed1;

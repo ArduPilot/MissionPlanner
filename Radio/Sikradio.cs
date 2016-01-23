@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace MissionPlanner
 {
-    public partial class _3DRradio : UserControl
+    public partial class Sikradio : UserControl
     {
         public delegate void LogEventHandler(string message, int level = 0);
 
@@ -55,7 +55,7 @@ S14: RTSCTS=0
 S15: MAX_WINDOW=131
          */
 
-        public _3DRradio()
+        public Sikradio()
         {
             InitializeComponent();
 
@@ -1069,7 +1069,7 @@ S15: MAX_WINDOW=131
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            CustomMessageBox.Show(@"The 3DR Radios have 2 status LEDs, one red and one green.
+            CustomMessageBox.Show(@"The Sik Radios have 2 status LEDs, one red and one green.
 green LED blinking - searching for another radio 
 green LED solid - link is established with another radio 
 red LED flashing - transmitting data 

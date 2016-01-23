@@ -7,8 +7,8 @@ namespace uploader
 {
     public class Uploader
     {
-        public event _3DRradio.LogEventHandler LogEvent;
-        public event _3DRradio.ProgressEventHandler ProgressEvent;
+        public event Sikradio.LogEventHandler LogEvent;
+        public event Sikradio.ProgressEventHandler ProgressEvent;
 
         private int bytes_to_process;
         private int bytes_processed;

@@ -1,6 +1,6 @@
 ﻿namespace MissionPlanner
 {
-    partial class _3DRradio
+    partial class Sikradio
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_3DRradio));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sikradio));
             this.SPLIT_local = new System.Windows.Forms.SplitContainer();
             this.S6 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();

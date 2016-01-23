@@ -1254,8 +1254,8 @@
       <DependentUpon>OpenGLtest2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.zh-Hans.resx" />
-    <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="Radio\Sikradio.it-IT.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAW_Sensor.ja-JP.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
@@ -2228,11 +2228,11 @@
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </Compile>
     <Compile Include="MagCalib.cs" />
-    <Compile Include="Radio\3DRradio.cs">
+    <Compile Include="Radio\Sikradio.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Radio\3DRradio.Designer.cs">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <Compile Include="Radio\Sikradio.Designer.cs">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </Compile>
     <Compile Include="Radio\IHex.cs" />
     <Compile Include="FollowMe.cs">
@@ -2557,11 +2557,11 @@
     <EmbeddedResource Include="OSDVideo.resx">
       <DependentUpon>OSDVideo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Radio\3DRradio.de-DE.resx">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="Radio\Sikradio.de-DE.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Radio\3DRradio.fr.resx">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="Radio\Sikradio.fr.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAW_Sensor.de-DE.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
@@ -2681,8 +2681,8 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Radio\3DRradio.resx">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="Radio\Sikradio.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.es-ES.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
@@ -2714,8 +2714,8 @@
     <EmbeddedResource Include="Log\MavlinkLog.es-ES.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Radio\3DRradio.zh-Hans.resx">
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="Radio\Sikradio.zh-Hans.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAW_Sensor.es-ES.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>

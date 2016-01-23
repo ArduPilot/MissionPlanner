@@ -7,9 +7,9 @@ namespace uploader
 {
     public class IHex : SortedList<UInt32, byte[]>
     {
-        public event _3DRradio.LogEventHandler LogEvent;
+        public event Sikradio.LogEventHandler LogEvent;
 
-        public event _3DRradio.ProgressEventHandler ProgressEvent;
+        public event Sikradio.ProgressEventHandler ProgressEvent;
 
         public bool bankingDetected = false;
 
