@@ -63,8 +63,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
 
+            if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
+            {
+                Enabled = false;
+                return;
+            }
+
             CMB_shuttertype.SelectedItem = Enum.GetName(typeof (ChannelCameraShutter),
-                (Int32) (double) MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
+                (Int32) MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
             foreach (string item in copy.Keys)
             {
