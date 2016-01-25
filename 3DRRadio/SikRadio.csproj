@@ -77,15 +77,16 @@
     <Compile Include="..\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
-    <Compile Include="..\Radio\3DRradio.cs">
-      <Link>Linked\3DRradio.cs</Link>
-    </Compile>
-    <Compile Include="..\Radio\3DRradio.designer.cs">
-      <Link>Linked\3DRradio.designer.cs</Link>
-      <DependentUpon>3DRradio.cs</DependentUpon>
-    </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
+    </Compile>
+    <Compile Include="..\Radio\Sikradio.cs">
+      <Link>Linked\Sikradio.cs</Link>
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="..\Radio\Sikradio.designer.cs">
+      <Link>Linked\Sikradio.designer.cs</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </Compile>
     <Compile Include="..\Radio\Uploader.cs">
       <Link>Linked\Uploader.cs</Link>
@@ -117,13 +118,33 @@
       <DependentUpon>Terminal.cs</DependentUpon>
     </Compile>
     <Compile Include="ThemeManager.cs" />
-    <EmbeddedResource Include="..\Radio\3DRradio.resx">
-      <Link>Linked\3DRradio.resx</Link>
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="..\Radio\Sikradio.de-DE.resx">
+      <Link>Linked\Sikradio.de-DE.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="..\Radio\3DRradio.zh-Hans.resx">
-      <Link>Linked\3DRradio.zh-Hans.resx</Link>
-      <DependentUpon>3DRradio.cs</DependentUpon>
+    <EmbeddedResource Include="..\Radio\Sikradio.fr.resx">
+      <Link>Linked\Sikradio.fr.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Radio\Sikradio.it-IT.resx">
+      <Link>Linked\Sikradio.it-IT.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Radio\Sikradio.resx">
+      <Link>Linked\Sikradio.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Radio\Sikradio.zh-Hans.resx">
+      <Link>Linked\Sikradio.zh-Hans.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Radio\Sikradio.zh-Hant.resx">
+      <Link>Linked\Sikradio.zh-Hant.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\Radio\Sikradio.zh-TW.resx">
+      <Link>Linked\Sikradio.zh-TW.resx</Link>
+      <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Config.resx">
       <DependentUpon>Config.cs</DependentUpon>

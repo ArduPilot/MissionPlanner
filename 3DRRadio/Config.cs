@@ -32,7 +32,7 @@ namespace _3DRRadio
 
             panel1.Controls.Clear();
 
-            MissionPlanner._3DRradio form = new MissionPlanner._3DRradio();
+            MissionPlanner.Sikradio form = new MissionPlanner.Sikradio();
 
             panel1.Controls.Add(form);
 
