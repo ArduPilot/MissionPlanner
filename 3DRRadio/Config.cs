@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner;
 using MissionPlanner.Comms;
 
 namespace _3DRRadio
@@ -32,7 +33,7 @@ namespace _3DRRadio
 
             panel1.Controls.Clear();
 
-            MissionPlanner._3DRradio form = new MissionPlanner._3DRradio();
+            Sikradio form = new MissionPlanner.Sikradio();
 
             panel1.Controls.Add(form);
 

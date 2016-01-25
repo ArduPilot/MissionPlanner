@@ -15,7 +15,7 @@ namespace _3DRRadio
 {
     public partial class Rssi : UserControl
     {
-        _3DRradio inter = new _3DRradio();
+        Sikradio inter = new Sikradio();
         int tickStart = 0;
 
         RollingPointPairList plotdatarssil = new RollingPointPairList(1200);
