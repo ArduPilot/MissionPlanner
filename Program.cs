@@ -236,6 +236,11 @@ namespace MissionPlanner
                 CustomMessageBox.Show("Serial connection has been lost");
                 return;
             }
+            if (ex.GetType() == typeof(OpenTK.Graphics.GraphicsContextException))
+            {
+                CustomMessageBox.Show("Please update your graphics card drivers. Failed to create opengl surface\n" + ex.Message);
+                return;
+            }
             if (ex.GetType() == typeof (MissingMethodException) || ex.GetType() == typeof (TypeLoadException))
             {
                 CustomMessageBox.Show("Please Update - Some older library dlls are causing problems\n" + ex.Message);
