@@ -1649,7 +1649,14 @@ namespace MissionPlanner
             if (InputBox.Show("enter url", "enter url", ref url) == DialogResult.OK)
             {
                 render.playurl = url;
-                render.Start();
+                try
+                {
+                    render.Start();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             }
         }
     }
