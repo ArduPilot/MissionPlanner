@@ -255,6 +255,18 @@
   <data name="tabQuick.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="&gt;&gt;BUT_abortland.Name" xml:space="preserve">
+    <value>BUT_abortland</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.Parent" xml:space="preserve">
+    <value>tabActions</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="tableLayoutPanelQuick.AutoScroll" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -3414,6 +3426,36 @@
   <metadata name="bindingSourceStatusTab.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 57</value>
   </metadata>
+  <data name="BUT_abortland.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_abortland.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 122</value>
+  </data>
+  <data name="BUT_abortland.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 23</value>
+  </data>
+  <data name="BUT_abortland.TabIndex" type="System.Int32, mscorlib">
+    <value>86</value>
+  </data>
+  <data name="BUT_abortland.Text" xml:space="preserve">
+    <value>Abort Landing</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.Name" xml:space="preserve">
+    <value>BUT_abortland</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.Parent" xml:space="preserve">
+    <value>tabActions</value>
+  </data>
+  <data name="&gt;&gt;BUT_abortland.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_abortland.ToolTip" xml:space="preserve">
+    <value>Plane only</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
