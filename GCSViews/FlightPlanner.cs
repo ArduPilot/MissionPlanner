@@ -1577,9 +1577,15 @@ namespace MissionPlanner.GCSViews
                 {
                     if (lla.Tag != null && lla.Tag != "H" && !lla.Tag.Contains("ROI"))
                     {
+                        double height = lla.Alt - last.Alt;
+                        double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
+                        double grad = height / distance;
+
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value =
-                            (((lla.Alt - last.Alt)/(lla.GetDistance(last)*CurrentState.multiplierdist))*100).ToString(
-                                "0.0");
+                            (grad * 100).ToString("0.0");
+
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Angle.Index].Value =
+                            ((180.0 / Math.PI) * Math.Atan(grad)).ToString("0.0");
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
                             (lla.GetDistance(last)*CurrentState.multiplierdist).ToString("0.0");
