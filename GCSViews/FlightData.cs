@@ -3841,5 +3841,12 @@ namespace MissionPlanner.GCSViews
         {
             SwapHud1AndMap();
         }
+
+        private void BUT_abortland_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+            MainV2.comPort.doAbortLand();
+        }
     }
 }
