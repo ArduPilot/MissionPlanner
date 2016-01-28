@@ -4787,10 +4787,12 @@ namespace MissionPlanner.GCSViews
                 {
                     if (res == DialogResult.Yes)
                     {
-                        TilePrefetcher obj = new TilePrefetcher();
-                        obj.KeyDown += obj_KeyDown;
-                        obj.ShowCompleteMessage = false;
-                        obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                        using (TilePrefetcher obj = new TilePrefetcher())
+                        {
+                            obj.KeyDown += obj_KeyDown;
+                            obj.ShowCompleteMessage = false;
+                            obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                        }
                     }
                     else if (res == DialogResult.No)
                     {
@@ -4840,12 +4842,16 @@ namespace MissionPlanner.GCSViews
                 {
                     for (int i = 1; i <= MainMap.MaxZoom; i++)
                     {
-                        TilePrefetcher obj = new TilePrefetcher();
-                        obj.ShowCompleteMessage = false;
-                        obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                        using (TilePrefetcher obj = new TilePrefetcher())
+                        {
+                            obj.ShowCompleteMessage = false;
+                            obj.Owner = this.ParentForm;
+                            obj.Start(area, i, MainMap.MapProvider, 100, 0);
 
-                        if (obj.UserAborted)
-                            break;
+                            // New API doesn't appear to support 'UserAborted'
+                            //if (obj.UserAborted)
+                            //    break;
+                        }
                     }
                 }
             }
