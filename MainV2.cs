@@ -2269,10 +2269,13 @@ namespace MissionPlanner
                                     // refresh config window if needed
                                     if (MyView.current != null)
                                     {
-                                        if (MyView.current.Name == "HWConfig")
-                                            MyView.ShowScreen("HWConfig");
-                                        if (MyView.current.Name == "SWConfig")
-                                            MyView.ShowScreen("SWConfig");
+                                        this.Invoke((MethodInvoker)delegate()
+                                        {
+                                            if (MyView.current.Name == "HWConfig")
+                                                MyView.ShowScreen("HWConfig");
+                                            if (MyView.current.Name == "SWConfig")
+                                                MyView.ShowScreen("SWConfig");
+                                        });
                                     }
                                 }
                             }
