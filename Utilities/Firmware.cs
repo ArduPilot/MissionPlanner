@@ -999,7 +999,7 @@ namespace MissionPlanner.Utilities
         /// <param name="board"></param>
         public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
         {
-            if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2)
+            if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 || board == BoardDetect.boards.px4v4)
             {
                 try
                 {
