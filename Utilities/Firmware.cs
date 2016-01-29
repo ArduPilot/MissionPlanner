@@ -426,6 +426,7 @@ namespace MissionPlanner.Utilities
                 updateProgress(-1, Strings.GettingFWVersion);
 
                 WebRequest wr = WebRequest.Create(url);
+                wr.Timeout = 10000;
                 WebResponse wresp = wr.GetResponse();
 
                 StreamReader sr = new StreamReader(wresp.GetResponseStream());
