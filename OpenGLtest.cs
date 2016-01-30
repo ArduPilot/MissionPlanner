@@ -22,7 +22,7 @@ namespace MissionPlanner.Controls
         Bitmap _terrain = new Bitmap(640, 480);
         int texture = 0;
 
-        GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
+        private GMapCoreWrapper core = new GMapCoreWrapper();
 
         float _angle = 0;
         double cameraX, cameraY, cameraZ; // camera coordinates

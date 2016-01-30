@@ -22,7 +22,7 @@ namespace MissionPlanner.Controls
         Bitmap _terrain = new Bitmap(640, 480);
         Dictionary<GPoint, int> textureid = new Dictionary<GPoint, int>();
 
-        GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
+        GMapCoreWrapper core = new GMapCoreWrapper();
 
         double cameraX, cameraY, cameraZ; // camera coordinates
         double lookX, lookY, lookZ; // camera look-at coordinates
@@ -465,8 +465,7 @@ namespace MissionPlanner.Controls
             {
                 int localzoom = zoom;
 
-                core.tileDrawingListLock.AcquireReaderLock();
-                core.Matrix.EnterReadLock();
+                core.AcquireReadLocks();
                 try
                 {
                     if (tileArea1.Contains(p))
@@ -474,7 +473,7 @@ namespace MissionPlanner.Controls
 
                     topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, localzoom);
 
-                    GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(localzoom, p);
+                    GMap.NET.Internals.Tile t = core.GetTileWithNoLock(localzoom, p);
 
                     if (t.NotEmpty)
                     {
@@ -492,8 +491,7 @@ namespace MissionPlanner.Controls
                 }
                 finally
                 {
-                    core.Matrix.LeaveReadLock();
-                    core.tileDrawingListLock.ReleaseReaderLock();
+                    core.ReleaseReadLocks();
                 }
 
                 //GMapImage tile = ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p, zoom) as GMapImage;

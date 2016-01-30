@@ -151,6 +151,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLs\fftpack_lite.dll</HintPath>
     </Reference>
+    <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>packages\GMap.NET.WindowsForms.1.7.1\lib\net40\GMap.NET.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <HintPath>packages\GMap.NET.WindowsForms.1.7.1\lib\net40\GMap.NET.WindowsForms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -457,6 +465,7 @@
     <Compile Include="GeoRef\Rational.cs" />
     <Compile Include="GeoRef\SingleLocation.cs" />
     <Compile Include="GeoRef\VehicleLocation.cs" />
+    <Compile Include="GMapCoreWrapper.cs" />
     <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
@@ -6936,14 +6945,6 @@
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
       <Name>GeoUtility</Name>
-    </ProjectReference>
-    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
-      <Name>GMap.NET.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
-      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
-      <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
