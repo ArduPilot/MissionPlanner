@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wix", "wix\wix.csproj", "{76374F95-C343-4ACC-B86F-7ECFDD668F46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdupilotMegaPlanner10", "ExtLibs\ArdupilotMegaPlanner10\ArdupilotMegaPlanner10.csproj", "{B1538F7F-C82B-4678-9397-880F92848BFB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Grid", "ExtLibs\Grid\MissionPlanner.Grid.csproj", "{A01404DF-CB52-4CCC-AD17-0F815D533D98}"
@@ -114,16 +112,6 @@ Global
 		{76374F95-C343-4ACC-B86F-7ECFDD668F46}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{76374F95-C343-4ACC-B86F-7ECFDD668F46}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{76374F95-C343-4ACC-B86F-7ECFDD668F46}.Release|x86.ActiveCfg = Release|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|x86.ActiveCfg = Release|Any CPU
 		{A01404DF-CB52-4CCC-AD17-0F815D533D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A01404DF-CB52-4CCC-AD17-0F815D533D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A01404DF-CB52-4CCC-AD17-0F815D533D98}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
