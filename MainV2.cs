@@ -820,7 +820,17 @@ namespace MissionPlanner
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
-            instance.MyView.Reload();
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker) delegate
+                {
+                    instance.MyView.Reload();
+                });
+            }
+            else
+            {
+                instance.MyView.Reload();
+            }
         }
 
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
