@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Net;
 using System.IO;
-using MissionPlanner.Controls.BackstageView;
-using MissionPlanner.Arduino;
-using MissionPlanner.Comms;
-using log4net;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
+using log4net;
+using MissionPlanner.Comms;
+using uploader;
 
 namespace MissionPlanner
 {
@@ -23,17 +19,13 @@ namespace MissionPlanner
 
         public delegate void ProgressEventHandler(double completed);
 
-        string firmwarefile = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                              "radio.hex";
-
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        enum mavlink_option : int
-        {
-            RawData = 0,
-            Mavlink = 1,
-            LowLatency = 2,
-        }
+        private bool beta;
+
+        private readonly string firmwarefile = Path.GetDirectoryName(Application.ExecutablePath) +
+                                               Path.DirectorySeparatorChar +
+                                               "radio.hex";
 
         /*
 ATI5
@@ -82,81 +74,61 @@ S15: MAX_WINDOW=131
             RS15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
         }
 
-        bool getFirmware(uploader.Uploader.Board device, bool custom = false)
+        private bool getFirmware(Uploader.Board device, bool custom = false)
         {
             if (custom)
             {
                 return getFirmwareLocal(device);
             }
 
-            if (device == uploader.Uploader.Board.DEVICE_ID_HM_TRP)
+            if (device == Uploader.Board.DEVICE_ID_HM_TRP)
             {
                 if (beta)
                 {
                     return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~hm_trp.ihx", firmwarefile);
                 }
-                else
-                {
-                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~hm_trp.ihx",
-                        firmwarefile);
-                }
+                return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~hm_trp.ihx",
+                    firmwarefile);
             }
-            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900)
+            if (device == Uploader.Board.DEVICE_ID_RFD900)
             {
                 if (beta)
                 {
                     return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                else
-                {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
-                }
+                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
             }
-            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
+            if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
                 if (beta)
                 {
                     return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                else
-                {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
-                }
+                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
             }
-            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900U)
+            if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
                 if (beta)
                 {
                     return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
                 }
-                else
-                {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
-                }
+                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
             }
-            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900P)
+            if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
                 if (beta)
                 {
                     return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
                 }
-                else
-                {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
-                }
+                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
             }
-            else
-            {
-                return false;
-            }
+            return false;
         }
 
-        bool beta = false;
-
-        bool getFirmwareLocal(uploader.Uploader.Board device)
+        private bool getFirmwareLocal(Uploader.Board device)
         {
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            using (var openFileDialog1 = new OpenFileDialog())
             {
                 openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
                 openFileDialog1.RestoreDirectory = true;
@@ -170,7 +142,7 @@ S15: MAX_WINDOW=131
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Error copying file\n" + ex.ToString(), "ERROR");
+                        CustomMessageBox.Show("Error copying file\n" + ex, "ERROR");
                         return false;
                     }
                     return true;
@@ -180,19 +152,19 @@ S15: MAX_WINDOW=131
             }
         }
 
-        void Sleep(int mstimeout, ICommsSerial comPort = null)
+        private void Sleep(int mstimeout, ICommsSerial comPort = null)
         {
-            DateTime endtime = DateTime.Now.AddMilliseconds(mstimeout);
+            var endtime = DateTime.Now.AddMilliseconds(mstimeout);
 
             while (DateTime.Now < endtime)
             {
-                System.Threading.Thread.Sleep(1);
+                Thread.Sleep(1);
                 Application.DoEvents();
 
                 // prime the mavlinkserial loop with data.
                 if (comPort != null)
                 {
-                    int test = comPort.BytesToRead;
+                    var test = comPort.BytesToRead;
                     test++;
                 }
             }
@@ -207,7 +179,7 @@ S15: MAX_WINDOW=131
         {
             ICommsSerial comPort = new SerialPort();
 
-            uploader.Uploader uploader = new uploader.Uploader();
+            var uploader = new Uploader();
 
             if (MainV2.comPort.BaseStream.IsOpen)
             {
@@ -219,7 +191,7 @@ S15: MAX_WINDOW=131
                 }
                 catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error " + ex.ToString());
+                    CustomMessageBox.Show("Error " + ex);
                 }
             }
 
@@ -237,13 +209,13 @@ S15: MAX_WINDOW=131
             }
 
             // prep what we are going to upload
-            uploader.IHex iHex = new uploader.IHex();
+            var iHex = new IHex();
 
-            iHex.LogEvent += new LogEventHandler(iHex_LogEvent);
+            iHex.LogEvent += iHex_LogEvent;
 
-            iHex.ProgressEvent += new ProgressEventHandler(iHex_ProgressEvent);
+            iHex.ProgressEvent += iHex_ProgressEvent;
 
-            bool bootloadermode = false;
+            var bootloadermode = false;
 
             // attempt bootloader mode
             try
@@ -253,8 +225,8 @@ S15: MAX_WINDOW=131
                 uploader.port = comPort;
                 uploader.connect_and_sync();
 
-                uploader.ProgressEvent += new ProgressEventHandler(uploader_ProgressEvent);
-                uploader.LogEvent += new LogEventHandler(uploader_LogEvent);
+                uploader.ProgressEvent += uploader_ProgressEvent;
+                uploader.LogEvent += uploader_LogEvent;
 
                 uploader_LogEvent("In Bootloader Mode");
                 bootloadermode = true;
@@ -282,8 +254,8 @@ S15: MAX_WINDOW=131
                     return;
                 }
 
-                uploader.ProgressEvent += new ProgressEventHandler(uploader_ProgressEvent);
-                uploader.LogEvent += new LogEventHandler(uploader_LogEvent);
+                uploader.ProgressEvent += uploader_ProgressEvent;
+                uploader.LogEvent += uploader_LogEvent;
 
                 uploader_LogEvent("Trying Firmware Mode");
                 bootloadermode = false;
@@ -298,7 +270,7 @@ S15: MAX_WINDOW=131
                     try
                     {
                         comPort.Write("AT&UPDATE\r\n");
-                        string left = comPort.ReadExisting();
+                        var left = comPort.ReadExisting();
                         log.Info(left);
                         Sleep(700);
                         comPort.BaudRate = 115200;
@@ -311,8 +283,8 @@ S15: MAX_WINDOW=131
                 // force sync after changing baudrate
                 uploader.connect_and_sync();
 
-                global::uploader.Uploader.Board device = global::uploader.Uploader.Board.FAILED;
-                global::uploader.Uploader.Frequency freq = global::uploader.Uploader.Frequency.FAILED;
+                var device = Uploader.Board.FAILED;
+                var freq = Uploader.Frequency.FAILED;
 
                 // get the device type and frequency in the bootloader
                 uploader.getDevice(ref device, ref freq);
@@ -356,7 +328,7 @@ S15: MAX_WINDOW=131
                 comPort.Close();
         }
 
-        void iHex_ProgressEvent(double completed)
+        private void iHex_ProgressEvent(double completed)
         {
             try
             {
@@ -368,7 +340,7 @@ S15: MAX_WINDOW=131
             }
         }
 
-        void uploader_LogEvent(string message, int level = 0)
+        private void uploader_LogEvent(string message, int level = 0)
         {
             try
             {
@@ -389,7 +361,7 @@ S15: MAX_WINDOW=131
             }
         }
 
-        void iHex_LogEvent(string message, int level = 0)
+        private void iHex_LogEvent(string message, int level = 0)
         {
             try
             {
@@ -406,7 +378,7 @@ S15: MAX_WINDOW=131
             }
         }
 
-        void uploader_ProgressEvent(double completed)
+        private void uploader_ProgressEvent(double completed)
         {
             try
             {
@@ -460,29 +432,29 @@ S15: MAX_WINDOW=131
                 if (RTI.Text != "")
                 {
                     // remote
-                    string answer = doCommand(comPort, "RTI5", true);
+                    var answer = doCommand(comPort, "RTI5", true);
 
-                    string[] items = answer.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
-                    foreach (string item in items)
+                    foreach (var item in items)
                     {
                         if (item.StartsWith("S"))
                         {
-                            string[] values = item.Split(':', '=');
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
-                                Control[] controls = this.Controls.Find("R" + values[0].Trim(), true);
+                                var controls = Controls.Find("R" + values[0].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
                                     if (controls[0].GetType() == typeof (CheckBox))
                                     {
-                                        string value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "RT" + values[0].Trim() + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -501,7 +473,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "RT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
@@ -518,7 +490,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (controls[0].Text != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -531,10 +503,6 @@ S15: MAX_WINDOW=131
                                         }
                                     }
                                 }
-                            }
-                            else
-                            {
-                                // bad ?ti5 line
                             }
                         }
                     }
@@ -551,29 +519,29 @@ S15: MAX_WINDOW=131
                 comPort.DiscardInBuffer();
                 {
                     //local
-                    string answer = doCommand(comPort, "ATI5", true);
+                    var answer = doCommand(comPort, "ATI5", true);
 
-                    string[] items = answer.Split(new char[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+                    var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
-                    foreach (string item in items)
+                    foreach (var item in items)
                     {
                         if (item.StartsWith("S"))
                         {
-                            string[] values = item.Split(':', '=');
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
-                                Control[] controls = this.Controls.Find(values[0].Trim(), true);
+                                var controls = Controls.Find(values[0].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
                                     if (controls[0].GetType() == typeof (CheckBox))
                                     {
-                                        string value = ((CheckBox) controls[0]).Checked ? "1" : "0";
+                                        var value = ((CheckBox) controls[0]).Checked ? "1" : "0";
 
                                         if (value != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "AT" + values[0].Trim() + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -592,7 +560,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "AT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
@@ -609,7 +577,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (controls[0].Text != values[2].Trim())
                                         {
-                                            string cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(comPort,
                                                 "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -651,9 +619,9 @@ S15: MAX_WINDOW=131
 
         public static IEnumerable<int> Range(int start, int step, int end)
         {
-            List<int> list = new List<int>();
+            var list = new List<int>();
 
-            for (int a = start; a <= end; a += step)
+            for (var a = start; a <= end; a += step)
             {
                 list.Add(a);
             }
@@ -708,28 +676,28 @@ S15: MAX_WINDOW=131
 
                     RTI.Text = doCommand(comPort, "RTI");
 
-                    uploader.Uploader.Frequency freq =
-                        (uploader.Uploader.Frequency)
-                            Enum.Parse(typeof (uploader.Uploader.Frequency), doCommand(comPort, "ATI3"));
-                    uploader.Uploader.Board board =
-                        (uploader.Uploader.Board)
-                            Enum.Parse(typeof (uploader.Uploader.Board), doCommand(comPort, "ATI2"));
+                    var freq =
+                        (Uploader.Frequency)
+                            Enum.Parse(typeof (Uploader.Frequency), doCommand(comPort, "ATI3"));
+                    var board =
+                        (Uploader.Board)
+                            Enum.Parse(typeof (Uploader.Board), doCommand(comPort, "ATI2"));
 
                     ATI3.Text = freq.ToString();
 
                     ATI2.Text = board.ToString();
                     try
                     {
-                        string resp = doCommand(comPort, "RTI2");
+                        var resp = doCommand(comPort, "RTI2");
                         if (resp.Trim() != "")
                             RTI2.Text =
-                                ((uploader.Uploader.Board) Enum.Parse(typeof (uploader.Uploader.Board), resp)).ToString();
+                                ((Uploader.Board) Enum.Parse(typeof (Uploader.Board), resp)).ToString();
                     }
                     catch
                     {
                     }
                     // 8 and 9
-                    if (freq == uploader.Uploader.Frequency.FREQ_915)
+                    if (freq == Uploader.Frequency.FREQ_915)
                     {
                         S8.DataSource = Range(895000, 1000, 935000);
                         RS8.DataSource = Range(895000, 1000, 935000);
@@ -737,7 +705,7 @@ S15: MAX_WINDOW=131
                         S9.DataSource = Range(895000, 1000, 935000);
                         RS9.DataSource = Range(895000, 1000, 935000);
                     }
-                    else if (freq == uploader.Uploader.Frequency.FREQ_433)
+                    else if (freq == Uploader.Frequency.FREQ_433)
                     {
                         S8.DataSource = Range(414000, 50, 460000);
                         RS8.DataSource = Range(414000, 50, 460000);
@@ -745,7 +713,7 @@ S15: MAX_WINDOW=131
                         S9.DataSource = Range(414000, 50, 460000);
                         RS9.DataSource = Range(414000, 50, 460000);
                     }
-                    else if (freq == uploader.Uploader.Frequency.FREQ_868)
+                    else if (freq == Uploader.Frequency.FREQ_868)
                     {
                         S8.DataSource = Range(849000, 1000, 889000);
                         RS8.DataSource = Range(849000, 1000, 889000);
@@ -754,10 +722,10 @@ S15: MAX_WINDOW=131
                         RS9.DataSource = Range(849000, 1000, 889000);
                     }
 
-                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 ||
-                        board == uploader.Uploader.Board.DEVICE_ID_RFD900A
-                        || board == uploader.Uploader.Board.DEVICE_ID_RFD900P ||
-                        board == uploader.Uploader.Board.DEVICE_ID_RFD900U)
+                    if (board == Uploader.Board.DEVICE_ID_RFD900 ||
+                        board == Uploader.Board.DEVICE_ID_RFD900A
+                        || board == Uploader.Board.DEVICE_ID_RFD900P ||
+                        board == Uploader.Board.DEVICE_ID_RFD900U)
                     {
                         S4.DataSource = Range(1, 1, 30);
                         RS4.DataSource = Range(1, 1, 30);
@@ -768,19 +736,19 @@ S15: MAX_WINDOW=131
 
                     lbl_status.Text = "Doing Command ATI5";
 
-                    string answer = doCommand(comPort, "ATI5", true);
+                    var answer = doCommand(comPort, "ATI5", true);
 
-                    string[] items = answer.Split('\n');
+                    var items = answer.Split('\n');
 
-                    foreach (string item in items)
+                    foreach (var item in items)
                     {
                         if (item.StartsWith("S"))
                         {
-                            string[] values = item.Split(':', '=');
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
-                                Control[] controls = this.Controls.Find(values[0].Trim(), true);
+                                var controls = Controls.Find(values[0].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
@@ -823,15 +791,15 @@ S15: MAX_WINDOW=131
 
                     items = answer.Split('\n');
 
-                    foreach (string item in items)
+                    foreach (var item in items)
                     {
                         if (item.StartsWith("S"))
                         {
-                            string[] values = item.Split(':', '=');
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
-                                Control[] controls = this.Controls.Find("R" + values[0].Trim(), true);
+                                var controls = Controls.Find("R" + values[0].Trim(), true);
 
                                 if (controls.Length == 0)
                                     continue;
@@ -906,21 +874,20 @@ S15: MAX_WINDOW=131
                 {
                 }
                 lbl_status.Text = "Error";
-                CustomMessageBox.Show("Error during read " + ex.ToString());
-                return;
+                CustomMessageBox.Show("Error during read " + ex);
             }
         }
 
-        string Serial_ReadLine(ICommsSerial comPort)
+        private string Serial_ReadLine(ICommsSerial comPort)
         {
-            StringBuilder sb = new StringBuilder();
-            DateTime Deadline = DateTime.Now.AddMilliseconds(comPort.ReadTimeout);
+            var sb = new StringBuilder();
+            var Deadline = DateTime.Now.AddMilliseconds(comPort.ReadTimeout);
 
             while (DateTime.Now < Deadline)
             {
                 if (comPort.BytesToRead > 0)
                 {
-                    byte data = (byte) comPort.ReadByte();
+                    var data = (byte) comPort.ReadByte();
                     sb.Append((char) data);
                     if (data == '\n')
                         break;
@@ -953,7 +920,7 @@ S15: MAX_WINDOW=131
 
                 if (multiLineResponce)
                 {
-                    DateTime deadline = DateTime.Now.AddMilliseconds(1000);
+                    var deadline = DateTime.Now.AddMilliseconds(1000);
                     while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
                     {
                         try
@@ -996,7 +963,7 @@ S15: MAX_WINDOW=131
             {
                 Console.WriteLine("doConnect");
 
-                int trys = 1;
+                var trys = 1;
 
                 // setup a known enviroment
                 comPort.Write("ATO\r\n");
@@ -1020,9 +987,9 @@ S15: MAX_WINDOW=131
                     goto retry;
                 }
 
-                byte[] buffer = new byte[20];
-                int len = comPort.Read(buffer, 0, buffer.Length);
-                string conn = ASCIIEncoding.ASCII.GetString(buffer, 0, len);
+                var buffer = new byte[20];
+                var len = comPort.Read(buffer, 0, buffer.Length);
+                var conn = Encoding.ASCII.GetString(buffer, 0, len);
                 log.Info("Connect first response " + conn.Replace('\0', ' ') + " " + conn.Length);
                 if (conn.Contains("OK"))
                 {
@@ -1036,11 +1003,11 @@ S15: MAX_WINDOW=131
 
                 doCommand(comPort, "AT&T");
 
-                string version = doCommand(comPort, "ATI");
+                var version = doCommand(comPort, "ATI");
 
                 log.Info("Connect Version: " + version.Trim() + "\n");
 
-                Regex regex = new Regex(@"SiK\s+(.*)\s+on\s+(.*)");
+                var regex = new Regex(@"SiK\s+(.*)\s+on\s+(.*)");
 
                 if (regex.IsMatch(version))
                 {
@@ -1139,25 +1106,32 @@ red LED solid - in firmware update mode");
         private void Progressbar_Click(object sender, EventArgs e)
         {
             beta = !beta;
-            CustomMessageBox.Show("Beta set to " + beta.ToString());
+            CustomMessageBox.Show("Beta set to " + beta);
         }
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             S6.SelectedValue = 1;
-            S15.Text = (131).ToString();
+            S15.Text = 131.ToString();
 
             RS6.SelectedValue = 1;
-            RS15.Text = (131).ToString();
+            RS15.Text = 131.ToString();
         }
 
         private void linkLabel_lowlatency_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             S6.SelectedValue = 2;
-            S15.Text = (33).ToString();
+            S15.Text = 33.ToString();
 
             RS6.SelectedValue = 2;
-            RS15.Text = (33).ToString();
+            RS15.Text = 33.ToString();
+        }
+
+        private enum mavlink_option
+        {
+            RawData = 0,
+            Mavlink = 1,
+            LowLatency = 2
         }
     }
 }

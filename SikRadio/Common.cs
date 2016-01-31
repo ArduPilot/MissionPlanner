@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Security.Cryptography.X509Certificates;
 using System.IO;
 using System.Net;
-using System.Net.Sockets;
-using System.Xml; // config file
-using System.Runtime.InteropServices; // dll imports
-using System.Drawing.Drawing2D;
-using log4net;
 using System.Reflection;
 using System.Windows.Forms;
+using log4net;
+// config file
+// dll imports
 
 namespace MissionPlanner
 {
@@ -27,38 +21,38 @@ namespace MissionPlanner
                 //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
 
                 ServicePointManager.ServerCertificateValidationCallback =
-    new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+                    (sender, certificate, chain, policyErrors) => { return true; };
 
-                log.Info("Get "+url);
+                log.Info("Get " + url);
 
                 // Create a request using a URL that can receive a post. 
-                WebRequest request = WebRequest.Create(url);
+                var request = WebRequest.Create(url);
                 request.Timeout = 10000;
                 // Set the Method property of the request to POST.
                 request.Method = "GET";
                 // Get the response.
-                WebResponse response = request.GetResponse();
+                var response = request.GetResponse();
                 // Display the status.
-                log.Info(((HttpWebResponse)response).StatusDescription);
-                if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
+                log.Info(((HttpWebResponse) response).StatusDescription);
+                if (((HttpWebResponse) response).StatusCode != HttpStatusCode.OK)
                     return false;
                 // Get the stream containing content returned by the server.
-                Stream dataStream = response.GetResponseStream();
+                var dataStream = response.GetResponseStream();
 
-                long bytes = response.ContentLength;
-                long contlen = bytes;
+                var bytes = response.ContentLength;
+                var contlen = bytes;
 
-                byte[] buf1 = new byte[1024];
+                var buf1 = new byte[1024];
 
-                FileStream fs = new FileStream(saveto + ".new", FileMode.Create);
+                var fs = new FileStream(saveto + ".new", FileMode.Create);
 
-                DateTime dt = DateTime.Now;
+                var dt = DateTime.Now;
 
                 while (dataStream.CanRead && bytes > 0)
                 {
                     Application.DoEvents();
                     log.Debug(saveto + " " + bytes);
-                    int len = dataStream.Read(buf1, 0, buf1.Length);
+                    var len = dataStream.Read(buf1, 0, buf1.Length);
                     bytes -= len;
                     fs.Write(buf1, 0, len);
                 }
@@ -70,12 +64,15 @@ namespace MissionPlanner
                 File.Delete(saveto);
                 File.Move(saveto + ".new", saveto);
 
-                log.Info("Done "+ saveto);
+                log.Info("Done " + saveto);
 
                 return true;
             }
-            catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
+            catch (Exception ex)
+            {
+                log.Info("getFilefromNet(): " + ex);
+                return false;
+            }
         }
-        
     }
 }

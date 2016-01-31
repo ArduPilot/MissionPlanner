@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+using System.IO;
 using System.IO.Ports;
+using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 using MissionPlanner;
 using MissionPlanner.Comms;
-using System.IO;
 
 namespace SikRadio
 {
     public partial class Terminal : UserControl
     {
-        ICommsSerial comPort = MainV2.comPort.BaseStream;
-        Object thisLock = new Object();
-        public static bool threadrun = false;
-        StringBuilder cmd = new StringBuilder();
+        public static bool threadrun;
         internal static StreamWriter sw;
+        private StringBuilder cmd = new StringBuilder();
+        private readonly ICommsSerial comPort = MainV2.comPort.BaseStream;
+        private readonly object thisLock = new object();
 
         public Terminal()
         {
@@ -29,7 +25,7 @@ namespace SikRadio
                 sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
         }
 
-        void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        private void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             if (!comPort.IsOpen)
                 return;
@@ -37,7 +33,7 @@ namespace SikRadio
             {
                 lock (thisLock)
                 {
-                    string data = comPort.ReadExisting();
+                    var data = comPort.ReadExisting();
                     //Console.Write(data);
 
                     if (sw != null)
@@ -49,12 +45,16 @@ namespace SikRadio
                     addText(data);
                 }
             }
-            catch (Exception) { if (!threadrun) return; TXT_terminal.AppendText("Error reading com port\r\n"); }
+            catch (Exception)
+            {
+                if (!threadrun) return;
+                TXT_terminal.AppendText("Error reading com port\r\n");
+            }
         }
 
-        void addText(string data)
+        private void addText(string data)
         {
-            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
+            Invoke((MethodInvoker) delegate
             {
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
@@ -73,11 +73,10 @@ namespace SikRadio
         {
             try
             {
-
                 if (comPort.IsOpen)
                     comPort.Close();
 
-                comPort.ReadBufferSize = 1024 * 1024;
+                comPort.ReadBufferSize = 1024*1024;
 
                 comPort.PortName = MainV2.comPort.BaseStream.PortName;
 
@@ -85,11 +84,11 @@ namespace SikRadio
 
                 comPort.toggleDTR();
 
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate()
+                var t11 = new Thread(delegate()
                 {
                     threadrun = true;
 
-                    DateTime start = DateTime.Now;
+                    var start = DateTime.Now;
 
                     while ((DateTime.Now - start).TotalMilliseconds < 2000)
                     {
@@ -97,29 +96,37 @@ namespace SikRadio
                         {
                             if (comPort.BytesToRead > 0)
                             {
-                                comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
+                                comPort_DataReceived(null, null);
                             }
                         }
-                        catch { return; }
+                        catch
+                        {
+                            return;
+                        }
                     }
                     try
                     {
                         comPort.Write("\n\n\n");
                     }
-                    catch { return; }
+                    catch
+                    {
+                        return;
+                    }
                     while (threadrun)
                     {
                         try
                         {
-                            System.Threading.Thread.Sleep(10);
+                            Thread.Sleep(10);
                             if (!comPort.IsOpen)
                                 break;
                             if (comPort.BytesToRead > 0)
                             {
-                                comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
+                                comPort_DataReceived(null, null);
                             }
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
 
                     comPort.DtrEnable = false;
@@ -127,9 +134,11 @@ namespace SikRadio
                     try
                     {
                         //if (sw != null)
-                          //  sw.Close();
+                        //  sw.Close();
                     }
-                    catch { }
+                    catch
+                    {
+                    }
 
                     if (threadrun == false)
                     {
@@ -146,7 +155,11 @@ namespace SikRadio
 
                 TXT_terminal.AppendText("Opened com port\r\n");
             }
-            catch (Exception) { TXT_terminal.AppendText("Cant open serial port\r\n"); return; }
+            catch (Exception)
+            {
+                TXT_terminal.AppendText("Cant open serial port\r\n");
+                return;
+            }
 
             TXT_terminal.Focus();
         }
@@ -177,7 +190,7 @@ namespace SikRadio
             {
                 comPort.Close();
             }
-            System.Threading.Thread.Sleep(400);
+            Thread.Sleep(400);
         }
 
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
@@ -189,7 +202,7 @@ namespace SikRadio
                     try
                     {
                         // do not change this  \r is correct - no \n
-                        string temp = cmd.ToString();
+                        var temp = cmd.ToString();
 
                         if (cmd.ToString() == "+++")
                         {
@@ -197,7 +210,7 @@ namespace SikRadio
                         }
                         else
                         {
-                            comPort.Write(Encoding.ASCII.GetBytes(cmd.ToString() + "\r"), 0, cmd.Length + 1);
+                            comPort.Write(Encoding.ASCII.GetBytes(cmd + "\r"), 0, cmd.Length + 1);
                         }
 
                         if (sw != null)
@@ -206,7 +219,10 @@ namespace SikRadio
                             sw.Flush();
                         }
                     }
-                    catch { CustomMessageBox.Show("Error writing to com port","Error"); }
+                    catch
+                    {
+                        CustomMessageBox.Show("Error writing to com port", "Error");
+                    }
                 }
                 cmd = new StringBuilder();
             }

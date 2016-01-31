@@ -1,33 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using ZedGraph;
-using MissionPlanner;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Text.RegularExpressions;
+using System.Windows.Forms;
+using MissionPlanner;
+using ZedGraph;
 
 namespace SikRadio
 {
     public partial class Rssi : UserControl
     {
-        Sikradio inter = new Sikradio();
-        int tickStart = 0;
+        private readonly Sikradio inter = new Sikradio();
+        private readonly RollingPointPairList plotdatanoicel = new RollingPointPairList(1200);
+        private readonly RollingPointPairList plotdatanoicer = new RollingPointPairList(1200);
 
-        RollingPointPairList plotdatarssil = new RollingPointPairList(1200);
-        RollingPointPairList plotdatarssir = new RollingPointPairList(1200);
-        RollingPointPairList plotdatanoicel = new RollingPointPairList(1200);
-        RollingPointPairList plotdatanoicer = new RollingPointPairList(1200);
+        private readonly RollingPointPairList plotdatarssil = new RollingPointPairList(1200);
+        private readonly RollingPointPairList plotdatarssir = new RollingPointPairList(1200);
+        private int tickStart;
 
         public Rssi()
         {
             InitializeComponent();
 
-            zedGraphControl1.GraphPane.AddCurve("RSSI Local",plotdatarssil,Color.Red,SymbolType.None);
+            zedGraphControl1.GraphPane.AddCurve("RSSI Local", plotdatarssil, Color.Red, SymbolType.None);
             zedGraphControl1.GraphPane.AddCurve("RSSI Remote", plotdatarssir, Color.Green, SymbolType.None);
             zedGraphControl1.GraphPane.AddCurve("Noise Local", plotdatanoicel, Color.Blue, SymbolType.None);
             zedGraphControl1.GraphPane.AddCurve("Noise Remote", plotdatanoicer, Color.Orange, SymbolType.None);
@@ -58,9 +53,11 @@ namespace SikRadio
 
                 BUT_disconnect.Enabled = true;
                 BUT_connect.Enabled = false;
-
             }
-            catch { CustomMessageBox.Show("Bad Port Setting"); }
+            catch
+            {
+                CustomMessageBox.Show("Bad Port Setting");
+            }
         }
 
         private void BUT_disconnect_Click(object sender, EventArgs e)
@@ -80,7 +77,9 @@ namespace SikRadio
                 BUT_disconnect.Enabled = false;
                 BUT_connect.Enabled = true;
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -92,19 +91,20 @@ namespace SikRadio
                 if (MainV2.comPort.BaseStream.BytesToRead < 50)
                     return;
 
-                string line = MainV2.comPort.BaseStream.ReadLine();
+                var line = MainV2.comPort.BaseStream.ReadLine();
 
                 /*
 L/R RSSI: 12/0  L/R noise: 17/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
 L/R RSSI: 12/0  L/R noise: 16/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61 dco=0
                  */
 
-                Regex rssi = new Regex(@"RSSI: ([0-9]+)/([0-9]+)\s+L/R noise: ([0-9]+)/([0-9]+)");
+                var rssi = new Regex(@"RSSI: ([0-9]+)/([0-9]+)\s+L/R noise: ([0-9]+)/([0-9]+)");
 
-                Match match = rssi.Match(line);
+                var match = rssi.Match(line);
 
-                if (match.Success) {
-                    double time = (Environment.TickCount - tickStart) / 1000.0;
+                if (match.Success)
+                {
+                    var time = (Environment.TickCount - tickStart)/1000.0;
 
                     plotdatarssil.Add(time, double.Parse(match.Groups[1].Value));
                     plotdatarssir.Add(time, double.Parse(match.Groups[2].Value));
@@ -125,7 +125,6 @@ L/R RSSI: 12/0  L/R noise: 16/0 pkts: 0  txe=0 rxe=0 stx=0 srx=0 ecc=0/0 temp=61
                         Terminal.sw.Flush();
                     }
                 }
-
             }
         }
     }

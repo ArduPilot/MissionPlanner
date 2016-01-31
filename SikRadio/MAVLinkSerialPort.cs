@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace MissionPlanner.Comms
+﻿namespace MissionPlanner.Comms
 {
-    class MAVLinkSerialPort: MissionPlanner.Comms.SerialPort
+    internal class MAVLinkSerialPort : SerialPort
     {
-        private MissionPlanner.portproxy portproxy;
         private int p;
+        private portproxy portproxy;
 
-        public MAVLinkSerialPort(MissionPlanner.portproxy portproxy, int p)
+        public MAVLinkSerialPort(portproxy portproxy, int p)
         {
             // TODO: Complete member initialization
             this.portproxy = portproxy;

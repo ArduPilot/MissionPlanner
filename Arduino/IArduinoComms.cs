@@ -1,19 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO.Ports;
-using System.IO;
 
 namespace MissionPlanner.Arduino
 {
     public delegate void ProgressEventHandler(int progress, string status);
 
     /// <summary>
-    /// Arduino STK interface
+    ///     Arduino STK interface
     /// </summary>
     public interface IArduinoComms
     {
+        // from serialport class
+        int BaudRate { get; set; }
+        bool DtrEnable { get; set; }
+        string PortName { get; set; }
+        StopBits StopBits { get; set; }
+        Parity Parity { get; set; }
+        bool IsOpen { get; }
+        int DataBits { get; set; }
         bool connectAP();
         bool keepalive();
         bool sync();
@@ -26,30 +30,32 @@ namespace MissionPlanner.Arduino
         Chip getChipType();
 
         event ProgressEventHandler Progress;
-
-        // from serialport class
-        int BaudRate { get; set; }
-        bool DtrEnable { get; set; }
-        string PortName { get; set; }
-        StopBits StopBits { get; set; }
-        Parity Parity { get; set; }
-        bool IsOpen { get; }
         void Open();
         void Close();
-        int DataBits { get; set; }
     }
 
     public class Chip
     {
-        public string name = "";
-        public byte sig1 = 0;
-        public byte sig2 = 0;
-        public byte sig3 = 0;
-        public uint size = 0;
-
-        static bool creating = true;
+        private static bool creating = true;
 
         public static List<Chip> chips = new List<Chip>();
+        public string name = "";
+        public byte sig1;
+        public byte sig2;
+        public byte sig3;
+        public uint size;
+
+        public Chip(string nm, byte s1, byte s2, byte s3, uint size)
+        {
+            if (chips.Count == 0 && creating)
+                Populate();
+
+            name = nm;
+            sig1 = s1;
+            sig2 = s2;
+            sig3 = s3;
+            this.size = size;
+        }
 
         public static void Populate()
         {
@@ -75,22 +81,10 @@ namespace MissionPlanner.Arduino
             chips.Add(new Chip("ATmega8515", 0x1e, 0x93, 0x06, 0x20U)); //32 words
             chips.Add(new Chip("ATmega8535", 0x1e, 0x93, 0x08, 0x20U)); //32 words
 
-            foreach (Chip item in chips)
+            foreach (var item in chips)
             {
                 // Console.WriteLine(item);
             }
-        }
-
-        public Chip(string nm, byte s1, byte s2, byte s3, uint size)
-        {
-            if (chips.Count == 0 && creating)
-                Populate();
-
-            name = nm;
-            sig1 = s1;
-            sig2 = s2;
-            sig3 = s3;
-            this.size = size;
         }
 
         public override string ToString()
@@ -101,8 +95,8 @@ namespace MissionPlanner.Arduino
 
         public override bool Equals(object obj)
         {
-            Chip item = obj as Chip;
-            return (item.sig1 == this.sig1 && item.sig2 == this.sig2 && item.sig3 == this.sig3);
+            var item = obj as Chip;
+            return item.sig1 == sig1 && item.sig2 == sig2 && item.sig3 == sig3;
         }
 
         public override int GetHashCode()
