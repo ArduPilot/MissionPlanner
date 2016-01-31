@@ -1103,7 +1103,7 @@
             this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_upload);
             this.MinimumSize = new System.Drawing.Size(781, 400);
-            this.Name = "_3DRradio";
+            this.Name = "Sikradio";
             this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.SPLIT_local.Panel1.ResumeLayout(false);
             this.SPLIT_local.Panel1.PerformLayout();
