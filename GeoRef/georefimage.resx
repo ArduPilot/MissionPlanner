@@ -568,7 +568,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="num_camerarotation.Location" type="System.Drawing.Point, System.Drawing">
     <value>261, 25</value>
@@ -589,7 +589,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_camerarotation.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -619,7 +619,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -649,7 +649,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="num_hfov.Location" type="System.Drawing.Point, System.Drawing">
     <value>314, 25</value>
@@ -670,7 +670,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_hfov.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="num_vfov.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 26</value>
@@ -691,64 +691,37 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
-  <data name="&gt;&gt;label28.Name" xml:space="preserve">
-    <value>label28</value>
+  <data name="chk_usegps2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="&gt;&gt;label28.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="chk_usegps2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
-    <value>panel3</value>
+  <data name="chk_usegps2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>442, 63</value>
   </data>
-  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="chk_usegps2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 17</value>
   </data>
-  <data name="&gt;&gt;txt_basealt.Name" xml:space="preserve">
-    <value>txt_basealt</value>
+  <data name="chk_usegps2.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
   </data>
-  <data name="&gt;&gt;txt_basealt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="chk_usegps2.Text" xml:space="preserve">
+    <value>Use GPS2</value>
   </data>
-  <data name="&gt;&gt;txt_basealt.Parent" xml:space="preserve">
-    <value>panel3</value>
+  <data name="&gt;&gt;chk_usegps2.Name" xml:space="preserve">
+    <value>chk_usegps2</value>
   </data>
-  <data name="&gt;&gt;txt_basealt.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
-    <value>CHECK_AMSLAlt_Use</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Type" xml:space="preserve">
+  <data name="&gt;&gt;chk_usegps2.Type" xml:space="preserve">
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Parent" xml:space="preserve">
+  <data name="&gt;&gt;chk_usegps2.Parent" xml:space="preserve">
     <value>panel3</value>
   </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 191</value>
-  </data>
-  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 96</value>
-  </data>
-  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
-  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;chk_usegps2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -775,7 +748,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="txt_basealt.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -802,7 +775,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;txt_basealt.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CHECK_AMSLAlt_Use.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -829,52 +802,28 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Name" xml:space="preserve">
-    <value>TXT_shutterLag</value>
+  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 191</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 96</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.Parent" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
+  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
   </data>
-  <data name="&gt;&gt;TXT_shutterLag.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
+    <value>panel3</value>
   </data>
-  <data name="&gt;&gt;label27.Name" xml:space="preserve">
-    <value>label27</value>
-  </data>
-  <data name="&gt;&gt;label27.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label27.Parent" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
-  </data>
-  <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.Location" type="System.Drawing.Point, System.Drawing">
-    <value>406, 130</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.Size" type="System.Drawing.Size, System.Drawing">
-    <value>223, 55</value>
-  </data>
-  <data name="PANEL_SHUTTER_LAG.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
-  </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Name" xml:space="preserve">
-    <value>PANEL_SHUTTER_LAG</value>
-  </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Type" xml:space="preserve">
+  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Parent" xml:space="preserve">
+  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;PANEL_SHUTTER_LAG.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="TXT_shutterLag.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 19</value>
@@ -928,6 +877,27 @@
     <value>PANEL_SHUTTER_LAG</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="PANEL_SHUTTER_LAG.Location" type="System.Drawing.Point, System.Drawing">
+    <value>406, 130</value>
+  </data>
+  <data name="PANEL_SHUTTER_LAG.Size" type="System.Drawing.Size, System.Drawing">
+    <value>223, 55</value>
+  </data>
+  <data name="PANEL_SHUTTER_LAG.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Name" xml:space="preserve">
+    <value>PANEL_SHUTTER_LAG</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PANEL_SHUTTER_LAG.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="chk_cammsg.AutoSize" type="System.Boolean, mscorlib">

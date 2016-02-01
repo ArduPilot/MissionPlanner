@@ -32,6 +32,7 @@ namespace MissionPlanner.GeoRef
             this.num_hfov = new System.Windows.Forms.NumericUpDown();
             this.num_vfov = new System.Windows.Forms.NumericUpDown();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.chk_usegps2 = new System.Windows.Forms.CheckBox();
             this.label28 = new System.Windows.Forms.Label();
             this.txt_basealt = new System.Windows.Forms.TextBox();
             this.CHECK_AMSLAlt_Use = new System.Windows.Forms.CheckBox();
@@ -223,6 +224,7 @@ namespace MissionPlanner.GeoRef
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.chk_usegps2);
             this.panel3.Controls.Add(this.label28);
             this.panel3.Controls.Add(this.txt_basealt);
             this.panel3.Controls.Add(this.CHECK_AMSLAlt_Use);
@@ -234,6 +236,13 @@ namespace MissionPlanner.GeoRef
             this.panel3.Controls.Add(this.label7);
             resources.ApplyResources(this.panel3, "panel3");
             this.panel3.Name = "panel3";
+            // 
+            // chk_usegps2
+            // 
+            resources.ApplyResources(this.chk_usegps2, "chk_usegps2");
+            this.chk_usegps2.Name = "chk_usegps2";
+            this.chk_usegps2.UseVisualStyleBackColor = true;
+            this.chk_usegps2.CheckedChanged += new System.EventHandler(this.chk_usegps2_CheckedChanged);
             // 
             // label28
             // 
@@ -343,5 +352,6 @@ namespace MissionPlanner.GeoRef
         private Panel panel3;
         private Controls.MyButton BUT_Geotagimages;
         private PROCESSING_MODE selectedProcessingMode;
+        private CheckBox chk_usegps2;
     }
 }

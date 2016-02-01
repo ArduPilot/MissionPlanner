@@ -158,6 +158,14 @@ namespace MissionPlanner.GeoRef
             return dtaken;
         }
 
+        public string UseGpsorGPS2()
+        {
+            if (chk_usegps2.Checked)
+                return "GPS2";
+
+            return "GPS";
+        }
+
         /// <summary>
         /// Return a list of all gps messages with there timestamp from the log
         /// </summary>
@@ -235,17 +243,19 @@ namespace MissionPlanner.GeoRef
                         // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
                         // So we have to look for one ATT message after having read a GPS one
 
-                        if (item.msgtype == "GPS")
+                        var gpstouse = UseGpsorGPS2();
+
+                        if (item.msgtype == gpstouse)
                         {
-                            if (!dflog.logformat.ContainsKey("GPS"))
+                            if (!dflog.logformat.ContainsKey(gpstouse))
                                 continue;
 
-                            int latindex = dflog.FindMessageOffset("GPS", "Lat");
-                            int lngindex = dflog.FindMessageOffset("GPS", "Lng");
-                            int altindex = dflog.FindMessageOffset("GPS", "Alt");
-                            int raltindex = dflog.FindMessageOffset("GPS", "RAlt");
+                            int latindex = dflog.FindMessageOffset(gpstouse, "Lat");
+                            int lngindex = dflog.FindMessageOffset(gpstouse, "Lng");
+                            int altindex = dflog.FindMessageOffset(gpstouse, "Alt");
+                            int raltindex = dflog.FindMessageOffset(gpstouse, "RAlt");
                             if (raltindex == -1)
-                                raltindex = dflog.FindMessageOffset("GPS", "RelAlt");
+                                raltindex = dflog.FindMessageOffset(gpstouse, "RelAlt");
 
                             VehicleLocation location = new VehicleLocation();
 
@@ -270,7 +280,7 @@ namespace MissionPlanner.GeoRef
                             }
                             catch
                             {
-                                Console.WriteLine("Bad GPS Line");
+                                Console.WriteLine("Bad "+gpstouse+" Line");
                             }
                         }
                         else if (item.msgtype == "ATT")
@@ -1632,6 +1642,12 @@ namespace MissionPlanner.GeoRef
         }
 
         private void chk_cammsg_CheckedChanged(object sender, EventArgs e)
+        {
+            if (vehicleLocations != null)
+                vehicleLocations.Clear();
+        }
+
+        private void chk_usegps2_CheckedChanged(object sender, EventArgs e)
         {
             if (vehicleLocations != null)
                 vehicleLocations.Clear();
