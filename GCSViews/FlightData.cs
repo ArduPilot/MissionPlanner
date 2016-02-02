@@ -746,6 +746,62 @@ namespace MissionPlanner.GCSViews
             POI.UpdateOverlay(poioverlay);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.D1))
+            {
+                tabControlactions.SelectedIndex = 0;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D2))
+            {
+                tabControlactions.SelectedIndex = 1;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D3))
+            {
+                tabControlactions.SelectedIndex = 2;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D4))
+            {
+                tabControlactions.SelectedIndex = 3;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D5))
+            {
+                tabControlactions.SelectedIndex = 4;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D6))
+            {
+                tabControlactions.SelectedIndex = 5;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D7))
+            {
+                tabControlactions.SelectedIndex = 6;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D8))
+            {
+                tabControlactions.SelectedIndex = 7;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D9))
+            {
+                tabControlactions.SelectedIndex = 8;
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D0))
+            {
+                tabControlactions.SelectedIndex = 9;
+                return true;
+            }
+
+            return false;
+        }
+
         private void mainloop()
         {
             threadrun = true;
