@@ -1,4 +1,75 @@
-﻿* Mission Planner 1.3.34 - 24-12-2015
+﻿* Mission Planner 1.3.35 - 4-2-2016
+* GeoRef: add gps2 support
+* Add translation: indonesian
+* Ardupilot loader cleanup
+* SikRadio: Code Cleanup
+* Rename Solution
+* MainV2: prevent cross thread call
+* Firmware: change http timeout
+* PX4Uploader: update bootloader support levels
+* Firmware: fix px4v4 upload
+* GCSViews: add abort land button for Plane
+* Mavlink: add abort landing method
+* Add angle (degrees) column in flight planner mission chart
+* temp: vlc exception handle
+* SITL: handle no home point
+* MainSwitcher: update to accept Type
+* ConfigMotorTest: add error message on command timeout
+* Program: add opengl exception message
+* ConfigMount: add param check
+* ConfigHWCompass: add param check
+* MavLinkParamList: make threadsafe
+* Rename Sik Radio
+* ConfigESCCalibration: hide screen
+* InitialSetup: relabel radio from 3DR to Sik
+* MissionPlanner: change project to preserve newest
+* MainV2: reload on mav change.
+* MissionPlanner: Copy files only if newer
+* Only copy resources if newer
+* Reduce memory allocation and speed up HUD drawing
+* Avoid allocations by using EventArgs.Empty
+* HUD: Fix grey diagonal line rendering artifact when playing video
+* HUD: Reuse the texture on every draw call
+* HUD: Use a TriangleStrip instead of a Quad
+* Firmware: initial add for px4v4
+* Disable joystick functionality when joystick is not plugged in
+* Check for npot texture support
+* vlcrender: Use the default stream width/height but allow overrides
+* Hud: Reduce CPU usage and use the original background image
+* MapBox: map update
+* LogSort: favour non antenna tracker first
+* MatLab: update param table, better handle bad data
+* Coords: improve performance
+* ConfigHWRangeFinder: add TeraRanger One support
+* MainV2: remove alm download
+* QuickView: improve performance
+* DFLog: fix bad data exception #1103
+* FlightData: Add the ability to swap the map and HUD
+* Make URLs clickable in param description
+* Simulation: tidyup
+* Initialize theme colors to match the default theme 'BurntKermit'
+* Generic: warning updates
+* ConfigTradHeli: updates #1072
+* MavlinkInterface: fix stream type #1094
+* FlightPlanner: use verify height when inserting loiter_unlimited command #1095
+* mavcmd: update to add do_parachute #1096
+* CurrentState: change voltage smoothing
+* LogDownloadMavlink: switch to file backed io, instead of memory (prevent out of memory errors)
+* DistanceBar: remove transparency
+* FlightData: make tuning graph visible by default
+* Firmware: remove double board type prompt
+* FlightPlanner: prevent home set loop
+* FlightData: resize controls
+* Generic: fix warnings
+* FlightData: add trigger camera now to actions
+* CheckListControl: add visibility check for timer
+* FlightData: make PREFLIGHT_REBOOT_SHUTDOWN work.
+* BoardDetect: add support for new usb pid
+* ZedGraph: handle bad line input data
+* CommsSerialPort: trace "element not found" with bluetooth devices
+* ConfigHWBT: add further error message
+
+* Mission Planner 1.3.34 - 24-12-2015
 temp: make gps passthrough static
 LogBrowse: add full path to xml
 add null exception checks
