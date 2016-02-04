@@ -75,6 +75,10 @@ namespace MissionPlanner.Controls
         public bool hudon { get; set; }
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool batteryon { get; set; }
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool ekfon { get; set; }
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool vibeon { get; set; }
 
         static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         static EncoderParameters eps = new EncoderParameters(1);
@@ -1746,37 +1750,44 @@ namespace MissionPlanner.Controls
 
                 graphicsObject.ResetTransform();
 
-                vibehitzone = new Rectangle(this.Width - 18 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
-
-                if (vibex > 30 || vibey > 30 || vibez > 30)
+                if (vibeon)
                 {
-                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, (SolidBrush) Brushes.Red, vibehitzone.X,
-                        vibehitzone.Y);
-                }
-                else
-                {
-                    drawstring(graphicsObject, "Vibe", font, fontsize + 2, _whiteBrush, vibehitzone.X,
-                        vibehitzone.Y);
-                }
+                    vibehitzone = new Rectangle(this.Width - 18*fontsize, this.Height - 30 - fontoffset, 40, fontsize*2);
 
-                ekfhitzone = new Rectangle(this.Width - 23 * fontsize, this.Height - 30 - fontoffset, 40, fontsize * 2);
-
-                if (ekfstatus > 0.5)
-                {
-                    if (ekfstatus > 0.8)
+                    if (vibex > 30 || vibey > 30 || vibez > 30)
                     {
-                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Red, ekfhitzone.X,
-                            ekfhitzone.Y);
+                        drawstring(graphicsObject, "Vibe", font, fontsize + 2, (SolidBrush) Brushes.Red, vibehitzone.X,
+                            vibehitzone.Y);
                     }
                     else
                     {
-                        drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Orange, ekfhitzone.X,
-                            ekfhitzone.Y);
+                        drawstring(graphicsObject, "Vibe", font, fontsize + 2, _whiteBrush, vibehitzone.X,
+                            vibehitzone.Y);
                     }
                 }
-                else
+
+                if (ekfon)
                 {
-                    drawstring(graphicsObject, "EKF", font, fontsize + 2, _whiteBrush, ekfhitzone.X, ekfhitzone.Y);
+                    ekfhitzone = new Rectangle(this.Width - 23*fontsize, this.Height - 30 - fontoffset, 40, fontsize*2);
+
+                    if (ekfstatus > 0.5)
+                    {
+                        if (ekfstatus > 0.8)
+                        {
+                            drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Red, ekfhitzone.X,
+                                ekfhitzone.Y);
+                        }
+                        else
+                        {
+                            drawstring(graphicsObject, "EKF", font, fontsize + 2, (SolidBrush) Brushes.Orange,
+                                ekfhitzone.X,
+                                ekfhitzone.Y);
+                        }
+                    }
+                    else
+                    {
+                        drawstring(graphicsObject, "EKF", font, fontsize + 2, _whiteBrush, ekfhitzone.X, ekfhitzone.Y);
+                    }
                 }
 
                 if (!opengl)
