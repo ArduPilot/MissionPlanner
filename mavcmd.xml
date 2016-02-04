@@ -327,8 +327,8 @@
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
+      <X></X>
+      <Y></Y>
       <Z>Alt</Z>
     </VTOL_TAKEOFF>
     <VTOL_LAND>
