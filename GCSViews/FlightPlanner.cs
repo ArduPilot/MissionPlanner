@@ -324,7 +324,7 @@ namespace MissionPlanner.GCSViews
             {
                 PointLatLng last;
 
-                if (pointlist[pointlist.Count - 1] == null)
+                if (pointlist.Count == 0 || pointlist[pointlist.Count - 1] == null)
                     return;
 
                 last = pointlist[pointlist.Count - 1];
@@ -1030,37 +1030,31 @@ namespace MissionPlanner.GCSViews
         void updateRowNumbers()
         {
             // number rows 
-            Thread t1 = new Thread(delegate()
+            this.BeginInvoke((MethodInvoker) delegate
             {
                 // thread for updateing row numbers
                 for (int a = 0; a < Commands.Rows.Count - 0; a++)
                 {
-                    // this.BeginInvoke((MethodInvoker)delegate
+                    try
                     {
-                        try
+                        if (Commands.Rows[a].HeaderCell.Value == null)
                         {
-                            if (Commands.Rows[a].HeaderCell.Value == null)
-                            {
-                                Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
-                            }
-                            // skip rows with the correct number
-                            string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
-                            if (!rowno.Equals((a + 1).ToString()))
-                            {
-                                // this code is where the delay is when deleting.
-                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
-                            }
+                            Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
                         }
-                        catch (Exception)
+                        // skip rows with the correct number
+                        string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
+                        if (!rowno.Equals((a + 1).ToString()))
                         {
+                            // this code is where the delay is when deleting.
+                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
                         }
-                    } //);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             });
-            t1.Name = "Row number updater";
-            t1.IsBackground = true;
-            t1.Start();
         }
 
         /// <summary>
