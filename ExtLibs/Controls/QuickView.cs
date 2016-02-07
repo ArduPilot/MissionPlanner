@@ -53,8 +53,23 @@ namespace MissionPlanner.Controls
         }
 
         string _numberformat = "0.00";
+
         [System.ComponentModel.Browsable(true)]
-        public string numberformat { get { return _numberformat; } set { _numberformat = value; this.Invalidate(); } }
+        public string numberformat
+        {
+            get
+            {
+                return _numberformat;
+            }
+            set
+            {
+                var temp = _number;
+                _numberformat = value;
+                _number = -9999;
+                number = temp;
+                this.Invalidate();
+            }
+        }
 
         [System.ComponentModel.Browsable(true)]
         public Color numberColor { get { return labelWithPseudoOpacity2.ForeColor; } set { if (labelWithPseudoOpacity2.ForeColor == value) return; labelWithPseudoOpacity2.ForeColor = value; } }
