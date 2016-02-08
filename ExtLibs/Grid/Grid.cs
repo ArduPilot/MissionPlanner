@@ -314,6 +314,11 @@ namespace MissionPlanner
                 lastpnt = closest.p2;
             }
 
+            // S =  start
+            // E = end
+            // ME = middle end
+            // SM = start middle
+
             while (grid.Count > 0)
             {
                 // for each line, check which end of the line is the next closest
@@ -324,6 +329,10 @@ namespace MissionPlanner
 
                     addtomap(newstart, "S");
                     ans.Add(newstart);
+
+                    closest.p1.Tag = "SM";
+                    addtomap(closest.p1, "SM");
+                    ans.Add(closest.p1);
 
                     if (spacing > 0)
                     {
@@ -340,6 +349,9 @@ namespace MissionPlanner
                         }
                     }
 
+                    closest.p2.Tag = "ME";
+                    addtomap(closest.p2, "ME");
+                    ans.Add(closest.p2);
 
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
                     newend.Tag = "E";
@@ -361,6 +373,10 @@ namespace MissionPlanner
                     addtomap(newstart, "S");
                     ans.Add(newstart);
 
+                    closest.p2.Tag = "SM";
+                    addtomap(closest.p2, "SM");
+                    ans.Add(closest.p2);
+
                     if (spacing > 0)
                     {
                         for (int d = (int)((closest.basepnt.GetDistance(closest.p2)) % spacing);
@@ -376,10 +392,12 @@ namespace MissionPlanner
                         }
                     }
 
+                    closest.p1.Tag = "ME";
+                    addtomap(closest.p1, "ME");
+                    ans.Add(closest.p1);
+
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
                     newend.Tag = "E";
-                 //   if (overshoot2 > 0)
-                 //       ans.Add(new utmpos(closest.p1) { Tag = "M" });
                     addtomap(newend, "E");
                     ans.Add(newend);
 
