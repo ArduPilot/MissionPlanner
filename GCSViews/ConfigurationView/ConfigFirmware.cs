@@ -489,11 +489,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start(@"http://copter.ardupilot.com/wiki/motor-setup/");
+                Process.Start(@"http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams");
             }
             catch
             {
-                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/motor-setup/", Strings.ERROR);
+                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams", Strings.ERROR);
             }
         }
     }
