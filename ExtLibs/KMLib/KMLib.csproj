@@ -98,15 +98,6 @@
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="mykey.pfx" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Compile Include="Region.cs" />
     <Compile Include="Style.cs" />
     <Compile Include="Support\Wrappers.cs" />
