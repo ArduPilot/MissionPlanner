@@ -176,10 +176,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLs\mtrand.dll</HintPath>
     </Reference>
-    <Reference Include="NumpyDotNet, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>DLLs\NumpyDotNet.dll</HintPath>
-    </Reference>
     <Reference Include="ObjectListView">
       <HintPath>packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
