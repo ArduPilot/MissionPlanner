@@ -565,7 +565,7 @@
 
         #endregion
 
-        private Controls.BackstageView.BackstageView backstageView;
+        internal Controls.BackstageView.BackstageView backstageView;
         private ConfigurationView.ConfigFirmware configFirmware1;
         private ConfigurationView.ConfigFirmwareDisabled configFirmwareDisabled1;
         private ConfigurationView.ConfigWizard configWizard1;

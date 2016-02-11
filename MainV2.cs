@@ -820,6 +820,11 @@ namespace MissionPlanner
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
+            // when uploading a firmware we dont want to reload this screen.
+            if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
+                && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")
+                return;
+
             if (this.InvokeRequired)
             {
                 this.Invoke((MethodInvoker) delegate
