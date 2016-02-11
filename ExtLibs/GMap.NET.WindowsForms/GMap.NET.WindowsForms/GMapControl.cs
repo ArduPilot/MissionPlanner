@@ -632,127 +632,159 @@ namespace GMap.NET.WindowsForms
             return;
          }
 
+         g.CompositingMode = CompositingMode.SourceCopy;
+         g.InterpolationMode = InterpolationMode.NearestNeighbor;
+
          Core.tileDrawingListLock.AcquireReaderLock();
          Core.Matrix.EnterReadLock();
-         try
-         {
-            foreach(var tilePoint in Core.tileDrawingList)
-            {
-               {
-                  Core.tileRect.Location = tilePoint.PosPixel;
-                  if(ForceDoubleBuffer)
+          try
+          {
+              foreach (var tilePoint in Core.tileDrawingList)
+              {
                   {
+                      Core.tileRect.Location = tilePoint.PosPixel;
+                      if (ForceDoubleBuffer)
+                      {
 #if !PocketPC
-                     if(MobileMode)
-                     {
-                        Core.tileRect.Offset(Core.renderOffset);
-                     }
+                          if (MobileMode)
+                          {
+                              Core.tileRect.Offset(Core.renderOffset);
+                          }
 #else
                      Core.tileRect.Offset(Core.renderOffset);
 #endif
-                  }
-                  Core.tileRect.OffsetNegative(Core.compensationOffset);
+                      }
+                      Core.tileRect.OffsetNegative(Core.compensationOffset);
 
-                  //if(Core.currentRegion.IntersectsWith(Core.tileRect) || IsRotated)
-                  {
-                     bool found = false;
+                      //if(Core.currentRegion.IntersectsWith(Core.tileRect) || IsRotated)
+                      {
+                          bool found = false;
 
-                     Tile t = Core.Matrix.GetTileWithNoLock(Core.Zoom, tilePoint.PosXY);
-                     if(t.NotEmpty)
-                     {
-                        // render tile
-                        {
-                           foreach(GMapImage img in t.Overlays)
-                           {
-                              if(img != null && img.Img != null)
+                          Tile t = Core.Matrix.GetTileWithNoLock(Core.Zoom, tilePoint.PosXY);
+                          if (t.NotEmpty)
+                          {
+                              // render tile
                               {
-                                 if(!found)
-                                    found = true;
+                                  foreach (GMapImage img in t.Overlays)
+                                  {
+                                      if (img != null && img.Img != null)
+                                      {
+                                          if (!found)
+                                              found = true;
 
-                                 if(!img.IsParent)
-                                 {
+                                          if (!img.IsParent)
+                                          {
 #if !PocketPC
-                                    if(!MapRenderTransform.HasValue)
-                                    {
-                                       g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height);
-                                    }
-                                    else
-                                    {
-                                       g.DrawImage(img.Img, new Rectangle((int)Core.tileRect.X, (int)Core.tileRect.Y, (int)Core.tileRect.Width, (int)Core.tileRect.Height), 0, 0, Core.tileRect.Width, Core.tileRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
-                                    }
+                                              if (!MapRenderTransform.HasValue)
+                                              {
+                                                  g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y,
+                                                      Core.tileRect.Width, Core.tileRect.Height);
+                                              }
+                                              else
+                                              {
+                                                  g.DrawImage(img.Img,
+                                                      new Rectangle((int) Core.tileRect.X, (int) Core.tileRect.Y,
+                                                          (int) Core.tileRect.Width, (int) Core.tileRect.Height), 0, 0,
+                                                      Core.tileRect.Width, Core.tileRect.Height, GraphicsUnit.Pixel,
+                                                      TileFlipXYAttributes);
+                                              }
 #else
                                     g.DrawImage(img.Img, (int) Core.tileRect.X, (int) Core.tileRect.Y);
 #endif
-                                 }
+                                          }
 #if !PocketPC
-                                 else
-                                 {
-                                    // TODO: move calculations to loader thread
-                                    System.Drawing.RectangleF srcRect = new System.Drawing.RectangleF((float)(img.Xoff * (img.Img.Width / img.Ix)), (float)(img.Yoff * (img.Img.Height / img.Ix)), (img.Img.Width / img.Ix), (img.Img.Height / img.Ix));
-                                    System.Drawing.Rectangle dst = new System.Drawing.Rectangle((int)Core.tileRect.X, (int)Core.tileRect.Y, (int)Core.tileRect.Width, (int)Core.tileRect.Height);
+                                          else
+                                          {
+                                              // TODO: move calculations to loader thread
+                                              System.Drawing.RectangleF srcRect =
+                                                  new System.Drawing.RectangleF(
+                                                      (float) (img.Xoff*(img.Img.Width/img.Ix)),
+                                                      (float) (img.Yoff*(img.Img.Height/img.Ix)), (img.Img.Width/img.Ix),
+                                                      (img.Img.Height/img.Ix));
+                                              System.Drawing.Rectangle dst =
+                                                  new System.Drawing.Rectangle((int) Core.tileRect.X,
+                                                      (int) Core.tileRect.Y, (int) Core.tileRect.Width,
+                                                      (int) Core.tileRect.Height);
 
-                                    g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
-                                 }
+                                              g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width,
+                                                  srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
+                                          }
 #endif
+                                      }
+                                  }
                               }
-                           }
-                        }
-                     }
+                          }
 #if !PocketPC
-                     else if(FillEmptyTiles && MapProvider.Projection is MercatorProjection)
-                     {
-                        #region -- fill empty lines --
-                        int zoomOffset = 1;
-                        Tile parentTile = Tile.Empty;
-                        long Ix = 0;
+                          else if (FillEmptyTiles && MapProvider.Projection is MercatorProjection)
+                          {
+                              #region -- fill empty lines --
 
-                        while(!parentTile.NotEmpty && zoomOffset < Core.Zoom && zoomOffset <= LevelsKeepInMemmory)
-                        {
-                           Ix = (long)Math.Pow(2, zoomOffset);
-                           parentTile = Core.Matrix.GetTileWithNoLock(Core.Zoom - zoomOffset++, new GPoint((int)(tilePoint.PosXY.X / Ix), (int)(tilePoint.PosXY.Y / Ix)));
-                        }
+                              int zoomOffset = 1;
+                              Tile parentTile = Tile.Empty;
+                              long Ix = 0;
 
-                        if(parentTile.NotEmpty)
-                        {
-                           long Xoff = Math.Abs(tilePoint.PosXY.X - (parentTile.Pos.X * Ix));
-                           long Yoff = Math.Abs(tilePoint.PosXY.Y - (parentTile.Pos.Y * Ix));
-
-                           // render tile 
-                           {
-                              foreach(GMapImage img in parentTile.Overlays)
+                              while (!parentTile.NotEmpty && zoomOffset < Core.Zoom && zoomOffset <= LevelsKeepInMemmory)
                               {
-                                 if(img != null && img.Img != null && !img.IsParent)
-                                 {
-                                    if(!found)
-                                       found = true;
-
-                                    System.Drawing.RectangleF srcRect = new System.Drawing.RectangleF((float)(Xoff * (img.Img.Width / Ix)), (float)(Yoff * (img.Img.Height / Ix)), (img.Img.Width / Ix), (img.Img.Height / Ix));
-                                    System.Drawing.Rectangle dst = new System.Drawing.Rectangle((int)Core.tileRect.X, (int)Core.tileRect.Y, (int)Core.tileRect.Width, (int)Core.tileRect.Height);
-
-                                    g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
-                                    g.FillRectangle(SelectedAreaFill, dst);
-                                 }
+                                  Ix = (long) Math.Pow(2, zoomOffset);
+                                  parentTile = Core.Matrix.GetTileWithNoLock(Core.Zoom - zoomOffset++,
+                                      new GPoint((int) (tilePoint.PosXY.X/Ix), (int) (tilePoint.PosXY.Y/Ix)));
                               }
-                           }
-                        }
-                        #endregion
-                     }
+
+                              if (parentTile.NotEmpty)
+                              {
+                                  long Xoff = Math.Abs(tilePoint.PosXY.X - (parentTile.Pos.X*Ix));
+                                  long Yoff = Math.Abs(tilePoint.PosXY.Y - (parentTile.Pos.Y*Ix));
+
+                                  // render tile 
+                                  {
+                                      foreach (GMapImage img in parentTile.Overlays)
+                                      {
+                                          if (img != null && img.Img != null && !img.IsParent)
+                                          {
+                                              if (!found)
+                                                  found = true;
+
+                                              System.Drawing.RectangleF srcRect =
+                                                  new System.Drawing.RectangleF((float) (Xoff*(img.Img.Width/Ix)),
+                                                      (float) (Yoff*(img.Img.Height/Ix)), (img.Img.Width/Ix),
+                                                      (img.Img.Height/Ix));
+                                              System.Drawing.Rectangle dst =
+                                                  new System.Drawing.Rectangle((int) Core.tileRect.X,
+                                                      (int) Core.tileRect.Y, (int) Core.tileRect.Width,
+                                                      (int) Core.tileRect.Height);
+
+                                              g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width,
+                                                  srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
+                                              g.FillRectangle(SelectedAreaFill, dst);
+                                          }
+                                      }
+                                  }
+                              }
+
+                              #endregion
+                          }
 #endif
-                     // add text if tile is missing
-                     if(!found)
-                     {
-                        lock(Core.FailedLoads)
-                        {
-                           var lt = new LoadTask(tilePoint.PosXY, Core.Zoom);
-                           if(Core.FailedLoads.ContainsKey(lt))
-                           {
-                              var ex = Core.FailedLoads[lt];
+                          // add text if tile is missing
+                          if (!found)
+                          {
+                              lock (Core.FailedLoads)
+                              {
+                                  var lt = new LoadTask(tilePoint.PosXY, Core.Zoom);
+                                  if (Core.FailedLoads.ContainsKey(lt))
+                                  {
+                                      var ex = Core.FailedLoads[lt];
 #if !PocketPC
-                              g.FillRectangle(EmptytileBrush, new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height));
+                                      g.FillRectangle(EmptytileBrush,
+                                          new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width,
+                                              Core.tileRect.Height));
 
-                              g.DrawString("Exception: " + ex.Message, MissingDataFont, Brushes.Red, new RectangleF(Core.tileRect.X + 11, Core.tileRect.Y + 11, Core.tileRect.Width - 11, Core.tileRect.Height - 11));
+                                      g.DrawString("Exception: " + ex.Message, MissingDataFont, Brushes.Red,
+                                          new RectangleF(Core.tileRect.X + 11, Core.tileRect.Y + 11,
+                                              Core.tileRect.Width - 11, Core.tileRect.Height - 11));
 
-                              g.DrawString(EmptyTileText, MissingDataFont, Brushes.Blue, new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height), CenterFormat);
+                                      g.DrawString(EmptyTileText, MissingDataFont, Brushes.Blue,
+                                          new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width,
+                                              Core.tileRect.Height), CenterFormat);
 
 #else
                               g.FillRectangle(EmptytileBrush, new System.Drawing.Rectangle((int) Core.tileRect.X, (int) Core.tileRect.Y, (int) Core.tileRect.Width, (int) Core.tileRect.Height));
@@ -762,31 +794,40 @@ namespace GMap.NET.WindowsForms
                               g.DrawString(EmptyTileText, MissingDataFont, TileGridMissingTextBrush, new RectangleF(Core.tileRect.X, Core.tileRect.Y + Core.tileRect.Width / 2 + (ShowTileGridLines ? 11 : -22), Core.tileRect.Width, Core.tileRect.Height), BottomFormat);
 #endif
 
-                              g.DrawRectangle(EmptyTileBorders, (int)Core.tileRect.X, (int)Core.tileRect.Y, (int)Core.tileRect.Width, (int)Core.tileRect.Height);
-                           }
-                        }
-                     }
+                                      g.DrawRectangle(EmptyTileBorders, (int) Core.tileRect.X, (int) Core.tileRect.Y,
+                                          (int) Core.tileRect.Width, (int) Core.tileRect.Height);
+                                  }
+                              }
+                          }
 
-                     if(ShowTileGridLines)
-                     {
-                        g.DrawRectangle(EmptyTileBorders, (int)Core.tileRect.X, (int)Core.tileRect.Y, (int)Core.tileRect.Width, (int)Core.tileRect.Height);
-                        {
+                          if (ShowTileGridLines)
+                          {
+                              g.DrawRectangle(EmptyTileBorders, (int) Core.tileRect.X, (int) Core.tileRect.Y,
+                                  (int) Core.tileRect.Width, (int) Core.tileRect.Height);
+                              {
 #if !PocketPC
-                           g.DrawString((tilePoint.PosXY == Core.centerTileXYLocation ? "CENTER: " : "TILE: ") + tilePoint, MissingDataFont, Brushes.Red, new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height), CenterFormat);
+                                  g.DrawString(
+                                      (tilePoint.PosXY == Core.centerTileXYLocation ? "CENTER: " : "TILE: ") + tilePoint,
+                                      MissingDataFont, Brushes.Red,
+                                      new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width,
+                                          Core.tileRect.Height), CenterFormat);
 #else
                            g.DrawString((tilePoint.PosXY == Core.centerTileXYLocation ? "" : "TILE: ") + tilePoint, MissingDataFont, TileGridLinesTextBrush, new RectangleF(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height), CenterFormat);
 #endif
-                        }
-                     }
+                              }
+                          }
+                      }
                   }
-               }
-            }
-         }
-         finally
-         {
-            Core.Matrix.LeaveReadLock();
-            Core.tileDrawingListLock.ReleaseReaderLock();
-         }
+              }
+          }
+          finally
+          {
+              g.CompositingMode = CompositingMode.SourceOver;
+              g.InterpolationMode = InterpolationMode.Default;
+
+              Core.Matrix.LeaveReadLock();
+              Core.tileDrawingListLock.ReleaseReaderLock();
+          }
       }
 
       /// <summary>
@@ -1578,7 +1619,7 @@ namespace GMap.NET.WindowsForms
       protected virtual void OnPaintOverlays(Graphics g)
       {
 #if !PocketPC
-         g.SmoothingMode = SmoothingMode.HighQuality;
+         g.SmoothingMode = SmoothingMode.Default;
 #endif
          foreach(GMapOverlay o in Overlays)
          {

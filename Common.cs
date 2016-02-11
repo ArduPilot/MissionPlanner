@@ -180,8 +180,8 @@ namespace MissionPlanner
             if (txtsize.Width > 15)
                 midw -= 4;
 
-            //if (IsMouseOver)
-            g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black, new PointF(midw, midh));
+            if (IsMouseOver)
+                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black, new PointF(midw, midh));
         }
     }
 

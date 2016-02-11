@@ -87,7 +87,7 @@ namespace MissionPlanner.Utilities
 
             if (widtharc > 0 && Overlay.Control.Zoom > 3)
             {
-                g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
+                //g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
 
                 g.FillPie(new SolidBrush(Color.FromArgb(25, Color.Red)), x, y, widtharc, heightarc, 0, 360);
             }
