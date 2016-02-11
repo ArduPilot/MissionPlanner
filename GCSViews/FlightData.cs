@@ -3356,6 +3356,8 @@ namespace MissionPlanner.GCSViews
                 {
                     gMapControl1.Zoom = TRK_zoom.Value;
                 }
+
+                UpdateOverlayVisibility();
             }
             catch
             {
@@ -3903,6 +3905,29 @@ namespace MissionPlanner.GCSViews
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
             MainV2.comPort.doAbortLand();
+        }
+
+        private void gMapControl1_OnPositionChanged(PointLatLng point)
+        {
+            UpdateOverlayVisibility();
+        }
+
+        void UpdateOverlayVisibility()
+        {
+            // change overlay visability
+            if (gMapControl1.ViewArea != null)
+            {
+                var bounds = gMapControl1.ViewArea;
+                bounds.Inflate(1, 1);
+
+                foreach (var poly in kmlpolygons.Polygons)
+                {
+                    if (bounds.Contains(poly.Points[0]))
+                        poly.IsVisible = true;
+                    else
+                        poly.IsVisible = false;
+                }
+            }
         }
     }
 }
