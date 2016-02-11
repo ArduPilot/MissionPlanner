@@ -344,8 +344,9 @@ namespace MissionPlanner
                             double ay = closest.p1.y;
 
                             newpos(ref ax, ref ay, angle, d);
-                            addtomap(new utmpos(ax,ay,utmzone),"M");
-                            ans.Add((new utmpos(ax, ay, utmzone) { Tag = "M" }));
+                            var utmpos1 = new utmpos(ax, ay, utmzone) {Tag = "M"};
+                            addtomap(utmpos1, "M");
+                            ans.Add(utmpos1);
                         }
                     }
 
@@ -387,8 +388,9 @@ namespace MissionPlanner
                             double ay = closest.p2.y;
 
                             newpos(ref ax, ref ay, angle, -d);
-                            addtomap(new utmpos(ax, ay, utmzone), "M");
-                            ans.Add((new utmpos(ax, ay, utmzone) { Tag = "M" }));
+                            var utmpos2 = new utmpos(ax, ay, utmzone) {Tag = "M"};
+                            addtomap(utmpos2, "M");
+                            ans.Add(utmpos2);
                         }
                     }
 

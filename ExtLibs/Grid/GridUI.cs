@@ -545,7 +545,7 @@ namespace MissionPlanner
         // Do Work
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            if (CMB_camera.Text != "" && sender != NUM_Distance)
+            if (CMB_camera.Text != "")
                 doCalc();
 
             // new grid system test
@@ -898,6 +898,9 @@ namespace MissionPlanner
                 // Imperial
                 inchpixel = (((viewheight / imageheight) * 100) * 0.393701).ToString("0.00 inches");
 
+                NUM_spacing.ValueChanged -= domainUpDown1_ValueChanged;
+                NUM_Distance.ValueChanged -= domainUpDown1_ValueChanged;
+
                 if (CHK_camdirection.Checked)
                 {
                     NUM_spacing.Value = (decimal)((1 - (overlap / 100.0f)) * viewheight);
@@ -908,7 +911,8 @@ namespace MissionPlanner
                     NUM_spacing.Value = (decimal)((1 - (overlap / 100.0f)) * viewwidth);
                     NUM_Distance.Value = (decimal)((1 - (sidelap / 100.0f)) * viewheight);
                 }
-
+                NUM_spacing.ValueChanged += domainUpDown1_ValueChanged;
+                NUM_Distance.ValueChanged += domainUpDown1_ValueChanged;
             }
             catch { return; }
         }

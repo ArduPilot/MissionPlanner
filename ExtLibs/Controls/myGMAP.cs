@@ -51,8 +51,9 @@ namespace MissionPlanner.Controls
         {
             try
             {
+                var buffer = 5;
                 // try prevent alot of cpu usage
-                if (e.X >= lastx - 2 && e.X <= lastx + 2 && e.Y >= lasty - 2 && e.Y <= lasty + 2)
+                if (e.X >= lastx - buffer && e.X <= lastx + buffer && e.Y >= lasty - buffer && e.Y <= lasty + buffer)
                     return;
 
                 lastx = e.X;
