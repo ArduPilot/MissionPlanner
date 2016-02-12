@@ -336,7 +336,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                        if (fd.FileName.ToLower().EndsWith(".px4"))
+                            boardtype = BoardDetect.boards.px4v2;
+                        else 
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
                     }
                     catch
                     {
