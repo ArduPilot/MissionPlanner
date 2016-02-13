@@ -2143,6 +2143,9 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            Commands.SuspendLayout();
+            Commands.Enabled = false;
+
             int i = Commands.Rows.Count - 1;
             foreach (Locationwp temp in cmds)
             {
@@ -2207,6 +2210,9 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
             }
+
+            Commands.Enabled = true;
+            Commands.ResumeLayout();
 
             setWPParams();
 
