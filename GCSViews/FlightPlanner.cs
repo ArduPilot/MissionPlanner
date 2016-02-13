@@ -866,8 +866,6 @@ namespace MissionPlanner.GCSViews
                 //Console.WriteLine("editformat " + option + " value " + cmd);
                 ChangeColumnHeader(cmd);
 
-                setgradanddistandaz();
-
                 if (cmd == "WAYPOINT")
                 {
                 }
