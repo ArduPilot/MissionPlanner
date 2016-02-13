@@ -158,10 +158,6 @@ namespace MissionPlanner
             : base(p, GMarkerGoogleType.green)
         {
             this.wpno = wpno;
-            using (var g = Graphics.FromHwnd(IntPtr.Zero))
-            {
-                txtsize = g.MeasureString(wpno.ToString(), SystemFonts.DefaultFont);
-            }
         }
 
         public override void OnRender(Graphics g)
@@ -181,7 +177,12 @@ namespace MissionPlanner
                 midw -= 4;
 
             if (IsMouseOver)
+            {
+                if (txtsize == SizeF.Empty)
+                    txtsize = g.MeasureString(wpno, SystemFonts.DefaultFont);
+
                 g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black, new PointF(midw, midh));
+            }
         }
     }
 
