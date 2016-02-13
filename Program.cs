@@ -160,7 +160,12 @@ namespace MissionPlanner
             {
                 File.Delete(file);
             }
-            //File.Delete("*.xaml");
+
+            file = "NumpyDotNet.dll";
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
         }
 
 
