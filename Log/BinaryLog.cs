@@ -154,6 +154,10 @@ namespace MissionPlanner.Log
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                             }
+                            else if (line.Contains("AntennaTracker") || line.Contains("Tracker"))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
+                            }
 
                             return line;
                         }
