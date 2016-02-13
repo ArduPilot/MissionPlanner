@@ -1039,7 +1039,7 @@ namespace MissionPlanner.GCSViews
                     {
                         if (Commands.Rows[a].HeaderCell.Value == null)
                         {
-                            Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                            //Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
                             Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
                         }
                         // skip rows with the correct number
