@@ -76,9 +76,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool batteryon { get; set; }
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
-        public bool ekfon { get; set; }
+        public bool displayekf { get; set; }
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
-        public bool vibeon { get; set; }
+        public bool displayvibe { get; set; }
 
         static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         static EncoderParameters eps = new EncoderParameters(1);
@@ -1750,7 +1750,7 @@ namespace MissionPlanner.Controls
 
                 graphicsObject.ResetTransform();
 
-                if (vibeon)
+                if (displayvibe)
                 {
                     vibehitzone = new Rectangle(this.Width - 18*fontsize, this.Height - 30 - fontoffset, 40, fontsize*2);
 
@@ -1766,7 +1766,7 @@ namespace MissionPlanner.Controls
                     }
                 }
 
-                if (ekfon)
+                if (displayekf)
                 {
                     ekfhitzone = new Rectangle(this.Width - 23*fontsize, this.Height - 30 - fontoffset, 40, fontsize*2);
 

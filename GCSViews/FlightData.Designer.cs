@@ -272,7 +272,7 @@
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.disttowp = 0F;
             resources.ApplyResources(this.hud1, "hud1");
-            this.hud1.ekfon = false;
+            this.hud1.displayekf = true;
             this.hud1.ekfstatus = 0F;
             this.hud1.failsafe = false;
             this.hud1.gpsfix = 0F;
@@ -304,7 +304,7 @@
             this.hud1.turnrate = 0F;
             this.hud1.UseOpenGL = true;
             this.hud1.verticalspeed = 0F;
-            this.hud1.vibeon = false;
+            this.hud1.displayvibe = true;
             this.hud1.vibex = 0F;
             this.hud1.vibey = 0F;
             this.hud1.vibez = 0F;
