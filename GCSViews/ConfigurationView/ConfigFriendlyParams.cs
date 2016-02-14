@@ -121,6 +121,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             BUT_rerequestparams.Click += BUT_rerequestparams_Click;
             BUT_writePIDS.Click += BUT_writePIDS_Click;
+
+            ParameterMode = ParameterMode = ParameterMetaDataConstants.Standard;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
