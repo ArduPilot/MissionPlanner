@@ -416,6 +416,9 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigESCCalibration.Designer.cs">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFriendlyParamsAdv.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -953,6 +956,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.zh-TW.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.id-ID.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.ja-JP.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
