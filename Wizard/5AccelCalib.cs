@@ -96,6 +96,7 @@ namespace MissionPlanner.Wizard
                 {
                     //local.imageLabel1.Text = "Done";
                     local.BUT_continue.Enabled = false;
+                    local.BUT_start.Enabled = true;
                 });
             }
             catch
