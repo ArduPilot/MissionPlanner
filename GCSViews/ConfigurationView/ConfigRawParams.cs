@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using log4net;
@@ -446,11 +447,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
+                Regex filter = new Regex(searchfor,RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
+
                 foreach (DataGridViewRow row in Params.Rows)
                 {
                     foreach (DataGridViewCell cell in row.Cells)
                     {
-                        if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
+                        if (cell.Value != null && filter.IsMatch(cell.Value.ToString()))
                         {
                             row.Visible = true;
                             break;
