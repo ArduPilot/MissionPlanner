@@ -488,36 +488,6 @@ namespace MissionPlanner.Utilities
                     return false;
                 }
 
-                int apmformat_version = -1; // fail continue
-
-                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2 && board != BoardDetect.boards.px4v4 &&
-                    board != BoardDetect.boards.vrbrainv40 && board != BoardDetect.boards.vrbrainv45 &&
-                    board != BoardDetect.boards.vrbrainv50 && board != BoardDetect.boards.vrbrainv51 &&
-                    board != BoardDetect.boards.vrbrainv52 && board != BoardDetect.boards.vrcorev10 &&
-                    board != BoardDetect.boards.vrubrainv51 && board != BoardDetect.boards.vrubrainv52)
-                {
-                    try
-                    {
-                        apmformat_version = BoardDetect.decodeApVar(comport, board);
-                    }
-                    catch
-                    {
-                    }
-
-                    if (apmformat_version != -1 && apmformat_version != temp.k_format_version)
-                    {
-                        if (DialogResult.No ==
-                            CustomMessageBox.Show(Strings.EppromChanged,
-                                String.Format(Strings.EppromFormatChanged, apmformat_version, temp.k_format_version),
-                                MessageBoxButtons.YesNo))
-                        {
-                            CustomMessageBox.Show(Strings.PleaseConnectAndBackupConfig);
-                            return false;
-                        }
-                    }
-                }
-
-
                 log.Info("Detected a " + board);
 
                 updateProgress(-1, Strings.DetectedA + board);
