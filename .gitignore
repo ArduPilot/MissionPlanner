@@ -21,3 +21,5 @@ obj/
 /sitl
 /cov-int
 *.pyc
+/ExtLibs/Mavlink/Mavlink.cs
+/ExtLibs/Mavlink/generator/Csharp
