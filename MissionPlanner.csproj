@@ -6991,8 +6991,10 @@
     <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>rd /s /q ..\..\ExtLibs\Mavlink\generator\Csharp
+python ..\..\ExtLibs\Mavlink\generator\mavgen.py --lang=csharp -o "..\..\ExtLibs\Mavlink\generator\Csharp" --wire-protocol=1.0 "..\..\ExtLibs\Mavlink\generator\message_definitions\ardupilotmega.xml"
+copy /y ..\..\ExtLibs\Mavlink\generator\Csharp\ardupilotmega\mavlink.cs ..\..\ExtLibs\Mavlink\Mavlink.cs
+</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
