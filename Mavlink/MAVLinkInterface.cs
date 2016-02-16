@@ -2692,7 +2692,7 @@ Please check the following
                             }
                             else
                             {
-                                numLost = packetSeqNo - MAVlist[sysid, compid].recvpacketcount;
+                                numLost = packetSeqNo - expectedPacketSeqNo;
                             }
 
                             MAVlist[sysid, compid].packetslost += numLost;
