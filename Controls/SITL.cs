@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
@@ -164,8 +165,8 @@ namespace MissionPlanner.Controls
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
         {
-            return String.Format("{0},{1},{2},{3}", homelocation.Lat, homelocation.Lng,
-                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt, heading);
+            return String.Format("{0},{1},{2},{3}", homelocation.Lat.ToString(CultureInfo.InvariantCulture), homelocation.Lng.ToString(CultureInfo.InvariantCulture),
+                srtm.getAltitude(homelocation.Lat, homelocation.Lng).alt.ToString(CultureInfo.InvariantCulture), heading.ToString(CultureInfo.InvariantCulture));
         }
 
         private string CheckandGetSITLImage(string filename)
