@@ -368,7 +368,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detected a.
+        ///   Looks up a localized string similar to Detected a .
         /// </summary>
         public static string DetectedA {
             get {

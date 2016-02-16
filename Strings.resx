@@ -339,7 +339,7 @@ Timeout in {0}</value>
     <value>Communication Error - no connection</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
-    <value>Detected a</value>
+    <value>Detected a </value>
   </data>
   <data name="DetectingBoardVersion" xml:space="preserve">
     <value>Detecting Board Version</value>
