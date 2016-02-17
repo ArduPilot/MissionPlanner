@@ -578,46 +578,53 @@ namespace MissionPlanner.Utilities
                 request.Method = "GET";
                 // Get the request stream.
                 Stream dataStream; //= request.GetRequestStream();
-                // Get the response.
-                WebResponse response = request.GetResponse();
-                // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
-                // Get the stream containing content returned by the server.
-                dataStream = response.GetResponseStream();
-
-                long bytes = response.ContentLength;
-                long contlen = bytes;
-
-                byte[] buf1 = new byte[1024];
-
-                FileStream fs =
-                    new FileStream(
-                        Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                        @"firmware.hex", FileMode.Create);
-
-                updateProgress(0, Strings.DownloadingFromInternet);
-
-                dataStream.ReadTimeout = 30000;
-
-                while (dataStream.CanRead)
+                // Get the response (using statement is exception safe)
+                using (WebResponse response = request.GetResponse())
                 {
-                    try
+                    // Display the status.
+                    log.Info(((HttpWebResponse)response).StatusDescription);
+                    // Get the stream containing content returned by the server.
+                    using (dataStream = response.GetResponseStream())
                     {
-                        updateProgress(50, Strings.DownloadingFromInternet);
-                    }
-                    catch
-                    {
-                    }
-                    int len = dataStream.Read(buf1, 0, 1024);
-                    if (len == 0)
-                        break;
-                    bytes -= len;
-                    fs.Write(buf1, 0, len);
-                }
 
-                fs.Close();
-                dataStream.Close();
-                response.Close();
+                        long bytes = response.ContentLength;
+                        long contlen = bytes;
+
+                        byte[] buf1 = new byte[1024];
+
+                        using (FileStream fs = new FileStream(
+                                Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                                @"firmware.hex", FileMode.Create))
+                        {
+                            updateProgress(0, Strings.DownloadingFromInternet);
+
+                            long length = response.ContentLength;
+                            long progress = 0;
+                            dataStream.ReadTimeout = 30000;
+
+                            while (dataStream.CanRead)
+                            {
+                                try
+                                {
+                                    updateProgress(length == 0 ? 50 : (int)((progress * 100) / length), Strings.DownloadingFromInternet);
+                                }
+                                catch
+                                {
+                                }
+                                int len = dataStream.Read(buf1, 0, 1024);
+                                if (len == 0)
+                                    break;
+                                progress += len;
+                                bytes -= len;
+                                fs.Write(buf1, 0, len);
+                            }
+
+                            fs.Close();
+                        }
+                        dataStream.Close();
+                    }
+                    response.Close();
+                }
 
                 updateProgress(100, Strings.DownloadedFromInternet);
                 log.Info("Downloaded");
