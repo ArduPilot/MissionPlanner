@@ -14,6 +14,7 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.HIL;
 using ZedGraph;
+using MissionPlanner.Utilities;
 
 // config file
 // dll imports
@@ -217,68 +218,68 @@ namespace MissionPlanner.GCSViews
         {
             if (write)
             {
-                MainV2.config["REV_roll"] = CHKREV_roll.Checked.ToString();
-                MainV2.config["REV_pitch"] = CHKREV_pitch.Checked.ToString();
-                MainV2.config["REV_rudder"] = CHKREV_rudder.Checked.ToString();
-                MainV2.config["GPSrate"] = GPSrate.Text;
+                Settings.Instance["REV_roll"] = CHKREV_roll.Checked.ToString();
+                Settings.Instance["REV_pitch"] = CHKREV_pitch.Checked.ToString();
+                Settings.Instance["REV_rudder"] = CHKREV_rudder.Checked.ToString();
+                Settings.Instance["GPSrate"] = GPSrate.Text;
 
-                MainV2.config["MAVrollgain"] = TXT_rollgain.Text;
-                MainV2.config["MAVpitchgain"] = TXT_pitchgain.Text;
-                MainV2.config["MAVruddergain"] = TXT_ruddergain.Text;
-                MainV2.config["MAVthrottlegain"] = TXT_throttlegain.Text;
+                Settings.Instance["MAVrollgain"] = TXT_rollgain.Text;
+                Settings.Instance["MAVpitchgain"] = TXT_pitchgain.Text;
+                Settings.Instance["MAVruddergain"] = TXT_ruddergain.Text;
+                Settings.Instance["MAVthrottlegain"] = TXT_throttlegain.Text;
 
-                MainV2.config["CHKdisplayall"] = CHKdisplayall.Checked.ToString();
+                Settings.Instance["CHKdisplayall"] = CHKdisplayall.Checked.ToString();
 
-                MainV2.config["SITLIP"] = SITLIP;
-                MainV2.config["simIP"] = simIP;
-                MainV2.config["recvPort"] = recvPort;
+                Settings.Instance["SITLIP"] = SITLIP;
+                Settings.Instance["simIP"] = simIP;
+                Settings.Instance["recvPort"] = recvPort.ToString();
 
-                MainV2.config["simPort"] = simPort.ToString();
+                Settings.Instance["simPort"] = simPort.ToString();
             }
             else
             {
-                foreach (string key in MainV2.config.Keys)
+                foreach (string key in Settings.Instance.Keys)
                 {
                     switch (key)
                     {
                         case "simIP":
-                            simIP = MainV2.config[key].ToString();
+                            simIP = Settings.Instance[key];
                             break;
                         case "SITLIP":
-                            SITLIP = MainV2.config[key].ToString();
+                            SITLIP = Settings.Instance[key];
                             break;
                         case "simPort":
-                            simPort = int.Parse(MainV2.config[key].ToString());
+                            simPort = Settings.Instance.GetInt32(key);
                             break;
                         case "recvPort":
-                            recvPort = int.Parse(MainV2.config[key].ToString());
+                            recvPort = Settings.Instance.GetInt32(key);
                             break;
                         case "REV_roll":
-                            CHKREV_roll.Checked = bool.Parse(MainV2.config[key].ToString());
+                            CHKREV_roll.Checked = Settings.Instance.GetBoolean(key);
                             break;
                         case "REV_pitch":
-                            CHKREV_pitch.Checked = bool.Parse(MainV2.config[key].ToString());
+                            CHKREV_pitch.Checked = Settings.Instance.GetBoolean(key);
                             break;
                         case "REV_rudder":
-                            CHKREV_rudder.Checked = bool.Parse(MainV2.config[key].ToString());
+                            CHKREV_rudder.Checked = Settings.Instance.GetBoolean(key);
                             break;
                         case "GPSrate":
-                            GPSrate.Text = MainV2.config[key].ToString();
+                            GPSrate.Text = Settings.Instance[key];
                             break;
                         case "MAVrollgain":
-                            TXT_rollgain.Text = MainV2.config[key].ToString();
+                            TXT_rollgain.Text = Settings.Instance[key];
                             break;
                         case "MAVpitchgain":
-                            TXT_pitchgain.Text = MainV2.config[key].ToString();
+                            TXT_pitchgain.Text = Settings.Instance[key];
                             break;
                         case "MAVruddergain":
-                            TXT_ruddergain.Text = MainV2.config[key].ToString();
+                            TXT_ruddergain.Text = Settings.Instance[key];
                             break;
                         case "MAVthrottlegain":
-                            TXT_throttlegain.Text = MainV2.config[key].ToString();
+                            TXT_throttlegain.Text = Settings.Instance[key];
                             break;
                         case "CHKdisplayall":
-                            CHKdisplayall.Checked = bool.Parse(MainV2.config[key].ToString());
+                            CHKdisplayall.Checked = Settings.Instance.GetBoolean(key);
                             displayfull = CHKdisplayall.Checked;
                             break;
                         default:
@@ -1493,15 +1494,15 @@ namespace MissionPlanner.GCSViews
                     ofd.InitialDirectory = @"/usr/games";
                 }
 
-                if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
+                if (File.Exists(Settings.Instance["fgexe"]) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
                     {
-                        MainV2.config["fgexe"] = ofd.FileName;
+                        Settings.Instance["fgexe"] = ofd.FileName;
                     }
                     else
                     {
-                        ofd.FileName = MainV2.config["fgexe"].ToString();
+                        ofd.FileName = Settings.Instance["fgexe"];
                     }
 
                     if (!MainV2.MONO)
@@ -1555,15 +1556,15 @@ namespace MissionPlanner.GCSViews
                     ofd.InitialDirectory = @"/usr/games";
                 }
 
-                if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
+                if (File.Exists(""+Settings.Instance["fgexe"]) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
                     {
-                        MainV2.config["fgexe"] = ofd.FileName;
+                        Settings.Instance["fgexe"] = ofd.FileName;
                     }
                     else
                     {
-                        ofd.FileName = MainV2.config["fgexe"].ToString();
+                        ofd.FileName = Settings.Instance["fgexe"].ToString();
                     }
 
                     if (!MainV2.MONO)
@@ -1597,21 +1598,21 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    ofd.InitialDirectory = Path.GetDirectoryName(MainV2.config["xplaneexe"].ToString());
+                    ofd.InitialDirectory = Path.GetDirectoryName(Settings.Instance["xplaneexe"].ToString());
                 }
                 catch
                 {
                 }
 
-                if (File.Exists(MainV2.getConfig("xplaneexe")) || ofd.ShowDialog() == DialogResult.OK)
+                if (File.Exists(""+ Settings.Instance["xplaneexe"]) || ofd.ShowDialog() == DialogResult.OK)
                 {
                     if (ofd.FileName != "")
                     {
-                        MainV2.config["xplaneexe"] = ofd.FileName;
+                        Settings.Instance["xplaneexe"] = ofd.FileName;
                     }
                     else
                     {
-                        ofd.FileName = MainV2.config["xplaneexe"].ToString();
+                        ofd.FileName = Settings.Instance["xplaneexe"].ToString();
                     }
 
                     var P = new Process();

@@ -946,7 +946,7 @@ namespace MissionPlanner
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = MainV2.LogDir;
+            fbd.SelectedPath = Settings.Instance.LogDir;
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
@@ -1338,13 +1338,13 @@ namespace MissionPlanner
                 ofd.Multiselect = true;
                 ofd.ShowDialog();
 
-                string droneshareusername = MainV2.getConfig("droneshareusername");
+                string droneshareusername = Settings.Instance["droneshareusername"];
 
                 InputBox.Show("Username", "Username", ref droneshareusername);
 
-                MainV2.config["droneshareusername"] = droneshareusername;
+                Settings.Instance["droneshareusername"] = droneshareusername;
 
-                string dronesharepassword = MainV2.getConfig("dronesharepassword");
+                string dronesharepassword = Settings.Instance["dronesharepassword"];
 
                 if (dronesharepassword != "")
                 {
@@ -1365,7 +1365,7 @@ namespace MissionPlanner
 
                 string encryptedpw = crypto2.EncryptString(dronesharepassword);
 
-                MainV2.config["dronesharepassword"] = encryptedpw;
+                Settings.Instance["dronesharepassword"] = encryptedpw;
 
                 if (File.Exists(ofd.FileName))
                 {
@@ -1410,7 +1410,7 @@ namespace MissionPlanner
         private void but_maplogs_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = MainV2.LogDir;
+            fbd.SelectedPath = Settings.Instance.LogDir;
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
@@ -1427,13 +1427,13 @@ namespace MissionPlanner
 
         private void but_droneapi_Click(object sender, EventArgs e)
         {
-            string droneshareusername = MainV2.getConfig("droneshareusername");
+            string droneshareusername = Settings.Instance["droneshareusername"];
 
             InputBox.Show("Username", "Username", ref droneshareusername);
 
-            MainV2.config["droneshareusername"] = droneshareusername;
+            Settings.Instance["droneshareusername"] = droneshareusername;
 
-            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+            string dronesharepassword = Settings.Instance["dronesharepassword"];
 
             if (dronesharepassword != "")
             {
@@ -1454,7 +1454,7 @@ namespace MissionPlanner
 
             string encryptedpw = crypto2.EncryptString(dronesharepassword);
 
-            MainV2.config["dronesharepassword"] = encryptedpw;
+            Settings.Instance["dronesharepassword"] = encryptedpw;
 
             DroneProto dp = new DroneProto();
 

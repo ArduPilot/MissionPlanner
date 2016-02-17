@@ -16,6 +16,7 @@ using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -496,7 +497,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
 
-                openFileDialog1.InitialDirectory = MainV2.LogDir;
+                openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {

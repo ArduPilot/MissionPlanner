@@ -34,13 +34,13 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public static void doUserAndPassword()
         {
-            string droneshareusername = MainV2.getConfig("droneshareusername");
+            string droneshareusername = Settings.Instance["droneshareusername"];
 
             InputBox.Show("Username", "Username", ref droneshareusername);
 
-            MainV2.config["droneshareusername"] = droneshareusername;
+            Settings.Instance["droneshareusername"] = droneshareusername;
 
-            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+            string dronesharepassword = Settings.Instance["dronesharepassword"];
 
             if (dronesharepassword != "")
             {
@@ -61,7 +61,7 @@ namespace MissionPlanner.Utilities.DroneApi
 
             string encryptedpw = crypto2.EncryptString(dronesharepassword);
 
-            MainV2.config["dronesharepassword"] = encryptedpw;
+            Settings.Instance["dronesharepassword"] = encryptedpw;
         }
 
         public static void doUpload(string file)
@@ -74,11 +74,11 @@ namespace MissionPlanner.Utilities.DroneApi
                 doUserAndPassword();
             }
 
-            string droneshareusername = MainV2.getConfig("droneshareusername");
+            string droneshareusername = Settings.Instance["droneshareusername"];
 
-            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+            string dronesharepassword = Settings.Instance["dronesharepassword"];
 
-            if (dronesharepassword != "")
+            if (!string.IsNullOrEmpty(dronesharepassword))
             {
                 try
                 {

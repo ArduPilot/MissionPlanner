@@ -285,7 +285,7 @@ namespace MissionPlanner.Log
 
                             if (logtime != DateTime.MinValue)
                             {
-                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar +
+                                string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                                         logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                                 try
                                 {
@@ -329,8 +329,8 @@ namespace MissionPlanner.Log
                             break;
                         case serialstatus.Createfile:
                             receivedbytes = 0;
-                            Directory.CreateDirectory(MainV2.LogDir);
-                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar +
+                            Directory.CreateDirectory(Settings.Instance.LogDir);
+                            logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                       DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
                             status = serialstatus.Waiting;
@@ -544,7 +544,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -593,7 +593,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {

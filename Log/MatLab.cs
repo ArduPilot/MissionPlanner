@@ -12,6 +12,7 @@ using System.Globalization;
 using log4net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -29,7 +30,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -55,7 +56,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {

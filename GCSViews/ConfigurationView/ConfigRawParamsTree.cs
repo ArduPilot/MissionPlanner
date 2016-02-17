@@ -42,9 +42,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (ColumnHeader col in Params.Columns)
             {
-                if (!String.IsNullOrEmpty(MainV2.getConfig("rawtree_" + col.Text + "_width")))
+                if (!String.IsNullOrEmpty(Settings.Instance["rawtree_" + col.Text + "_width"]))
                 {
-                    col.Width = int.Parse(MainV2.config["rawtree_" + col.Text + "_width"].ToString());
+                    col.Width = Settings.Instance.GetInt32("rawtree_" + col.Text + "_width");
                 }
             }
 
@@ -68,7 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (ColumnHeader col in Params.Columns)
             {
-                MainV2.config["rawtree_" + col.Text + "_width"] = col.Width;
+                Settings.Instance["rawtree_" + col.Text + "_width"] = col.Width.ToString();
             }
         }
 

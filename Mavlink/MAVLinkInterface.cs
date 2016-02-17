@@ -2826,8 +2826,8 @@ Please check the following
 
                             if (MainV2.speechEngine != null &&
                                 MainV2.speechEngine.State == System.Speech.Synthesis.SynthesizerState.Ready &&
-                                MainV2.config["speechenable"] != null &&
-                                MainV2.config["speechenable"].ToString() == "True")
+                                Settings.Instance["speechenable"] != null &&
+                                Settings.Instance["speechenable"].ToString() == "True")
                             {
                                 MainV2.speechEngine.SpeakAsync(logdata);
                             }
@@ -3776,13 +3776,13 @@ Please check the following
             switch (MAVlist[sysid, compid].cs.firmware)
             {
                 case MainV2.Firmwares.ArduCopter2:
-                    MAVlist[sysid, compid].Guid = MainV2.config["copter_guid"].ToString();
+                    MAVlist[sysid, compid].Guid = Settings.Instance["copter_guid"].ToString();
                     break;
                 case MainV2.Firmwares.ArduPlane:
-                    MAVlist[sysid, compid].Guid = MainV2.config["plane_guid"].ToString();
+                    MAVlist[sysid, compid].Guid = Settings.Instance["plane_guid"].ToString();
                     break;
                 case MainV2.Firmwares.ArduRover:
-                    MAVlist[sysid, compid].Guid = MainV2.config["rover_guid"].ToString();
+                    MAVlist[sysid, compid].Guid = Settings.Instance["rover_guid"].ToString();
                     break;
             }
         }

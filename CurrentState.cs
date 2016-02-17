@@ -1452,9 +1452,9 @@ namespace MissionPlanner
                             }
 
                             if (oldmode != mode && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
-                                MainV2.getConfig("speechmodeenabled") == "True")
+                                Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechmode"]));
                             }
                         }
                     }
@@ -1724,9 +1724,9 @@ namespace MissionPlanner
                         }
 
                         if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
-                            MainV2.getConfig("speechwaypointenabled") == "True")
+                            Settings.Instance.GetBoolean("speechwaypointenabled"))
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechwaypoint")));
+                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechwaypoint"]));
                         }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.WAYPOINT_CURRENT] = null;

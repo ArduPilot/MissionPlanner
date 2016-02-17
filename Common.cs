@@ -785,7 +785,7 @@ namespace MissionPlanner
             chk.Checked = true;
             chk.Location = new Point(9, 80);
 
-            if (MainV2.config[(string) chk.Tag] != null && (string) MainV2.config[(string) chk.Tag] == "False")
+            if (Settings.Instance.GetBoolean((string) chk.Tag) == false)
                 // skip it
             {
                 form.Dispose();
@@ -826,7 +826,7 @@ namespace MissionPlanner
 
         static void chk_CheckStateChanged(object sender, EventArgs e)
         {
-            MainV2.config[(string) ((CheckBox) (sender)).Tag] = ((CheckBox) (sender)).Checked.ToString();
+            Settings.Instance[(string) ((CheckBox) (sender)).Tag] = ((CheckBox) (sender)).Checked.ToString();
         }
 
         public static string speechConversion(string input)

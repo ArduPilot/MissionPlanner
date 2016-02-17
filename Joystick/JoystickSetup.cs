@@ -50,8 +50,8 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                if (MainV2.config.ContainsKey("joystick_name") && MainV2.config["joystick_name"].ToString() != "")
-                    CMB_joysticks.Text = MainV2.config["joystick_name"].ToString();
+                if (Settings.Instance.ContainsKey("joystick_name") && Settings.Instance["joystick_name"].ToString() != "")
+                    CMB_joysticks.Text = Settings.Instance["joystick_name"].ToString();
             }
             catch
             {
@@ -68,7 +68,7 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                CHK_elevons.Checked = bool.Parse(MainV2.config["joy_elevons"].ToString());
+                CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
             }
             catch
             {
@@ -146,7 +146,7 @@ namespace MissionPlanner.Joystick
                     return;
                 }
 
-                MainV2.config["joystick_name"] = CMB_joysticks.Text;
+                Settings.Instance["joystick_name"] = CMB_joysticks.Text;
 
                 MainV2.joystick = joy;
                 MainV2.joystick.enabled = true;
@@ -174,7 +174,7 @@ namespace MissionPlanner.Joystick
         {
             Joystick.self.saveconfig();
 
-            MainV2.config["joy_elevons"] = CHK_elevons.Checked;
+            Settings.Instance["joy_elevons"] = CHK_elevons.Checked.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -447,8 +447,8 @@ namespace MissionPlanner.Joystick
             butnumberlist.DataSource = getButtonNumbers();
             butnumberlist.DropDownStyle = ComboBoxStyle.DropDownList;
             butnumberlist.Name = "cmbbutton" + name;
-            //if (MainV2.config["butno" + name] != null)
-            //  butnumberlist.Text = (MainV2.config["butno" + name].ToString());
+            //if (Settings.Instance["butno" + name] != null)
+            //  butnumberlist.Text = (Settings.Instance["butno" + name].ToString());
             //if (config.buttonno != -1)
             butnumberlist.Text = config.buttonno.ToString();
             butnumberlist.SelectedIndexChanged += new EventHandler(cmbbutton_SelectedIndexChanged);
@@ -473,8 +473,8 @@ namespace MissionPlanner.Joystick
             cmbaction.Tag = name;
             cmbaction.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbaction.Name = "cmbaction" + name;
-            //if (MainV2.config["butaction" + name] != null)
-            //  cmbaction.Text = MainV2.config["butaction" + name].ToString();
+            //if (Settings.Instance["butaction" + name] != null)
+            //  cmbaction.Text = Settings.Instance["butaction" + name].ToString();
             //if (config.function != Joystick.buttonfunction.ChangeMode)
             cmbaction.Text = config.function.ToString();
             cmbaction.SelectedIndexChanged += cmbaction_SelectedIndexChanged;
