@@ -19,7 +19,7 @@ namespace MissionPlanner.Utilities
 
             InputBox.Show("Enter Password", "Please enter a password", ref pw, true);
 
-            MainV2.config["password"] =
+            Settings.Instance["password"] =
                 Convert.ToBase64String(Password.GenerateSaltedHash(UTF8Encoding.UTF8.GetBytes(pw),
                     new byte[] {(byte) 'M', (byte) 'P'}));
         }
@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
         {
             byte[] ans = Password.GenerateSaltedHash(UTF8Encoding.UTF8.GetBytes(pw), new byte[] {(byte) 'M', (byte) 'P'});
 
-            if (Password.CompareByteArrays(ans, Convert.FromBase64String(MainV2.getConfig("password"))))
+            if (Password.CompareByteArrays(ans, Convert.FromBase64String(""+Settings.Instance["password"])))
             {
                 return true;
             }

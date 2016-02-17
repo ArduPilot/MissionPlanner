@@ -47,9 +47,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                if (!String.IsNullOrEmpty(MainV2.getConfig("rawparam_" + col.Name + "_width")))
+                if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
                 {
-                    col.Width = int.Parse(MainV2.config["rawparam_" + col.Name + "_width"].ToString());
+                    col.Width = Settings.Instance.GetInt32("rawparam_" + col.Name + "_width");
                 }
             }
 
@@ -68,7 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (DataGridViewColumn col in Params.Columns)
             {
-                MainV2.config["rawparam_" + col.Name + "_width"] = col.Width;
+                Settings.Instance["rawparam_" + col.Name + "_width"] = col.Width.ToString();
             }
         }
 

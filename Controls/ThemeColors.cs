@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MissionPlanner.Utilities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,7 +27,7 @@ namespace MissionPlanner.Controls
 
             TXT_bg.BackColor = colorDialog1.Color;
 
-            MainV2.config["theme_bg"] = colorDialog1.Color.ToArgb().ToString();
+            Settings.Instance["theme_bg"] = colorDialog1.Color.ToArgb().ToString();
         }
 
         private void BUT_ctlbg_Click(object sender, EventArgs e)
@@ -37,7 +38,7 @@ namespace MissionPlanner.Controls
 
             TXT_ctlbg.BackColor = colorDialog1.Color;
 
-            MainV2.config["theme_ctlbg"] = colorDialog1.Color.ToArgb().ToString();
+            Settings.Instance["theme_ctlbg"] = colorDialog1.Color.ToArgb().ToString();
         }
 
         private void BUT_text_Click(object sender, EventArgs e)
@@ -48,7 +49,7 @@ namespace MissionPlanner.Controls
 
             TXT_text.BackColor = colorDialog1.Color;
 
-            MainV2.config["theme_text"] = colorDialog1.Color.ToArgb().ToString();
+            Settings.Instance["theme_text"] = colorDialog1.Color.ToArgb().ToString();
         }
 
         private void BUT_butbg_Click(object sender, EventArgs e)
@@ -59,7 +60,7 @@ namespace MissionPlanner.Controls
 
             TXT_butbg.BackColor = colorDialog1.Color;
 
-            MainV2.config["theme_butbg"] = colorDialog1.Color.ToArgb().ToString();
+            Settings.Instance["theme_butbg"] = colorDialog1.Color.ToArgb().ToString();
         }
 
         private void BUT_butbord_Click(object sender, EventArgs e)
@@ -70,7 +71,7 @@ namespace MissionPlanner.Controls
 
             TXT_butbord.BackColor = colorDialog1.Color;
 
-            MainV2.config["theme_butbord"] = colorDialog1.Color.ToArgb().ToString();
+            Settings.Instance["theme_butbord"] = colorDialog1.Color.ToArgb().ToString();
         }
 
         private void BUT_done_Click(object sender, EventArgs e)
@@ -82,11 +83,11 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                TXT_bg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_bg"].ToString()));
-                TXT_ctlbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_ctlbg"].ToString()));
-                TXT_text.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_text"].ToString()));
-                TXT_butbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
-                TXT_butbord.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
+                TXT_bg.BackColor = Color.FromArgb(Settings.Instance.GetInt32("theme_bg"));
+                TXT_ctlbg.BackColor = Color.FromArgb(Settings.Instance.GetInt32("theme_ctlbg"));
+                TXT_text.BackColor = Color.FromArgb(Settings.Instance.GetInt32("theme_text"));
+                TXT_butbg.BackColor = Color.FromArgb(Settings.Instance.GetInt32("theme_butbg"));
+                TXT_butbord.BackColor = Color.FromArgb(Settings.Instance.GetInt32("theme_butbord"));
             }
             catch
             {
