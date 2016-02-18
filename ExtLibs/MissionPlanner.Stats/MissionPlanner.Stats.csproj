@@ -36,7 +36,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Reactive">
-      <HintPath>..\..\extLibs\System.Reactive.dll</HintPath>
+      <HintPath>..\..\ExtLibs\System.Reactive.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />

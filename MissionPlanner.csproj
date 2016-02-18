@@ -211,13 +211,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Transitions">
-      <HintPath>extLibs\Transitions.dll</HintPath>
+      <HintPath>ExtLibs\Transitions.dll</HintPath>
     </Reference>
     <Reference Include="BouncyCastle.Crypto">
       <HintPath>packages\BouncyCastle.1.7.0\lib\Net20\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="csmatio">
-      <HintPath>extLibs\csmatio.dll</HintPath>
+      <HintPath>ExtLibs\csmatio.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.dll</HintPath>
@@ -244,10 +244,10 @@
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="netDxf">
-      <HintPath>extLibs\netDxf.dll</HintPath>
+      <HintPath>ExtLibs\netDxf.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
-      <HintPath>extLibs\OpenTK.dll</HintPath>
+      <HintPath>ExtLibs\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>ExtLibs\OpenTK.GLControl.dll</HintPath>
@@ -258,7 +258,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Drawing" />
     <Reference Include="zlib.net">
-      <HintPath>extLibs\zlib.net.dll</HintPath>
+      <HintPath>ExtLibs\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
