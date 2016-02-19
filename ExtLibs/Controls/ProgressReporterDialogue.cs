@@ -69,7 +69,7 @@ namespace MissionPlanner.Controls
             // mono fix - ensure the dialog is running
             while (this.IsHandleCreated == false)
             {
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(200);
             }
 
             
@@ -94,6 +94,7 @@ namespace MissionPlanner.Controls
                      if (!this.Focused)
                      {
                          this.Focus();
+                         System.Threading.Thread.Sleep(200);
                          Application.DoEvents();
                      }
                 });
