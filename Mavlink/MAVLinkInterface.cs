@@ -2785,9 +2785,7 @@ Please check the following
 
                     if (buffer[5] == (byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT) // status text
                     {
-                        var msg =
-                            MAVlist[sysid, compid].packets[(byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT]
-                                .ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
 
                         byte sev = msg.severity;
 
