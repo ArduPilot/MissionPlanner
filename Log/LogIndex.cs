@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -26,8 +27,8 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
-            //processbg(MainV2.LogDir);
-            System.Threading.ThreadPool.QueueUserWorkItem(processbg, MainV2.LogDir);
+            //processbg(Settings.Instance.LogDir);
+            System.Threading.ThreadPool.QueueUserWorkItem(processbg, Settings.Instance.LogDir);
         }
 
         void processbg(object directory)

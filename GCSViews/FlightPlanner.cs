@@ -523,11 +523,12 @@ namespace MissionPlanner.GCSViews
 
             RegeneratePolygon();
 
-            if (MainV2.getConfig("MapType") != "")
+            string mapType = Settings.Instance["MapType"];
+            if (!string.IsNullOrEmpty(mapType))
             {
                 try
                 {
-                    var index = GMapProviders.List.FindIndex(x => (x.Name == MainV2.getConfig("MapType")));
+                    var index = GMapProviders.List.FindIndex(x => (x.Name == mapType));
 
                     if (index != -1)
                         comboBoxMapType.SelectedIndex = index;
@@ -686,8 +687,8 @@ namespace MissionPlanner.GCSViews
 
             POI.POIModified += POI_POIModified;
 
-            if (MainV2.config["WMSserver"] != null)
-                WMSProvider.CustomWMSURL = MainV2.config["WMSserver"].ToString();
+            if (Settings.Instance["WMSserver"] != null)
+                WMSProvider.CustomWMSURL = Settings.Instance["WMSserver"];
 
             trackBar1.Value = (int) MainMap.Zoom;
 
@@ -743,7 +744,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
 
             // switch the action and wp table
-            if (MainV2.getConfig("FP_docking") == "Bottom")
+            if (Settings.Instance["FP_docking"] == "Bottom")
             {
                 switchDockingToolStripMenuItem_Click(null, null);
             }
@@ -2312,48 +2313,46 @@ namespace MissionPlanner.GCSViews
         {
             if (write)
             {
-                MainV2.config["TXT_homelat"] = TXT_homelat.Text;
-                MainV2.config["TXT_homelng"] = TXT_homelng.Text;
-                MainV2.config["TXT_homealt"] = TXT_homealt.Text;
+                Settings.Instance["TXT_homelat"] = TXT_homelat.Text;
+                Settings.Instance["TXT_homelng"] = TXT_homelng.Text;
+                Settings.Instance["TXT_homealt"] = TXT_homealt.Text;
 
 
-                MainV2.config["TXT_WPRad"] = TXT_WPRad.Text;
+                Settings.Instance["TXT_WPRad"] = TXT_WPRad.Text;
 
-                MainV2.config["TXT_loiterrad"] = TXT_loiterrad.Text;
+                Settings.Instance["TXT_loiterrad"] = TXT_loiterrad.Text;
 
-                MainV2.config["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
+                Settings.Instance["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
-                MainV2.config["CMB_altmode"] = CMB_altmode.Text;
+                Settings.Instance["CMB_altmode"] = CMB_altmode.Text;
 
-                MainV2.config["fpminaltwarning"] = TXT_altwarn.Text;
+                Settings.Instance["fpminaltwarning"] = TXT_altwarn.Text;
 
-                MainV2.config["fpcoordmouse"] = coords1.System;
+                Settings.Instance["fpcoordmouse"] = coords1.System;
             }
             else
             {
-                Hashtable temp = new Hashtable((Hashtable) MainV2.config.Clone());
-
-                foreach (string key in temp.Keys)
+                foreach (string key in Settings.Instance.Keys)
                 {
                     switch (key)
                     {
                         case "TXT_WPRad":
-                            TXT_WPRad.Text = MainV2.config[key].ToString();
+                            TXT_WPRad.Text = "" + Settings.Instance[key];
                             break;
                         case "TXT_loiterrad":
-                            TXT_loiterrad.Text = MainV2.config[key].ToString();
+                            TXT_loiterrad.Text = "" + Settings.Instance[key];
                             break;
                         case "TXT_DefaultAlt":
-                            TXT_DefaultAlt.Text = MainV2.config[key].ToString();
+                            TXT_DefaultAlt.Text = "" + Settings.Instance[key];
                             break;
                         case "CMB_altmode":
-                            CMB_altmode.Text = MainV2.config[key].ToString();
+                            CMB_altmode.Text = "" + Settings.Instance[key];
                             break;
                         case "fpminaltwarning":
-                            TXT_altwarn.Text = MainV2.getConfig("fpminaltwarning");
+                            TXT_altwarn.Text = "" + Settings.Instance["fpminaltwarning"];
                             break;
                         case "fpcoordmouse":
-                            coords1.System = MainV2.config[key].ToString();
+                            coords1.System = "" + Settings.Instance[key];
                             break;
                         default:
                             break;
@@ -2825,8 +2824,8 @@ namespace MissionPlanner.GCSViews
             if (type == WMSProvider.Instance)
             {
                 string url = "";
-                if (MainV2.config["WMSserver"] != null)
-                    url = MainV2.config["WMSserver"].ToString();
+                if (Settings.Instance["WMSserver"] != null)
+                    url = Settings.Instance["WMSserver"];
                 if (DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
 
@@ -2836,7 +2835,7 @@ namespace MissionPlanner.GCSViews
                 XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
                 ProcessWmsCapabilitesRequest(xCapabilityResponse);
 
-                MainV2.config["WMSserver"] = url;
+                Settings.Instance["WMSserver"] = url;
                 WMSProvider.CustomWMSURL = url;
             }
         }
@@ -3461,7 +3460,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainMap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
                 FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
-                MainV2.config["MapType"] = comboBoxMapType.Text;
+                Settings.Instance["MapType"] = comboBoxMapType.Text;
             }
             catch
             {
@@ -3701,7 +3700,7 @@ namespace MissionPlanner.GCSViews
         /// <returns>formatted distance with unit</returns>
         private string FormatDistance(double distInKM, bool toMeterOrFeet)
         {
-            string sunits = MainV2.getConfig("distunits");
+            string sunits = Settings.Instance["distunits"];
             Common.distances units = Common.distances.Meters;
 
             if (sunits != "")
@@ -4127,7 +4126,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         mBorders.wprad =
-                            (int) (float.Parse(MainV2.config["TXT_WPRad"].ToString())/CurrentState.multiplierdist);
+                            (int) (Settings.Instance.GetFloat("TXT_WPRad")/CurrentState.multiplierdist);
                     }
                     catch
                     {
@@ -5930,7 +5929,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 panelWaypoints.Width = Width/2;
             }
 
-            MainV2.config["FP_docking"] = panelAction.Dock;
+            Settings.Instance["FP_docking"] = panelAction.Dock.ToString();
         }
 
         private void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)

@@ -124,9 +124,9 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// access to mp settings
         /// </summary>
-        public Hashtable config
+        public Settings config
         {
-            get { return MainV2.config; }
+            get { return Settings.Instance; }
         }
 
         /// <summary>

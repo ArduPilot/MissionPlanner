@@ -22,7 +22,7 @@ namespace MissionPlanner
 
         public static CultureInfo GetConfigLang()
         {
-            CultureInfo ci = CultureInfoEx.GetCultureInfo(MainV2.getConfig("language"));
+            CultureInfo ci = CultureInfoEx.GetCultureInfo(Settings.Instance["language"]);
             if (ci != null)
             {
                 return ci;
