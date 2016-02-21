@@ -45,8 +45,6 @@ namespace MissionPlanner.Utilities
             {
                 string value = null;
                 config.TryGetValue(key, out value);
-                if (value == null)
-                    value = "";
                 return value;
             }
 

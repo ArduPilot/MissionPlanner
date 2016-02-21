@@ -3703,7 +3703,7 @@ namespace MissionPlanner.GCSViews
             string sunits = Settings.Instance["distunits"];
             Common.distances units = Common.distances.Meters;
 
-            if (sunits != "")
+            if (sunits != null)
                 try
                 {
                     units = (Common.distances) Enum.Parse(typeof (Common.distances), sunits);

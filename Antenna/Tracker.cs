@@ -49,7 +49,8 @@ namespace MissionPlanner.Antenna
                         if (typeof (TextBox) == ctl.GetType() ||
                             typeof (ComboBox) == ctl.GetType())
                         {
-                            ctl.Text = Settings.Instance[key];
+                            if (Settings.Instance[key] != null)
+                                ctl.Text = Settings.Instance[key];
                         }
                         else if (typeof (TrackBar) == ctl.GetType())
                         {
