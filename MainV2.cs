@@ -16,7 +16,6 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
 using Transitions;
-using System.Speech.Synthesis;
 using MissionPlanner.Warnings;
 
 namespace MissionPlanner
@@ -2017,7 +2016,7 @@ namespace MissionPlanner
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                        if (MainV2.speechEngine.IsReady)
                         {
                             if (Settings.Instance.GetBoolean("speechcustomenabled"))
                             {
@@ -2036,7 +2035,7 @@ namespace MissionPlanner
                             MainV2.comPort.MAV.cs.battery_voltage <= warnvolt &&
                             MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechbattery"]));
                             }
@@ -2046,7 +2045,7 @@ namespace MissionPlanner
                                  MainV2.comPort.MAV.cs.battery_voltage >= 5.0 &&
                                  MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(
                                     Common.speechConversion("" + Settings.Instance["speechbattery"]));
@@ -2065,7 +2064,7 @@ namespace MissionPlanner
 
                             if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
                                         Common.speechConversion(""+ Settings.Instance["speechlowairspeed"]));
@@ -2074,7 +2073,7 @@ namespace MissionPlanner
                             }
                             else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
                                         Common.speechConversion(""+ Settings.Instance["speechlowgroundspeed"]));
@@ -2107,7 +2106,7 @@ namespace MissionPlanner
                             {
                                 if (altwarningmax > warnalt)
                                 {
-                                    if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                    if (MainV2.speechEngine.IsReady)
                                         MainV2.speechEngine.SpeakAsync(
                                             Common.speechConversion(""+Settings.Instance["speechalt"]));
                                 }
@@ -2121,7 +2120,7 @@ namespace MissionPlanner
                         try
                         {
                             // say the latest high priority message
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready &&
+                            if (MainV2.speechEngine.IsReady &&
                                 lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
                             {
                                 MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
@@ -2155,7 +2154,7 @@ namespace MissionPlanner
                     {
                         if (speechEnable && speechEngine != null)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync("WARNING No Data for " +
                                                                (int)

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,17 +18,16 @@ namespace MissionPlanner.Utilities
 
         bool MONO = false;
 
-        public SynthesizerState State
+        public bool IsReady 
         {
-            get
-            {
+            get {
                 if (MONO)
                 {
-                    return _state;
+                    return _state == SynthesizerState.Ready;
                 }
                 else
                 {
-                    return _speechwindows.State;
+                    return _speechwindows.State == SynthesizerState.Ready;
                 }
             }
         }
