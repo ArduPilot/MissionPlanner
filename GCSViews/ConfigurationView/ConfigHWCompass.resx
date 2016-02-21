@@ -117,497 +117,266 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_deg.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_mot.Name" xml:space="preserve">
-    <value>LBL_compass2_mot</value>
-  </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CHK_autodec.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="CHK_compass_learn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="BUT_MagCalibrationLive.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
-  </data>
-  <data name="LBL_primary_compass.Text" xml:space="preserve">
-    <value>Primary Compass:</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CMB_compass2_orient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 63</value>
-  </data>
-  <data name="linkLabelmagdec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;LBL_primary_compass.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>11</value>
-  </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube Example</value>
-  </data>
-  <data name="groupBoxCompass1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 150</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="CHK_compass3_external.Text" xml:space="preserve">
-    <value>Externally mounted</value>
-  </data>
-  <data name="linkLabelmagdec.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 12</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass3.Name" xml:space="preserve">
-    <value>groupBoxCompass3</value>
-  </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="LBL_compass1_offset.Text" xml:space="preserve">
-    <value>OFFSET</value>
-  </data>
-  <data name="TXT_declination_deg.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="LBL_primary_compass.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;lbl_obmagresult.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass3.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="TXT_declination_deg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 21</value>
-  </data>
-  <data name="CHK_compass3_use.Text" xml:space="preserve">
-    <value>Use this compass</value>
-  </data>
-  <data name="LBL_compass2_mot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 12</value>
-  </data>
-  <data name="groupBoxCompass1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 138</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_offset.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 53</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LBL_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 44</value>
-  </data>
-  <data name="CHK_compass3_external.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="LBL_compass3_mot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 12</value>
-  </data>
-  <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="BUT_MagCalibrationLive.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
+    <value>6, 20</value>
   </data>
-  <data name="&gt;&gt;groupBoxCompass2.ZOrder" xml:space="preserve">
-    <value>5</value>
+  <data name="BUT_MagCalibrationLive.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 27</value>
   </data>
-  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass_learn.Name" xml:space="preserve">
-    <value>CHK_compass_learn</value>
-  </data>
-  <data name="CMB_compass3_orient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="&gt;&gt;CHK_autodec.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="lbl_obmagresult.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 71</value>
-  </data>
-  <data name="LBL_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 12</value>
-  </data>
-  <data name="LBL_compass2_mot.Text" xml:space="preserve">
-    <value>MOT</value>
-  </data>
-  <data name="LBL_compass2_offset.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="CHK_compass2_external.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;QuickAPM25.Name" xml:space="preserve">
-    <value>QuickAPM25</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>343, 40</value>
-  </data>
-  <data name="LBL_compass3_mot.Text" xml:space="preserve">
-    <value>MOT</value>
-  </data>
-  <data name="CHK_compass_learn.Text" xml:space="preserve">
-    <value>Automatically learn offsets</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="QuickAPM25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>349, 30</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_use.Name" xml:space="preserve">
-    <value>CHK_compass3_use</value>
-  </data>
-  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>95, 12</value>
-  </data>
-  <data name="&gt;&gt;LBL_primary_compass.Name" xml:space="preserve">
-    <value>LBL_primary_compass</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>644, 5</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="LBL_compass3_offset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 95</value>
-  </data>
-  <data name="CMB_compass3_orient.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="LBL_compass1_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="CMB_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 20</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass3_orient.Name" xml:space="preserve">
-    <value>CMB_compass3_orient</value>
-  </data>
-  <data name="CHK_compass2_external.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="CHK_compass3_external.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 36</value>
-  </data>
-  <data name="&gt;&gt;CHK_autodec.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass_learn.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="LBL_compass2_offset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 95</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalstart.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass2_orient.Name" xml:space="preserve">
-    <value>CMB_compass2_orient</value>
-  </data>
-  <data name="CMB_compass3_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="TXT_declination_min.Location" type="System.Drawing.Point, System.Drawing">
-    <value>391, 37</value>
-  </data>
-  <data name="&gt;&gt;groupBoxGeneralSettings.Name" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
-    <value>groupBoxCompass2</value>
-  </data>
-  <data name="LBL_compass1_mot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 111</value>
-  </data>
-  <data name="LBL_compass3_offset.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_compass_learn.TabIndex" type="System.Int32, mscorlib">
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_MagCalibrationLive.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="CHK_compass3_use.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CHK_compass2_use.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_offset.Name" xml:space="preserve">
-    <value>LBL_compass3_offset</value>
-  </data>
-  <data name="LBL_compass3_offset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="BUT_OBmagcalcancel.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TXT_declination_deg.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;groupBoxGeneralSettings.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="CHK_compass_learn.Location" type="System.Drawing.Point, System.Drawing">
-    <value>465, 17</value>
-  </data>
-  <data name="&gt;&gt;QuickAPM25.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 294</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_compass1_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_external.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="BUT_OBmagcalstart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>269, 116</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="LBL_compass1_offset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="LBL_compass2_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="BUT_OBmagcalcancel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 21</value>
-  </data>
-  <data name="LBL_compass1_mot.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_offset.Parent" xml:space="preserve">
-    <value>groupBoxCompass1</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="lbl_obmagresult.Text" xml:space="preserve">
-    <value>Result</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalcancel.Name" xml:space="preserve">
-    <value>BUT_OBmagcalcancel</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;LBL_primary_compass.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;linkLabelmagdec.Name" xml:space="preserve">
-    <value>linkLabelmagdec</value>
-  </data>
-  <data name="CHK_compass3_external.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="&gt;&gt;CHK_autodec.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="groupBoxGeneralSettings.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;CMB_primary_compass.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="BUT_OBmagcalaccept.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 41</value>
-  </data>
-  <data name="LBL_primary_compass.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;CMB_primary_compass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="CHK_compass2_use.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 12</value>
+  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
+    <value>Live Calibration</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Name" xml:space="preserve">
     <value>BUT_MagCalibrationLive</value>
   </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;BUT_MagCalibrationLive.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="buttonQuickPixhawk.Text" xml:space="preserve">
-    <value>Pixhawk/PX4</value>
+  <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
-  <data name="groupBoxGeneralSettings.Size" type="System.Drawing.Size, System.Drawing">
-    <value>615, 78</value>
-  </data>
-  <data name="buttonAPMExternal.Text" xml:space="preserve">
-    <value>APM and External Compass</value>
-  </data>
-  <data name="lbl_obmagresult.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="CHK_compass3_use.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_mot.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;BUT_MagCalibrationLive.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;CMB_compass3_orient.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="linkLabelmagdec.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="CHK_compass1_external.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 36</value>
-  </data>
-  <data name="CHK_compass1_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="linkLabelmagdec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;LBL_compass3_mot.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="linkLabelmagdec.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 64</value>
   </data>
-  <data name="&gt;&gt;LBL_compass1_offset.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 13</value>
   </data>
-  <data name="lbl_obmagresult.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="linkLabelmagdec.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
   </data>
-  <data name="BUT_OBmagcalaccept.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="linkLabelmagdec.Text" xml:space="preserve">
+    <value>Declination WebSite</value>
   </data>
-  <data name="&gt;&gt;BUT_OBmagcalstart.Name" xml:space="preserve">
-    <value>BUT_OBmagcalstart</value>
+  <data name="&gt;&gt;linkLabelmagdec.Name" xml:space="preserve">
+    <value>linkLabelmagdec</value>
   </data>
-  <data name="CHK_compass2_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_compass1_use.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 18</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass2_use.Name" xml:space="preserve">
-    <value>CHK_compass2_use</value>
-  </data>
-  <data name="&gt;&gt;groupBoxGeneralSettings.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+  <data name="&gt;&gt;linkLabelmagdec.Type" xml:space="preserve">
     <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabelmagdec.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;linkLabelmagdec.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="TXT_declination_deg.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="TXT_declination_deg.Location" type="System.Drawing.Point, System.Drawing">
+    <value>284, 41</value>
+  </data>
+  <data name="TXT_declination_deg.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 20</value>
+  </data>
+  <data name="TXT_declination_deg.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_deg.Name" xml:space="preserve">
+    <value>TXT_declination_deg</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_deg.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_deg.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_deg.ZOrder" xml:space="preserve">
+    <value>9</value>
   </data>
   <data name="CHK_autodec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CHK_compass1_use.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="CHK_autodec.Location" type="System.Drawing.Point, System.Drawing">
+    <value>218, 18</value>
   </data>
-  <data name="CMB_primary_compass.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="CHK_autodec.Size" type="System.Drawing.Size, System.Drawing">
+    <value>177, 22</value>
   </data>
-  <data name="&gt;&gt;BUT_OBmagcalcancel.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="CHK_autodec.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
   </data>
-  <data name="CHK_compass3_use.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 18</value>
+  <data name="CHK_autodec.Text" xml:space="preserve">
+    <value>Obtain declination automatically</value>
   </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="&gt;&gt;CHK_autodec.Name" xml:space="preserve">
+    <value>CHK_autodec</value>
+  </data>
+  <data name="&gt;&gt;CHK_autodec.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_autodec.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;CHK_autodec.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>OR</value>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 3</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>167, 20</value>
   </data>
-  <data name="LBL_compass3_mot.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="lbl_obmagresult.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Compass</value>
   </data>
-  <data name="&gt;&gt;LBL_compass1_mot.Type" xml:space="preserve">
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;LBL_primary_compass.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 21</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>644, 5</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>76, 27</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 13</value>
+  </data>
+  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Youtube Example</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
+    <value>linkLabel1</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>14, 37</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>218, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Select device to quick-configure parameters:</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;BUT_OBmagcalcancel.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="CHK_autodec.Location" type="System.Drawing.Point, System.Drawing">
-    <value>218, 17</value>
-  </data>
-  <data name="LBL_compass1_offset.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="buttonQuickPixhawk.Location" type="System.Drawing.Point, System.Drawing">
-    <value>231, 30</value>
-  </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>269, 12</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_use.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="LBL_compass1_mot.Size" type="System.Drawing.Size, System.Drawing">
-    <value>23, 12</value>
+  <data name="buttonAPMExternal.Location" type="System.Drawing.Point, System.Drawing">
+    <value>497, 33</value>
   </data>
-  <data name="&gt;&gt;groupBoxGeneralSettings.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="buttonAPMExternal.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 23</value>
+  </data>
+  <data name="buttonAPMExternal.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="buttonAPMExternal.Text" xml:space="preserve">
+    <value>APM and External Compass</value>
+  </data>
+  <data name="&gt;&gt;buttonAPMExternal.Name" xml:space="preserve">
+    <value>buttonAPMExternal</value>
+  </data>
+  <data name="&gt;&gt;buttonAPMExternal.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;buttonAPMExternal.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;buttonAPMExternal.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="QuickAPM25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>349, 33</value>
+  </data>
+  <data name="QuickAPM25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 23</value>
+  </data>
+  <data name="QuickAPM25.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="QuickAPM25.Text" xml:space="preserve">
+    <value>APM2.5 (Internal Compass)</value>
+  </data>
+  <data name="&gt;&gt;QuickAPM25.Name" xml:space="preserve">
+    <value>QuickAPM25</value>
   </data>
   <data name="&gt;&gt;QuickAPM25.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
@@ -615,742 +384,1219 @@
   <data name="&gt;&gt;QuickAPM25.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;linkLabelmagdec.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="CHK_compass2_external.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_offset.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_min.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass_learn.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="CMB_primary_compass.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_external.Name" xml:space="preserve">
-    <value>CHK_compass3_external</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
-    <value>groupBoxCompass1</value>
-  </data>
-  <data name="CMB_compass3_orient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 63</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="TXT_declination_deg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>284, 38</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_mot.Parent" xml:space="preserve">
-    <value>groupBoxCompass1</value>
-  </data>
-  <data name="LBL_compass3_offset.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalstart.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Select device to quick-configure parameters:</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass2_external.Name" xml:space="preserve">
-    <value>CHK_compass2_external</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;QuickAPM25.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBoxCompass3.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
+  <data name="buttonQuickPixhawk.Location" type="System.Drawing.Point, System.Drawing">
+    <value>231, 33</value>
   </data>
-  <data name="&gt;&gt;CMB_compass2_orient.ZOrder" xml:space="preserve">
-    <value>4</value>
+  <data name="buttonQuickPixhawk.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 23</value>
   </data>
-  <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
-    <value>General Compass Settings</value>
-  </data>
-  <data name="CMB_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>108, 41</value>
-  </data>
-  <data name="LBL_compass3_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_deg.Name" xml:space="preserve">
-    <value>TXT_declination_deg</value>
-  </data>
-  <data name="CMB_compass1_orient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 63</value>
-  </data>
-  <data name="BUT_OBmagcalaccept.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 18</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_offset.Parent" xml:space="preserve">
-    <value>groupBoxCompass2</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Compass</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass1_orient.Name" xml:space="preserve">
-    <value>CMB_compass1_orient</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_external.Name" xml:space="preserve">
-    <value>CHK_compass1_external</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_mot.Name" xml:space="preserve">
-    <value>LBL_compass1_mot</value>
-  </data>
-  <data name="CMB_compass2_orient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
-  </data>
-  <data name="CHK_autodec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 20</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_mot.Name" xml:space="preserve">
-    <value>LBL_compass3_mot</value>
-  </data>
-  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
-    <value>Live Calibration</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 3</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHK_enablecompass.Text" xml:space="preserve">
-    <value>Enable compasses</value>
-  </data>
-  <data name="&gt;&gt;linkLabelmagdec.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="CHK_compass2_external.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 36</value>
-  </data>
-  <data name="&gt;&gt;CMB_primary_compass.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="linkLabelmagdec.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 59</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass3.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="linkLabelmagdec.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_mot.Parent" xml:space="preserve">
-    <value>groupBoxCompass3</value>
-  </data>
-  <data name="LBL_compass2_offset.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_offset.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Degrees</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_use.Name" xml:space="preserve">
-    <value>CHK_compass1_use</value>
-  </data>
-  <data name="groupBoxCompass2.Text" xml:space="preserve">
-    <value>Compass #2</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
+  <data name="buttonQuickPixhawk.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="BUT_OBmagcalstart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 21</value>
+  <data name="buttonQuickPixhawk.Text" xml:space="preserve">
+    <value>Pixhawk/PX4</value>
   </data>
-  <data name="&gt;&gt;BUT_OBmagcalcancel.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;buttonQuickPixhawk.Name" xml:space="preserve">
+    <value>buttonQuickPixhawk</value>
   </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="&gt;&gt;buttonQuickPixhawk.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_external.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CMB_compass1_orient.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
-    <value>groupBoxCompass2</value>
-  </data>
-  <data name="LBL_compass1_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_offset.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;lbl_obmagresult.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass1.Parent" xml:space="preserve">
+  <data name="&gt;&gt;buttonQuickPixhawk.Parent" xml:space="preserve">
     <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_min.ZOrder" xml:space="preserve">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;buttonQuickPixhawk.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
-    <value>Accept</value>
+  <data name="CMB_compass1_orient.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="CHK_compass1_external.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_offset.Name" xml:space="preserve">
-    <value>LBL_compass2_offset</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalaccept.Name" xml:space="preserve">
-    <value>BUT_OBmagcalaccept</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_use.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;CHK_autodec.Name" xml:space="preserve">
-    <value>CHK_autodec</value>
-  </data>
-  <data name="BUT_OBmagcalaccept.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 21</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalstart.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="LBL_compass3_mot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 111</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
-    <value>groupBoxCompass1</value>
-  </data>
-  <data name="TXT_declination_min.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="LBL_compass3_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="CMB_compass1_orient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 68</value>
   </data>
   <data name="CMB_compass1_orient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>182, 20</value>
+    <value>182, 21</value>
   </data>
-  <data name="&gt;&gt;groupBoxCompass2.Name" xml:space="preserve">
-    <value>groupBoxCompass2</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="CHK_compass2_use.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 18</value>
-  </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 19</value>
-  </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>76, 25</value>
-  </data>
-  <data name="&gt;&gt;buttonAPMExternal.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Microsoft Sans Serif, 12pt</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass1.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="QuickAPM25.Text" xml:space="preserve">
-    <value>APM2.5 (Internal Compass)</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass2_external.ZOrder" xml:space="preserve">
+  <data name="CMB_compass1_orient.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="groupBoxCompass3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 138</value>
+  <data name="&gt;&gt;CMB_compass1_orient.Name" xml:space="preserve">
+    <value>CMB_compass1_orient</value>
   </data>
-  <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;CMB_compass1_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;groupBoxCompass1.Name" xml:space="preserve">
+  <data name="&gt;&gt;CMB_compass1_orient.Parent" xml:space="preserve">
     <value>groupBoxCompass1</value>
   </data>
   <data name="&gt;&gt;CMB_compass1_orient.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="groupBoxCompass3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>432, 150</value>
-  </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>14, 34</value>
-  </data>
-  <data name="CMB_compass2_orient.Enabled" type="System.Boolean, mscorlib">
+  <data name="TXT_declination_min.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="TXT_declination_min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>391, 40</value>
   </data>
-  <data name="CHK_compass2_use.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="TXT_declination_min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 20</value>
   </data>
-  <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
+  <data name="TXT_declination_min.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
   </data>
-  <data name="buttonAPMExternal.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;TXT_declination_min.Name" xml:space="preserve">
+    <value>TXT_declination_min</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_min.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_min.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;TXT_declination_min.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 44</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
-  <data name="LBL_compass2_offset.Text" xml:space="preserve">
-    <value>OFFSET</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Degrees</value>
   </data>
-  <data name="CHK_compass1_use.Text" xml:space="preserve">
-    <value>Use this compass</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="groupBoxCompass2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>223, 150</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>groupBoxGeneralSettings</value>
   </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>343, 43</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Minutes</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
   <data name="&gt;&gt;lbl_obmagresult.Name" xml:space="preserve">
     <value>lbl_obmagresult</value>
   </data>
-  <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
-    <value>groupBoxCompass3</value>
+  <data name="&gt;&gt;lbl_obmagresult.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="buttonQuickPixhawk.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+  <data name="&gt;&gt;lbl_obmagresult.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
-  <data name="&gt;&gt;LBL_compass3_offset.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;lbl_obmagresult.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Name" xml:space="preserve">
+    <value>BUT_OBmagcalaccept</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
-    <value>groupBoxCompass2</value>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Name" xml:space="preserve">
+    <value>BUT_OBmagcalcancel</value>
   </data>
-  <data name="QuickAPM25.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;CHK_enablecompass.Name" xml:space="preserve">
-    <value>CHK_enablecompass</value>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
-  <data name="LBL_compass2_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="&gt;&gt;BUT_OBmagcalcancel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Name" xml:space="preserve">
+    <value>BUT_OBmagcalstart</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>235, 319</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>269, 126</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Onboard Mag Calibration</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="lbl_obmagresult.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="BUT_OBmagcalcancel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>178, 18</value>
+  <data name="lbl_obmagresult.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 46</value>
   </data>
-  <data name="QuickAPM25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 21</value>
+  <data name="lbl_obmagresult.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>119, 12</value>
+  <data name="lbl_obmagresult.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
   </data>
-  <data name="CHK_compass_learn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
+  <data name="lbl_obmagresult.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 77</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="lbl_obmagresult.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="lbl_obmagresult.Text" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Name" xml:space="preserve">
+    <value>lbl_obmagresult</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;lbl_obmagresult.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="BUT_MagCalibrationLive.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="groupBoxCompass2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>200, 138</value>
-  </data>
-  <data name="CHK_enablecompass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 17</value>
   </data>
   <data name="BUT_OBmagcalaccept.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;CHK_compass2_use.ZOrder" xml:space="preserve">
+  <data name="BUT_OBmagcalaccept.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 20</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BUT_OBmagcalaccept.Text" xml:space="preserve">
+    <value>Accept</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Name" xml:space="preserve">
+    <value>BUT_OBmagcalaccept</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalaccept.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>178, 20</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="BUT_OBmagcalcancel.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Name" xml:space="preserve">
+    <value>BUT_OBmagcalcancel</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalcancel.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_OBmagcalstart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 20</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_OBmagcalstart.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="BUT_OBmagcalstart.Text" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Name" xml:space="preserve">
+    <value>BUT_OBmagcalstart</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;BUT_OBmagcalstart.ZOrder" xml:space="preserve">
     <value>3</value>
+  </data>
+  <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_enablecompass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_enablecompass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="CHK_enablecompass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CHK_enablecompass.Text" xml:space="preserve">
+    <value>Enable compasses</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Name" xml:space="preserve">
+    <value>CHK_enablecompass</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 319</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 57</value>
+  </data>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Mission Planner Mag Calibration</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>206, 319</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>OR</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 69</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>213, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Compass1 = External if present/else internal</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CMB_primary_compass.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>108, 44</value>
+  </data>
+  <data name="CMB_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 21</value>
+  </data>
+  <data name="CMB_primary_compass.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CMB_primary_compass.Name" xml:space="preserve">
+    <value>CMB_primary_compass</value>
+  </data>
+  <data name="&gt;&gt;CMB_primary_compass.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_primary_compass.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;CMB_primary_compass.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="LBL_primary_compass.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_primary_compass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 48</value>
+  </data>
+  <data name="LBL_primary_compass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>90, 13</value>
+  </data>
+  <data name="LBL_primary_compass.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="LBL_primary_compass.Text" xml:space="preserve">
+    <value>Primary Compass:</value>
+  </data>
+  <data name="&gt;&gt;LBL_primary_compass.Name" xml:space="preserve">
+    <value>LBL_primary_compass</value>
+  </data>
+  <data name="&gt;&gt;LBL_primary_compass.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_primary_compass.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;LBL_primary_compass.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_compass_learn.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass_learn.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass_learn.Location" type="System.Drawing.Point, System.Drawing">
+    <value>465, 18</value>
+  </data>
+  <data name="CHK_compass_learn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass_learn.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CHK_compass_learn.Text" xml:space="preserve">
+    <value>Automatically learn offsets</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass_learn.Name" xml:space="preserve">
+    <value>CHK_compass_learn</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass_learn.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass_learn.Parent" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass_learn.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxGeneralSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 72</value>
+  </data>
+  <data name="groupBoxGeneralSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>615, 85</value>
+  </data>
+  <data name="groupBoxGeneralSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="groupBoxGeneralSettings.Text" xml:space="preserve">
+    <value>General Compass Settings</value>
+  </data>
+  <data name="&gt;&gt;groupBoxGeneralSettings.Name" xml:space="preserve">
+    <value>groupBoxGeneralSettings</value>
+  </data>
+  <data name="&gt;&gt;groupBoxGeneralSettings.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxGeneralSettings.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxGeneralSettings.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Name" xml:space="preserve">
+    <value>LBL_compass1_mot</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Name" xml:space="preserve">
+    <value>LBL_compass1_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Name" xml:space="preserve">
+    <value>CHK_compass1_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Name" xml:space="preserve">
+    <value>CHK_compass1_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="groupBoxCompass1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 163</value>
+  </data>
+  <data name="groupBoxCompass1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 150</value>
   </data>
   <data name="groupBoxCompass1.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
-  <data name="&gt;&gt;CMB_compass1_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
+  <data name="groupBoxCompass1.Text" xml:space="preserve">
+    <value>Compass #1</value>
   </data>
-  <data name="groupBoxGeneralSettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 66</value>
+  <data name="&gt;&gt;groupBoxCompass1.Name" xml:space="preserve">
+    <value>groupBoxCompass1</value>
   </data>
-  <data name="&gt;&gt;groupBoxCompass3.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupBoxCompass1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="LBL_compass1_mot.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_compass1_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_compass1_mot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 120</value>
+  </data>
+  <data name="LBL_compass1_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="LBL_compass1_mot.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LBL_compass1_mot.Text" xml:space="preserve">
+    <value>MOT</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Name" xml:space="preserve">
+    <value>LBL_compass1_mot</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LBL_compass1_offset.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_compass1_offset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 103</value>
+  </data>
+  <data name="LBL_compass1_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="LBL_compass1_offset.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LBL_compass1_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Name" xml:space="preserve">
+    <value>LBL_compass1_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass1_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass1_external.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass1_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass1_external.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 39</value>
+  </data>
+  <data name="CHK_compass1_external.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass1_external.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass1_external.Text" xml:space="preserve">
+    <value>Externally mounted</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Name" xml:space="preserve">
+    <value>CHK_compass1_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_compass1_use.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass1_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass1_use.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 20</value>
+  </data>
+  <data name="CHK_compass1_use.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass1_use.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CHK_compass1_use.Text" xml:space="preserve">
+    <value>Use this compass</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Name" xml:space="preserve">
+    <value>CHK_compass1_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass1_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_mot.Name" xml:space="preserve">
+    <value>LBL_compass2_mot</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_mot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.Name" xml:space="preserve">
+    <value>LBL_compass2_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Name" xml:space="preserve">
+    <value>CHK_compass2_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Name" xml:space="preserve">
+    <value>CHK_compass2_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Name" xml:space="preserve">
+    <value>CMB_compass2_orient</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBoxCompass2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>223, 163</value>
+  </data>
+  <data name="groupBoxCompass2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 150</value>
+  </data>
+  <data name="groupBoxCompass2.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBoxCompass2.Text" xml:space="preserve">
+    <value>Compass #2</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass2.Name" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass2.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBoxCompass2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 12</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_min.Name" xml:space="preserve">
-    <value>TXT_declination_min</value>
-  </data>
-  <data name="CHK_compass2_use.Text" xml:space="preserve">
-    <value>Use this compass</value>
-  </data>
-  <data name="&gt;&gt;BUT_MagCalibrationLive.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CHK_compass_learn.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;buttonAPMExternal.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
-    <value>groupBoxCompass3</value>
-  </data>
-  <data name="&gt;&gt;timer1.Name" xml:space="preserve">
-    <value>timer1</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass_learn.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="CHK_autodec.Text" xml:space="preserve">
-    <value>Obtain declination automatically</value>
-  </data>
-  <data name="TXT_declination_min.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_compass1_use.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
-  </data>
-  <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ConfigHWCompass</value>
-  </data>
-  <data name="&gt;&gt;buttonQuickPixhawk.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_deg.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="LBL_compass1_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
-    <value>groupBoxCompass3</value>
-  </data>
-  <data name="LBL_compass2_mot.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;BUT_MagCalibrationLive.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5763.3298, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Onboard Mag Calibration</value>
-  </data>
-  <data name="&gt;&gt;lbl_obmagresult.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Minutes</value>
-  </data>
-  <data name="CMB_compass1_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="lbl_obmagresult.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 42</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_offset.Parent" xml:space="preserve">
-    <value>groupBoxCompass3</value>
-  </data>
-  <data name="CMB_compass2_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="buttonAPMExternal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>151, 21</value>
-  </data>
-  <data name="BUT_OBmagcalcancel.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_mot.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="CHK_compass3_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LBL_compass1_offset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 95</value>
-  </data>
-  <data name="BUT_MagCalibrationLive.Size" type="System.Drawing.Size, System.Drawing">
-    <value>66, 25</value>
-  </data>
-  <data name="CHK_compass2_external.Text" xml:space="preserve">
-    <value>Externally mounted</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Mission Planner Mag Calibration</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalaccept.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="TXT_declination_min.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 21</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_min.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;buttonQuickPixhawk.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>650, 417</value>
-  </data>
-  <data name="LBL_compass3_offset.Text" xml:space="preserve">
-    <value>OFFSET</value>
-  </data>
-  <data name="BUT_MagCalibrationLive.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;groupBoxCompass2.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="LBL_compass2_mot.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="LBL_compass1_mot.Text" xml:space="preserve">
-    <value>MOT</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="LBL_compass2_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="LBL_compass2_mot.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 111</value>
+    <value>9, 120</value>
   </data>
-  <data name="&gt;&gt;CMB_compass1_orient.Parent" xml:space="preserve">
-    <value>groupBoxCompass1</value>
+  <data name="LBL_compass2_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
-  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="LBL_compass2_mot.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
-    <value>9</value>
+  <data name="LBL_compass2_mot.Text" xml:space="preserve">
+    <value>MOT</value>
   </data>
-  <data name="&gt;&gt;BUT_OBmagcalaccept.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;groupBoxCompass1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 18</value>
-  </data>
-  <data name="buttonQuickPixhawk.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 21</value>
-  </data>
-  <data name="&gt;&gt;BUT_OBmagcalaccept.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="CHK_compass2_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass1_offset.Name" xml:space="preserve">
-    <value>LBL_compass1_offset</value>
-  </data>
-  <data name="CHK_compass3_use.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_compass1_external.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="BUT_OBmagcalstart.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="CHK_compass1_use.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>235, 294</value>
-  </data>
-  <data name="groupBoxCompass2.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="groupBoxCompass1.Text" xml:space="preserve">
-    <value>Compass #1</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass2_mot.Parent" xml:space="preserve">
-    <value>groupBoxCompass2</value>
-  </data>
-  <data name="&gt;&gt;buttonAPMExternal.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="CHK_compass1_external.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;buttonAPMExternal.Name" xml:space="preserve">
-    <value>buttonAPMExternal</value>
-  </data>
-  <data name="&gt;&gt;buttonQuickPixhawk.Name" xml:space="preserve">
-    <value>buttonQuickPixhawk</value>
-  </data>
-  <data name="LBL_compass3_offset.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="LBL_compass2_offset.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 12</value>
-  </data>
-  <data name="&gt;&gt;TXT_declination_deg.Parent" xml:space="preserve">
-    <value>groupBoxGeneralSettings</value>
-  </data>
-  <data name="&gt;&gt;linkLabelmagdec.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LBL_compass3_mot.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 294</value>
-  </data>
-  <data name="CHK_compass3_external.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="groupBoxCompass3.Text" xml:space="preserve">
-    <value>Compass #3</value>
-  </data>
-  <data name="&gt;&gt;linkLabel1.Name" xml:space="preserve">
-    <value>linkLabel1</value>
-  </data>
-  <data name="BUT_OBmagcalcancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_enablecompass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;LBL_compass2_mot.Name" xml:space="preserve">
+    <value>LBL_compass2_mot</value>
   </data>
   <data name="&gt;&gt;LBL_compass2_mot.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;LBL_compass2_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LBL_compass2_offset.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_compass2_offset.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_compass2_offset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 103</value>
+  </data>
+  <data name="LBL_compass2_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="LBL_compass2_offset.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LBL_compass2_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.Name" xml:space="preserve">
+    <value>LBL_compass2_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+  <data name="&gt;&gt;LBL_compass2_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass2_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass2_external.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass2_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass2_external.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 39</value>
+  </data>
+  <data name="CHK_compass2_external.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass2_external.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass2_external.Text" xml:space="preserve">
+    <value>Externally mounted</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Name" xml:space="preserve">
+    <value>CHK_compass2_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_compass2_use.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass2_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass2_use.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 20</value>
+  </data>
+  <data name="CHK_compass2_use.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass2_use.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="CHK_compass2_use.Text" xml:space="preserve">
+    <value>Use this compass</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Name" xml:space="preserve">
+    <value>CHK_compass2_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass2_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CMB_compass2_orient.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_compass2_orient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 68</value>
+  </data>
+  <data name="CMB_compass2_orient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 21</value>
+  </data>
+  <data name="CMB_compass2_orient.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Name" xml:space="preserve">
+    <value>CMB_compass2_orient</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.Parent" xml:space="preserve">
+    <value>groupBoxCompass2</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass2_orient.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Name" xml:space="preserve">
+    <value>LBL_compass3_mot</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Name" xml:space="preserve">
+    <value>LBL_compass3_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Name" xml:space="preserve">
+    <value>CHK_compass3_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Name" xml:space="preserve">
+    <value>CHK_compass3_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass3_orient.Name" xml:space="preserve">
+    <value>CMB_compass3_orient</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass3_orient.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBoxCompass3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>432, 163</value>
+  </data>
+  <data name="groupBoxCompass3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 150</value>
+  </data>
+  <data name="groupBoxCompass3.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="groupBoxCompass3.Text" xml:space="preserve">
+    <value>Compass #3</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass3.Name" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBoxCompass3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="LBL_compass3_mot.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_compass3_mot.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_compass3_mot.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 120</value>
+  </data>
+  <data name="LBL_compass3_mot.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="LBL_compass3_mot.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="LBL_compass3_mot.Text" xml:space="preserve">
+    <value>MOT</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Name" xml:space="preserve">
+    <value>LBL_compass3_mot</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_mot.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="LBL_compass3_offset.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LBL_compass3_offset.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="LBL_compass3_offset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 103</value>
+  </data>
+  <data name="LBL_compass3_offset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="LBL_compass3_offset.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="LBL_compass3_offset.Text" xml:space="preserve">
+    <value>OFFSET</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Name" xml:space="preserve">
+    <value>LBL_compass3_offset</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;LBL_compass3_offset.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass3_external.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_compass3_external.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_compass3_external.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 39</value>
+  </data>
+  <data name="CHK_compass3_external.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
+  </data>
+  <data name="CHK_compass3_external.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CHK_compass3_external.Text" xml:space="preserve">
+    <value>Externally mounted</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Name" xml:space="preserve">
+    <value>CHK_compass3_external</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_external.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_compass3_use.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="CHK_compass3_use.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="CHK_compass1_external.Text" xml:space="preserve">
-    <value>Externally mounted</value>
+  <data name="CHK_compass3_use.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 20</value>
   </data>
-  <data name="CHK_enablecompass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>148, 21</value>
+  <data name="CHK_compass3_use.Size" type="System.Drawing.Size, System.Drawing">
+    <value>148, 23</value>
   </data>
-  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="CHK_compass3_use.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="CHK_compass3_use.Text" xml:space="preserve">
+    <value>Use this compass</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Name" xml:space="preserve">
+    <value>CHK_compass3_use</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
+  </data>
+  <data name="&gt;&gt;CHK_compass3_use.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CMB_compass3_orient.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_compass3_orient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 68</value>
+  </data>
+  <data name="CMB_compass3_orient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>182, 21</value>
+  </data>
+  <data name="CMB_compass3_orient.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;CMB_compass3_orient.Name" xml:space="preserve">
+    <value>CMB_compass3_orient</value>
   </data>
-  <data name="lbl_obmagresult.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="&gt;&gt;CMB_compass3_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5895.32885, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="linkLabelmagdec.Text" xml:space="preserve">
-    <value>Declination WebSite</value>
+  <data name="&gt;&gt;CMB_compass3_orient.Parent" xml:space="preserve">
+    <value>groupBoxCompass3</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
-    <value>groupBox5</value>
-  </data>
-  <data name="BUT_OBmagcalstart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 18</value>
-  </data>
-  <data name="buttonAPMExternal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>497, 30</value>
-  </data>
-  <data name="&gt;&gt;CMB_primary_compass.Name" xml:space="preserve">
-    <value>CMB_primary_compass</value>
+  <data name="&gt;&gt;CMB_compass3_orient.ZOrder" xml:space="preserve">
+    <value>4</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>50</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>650, 452</value>
+  </data>
+  <data name="&gt;&gt;timer1.Name" xml:space="preserve">
+    <value>timer1</value>
+  </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigHWCompass</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
 </root>
