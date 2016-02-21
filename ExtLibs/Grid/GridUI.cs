@@ -1456,7 +1456,7 @@ namespace MissionPlanner
                                 if (rad_digicam.Checked)
                                 {
                                     AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 1, 0, 0, 0);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 0, 1, 0, 0);
                                 }
                             }
                             else
