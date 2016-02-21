@@ -681,6 +681,8 @@ namespace MissionPlanner.GCSViews
         {
             quickadd = true;
 
+            Visible = false;
+
             config(false);
 
             quickadd = false;
@@ -748,6 +750,8 @@ namespace MissionPlanner.GCSViews
             {
                 switchDockingToolStripMenuItem_Click(null, null);
             }
+
+            Visible = true;
 
             timer1.Start();
         }
