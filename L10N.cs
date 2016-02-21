@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -12,6 +13,8 @@ namespace MissionPlanner
     public class L10N
     {
         public static CultureInfo ConfigLang;
+        public static bool isMirrorAvailable = true;
+        public static bool isMirrorAvailableChecked = false;
 
         static L10N()
         {
@@ -35,34 +38,97 @@ namespace MissionPlanner
 
         public static string ReplaceMirrorUrl(ref string url)
         {
+            if (!isMirrorAvailableChecked) CheckMirror();
+            if (isMirrorAvailable)
+            {
+                switch (ConfigLang.Name)
+                {
+                    case "zh-CN":
+                    case "zh-Hans":
+                        if (url.Contains("firmware.diydrones.com"))
+                        {
+                            url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
+                        }
+                        else if (url.Contains("raw.github.com"))
+                        {
+                            url = url.Replace("raw.github.com", "githubraw.diywrj.com");
+                        }
+                        /*
+                        else if (url.Contains("raw.githubusercontent.com"))
+                        {
+                            url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
+                        }
+                        else if (url.Contains("github.com"))
+                        {
+                            url = url.Replace("github.com", "github.diywrj.com");
+                        }
+                        */
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return url;
+        }
+
+        public static void CheckMirror()
+        {
             switch (ConfigLang.Name)
             {
                 case "zh-CN":
                 case "zh-Hans":
-                    if (url.Contains("firmware.diydrones.com"))
+                    bool isDIYWRJ = CheckHTTP("http://firmware.diywrj.com");
+                    bool isDIYDRONES = Ping("firmware.diydrones.com");
+                    bool isGITHUB = Ping("raw.github.com");
+                    if (!isDIYWRJ)
                     {
-                        url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
+                        string notice = String.Format("[✘] 奠基网国内镜像\r\n\r\n{0} diydrones官网服务器\r\n\r\n{1} GitHub服务器\r\n\r\n您的固件下载和软件更新可能会受到影响。", (isDIYDRONES ? "[✔]" : "[✘]"), (isGITHUB ? "[✔]" : "[✘]"));
+                        CustomMessageBox.Show(notice, "服务器连通性检查");
                     }
-                    else if (url.Contains("raw.github.com"))
-                    {
-                        url = url.Replace("raw.github.com", "githubraw.diywrj.com");
-                    }
-                    /*
-                    else if (url.Contains("raw.githubusercontent.com"))
-                    {
-                        url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
-                    }
-                    else if (url.Contains("github.com"))
-                    {
-                        url = url.Replace("github.com", "github.diywrj.com");
-                    }
-                    */
-                    break;
-                default:
                     break;
             }
+            isMirrorAvailableChecked = true;
+        }
 
-            return url;
+        public static bool Ping(string ip)
+        {
+            try
+            {
+                System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping();
+                System.Net.NetworkInformation.PingOptions options = new System.Net.NetworkInformation.PingOptions();
+                options.DontFragment = true;
+                string data = "MissionPlanner";
+                byte[] buffer = Encoding.ASCII.GetBytes(data);
+                int timeout = 500;
+                System.Net.NetworkInformation.PingReply reply = p.Send(ip, timeout, buffer, options);
+                if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool CheckHTTP(string url)
+        {
+            try
+            {
+                HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
+                req.Timeout = 500;
+                HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+                if (response.StatusCode == HttpStatusCode.OK)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
