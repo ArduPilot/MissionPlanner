@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // check for change
             if (MainV2.Advanced != chk_advview.Checked)
             {
-                MainV2.config["advancedview"] = chk_advview.Checked.ToString();
+                Settings.Instance["advancedview"] = chk_advview.Checked.ToString();
                 MainV2.Advanced = chk_advview.Checked;
 
                 MainV2.View.Reload();

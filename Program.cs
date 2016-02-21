@@ -106,10 +106,10 @@ namespace MissionPlanner
             {
                 vvvvz = true;
                 // set pw
-                MainV2.config["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
-                MainV2.config["password_protect"] = "True";
+                Settings.Instance["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
+                Settings.Instance["password_protect"] = "True";
                 // prevent wizard
-                MainV2.config["newuser"] = "11/02/2014";
+                Settings.Instance["newuser"] = "11/02/2014";
                 // invalidate update url
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
@@ -174,13 +174,13 @@ namespace MissionPlanner
         {
             if (set)
             {
-                MainV2.config[name] = value;
+                Settings.Instance[name] = value;
                 return value;
             }
 
-            if (MainV2.config.ContainsKey(name))
+            if (Settings.Instance.ContainsKey(name))
             {
-                return MainV2.config[name].ToString();
+                return Settings.Instance[name].ToString();
             }
 
             return "";

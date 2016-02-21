@@ -192,7 +192,7 @@ namespace MissionPlanner
                                     new PointLatLngAlt(gotolocation)
                                     {
                                         Alt =
-                                            gotolocation.Alt + double.Parse(MainV2.config["TXT_DefaultAlt"].ToString())
+                                            gotolocation.Alt + double.Parse(Settings.Instance["TXT_DefaultAlt"].ToString())
                                     },
                                     0, 0, 0, (byte) (float) MainV2.comPort.MAV.param["RALLY_TOTAL"]);
 

@@ -190,7 +190,7 @@ namespace MissionPlanner.Log
 
                 MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
 
-                logfile = MainV2.LogDir + Path.DirectorySeparatorChar
+                logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                           + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") +
                           " " +
@@ -227,7 +227,7 @@ namespace MissionPlanner.Log
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
             {
-                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
+                string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                         + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                                         + hbpacket[3] + Path.DirectorySeparatorChar +
                                         logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
@@ -397,7 +397,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -446,7 +446,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ICSharpCode.SharpZipLib.Core;
 using ICSharpCode.SharpZipLib.Zip;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -12,7 +13,7 @@ namespace MissionPlanner.Log
     {
         public static void ScanAccel()
         {
-            string[] files = Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(Settings.Instance.LogDir, "*.tlog", SearchOption.AllDirectories);
 
             List<string> badfiles = new List<string>();
 
@@ -77,7 +78,7 @@ namespace MissionPlanner.Log
 
             if (badfiles.Count > 0)
             {
-                FileStream fs = File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + "SearchResults.zip",
+                FileStream fs = File.Open(Settings.Instance.LogDir + Path.DirectorySeparatorChar + "SearchResults.zip",
                     FileMode.Create);
                 ZipOutputStream zipStream = new ZipOutputStream(fs);
                 zipStream.SetLevel(9); //0-9, 9 being the highest level of compression
@@ -107,7 +108,7 @@ namespace MissionPlanner.Log
                 zipStream.IsStreamOwner = true; // Makes the Close also Close the underlying stream
                 zipStream.Close();
 
-                CustomMessageBox.Show("Added " + badfiles.Count + " logs to " + MainV2.LogDir +
+                CustomMessageBox.Show("Added " + badfiles.Count + " logs to " + Settings.Instance.LogDir +
                                       Path.DirectorySeparatorChar +
                                       "SearchResults.zip\n Please send this file to Craig Elder <craig@3drobotics.com>");
             }
