@@ -790,7 +790,7 @@ Please check the following
 
                         if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32);
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
@@ -984,7 +984,7 @@ Please check the following
 
                         if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value, MAV_PARAM_TYPE.REAL32);
+                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
                         }
                         else
                         {
@@ -1148,7 +1148,7 @@ Please check the following
                         // update table
                         if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32);
+                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
@@ -3054,7 +3054,7 @@ Please check the following
 
                 if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                 {
-                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, value.param_value, MAV_PARAM_TYPE.REAL32);
+                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, value.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)value.param_type);
                 }
                 else
                 {
