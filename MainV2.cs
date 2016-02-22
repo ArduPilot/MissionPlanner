@@ -548,8 +548,16 @@ namespace MissionPlanner
 
             if (Settings.Instance["theme"] != null)
             {
-                ThemeManager.SetTheme(
-                    (ThemeManager.Themes) Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
+                try
+                {
+                    ThemeManager.SetTheme(
+                        (ThemeManager.Themes)
+                            Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
+                }
+                catch (Exception exception)
+                {
+                    log.Error(exception);
+                }
 
                 if (ThemeManager.CurrentTheme == ThemeManager.Themes.Custom)
                 {
