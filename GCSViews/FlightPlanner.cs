@@ -5584,6 +5584,11 @@ namespace MissionPlanner.GCSViews
             }
             else if (pm != null)
             {
+                if (pm.Geometry is SharpKml.Dom.Point)
+                {
+                    var point = ((SharpKml.Dom.Point)pm.Geometry).Coordinate;
+                    POI.POIAdd(new PointLatLngAlt(point.Latitude, point.Longitude), pm.Name);
+                }
             }
             else if (polygon != null)
             {
