@@ -72,6 +72,9 @@ namespace MissionPlanner.GCSViews
 
         List<int> groupmarkers = new List<int>();
 
+        // declare an io port for bluetooth broadcast
+        public System.IO.Ports.SerialPort btPort;
+
         public enum altmode
         {
             Relative = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
