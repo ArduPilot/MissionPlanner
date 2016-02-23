@@ -37,6 +37,7 @@ using Feature = SharpKml.Dom.Feature;
 using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
+using System.IO.Ports;
 
 namespace MissionPlanner.GCSViews
 {
@@ -674,6 +675,11 @@ namespace MissionPlanner.GCSViews
                 }
             }
             writeKML();
+        }
+
+        private void AutolifeguardsMode(object sender, EventArgs e)
+        {
+
         }
 
         private void FlightPlanner_Load(object sender, EventArgs e)
@@ -6201,5 +6207,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 writeKML();
             }
         }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        
     }
 }
