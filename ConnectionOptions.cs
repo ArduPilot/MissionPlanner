@@ -41,6 +41,8 @@ namespace MissionPlanner
                 MainV2.instance.doConnect(mav, CMB_serialport.Text, CMB_baudrate.Text);
 
                 MainV2.Comports.Add(mav);
+
+                MainV2._connectionControl.UpdateSysIDS();
             }
             catch (Exception ex)
             {

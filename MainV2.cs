@@ -1238,16 +1238,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                _connectionControl.cmb_sysid.Enabled = false;
-
-                // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.MAVlist.Count > 1)
-                {
-                    // we have more than one mav
-                    // user selection of sysid
-                    _connectionControl.cmb_sysid.DataSource = MainV2.comPort.MAVlist.GetRawIDS();
-                    _connectionControl.cmb_sysid.Enabled = true;
-                }
+                // user selection of sysid
+                _connectionControl.UpdateSysIDS();
 
                 // get all mavstates
                 var list = comPort.MAVlist.GetMAVStates();
@@ -1451,6 +1443,8 @@ namespace MissionPlanner
             {
                 doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
+
+            MainV2._connectionControl.UpdateSysIDS();
         }
 
         private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
@@ -2706,13 +2700,9 @@ namespace MissionPlanner
                 frm.Show();
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.X)) // select sysid
+            if (keyData == (Keys.Control | Keys.X)) 
             {
-                MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-                id.TopMost = true;
-                id.Show();
 
-                return true;
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {

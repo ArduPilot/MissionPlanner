@@ -348,12 +348,6 @@
     <Compile Include="Controls\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SysidSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\SysidSelector.Designer.cs">
-      <DependentUpon>SysidSelector.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\ThemeColors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -751,9 +745,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SysidSelector.resx">
-      <DependentUpon>SysidSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.ja-JP.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
