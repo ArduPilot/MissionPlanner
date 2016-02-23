@@ -1803,6 +1803,35 @@ Please check the following
 
                         break;
                     }
+                    else if (buffer[5] == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
+                    {
+                        //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
+
+                        var wp = buffer.ByteArrayToStructure<mavlink_mission_item_int_t>(6);
+
+                        // received a packet, but not what we requested
+                        if (req.seq != wp.seq)
+                        {
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            continue;
+                        }
+
+                        loc.options = (byte)(wp.frame);
+                        loc.id = (byte)(wp.command);
+                        loc.p1 = (wp.param1);
+                        loc.p2 = (wp.param2);
+                        loc.p3 = (wp.param3);
+                        loc.p4 = (wp.param4);
+
+                        loc.alt = ((wp.z));
+                        loc.lat = ((wp.x / 1.0e7));
+                        loc.lng = ((wp.y / 1.0e7));
+
+                        log.InfoFormat("getWPint {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat, loc.lng,
+                            loc.options);
+
+                        break;
+                    }
                     else
                     {
                         log.Info(DateTime.Now + " PC getwp " + buffer[5]);
