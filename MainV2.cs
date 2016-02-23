@@ -2245,7 +2245,7 @@ namespace MissionPlanner
                     }
 
                     // read the interfaces
-                    foreach (var port in Comports)
+                    foreach (var port in Comports.ToArray())
                     {
                         if (!port.BaseStream.IsOpen)
                         {
