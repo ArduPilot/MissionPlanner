@@ -682,7 +682,72 @@ namespace MissionPlanner.GCSViews
 
         private void AutolifeguardsMode(object sender, EventArgs e)
         {
+            panelAL.Enabled = true;
+            foreach (String s in System.IO.Ports.SerialPort.GetPortNames())
+            {
+                cmbPort.Items.Add(s);
+            }
+        }
 
+        private void btnBtCnt_Click(object sender, EventArgs e)
+        {
+            String port = cmbPort.Text;
+            int baudrate = Convert.ToInt32(cmbBaudRate.Text);
+            Parity parity = (Parity)Enum.Parse(typeof(Parity), "None");
+            int databits = Convert.ToInt32("8");
+            StopBits stopbits = (StopBits)Enum.Parse(typeof(StopBits), "One");
+
+            serialport_connect(port, baudrate, parity, databits, stopbits);
+        }
+
+        public void serialport_connect(String port, int baudrate, Parity parity, int databits, StopBits stopbits)
+        {
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+
+            btPort = new System.IO.Ports.SerialPort(
+            port, baudrate, parity, databits, stopbits);
+
+            try
+            {
+                btPort.Open();
+                btnDisconnect.Enabled = true;
+                btnBtCnt.Enabled = false;
+                txtReceive.AppendText("[" + dtn + "] " + "Connected\n");
+                btPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedByPort);
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString(), "Error"); }
+        }
+
+        private void DataReceivedByPort(object sender, SerialDataReceivedEventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+
+            txtReceive.AppendText("[" + dtn + "] " + "Received: " + btPort.ReadExisting() + "\n");
+        }
+
+        private void btnDisconnect_Click(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+
+            if (btPort.IsOpen)
+            {
+                btPort.Close();
+                btnDisconnect.Enabled = false;
+                btnBtCnt.Enabled = true;
+                txtReceive.AppendText("[" + dtn + "] " + "Disconnected\n");
+            }
+        }
+
+        private void btnSendMsg_Click(object sender, EventArgs e)
+        {
+            DateTime dt = DateTime.Now;
+            String dtn = dt.ToShortTimeString();
+            String data = txtDataToSend.Text;
+            btPort.Write(data);
+            txtReceive.AppendText("[" + dtn + "] " + "Sent: " + data + "\n");
         }
 
         private void FlightPlanner_Load(object sender, EventArgs e)
@@ -6215,6 +6280,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
 
         }
+
+        
+
+        
 
         
     }
