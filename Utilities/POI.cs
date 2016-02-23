@@ -21,6 +21,19 @@ namespace MissionPlanner.Utilities
 
         public static event EventHandler POIModified;
 
+        public static void POIAdd(PointLatLngAlt Point, string tag)
+        {
+            // local copy
+            PointLatLngAlt pnt = Point;
+
+            pnt.Tag = tag + "\n" + pnt.ToString();
+
+            POI.POIs.Add(pnt);
+
+            if (POIModified != null)
+                POIModified(null, null);
+        }
+
         public static void POIAdd(PointLatLngAlt Point)
         {
             if (Point == null)
@@ -33,12 +46,7 @@ namespace MissionPlanner.Utilities
             if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
                 return;
 
-            pnt.Tag = output + "\n" + pnt.ToString();
-
-            POI.POIs.Add(pnt);
-
-            if (POIModified != null)
-                POIModified(null, null);
+            POIAdd(Point, output);
         }
 
         public static void POIDelete(PointLatLngAlt Point)

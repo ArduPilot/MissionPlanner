@@ -103,8 +103,7 @@ namespace MissionPlanner.Utilities
 
         static string GetDefaultLogDir()
         {
-            string appName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+            string directory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"logs";
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -170,8 +169,7 @@ namespace MissionPlanner.Utilities
 
         public static string GetFullPath()
         {
-            string appName = Path.GetFileNameWithoutExtension(Application.ExecutablePath);
-            string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), appName);
+            string directory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar;
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);

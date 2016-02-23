@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
+using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner;
 using GMap.NET;
+using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Utilities;
-using ProjNet.CoordinateSystems;
-using ProjNet.CoordinateSystems.Transformations;
 
 namespace MissionPlanner
 {
@@ -44,18 +38,13 @@ namespace MissionPlanner
 
         static void addtomap(linelatlng pos)
         {
-            return;
-            //List<PointLatLng> list = new List<PointLatLng>();
-            //list.Add(pos.p1.ToLLA());
-            //list.Add(pos.p2.ToLLA());
+            List<PointLatLng> list = new List<PointLatLng>();
+            list.Add(pos.p1.ToLLA());
+            list.Add(pos.p2.ToLLA());
 
-         //   polygons.Routes.Add(new GMapRoute(list, "test") { Stroke = new System.Drawing.Pen(System.Drawing.Color.Yellow,4) });
-            
-            //.Markers.Add(new GMapMarkerGoogleRed(pnt));
+            polygons.Routes.Add(new GMapRoute(list, "test") { Stroke = new System.Drawing.Pen(System.Drawing.Color.Yellow,4) });
 
-            //map.ZoomAndCenterRoutes("polygons");
-
-           // map.Invalidate();
+            map.ZoomAndCenterRoutes("polygons");
         }
 
 
@@ -66,16 +55,36 @@ namespace MissionPlanner
         /// <param name="tag"></param>
         static void addtomap(utmpos pos, string tag)
         {
-            //tag = (no++).ToString();
-            //polygons.Markers.Add(new GMapMarkerGoogleRed(pos.ToLLA()));// { ToolTipText = tag, ToolTipMode = MarkerTooltipMode.Always } );
+            if (tag == "M")
+                return;
 
-            //map.ZoomAndCenterMarkers("polygons");
+            polygons.Markers.Add(new GMapMarkerWP(pos.ToLLA(), tag));
 
-            //map.Invalidate();
+            map.ZoomAndCenterMarkers("polygons");
+
+            map.Invalidate();
+        }
+
+        static GMapOverlay polygons = new GMapOverlay("polygons");
+        static GMapControl map = new GMapControl();
+
+        static void DoDebug()
+        {
+            polygons = new GMapOverlay("polygons");
+            map = new GMapControl();
+            var form = new Form() {Size = new Size(1024, 768), WindowState = FormWindowState.Maximized};
+            map.Dock = DockStyle.Fill;
+            map.MapProvider = GMapProviders.GoogleSatelliteMap;
+            map.MaxZoom = 20;
+            map.Overlays.Add(polygons);
+            form.Controls.Add(map);
+            form.Show();
         }
 
         public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin = 0)
         {
+            //DoDebug();
+
             if (spacing < 10 && spacing != 0)
                 spacing = 10;
 

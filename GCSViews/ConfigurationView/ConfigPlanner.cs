@@ -121,6 +121,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             //set hud color state
             var hudcolor = Settings.Instance["hudcolor"];
+            if (hudcolor != null)
+            {
             var index = CMB_osdcolor.Items.IndexOf(hudcolor ?? "White");
             try
             {
@@ -128,6 +130,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
+            }
             }
 
 

@@ -548,8 +548,16 @@ namespace MissionPlanner
 
             if (Settings.Instance["theme"] != null)
             {
+                try
+                {
                 ThemeManager.SetTheme(
-                    (ThemeManager.Themes) Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
+                        (ThemeManager.Themes)
+                            Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
+                }
+                catch (Exception exception)
+                {
+                    log.Error(exception);
+                }
 
                 if (ThemeManager.CurrentTheme == ThemeManager.Themes.Custom)
                 {
@@ -669,9 +677,9 @@ namespace MissionPlanner
                     {
                         if (s.WorkingArea.Contains(startpos))
                         {
-                            this.Location = startpos;
+                    this.Location = startpos;
                             break;
-                        }
+                }
                     }
 
                 }
@@ -742,7 +750,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(
                     "NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
-            
+
             // create log dir if it doesnt exist
             if (!Directory.Exists(Settings.Instance.LogDir))
                 Directory.CreateDirectory(Settings.Instance.LogDir);
@@ -1230,16 +1238,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                _connectionControl.cmb_sysid.Enabled = false;
-
-                // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.MAVlist.Count > 1)
-                {
-                    // we have more than one mav
                     // user selection of sysid
-                    _connectionControl.cmb_sysid.DataSource = MainV2.comPort.MAVlist.GetRawIDS();
-                    _connectionControl.cmb_sysid.Enabled = true;
-                }
+                _connectionControl.UpdateSysIDS();
 
                 // get all mavstates
                 var list = comPort.MAVlist.GetMAVStates();
@@ -1443,6 +1443,8 @@ namespace MissionPlanner
             {
                 doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
+
+            MainV2._connectionControl.UpdateSysIDS();
         }
 
         private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
@@ -1653,25 +1655,25 @@ namespace MissionPlanner
         }
 
         private void LoadConfig()
-        {
-            try
-            {
+                    {
+                        try
+                        {
                 log.Info("Loading config");
 
                 Settings.Instance.Load();
 
                 comPortName = Settings.Instance.ComPort;
-            }
-            catch (Exception ex)
-            {
+                }
+                catch (Exception ex)
+                {
                 log.Error("Bad Config File", ex);
+                }
             }
-        }
 
         private void SaveConfig()
-        {
-            try
             {
+                try
+                {
                 log.Info("Saving config");
                 Settings.Instance.ComPort = comPortName;
 
@@ -1681,9 +1683,9 @@ namespace MissionPlanner
                 Settings.Instance.APMFirmware = MainV2.comPort.MAV.cs.firmware.ToString();
 
                 Settings.Instance.Save();
-            }
-            catch (Exception ex)
-            {
+                }
+                catch (Exception ex)
+                {
                 CustomMessageBox.Show(ex.ToString());
             }
         }
@@ -2173,7 +2175,7 @@ namespace MissionPlanner
                             {
                                 string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
                                 if (!string.IsNullOrEmpty(speech))
-                                {
+                            {
                                     MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
                                 }
                             }
@@ -2698,13 +2700,9 @@ namespace MissionPlanner
                 frm.Show();
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.X)) // select sysid
+            if (keyData == (Keys.Control | Keys.X)) 
             {
-                MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-                id.TopMost = true;
-                id.Show();
 
-                return true;
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
