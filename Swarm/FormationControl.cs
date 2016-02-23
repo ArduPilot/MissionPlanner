@@ -292,6 +292,15 @@ namespace MissionPlanner.Swarm
                         ((Status) ctl).MAV.Text = port.ToString();
                         ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
                                                      port.MAV.GuidedMode.z;
+
+                        if (port == SwarmInterface.Leader)
+                        {
+                            ((Status)ctl).ForeColor = Color.Red;
+                        }
+                        else
+                        {
+                            ((Status)ctl).ForeColor = Color.Black;
+                        }
                     }
                 }
 
