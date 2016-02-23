@@ -167,10 +167,12 @@
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
+      <HintPath>ExtLibs\Microsoft.DirectX.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
+      <HintPath>ExtLibs\Microsoft.DirectX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="mtrand, Version=0.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
@@ -345,12 +347,6 @@
     </Compile>
     <Compile Include="Controls\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SysidSelector.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\SysidSelector.Designer.cs">
-      <DependentUpon>SysidSelector.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ThemeColors.cs">
       <SubType>Form</SubType>
@@ -749,9 +745,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SysidSelector.resx">
-      <DependentUpon>SysidSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.ja-JP.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>

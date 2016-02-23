@@ -251,9 +251,6 @@
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="cmb_sysid.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="cmb_sysid.Location" type="System.Drawing.Point, System.Drawing">
     <value>49, 31</value>
   </data>

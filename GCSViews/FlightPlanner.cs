@@ -681,6 +681,8 @@ namespace MissionPlanner.GCSViews
         {
             quickadd = true;
 
+            Visible = false;
+
             config(false);
 
             quickadd = false;
@@ -748,6 +750,8 @@ namespace MissionPlanner.GCSViews
             {
                 switchDockingToolStripMenuItem_Click(null, null);
             }
+
+            Visible = true;
 
             timer1.Start();
         }
@@ -3703,7 +3707,7 @@ namespace MissionPlanner.GCSViews
             string sunits = Settings.Instance["distunits"];
             Common.distances units = Common.distances.Meters;
 
-            if (sunits != "")
+            if (sunits != null)
                 try
                 {
                     units = (Common.distances) Enum.Parse(typeof (Common.distances), sunits);
@@ -5580,6 +5584,11 @@ namespace MissionPlanner.GCSViews
             }
             else if (pm != null)
             {
+                if (pm.Geometry is SharpKml.Dom.Point)
+                {
+                    var point = ((SharpKml.Dom.Point)pm.Geometry).Coordinate;
+                    POI.POIAdd(new PointLatLngAlt(point.Latitude, point.Longitude), pm.Name);
+                }
             }
             else if (polygon != null)
             {

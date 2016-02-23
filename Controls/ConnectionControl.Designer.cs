@@ -91,9 +91,9 @@
             // 
             this.cmb_sysid.BackColor = System.Drawing.Color.Black;
             this.cmb_sysid.DropDownWidth = 160;
-            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
             this.cmb_sysid.ForeColor = System.Drawing.Color.White;
             this.cmb_sysid.FormattingEnabled = true;
+            resources.ApplyResources(this.cmb_sysid, "cmb_sysid");
             this.cmb_sysid.Name = "cmb_sysid";
             this.cmb_sysid.SelectedIndexChanged += new System.EventHandler(this.CMB_sysid_SelectedIndexChanged);
             this.cmb_sysid.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.cmb_sysid_Format);
@@ -121,6 +121,6 @@
         private System.Windows.Forms.ComboBox cmb_ConnectionType;
         private System.Windows.Forms.ComboBox cmb_Connection;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        public System.Windows.Forms.ComboBox cmb_sysid;
+        private System.Windows.Forms.ComboBox cmb_sysid;
     }
 }
