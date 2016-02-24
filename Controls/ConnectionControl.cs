@@ -138,7 +138,7 @@ namespace MissionPlanner.Controls
             {
                 if (port == temp.port)
                 {
-                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[port.sysidcurrent, port.compidcurrent].aptype.ToString() + "-" + ((int)port.sysidcurrent);
+                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.sysid);
                 }
             }
         }

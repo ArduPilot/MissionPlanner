@@ -308,8 +308,11 @@ namespace MissionPlanner
 
             giveComport = true;
 
-            // allow settings to settle - previous dtr 
-            System.Threading.Thread.Sleep(1000);
+            if (BaseStream is SerialPort)
+            {
+                // allow settings to settle - previous dtr 
+                System.Threading.Thread.Sleep(1000);
+            }
 
             Terrain = new TerrainFollow(this);
 
