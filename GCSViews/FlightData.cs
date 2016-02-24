@@ -3219,8 +3219,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 if (MainV2.comPort.MAV.cs.armed)
-                    if (CustomMessageBox.Show("Are you sure you want to Disarm?", "Disarm?", MessageBoxButtons.YesNo) ==
-                        DialogResult.No)
+                    if (CustomMessageBox.Show("Are you sure you want to Disarm?", "Disarm?", MessageBoxButtons.YesNo) !=
+                        DialogResult.Yes)
                         return;
 
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
