@@ -3669,9 +3669,12 @@ Please check the following
                 }
                 else
                 {
-                    date1 = date1.AddMilliseconds(dateint/1000);
+                    if ((dateint/1000/1000/60/60) < 9999999)
+                    {
+                        date1 = date1.AddMilliseconds(dateint/1000);
 
-                    lastlogread = date1.ToLocalTime();
+                        lastlogread = date1.ToLocalTime();
+                    }
                 }
             }
             catch
