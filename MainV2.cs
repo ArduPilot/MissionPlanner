@@ -17,6 +17,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Comms;
 using Transitions;
 using System.Speech.Synthesis;
+using MissionPlanner.Warnings;
 
 namespace MissionPlanner
 {
@@ -237,7 +238,23 @@ namespace MissionPlanner
         /// <summary>
         /// Active Comport interface
         /// </summary>
-        public static MAVLinkInterface comPort = new MAVLinkInterface();
+        public static MAVLinkInterface comPort
+        {
+            get
+            {
+                return _comPort;
+            }
+            set {
+                if (_comPort == value)
+                    return;
+                _comPort = value;
+                _comPort.MavChanged -= instance.comPort_MavChanged;
+                _comPort.MavChanged += instance.comPort_MavChanged;
+                instance.comPort_MavChanged(null, null);
+            }
+        }
+
+        static MAVLinkInterface _comPort = new MAVLinkInterface();
 
         /// <summary>
         /// passive comports
@@ -812,6 +829,14 @@ namespace MissionPlanner
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
+            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
+
+            HUD.Custom.src = MainV2.comPort.MAV.cs;
+
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
+
             // when uploading a firmware we dont want to reload this screen.
             if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
                 && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")

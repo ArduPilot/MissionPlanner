@@ -223,8 +223,6 @@ namespace MissionPlanner.GCSViews
                 hud1.hudcolor = Color.FromName(Settings.Instance["hudcolor"]);
             }
 
-            MainV2.comPort.MavChanged += comPort_MavChanged;
-
             log.Info("HUD Settings");
             foreach (string item in Settings.Instance.Keys)
             {
@@ -340,17 +338,6 @@ namespace MissionPlanner.GCSViews
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
-        }
-
-        void comPort_MavChanged(object sender, EventArgs e)
-        {
-            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
-
-            HUD.Custom.src = MainV2.comPort.MAV.cs;
-
-            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
-
-            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;
