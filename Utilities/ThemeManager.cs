@@ -803,10 +803,13 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
-                    ctl.BackColor = ControlBGColor;
+                    ctl.BackColor = TextColor;
                     ctl.ForeColor = TextColor;
                     RichTextBox txtr = (RichTextBox) ctl;
                     txtr.BorderStyle = BorderStyle.None;
+
+                    txtr.SelectAll();
+                    txtr.SelectionColor = TextColor;
                 }
                 else if (ctl.GetType() == typeof (CheckedListBox))
                 {
