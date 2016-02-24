@@ -154,8 +154,8 @@
   <data name="backstageViewPageopt.Text" xml:space="preserve">
     <value>可选硬件</value>
   </data>
-  <data name="backstageViewPage3drradio.Text" xml:space="preserve">
-    <value>3DR电台(数传)</value>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>SiK电台(数传)</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
     <value>电池监测器</value>
