@@ -79,12 +79,13 @@ namespace MissionPlanner
                 case "zh-CN":
                 case "zh-Hans":
                     bool isDIYWRJ = CheckHTTP("http://firmware.diywrj.com");
-                    bool isDIYDRONES = Ping("firmware.diydrones.com");
+                    bool isDIYDRONES = CheckHTTP("http://firmware.diydrones.com");
                     bool isGITHUB = Ping("raw.github.com");
                     if (!isDIYWRJ)
                     {
-                        string notice = String.Format("[✘] 奠基网国内镜像\r\n\r\n{0} diydrones官网服务器\r\n\r\n{1} GitHub服务器\r\n\r\n您的固件下载和软件更新可能会受到影响。", (isDIYDRONES ? "[✔]" : "[✘]"), (isGITHUB ? "[✔]" : "[✘]"));
+                        string notice = String.Format("[✘] 奠基网国内镜像\r\n\r\n{0} diydrones官网服务器\r\n\r\n{1} GitHub服务器\r\n\r\n已切换到官网服务器，\r\n您的固件下载和软件更新可能会受到影响。", (isDIYDRONES ? "[✔]" : "[✘]"), (isGITHUB ? "[✔]" : "[✘]"));
                         CustomMessageBox.Show(notice, "服务器连通性检查");
+                        isMirrorAvailable = false;
                     }
                     break;
             }
