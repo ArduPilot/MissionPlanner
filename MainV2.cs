@@ -863,6 +863,8 @@ namespace MissionPlanner
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
+            
+            ThemeManager.ApplyThemeTo(MainMenu);
 
             MainMenu.BackgroundImage = displayicons.bg;
 
@@ -1238,9 +1240,6 @@ namespace MissionPlanner
                     return;
                 }
 
-                // user selection of sysid
-                _connectionControl.UpdateSysIDS();
-
                 // get all mavstates
                 var list = comPort.MAVlist.GetMAVStates();
 
@@ -1255,6 +1254,8 @@ namespace MissionPlanner
                 // set to first seen
                 comPort.sysidcurrent = list[0].sysid;
                 comPort.compidcurrent = list[0].compid;
+
+                _connectionControl.UpdateSysIDS();
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
