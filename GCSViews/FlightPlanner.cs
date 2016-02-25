@@ -4044,7 +4044,7 @@ namespace MissionPlanner.GCSViews
                 {
                     routesoverlay.Markers.Add(new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw,
                         MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing,
-                        MainV2.comPort.MAV.cs.target_bearing));
+                        MainV2.comPort.MAV.cs.target_bearing, MainV2.comPort.MAV.cs.radius));
                 }
                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                 {

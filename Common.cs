@@ -263,14 +263,16 @@ namespace MissionPlanner
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
+        float radius = -1;
 
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target)
+        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target, float radius)
             : base(p)
         {
             this.heading = heading;
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
+            this.radius = radius;
             Size = icon.Size;
         }
 
@@ -302,47 +304,38 @@ namespace MissionPlanner
             {
                 float desired_lead_dist = 100;
 
-
                 double width =
                     (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
                         Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
                 double m2pixelwidth = Overlay.Control.Width/width;
 
-                float alpha = ((desired_lead_dist*(float) m2pixelwidth)/MainV2.comPort.MAV.cs.radius)*rad2deg;
+                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
 
-                if (MainV2.comPort.MAV.cs.radius < -1)
+                if (radius < -1)
                 {
                     // fixme 
 
-                    float p1 = (float) Math.Cos((cog)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog) * deg2rad) * radius + radius;
 
-                    float p2 = (float) Math.Sin((cog)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog) * deg2rad) * radius + radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(MainV2.comPort.MAV.cs.radius)*2,
-                        Math.Abs(MainV2.comPort.MAV.cs.radius)*2, cog, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
                 }
 
-                else if (MainV2.comPort.MAV.cs.radius > 1)
+                else if (radius > 1)
                 {
                     // correct
 
-                    float p1 = (float) Math.Cos((cog - 180)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * radius + radius;
 
-                    float p2 = (float) Math.Sin((cog - 180)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * radius + radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, MainV2.comPort.MAV.cs.radius*2,
-                        MainV2.comPort.MAV.cs.radius*2, cog - 180, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, radius * 2, radius * 2, cog - 180, alpha);
                 }
             }
-
             catch
             {
             }
-
 
             try
             {

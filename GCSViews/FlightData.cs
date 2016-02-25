@@ -1219,7 +1219,7 @@ namespace MissionPlanner.GCSViews
                                         MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
                                         routes.Markers.Add(new GMapMarkerPlane(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
+                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
                                         {
                                             ToolTipText = MAV.cs.alt.ToString("0"),
                                             ToolTipMode = MarkerTooltipMode.Always
