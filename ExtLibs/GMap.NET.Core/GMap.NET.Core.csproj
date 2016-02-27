@@ -107,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GMap.NET.CacheProviders\MemoryCache.cs" />
+    <Compile Include="GMap.NET.CacheProviders\MSSQLCEPureImageCache.cs" />
+    <Compile Include="GMap.NET.CacheProviders\MSSQLPureImageCache.cs" />
     <Compile Include="GMap.NET.Internals\SocksProxySocket\SocksHttpWebRequest.cs" />
     <Compile Include="GMap.NET.Internals\DrawTile.cs" />
     <Compile Include="GMap.NET.Internals\FastResourceLock.cs" />
