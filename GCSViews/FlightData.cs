@@ -1035,6 +1035,12 @@ namespace MissionPlanner.GCSViews
                     // update map
                     if (tracklast.AddSeconds(1.2) < DateTime.Now)
                     {
+                        // show disable joystick button
+                        if (MainV2.joystick != null && MainV2.joystick.enabled)
+                        {
+                            but_disablejoystick.Visible = true;
+                        }
+
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
                             // dont holdinvalidation here
@@ -3906,6 +3912,18 @@ namespace MissionPlanner.GCSViews
                     else
                         poly.IsVisible = false;
                 }
+            }
+        }
+
+        private void but_disablejoystick_Click(object sender, EventArgs e)
+        {
+            if (MainV2.joystick != null && MainV2.joystick.enabled)
+            {
+                MainV2.joystick.enabled = false;
+
+                MainV2.joystick.clearRCOverride();
+
+                but_disablejoystick.Visible = false;
             }
         }
     }
