@@ -1959,7 +1959,8 @@ namespace MissionPlanner
                         ch3percent = vfr.throttle;
 
                         if (sensors_present.revthrottle && sensors_enabled.revthrottle && sensors_health.revthrottle)
-                            ch3percent *= -1;
+                            if (ch3percent > 0)
+                                ch3percent *= -1;
 
                         //Console.WriteLine(alt);
 
