@@ -2012,13 +2012,27 @@ namespace MissionPlanner.GCSViews
                 // set home location - overwritten/ignored depending on firmware.
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set home");
 
-                var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0);
+                bool use_int = true;
 
-                if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                try
                 {
-                    CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                    return;
+                    var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                    if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    {
+                        CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                        return;
+                    }
                 }
+                catch (TimeoutException ex)
+                {
+                    use_int = false;
+                    var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                    if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    {
+                        CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                        return;
+                    }
+                }         
 
                 // define the default frame.
                 MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
@@ -2057,7 +2071,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort) (a), frame, 0);
+                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a), frame, 0, 1, use_int);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)

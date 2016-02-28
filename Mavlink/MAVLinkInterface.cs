@@ -2192,7 +2192,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - setWP");
+                    throw new TimeoutException("Timeout on read - setWP");
                 }
                 byte[] buffer = readPacket();
                 if (buffer.Length > 5)
@@ -2288,7 +2288,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - setWP");
+                    throw new TimeoutException("Timeout on read - setWP");
                 }
                 byte[] buffer = readPacket();
                 if (buffer.Length > 5)
