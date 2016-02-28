@@ -50,8 +50,6 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator Locationwp(MAVLink.mavlink_mission_item_int_t input)
         {
-            bool copy_location = Locationwp.copy_location((MAVLink.MAV_CMD)input.command);
-
             Locationwp temp = new Locationwp()
             {
                 id = (byte)input.command,
@@ -59,177 +57,16 @@ namespace MissionPlanner.Utilities
                 p2 = input.param2,
                 p3 = input.param3,
                 p4 = input.param4,
-                lat = input.x,
-                lng = input.y,
+                lat = input.x / 1.0e7,
+                lng = input.y / 1.0e7,
                 alt = input.z
             };
-
-            // convert int input back to float
-            if (copy_location)
-            {
-                temp.lat = input.x/1.0e7;
-                temp.lng = input.y/1.0e7;
-            }
 
             return temp;
         }
 
-        /// <summary>
-        /// extracted from ap_mission.cpp
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        static bool copy_location(MAVLink.MAV_CMD id)
-        {
-            bool copy_location = false;
-
-            // command specific conversions from mavlink packet to mission command
-            switch (id)
-            {
-                case MAVLink.MAV_CMD.WAYPOINT: // MAV ID: 16
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.LOITER_UNLIM: // MAV ID: 17
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.LOITER_TURNS: // MAV ID: 18
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.LOITER_TIME: // MAV ID: 19
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.RETURN_TO_LAUNCH: // MAV ID: 20
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.LAND: // MAV ID: 21
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.TAKEOFF: // MAV ID: 22
-                    copy_location = true; // only altitude is used
-                    break;
-
-                case MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT: // MAV ID: 30
-                    copy_location = true; // lat/lng used for heading lock
-                    break;
-
-                case MAVLink.MAV_CMD.LOITER_TO_ALT: // MAV ID: 31
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.SPLINE_WAYPOINT: // MAV ID: 82
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.GUIDED_ENABLE: // MAV ID: 92
-                    break;
-
-                case MAVLink.MAV_CMD.CONDITION_DELAY: // MAV ID: 112
-                    break;
-
-                case MAVLink.MAV_CMD.CONDITION_CHANGE_ALT: // MAV ID: 113
-                    break;
-
-                case MAVLink.MAV_CMD.CONDITION_DISTANCE: // MAV ID: 114
-                    break;
-
-                case MAVLink.MAV_CMD.CONDITION_YAW: // MAV ID: 115
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_MODE: // MAV ID: 176
-                    break;
-
-                case MAVLink.MAV_CMD.DO_JUMP: // MAV ID: 177
-                    break;
-
-                case MAVLink.MAV_CMD.DO_CHANGE_SPEED: // MAV ID: 178
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_HOME:
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_PARAMETER: // MAV ID: 180
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_RELAY: // MAV ID: 181
-                    break;
-
-                case MAVLink.MAV_CMD.DO_REPEAT_RELAY: // MAV ID: 182
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_SERVO: // MAV ID: 183
-                    break;
-
-                case MAVLink.MAV_CMD.DO_REPEAT_SERVO: // MAV ID: 184
-                    break;
-
-                case MAVLink.MAV_CMD.DO_LAND_START: // MAV ID: 189
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_ROI: // MAV ID: 201
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.DO_DIGICAM_CONFIGURE: // MAV ID: 202
-                    break;
-
-                case MAVLink.MAV_CMD.DO_DIGICAM_CONTROL: // MAV ID: 203
-                    break;
-
-                case MAVLink.MAV_CMD.DO_MOUNT_CONTROL: // MAV ID: 205
-                    break;
-
-                case MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST: // MAV ID: 206
-                    break;
-
-                case MAVLink.MAV_CMD.DO_FENCE_ENABLE: // MAV ID: 207
-                    break;
-
-                case MAVLink.MAV_CMD.DO_PARACHUTE: // MAV ID: 208
-                    break;
-
-                case MAVLink.MAV_CMD.DO_INVERTED_FLIGHT: // MAV ID: 210
-                    break;
-
-                case MAVLink.MAV_CMD.DO_GRIPPER: // MAV ID: 211
-                    break;
-
-                case MAVLink.MAV_CMD.DO_GUIDED_LIMITS: // MAV ID: 222
-                    break;
-
-                case MAVLink.MAV_CMD.DO_AUTOTUNE_ENABLE: // MAV ID: 211
-                    break;
-
-                case MAVLink.MAV_CMD.ALTITUDE_WAIT: // MAV ID: 83
-                    break;
-
-                case MAVLink.MAV_CMD.VTOL_TAKEOFF:
-                    copy_location = true;
-                    break;
-
-                case MAVLink.MAV_CMD.VTOL_LAND:
-                    copy_location = true;
-                    break;
-
-                default:
-                    // unrecognised command
-                    return false; //MAV_MISSION_UNSUPPORTED;
-            }
-
-            return copy_location;
-        }
-
         static object Convert(Locationwp cmd, bool isint = false)
         {
-            bool copy_location = Locationwp.copy_location((MAVLink.MAV_CMD) cmd.id);
-
             if (isint)
             {
                 var temp = new MAVLink.mavlink_mission_item_int_t()
@@ -239,16 +76,10 @@ namespace MissionPlanner.Utilities
                     param2 = cmd.p2,
                     param3 = cmd.p3,
                     param4 = cmd.p4,
-                    x = (int) cmd.lat,
-                    y = (int) cmd.lng,
+                    x = (int)(cmd.lat * 1.0e7),
+                    y = (int)(cmd.lng * 1.0e7),
                     z = (float) cmd.alt
                 };
-
-                if (copy_location)
-                {
-                    temp.x = (int) (cmd.lat*1.0e7);
-                    temp.y = (int) (cmd.lng*1.0e7);
-                }
 
                 return temp;
             }

@@ -2106,31 +2106,60 @@ Please check the following
         /// <param name="frame">global or relative</param>
         /// <param name="current">0 = no , 2 = guided mode</param>
         public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
-            byte autocontinue = 1)
+            byte autocontinue = 1, bool use_int = false)
         {
-            mavlink_mission_item_t req = new mavlink_mission_item_t();
+            if (use_int)
+            {
+                mavlink_mission_item_int_t req = new mavlink_mission_item_int_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid; // MSG_NAMES.MISSION_ITEM
+                req.target_system = MAV.sysid;
+                req.target_component = MAV.compid;
 
-            req.command = loc.id;
+                req.command = loc.id;
 
-            req.current = current;
-            req.autocontinue = autocontinue;
+                req.current = current;
+                req.autocontinue = autocontinue;
 
-            req.frame = (byte) frame;
-            req.y = (float) (loc.lng);
-            req.x = (float) (loc.lat);
-            req.z = (float) (loc.alt);
+                req.frame = (byte) frame;
+                req.y = (int) (loc.lng*1.0e7);
+                req.x = (int) (loc.lat*1.0e7);
+                req.z = (float) (loc.alt);
 
-            req.param1 = loc.p1;
-            req.param2 = loc.p2;
-            req.param3 = loc.p3;
-            req.param4 = loc.p4;
+                req.param1 = loc.p1;
+                req.param2 = loc.p2;
+                req.param3 = loc.p3;
+                req.param4 = loc.p4;
 
-            req.seq = index;
+                req.seq = index;
 
-            return setWP(req);
+                return setWP(req);
+            }
+            else
+            {
+                mavlink_mission_item_t req = new mavlink_mission_item_t();
+
+                req.target_system = MAV.sysid;
+                req.target_component = MAV.compid;
+
+                req.command = loc.id;
+
+                req.current = current;
+                req.autocontinue = autocontinue;
+
+                req.frame = (byte)frame;
+                req.y = (float)(loc.lng);
+                req.x = (float)(loc.lat);
+                req.z = (float)(loc.alt);
+
+                req.param1 = loc.p1;
+                req.param2 = loc.p2;
+                req.param3 = loc.p3;
+                req.param4 = loc.p4;
+
+                req.seq = index;
+
+                return setWP(req);
+            }
         }
 
         public MAV_MISSION_RESULT setWP(mavlink_mission_item_t req)
@@ -2237,11 +2266,10 @@ Please check the following
             ushort index = req.seq;
 
             log.InfoFormat("setWPint {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
-                req.x, req.y, req.z, index);
+                req.x / 1.0e7, req.y /1.0e7 , req.z, index);
 
             // request
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_ITEM_INT, req);
-
 
             DateTime start = DateTime.Now;
             int retrys = 10;
