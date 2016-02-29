@@ -5003,7 +5003,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        public void AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
+        public int AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z)
         {
             selectedrow = Commands.Rows.Add();
@@ -5011,6 +5011,8 @@ namespace MissionPlanner.GCSViews
             FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
 
             writeKML();
+
+            return selectedrow;
         }
 
         public void InsertCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
