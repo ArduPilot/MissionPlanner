@@ -23,7 +23,7 @@ namespace GMap.NET.MapProviders
          Copyright = string.Format("©{0} Microsoft Corporation, ©{0} NAVTEQ, ©{0} Image courtesy of NASA", DateTime.Today.Year);
       }
 
-      public string Version = "1173";
+      public string Version = "4810";
 
       /// <summary>
       /// Bing Maps Customer Identification, more info here
