@@ -109,7 +109,7 @@ namespace MissionPlanner.Utilities
                 Directory.CreateDirectory(directory);
             }
 
-            return Path.Combine(directory, @"logs");
+            return directory;
         }
 
         internal int GetInt32(string key)
