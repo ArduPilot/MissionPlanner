@@ -1740,9 +1740,24 @@ namespace MissionPlanner.GCSViews
 
                 param = port.MAV.param;
 
-                log.Info("Getting WP #");
+                log.Info("Getting Home");
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Getting WP count");
+
+                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                {
+                    try
+                    {
+                        cmds.Add(port.getHomePosition());
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        // blank home
+                        cmds.Add(new Locationwp() { id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                    }
+                }
+
+                log.Info("Getting WP #");
 
                 int cmdcount = port.getWPCount();
 
@@ -2002,37 +2017,54 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                // set wp total
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set total wps ");
-
-                ushort totalwpcountforupload = (ushort) (Commands.Rows.Count + 1);
-
-                port.setWPTotal(totalwpcountforupload); // + home
-
                 // set home location - overwritten/ignored depending on firmware.
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set home");
 
+                // upload from wp0
+                a = 0;
+
                 bool use_int = true;
 
-                try
+                if (port.MAV.apname != MAVLink.MAV_AUTOPILOT.PX4)
                 {
-                    var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
-                    if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    try
                     {
-                        CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                        return;
+                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                            return;
+                        }
+                        a++;
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        use_int = false;
+                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                            return;
+                        }
+                        a++;
                     }
                 }
-                catch (TimeoutException ex)
+                else
                 {
                     use_int = false;
-                    var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
-                    if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
-                    {
-                        CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                        return;
-                    }
-                }         
+                }
+
+                // set wp total
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
+
+                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
+
+                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                {
+                    totalwpcountforupload--;
+                }
+
+                port.setWPTotal(totalwpcountforupload); // + home
 
                 // define the default frame.
                 MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
@@ -2040,8 +2072,6 @@ namespace MissionPlanner.GCSViews
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
 
-                // upload from wp1, as home is alreadey sent
-                a = 1;
                 // process commandlist to the mav
                 foreach (var temp in commandlist)
                 {
