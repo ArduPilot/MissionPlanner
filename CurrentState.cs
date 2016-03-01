@@ -2277,8 +2277,8 @@ namespace MissionPlanner
                 }
                 set
                 {
-                    seen = true; 
-                    bitArray = new BitArray((int)value);
+                    seen = true;
+                    bitArray = new BitArray(new int[] { (int)value });
                 }
             }
 
