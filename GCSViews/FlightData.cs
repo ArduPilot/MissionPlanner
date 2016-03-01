@@ -2256,6 +2256,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
             }
 
             if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
@@ -2265,6 +2266,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
             }
 
             if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
@@ -2274,6 +2276,17 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
+            }
+
+            if (MainV2.comPort.MAV.wps.Count > 0)
+            {
+                int wps = MainV2.comPort.MAV.wps.Count;
+                for (int z = 1; z <= wps; z++)
+                {
+                    CMB_setwp.Items.Add(z.ToString());
+                }
+                return;
             }
         }
 
