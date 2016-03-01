@@ -1415,6 +1415,10 @@ Please check the following
                 giveComport = false;
                 return true;
             }
+            else if (actionid == MAV_CMD.GET_HOME_POSITION)
+            {
+                return true;
+            }
 
             while (true)
             {
@@ -1707,7 +1711,7 @@ Please check the following
                     }
                     giveComport = false;
                     //return (byte)int.Parse(param["WP_TOTAL"].ToString());
-                    throw new Exception("Timeout on read - getWPCount");
+                    throw new TimeoutException("Timeout on read - getWPCount");
                 }
 
                 buffer = readPacket();
@@ -1726,6 +1730,54 @@ Please check the following
                     {
                         log.Info(DateTime.Now + " PC wpcount " + buffer[5] + " need " + MAVLINK_MSG_ID.MISSION_COUNT);
                     }
+                }
+            }
+        }
+
+        public Locationwp getHomePosition()
+        {
+            doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0);
+
+            giveComport = true;
+            byte[] buffer;
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("getHomePosition Retry " + retrys + " - giv com " + giveComport);
+                        doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0);
+                        giveComport = true;
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    //return (byte)int.Parse(param["WP_TOTAL"].ToString());
+                    throw new TimeoutException("Timeout on read - getHomePosition");
+                }
+
+                buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.HOME_POSITION)
+                    {
+                        var home = buffer.ByteArrayToStructure<mavlink_home_position_t>(6);
+
+                        var loc = new Locationwp().Set(home.latitude / 1.0e7, home.longitude / 1.0e7, home.altitude / 1000.0, (byte)MAV_CMD.WAYPOINT);
+
+                        giveComport = false;
+                        return loc; // should be ushort, but apm has limited wp count < byte
+                    }
+                }
+                else
+                {
+                    log.Info(DateTime.Now + " PC getHomePosition ");
                 }
             }
         }
@@ -1770,7 +1822,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - getWP");
+                    throw new TimeoutException("Timeout on read - getWP");
                 }
                 //Console.WriteLine("getwp read " + DateTime.Now.Millisecond);
                 byte[] buffer = readPacket();
@@ -1837,7 +1889,7 @@ Please check the following
                     }
                     else
                     {
-                        log.Info(DateTime.Now + " PC getwp " + buffer[5]);
+                        //log.Info(DateTime.Now + " PC getwp " + buffer[5]);
                     }
                 }
             }
