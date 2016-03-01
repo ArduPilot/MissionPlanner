@@ -88,6 +88,7 @@
             this.BUT_QNH = new MissionPlanner.Controls.MyButton();
             this.but_trimble = new MissionPlanner.Controls.MyButton();
             this.myButton_vlc = new MissionPlanner.Controls.MyButton();
+            this.but_gstream = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -753,11 +754,22 @@
             this.myButton_vlc.UseVisualStyleBackColor = true;
             this.myButton_vlc.Click += new System.EventHandler(this.myButton_vlc_Click);
             // 
+            // but_gstream
+            // 
+            this.but_gstream.Location = new System.Drawing.Point(467, 265);
+            this.but_gstream.Name = "but_gstream";
+            this.but_gstream.Size = new System.Drawing.Size(75, 23);
+            this.but_gstream.TabIndex = 66;
+            this.but_gstream.Text = "gstream";
+            this.but_gstream.UseVisualStyleBackColor = true;
+            this.but_gstream.Click += new System.EventHandler(this.but_gstream_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_gstream);
             this.Controls.Add(this.myButton_vlc);
             this.Controls.Add(this.but_trimble);
             this.Controls.Add(this.BUT_QNH);
@@ -837,5 +849,6 @@
         private Controls.MyButton BUT_QNH;
         private Controls.MyButton but_trimble;
         private Controls.MyButton myButton_vlc;
+        private Controls.MyButton but_gstream;
     }
 }
