@@ -138,7 +138,7 @@ namespace MissionPlanner.Log
                             string line = logEntry(data, br);
 
                             // we need to know the mav type to use the correct mode list.
-                            if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter"))
+                            if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") || line.Contains("Copter"))
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                             }
@@ -146,11 +146,11 @@ namespace MissionPlanner.Log
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                             }
-                            else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane"))
+                            else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane") || line.Contains("Plane"))
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
                             }
-                            else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover"))
+                            else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover") || line.Contains("Rover"))
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                             }

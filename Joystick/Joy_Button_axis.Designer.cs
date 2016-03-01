@@ -39,9 +39,24 @@
             // numericUpDownpwmmin
             // 
             this.numericUpDownpwmmin.Location = new System.Drawing.Point(77, 7);
+            this.numericUpDownpwmmin.Maximum = new decimal(new int[] {
+            2200,
+            0,
+            0,
+            0});
+            this.numericUpDownpwmmin.Minimum = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
             this.numericUpDownpwmmin.Name = "numericUpDownpwmmin";
             this.numericUpDownpwmmin.Size = new System.Drawing.Size(47, 20);
             this.numericUpDownpwmmin.TabIndex = 0;
+            this.numericUpDownpwmmin.Value = new decimal(new int[] {
+            800,
+            0,
+            0,
+            0});
             this.numericUpDownpwmmin.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // label1
@@ -66,12 +81,12 @@
             // 
             this.numericUpDownpwmmax.Location = new System.Drawing.Point(193, 7);
             this.numericUpDownpwmmax.Maximum = new decimal(new int[] {
-            2100,
+            2200,
             0,
             0,
             0});
             this.numericUpDownpwmmax.Minimum = new decimal(new int[] {
-            900,
+            800,
             0,
             0,
             0});

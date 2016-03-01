@@ -1091,6 +1091,9 @@ namespace MissionPlanner.Log
 
             //ErrorCache.Add(new TextObj("", -500, 0));
 
+            if (!dflog.logformat.ContainsKey("ERR"))
+                return;
+
             foreach (var item in logdata.GetEnumeratorType("ERR"))
             {
                 b = item.lineno;

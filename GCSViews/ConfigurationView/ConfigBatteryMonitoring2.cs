@@ -66,6 +66,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             timer1.Stop();
+            _startup = true;
         }
 
         private void TXT_battcapacity_Validated(object sender, EventArgs e)

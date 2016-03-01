@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SerialInjectGPS));
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
+            this.lbl_status = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -62,19 +65,35 @@
             resources.GetString("CMB_baudrate.Items5"),
             resources.GetString("CMB_baudrate.Items6"),
             resources.GetString("CMB_baudrate.Items7"),
-            resources.GetString("CMB_baudrate.Items8")});
+            resources.GetString("CMB_baudrate.Items8"),
+            resources.GetString("CMB_baudrate.Items9"),
+            resources.GetString("CMB_baudrate.Items10")});
             resources.ApplyResources(this.CMB_baudrate, "CMB_baudrate");
             this.CMB_baudrate.Name = "CMB_baudrate";
+            // 
+            // lbl_status
+            // 
+            resources.ApplyResources(this.lbl_status, "lbl_status");
+            this.lbl_status.Name = "lbl_status";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 1000;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // SerialInjectGPS
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
             this.Name = "SerialInjectGPS";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SerialInjectGPS_FormClosing);
+            this.Load += new System.EventHandler(this.SerialInjectGPS_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -83,5 +102,7 @@
         private System.Windows.Forms.ComboBox CMB_serialport;
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
+        private System.Windows.Forms.Label lbl_status;
+        private System.Windows.Forms.Timer timer1;
     }
 }

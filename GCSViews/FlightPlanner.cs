@@ -135,6 +135,8 @@ namespace MissionPlanner.GCSViews
             {
                 selectedrow = int.Parse(pointno) - 1;
                 Commands.CurrentCell = Commands[1, selectedrow];
+                // depending on the dragged item, selectedrow can be reset 
+                selectedrow = int.Parse(pointno) - 1;
             }
             catch
             {
@@ -1601,8 +1603,8 @@ namespace MissionPlanner.GCSViews
         {
             using (SaveFileDialog fd = new SaveFileDialog())
             {
-                fd.Filter = "Ardupilot Mission (*.waypoints)|(*.txt)|*.*";
-                fd.DefaultExt = ".txt";
+                fd.Filter = "Ardupilot Mission|*.waypoints;*.txt";
+                fd.DefaultExt = ".waypoints";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
@@ -1611,7 +1613,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         StreamWriter sw = new StreamWriter(file);
-                        sw.WriteLine("QGC WPL 120");
+                        sw.WriteLine("QGC WPL 110");
                         try
                         {
                             sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" +
@@ -2508,7 +2510,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported Types|*.txt;*.shp|Ardupilot Mission (*.txt)|*.*|Shape file|*.shp";
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
@@ -2824,7 +2826,8 @@ namespace MissionPlanner.GCSViews
                 if (DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
 
-                string szCapabilityRequest = url + "?version=1.1.0&Request=GetCapabilities&service=WMS";
+                // Build get capability request.
+                string szCapabilityRequest = BuildGetCapabilitityRequest(url);
 
                 XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
                 ProcessWmsCapabilitesRequest(xCapabilityResponse);
@@ -2832,6 +2835,37 @@ namespace MissionPlanner.GCSViews
                 MainV2.config["WMSserver"] = url;
                 WMSProvider.CustomWMSURL = url;
             }
+        }
+
+        /// <summary>
+        /// Builds the get Capability request.
+        /// </summary>
+        /// <param name="serverUrl">The server URL.</param>
+        /// <returns></returns>
+        private string BuildGetCapabilitityRequest(string serverUrl)
+        {
+            // What happens if the URL already has  '?'. 
+            // For example: http://foo.com?Token=yyyy
+            // In this example, the get capability request should be 
+            // http://foo.com?Token=yyyy&version=1.1.0&Request=GetCapabilities&service=WMS but not
+            // http://foo.com?Token=yyyy?version=1.1.0&Request=GetCapabilities&service=WMS
+
+            // If the URL doesn't contain '?', append it.
+            if (!serverUrl.Contains("?"))
+            {
+                serverUrl += "?";
+            }
+            else
+            {
+                // Check if the URL already has query strings.
+                // If the URL doesn't have query strings, '?' comes at the end.
+                if (!serverUrl.EndsWith("?"))
+                {
+                    // Already have query string, so add '&' before adding other query strings.
+                    serverUrl += "&";
+                }
+            }
+            return serverUrl + "version=1.1.0&Request=GetCapabilities&service=WMS";
         }
 
         /**
@@ -2923,21 +2957,44 @@ namespace MissionPlanner.GCSViews
             }
 
 
-            //the server is capable of serving our requests - now check if there is a layer to be selected
-            //format: layer -> layer -> name
+            // the server is capable of serving our requests - now check if there is a layer to be selected
+            // Display layer title in the input box instead of layer name.
+            // format: layer -> layer -> name
+            //         layer -> layer -> title
             string szLayerSelection = "";
             int iSelect = 0;
             List<string> szListLayerName = new List<string>();
-            XmlNodeList layerELements = xCapabilitesResponse.SelectNodes("//Layer/Layer/Name", nsmgr);
-            foreach (XmlNode nameNode in layerELements)
+            // Loop through all layers.
+            XmlNodeList layerElements = xCapabilitesResponse.SelectNodes("//Layer/Layer", nsmgr);
+            foreach (XmlNode layerElement in layerElements)
             {
-                szLayerSelection += string.Format("{0}: " + nameNode.InnerText + ", ", iSelect);
+                // Get Name element.
+                var nameNode = layerElement.SelectSingleNode("Name", nsmgr);
+
+                // Skip if no name element is found.
+                if (nameNode != null)
+                {
+                    var name = nameNode.InnerText;
+                    // Set the default title as the layer name. 
+                    var title = name;
+                    // Get Title element.
+                    var titleNode = layerElement.SelectSingleNode("Title", nsmgr);
+                    if (titleNode != null)
+                    {
+                        var titleText = titleNode.InnerText;
+                        if (!string.IsNullOrWhiteSpace(titleText))
+                        {
+                            title = titleText;
+                        }
+                    }
+                    szListLayerName.Add(name);
+
+                    szLayerSelection += string.Format("{0}: {1}\n ", iSelect, title);
                     //mixing control and formatting is not optimal...
-                szListLayerName.Add(nameNode.InnerText);
-                iSelect++;
+                    iSelect++;
+                }
             }
-
-
+           
             //only select layer if there is one
             if (szListLayerName.Count != 0)
             {
@@ -2945,8 +3002,8 @@ namespace MissionPlanner.GCSViews
                 string szUserSelection = "";
                 if (DialogResult.Cancel ==
                     InputBox.Show("WMS Server",
-                        "The following layers were detected: " + szLayerSelection +
-                        "please choose one by typing the associated number.", ref szUserSelection))
+                        "The following layers were detected:\n " + szLayerSelection +
+                        "Please choose one by typing the associated number.", ref szUserSelection))
                     return;
                 int iUserSelection = 0;
                 try
@@ -2964,6 +3021,7 @@ namespace MissionPlanner.GCSViews
 
         void groupmarkeradd(GMapMarker marker)
         {
+            System.Diagnostics.Debug.WriteLine("add marker " + marker.Tag.ToString());
             groupmarkers.Add(int.Parse(marker.Tag.ToString()));
             if (marker is GMapMarkerWP)
             {
@@ -3062,7 +3120,9 @@ namespace MissionPlanner.GCSViews
                         foreach (KeyValuePair<string, PointLatLng> item in dest)
                         {
                             var value = item.Value;
+                            quickadd = true;
                             callMeDrag(item.Key, value.Lat, value.Lng, -1);
+                            quickadd = false;
                         }
 
                         MainMap.SelectedArea = RectLatLng.Empty;
@@ -4511,6 +4571,8 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            Radius = (int)(Radius / CurrentState.multiplierdist);
+
             if (!int.TryParse(Pointsin, out Points))
             {
                 CustomMessageBox.Show("Bad Point value");
@@ -4563,8 +4625,6 @@ namespace MissionPlanner.GCSViews
 
             quickadd = false;
             writeKML();
-
-            //drawnpolygon.Points.Add(new PointLatLng(start.Lat, start.Lng));
         }
 
         public void Activate()
@@ -4925,32 +4985,56 @@ namespace MissionPlanner.GCSViews
         {
             selectedrow = Commands.Rows.Add();
 
-            Commands.Rows[selectedrow].Cells[Command.Index].Value = cmd.ToString();
+            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
+
+            writeKML();
+        }
+
+        public void InsertCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
+            double z)
+        {
+            if (Commands.Rows.Count <= rowIndex)
+            {
+                AddCommand(cmd, p1, p2, p3, p4, x, y, z);
+                return;
+            }
+
+            Commands.Rows.Insert(rowIndex);
+
+            this.selectedrow = rowIndex;
+
+            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
+
+            writeKML();
+        }
+
+        private void FillCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
+            double y, double z)
+        {
+            Commands.Rows[rowIndex].Cells[Command.Index].Value = cmd.ToString();
             ChangeColumnHeader(cmd.ToString());
 
             // switch wp to spline if spline checked
             if (splinemode && cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                Commands.Rows[rowIndex].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
             }
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                setfromMap(y, x, (int) z, Math.Round(p1, 1));
+                setfromMap(y, x, (int)z, Math.Round(p1, 1));
             }
             else
             {
-                Commands.Rows[selectedrow].Cells[Param1.Index].Value = p1;
-                Commands.Rows[selectedrow].Cells[Param2.Index].Value = p2;
-                Commands.Rows[selectedrow].Cells[Param3.Index].Value = p3;
-                Commands.Rows[selectedrow].Cells[Param4.Index].Value = p4;
-                Commands.Rows[selectedrow].Cells[Lat.Index].Value = y;
-                Commands.Rows[selectedrow].Cells[Lon.Index].Value = x;
-                Commands.Rows[selectedrow].Cells[Alt.Index].Value = z;
+                Commands.Rows[rowIndex].Cells[Param1.Index].Value = p1;
+                Commands.Rows[rowIndex].Cells[Param2.Index].Value = p2;
+                Commands.Rows[rowIndex].Cells[Param3.Index].Value = p3;
+                Commands.Rows[rowIndex].Cells[Param4.Index].Value = p4;
+                Commands.Rows[rowIndex].Cells[Lat.Index].Value = y;
+                Commands.Rows[rowIndex].Cells[Lon.Index].Value = x;
+                Commands.Rows[rowIndex].Cells[Alt.Index].Value = z;
             }
-
-            writeKML();
         }
 
         private void takeoffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5045,8 +5129,8 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "Ardupilot Mission (*.txt)|*.*";
-                fd.DefaultExt = ".txt";
+                fd.Filter = "Ardupilot Mission|*.waypoints;*.txt";
+                fd.DefaultExt = ".waypoints";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "")
@@ -6069,6 +6153,41 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void panelWaypoints_ExpandClick(object sender, EventArgs e)
         {
             Commands.AutoResizeColumns();
+        }
+
+        private void textToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string text = "";
+            InputBox.Show("Enter String", "Enter String (requires 1CamBam_Stick_3 font)", ref text);
+            string size = "5";
+            InputBox.Show("Enter size", "Enter size", ref size);
+
+            using (Font font = new System.Drawing.Font("1CamBam_Stick_3", float.Parse(size) * 1.35f, FontStyle.Regular))
+            using (GraphicsPath gp = new GraphicsPath())
+            using (StringFormat sf = new StringFormat())
+            {
+                sf.Alignment = StringAlignment.Near;
+                sf.LineAlignment = StringAlignment.Near;
+                gp.AddString(text, font.FontFamily, (int) font.Style, font.Size, new PointF(0, 0), sf);
+
+                utmpos basepos = new utmpos(MouseDownStart);
+
+                foreach (var pathPoint in gp.PathPoints)
+                {
+                    utmpos newpos = new utmpos(basepos);
+
+                    newpos.x += pathPoint.X;
+                    newpos.y += -pathPoint.Y;
+
+                    var newlla = newpos.ToLLA();
+                    quickadd = true;
+                    AddWPToMap(newlla.Lat, newlla.Lng, int.Parse(TXT_DefaultAlt.Text));
+                    
+                }
+
+                quickadd = false;
+                writeKML();
+            }
         }
     }
 }

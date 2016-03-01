@@ -6,6 +6,7 @@ using log4net;
 using MissionPlanner.Controls;
 using System.IO;
 using System.Collections.Generic;
+using BrightIdeasSoftware;
 
 namespace MissionPlanner.Utilities
 {
@@ -747,7 +748,7 @@ mc:Ignorable=""d""
                     DomainUpDown txt = (DomainUpDown) ctl;
                     txt.BorderStyle = BorderStyle.None;
                 }
-                else if (ctl.GetType() == typeof (GroupBox) || ctl.GetType() == typeof (UserControl))
+                else if (ctl.GetType() == typeof (GroupBox) || ctl.GetType() == typeof (UserControl) || ctl.GetType() == typeof(DataTreeListView))
                 {
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor;

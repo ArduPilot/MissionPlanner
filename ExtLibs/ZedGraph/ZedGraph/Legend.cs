@@ -823,7 +823,7 @@ namespace ZedGraph
 						FontSpec tmpFont = ( curve._label._fontSpec != null ) ?
 										curve._label._fontSpec : this.FontSpec;
 
-						tmpWidth = tmpFont.GetWidth( g, curve._label._text, scaleFactor ) / 2;
+						tmpWidth = tmpFont.GetWidth( g, curve._label._text, scaleFactor );
 
 						if ( tmpWidth > maxWidth )
 							maxWidth = tmpWidth;

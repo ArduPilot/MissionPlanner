@@ -21,6 +21,8 @@ namespace MissionPlanner.Comms
 
         int retrys = 3;
 
+        bool reconnectnoprompt = false;
+
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
@@ -87,7 +89,7 @@ namespace MissionPlanner.Comms
 
             host = OnSettings("TCP_host", host);
 
-            //if (!MainV2.MONO)
+            if (!reconnectnoprompt)
             {
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
                 {
@@ -110,6 +112,8 @@ namespace MissionPlanner.Comms
             client.Client.NoDelay = true;
 
             VerifyConnected();
+
+            reconnectnoprompt = true;
 
             return;
         }

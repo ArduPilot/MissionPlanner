@@ -435,6 +435,8 @@ namespace MissionPlanner.GeoRef
 
                 if (ans == 0)
                     ans = (double) (photoTime - logTime).TotalSeconds;
+                else
+                    ans = ans*0.5 + (photoTime - logTime).TotalSeconds*0.5;
             }
 
             return ans;
@@ -617,7 +619,8 @@ namespace MissionPlanner.GeoRef
 
                 foreach (var item in vehicleLocations.Values)
                 {
-                    coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
+                    if (item != null)
+                        coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
                 }
 
                 var ls = new LineString() {Coordinates = coords, AltitudeMode = AltitudeMode.Absolute};
@@ -662,7 +665,6 @@ namespace MissionPlanner.GeoRef
                     double lat = picInfo.Lat;
                     double lng = picInfo.Lon;
                     double alpha = picInfo.Yaw + (double) num_camerarotation.Value;
-                    ;
 
                     RectangleF rect = getboundingbox(lat, lng, alpha, (double) num_hfov.Value, (double) num_vfov.Value);
 

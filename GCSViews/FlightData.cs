@@ -353,6 +353,8 @@ namespace MissionPlanner.GCSViews
             HUD.Custom.src = MainV2.comPort.MAV.cs;
 
             CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;
@@ -585,7 +587,10 @@ namespace MissionPlanner.GCSViews
                     }
                     else
                     {
-                        Zoomlevel.Value = (decimal) float.Parse(MainV2.getConfig("maplast_zoom"));
+                        var zoom = float.Parse(MainV2.getConfig("maplast_zoom"));
+                        if (Zoomlevel.Maximum < (decimal) zoom)
+                            zoom = (float)Zoomlevel.Maximum;
+                        Zoomlevel.Value = (decimal)zoom;
                         TRK_zoom.Value = (float) Zoomlevel.Value;
                     }
                 }
@@ -1243,16 +1248,16 @@ namespace MissionPlanner.GCSViews
                         {
                             if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT"))
                             {
-                                float temp1 = (float) MainV2.comPort.MAV.param["MNT_STAB_TILT"];
-                                float temp2 = (float) MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
+                                float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
+                                float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
 
-                                float temp3 = (float) MainV2.comPort.MAV.param["MNT_TYPE"];
+                                float temp3 = (float)MainV2.comPort.MAV.param["MNT_TYPE"];
 
                                 if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
                                     // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
-                                    ((float) MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
-                                     (float) MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
-                                    (float) MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
+                                    ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
+                                      (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
+                                     (float)MainV2.comPort.MAV.param["MNT_TYPE"] == 4) // storm driver
                                 {
                                     var marker = GimbalPoint.ProjectPoint();
 
@@ -2365,7 +2370,7 @@ namespace MissionPlanner.GCSViews
 
         private void CheckAndBindPreFlightData()
         {
-            this.Invoke((Action) delegate { preFlightChecklist1.BindData(); });
+            //this.Invoke((Action) delegate { preFlightChecklist1.BindData(); });
         }
 
         private void Gspeed_DoubleClick(object sender, EventArgs e)

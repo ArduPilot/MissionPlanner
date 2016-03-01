@@ -306,6 +306,22 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\MAVLinkParamChanged.cs" />
+    <Compile Include="Controls\PreFlight\CheckListControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListControl.Designer.cs">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListItem.cs" />
+    <Compile Include="Controls\PreFlight\CheckListInput.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\PreFlight\CheckListEditor.Designer.cs">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -351,14 +367,7 @@
     <Compile Include="Controls\Vibration.Designer.cs">
       <DependentUpon>Vibration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Waypoints\Command.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Waypoints\Command.Designer.cs">
-      <DependentUpon>Command.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Waypoints\Spline2.cs" />
-    <Compile Include="Controls\Waypoints\Spline.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -424,12 +433,6 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PreFlightChecklist.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\PreFlightChecklist.designer.cs">
-      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </Compile>
     <Compile Include="GeoRef\Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
@@ -712,6 +715,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModifyandSet.ja-JP.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListInput.resx">
+      <DependentUpon>CheckListInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\PreFlight\CheckListEditor.resx">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.ja-JP.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
@@ -1100,9 +1109,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\PreFlightChecklist.resx">
-      <DependentUpon>PreFlightChecklist.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.ja-JP.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -1568,12 +1574,15 @@
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
+    <Compile Include="Utilities\rtcm3.cs" />
+    <Compile Include="Utilities\sbp.cs" />
     <Compile Include="Utilities\SignXML.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Utilities\VersionDetection.cs" />
+    <Compile Include="Utilities\vlcrender.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs">
       <SubType>UserControl</SubType>
@@ -1704,9 +1713,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionControl.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Waypoints\Command.resx">
-      <DependentUpon>Command.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.it-IT.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
@@ -3063,6 +3069,9 @@
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="checklistDefault.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DLLs\fftpack_lite.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -3087,6 +3096,7 @@
     <Content Include="DLLs\NumpyDotNet.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj" />
     <Content Include="LogAnalyzer\DataflashLog.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -6921,6 +6931,10 @@
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj">
+      <Project>{bb06dff7-4f41-4b9d-a3c3-3b6d2b8702b6}</Project>
+      <Name>LibVLC.NET</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
       <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>

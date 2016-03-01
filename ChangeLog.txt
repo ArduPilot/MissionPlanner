@@ -1,4 +1,135 @@
-﻿* Mission Planner 1.3.32 - 15-9-2015
+﻿* Mission Planner 1.3.33 - 8-12-2015
+ThemeManager: fix tree view under high contrast
+LogBrowse: handle currupt log better
+SBP: add inject gps sbp detection
+MAVLinkParam: implement all casts
+FirmwareHistory: update
+CheckList: add to flightdata view
+SimpleExample: request datastreams
+FlightPlanner: fix dragging group bug, and speed improvement
+MAVList: fix 3dr radio case
+px4uploader: remove otp check
+SimpleExample: update
+MAVList: update 3dr radio special case
+GMapMarker: Make Position virtual
+Georefimage: calc average offset #1057
+FlightPlanner: use units for wp circle #1068
+ConfigPlanner: add method to get to testing screen.
+Allow a plugin to insert waypoints anywhere in the list
+Autosized an input box vertically instead of horizontally.
+Display layer title in the WMS input box instead of layer name.
+Modified GetCapabilities URL to work even if the wms server URL includes query strings.
+MAVLinkInterface: keep track of wps read from mav #1062
+FlightPlanner: add text autowp
+MAVlinkInterface: change getwp timeout to 3500 ms
+MAVLinkInterface: update mav severity info
+MAVLinkinterface: increase log timeouts and retrys #1061
+LogDownloadMavlink: fix posible bad time exception #1061
+FlightPlanner: fix load and append file types
+FlightPlanner: revert/tidy wp file format #1050
+Preflight control
+GeoRef: cleanup and exception check
+InjectGPS: add rtcm indicator
+CommsUDPSerialConnect: fix udp circle buffer issue
+MainV2: fix posible null exception
+FlightData: log MavChanged events
+FlightPlanner: fix prefetch max zoom level #1054
+Plugin: expose map control to plugins #1056
+MAVLink: update from upstream
+FlightData: Set preflight to not visible
+ConfigMotorTest: update url
+Switch over to using .waypoints for mission lists.
+FlightData: fix language on button
+LogBrowse: fix remove from graph
+CommsUdpSerial: fix circle buffer #1049
+FlightData: reverse message list #1046
+Common: change ms to meters_per_second
+RangeFinder: rename from sonar
+LogBrowse: do full name check on add/remove #1025
+Bug fix out of range in GetGPSFromRow when dbl-click far right on the graph
+Bug fix out of range when looking for position in GetGPSFromRow
+FlightPlanner: adjust alt when WP move... #736
+Kindex: fix could be reset after have got #750
+L10N: update zh-Hans translation
+ConnectionControl: make sysid dropdown wider.
+MainSwitcher: add 2nd retry, and soft fail
+Grid: add ability to start/stop cam trig dist
+srtm: increase tile download zoom level
+ConnectionControl: add sysid selection
+GridUI: fix do_digicam_control from grid
+LogAnalyzer: update
+LogIndex: add some more fields #1039
+LogIndex: make less verbose during read
+FlightPlanner: accept floats in wp_rad #1037
+CollectionBuffer: fix type scope max # 1040
+DFLog: add missing events #1031
+Currentstate: add rpm #1038
+ConfigArduCopter: IMAX Scaling #1034
+Firmware: remove OTP check
+Show position on the map when clicking on the graph.
+ConfigRawParams: fix compile issue
+ConfigHWCompass: fix buttons
+New compass UI
+ConfigRawParams: add search box
+temp: add QNH setting (use with caution)
+FlightPlanner: allow terrain type for AC 3.4+ #1022
+Common: add timeinair to speech options
+Gmaps: map url update
+ConfigMount: restore trigg_type on load #1017
+ConfigRawParams: add incremental search/search on type #1020
+CommsSerialPort: add back abortonerror dcb
+Tab order on Extended Tuning
+LogBrowser : added min, max and mean to graph legend
+LogBrowse: add right axis support from mavgraphs.xml
+mavgraphs: add ekfgraphs.xml
+LogBrowse: add simple mavgraphs.xml support
+LogDownloadMavlink: add debug loginfo
+Terminal: prevent outofrange in terminal
+ConfigRawParams: add are you sure to write dialogs.
+FlightData: add exception check to takeoff command
+GMapControl: add exception check to graphicspath
+FlightData: add exception check to set home
+ElevationGraph: remove roi points from path.
+MagCalib: add 3rd compass
+FlightData: support param rename #981
+LogOutput: fix globalization issue on .obs
+MavlinkInterface: make hud text less verbose
+ConfigHWCompass: add fitness values for onboard mag cal
+GridUI: add simple wpno based split
+FlightData: modify resume mission to work for plane
+georefimage: fix relalt, credit to #jmachuca77
+GimbalPoint: formatting
+Program: add typeloadexception handle
+SerialInjectGPS: fix requirement for baud on network protocols
+SITL: add error handling
+GMapControl: prevent exception on list change
+GMaps: update g versions
+CurrentState: set default telemrates
+FlightData: fix cross thread ui call
+GridUI: fix runaway
+LogBrowse: fix gps status check
+Grid: update load/save options
+LogBrowse: performance improvements
+ConfigHWCompass: add calibrate history buffer
+Grid: decrease min distance bwteen lines #1007
+Mavlink: update
+ConfigHWCompass: add onboard compass cal (WIP)
+PreFlightChecklist: move
+CurrentState: add imu3 values
+GeoTiff: fix start coords center pixel
+PreFlightChecklist: initial version
+L10N: fixs
+GCSViews: add ESC Calibration #926
+L10N: read config in advance
+L10N: rename and support CurrentState
+mavcmd: add abort alt #1002
+onfigBatteryMonitor2: add
+FlightPlanner: defaults for do_digicam_control
+urrentState: tweak stream rate defaults
+urrentState: add terrain text
+MAVList: add compid support
+
+* Mission Planner 1.3.32 - 15-9-2015
 BinaryLog: add convert progress dialog
 LogBrowse: add null check
 Wizard: add invalid bat monitor check

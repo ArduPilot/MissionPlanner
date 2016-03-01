@@ -67,11 +67,9 @@ namespace MissionPlanner.Utilities
             public string urlvrbrainv50;
             public string urlvrbrainv51;
             public string urlvrbrainv52;
-            public string urlvrherov10;
+            public string urlvrcorev10;
             public string urlvrubrainv51;
             public string urlvrubrainv52;
-            public string urlvrgimbalv20;
-            public string urlvrugimbalv11;
             public string name;
             public string desc;
             public int k_format_version;
@@ -187,11 +185,9 @@ namespace MissionPlanner.Utilities
             string vrbrainv50 = "";
             string vrbrainv51 = "";
             string vrbrainv52 = "";
-            string vrherov10 = "";
+            string vrcorev10 = "";
             string vrubrainv51 = "";
             string vrubrainv52 = "";
-            string vrgimbalv20 = "";
-            string vrugimbalv11 = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -248,20 +244,14 @@ namespace MissionPlanner.Utilities
                             case "urlvrbrainv52":
                                 vrbrainv52 = xmlreader.ReadString();
                                 break;
-                            case "urlvrherov10":
-                                vrherov10 = xmlreader.ReadString();
+                            case "urlvrcorev10":
+                                vrcorev10 = xmlreader.ReadString();
                                 break;
                             case "urlvrubrainv51":
                                 vrubrainv51 = xmlreader.ReadString();
                                 break;
                             case "urlvrubrainv52":
                                 vrubrainv52 = xmlreader.ReadString();
-                                break;
-                            case "urlvrgimbalv20":
-                                vrgimbalv20 = xmlreader.ReadString();
-                                break;
-                            case "urlvrugimbalv11":
-                                vrugimbalv11 = xmlreader.ReadString();
                                 break;
                             case "name":
                                 name = xmlreader.ReadString();
@@ -287,11 +277,9 @@ namespace MissionPlanner.Utilities
                                     temp.urlvrbrainv50 = vrbrainv50;
                                     temp.urlvrbrainv51 = vrbrainv51;
                                     temp.urlvrbrainv52 = vrbrainv52;
-                                    temp.urlvrherov10 = vrherov10;
+                                    temp.urlvrcorev10 = vrcorev10;
                                     temp.urlvrubrainv51 = vrubrainv51;
                                     temp.urlvrubrainv52 = vrubrainv52;
-                                    temp.urlvrgimbalv20 = vrgimbalv20;
-                                    temp.urlvrugimbalv11 = vrugimbalv11;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -333,11 +321,9 @@ namespace MissionPlanner.Utilities
                                 vrbrainv50 = "";
                                 vrbrainv51 = "";
                                 vrbrainv52 = "";
-                                vrherov10 = "";
+                                vrcorev10 = "";
                                 vrubrainv51 = "";
                                 vrubrainv52 = "";
-                                vrgimbalv20 = "";
-                                vrugimbalv11 = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -499,9 +485,8 @@ namespace MissionPlanner.Utilities
                 if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2 &&
                     board != BoardDetect.boards.vrbrainv40 && board != BoardDetect.boards.vrbrainv45 &&
                     board != BoardDetect.boards.vrbrainv50 && board != BoardDetect.boards.vrbrainv51 &&
-                    board != BoardDetect.boards.vrbrainv52 && board != BoardDetect.boards.vrherov10 &&
-                    board != BoardDetect.boards.vrubrainv51 && board != BoardDetect.boards.vrubrainv52 &&
-                    board != BoardDetect.boards.vrgimbalv20 && board != BoardDetect.boards.vrugimbalv11)
+                    board != BoardDetect.boards.vrbrainv52 && board != BoardDetect.boards.vrcorev10 &&
+                    board != BoardDetect.boards.vrubrainv51 && board != BoardDetect.boards.vrubrainv52)
                 {
                     try
                     {
@@ -570,9 +555,9 @@ namespace MissionPlanner.Utilities
                 {
                     baseurl = temp.urlvrbrainv52.ToString();
                 }
-                else if (board == BoardDetect.boards.vrherov10)
+                else if (board == BoardDetect.boards.vrcorev10)
                 {
-                    baseurl = temp.urlvrherov10.ToString();
+                    baseurl = temp.urlvrcorev10.ToString();
                 }
                 else if (board == BoardDetect.boards.vrubrainv51)
                 {
@@ -581,14 +566,6 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.vrubrainv52)
                 {
                     baseurl = temp.urlvrubrainv52.ToString();
-                }
-                else if (board == BoardDetect.boards.vrgimbalv20)
-                {
-                    baseurl = temp.urlvrgimbalv20.ToString();
-                }
-                else if (board == BoardDetect.boards.vrugimbalv11)
-                {
-                    baseurl = temp.urlvrugimbalv11.ToString();
                 }
                 else
                 {
@@ -1028,9 +1005,8 @@ namespace MissionPlanner.Utilities
 
             if (board == BoardDetect.boards.vrbrainv40 || board == BoardDetect.boards.vrbrainv45 ||
                 board == BoardDetect.boards.vrbrainv50 || board == BoardDetect.boards.vrbrainv51 ||
-                board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrherov10 ||
-                board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52 ||
-                board == BoardDetect.boards.vrgimbalv20 || board == BoardDetect.boards.vrugimbalv11)
+                board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrcorev10 ||
+                board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52)
             {
                 return UploadVRBRAIN(filename);
             }

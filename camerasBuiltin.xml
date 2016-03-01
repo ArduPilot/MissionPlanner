@@ -50,6 +50,14 @@
     <senw>23.4</senw>
   </Camera>
   <Camera>
+    <name>Nex7 16mm</name>
+    <flen>16</flen>
+    <imgh>4000</imgh>
+    <imgw>6000</imgw>
+    <senh>15.6</senh>
+    <senw>23.5</senw>
+  </Camera>
+  <Camera>
     <name>Canon S110-S120</name>
     <flen>5.2</flen>
     <imgh>3000</imgh>

@@ -72,9 +72,16 @@ namespace MissionPlanner.Log
                 {
                     genchkcombo(item.id);
 
-                    TXT_seriallog.AppendText(item.id + "\t" +
-                                             new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
-                                                 item.time_utc).ToLocalTime() + "\test size:\t" + item.size + "\r\n");
+                    try
+                    {
+                        TXT_seriallog.AppendText(item.id + "\t" +
+                                                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
+                                                     item.time_utc).ToLocalTime() + "\test size:\t" + item.size + "\r\n");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
 
                 if (list.Count == 0)

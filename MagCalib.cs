@@ -1182,22 +1182,10 @@ namespace MissionPlanner
                 {
                     // disable learning
                     MainV2.comPort.setParam("COMPASS_LEARN", 0);
-
-                    if (
-                        !MainV2.comPort.SetSensorOffsets(MAVLinkInterface.sensoroffsetsenum.second_magnetometer,
-                            (float) ofs[0], (float) ofs[1], (float) ofs[2]))
                     {
-                        // set values
-                        MainV2.comPort.setParam("COMPASS_OFS3_X", (float) ofs[0]);
-                        MainV2.comPort.setParam("COMPASS_OFS3_Y", (float) ofs[1]);
-                        MainV2.comPort.setParam("COMPASS_OFS3_Z", (float) ofs[2]);
-                    }
-                    else
-                    {
-                        // Need to reload these params into the param list if SetSensorOffsets() was used
-                        MainV2.comPort.GetParam("COMPASS_OFS3_X");
-                        MainV2.comPort.GetParam("COMPASS_OFS3_Y");
-                        MainV2.comPort.GetParam("COMPASS_OFS3_Z");
+                        MainV2.comPort.setParam("COMPASS_OFS3_X", (float)ofs[0]);
+                        MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
+                        MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
                     }
                     if (ofs.Length > 3)
                     {

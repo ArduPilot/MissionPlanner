@@ -840,5 +840,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return Width + " x " + Height + string.Format(" {0:0.00} fps ", 10000000.0/Fps) + Standard;
             }
         }
+
+        private void chk_temp_CheckedChanged(object sender, EventArgs e)
+        {
+            var temp = new temp();
+            temp.Show();
+        }
     }
 }

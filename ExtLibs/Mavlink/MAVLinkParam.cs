@@ -119,9 +119,44 @@ public partial class MAVLink
             }
         }
 
+        public static explicit operator byte(MAVLinkParam v)
+        {
+            return (byte)v.Value;
+        }
+
+        public static explicit operator sbyte(MAVLinkParam v)
+        {
+            return (sbyte)v.Value;
+        }
+
+        public static explicit operator short(MAVLinkParam v)
+        {
+            return (short)v.Value;
+        }
+
+        public static explicit operator ushort(MAVLinkParam v)
+        {
+            return (ushort)v.Value;
+        }
+
+        public static explicit operator int(MAVLinkParam v)
+        {
+            return (int)v.Value;
+        }
+
+        public static explicit operator uint(MAVLinkParam v)
+        {
+            return (uint)v.Value;
+        }
+
         public static explicit operator float (MAVLinkParam v)
         {
             return (float)v.Value;
+        }
+
+        public static explicit operator double(MAVLinkParam v)
+        {
+            return (double)v.Value;
         }
 
         public override string ToString()
