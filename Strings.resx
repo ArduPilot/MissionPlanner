@@ -426,7 +426,7 @@ Do you wish to continue?</value>
   <data name="UpdateFound" xml:space="preserve">
     <value>Update Found
 
-Do you wish to update now? [link;</value>
+Do you wish to update now? </value>
   </data>
   <data name="UpdateNow" xml:space="preserve">
     <value>Update Now</value>

@@ -175,7 +175,7 @@ namespace MissionPlanner.Utilities
                     DialogResult dr = DialogResult.Cancel;
 
 
-                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + baseurl + "/ChangeLog.txt;ChangeLog]",
+                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
                         Strings.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == DialogResult.Yes)

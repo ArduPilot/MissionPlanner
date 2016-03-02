@@ -1334,7 +1334,7 @@ namespace MissionPlanner {
         /// <summary>
         ///   Looks up a localized string similar to Update Found
         ///
-        ///Do you wish to update now? [link;.
+        ///Do you wish to update now? .
         /// </summary>
         public static string UpdateFound {
             get {
