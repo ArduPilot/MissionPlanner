@@ -103,6 +103,9 @@ namespace MissionPlanner.Utilities
 
             // Create a request using a URL that can receive a post. 
             string requestUriString = baseurl + Path.GetFileName(path);
+
+            L10N.ReplaceMirrorUrl(ref requestUriString);
+
             log.Info("Checking for update at: " + requestUriString);
             var webRequest = WebRequest.Create(requestUriString);
             webRequest.Timeout = 5000;

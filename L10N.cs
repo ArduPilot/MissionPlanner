@@ -38,13 +38,13 @@ namespace MissionPlanner
 
         public static string ReplaceMirrorUrl(ref string url)
         {
-            if (!isMirrorAvailableChecked) CheckMirror();
-            if (isMirrorAvailable)
+            switch (ConfigLang.Name)
             {
-                switch (ConfigLang.Name)
-                {
-                    case "zh-CN":
-                    case "zh-Hans":
+                case "zh-CN":
+                case "zh-Hans":
+                    if (!isMirrorAvailableChecked) CheckMirror();
+                    if (isMirrorAvailable)
+                    {
                         if (url.Contains("firmware.diydrones.com"))
                         {
                             url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
@@ -54,19 +54,19 @@ namespace MissionPlanner
                             url = url.Replace("raw.github.com", "githubraw.diywrj.com");
                         }
                         /*
-                        else if (url.Contains("raw.githubusercontent.com"))
-                        {
-                            url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
-                        }
-                        else if (url.Contains("github.com"))
-                        {
-                            url = url.Replace("github.com", "github.diywrj.com");
-                        }
-                        */
-                        break;
-                    default:
-                        break;
-                }
+	                    else if (url.Contains("raw.githubusercontent.com"))
+	                    {
+	                        url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
+	                    }
+	                    else if (url.Contains("github.com"))
+	                    {
+	                        url = url.Replace("github.com", "github.diywrj.com");
+	                    }
+	                    */
+                    }
+                    break;
+                default:
+                    break;
             }
 
             return url;
@@ -79,12 +79,16 @@ namespace MissionPlanner
                 case "zh-CN":
                 case "zh-Hans":
                     bool isDIYWRJ = CheckHTTP("http://firmware.diywrj.com");
-                    bool isDIYDRONES = Ping("firmware.diydrones.com");
+                    bool isDIYDRONES = CheckHTTP("http://firmware.diydrones.com");
                     bool isGITHUB = Ping("raw.github.com");
                     if (!isDIYWRJ)
                     {
-                        string notice = String.Format("[✘] 奠基网国内镜像\r\n\r\n{0} diydrones官网服务器\r\n\r\n{1} GitHub服务器\r\n\r\n您的固件下载和软件更新可能会受到影响。", (isDIYDRONES ? "[✔]" : "[✘]"), (isGITHUB ? "[✔]" : "[✘]"));
+                        string notice =
+                            String.Format(
+                                "[✘] 奠基网国内镜像\r\n\r\n{0} diydrones官网服务器\r\n\r\n{1} GitHub服务器\r\n\r\n已切换到官网服务器，\r\n您的固件下载和软件更新可能会受到影响。",
+                                (isDIYDRONES ? "[✔]" : "[✘]"), (isGITHUB ? "[✔]" : "[✘]"));
                         CustomMessageBox.Show(notice, "服务器连通性检查");
+                        isMirrorAvailable = false;
                     }
                     break;
             }
@@ -119,7 +123,7 @@ namespace MissionPlanner
             {
                 HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
                 req.Timeout = 500;
-                HttpWebResponse response = (HttpWebResponse)req.GetResponse();
+                HttpWebResponse response = (HttpWebResponse) req.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
                     return true;
                 else
