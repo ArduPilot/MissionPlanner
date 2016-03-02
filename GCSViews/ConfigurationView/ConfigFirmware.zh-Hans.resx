@@ -118,80 +118,32 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="lbl_status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>29, 12</value>
-  </data>
   <data name="lbl_status.Text" xml:space="preserve">
     <value>状态</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>702, 409</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>图片由Max Levine提供</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 305</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>161, 12</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>请点击上方图片选择飞机种类</value>
-  </data>
-  <data name="CMB_history.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 20</value>
-  </data>
-  <data name="CMB_history_label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>735, 362</value>
-  </data>
-  <data name="CMB_history_label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
   </data>
   <data name="CMB_history_label.Text" xml:space="preserve">
     <value>选择以前的固件</value>
   </data>
-  <data name="lbl_Custom_firmware_label.Location" type="System.Drawing.Point, System.Drawing">
-    <value>735, 344</value>
-  </data>
-  <data name="lbl_Custom_firmware_label.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
-  </data>
   <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
     <value>加载自定义固件</value>
-  </data>
-  <data name="lbl_devfw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>65, 12</value>
   </data>
   <data name="lbl_devfw.Text" xml:space="preserve">
     <value>测试版固件</value>
   </data>
-  <data name="lbl_dlfw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
-  </data>
   <data name="lbl_dlfw.Text" xml:space="preserve">
     <value>从网页下载固件</value>
-  </data>
-  <data name="lbl_px4bl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 12</value>
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
     <value>刷写PX4 Bootloader</value>
   </data>
-  <data name="lbl_licence.Location" type="System.Drawing.Point, System.Drawing">
-    <value>278, 324</value>
-  </data>
-  <data name="lbl_licence.Size" type="System.Drawing.Size, System.Drawing">
-    <value>287, 12</value>
-  </data>
   <data name="lbl_licence.Text" xml:space="preserve">
     <value>Ardupilot是自由软件。点击这里阅读开源固件许可。</value>
-  </data>
-  <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>735, 3</value>
-  </data>
-  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 12</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
     <value>飞行器电机安装</value>
