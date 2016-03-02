@@ -2017,8 +2017,20 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                // set wp total
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
+
+                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
+
+                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                {
+                    totalwpcountforupload--;
+                }
+
+                port.setWPTotal(totalwpcountforupload); // + home
+
                 // set home location - overwritten/ignored depending on firmware.
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set home");
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set home");
 
                 // upload from wp0
                 a = 0;
@@ -2053,18 +2065,6 @@ namespace MissionPlanner.GCSViews
                 {
                     use_int = false;
                 }
-
-                // set wp total
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
-
-                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
-
-                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
-                {
-                    totalwpcountforupload--;
-                }
-
-                port.setWPTotal(totalwpcountforupload); // + home
 
                 // define the default frame.
                 MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
