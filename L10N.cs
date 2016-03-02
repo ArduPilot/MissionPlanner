@@ -1,5 +1,4 @@
 ﻿using MissionPlanner.Properties;
-using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -7,11 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
+using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
     public class L10N
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static CultureInfo ConfigLang;
         public static bool isMirrorAvailable = true;
         public static bool isMirrorAvailableChecked = false;
@@ -45,6 +47,7 @@ namespace MissionPlanner
                     if (!isMirrorAvailableChecked) CheckMirror();
                     if (isMirrorAvailable)
                     {
+                        log.InfoFormat("old url {0}", url);
                         if (url.Contains("firmware.diydrones.com"))
                         {
                             url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
@@ -63,6 +66,7 @@ namespace MissionPlanner
 	                        url = url.Replace("github.com", "github.diywrj.com");
 	                    }
 	                    */
+                        log.InfoFormat("updated url {0}", url);
                     }
                     break;
                 default:
