@@ -48,7 +48,11 @@ namespace MissionPlanner
                     if (isMirrorAvailable)
                     {
                         log.InfoFormat("old url {0}", url);
-                        if (url.Contains("firmware.diydrones.com"))
+                        if (url.Contains("firmware.ardupilot.org"))
+                        {
+                            url = url.Replace("firmware.ardupilot.org", "firmware.diywrj.com");
+                        }
+                        else if (url.Contains("firmware.diydrones.com"))
                         {
                             url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
                         }
@@ -83,7 +87,7 @@ namespace MissionPlanner
                 case "zh-CN":
                 case "zh-Hans":
                     bool isDIYWRJ = CheckHTTP("http://firmware.diywrj.com");
-                    bool isDIYDRONES = CheckHTTP("http://firmware.diydrones.com");
+                    bool isDIYDRONES = CheckHTTP("http://firmware.ardupilot.org");
                     bool isGITHUB = Ping("raw.github.com");
                     if (!isDIYWRJ)
                     {

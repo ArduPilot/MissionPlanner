@@ -18,7 +18,7 @@ namespace MissionPlanner.Controls
 {
     public partial class SITL : Form
     {
-        Uri sitlurl = new Uri("http://firmware.diydrones.com/Tools/MissionPlanner/sitl/");
+        Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
         string sitldirectory = Application.StartupPath + Path.DirectorySeparatorChar + "sitl" +
                                Path.DirectorySeparatorChar;

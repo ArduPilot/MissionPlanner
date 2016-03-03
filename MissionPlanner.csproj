@@ -25,8 +25,8 @@
     <UpdatePeriodically>true</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
-    <InstallUrl>http://firmware.diydrones.com/MissionPlanner/upgrade/</InstallUrl>
-    <UpdateUrl>http://firmware.diydrones.com/MissionPlanner/upgrade/</UpdateUrl>
+    <InstallUrl>http://firmware.ardupilot.org/MissionPlanner/upgrade/</InstallUrl>
+    <UpdateUrl>http://firmware.ardupilot.org/MissionPlanner/upgrade/</UpdateUrl>
     <TargetCulture>en-US</TargetCulture>
     <ProductName>MissionPlanner</ProductName>
     <PublisherName>Michael Oborne</PublisherName>
