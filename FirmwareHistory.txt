@@ -1,4 +1,8 @@
-﻿https://github.com/diydrones/binary/raw/2a13e567124fc34d37cd86cd411fbafb9b4848b6/History/firmware2.xml AC 3.3.2
+﻿https://github.com/diydrones/binary/raw/318cf32b5f6c32740c19b4de06a3a618290b4cba/History/firmware2.xml AT 0.7.6
+https://github.com/diydrones/binary/raw/21d1467dfac96370571d30078caf4788dee61330/History/firmware2.xml AC 3.3.3
+https://github.com/diydrones/binary/raw/2d7f29e3ea14f57bdaeef44ee321b49ebc20c730/History/firmware2.xml AP 3.5 AT 0.7.5
+https://github.com/diydrones/binary/raw/5fe747894fa497a2e7fb40d26e6f8a1214be2194/History/firmware2.xml AT 0.7.3
+https://github.com/diydrones/binary/raw/2a13e567124fc34d37cd86cd411fbafb9b4848b6/History/firmware2.xml AC 3.3.2
 https://github.com/diydrones/binary/raw/25aeb19d7ffd2c2109504473f2b14e7c2a169539/History/firmware2.xml AC 3.3.1
 https://github.com/diydrones/binary/raw/7306d0423f5ce34b7be1a7fe2ca9d6ca80665109/History/firmware2.xml AC 3.3
 https://github.com/diydrones/binary/raw/52017dcf25ad120cbbd994a1d6e26c30ab3a19f4/History/firmware2.xml AP 3.4
