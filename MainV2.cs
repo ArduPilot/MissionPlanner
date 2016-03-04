@@ -367,7 +367,8 @@ namespace MissionPlanner
             ArduRover,
             Ateryx,
             ArduTracker,
-            Gymbal
+            Gymbal,
+            PX4
         }
 
         DateTime connectButtonUpdate = DateTime.Now;

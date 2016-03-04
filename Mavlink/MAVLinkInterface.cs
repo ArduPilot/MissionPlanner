@@ -3974,6 +3974,9 @@ Please check the following
                             break;
                     }
                     break;
+                case MAV_AUTOPILOT.PX4:
+                    MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.PX4;
+                    break;
                 default:
                     switch (MAVlist[sysid, compid].aptype)
                     {

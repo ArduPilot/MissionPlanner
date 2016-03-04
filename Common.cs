@@ -698,7 +698,36 @@ namespace MissionPlanner
         {
             log.Info("getModesList Called");
 
-            if (cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (cs.firmware == MainV2.Firmwares.PX4)
+            {
+                /*
+union px4_custom_mode {
+    struct {
+        uint16_t reserved;
+        uint8_t main_mode;
+        uint8_t sub_mode;
+    };
+    uint32_t data;
+    float data_float;
+};
+                 */
+                var temp = new List<KeyValuePair<int, string>>();
+                temp.Add(new KeyValuePair<int, string>(1 << 8, "Manual"));
+                temp.Add(new KeyValuePair<int, string>(2 << 8, "Acro"));
+                temp.Add(new KeyValuePair<int, string>(3 << 8, "Stabalized"));
+                temp.Add(new KeyValuePair<int, string>(4 << 8, "Rattitude"));
+                temp.Add(new KeyValuePair<int, string>(5 << 8, "Altitude Control"));
+                temp.Add(new KeyValuePair<int, string>(6 << 8, "Position Control"));
+                temp.Add(new KeyValuePair<int, string>(7 << 8, "Offboard Control"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 1, "Auto: Ready"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 2, "Auto: Takeoff"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 3, "Loiter"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 4, "Auto"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 5, "RTL"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 6, "Auto: Landing"));
+
+                return temp;
+            } else if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
                     cs.firmware.ToString());
