@@ -2052,6 +2052,8 @@ namespace MissionPlanner.GCSViews
                     catch (TimeoutException ex)
                     {
                         use_int = false;
+                        // added here to prevent timeout errors
+                        port.setWPTotal(totalwpcountforupload);
                         var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
                         if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                         {
