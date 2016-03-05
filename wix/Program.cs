@@ -135,11 +135,11 @@ namespace wix
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi " + outputfilename + "-latest.msi");
 
-            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt " + fn + ".zip michael@firmware.diydrones.com::MissionPlanner/");
-            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt " + fn + ".msi michael@firmware.diydrones.com::MissionPlanner/");
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt " + fn + ".zip michael@firmware.ardupilot.org::MissionPlanner/");
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt " + fn + ".msi michael@firmware.ardupilot.org::MissionPlanner/");
 
-            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt -l MissionPlanner-latest.zip michael@firmware.diydrones.com::MissionPlanner/");
-            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt -l MissionPlanner-latest.msi michael@firmware.diydrones.com::MissionPlanner/");
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt -l MissionPlanner-latest.zip michael@firmware.ardupilot.org::MissionPlanner/");
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/michael/diyrsync.txt -l MissionPlanner-latest.msi michael@firmware.ardupilot.org::MissionPlanner/");
 
             st.Close();
 

@@ -339,7 +339,7 @@ Timeout in {0}</value>
     <value>Communication Error - no connection</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
-    <value>Detected a</value>
+    <value>Detected a </value>
   </data>
   <data name="DetectingBoardVersion" xml:space="preserve">
     <value>Detecting Board Version</value>
@@ -426,7 +426,7 @@ Do you wish to continue?</value>
   <data name="UpdateFound" xml:space="preserve">
     <value>Update Found
 
-Do you wish to update now? [link;</value>
+Do you wish to update now? </value>
   </data>
   <data name="UpdateNow" xml:space="preserve">
     <value>Update Now</value>

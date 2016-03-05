@@ -52,7 +52,10 @@ namespace MissionPlanner.Comms
         public  Parity Parity { get; set; }
         public  int DataBits { get; set; }
 
-        public string PortName { get; set; }
+        public string PortName {
+            get { return "UDPCl" + Port; }
+            set { }
+        }
 
         public int BytesToRead
         {

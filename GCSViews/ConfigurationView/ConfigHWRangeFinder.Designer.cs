@@ -55,6 +55,7 @@
             this.CMB_sonartype.Name = "CMB_sonartype";
             this.CMB_sonartype.ParamName = null;
             this.CMB_sonartype.SubControl = null;
+            this.CMB_sonartype.SelectedIndexChanged += new System.EventHandler(this.CMB_sonartype_SelectedIndexChanged);
             // 
             // pictureBox3
             // 
@@ -101,7 +102,7 @@
             this.timer1.Interval = 200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // ConfigHWSonar
+            // ConfigHWRangeFinder
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +114,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.CMB_sonartype);
             this.Controls.Add(this.pictureBox3);
-            this.Name = "ConfigHWSonar";
+            this.Name = "ConfigHWRangeFinder";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

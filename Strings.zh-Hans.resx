@@ -537,4 +537,34 @@ Mission Planner将会在30秒内寻找控制板。</value>
   <data name="TrackerHome" xml:space="preserve">
     <value>追踪器的家</value>
   </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>velocity variance</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>compass variance</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>地形高度差异</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>更改油门</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>无效的家位置</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>转换bin文件到log文件</value>
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>没有可用更新</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>无法连接到SITL实例</value>
+  </data>
 </root>

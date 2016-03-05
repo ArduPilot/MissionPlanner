@@ -1097,6 +1097,9 @@ namespace ZedGraph
 					tmpY = newY;
 				}
 
+                if (float.IsInfinity(tmpX) || float.IsInfinity(tmpY) || float.IsInfinity(lastX) || float.IsInfinity(lastY))
+                    return;
+
 				/*
 				if ( this.StepType == StepType.ForwardStep )
 				{

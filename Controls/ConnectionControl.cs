@@ -50,6 +50,8 @@ namespace MissionPlanner.Controls
             this.linkLabel1.Visible = isConnected;
             cmb_Baud.Enabled = !isConnected;
             cmb_Connection.Enabled = !isConnected;
+
+            UpdateSysIDS();
         }
 
         private void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
@@ -89,16 +91,56 @@ namespace MissionPlanner.Controls
             e.DrawFocusRectangle();
         }
 
+        public void UpdateSysIDS()
+        {
+            cmb_sysid.Items.Clear();
+
+            foreach (var port in MainV2.Comports.ToArray())
+            {
+                var list = port.MAVlist.GetRawIDS();
+
+                foreach (int item in list)
+                {
+                    var temp = new port_sysid() { compid = (item % 256) , sysid = (item /256), port = port};
+
+                    cmb_sysid.Items.Add(temp);
+                }
+            }
+        }
+
+        internal struct port_sysid
+        {
+            internal MAVLinkInterface port;
+            internal int sysid;
+            internal int compid;
+        }
+
         private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.sysidcurrent = (int) cmb_sysid.SelectedValue/256;
-            MainV2.comPort.compidcurrent = (int) cmb_sysid.SelectedValue%256;
+            var temp = (port_sysid) cmb_sysid.SelectedItem;
+
+            foreach (var port in MainV2.Comports)
+            {
+                if (port == temp.port)
+                {
+                    MainV2.comPort = port;
+                    MainV2.comPort.sysidcurrent = temp.sysid;
+                    MainV2.comPort.compidcurrent = temp.compid;
+                }
+            }
         }
 
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
-            e.Value = MainV2.comPort.MAVlist[(int) e.Value/256, (int) e.Value%256].aptype.ToString() + "-" +
-                      ((int) e.Value%256);
+            var temp = (port_sysid) e.Value;
+
+            foreach (var port in MainV2.Comports)
+            {
+                if (port == temp.port)
+                {
+                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.sysid);
+                }
+            }
         }
     }
 }

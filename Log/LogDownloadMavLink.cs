@@ -176,31 +176,40 @@ namespace MissionPlanner.Log
                 log.Info("Got hbpacket length: " + hbpacket.Length);
 
             // get df log from mav
-            var ms = MainV2.comPort.GetLog(no);
-
-            if (ms != null)
-                log.Info("Got Log length: " + ms.Length);
-
-            status = serialstatus.Done;
-            updateDisplay();
-
-            MainV2.comPort.Progress -= comPort_Progress;
-
-            MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
-
-            logfile = MainV2.LogDir + Path.DirectorySeparatorChar
-                      + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                      + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " +
-                      no + ".bin";
-
-            // make log dir
-            Directory.CreateDirectory(Path.GetDirectoryName(logfile));
-
-            log.Info("about to write: " + logfile);
-            // save memorystream to file
-            using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
+            using (var ms = MainV2.comPort.GetLog(no))
             {
-                bw.Write(ms.ToArray());
+                ms.Seek(0, SeekOrigin.Begin);
+
+                if (ms != null)
+                    log.Info("Got Log length: " + ms.Length);
+
+                status = serialstatus.Done;
+                updateDisplay();
+
+                MainV2.comPort.Progress -= comPort_Progress;
+
+                MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
+
+                logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
+                          + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                          + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") +
+                          " " +
+                          no + ".bin";
+
+                // make log dir
+                Directory.CreateDirectory(Path.GetDirectoryName(logfile));
+
+                log.Info("about to write: " + logfile);
+                // save memorystream to file
+                using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
+                {
+                    byte[] buffer = new byte[256*1024];
+                    while (ms.Position < ms.Length)
+                    {
+                        int read = ms.Read(buffer, 0, buffer.Length);
+                        bw.Write(buffer, 0, read);
+                    }
+                }    
             }
 
             log.Info("about to convertbin: " + logfile);
@@ -218,7 +227,7 @@ namespace MissionPlanner.Log
             // rename log is we have a valid gps time
             if (logtime != DateTime.MinValue)
             {
-                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
+                string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                                         + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                                         + hbpacket[3] + Path.DirectorySeparatorChar +
                                         logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
@@ -388,7 +397,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -437,7 +446,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {

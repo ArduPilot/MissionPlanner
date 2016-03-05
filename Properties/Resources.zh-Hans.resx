@@ -118,17 +118,18 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="help_text" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fmodern\fprq6\fcharset134 Microsoft YaHei;}}
-{\colortbl ;\red255\green255\blue255;\red0\green0\blue255;}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind5\uc1{\*\background{\shp{\*\shpinst
-{\sp{\sn fillType}{\sv 0}}
+    <value>{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3081\deflangfe3081{\fonttbl{\f0\fmodern\fprq6\fcharset134 Microsoft YaHei;}}
+{\colortbl ;\red231\green230\blue230;\red0\green0\blue255;}
+{\*\generator Riched20 10.0.14257}{\*\mmathPr\mnaryLim0\mdispDef1\mwrapIndent1440 }\viewkind5\uc1\viewbksp1{\*\background 
+{\shp{\*\shpinst{\sp{\sn fillType}{\sv 0}}
 {\sp{\sn fillColor}{\sv 2565927}}
 {\sp{\sn fillBackColor}{\sv 0}}
 {\sp{\sn fillFocus}{\sv 0}}
-{\sp{\sn fillBlip}{\sv {\pict\wmetafile0\picscalex1\picscaley1 
+{\sp{\sn fillBlip}{\sv {\pict{\*\picprop}\wmetafile0 
 }}}}}}
-\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22
-天书注：底部更新了常见问题\par
+
+\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
+天书注：下面更新了快捷键列表\par
 \tab 欢迎使用\b Mission Planner\b0 ，本软件可以为无人机(\b UAV\b0 )规划任务。\par
 \tab 快速入门：\par
 \tab\tab\tab\b 飞行数据 \endash  \b0 带有位置和姿态的简单飞行屏幕。\par
@@ -137,24 +138,61 @@
 \b\tab\tab\tab 配置/调试 \endash  \b0 自定义PID和其它关键设置，包括启用和禁用硬件。\par
 \b\tab\tab\tab 模拟 \endash  \b0 与控制板一起，使用Xplanes和Flightgear来HIL模拟。\par
 \b\tab\tab\tab 终端 \endash  \b0 手动设置你的APM并且运行传感器测试，读取日志和其它功能。\par
+
 \pard\nowidctlpar\b\tab 主开发者:\b0  Michael Oborne\par
 \tab\b 设计:\b0  Samantha Nelson\par
 \tab\b 捐款:\b0  Andrew Radford,  Marooned, Ryan Beall\par
-\tab\b ArduCopter插图:\b0  Max Levine\par
-\tab\b 库:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
+
+\pard\nowidctlpar\fi720\b ArduCopter插图:\b0  Max Levine\par
+\b 库:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
 \par
-\tab\b 帮助:\par
-\tab\tab Arduplane: http://plane.ardupilot.com\par
-\tab\tab ArduCopter: http://copter.ardupilot.com\par
-\tab\tab ArduRover: http://rover.ardupilot.com\par
+\b 帮助:（中文版请将com替换为cn）\b0\par
+Arduplane: {{\field{\*\fldinst{HYPERLINK http://plane.ardupilot.com }}{\fldrslt{http://plane.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
+ArduCopter: {{\field{\*\fldinst{HYPERLINK http://copter.ardupilot.com }}{\fldrslt{http://copter.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
+ArduRover: {{\field{\*\fldinst{HYPERLINK http://rover.ardupilot.com }}{\fldrslt{http://rover.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
 \par
-请访问{\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2 www.diydrones.com}}}\f0\fs22 获得更多信息。\par
+请访问{\cf0{\field{\*\fldinst{HYPERLINK www.diydrones.com }}{\fldrslt{www.diydrones.com\ul0\cf0}}}}\f0\fs22 获得更多信息。\par
+\par
+\b快捷键\b0\par
+\par
+主屏幕\par
+F2 - 飞行数据\par
+F3 - 飞行计划\par
+F4 - 配置/调试\par
+F5 - 刷新所有参数列表\par
+Control-F - 高级页面(Temp screen)\par
+Control-X - sysid选择器\par
+Control-T - 直接连接(Blind connect)\par
+\par
+飞行数据\par
+1 - tab 1\par
+2 - tab 2\par
+3 - tab 3\par
+4 - tab 4\par
+5 - tab 5\par
+6 - tab 6\par
+7 - tab 7\par
+8 - tab 8\par
+9 - tab 9\par
+0 - tab 10\par
+\par
+飞行计划\par
+Control-Z - 撤销\par
+Control-O - 打开航点文件\par
+Control-S - 保存航点文件\par
+\par
+自动航点网格(grid)\par
+Control-O - 打开网格文件\par
+Control-S - 保存网格文件\par
 \par
 \b本简体中文翻译及本地化工作由奠基网·APM中文网(http://ardupilot.cn/)MP开发组及翻译组提供，并在不断完善中。\b0\par
 组长：四季天书\par
 组员：hazy、斯东、红圈、猎手、飞鹰、AD、酷酷小狼......\par
 \par
-\i奠基网·APM中文网由大翼航空科技赞助\i0\par
+【赞助商】\par
+奠基网·APM中文网由南京大翼航空科技有限公司赞助\par
+翻译组赞助：單調、广西-Free、杨维韬、南华杨浩\par
+捐助支付宝：sjtsjjy[at]gmail.com （请备注群备注和希望留下的名字）\par
 \par
 \b常见问题\b0\par
 Q：简体中文的参数列表怎么没有了？\par

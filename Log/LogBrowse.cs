@@ -16,6 +16,7 @@ using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -386,7 +387,7 @@ namespace MissionPlanner.Log
 
             List<graphitem> items = new List<graphitem>();
 
-            using (XmlReader reader = XmlReader.Create("mavgraphs.xml"))
+            using (XmlReader reader = XmlReader.Create(Application.StartupPath + Path.DirectorySeparatorChar + "mavgraphs.xml"))
             {
                 while (reader.Read())
                 {
@@ -496,7 +497,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
 
-                openFileDialog1.InitialDirectory = MainV2.LogDir;
+                openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
 
                 if (openFileDialog1.ShowDialog() == DialogResult.OK)
                 {
@@ -988,6 +989,13 @@ namespace MissionPlanner.Log
                     try
                     {
                         double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
+
+                        // abandon realy bad data
+                        if (Math.Abs(value) > 3.15e20)
+                        {
+                            a++;
+                            continue;
+                        }
 
                         if (dataModifier.IsValid())
                         {
@@ -1687,27 +1695,6 @@ namespace MissionPlanner.Log
         /// <param name="e"></param>
         private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
         {
-            return;
-            // try and force all rows to sharedrows
-            try
-            {
-                var grid = sender as DataGridView;
-                var rowIdx = grid.Rows[e.RowIndex].Cells[0].Value.ToString();
-
-                var centerFormat = new StringFormat()
-                {
-                    // right alignment might actually make more sense for numbers
-                    Alignment = StringAlignment.Center,
-                    LineAlignment = StringAlignment.Center
-                };
-
-                var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth,
-                    e.RowBounds.Height);
-                e.Graphics.DrawString(rowIdx, this.Font, new SolidBrush(this.ForeColor), headerBounds, centerFormat);
-            }
-            catch
-            {
-            }
         }
 
         private void BUT_Graphit_R_Click(object sender, EventArgs e)

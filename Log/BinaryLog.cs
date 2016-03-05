@@ -154,6 +154,10 @@ namespace MissionPlanner.Log
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                             }
+                            else if (line.Contains("AntennaTracker") || line.Contains("Tracker"))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
+                            }
 
                             return line;
                         }
@@ -372,7 +376,6 @@ namespace MissionPlanner.Log
                         break;
                     default:
                         return null;
-                        break;
                 }
             }
             return answer.ToArray();
@@ -609,7 +612,6 @@ namespace MissionPlanner.Log
                         break;
                     default:
                         return "Bad Conversion";
-                        break;
                 }
             }
 

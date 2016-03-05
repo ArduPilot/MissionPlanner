@@ -107,6 +107,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GMap.NET.CacheProviders\MemoryCache.cs" />
+    <Compile Include="GMap.NET.CacheProviders\MSSQLCEPureImageCache.cs" />
+    <Compile Include="GMap.NET.CacheProviders\MSSQLPureImageCache.cs" />
     <Compile Include="GMap.NET.Internals\SocksProxySocket\SocksHttpWebRequest.cs" />
     <Compile Include="GMap.NET.Internals\DrawTile.cs" />
     <Compile Include="GMap.NET.Internals\FastResourceLock.cs" />
@@ -197,7 +199,6 @@
     <Compile Include="GMap.NET\GeocodingProvider.cs" />
     <Compile Include="GMap.NET\RoutingProvider.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="GMap.NET.CacheProviders\MsSQLCePureImageCache.cs" />
     <Compile Include="GMap.NET.CacheProviders\PostgreSQLPureImageCache.cs" />
     <Compile Include="GMap.NET.CacheProviders\SQLitePureImageCache.cs" />
     <Compile Include="GMap.NET.Internals\CacheQueueItem.cs" />
@@ -232,7 +233,6 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <None Include="GMap.NET\MapType.cs" />
-    <Compile Include="GMap.NET.CacheProviders\MsSQLPureImageCache.cs" />
     <Compile Include="GMap.NET\GPoint.cs" />
     <Compile Include="GMap.NET\PureImageCache.cs" />
     <Compile Include="GMap.NET\GRect.cs" />

@@ -324,7 +324,7 @@ namespace MissionPlanner.GCSViews
             {
                 PointLatLng last;
 
-                if (pointlist[pointlist.Count - 1] == null)
+                if (pointlist.Count == 0 || pointlist[pointlist.Count - 1] == null)
                     return;
 
                 last = pointlist[pointlist.Count - 1];
@@ -523,11 +523,12 @@ namespace MissionPlanner.GCSViews
 
             RegeneratePolygon();
 
-            if (MainV2.getConfig("MapType") != "")
+            string mapType = Settings.Instance["MapType"];
+            if (!string.IsNullOrEmpty(mapType))
             {
                 try
                 {
-                    var index = GMapProviders.List.FindIndex(x => (x.Name == MainV2.getConfig("MapType")));
+                    var index = GMapProviders.List.FindIndex(x => (x.Name == mapType));
 
                     if (index != -1)
                         comboBoxMapType.SelectedIndex = index;
@@ -680,14 +681,16 @@ namespace MissionPlanner.GCSViews
         {
             quickadd = true;
 
+            Visible = false;
+
             config(false);
 
             quickadd = false;
 
             POI.POIModified += POI_POIModified;
 
-            if (MainV2.config["WMSserver"] != null)
-                WMSProvider.CustomWMSURL = MainV2.config["WMSserver"].ToString();
+            if (Settings.Instance["WMSserver"] != null)
+                WMSProvider.CustomWMSURL = Settings.Instance["WMSserver"];
 
             trackBar1.Value = (int) MainMap.Zoom;
 
@@ -743,10 +746,12 @@ namespace MissionPlanner.GCSViews
             writeKML();
 
             // switch the action and wp table
-            if (MainV2.getConfig("FP_docking") == "Bottom")
+            if (Settings.Instance["FP_docking"] == "Bottom")
             {
                 switchDockingToolStripMenuItem_Click(null, null);
             }
+
+            Visible = true;
 
             timer1.Start();
         }
@@ -865,8 +870,6 @@ namespace MissionPlanner.GCSViews
                 }
                 //Console.WriteLine("editformat " + option + " value " + cmd);
                 ChangeColumnHeader(cmd);
-
-                setgradanddistandaz();
 
                 if (cmd == "WAYPOINT")
                 {
@@ -1030,37 +1033,31 @@ namespace MissionPlanner.GCSViews
         void updateRowNumbers()
         {
             // number rows 
-            Thread t1 = new Thread(delegate()
+            this.BeginInvoke((MethodInvoker) delegate
             {
                 // thread for updateing row numbers
                 for (int a = 0; a < Commands.Rows.Count - 0; a++)
                 {
-                    // this.BeginInvoke((MethodInvoker)delegate
+                    try
                     {
-                        try
+                        if (Commands.Rows[a].HeaderCell.Value == null)
                         {
-                            if (Commands.Rows[a].HeaderCell.Value == null)
-                            {
-                                Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
-                            }
-                            // skip rows with the correct number
-                            string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
-                            if (!rowno.Equals((a + 1).ToString()))
-                            {
-                                // this code is where the delay is when deleting.
-                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
-                            }
+                            //Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
                         }
-                        catch (Exception)
+                        // skip rows with the correct number
+                        string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
+                        if (!rowno.Equals((a + 1).ToString()))
                         {
+                            // this code is where the delay is when deleting.
+                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
                         }
-                    } //);
+                    }
+                    catch (Exception)
+                    {
+                    }
                 }
             });
-            t1.Name = "Row number updater";
-            t1.IsBackground = true;
-            t1.Start();
         }
 
         /// <summary>
@@ -1577,9 +1574,15 @@ namespace MissionPlanner.GCSViews
                 {
                     if (lla.Tag != null && lla.Tag != "H" && !lla.Tag.Contains("ROI"))
                     {
+                        double height = lla.Alt - last.Alt;
+                        double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
+                        double grad = height / distance;
+
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value =
-                            (((lla.Alt - last.Alt)/(lla.GetDistance(last)*CurrentState.multiplierdist))*100).ToString(
-                                "0.0");
+                            (grad * 100).ToString("0.0");
+
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Angle.Index].Value =
+                            ((180.0 / Math.PI) * Math.Atan(grad)).ToString("0.0");
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
                             (lla.GetDistance(last)*CurrentState.multiplierdist).ToString("0.0");
@@ -1737,9 +1740,24 @@ namespace MissionPlanner.GCSViews
 
                 param = port.MAV.param;
 
-                log.Info("Getting WP #");
+                log.Info("Getting Home");
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Getting WP count");
+
+                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                {
+                    try
+                    {
+                        cmds.Add(port.getHomePosition());
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        // blank home
+                        cmds.Add(new Locationwp() { id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                    }
+                }
+
+                log.Info("Getting WP #");
 
                 int cmdcount = port.getWPCount();
 
@@ -2000,21 +2018,54 @@ namespace MissionPlanner.GCSViews
                 }
 
                 // set wp total
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set total wps ");
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
 
-                ushort totalwpcountforupload = (ushort) (Commands.Rows.Count + 1);
+                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
+
+                if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                {
+                    totalwpcountforupload--;
+                }
 
                 port.setWPTotal(totalwpcountforupload); // + home
 
                 // set home location - overwritten/ignored depending on firmware.
-                ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Set home");
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set home");
 
-                var homeans = port.setWP(home, 0, MAVLink.MAV_FRAME.GLOBAL, 0);
+                // upload from wp0
+                a = 0;
 
-                if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                bool use_int = true;
+
+                if (port.MAV.apname != MAVLink.MAV_AUTOPILOT.PX4)
                 {
-                    CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                    return;
+                    try
+                    {
+                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                            return;
+                        }
+                        a++;
+                    }
+                    catch (TimeoutException ex)
+                    {
+                        use_int = false;
+                        // added here to prevent timeout errors
+                        port.setWPTotal(totalwpcountforupload);
+                        var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
+                        if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                        {
+                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                            return;
+                        }
+                        a++;
+                    }
+                }
+                else
+                {
+                    use_int = false;
                 }
 
                 // define the default frame.
@@ -2023,8 +2074,6 @@ namespace MissionPlanner.GCSViews
                 // get the command list from the datagrid
                 var commandlist = GetCommandList();
 
-                // upload from wp1, as home is alreadey sent
-                a = 1;
                 // process commandlist to the mav
                 foreach (var temp in commandlist)
                 {
@@ -2054,7 +2103,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort) (a), frame, 0);
+                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a), frame, 0, 1, use_int);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
@@ -2062,7 +2111,7 @@ namespace MissionPlanner.GCSViews
                         // resend for partial upload
                         port.setWPPartialUpdate((ushort) (a), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort) (a), frame, 0);
+                        ans = port.setWP(temp, (ushort) (a), frame, 0, 1, use_int);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
@@ -2145,6 +2194,9 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            Commands.SuspendLayout();
+            Commands.Enabled = false;
+
             int i = Commands.Rows.Count - 1;
             foreach (Locationwp temp in cmds)
             {
@@ -2209,6 +2261,9 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
             }
+
+            Commands.Enabled = true;
+            Commands.ResumeLayout();
 
             setWPParams();
 
@@ -2308,48 +2363,46 @@ namespace MissionPlanner.GCSViews
         {
             if (write)
             {
-                MainV2.config["TXT_homelat"] = TXT_homelat.Text;
-                MainV2.config["TXT_homelng"] = TXT_homelng.Text;
-                MainV2.config["TXT_homealt"] = TXT_homealt.Text;
+                Settings.Instance["TXT_homelat"] = TXT_homelat.Text;
+                Settings.Instance["TXT_homelng"] = TXT_homelng.Text;
+                Settings.Instance["TXT_homealt"] = TXT_homealt.Text;
 
 
-                MainV2.config["TXT_WPRad"] = TXT_WPRad.Text;
+                Settings.Instance["TXT_WPRad"] = TXT_WPRad.Text;
 
-                MainV2.config["TXT_loiterrad"] = TXT_loiterrad.Text;
+                Settings.Instance["TXT_loiterrad"] = TXT_loiterrad.Text;
 
-                MainV2.config["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
+                Settings.Instance["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
-                MainV2.config["CMB_altmode"] = CMB_altmode.Text;
+                Settings.Instance["CMB_altmode"] = CMB_altmode.Text;
 
-                MainV2.config["fpminaltwarning"] = TXT_altwarn.Text;
+                Settings.Instance["fpminaltwarning"] = TXT_altwarn.Text;
 
-                MainV2.config["fpcoordmouse"] = coords1.System;
+                Settings.Instance["fpcoordmouse"] = coords1.System;
             }
             else
             {
-                Hashtable temp = new Hashtable((Hashtable) MainV2.config.Clone());
-
-                foreach (string key in temp.Keys)
+                foreach (string key in Settings.Instance.Keys)
                 {
                     switch (key)
                     {
                         case "TXT_WPRad":
-                            TXT_WPRad.Text = MainV2.config[key].ToString();
+                            TXT_WPRad.Text = "" + Settings.Instance[key];
                             break;
                         case "TXT_loiterrad":
-                            TXT_loiterrad.Text = MainV2.config[key].ToString();
+                            TXT_loiterrad.Text = "" + Settings.Instance[key];
                             break;
                         case "TXT_DefaultAlt":
-                            TXT_DefaultAlt.Text = MainV2.config[key].ToString();
+                            TXT_DefaultAlt.Text = "" + Settings.Instance[key];
                             break;
                         case "CMB_altmode":
-                            CMB_altmode.Text = MainV2.config[key].ToString();
+                            CMB_altmode.Text = "" + Settings.Instance[key];
                             break;
                         case "fpminaltwarning":
-                            TXT_altwarn.Text = MainV2.getConfig("fpminaltwarning");
+                            TXT_altwarn.Text = "" + Settings.Instance["fpminaltwarning"];
                             break;
                         case "fpcoordmouse":
-                            coords1.System = MainV2.config[key].ToString();
+                            coords1.System = "" + Settings.Instance[key];
                             break;
                         default:
                             break;
@@ -2821,8 +2874,8 @@ namespace MissionPlanner.GCSViews
             if (type == WMSProvider.Instance)
             {
                 string url = "";
-                if (MainV2.config["WMSserver"] != null)
-                    url = MainV2.config["WMSserver"].ToString();
+                if (Settings.Instance["WMSserver"] != null)
+                    url = Settings.Instance["WMSserver"];
                 if (DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
 
@@ -2832,7 +2885,7 @@ namespace MissionPlanner.GCSViews
                 XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
                 ProcessWmsCapabilitesRequest(xCapabilityResponse);
 
-                MainV2.config["WMSserver"] = url;
+                Settings.Instance["WMSserver"] = url;
                 WMSProvider.CustomWMSURL = url;
             }
         }
@@ -3457,7 +3510,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainMap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
                 FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
-                MainV2.config["MapType"] = comboBoxMapType.Text;
+                Settings.Instance["MapType"] = comboBoxMapType.Text;
             }
             catch
             {
@@ -3558,8 +3611,10 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_homelat_Enter(object sender, EventArgs e)
         {
+            if (!sethome)
+                CustomMessageBox.Show("Click on the Map to set Home ");
             sethome = true;
-            CustomMessageBox.Show("Click on the Map to set Home ");
+            
         }
 
         private void Planner_Resize(object sender, EventArgs e)
@@ -3695,10 +3750,10 @@ namespace MissionPlanner.GCSViews
         /// <returns>formatted distance with unit</returns>
         private string FormatDistance(double distInKM, bool toMeterOrFeet)
         {
-            string sunits = MainV2.getConfig("distunits");
+            string sunits = Settings.Instance["distunits"];
             Common.distances units = Common.distances.Meters;
 
-            if (sunits != "")
+            if (sunits != null)
                 try
                 {
                     units = (Common.distances) Enum.Parse(typeof (Common.distances), sunits);
@@ -4035,7 +4090,7 @@ namespace MissionPlanner.GCSViews
                 {
                     routesoverlay.Markers.Add(new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw,
                         MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing,
-                        MainV2.comPort.MAV.cs.target_bearing));
+                        MainV2.comPort.MAV.cs.target_bearing, MainV2.comPort.MAV.cs.radius));
                 }
                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                 {
@@ -4121,7 +4176,7 @@ namespace MissionPlanner.GCSViews
                     try
                     {
                         mBorders.wprad =
-                            (int) (float.Parse(MainV2.config["TXT_WPRad"].ToString())/CurrentState.multiplierdist);
+                            (int) (Settings.Instance.GetFloat("TXT_WPRad")/CurrentState.multiplierdist);
                     }
                     catch
                     {
@@ -4632,7 +4687,7 @@ namespace MissionPlanner.GCSViews
             timer1.Start();
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 &&
-                MainV2.comPort.MAV.cs.version < new Version(3, 4))
+                MainV2.comPort.MAV.cs.version < new Version(3, 3))
             {
                 CMB_altmode.Visible = false;
             }
@@ -4980,7 +5035,7 @@ namespace MissionPlanner.GCSViews
             writeKML();
         }
 
-        public void AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
+        public int AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
             double z)
         {
             selectedrow = Commands.Rows.Add();
@@ -4988,6 +5043,8 @@ namespace MissionPlanner.GCSViews
             FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
 
             writeKML();
+
+            return selectedrow;
         }
 
         public void InsertCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
@@ -5024,6 +5081,10 @@ namespace MissionPlanner.GCSViews
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
                 setfromMap(y, x, (int)z, Math.Round(p1, 1));
+            }
+            else if (cmd == MAVLink.MAV_CMD.LOITER_UNLIM)
+            {
+                setfromMap(y, x, (int)z);
             }
             else
             {
@@ -5571,6 +5632,11 @@ namespace MissionPlanner.GCSViews
             }
             else if (pm != null)
             {
+                if (pm.Geometry is SharpKml.Dom.Point)
+                {
+                    var point = ((SharpKml.Dom.Point)pm.Geometry).Coordinate;
+                    POI.POIAdd(new PointLatLngAlt(point.Latitude, point.Longitude), pm.Name);
+                }
             }
             else if (polygon != null)
             {
@@ -5920,7 +5986,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 panelWaypoints.Width = Width/2;
             }
 
-            MainV2.config["FP_docking"] = panelAction.Dock;
+            Settings.Instance["FP_docking"] = panelAction.Dock.ToString();
         }
 
         private void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)

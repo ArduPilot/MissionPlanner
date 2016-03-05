@@ -50,16 +50,20 @@
             this.configHWCompass1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass();
             this.backstageViewPageradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configRadioInput1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput();
+            this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configESC1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration();
             this.backstageViewPageflmode = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configFlightModes1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes();
             this.backstageViewPagefs = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configFailSafe1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe();
             this.backstageViewPageopt = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configOptional1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigOptional();
-            this.backstageViewPage3drradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this._3DRradio1 = new MissionPlanner._3DRradio();
+            this.backstageViewPageSikradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this._3DRradio1 = new MissionPlanner.Sikradio();
             this.backstageViewPagebatmon = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configBatteryMonitoring1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring();
+            this.backstageViewPageBatt2 = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configBatteryMonitoring21 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2();
             this.backstageViewPagecompassmot = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configCompassMot1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot();
             this.backstageViewPagesonar = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -80,10 +84,7 @@
             this.configHWBT1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT();
             this.backstageViewPageParachute = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWPa1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute();
-this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configESC1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigESCCalibration();   this.backstageViewPageBatt2 = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configBatteryMonitoring21 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring2();
-                    this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,7 +107,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             this.backstageView.Pages.Add(this.backstageViewPageflmode);
             this.backstageView.Pages.Add(this.backstageViewPagefs);
             this.backstageView.Pages.Add(this.backstageViewPageopt);
-            this.backstageView.Pages.Add(this.backstageViewPage3drradio);
+            this.backstageView.Pages.Add(this.backstageViewPageSikradio);
             this.backstageView.Pages.Add(this.backstageViewPagebatmon);
             this.backstageView.Pages.Add(this.backstageViewPageBatt2);
             this.backstageView.Pages.Add(this.backstageViewPagecompassmot);
@@ -266,6 +267,22 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             resources.ApplyResources(this.configRadioInput1, "configRadioInput1");
             this.configRadioInput1.Name = "configRadioInput1";
             // 
+            // backstageViewPageESC
+            // 
+            this.backstageViewPageESC.Advanced = false;
+            this.backstageViewPageESC.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPageESC.LinkText = "ESC Calibration";
+            this.backstageViewPageESC.Page = this.configESC1;
+            this.backstageViewPageESC.Parent = this.backstageViewPagemand;
+            this.backstageViewPageESC.Show = false;
+            this.backstageViewPageESC.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageESC, "backstageViewPageESC");
+            // 
+            // configESC1
+            // 
+            resources.ApplyResources(this.configESC1, "configESC1");
+            this.configESC1.Name = "configESC1";
+            // 
             // backstageViewPageflmode
             // 
             this.backstageViewPageflmode.Advanced = false;
@@ -311,15 +328,15 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             resources.ApplyResources(this.configOptional1, "configOptional1");
             this.configOptional1.Name = "configOptional1";
             // 
-            // backstageViewPage3drradio
+            // backstageViewPageSikradio
             // 
-            this.backstageViewPage3drradio.Advanced = false;
-            this.backstageViewPage3drradio.LinkText = "3DR Radio";
-            this.backstageViewPage3drradio.Page = this._3DRradio1;
-            this.backstageViewPage3drradio.Parent = this.backstageViewPageopt;
-            this.backstageViewPage3drradio.Show = true;
-            this.backstageViewPage3drradio.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPage3drradio, "backstageViewPage3drradio");
+            this.backstageViewPageSikradio.Advanced = false;
+            this.backstageViewPageSikradio.LinkText = "Sik Radio";
+            this.backstageViewPageSikradio.Page = this._3DRradio1;
+            this.backstageViewPageSikradio.Parent = this.backstageViewPageopt;
+            this.backstageViewPageSikradio.Show = true;
+            this.backstageViewPageSikradio.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageSikradio, "backstageViewPageSikradio");
             // 
             // _3DRradio1
             // 
@@ -342,6 +359,22 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             resources.ApplyResources(this.configBatteryMonitoring1, "configBatteryMonitoring1");
             this.configBatteryMonitoring1.Name = "configBatteryMonitoring1";
             // 
+            // backstageViewPageBatt2
+            // 
+            this.backstageViewPageBatt2.Advanced = false;
+            this.backstageViewPageBatt2.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
+            this.backstageViewPageBatt2.LinkText = "Battery Monitor 2";
+            this.backstageViewPageBatt2.Page = this.configBatteryMonitoring21;
+            this.backstageViewPageBatt2.Parent = this.backstageViewPageopt;
+            this.backstageViewPageBatt2.Show = true;
+            this.backstageViewPageBatt2.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageBatt2, "backstageViewPageBatt2");
+            // 
+            // configBatteryMonitoring21
+            // 
+            resources.ApplyResources(this.configBatteryMonitoring21, "configBatteryMonitoring21");
+            this.configBatteryMonitoring21.Name = "configBatteryMonitoring21";
+            // 
             // backstageViewPagecompassmot
             // 
             this.backstageViewPagecompassmot.Advanced = false;
@@ -362,17 +395,17 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             // 
             this.backstageViewPagesonar.Advanced = false;
             this.backstageViewPagesonar.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPagesonar.LinkText = "RangeFinder";
+            this.backstageViewPagesonar.LinkText = "Sonar";
             this.backstageViewPagesonar.Page = this.ConfigHWRangeFinder1;
             this.backstageViewPagesonar.Parent = this.backstageViewPageopt;
             this.backstageViewPagesonar.Show = true;
             this.backstageViewPagesonar.Spacing = 30;
             resources.ApplyResources(this.backstageViewPagesonar, "backstageViewPagesonar");
             // 
-            // configHWSonar1
+            // ConfigHWRangeFinder1
             // 
-            resources.ApplyResources(this.ConfigHWRangeFinder1, "configHWSonar1");
-            this.ConfigHWRangeFinder1.Name = "configHWSonar1";
+            resources.ApplyResources(this.ConfigHWRangeFinder1, "ConfigHWRangeFinder1");
+            this.ConfigHWRangeFinder1.Name = "ConfigHWRangeFinder1";
             // 
             // backstageViewPageairspeed
             // 
@@ -502,37 +535,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
             resources.ApplyResources(this.configHWPa1, "configHWPa1");
             this.configHWPa1.Name = "configHWPa1";
             // 
-// backstageViewPageESC
-            // 
-            this.backstageViewPageESC.Advanced = false;
-            this.backstageViewPageESC.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPageESC.LinkText = "ESC Calibration";
-            this.backstageViewPageESC.Page = this.configESC1;
-            this.backstageViewPageESC.Parent = this.backstageViewPagemand;
-            this.backstageViewPageESC.Show = true;
-            this.backstageViewPageESC.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageESC, "backstageViewPageESC");
-            // 
-            // configESC1
-            // 
-            resources.ApplyResources(this.configESC1, "configESC1");
-            this.configESC1.Name = "configESC1";
-            //   // backstageViewPageBatt2
-            // 
-            this.backstageViewPageBatt2.Advanced = false;
-            this.backstageViewPageBatt2.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
-            this.backstageViewPageBatt2.LinkText = "Battery Monitor 2";
-            this.backstageViewPageBatt2.Page = this.configBatteryMonitoring21;
-            this.backstageViewPageBatt2.Parent = this.backstageViewPageopt;
-            this.backstageViewPageBatt2.Show = true;
-            this.backstageViewPageBatt2.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageBatt2, "backstageViewPageBatt2");
-            // 
-            // configBatteryMonitoring21
-            // 
-            resources.ApplyResources(this.configBatteryMonitoring21, "configBatteryMonitoring21");
-            this.configBatteryMonitoring21.Name = "configBatteryMonitoring21";
-            //             // backstageViewPageinstfw
+            // backstageViewPageinstfw
             // 
             this.backstageViewPageinstfw.Advanced = false;
             this.backstageViewPageinstfw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
@@ -562,7 +565,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
 
         #endregion
 
-        private Controls.BackstageView.BackstageView backstageView;
+        internal Controls.BackstageView.BackstageView backstageView;
         private ConfigurationView.ConfigFirmware configFirmware1;
         private ConfigurationView.ConfigFirmwareDisabled configFirmwareDisabled1;
         private ConfigurationView.ConfigWizard configWizard1;
@@ -574,7 +577,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
         private ConfigurationView.ConfigRadioInput configRadioInput1;
         private ConfigurationView.ConfigFlightModes configFlightModes1;
         private ConfigurationView.ConfigFailSafe configFailSafe1;
-        private _3DRradio _3DRradio1;
+        private Sikradio _3DRradio1;
         private ConfigurationView.ConfigBatteryMonitoring configBatteryMonitoring1;
         private ConfigurationView.ConfigHWRangeFinder ConfigHWRangeFinder1;
         private ConfigurationView.ConfigHWAirspeed configHWAirspeed1;
@@ -593,7 +596,7 @@ this.backstageViewPageESC = new MissionPlanner.Controls.BackstageView.BackstageV
         private Controls.BackstageView.BackstageViewPage backstageViewPageradio;
         private Controls.BackstageView.BackstageViewPage backstageViewPageflmode;
         private Controls.BackstageView.BackstageViewPage backstageViewPagefs;
-        private Controls.BackstageView.BackstageViewPage backstageViewPage3drradio;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageSikradio;
         private Controls.BackstageView.BackstageViewPage backstageViewPagebatmon;
         private Controls.BackstageView.BackstageViewPage backstageViewPagesonar;
         private Controls.BackstageView.BackstageViewPage backstageViewPageairspeed;

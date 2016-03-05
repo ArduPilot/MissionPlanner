@@ -165,6 +165,15 @@
       <Y></Y>
       <Z></Z>
     </DO_GRIPPER>
+    <DO_PARACHUTE>
+      <P1>Enable(1)/Release(2)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_PARACHUTE>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -261,7 +270,7 @@
     </LOITER_UNLIM>
     <LOITER_TURNS>
       <P1>Turns</P1>
-      <P2></P2>
+      <P2>Heading req</P2>
       <P3>Radius</P3>
       <P4></P4>
       <X>Lat</X>
@@ -270,7 +279,7 @@
     </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
-      <P2></P2>
+      <P2>Heading req</P2>
       <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
@@ -278,7 +287,7 @@
       <Z>Alt</Z>
     </LOITER_TIME>
     <LOITER_TO_ALT>
-      <P1>Heading</P1>
+      <P1>Heading req</P1>
       <P2>Radius</P2>
       <P3></P3>
       <P4></P4>
@@ -313,6 +322,33 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <VTOL_TAKEOFF>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z>Alt</Z>
+    </VTOL_TAKEOFF>
+    <VTOL_LAND>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </VTOL_LAND>
+    <DO_VTOL_TRANSITION>
+      <P1>mode (3=mc/4=plane)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_VTOL_TRANSITION>
     <CONTINUE_AND_CHANGE_ALT>
       <P1></P1>
       <P2></P2>
@@ -502,6 +538,15 @@
       <Y></Y>
       <Z></Z>
     </DO_MOUNT_CONTROL>
+    <DO_PARACHUTE>
+      <P1>Enable(1)/Release(2)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_PARACHUTE>
   </APM>
   <!-- -->
   <APRover>

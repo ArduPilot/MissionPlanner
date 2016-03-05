@@ -141,7 +141,7 @@ namespace MissionPlanner.Utilities
                 st.WriteByte((byte) temp);
             }
 
-            return ret;
+            //return ret;
         }
 
         private bool parse(uint8_t temp)
@@ -249,8 +249,6 @@ namespace MissionPlanner.Utilities
 
             if (blockid == 4027) // obs
             {
-                return false;
-
                 Console.WriteLine("Obs");
                 var pos = 0;
 

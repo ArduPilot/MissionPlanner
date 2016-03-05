@@ -55,7 +55,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkNumericUpDownH_PHANG.setup(0, 99, 1, 1f, "H_PHANG", MainV2.comPort.MAV.param);
             mavlinkCheckBoxatc_piro_comp.setup(1, 0, "ATC_PIRO_COMP", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownh_sv_test.setup(0, 99, 1, 0.01f, "H_SV_TEST", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownh_sv_test.setup(0, 99, 1, 1, "H_SV_TEST", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownatc_hovr_rol_trm.setup(0, 99, 100, 0.1f, "ATC_HOVR_ROL_TRM", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownh_cyc_max.setup(0, 99, 100f, 0.1f, "H_CYC_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownH_RSC_CRITICAL.setup(0, 99, 1, 1f, "H_RSC_CRITICAL", MainV2.comPort.MAV.param);
@@ -254,30 +254,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void HS4_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
-                if (int.Parse(HS4_MIN.Text) > HS4.minline)
-                    HS4_MIN.Text = HS4.minline.ToString();
-                if (int.Parse(HS4_MAX.Text) < HS4.maxline)
-                    HS4_MAX.Text = HS4.maxline.ToString();
-            }
-            catch
-            {
-            }
+
         }
 
         private void HS3_Paint(object sender, PaintEventArgs e)
         {
-            try
-            {
-                if (int.Parse(H_COL_MIN.Text) > HS3.minline)
-                    H_COL_MIN.Text = HS3.minline.ToString();
-                if (int.Parse(H_COL_MAX.Text) < HS3.maxline)
-                    H_COL_MAX.Text = HS3.maxline.ToString();
-            }
-            catch
-            {
-            }
+
         }
 
         private void COL_MAX__Enter(object sender, EventArgs e)

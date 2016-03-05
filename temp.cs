@@ -946,7 +946,7 @@ namespace MissionPlanner
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = MainV2.LogDir;
+            fbd.SelectedPath = Settings.Instance.LogDir;
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
@@ -1025,6 +1025,9 @@ namespace MissionPlanner
                     if (software.urlpx4v2 != "")
                         xmlwriter.WriteElementString("urlpx4v2",
                             new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlpx4v4 != "")
+                        xmlwriter.WriteElementString("urlpx4v4",
+                            new Uri(software.urlpx4v4).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrbrainv40 != "")
                         xmlwriter.WriteElementString("urlvrbrainv40",
                             new Uri(software.urlvrbrainv40).LocalPath.TrimStart('/', '\\'));
@@ -1074,6 +1077,10 @@ namespace MissionPlanner
                     if (software.urlpx4v2 != "")
                     {
                         Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
+                    }
+                    if (software.urlpx4v4 != "")
+                    {
+                        Common.getFilefromNet(software.urlpx4v4, basedir + new Uri(software.urlpx4v4).LocalPath);
                     }
 
                     if (software.urlvrbrainv40 != "")
@@ -1155,11 +1162,11 @@ namespace MissionPlanner
             frm.Show();
         }
 
-        MAVLinkSerialPort comport;
+        static MAVLinkSerialPort comport;
 
-        TcpListener listener;
+        static TcpListener listener;
 
-        TcpClient client;
+        static TcpClient client;
 
         private void but_mavserialport_Click(object sender, EventArgs e)
         {
@@ -1331,13 +1338,13 @@ namespace MissionPlanner
                 ofd.Multiselect = true;
                 ofd.ShowDialog();
 
-                string droneshareusername = MainV2.getConfig("droneshareusername");
+                string droneshareusername = Settings.Instance["droneshareusername"];
 
                 InputBox.Show("Username", "Username", ref droneshareusername);
 
-                MainV2.config["droneshareusername"] = droneshareusername;
+                Settings.Instance["droneshareusername"] = droneshareusername;
 
-                string dronesharepassword = MainV2.getConfig("dronesharepassword");
+                string dronesharepassword = Settings.Instance["dronesharepassword"];
 
                 if (dronesharepassword != "")
                 {
@@ -1358,7 +1365,7 @@ namespace MissionPlanner
 
                 string encryptedpw = crypto2.EncryptString(dronesharepassword);
 
-                MainV2.config["dronesharepassword"] = encryptedpw;
+                Settings.Instance["dronesharepassword"] = encryptedpw;
 
                 if (File.Exists(ofd.FileName))
                 {
@@ -1403,7 +1410,7 @@ namespace MissionPlanner
         private void but_maplogs_Click(object sender, EventArgs e)
         {
             FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.SelectedPath = MainV2.LogDir;
+            fbd.SelectedPath = Settings.Instance.LogDir;
 
             if (fbd.ShowDialog() == DialogResult.OK)
             {
@@ -1420,13 +1427,13 @@ namespace MissionPlanner
 
         private void but_droneapi_Click(object sender, EventArgs e)
         {
-            string droneshareusername = MainV2.getConfig("droneshareusername");
+            string droneshareusername = Settings.Instance["droneshareusername"];
 
             InputBox.Show("Username", "Username", ref droneshareusername);
 
-            MainV2.config["droneshareusername"] = droneshareusername;
+            Settings.Instance["droneshareusername"] = droneshareusername;
 
-            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+            string dronesharepassword = Settings.Instance["dronesharepassword"];
 
             if (dronesharepassword != "")
             {
@@ -1447,7 +1454,7 @@ namespace MissionPlanner
 
             string encryptedpw = crypto2.EncryptString(dronesharepassword);
 
-            MainV2.config["dronesharepassword"] = encryptedpw;
+            Settings.Instance["dronesharepassword"] = encryptedpw;
 
             DroneProto dp = new DroneProto();
 
@@ -1642,8 +1649,28 @@ namespace MissionPlanner
             if (InputBox.Show("enter url", "enter url", ref url) == DialogResult.OK)
             {
                 render.playurl = url;
-                render.Start(FlightData.myhud.Width, FlightData.myhud.Height);
+                try
+                {
+                    render.Start();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+                }
             }
+        }
+
+        private void but_gstream_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GStreamer.Start();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
+
         }
     }
 }

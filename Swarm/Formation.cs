@@ -19,6 +19,9 @@ namespace MissionPlanner.Swarm
 
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
         public void setOffsets(MAVLinkInterface mav, double x, double y, double z)
         {
             offsets[mav] = new HIL.Vector3(x, y, z);
@@ -80,10 +83,25 @@ namespace MissionPlanner.Swarm
 
                     double[] p1 = trans.MathTransform.Transform(pll1);
 
-                    // add offsets to utm
-                    p1[0] += ((HIL.Vector3) offsets[port]).x;
-                    p1[1] += ((HIL.Vector3) offsets[port]).y;
+                    double heading = -Leader.MAV.cs.yaw;
 
+                    double length = offsets[port].length();
+
+                    var x = ((HIL.Vector3)offsets[port]).x;
+                    var y = ((HIL.Vector3)offsets[port]).y;
+
+                    // add offsets to utm
+                    p1[0] += x*Math.Cos(heading*deg2rad) - y*Math.Sin(heading*deg2rad);
+                    p1[1] += x*Math.Sin(heading*deg2rad) + y*Math.Cos(heading*deg2rad);
+
+                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                    {
+                        // project the point forwards gs*5
+                        var gs = port.MAV.cs.groundspeed;
+
+                        p1[1] += gs*5*Math.Cos((-heading)*deg2rad);
+                        p1[0] += gs*5*Math.Sin((-heading)*deg2rad);
+                    }
                     // convert back to wgs84
                     IMathTransform inversedTransform = trans.MathTransform.Inverse();
                     double[] point = inversedTransform.Transform(p1);
@@ -91,6 +109,22 @@ namespace MissionPlanner.Swarm
                     target.Lat = point[1];
                     target.Lng = point[0];
                     target.Alt += ((HIL.Vector3) offsets[port]).z;
+
+                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                    {
+                        var dist = target.GetDistance(new PointLatLngAlt(port.MAV.cs.lat, port.MAV.cs.lng, port.MAV.cs.alt));
+
+                        dist -= port.MAV.cs.groundspeed*5;
+
+                        var leadergs = Leader.MAV.cs.groundspeed;
+
+                        var newspeed = (leadergs + (float) (dist/10));
+
+                        if (newspeed < 5)
+                            newspeed = 5;
+
+                        port.setParam("TRIM_ARSPD_CM", newspeed*100.0f);
+                    }
 
                     port.setGuidedModeWP(new Locationwp()
                     {

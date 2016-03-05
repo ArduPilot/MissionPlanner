@@ -71,6 +71,7 @@ namespace MissionPlanner
             CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            Controls.BackstageView.BackstageViewPage.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
 
             // setup settings provider
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
@@ -105,10 +106,10 @@ namespace MissionPlanner
             {
                 vvvvz = true;
                 // set pw
-                MainV2.config["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
-                MainV2.config["password_protect"] = "True";
+                Settings.Instance["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
+                Settings.Instance["password_protect"] = "True";
                 // prevent wizard
-                MainV2.config["newuser"] = "11/02/2014";
+                Settings.Instance["newuser"] = "11/02/2014";
                 // invalidate update url
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
@@ -122,6 +123,7 @@ namespace MissionPlanner
             Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
             Splash.Show();
 
+            Application.DoEvents();
             Application.DoEvents();
 
             try
@@ -159,7 +161,12 @@ namespace MissionPlanner
             {
                 File.Delete(file);
             }
-            //File.Delete("*.xaml");
+
+            file = "NumpyDotNet.dll";
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
         }
 
 
@@ -167,13 +174,13 @@ namespace MissionPlanner
         {
             if (set)
             {
-                MainV2.config[name] = value;
+                Settings.Instance[name] = value;
                 return value;
             }
 
-            if (MainV2.config.ContainsKey(name))
+            if (Settings.Instance.ContainsKey(name))
             {
-                return MainV2.config[name].ToString();
+                return Settings.Instance[name].ToString();
             }
 
             return "";
@@ -208,6 +215,11 @@ namespace MissionPlanner
 
         static void handleException(Exception ex)
         {
+            if (ex.Message == "Safe handle has been closed")
+            {
+                return;
+            }
+
             MissionPlanner.Utilities.Tracking.AddException(ex);
 
             log.Debug(ex.ToString());
@@ -228,6 +240,11 @@ namespace MissionPlanner
             if (ex.Message == "A device attached to the system is not functioning.")
             {
                 CustomMessageBox.Show("Serial connection has been lost");
+                return;
+            }
+            if (ex.GetType() == typeof(OpenTK.Graphics.GraphicsContextException))
+            {
+                CustomMessageBox.Show("Please update your graphics card drivers. Failed to create opengl surface\n" + ex.Message);
                 return;
             }
             if (ex.GetType() == typeof (MissingMethodException) || ex.GetType() == typeof (TypeLoadException))

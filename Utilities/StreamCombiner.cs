@@ -85,6 +85,12 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    if (Server == null)
+                    {
+                        System.Threading.Thread.Sleep(1);
+                        continue;
+                    }
+
                     while (Server.Connected && Server.Available > 0)
                     {
                         int read = Server.GetStream().Read(buffer, 0, buffer.Length);

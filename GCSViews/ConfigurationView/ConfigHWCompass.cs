@@ -63,6 +63,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
             CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X"))
+            {
+                Enabled = false;
+                return;
+            }
+
             int offset1_x = (int) MainV2.comPort.MAV.param["COMPASS_OFS_X"];
             int offset1_y = (int) MainV2.comPort.MAV.param["COMPASS_OFS_Y"];
             int offset1_z = (int) MainV2.comPort.MAV.param["COMPASS_OFS_Z"];

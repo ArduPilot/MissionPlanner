@@ -82,14 +82,16 @@ namespace MissionPlanner.Maps
         {
             string ret;
 
-            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, pos.X, pos.Y, zoom, mapsource);
+            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, pos.X, pos.Y, zoom, mapsource, mapkey);
 
             return ret;
         }
 
-        //http://a.tiles.mapbox.com/v3/examples.map-i86l3621/{z}/{x}/{y}.png
-        public static string CustomURL = "http://a.tiles.mapbox.com/v3/{3}/{2}/{0}/{1}.png";
+        public static string CustomURL = "http://a.tiles.mapbox.com/v4/{3}/{2}/{0}/{1}.png?access_token={4}";
 
-        public object mapsource = "kevin3dr.hokdl9ko";
+        public object mapsource = "mapbox.satellite";//"digitalglobe.nmghof7o";
+        public object mapkey = "pk.eyJ1IjoibWVlZSIsImEiOiJoeHpwNzJFIn0.BHJ74PT22hTY4ivnpPZEQA";
+
+        //"pk.eyJ1IjoiZGlnaXRhbGdsb2JlIiwiYSI6ImNpampsZ3JtbTAyejV0aG01bW5temdvYmIifQ.Q8pQPkSL9r_f7sOuAnkIBA";
     }
 }

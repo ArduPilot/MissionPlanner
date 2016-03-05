@@ -18,6 +18,8 @@ namespace MissionPlanner.Controls
         List<KeyValuePair<int, string>> list;
         int chkcount;
 
+        MAVLink.MAV_PARAM_TYPE Type = MAVLink.MAV_PARAM_TYPE.REAL32;
+
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
@@ -30,10 +32,25 @@ namespace MissionPlanner.Controls
 
                 for (int a = 0; a < chklist.Count; a++)
                 {
-                    answer += chklist[a].Value.Checked ? (1 << chklist[a].Key) : 0;
+                    answer += chklist[a].Value.Checked ? (uint)(1 << chklist[a].Key) : 0;
                 }
 
-                return answer;
+                // type conversions
+                // ie int8 255 = -1
+                if (Type == MAVLink.MAV_PARAM_TYPE.INT8)
+                {
+                    answer = (sbyte)answer;
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT16)
+                {
+                    answer = (short)answer;
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
+                {
+                    answer = (int)answer;
+                } 
+
+                return (float)answer;
             }
             set
             {
@@ -73,6 +90,8 @@ namespace MissionPlanner.Controls
                 int top = 9;
 
                 uint value = (uint) paramlist[paramname].Value;
+
+                Type = paramlist[paramname].TypeAP;
 
                 for (int a = 0; a < chkcount; a++)
                 {

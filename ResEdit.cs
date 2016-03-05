@@ -211,10 +211,21 @@ namespace resedit
                     {
                         if (writer != null)
                             writer.Close();
-                        writer =
-                            new ResXResourceWriter("translation/" +
-                                                   row.Cells[colFile.Index].Value.ToString()
-                                                       .Replace(".resources", "." + ci + ".resx"));
+
+                        var filename = row.Cells[colFile.Index].Value.ToString();
+
+                        var strings = filename.Split('.');
+
+                        var dir = "translation";
+
+                        for (int a = 0; a < strings.Length-2; a++)
+                        {
+                            dir += Path.DirectorySeparatorChar + strings[a];
+                            Directory.CreateDirectory(dir);
+                        }
+
+                            writer =
+                                new ResXResourceWriter(dir + Path.DirectorySeparatorChar + strings[strings.Length - 2] + "." + ci + ".resx");
                     }
 
                     writer.AddResource(row.Cells[colInternal.Index].Value.ToString(),

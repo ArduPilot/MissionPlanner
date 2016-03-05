@@ -61,9 +61,16 @@ namespace MissionPlanner.Log
                     {
                         mine.logreadmode = true;
 
-                        byte[] hbpacket = mine.getHeartBeat();
+                        var midpoint = mine.logplaybackfile.BaseStream.Length / 2;
 
-                        if (hbpacket.Length == 0)
+                        mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
+
+                        byte[] hbpacket = mine.getHeartBeat();
+                        byte[] hbpacket1 = mine.getHeartBeat();
+                        byte[] hbpacket2 = mine.getHeartBeat();
+                        byte[] hbpacket3 = mine.getHeartBeat();
+
+                        if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 && hbpacket3.Length == 0)
                         {
                             mine.logreadmode = false;
                             mine.logplaybackfile.Close();
@@ -82,14 +89,47 @@ namespace MissionPlanner.Log
                             continue;
                         }
 
-                        MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket);
+                        if (hbpacket.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) mine.DebugPacket(hbpacket);
+                        }
+
+                        if (hbpacket1.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb1 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket1);
+                        }
+
+                        if (hbpacket2.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb2 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket2);
+                        }
+
+                        if (hbpacket3.Length != 0)
+                        {
+                            MAVLink.mavlink_heartbeat_t hb3 = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket3);
+                        }
+
+                        // find most appropriate
+                        if (mine.MAVlist.Count > 1)
+                        {
+                            foreach (var mav in mine.MAVlist.GetMAVStates())
+                            {
+                                if (mav.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                    continue;
+                                if (mav.aptype == MAVLink.MAV_TYPE.GCS)
+                                    continue;
+
+                                mine.sysidcurrent = mav.sysid;
+                                mine.compidcurrent = mav.compid;
+                            }
+                        }
 
                         mine.logreadmode = false;
                         mine.logplaybackfile.Close();
 
                         string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
                                          + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                         + hbpacket[3] + Path.DirectorySeparatorChar;
+                                         + mine.MAV.sysid + Path.DirectorySeparatorChar;
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);

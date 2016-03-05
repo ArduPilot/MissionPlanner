@@ -36,7 +36,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AStar">
-      <HintPath>..\..\extLibs\AStar.dll</HintPath>
+      <HintPath>..\..\ExtLibs\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
@@ -52,7 +52,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="log4net">
-      <HintPath>..\..\extLibs\log4net.dll</HintPath>
+      <HintPath>..\..\ExtLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>

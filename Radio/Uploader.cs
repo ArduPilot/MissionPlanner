@@ -1,22 +1,25 @@
 using System;
-using MissionPlanner.Comms;
-using System.Collections.Generic;
+using System.Threading;
 using MissionPlanner;
+using MissionPlanner.Comms;
 
 namespace uploader
 {
     public class Uploader
     {
-        public event _3DRradio.LogEventHandler LogEvent;
-        public event _3DRradio.ProgressEventHandler ProgressEvent;
+        public enum Board : byte
+        {
+            // device IDs XXX should come with the firmware image...
+            DEVICE_ID_RF50 = 0x4d,
+            DEVICE_ID_HM_TRP = 0x4e,
+            DEVICE_ID_RFD900 = 0X42,
+            DEVICE_ID_RFD900A = 0X43,
 
-        private int bytes_to_process;
-        private int bytes_processed;
-        public ICommsSerial port;
+            DEVICE_ID_RFD900U = 0X80 | 0x01,
+            DEVICE_ID_RFD900P = 0x80 | 0x02,
 
-        bool banking = false;
-        Board id = Board.FAILED;
-        Frequency freq = Frequency.FAILED;
+            FAILED = 0x11
+        }
 
         public enum Code : byte
         {
@@ -35,26 +38,9 @@ namespace uploader
             READ_FLASH = 0x26,
             PROG_MULTI = 0x27,
             READ_MULTI = 0x28,
-            REBOOT = 0x30,
+            REBOOT = 0x30
 
             // protocol constants
-        };
-
-        public int PROG_MULTI_MAX = 32; // maximum number of bytes in a PROG_MULTI command
-        public int READ_MULTI_MAX = 255; // largest read that can be requested
-
-        public enum Board : byte
-        {
-            // device IDs XXX should come with the firmware image...
-            DEVICE_ID_RF50 = 0x4d,
-            DEVICE_ID_HM_TRP = 0x4e,
-            DEVICE_ID_RFD900 = 0X42,
-            DEVICE_ID_RFD900A = 0X43,
-
-            DEVICE_ID_RFD900U = 0X80 | 0x01,
-            DEVICE_ID_RFD900P = 0x80 | 0x02,
-
-            FAILED = 0x11,
         }
 
         public enum Frequency : byte
@@ -66,20 +52,30 @@ namespace uploader
             FREQ_868 = 0x86,
             FREQ_915 = 0x91,
 
-            FAILED = 0x11,
+            FAILED = 0x11
         }
 
+        private bool banking;
+        private int bytes_processed;
 
-        public Uploader()
-        {
-        }
+        private int bytes_to_process;
+        private Frequency freq = Frequency.FAILED;
+        private Board id = Board.FAILED;
+        public ICommsSerial port;
+
+        public int PROG_MULTI_MAX = 32; // maximum number of bytes in a PROG_MULTI command
+        public int READ_MULTI_MAX = 255; // largest read that can be requested
+
+
+        public event Sikradio.LogEventHandler LogEvent;
+        public event Sikradio.ProgressEventHandler ProgressEvent;
 
 
         /// <summary>
-        /// Upload the specified image_data.
+        ///     Upload the specified image_data.
         /// </summary>
         /// <param name='image_data'>
-        /// Image_data to be uploaded.
+        ///     Image_data to be uploaded.
         /// </param>
         public void upload(ICommsSerial on_port, IHex image_data, bool use_mavlink = false)
         {
@@ -111,7 +107,7 @@ namespace uploader
             // The second sync attempt here is mostly laziness, though it does verify that we 
             // can send more than one packet.
             //
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
             {
                 if (cmdSync())
                     break;
@@ -136,9 +132,9 @@ namespace uploader
                 throw new Exception("This Firmware requires banking support");
             }
 
-            if ((((byte) id & 0x80) == 0x80))
+            if (((byte) id & 0x80) == 0x80)
             {
-                this.banking = true;
+                banking = true;
                 log("Using 24bit addresses");
             }
 
@@ -148,7 +144,7 @@ namespace uploader
 
             // progress fractions
             bytes_to_process = 0;
-            foreach (byte[] bytes in image_data.Values)
+            foreach (var bytes in image_data.Values)
             {
                 bytes_to_process += bytes.Length;
             }
@@ -157,7 +153,7 @@ namespace uploader
 
             // program the flash blocks
             log("programming\n");
-            foreach (KeyValuePair<UInt32, byte[]> kvp in image_data)
+            foreach (var kvp in image_data)
             {
                 // move the program pointer to the base of this block
                 cmdSetAddress(kvp.Key);
@@ -168,7 +164,7 @@ namespace uploader
 
             // and read them back to verify that they were programmed
             log("verifying\n");
-            foreach (KeyValuePair<UInt32, byte[]> kvp in image_data)
+            foreach (var kvp in image_data)
             {
                 // move the program pointer to the base of this block
                 cmdSetAddress(kvp.Key);
@@ -183,26 +179,26 @@ namespace uploader
 
         private void upload_block(byte[] data)
         {
-            foreach (byte b in data)
+            foreach (var b in data)
             {
                 cmdProgram_Single(b);
-                progress((double) (++bytes_processed)/bytes_to_process);
+                progress((double) ++bytes_processed/bytes_to_process);
             }
         }
 
         private void upload_block_multi(byte[] data)
         {
-            int offset = 0;
+            var offset = 0;
             int to_send;
-            int length = data.GetLength(0);
+            var length = data.GetLength(0);
 
             // Chunk the block in units of no more than what the bootloader
             // will program.
             while (offset < length)
             {
                 to_send = length - offset;
-                if (to_send > (int) PROG_MULTI_MAX)
-                    to_send = (int) PROG_MULTI_MAX;
+                if (to_send > PROG_MULTI_MAX)
+                    to_send = PROG_MULTI_MAX;
 
                 log(string.Format("multi {0}/{1}\n", offset, to_send), 1);
                 cmdProgramMulti(data, offset, to_send);
@@ -215,17 +211,17 @@ namespace uploader
 
         private void verify_block_multi(byte[] data)
         {
-            int offset = 0;
+            var offset = 0;
             int to_verf;
-            int length = data.GetLength(0);
+            var length = data.GetLength(0);
 
             // Chunk the block in units of no more than what the bootloader
             // will read.
             while (offset < length)
             {
                 to_verf = length - offset;
-                if (to_verf > (int) READ_MULTI_MAX)
-                    to_verf = (int) READ_MULTI_MAX;
+                if (to_verf > READ_MULTI_MAX)
+                    to_verf = READ_MULTI_MAX;
 
                 log(string.Format("multi {0}/{1}\n", offset, to_verf), 1);
                 cmdVerifyMulti(data, offset, to_verf);
@@ -237,10 +233,10 @@ namespace uploader
         }
 
         /// <summary>
-        /// Requests a sync reply.
+        ///     Requests a sync reply.
         /// </summary>
         /// <returns>
-        /// True if in sync, false otherwise.
+        ///     True if in sync, false otherwise.
         /// </returns>
         private bool cmdSync()
         {
@@ -262,7 +258,7 @@ namespace uploader
         }
 
         /// <summary>
-        /// Erases the device.
+        ///     Erases the device.
         /// </summary>
         private void cmdErase()
         {
@@ -270,18 +266,18 @@ namespace uploader
             send(Code.EOC);
 
             // sleep for 2 second - erase seems to take about 2 seconds
-            System.Threading.Thread.Sleep(2000);
+            Thread.Sleep(2000);
 
             getSync();
         }
 
         /// <summary>
-        /// Set the address for the next program or read operation.
+        ///     Set the address for the next program or read operation.
         /// </summary>
         /// <param name='address'>
-        /// Address to be set.
+        ///     Address to be set.
         /// </param>
-        private void cmdSetAddress(UInt32 address)
+        private void cmdSetAddress(uint address)
         {
             if (banking)
             {
@@ -296,17 +292,17 @@ namespace uploader
             else
             {
                 send(Code.LOAD_ADDRESS);
-                send((UInt16) address);
+                send((ushort) address);
                 send(Code.EOC);
             }
             getSync();
         }
 
         /// <summary>
-        /// Programs a byte and advances the program address by one.
+        ///     Programs a byte and advances the program address by one.
         /// </summary>
         /// <param name='data'>
-        /// Data to program.
+        ///     Data to program.
         /// </param>
         private void cmdProgram_Single(byte data)
         {
@@ -330,13 +326,13 @@ namespace uploader
         }
 
         /// <summary>
-        /// Verifies the byte at the current program address.
+        ///     Verifies the byte at the current program address.
         /// </summary>
         /// <param name='data'>
-        /// Data expected to be found.
+        ///     Data expected to be found.
         /// </param>
         /// <exception cref='VerifyFail'>
-        /// Is thrown when the verify fail.
+        ///     Is thrown when the verify fail.
         /// </exception>
         private void cmdVerify(byte data)
         {
@@ -355,7 +351,7 @@ namespace uploader
             send((byte) length);
             send(Code.EOC);
 
-            for (int i = 0; i < length; i++)
+            for (var i = 0; i < length; i++)
             {
                 if (recv() != data[offset + i])
                 {
@@ -385,7 +381,7 @@ namespace uploader
             // XXX should be getting valid board/frequency data from firmware file
             if ((id != Board.DEVICE_ID_HM_TRP) && (id != Board.DEVICE_ID_RF50) && (id != Board.DEVICE_ID_RFD900) &&
                 (id != Board.DEVICE_ID_RFD900A))
-                throw new Exception("bootloader device ID mismatch - device:" + id.ToString());
+                throw new Exception("bootloader device ID mismatch - device:" + id);
 
             getSync();
         }
@@ -402,13 +398,13 @@ namespace uploader
         }
 
         /// <summary>
-        /// Expect the two-byte synchronisation codes within the read timeout.
+        ///     Expect the two-byte synchronisation codes within the read timeout.
         /// </summary>
         /// <exception cref='NoSync'>
-        /// Is thrown if the wrong bytes are read.
-        /// <exception cref='TimeoutException'>
-        /// Is thrown if the read timeout expires.
-        /// </exception>
+        ///     Is thrown if the wrong bytes are read.
+        ///     <exception cref='TimeoutException'>
+        ///         Is thrown if the read timeout expires.
+        ///     </exception>
         private void getSync()
         {
             try
@@ -437,17 +433,17 @@ namespace uploader
         }
 
         /// <summary>
-        /// Send the specified code to the bootloader.
+        ///     Send the specified code to the bootloader.
         /// </summary>
         /// <param name='code'>
-        /// Code to send.
+        ///     Code to send.
         /// </param>
         private void send(Code code)
         {
-            byte[] b = new byte[] {(byte) code};
+            byte[] b = {(byte) code};
 
             log("send ", 5);
-            foreach (byte x in b)
+            foreach (var x in b)
             {
                 log(string.Format(" {0:X}", x), 5);
             }
@@ -457,17 +453,17 @@ namespace uploader
         }
 
         /// <summary>
-        /// Send the specified byte to the bootloader.
+        ///     Send the specified byte to the bootloader.
         /// </summary>
         /// <param name='data'>
-        /// Data byte to send.
+        ///     Data byte to send.
         /// </param>
         private void send(byte data)
         {
-            byte[] b = new byte[] {data};
+            byte[] b = {data};
 
             log("send ", 5);
-            foreach (byte x in b)
+            foreach (var x in b)
             {
                 log(string.Format(" {0:X}", x), 5);
             }
@@ -475,7 +471,7 @@ namespace uploader
 
             while (port.BytesToWrite > 50)
             {
-                int fred = 1;
+                var fred = 1;
                 fred++;
                 Console.WriteLine("slowdown");
             }
@@ -486,7 +482,7 @@ namespace uploader
         {
             while (port.BytesToWrite > 50)
             {
-                int fred = 1;
+                var fred = 1;
                 fred++;
                 Console.WriteLine("slowdown");
             }
@@ -494,17 +490,17 @@ namespace uploader
         }
 
         /// <summary>
-        /// Send the specified 16-bit value, LSB first.
+        ///     Send the specified 16-bit value, LSB first.
         /// </summary>
         /// <param name='data'>
-        /// Data value to send.
+        ///     Data value to send.
         /// </param>
-        private void send(UInt16 data)
+        private void send(ushort data)
         {
-            byte[] b = new byte[2] {(byte) (data & 0xff), (byte) (data >> 8)};
+            var b = new byte[2] {(byte) (data & 0xff), (byte) (data >> 8)};
 
             log("send ", 5);
-            foreach (byte x in b)
+            foreach (var x in b)
             {
                 log(string.Format(" {0:X}", x), 5);
             }
@@ -514,13 +510,13 @@ namespace uploader
         }
 
         /// <summary>
-        /// Receive a byte.
+        ///     Receive a byte.
         /// </summary>
         private byte recv()
         {
             byte b;
 
-            DateTime Deadline = DateTime.Now.AddMilliseconds(port.ReadTimeout);
+            var Deadline = DateTime.Now.AddMilliseconds(port.ReadTimeout);
 
             while (DateTime.Now < Deadline && port.BytesToRead == 0)
             {

@@ -16,7 +16,7 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
 using Transitions;
-using System.Speech.Synthesis;
+using MissionPlanner.Warnings;
 
 namespace MissionPlanner
 {
@@ -201,7 +201,7 @@ namespace MissionPlanner
                 MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
 
                 if (AdvancedChanged != null)
-                    AdvancedChanged(null, new EventArgs());
+                    AdvancedChanged(null, EventArgs.Empty);
             }
         }
 
@@ -219,10 +219,10 @@ namespace MissionPlanner
                 {
                     _adsb = new Utilities.adsb();
 
-                    if (MainV2.config["adsbserver"] != null)
-                        Utilities.adsb.server = MainV2.config["adsbserver"].ToString();
-                    if (MainV2.config["adsbport"] != null)
-                        Utilities.adsb.serverport = int.Parse(MainV2.config["adsbport"].ToString());
+                    if (Settings.Instance["adsbserver"] != null)
+                        Utilities.adsb.server = Settings.Instance["adsbserver"];
+                    if (Settings.Instance["adsbport"] != null)
+                        Utilities.adsb.serverport = int.Parse(Settings.Instance["adsbport"].ToString());
                 }
                 else
                 {
@@ -237,7 +237,23 @@ namespace MissionPlanner
         /// <summary>
         /// Active Comport interface
         /// </summary>
-        public static MAVLinkInterface comPort = new MAVLinkInterface();
+        public static MAVLinkInterface comPort
+        {
+            get
+            {
+                return _comPort;
+            }
+            set {
+                if (_comPort == value)
+                    return;
+                _comPort = value;
+                _comPort.MavChanged -= instance.comPort_MavChanged;
+                _comPort.MavChanged += instance.comPort_MavChanged;
+                instance.comPort_MavChanged(null, null);
+            }
+        }
+
+        static MAVLinkInterface _comPort = new MAVLinkInterface();
 
         /// <summary>
         /// passive comports
@@ -262,11 +278,6 @@ namespace MissionPlanner
         /// Comport name
         /// </summary>
         public static string comPortName = "";
-
-        /// <summary>
-        /// use to store all internal config
-        /// </summary>
-        public static Hashtable config = new Hashtable();
 
         /// <summary>
         /// mono detection
@@ -335,23 +346,6 @@ namespace MissionPlanner
         /// </summary>
         public static MainV2 instance = null;
 
-        public static string LogDir
-        {
-            get
-            {
-                if (config["logdirectory"] == null)
-                    return _logdir;
-                return config["logdirectory"].ToString();
-            }
-            set
-            {
-                _logdir = value;
-                config["logdirectory"] = value;
-            }
-        }
-
-        static string _logdir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                                @"logs";
 
         public static MainSwitcher View;
 
@@ -373,7 +367,8 @@ namespace MissionPlanner
             ArduRover,
             Ateryx,
             ArduTracker,
-            Gymbal
+            Gymbal,
+            PX4
         }
 
         DateTime connectButtonUpdate = DateTime.Now;
@@ -416,13 +411,13 @@ namespace MissionPlanner
             log.Info("Mainv2 ctor");
 
             // set this before we reset it
-            MainV2.config["NUM_tracklength"] = "200";
+            Settings.Instance["NUM_tracklength"] = "200";
 
             // create one here - but override on load
-            MainV2.config["guid"] = Guid.NewGuid().ToString();
+            Settings.Instance["guid"] = Guid.NewGuid().ToString();
 
             // load config
-            xmlconfig(false);
+            LoadConfig();
 
             // force language to be loaded
             L10N.GetConfigLang();
@@ -499,10 +494,9 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
-            if (MainV2.config.ContainsKey("comport"))
+            string temp = Settings.Instance.ComPort;
+            if (!string.IsNullOrEmpty(temp))
             {
-                string temp = (string) config["comport"];
-
                 _connectionControl.CMB_serialport.SelectedIndex = _connectionControl.CMB_serialport.FindString(temp);
                 if (_connectionControl.CMB_serialport.SelectedIndex == -1)
                 {
@@ -511,19 +505,18 @@ namespace MissionPlanner
                 comPort.BaseStream.PortName = temp;
                 comPortName = temp;
             }
-            if (MainV2.config.ContainsKey("baudrate"))
+            string temp2 = Settings.Instance.BaudRate;
+            if (!string.IsNullOrEmpty(temp2))
             {
-                string temp2 = (string) config["baudrate"];
-
                 _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
                 if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
                 {
                     _connectionControl.CMB_baudrate.Text = temp2;
                 }
             }
-            if (MainV2.config.ContainsKey("APMFirmware"))
+            string temp3 = Settings.Instance.APMFirmware;
+            if (!string.IsNullOrEmpty(temp3))
             {
-                string temp3 = (string) config["APMFirmware"];
                 _connectionControl.TOOL_APMFirmware.SelectedIndex =
                     _connectionControl.TOOL_APMFirmware.FindStringExact(temp3);
                 if (_connectionControl.TOOL_APMFirmware.SelectedIndex == -1)
@@ -532,21 +525,21 @@ namespace MissionPlanner
                     (MainV2.Firmwares) Enum.Parse(typeof (MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
             }
 
-            MissionPlanner.Utilities.Tracking.cid = new Guid(MainV2.config["guid"].ToString());
+            MissionPlanner.Utilities.Tracking.cid = new Guid(Settings.Instance["guid"].ToString());
 
             // setup guids for droneshare
-            if (!MainV2.config.ContainsKey("plane_guid"))
-                MainV2.config["plane_guid"] = Guid.NewGuid().ToString();
+            if (!Settings.Instance.ContainsKey("plane_guid"))
+                Settings.Instance["plane_guid"] = Guid.NewGuid().ToString();
 
-            if (!MainV2.config.ContainsKey("copter_guid"))
-                MainV2.config["copter_guid"] = Guid.NewGuid().ToString();
+            if (!Settings.Instance.ContainsKey("copter_guid"))
+                Settings.Instance["copter_guid"] = Guid.NewGuid().ToString();
 
-            if (!MainV2.config.ContainsKey("rover_guid"))
-                MainV2.config["rover_guid"] = Guid.NewGuid().ToString();
+            if (!Settings.Instance.ContainsKey("rover_guid"))
+                Settings.Instance["rover_guid"] = Guid.NewGuid().ToString();
 
-            if (config.ContainsKey("language") && !string.IsNullOrEmpty((string) config["language"]))
+            if (Settings.Instance.ContainsKey("language") && !string.IsNullOrEmpty(Settings.Instance["language"]))
             {
-                changelanguage(CultureInfoEx.GetCultureInfo((string) config["language"]));
+                changelanguage(CultureInfoEx.GetCultureInfo(Settings.Instance["language"]));
             }
 
             this.Text = splash.Text;
@@ -554,7 +547,7 @@ namespace MissionPlanner
 
             if (!MONO) // windows only
             {
-                if (MainV2.config["showconsole"] != null && MainV2.config["showconsole"].ToString() == "True")
+                if (Settings.Instance["showconsole"] != null && Settings.Instance["showconsole"].ToString() == "True")
                 {
                 }
                 else
@@ -570,20 +563,28 @@ namespace MissionPlanner
 
             ChangeUnits();
 
-            if (config["theme"] != null)
+            if (Settings.Instance["theme"] != null)
             {
-                ThemeManager.SetTheme(
-                    (ThemeManager.Themes) Enum.Parse(typeof (ThemeManager.Themes), MainV2.config["theme"].ToString()));
+                try
+                {
+                    ThemeManager.SetTheme(
+                        (ThemeManager.Themes)
+                            Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
+                }
+                catch (Exception exception)
+                {
+                    log.Error(exception);
+                }
 
                 if (ThemeManager.CurrentTheme == ThemeManager.Themes.Custom)
                 {
                     try
                     {
-                        ThemeManager.BGColor = Color.FromArgb(int.Parse(MainV2.config["theme_bg"].ToString()));
-                        ThemeManager.ControlBGColor = Color.FromArgb(int.Parse(MainV2.config["theme_ctlbg"].ToString()));
-                        ThemeManager.TextColor = Color.FromArgb(int.Parse(MainV2.config["theme_text"].ToString()));
-                        ThemeManager.ButBG = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
-                        ThemeManager.ButBorder = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
+                        ThemeManager.BGColor = Color.FromArgb(int.Parse(Settings.Instance["theme_bg"].ToString()));
+                        ThemeManager.ControlBGColor = Color.FromArgb(int.Parse(Settings.Instance["theme_ctlbg"].ToString()));
+                        ThemeManager.TextColor = Color.FromArgb(int.Parse(Settings.Instance["theme_text"].ToString()));
+                        ThemeManager.ButBG = Color.FromArgb(int.Parse(Settings.Instance["theme_butbg"].ToString()));
+                        ThemeManager.ButBorder = Color.FromArgb(int.Parse(Settings.Instance["theme_butbord"].ToString()));
                     }
                     catch
                     {
@@ -598,40 +599,40 @@ namespace MissionPlanner
                 }
             }
 
-            if (MainV2.config["showairports"] != null)
+            if (Settings.Instance["showairports"] != null)
             {
-                MainV2.ShowAirports = bool.Parse(config["showairports"].ToString());
+                MainV2.ShowAirports = bool.Parse(Settings.Instance["showairports"]);
             }
 
             // set default
             ShowTFR = true;
             // load saved
-            if (MainV2.config["showtfr"] != null)
+            if (Settings.Instance["showtfr"] != null)
             {
-                MainV2.ShowTFR = bool.Parse(config["showtfr"].ToString());
+                MainV2.ShowTFR = Settings.Instance.GetBoolean("showtfr");
             }
 
-            if (MainV2.config["enableadsb"] != null)
+            if (Settings.Instance["enableadsb"] != null)
             {
-                MainV2.instance.EnableADSB = bool.Parse(config["enableadsb"].ToString());
+                MainV2.instance.EnableADSB = Settings.Instance.GetBoolean("enableadsb");
             }
 
             // load this before the other screens get loaded
-            if (MainV2.config["advancedview"] != null)
+            if (Settings.Instance["advancedview"] != null)
             {
-                MainV2.Advanced = bool.Parse(config["advancedview"].ToString());
+                MainV2.Advanced = Settings.Instance.GetBoolean("advancedview");
             }
             else
             {
                 // existing user - enable advanced view
-                if (MainV2.config.Count > 3)
+                if (Settings.Instance.Count > 3)
                 {
-                    config["advancedview"] = true.ToString();
+                    Settings.Instance["advancedview"] = true.ToString();
                     MainV2.Advanced = true;
                 }
                 else
                 {
-                    config["advancedview"] = false.ToString();
+                    Settings.Instance["advancedview"] = false.ToString();
                 }
             }
 
@@ -671,26 +672,39 @@ namespace MissionPlanner
                 Application.Exit();
             }
 
-            if (MainV2.config["CHK_GDIPlus"] != null)
-                GCSViews.FlightData.myhud.UseOpenGL = !bool.Parse(MainV2.config["CHK_GDIPlus"].ToString());
+            if (Settings.Instance["CHK_GDIPlus"] != null)
+                GCSViews.FlightData.myhud.UseOpenGL = !bool.Parse(Settings.Instance["CHK_GDIPlus"].ToString());
 
-            if (MainV2.config["CHK_hudshow"] != null)
-                GCSViews.FlightData.myhud.hudon = bool.Parse(MainV2.config["CHK_hudshow"].ToString());
+            if (Settings.Instance["CHK_hudshow"] != null)
+                GCSViews.FlightData.myhud.hudon = bool.Parse(Settings.Instance["CHK_hudshow"].ToString());
 
             try
             {
-                if (config["MainLocX"] != null && config["MainLocY"] != null)
+                if (Settings.Instance["MainLocX"] != null && Settings.Instance["MainLocY"] != null)
                 {
                     this.StartPosition = FormStartPosition.Manual;
-                    Point startpos = new Point(int.Parse(config["MainLocX"].ToString()),
-                        int.Parse(config["MainLocY"].ToString()));
-                    this.Location = startpos;
+                    Point startpos = new Point(Settings.Instance.GetInt32("MainLocX"),
+                        Settings.Instance.GetInt32("MainLocY"));
+
+                    // fix common bug which happens when user removes a monitor, the app shows up
+                    // offscreen and it is very hard to move it onscreen.  Also happens with 
+                    // remote desktop a lot.  So this only restores position if the position
+                    // is visible.
+                    foreach (Screen s in Screen.AllScreens)
+                    {
+                        if (s.WorkingArea.Contains(startpos))
+                        {
+                            this.Location = startpos;
+                            break;
+                        }
+                    }
+
                 }
 
-                if (config["MainMaximised"] != null)
+                if (Settings.Instance["MainMaximised"] != null)
                 {
                     this.WindowState =
-                        (FormWindowState) Enum.Parse(typeof (FormWindowState), config["MainMaximised"].ToString());
+                        (FormWindowState) Enum.Parse(typeof (FormWindowState), Settings.Instance["MainMaximised"]);
                     // dont allow minimised start state
                     if (this.WindowState == FormWindowState.Minimized)
                     {
@@ -699,41 +713,41 @@ namespace MissionPlanner
                     }
                 }
 
-                if (config["MainHeight"] != null)
-                    this.Height = int.Parse(config["MainHeight"].ToString());
-                if (config["MainWidth"] != null)
-                    this.Width = int.Parse(config["MainWidth"].ToString());
+                if (Settings.Instance["MainHeight"] != null)
+                    this.Height = Settings.Instance.GetInt32("MainHeight");
+                if (Settings.Instance["MainWidth"] != null)
+                    this.Width = Settings.Instance.GetInt32("MainWidth");
 
-                if (config["CMB_rateattitude"] != null)
-                    CurrentState.rateattitudebackup = byte.Parse(config["CMB_rateattitude"].ToString());
-                if (config["CMB_rateposition"] != null)
-                    CurrentState.ratepositionbackup = byte.Parse(config["CMB_rateposition"].ToString());
-                if (config["CMB_ratestatus"] != null)
-                    CurrentState.ratestatusbackup = byte.Parse(config["CMB_ratestatus"].ToString());
-                if (config["CMB_raterc"] != null)
-                    CurrentState.ratercbackup = byte.Parse(config["CMB_raterc"].ToString());
-                if (config["CMB_ratesensors"] != null)
-                    CurrentState.ratesensorsbackup = byte.Parse(config["CMB_ratesensors"].ToString());
+                if (Settings.Instance["CMB_rateattitude"] != null)
+                    CurrentState.rateattitudebackup = Settings.Instance.GetByte("CMB_rateattitude");
+                if (Settings.Instance["CMB_rateposition"] != null)
+                    CurrentState.ratepositionbackup = Settings.Instance.GetByte("CMB_rateposition");
+                if (Settings.Instance["CMB_ratestatus"] != null)
+                    CurrentState.ratestatusbackup = Settings.Instance.GetByte("CMB_ratestatus");
+                if (Settings.Instance["CMB_raterc"] != null)
+                    CurrentState.ratercbackup = Settings.Instance.GetByte("CMB_raterc");
+                if (Settings.Instance["CMB_ratesensors"] != null)
+                    CurrentState.ratesensorsbackup = Settings.Instance.GetByte("CMB_ratesensors");
 
                 // make sure rates propogate
                 MainV2.comPort.MAV.cs.ResetInternals();
 
-                if (config["speechenable"] != null)
-                    MainV2.speechEnable = bool.Parse(config["speechenable"].ToString());
+                if (Settings.Instance["speechenable"] != null)
+                    MainV2.speechEnable = Settings.Instance.GetBoolean("speechenable");
 
-                if (MainV2.config["analyticsoptout"] != null)
-                    MissionPlanner.Utilities.Tracking.OptOut = bool.Parse(config["analyticsoptout"].ToString());
+                if (Settings.Instance["analyticsoptout"] != null)
+                    MissionPlanner.Utilities.Tracking.OptOut = Settings.Instance.GetBoolean("analyticsoptout");
 
                 try
                 {
-                    if (config["TXT_homelat"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Lat = double.Parse(config["TXT_homelat"].ToString());
+                    if (Settings.Instance["TXT_homelat"] != null)
+                        MainV2.comPort.MAV.cs.HomeLocation.Lat = Settings.Instance.GetDouble("TXT_homelat");
 
-                    if (config["TXT_homelng"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Lng = double.Parse(config["TXT_homelng"].ToString());
+                    if (Settings.Instance["TXT_homelng"] != null)
+                        MainV2.comPort.MAV.cs.HomeLocation.Lng = Settings.Instance.GetDouble("TXT_homelng");
 
-                    if (config["TXT_homealt"] != null)
-                        MainV2.comPort.MAV.cs.HomeLocation.Alt = double.Parse(config["TXT_homealt"].ToString());
+                    if (Settings.Instance["TXT_homealt"] != null)
+                        MainV2.comPort.MAV.cs.HomeLocation.Alt = Settings.Instance.GetDouble("TXT_homealt");
 
                     // remove invalid entrys
                     if (Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lat) > 90 ||
@@ -753,15 +767,10 @@ namespace MissionPlanner
                 CustomMessageBox.Show(
                     "NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
-
-            // log dir
-
-            if (config["logdirectory"] != null)
-                MainV2.LogDir = config["logdirectory"].ToString();
-
+            
             // create log dir if it doesnt exist
-            if (!Directory.Exists(MainV2.LogDir))
-                Directory.CreateDirectory(MainV2.LogDir);
+            if (!Directory.Exists(Settings.Instance.LogDir))
+                Directory.CreateDirectory(Settings.Instance.LogDir);
 
             //System.Threading.Thread.Sleep(2000);
 
@@ -812,8 +821,38 @@ namespace MissionPlanner
 
             Comports.Add(comPort);
 
+            MainV2.comPort.MavChanged += comPort_MavChanged;
+
             // save config to test we have write access
-            xmlconfig(true);
+            SaveConfig();
+        }
+
+        void comPort_MavChanged(object sender, EventArgs e)
+        {
+            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
+
+            HUD.Custom.src = MainV2.comPort.MAV.cs;
+
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
+
+            // when uploading a firmware we dont want to reload this screen.
+            if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
+                && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")
+                return;
+
+            if (this.InvokeRequired)
+            {
+                this.Invoke((MethodInvoker) delegate
+                {
+                    instance.MyView.Reload();
+                });
+            }
+            else
+            {
+                instance.MyView.Reload();
+            }
         }
 
         void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
@@ -849,6 +888,8 @@ namespace MissionPlanner
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
+            
+            ThemeManager.ApplyThemeTo(MainMenu);
 
             MainMenu.BackgroundImage = displayicons.bg;
 
@@ -876,7 +917,7 @@ namespace MissionPlanner
 
         void MenuCustom_Click(object sender, EventArgs e)
         {
-            if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
+            if (Settings.Instance.GetBoolean("password_protect") == false)
             {
                 MenuFlightData.Visible = true;
                 MenuFlightPlanner.Visible = true;
@@ -983,7 +1024,7 @@ namespace MissionPlanner
 
         public void MenuSetup_Click(object sender, EventArgs e)
         {
-            if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
+            if (Settings.Instance.GetBoolean("password_protect") == false)
             {
                 MyView.ShowScreen("HWConfig");
             }
@@ -1003,7 +1044,7 @@ namespace MissionPlanner
 
         private void MenuTuning_Click(object sender, EventArgs e)
         {
-            if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
+            if (Settings.Instance.GetBoolean("password_protect") == false)
             {
                 MyView.ShowScreen("SWConfig");
             }
@@ -1065,7 +1106,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
                     }
                     catch
                     {
@@ -1166,8 +1207,7 @@ namespace MissionPlanner
 
                 log.Info("About to do dtr if needed");
                 // reset on connect logic.
-                if (config["CHK_resetapmonconnect"] != null &&
-                    bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                if (Settings.Instance.GetBoolean("CHK_resetapmonconnect") == true)
                 {
                     log.Info("set dtr rts to false");
                     comPort.BaseStream.DtrEnable = false;
@@ -1181,18 +1221,18 @@ namespace MissionPlanner
                 // setup to record new logs
                 try
                 {
-                    Directory.CreateDirectory(MainV2.LogDir);
+                    Directory.CreateDirectory(Settings.Instance.LogDir);
                     comPort.logfile =
                         new BufferedStream(
                             File.Open(
-                                MainV2.LogDir + Path.DirectorySeparatorChar +
+                                Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                 DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog", FileMode.CreateNew,
                                 FileAccess.ReadWrite, FileShare.None));
 
                     comPort.rawlogfile =
                         new BufferedStream(
                             File.Open(
-                                MainV2.LogDir + Path.DirectorySeparatorChar +
+                                Settings.Instance.LogDir + Path.DirectorySeparatorChar +
                                 DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".rlog", FileMode.CreateNew,
                                 FileAccess.ReadWrite, FileShare.None));
 
@@ -1225,17 +1265,6 @@ namespace MissionPlanner
                     return;
                 }
 
-                _connectionControl.cmb_sysid.Enabled = false;
-
-                // 3dr radio is hidden as no hb packet is ever emitted
-                if (comPort.MAVlist.Count > 1)
-                {
-                    // we have more than one mav
-                    // user selection of sysid
-                    _connectionControl.cmb_sysid.DataSource = MainV2.comPort.MAVlist.GetRawIDS();
-                    _connectionControl.cmb_sysid.Enabled = true;
-                }
-
                 // get all mavstates
                 var list = comPort.MAVlist.GetMAVStates();
 
@@ -1250,6 +1279,8 @@ namespace MissionPlanner
                 // set to first seen
                 comPort.sysidcurrent = list[0].sysid;
                 comPort.compidcurrent = list[0].compid;
+
+                _connectionControl.UpdateSysIDS();
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -1320,7 +1351,7 @@ namespace MissionPlanner
                 MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
 
                 // save the baudrate for this port
-                config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
+                Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
                 this.Text = titlebar + " " + comPort.MAV.VersionString;
 
@@ -1334,7 +1365,7 @@ namespace MissionPlanner
                 }
 
                 // load wps on connect option.
-                if (config["loadwpsonconnect"] != null && bool.Parse(config["loadwpsonconnect"].ToString()) == true)
+                if (Settings.Instance.GetBoolean("loadwpsonconnect") == true)
                 {
                     // only do it if we are connected.
                     if (comPort.BaseStream.IsOpen)
@@ -1438,6 +1469,8 @@ namespace MissionPlanner
             {
                 doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
+
+            MainV2._connectionControl.UpdateSysIDS();
         }
 
         private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
@@ -1472,10 +1505,10 @@ namespace MissionPlanner
                 MainV2.comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
 
                 // check for saved baud rate and restore
-                if (config[_connectionControl.CMB_serialport.Text + "_BAUD"] != null)
+                if (Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] != null)
                 {
                     _connectionControl.CMB_baudrate.Text =
-                        config[_connectionControl.CMB_serialport.Text + "_BAUD"].ToString();
+                        Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"];
                 }
             }
             catch
@@ -1501,12 +1534,12 @@ namespace MissionPlanner
 
             log.Info("MainV2_FormClosing");
 
-            config["MainHeight"] = this.Height;
-            config["MainWidth"] = this.Width;
-            config["MainMaximised"] = this.WindowState.ToString();
+            Settings.Instance["MainHeight"] = this.Height.ToString();
+            Settings.Instance["MainWidth"] = this.Width.ToString();
+            Settings.Instance["MainMaximised"] = this.WindowState.ToString();
 
-            config["MainLocX"] = this.Location.X.ToString();
-            config["MainLocY"] = this.Location.Y.ToString();
+            Settings.Instance["MainLocX"] = this.Location.X.ToString();
+            Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
             try
             {
@@ -1561,7 +1594,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
                     }
                     catch
                     {
@@ -1613,7 +1646,7 @@ namespace MissionPlanner
             } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
 
             // save config
-            xmlconfig(true);
+            SaveConfig();
 
             Console.WriteLine(httpthread.IsAlive);
             Console.WriteLine(joystickthread.IsAlive);
@@ -1647,98 +1680,39 @@ namespace MissionPlanner
             }
         }
 
-
-        void xmlconfig(bool write)
+        private void LoadConfig()
         {
-            if (write ||
-                !File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                             @"config.xml"))
+            try
             {
-                try
-                {
-                    log.Info("Saving config");
+                log.Info("Loading config");
 
-                    XmlTextWriter xmlwriter =
-                        new XmlTextWriter(
-                            Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                            @"config.xml", Encoding.UTF8);
-                    xmlwriter.Formatting = Formatting.Indented;
+                Settings.Instance.Load();
 
-                    xmlwriter.WriteStartDocument();
-
-                    xmlwriter.WriteStartElement("Config");
-
-                    xmlwriter.WriteElementString("comport", comPortName);
-
-                    if (_connectionControl != null)
-                        xmlwriter.WriteElementString("baudrate", _connectionControl.CMB_baudrate.Text);
-
-                    xmlwriter.WriteElementString("APMFirmware", MainV2.comPort.MAV.cs.firmware.ToString());
-
-                    foreach (string key in config.Keys)
-                    {
-                        try
-                        {
-                            if (key == "" || key.Contains("/")) // "/dev/blah"
-                                continue;
-                            xmlwriter.WriteElementString(key, config[key].ToString());
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    xmlwriter.WriteEndElement();
-
-                    xmlwriter.WriteEndDocument();
-                    xmlwriter.Close();
-                }
-                catch (Exception ex)
-                {
-                    CustomMessageBox.Show(ex.ToString());
-                }
+                comPortName = Settings.Instance.ComPort;
             }
-            else
+            catch (Exception ex)
             {
-                try
-                {
-                    using (
-                        XmlTextReader xmlreader =
-                            new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) +
-                                              Path.DirectorySeparatorChar + @"config.xml"))
-                    {
-                        log.Info("Loading config");
+                log.Error("Bad Config File", ex);
+            }
+        }
 
-                        while (xmlreader.Read())
-                        {
-                            xmlreader.MoveToElement();
-                            try
-                            {
-                                switch (xmlreader.Name)
-                                {
-                                    case "Config":
-                                        break;
-                                    case "xml":
-                                        break;
-                                    default:
-                                        if (xmlreader.Name == "") // line feeds
-                                            break;
-                                        config[xmlreader.Name] = xmlreader.ReadString();
-                                        break;
-                                }
-                            }
-                                // silent fail on bad entry
-                            catch (Exception ee)
-                            {
-                                log.Error(ee);
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Bad Config File", ex);
-                }
+        private void SaveConfig()
+        {
+            try
+            {
+                log.Info("Saving config");
+                Settings.Instance.ComPort = comPortName;
+
+                if (_connectionControl != null)
+                    Settings.Instance.BaudRate = _connectionControl.CMB_baudrate.Text;
+
+                Settings.Instance.APMFirmware = MainV2.comPort.MAV.cs.firmware.ToString();
+
+                Settings.Instance.Save();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString());
             }
         }
 
@@ -2043,11 +2017,11 @@ namespace MissionPlanner
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                        if (MainV2.speechEngine.IsReady)
                         {
-                            if (MainV2.getConfig("speechcustomenabled") == "True")
+                            if (Settings.Instance.GetBoolean("speechcustomenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechcustom")));
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechcustom"]));
                             }
 
                             speechcustomtime = DateTime.Now;
@@ -2055,29 +2029,27 @@ namespace MissionPlanner
 
                         // speech for battery alerts
                         //speechbatteryvolt
-                        float warnvolt = 0;
-                        float.TryParse(MainV2.getConfig("speechbatteryvolt"), out warnvolt);
-                        float warnpercent = 0;
-                        float.TryParse(MainV2.getConfig("speechbatterypercent"), out warnpercent);
+                        float warnvolt = Settings.Instance.GetFloat("speechbatteryvolt");
+                        float warnpercent = Settings.Instance.GetFloat("speechbatterypercent");
 
-                        if (MainV2.getConfig("speechbatteryenabled") == "True" &&
+                        if (Settings.Instance.GetBoolean("speechbatteryenabled") == true &&
                             MainV2.comPort.MAV.cs.battery_voltage <= warnvolt &&
                             MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechbattery"]));
                             }
                         }
-                        else if (MainV2.getConfig("speechbatteryenabled") == "True" &&
+                        else if (Settings.Instance.GetBoolean("speechbatteryenabled") == true &&
                                  (MainV2.comPort.MAV.cs.battery_remaining) < warnpercent &&
                                  MainV2.comPort.MAV.cs.battery_voltage >= 5.0 &&
                                  MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(
-                                    Common.speechConversion(MainV2.getConfig("speechbattery")));
+                                    Common.speechConversion("" + Settings.Instance["speechbattery"]));
                             }
                         }
                     }
@@ -2086,28 +2058,26 @@ namespace MissionPlanner
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.getConfig("speechlowspeedenabled") == "True" && MainV2.comPort.MAV.cs.armed)
+                        if (Settings.Instance.GetBoolean("speechlowspeedenabled") == true && MainV2.comPort.MAV.cs.armed)
                         {
-                            float warngroundspeed = 0;
-                            float.TryParse(MainV2.getConfig("speechlowgroundspeedtrigger"), out warngroundspeed);
-                            float warnairspeed = 0;
-                            float.TryParse(MainV2.getConfig("speechlowairspeedtrigger"), out warnairspeed);
+                            float warngroundspeed = Settings.Instance.GetFloat("speechlowgroundspeedtrigger");
+                            float warnairspeed = Settings.Instance.GetFloat("speechlowairspeedtrigger");
 
                             if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(MainV2.getConfig("speechlowairspeed")));
+                                        Common.speechConversion(""+ Settings.Instance["speechlowairspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
                             else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(MainV2.getConfig("speechlowgroundspeed")));
+                                        Common.speechConversion(""+ Settings.Instance["speechlowgroundspeed"]));
                                     speechlowspeedtime = DateTime.Now;
                                 }
                             }
@@ -2123,20 +2093,23 @@ namespace MissionPlanner
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
-                        float.TryParse(MainV2.getConfig("speechaltheight"), out warnalt);
+                        if (Settings.Instance.ContainsKey("speechaltheight"))
+                        {
+                            warnalt = Settings.Instance.GetFloat("speechaltheight");
+                        }
                         try
                         {
                             int todo; // need a reset method
                             altwarningmax = (int) Math.Max(MainV2.comPort.MAV.cs.alt, altwarningmax);
 
-                            if (MainV2.getConfig("speechaltenabled") == "True" && MainV2.comPort.MAV.cs.alt != 0.00 &&
+                            if (Settings.Instance.GetBoolean("speechaltenabled") == true && MainV2.comPort.MAV.cs.alt != 0.00 &&
                                 (MainV2.comPort.MAV.cs.alt <= warnalt) && MainV2.comPort.MAV.cs.armed)
                             {
                                 if (altwarningmax > warnalt)
                                 {
-                                    if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                    if (MainV2.speechEngine.IsReady)
                                         MainV2.speechEngine.SpeakAsync(
-                                            Common.speechConversion(MainV2.getConfig("speechalt")));
+                                            Common.speechConversion(""+Settings.Instance["speechalt"]));
                                 }
                             }
                         }
@@ -2148,7 +2121,7 @@ namespace MissionPlanner
                         try
                         {
                             // say the latest high priority message
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready &&
+                            if (MainV2.speechEngine.IsReady &&
                                 lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
                             {
                                 MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
@@ -2182,7 +2155,7 @@ namespace MissionPlanner
                     {
                         if (speechEnable && speechEngine != null)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync("WARNING No Data for " +
                                                                (int)
@@ -2224,13 +2197,13 @@ namespace MissionPlanner
 
                         if (speechEnable && speechEngine != null)
                         {
-                            if (MainV2.getConfig("speecharmenabled") == "True")
+                            if (Settings.Instance.GetBoolean("speecharmenabled"))
                             {
-                                if (armedstatus)
-                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speecharm")));
-                                else
-                                    MainV2.speechEngine.SpeakAsync(
-                                        Common.speechConversion(MainV2.getConfig("speechdisarm")));
+                                string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
+                                if (!string.IsNullOrEmpty(speech))
+                                {
+                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
+                                }
                             }
                         }
                     }
@@ -2262,10 +2235,13 @@ namespace MissionPlanner
                                     // refresh config window if needed
                                     if (MyView.current != null)
                                     {
-                                        if (MyView.current.Name == "HWConfig")
-                                            MyView.ShowScreen("HWConfig");
-                                        if (MyView.current.Name == "SWConfig")
-                                            MyView.ShowScreen("SWConfig");
+                                        this.Invoke((MethodInvoker)delegate()
+                                        {
+                                            if (MyView.current.Name == "HWConfig")
+                                                MyView.ShowScreen("HWConfig");
+                                            if (MyView.current.Name == "SWConfig")
+                                                MyView.ShowScreen("SWConfig");
+                                        });
                                     }
                                 }
                             }
@@ -2295,7 +2271,7 @@ namespace MissionPlanner
                     }
 
                     // read the interfaces
-                    foreach (var port in Comports)
+                    foreach (var port in Comports.ToArray())
                     {
                         if (!port.BaseStream.IsOpen)
                         {
@@ -2355,14 +2331,14 @@ namespace MissionPlanner
         protected override void OnLoad(EventArgs e)
         {
             // check if its defined, and force to show it if not known about
-            if (config["menu_autohide"] == null)
+            if (Settings.Instance["menu_autohide"] == null)
             {
-                config["menu_autohide"] = "false";
+                Settings.Instance["menu_autohide"] = "false";
             }
 
             try
             {
-                AutoHideMenu(bool.Parse(config["menu_autohide"].ToString()));
+                AutoHideMenu(Settings.Instance.GetBoolean("menu_autohide"));
             }
             catch
             {
@@ -2370,11 +2346,11 @@ namespace MissionPlanner
 
             MyView.AddScreen(new MainSwitcher.Screen("FlightData", FlightData, true));
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
-            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", new GCSViews.InitialSetup(), false));
-            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", new GCSViews.SoftwareConfig(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof(GCSViews.InitialSetup), false));
+            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof(GCSViews.SoftwareConfig), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Terminal", new GCSViews.Terminal(), false));
-            MyView.AddScreen(new MainSwitcher.Screen("Help", new GCSViews.Help(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
             try
             {
@@ -2458,7 +2434,7 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
 
-            ThreadPool.QueueUserWorkItem(BGGetAlmanac);
+            //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
             try
             {
@@ -2481,11 +2457,11 @@ namespace MissionPlanner
             try
             {
                 // check the last kindex date
-                if (MainV2.getConfig("kindexdate") == DateTime.Now.ToShortDateString())
+                if (Settings.Instance["kindexdate"] == DateTime.Now.ToShortDateString())
                 {
                     // set the cached kindex
-                    if (MainV2.getConfig("kindex") != "")
-                        KIndex_KIndex(int.Parse(MainV2.getConfig("kindex")), null);
+                    if (Settings.Instance["kindex"] != "")
+                        KIndex_KIndex(Settings.Instance.GetInt32("kindex"), null);
                 }
                 else
                 {
@@ -2497,7 +2473,7 @@ namespace MissionPlanner
                             KIndex.KIndexEvent += KIndex_KIndex;
                             KIndex.GetKIndex();
 
-                            MainV2.config["kindexdate"] = DateTime.Now.ToShortDateString();
+                            Settings.Instance["kindexdate"] = DateTime.Now.ToShortDateString();
                         }
                         catch
                         {
@@ -2517,14 +2493,14 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        if (getConfig("fw_check") != DateTime.Now.ToShortDateString())
+                        if (Settings.Instance["fw_check"] != DateTime.Now.ToShortDateString())
                         {
                             var fw = new Firmware();
                             var list = fw.getFWList();
                             if (list.Count > 1)
                                 Firmware.SaveSoftwares(list);
 
-                            config["fw_check"] = DateTime.Now.ToShortDateString();
+                            Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                         }
                     }
                     catch (Exception ex)
@@ -2548,12 +2524,12 @@ namespace MissionPlanner
             try
             {
                 // single update check per day - in a seperate thread
-                if (getConfig("update_check") != DateTime.Now.ToShortDateString())
+                if (Settings.Instance["update_check"] != DateTime.Now.ToShortDateString())
                 {
                     System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
-                    config["update_check"] = DateTime.Now.ToShortDateString();
+                    Settings.Instance["update_check"] = DateTime.Now.ToShortDateString();
                 }
-                else if (getConfig("beta_updates") == "True")
+                else if (Settings.Instance.GetBoolean("beta_updates") == true)
                 {
                     MissionPlanner.Utilities.Update.dobeta = true;
                     System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
@@ -2597,11 +2573,11 @@ namespace MissionPlanner
             // prep for future
             try
             {
-                if (getConfig("almanac_date") != DateTime.Now.ToShortDateString())
+                if (Settings.Instance["almanac_date"] != DateTime.Now.ToShortDateString())
                 {
                     Common.getFilefromNet("http://alp.u-blox.com/current_1d.alp",
                         Application.StartupPath + Path.DirectorySeparatorChar + "current_d1.alp");
-                    config["almanac_date"] = DateTime.Now.ToShortDateString();
+                    Settings.Instance["almanac_date"] = DateTime.Now.ToShortDateString();
                 }
             }
             catch
@@ -2612,7 +2588,7 @@ namespace MissionPlanner
         void KIndex_KIndex(object sender, EventArgs e)
         {
             CurrentState.KIndexstatic = (int) sender;
-            MainV2.config["kindex"] = CurrentState.KIndexstatic;
+            Settings.Instance["kindex"] = CurrentState.KIndexstatic.ToString();
         }
 
         private void BGCreateMaps(object state)
@@ -2620,7 +2596,7 @@ namespace MissionPlanner
             // sort logs
             try
             {
-                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
             }
             catch (Exception ex)
             {
@@ -2630,9 +2606,9 @@ namespace MissionPlanner
             try
             {
                 // create maps
-                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
-                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.bin", SearchOption.AllDirectories));
-                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.log", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.bin", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.log", SearchOption.AllDirectories));
 
                 if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
                 {
@@ -2750,13 +2726,9 @@ namespace MissionPlanner
                 frm.Show();
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.X)) // select sysid
+            if (keyData == (Keys.Control | Keys.X)) 
             {
-                MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-                id.TopMost = true;
-                id.Show();
 
-                return true;
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {
@@ -2833,7 +2805,7 @@ namespace MissionPlanner
             if (ci != null && !Thread.CurrentThread.CurrentUICulture.Equals(ci))
             {
                 Thread.CurrentThread.CurrentUICulture = ci;
-                config["language"] = ci.Name;
+                Settings.Instance["language"] = ci.Name;
                 //System.Threading.Thread.CurrentThread.CurrentCulture = ci;
 
                 HashSet<Control> views = new HashSet<Control> {this, FlightData, FlightPlanner, Simulation};
@@ -2857,22 +2829,15 @@ namespace MissionPlanner
         }
 
 
-        public static string getConfig(string paramname)
-        {
-            if (config[paramname] != null)
-                return config[paramname].ToString();
-            return "";
-        }
-
         public void ChangeUnits()
         {
             try
             {
                 // dist
-                if (MainV2.config["distunits"] != null)
+                if (Settings.Instance["distunits"] != null)
                 {
                     switch (
-                        (Common.distances) Enum.Parse(typeof (Common.distances), MainV2.config["distunits"].ToString()))
+                        (Common.distances) Enum.Parse(typeof (Common.distances), Settings.Instance["distunits"].ToString()))
                     {
                         case Common.distances.Meters:
                             CurrentState.multiplierdist = 1;
@@ -2891,9 +2856,9 @@ namespace MissionPlanner
                 }
 
                 // speed
-                if (MainV2.config["speedunits"] != null)
+                if (Settings.Instance["speedunits"] != null)
                 {
-                    switch ((Common.speeds) Enum.Parse(typeof (Common.speeds), MainV2.config["speedunits"].ToString()))
+                    switch ((Common.speeds) Enum.Parse(typeof (Common.speeds), Settings.Instance["speedunits"].ToString()))
                     {
                         case Common.speeds.meters_per_second:
                             CurrentState.multiplierspeed = 1;
@@ -2978,7 +2943,7 @@ namespace MissionPlanner
         {
             AutoHideMenu(autoHideToolStripMenuItem.Checked);
 
-            config["menu_autohide"] = autoHideToolStripMenuItem.Checked.ToString();
+            Settings.Instance["menu_autohide"] = autoHideToolStripMenuItem.Checked.ToString();
         }
 
         void AutoHideMenu(bool hide)

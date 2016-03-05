@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // check for change
             if (MainV2.Advanced != chk_advview.Checked)
             {
-                MainV2.config["advancedview"] = chk_advview.Checked.ToString();
+                Settings.Instance["advancedview"] = chk_advview.Checked.ToString();
                 MainV2.Advanced = chk_advview.Checked;
 
                 MainV2.View.Reload();
@@ -121,6 +121,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             BUT_rerequestparams.Click += BUT_rerequestparams_Click;
             BUT_writePIDS.Click += BUT_writePIDS_Click;
+
+            ParameterMode = ParameterMode = ParameterMetaDataConstants.Standard;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

@@ -822,7 +822,7 @@
     <value>40</value>
   </data>
   <data name="BUT_find.Text" xml:space="preserve">
-    <value>Find Trim Pan (3DR Radio)</value>
+    <value>Find Trim Pan (Sik Radio)</value>
   </data>
   <data name="BUT_find.Visible" type="System.Boolean, mscorlib">
     <value>False</value>

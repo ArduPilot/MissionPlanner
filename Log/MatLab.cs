@@ -12,6 +12,7 @@ using System.Globalization;
 using log4net;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
@@ -29,7 +30,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -55,7 +56,7 @@ namespace MissionPlanner.Log
                 openFileDialog1.Multiselect = true;
                 try
                 {
-                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir + Path.DirectorySeparatorChar;
                 }
                 catch
                 {
@@ -147,7 +148,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        param[items[1]] = double.Parse(items[2], CultureInfo.InvariantCulture);
+                        param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
                     }
                     catch
                     {
@@ -175,13 +176,11 @@ namespace MissionPlanner.Log
 
                     for (int n = 1; n < items.Length; n++)
                     {
-                        try
-                        {
-                            dbarray[n] = double.Parse(items[n], CultureInfo.InvariantCulture);
-                        }
-                        catch
-                        {
-                        }
+                        double dbl = 0;
+
+                        double.TryParse(items[n], NumberStyles.Any, CultureInfo.InvariantCulture, out dbl);
+
+                        dbarray[n] = dbl;
                     }
 
                     if (!data.ContainsKey(items[0]))

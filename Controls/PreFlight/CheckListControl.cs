@@ -190,5 +190,19 @@ namespace MissionPlanner.Controls.PreFlight
             Draw();
             UpdateDisplay();
         }
+
+        protected override void OnVisibleChanged(EventArgs e)
+        {
+            base.OnVisibleChanged(e);
+
+            if (Visible)
+            {
+                timer1.Enabled = true;
+            }
+            else
+            {
+                timer1.Enabled = false;
+            }
+        }
     }
 }

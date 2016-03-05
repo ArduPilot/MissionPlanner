@@ -340,6 +340,14 @@ namespace MissionPlanner
         public float ch6out { get; set; }
         public float ch7out { get; set; }
         public float ch8out { get; set; }
+        public float ch9out { get; set; }
+        public float ch10out { get; set; }
+        public float ch11out { get; set; }
+        public float ch12out { get; set; }
+        public float ch13out { get; set; }
+        public float ch14out { get; set; }
+        public float ch15out { get; set; }
+        public float ch16out { get; set; }
 
         public float ch3percent
         {
@@ -577,7 +585,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage == 0) _battery_voltage = value;
-                _battery_voltage = value*0.1f + _battery_voltage*0.9f;
+                _battery_voltage = value*0.2f + _battery_voltage*0.8f;
             }
         }
 
@@ -628,7 +636,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage2 == 0) _battery_voltage2 = value;
-                _battery_voltage2 = value*0.1f + _battery_voltage2*0.9f;
+                _battery_voltage2 = value*0.2f + _battery_voltage2*0.8f;
             }
         }
 
@@ -798,19 +806,19 @@ namespace MissionPlanner
         public float brklevel { get; set; }
         public bool armed { get; set; }
 
-        // 3dr radio
-        [DisplayText("3DR Radio rssi")]
+        // Sik radio
+        [DisplayText("Sik Radio rssi")]
         public float rssi { get; set; }
 
-        [DisplayText("3DR Radio remote rssi")]
+        [DisplayText("Sik Radio remote rssi")]
         public float remrssi { get; set; }
 
         public byte txbuffer { get; set; }
 
-        [DisplayText("3DR Radio noise")]
+        [DisplayText("Sik Radio noise")]
         public float noise { get; set; }
 
-        [DisplayText("3DR Radio remote noise")]
+        [DisplayText("Sik Radio remote noise")]
         public float remnoise { get; set; }
 
         public ushort rxerrors { get; set; }
@@ -820,7 +828,7 @@ namespace MissionPlanner
         private DateTime lastrssi = DateTime.Now;
         private DateTime lastremrssi = DateTime.Now;
 
-        [DisplayText("3DR Radio snr")]
+        [DisplayText("Sik Radio snr")]
         public float localsnrdb
         {
             get
@@ -835,7 +843,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("3DR Radio remote snr")]
+        [DisplayText("Sik Radio remote snr")]
         public float remotesnrdb
         {
             get
@@ -850,7 +858,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("3DR Radio est dist (m)")]
+        [DisplayText("Sik Radio est dist (m)")]
         public float DistRSSIRemain
         {
             get
@@ -953,6 +961,10 @@ namespace MissionPlanner
 
         public float speedup { get; set; }
 
+        internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
+
         internal bool MONO = false;
 
         static CurrentState()
@@ -992,6 +1004,7 @@ namespace MissionPlanner
                 distTraveled = 0;
                 timeInAir = 0;
                 version = new Version();
+                voltageflag = MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
             }
         }
 
@@ -1407,6 +1420,13 @@ namespace MissionPlanner
                             armed = (hb.base_mode & (byte) MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) ==
                                     (byte) MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
 
+                            // saftey switch
+                            if (armed && sensors_enabled.motor_control == false && sensors_enabled.seen)
+                            {
+                                messageHigh = "(SAFE)";
+                                messageHighTime = DateTime.Now;
+                            }
+
                             // for future use
                             landed = hb.system_status == (byte) MAVLink.MAV_STATE.STANDBY;
 
@@ -1443,9 +1463,9 @@ namespace MissionPlanner
                             }
 
                             if (oldmode != mode && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
-                                MainV2.getConfig("speechmodeenabled") == "True")
+                                Settings.Instance.GetBoolean("speechmodeenabled"))
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechmode"]));
                             }
                         }
                     }
@@ -1464,9 +1484,9 @@ namespace MissionPlanner
 
                         packetdropremote = sysstatus.drop_rate_comm;
 
-                        Mavlink_Sensors sensors_enabled = new Mavlink_Sensors(sysstatus.onboard_control_sensors_enabled);
-                        Mavlink_Sensors sensors_health = new Mavlink_Sensors(sysstatus.onboard_control_sensors_health);
-                        Mavlink_Sensors sensors_present = new Mavlink_Sensors(sysstatus.onboard_control_sensors_present);
+                        sensors_enabled.Value = sysstatus.onboard_control_sensors_enabled;
+                        sensors_health.Value = sysstatus.onboard_control_sensors_health;
+                        sensors_present.Value = sysstatus.onboard_control_sensors_present;
 
                         terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
 
@@ -1715,9 +1735,9 @@ namespace MissionPlanner
                         }
 
                         if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this &&
-                            MainV2.getConfig("speechwaypointenabled") == "True")
+                            Settings.Instance.GetBoolean("speechwaypointenabled"))
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechwaypoint")));
+                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechwaypoint"]));
                         }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.WAYPOINT_CURRENT] = null;
@@ -1818,7 +1838,6 @@ namespace MissionPlanner
 
                         MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW] = null;
                     }
-
 
                     bytearray = MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU];
                     if (bytearray != null)
@@ -1938,6 +1957,10 @@ namespace MissionPlanner
                         //alt = vfr.alt; // this might include baro
 
                         ch3percent = vfr.throttle;
+
+                        if (sensors_present.revthrottle && sensors_enabled.revthrottle && sensors_health.revthrottle)
+                            if (ch3percent > 0)
+                                ch3percent *= -1;
 
                         //Console.WriteLine(alt);
 
@@ -2075,6 +2098,8 @@ namespace MissionPlanner
         {
             BitArray bitArray = new BitArray(32);
 
+            public bool seen = false;
+
             public Mavlink_Sensors()
             {
                 //var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
@@ -2082,156 +2107,184 @@ namespace MissionPlanner
 
             public Mavlink_Sensors(uint p)
             {
+                seen = true;
                 bitArray = new BitArray(new int[] {(int) p});
             }
 
             public bool gyro
             {
-                get { return bitArray[0]; }
-                set { bitArray[0] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_GYRO)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_GYRO)] = value; }
             }
 
             public bool accelerometer
             {
-                get { return bitArray[1]; }
-                set { bitArray[1] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL)] = value; }
             }
 
             public bool compass
             {
-                get { return bitArray[2]; }
-                set { bitArray[2] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_MAG)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_MAG)] = value; }
             }
 
             public bool barometer
             {
-                get { return bitArray[3]; }
-                set { bitArray[3] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ABSOLUTE_PRESSURE)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ABSOLUTE_PRESSURE)] = value; }
             }
 
             public bool differential_pressure
             {
-                get { return bitArray[4]; }
-                set { bitArray[4] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.DIFFERENTIAL_PRESSURE)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.DIFFERENTIAL_PRESSURE)] = value; }
             }
 
             public bool gps
             {
-                get { return bitArray[5]; }
-                set { bitArray[5] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.GPS)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.GPS)] = value; }
             }
 
             public bool optical_flow
             {
-                get { return bitArray[6]; }
-                set { bitArray[6] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.OPTICAL_FLOW)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.OPTICAL_FLOW)] = value; }
             }
 
             public bool VISION_POSITION
             {
-                get { return bitArray[7]; }
-                set { bitArray[7] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.VISION_POSITION)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.VISION_POSITION)] = value; }
             }
 
             public bool LASER_POSITION
             {
-                get { return bitArray[8]; }
-                set { bitArray[8] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.LASER_POSITION)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.LASER_POSITION)] = value; }
             }
 
             public bool GROUND_TRUTH
             {
-                get { return bitArray[9]; }
-                set { bitArray[9] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.EXTERNAL_GROUND_TRUTH)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.EXTERNAL_GROUND_TRUTH)] = value; }
             }
 
             public bool rate_control
             {
-                get { return bitArray[10]; }
-                set { bitArray[10] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ANGULAR_RATE_CONTROL)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ANGULAR_RATE_CONTROL)] = value; }
             }
 
             public bool attitude_stabilization
             {
-                get { return bitArray[11]; }
-                set { bitArray[11] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ATTITUDE_STABILIZATION)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.ATTITUDE_STABILIZATION)] = value; }
             }
 
             public bool yaw_position
             {
-                get { return bitArray[12]; }
-                set { bitArray[12] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.YAW_POSITION)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.YAW_POSITION)] = value; }
             }
 
             public bool altitude_control
             {
-                get { return bitArray[13]; }
-                set { bitArray[13] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.Z_ALTITUDE_CONTROL)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.Z_ALTITUDE_CONTROL)] = value; }
             }
 
             public bool xy_position_control
             {
-                get { return bitArray[14]; }
-                set { bitArray[14] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.XY_POSITION_CONTROL)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.XY_POSITION_CONTROL)] = value; }
             }
 
             public bool motor_control
             {
-                get { return bitArray[15]; }
-                set { bitArray[15] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MOTOR_OUTPUTS)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MOTOR_OUTPUTS)] = value; }
             }
 
             public bool rc_receiver
             {
-                get { return bitArray[16]; }
-                set { bitArray[16] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.RC_RECEIVER)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.RC_RECEIVER)] = value; }
             }
 
             public bool gyro2
             {
-                get { return bitArray[17]; }
-                set { bitArray[17] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_GYRO2)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_GYRO2)] = value; }
             }
 
             public bool accel2
             {
-                get { return bitArray[18]; }
-                set { bitArray[18] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL2)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL2)] = value; }
             }
 
             public bool mag2
             {
-                get { return bitArray[19]; }
-                set { bitArray[19] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_MAG2)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR._3D_MAG2)] = value; }
             }
 
             public bool geofence
             {
-                get { return bitArray[20]; }
-                set { bitArray[20] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_GEOFENCE)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_GEOFENCE)] = value; }
             }
 
             public bool ahrs
             {
-                get { return bitArray[21]; }
-                set { bitArray[21] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_AHRS)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_AHRS)] = value; }
             }
 
             public bool terrain
             {
-                get { return bitArray[22]; }
-                set { bitArray[22] = value; }
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_TERRAIN)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_TERRAIN)] = value; }
             }
 
-            public int Value
+            public bool revthrottle
+            {
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_REVERSE_MOTOR)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_REVERSE_MOTOR)] = value; }
+            }
+
+            int ConvertValuetoBitmaskOffset(int input)
+            {
+                int offset = 0;
+                for (int a = 0; a < sizeof (int)*8; a++)
+                {
+                    offset = 1 << a;
+                    if (input == offset)
+                        return a;
+                }
+                return 0;
+            }
+
+            public uint Value
             {
                 get
                 {
                     int[] array = new int[1];
                     bitArray.CopyTo(array, 0);
-                    return array[0];
+                    return (uint)array[0];
                 }
-                set { bitArray = new BitArray(value); }
+                set
+                {
+                    seen = true;
+                    bitArray = new BitArray(new int[] { (int)value });
+                }
+            }
+
+            public override string ToString()
+            {
+                return Convert.ToString(Value,2);
             }
         }
 

@@ -62,11 +62,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            if (!MainV2.comPort.setParam("ESC_CALIBRATION", 2))
+            try
+            {
+                if (!MainV2.comPort.setParam("ESC_CALIBRATION", 2))
+                {
+                    CustomMessageBox.Show("Set param error. Please ensure your version is AC3.3+.");
+                    return;
+                }
+            }
+            catch
             {
                 CustomMessageBox.Show("Set param error. Please ensure your version is AC3.3+.");
-                return;
+                    return;
             }
+
             buttonStart.Text = "Ready";
             buttonStart.Enabled = false;
         }

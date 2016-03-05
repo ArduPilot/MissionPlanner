@@ -336,7 +336,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     var boardtype = BoardDetect.boards.none;
                     try
                     {
-                        boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                        if (fd.FileName.ToLower().EndsWith(".px4"))
+                            boardtype = BoardDetect.boards.px4v2;
+                        else 
+                            boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
                     }
                     catch
                     {
@@ -362,7 +365,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.", "IO");
 
-            var baseurl = "http://firmware.diydrones.com/PX4IO/latest/PX4IO/px4io.bin";
+            var baseurl = "http://firmware.ardupilot.org/PX4IO/latest/PX4IO/px4io.bin";
 
             try
             {
@@ -455,11 +458,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://firmware.diydrones.com/");
+                Process.Start("http://firmware.ardupilot.org/");
             }
             catch
             {
-                CustomMessageBox.Show("Can not open url http://firmware.diydrones.com/", Strings.ERROR);
+                CustomMessageBox.Show("Can not open url http://firmware.ardupilot.org/", Strings.ERROR);
             }
         }
 
@@ -489,11 +492,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start(@"http://copter.ardupilot.com/wiki/motor-setup/");
+                Process.Start(@"http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams");
             }
             catch
             {
-                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/motor-setup/", Strings.ERROR);
+                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams", Strings.ERROR);
             }
         }
     }

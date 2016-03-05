@@ -38,26 +38,27 @@ namespace MissionPlanner.Antenna
                 BUT_connect.Text = "Disconnect";
             }
 
-            foreach (string value in MainV2.config.Keys)
+            foreach (string key in Settings.Instance.Keys)
             {
-                if (value.StartsWith("Tracker_"))
+                if (key.StartsWith("Tracker_"))
                 {
-                    var ctls = Controls.Find(value.Replace("Tracker_", ""), true);
+                    var ctls = Controls.Find(key.Replace("Tracker_", ""), true);
 
                     foreach (Control ctl in ctls)
                     {
                         if (typeof (TextBox) == ctl.GetType() ||
                             typeof (ComboBox) == ctl.GetType())
                         {
-                            ctl.Text = MainV2.config[value].ToString();
+                            if (Settings.Instance[key] != null)
+                                ctl.Text = Settings.Instance[key];
                         }
                         else if (typeof (TrackBar) == ctl.GetType())
                         {
-                            ((TrackBar) ctl).Value = int.Parse(MainV2.config[value].ToString());
+                            ((TrackBar)ctl).Value = Settings.Instance.GetInt32(key);
                         }
                         else if (typeof (CheckBox) == ctl.GetType())
                         {
-                            ((CheckBox) ctl).Checked = bool.Parse(MainV2.config[value].ToString());
+                            ((CheckBox) ctl).Checked = Settings.Instance.GetBoolean(key);
                         }
                     }
                 }
@@ -77,15 +78,15 @@ namespace MissionPlanner.Antenna
                 if (typeof (TextBox) == ctl.GetType() ||
                     typeof (ComboBox) == ctl.GetType())
                 {
-                    MainV2.config["Tracker_" + ctl.Name] = ctl.Text;
+                    Settings.Instance["Tracker_" + ctl.Name] = ctl.Text;
                 }
                 if (typeof (TrackBar) == ctl.GetType())
                 {
-                    MainV2.config["Tracker_" + ctl.Name] = ((TrackBar) ctl).Value;
+                    Settings.Instance["Tracker_" + ctl.Name] = ((TrackBar) ctl).Value.ToString();
                 }
                 if (typeof (CheckBox) == ctl.GetType())
                 {
-                    MainV2.config["Tracker_" + ctl.Name] = ((CheckBox) ctl).Checked;
+                    Settings.Instance["Tracker_" + ctl.Name] = ((CheckBox) ctl).Checked.ToString();
                 }
             }
         }
@@ -292,7 +293,7 @@ namespace MissionPlanner.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid 3dr radio", Strings.ERROR);
+                CustomMessageBox.Show("No valid sik radio", Strings.ERROR);
                 return;
             }
 

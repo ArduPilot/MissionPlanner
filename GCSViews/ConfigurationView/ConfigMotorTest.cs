@@ -153,11 +153,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void testMotor(int motor, int speed, int time)
         {
-            if (
-                !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, speed,
-                    time))
+            try
             {
-                CustomMessageBox.Show("Command was denied by the autopilot");
+                if (
+                    !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT,
+                        speed, time))
+                {
+                    CustomMessageBox.Show("Command was denied by the autopilot");
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorCommunicating + "\nMotor: " + motor, Strings.ERROR);
             }
         }
 
