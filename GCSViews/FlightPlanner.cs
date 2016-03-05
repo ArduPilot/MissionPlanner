@@ -2111,7 +2111,7 @@ namespace MissionPlanner.GCSViews
                         // resend for partial upload
                         port.setWPPartialUpdate((ushort) (a), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort) (a), frame, 0);
+                        ans = port.setWP(temp, (ushort) (a), frame, 0, 1, use_int);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
