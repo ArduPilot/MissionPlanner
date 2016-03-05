@@ -1020,10 +1020,12 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
-                    ctl.BackColor = ControlBGColor;
-                    ctl.ForeColor = TextColor;
+                    //ctl.BackColor = ControlBGColor;
+                    //ctl.ForeColor = TextColor;
                     RichTextBox txtr = (RichTextBox) ctl;
                     txtr.BorderStyle = BorderStyle.None;
+                    txtr.ForeColor = Color.WhiteSmoke;
+                    txtr.BackColor = ControlBGColor;
                 }
                 else if (ctl.GetType() == typeof (CheckedListBox))
                 {
