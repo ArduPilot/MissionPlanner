@@ -14,8 +14,17 @@ namespace MissionPlanner.Utilities
     {
         public static CultureInfo GetCultureInfo(string name)
         {
-            try { return new CultureInfo(name); }
-            catch (Exception) { return null; }
+            try {
+                if (string.IsNullOrEmpty(name))
+                {
+                    return CultureInfo.CurrentUICulture;
+                }
+                return new CultureInfo(name);
+            }
+            catch (Exception)
+            {
+                return CultureInfo.CurrentUICulture;
+            }
         }
 
         public static bool IsChildOf(this CultureInfo cX, CultureInfo cY)

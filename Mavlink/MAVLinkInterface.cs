@@ -25,7 +25,38 @@ namespace MissionPlanner
     public class MAVLinkInterface : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public ICommsSerial BaseStream { get; set; }
+
+        ICommsSerial _baseStream;
+
+        public ICommsSerial BaseStream {
+            get { return _baseStream; }
+            set {
+                // This is called every time user changes the port selection, so we need to make sure we cleanup
+                // any previous objects so we don't leave that cleanup to the garbage collector, this fixes random
+                // problems with the port being in a bad state.
+                if (_baseStream != null)
+                {
+                    try
+                    {
+                        if (_baseStream.IsOpen)
+                        {
+                            _baseStream.Close();
+                        }
+                    }
+                    catch { }
+                    IDisposable dsp = _baseStream as IDisposable;
+                    if (dsp != null)
+                    {
+                        try
+                        {
+                            dsp.Dispose();
+                        }
+                        catch { }
+                    }
+                }
+                _baseStream = value;
+            }
+        }
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }

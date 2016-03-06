@@ -837,10 +837,17 @@ namespace MissionPlanner
 
             MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
 
-            // when uploading a firmware we dont want to reload this screen.
-            if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
-                && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")
-                return;
+            if (instance.MyView.current.Control != null)
+            {
+                // when uploading a firmware we dont want to reload this screen.
+                if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)) {
+                    var page = ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage;
+                    if (page != null && page.Text == "Install Firmware")
+                    {
+                        return;
+                    }
+                }
+            }
 
             if (this.InvokeRequired)
             {
