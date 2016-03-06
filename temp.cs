@@ -1659,5 +1659,18 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private void but_gstream_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                GStreamer.Start();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
+
+        }
     }
 }

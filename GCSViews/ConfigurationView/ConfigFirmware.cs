@@ -365,7 +365,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.", "IO");
 
-            var baseurl = "http://firmware.diydrones.com/PX4IO/latest/PX4IO/px4io.bin";
+            var baseurl = "http://firmware.ardupilot.org/PX4IO/latest/PX4IO/px4io.bin";
 
             try
             {
@@ -458,11 +458,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://firmware.diydrones.com/");
+                Process.Start("http://firmware.ardupilot.org/");
             }
             catch
             {
-                CustomMessageBox.Show("Can not open url http://firmware.diydrones.com/", Strings.ERROR);
+                CustomMessageBox.Show("Can not open url http://firmware.ardupilot.org/", Strings.ERROR);
             }
         }
 

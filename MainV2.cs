@@ -16,7 +16,7 @@ using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
 using Transitions;
-using System.Speech.Synthesis;
+using MissionPlanner.Warnings;
 
 namespace MissionPlanner
 {
@@ -237,7 +237,23 @@ namespace MissionPlanner
         /// <summary>
         /// Active Comport interface
         /// </summary>
-        public static MAVLinkInterface comPort = new MAVLinkInterface();
+        public static MAVLinkInterface comPort
+        {
+            get
+            {
+                return _comPort;
+            }
+            set {
+                if (_comPort == value)
+                    return;
+                _comPort = value;
+                _comPort.MavChanged -= instance.comPort_MavChanged;
+                _comPort.MavChanged += instance.comPort_MavChanged;
+                instance.comPort_MavChanged(null, null);
+            }
+        }
+
+        static MAVLinkInterface _comPort = new MAVLinkInterface();
 
         /// <summary>
         /// passive comports
@@ -351,7 +367,8 @@ namespace MissionPlanner
             ArduRover,
             Ateryx,
             ArduTracker,
-            Gymbal
+            Gymbal,
+            PX4
         }
 
         DateTime connectButtonUpdate = DateTime.Now;
@@ -550,7 +567,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                ThemeManager.SetTheme(
+                    ThemeManager.SetTheme(
                         (ThemeManager.Themes)
                             Enum.Parse(typeof (ThemeManager.Themes), Settings.Instance["theme"].ToString()));
                 }
@@ -677,9 +694,9 @@ namespace MissionPlanner
                     {
                         if (s.WorkingArea.Contains(startpos))
                         {
-                    this.Location = startpos;
+                            this.Location = startpos;
                             break;
-                }
+                        }
                     }
 
                 }
@@ -750,7 +767,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(
                     "NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
-
+            
             // create log dir if it doesnt exist
             if (!Directory.Exists(Settings.Instance.LogDir))
                 Directory.CreateDirectory(Settings.Instance.LogDir);
@@ -812,6 +829,14 @@ namespace MissionPlanner
 
         void comPort_MavChanged(object sender, EventArgs e)
         {
+            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
+
+            HUD.Custom.src = MainV2.comPort.MAV.cs;
+
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
+
             // when uploading a firmware we dont want to reload this screen.
             if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
                 && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")
@@ -863,6 +888,8 @@ namespace MissionPlanner
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
+
+            ThemeManager.ApplyThemeTo(MainMenu);
 
             MainMenu.BackgroundImage = displayicons.bg;
 
@@ -1238,9 +1265,6 @@ namespace MissionPlanner
                     return;
                 }
 
-                    // user selection of sysid
-                _connectionControl.UpdateSysIDS();
-
                 // get all mavstates
                 var list = comPort.MAVlist.GetMAVStates();
 
@@ -1255,6 +1279,8 @@ namespace MissionPlanner
                 // set to first seen
                 comPort.sysidcurrent = list[0].sysid;
                 comPort.compidcurrent = list[0].compid;
+
+                _connectionControl.UpdateSysIDS();
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -1655,25 +1681,25 @@ namespace MissionPlanner
         }
 
         private void LoadConfig()
-                    {
-                        try
-                        {
+        {
+            try
+            {
                 log.Info("Loading config");
 
                 Settings.Instance.Load();
 
                 comPortName = Settings.Instance.ComPort;
-                }
-                catch (Exception ex)
-                {
-                log.Error("Bad Config File", ex);
-                }
             }
+            catch (Exception ex)
+            {
+                log.Error("Bad Config File", ex);
+            }
+        }
 
         private void SaveConfig()
+        {
+            try
             {
-                try
-                {
                 log.Info("Saving config");
                 Settings.Instance.ComPort = comPortName;
 
@@ -1683,9 +1709,9 @@ namespace MissionPlanner
                 Settings.Instance.APMFirmware = MainV2.comPort.MAV.cs.firmware.ToString();
 
                 Settings.Instance.Save();
-                }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
                 CustomMessageBox.Show(ex.ToString());
             }
         }
@@ -1991,7 +2017,7 @@ namespace MissionPlanner
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
                         (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                        if (MainV2.speechEngine.IsReady)
                         {
                             if (Settings.Instance.GetBoolean("speechcustomenabled"))
                             {
@@ -2010,7 +2036,7 @@ namespace MissionPlanner
                             MainV2.comPort.MAV.cs.battery_voltage <= warnvolt &&
                             MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(Common.speechConversion(""+ Settings.Instance["speechbattery"]));
                             }
@@ -2020,7 +2046,7 @@ namespace MissionPlanner
                                  MainV2.comPort.MAV.cs.battery_voltage >= 5.0 &&
                                  MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync(
                                     Common.speechConversion("" + Settings.Instance["speechbattery"]));
@@ -2039,7 +2065,7 @@ namespace MissionPlanner
 
                             if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
                                         Common.speechConversion(""+ Settings.Instance["speechlowairspeed"]));
@@ -2048,7 +2074,7 @@ namespace MissionPlanner
                             }
                             else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
                             {
-                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                if (MainV2.speechEngine.IsReady)
                                 {
                                     MainV2.speechEngine.SpeakAsync(
                                         Common.speechConversion(""+ Settings.Instance["speechlowgroundspeed"]));
@@ -2081,7 +2107,7 @@ namespace MissionPlanner
                             {
                                 if (altwarningmax > warnalt)
                                 {
-                                    if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                    if (MainV2.speechEngine.IsReady)
                                         MainV2.speechEngine.SpeakAsync(
                                             Common.speechConversion(""+Settings.Instance["speechalt"]));
                                 }
@@ -2095,7 +2121,7 @@ namespace MissionPlanner
                         try
                         {
                             // say the latest high priority message
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready &&
+                            if (MainV2.speechEngine.IsReady &&
                                 lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
                             {
                                 MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
@@ -2129,7 +2155,7 @@ namespace MissionPlanner
                     {
                         if (speechEnable && speechEngine != null)
                         {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.speechEngine.IsReady)
                             {
                                 MainV2.speechEngine.SpeakAsync("WARNING No Data for " +
                                                                (int)
@@ -2175,7 +2201,7 @@ namespace MissionPlanner
                             {
                                 string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
                                 if (!string.IsNullOrEmpty(speech))
-                            {
+                                {
                                     MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
                                 }
                             }
@@ -2245,7 +2271,7 @@ namespace MissionPlanner
                     }
 
                     // read the interfaces
-                    foreach (var port in Comports)
+                    foreach (var port in Comports.ToArray())
                     {
                         if (!port.BaseStream.IsOpen)
                         {

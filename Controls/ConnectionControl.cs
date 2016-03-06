@@ -50,6 +50,8 @@ namespace MissionPlanner.Controls
             this.linkLabel1.Visible = isConnected;
             cmb_Baud.Enabled = !isConnected;
             cmb_Connection.Enabled = !isConnected;
+
+            UpdateSysIDS();
         }
 
         private void ConnectionControl_MouseClick(object sender, MouseEventArgs e)
@@ -93,13 +95,13 @@ namespace MissionPlanner.Controls
         {
             cmb_sysid.Items.Clear();
 
-            foreach (var port in MainV2.Comports)
+            foreach (var port in MainV2.Comports.ToArray())
             {
                 var list = port.MAVlist.GetRawIDS();
 
                 foreach (int item in list)
                 {
-                    var temp = new port_sysid() { compid = item % 256 , sysid = item /256, port = port};
+                    var temp = new port_sysid() { compid = (item % 256) , sysid = (item /256), port = port};
 
                     cmb_sysid.Items.Add(temp);
                 }
@@ -136,7 +138,7 @@ namespace MissionPlanner.Controls
             {
                 if (port == temp.port)
                 {
-                    e.Value = temp.port + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.compid);
+                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.sysid);
                 }
             }
         }

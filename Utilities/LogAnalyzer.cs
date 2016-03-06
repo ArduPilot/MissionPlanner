@@ -1,4 +1,4 @@
-﻿using IronPython.Hosting;
+using IronPython.Hosting;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -31,9 +31,9 @@ namespace MissionPlanner.Utilities
 
             paths.Add(
                 Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" +
-                                      Path.DirectorySeparatorChar + "LogAnalyzer.py"));
-            paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar +
-                      "site-packages");
+               Path.DirectorySeparatorChar + "LogAnalyzer.py"));
+         paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "Lib" + Path.DirectorySeparatorChar +
+            "site-packages");
 
             engine.SetSearchPaths(paths);
 

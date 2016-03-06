@@ -1406,21 +1406,38 @@ namespace MissionPlanner
 
                 int wpsplit = (int)Math.Round(grid.Count / NUM_split.Value,MidpointRounding.AwayFromZero);
 
+                List<int> wpsplitstart = new List<int>();
+
                 for (int splitno = 0; splitno < NUM_split.Value; splitno++)
                 {
                     int wpstart = wpsplit * splitno;
+                    int wpend = wpsplit * (splitno + 1);
+
+                    while (wpstart != 0 && wpstart < grid.Count && grid[wpstart].Tag != "E")
+                    {
+                        wpstart++;
+                    }
+
+                    while (wpend < grid.Count && grid[wpend].Tag != "S")
+                    {
+                        wpend++;
+                    }
 
                     if (CHK_toandland.Checked)
                     {
                         if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                            var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
                                 (int) (30*CurrentState.multiplierdist));
+
+                            wpsplitstart.Add(wpno);
                         }
                         else
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
+                            var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
                                 (int) (30*CurrentState.multiplierdist));
+
+                            wpsplitstart.Add(wpno);
                         }
                     }
 
@@ -1429,7 +1446,6 @@ namespace MissionPlanner
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
                             (int) ((float) NUM_UpDownFlySpeed.Value/CurrentState.multiplierspeed), 0, 0, 0, 0, 0);
                     }
-
 
                     int i = 0;
                     grid.ForEach(plla =>
@@ -1441,7 +1457,7 @@ namespace MissionPlanner
                             return;
                         }
                         // skip after endpoint
-                        if (i >= (wpstart + wpsplit))
+                        if (i >= wpend)
                             return;
                         if (i > wpstart)
                         {
@@ -1516,6 +1532,18 @@ namespace MissionPlanner
                                 plugin.Host.cs.HomeLocation.Lat, 0);
                         }
                     }
+                }
+
+                if (NUM_split.Value > 1)
+                {
+                    int index = 0;
+                    foreach (var i in wpsplitstart)
+                    {
+                        // add do jump
+                        plugin.Host.InsertWP(index, MAVLink.MAV_CMD.DO_JUMP, i + wpsplitstart.Count + 1, 1, 0, 0, 0, 0, 0);
+                        index++;
+                    }
+                    
                 }
 
                 // Redraw the polygon in FP

@@ -19,7 +19,7 @@ namespace GMap.NET.MapProviders
          Instance = new GoogleTerrainMapProvider();
       }
 
-      public string Version = "t@132,r@318000000";
+      public string Version = "t@132,r@338000000";
 
       #region GMapProvider Members
 
@@ -61,6 +61,6 @@ namespace GMap.NET.MapProviders
 
       static readonly string UrlFormatServer = "mts";
       static readonly string UrlFormatRequest = "vt";
-      static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}";
+      static readonly string UrlFormat = "https://{0}{1}.{10}/maps/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}";
    }
 }

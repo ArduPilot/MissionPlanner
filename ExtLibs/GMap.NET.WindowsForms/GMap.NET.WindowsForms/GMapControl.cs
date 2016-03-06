@@ -632,7 +632,7 @@ namespace GMap.NET.WindowsForms
             return;
          }
 
-         g.CompositingMode = CompositingMode.SourceCopy;
+         g.CompositingMode = CompositingMode.SourceOver;
          g.InterpolationMode = InterpolationMode.NearestNeighbor;
 
          Core.tileDrawingListLock.AcquireReaderLock();

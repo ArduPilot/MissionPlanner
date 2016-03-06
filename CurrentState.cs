@@ -961,9 +961,9 @@ namespace MissionPlanner
 
         public float speedup { get; set; }
 
-        Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
-        Mavlink_Sensors sensors_health = new Mavlink_Sensors();
-        Mavlink_Sensors sensors_present = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
         internal bool MONO = false;
 
@@ -1419,6 +1419,13 @@ namespace MissionPlanner
                         {
                             armed = (hb.base_mode & (byte) MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) ==
                                     (byte) MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
+
+                            // saftey switch
+                            if (armed && sensors_enabled.motor_control == false && sensors_enabled.seen)
+                            {
+                                messageHigh = "(SAFE)";
+                                messageHighTime = DateTime.Now;
+                            }
 
                             // for future use
                             landed = hb.system_status == (byte) MAVLink.MAV_STATE.STANDBY;
@@ -1952,7 +1959,8 @@ namespace MissionPlanner
                         ch3percent = vfr.throttle;
 
                         if (sensors_present.revthrottle && sensors_enabled.revthrottle && sensors_health.revthrottle)
-                            ch3percent *= -1;
+                            if (ch3percent > 0)
+                                ch3percent *= -1;
 
                         //Console.WriteLine(alt);
 
@@ -2090,6 +2098,8 @@ namespace MissionPlanner
         {
             BitArray bitArray = new BitArray(32);
 
+            public bool seen = false;
+
             public Mavlink_Sensors()
             {
                 //var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
@@ -2097,6 +2107,7 @@ namespace MissionPlanner
 
             public Mavlink_Sensors(uint p)
             {
+                seen = true;
                 bitArray = new BitArray(new int[] {(int) p});
             }
 
@@ -2264,7 +2275,11 @@ namespace MissionPlanner
                     bitArray.CopyTo(array, 0);
                     return (uint)array[0];
                 }
-                set { bitArray = new BitArray((int)value); }
+                set
+                {
+                    seen = true;
+                    bitArray = new BitArray(new int[] { (int)value });
+                }
             }
 
             public override string ToString()

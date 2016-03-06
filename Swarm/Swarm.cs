@@ -53,8 +53,13 @@ namespace MissionPlanner.Swarm
                 if (port == Leader)
                     continue;
 
-                if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
+                port.setMode("GUIDED");
+
+                port.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
+
+                /*if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
                     port.setGuidedModeWP(new Locationwp() {alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng});
+                 */
             }
         }
 

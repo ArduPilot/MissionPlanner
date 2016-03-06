@@ -103,6 +103,9 @@ namespace MissionPlanner.Utilities
 
             // Create a request using a URL that can receive a post. 
             string requestUriString = baseurl + Path.GetFileName(path);
+
+            L10N.ReplaceMirrorUrl(ref requestUriString);
+
             log.Info("Checking for update at: " + requestUriString);
             var webRequest = WebRequest.Create(requestUriString);
             webRequest.Timeout = 5000;
@@ -172,7 +175,7 @@ namespace MissionPlanner.Utilities
                     DialogResult dr = DialogResult.Cancel;
 
 
-                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + baseurl + "/ChangeLog.txt;ChangeLog]",
+                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
                         Strings.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == DialogResult.Yes)

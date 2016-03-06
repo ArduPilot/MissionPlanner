@@ -752,16 +752,14 @@ namespace MissionPlanner.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3081\deflangfe3081{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
-        ///{\colortbl ;\red231\green230\blue230;\red0\green0\blue255;}
         ///{\*\generator Riched20 10.0.14257}{\*\mmathPr\mnaryLim0\mdispDef1\mwrapIndent1440 }\viewkind5\uc1\viewbksp1{\*\background 
         ///{\shp{\*\shpinst{\sp{\sn fillType}{\sv 0}}
-        ///{\sp{\sn fillColor}{\sv 2565927}}
-        ///{\sp{\sn fillBackColor}{\sv 0}}
         ///{\sp{\sn fillFocus}{\sv 0}}
         ///{\sp{\sn fillBlip}{\sv {\pict{\*\picprop}\wmetafile0 
         ///}}}}}}
         ///
-        ///\pard\ [rest of string was truncated]&quot;;.
+        ///\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
+        ///\tab Welcome to the \b Mission Planner\b0 , mission planning for Unmanned Aerial [rest of string was truncated]&quot;;.
         /// </summary>
         public static string help_text {
             get {

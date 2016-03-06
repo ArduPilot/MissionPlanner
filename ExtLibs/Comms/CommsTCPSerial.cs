@@ -55,9 +55,13 @@ namespace MissionPlanner.Comms
         public  Parity Parity { get; set; }
         public  int DataBits { get; set; }
 
-        public string PortName { get; set; }
+        public string PortName
+        {
+            get { return "TCP" + Port; }
+            set { }
+        }
 
-        public  int BytesToRead
+        public int BytesToRead
         {
             get { /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/ return (int)client.Available; }
         }

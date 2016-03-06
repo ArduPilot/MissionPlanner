@@ -223,8 +223,6 @@ namespace MissionPlanner.GCSViews
                 hud1.hudcolor = Color.FromName(Settings.Instance["hudcolor"]);
             }
 
-            MainV2.comPort.MavChanged += comPort_MavChanged;
-
             log.Info("HUD Settings");
             foreach (string item in Settings.Instance.Keys)
             {
@@ -340,17 +338,6 @@ namespace MissionPlanner.GCSViews
         void mymap_Paint(object sender, PaintEventArgs e)
         {
             distanceBar1.DoPaintRemote(e);
-        }
-
-        void comPort_MavChanged(object sender, EventArgs e)
-        {
-            log.Info("Mav Changed " + MainV2.comPort.MAV.sysid);
-
-            HUD.Custom.src = MainV2.comPort.MAV.cs;
-
-            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
-
-            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;
@@ -1048,6 +1035,12 @@ namespace MissionPlanner.GCSViews
                     // update map
                     if (tracklast.AddSeconds(1.2) < DateTime.Now)
                     {
+                        // show disable joystick button
+                        if (MainV2.joystick != null && MainV2.joystick.enabled)
+                        {
+                            but_disablejoystick.Visible = true;
+                        }
+
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
                             // dont holdinvalidation here
@@ -1232,7 +1225,7 @@ namespace MissionPlanner.GCSViews
                                         MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
                                         routes.Markers.Add(new GMapMarkerPlane(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing)
+                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
                                         {
                                             ToolTipText = MAV.cs.alt.ToString("0"),
                                             ToolTipMode = MarkerTooltipMode.Always
@@ -2263,6 +2256,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
             }
 
             if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
@@ -2272,6 +2266,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
             }
 
             if (MainV2.comPort.MAV.param["MIS_TOTAL"] != null)
@@ -2281,6 +2276,17 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_setwp.Items.Add(z.ToString());
                 }
+                return;
+            }
+
+            if (MainV2.comPort.MAV.wps.Count > 0)
+            {
+                int wps = MainV2.comPort.MAV.wps.Count;
+                for (int z = 1; z <= wps; z++)
+                {
+                    CMB_setwp.Items.Add(z.ToString());
+                }
+                return;
             }
         }
 
@@ -3232,8 +3238,8 @@ namespace MissionPlanner.GCSViews
             try
             {
                 if (MainV2.comPort.MAV.cs.armed)
-                    if (CustomMessageBox.Show("Are you sure you want to Disarm?", "Disarm?", MessageBoxButtons.YesNo) ==
-                        DialogResult.No)
+                    if (CustomMessageBox.Show("Are you sure you want to Disarm?", "Disarm?", MessageBoxButtons.YesNo) !=
+                        DialogResult.Yes)
                         return;
 
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
@@ -3919,6 +3925,18 @@ namespace MissionPlanner.GCSViews
                     else
                         poly.IsVisible = false;
                 }
+            }
+        }
+
+        private void but_disablejoystick_Click(object sender, EventArgs e)
+        {
+            if (MainV2.joystick != null && MainV2.joystick.enabled)
+            {
+                MainV2.joystick.enabled = false;
+
+                MainV2.joystick.clearRCOverride();
+
+                but_disablejoystick.Visible = false;
             }
         }
     }

@@ -38,7 +38,7 @@
       <HintPath>..\..\packages\BitMiracle.LibTiff.NET.2.4.518.0\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
-      <HintPath>..\..\extLibs\DirectShowLib-2005.dll</HintPath>
+      <HintPath>..\..\ExtLibs\DirectShowLib-2005.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -48,7 +48,7 @@
       <HintPath>..\..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\extLibs\log4net.dll</HintPath>
+      <HintPath>..\..\ExtLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">

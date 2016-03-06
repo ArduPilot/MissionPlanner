@@ -119,43 +119,46 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="recordHudToAVIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
     <value>录制Hud至AVI</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
     <value>停止记录</value>
   </data>
   <data name="setMJPEGSourceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
     <value>设置MJPEG源</value>
   </data>
   <data name="setAspectRatioToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
     <value>设置宽高比</value>
   </data>
   <data name="userItemsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
     <value>使用项目</value>
   </data>
   <data name="russianHudToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>156, 22</value>
+    <value>168, 22</value>
   </data>
   <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
     <value>俄国Hud</value>
   </data>
+  <data name="swapWithMapToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>168, 22</value>
+  </data>
   <data name="contextMenuStripHud.Size" type="System.Drawing.Size, System.Drawing">
-    <value>157, 136</value>
+    <value>169, 158</value>
   </data>
   <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
     <value />
@@ -233,18 +236,6 @@
     <value>快速</value>
   </data>
   <data name="tabQuick.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="preFlightChecklist1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabpreflight.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 163</value>
-  </data>
-  <data name="tabpreflight.Text" xml:space="preserve">
-    <value>飞行前检查</value>
-  </data>
-  <data name="tabpreflight.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_resumemis.Text" xml:space="preserve">
@@ -377,6 +368,21 @@
     <value>简单动作</value>
   </data>
   <data name="tabActionsSimple.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="checkListControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 157</value>
+  </data>
+  <data name="checkListControl1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="tabPagePreFlight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 163</value>
+  </data>
+  <data name="tabPagePreFlight.Text" xml:space="preserve">
+    <value>起飞前检查</value>
+  </data>
+  <data name="tabPagePreFlight.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="Gvspeed.ToolTip" xml:space="preserve">

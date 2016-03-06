@@ -25,6 +25,7 @@ using System.Reflection;
 using MissionPlanner.Utilities;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 
@@ -145,7 +146,7 @@ namespace MissionPlanner
 
             g.Transform = temp;
         }
-    }
+    }   
 
     [Serializable]
     public class GMapMarkerWP : GMarkerGoogle
@@ -153,11 +154,27 @@ namespace MissionPlanner
         string wpno = "";
         public bool selected = false;
         SizeF txtsize = SizeF.Empty;
+        static Dictionary<string, Bitmap> fontBitmaps = new Dictionary<string, Bitmap>();
+        static Font font;
 
         public GMapMarkerWP(PointLatLng p, string wpno)
             : base(p, GMarkerGoogleType.green)
         {
             this.wpno = wpno;
+            if (font == null)
+                font = SystemFonts.DefaultFont;
+
+            if (!fontBitmaps.ContainsKey(wpno))
+            {
+                Bitmap temp = new Bitmap(100,40, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(temp))
+                {
+                    txtsize = g.MeasureString(wpno, font);
+
+                    g.DrawString(wpno, font, Brushes.Black, new PointF(0, 0));
+                }
+                fontBitmaps[wpno] = temp;
+            }
         }
 
         public override void OnRender(Graphics g)
@@ -167,7 +184,7 @@ namespace MissionPlanner
                 g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
                 g.DrawArc(Pens.Red, new Rectangle(this.LocalPosition, this.Size), 0, 360);
             }
-
+            
             base.OnRender(g);
 
             var midw = LocalPosition.X + 10;
@@ -176,13 +193,8 @@ namespace MissionPlanner
             if (txtsize.Width > 15)
                 midw -= 4;
 
-            if (IsMouseOver)
-            {
-                if (txtsize == SizeF.Empty)
-                    txtsize = g.MeasureString(wpno, SystemFonts.DefaultFont);
-
-                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black, new PointF(midw, midh));
-            }
+            if (Overlay.Control.Zoom> 16 || IsMouseOver)
+                g.DrawImageUnscaled(fontBitmaps[wpno], midw,midh);
         }
     }
 
@@ -263,14 +275,16 @@ namespace MissionPlanner
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
+        float radius = -1;
 
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target)
+        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target, float radius)
             : base(p)
         {
             this.heading = heading;
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
+            this.radius = radius;
             Size = icon.Size;
         }
 
@@ -302,47 +316,38 @@ namespace MissionPlanner
             {
                 float desired_lead_dist = 100;
 
-
                 double width =
                     (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
                         Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
                 double m2pixelwidth = Overlay.Control.Width/width;
 
-                float alpha = ((desired_lead_dist*(float) m2pixelwidth)/MainV2.comPort.MAV.cs.radius)*rad2deg;
+                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
 
-                if (MainV2.comPort.MAV.cs.radius < -1)
+                if (radius < -1)
                 {
                     // fixme 
 
-                    float p1 = (float) Math.Cos((cog)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog) * deg2rad) * radius + radius;
 
-                    float p2 = (float) Math.Sin((cog)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog) * deg2rad) * radius + radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(MainV2.comPort.MAV.cs.radius)*2,
-                        Math.Abs(MainV2.comPort.MAV.cs.radius)*2, cog, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
                 }
 
-                else if (MainV2.comPort.MAV.cs.radius > 1)
+                else if (radius > 1)
                 {
                     // correct
 
-                    float p1 = (float) Math.Cos((cog - 180)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * radius + radius;
 
-                    float p2 = (float) Math.Sin((cog - 180)*deg2rad)*MainV2.comPort.MAV.cs.radius +
-                               MainV2.comPort.MAV.cs.radius;
+                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * radius + radius;
 
-                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, MainV2.comPort.MAV.cs.radius*2,
-                        MainV2.comPort.MAV.cs.radius*2, cog - 180, alpha);
+                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, radius * 2, radius * 2, cog - 180, alpha);
                 }
             }
-
             catch
             {
             }
-
 
             try
             {
@@ -693,7 +698,36 @@ namespace MissionPlanner
         {
             log.Info("getModesList Called");
 
-            if (cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (cs.firmware == MainV2.Firmwares.PX4)
+            {
+                /*
+union px4_custom_mode {
+    struct {
+        uint16_t reserved;
+        uint8_t main_mode;
+        uint8_t sub_mode;
+    };
+    uint32_t data;
+    float data_float;
+};
+                 */
+                var temp = new List<KeyValuePair<int, string>>();
+                temp.Add(new KeyValuePair<int, string>(1 << 8, "Manual"));
+                temp.Add(new KeyValuePair<int, string>(2 << 8, "Acro"));
+                temp.Add(new KeyValuePair<int, string>(3 << 8, "Stabalized"));
+                temp.Add(new KeyValuePair<int, string>(4 << 8, "Rattitude"));
+                temp.Add(new KeyValuePair<int, string>(5 << 8, "Altitude Control"));
+                temp.Add(new KeyValuePair<int, string>(6 << 8, "Position Control"));
+                temp.Add(new KeyValuePair<int, string>(7 << 8, "Offboard Control"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 1, "Auto: Ready"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 2, "Auto: Takeoff"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 3, "Loiter"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 4, "Auto"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 5, "RTL"));
+                temp.Add(new KeyValuePair<int, string>(8 << 8 + 6, "Auto: Landing"));
+
+                return temp;
+            } else if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
                     cs.firmware.ToString());
