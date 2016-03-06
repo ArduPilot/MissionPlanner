@@ -12,6 +12,7 @@ using log4net;
 using System.IO;
 using System.Runtime.InteropServices;
 using MissionPlanner.Controls;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Comms
 {
@@ -92,6 +93,14 @@ namespace MissionPlanner.Comms
 
             OnSettings("NTRIP_url", url, true);
 
+            int count = url.Split('@').Length - 1;
+
+            if (count > 1)
+            {
+                var regex = new Regex("@");
+                url = regex.Replace(url, "%40", 1);
+            }
+
             url = url.Replace("ntrip://", "http://");
 
             remoteUri = new Uri(url);
@@ -113,8 +122,9 @@ namespace MissionPlanner.Comms
         private void doConnect()
         {
             string usernamePassword = remoteUri.UserInfo;
+            string userpass2 = Uri.UnescapeDataString(usernamePassword);
             string auth = "Authorization: Basic " +
-                          Convert.ToBase64String(new ASCIIEncoding().GetBytes(usernamePassword)) + "\r\n";
+                          Convert.ToBase64String(new ASCIIEncoding().GetBytes(userpass2)) + "\r\n";
 
             if (usernamePassword == "")
                 auth = "";
