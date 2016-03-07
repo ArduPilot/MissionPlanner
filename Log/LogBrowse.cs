@@ -973,6 +973,7 @@ namespace MissionPlanner.Log
 
             double b = 0;
             DateTime screenupdate = DateTime.MinValue;
+            double value_prev = 0;
 
             foreach (var item in logdata.GetEnumeratorType(type))
             {
@@ -999,6 +1000,13 @@ namespace MissionPlanner.Log
 
                         if (dataModifier.IsValid())
                         {
+                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            {
+                                // there is a glitch in the data, reject it by replacing it with the previous value
+                                value = value_prev;
+                            }
+                            value_prev = value;
+
                             if (dataModifier.doOffsetFirst)
                             {
                                 value += dataModifier.offset;
