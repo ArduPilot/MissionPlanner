@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lbl_gndelev = new System.Windows.Forms.Label();
+            this.label40 = new System.Windows.Forms.Label();
             this.lbl_turnrad = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.lbl_photoevery = new System.Windows.Forms.Label();
@@ -177,6 +179,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lbl_gndelev);
+            this.groupBox5.Controls.Add(this.label40);
             this.groupBox5.Controls.Add(this.lbl_turnrad);
             this.groupBox5.Controls.Add(this.label36);
             this.groupBox5.Controls.Add(this.lbl_photoevery);
@@ -202,6 +206,16 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // lbl_gndelev
+            // 
+            resources.ApplyResources(this.lbl_gndelev, "lbl_gndelev");
+            this.lbl_gndelev.Name = "lbl_gndelev";
+            // 
+            // label40
+            // 
+            resources.ApplyResources(this.label40, "label40");
+            this.label40.Name = "label40";
             // 
             // lbl_turnrad
             // 
@@ -1315,5 +1329,7 @@
         private System.Windows.Forms.NumericUpDown NUM_split;
         private System.Windows.Forms.CheckBox chk_stopstart;
         private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Label lbl_gndelev;
+        private System.Windows.Forms.Label label40;
     }
 }

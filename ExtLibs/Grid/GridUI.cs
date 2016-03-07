@@ -145,6 +145,12 @@ namespace MissionPlanner
             // set and angle that is good
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
             TXT_headinghold.Text = (Math.Round(NUM_angle.Value)).ToString();
+
+            if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduPlane)
+                NUM_UpDownFlySpeed.Value = (decimal)(12 * CurrentState.multiplierspeed);
+
+            map.MapScaleInfoEnabled = true;
+            map.ScalePen = new Pen(Color.Orange);
         }
 
         private void GridUI_Load(object sender, EventArgs e)
@@ -576,9 +582,14 @@ namespace MissionPlanner
             PointLatLngAlt prevpoint = grid[0];
             float routetotal = 0;
             List<PointLatLng> segment = new List<PointLatLng>();
+            double maxgroundelevation = double.MinValue;
+            double mingroundelevation = double.MaxValue;
 
             foreach (var item in grid)
             {
+                mingroundelevation = Math.Min(mingroundelevation, srtm.getAltitude(item.Lat, item.Lng).alt);
+                maxgroundelevation = Math.Max(maxgroundelevation, srtm.getAltitude(item.Lat, item.Lng).alt);
+
                 if (item.Tag == "M")
                 {
                     images++;
@@ -704,6 +715,7 @@ namespace MissionPlanner
                 lbl_distbetweenlines.Text = (NUM_Distance.Value * 3.2808399m).ToString("0.##") + " ft";
                 lbl_footprint.Text = feet_fovH + " x " + feet_fovV + " ft";
                 lbl_turnrad.Text = (turnrad * 2 * 3.2808399).ToString("0") + " ft";
+                lbl_gndelev.Text = (mingroundelevation*3.2808399).ToString("0") + "-" + (maxgroundelevation*3.2808399).ToString("0") + " ft";
             }
             else
             {
@@ -715,6 +727,7 @@ namespace MissionPlanner
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
                 lbl_turnrad.Text = (turnrad * 2).ToString("0") + " m";
+                lbl_gndelev.Text = mingroundelevation.ToString("0") + "-" + maxgroundelevation.ToString("0") + " m";
             }
 
             double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
@@ -731,6 +744,8 @@ namespace MissionPlanner
                 map.ZoomAndCenterMarkers("routes");
 
             CalcHeadingHold();
+
+            map.Invalidate();
         }
 
         private void AddWP(double Lng, double Lat, double Alt)
@@ -860,38 +875,48 @@ namespace MissionPlanner
             return (angle + 360) % 360;
         }
 
+        void getFOV(double flyalt, ref double fovh, ref double fovv)
+        {
+            double focallen = (double)NUM_focallength.Value;
+            double sensorwidth = double.Parse(TXT_senswidth.Text);
+            double sensorheight = double.Parse(TXT_sensheight.Text);
+
+            // scale      mm / mm
+            double flscale = (1000 * flyalt) / focallen;
+
+            //   mm * mm / 1000
+            double viewwidth = (sensorwidth * flscale / 1000);
+            double viewheight = (sensorheight * flscale / 1000);
+
+            float fovh1 = (float)(Math.Atan(sensorwidth / (2 * focallen)) * rad2deg * 2);
+            float fovv1 = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
+
+            fovh = viewwidth;
+            fovv = viewheight;
+        }
+
         void doCalc()
         {
             try
             {
                 // entered values
-                float focallen = (float)NUM_focallength.Value;
                 float flyalt = (float)CurrentState.fromDistDisplayUnit((float)NUM_altitude.Value);
                 int imagewidth = int.Parse(TXT_imgwidth.Text);
                 int imageheight = int.Parse(TXT_imgheight.Text);
-
-                float sensorwidth = float.Parse(TXT_senswidth.Text);
-                float sensorheight = float.Parse(TXT_sensheight.Text);
-
+                
                 int overlap = (int)num_overlap.Value;
                 int sidelap = (int)num_sidelap.Value;
 
+                double viewwidth = 0;
+                double viewheight = 0;
 
-                // scale      mm / mm
-                float flscale = (1000 * flyalt) / focallen;
-
-                //   mm * mm / 1000
-                float viewwidth = (sensorwidth * flscale / 1000);
-                float viewheight = (sensorheight * flscale / 1000);
+                getFOV(flyalt, ref viewwidth, ref viewheight);
 
                 TXT_fovH.Text = viewwidth.ToString("#.#");
                 TXT_fovV.Text = viewheight.ToString("#.#");
                 // Imperial
                 feet_fovH = (viewwidth * 3.2808399f).ToString("#.#");
                 feet_fovV = (viewheight * 3.2808399f).ToString("#.#");
-
-                float fovh = (float)(Math.Atan(sensorwidth / (2 * focallen)) * rad2deg * 2);
-                float fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
 
                 //    mm  / pixels * 100
                 TXT_cmpixel.Text = ((viewheight / imageheight) * 100).ToString("0.00 cm");
