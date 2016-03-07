@@ -8,6 +8,7 @@ using log4net;
 using MissionPlanner.Attributes;
 using MissionPlanner;
 using System.Collections;
+using DirectShowLib;
 
 namespace MissionPlanner
 {
@@ -1173,7 +1174,6 @@ namespace MissionPlanner
                     {
                         var version = bytearray.ByteArrayToStructure<MAVLink.mavlink_autopilot_version_t>(6);
                         //#define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
-
                         //		flight_sw_version	0x03040000	uint
 
                         byte main = (byte) (version.flight_sw_version >> 24);
@@ -1183,6 +1183,8 @@ namespace MissionPlanner
                             (MAVLink.FIRMWARE_VERSION_TYPE) (version.flight_sw_version & 0xff);
 
                         this.version = new Version(main, sub, (int) type, rev);
+
+                        capabilities = (MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
 
                         MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION] = null;
                     }
@@ -2410,5 +2412,7 @@ namespace MissionPlanner
         public float rpm1 { get; set; }
 
         public float rpm2 { get; set; }
+
+        public MAVLink.MAV_PROTOCOL_CAPABILITY capabilities { get; set; }
     }
 }
