@@ -991,7 +991,7 @@ namespace MissionPlanner.Log
                         double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
 
                         // abandon realy bad data
-                        if (Math.Abs(value) > 3.15e20)
+                        if (Math.Abs(value) > 3.15e8)
                         {
                             a++;
                             continue;
