@@ -732,6 +732,11 @@ union px4_custom_mode {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
                     cs.firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
+
+                flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
+                flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
+                flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
+
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
