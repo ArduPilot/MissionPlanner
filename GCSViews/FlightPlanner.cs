@@ -2017,6 +2017,8 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                bool use_int = (port.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+
                 // set wp total
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
 
@@ -2034,8 +2036,6 @@ namespace MissionPlanner.GCSViews
 
                 // upload from wp0
                 a = 0;
-
-                bool use_int = true;
 
                 if (port.MAV.apname != MAVLink.MAV_AUTOPILOT.PX4)
                 {
