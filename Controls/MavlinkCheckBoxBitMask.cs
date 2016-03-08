@@ -88,6 +88,7 @@ namespace MissionPlanner.Controls
 
                 int leftside = 9;
                 int top = 9;
+                int bottom = 0;
 
                 uint value = (uint) paramlist[paramname].Value;
 
@@ -99,6 +100,8 @@ namespace MissionPlanner.Controls
                     chk.AutoSize = true;
                     chk.Text = list[a].Value.ToString();
                     chk.Location = new System.Drawing.Point(leftside, top);
+
+                    bottom = chk.Bottom;
 
                     chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
 
@@ -123,9 +126,9 @@ namespace MissionPlanner.Controls
                 }
 
 
-                this.panel1.Height = top + 25;
+                this.panel1.Height = bottom;
 
-                //this.Height = top + 25;
+                this.Height = myLabel1.Height + tableLayoutPanel1.Height + 25;
             }
             else
             {
