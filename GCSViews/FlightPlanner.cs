@@ -4000,6 +4000,23 @@ namespace MissionPlanner.GCSViews
 
                 CurrentRallyPt = null;
             }
+            else if (groupmarkers.Count > 0)
+            {
+                for (int a = Commands.Rows.Count; a > 0; a--)
+                {
+                    try
+                    {
+                        if (groupmarkers.Contains(a))
+                            Commands.Rows.RemoveAt(a - 1); // home is 0
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show("error selecting wp, please try again.");
+                    }
+                }
+
+                groupmarkers.Clear();
+            }
 
 
             if (currentMarker != null)
