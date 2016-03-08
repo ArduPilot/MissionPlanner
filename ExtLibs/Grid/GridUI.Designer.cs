@@ -815,7 +815,7 @@
             0,
             0,
             0});
-            this.num_overlap.ValueChanged += new System.EventHandler(this.NUM_ValueChanged);
+            this.num_overlap.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // num_sidelap
             // 
@@ -827,7 +827,7 @@
             0,
             0,
             0});
-            this.num_sidelap.ValueChanged += new System.EventHandler(this.NUM_ValueChanged);
+            this.num_sidelap.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label5
             // 
