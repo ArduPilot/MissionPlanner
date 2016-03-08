@@ -63,6 +63,7 @@ namespace MissionPlanner.Warnings
             if (run == false)
             {
                 thisthread = new Thread(MainLoop);
+                thisthread.Name = "Warning Engine";
                 thisthread.IsBackground = true;
                 thisthread.Start();
             }
