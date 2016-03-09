@@ -736,6 +736,7 @@ union px4_custom_mode {
                 flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
                 flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
                 flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
+                flightModes.Add(new KeyValuePair<int, string>(20, "QLand"));
 
                 return flightModes;
             }
