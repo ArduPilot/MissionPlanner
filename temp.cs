@@ -786,7 +786,7 @@ namespace MissionPlanner
         {
             ParameterMetaDataParser.GetParameterInformation();
 
-            ParameterMetaDataRepository.Reload();
+            ParameterMetaDataRepositoryAPM.Reload();
         }
 
         private void myButton1_Click(object sender, EventArgs e)

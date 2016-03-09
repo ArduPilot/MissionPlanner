@@ -831,7 +831,8 @@
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\NGEN.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
+    <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
+    <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
@@ -3657,6 +3658,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="mavgraphs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ParameterFactMetaData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\example5 inject data.py">
