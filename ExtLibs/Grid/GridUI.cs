@@ -1481,11 +1481,11 @@ namespace MissionPlanner
                         if (i < wpstart)
                         {
                             i++;
-                            return;
+                            continue;
                         }
                         // skip after endpoint
                         if (i >= wpend)
-                            return;
+                            break;
                         if (i > wpstart)
                         {
                             if (plla.Tag == "M")
