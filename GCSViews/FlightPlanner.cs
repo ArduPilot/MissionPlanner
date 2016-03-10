@@ -3094,6 +3094,33 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            // check if the mouse up happend over our button
+            if (polyicon.Rectangle.Contains(e.Location))
+            {
+                polyicon.IsSelected = !polyicon.IsSelected;
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    polyicon.IsSelected = false;
+                    clearPolygonToolStripMenuItem_Click(this, null);
+
+                    contextMenuStrip1.Visible = false;
+
+                    return;
+                }
+
+                if (polyicon.IsSelected)
+                {
+                    polygongridmode = true;
+                }
+                else
+                {
+                    polygongridmode = false;
+                }
+
+                return;
+            }
+
             MouseDownEnd = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             // Console.WriteLine("MainMap MU");
@@ -5322,6 +5349,16 @@ namespace MissionPlanner.GCSViews
             {
                 geoFenceToolStripMenuItem.Enabled = true;
             }
+
+            if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
+            {
+                deleteWPToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                deleteWPToolStripMenuItem.Enabled = true;
+            }
+
             isMouseClickOffMenu = false; // Just incase
         }
 
@@ -5349,10 +5386,8 @@ namespace MissionPlanner.GCSViews
         private void MainMap_Paint(object sender, PaintEventArgs e)
         {
             // draw utm grid
+            if (grid)
             {
-                if (!grid)
-                    return;
-
                 if (MainMap.Zoom < 10)
                     return;
 
@@ -5361,7 +5396,9 @@ namespace MissionPlanner.GCSViews
                 var plla1 = new PointLatLngAlt(rect.LocationTopLeft);
                 var plla2 = new PointLatLngAlt(rect.LocationRightBottom);
 
-                var zone = plla1.GetUTMZone();
+                var center = new PointLatLngAlt(rect.LocationMiddle);
+
+                var zone = center.GetUTMZone();
 
                 var utm1 = plla1.ToUTM(zone);
                 var utm2 = plla2.ToUTM(zone);
@@ -5420,7 +5457,12 @@ namespace MissionPlanner.GCSViews
                     e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
                 }
             }
+            
+            polyicon.Location = new Point(10,100);
+            polyicon.Paint(e.Graphics);
         }
+
+        MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
 
         private void chk_grid_CheckedChanged(object sender, EventArgs e)
         {
