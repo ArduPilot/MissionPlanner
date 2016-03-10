@@ -354,6 +354,8 @@
             // chk_stopstart
             // 
             resources.ApplyResources(this.chk_stopstart, "chk_stopstart");
+            this.chk_stopstart.Checked = true;
+            this.chk_stopstart.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_stopstart.Name = "chk_stopstart";
             this.chk_stopstart.UseVisualStyleBackColor = true;
             // 

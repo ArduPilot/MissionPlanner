@@ -1473,7 +1473,9 @@ namespace MissionPlanner
                     }
 
                     int i = 0;
-                    grid.ForEach(plla =>
+                    bool startedtrigdist = false;
+                    PointLatLngAlt lastplla = PointLatLngAlt.Zero;
+                    foreach (var plla in grid)
                     {
                         // skip before start point
                         if (i < wpstart)
@@ -1502,10 +1504,12 @@ namespace MissionPlanner
                             }
                             else
                             {
-                                AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                if (chk_stopstart.Checked)
+                                if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
+                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
+
+                                if (rad_trigdist.Checked)
                                 {
-                                    if (rad_trigdist.Checked)
+                                    if (chk_stopstart.Checked)
                                     {
                                         if (plla.Tag == "SM")
                                         {
@@ -1519,6 +1523,16 @@ namespace MissionPlanner
                                                 0, 0, 0, 0, 0, 0);
                                         }
                                     }
+                                    else
+                                    {
+                                        if (!startedtrigdist)
+                                        {
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
+                                                (float) NUM_spacing.Value,
+                                                0, 0, 0, 0, 0, 0);
+                                            startedtrigdist = true;
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1526,8 +1540,9 @@ namespace MissionPlanner
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
                         }
+                        lastplla = plla;
                         ++i;
-                    });
+                    }
 
                     // end
                     if (rad_trigdist.Checked)
