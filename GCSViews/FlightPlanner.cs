@@ -190,10 +190,8 @@ namespace MissionPlanner.GCSViews
                                     double.Parse(celllon.Value.ToString())).alt)*CurrentState.multiplierdist);
                         int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt)*CurrentState.multiplierdist);
                         int newh = (int) (ans + newsrtm - oldsrtm);
-                        if (newh > newsrtm)
-                            cell.Value = newh;
-                        else
-                            cell.Value = newsrtm + int.Parse(TXT_DefaultAlt.Text);
+
+                        cell.Value = newh;
 
                         cell.DataGridView.EndEdit();
                     }
