@@ -1040,7 +1040,9 @@ namespace MissionPlanner.GCSViews
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
                         {
-                            but_disablejoystick.Visible = true;
+                            this.Invoke((MethodInvoker) delegate {
+                                but_disablejoystick.Visible = true;
+                            });
                         }
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
