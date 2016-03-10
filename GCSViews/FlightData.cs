@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DirectShowLib;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -21,6 +22,7 @@ using MissionPlanner.Log;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using OpenTK;
+using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 
@@ -3937,6 +3939,25 @@ namespace MissionPlanner.GCSViews
                 MainV2.joystick.clearRCOverride();
 
                 but_disablejoystick.Visible = false;
+            }
+        }
+
+        private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.MONO)
+                return;
+
+            try
+            {
+                MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+
+                MainV2.cam.Start();
+
+                MainV2.cam.camimage += new CamImage(cam_camimage);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
             }
         }
     }
