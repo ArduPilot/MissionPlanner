@@ -3588,7 +3588,6 @@
     <Content Include="DLLs\NumpyDotNet.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj" />
     <Content Include="LogAnalyzer\DataflashLog.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

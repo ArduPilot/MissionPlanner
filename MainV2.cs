@@ -1561,6 +1561,16 @@ namespace MissionPlanner
 
             Warnings.WarningEngine.Stop();
 
+            log.Info("closing vlcrender");
+            try
+            {
+                while (vlcrender.store.Count > 0)
+                    vlcrender.store[0].Stop();
+            }
+            catch
+            {
+            }
+
             log.Info("closing pluginthread");
 
             pluginthreadrun = false;
