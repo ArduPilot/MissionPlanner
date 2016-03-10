@@ -1664,7 +1664,10 @@ namespace MissionPlanner
         {
             try
             {
-                GStreamer.Start();
+                if (GStreamer.checkGstLaunchExe())
+                {
+                    GStreamer.Start();
+                }
             }
             catch (Exception ex)
             {
