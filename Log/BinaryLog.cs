@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,14 @@ namespace MissionPlanner.Log
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)] public byte[] name;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)] public byte[] format;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)] public byte[] labels;
+        }
+
+        public struct log_format_cache
+        {
+            public uint8_t type;
+            public uint8_t length;
+            public string name;
+            public string format;
         }
 
         private ProgressReporterDialogue prd;
@@ -107,7 +116,9 @@ namespace MissionPlanner.Log
         {
             int log_step = 0;
 
-            while (br.Position < br.Length)
+            long length = br.Length;
+
+            while (br.Position < length)
             {
                 byte data = (byte) br.ReadByte();
 
@@ -433,14 +444,31 @@ namespace MissionPlanner.Log
                     string name = "";
                     int size = 0;
 
-                    foreach (log_Format fmt in logformat.Values)
+                    if (packettypecache.ContainsKey(packettype))
                     {
-                        if (fmt.type == packettype)
+                        var fmt = packettypecache[packettype];
+                        name = fmt.name;
+                        format = fmt.format;
+                        size = fmt.length;
+                    }
+                    else
+                    {
+                        foreach (log_Format fmt in logformat.Values)
                         {
-                            name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'});
-                            format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'});
-                            size = fmt.length;
-                            break;
+                            packettypecache[fmt.type] = new log_format_cache() {
+                                length = fmt.length,
+                                type = fmt.type,
+                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
+                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
+                            };
+
+                            if (fmt.type == packettype)
+                            {
+                                name = packettypecache[fmt.type].name;
+                                format = packettypecache[fmt.type].format;
+                                size = fmt.length;
+                                //break;
+                            }
                         }
                     }
 
@@ -456,6 +484,7 @@ namespace MissionPlanner.Log
             }
         }
 
+        Dictionary<int, log_format_cache> packettypecache = new Dictionary<int, log_format_cache>();
 
         /*  
     105    +Format characters in the format string for binary log messages  
@@ -489,7 +518,7 @@ namespace MissionPlanner.Log
 
             int offset = 0;
 
-            StringBuilder line = new StringBuilder(name);
+            StringBuilder line = new StringBuilder(name,1024);
 
             foreach (char ch in form)
             {
@@ -541,7 +570,7 @@ namespace MissionPlanner.Log
                         break;
                     case 'f':
                         line.Append(", " +
-                                    BitConverter.ToSingle(message, offset)
+                                    BitConverter.ToSingle(message,offset)
                                         .ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
