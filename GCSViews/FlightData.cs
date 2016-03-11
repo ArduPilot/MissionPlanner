@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -3569,22 +3570,36 @@ namespace MissionPlanner.GCSViews
 
                             if (logfile.ToLower().EndsWith(".bin"))
                             {
-                                string tempfile = Path.GetTempFileName();
-                                BinaryLog.ConvertBin(logfile, tempfile);
+                                using (tr = new StreamReader(logfile))
+                                {
+                                    GC.Collect();
+                                    CollectionBuffer<string> temp = new CollectionBuffer<string>(tr.BaseStream);
 
-                                tr = new StreamReader(tempfile);
+                                    uint a = 0;
+                                    foreach (var line in temp)
+                                    {
+                                        lo.processLine(line);
+                                        a++;
+
+                                        if ((a % 100000) == 0)
+                                            Console.WriteLine(a);
+                                    }
+
+                                    temp.Dispose();
+                                }
                             }
                             else
                             {
-                                tr = new StreamReader(logfile);
-                            }
+                                using (tr = new StreamReader(logfile))
+                                {
+                                    while (!tr.EndOfStream)
+                                    {
+                                        lo.processLine(tr.ReadLine());
+                                    }
 
-                            while (!tr.EndOfStream)
-                            {
-                                lo.processLine(tr.ReadLine());
+                                    tr.Close();
+                                }
                             }
-
-                            tr.Close();
                         }
                         catch (Exception ex)
                         {
