@@ -82,9 +82,9 @@ namespace MissionPlanner.Log
                         {
                             PointLatLngAlt temp =
                                 new PointLatLngAlt(
-                                    double.Parse(items[7], new System.Globalization.CultureInfo("en-US")),
-                                    double.Parse(items[8], new System.Globalization.CultureInfo("en-US")),
-                                    double.Parse(items[6], new System.Globalization.CultureInfo("en-US")),
+                                    double.Parse(items[7], CultureInfo.InvariantCulture),
+                                    double.Parse(items[8], CultureInfo.InvariantCulture),
+                                    double.Parse(items[6], CultureInfo.InvariantCulture),
                                     items[2].ToString());
                             cmd.Add(temp);
                         }
@@ -117,18 +117,20 @@ namespace MissionPlanner.Log
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
 
-                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
-                    //     return;
+                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")], CultureInfo.InvariantCulture);
 
-                    // 7 agl
-                    // 8 asl...
-                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")],
-                        new System.Globalization.CultureInfo("en-US"));
+                    if (alt > 40000)
+                        return;
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")],
-                        new System.Globalization.CultureInfo("en-US")),
-                        double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")],
-                            new System.Globalization.CultureInfo("en-US")), alt));
+                    double lng = double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")], CultureInfo.InvariantCulture);
+                    double lat = double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")], CultureInfo.InvariantCulture);
+
+                    if (lat < -90 || lat > 90)
+                        return;
+                    if (lng < -180 || lng > 180)
+                        return;
+
+                    position[positionindex].Add(new Point3D(lng, lat, alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
@@ -201,14 +203,11 @@ namespace MissionPlanner.Log
                             oldlastpos = lastpos;
 
                             runmodel.Orientation.roll =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
-                                    new System.Globalization.CultureInfo("en-US"))/-1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],CultureInfo.InvariantCulture) / -1;
                             runmodel.Orientation.tilt =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
-                                    new System.Globalization.CultureInfo("en-US"))/-1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],CultureInfo.InvariantCulture) / -1;
                             runmodel.Orientation.heading =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
-                                    new System.Globalization.CultureInfo("en-US"))/1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],CultureInfo.InvariantCulture) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;
