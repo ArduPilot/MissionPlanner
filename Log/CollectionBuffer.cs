@@ -17,9 +17,9 @@ namespace MissionPlanner.Log
 
         BufferedStream basestream;
         private int _count;
-        List<long> linestartoffset = new List<long>();
+        List<uint> linestartoffset = new List<uint>();
 
-        Dictionary<byte, List<long>> messageindex = new Dictionary<byte, List<long>>();
+        Dictionary<byte, List<uint>> messageindex = new Dictionary<byte, List<uint>>();
 
         bool binary = false;
 
@@ -30,7 +30,7 @@ namespace MissionPlanner.Log
         {
             for (int a = 0; a <= byte.MaxValue; a++)
             {
-                messageindex[(byte) a] = new List<long>();
+                messageindex[(byte) a] = new List<uint>();
             }
 
             basestream = new BufferedStream(instream, 1024*256);
@@ -79,9 +79,9 @@ namespace MissionPlanner.Log
                         if (buffer[offset] == BinaryLog.HEAD_BYTE1 && buffer[offset + 1] == BinaryLog.HEAD_BYTE2)
                         {
                             byte type = buffer[offset + 2];
-                            messageindex[type].Add(startpos + offset);
+                            messageindex[type].Add((uint)(startpos + offset));
 
-                            linestartoffset.Add(startpos + offset);
+                            linestartoffset.Add((uint)(startpos + offset));
                             lineCount++;
                         }
 
@@ -116,7 +116,7 @@ namespace MissionPlanner.Log
                     {
                         if (buffer[offset] == '\n')
                         {
-                            linestartoffset.Add(startpos + 1 + offset);
+                            linestartoffset.Add((uint)(startpos + 1 + offset));
                             lineCount++;
                         }
 
