@@ -175,7 +175,7 @@ namespace MissionPlanner.Utilities
 
                                                     // Parse the param info from the newly constructed URL
                                                     ParseParameterInformation(ReadDataFromAddress(newPath),
-                                                        objXmlTextWriter, node.Key);
+                                                        objXmlTextWriter, node.Key, newPath);
                                                 }
                                             }
                                         }));
@@ -201,8 +201,25 @@ namespace MissionPlanner.Utilities
         /// <param name="objXmlTextWriter">The obj XML text writer.</param>
         /// <param name="parameterPrefix">The parameter prefix.</param>
         private static void ParseParameterInformation(string fileContents, XmlTextWriter objXmlTextWriter,
-            string parameterPrefix)
+            string parameterPrefix, string url = "")
         {
+            var NestedGroups = Regex.Match(fileContents, ParameterMetaDataConstants.NestedGroup);
+
+            if (NestedGroups != null && NestedGroups.Success)
+            {
+                Uri uri = new Uri(url);
+
+                var currentfn = uri.Segments[uri.Segments.Length - 1];
+
+                var newfn = NestedGroups.Groups[1].ToString() + Path.GetExtension(currentfn);
+
+                if (currentfn != newfn)
+                {
+                    log.Info("Nested Group " + NestedGroups.Groups[1]);
+                    ParseParameterInformation(ReadDataFromAddress(url.Replace(currentfn, newfn)), objXmlTextWriter, parameterPrefix);
+                }
+            }
+
             var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Param);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {

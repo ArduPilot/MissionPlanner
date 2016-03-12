@@ -425,12 +425,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC5_DZ>
+    <RC5_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MIN>
+    <RC5_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_TRIM>
+    <RC5_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MAX>
+    <RC5_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC5_REV>
+    <RC5_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC5_DZ>
     <RC5_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable</Values>
       <User>Standard</User>
     </RC5_FUNCTION>
+    <RC6_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MIN>
+    <RC6_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_TRIM>
+    <RC6_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MAX>
+    <RC6_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC6_REV>
+    <RC6_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC6_DZ>
     <RC6_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -511,12 +585,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC7_DZ>
+    <RC7_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MIN>
+    <RC7_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_TRIM>
+    <RC7_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MAX>
+    <RC7_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC7_REV>
+    <RC7_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC7_DZ>
     <RC7_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable</Values>
       <User>Standard</User>
     </RC7_FUNCTION>
+    <RC8_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MIN>
+    <RC8_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_TRIM>
+    <RC8_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MAX>
+    <RC8_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC8_REV>
+    <RC8_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC8_DZ>
     <RC8_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -597,12 +745,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC9_DZ>
+    <RC9_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MIN>
+    <RC9_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_TRIM>
+    <RC9_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MAX>
+    <RC9_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC9_REV>
+    <RC9_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC9_DZ>
     <RC9_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable</Values>
       <User>Standard</User>
     </RC9_FUNCTION>
+    <RC10_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MIN>
+    <RC10_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_TRIM>
+    <RC10_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MAX>
+    <RC10_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC10_REV>
+    <RC10_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC10_DZ>
     <RC10_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -683,12 +905,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC11_DZ>
+    <RC11_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MIN>
+    <RC11_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_TRIM>
+    <RC11_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MAX>
+    <RC11_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC11_REV>
+    <RC11_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC11_DZ>
     <RC11_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable</Values>
       <User>Standard</User>
     </RC11_FUNCTION>
+    <RC12_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MIN>
+    <RC12_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_TRIM>
+    <RC12_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MAX>
+    <RC12_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC12_REV>
+    <RC12_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC12_DZ>
     <RC12_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -769,12 +1065,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC13_DZ>
+    <RC13_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MIN>
+    <RC13_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_TRIM>
+    <RC13_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MAX>
+    <RC13_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC13_REV>
+    <RC13_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC13_DZ>
     <RC13_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable</Values>
       <User>Standard</User>
     </RC13_FUNCTION>
+    <RC14_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MIN>
+    <RC14_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_TRIM>
+    <RC14_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MAX>
+    <RC14_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC14_REV>
+    <RC14_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC14_DZ>
     <RC14_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -2318,6 +2688,115 @@
       <User>Standard</User>
       <Values>0:DoNotIncludeHome,1:IncludeHome</Values>
     </RALLY_INCL_HOME>
+    <H_COL_MIN>
+      <DisplayName>Collective Pitch Minimum</DisplayName>
+      <Description>Lowest possible servo position for the swashplate</Description>
+      <Range>1000 2000</Range>
+      <Units>PWM</Units>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </H_COL_MIN>
+    <H_COL_MAX>
+      <DisplayName>Collective Pitch Maximum</DisplayName>
+      <Description>Highest possible servo position for the swashplate</Description>
+      <Range>1000 2000</Range>
+      <Units>PWM</Units>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </H_COL_MAX>
+    <H_COL_MID>
+      <DisplayName>Collective Pitch Mid-Point</DisplayName>
+      <Description>Swash servo position corresponding to zero collective pitch (or zero lift for Assymetrical blades)</Description>
+      <Range>1000 2000</Range>
+      <Units>PWM</Units>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </H_COL_MID>
+    <H_SV_MAN>
+      <DisplayName>Manual Servo Mode</DisplayName>
+      <Description>Manual servo override for swash set-up. Do not set this manually!</Description>
+      <Values>0:Disabled,1:Passthrough,2:Max collective,3:Mid collective,4:Min collective</Values>
+      <User>Standard</User>
+    </H_SV_MAN>
+    <H_GOV_SETPOINT>
+      <DisplayName>External Motor Governor Setpoint</DisplayName>
+      <Description>PWM passed to the external motor governor when external governor is enabled</Description>
+      <Range>0 1000</Range>
+      <Units>PWM</Units>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </H_GOV_SETPOINT>
+    <H_RSC_MODE>
+      <DisplayName>Rotor Speed Control Mode</DisplayName>
+      <Description>Determines the method of rotor speed control</Description>
+      <Values>1:Ch8 Input, 2:SetPoint, 3:Throttle Curve</Values>
+      <User>Standard</User>
+    </H_RSC_MODE>
+    <H_LAND_COL_MIN>
+      <DisplayName>Landing Collective Minimum</DisplayName>
+      <Description>Minimum collective position while landed or landing</Description>
+      <Range>0 500</Range>
+      <Units>pwm</Units>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </H_LAND_COL_MIN>
+    <H_RSC_RAMP_TIME>
+      <DisplayName>RSC Ramp Time</DisplayName>
+      <Description>Time in seconds for the output to the main rotor's ESC to reach full speed</Description>
+      <Range>0 60</Range>
+      <Units>Seconds</Units>
+      <User>Standard</User>
+    </H_RSC_RAMP_TIME>
+    <H_RSC_RUNUP_TIME>
+      <DisplayName>RSC Runup Time</DisplayName>
+      <Description>Time in seconds for the main rotor to reach full speed.  Must be longer than RSC_RAMP_TIME</Description>
+      <Range>0 60</Range>
+      <Units>Seconds</Units>
+      <User>Standard</User>
+    </H_RSC_RUNUP_TIME>
+    <H_RSC_CRITICAL>
+      <DisplayName>Critical Rotor Speed</DisplayName>
+      <Description>Rotor speed below which flight is not possible</Description>
+      <Range>0 1000</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </H_RSC_CRITICAL>
+    <H_RSC_IDLE>
+      <DisplayName>Rotor Speed Output at Idle</DisplayName>
+      <Description>Rotor speed output while armed but rotor control speed is not engaged</Description>
+      <Range>0 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </H_RSC_IDLE>
+    <H_RSC_POWER_LOW>
+      <DisplayName>Throttle Servo Low Power Position</DisplayName>
+      <Description>Throttle output at zero collective pitch.</Description>
+      <Range>0 1000</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </H_RSC_POWER_LOW>
+    <H_RSC_POWER_HIGH>
+      <DisplayName>Throttle Servo High Power Position</DisplayName>
+      <Description>Throttle output at max collective pitch.</Description>
+      <Range>0 1000</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </H_RSC_POWER_HIGH>
+    <H_CYC_MAX>
+      <DisplayName>Cyclic Pitch Angle Max</DisplayName>
+      <Description>Maximum pitch angle of the swash plate</Description>
+      <Range>0 18000</Range>
+      <Units>Centi-Degrees</Units>
+      <Increment>100</Increment>
+      <User>Advanced</User>
+    </H_CYC_MAX>
+    <H_SV_TEST>
+      <DisplayName>Boot-up Servo Test Cycles</DisplayName>
+      <Description>Number of cycles to run servo test on boot-up</Description>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </H_SV_TEST>
     <H_SV1_POS>
       <DisplayName>Servo 1 Position</DisplayName>
       <Description>Angular location of swash servo #1</Description>
@@ -2538,6 +3017,64 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </SS4_DZ>
+    <MOT_SPIN_ARMED>
+      <DisplayName>Motors always spin when armed</DisplayName>
+      <Description>Controls whether motors always spin when armed (must be below THR_MIN)</Description>
+      <Values>0:Do Not Spin,70:VerySlow,100:Slow,130:Medium,150:Fast</Values>
+      <User>Standard</User>
+    </MOT_SPIN_ARMED>
+    <MOT_YAW_HEADROOM>
+      <DisplayName>Matrix Yaw Min</DisplayName>
+      <Description>Yaw control is given at least this pwm range</Description>
+      <Range>0 500</Range>
+      <Units>pwm</Units>
+      <User>Advanced</User>
+    </MOT_YAW_HEADROOM>
+    <MOT_THST_EXPO>
+      <DisplayName>Thrust Curve Expo</DisplayName>
+      <Description>Motor thrust curve exponent (from 0 for linear to 1.0 for second order curve)</Description>
+      <Range>0.25 0.8</Range>
+      <User>Advanced</User>
+    </MOT_THST_EXPO>
+    <MOT_THST_MAX>
+      <DisplayName>Thrust Curve Max</DisplayName>
+      <Description>Point at which the thrust saturates</Description>
+      <Values>0.9:Low, 1.0:High</Values>
+      <User>Advanced</User>
+    </MOT_THST_MAX>
+    <MOT_THST_BAT_MAX>
+      <DisplayName>Battery voltage compensation maximum voltage</DisplayName>
+      <Description>Battery voltage compensation maximum voltage (voltage above this will have no additional scaling effect on thrust).  Recommend 4.4 * cell count, 0 = Disabled</Description>
+      <Range>6 35</Range>
+      <Units>Volts</Units>
+      <User>Advanced</User>
+    </MOT_THST_BAT_MAX>
+    <MOT_THST_BAT_MIN>
+      <DisplayName>Battery voltage compensation minimum voltage</DisplayName>
+      <Description>Battery voltage compensation minimum voltage (voltage below this will have no additional scaling effect on thrust).  Recommend 3.5 * cell count, 0 = Disabled</Description>
+      <Range>6 35</Range>
+      <Units>Volts</Units>
+      <User>Advanced</User>
+    </MOT_THST_BAT_MIN>
+    <MOT_CURR_MAX>
+      <DisplayName>Motor Current Max</DisplayName>
+      <Description>Maximum current over which maximum throttle is limited (0 = Disabled)</Description>
+      <Range>0 200</Range>
+      <Units>Amps</Units>
+      <User>Advanced</User>
+    </MOT_CURR_MAX>
+    <MOT_THR_MIX_MIN>
+      <DisplayName>Throttle Mix Minimum</DisplayName>
+      <Description>Throttle vs attitude control prioritisation used when landing (higher values mean we prioritise attitude control over throttle)</Description>
+      <Range>0.1 0.25</Range>
+      <User>Advanced</User>
+    </MOT_THR_MIX_MIN>
+    <MOT_THR_MIX_MAX>
+      <DisplayName>Throttle Mix Maximum</DisplayName>
+      <Description>Throttle vs attitude control prioritisation used during active flight (higher values mean we prioritise attitude control over throttle)</Description>
+      <Range>0.5 0.9</Range>
+      <User>Advanced</User>
+    </MOT_THR_MIX_MAX>
     <MOT_ROLL_SV_REV>
       <DisplayName>Reverse roll feedback</DisplayName>
       <Description>Ensure the feedback is negative</Description>
@@ -4692,12 +5229,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC5_DZ>
+    <RC5_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MIN>
+    <RC5_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_TRIM>
+    <RC5_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MAX>
+    <RC5_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC5_REV>
+    <RC5_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC5_DZ>
     <RC5_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable,31:HeliRSC,32:HeliTailRSC</Values>
       <User>Standard</User>
     </RC5_FUNCTION>
+    <RC6_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MIN>
+    <RC6_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_TRIM>
+    <RC6_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MAX>
+    <RC6_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC6_REV>
+    <RC6_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC6_DZ>
     <RC6_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -4778,12 +5389,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC7_DZ>
+    <RC7_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MIN>
+    <RC7_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_TRIM>
+    <RC7_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MAX>
+    <RC7_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC7_REV>
+    <RC7_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC7_DZ>
     <RC7_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable,31:HeliRSC,32:HeliTailRSC</Values>
       <User>Standard</User>
     </RC7_FUNCTION>
+    <RC8_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MIN>
+    <RC8_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_TRIM>
+    <RC8_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MAX>
+    <RC8_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC8_REV>
+    <RC8_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC8_DZ>
     <RC8_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -4864,12 +5549,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC9_DZ>
+    <RC9_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MIN>
+    <RC9_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_TRIM>
+    <RC9_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MAX>
+    <RC9_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC9_REV>
+    <RC9_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC9_DZ>
     <RC9_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable,31:HeliRSC,32:HeliTailRSC</Values>
       <User>Standard</User>
     </RC9_FUNCTION>
+    <RC10_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MIN>
+    <RC10_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_TRIM>
+    <RC10_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MAX>
+    <RC10_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC10_REV>
+    <RC10_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC10_DZ>
     <RC10_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -4950,12 +5709,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC11_DZ>
+    <RC11_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MIN>
+    <RC11_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_TRIM>
+    <RC11_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MAX>
+    <RC11_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC11_REV>
+    <RC11_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC11_DZ>
     <RC11_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable,31:HeliRSC,32:HeliTailRSC</Values>
       <User>Standard</User>
     </RC11_FUNCTION>
+    <RC12_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MIN>
+    <RC12_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_TRIM>
+    <RC12_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MAX>
+    <RC12_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC12_REV>
+    <RC12_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC12_DZ>
     <RC12_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -5036,12 +5869,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC13_DZ>
+    <RC13_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MIN>
+    <RC13_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_TRIM>
+    <RC13_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MAX>
+    <RC13_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC13_REV>
+    <RC13_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC13_DZ>
     <RC13_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear,30:EngineRunEnable,31:HeliRSC,32:HeliTailRSC</Values>
       <User>Standard</User>
     </RC13_FUNCTION>
+    <RC14_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MIN>
+    <RC14_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_TRIM>
+    <RC14_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MAX>
+    <RC14_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC14_REV>
+    <RC14_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC14_DZ>
     <RC14_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -8347,12 +9254,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC4_DZ>
+    <RC4_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC4_MIN>
+    <RC4_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC4_TRIM>
+    <RC4_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC4_MAX>
+    <RC4_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC4_REV>
+    <RC4_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC4_DZ>
     <RC4_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear</Values>
       <User>Standard</User>
     </RC4_FUNCTION>
+    <RC5_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MIN>
+    <RC5_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_TRIM>
+    <RC5_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC5_MAX>
+    <RC5_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC5_REV>
+    <RC5_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC5_DZ>
     <RC5_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -8433,12 +9414,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC6_DZ>
+    <RC6_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MIN>
+    <RC6_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_TRIM>
+    <RC6_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC6_MAX>
+    <RC6_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC6_REV>
+    <RC6_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC6_DZ>
     <RC6_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear</Values>
       <User>Standard</User>
     </RC6_FUNCTION>
+    <RC7_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MIN>
+    <RC7_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_TRIM>
+    <RC7_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC7_MAX>
+    <RC7_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC7_REV>
+    <RC7_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC7_DZ>
     <RC7_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -8519,12 +9574,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC8_DZ>
+    <RC8_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MIN>
+    <RC8_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_TRIM>
+    <RC8_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC8_MAX>
+    <RC8_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC8_REV>
+    <RC8_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC8_DZ>
     <RC8_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear</Values>
       <User>Standard</User>
     </RC8_FUNCTION>
+    <RC9_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MIN>
+    <RC9_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_TRIM>
+    <RC9_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC9_MAX>
+    <RC9_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC9_REV>
+    <RC9_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC9_DZ>
     <RC9_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -8605,12 +9734,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC10_DZ>
+    <RC10_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MIN>
+    <RC10_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_TRIM>
+    <RC10_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC10_MAX>
+    <RC10_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC10_REV>
+    <RC10_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC10_DZ>
     <RC10_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear</Values>
       <User>Standard</User>
     </RC10_FUNCTION>
+    <RC11_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MIN>
+    <RC11_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_TRIM>
+    <RC11_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC11_MAX>
+    <RC11_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC11_REV>
+    <RC11_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC11_DZ>
     <RC11_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -8691,6 +9894,43 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC12_DZ>
+    <RC12_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MIN>
+    <RC12_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_TRIM>
+    <RC12_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC12_MAX>
+    <RC12_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC12_REV>
+    <RC12_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC12_DZ>
     <RC12_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
@@ -8734,12 +9974,86 @@
       <Range>0 200</Range>
       <User>Advanced</User>
     </RC13_DZ>
+    <RC13_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MIN>
+    <RC13_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_TRIM>
+    <RC13_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC13_MAX>
+    <RC13_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC13_REV>
+    <RC13_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC13_DZ>
     <RC13_FUNCTION>
       <DisplayName>Servo out function</DisplayName>
       <Description>Setting this to Disabled(0) will setup this output for control by auto missions or MAVLink servo set commands. any other value will enable the corresponding function</Description>
       <Values>0:Disabled,1:RCPassThru,2:Flap,3:Flap_auto,4:Aileron,6:mount_pan,7:mount_tilt,8:mount_roll,9:mount_open,10:camera_trigger,11:release,12:mount2_pan,13:mount2_tilt,14:mount2_roll,15:mount2_open,16:DifferentialSpoiler1,17:DifferentialSpoiler2,18:AileronWithInput,19:Elevator,20:ElevatorWithInput,21:Rudder,24:Flaperon1,25:Flaperon2,26:GroundSteering,27:Parachute,28:EPM,29:LandingGear</Values>
       <User>Standard</User>
     </RC13_FUNCTION>
+    <RC14_MIN>
+      <DisplayName>RC min PWM</DisplayName>
+      <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MIN>
+    <RC14_TRIM>
+      <DisplayName>RC trim PWM</DisplayName>
+      <Description>RC trim (neutral) PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_TRIM>
+    <RC14_MAX>
+      <DisplayName>RC max PWM</DisplayName>
+      <Description>RC maximum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
+      <Units>pwm</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC14_MAX>
+    <RC14_REV>
+      <DisplayName>RC reverse</DisplayName>
+      <Description>Reverse servo operation. Set to 1 for normal (forward) operation. Set to -1 to reverse this channel.</Description>
+      <Values>-1:Reversed,1:Normal</Values>
+      <User>Advanced</User>
+    </RC14_REV>
+    <RC14_DZ>
+      <DisplayName>RC dead-zone</DisplayName>
+      <Description>dead zone around trim or bottom</Description>
+      <Units>pwm</Units>
+      <Range>0 200</Range>
+      <User>Advanced</User>
+    </RC14_DZ>
     <RC14_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -11423,9 +12737,9 @@
       <Values>0:Disabled,1:Enabled</Values>
     </BRD_SAFETYENABLE>
     <BRD_SBUS_OUT>
-      <DisplayName>Enable use of SBUS output</DisplayName>
-      <Description>Enabling this option on a Pixhawk enables SBUS servo output from the SBUS output connector</Description>
-      <Values>0:Disabled,1:Enabled</Values>
+      <DisplayName>SBUS output rate</DisplayName>
+      <Description>This sets the SBUS output frame rate in Hz</Description>
+      <Values>0:Disabled,1:50Hz,2:75Hz,3:100Hz,4:150Hz,5:200Hz,6:250Hz,7:300Hz</Values>
     </BRD_SBUS_OUT>
     <BRD_SERIAL_NUM>
       <DisplayName>User-defined serial number</DisplayName>

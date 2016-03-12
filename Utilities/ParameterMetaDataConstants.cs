@@ -10,6 +10,8 @@
         public const string Group = "Group";
         public const string Path = "Path";
 
+        public const string NestedGroup = @"AP_NESTEDGROUPINFO\((.+),.+\)";
+
         #endregion
 
         #region Meta Keys

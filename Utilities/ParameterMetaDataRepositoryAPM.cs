@@ -36,6 +36,13 @@ namespace MissionPlanner.Utilities
                 if (File.Exists(paramMetaDataXMLFileName))
                     _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
 
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 // error loading the good file, load the backup
                 if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
                 {
