@@ -94,67 +94,72 @@ namespace MissionPlanner.Utilities
                     //metakeys - short_desc min max decimal long_desc increment unit
                     //values value
 
-                    var reader = _parameterMetaDataXML.CreateReader();
+                    var nodeKeyLower = nodeKey.ToLower();
 
-                    reader.ReadToFollowing("parameters");
+                    var groups = _parameterMetaDataXML.Element("parameters").Elements("group");
 
-                    while (reader.ReadToFollowing("parameter"))
+                    foreach (var group in groups)
                     {
-                        for (int a = 0; a < reader.AttributeCount; a++)
+                        if (group != null && group.HasElements)
                         {
-                            reader.MoveToAttribute(a);
-                            Console.WriteLine("{0} = {1}", reader.Name, reader.Value);
+                            var parameters = group.Elements("parameter");
 
-                            // we found the param name we are looking for
-                            if (reader.Name.ToLower() == "name" && reader.Value.ToLower() == nodeKey.ToLower())
+                            foreach (var parameter in parameters)
                             {
-                                if (metaKey == "values")
+                                if (parameter != null && parameter.HasElements)
                                 {
-                                    if (reader.ReadToFollowing("values"))
+                                    // match param name
+                                    var node = parameter.Attribute("name");
+                                    if (node.Value.ToLower() == nodeKeyLower)
                                     {
-                                        reader.ReadStartElement();
-
-                                        var value = "";
-
-                                        do
+                                        if (metaKey == "values")
                                         {
-                                            if (reader.Name == "value")
+                                            try
                                             {
-                                                if (reader.MoveToFirstAttribute())
+                                                var values = parameter.Element("values");
+                                                if (values == null)
+                                                    return string.Empty;
+                                                var valuearray = values.Elements("value");
+                                                string value = "";
+                                                foreach (var valueelement in valuearray)
                                                 {
-                                                    var no = reader.Value;
-                                                    var val = reader.ReadString();
-
-                                                    value += no + ":" + val + ",";
-
-                                                    //Console.WriteLine("{0} = {1}", reader.Name, value);
+                                                    var no = valueelement.Attribute("code");
+                                                    if (no == null)
+                                                        continue;
+                                                    var val = valueelement.Value;
+                                                    if (val == null)
+                                                        continue;
+                                                    value += no.Value + ":" + val + ",";
                                                 }
+
+                                                return value.TrimEnd(',');
                                             }
-                                        } while (reader.ReadToNextSibling("value"));
-
-                                        return value.TrimEnd(',');
-                                    }
-                                }
-                                else if (metaKey.ToLower() == "range")
-                                {
-                                    return GetParameterMetaData(nodeKey,"min") + " " + GetParameterMetaData(nodeKey,"max");
-                                }
-                                else
-                                {
-                                    if (reader.ReadToFollowing(metaKey))
-                                    {
-                                        var value = reader.ReadString();
-
-                                        //Console.WriteLine("{0} = {1}", reader.Name, value);
-
-                                        return value;
+                                            catch
+                                            {
+                                                return string.Empty;
+                                            }
+                                        }
+                                        else if (metaKey.ToLower() == "range")
+                                        {
+                                            return GetParameterMetaData(nodeKey, "min") + " " + GetParameterMetaData(nodeKey, "max");
+                                        }
+                                        else
+                                        {
+                                            var key = parameter.Element(metaKey);
+                                            if (key != null)
+                                            {
+                                                return key.Value;
+                                            }
+                                            else
+                                            {
+                                                return string.Empty;
+                                            }
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-
-                    return string.Empty;
                 }
                 catch
                 {
