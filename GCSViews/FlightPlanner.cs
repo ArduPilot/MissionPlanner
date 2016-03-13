@@ -2485,6 +2485,8 @@ namespace MissionPlanner.GCSViews
                 if (e.ColumnIndex == Delete.Index && (e.RowIndex + 0) < Commands.RowCount) // delete
                 {
                     quickadd = true;
+                    // mono fix
+                    Commands.CurrentCell = null;
                     Commands.Rows.RemoveAt(e.RowIndex);
                     quickadd = false;
                     writeKML();
