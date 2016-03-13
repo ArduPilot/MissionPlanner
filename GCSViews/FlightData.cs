@@ -76,7 +76,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
 
-        Dictionary<Guid, Form> formguids = new Dictionary<Guid, Form>();
+        List<TabPage> TabListOriginal = new List<TabPage>();
 
         bool huddropout;
         bool huddropoutresize;
@@ -184,6 +184,9 @@ namespace MissionPlanner.GCSViews
             MainHcopy = MainH;
 
             mymap.Paint += mymap_Paint;
+
+            // populate the unmodified base list
+            tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage)i); });
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -660,6 +663,9 @@ namespace MissionPlanner.GCSViews
             tfr.GotTFRs += tfr_GotTFRs;
 
             NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
+
+            // update tabs displayed
+            loadTabControlActions();
 
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = 24;
@@ -3976,6 +3982,85 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
             }
+        }
+
+        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form customForm = new Form();
+            CheckedListBox left = new CheckedListBox();
+            left.Dock = DockStyle.Fill;
+            left.CheckOnClick = true;
+
+            customForm.Controls.Add(left);
+
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            string[] tabarray = tabs.Split(';');
+
+            foreach (TabPage tabPage in TabListOriginal)
+            {
+                if (tabarray.Contains(tabPage.Name))
+                    left.Items.Add(tabPage.Name,true);
+                else
+                    left.Items.Add(tabPage.Name, false);
+            }
+
+            ThemeManager.ApplyThemeTo(customForm);
+
+            customForm.ShowDialog();
+
+            string answer = "";
+            foreach (var tabPage in left.CheckedItems)
+            {
+                answer += tabPage + ";";
+            }
+
+            Settings.Instance["tabcontrolactions"] = answer;
+
+            loadTabControlActions();
+        }
+
+        private void loadTabControlActions()
+        {
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            if (String.IsNullOrEmpty(tabs) || TabListOriginal == null || TabListOriginal.Count == 0)
+                return;
+
+            string[] tabarray = tabs.Split(';');
+
+            if (tabarray.Length == 0)
+                return;
+
+            tabControlactions.TabPages.Clear();
+
+            foreach (TabPage tabPage in TabListOriginal)
+            {
+                int a = 0;
+                foreach (var tabname in tabarray)
+                {
+                    if (tabPage.Name == tabname)
+                    {
+                        tabControlactions.TabPages.Add(tabPage);
+                        break;
+                    }
+                    a++;
+                }
+            }
+
+            ThemeManager.ApplyThemeTo(tabControlactions);
+        }
+
+        private void saveTabControlActions()
+        {
+            string answer = "";
+
+            foreach (TabPage tabPage in tabControlactions.TabPages)
+            {
+                answer += tabPage.Name + ";";
+            }
+
+            Settings.Instance["tabcontrolactions"] = answer;
         }
     }
 }
