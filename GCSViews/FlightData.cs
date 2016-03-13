@@ -3995,6 +3995,13 @@ namespace MissionPlanner.GCSViews
 
             string tabs = Settings.Instance["tabcontrolactions"];
 
+            // setup default if doesnt exist
+            if (tabs == null)
+            {
+                saveTabControlActions();
+                tabs = Settings.Instance["tabcontrolactions"];
+            }
+
             string[] tabarray = tabs.Split(';');
 
             foreach (TabPage tabPage in TabListOriginal)
