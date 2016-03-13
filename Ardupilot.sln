@@ -394,6 +394,9 @@ Global
 		{B5211B56-CA30-4B2A-843B-832849F18CEA} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{BB06DFF7-4F41-4B9D-A3C3-3B6D2B8702B6} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MissionPlanner.csproj
 	EndGlobalSection
