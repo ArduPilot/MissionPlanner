@@ -4034,10 +4034,10 @@ namespace MissionPlanner.GCSViews
 
             tabControlactions.TabPages.Clear();
 
-            foreach (TabPage tabPage in TabListOriginal)
+            foreach (var tabname in tabarray)
             {
                 int a = 0;
-                foreach (var tabname in tabarray)
+                foreach (TabPage tabPage in TabListOriginal)
                 {
                     if (tabPage.Name == tabname)
                     {
