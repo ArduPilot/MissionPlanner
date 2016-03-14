@@ -1232,8 +1232,7 @@ namespace MissionPlanner.GCSViews
                                 {
                                     PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
 
-                                    if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                                        MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                                    if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
                                     {
                                         routes.Markers.Add(new GMapMarkerPlane(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
@@ -1242,7 +1241,7 @@ namespace MissionPlanner.GCSViews
                                             ToolTipMode = MarkerTooltipMode.Always
                                         });
                                     }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                                    else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
                                     {
                                         routes.Markers.Add(new GMapMarkerRover(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
@@ -1257,7 +1256,7 @@ namespace MissionPlanner.GCSViews
                                         routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
                                             MAV.cs.target_bearing));
                                     }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
                                     {
                                         routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));

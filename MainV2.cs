@@ -456,7 +456,6 @@ namespace MissionPlanner
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
-            _connectionControl.TOOL_APMFirmware.SelectedIndexChanged += this.TOOL_APMFirmware_SelectedIndexChanged;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
             srtm.datadirectory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
@@ -2657,12 +2656,6 @@ namespace MissionPlanner
             {
                 log.Error("Update check failed", ex);
             }
-        }
-
-        private void TOOL_APMFirmware_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            MainV2.comPort.MAV.cs.firmware =
-                (MainV2.Firmwares) Enum.Parse(typeof (MainV2.Firmwares), _connectionControl.TOOL_APMFirmware.Text);
         }
 
         private void MainV2_Resize(object sender, EventArgs e)
