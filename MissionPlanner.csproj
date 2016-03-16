@@ -723,7 +723,6 @@
     <Compile Include="Keyboard\Keyboard_Help.Designer.cs">
       <DependentUpon>Keyboard_Help.cs</DependentUpon>
     </Compile>
-    <Compile Include="Localizations.cs" />
     <Compile Include="L10N.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
@@ -2098,6 +2097,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogIndex.resx">
       <DependentUpon>LogIndex.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
@@ -2671,9 +2671,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.ko-KR.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Log\LogIndex.resx">
-      <DependentUpon>LogIndex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\MavlinkLog.id-ID.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
@@ -7213,9 +7210,6 @@
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
     <Content Include="mpdesktop.ico" />
-    <Content Include="ParameterMetaData.zh-Hans.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7483,7 +7477,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
