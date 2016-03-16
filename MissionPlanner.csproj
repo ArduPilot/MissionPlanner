@@ -806,16 +806,6 @@
     <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\GStreamer.cs" />
     <Compile Include="Utilities\Crypto.cs" />
-    <Compile Include="Utilities\DroneApi\APIConstants.cs" />
-    <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
-    <Compile Include="Utilities\DroneApi\DroneProto.cs" />
-    <Compile Include="Utilities\DroneApi\droneshare.cs" />
-    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.Designer.cs">
-      <DependentUpon>VehicleSelection.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\fft.cs" />
     <Compile Include="Utilities\fftui.cs">
       <SubType>Form</SubType>
@@ -2805,9 +2795,6 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\DroneApi\UI\VehicleSelection.resx">
-      <DependentUpon>VehicleSelection.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\fftui.resx">
       <DependentUpon>fftui.cs</DependentUpon>
@@ -7279,9 +7266,6 @@
     <Content Include="Scripts\example1.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Utilities\DroneApi\webapi.proto">
-      <Generator>ProtoBufTool</Generator>
-    </None>
     <None Include="version.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

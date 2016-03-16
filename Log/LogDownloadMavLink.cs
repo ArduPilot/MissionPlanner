@@ -294,18 +294,6 @@ namespace MissionPlanner.Log
                     var logname = GetLog((ushort) a);
 
                     CreateLog(logname);
-
-                    if (chk_droneshare.Checked)
-                    {
-                        try
-                        {
-                            Utilities.DroneApi.droneshare.doUpload(logname);
-                        }
-                        catch (Exception ex)
-                        {
-                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
-                        }
-                    }
                 }
 
                 status = serialstatus.Done;
@@ -332,18 +320,6 @@ namespace MissionPlanner.Log
                     var logname = GetLog((ushort) a);
 
                     CreateLog(logname);
-
-                    if (chk_droneshare.Checked)
-                    {
-                        try
-                        {
-                            Utilities.DroneApi.droneshare.doUpload(logname);
-                        }
-                        catch (Exception ex)
-                        {
-                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
-                        }
-                    }
                 }
 
                 status = serialstatus.Done;

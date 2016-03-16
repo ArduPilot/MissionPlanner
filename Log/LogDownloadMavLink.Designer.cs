@@ -38,7 +38,6 @@
             this.BUT_redokml = new MissionPlanner.Controls.MyButton();
             this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
             this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
-            this.chk_droneshare = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TXT_seriallog
@@ -103,18 +102,10 @@
             this.BUT_bintolog.UseVisualStyleBackColor = true;
             this.BUT_bintolog.Click += new System.EventHandler(this.BUT_bintolog_Click);
             // 
-            // chk_droneshare
-            // 
-            resources.ApplyResources(this.chk_droneshare, "chk_droneshare");
-            this.chk_droneshare.Name = "chk_droneshare";
-            this.chk_droneshare.UseVisualStyleBackColor = true;
-            this.chk_droneshare.CheckedChanged += new System.EventHandler(this.chk_droneshare_CheckedChanged);
-            // 
             // LogDownloadMavLink
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chk_droneshare);
             this.Controls.Add(this.BUT_bintolog);
             this.Controls.Add(this.BUT_firstperson);
             this.Controls.Add(this.BUT_redokml);
@@ -142,6 +133,5 @@
         private System.Windows.Forms.TextBox TXT_seriallog;
         private Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_bintolog;
-        private System.Windows.Forms.CheckBox chk_droneshare;
     }
 }
