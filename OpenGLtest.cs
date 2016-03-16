@@ -19,29 +19,29 @@ namespace MissionPlanner.Controls
         public static OpenGLtest instance;
 
         // terrain image
-        Bitmap _terrain = new Bitmap(640,480);
+        Bitmap _terrain = new Bitmap(640, 480);
         int texture = 0;
 
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
 
         float _angle = 0;
-        double cameraX, cameraY, cameraZ;       // camera coordinates
-        double lookX, lookY, lookZ;             // camera look-at coordinates
+        double cameraX, cameraY, cameraZ; // camera coordinates
+        double lookX, lookY, lookZ; // camera look-at coordinates
 
-        double step = 1 / 1200.0;
+        double step = 1/1200.0;
 
         // image zoom level
         int zoom = 14;
 
-        RectLatLng area = new RectLatLng(-35.04286,117.84262,0.1,0.1);
+        RectLatLng area = new RectLatLng(-35.04286, 117.84262, 0.1, 0.1);
 
         double _alt = 0;
-        public PointLatLngAlt LocationCenter { 
-            get { 
-                return new PointLatLngAlt(area.LocationMiddle.Lat, area.LocationMiddle.Lng,_alt,"");
-            }
-            set {
 
+        public PointLatLngAlt LocationCenter
+        {
+            get { return new PointLatLngAlt(area.LocationMiddle.Lat, area.LocationMiddle.Lng, _alt, ""); }
+            set
+            {
                 if (area.LocationMiddle.Lat == value.Lat && area.LocationMiddle.Lng == value.Lng)
                     return;
 
@@ -50,10 +50,10 @@ namespace MissionPlanner.Controls
 
                 _alt = value.Alt;
                 double size = 0.01;
-                area = new RectLatLng(value.Lat + size, value.Lng - size, size*2,size*2);
-               // Console.WriteLine(area.LocationMiddle + " " + value.ToString());
+                area = new RectLatLng(value.Lat + size, value.Lng - size, size*2, size*2);
+                // Console.WriteLine(area.LocationMiddle + " " + value.ToString());
                 this.Invalidate();
-            } 
+            }
         }
 
         public Vector3 rpy = new Vector3();
@@ -69,13 +69,13 @@ namespace MissionPlanner.Controls
 
         void getImage()
         {
-            GMapProvider type  = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            GMapProvider type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             PureProjection prj = type.Projection;
 
             //GMap.NET.GMaps.Instance.GetImageFrom();
 
             DateTime startimage = DateTime.Now;
-            
+
             if (!area.IsEmpty)
             {
                 try
@@ -87,7 +87,7 @@ namespace MissionPlanner.Controls
                     //Console.WriteLine("Type: " + type.ToString());
                     //Console.WriteLine("Area: " + area);
 
-                    var types = type;// GMaps.Instance.GetAllLayersOfType(type);
+                    var types = type; // GMaps.Instance.GetAllLayersOfType(type);
 
                     // max zoom level
                     zoom = 20;
@@ -105,7 +105,6 @@ namespace MissionPlanner.Controls
                         topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
                         rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
                         pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
-
                     }
 
                     // get tiles - bg
@@ -122,7 +121,9 @@ namespace MissionPlanner.Controls
 
                     int padding = 0;
                     {
-                        using (Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2))
+                        using (
+                            Bitmap bmpDestination = new Bitmap((int) pxDelta.X + padding*2, (int) pxDelta.Y + padding*2)
+                            )
                         {
                             Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                             using (Graphics gfx = Graphics.FromImage(bmpDestination))
@@ -135,12 +136,15 @@ namespace MissionPlanner.Controls
                                 // get tiles & combine into one
                                 foreach (var p in tileArea)
                                 {
-                                   Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
+                                    Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " +
+                                                      tileArea.Count);
 
-                                   foreach (var tp in type.Overlays)
+                                    foreach (var tp in type.Overlays)
                                     {
                                         Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
-                                        GMapImage tile = ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p, zoom) as GMapImage;
+                                        GMapImage tile =
+                                            ((PureImageCache) Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p,
+                                                zoom) as GMapImage;
 
                                         //GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
                                         //GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
@@ -150,60 +154,65 @@ namespace MissionPlanner.Controls
                                         {
                                             using (tile)
                                             {
-                                                long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
-                                                long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
+                                                long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
+                                                long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
                                                 {
                                                     Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
-                                                    gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                                    gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width,
+                                                        prj.TileSize.Height);
                                                     Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            
                                         }
                                     }
                                 }
                             }
 
-                            Console.WriteLine((startimage-DateTime.Now).TotalMilliseconds);
+                            Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                             _terrain = new Bitmap(bmpDestination, 1024*2, 1024*2);
 
-                           // _terrain.Save(zoom +"-map.bmp");
+                            // _terrain.Save(zoom +"-map.bmp");
 
 
                             GL.BindTexture(TextureTarget.Texture2D, texture);
 
-                            BitmapData data = _terrain.LockBits(new System.Drawing.Rectangle(0, 0, _terrain.Width, _terrain.Height),
-                    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                            BitmapData data =
+                                _terrain.LockBits(new System.Drawing.Rectangle(0, 0, _terrain.Width, _terrain.Height),
+                                    ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
                             //Console.WriteLine("w {0} h {1}",data.Width, data.Height);
 
-                            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height,
+                                0,
                                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
                             _terrain.UnlockBits(data);
 
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-
-
+                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
+                                (int) TextureMinFilter.Linear);
+                            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
+                                (int) TextureMagFilter.Linear);
                         }
                     }
                 }
-                catch (Exception ex) { Console.WriteLine(ex); }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
             }
         }
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
-                var dir = Vector3.Cross(b - a, c - a);
-                var norm = Vector3.Normalize(dir);
-                return norm;
+            var dir = Vector3.Cross(b - a, c - a);
+            var norm = Vector3.Normalize(dir);
+            return norm;
         }
 
 
@@ -224,26 +233,32 @@ namespace MissionPlanner.Controls
             try
             {
                 base.OnPaint(e);
-
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
-            double heightscale = (step / 90.0) * 1.3;
+            double heightscale = (step/90.0)*1.3;
 
-            float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
+            float radians = (float) (Math.PI*(rpy.Z*-1)/180.0f);
 
             //radians = 0;
 
-            float mouseY = (float)(0.1);
+            float mouseY = (float) (0.1);
 
-            cameraX = area.LocationMiddle.Lng;     // multiplying by mouseY makes the
-            cameraZ = area.LocationMiddle.Lat;    // camera get closer/farther away with mouseY
-            cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt) ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+            cameraX = area.LocationMiddle.Lng; // multiplying by mouseY makes the
+            cameraZ = area.LocationMiddle.Lat; // camera get closer/farther away with mouseY
+            cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt)
+                ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2)*heightscale
+                : LocationCenter.Alt*heightscale; // (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
 
-            lookX = area.LocationMiddle.Lng + Math.Sin(radians) * mouseY; ;
+            lookX = area.LocationMiddle.Lng + Math.Sin(radians)*mouseY;
+            ;
             lookY = cameraY;
-            lookZ = area.LocationMiddle.Lat + Math.Cos(radians) * mouseY; ;
+            lookZ = area.LocationMiddle.Lat + Math.Cos(radians)*mouseY;
+            ;
 
 
             MakeCurrent();
@@ -251,16 +266,18 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100 * deg2rad, 1f, 0.00001f, (float)step * 50);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100*deg2rad, 1f, 0.00001f,
+                (float) step*50);
             GL.LoadMatrix(ref projection);
 
-            Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX, (float)lookY, (float)lookZ, 0, 1, 0);
+            Matrix4 modelview = Matrix4.LookAt((float) cameraX, (float) cameraY, (float) cameraZ, (float) lookX,
+                (float) lookY, (float) lookZ, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X * deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X*deg2rad));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX(rpy.Y * -deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX(rpy.Y*-deg2rad));
 
             GL.LoadMatrix(ref modelview);
 
@@ -268,7 +285,7 @@ namespace MissionPlanner.Controls
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 1f, 1f, 1f, 1f });
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] {1f, 1f, 1f, 1f});
 
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -300,10 +317,10 @@ namespace MissionPlanner.Controls
 
             sw.Start();
 
-            double increment = step * 1;
+            double increment = step*1;
 
-            double cleanup = area.Bottom % increment;
-            double cleanup2 = area.Left % increment;
+            double cleanup = area.Bottom%increment;
+            double cleanup2 = area.Left%increment;
 
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
             {
@@ -320,9 +337,9 @@ namespace MissionPlanner.Controls
 
                     //  int heightl = 0;
 
-                    double scale2 = (Math.Abs(x - area.Left) / area.WidthLng);// / (float)_terrain.Width;
+                    double scale2 = (Math.Abs(x - area.Left)/area.WidthLng); // / (float)_terrain.Width;
 
-                    double scale3 = (Math.Abs(z - area.Bottom) / area.HeightLat);// / (float)_terrain.Height;
+                    double scale3 = (Math.Abs(z - area.Bottom)/area.HeightLat); // / (float)_terrain.Height;
 
                     double imgx = 1 - scale2;
                     double imgy = 1 - scale3;
@@ -330,7 +347,7 @@ namespace MissionPlanner.Controls
 
                     //GL.Color3(_terrain.GetPixel(imgx, imgy));
                     GL.TexCoord2(imgx, imgy);
-                    GL.Vertex3(x, heightl * heightscale, z); //  _terrain.GetPixel(x, z).R
+                    GL.Vertex3(x, heightl*heightscale, z); //  _terrain.GetPixel(x, z).R
 
                     try
                     {
@@ -338,18 +355,22 @@ namespace MissionPlanner.Controls
 
                         //scale2 = (Math.Abs(x - area.Left) / area.WidthLng) * (float)_terrain.Width;
 
-                        scale3 = (Math.Abs(((z + increment) - area.Bottom)) / area.HeightLat);// / (float)_terrain.Height;
+                        scale3 = (Math.Abs(((z + increment) - area.Bottom))/area.HeightLat);
+                            // / (float)_terrain.Height;
 
                         imgx = 1 - scale2;
                         imgy = 1 - scale3;
                         // GL.Color3(Color.Green);
                         //GL.Color3(_terrain.GetPixel(imgx, imgy));
                         GL.TexCoord2(imgx, imgy);
-                        GL.Vertex3(x, heightl * heightscale, z + increment);
+                        GL.Vertex3(x, heightl*heightscale, z + increment);
 
                         //  Console.WriteLine(x + " " + (z + step));
                     }
-                    catch { break; }
+                    catch
+                    {
+                        break;
+                    }
                 }
                 GL.End();
             }
@@ -372,7 +393,9 @@ namespace MissionPlanner.Controls
 
                 Context.MakeCurrent(null);
             }
-            catch { }
+            catch
+            {
+            }
 
             //this.Invalidate();
         }
@@ -388,15 +411,14 @@ namespace MissionPlanner.Controls
             this.Load += new System.EventHandler(this.test_Load);
             this.Resize += new System.EventHandler(this.test_Resize);
             this.ResumeLayout(false);
-
         }
 
         private void test_Load(object sender, EventArgs e)
         {
-                GL.GenTextures(1, out texture);
+            GL.GenTextures(1, out texture);
 
             GL.Enable(EnableCap.DepthTest);
-           // GL.Enable(EnableCap.Light0);
+            // GL.Enable(EnableCap.Light0);
             GL.Enable(EnableCap.Lighting);
             GL.Enable(EnableCap.ColorMaterial);
             GL.Enable(EnableCap.Normalize);
@@ -407,7 +429,6 @@ namespace MissionPlanner.Controls
             GL.ShadeModel(ShadingModel.Smooth);
             GL.Enable(EnableCap.CullFace);
             GL.Enable(EnableCap.Texture2D);
-
         }
 
         private void test_Resize(object sender, EventArgs e)

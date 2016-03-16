@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using log4net;
 using MissionPlanner.Comms;
-
 
 // Written by Michael Oborne
 
@@ -15,7 +12,7 @@ namespace MissionPlanner.Arduino
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;
-        
+
         public new void Open()
         {
             // default dtr status is false
@@ -23,40 +20,40 @@ namespace MissionPlanner.Arduino
             //from http://svn.savannah.nongnu.org/viewvc/RELEASE_5_11_0/arduino.c?root=avrdude&view=markup
             base.Open();
 
-            base.DtrEnable = false;
-            base.RtsEnable = false;
+            DtrEnable = false;
+            RtsEnable = false;
 
-            System.Threading.Thread.Sleep(50);
+            Thread.Sleep(50);
 
-            base.DtrEnable = true;
-            base.RtsEnable = true;
+            DtrEnable = true;
+            RtsEnable = true;
 
-            System.Threading.Thread.Sleep(50);
+            Thread.Sleep(50);
         }
 
         /// <summary>
-        /// Used to start initial connecting after serialport.open
+        ///     Used to start initial connecting after serialport.open
         /// </summary>
         /// <returns>true = passed, false = failed</returns>
         public bool connectAP()
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 return false;
             }
-            int a = 0;
+            var a = 0;
             while (a < 50) // 50 tries at 50 ms = 2.5sec
             {
-                this.DiscardInBuffer();
-                this.Write(new byte[] { (byte)'0', (byte)' ' }, 0, 2);
+                DiscardInBuffer();
+                Write(new[] {(byte) '0', (byte) ' '}, 0, 2);
                 a++;
                 Thread.Sleep(50);
 
-                log.InfoFormat("connectap btr {0}", this.BytesToRead);
-                if (this.BytesToRead >= 2)
+                log.InfoFormat("connectap btr {0}", BytesToRead);
+                if (BytesToRead >= 2)
                 {
-                    byte b1 = (byte)this.ReadByte();
-                    byte b2 = (byte)this.ReadByte();
+                    var b1 = (byte) ReadByte();
+                    var b2 = (byte) ReadByte();
                     if (b1 == 0x14 && b2 == 0x10)
                     {
                         return true;
@@ -67,39 +64,40 @@ namespace MissionPlanner.Arduino
         }
 
         /// <summary>
-        /// Used to keep alive the connection
+        ///     Used to keep alive the connection
         /// </summary>
         /// <returns>true = passed, false = lost connection</returns>
         public bool keepalive()
         {
             return connectAP();
         }
+
         /// <summary>
-        /// Syncs after a private command has been sent
+        ///     Syncs after a private command has been sent
         /// </summary>
         /// <returns>true = passed, false = failed</returns>
         public bool sync()
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 return false;
             }
-            this.ReadTimeout = 1000;
-            int f = 0;
-            while (this.BytesToRead < 1)
+            ReadTimeout = 1000;
+            var f = 0;
+            while (BytesToRead < 1)
             {
                 f++;
-                System.Threading.Thread.Sleep(1);
+                Thread.Sleep(1);
                 if (f > 1000)
                     return false;
             }
-            int a = 0;
+            var a = 0;
             while (a < 10)
             {
-                if (this.BytesToRead >= 2)
+                if (BytesToRead >= 2)
                 {
-                    byte b1 = (byte)this.ReadByte();
-                    byte b2 = (byte)this.ReadByte();
+                    var b1 = (byte) ReadByte();
+                    var b2 = (byte) ReadByte();
                     log.DebugFormat("bytes {0:X} {1:X}", b1, b2);
 
                     if (b1 == 0x14 && b2 == 0x10)
@@ -107,40 +105,42 @@ namespace MissionPlanner.Arduino
                         return true;
                     }
                 }
-                log.DebugFormat("btr {0}", this.BytesToRead);
+                log.DebugFormat("btr {0}", BytesToRead);
                 Thread.Sleep(10);
                 a++;
             }
             return false;
         }
+
         /// <summary>
-        /// Downloads the eeprom with the given length - set Address first
+        ///     Downloads the eeprom with the given length - set Address first
         /// </summary>
         /// <param name="length">eeprom length</param>
         /// <returns>downloaded data</returns>
         public byte[] download(short length)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 throw new Exception();
             }
-            byte[] data = new byte[length];
+            var data = new byte[length];
 
-            byte[] command = new byte[] { (byte)'t', (byte)(length >> 8), (byte)(length & 0xff), (byte)'E', (byte)' ' };
-            this.Write(command, 0, command.Length);
+            byte[] command = {(byte) 't', (byte) (length >> 8), (byte) (length & 0xff), (byte) 'E', (byte) ' '};
+            Write(command, 0, command.Length);
 
-            if (this.ReadByte() == 0x14)
-            { // 0x14
+            if (ReadByte() == 0x14)
+            {
+                // 0x14
 
-                int step = 0;
+                var step = 0;
                 while (step < length)
                 {
-                    byte chr = (byte)this.ReadByte();
+                    var chr = (byte) ReadByte();
                     data[step] = chr;
                     step++;
                 }
 
-                if (this.ReadByte() != 0x10)  // 0x10
+                if (ReadByte() != 0x10) // 0x10
                     throw new Exception("Lost Sync 0x10");
             }
             else
@@ -152,29 +152,30 @@ namespace MissionPlanner.Arduino
 
         public byte[] downloadflash(short length)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 throw new Exception("Port Not Open");
             }
-            byte[] data = new byte[length];
+            var data = new byte[length];
 
-            this.ReadTimeout = 1000;
+            ReadTimeout = 1000;
 
-            byte[] command = new byte[] { (byte)'t', (byte)(length >> 8), (byte)(length & 0xff), (byte)'F', (byte)' ' };
-            this.Write(command, 0, command.Length);
+            byte[] command = {(byte) 't', (byte) (length >> 8), (byte) (length & 0xff), (byte) 'F', (byte) ' '};
+            Write(command, 0, command.Length);
 
-            if (this.ReadByte() == 0x14)
-            { // 0x14
+            if (ReadByte() == 0x14)
+            {
+                // 0x14
 
                 int read = length;
                 while (read > 0)
                 {
                     //Console.WriteLine("offset {0} read {1}", length - read, read);
-                    read -= this.Read(data, length - read, read);
+                    read -= Read(data, length - read, read);
                     //System.Threading.Thread.Sleep(1);
                 }
 
-                if (this.ReadByte() != 0x10)  // 0x10
+                if (ReadByte() != 0x10) // 0x10
                     throw new Exception("Lost Sync 0x10");
             }
             else
@@ -186,15 +187,15 @@ namespace MissionPlanner.Arduino
 
         public bool uploadflash(byte[] data, int startfrom, int length, int startaddress)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 return false;
             }
-            int loops = (length / 0x100);
-            int totalleft = length;
-            int sending = 0;
+            var loops = length/0x100;
+            var totalleft = length;
+            var sending = 0;
 
-            for (int a = 0; a <= loops; a++)
+            for (var a = 0; a <= loops; a++)
             {
                 if (totalleft > 0x100)
                 {
@@ -212,18 +213,18 @@ namespace MissionPlanner.Arduino
                 setaddress(startaddress);
                 startaddress += sending;
 
-                byte[] command = new byte[] { (byte)'d', (byte)(sending >> 8), (byte)(sending & 0xff), (byte)'F' };
-                this.Write(command, 0, command.Length);
-                log.Info((startfrom + (length - totalleft)) + " - " + sending);
-                this.Write(data, startfrom + (length - totalleft), sending);
-                command = new byte[] { (byte)' ' };
-                this.Write(command, 0, command.Length);
+                byte[] command = {(byte) 'd', (byte) (sending >> 8), (byte) (sending & 0xff), (byte) 'F'};
+                Write(command, 0, command.Length);
+                log.Info(startfrom + (length - totalleft) + " - " + sending);
+                Write(data, startfrom + (length - totalleft), sending);
+                command = new[] {(byte) ' '};
+                Write(command, 0, command.Length);
 
                 totalleft -= sending;
 
 
                 if (Progress != null)
-                    Progress((int)(((float)startaddress / (float)length) * 100),"");
+                    Progress((int) (startaddress/(float) length*100), "");
 
                 if (!sync())
                 {
@@ -235,35 +236,35 @@ namespace MissionPlanner.Arduino
         }
 
         /// <summary>
-        /// Sets the eeprom start read or write address
+        ///     Sets the eeprom start read or write address
         /// </summary>
         /// <param name="address">address, must be eaven number</param>
         /// <returns>true = passed, false = failed</returns>
         public bool setaddress(int address)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 return false;
             }
 
-            if (address % 2 == 1)
+            if (address%2 == 1)
             {
                 throw new Exception("Address must be an even number");
             }
 
-            log.Info("Sending address   " + ((ushort)(address / 2)));
+            log.Info("Sending address   " + (ushort) (address/2));
 
             address /= 2;
-            address = (ushort)address;
+            address = (ushort) address;
 
-            byte[] command = new byte[] { (byte)'U', (byte)(address & 0xff), (byte)(address >> 8), (byte)' ' };
-            this.Write(command, 0, command.Length);
+            byte[] command = {(byte) 'U', (byte) (address & 0xff), (byte) (address >> 8), (byte) ' '};
+            Write(command, 0, command.Length);
 
             return sync();
         }
 
         /// <summary>
-        /// Upload data at preset address
+        ///     Upload data at preset address
         /// </summary>
         /// <param name="data">array to read from</param>
         /// <param name="startfrom">start array index</param>
@@ -272,15 +273,15 @@ namespace MissionPlanner.Arduino
         /// <returns>true = passed, false = failed</returns>
         public bool upload(byte[] data, short startfrom, short length, short startaddress)
         {
-            if (!this.IsOpen)
+            if (!IsOpen)
             {
                 return false;
             }
-            int loops = (length / 0x100);
+            var loops = length/0x100;
             int totalleft = length;
-            int sending = 0;
+            var sending = 0;
 
-            for (int a = 0; a <= loops; a++)
+            for (var a = 0; a <= loops; a++)
             {
                 if (totalleft > 0x100)
                 {
@@ -295,14 +296,14 @@ namespace MissionPlanner.Arduino
                     return true;
 
                 setaddress(startaddress);
-                startaddress += (short)sending;
+                startaddress += (short) sending;
 
-                byte[] command = new byte[] { (byte)'d', (byte)(sending >> 8), (byte)(sending & 0xff), (byte)'E' };
-                this.Write(command, 0, command.Length);
-                log.Info((startfrom + (length - totalleft)) + " - " + sending);
-                this.Write(data, startfrom + (length - totalleft), sending);
-                command = new byte[] { (byte)' ' };
-                this.Write(command, 0, command.Length);
+                byte[] command = {(byte) 'd', (byte) (sending >> 8), (byte) (sending & 0xff), (byte) 'E'};
+                Write(command, 0, command.Length);
+                log.Info(startfrom + (length - totalleft) + " - " + sending);
+                Write(data, startfrom + (length - totalleft), sending);
+                command = new[] {(byte) ' '};
+                Write(command, 0, command.Length);
 
                 totalleft -= sending;
 
@@ -321,28 +322,28 @@ namespace MissionPlanner.Arduino
             byte sig2 = 0x00;
             byte sig3 = 0x00;
 
-            byte[] command = new byte[] { (byte)'u', (byte)' ' };
-            this.Write(command, 0, command.Length);
+            byte[] command = {(byte) 'u', (byte) ' '};
+            Write(command, 0, command.Length);
 
-            System.Threading.Thread.Sleep(20);
+            Thread.Sleep(20);
 
-            byte[] chr = new byte[5];
+            var chr = new byte[5];
 
-            int count = this.Read(chr, 0, 5);
+            var count = Read(chr, 0, 5);
             log.Debug("getChipType read " + count);
 
             if (chr[0] == 0x14 && chr[4] == 0x10)
             {
-                sig1 = (byte)chr[1];
-                sig2 = (byte)chr[2];
-                sig3 = (byte)chr[3];
+                sig1 = chr[1];
+                sig2 = chr[2];
+                sig3 = chr[3];
             }
 
-            foreach (Chip item in Arduino.Chip.chips)
+            foreach (var item in Chip.chips)
             {
                 if (item.Equals(new Chip("", sig1, sig2, sig3, 0)))
                 {
-                    log.Debug("Match "+item.ToString());
+                    log.Debug("Match " + item);
                     return item;
                 }
             }
@@ -354,21 +355,24 @@ namespace MissionPlanner.Arduino
         {
             try
             {
-
-                byte[] command = new byte[] { (byte)'Q', (byte)' ' };
-                this.Write(command, 0, command.Length);
+                byte[] command = {(byte) 'Q', (byte) ' '};
+                Write(command, 0, command.Length);
             }
-            catch { }
+            catch
+            {
+            }
 
             try
             {
-                if (base.IsOpen)
+                if (IsOpen)
                     base.Close();
             }
-            catch { }
+            catch
+            {
+            }
 
-            this.DtrEnable = false;
-            this.RtsEnable = false;
+            DtrEnable = false;
+            RtsEnable = false;
             return true;
         }
     }

@@ -13,9 +13,7 @@ using MissionPlanner.Attributes;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
-
 using System.Security.Cryptography.X509Certificates;
-
 using System.Net;
 using System.Net.Sockets;
 using System.Xml; // config file
@@ -25,460 +23,20 @@ using ZedGraph; // Graphs
 using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Utilities;
-
 using System.IO;
-
 using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 
 namespace MissionPlanner
 {
 
-    /// <summary>
-    /// used to override the drawing of the waypoint box bounding
-    /// </summary>
-    [Serializable]
-    public class GMapMarkerRect : GMapMarker
-    {
-        public Pen Pen = new Pen(Brushes.White, 2);
-
-        public Color Color { get { return Pen.Color; } set { if (!initcolor.HasValue) initcolor = value; Pen.Color = value; } }
-
-        Color? initcolor = null;
-
-        public GMapMarker InnerMarker;
-
-        public int wprad = 0;
-
-        public void ResetColor()
-        {
-            if (initcolor.HasValue)
-                Color = initcolor.Value;
-            else
-                Color = Color.White;
-        }
-
-        public GMapMarkerRect(PointLatLng p)
-            : base(p)
-        {
-            Pen.DashStyle = DashStyle.Dash;
-
-            // do not forget set Size of the marker
-            // if so, you shall have no event on it ;}
-            Size = new System.Drawing.Size(50, 50);
-            Offset = new System.Drawing.Point(-Size.Width / 2, -Size.Height / 2 - 20);
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            base.OnRender(g);
-
-            if (wprad == 0 || Overlay.Control == null)
-                return;
-
-            // if we have drawn it, then keep that color
-            if (!initcolor.HasValue)
-                Color = Color.White;
-
-            // undo autochange in mouse over
-            //if (Pen.Color == Color.Blue)
-            //  Pen.Color = Color.White;
-
-            double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-            double height = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
-            double m2pixelwidth = Overlay.Control.Width / width;
-            double m2pixelheight = Overlay.Control.Height / height;
-
-            GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);// MainMap.FromLatLngToLocal(wpradposition);
-
-            if (m2pixelheight > 0.5)
-                g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
-
-        }
-    }
-    [Serializable]
-    public class GMapMarkerADSBPlane : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01;
-
-        float heading = 0;
-
-        public GMapMarkerADSBPlane(PointLatLng p, float heading)
-            : base(p)
-        {
-            icon = new Bitmap(icon, new Size(40, 40));
-            this.heading = heading;
-            Size = icon.Size;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            g.RotateTransform(-Overlay.Control.Bearing);
-
-            try
-            {
-                g.RotateTransform(heading);
-            }
-            catch { }
-            g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
-
-            g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerWP : GMarkerGoogle
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        string wpno = "";
-        public bool selected = false;
-
-        public GMapMarkerWP(PointLatLng p, string wpno)
-            : base(p, GMarkerGoogleType.green)
-        {
-            this.wpno = wpno;
-        }
-
-        public override void OnRender(Graphics g)
-        {        
-            if (selected)
-            {
-                g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
-                g.DrawArc(Pens.Red,new Rectangle(this.LocalPosition,this.Size),0,360);
-            }
-
-            base.OnRender(g);
-
-            var midw = LocalPosition.X + 10 ;
-            var midh = LocalPosition.Y + 3 ;
-
-            var txtsize = TextRenderer.MeasureText(wpno, SystemFonts.DefaultFont);
-
-            if (txtsize.Width > 15)
-                midw -= 4;
-
-                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black , new PointF(midw, midh));
-
-            //Matrix temp = g.Transform;
-            //g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            //g.RotateTransform(-Overlay.Control.Bearing);
-
-            // do stuff
-
-
-            //g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerRover : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width, global::MissionPlanner.Properties.Resources.rover.Height);
-        float heading = 0;
-        float cog = -1;
-        float target = -1;
-        float nav_bearing = -1;
-
-        public GMapMarkerRover(PointLatLng p, float heading, float cog, float nav_bearing, float target)
-            : base(p)
-        {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            this.nav_bearing = nav_bearing;
-            Size = SizeSt;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            g.RotateTransform(-Overlay.Control.Bearing);
-
-            int length = 500;
-            // anti NaN
-            try
-            {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
-            }
-            catch { }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-            // anti NaN
-
-            try
-            {
-                g.RotateTransform(heading);
-            }
-            catch { }
-            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.rover, global::MissionPlanner.Properties.Resources.rover.Width / -2, global::MissionPlanner.Properties.Resources.rover.Height / -2);
-
-            g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerPlane : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
-
-        float heading = 0;
-        float cog = -1;
-        float target = -1;
-        float nav_bearing = -1;
-
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target)
-            : base(p)
-        {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            this.nav_bearing = nav_bearing;
-            Size = icon.Size;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            g.RotateTransform(-Overlay.Control.Bearing);
-
-            int length = 500;
-            // anti NaN
-            try
-            {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
-            }
-            catch { }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-            // anti NaN
-            try
-            {
-
-                float desired_lead_dist = 100;
-
-
-                double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-                double m2pixelwidth = Overlay.Control.Width / width;
-
-                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / MainV2.comPort.MAV.cs.radius) * rad2deg;
-
-                if (MainV2.comPort.MAV.cs.radius < -1)
-                {
-                    // fixme 
-
-                    float p1 = (float)Math.Cos((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
-
-                    float p2 = (float)Math.Sin((cog) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
-
-                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(MainV2.comPort.MAV.cs.radius) * 2, Math.Abs(MainV2.comPort.MAV.cs.radius) * 2, cog, alpha);
-
-                }
-
-                else if (MainV2.comPort.MAV.cs.radius > 1)
-                {
-                    // correct
-
-                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
-
-                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * MainV2.comPort.MAV.cs.radius + MainV2.comPort.MAV.cs.radius;
-
-                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, MainV2.comPort.MAV.cs.radius * 2, MainV2.comPort.MAV.cs.radius * 2, cog - 180, alpha);
-                }
-
-            }
-
-            catch { }
-
-
-            try
-            {
-                g.RotateTransform(heading);
-            }
-            catch { }
-            g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
-
-            g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerQuad : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
-
-        float heading = 0;
-        float cog = -1;
-        float target = -1;
-        private int sysid = -1;
-
-        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, int sysid)
-            : base(p)
-        {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            this.sysid = sysid;
-            Size = icon.Size;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            int length = 500;
-            // anti NaN
-            try
-            {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
-            }
-            catch { }
-            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-            // anti NaN
-            try
-            {
-                g.RotateTransform(heading);
-            }
-            catch { }
-
-            g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
-
-            g.DrawString(sysid.ToString(),new Font(FontFamily.GenericMonospace,15,FontStyle.Bold),Brushes.Red,-8,-8);
-
-            g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerHeli : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.heli;
-
-        float heading = 0;
-        float cog = -1;
-        float target = -1;
-
-        public GMapMarkerHeli(PointLatLng p, float heading, float cog, float target)
-            : base(p)
-        {
-            this.heading = heading;
-            this.cog = cog;
-            this.target = target;
-            Size = icon.Size;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            int length = 500;
-            // anti NaN
-            try
-            {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
-            }
-            catch { }
-            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-            // anti NaN
-            try
-            {
-                g.RotateTransform(heading);
-            }
-            catch { }
-            g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
-
-            g.Transform = temp;
-        }
-    }
-
-    [Serializable]
-    public class GMapMarkerAntennaTracker : GMapMarker
-    {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
-
-        float heading = 0;
-        private float target = 0;
-
-        public GMapMarkerAntennaTracker(PointLatLng p, float heading, float target)
-            : base(p)
-        {
-            Size = icon.Size;
-            this.heading = heading;
-            this.target = target;
-        }
-
-        public override void OnRender(Graphics g)
-        {
-            Matrix temp = g.Transform;
-            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
-
-            int length = 500;
-
-            try
-            {
-                // heading
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
-
-                // target
-                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-            }
-            catch { }
-
-            g.DrawImage(icon,-20,-20,40,40);
-
-            g.Transform = temp;
-        }
-    }
-
-
-    class NoCheckCertificatePolicy : ICertificatePolicy
-    {
-        public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request, int certificateProblem)
-        {
-            return true;
-        }
-    }
-
 
     public class Common
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public enum distances
         {
             Meters,
@@ -487,7 +45,7 @@ namespace MissionPlanner
 
         public enum speeds
         {
-            ms,
+            meters_per_second,
             fps,
             kph,
             mph,
@@ -533,43 +91,43 @@ namespace MissionPlanner
         public enum ap_product
         {
             [DisplayText("HIL")]
-            AP_PRODUCT_ID_NONE = 0x00,	// Hardware in the loop
+            AP_PRODUCT_ID_NONE = 0x00, // Hardware in the loop
             [DisplayText("APM1 1280")]
-            AP_PRODUCT_ID_APM1_1280 = 0x01,// APM1 with 1280 CPUs
+            AP_PRODUCT_ID_APM1_1280 = 0x01, // APM1 with 1280 CPUs
             [DisplayText("APM1 2560")]
-            AP_PRODUCT_ID_APM1_2560 = 0x02,// APM1 with 2560 CPUs
+            AP_PRODUCT_ID_APM1_2560 = 0x02, // APM1 with 2560 CPUs
             [DisplayText("SITL")]
-            AP_PRODUCT_ID_SITL = 0x03,// Software in the loop
+            AP_PRODUCT_ID_SITL = 0x03, // Software in the loop
             [DisplayText("PX4")]
-            AP_PRODUCT_ID_PX4 = 0x04,   // PX4 on NuttX
+            AP_PRODUCT_ID_PX4 = 0x04, // PX4 on NuttX
             [DisplayText("PX4 FMU 2")]
-            AP_PRODUCT_ID_PX4_V2 = 0x05,   // PX4 FMU2 on NuttX
+            AP_PRODUCT_ID_PX4_V2 = 0x05, // PX4 FMU2 on NuttX
             [DisplayText("APM2 ES C4")]
-            AP_PRODUCT_ID_APM2ES_REV_C4 = 0x14,// APM2 with MPU6000ES_REV_C4
+            AP_PRODUCT_ID_APM2ES_REV_C4 = 0x14, // APM2 with MPU6000ES_REV_C4
             [DisplayText("APM2 ES C5")]
-            AP_PRODUCT_ID_APM2ES_REV_C5 = 0x15,	// APM2 with MPU6000ES_REV_C5
+            AP_PRODUCT_ID_APM2ES_REV_C5 = 0x15, // APM2 with MPU6000ES_REV_C5
             [DisplayText("APM2 ES D6")]
-            AP_PRODUCT_ID_APM2ES_REV_D6 = 0x16,	// APM2 with MPU6000ES_REV_D6
+            AP_PRODUCT_ID_APM2ES_REV_D6 = 0x16, // APM2 with MPU6000ES_REV_D6
             [DisplayText("APM2 ES D7")]
-            AP_PRODUCT_ID_APM2ES_REV_D7 = 0x17,	// APM2 with MPU6000ES_REV_D7
+            AP_PRODUCT_ID_APM2ES_REV_D7 = 0x17, // APM2 with MPU6000ES_REV_D7
             [DisplayText("APM2 ES D8")]
-            AP_PRODUCT_ID_APM2ES_REV_D8 = 0x18,	// APM2 with MPU6000ES_REV_D8	
+            AP_PRODUCT_ID_APM2ES_REV_D8 = 0x18, // APM2 with MPU6000ES_REV_D8	
             [DisplayText("APM2 C4")]
-            AP_PRODUCT_ID_APM2_REV_C4 = 0x54,// APM2 with MPU6000_REV_C4 	
+            AP_PRODUCT_ID_APM2_REV_C4 = 0x54, // APM2 with MPU6000_REV_C4 	
             [DisplayText("APM2 C5")]
-            AP_PRODUCT_ID_APM2_REV_C5 = 0x55,	// APM2 with MPU6000_REV_C5 	
+            AP_PRODUCT_ID_APM2_REV_C5 = 0x55, // APM2 with MPU6000_REV_C5 	
             [DisplayText("APM2 D6")]
-            AP_PRODUCT_ID_APM2_REV_D6 = 0x56,	// APM2 with MPU6000_REV_D6 		
+            AP_PRODUCT_ID_APM2_REV_D6 = 0x56, // APM2 with MPU6000_REV_D6 		
             [DisplayText("APM2 D7")]
-            AP_PRODUCT_ID_APM2_REV_D7 = 0x57,	// APM2 with MPU6000_REV_D7 	
+            AP_PRODUCT_ID_APM2_REV_D7 = 0x57, // APM2 with MPU6000_REV_D7 	
             [DisplayText("APM2 D8")]
-            AP_PRODUCT_ID_APM2_REV_D8 = 0x58,	// APM2 with MPU6000_REV_D8 	
+            AP_PRODUCT_ID_APM2_REV_D8 = 0x58, // APM2 with MPU6000_REV_D8 	
             [DisplayText("APM2 D9")]
-            AP_PRODUCT_ID_APM2_REV_D9 = 0x59,	// APM2 with MPU6000_REV_D9 
+            AP_PRODUCT_ID_APM2_REV_D9 = 0x59, // APM2 with MPU6000_REV_D9 
             [DisplayText("FlyMaple")]
-            AP_PRODUCT_ID_FLYMAPLE = 0x100,   // Flymaple with ITG3205, ADXL345, HMC5883, BMP085
+            AP_PRODUCT_ID_FLYMAPLE = 0x100, // Flymaple with ITG3205, ADXL345, HMC5883, BMP085
             [DisplayText("Linux")]
-            AP_PRODUCT_ID_L3G4200D = 0x101,   // Linux with L3G4200D and ADXL345
+            AP_PRODUCT_ID_L3G4200D = 0x101, // Linux with L3G4200D and ADXL345
         }
 
         public static bool getFilefromNet(string url, string saveto)
@@ -580,7 +138,8 @@ namespace MissionPlanner
                 //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
 
                 ServicePointManager.ServerCertificateValidationCallback =
-    new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+                    new System.Net.Security.RemoteCertificateValidationCallback(
+                        (sender, certificate, chain, policyErrors) => { return true; });
 
                 log.Info(url);
                 // Create a request using a URL that can receive a post. 
@@ -604,7 +163,8 @@ namespace MissionPlanner
                     {
                         if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
                         {
-                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified + " vs " + new FileInfo(saveto).LastWriteTime);
+                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified +
+                                     " vs " + new FileInfo(saveto).LastWriteTime);
                             response.Close();
                             return true;
                         }
@@ -644,32 +204,121 @@ namespace MissionPlanner
 
                 return true;
             }
-            catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
+            catch (Exception ex)
+            {
+                log.Info("getFilefromNet(): " + ex.ToString());
+                return false;
+            }
+        }
+
+        //from px4firmwareplugin.cc
+        enum PX4_CUSTOM_MAIN_MODE
+        {
+            PX4_CUSTOM_MAIN_MODE_MANUAL = 1,
+            PX4_CUSTOM_MAIN_MODE_ALTCTL,
+            PX4_CUSTOM_MAIN_MODE_POSCTL,
+            PX4_CUSTOM_MAIN_MODE_AUTO,
+            PX4_CUSTOM_MAIN_MODE_ACRO,
+            PX4_CUSTOM_MAIN_MODE_OFFBOARD,
+            PX4_CUSTOM_MAIN_MODE_STABILIZED,
+            PX4_CUSTOM_MAIN_MODE_RATTITUDE
+        }
+
+        enum PX4_CUSTOM_SUB_MODE_AUTO
+        {
+            PX4_CUSTOM_SUB_MODE_AUTO_READY = 1,
+            PX4_CUSTOM_SUB_MODE_AUTO_TAKEOFF,
+            PX4_CUSTOM_SUB_MODE_AUTO_LOITER,
+            PX4_CUSTOM_SUB_MODE_AUTO_MISSION,
+            PX4_CUSTOM_SUB_MODE_AUTO_RTL,
+            PX4_CUSTOM_SUB_MODE_AUTO_LAND,
+            PX4_CUSTOM_SUB_MODE_AUTO_RTGS
         }
 
         public static List<KeyValuePair<int, string>> getModesList(CurrentState cs)
         {
             log.Info("getModesList Called");
 
-            if (cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (cs.firmware == MainV2.Firmwares.PX4)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
+                /*
+union px4_custom_mode {
+    struct {
+        uint16_t reserved;
+        uint8_t main_mode;
+        uint8_t sub_mode;
+    };
+    uint32_t data;
+    float data_float;
+};
+                 */
+
+
+                var temp = new List<KeyValuePair<int, string>>()
+                {
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_MANUAL << 16, "Manual"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_ACRO << 16, "Acro"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_STABILIZED << 16,
+                        "Stabalized"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_RATTITUDE << 16,
+                        "Rattitude"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_ALTCTL << 16,
+                        "Altitude Control"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_POSCTL << 16,
+                        "Position Control"),
+                    new KeyValuePair<int, string>((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_OFFBOARD << 16,
+                        "Offboard Control"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_READY << 24, "Auto: Ready"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_TAKEOFF << 24, "Auto: Takeoff"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_LOITER << 24, "Loiter"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_MISSION << 24, "Auto"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_RTL << 24, "RTL"),
+                    new KeyValuePair<int, string>(
+                        ((int) PX4_CUSTOM_MAIN_MODE.PX4_CUSTOM_MAIN_MODE_AUTO << 16) +
+                        (int) PX4_CUSTOM_SUB_MODE_AUTO.PX4_CUSTOM_SUB_MODE_AUTO_LAND << 24, "Auto: Landing")
+                };
+
+                return temp;
+            }
+            else if (cs.firmware == MainV2.Firmwares.ArduPlane)
+            {
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
+
+                flightModes.Add(new KeyValuePair<int, string>(17, "QStabilize"));
+                flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
+                flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
+                flightModes.Add(new KeyValuePair<int, string>(20, "QLand"));
+
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString()); //same as apm
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString()); //same as apm
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1",
+                    cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1", cs.firmware.ToString());
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1",
+                    cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduTracker)
@@ -692,7 +341,8 @@ namespace MissionPlanner
         {
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
             form.Text = title;
@@ -725,19 +375,21 @@ namespace MissionPlanner
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             CheckBox chk = new CheckBox();
             Controls.MyButton buttonOk = new Controls.MyButton();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
+            System.ComponentModel.ComponentResourceManager resources =
+                new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 
             form.Text = title;
             label.Text = promptText;
 
-            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_").Replace('+','_'));
+            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_").Replace('+', '_'));
             chk.AutoSize = true;
             chk.Text = Strings.ShowMeAgain;
             chk.Checked = true;
             chk.Location = new Point(9, 80);
 
-            if (MainV2.config[(string)chk.Tag] != null && (string)MainV2.config[(string)chk.Tag] == "False") // skip it
+            if (Settings.Instance.GetBoolean((string)chk.Tag) == false)
+            // skip it
             {
                 form.Dispose();
                 chk.Dispose();
@@ -777,7 +429,7 @@ namespace MissionPlanner
 
         static void chk_CheckStateChanged(object sender, EventArgs e)
         {
-            MainV2.config[(string)((CheckBox)(sender)).Tag] = ((CheckBox)(sender)).Checked.ToString();
+            Settings.Instance[(string)((CheckBox)(sender)).Tag] = ((CheckBox)(sender)).Checked.ToString();
         }
 
         public static string speechConversion(string input)
@@ -813,7 +465,517 @@ namespace MissionPlanner
 
             input = input.Replace("{satcount}", (MainV2.comPort.MAV.cs.satcount).ToString("0"));
 
+            input = input.Replace("{rssi}", (MainV2.comPort.MAV.cs.rssi).ToString("0"));
+
+            input = input.Replace("{disthome}", (MainV2.comPort.MAV.cs.DistToHome).ToString("0"));
+
+            input = input.Replace("{timeinair}",
+                (new TimeSpan(0, 0, 0, (int)MainV2.comPort.MAV.cs.timeInAir)).ToString());
+
             return input;
+        }
+    }
+
+    /// <summary>
+    /// used to override the drawing of the waypoint box bounding
+    /// </summary>
+    [Serializable]
+    public class GMapMarkerRect : GMapMarker
+    {
+        public Pen Pen = new Pen(Brushes.White, 2);
+
+        public Color Color
+        {
+            get { return Pen.Color; }
+            set
+            {
+                if (!initcolor.HasValue) initcolor = value;
+                Pen.Color = value;
+            }
+        }
+
+        Color? initcolor = null;
+
+        public GMapMarker InnerMarker;
+
+        public int wprad = 0;
+
+        public void ResetColor()
+        {
+            if (initcolor.HasValue)
+                Color = initcolor.Value;
+            else
+                Color = Color.White;
+        }
+
+        public GMapMarkerRect(PointLatLng p)
+            : base(p)
+        {
+            Pen.DashStyle = DashStyle.Dash;
+
+            // do not forget set Size of the marker
+            // if so, you shall have no event on it ;}
+            Size = new System.Drawing.Size(50, 50);
+            Offset = new System.Drawing.Point(-Size.Width/2, -Size.Height/2 - 20);
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            base.OnRender(g);
+
+            if (wprad == 0 || Overlay.Control == null)
+                return;
+
+            // if we have drawn it, then keep that color
+            if (!initcolor.HasValue)
+                Color = Color.White;
+
+            // undo autochange in mouse over
+            //if (Pen.Color == Color.Blue)
+            //  Pen.Color = Color.White;
+
+            double width =
+                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
+            double height =
+                (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0))*1000.0);
+            double m2pixelwidth = Overlay.Control.Width/width;
+            double m2pixelheight = Overlay.Control.Height/height;
+
+            GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth*wprad*2)), LocalPosition.Y);
+                // MainMap.FromLatLngToLocal(wpradposition);
+
+            if (m2pixelheight > 0.5)
+                g.DrawArc(Pen,
+                    new System.Drawing.Rectangle(
+                        LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X)/2),
+                        LocalPosition.Y - Offset.Y - (int) Math.Abs(loc.X - LocalPosition.X)/2,
+                        (int) Math.Abs(loc.X - LocalPosition.X), (int) Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerADSBPlane : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01;
+
+        float heading = 0;
+
+        public GMapMarkerADSBPlane(PointLatLng p, float heading)
+            : base(p)
+        {
+            icon = new Bitmap(icon, new Size(40, 40));
+            this.heading = heading;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.RotateTransform(-Overlay.Control.Bearing);
+
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+            g.DrawImageUnscaled(icon, icon.Width/-2, icon.Height/-2);
+
+            g.Transform = temp;
+        }
+    }   
+
+    [Serializable]
+    public class GMapMarkerWP : GMarkerGoogle
+    {
+        string wpno = "";
+        public bool selected = false;
+        SizeF txtsize = SizeF.Empty;
+        static Dictionary<string, Bitmap> fontBitmaps = new Dictionary<string, Bitmap>();
+        static Font font;
+
+        public GMapMarkerWP(PointLatLng p, string wpno)
+            : base(p, GMarkerGoogleType.green)
+        {
+            this.wpno = wpno;
+            if (font == null)
+                font = SystemFonts.DefaultFont;
+
+            if (!fontBitmaps.ContainsKey(wpno))
+            {
+                Bitmap temp = new Bitmap(100,40, PixelFormat.Format32bppArgb);
+                using (Graphics g = Graphics.FromImage(temp))
+                {
+                    txtsize = g.MeasureString(wpno, font);
+
+                    g.DrawString(wpno, font, Brushes.Black, new PointF(0, 0));
+                }
+                fontBitmaps[wpno] = temp;
+            }
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            if (selected)
+            {
+                g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
+                g.DrawArc(Pens.Red, new Rectangle(this.LocalPosition, this.Size), 0, 360);
+            }
+            
+            base.OnRender(g);
+
+            var midw = LocalPosition.X + 10;
+            var midh = LocalPosition.Y + 3;
+
+            if (txtsize.Width > 15)
+                midw -= 4;
+
+            if (Overlay.Control.Zoom> 16 || IsMouseOver)
+                g.DrawImageUnscaled(fontBitmaps[wpno], midw,midh);
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerRover : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        static readonly System.Drawing.Size SizeSt =
+            new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width,
+                global::MissionPlanner.Properties.Resources.rover.Height);
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+        float nav_bearing = -1;
+
+        public GMapMarkerRover(PointLatLng p, float heading, float cog, float nav_bearing, float target)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            this.nav_bearing = nav_bearing;
+            Size = SizeSt;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.RotateTransform(-Overlay.Control.Bearing);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+            }
+            catch
+            {
+            }
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*deg2rad)*length,
+                (float) Math.Sin((nav_bearing - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
+                (float) Math.Sin((cog - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
+                (float) Math.Sin((target - 90)*deg2rad)*length);
+            // anti NaN
+
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.rover,
+                global::MissionPlanner.Properties.Resources.rover.Width/-2,
+                global::MissionPlanner.Properties.Resources.rover.Height/-2);
+
+            g.Transform = temp;
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerPlane : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+        float nav_bearing = -1;
+        float radius = -1;
+
+        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target, float radius)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            this.nav_bearing = nav_bearing;
+            this.radius = radius;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.RotateTransform(-Overlay.Control.Bearing);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+            }
+            catch
+            {
+            }
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*deg2rad)*length,
+                (float) Math.Sin((nav_bearing - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
+                (float) Math.Sin((cog - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
+                (float) Math.Sin((target - 90)*deg2rad)*length);
+            // anti NaN
+            try
+            {
+                float desired_lead_dist = 100;
+
+                double width =
+                    (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
+                        Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
+                double m2pixelwidth = Overlay.Control.Width/width;
+
+                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
+
+                if (radius < -1)
+                {
+                    // fixme 
+
+                    float p1 = (float)Math.Cos((cog) * deg2rad) * radius + radius;
+
+                    float p2 = (float)Math.Sin((cog) * deg2rad) * radius + radius;
+
+                    g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
+                }
+
+                else if (radius > 1)
+                {
+                    // correct
+
+                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * radius + radius;
+
+                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * radius + radius;
+
+                    g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, radius * 2, radius * 2, cog - 180, alpha);
+                }
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+            g.DrawImageUnscaled(icon, icon.Width/-2, icon.Height/-2);
+
+            g.Transform = temp;
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerQuad : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+        private int sysid = -1;
+
+        public GMapMarkerQuad(PointLatLng p, float heading, float cog, float target, int sysid)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            this.sysid = sysid;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+            }
+            catch
+            {
+            }
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
+                (float) Math.Sin((cog - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
+                (float) Math.Sin((target - 90)*deg2rad)*length);
+            // anti NaN
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+
+            g.DrawImageUnscaled(icon, icon.Width/-2 + 2, icon.Height/-2);
+
+            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
+                -8);
+
+            g.Transform = temp;
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerHeli : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.heli;
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+
+        public GMapMarkerHeli(PointLatLng p, float heading, float cog, float target)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+            }
+            catch
+            {
+            }
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
+                (float) Math.Sin((cog - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
+                (float) Math.Sin((target - 90)*deg2rad)*length);
+            // anti NaN
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+            g.DrawImageUnscaled(icon, icon.Width/-2 + 2, icon.Height/-2);
+
+            g.Transform = temp;
+        }
+    }
+
+    [Serializable]
+    public class GMapMarkerAntennaTracker : GMapMarker
+    {
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
+
+        float heading = 0;
+        private float target = 0;
+
+        public GMapMarkerAntennaTracker(PointLatLng p, float heading, float target)
+            : base(p)
+        {
+            Size = icon.Size;
+            this.heading = heading;
+            this.target = target;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+
+            try
+            {
+                // heading
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+
+                // target
+                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
+                    (float) Math.Sin((target - 90)*deg2rad)*length);
+            }
+            catch
+            {
+            }
+
+            g.DrawImage(icon, -20, -20, 40, 40);
+
+            g.Transform = temp;
+        }
+    }
+
+
+    class NoCheckCertificatePolicy : ICertificatePolicy
+    {
+        public bool CheckValidationResult(ServicePoint srvPoint, X509Certificate certificate, WebRequest request,
+            int certificateProblem)
+        {
+            return true;
         }
     }
 }

@@ -30,9 +30,11 @@
         {
             this.objectListView1 = new BrightIdeasSoftware.ObjectListView();
             this.olvColumnImage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumndir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnSysid = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnduration = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
@@ -40,17 +42,21 @@
             // objectListView1
             // 
             this.objectListView1.AllColumns.Add(this.olvColumnImage);
+            this.objectListView1.AllColumns.Add(this.olvColumnDate);
             this.objectListView1.AllColumns.Add(this.olvColumndir);
-            this.objectListView1.AllColumns.Add(this.olvColumnName);
+            this.objectListView1.AllColumns.Add(this.olvColumnSysid);
             this.objectListView1.AllColumns.Add(this.olvColumnduration);
+            this.objectListView1.AllColumns.Add(this.olvColumnName);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.objectListView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.olvColumnImage,
+            this.olvColumnDate,
             this.olvColumndir,
-            this.olvColumnName,
-            this.olvColumnduration});
+            this.olvColumnSysid,
+            this.olvColumnduration,
+            this.olvColumnName});
             this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.RowHeight = 150;
@@ -68,18 +74,26 @@
             this.olvColumnImage.Text = "";
             this.olvColumnImage.Width = 150;
             // 
+            // olvColumnDate
+            // 
+            this.olvColumnDate.AspectName = "Date";
+            this.olvColumnDate.AspectToStringFormat = "{0:yyyy/MM/dd hh\\:mm}";
+            this.olvColumnDate.CellPadding = null;
+            this.olvColumnDate.Text = "Date";
+            this.olvColumnDate.Width = 100;
+            // 
             // olvColumndir
             // 
             this.olvColumndir.AspectName = "Directory";
             this.olvColumndir.CellPadding = null;
             this.olvColumndir.Text = "Directory";
+            this.olvColumndir.Width = 258;
             // 
-            // olvColumnName
+            // olvColumnSysid
             // 
-            this.olvColumnName.AspectName = "Name";
-            this.olvColumnName.CellPadding = null;
-            this.olvColumnName.Text = "FileName";
-            this.olvColumnName.Width = 120;
+            this.olvColumnSysid.AspectName = "Aircraft";
+            this.olvColumnSysid.CellPadding = null;
+            this.olvColumnSysid.Text = "Aircraft";
             // 
             // olvColumnduration
             // 
@@ -87,6 +101,14 @@
             this.olvColumnduration.AspectToStringFormat = "{0:hh\\:mm\\:ss}";
             this.olvColumnduration.CellPadding = null;
             this.olvColumnduration.Text = "Duration";
+            this.olvColumnduration.Width = 100;
+            // 
+            // olvColumnName
+            // 
+            this.olvColumnName.AspectName = "Name";
+            this.olvColumnName.CellPadding = null;
+            this.olvColumnName.Text = "FileName";
+            this.olvColumnName.Width = 178;
             // 
             // BUT_changedir
             // 
@@ -121,6 +143,8 @@
         private BrightIdeasSoftware.OLVColumn olvColumnduration;
         private BrightIdeasSoftware.OLVColumn olvColumndir;
         private Controls.MyButton BUT_changedir;
+        private BrightIdeasSoftware.OLVColumn olvColumnDate;
+        private BrightIdeasSoftware.OLVColumn olvColumnSysid;
 
     }
 }

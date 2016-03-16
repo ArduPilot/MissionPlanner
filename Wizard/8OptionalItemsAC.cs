@@ -23,7 +23,9 @@ namespace MissionPlanner.Wizard
             //
             if (MainV2.comPort.MAV.param.ContainsKey("RNGFND_TYPE"))
             {
-                mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("RNGFND_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "RNGFND_TYPE", MainV2.comPort.MAV.param);
+                mavlinkComboBox1.setup(
+                    Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("RNGFND_TYPE",
+                        MainV2.comPort.MAV.cs.firmware.ToString()), "RNGFND_TYPE", MainV2.comPort.MAV.param);
 
                 mavlinkCheckBox2.setup(1, 0, "FLOW_ENABLE", MainV2.comPort.MAV.param);
 
@@ -32,10 +34,7 @@ namespace MissionPlanner.Wizard
             else
             {
                 // no sonar - keep going
-                Wizard.instance.BeginInvoke((MethodInvoker)delegate
-                {
-                    Wizard.instance.GoNext(1,false);
-                });
+                Wizard.instance.BeginInvoke((MethodInvoker) delegate { Wizard.instance.GoNext(1, false); });
             }
         }
 
@@ -55,6 +54,7 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         private void timer1_Tick(object sender, EventArgs e)
         {
             LBL_dist.Text = MainV2.comPort.MAV.cs.sonarrange.ToString();

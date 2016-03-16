@@ -20,12 +20,10 @@ namespace MissionPlanner.Wizard
 
         public void Activate()
         {
-           
         }
 
         public void Deactivate()
         {
-
         }
 
         public int WizardValidate()
@@ -37,9 +35,10 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
+            System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
         }
     }
 }

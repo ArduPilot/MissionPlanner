@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 
 <!-- New version May, 07, 2009 by 102nd-YU-Nitro -->
 
@@ -61,10 +61,18 @@
     <particle>
       <start>
         <color>
-          <red><value>   0.9 </value></red>
-          <green><value> 0.9 </value></green>
-          <blue><value>  0.9 </value></blue>
-          <alpha><value> 0.3 </value></alpha>
+          <red>
+            <value>   0.9 </value>
+          </red>
+          <green>
+            <value> 0.9 </value>
+          </green>
+          <blue>
+            <value>  0.9 </value>
+          </blue>
+          <alpha>
+            <value> 0.3 </value>
+          </alpha>
         </color>
         <size>
           <value>0.3</value>
@@ -73,10 +81,18 @@
 
       <end>
         <color>
-          <red><value>   0.900 </value></red>
-          <green><value> 0.900 </value></green>
-          <blue><value>  0.900 </value></blue>
-          <alpha><value> 0.001 </value></alpha>
+          <red>
+            <value>   0.900 </value>
+          </red>
+          <green>
+            <value> 0.900 </value>
+          </green>
+          <blue>
+            <value>  0.900 </value>
+          </blue>
+          <alpha>
+            <value> 0.001 </value>
+          </alpha>
         </color>
         <size>
           <value>10.0</value>

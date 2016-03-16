@@ -68,9 +68,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     {
                         port.Open();
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        CustomMessageBox.Show(Strings.SelectComport, Strings.ERROR);
+                        CustomMessageBox.Show(Strings.SelectComport + " " + ex.ToString(), Strings.ERROR);
                         return;
                     }
 

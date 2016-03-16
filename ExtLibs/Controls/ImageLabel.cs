@@ -49,7 +49,7 @@ namespace MissionPlanner.Controls
         {
             if (Click != null)
             {
-                Click(this,new EventArgs());
+                Click(this, EventArgs.Empty);
             }
         }
     }

@@ -129,13 +129,11 @@
   <data name="DISARMED" xml:space="preserve">
     <value>            已锁定</value>
   </data>
-  <data name="E" xml:space="preserve">
-    <value>东</value>
-  </data>
   <data name="FAILSAFE" xml:space="preserve">
     <value>    故障保护</value>
   </data>
-  <data name="FailsafeH" type="System.Int32" xml:space="preserve">
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="FailsafeH" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="Font" xml:space="preserve">
@@ -161,26 +159,5 @@
   </data>
   <data name="GS" xml:space="preserve">
     <value>地速 </value>
-  </data>
-  <data name="N" xml:space="preserve">
-    <value>北</value>
-  </data>
-  <data name="NE" xml:space="preserve">
-    <value>东北</value>
-  </data>
-  <data name="NW" xml:space="preserve">
-    <value>西北</value>
-  </data>
-  <data name="S" xml:space="preserve">
-    <value>南</value>
-  </data>
-  <data name="SE" xml:space="preserve">
-    <value>东南</value>
-  </data>
-  <data name="SW" xml:space="preserve">
-    <value>西南</value>
-  </data>
-  <data name="W" xml:space="preserve">
-    <value>西</value>
   </data>
 </root>

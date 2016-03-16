@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
 namespace MissionPlanner.Controls.BackstageView
 {
-
     /// <summary>
     /// Data structure to hold information about a 'tab' in the <see cref="BackstageView"/>
     /// </summary>
     public class BackstageViewPage : Component, IBindableComponent
     {
+        public delegate void ThemeManager(Control ctl);
+
+        public static event ThemeManager ApplyTheme;
+
         private const int ButtonSpacing = 30;
 
         public bool Advanced { get; set; }
@@ -25,19 +29,44 @@ namespace MissionPlanner.Controls.BackstageView
             Show = true;
         }
 
-        public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent = null, bool advanced = false)
+        public BackstageViewPage(Type pageType, string linkText, BackstageViewPage parent = null, bool advanced = false)
         {
             Show = true;
-            Page = page;
+            PageType = pageType;
             LinkText = linkText;
             Parent = parent;
             Advanced = advanced;
         }
 
+        private UserControl _page = null;
+
         /// <summary>
         /// The user content of the tab
         /// </summary>
-        public UserControl Page { get; set; }
+        public UserControl Page {
+            get {
+                if (_page == null)
+                {
+                    _page = (UserControl) Activator.CreateInstance(PageType);
+                    _page.Enabled = false;
+                    _page.Visible = false;
+                    _page.Location = new Point(0, 0);
+                    _page.Dock = DockStyle.Fill;
+                    if (ApplyTheme != null)
+                        ApplyTheme(_page);
+                    _page.Enabled = true;
+                }
+                return _page;
+            }
+            set
+            {
+                _page = value;
+                if (ApplyTheme != null)
+                    ApplyTheme(_page);
+            }
+        }
+
+        public Type PageType { get; internal set; }
 
         /// <summary>
         /// The text to go in the 'tab header'

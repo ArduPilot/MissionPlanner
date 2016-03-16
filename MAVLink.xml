@@ -17,25 +17,25 @@
 
       <!-- ##### Flight Controls -->
       <chunk>
-	<name>aileron</name>
-	<type>double</type>
-	<node>/controls/flight/aileron</node>
-      </chunk> 
+        <name>aileron</name>
+        <type>double</type>
+        <node>/controls/flight/aileron</node>
+      </chunk>
       <chunk>
-	<name>elevator</name>
-	<type>double</type>
-	<node>/controls/flight/elevator</node>
-      </chunk> 
+        <name>elevator</name>
+        <type>double</type>
+        <node>/controls/flight/elevator</node>
+      </chunk>
       <chunk>
-	<name>rudder</name>
-	<type>double</type>
-	<node>/controls/flight/rudder</node>
-      </chunk> 
+        <name>rudder</name>
+        <type>double</type>
+        <node>/controls/flight/rudder</node>
+      </chunk>
       <chunk>
-	<name>throttle</name>
-	<type>double</type>
-	<node>/controls/engines/engine[0]/throttle</node>
-      </chunk> 
+        <name>throttle</name>
+        <type>double</type>
+        <node>/controls/engines/engine[0]/throttle</node>
+      </chunk>
 
     </input>
 
@@ -45,73 +45,73 @@
 
       <!-- ##### GPS ##### -->
       <chunk>
-	<name>latitude</name>
-	<type>double</type>
-	<node>/position/latitude-deg</node>
-      </chunk> 
+        <name>latitude</name>
+        <type>double</type>
+        <node>/position/latitude-deg</node>
+      </chunk>
       <chunk>
-	<name>longitude</name>
-	<type>double</type>
-	<node>/position/longitude-deg</node>
-      </chunk> 
+        <name>longitude</name>
+        <type>double</type>
+        <node>/position/longitude-deg</node>
+      </chunk>
       <chunk>
-	<name>altitude</name>
-	<type>double</type>
-	<node>/position/altitude-ft</node>
-      </chunk> 
+        <name>altitude</name>
+        <type>double</type>
+        <node>/position/altitude-ft</node>
+      </chunk>
       <chunk>
-	<name>heading</name>
-	<type>double</type>
-	<node>/orientation/heading-deg</node>
+        <name>heading</name>
+        <type>double</type>
+        <node>/orientation/heading-deg</node>
       </chunk>
 
       <!-- ground course = atan(ve/vn), speed = sqrt((ve*ve) + (vn*vn)) -->
       <chunk>
-	<name>speed - north</name>
-	<type>double</type>
-	<node>/velocities/speed-north-fps</node>
-      </chunk> 
+        <name>speed - north</name>
+        <type>double</type>
+        <node>/velocities/speed-north-fps</node>
+      </chunk>
       <chunk>
-	<name>speed - east</name>
-	<type>double</type>
-	<node>/velocities/speed-east-fps</node>
-      </chunk> 
-      
+        <name>speed - east</name>
+        <type>double</type>
+        <node>/velocities/speed-east-fps</node>
+      </chunk>
+
 
       <!-- ##### IMU ##### -->
       <chunk>
-	<name>x-accel</name>
-	<type>double</type>
-	<node>/accelerations/pilot/x-accel-fps_sec</node>
+        <name>x-accel</name>
+        <type>double</type>
+        <node>/accelerations/pilot/x-accel-fps_sec</node>
       </chunk>
       <chunk>
-	<name>y-accel</name>
-	<type>double</type>
-	<node>/accelerations/pilot/y-accel-fps_sec</node>
+        <name>y-accel</name>
+        <type>double</type>
+        <node>/accelerations/pilot/y-accel-fps_sec</node>
       </chunk>
       <chunk>
-	<name>z-accel</name>
-	<type>double</type>
-	<node>/accelerations/pilot/z-accel-fps_sec</node>
+        <name>z-accel</name>
+        <type>double</type>
+        <node>/accelerations/pilot/z-accel-fps_sec</node>
       </chunk>
 
       <chunk>
-	<name>roll-rate</name>
-	<type>double</type>
-	<node>/orientation/roll-rate-degps</node>
-      </chunk> 
+        <name>roll-rate</name>
+        <type>double</type>
+        <node>/orientation/roll-rate-degps</node>
+      </chunk>
       <chunk>
-	<name>pitch-rate</name>
-	<type>double</type>
-	<node>/orientation/pitch-rate-degps</node>
-      </chunk> 
+        <name>pitch-rate</name>
+        <type>double</type>
+        <node>/orientation/pitch-rate-degps</node>
+      </chunk>
       <chunk>
-	<name>yaw-rate</name>
-	<type>double</type>
-	<node>/orientation/yaw-rate-degps</node>
-      </chunk> 
+        <name>yaw-rate</name>
+        <type>double</type>
+        <node>/orientation/yaw-rate-degps</node>
+      </chunk>
 
-      
+
     </output>
 
   </generic>

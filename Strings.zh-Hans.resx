@@ -263,7 +263,7 @@
     <value>断开连接</value>
   </data>
   <data name="Failclog" xml:space="preserve">
-    <value>Failed to create log - wont log this session</value>
+    <value>创建日志失败 - 将不会记录本次会话</value>
   </data>
   <data name="NewFirmware" xml:space="preserve">
     <value>新固件</value>
@@ -409,7 +409,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
   </data>
   <data name="Warningrallypointdistance" xml:space="preserve">
-    <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
+    <value>警告，集结点放置在了比RALLY_LIMIT_KM还大的地方</value>
   </data>
   <data name="MagCalibMsg" xml:space="preserve">
     <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
@@ -527,5 +527,44 @@ Mission Planner将会在30秒内寻找控制板。</value>
   </data>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
     <value>请在音乐播放完后再点击OK。</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>从模块获取</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>设置在这</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>追踪器的家</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>velocity variance</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>compass variance</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>地形高度差异</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>更改油门</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>无效的家位置</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>转换bin文件到log文件</value>
+  </data>
+  <data name="UpdateNotFound" xml:space="preserve">
+    <value>没有可用更新</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>无法连接到SITL实例</value>
   </data>
 </root>

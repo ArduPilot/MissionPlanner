@@ -12,7 +12,7 @@ namespace MissionPlanner.Utilities
     {
         static List<TcpClient> clients = new List<TcpClient>();
 
-        static List<int> portlist = new EventList<int>() { 5760, 5770, 5780, 5790, 5800 };
+        static List<int> portlist = new EventList<int>() {5760, 5770, 5780, 5790, 5800};
 
         static TcpListener listener = new TcpListener(IPAddress.Loopback, 5750);
 
@@ -29,7 +29,7 @@ namespace MissionPlanner.Utilities
             if (run == true)
             {
                 Stop();
-                
+
                 return;
             }
 
@@ -85,6 +85,12 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
+                    if (Server == null)
+                    {
+                        System.Threading.Thread.Sleep(1);
+                        continue;
+                    }
+
                     while (Server.Connected && Server.Available > 0)
                     {
                         int read = Server.GetStream().Read(buffer, 0, buffer.Length);
@@ -128,7 +134,7 @@ namespace MissionPlanner.Utilities
         static void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
-            TcpListener listener = (TcpListener)ar.AsyncState;
+            TcpListener listener = (TcpListener) ar.AsyncState;
 
             // End the operation and display the received data on  
             // the console.
@@ -141,7 +147,7 @@ namespace MissionPlanner.Utilities
 
         private static void RequestCallback(IAsyncResult ar)
         {
-            TcpClient client = (TcpClient)ar.AsyncState;
+            TcpClient client = (TcpClient) ar.AsyncState;
 
             byte localsysid = newsysid++;
 
@@ -149,13 +155,15 @@ namespace MissionPlanner.Utilities
             {
                 MAVLinkInterface mav = new MAVLinkInterface();
 
-                mav.BaseStream = new TcpSerial() { client = client };
+                mav.BaseStream = new TcpSerial() {client = client};
 
                 try
                 {
                     mav.GetParam("SYSID_THISMAV");
                 }
-                catch { }
+                catch
+                {
+                }
 
                 var ans = mav.setParam("SYSID_THISMAV", localsysid);
 
@@ -166,7 +174,5 @@ namespace MissionPlanner.Utilities
                 clients.Add(client);
             }
         }
-
-
     }
 }

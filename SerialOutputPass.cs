@@ -54,7 +54,7 @@ namespace MissionPlanner
                         case "TCP Host - 14550":
                         case "TCP Host":
                             MainV2.comPort.MirrorStream = new TcpSerial();
-                            listener = new TcpListener(System.Net.IPAddress.Any,14550);
+                            listener = new TcpListener(System.Net.IPAddress.Any, 14550);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = Strings.Stop;
@@ -74,30 +74,42 @@ namespace MissionPlanner
                             break;
                     }
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidPortName); return; }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidPortName);
+                    return;
+                }
                 try
                 {
                     MainV2.comPort.MirrorStream.BaudRate = int.Parse(CMB_baudrate.Text);
                 }
-                catch { CustomMessageBox.Show(Strings.InvalidBaudRate); return; }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.InvalidBaudRate);
+                    return;
+                }
                 try
                 {
                     MainV2.comPort.MirrorStream.Open();
                 }
-                catch { CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??"); return; }
+                catch
+                {
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    return;
+                }
             }
         }
 
         void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
             // Get the listener that handles the client request.
-            TcpListener listener = (TcpListener)ar.AsyncState;
+            TcpListener listener = (TcpListener) ar.AsyncState;
 
             // End the operation and display the received data on  
             // the console.
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ((TcpSerial)MainV2.comPort.MirrorStream).client = client;
+            ((TcpSerial) MainV2.comPort.MirrorStream).client = client;
 
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
         }

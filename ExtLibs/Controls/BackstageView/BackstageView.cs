@@ -190,24 +190,11 @@ namespace MissionPlanner.Controls.BackstageView
         /// <summary>
         /// Add a page (tab) to this backstage view. Will be added at the end/bottom
         /// </summary>
-        public BackstageViewPage AddPage(UserControl userControl, string headerText, BackstageViewPage Parent, bool advanced)
+        public BackstageViewPage AddPage(Type userControl, string headerText, BackstageViewPage Parent, bool advanced)
         {
-            var page = new BackstageViewPage(userControl, headerText, Parent, advanced)
-                           {
-                               Page =
-                                   {
-                                       //Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-                                       Location = new Point(0, 0),
-                                       Dock = DockStyle.Fill,
-                                       Visible = false,
-                                   }
-                           };
+            var page = new BackstageViewPage(userControl, headerText, Parent, advanced);
 
             _items.Add(page);
-
-            page.Page.Visible = false;
-
-            this.pnlPages.Controls.Add(page.Page);
 
             return page;
         }
@@ -490,6 +477,9 @@ namespace MissionPlanner.Controls.BackstageView
             this.ResumeLayout(false);
             // show it
             associatedPage.Page.Visible = true;
+
+            if (!pnlPages.Controls.Contains(associatedPage.Page))
+                this.pnlPages.Controls.Add(associatedPage.Page);
 
             // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
             // so plain old user controls can be added

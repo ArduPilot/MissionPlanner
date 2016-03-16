@@ -22,16 +22,15 @@ namespace MissionPlanner.Arduino
             b2560v2, // apm 2+
             px4, // px3
             px4v2, // pixhawk
+            px4v4, // pixracer
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
             vrbrainv51,
             vrbrainv52,
-            vrherov10,
+            vrcorev10,
             vrubrainv51,
-            vrubrainv52,
-            vrgimbalv20,
-            vrugimbalv11
+            vrubrainv52
         }
 
         /// <summary>
@@ -79,6 +78,12 @@ namespace MissionPlanner.Arduino
                         return boards.px4v2;
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
+                    {
+                        log.Info("is a px4v4 pixracer");
+                        return boards.px4v4;
+                    }
+
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
                     {
                         log.Info("is a px4v2 bootloader");
@@ -88,7 +93,8 @@ namespace MissionPlanner.Arduino
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
                     {
                         log.Info("is a px4v2 bootloader");
-                        CustomMessageBox.Show("You appear to have a bootloader with a bad PID value, please update your bootloader.");
+                        CustomMessageBox.Show(
+                            "You appear to have a bootloader with a bad PID value, please update your bootloader.");
                         return boards.px4v2;
                     }
 
@@ -124,10 +130,10 @@ namespace MissionPlanner.Arduino
                         return boards.vrbrainv52;
                     }
 
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1210"))
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1910"))
                     {
-                        log.Info("is a vrhero 1.0 bootloader");
-                        return boards.vrherov10;
+                        log.Info("is a vrbrain core 1.0 bootloader");
+                        return boards.vrcorev10;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1351"))
@@ -141,21 +147,7 @@ namespace MissionPlanner.Arduino
                         log.Info("is a vrubrain 5.2 bootloader");
                         return boards.vrubrainv52;
                     }
-
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1520"))
-                    {
-                        log.Info("is a vrgimbal2.0 bootloader");
-                        return boards.vrgimbalv20;
-                    }
-
-                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1411"))
-                    {
-                        log.Info("is a vrugimbal 1.1 bootloader");
-                        return boards.vrugimbalv11;
-                    }
-
                 }
-
             }
             else
             {
@@ -166,9 +158,16 @@ namespace MissionPlanner.Arduino
                 }
                 else
                 {
-                    if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                    if (DialogResult.Yes ==
+                        CustomMessageBox.Show("Is this a PX4/PIXHAWK/PIXRACER?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                     {
-                        if (DialogResult.Yes == CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
+                        if (DialogResult.Yes ==
+                            CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))
+                        {
+                            return boards.px4v4;
+                        }
+                        if (DialogResult.Yes ==
+                            CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v2;
                         }
@@ -195,15 +194,15 @@ namespace MissionPlanner.Arduino
             {
                 //Console.WriteLine("write " + DateTime.Now.Millisecond);
                 serialPort.DiscardInBuffer();
-                serialPort.Write(new byte[] { (byte)'0', (byte)' ' }, 0, 2);
+                serialPort.Write(new byte[] {(byte) '0', (byte) ' '}, 0, 2);
                 a++;
                 Thread.Sleep(50);
 
                 //Console.WriteLine("btr {0}", serialPort.BytesToRead);
                 if (serialPort.BytesToRead >= 2)
                 {
-                    byte b1 = (byte)serialPort.ReadByte();
-                    byte b2 = (byte)serialPort.ReadByte();
+                    byte b1 = (byte) serialPort.ReadByte();
+                    byte b2 = (byte) serialPort.ReadByte();
                     if (b1 == 0x14 && b2 == 0x10)
                     {
                         serialPort.Close();
@@ -229,7 +228,7 @@ namespace MissionPlanner.Arduino
             a = 0;
             while (a < 4)
             {
-                byte[] temp = new byte[] { 0x6, 0, 0, 0, 0 };
+                byte[] temp = new byte[] {0x6, 0, 0, 0, 0};
                 temp = BoardDetect.genstkv2packet(serialPort, temp);
                 a++;
                 Thread.Sleep(50);
@@ -240,9 +239,11 @@ namespace MissionPlanner.Arduino
                     {
                         serialPort.Close();
                         //HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\USB\VID_2341&PID_0010\640333439373519060F0\Device Parameters
-                        if (!MainV2.MONO && !Thread.CurrentThread.CurrentCulture.IsChildOf(CultureInfoEx.GetCultureInfo("zh-Hans")))
+                        if (!MainV2.MONO &&
+                            !Thread.CurrentThread.CurrentCulture.IsChildOf(CultureInfoEx.GetCultureInfo("zh-Hans")))
                         {
-                            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
+                            ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");
+                                // Win32_USBControllerDevice
                             ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
                             foreach (ManagementObject obj2 in searcher.Get())
                             {
@@ -250,7 +251,7 @@ namespace MissionPlanner.Arduino
 
                                 // all apm 1-1.4 use a ftdi on the imu board.
 
-                            /*    obj2.Properties.ForEach(x =>
+                                /*    obj2.Properties.ForEach(x =>
                                 {
                                     try
                                     {
@@ -263,7 +264,10 @@ namespace MissionPlanner.Arduino
                                 if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))
                                 {
                                     // check port name as well
-                                    if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                                    if (
+                                        obj2.Properties["Name"].Value.ToString()
+                                            .ToUpper()
+                                            .Contains(serialPort.PortName.ToUpper()))
                                     {
                                         log.Info("is a 2560-2");
                                         return boards.b2560v2;
@@ -276,7 +280,9 @@ namespace MissionPlanner.Arduino
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             serialPort.Close();
@@ -288,9 +294,11 @@ namespace MissionPlanner.Arduino
             }
             else
             {
-                if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                if (DialogResult.Yes ==
+                    CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
                 {
-                    if (DialogResult.Yes == CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
+                    if (DialogResult.Yes ==
+                        CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
                     {
                         return boards.px4v2;
                     }
@@ -316,185 +324,34 @@ namespace MissionPlanner.Arduino
             AP_PARAM_GROUP
         };
 
-       internal static string[] type_names = new string[] {
-	"NONE", "INT8", "INT16", "INT32", "FLOAT", "VECTOR3F", "VECTOR6F","MATRIX6F", "GROUP"
-};
-
-      internal static byte type_size(ap_var_type type)
-{
-    switch (type) {
-    case ap_var_type.AP_PARAM_NONE:
-    case ap_var_type.AP_PARAM_GROUP:
-        return 0;
-    case ap_var_type.AP_PARAM_INT8:
-        return 1;
-    case ap_var_type.AP_PARAM_INT16:
-        return 2;
-    case ap_var_type.AP_PARAM_INT32:
-        return 4;
-    case ap_var_type.AP_PARAM_FLOAT:
-        return 4;
-    case ap_var_type.AP_PARAM_VECTOR3F:
-        return 3*4;
-    case ap_var_type.AP_PARAM_VECTOR6F:
-        return 6*4;
-    case ap_var_type.AP_PARAM_MATRIX3F:
-        return 3*3*4;
-    }
-    return 0;
-}
-
-        /// <summary>
-        /// return the software id from eeprom
-        /// </summary>
-        /// <param name="comport">Port</param>
-        /// <param name="version">Board type</param>
-        /// <returns></returns>
-      public static int decodeApVar(string comport, BoardDetect.boards version)
+        internal static string[] type_names = new string[]
         {
-            IArduinoComms port = new ArduinoSTK();
-            if (version == boards.b1280)
+            "NONE", "INT8", "INT16", "INT32", "FLOAT", "VECTOR3F", "VECTOR6F", "MATRIX6F", "GROUP"
+        };
+
+        internal static byte type_size(ap_var_type type)
+        {
+            switch (type)
             {
-                port = new ArduinoSTK();
-                port.BaudRate = 57600;
+                case ap_var_type.AP_PARAM_NONE:
+                case ap_var_type.AP_PARAM_GROUP:
+                    return 0;
+                case ap_var_type.AP_PARAM_INT8:
+                    return 1;
+                case ap_var_type.AP_PARAM_INT16:
+                    return 2;
+                case ap_var_type.AP_PARAM_INT32:
+                    return 4;
+                case ap_var_type.AP_PARAM_FLOAT:
+                    return 4;
+                case ap_var_type.AP_PARAM_VECTOR3F:
+                    return 3*4;
+                case ap_var_type.AP_PARAM_VECTOR6F:
+                    return 6*4;
+                case ap_var_type.AP_PARAM_MATRIX3F:
+                    return 3*3*4;
             }
-            else if (version == boards.b2560 || version == boards.b2560v2)
-            {
-                port = new ArduinoSTKv2();
-                port.BaudRate = 115200;
-            }
-            else { return -1; }
-            port.PortName = comport;
-            port.DtrEnable = true;
-            port.Open();
-            port.connectAP();
-            byte[] buffer = port.download(1024 * 4);
-            port.Close();
-
-            if (buffer[0] != 'A' && buffer[0] != 'P' || buffer[1] != 'P' && buffer[1] != 'A') // this is the apvar header
-            {
-                return -1;
-            }
-            else
-            {
-                if (buffer[0] == 'A' && buffer[1] == 'P' && buffer[2] == 2)
-                { // apvar header and version
-                    int pos = 4;
-                    byte key = 0;
-                    while (pos < (1024 * 4))
-                    {
-                        int size = buffer[pos] & 63;
-                        pos++;
-                        key = buffer[pos];
-                        pos++;
-
-                        log.InfoFormat("{0:X4}: key {1} size {2}\n ", pos - 2, key, size + 1);
-
-                        if (key == 0xff)
-                        {
-                            log.InfoFormat("end sentinal at {0}", pos - 2);
-                            break;
-                        }
-
-                        if (key == 0)
-                        {
-                            //Array.Reverse(buffer, pos, 2);
-                            return BitConverter.ToUInt16(buffer, pos);
-                        }
-
-
-                        for (int i = 0; i <= size; i++)
-                        {
-                            Console.Write(" {0:X2}", buffer[pos]);
-                            pos++;
-                        }
-                    }
-                }
-
-                if (buffer[0] == 'P' && buffer[1] == 'A' && buffer[2] == 5) // ap param
-                {
-                    int pos = 4;
-                    byte key = 0;
-                    while (pos < (1024 * 4))
-                    {
-                        key = buffer[pos];
-                        pos++;
-                        int group = buffer[pos];
-                        pos++;
-                        int type = buffer[pos];
-                        pos++;
-
-                        int size = type_size((ap_var_type)Enum.Parse(typeof(ap_var_type), type.ToString()));
-
-
-                        Console.Write("{0:X4}: type {1} ({2}) key {3} group {4} size {5}\n ", pos - 2, type, type_names[type], key, group, size);
-
-                        if (key == 0xff)
-                        {
-                            log.InfoFormat("end sentinal at {0}", pos - 2);
-                            break;
-                        }
-
-                        if (key == 0)
-                        {
-                            //Array.Reverse(buffer, pos, 2);
-                            return BitConverter.ToUInt16(buffer, pos);
-                        }
-
-
-                        for (int i = 0; i < size; i++)
-                        {
-                            Console.Write(" {0:X2}", buffer[pos]);
-                            pos++;
-                        }
-                    }
-                }
-
-                if (buffer[0] == 'P' && buffer[1] == 'A' && buffer[2] == 6) // ap param
-                {
-                    int pos = 4;
-                    byte key = 0;
-                    while (pos < (1024 * 4))
-                    {
-                        key = buffer[pos];
-                        pos++;
-
-                        if (key == 0xff)
-                        {
-                            log.InfoFormat("end sentinal at {0}", pos - 1);
-                            break;
-                        }
-
-                        int type = buffer[pos] & 0x3f; // 6 bits
-
-                        uint group = BitConverter.ToUInt32(buffer, pos);//((byte)(buffer[pos]) >> 6) | ((byte)(buffer[pos + 1]) << 8) | ((byte)(buffer[pos + 2]) << 16); // 18 bits
-
-                        group = (group >> 6) & 0x3ffff;
-                        pos++;
-                        pos++;
-                        pos++;
-
-                        int size = BoardDetect.type_size((BoardDetect.ap_var_type)Enum.Parse(typeof(BoardDetect.ap_var_type), type.ToString()));
-
-                            Console.Write("{0:X4}: type {1} ({2}) key {3} group_element {4} size {5} value ", pos - 4, type, BoardDetect.type_names[type], key, group, size);
-
-                        if (key == 0)
-                        {
-                            //Array.Reverse(buffer, pos, 2);
-                             return BitConverter.ToUInt16(buffer, pos);
-                        }
-
-
-                        for (int i = 0; i < size; i++)
-                        {
-                            Console.Write(" {0:X2}", buffer[pos]);
-                            pos++;
-                        }
-                        Console.WriteLine();
-                    }
-                }
-            }
-            return -1;
+            return 0;
         }
 
         /// <summary>
@@ -512,9 +369,9 @@ namespace MissionPlanner.Arduino
             ck ^= data[0];
             data[1] = 0x1;
             ck ^= data[1];
-            data[2] = (byte)((message.Length >> 8) & 0xff);
+            data[2] = (byte) ((message.Length >> 8) & 0xff);
             ck ^= data[2];
-            data[3] = (byte)(message.Length & 0xff);
+            data[3] = (byte) (message.Length & 0xff);
             ck ^= data[3];
             data[4] = 0xe;
             ck ^= data[4];
@@ -550,7 +407,7 @@ namespace MissionPlanner.Arduino
         static byte[] readpacket(SerialPort serialPort)
         {
             byte[] temp = new byte[4000];
-            byte[] mes = new byte[2] { 0x0, 0xC0 }; // fail
+            byte[] mes = new byte[2] {0x0, 0xC0}; // fail
             int a = 7;
             int count = 0;
 
@@ -561,9 +418,12 @@ namespace MissionPlanner.Arduino
                 //Console.WriteLine("count {0} a {1} mes leng {2}",count,a,mes.Length);
                 try
                 {
-                    temp[count] = (byte)serialPort.ReadByte();
+                    temp[count] = (byte) serialPort.ReadByte();
                 }
-                catch { break; }
+                catch
+                {
+                    break;
+                }
 
 
                 //Console.Write("{1}", temp[0], (char)temp[0]);
@@ -592,9 +452,11 @@ namespace MissionPlanner.Arduino
             //Console.WriteLine("read ck");
             try
             {
-                temp[count] = (byte)serialPort.ReadByte();
+                temp[count] = (byte) serialPort.ReadByte();
             }
-            catch { }
+            catch
+            {
+            }
 
             count++;
 

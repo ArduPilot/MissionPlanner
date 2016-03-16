@@ -32,7 +32,7 @@
     </tableData>
   </table>
 
-  <table name="C_POWER" type = "internal">
+  <table name="C_POWER" type="internal">
     <tableData>
       0.0  0.0902
       0.1  0.0893

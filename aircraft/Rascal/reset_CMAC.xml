@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <initialize name="Start up at Canberra Model Aircraft Club">
   <latitude unit="DEG"> -35.362851 </latitude>
   <longitude unit="DEG"> 149.165223 </longitude>

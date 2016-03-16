@@ -50,27 +50,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="gen_all.py" />
-    <Content Include="mavcrc.py" />
-    <Content Include="mavextra.py" />
-    <Content Include="mavgen.py" />
-    <Content Include="mavgen_c.py" />
-    <Content Include="mavgen_csharp.py" />
-    <Content Include="mavgen_python.py" />
-    <Content Include="mavlink.py" />
-    <Content Include="mavparse.py" />
-    <Content Include="mavtemplate.py" />
-    <Content Include="mavtestgen.py" />
-    <Content Include="mavutil.py" />
-    <Content Include="message_definitions\ardupilotmega.xml" />
-    <Content Include="message_definitions\common.xml" />
+    <Content Include="generator\gen_all.py" />
+    <Content Include="generator\mavcrc.py" />
+    <Content Include="generator\mavextra.py" />
+    <Content Include="generator\mavgen.py" />
+    <Content Include="generator\mavgen_c.py" />
+    <Content Include="generator\mavgen_csharp.py" />
+    <Content Include="generator\mavgen_python.py" />
+    <Content Include="generator\mavlink.py" />
+    <Content Include="generator\mavparse.py" />
+    <Content Include="generator\mavtemplate.py" />
+    <Content Include="generator\mavtestgen.py" />
+    <Content Include="generator\mavutil.py" />
+    <Content Include="generator\message_definitions\ardupilotmega.xml" />
+    <Content Include="generator\message_definitions\common.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="mavschema.xsd">
+    <None Include="generator\mavschema.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>rd /s /q "$(ProjectDir)generator\Csharp"
+python $(ProjectDir)generator\mavgen.py --lang=csharp -o "$(ProjectDir)generator\Csharp" --wire-protocol=1.0 "$(ProjectDir)generator\message_definitions\ardupilotmega.xml"  
+copy /y "$(ProjectDir)generator\Csharp\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
+</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

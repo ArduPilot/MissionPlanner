@@ -36,18 +36,12 @@ namespace MissionPlanner.Utilities
 
                 // Save the document.
                 xmlDoc.Save("test.xml");
-
-
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-
         }
-
 
 
         // Sign an XML file.  
@@ -87,7 +81,6 @@ namespace MissionPlanner.Utilities
 
             // Append the element to the XML document.
             xmlDoc.DocumentElement.AppendChild(xmlDoc.ImportNode(xmlDigitalSignature, true));
-
         }
 
         void verify()
@@ -123,14 +116,11 @@ namespace MissionPlanner.Utilities
                 {
                     Console.WriteLine("The XML signature is not valid.");
                 }
-
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
-
-
         }
 
         // Verify the signature of an XML file against an asymmetric 
@@ -162,16 +152,15 @@ namespace MissionPlanner.Utilities
             // if more than one signature was found.
             if (nodeList.Count >= 2)
             {
-                throw new CryptographicException("Verification failed: More that one signature was found for the document.");
+                throw new CryptographicException(
+                    "Verification failed: More that one signature was found for the document.");
             }
 
             // Load the first <signature> node.  
-            signedXml.LoadXml((XmlElement)nodeList[0]);
+            signedXml.LoadXml((XmlElement) nodeList[0]);
 
             // Check the signature and return the result.
             return signedXml.CheckSignature(Key);
         }
-
-
     }
 }

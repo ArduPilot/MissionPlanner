@@ -11,17 +11,29 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
 using log4net;
+using System.Collections;
 
 namespace MissionPlanner
 {
     public partial class SerialInjectGPS : Form
     {
         private static readonly ILog log =
-        LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        // serialport
         internal static ICommsSerial comPort = new SerialPort();
+        // rtcm detection
+        private Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
+        // sbp detection
+        private Utilities.sbp sbp = new Utilities.sbp();
+        // background thread 
         private System.Threading.Thread t12;
         private static bool threadrun = false;
+        // track rtcm msg's seen
+        static Hashtable msgseen = new Hashtable();
+        // track bytes seen
+        static int bytes = 0;
+        static int bps = 0;
 
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
@@ -60,16 +72,19 @@ namespace MissionPlanner
                     {
                         case "NTRIP":
                             comPort = new CommsNTRIP();
-                            CMB_baudrate.Text = "0";
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host":
                             comPort = new UdpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Client":
                             comPort = new UdpSerialConnect();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:
                             comPort = new SerialPort();
@@ -95,9 +110,10 @@ namespace MissionPlanner
                 {
                     comPort.Open();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??");
+                    CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" +
+                                          ex.ToString());
                     return;
                 }
 
@@ -109,16 +125,55 @@ namespace MissionPlanner
                 t12.Start();
 
                 BUT_connect.Text = Strings.Stop;
+
+                msgseen.Clear();
+                bytes = 0;
+            }
+        }
+
+        private void updateLabel(string label)
+        {
+            if (!this.IsDisposed)
+            {
+                this.BeginInvoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            this.lbl_status.Text = label;
+                        }
+                    );
             }
         }
 
         private void mainloop()
         {
+            DateTime lastrecv = DateTime.MinValue;
             threadrun = true;
             while (threadrun)
             {
                 try
                 {
+                    // reconnect logic - 10 seconds with no data, or comport is closed
+                    try
+                    {
+                        if ((DateTime.Now - lastrecv).TotalSeconds > 10 || !comPort.IsOpen)
+                        {
+                            log.Info("Reconnecting");
+                            // close existing
+                            comPort.Close();
+                            // reopen
+                            comPort.Open();
+                            // reset timer
+                            lastrecv = DateTime.Now;
+                        }
+                    }
+                    catch
+                    {
+                        log.Error("Failed to reconnect");
+                        // sleep for 10 seconds on error
+                        System.Threading.Thread.Sleep(10000);
+                    }
+
                     // limit to 110 byte packets
                     byte[] buffer = new byte[110];
 
@@ -126,7 +181,33 @@ namespace MissionPlanner
                     {
                         int read = comPort.Read(buffer, 0, Math.Min(buffer.Length, comPort.BytesToRead));
 
-                        MainV2.comPort.InjectGpsData(buffer, (byte)read);
+                        if (read > 0)
+                            lastrecv = DateTime.Now;
+
+                        bytes += read;
+                        bps += read;
+
+                        MainV2.comPort.InjectGpsData(buffer, (byte) read);
+
+                        // check for valid rtcm packets
+                        for (int a = 0; a < read; a++)
+                        {
+                            int seen = -1;
+                            // rtcm
+                            if ((seen = rtcm3.Read(buffer[a])) > 0)
+                            {
+                                if (!msgseen.ContainsKey(seen))
+                                    msgseen[seen] = 0;
+                                msgseen[seen] = (int)msgseen[seen] + 1;
+                            }
+                            // sbp
+                            if ((seen = sbp.read(buffer[a])) > 0)
+                            {
+                                if (!msgseen.ContainsKey(seen))
+                                    msgseen[seen] = 0;
+                                msgseen[seen] = (int)msgseen[seen] + 1;
+                            }
+                        }
                     }
 
                     System.Threading.Thread.Sleep(10);
@@ -144,6 +225,34 @@ namespace MissionPlanner
                 CMB_baudrate.Enabled = false;
             else
                 CMB_baudrate.Enabled = true;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                foreach (var item in msgseen.Keys)
+                {
+                    sb.Append(item + "=" + msgseen[item] + " ");
+                }
+            }
+            catch
+            {
+            }
+
+            updateLabel("bytes " + bytes + " bps " + bps + "\n" + sb.ToString());
+            bps = 0;
+        }
+
+        private void SerialInjectGPS_Load(object sender, EventArgs e)
+        {
+            timer1.Start();
+        }
+
+        private void SerialInjectGPS_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer1.Stop();
         }
     }
 }

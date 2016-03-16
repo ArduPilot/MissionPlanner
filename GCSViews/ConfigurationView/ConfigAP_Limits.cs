@@ -73,7 +73,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void PopulateData()
         {
-            var copy = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
+            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
 
             foreach (string key in copy.Keys)
             {

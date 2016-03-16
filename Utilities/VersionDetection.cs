@@ -14,7 +14,7 @@ namespace MissionPlanner.Utilities
 
         public static Version GetVersion(string input)
         {
-            Regex versionregex = new Regex(@"([0-9]+)\.([0-9]+)(\.([0-9]+)|-rc([0-9]+)|([a-z]))*");
+            Regex versionregex = new Regex(@"([0-9]+)\.([0-9]+)(\.([0-9]+)|-rc([0-9]+)|([a-z]{2,20})|([a-z]))*");
 
             //            string ans = mat1.Groups[1].Value.ToString() + mat1.Groups[2].Value.ToString() + mat1.Groups[4].Value.ToString() + mat1.Groups[5].Value.ToString() + mat1.Groups[6].Value.ToString();
 
@@ -38,8 +38,13 @@ namespace MissionPlanner.Utilities
                 }
                 if (!String.IsNullOrEmpty(match.Groups[6].Value))
                 {
+                    // dev
+                    verstring += ".255";
+                }
+                if (!String.IsNullOrEmpty(match.Groups[7].Value))
+                {
                     // convert a to 1, b to 2, etc, it will break at j
-                    verstring += "." + (char)((match.Groups[6].Value.ToString().ToLower()[0]) - 0x30);
+                    verstring += "." + (char) ((match.Groups[6].Value.ToString().ToLower()[0]) - 0x30);
                 }
 
                 Version version = new Version(verstring);

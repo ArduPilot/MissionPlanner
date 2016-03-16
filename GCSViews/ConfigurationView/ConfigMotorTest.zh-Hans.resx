@@ -133,8 +133,8 @@
   <data name="label2.Text" xml:space="preserve">
     <value>注意：请压住您的无人机
 这将测试电机是否工作。
-测试将于右前方的电机开始，
-按顺时针方向旋转。</value>
+测试将于右前方的电机开始（Motor A），
+编号将按顺时针方向旋转。</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>173, 24</value>

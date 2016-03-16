@@ -8,14 +8,19 @@ public partial class MAVLink
 {
     public class MAVLinkParamList: List<MAVLinkParam>
     {
+        object locker = new object();
+
         public MAVLinkParam this[string name]
         { 
             get
             {
-                foreach (var item in this)
+                lock (locker)
                 {
-                    if (item.Name == name)
-                        return item;
+                    foreach (var item in this)
+                    {
+                        if (item.Name == name)
+                            return item;
+                    }
                 }
 
                 return null;
@@ -24,18 +29,21 @@ public partial class MAVLink
             set
             {
                 int index = 0;
-                foreach (var item in this)
+                lock (locker)
                 {
-                    if (item.Name == name)
+                    foreach (var item in this)
                     {
-                        this[index] = value;
-                        return;
+                        if (item.Name == name)
+                        {
+                            this[index] = value;
+                            return;
+                        }
+
+                        index++;
                     }
 
-                    index++;
+                    this.Add(value);
                 }
-
-                this.Add(value);
             }
         }
 
@@ -43,19 +51,25 @@ public partial class MAVLink
         {
             get
             {
-                foreach (MAVLinkParam item in this)
+                lock (locker)
                 {
-                    yield return item.Name;
+                    foreach (MAVLinkParam item in this)
+                    {
+                        yield return item.Name;
+                    }
                 }
             }
         }
 
         public bool ContainsKey(string v)
         {
-            foreach (MAVLinkParam item in this)
+            lock (locker)
             {
-                if (item.Name == v)
-                    return true;
+                foreach (MAVLinkParam item in this)
+                {
+                    if (item.Name == v)
+                        return true;
+                }
             }
 
             return false;
@@ -64,13 +78,12 @@ public partial class MAVLink
         public static implicit operator Hashtable(MAVLinkParamList list)
         {
             Hashtable copy = new Hashtable();
-
             foreach (MAVLinkParam item in list)
             {
                 copy[item.Name] = item.Value;
             }
 
             return copy;
-        }            
+        }
     }
 }

@@ -34,8 +34,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BitMiracle.LibTiff.NET">
+      <HintPath>..\..\packages\BitMiracle.LibTiff.NET.2.4.518.0\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
+    </Reference>
     <Reference Include="DirectShowLib-2005">
-      <HintPath>..\..\extLibs\DirectShowLib-2005.dll</HintPath>
+      <HintPath>..\..\ExtLibs\DirectShowLib-2005.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -45,7 +48,7 @@
       <HintPath>..\..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\extLibs\log4net.dll</HintPath>
+      <HintPath>..\..\ExtLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
@@ -56,6 +59,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Speech">
       <HintPath>..\System.Speech.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -77,13 +81,20 @@
     <Compile Include="CleanDrivers.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="EnumTranslator.cs" />
+    <Compile Include="GeoTiff.cs" />
     <Compile Include="hires.cs" />
     <Compile Include="KIndex.cs" />
+    <Compile Include="L10NU.cs" />
     <Compile Include="LangUtility.cs" />
     <Compile Include="locationwp.cs" />
     <Compile Include="MeasureString.cs" />
     <Compile Include="PointLatLngAlt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Rect.cs" />
     <Compile Include="Speech.cs" />
     <Compile Include="srtm.cs" />
@@ -114,6 +125,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\strings_zhHans.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

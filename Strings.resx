@@ -339,7 +339,7 @@ Timeout in {0}</value>
     <value>Communication Error - no connection</value>
   </data>
   <data name="DetectedA" xml:space="preserve">
-    <value>Detected a</value>
+    <value>Detected a </value>
   </data>
   <data name="DetectingBoardVersion" xml:space="preserve">
     <value>Detecting Board Version</value>
@@ -426,7 +426,7 @@ Do you wish to continue?</value>
   <data name="UpdateFound" xml:space="preserve">
     <value>Update Found
 
-Do you wish to update now? [link;</value>
+Do you wish to update now? </value>
   </data>
   <data name="UpdateNow" xml:space="preserve">
     <value>Update Now</value>
@@ -563,5 +563,43 @@ Please contact your hardware vendor about signing your hardware.</value>
   </data>
   <data name="PleaseWaitForTheMusicalTones" xml:space="preserve">
     <value>Please wait for the musical tones to finish before clicking OK</value>
+  </data>
+  <data name="ObtainFromModule" xml:space="preserve">
+    <value>Obtain From Module</value>
+  </data>
+  <data name="SetHere" xml:space="preserve">
+    <value>Set Here</value>
+  </data>
+  <data name="TrackerHome" xml:space="preserve">
+    <value>Tracker Home</value>
+  </data>
+  <data name="velocity_variance" xml:space="preserve">
+    <value>velocity variance</value>
+  </data>
+  <data name="compass_variance" xml:space="preserve">
+    <value>compass variance</value>
+  </data>
+  <data name="pos_horiz_variance" xml:space="preserve">
+    <value>pos horiz variance</value>
+  </data>
+  <data name="pos_vert_variance" xml:space="preserve">
+    <value>pos vert variance</value>
+  </data>
+  <data name="terrain_alt_variance" xml:space="preserve">
+    <value>terrain alt variance</value>
+  </data>
+  <data name="ChangeThrottle" xml:space="preserve">
+    <value>Change Throttle</value>
+  </data>
+  <data name="Invalid_home_location" xml:space="preserve">
+    <value>Invalid home location</value>
+  </data>
+  <data name="Converting_bin_to_log" xml:space="preserve">
+    <value>Converting bin to log</value>
+  </data>  <data name="UpdateNotFound" xml:space="preserve">
+    <value>No update available.</value>
+  </data>
+  <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
+    <value>Failed to connect to SITL instance</value>
   </data>
 </root>

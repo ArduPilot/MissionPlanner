@@ -38,7 +38,6 @@ namespace MissionPlanner
         public float synclost = 0;
 
 
-
         // all
         public string VersionString { get; set; }
         // px4+ only
@@ -49,28 +48,34 @@ namespace MissionPlanner
         public string FrameString { get; set; }
 
         public string Guid { get; set; }
+
         /// <summary>
         /// the static global state of the currently connected MAV
         /// </summary>
         public CurrentState cs = new CurrentState();
+
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
         public byte sysid { get; set; }
+
         /// <summary>
         /// mavlink remove compid
         /// </summary>
         public byte compid { get; set; }
+
         /// <summary>
         /// storage for whole paramater list
         /// </summary>
         public MAVLinkParamList param { get; set; }
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
+
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
         public byte[][] packets { get; set; }
+
         public int[] packetseencount { get; set; }
 
         /// <summary>
@@ -82,6 +87,7 @@ namespace MissionPlanner
         /// used to calc packets per second on any single message type - used for stream rate comparaison
         /// </summary>
         public double[] packetspersecond { get; set; }
+
         /// <summary>
         /// time last seen a packet of a type
         /// </summary>
@@ -91,8 +97,18 @@ namespace MissionPlanner
         /// mavlink ap type
         /// </summary>
         public MAV_TYPE aptype { get; set; }
+
         public MAV_AUTOPILOT apname { get; set; }
-        public Common.ap_product Product_ID { get { if (param.ContainsKey("INS_PRODUCT_ID")) return (Common.ap_product)(float)param["INS_PRODUCT_ID"]; return Common.ap_product.AP_PRODUCT_ID_NONE; } }
+
+        public Common.ap_product Product_ID
+        {
+            get
+            {
+                if (param.ContainsKey("INS_PRODUCT_ID")) return (Common.ap_product) (float) param["INS_PRODUCT_ID"];
+                return Common.ap_product.AP_PRODUCT_ID_NONE;
+            }
+        }
+
         /// <summary>
         /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
         /// </summary>
@@ -109,5 +125,4 @@ namespace MissionPlanner
 
         internal int recvpacketcount = 0;
     }
-
 }

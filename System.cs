@@ -11,16 +11,25 @@ namespace System
 {
     public class Application11
     {
-        public static string ExecutablePath { get {return  System.Windows.Forms.Application.ExecutablePath;} }
+        public static string ExecutablePath
+        {
+            get { return System.Windows.Forms.Application.ExecutablePath; }
+        }
 
-        public static string StartupPath { get { return System.Windows.Forms.Application.StartupPath; } }
+        public static string StartupPath
+        {
+            get { return System.Windows.Forms.Application.StartupPath; }
+        }
 
         public static void DoEvents()
         {
             System.Windows.Forms.Application.DoEvents();
         }
 
-        public static string ProductVersion { get { return System.Windows.Forms.Application.ProductVersion; } }
+        public static string ProductVersion
+        {
+            get { return System.Windows.Forms.Application.ProductVersion; }
+        }
 
         public static void Exit()
         {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.HIL;
 using MissionPlanner.Utilities;
-
 using uint8_t = System.Byte;
 using uint32_t = System.UInt32;
 using int32_t = System.Int32;
@@ -33,22 +32,32 @@ namespace MissionPlanner.Controls.Waypoints
 
         public struct wpnav_flags
         {
-            public bool reached_destination;    // true if we have reached the destination
-            public bool fast_waypoint;    // true if we should ignore the waypoint radius and consider the waypoint complete once the intermediate target has reached the waypoint
-            public SegmentType segment_type;    // active segment is either straight or spline
-        } ;
+            public bool reached_destination; // true if we have reached the destination
+
+            public bool fast_waypoint;
+                // true if we should ignore the waypoint radius and consider the waypoint complete once the intermediate target has reached the waypoint
+
+            public SegmentType segment_type; // active segment is either straight or spline
+        };
 
         public wpnav_flags _flags = new wpnav_flags();
 
         // spline variables
-        float _spline_time = 0;			// current spline time between origin and destination
-        public Vector3 _spline_origin_vel = new Vector3();     // the target velocity vector at the origin of the spline segment
-        Vector3 _spline_destination_vel = new Vector3();// the target velocity vector at the destination point of the spline segment
-        Vector3[] _hermite_spline_solution = new Vector3[4]; // array describing spline path between origin and destination
-        float _spline_vel_scaler = 0;		//
+        float _spline_time = 0; // current spline time between origin and destination
+
+        public Vector3 _spline_origin_vel = new Vector3();
+            // the target velocity vector at the origin of the spline segment
+
+        Vector3 _spline_destination_vel = new Vector3();
+            // the target velocity vector at the destination point of the spline segment
+
+        Vector3[] _hermite_spline_solution = new Vector3[4];
+            // array describing spline path between origin and destination
+
+        float _spline_vel_scaler = 0; //
         float _slow_down_dist; // vehicle should begin to slow down once it is within this distance from the destination
         // To-Do: this should be used for straight segments as well
-        float _yaw;                   // heading according to yaw
+        float _yaw; // heading according to yaw
         private float _wp_accel_cms = 100; // 1 m/s/s
         private uint32_t _wp_last_update;
         private float _wp_speed_cms = 600; // 6 m/s
@@ -66,15 +75,16 @@ namespace MissionPlanner.Controls.Waypoints
             PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
 
             scaleLongDown = longitude_scale(home);
-            scaleLongUp = 1.0f / scaleLongDown;
+            scaleLongUp = 1.0f/scaleLongDown;
 
-            Vector3 tmp = new Vector3((loc.Lat * 1.0e7f - home.Lat * 1.0e7f) * LATLON_TO_CM, (loc.Lng * 1.0e7f - home.Lng * 1.0e7f) * LATLON_TO_CM * scaleLongDown, loc.Alt * 100);
+            Vector3 tmp = new Vector3((loc.Lat*1.0e7f - home.Lat*1.0e7f)*LATLON_TO_CM,
+                (loc.Lng*1.0e7f - home.Lng*1.0e7f)*LATLON_TO_CM*scaleLongDown, loc.Alt*100);
             return tmp;
         }
 
         public PointLatLngAlt pv_vector_to_location(Vector3 loc)
         {
-            return new PointLatLngAlt(pv_get_lat(loc) * 1.0e-7f, pv_get_lon(loc) * 1.0e-7f, loc.z / 100, "");
+            return new PointLatLngAlt(pv_get_lat(loc)*1.0e-7f, pv_get_lon(loc)*1.0e-7f, loc.z/100, "");
         }
 
         // pv_get_lon - extract latitude from position vector
@@ -82,7 +92,7 @@ namespace MissionPlanner.Controls.Waypoints
         {
             PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
 
-            return (int32_t)(home.Lat * 1.0e7f) + (int32_t)(pos_vec.x / LATLON_TO_CM);
+            return (int32_t) (home.Lat*1.0e7f) + (int32_t) (pos_vec.x/LATLON_TO_CM);
         }
 
         // pv_get_lon - extract longitude from position vector
@@ -90,7 +100,7 @@ namespace MissionPlanner.Controls.Waypoints
         {
             PointLatLngAlt home = MainV2.comPort.MAV.cs.HomeLocation;
 
-            return (int32_t)(home.Lng * 1.0e7f) + (int32_t)(pos_vec.y / LATLON_TO_CM * scaleLongUp);
+            return (int32_t) (home.Lng*1.0e7f) + (int32_t) (pos_vec.y/LATLON_TO_CM*scaleLongUp);
         }
 
         const float LATLON_TO_CM = 1.113195f;
@@ -98,7 +108,7 @@ namespace MissionPlanner.Controls.Waypoints
         float longitude_scale(PointLatLngAlt loc)
         {
             float scale = 1.0f;
-            scale = (float)Math.Cos(loc.Lat * deg2rad);
+            scale = (float) Math.Cos(loc.Lat*deg2rad);
             return scale;
         }
 
@@ -109,30 +119,31 @@ namespace MissionPlanner.Controls.Waypoints
 
         /// set_origin_and_destination - set origin and destination using lat/lon coordinates
         public void set_wp_origin_and_destination(Vector3 origin, Vector3 destination)
-{
-    // store origin and destination locations
-    _origin = origin;
-    _destination = destination;
-    Vector3 pos_delta = _destination - _origin;
+        {
+            // store origin and destination locations
+            _origin = origin;
+            _destination = destination;
+            Vector3 pos_delta = _destination - _origin;
 
-    _track_length = pos_delta.length(); // get track length
+            _track_length = pos_delta.length(); // get track length
 
-    _flags.reached_destination = false;
-    _flags.fast_waypoint = false;   // default waypoint back to slow
-    _flags.segment_type = SegmentType.SEGMENT_STRAIGHT;
-
-    }
+            _flags.reached_destination = false;
+            _flags.fast_waypoint = false; // default waypoint back to slow
+            _flags.segment_type = SegmentType.SEGMENT_STRAIGHT;
+        }
 
         /// set_spline_destination waypoint using position vector (distance from home in cm)
         ///     seg_type should be calculated by calling function based on the mission
-        public void set_spline_destination(Vector3 destination, bool stopped_at_start, spline_segment_end_type seg_end_type, Vector3 next_destination)
+        public void set_spline_destination(Vector3 destination, bool stopped_at_start,
+            spline_segment_end_type seg_end_type, Vector3 next_destination)
         {
             // should be origin
             Vector3 origin;
 
             // if waypoint controller is active and copter has reached the previous waypoint use it for the origin
             if (_flags.reached_destination)
-            {// && ((hal.scheduler->millis() - _wp_last_update) < 1000) ) {
+            {
+// && ((hal.scheduler->millis() - _wp_last_update) < 1000) ) {
                 origin = _destination;
             }
             else
@@ -150,10 +161,12 @@ namespace MissionPlanner.Controls.Waypoints
 
         /// set_spline_origin_and_destination - set origin and destination waypoints using position vectors (distance from home in cm)
         ///     seg_type should be calculated by calling function based on the mission
-        void set_spline_origin_and_destination(Vector3 origin, Vector3 destination, bool stopped_at_start, spline_segment_end_type seg_end_type, Vector3 next_destination)
+        void set_spline_origin_and_destination(Vector3 origin, Vector3 destination, bool stopped_at_start,
+            spline_segment_end_type seg_end_type, Vector3 next_destination)
         {
             // mission is "active" if wpnav has been called recently and vehicle reached the previous waypoint
-            bool prev_segment_exists = (_flags.reached_destination);// && ((hal.scheduler->millis() - _wp_last_update) < 1000));
+            bool prev_segment_exists = (_flags.reached_destination);
+                // && ((hal.scheduler->millis() - _wp_last_update) < 1000));
 
             // segment start types
             // stop - vehicle is not moving at origin
@@ -165,7 +178,7 @@ namespace MissionPlanner.Controls.Waypoints
             if (stopped_at_start || !prev_segment_exists)
             {
                 // if vehicle is stopped at the origin, set origin velocity to 0.1 * distance vector from origin to destination
-                _spline_origin_vel = (destination - origin) * 0.1f;
+                _spline_origin_vel = (destination - origin)*0.1f;
                 _spline_time = 0.0f;
                 _spline_vel_scaler = 0.0f;
             }
@@ -177,8 +190,10 @@ namespace MissionPlanner.Controls.Waypoints
                     // previous segment is straight, vehicle is moving so vehicle should fly straight through the origin
                     // before beginning it's spline path to the next waypoint. Note: we are using the previous segment's origin and destination
                     _spline_origin_vel = (_destination - _origin);
-                    _spline_time = 0.0f;	// To-Do: this should be set based on how much overrun there was from straight segment?
-                    _spline_vel_scaler = 0.0f;    // To-Do: this should be set based on speed at end of prev straight segment?
+                    _spline_time = 0.0f;
+                        // To-Do: this should be set based on how much overrun there was from straight segment?
+                    _spline_vel_scaler = 0.0f;
+                        // To-Do: this should be set based on speed at end of prev straight segment?
                 }
                 else
                 {
@@ -188,7 +203,8 @@ namespace MissionPlanner.Controls.Waypoints
                     //       from previous segment's origin to this segment's destination)
                     _spline_origin_vel = _spline_destination_vel;
                     if (_spline_time > 1.0f && _spline_time < 1.1f)
-                    {    // To-Do: remove hard coded 1.1f
+                    {
+                        // To-Do: remove hard coded 1.1f
                         _spline_time -= 1.0f;
                     }
                     else
@@ -202,10 +218,9 @@ namespace MissionPlanner.Controls.Waypoints
             // calculate spline velocity at destination
             switch (seg_end_type)
             {
-
                 case spline_segment_end_type.SEGMENT_END_STOP:
                     // if vehicle stops at the destination set destination velocity to 0.1 * distance vector from origin to destination
-                    _spline_destination_vel = (destination - origin) * 0.1f;
+                    _spline_destination_vel = (destination - origin)*0.1f;
                     _flags.fast_waypoint = false;
                     break;
 
@@ -223,15 +238,16 @@ namespace MissionPlanner.Controls.Waypoints
             }
 
             // code below ensures we don't get too much overshoot when the next segment is short
-            float vel_len = (float)((_spline_origin_vel + _spline_destination_vel).length());
-            float pos_len = (float)(destination - origin).length() * 4.0f;
+            float vel_len = (float) ((_spline_origin_vel + _spline_destination_vel).length());
+            float pos_len = (float) (destination - origin).length()*4.0f;
             if (vel_len > pos_len)
             {
                 // if total start+stop velocity is more than twice position difference
                 // use a scaled down start and stop velocityscale the  start and stop velocities down
-                float vel_scaling = pos_len / vel_len;
+                float vel_scaling = pos_len/vel_len;
                 // update spline calculator
-                update_spline_solution(origin, destination, _spline_origin_vel * vel_scaling, _spline_destination_vel * vel_scaling);
+                update_spline_solution(origin, destination, _spline_origin_vel*vel_scaling,
+                    _spline_destination_vel*vel_scaling);
             }
             else
             {
@@ -256,17 +272,18 @@ namespace MissionPlanner.Controls.Waypoints
         }
 
         /// calc_slow_down_distance - calculates distance before waypoint that target point should begin to slow-down assuming it is travelling at full speed
-void calc_slow_down_distance(float speed_cms, float accel_cmss)
-{
-	// protect against divide by zero
-	if (accel_cmss <= 0.0f) {
-		_slow_down_dist = 0.0f;
-		return;
-	}
-    // To-Do: should we use a combination of horizontal and vertical speeds?
-    // To-Do: update this automatically when speed or acceleration is changed
-    _slow_down_dist = speed_cms * speed_cms / (4.0f*accel_cmss);
-}
+        void calc_slow_down_distance(float speed_cms, float accel_cmss)
+        {
+            // protect against divide by zero
+            if (accel_cmss <= 0.0f)
+            {
+                _slow_down_dist = 0.0f;
+                return;
+            }
+            // To-Do: should we use a combination of horizontal and vertical speeds?
+            // To-Do: update this automatically when speed or acceleration is changed
+            _slow_down_dist = speed_cms*speed_cms/(4.0f*accel_cmss);
+        }
 
 
         /// update_spline - update spline controller
@@ -279,8 +296,8 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
             }
 
             // calculate dt
-            uint32_t now = 0;//hal.scheduler->millis();
-            float dt = (now - _wp_last_update) / 1000.0f;
+            uint32_t now = 0; //hal.scheduler->millis();
+            float dt = (now - _wp_last_update)/1000.0f;
 
             // reset step back to 0 if 0.1 seconds has passed and we completed the last full cycle
             if (dt > 0.095f)
@@ -308,8 +325,8 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
         {
             _hermite_spline_solution[0] = origin;
             _hermite_spline_solution[1] = origin_vel;
-            _hermite_spline_solution[2] = -origin * 3.0f - origin_vel * 2.0f + dest * 3.0f - dest_vel;
-            _hermite_spline_solution[3] = origin * 2.0f + origin_vel - dest * 2.0f + dest_vel;
+            _hermite_spline_solution[2] = -origin*3.0f - origin_vel*2.0f + dest*3.0f - dest_vel;
+            _hermite_spline_solution[3] = origin*2.0f + origin_vel - dest*2.0f + dest_vel;
         }
 
         public void advance_spline_target_along_track(float dt)
@@ -317,21 +334,21 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
             if (!_flags.reached_destination)
             {
                 // update target position and velocity from spline calculator
-                calc_spline_pos_vel(_spline_time, ref  target_pos, ref  target_vel);
+                calc_spline_pos_vel(_spline_time, ref target_pos, ref target_vel);
 
                 // update velocity
-                float spline_dist_to_wp = (float)(_destination - target_pos).length();
+                float spline_dist_to_wp = (float) (_destination - target_pos).length();
 
                 // if within the stopping distance from destination, set target velocity to sqrt of distance * 2 * acceleration
                 if (!_flags.fast_waypoint && spline_dist_to_wp < _slow_down_dist)
                 {
-                    _spline_vel_scaler = (float)Math.Sqrt(spline_dist_to_wp * 2.0f * _wp_accel_cms);
+                    _spline_vel_scaler = (float) Math.Sqrt(spline_dist_to_wp*2.0f*_wp_accel_cms);
                 }
                 else if (_spline_vel_scaler < _wp_speed_cms)
                 {
                     // increase velocity using acceleration
                     // To-Do: replace 0.1f below with update frequency passed in from main program
-                    _spline_vel_scaler += _wp_accel_cms * dt;
+                    _spline_vel_scaler += _wp_accel_cms*dt;
                 }
 
                 // constrain target velocity
@@ -341,7 +358,7 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
                 }
 
                 // scale the spline_time by the velocity we've calculated vs the velocity that came out of the spline calculator
-                float spline_time_scale = (float)(_spline_vel_scaler / target_vel.length());
+                float spline_time_scale = (float) (_spline_vel_scaler/target_vel.length());
 
                 // update target position
                 //_pos_control.set_pos_target(target_pos);
@@ -350,7 +367,7 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
                 _yaw = RadiansToCentiDegrees(atan2(target_vel.y, target_vel.x));
 
                 // advance spline time to next step
-                _spline_time += spline_time_scale * dt;
+                _spline_time += spline_time_scale*dt;
 
                 // 20 segments per spline
                 // _spline_time +=0.05f;
@@ -366,24 +383,23 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
 
         private float RadiansToCentiDegrees(double p)
         {
-            return (float)(p * rad2deg);
+            return (float) (p*rad2deg);
         }
 
 
         void calc_spline_pos_vel(float spline_time, ref Vector3 position, ref Vector3 velocity)
         {
-            float spline_time_sqrd = spline_time * spline_time;
-            float spline_time_cubed = spline_time_sqrd * spline_time;
+            float spline_time_sqrd = spline_time*spline_time;
+            float spline_time_cubed = spline_time_sqrd*spline_time;
 
             position = _hermite_spline_solution[0] +
-                       _hermite_spline_solution[1] * spline_time +
-                       _hermite_spline_solution[2] * spline_time_sqrd +
-                       _hermite_spline_solution[3] * spline_time_cubed;
+                       _hermite_spline_solution[1]*spline_time +
+                       _hermite_spline_solution[2]*spline_time_sqrd +
+                       _hermite_spline_solution[3]*spline_time_cubed;
 
             velocity = _hermite_spline_solution[1] +
-                       _hermite_spline_solution[2] * 2.0f * spline_time +
-                       _hermite_spline_solution[3] * 3.0f * spline_time_sqrd;
-
+                       _hermite_spline_solution[2]*2.0f*spline_time +
+                       _hermite_spline_solution[3]*3.0f*spline_time_sqrd;
         }
 
         public double _track_length { get; set; }

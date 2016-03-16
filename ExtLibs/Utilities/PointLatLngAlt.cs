@@ -53,6 +53,13 @@ namespace MissionPlanner.Utilities
             this.Lng = lng;
         }
 
+        public PointLatLngAlt(double lat, double lng, double alt)
+        {
+            this.Lat = lat;
+            this.Lng = lng;
+            this.Alt = alt;
+        }
+
         public PointLatLngAlt(Locationwp locwp)
         {
             this.Lat = locwp.lat;

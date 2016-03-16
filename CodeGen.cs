@@ -95,7 +95,7 @@ namespace MissionPlanner
         {
             //actually compile the code
             CompilerResults results = compiler.CompileAssemblyFromSource(
-                                        parms, source);
+                parms, source);
 
             //Do we have any compiler errors?
             if (results.Errors.Count > 0)
@@ -153,7 +153,6 @@ namespace MissionPlanner
             // compile the code into an assembly
             CompilerResults results = CompileCode(compiler, parms, _source.ToString());
             return results;
-
         }
 
         static ArrayList _mathMembers = new ArrayList();
@@ -162,7 +161,7 @@ namespace MissionPlanner
         public static void GetMathMemberNames()
         {
             // get a reflected assembly of the System assembly
-            Assembly systemAssembly = Assembly.GetAssembly(typeof(System.Math));
+            Assembly systemAssembly = Assembly.GetAssembly(typeof (System.Math));
             try
             {
                 //cant call the entry method if the assembly is null
@@ -231,7 +230,6 @@ namespace MissionPlanner
                             }
                         }
                     }
-
                 }
             }
             catch (Exception ex)
@@ -248,6 +246,7 @@ namespace MissionPlanner
             field.Attributes = accessLevel;
             return field;
         }
+
         public static CodeMemberField FieldVariable(string fieldName, Type type, MemberAttributes accessLevel)
         {
             CodeMemberField field = new CodeMemberField(type, fieldName);
@@ -266,7 +265,8 @@ namespace MissionPlanner
         {
             CodeMemberProperty myProperty = new CodeMemberProperty();
             myProperty.Name = propertyName;
-            myProperty.Comments.Add(new CodeCommentStatement(String.Format("The {0} property is the returned result", propertyName)));
+            myProperty.Comments.Add(
+                new CodeCommentStatement(String.Format("The {0} property is the returned result", propertyName)));
             myProperty.Attributes = MemberAttributes.Public;
             myProperty.Type = new CodeTypeReference(type);
             myProperty.HasGet = true;
@@ -311,7 +311,7 @@ namespace MissionPlanner
             classDeclaration.IsClass = true;
             classDeclaration.Name = "Calculator";
             classDeclaration.Attributes = MemberAttributes.Public;
-            classDeclaration.Members.Add(FieldVariable("answer", typeof(object), MemberAttributes.Private));
+            classDeclaration.Members.Add(FieldVariable("answer", typeof (object), MemberAttributes.Private));
 
             //default constructor
             CodeConstructor defaultConstructor = new CodeConstructor();
@@ -322,9 +322,8 @@ namespace MissionPlanner
             classDeclaration.Members.Add(defaultConstructor);
 
 
-
             //property
-            classDeclaration.Members.Add(MakeProperty("Answer", "answer", typeof(object)));
+            classDeclaration.Members.Add(MakeProperty("Answer", "answer", typeof (object)));
 
             //Our Calculate Method
             /*
@@ -340,8 +339,8 @@ namespace MissionPlanner
             classDeclaration.Members.Add(myMethod);
              */
 
-            classDeclaration.Members.Add(FieldVariable("customforusenumber", typeof(double), MemberAttributes.Public));
-            classDeclaration.Members.Add(FieldVariable("customforuseobject", typeof(object), MemberAttributes.Public));
+            classDeclaration.Members.Add(FieldVariable("customforusenumber", typeof (double), MemberAttributes.Public));
+            classDeclaration.Members.Add(FieldVariable("customforuseobject", typeof (object), MemberAttributes.Public));
 
             CodeSnippetTypeMember myMethod = new CodeSnippetTypeMember();
 
@@ -359,4 +358,3 @@ namespace MissionPlanner
         }
     }
 }
-

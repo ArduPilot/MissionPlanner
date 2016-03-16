@@ -29,10 +29,10 @@ namespace resedit
 
             CultureInfo[] temp = System.Globalization.CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-                foreach (CultureInfo cul in temp) 
-                {
-                    list.Add(cul.DisplayName + " " + cul.Name);
-                }
+            foreach (CultureInfo cul in temp)
+            {
+                list.Add(cul.DisplayName + " " + cul.Name);
+            }
 
             list.Sort();
 
@@ -41,7 +41,7 @@ namespace resedit
 
         void ProcessAssembly(Assembly thisAssembly)
         {
-            Console.WriteLine("Load Assembly "+ thisAssembly.FullName);
+            Console.WriteLine("Load Assembly " + thisAssembly.FullName);
 
             string[] test = thisAssembly.GetManifestResourceNames();
 
@@ -51,7 +51,7 @@ namespace resedit
                     continue;
 
                 Stream rgbxml = thisAssembly.GetManifestResourceStream(
-            file);
+                    file);
                 try
                 {
                     ResourceReader res = new ResourceReader(rgbxml);
@@ -62,22 +62,28 @@ namespace resedit
                             continue;
 
                         Console.WriteLine("   {0}: '{1}' (Type {2})",
-                                          dict.Key, dict.Value, dict.Value.GetType().Name);
+                            dict.Key, dict.Value, dict.Value.GetType().Name);
 
-                        if (file.Contains("MissionPlanner.Strings.resources") ||  dict.Key.ToString().EndsWith(".ToolTip") || dict.Key.ToString().EndsWith(".Text") || dict.Key.ToString().EndsWith("HeaderText") || dict.Key.ToString().EndsWith("ToolTipText"))
+                        if (file.Contains("MissionPlanner.Strings.resources") ||
+                            dict.Key.ToString().EndsWith(".ToolTip") || dict.Key.ToString().EndsWith(".Text") ||
+                            dict.Key.ToString().EndsWith("HeaderText") || dict.Key.ToString().EndsWith("ToolTipText"))
                         {
                             dataGridView1.Rows.Add();
 
-                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colFile.Index].Value = System.IO.Path.GetFileName(file);
-                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colInternal.Index].Value = dict.Key.ToString();
-                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colEnglish.Index].Value = dict.Value.ToString();
-                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colOtherLang.Index].Value = dict.Value.ToString();
+                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colFile.Index].Value =
+                                System.IO.Path.GetFileName(file);
+                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colInternal.Index].Value =
+                                dict.Key.ToString();
+                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colEnglish.Index].Value =
+                                dict.Value.ToString();
+                            dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colOtherLang.Index].Value =
+                                dict.Value.ToString();
                         }
-
                     }
-
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 
@@ -87,14 +93,16 @@ namespace resedit
 
             ProcessAssembly(thisAssembly);
 
-            foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins) 
+            foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins)
             {
                 // silent fail
                 try
                 {
                     ProcessAssembly(item.Assembly);
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 
@@ -106,7 +114,8 @@ namespace resedit
             if (fbd.SelectedPath != "")
             {
                 dataGridView1.Rows.Clear();
-                string[] files = System.IO.Directory.GetFiles(fbd.SelectedPath, "*.resx", System.IO.SearchOption.AllDirectories);
+                string[] files = System.IO.Directory.GetFiles(fbd.SelectedPath, "*.resx",
+                    System.IO.SearchOption.AllDirectories);
 
 
                 string ci = "";
@@ -137,30 +146,36 @@ namespace resedit
                         continue;
 
 
-
                     ResXResourceReader reader = new ResXResourceReader(file);
                     Console.WriteLine(reader);
 
-                    reader.BasePath = fbd.SelectedPath + System.IO.Path.DirectorySeparatorChar +"Resources";
+                    reader.BasePath = fbd.SelectedPath + System.IO.Path.DirectorySeparatorChar + "Resources";
 
                     try
                     {
                         foreach (DictionaryEntry entry in reader)
                         {
-
-                            if (entry.Key.ToString().EndsWith(".ToolTip") || entry.Key.ToString().EndsWith(".Text") || entry.Key.ToString().EndsWith("HeaderText") || entry.Key.ToString().EndsWith("ToolTipText"))
+                            if (entry.Key.ToString().EndsWith(".ToolTip") || entry.Key.ToString().EndsWith(".Text") ||
+                                entry.Key.ToString().EndsWith("HeaderText") ||
+                                entry.Key.ToString().EndsWith("ToolTipText"))
                             {
                                 dataGridView1.Rows.Add();
 
-                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colFile.Index].Value = System.IO.Path.GetFileName(file);
-                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colInternal.Index].Value = entry.Key.ToString();
-                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colEnglish.Index].Value = entry.Value.ToString();
-                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colOtherLang.Index].Value = entry.Value.ToString();
+                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colFile.Index].Value =
+                                    System.IO.Path.GetFileName(file);
+                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colInternal.Index].Value =
+                                    entry.Key.ToString();
+                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colEnglish.Index].Value =
+                                    entry.Value.ToString();
+                                dataGridView1.Rows[dataGridView1.RowCount - 1].Cells[colOtherLang.Index].Value =
+                                    entry.Value.ToString();
                             }
-
                         }
                     }
-                    catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
         }
@@ -196,19 +211,48 @@ namespace resedit
                     {
                         if (writer != null)
                             writer.Close();
-                        writer = new ResXResourceWriter("translation/" + row.Cells[colFile.Index].Value.ToString().Replace(".resources", "." + ci + ".resx"));
+
+                        var filename = row.Cells[colFile.Index].Value.ToString();
+
+                        var strings = filename.Split('.');
+
+                        var dir = "translation";
+
+                        for (int a = 0; a < strings.Length-2; a++)
+                        {
+                            dir += Path.DirectorySeparatorChar + strings[a];
+                            Directory.CreateDirectory(dir);
+                        }
+
+                            writer =
+                                new ResXResourceWriter(dir + Path.DirectorySeparatorChar + strings[strings.Length - 2] + "." + ci + ".resx");
                     }
 
-                    writer.AddResource(row.Cells[colInternal.Index].Value.ToString(), row.Cells[colOtherLang.Index].Value.ToString());
+                    writer.AddResource(row.Cells[colInternal.Index].Value.ToString(),
+                        row.Cells[colOtherLang.Index].Value.ToString());
 
                     fname = row.Cells[colFile.Index].Value.ToString();
                 }
-                catch { }
+                catch
+                {
+                }
                 try
                 {
-                    sw.Write("<tr><td>" + row.Cells[colFile.Index].Value.ToString() + "</td><td>" + row.Cells[colInternal.Index].Value.ToString() + "</td><td>" + row.Cells[colOtherLang.Index].Value.ToString() + "</td></tr>");
+                    sw.Write("<tr><td>" + row.Cells[colFile.Index].Value.ToString() + "</td><td>" +
+                             row.Cells[colInternal.Index].Value.ToString() + "</td><td>" +
+                             row.Cells[colOtherLang.Index].Value.ToString() + "</td></tr>");
                 }
-                catch (Exception ex) { try { CustomMessageBox.Show("Failed to save " + row.Cells[colOtherLang.Index].Value.ToString() + " " + ex.ToString()); } catch { } }
+                catch (Exception ex)
+                {
+                    try
+                    {
+                        CustomMessageBox.Show("Failed to save " + row.Cells[colOtherLang.Index].Value.ToString() + " " +
+                                              ex.ToString());
+                    }
+                    catch
+                    {
+                    }
+                }
             }
             if (writer != null)
                 writer.Close();
@@ -231,7 +275,8 @@ namespace resedit
             string file = sr1.ReadToEnd();
 
 
-            Regex regex = new Regex("<tr><td>([^<]*)</td><td>([^<]*)</td><td>([^<]*)</td></tr>",RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            Regex regex = new Regex("<tr><td>([^<]*)</td><td>([^<]*)</td><td>([^<]*)</td></tr>",
+                RegexOptions.Multiline | RegexOptions.IgnoreCase);
 
             MatchCollection matches = regex.Matches(file);
 
@@ -243,7 +288,8 @@ namespace resedit
                 {
                     if (mat.Groups.Count == 4)
                     {
-                        if (row.Cells[0].Value.ToString() == mat.Groups[1].Value.ToString() && row.Cells[1].Value.ToString() == mat.Groups[2].Value.ToString())
+                        if (row.Cells[0].Value.ToString() == mat.Groups[1].Value.ToString() &&
+                            row.Cells[1].Value.ToString() == mat.Groups[2].Value.ToString())
                         {
                             row.Cells[3].Value = mat.Groups[3].Value.ToString();
                             a++;
@@ -254,7 +300,7 @@ namespace resedit
 
             sr1.Close();
 
-            CustomMessageBox.Show("Modified "+a+" entries");
+            CustomMessageBox.Show("Modified " + a + " entries");
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -275,13 +321,17 @@ namespace resedit
 
             try
             {
-                string fn = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll";
+                string fn = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci +
+                            Path.DirectorySeparatorChar + "MissionPlanner.resources.dll";
                 if (File.Exists(fn))
                     thisAssembly = Assembly.LoadFile(fn);
                 else
                     return;
             }
-            catch { return; }
+            catch
+            {
+                return;
+            }
 
             string[] test = thisAssembly.GetManifestResourceNames();
 
@@ -290,7 +340,7 @@ namespace resedit
             foreach (string file in test)
             {
                 Stream rgbxml = thisAssembly.GetManifestResourceStream(
-            file);
+                    file);
                 try
                 {
                     ResourceReader res = new ResourceReader(rgbxml);
@@ -300,31 +350,33 @@ namespace resedit
                         try
                         {
                             Console.WriteLine("   {0}: '{1}' (Type {2})",
-                                              dict.Key, dict.Value, dict.Value.GetType().Name);
+                                dict.Key, dict.Value, dict.Value.GetType().Name);
 
                             if (dict.Value is Size)
                                 continue;
 
-                            string thing = (string)dict.Value;
+                            string thing = (string) dict.Value;
 
                             //                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
                             foreach (DataGridViewRow row in dataGridView1.Rows)
                             {
                                 string t2 = file.Replace(ci + ".", "");
 
-                                if (row.Cells[0].Value.ToString() == t2 && row.Cells[1].Value.ToString() == dict.Key.ToString())
+                                if (row.Cells[0].Value.ToString() == t2 &&
+                                    row.Cells[1].Value.ToString() == dict.Key.ToString())
                                 {
                                     row.Cells[3].Value = thing;
                                 }
-
-
                             }
                         }
-                        catch { }
+                        catch
+                        {
+                        }
                     }
-
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             CustomMessageBox.Show("Loaded Existing");
@@ -341,7 +393,7 @@ namespace resedit
                 foreach (DataGridViewCell item in row.Cells)
                 {
                     lastitem = item.Value.ToString();
-                    sb += '"'+item.Value.ToString()+'"' + ",";
+                    sb += '"' + item.Value.ToString() + '"' + ",";
                 }
                 //sb += new StreamReader(WebRequest.Create("https://www.googleapis.com/language/translate/v2?q=" + lastitem + "&target=zh&source=en&key=" + ApiKey).GetResponse().GetResponseStream()).ReadToEnd();
                 sb += "\n";
@@ -355,4 +407,3 @@ namespace resedit
          */
     }
 }
-

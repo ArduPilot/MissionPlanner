@@ -14,7 +14,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigRawParamsTree : UserControl, IActivate
+    public partial class ConfigRawParamsTree : UserControl, IActivate, IDeactivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -40,6 +40,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SuspendLayout();
 
+            foreach (ColumnHeader col in Params.Columns)
+            {
+                if (!String.IsNullOrEmpty(Settings.Instance["rawtree_" + col.Text + "_width"]))
+                {
+                    col.Width = Settings.Instance.GetInt32("rawtree_" + col.Text + "_width");
+                }
+            }
+
             processToScreen();
 
             ResumeLayout();
@@ -52,6 +60,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ThreadPool.QueueUserWorkItem(updatedefaultlist);
 
             startup = false;
+
+            txt_search.Focus();
+        }
+
+        public void Deactivate()
+        {
+            foreach (ColumnHeader col in Params.Columns)
+            {
+                Settings.Instance["rawtree_" + col.Text + "_width"] = col.Width.ToString();
+            }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -59,12 +77,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (keyData == (Keys.Control | Keys.S))
             {
                 BUT_writePIDS_Click(null, null);
-                return true;
-            }
-
-            if (keyData == (Keys.Control | Keys.F))
-            {
-                BUT_find_Click(null, null);
                 return true;
             }
 
@@ -150,7 +162,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             if (item.Value != null)
                             {
-                                var value = float.Parse(item.Value);
+                                var value = double.Parse(item.Value);
 
                                 data[item.paramname] = value;
                             }
@@ -158,7 +170,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         if (row.Value != null)
                         {
-                            var value = float.Parse(row.Value);
+                            var value = double.Parse(row.Value);
 
                             data[row.paramname] = value;
                         }
@@ -171,6 +183,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
+            if (Common.MessageShowAgain("Write Raw Params Tree", "Are you Sure?") != DialogResult.OK)
+                return;
+
             var temp = (Hashtable) _changes.Clone();
 
             foreach (string value in temp.Keys)
@@ -397,14 +412,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_find_Click(object sender, EventArgs e)
+        void filterList(string searchfor)
         {
-            var searchfor = "";
-            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
-
-            Params.UseFiltering = true;
-            Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.ToLower());
-            Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
+            if (searchfor.Length >= 2 || searchfor.Length == 0)
+            {
+                Params.UseFiltering = false;
+                Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.ToLower());
+                Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
+                Params.UseFiltering = true;
+            }
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -568,6 +584,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string root;
             public string unit;
             public string Value;
+        }
+
+        private void txt_search_TextChanged(object sender, EventArgs e)
+        {
+            filterList(txt_search.Text);
+        }
+
+        private void Params_CellClick(object sender, CellClickEventArgs e)
+        {
+            // Only process the Description column
+            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+                return;
+
+            try
+            {
+                string descStr = e.SubItem.ModelValue.ToString();
+                ConfigRawParams.CheckForUrlAndLaunchInBrowser(descStr);
+            }
+            catch { }
         }
     }
 }

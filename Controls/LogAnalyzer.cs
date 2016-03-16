@@ -26,7 +26,9 @@ Hardware Type {7}
 Free Mem {8}
 Skipped Lines {9}
 
-", analysis.logfile, analysis.sizekb, analysis.sizelines, analysis.duration, analysis.vehicletype, analysis.firmwareversion, analysis.firmwarehash, analysis.hardwaretype, analysis.freemem, analysis.skippedlines);
+", analysis.logfile, analysis.sizekb, analysis.sizelines, analysis.duration, analysis.vehicletype,
+                analysis.firmwareversion, analysis.firmwarehash, analysis.hardwaretype, analysis.freemem,
+                analysis.skippedlines);
 
             foreach (var item in analysis.results)
             {

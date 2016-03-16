@@ -8,11 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
+using log4net;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Log
 {
     public partial class LogIndex : Form
     {
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public LogIndex()
         {
             InitializeComponent();
@@ -22,8 +27,8 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
-            //processbg(MainV2.LogDir);
-            System.Threading.ThreadPool.QueueUserWorkItem(processbg, MainV2.LogDir);
+            //processbg(Settings.Instance.LogDir);
+            System.Threading.ThreadPool.QueueUserWorkItem(processbg, Settings.Instance.LogDir);
         }
 
         void processbg(object directory)
@@ -48,7 +53,7 @@ namespace MissionPlanner.Log
             {
                 if (!File.Exists(file + ".jpg"))
                 {
-                    LogMap.MapLogs(new string[] { file });
+                    LogMap.MapLogs(new string[] {file});
                 }
 
                 var loginfo = new loginfo();
@@ -60,28 +65,87 @@ namespace MissionPlanner.Log
                     loginfo.img = new Bitmap(file + ".jpg");
                 }
 
-                //objectListView1.AddObject(loginfo);
+                if (file.ToLower().EndsWith(".tlog"))
+                {
+                    using (MAVLinkInterface mine = new MAVLinkInterface())
+                    {
+                        try
+                        {
+                            mine.logplaybackfile =
+                                new BinaryReader(File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read));
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Debug(ex.ToString());
+                            CustomMessageBox.Show("Log Can not be opened. Are you still connected?");
+                            return;
+                        }
+                        mine.logreadmode = true;
+
+                        mine.MAV.packets.Initialize(); // clear
+
+                        mine.getHeartBeat();
+
+                        loginfo.Date = mine.lastlogread;
+                        loginfo.Aircraft = mine.sysidcurrent;
+
+                        var start = mine.lastlogread;
+
+                        try
+                        {
+                            mine.logplaybackfile.BaseStream.Seek(-100000, SeekOrigin.End);
+                        }
+                        catch
+                        {
+                        }
+
+                        var end = mine.lastlogread;
+
+                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                        {
+                            mine.readPacket();
+
+                            if (mine.lastlogread > end)
+                                end = mine.lastlogread;
+                        }
+
+                        loginfo.Duration = (end - start).ToString();
+                    }
+                }
+
+                objectListView1.AddObject(loginfo);
 
                 logs.Add(loginfo);
             }
-
+            /*
             this.Invoke((MethodInvoker)delegate
             {
                 objectListView1.AddObjects(logs);
             });
+             */
         }
 
         public class loginfo
         {
             public string fullname { get; set; }
-            public string Name { get { return Path.GetFileName(fullname); } }
-            public string Directory { get { return Path.GetDirectoryName(fullname); } }
+
+            public string Name
+            {
+                get { return Path.GetFileName(fullname); }
+            }
+
+            public string Directory
+            {
+                get { return Path.GetDirectoryName(fullname); }
+            }
+
             public Image img { get; set; }
-            //public TimeSpan Duration { get; set; }
+            public string Duration { get; set; }
+            public DateTime Date { get; set; }
+            public int Aircraft { get; set; }
 
             public loginfo()
             {
-                //Duration = new TimeSpan(0, 0, 1);
             }
         }
 
@@ -90,20 +154,20 @@ namespace MissionPlanner.Log
             if (e.ColumnIndex != 0)
                 return;
 
-            loginfo info = (loginfo)e.Model;
+            loginfo info = (loginfo) e.Model;
 
             if (info.img == null)
                 return;
 
-            ImageDecoration decoration = new ImageDecoration(new Bitmap(info.img,150,150),255);
+            ImageDecoration decoration = new ImageDecoration(new Bitmap(info.img, 150, 150), 255);
             //decoration.ShrinkToWidth = true;
             decoration.AdornmentCorner = ContentAlignment.TopCenter;
             decoration.ReferenceCorner = ContentAlignment.TopCenter;
             e.SubItem.Decoration = decoration;
 
-           // TextDecoration td = new TextDecoration("test", ContentAlignment.BottomCenter);
+            // TextDecoration td = new TextDecoration("test", ContentAlignment.BottomCenter);
 
-           // e.SubItem.Decorations.Add(td);
+            // e.SubItem.Decorations.Add(td);
 
             Application.DoEvents();
         }

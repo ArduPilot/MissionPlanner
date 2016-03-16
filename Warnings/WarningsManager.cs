@@ -12,7 +12,6 @@ namespace MissionPlanner.Warnings
 {
     public partial class WarningsManager : Form
     {
-
         public WarningsManager()
         {
             InitializeComponent();
@@ -30,7 +29,7 @@ namespace MissionPlanner.Warnings
             {
                 foreach (var item in WarningEngine.warnings)
                 {
-                    var wrnctl = addwarningcontrol(5, y,item);
+                    var wrnctl = addwarningcontrol(5, y, item);
 
                     y = wrnctl.Bottom;
                 }
@@ -66,7 +65,7 @@ namespace MissionPlanner.Warnings
         {
             reload();
         }
-        
+
         private void BUT_Add_Click(object sender, EventArgs e)
         {
             var newcw = new CustomWarning();

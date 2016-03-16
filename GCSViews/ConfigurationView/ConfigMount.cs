@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Models;
+using MissionPlanner.Utilities;
 using Transitions;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -39,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SetErrorMessageOpacity();
 
-            comboBox1.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+            CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
             {
@@ -53,11 +54,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
                 mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
             }
+
+            CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "MNT_TYPE", MainV2.comPort.MAV.param);
         }
 
         public void Activate()
         {
-            var copy = new Hashtable((Hashtable)MainV2.comPort.MAV.param);
+            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
+
+            if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
+            {
+                Enabled = false;
+                return;
+            }
+
+            CMB_shuttertype.SelectedItem = Enum.GetName(typeof (ChannelCameraShutter),
+                (Int32) MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
             foreach (string item in copy.Keys)
             {
@@ -75,7 +88,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             mavlinkComboBoxRoll.Text = item.Replace("_FUNCTION", "");
                             break;
                         case "10":
-                            comboBox1.Text = item.Replace("_FUNCTION", "");
+                            CMB_shuttertype.Text = item.Replace("_FUNCTION", "");
                             break;
                         default:
                             break;
@@ -137,25 +150,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void updateShutter()
         {
             // shutter
-            if (comboBox1.Text == "")
+            if (CMB_shuttertype.Text == "")
                 return;
 
-            if (comboBox1.Text != "Disable")
+            if (CMB_shuttertype.Text != "Disable")
             {
-                if (comboBox1.Text == ChannelCameraShutter.Relay.ToString())
+                if (CMB_shuttertype.Text == ChannelCameraShutter.Relay.ToString())
                 {
-                    ensureDisabled(comboBox1, 10);
+                    ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 1);
                 }
-                else if (comboBox1.Text == ChannelCameraShutter.Transistor.ToString())
+                else if (CMB_shuttertype.Text == ChannelCameraShutter.Transistor.ToString())
                 {
-                    ensureDisabled(comboBox1, 10);
+                    ensureDisabled(CMB_shuttertype, 10);
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 4);
                 }
                 else
                 {
-                    ensureDisabled(comboBox1, 10);
-                    MainV2.comPort.setParam(comboBox1.Text + "_FUNCTION", 10);
+                    ensureDisabled(CMB_shuttertype, 10);
+                    MainV2.comPort.setParam(CMB_shuttertype.Text + "_FUNCTION", 10);
                     // servo
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
                 }
@@ -164,12 +177,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 // servo
                 MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);
-                ensureDisabled(comboBox1, 10);
+                ensureDisabled(CMB_shuttertype, 10);
             }
 
 
-            mavlinkNumericUpDownShutM.setup(800, 2200, 1, 1, comboBox1.Text + "_MIN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownShutMX.setup(800, 2200, 1, 1, comboBox1.Text + "_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownShutM.setup(800, 2200, 1, 1, CMB_shuttertype.Text + "_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownShutMX.setup(800, 2200, 1, 1, CMB_shuttertype.Text + "_MAX", MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDownshut_pushed.setup(800, 2200, 1, 1, "CAM_SERVO_ON", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownshut_notpushed.setup(800, 2200, 1, 1, "CAM_SERVO_OFF", MainV2.comPort.MAV.param);

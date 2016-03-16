@@ -12,6 +12,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Parameters;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace px4uploader
 {
@@ -118,12 +119,6 @@ namespace px4uploader
 
                     try
                     {
-                        up.verifyotp();
-                    }
-                    catch (Exception ex)  { Console.WriteLine(ex.ToString()); up.close(); return false; }
-
-                    try
-                    {
                         up.currentChecksum(fw);
                     }
                     catch (Exception ex) { Console.WriteLine("No need to upload. already on the board" + ex.ToString()); up.close(); return true; }
@@ -181,13 +176,26 @@ namespace px4uploader
                 catch { }
             }
 
-            string[] ports = System.IO.Ports.SerialPort.GetPortNames()
-            .Select(p => p.TrimEnd())
-            .ToArray();
+
+            string[] ports = System.IO.Ports.SerialPort.GetPortNames();
+
+            ports = ports.Select(p => trimcomportname(p.TrimEnd())).ToArray();
 
             allPorts.AddRange(ports);
 
             return allPorts.ToArray();
+        }
+
+        static string trimcomportname(string input)
+        {
+            var match = Regex.Match(input.ToUpper(), "(COM[0-9]+)");
+
+            if (match.Success)
+            {
+                return match.Groups[0].Value;
+            }
+
+            return input;
         }
 
         /// <summary>

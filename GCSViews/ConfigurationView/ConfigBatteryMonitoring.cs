@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -55,9 +56,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (MainV2.comPort.MAV.param["AMP_PER_VOLT"] != null)
                 TXT_ampspervolt.Text = MainV2.comPort.MAV.param["AMP_PER_VOLT"].ToString();
 
-            if (MainV2.config["speechbatteryenabled"] != null &&
-                MainV2.config["speechbatteryenabled"].ToString() == "True" && MainV2.config["speechenable"] != null &&
-                MainV2.config["speechenable"].ToString() == "True")
+            if (Settings.Instance.GetBoolean("speechbatteryenabled") && Settings.Instance.GetBoolean("speechenable"))
             {
                 CHK_speechbattery.Checked = true;
             }
@@ -97,7 +96,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_apmversion.Enabled = true;
 
-                var value = (float) MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
+                var value = (double) MainV2.comPort.MAV.param["BATT_VOLT_PIN"];
                 if (value == 0) // apm1
                 {
                     CMB_apmversion.SelectedIndex = 0;
@@ -127,7 +126,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else if (value == 10)
                 {
                     // vrbrain 5 or micro
-                    if ((float) MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
+                    if ((double) MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
                     {
                         CMB_apmversion.SelectedIndex = 5;
                     }
@@ -153,6 +152,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             timer1.Stop();
+            startup = true;
         }
 
         private void CHK_enablebattmon_CheckedChanged(object sender, EventArgs e)
@@ -527,35 +527,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
 
             // enable the battery event
-            MainV2.config["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
+            Settings.Instance["speechbatteryenabled"] = ((CheckBox) sender).Checked.ToString();
             // enable speech engine
-            MainV2.config["speechenable"] = true.ToString();
+            Settings.Instance["speechenable"] = true.ToString();
 
             if (((CheckBox) sender).Checked)
             {
                 var speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
-                if (MainV2.config["speechbattery"] != null)
-                    speechstring = MainV2.config["speechbattery"].ToString();
+                if (Settings.Instance["speechbattery"] != null)
+                    speechstring = Settings.Instance["speechbattery"].ToString();
                 if (DialogResult.Cancel ==
                     InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
-                MainV2.config["speechbattery"] = speechstring;
+                Settings.Instance["speechbattery"] = speechstring;
 
                 speechstring = "9.6";
-                if (MainV2.config["speechbatteryvolt"] != null)
-                    speechstring = MainV2.config["speechbatteryvolt"].ToString();
+                if (Settings.Instance["speechbatteryvolt"] != null)
+                    speechstring = Settings.Instance["speechbatteryvolt"].ToString();
                 if (DialogResult.Cancel ==
                     InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
                     return;
-                MainV2.config["speechbatteryvolt"] = speechstring;
+                Settings.Instance["speechbatteryvolt"] = speechstring;
 
                 speechstring = "20";
-                if (MainV2.config["speechbatterypercent"] != null)
-                    speechstring = MainV2.config["speechbatterypercent"].ToString();
+                if (Settings.Instance["speechbatterypercent"] != null)
+                    speechstring = Settings.Instance["speechbatterypercent"].ToString();
                 if (DialogResult.Cancel ==
                     InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
                     return;
-                MainV2.config["speechbatterypercent"] = speechstring;
+                Settings.Instance["speechbatterypercent"] = speechstring;
             }
         }
 

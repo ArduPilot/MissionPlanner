@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+
 <!--
 ************************************************************************
 Arducotper UAV Model
@@ -64,7 +65,7 @@ Arducotper UAV Model
   <payload>
     <weight>
       <name type="string">Payload</name>
-      <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+      <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]" />
       <min-lb type="double">0.0</min-lb>
       <max-lb type="double">1.0</max-lb>
     </weight>
@@ -73,21 +74,21 @@ Arducotper UAV Model
     <arducopter>
       <file>Aircraft/arducopter/quad.nas</file>
       <script>
-         setlistener("/sim/signals/fdm-initialized", func {
-             var left  = screen.display.new(20, 10);
-             left.add("/apm/motor_right");
-             left.add("/apm/motor_left");
-             left.add("/apm/motor_front");
-             left.add("/apm/motor_back");
+        setlistener("/sim/signals/fdm-initialized", func {
+        var left  = screen.display.new(20, 10);
+        left.add("/apm/motor_right");
+        left.add("/apm/motor_left");
+        left.add("/apm/motor_front");
+        left.add("/apm/motor_back");
 
-             var right = screen.display.new(-250, 20);
-             right.add("/apm/altitude");
-             right.add("/apm/roll");
-             right.add("/apm/pitch");
-             right.add("/apm/heading");
-             right.add("/apm/airspeed");
-         });
-        </script>
+        var right = screen.display.new(-250, 20);
+        right.add("/apm/altitude");
+        right.add("/apm/roll");
+        right.add("/apm/pitch");
+        right.add("/apm/heading");
+        right.add("/apm/airspeed");
+        });
+      </script>
     </arducopter>
   </nasal>
 </PropertyList>

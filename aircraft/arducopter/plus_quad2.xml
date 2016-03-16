@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
-<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="dflyer" version="2.0" release="ALPHA" xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
+
+<fdm_config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="dflyer" version="2.0" release="ALPHA"
+            xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
   <fileheader>
     <author> James Goppert </author>
     <filecreationdate> 2010-03-11 </filecreationdate>
@@ -224,7 +226,7 @@
   </propulsion>
   <aerodynamics>
     <axis name="LIFT">
-        </axis>
+    </axis>
     <axis name="DRAG">
       <function name="aero/coefficient/CD0">
         <description>Overall Drag</description>
@@ -236,13 +238,13 @@
       </function>
     </axis>
     <axis name="SIDE">
-        </axis>
+    </axis>
     <axis name="ROLL">
-        </axis>
+    </axis>
     <axis name="PITCH">
-        </axis>
+    </axis>
     <axis name="YAW">
-        </axis>
+    </axis>
   </aerodynamics>
 </fdm_config>
 <!-- vim:ts=2:sw=2:expandtab -->

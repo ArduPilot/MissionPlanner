@@ -78,36 +78,36 @@
             // 
             // txt_BytesReceived
             // 
-            resources.ApplyResources(this.txt_BytesReceived, "txt_BytesReceived");
             this.txt_BytesReceived.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_BytesReceived, "txt_BytesReceived");
             this.txt_BytesReceived.Name = "txt_BytesReceived";
             this.txt_BytesReceived.ReadOnly = true;
             // 
             // txt_BytesPerSecondRx
             // 
-            resources.ApplyResources(this.txt_BytesPerSecondRx, "txt_BytesPerSecondRx");
             this.txt_BytesPerSecondRx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_BytesPerSecondRx, "txt_BytesPerSecondRx");
             this.txt_BytesPerSecondRx.Name = "txt_BytesPerSecondRx";
             this.txt_BytesPerSecondRx.ReadOnly = true;
             // 
             // txt_PacketsRx
             // 
-            resources.ApplyResources(this.txt_PacketsRx, "txt_PacketsRx");
             this.txt_PacketsRx.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_PacketsRx, "txt_PacketsRx");
             this.txt_PacketsRx.Name = "txt_PacketsRx";
             this.txt_PacketsRx.ReadOnly = true;
             // 
             // txt_PacketsLost
             // 
-            resources.ApplyResources(this.txt_PacketsLost, "txt_PacketsLost");
             this.txt_PacketsLost.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_PacketsLost, "txt_PacketsLost");
             this.txt_PacketsLost.Name = "txt_PacketsLost";
             this.txt_PacketsLost.ReadOnly = true;
             // 
             // txt_LinkQuality
             // 
-            resources.ApplyResources(this.txt_LinkQuality, "txt_LinkQuality");
             this.txt_LinkQuality.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_LinkQuality, "txt_LinkQuality");
             this.txt_LinkQuality.Name = "txt_LinkQuality";
             this.txt_LinkQuality.ReadOnly = true;
             // 
@@ -118,15 +118,15 @@
             // 
             // txt_PacketsPerSecond
             // 
-            resources.ApplyResources(this.txt_PacketsPerSecond, "txt_PacketsPerSecond");
             this.txt_PacketsPerSecond.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_PacketsPerSecond, "txt_PacketsPerSecond");
             this.txt_PacketsPerSecond.Name = "txt_PacketsPerSecond";
             this.txt_PacketsPerSecond.ReadOnly = true;
             // 
             // txt_BytesSent
             // 
-            resources.ApplyResources(this.txt_BytesSent, "txt_BytesSent");
             this.txt_BytesSent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_BytesSent, "txt_BytesSent");
             this.txt_BytesSent.Name = "txt_BytesSent";
             this.txt_BytesSent.ReadOnly = true;
             // 
@@ -142,8 +142,8 @@
             // 
             // txt_BytesPerSecondSent
             // 
-            resources.ApplyResources(this.txt_BytesPerSecondSent, "txt_BytesPerSecondSent");
             this.txt_BytesPerSecondSent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_BytesPerSecondSent, "txt_BytesPerSecondSent");
             this.txt_BytesPerSecondSent.Name = "txt_BytesPerSecondSent";
             this.txt_BytesPerSecondSent.ReadOnly = true;
             // 
@@ -154,7 +154,6 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.txt_MaxPacketInterval);
             this.groupBox1.Controls.Add(this.label8);
@@ -169,6 +168,7 @@
             this.groupBox1.Controls.Add(this.txt_PacketsRx);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Controls.Add(this.txt_PacketsLost);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -179,28 +179,28 @@
             // 
             // txt_MaxPacketInterval
             // 
-            resources.ApplyResources(this.txt_MaxPacketInterval, "txt_MaxPacketInterval");
             this.txt_MaxPacketInterval.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.txt_MaxPacketInterval, "txt_MaxPacketInterval");
             this.txt_MaxPacketInterval.Name = "txt_MaxPacketInterval";
             this.txt_MaxPacketInterval.ReadOnly = true;
             // 
             // groupBox2
             // 
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.txt_BytesPerSecondSent);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.txt_BytesSent);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
             // ConnectionStats
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "ConnectionStats";
+            resources.ApplyResources(this, "$this");
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

@@ -1,0 +1,18 @@
+﻿1.4 - 2016-1-31 rename to sikradio
+1.3.2 - 2014-12-6 add support for rfd900u
+1.3.1 - 2014-1-19 fix setting wrong setting on not in datasource. (broke in 1.3)
+1.3 - 2013-12-15 add new max_window, mavlink framing types
+1.2 - 2013-11-22 fix file already exists error
+1.1 - add custom fw upload & change stable fw download urls
+1.02 - 2013-11-6 fix frequency display and add device id
+1.0a - fix 868 freq range
+1.0 - added rf freeq for 868
+0.9 - added rfd900a
+0.8 - fix settings saving.
+0.7 - fix typos - log rssi screen to log as well
+0.6 - add terminal logging to file, fix remote radio config
+0.5 - add terminal
+0.4 - adjust erase timeout - to prevent lost bootloader sync error.
+0.3 - add RFD900 support
+0.2 - change packet size to 32 bytes
+0.1 - Initial Release - Based off code by Mike Smith

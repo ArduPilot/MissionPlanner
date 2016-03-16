@@ -31,7 +31,10 @@ namespace MissionPlanner.Log
                     if (logfile.ToLower().EndsWith(".tlog"))
                     {
                         using (MAVLinkInterface mine = new MAVLinkInterface())
-                        using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
+                        using (
+                            mine.logplaybackfile =
+                                new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                            )
                         {
                             mine.logreadmode = true;
 
@@ -49,29 +52,33 @@ namespace MissionPlanner.Log
                                     if (MainV2.speechEngine != null)
                                         MainV2.speechEngine.SpeakAsyncCancelAll();
                                 }
-                                catch { }
+                                catch
+                                {
+                                }
 
-                                if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                                 {
                                     var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
 
                                     if (loc.lat == 0 || loc.lon == 0)
                                         continue;
 
-                                    locs.Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+                                    locs.Add(new PointLatLngAlt(loc.lat/10000000.0f, loc.lon/10000000.0f));
 
-                                    minx = Math.Min(minx, loc.lon / 10000000.0f);
-                                    maxx = Math.Max(maxx, loc.lon / 10000000.0f);
-                                    miny = Math.Min(miny, loc.lat / 10000000.0f);
-                                    maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                    minx = Math.Min(minx, loc.lon/10000000.0f);
+                                    maxx = Math.Max(maxx, loc.lon/10000000.0f);
+                                    miny = Math.Min(miny, loc.lat/10000000.0f);
+                                    maxy = Math.Max(maxy, loc.lat/10000000.0f);
                                 }
                             }
                         }
-
                     }
                     else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                     {
                         bool bin = logfile.ToLower().EndsWith(".bin");
+
+                        BinaryLog binlog = new BinaryLog();
+                        DFLog dflog = new DFLog();
 
                         using (var st = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
@@ -83,7 +90,7 @@ namespace MissionPlanner.Log
 
                                     if (bin)
                                     {
-                                        line = BinaryLog.ReadMessage(sr.BaseStream);
+                                        line = binlog.ReadMessage(sr.BaseStream);
                                     }
                                     else
                                     {
@@ -92,14 +99,14 @@ namespace MissionPlanner.Log
 
                                     if (line.StartsWith("FMT"))
                                     {
-                                        DFLog.FMTLine(line);
+                                        dflog.FMTLine(line);
                                     }
                                     else if (line.StartsWith("GPS"))
                                     {
-                                        var item = DFLog.GetDFItemFromLine(line, 0);
+                                        var item = dflog.GetDFItemFromLine(line, 0);
 
-                                        var lat = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lat")]);
-                                        var lon = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lng")]);
+                                        var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
+                                        var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
 
                                         if (lat == 0 || lon == 0)
                                             continue;
@@ -148,12 +155,12 @@ namespace MissionPlanner.Log
                         DoTextMap(logfile + ".jpg", "No gps data");
                     }
                 }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     if (ex.ToString().Contains("Mavlink 0.9"))
                         DoTextMap(logfile + ".jpg", "Old log\nMavlink 0.9");
 
-                    continue; 
+                    continue;
                 }
             }
         }
@@ -173,16 +180,16 @@ namespace MissionPlanner.Log
             map = null;
         }
 
-        static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size) 
+        static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size)
         {
-            double lon =  loc.Lng;
+            double lon = loc.Lng;
             double lat = loc.Lat;
 
-            double lonscale = (lon - area.Left) * (size.Width - 0) / (area.Right - area.Left) + 0;
+            double lonscale = (lon - area.Left)*(size.Width - 0)/(area.Right - area.Left) + 0;
 
-            double latscale = (lat - area.Top) * (size.Height - 0) / (area.Bottom - area.Top) + 0;
+            double latscale = (lat - area.Top)*(size.Height - 0)/(area.Bottom - area.Top) + 0;
 
-            return new PointF((float)lonscale, (float)latscale);
+            return new PointF((float) lonscale, (float) latscale);
         }
 
         static Bitmap GetMap(RectLatLng area)
@@ -205,7 +212,6 @@ namespace MissionPlanner.Log
                 topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
                 rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
                 pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
-
             }
 
             // get type list at new zoom level
@@ -213,7 +219,7 @@ namespace MissionPlanner.Log
 
             int padding = 10;
 
-            Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2);
+            Bitmap bmpDestination = new Bitmap((int) pxDelta.X + padding*2, (int) pxDelta.Y + padding*2);
 
             {
                 using (Graphics gfx = Graphics.FromImage(bmpDestination))
@@ -230,13 +236,12 @@ namespace MissionPlanner.Log
                             Exception ex;
                             using (GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage)
                             {
-
                                 if (tile != null)
                                 {
                                     using (tile)
                                     {
-                                        long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
-                                        long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
+                                        long x = p.X*prj.TileSize.Width - topLeftPx.X + padding;
+                                        long y = p.Y*prj.TileSize.Width - topLeftPx.Y + padding;
                                         {
                                             gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
                                         }

@@ -14,43 +14,76 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFriendlyParams : UserControl, IActivate
     {
+        string searchfor = "";
+
         private void BUT_Find_Click(object sender, EventArgs e)
         {
             y = 10;
-
-            var searchfor = "";
+            InputBox.TextChanged += InputBox_TextChanged;
             InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
 
-            foreach (Control ctl in tableLayoutPanel1.Controls)
+            filterList(searchfor);
+        }
+
+        private void InputBox_TextChanged(object sender, EventArgs e)
+        {
+            var textbox = sender as TextBox;
+
+            var searchfor = textbox.Text;
+
+            filterList(searchfor);
+        }
+
+        void filterList(string searchfor)
+        {
+            if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
-                if (ctl.GetType() == typeof (RangeControl))
+                foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
-                    var rng = (RangeControl) ctl;
-                    if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
-                        rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                    if (ctl.GetType() == typeof (RangeControl))
                     {
-                        ctl.Visible = true;
-                        ctl.Location = new Point(ctl.Location.X, y);
-                        y += ctl.Height;
+                        var rng = (RangeControl) ctl;
+                        if (rng.LabelText.ToLower().Contains(searchfor.ToLower()) ||
+                            rng.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
                     }
-                    else
+                    else if (ctl.GetType() == typeof (ValuesControl))
                     {
-                        ctl.Visible = false;
+                        var vctl = (ValuesControl) ctl;
+                        if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
+                            vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
                     }
-                }
-                else if (ctl.GetType() == typeof (ValuesControl))
-                {
-                    var vctl = (ValuesControl) ctl;
-                    if (vctl.LabelText.ToLower().Contains(searchfor.ToLower()) ||
-                        vctl.DescriptionText.ToLower().Contains(searchfor.ToLower()))
+                    else if (ctl.GetType() == typeof(MavlinkCheckBoxBitMask))
                     {
-                        ctl.Visible = true;
-                        ctl.Location = new Point(ctl.Location.X, y);
-                        y += ctl.Height;
-                    }
-                    else
-                    {
-                        ctl.Visible = false;
+                        var bctl = (MavlinkCheckBoxBitMask)ctl;
+                        if (bctl.label1.Text.ToLower().Contains(searchfor.ToLower()) ||
+                            bctl.myLabel1.Text.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
                     }
                 }
             }
@@ -61,7 +94,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // check for change
             if (MainV2.Advanced != chk_advview.Checked)
             {
-                MainV2.config["advancedview"] = chk_advview.Checked.ToString();
+                Settings.Instance["advancedview"] = chk_advview.Checked.ToString();
                 MainV2.Advanced = chk_advview.Checked;
 
                 MainV2.View.Reload();
@@ -103,6 +136,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             BUT_rerequestparams.Click += BUT_rerequestparams_Click;
             BUT_writePIDS.Click += BUT_writePIDS_Click;
+
+            ParameterMode = ParameterMode = ParameterMetaDataConstants.Standard;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -347,7 +382,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
                         {
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
-                            ((MavlinkCheckBoxBitMask) items[0]).setup(x.Key, MainV2.comPort.MAV.param);
+                            ((MavlinkCheckBoxBitMask) items[0]).Value = Convert.ToSingle(value);
                             ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
@@ -445,7 +480,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
-                            bitmask.label1.Text = FitDescriptionText(units, description, bitmask.Width - 100);
+                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width-50);
+                            bitmask.Width = tableLayoutPanel1.Width - 50;
 
                             ThemeManager.ApplyThemeTo(bitmask);
 

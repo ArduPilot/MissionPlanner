@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <simple>
   <ac>
     <version>3.0</version>
@@ -32,7 +33,7 @@
         <multiplier>1</multiplier>
       </relation>
     </param>
-    
+
     <param>
       <title>Throttle Hover:</title>
       <desc> How much throttle is needed to maintain a steady hover. </desc>
@@ -54,6 +55,6 @@
         <multiplier>2</multiplier>
       </relation>
     </param>
-  
+
   </ac>
 </simple>

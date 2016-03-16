@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -33,34 +34,34 @@ namespace MissionPlanner.Controls
 
         void loadSettings()
         {
-            string desc = MainV2.getConfig("Servo" + thisservo + "_desc");
-            string low = MainV2.getConfig("Servo" + thisservo + "_low");
-            string high = MainV2.getConfig("Servo" + thisservo + "_high");
+            string desc = Settings.Instance["Servo" + thisservo + "_desc"];
+            string low = Settings.Instance["Servo" + thisservo + "_low"];
+            string high = Settings.Instance["Servo" + thisservo + "_high"];
 
-            string highdesc = MainV2.getConfig("Servo" + thisservo + "_highdesc");
-            string lowdesc = MainV2.getConfig("Servo" + thisservo + "_lowdesc");
+            string highdesc = Settings.Instance["Servo" + thisservo + "_highdesc"];
+            string lowdesc = Settings.Instance["Servo" + thisservo + "_lowdesc"];
 
-            if (low != "")
+            if (!string.IsNullOrEmpty(low))
             {
                 TXT_pwm_low.Text = low;
             }
 
-            if (high != "")
+            if (!string.IsNullOrEmpty(high))
             {
                 TXT_pwm_high.Text = high;
             }
 
-            if (desc != "")
+            if (!string.IsNullOrEmpty(desc))
             {
                 TXT_rcchannel.Text = desc;
             }
 
-            if (highdesc != "")
+            if (!string.IsNullOrEmpty(highdesc))
             {
                 BUT_High.Text = highdesc;
             }
 
-            if (lowdesc != "")
+            if (!string.IsNullOrEmpty(lowdesc))
             {
                 BUT_Low.Text = lowdesc;
             }
@@ -70,7 +71,8 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0,
+                    0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
@@ -79,14 +81,18 @@ namespace MissionPlanner.Controls
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            }
         }
 
         private void BUT_High_Click(object sender, EventArgs e)
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0,
+                    0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
                 }
@@ -95,14 +101,18 @@ namespace MissionPlanner.Controls
                     CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            }
         }
 
         private void BUT_Repeat_Click(object sender, EventArgs e)
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0,
+                    0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
@@ -110,7 +120,8 @@ namespace MissionPlanner.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0,
+                    0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
                 }
@@ -118,28 +129,32 @@ namespace MissionPlanner.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0,
+                    0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR);
+            }
             // MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 10, 1000, 0, 0, 0);         
         }
 
         private void TXT_pwm_low_TextChanged(object sender, EventArgs e)
         {
-            MainV2.config["Servo" + thisservo + "_low"] = TXT_pwm_low.Text;
+            Settings.Instance["Servo" + thisservo + "_low"] = TXT_pwm_low.Text;
         }
 
         private void TXT_pwm_high_TextChanged(object sender, EventArgs e)
         {
-            MainV2.config["Servo" + thisservo + "_high"] = TXT_pwm_high.Text;
+            Settings.Instance["Servo" + thisservo + "_high"] = TXT_pwm_high.Text;
         }
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Control sourcectl = ((ContextMenuStrip)renameToolStripMenuItem.Owner).SourceControl;
+            Control sourcectl = ((ContextMenuStrip) renameToolStripMenuItem.Owner).SourceControl;
 
             string desc = sourcectl.Text;
             MissionPlanner.Controls.InputBox.Show("Description", "Enter new Description", ref desc);
@@ -147,15 +162,15 @@ namespace MissionPlanner.Controls
 
             if (sourcectl == BUT_High)
             {
-                MainV2.config["Servo" + thisservo + "_highdesc"] = desc;
+                Settings.Instance["Servo" + thisservo + "_highdesc"] = desc;
             }
             else if (sourcectl == BUT_Low)
             {
-                MainV2.config["Servo" + thisservo + "_lowdesc"] = desc;
+                Settings.Instance["Servo" + thisservo + "_lowdesc"] = desc;
             }
             else if (sourcectl == TXT_rcchannel)
             {
-                MainV2.config["Servo" + thisservo + "_desc"] = desc;
+                Settings.Instance["Servo" + thisservo + "_desc"] = desc;
             }
         }
     }

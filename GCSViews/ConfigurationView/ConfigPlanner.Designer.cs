@@ -97,6 +97,7 @@
             this.chk_tfr = new System.Windows.Forms.CheckBox();
             this.BUT_Keyboard = new MissionPlanner.Controls.MyButton();
             this.label6 = new System.Windows.Forms.Label();
+            this.chk_temp = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -628,12 +629,20 @@
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
+            // chk_temp
+            // 
+            resources.ApplyResources(this.chk_temp, "chk_temp");
+            this.chk_temp.Name = "chk_temp";
+            this.chk_temp.UseVisualStyleBackColor = true;
+            this.chk_temp.CheckedChanged += new System.EventHandler(this.chk_temp_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label6);
             this.Controls.Add(this.BUT_Keyboard);
+            this.Controls.Add(this.chk_temp);
             this.Controls.Add(this.chk_tfr);
             this.Controls.Add(this.chk_ADSB);
             this.Controls.Add(this.CHK_showairports);
@@ -778,5 +787,6 @@
         private System.Windows.Forms.CheckBox chk_tfr;
         private Controls.MyButton BUT_Keyboard;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox chk_temp;
     }
 }

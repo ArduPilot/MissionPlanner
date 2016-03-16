@@ -52,7 +52,10 @@ namespace MissionPlanner.Comms
         public  Parity Parity { get; set; }
         public  int DataBits { get; set; }
 
-        public string PortName { get; set; }
+        public string PortName {
+            get { return "UDPCl" + Port; }
+            set { }
+        }
 
         public int BytesToRead
         {
@@ -164,7 +167,9 @@ namespace MissionPlanner.Comms
 
                 // prevent read past end of array
                 if ((rbuffer.Length - rbufferread) < length)
-                    return 0;
+                {
+                    length = (rbuffer.Length - rbufferread);
+                }
 
                 Array.Copy(rbuffer, rbufferread, readto, offset, length);
 

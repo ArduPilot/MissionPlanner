@@ -16,11 +16,11 @@ namespace GMap.NET.CacheProviders
 #if !MONO
    using System.Data.SQLite;
 #else
-   using SQLiteConnection = Mono.Data.SqliteClient.SqliteConnection;
-   using SQLiteTransaction = Mono.Data.SqliteClient.SqliteTransaction;
-   using SQLiteCommand = Mono.Data.SqliteClient.SqliteCommand;
-   using SQLiteDataReader = Mono.Data.SqliteClient.SqliteDataReader;
-   using SQLiteParameter = Mono.Data.SqliteClient.SqliteParameter;
+   using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
+   using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
+   using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+   using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+   using SQLiteParameter = Mono.Data.Sqlite.SqliteParameter;
 #endif
 
    /// <summary>
@@ -556,11 +556,7 @@ namespace GMap.NET.CacheProviders
                               cmd.ExecuteNonQuery();
                            }
 
-#if !MONO
                            using(SQLiteTransaction tr = cn2.BeginTransaction())
-#else
-                           using(DbTransaction tr = cn2.BeginTransaction())
-#endif
                            {
                               try
                               {

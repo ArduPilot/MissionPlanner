@@ -167,7 +167,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 26</value>
+    <value>125, 24</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>所有单位都会以原始
@@ -177,12 +177,6 @@
     <value>MiddleLeft</value>
   </data>
   <data name="label1.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="BUT_find.Text" xml:space="preserve">
-    <value>查找</value>
-  </data>
-  <data name="BUT_find.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
@@ -198,6 +192,18 @@
     <value>重置为默认值</value>
   </data>
   <data name="BUT_reset_params.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="txt_search.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>29, 12</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="label2.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="$this.ToolTip" xml:space="preserve">

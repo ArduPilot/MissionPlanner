@@ -11,7 +11,7 @@ namespace MissionPlanner.Warnings
 
         System.Reflection.PropertyInfo Item { get; set; }
 
-        public CustomWarning Child = null;  
+        public CustomWarning Child = null;
 
         public enum Conditional
         {
@@ -58,7 +58,10 @@ namespace MissionPlanner.Warnings
                     // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
                     typeCode = Type.GetTypeCode(fieldValue.GetType());
                 }
-                catch { continue; }
+                catch
+                {
+                    continue;
+                }
 
                 answer.Add(field.Name);
             }
@@ -66,14 +69,27 @@ namespace MissionPlanner.Warnings
             return answer;
         }
 
-        public string Name { get { return _name; } set { if (_name == value) { return; } _name = value; if (defaultsrc != null) SetField(value); } }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name == value)
+                {
+                    return;
+                }
+                _name = value;
+                if (defaultsrc != null) SetField(value);
+            }
+        }
+
         string _name = "";
 
         /// <summary>
         /// Warning on this number based on ConditionType
         /// </summary>
         public double Warning { get; set; }
-        
+
         /// <summary>
         /// used to track last time something was said
         /// </summary>
@@ -92,8 +108,13 @@ namespace MissionPlanner.Warnings
         /// <summary>
         /// What we are going to say. use {warning}, {value}, {name}
         /// </summary>
-        public string Text { get { return _text; } set { _text = value; } }
-        string _text =  "WARNING: {name} is {value}";
+        public string Text
+        {
+            get { return _text; }
+            set { _text = value; }
+        }
+
+        string _text = "WARNING: {name} is {value}";
 
         /// <summary>
         /// Returns the formated string to pass to the speech engine
@@ -101,7 +122,10 @@ namespace MissionPlanner.Warnings
         /// <returns></returns>
         public string SayText()
         {
-            return Text.Replace("{warning}", Warning.ToString("0.##")).Replace("{value}", GetValue.ToString("0.##")).Replace("{name}", Item.Name);
+            return
+                Text.Replace("{warning}", Warning.ToString("0.##"))
+                    .Replace("{value}", GetValue.ToString("0.##"))
+                    .Replace("{name}", Item.Name);
         }
 
         /// <summary>
@@ -116,7 +140,7 @@ namespace MissionPlanner.Warnings
                 if (Item == null)
                     throw new ArgumentNullException("Item");
 
-                return (double)Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof(double));
+                return (double) Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof (double));
             }
         }
 
@@ -188,7 +212,5 @@ namespace MissionPlanner.Warnings
 
             throw new MissingFieldException("No such name");
         }
-
     }
-
 }

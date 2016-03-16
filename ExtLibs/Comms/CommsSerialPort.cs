@@ -64,9 +64,13 @@ namespace MissionPlanner.Comms
 
             try
             {
-              //  Console.WriteLine("Doing SerialPortFixer");
-              //  SerialPortFixer.Execute(this.PortName);
-              //  Console.WriteLine("Done SerialPortFixer");
+                // this causes element not found with bluetooth devices.
+                if (BaudRate > 115200)
+                {
+                    Console.WriteLine("Doing SerialPortFixer");
+                    SerialPortFixer.Execute(this.PortName);
+                    Console.WriteLine("Done SerialPortFixer");
+                }
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 
@@ -306,6 +310,8 @@ namespace MissionPlanner.Comms
 
     public sealed class SerialPortFixer : IDisposable
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static void Execute(string portName)
         {
             using (new SerialPortFixer(portName))
@@ -392,7 +398,9 @@ namespace MissionPlanner.Comms
         {
             Dcb dcb = new Dcb();
             GetCommStateNative(ref dcb);
+            log.Info("before dcb flags: "+dcb.Flags);
             dcb.Flags &= ~(1u << DcbFlagAbortOnError);
+            log.Info("after dcb flags: " + dcb.Flags);
             SetCommStateNative(ref dcb);
         }
 
@@ -473,6 +481,24 @@ namespace MissionPlanner.Comms
         #endregion
 
         #region Nested type: DCB
+
+        /*
+         * https://msdn.microsoft.com/en-us/library/windows/desktop/aa363214(v=vs.85).aspx
+  DWORD fBinary  :1;
+  DWORD fParity  :1;
+  DWORD fOutxCtsFlow  :1;
+  DWORD fOutxDsrFlow  :1;
+  DWORD fDtrControl  :2;
+  DWORD fDsrSensitivity  :1;
+  DWORD fTXContinueOnXoff  :1;
+  DWORD fOutX  :1;
+  DWORD fInX  :1;
+  DWORD fErrorChar  :1;
+  DWORD fNull  :1;
+  DWORD fRtsControl  :2;
+  DWORD fAbortOnError  :1;
+  DWORD fDummy2  :17;
+         */
 
         [StructLayout(LayoutKind.Sequential)]
         private struct Dcb

@@ -10,8 +10,8 @@ namespace GMap.NET
    using System.Threading;
    using GMap.NET.WindowsForms;
    using GMap.NET.WindowsForms.Markers;
-using System.Drawing;
-
+   using System.Drawing;
+    
    /// <summary>
    /// form helping to prefetch tiles on local db
    /// </summary>
@@ -43,6 +43,8 @@ using System.Drawing;
          worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
          worker.DoWork += new DoWorkEventHandler(worker_DoWork);
          worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+
+         UserAborted = false;
       }
 
       readonly AutoResetEvent done = new AutoResetEvent(true);
@@ -132,6 +134,8 @@ using System.Drawing;
 
          done.Close();
       }
+
+      public bool UserAborted{get;private set;}
 
       void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
       {
@@ -298,15 +302,27 @@ using System.Drawing;
 
       private void Prefetch_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
       {
-         if(e.KeyCode == Keys.Escape)
-         {
-            this.Close();
-         }
+          if (e.KeyCode == Keys.Escape)
+              ConfirmUserAbort();
       }
 
       private void Prefetch_FormClosed(object sender, FormClosedEventArgs e)
       {
          this.Stop();
+      }
+
+      private void buttonCancel_Click(object sender, EventArgs e)
+      {
+          ConfirmUserAbort();
+      }
+
+      private void ConfirmUserAbort()
+      {
+          if (MessageBox.Show("Are you sure you want to abort the pre-fetch process?", "Confirm Abort", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == System.Windows.Forms.DialogResult.Yes)
+          {
+              UserAborted = true;
+              this.Close();
+          }
       }
    }
 

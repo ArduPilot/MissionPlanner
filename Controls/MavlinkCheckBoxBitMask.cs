@@ -15,12 +15,16 @@ namespace MissionPlanner.Controls
         public MyLabel myLabel1;
         public Panel panel1;
         public event EventValueChanged ValueChanged;
+        List<KeyValuePair<int, string>> list;
+        int chkcount;
+
+        MAVLink.MAV_PARAM_TYPE Type = MAVLink.MAV_PARAM_TYPE.REAL32;
 
         [System.ComponentModel.Browsable(true)]
         public string ParamName { get; set; }
 
 
-        public float Value 
+        public float Value
         {
             get
             {
@@ -28,10 +32,35 @@ namespace MissionPlanner.Controls
 
                 for (int a = 0; a < chklist.Count; a++)
                 {
-                    answer += chklist[a].Value.Checked ? (1 << chklist[a].Key) : 0;
+                    answer += chklist[a].Value.Checked ? (uint)(1 << chklist[a].Key) : 0;
                 }
 
-                return answer;
+                // type conversions
+                // ie int8 255 = -1
+                if (Type == MAVLink.MAV_PARAM_TYPE.INT8)
+                {
+                    answer = (sbyte)answer;
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT16)
+                {
+                    answer = (short)answer;
+                }
+                else if (Type == MAVLink.MAV_PARAM_TYPE.INT32)
+                {
+                    answer = (int)answer;
+                } 
+
+                return (float)answer;
+            }
+            set
+            {
+                for (int a = 0; a < chkcount; a++)
+                {
+                    CheckBox chk = (CheckBox) panel1.Controls[a];
+
+
+                    chk.Checked = (((uint) value & (1 << list[a].Key)) > 0);
+                }
             }
         }
 
@@ -53,13 +82,17 @@ namespace MissionPlanner.Controls
             {
                 this.Enabled = true;
 
-                var list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName, MainV2.comPort.MAV.cs.firmware.ToString());
+                list = ParameterMetaDataRepository.GetParameterBitMaskInt(ParamName,
+                    MainV2.comPort.MAV.cs.firmware.ToString());
+                chkcount = list.Count;
 
-                int chkcount = list.Count;
                 int leftside = 9;
                 int top = 9;
+                int bottom = 0;
 
-                uint value = (uint)paramlist[paramname].Value;
+                uint value = (uint) paramlist[paramname].Value;
+
+                Type = paramlist[paramname].TypeAP;
 
                 for (int a = 0; a < chkcount; a++)
                 {
@@ -68,6 +101,8 @@ namespace MissionPlanner.Controls
                     chk.Text = list[a].Value.ToString();
                     chk.Location = new System.Drawing.Point(leftside, top);
 
+                    bottom = chk.Bottom;
+
                     chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
 
                     if ((value & (1 << list[a].Key)) > 0)
@@ -75,7 +110,7 @@ namespace MissionPlanner.Controls
                         chk.Checked = true;
                     }
 
-                    chklist.Add(new KeyValuePair<int,CheckBox>(list[a].Key,chk));
+                    chklist.Add(new KeyValuePair<int, CheckBox>(list[a].Key, chk));
                     panel1.Controls.Add(chk);
 
                     chk.CheckedChanged += MavlinkCheckBoxBitMask_CheckedChanged;
@@ -91,9 +126,9 @@ namespace MissionPlanner.Controls
                 }
 
 
-                this.panel1.Height = top + 25;
+                this.panel1.Height = bottom;
 
-                    //this.Height = top + 25;
+                this.Height = myLabel1.Height + tableLayoutPanel1.Height + 25;
             }
             else
             {
@@ -114,8 +149,8 @@ namespace MissionPlanner.Controls
                 if (ans == false)
                     CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }
-            catch 
-            { 
+            catch
+            {
                 CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
             }
         }
@@ -131,9 +166,11 @@ namespace MissionPlanner.Controls
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.Anchor =
+                ((System.Windows.Forms.AnchorStyles)
+                    ((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                       | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -167,8 +204,10 @@ namespace MissionPlanner.Controls
             // 
             // myLabel1
             // 
-            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myLabel1.Anchor =
+                ((System.Windows.Forms.AnchorStyles)
+                    (((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                      | System.Windows.Forms.AnchorStyles.Right)));
             this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
             this.myLabel1.Location = new System.Drawing.Point(3, 3);
             this.myLabel1.Name = "myLabel1";
@@ -187,9 +226,6 @@ namespace MissionPlanner.Controls
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        
     }
 }

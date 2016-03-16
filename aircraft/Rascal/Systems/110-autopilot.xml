@@ -35,7 +35,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.01</Td>       <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -65,7 +65,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.01</Td>       <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -98,7 +98,7 @@
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>     <!-- derivator time -->
       <u_min>-20.0</u_min> <!-- minimum output clamp -->
@@ -128,7 +128,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.01</Td>       <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -161,7 +161,7 @@
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>     <!-- derivator time -->
       <u_min>-20.0</u_min> <!-- minimum output clamp -->
@@ -191,7 +191,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.01</Td>       <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -224,7 +224,7 @@
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>10.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>     <!-- derivator time -->
       <u_min>-20.0</u_min> <!-- minimum output clamp -->
@@ -254,7 +254,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.01</Td>       <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -263,12 +263,12 @@
   </pid-controller>
 
 
- <!-- =============================================================== -->
- <!-- Pitch Axis Modes                                                -->
- <!-- =============================================================== -->
+  <!-- =============================================================== -->
+  <!-- Pitch Axis Modes                                                -->
+  <!-- =============================================================== -->
 
- <!-- Simple pitch hold -->
- <pid-controller>
+  <!-- Simple pitch hold -->
+  <pid-controller>
     <name>Pitch hold</name>
     <debug>false</debug>
     <enable>
@@ -289,16 +289,16 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
       <u_max>1.0</u_max>  <!-- maximum output clamp -->
     </config>
-   </pid-controller>
+  </pid-controller>
 
- <!-- Simple pitch hold with yoke -->
- <pid-controller>
+  <!-- Simple pitch hold with yoke -->
+  <pid-controller>
     <name>Pitch hold w/ yoke</name>
     <debug>false</debug>
     <enable>
@@ -319,13 +319,13 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
       <u_max>1.0</u_max>  <!-- maximum output clamp -->
     </config>
-   </pid-controller>
+  </pid-controller>
 
   <!-- Simple angle of attack hold -->
   <pid-controller>
@@ -349,7 +349,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -408,7 +408,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>1.0</Ti>       <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
       <u_min>-5.0</u_min> <!-- minimum output clamp -->
@@ -440,7 +440,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -474,7 +474,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>25.0</Ti>     <!-- integrator time -->
       <Td>0.000000001</Td>    <!-- derivator time -->
       <u_min>-16.67</u_min> <!-- minimum output clamp -->
@@ -504,7 +504,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>       <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -528,7 +528,7 @@
     <reference>
       <prop>/instrumentation/nav[0]/gs-rate-of-climb</prop>
     </reference>
-     <output>
+    <output>
       <prop>/controls/flight/elevator-trim</prop>
     </output>
     <config>
@@ -536,7 +536,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>       <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -545,12 +545,12 @@
   </pid-controller>
 
 
- <!-- =============================================================== -->
- <!-- Velocity Modes                                                  -->
- <!-- =============================================================== -->
+  <!-- =============================================================== -->
+  <!-- Velocity Modes                                                  -->
+  <!-- =============================================================== -->
 
- <!-- Auto throttle -->
- <pid-controller>
+  <!-- Auto throttle -->
+  <pid-controller>
     <name>Auto Throttle (5 sec lookahead)</name>
     <debug>false</debug>
     <enable>
@@ -579,7 +579,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>1.0</Ti>       <!-- integrator time -->
       <Td>0.001</Td>      <!-- derivator time -->
       <u_min>0.0</u_min>  <!-- minimum output clamp -->
@@ -587,8 +587,8 @@
     </config>
   </pid-controller>
 
- <!-- Hold speed by varying pitch trim (Two stage cascading controller) -->
- <pid-controller>
+  <!-- Hold speed by varying pitch trim (Two stage cascading controller) -->
+  <pid-controller>
     <name>Speed hold (vary pitch trim) Stage #1</name>
     <debug>false</debug>
     <enable>
@@ -610,7 +610,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>2.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
       <u_min>-15.0</u_min><!-- minimum output clamp -->
@@ -618,7 +618,7 @@
     </config>
   </pid-controller>
 
- <pid-controller>
+  <pid-controller>
     <name>Speed hold (vary pitch trim) Stage #2</name>
     <debug>false</debug>
     <enable>
@@ -639,7 +639,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>    <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->
@@ -647,7 +647,7 @@
     </config>
   </pid-controller>
 
- <!-- Hold speed by varying elevator (2 stage cascading controller)-->
+  <!-- Hold speed by varying elevator (2 stage cascading controller)-->
 
   <!-- Stage 1, command a forward acceleration rate based on velocity error -->
   <pi-simple-controller>
@@ -696,7 +696,7 @@
       <beta>1.0</beta>     <!-- input value weighing factor -->
       <alpha>0.1</alpha>   <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>   <!-- input value weighing factor for -->
-                           <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>8.0</Ti>        <!-- integrator time -->
       <Td>0.001</Td>       <!-- derivator time -->
       <u_min>-0.25</u_min> <!-- minimum output clamp -->
@@ -704,8 +704,8 @@
     </config>
   </pid-controller>
 
- <!-- Hold speed by varying pitch via yoke (Two stage cascading controller) -->
- <pid-controller>
+  <!-- Hold speed by varying pitch via yoke (Two stage cascading controller) -->
+  <pid-controller>
     <name>Speed hold (vary pitch via yoke) Stage #1</name>
     <debug>false</debug>
     <enable>
@@ -727,7 +727,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>2.0</Ti>        <!-- integrator time -->
       <Td>0.00001</Td>    <!-- derivator time -->
       <u_min>-15.0</u_min><!-- minimum output clamp -->
@@ -735,7 +735,7 @@
     </config>
   </pid-controller>
 
- <pid-controller>
+  <pid-controller>
     <name>Speed hold (vary pitch via yoke) Stage #2</name>
     <debug>false</debug>
     <enable>
@@ -756,7 +756,7 @@
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
-                          <!-- unfiltered derivative error -->
+      <!-- unfiltered derivative error -->
       <Ti>0.5</Ti>        <!-- integrator time -->
       <Td>0.001</Td>      <!-- derivator time -->
       <u_min>-1.0</u_min> <!-- minimum output clamp -->

@@ -130,7 +130,7 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 9</value>
+    <value>3, 8</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>191, 20</value>
@@ -160,10 +160,10 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 49</value>
+    <value>83, 45</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>318, 26</value>
+    <value>407, 24</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>70</value>
@@ -188,10 +188,10 @@ This will ask you to place your autopilot on each edge.</value>
     <value>NoControl</value>
   </data>
   <data name="lbl_Accel_user.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 104</value>
+    <value>7, 96</value>
   </data>
   <data name="lbl_Accel_user.Size" type="System.Drawing.Size, System.Drawing">
-    <value>460, 40</value>
+    <value>460, 37</value>
   </data>
   <data name="lbl_Accel_user.TabIndex" type="System.Int32, mscorlib">
     <value>83</value>
@@ -215,10 +215,10 @@ This will ask you to place your autopilot on each edge.</value>
     <value>NoControl</value>
   </data>
   <data name="BUT_calib_accell.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 78</value>
+    <value>188, 72</value>
   </data>
   <data name="BUT_calib_accell.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 23</value>
+    <value>102, 21</value>
   </data>
   <data name="BUT_calib_accell.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
@@ -239,7 +239,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>3</value>
   </data>
   <data name="lineSeparator2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 32</value>
+    <value>7, 30</value>
   </data>
   <data name="lineSeparator2.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>2000, 2</value>
@@ -269,10 +269,10 @@ This will ask you to place your autopilot on each edge.</value>
     <value>NoControl</value>
   </data>
   <data name="BUT_level.Location" type="System.Drawing.Point, System.Drawing">
-    <value>188, 182</value>
+    <value>188, 168</value>
   </data>
   <data name="BUT_level.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 23</value>
+    <value>102, 21</value>
   </data>
   <data name="BUT_level.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -299,16 +299,16 @@ This will ask you to place your autopilot on each edge.</value>
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>60, 144</value>
+    <value>60, 133</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>366, 26</value>
+    <value>473, 24</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Level your Autopilot to set default accelerometer offsets (1 axis/ARHS trims).
+    <value>Level your Autopilot to set default accelerometer offsets (1 axis/AHRS trims).
 This requires you to place your autopilot flat and level.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
@@ -327,13 +327,13 @@ This requires you to place your autopilot flat and level.</value>
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>6, 12</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>495, 208</value>
+    <value>495, 192</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>ConfigAccelerometerCalibrationTracker</value>
+    <value>ConfigAccelerometerCalibration</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

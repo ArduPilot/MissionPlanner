@@ -33,7 +33,7 @@ namespace MissionPlanner.Wizard
 
         private void BUT_start_Click(object sender, EventArgs e)
         {
-            ((MyButton)sender).Enabled = false;
+            ((MyButton) sender).Enabled = false;
             BUT_continue.Enabled = true;
 
             busy = true;
@@ -44,7 +44,12 @@ namespace MissionPlanner.Wizard
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
                 MainV2.comPort.giveComport = true;
             }
-            catch { busy = false; CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); return; }
+            catch
+            {
+                busy = false;
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+                return;
+            }
 
             // start thread to update display
             System.Threading.ThreadPool.QueueUserWorkItem(readmessage, this);
@@ -55,12 +60,14 @@ namespace MissionPlanner.Wizard
 
         static void readmessage(object item)
         {
-            _5AccelCalib local = (_5AccelCalib)item;
+            _5AccelCalib local = (_5AccelCalib) item;
 
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
 
-            while (!(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") || MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
+            while (
+                !(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") ||
+                  MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
             {
                 try
                 {
@@ -73,7 +80,10 @@ namespace MissionPlanner.Wizard
                     // update user display
                     local.UpdateUserMessage();
                 }
-                catch { break; }
+                catch
+                {
+                    break;
+                }
             }
 
             busy = false;
@@ -82,18 +92,21 @@ namespace MissionPlanner.Wizard
 
             try
             {
-                local.Invoke((MethodInvoker)delegate()
+                local.Invoke((MethodInvoker) delegate()
                 {
                     //local.imageLabel1.Text = "Done";
                     local.BUT_continue.Enabled = false;
+                    local.BUT_start.Enabled = true;
                 });
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         public void UpdateUserMessage()
         {
-            this.Invoke((MethodInvoker)delegate()
+            this.Invoke((MethodInvoker) delegate()
             {
                 if (MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
                 {
@@ -146,9 +159,13 @@ namespace MissionPlanner.Wizard
 
             try
             {
-                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() {command = 1, result = count});
             }
-            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex); Wizard.instance.Close(); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(Strings.CommandFailed + ex);
+                Wizard.instance.Close();
+            }
         }
     }
 }

@@ -16,7 +16,7 @@ namespace MissionPlanner.Controls
     public partial class DefaultSettings : UserControl, IActivate
     {
         private static readonly ILog log =
-         LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         List<GitHubContent.FileInfo> paramfiles;
 
@@ -29,13 +29,10 @@ namespace MissionPlanner.Controls
 
         public void Activate()
         {
-
-
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
 
             System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
-
         }
 
         void updatedefaultlist(object crap)
@@ -44,10 +41,10 @@ namespace MissionPlanner.Controls
             {
                 if (paramfiles == null)
                 {
-                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/",".param");
+                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/", ".param");
                 }
 
-                this.BeginInvoke((Action)delegate
+                this.BeginInvoke((Action) delegate
                 {
                     CMB_paramfiles.DataSource = paramfiles.ToArray();
                     CMB_paramfiles.DisplayMember = "name";
@@ -55,7 +52,10 @@ namespace MissionPlanner.Controls
                     BUT_paramfileload.Enabled = true;
                 });
             }
-            catch (Exception ex) { log.Error(ex); }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
@@ -70,7 +70,8 @@ namespace MissionPlanner.Controls
 
             try
             {
-                byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
+                byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot",
+                    ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);
 
@@ -93,8 +94,8 @@ namespace MissionPlanner.Controls
                 this.Activate();
             }
             catch (Exception ex)
-            { 
-                CustomMessageBox.Show("Failed to load file.\n" + ex); 
+            {
+                CustomMessageBox.Show("Failed to load file.\n" + ex);
             }
         }
 

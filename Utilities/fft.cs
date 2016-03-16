@@ -30,6 +30,7 @@ namespace MissionPlanner.Utilities
      * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
      * IN THE SOFTWARE.
      */
+
     public class FFT2
     {
         // Element for linked list in which we store the
@@ -37,19 +38,20 @@ namespace MissionPlanner.Utilities
         // for sequential access it's faster than array index.
         class FFTElement
         {
-            public double re = 0.0;     // Real component
-            public double im = 0.0;     // Imaginary component
-            public FFTElement next;     // Next element in linked list
-            public uint revTgt;         // Target position post bit-reversal
+            public double re = 0.0; // Real component
+            public double im = 0.0; // Imaginary component
+            public FFTElement next; // Next element in linked list
+            public uint revTgt; // Target position post bit-reversal
         }
 
-        private uint m_logN = 0;        // log2 of FFT size
-        private uint m_N = 0;           // FFT size
-        private FFTElement[] m_X;       // Vector of linked list elements
+        private uint m_logN = 0; // log2 of FFT size
+        private uint m_N = 0; // FFT size
+        private FFTElement[] m_X; // Vector of linked list elements
 
         /**
          *
          */
+
         public FFT2()
         {
         }
@@ -59,11 +61,12 @@ namespace MissionPlanner.Utilities
          *
          * @param   logN    Log2 of FFT length. e.g. for 512 pt FFT, logN = 9.
          */
+
         public void init(
             uint logN)
         {
             m_logN = logN;
-            m_N = (uint)(1 << (int)m_logN);
+            m_N = (uint) (1 << (int) m_logN);
 
             // Allocate elements for linked list of complex numbers.
             m_X = new FFTElement[m_N];
@@ -83,13 +86,13 @@ namespace MissionPlanner.Utilities
         {
             int N = samplecount;
 
-            double[] m_freq = new double[N / 2];
+            double[] m_freq = new double[N/2];
 
             // Vector with frequencies for each bin number. Used
             // in the graphing code (not in the analysis itself).
-            m_freq = new double[(N / 2)];
-            for (int i = 0; i < N / 2; i++)
-                m_freq[i] = i * samplerate / N;
+            m_freq = new double[(N/2)];
+            for (int i = 0; i < N/2; i++)
+                m_freq[i] = i*samplerate/N;
 
             return m_freq;
         }
@@ -99,42 +102,42 @@ namespace MissionPlanner.Utilities
         // max hz = 1/2 sample rate
 
         //https://gerrybeauregard.wordpress.com/2010/08/06/real-time-spectrum-analysis/
-        public double[] rin(double[] data, uint bins) 
+        public double[] rin(double[] data, uint bins)
         {
             double SCALE = 20/Math.Log(10);
             int N = data.Length;
             double[] xRe = new double[N];
             double[] xIm = new double[N];
-            double[] m_mag = new double[N / 2];
+            double[] m_mag = new double[N/2];
             double avg_sum = 0;
 
             init(bins); // 1024 = 1 << 10
 
             // Hanning analysis window
             double[] m_win = new double[N];
-            for (int i = 0; i < N; i++ )
-                m_win[i] = (4.0/N) * 0.5*(1-Math.Cos(2*Math.PI*i/N));
+            for (int i = 0; i < N; i++)
+                m_win[i] = (4.0/N)*0.5*(1 - Math.Cos(2*Math.PI*i/N));
 
             // create Real and apply hanning window
             for (int a = 0; a < data.Length; a++)
             {
                 avg_sum += data[a];
-                xRe[a] = m_win[a] * data[a];
+                xRe[a] = m_win[a]*data[a];
                 xIm[a] = 0;
             }
 
-            double avg = avg_sum / data.Length;
+            double avg = avg_sum/data.Length;
 
             // do fft
             run(xRe, xIm);
 
             // Convert from Decibel to Magnitude
-            for (int i = 0; i < N / 2; i++)
+            for (int i = 0; i < N/2; i++)
             {
                 double re = xRe[i]; // get the Real FFT Number at position i
                 double im = xIm[i]; // get the Imaginary FFT Number at position i
 
-                m_mag[i] = Math.Sqrt(re * re + im * im); // Convert magnitude to decibels
+                m_mag[i] = Math.Sqrt(re*re + im*im); // Convert magnitude to decibels
 
                 //m_mag[i] = SCALE * Math.Log(m_mag[i] + MIN_VALUE);
             }
@@ -150,25 +153,26 @@ namespace MissionPlanner.Utilities
          * @param   xIm     Imaginary part of input/output -vertical
          * @param   inverse If true, do an inverse FFT
          */
+
         public void run(
             double[] xRe,
             double[] xIm,
             bool inverse = false)
         {
             uint numFlies = m_N >> 1; // Number of butterflies per sub-FFT
-            uint span = m_N >> 1;     // Width of the butterfly
-            uint spacing = m_N;         // Distance between start of sub-FFTs
-            uint wIndexStep = 1;        // Increment for twiddle table index
+            uint span = m_N >> 1; // Width of the butterfly
+            uint spacing = m_N; // Distance between start of sub-FFTs
+            uint wIndexStep = 1; // Increment for twiddle table index
 
             // Copy data into linked complex number objects
             // If it's an IFFT, we divide by N while we're at it
             FFTElement x = m_X[0];
             uint k = 0;
-            double scale = inverse ? 1.0 / m_N : 1.0;
+            double scale = inverse ? 1.0/m_N : 1.0;
             while (x != null)
             {
-                x.re = scale * xRe[k];
-                x.im = scale * xIm[k];
+                x.re = scale*xRe[k];
+                x.im = scale*xIm[k];
                 x = x.next;
                 k++;
             }
@@ -183,7 +187,7 @@ namespace MissionPlanner.Utilities
                 // implementations the twiddle factors are cached, but because
                 // array lookup is relatively slow in C#, it's just
                 // as fast to compute them on the fly.
-                double wAngleInc = wIndexStep * 2.0 * Math.PI / m_N;
+                double wAngleInc = wIndexStep*2.0*Math.PI/m_N;
                 if (inverse == false)
                     wAngleInc *= -1;
                 double wMulRe = Math.Cos(wAngleInc);
@@ -214,8 +218,8 @@ namespace MissionPlanner.Utilities
                         // followed by multiplication by twiddle factor
                         xBotRe = xTopRe - xBotRe;
                         xBotIm = xTopIm - xBotIm;
-                        xBot.re = xBotRe * wRe - xBotIm * wIm;
-                        xBot.im = xBotRe * wIm + xBotIm * wRe;
+                        xBot.re = xBotRe*wRe - xBotIm*wIm;
+                        xBot.im = xBotRe*wIm + xBotIm*wRe;
 
                         // Advance butterfly to next top & bottom positions
                         xTop = xTop.next;
@@ -225,15 +229,15 @@ namespace MissionPlanner.Utilities
                         // by unit vector with the appropriate angle
                         // (wRe + j wIm) = (wRe + j wIm) x (wMulRe + j wMulIm)
                         double tRe = wRe;
-                        wRe = wRe * wMulRe - wIm * wMulIm;
-                        wIm = tRe * wMulIm + wIm * wMulRe;
+                        wRe = wRe*wMulRe - wIm*wMulIm;
+                        wIm = tRe*wMulIm + wIm*wMulRe;
                     }
                 }
 
-                numFlies >>= 1;   // Divide by 2 by right shift
+                numFlies >>= 1; // Divide by 2 by right shift
                 span >>= 1;
                 spacing >>= 1;
-                wIndexStep <<= 1;     // Multiply by 2 by left shift
+                wIndexStep <<= 1; // Multiply by 2 by left shift
             }
 
             // The algorithm leaves the result in a scrambled order.
@@ -256,6 +260,7 @@ namespace MissionPlanner.Utilities
          * @param   x       Number to be bit-reverse.
          * @param   numBits Number of bits in the number.
          */
+
         private uint BitReverse(
             uint x,
             uint numBits)

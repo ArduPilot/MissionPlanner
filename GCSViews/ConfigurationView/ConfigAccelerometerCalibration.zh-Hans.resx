@@ -117,19 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_calib_accell.Text" xml:space="preserve">
-    <value>校准加速度计</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>把你的飞机放置水平设置默认偏移(1轴)。这需要你把你的自动驾驶仪放在水平的平面上。</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>把你的飞机放置水平设置默认偏移(3轴)。这会让你把自动驾驶仪每一面都放置一次。</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 20</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>加速度计校准</value>
   </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 45</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>353, 24</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>水平放置您的自驾仪，设置加速度计的默认最小/最大值（3轴）。
+这会要求您将自驾仪的每一面都放置一次。</value>
+  </data>
+  <data name="BUT_calib_accell.Text" xml:space="preserve">
+    <value>校准加速度计</value>
+  </data>
   <data name="BUT_level.Text" xml:space="preserve">
     <value>校准水平</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 141</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>377, 24</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>水平放置您的自驾仪，设置加速度计的默认偏移（1轴/航姿系统平衡）
+这需要您将自驾仪放置在水平的平面上。</value>
   </data>
 </root>

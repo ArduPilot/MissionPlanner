@@ -192,7 +192,7 @@ namespace ZedGraph
 			if ( sendEvent )
 			{
 				if ( SelectionChangedEvent != null )
-					SelectionChangedEvent( this, new EventArgs() );
+					SelectionChangedEvent( this, EventArgs.Empty );
 			}
 		}
 
@@ -247,7 +247,7 @@ namespace ZedGraph
 
 			//Send Selection Changed Event
 			if ( SelectionChangedEvent != null )
-				SelectionChangedEvent( this, new EventArgs() );
+				SelectionChangedEvent( this, EventArgs.Empty);
 
 		}
 
