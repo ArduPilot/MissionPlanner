@@ -352,7 +352,8 @@ namespace MissionPlanner.GeoRef
                         p.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
                         p.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
                         p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
-                        p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                        if (raltindex != -1)
+                            p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
 
                         p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
                         p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
