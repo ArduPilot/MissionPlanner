@@ -1362,8 +1362,8 @@ Please check the following
 
             mavlink_command_long_t req = new mavlink_command_long_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+                req.target_system = MAV.sysid;
+                req.target_component = MAV.compid;
 
             req.command = (ushort) actionid;
 
@@ -2897,9 +2897,16 @@ Please check the following
             }
 
             // 3dr radios dont send a hb, so no mavstate is ever created, this overrides that behavior
-            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51,68))
+            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51, 68))
             {
-                // create an item
+                // create an item - hidden
+                MAVlist.AddHiddenList(sysid, compid);
+            }
+
+            // esp8266 no hb, provide param interface however
+            if (compid == (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE && !MAVlist.Contains(sysid, (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE))
+            {
+                // create an item - visible
                 MAVlist[sysid, compid] = MAVlist[sysid, compid];
                 MAVlist[sysid, compid].sysid = sysid;
                 MAVlist[sysid, compid].compid = compid;
