@@ -54,7 +54,17 @@ public partial class MAVLink
         public Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
         public float float_value { get { return BitConverter.ToSingle(data, 0); } }
 
-        internal byte[] data = new byte[4];
+        byte[] _data = new byte[4];
+
+        public byte[] data
+        {
+            get { return _data; }
+            set
+            {
+                _data = value;
+                Array.Resize(ref _data, 4);
+            }
+        }
 
         /// <summary>
         /// used as a generic input to type the input data
