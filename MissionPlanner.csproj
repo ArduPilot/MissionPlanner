@@ -510,6 +510,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWAirspeed.Designer.cs">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWesp8266.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWesp8266.Designer.cs">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1462,6 +1468,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-TW.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWesp8266.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.id-ID.resx">
       <DependentUpon>ConfigHWBT.cs</DependentUpon>
