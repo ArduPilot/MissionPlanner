@@ -47,6 +47,8 @@ namespace MissionPlanner.Controls.BackstageView
             get {
                 if (_page == null)
                 {
+                    if (DesignMode)
+                        return null;
                     _page = (UserControl) Activator.CreateInstance(PageType);
                     _page.Enabled = false;
                     _page.Visible = false;
