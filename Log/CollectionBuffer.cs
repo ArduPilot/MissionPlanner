@@ -61,33 +61,19 @@ namespace MissionPlanner.Log
 
             if (binary)
             {
-                while (basestream.Position < basestream.Length)
+                long length = basestream.Length;
+                while (basestream.Position < length)
                 {
-                    offset = 0;
+                    var ans = binlog.ReadMessageTypeOffset(basestream);
 
-                    // seek back 5 on each buffer fill
-                    if (basestream.Position > 10)
-                        basestream.Seek(-5, SeekOrigin.Current);
+                    if (ans == null)
+                        continue;
 
-                    long startpos = basestream.Position;
+                    byte type = ans.Item1;
+                    messageindex[type].Add((uint)(ans.Item2));
 
-                    int read = basestream.Read(buffer, offset, buffer.Length);
-
-                    // 5 byte overlap
-                    while (read > 2)
-                    {
-                        if (buffer[offset] == BinaryLog.HEAD_BYTE1 && buffer[offset + 1] == BinaryLog.HEAD_BYTE2)
-                        {
-                            byte type = buffer[offset + 2];
-                            messageindex[type].Add((uint)(startpos + offset));
-
-                            linestartoffset.Add((uint)(startpos + offset));
-                            lineCount++;
-                        }
-
-                        offset++;
-                        read--;
-                    }
+                    linestartoffset.Add((uint)(ans.Item2));
+                    lineCount++;
                 }
 
                 _count = lineCount;

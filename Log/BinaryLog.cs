@@ -183,7 +183,139 @@ namespace MissionPlanner.Log
             return "";
         }
 
-        public object[] ReadMessageObjects(Stream br)
+
+        public Tuple<byte, long> ReadMessageTypeOffset(Stream br)
+        {
+            int log_step = 0;
+            long length = br.Length;
+
+            while (br.Position < length)
+            {
+                byte data = (byte) br.ReadByte();
+
+                switch (log_step)
+                {
+                    case 0:
+                        if (data == HEAD_BYTE1)
+                        {
+                            log_step++;
+                        }
+                        break;
+
+                    case 1:
+                        if (data == HEAD_BYTE2)
+                        {
+                            log_step++;
+                        }
+                        else
+                        {
+                            log_step = 0;
+                        }
+                        break;
+
+                    case 2:
+                        log_step = 0;
+                        try
+                        {
+                            long pos = br.Position - 3;
+                            logEntryFMT(data, br);
+
+                            return new Tuple<byte, long>(data, pos);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Bad Binary log line {0}", data);
+                        }
+                        break;
+                }
+            }
+
+            return null;
+        }
+
+        void logEntryFMT(byte packettype, Stream br)
+        {
+            switch (packettype)
+            {
+                case 0x80: // FMT
+
+                    log_Format logfmt = new log_Format();
+
+                    object obj = logfmt;
+
+                    int len = Marshal.SizeOf(obj);
+
+                    byte[] bytearray = new byte[len];
+
+                    br.Read(bytearray, 0, bytearray.Length);
+
+                    IntPtr i = Marshal.AllocHGlobal(len);
+
+                    // create structure from ptr
+                    obj = Marshal.PtrToStructure(i, obj.GetType());
+
+                    // copy byte array to ptr
+                    Marshal.Copy(bytearray, 0, i, len);
+
+                    obj = Marshal.PtrToStructure(i, obj.GetType());
+
+                    Marshal.FreeHGlobal(i);
+
+                    logfmt = (log_Format) obj;
+
+                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
+                    string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
+                    string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+
+                    logformat[lgname] = logfmt;
+
+                    return;
+
+                default:
+                    string format = "";
+                    string name = "";
+                    int size = 0;
+
+                    if (packettypecache.ContainsKey(packettype))
+                    {
+                        var fmt = packettypecache[packettype];
+                        name = fmt.name;
+                        format = fmt.format;
+                        size = fmt.length;
+                    }
+                    else
+                    {
+                        foreach (log_Format fmt in logformat.Values)
+                        {
+                            packettypecache[fmt.type] = new log_format_cache()
+                            {
+                                length = fmt.length,
+                                type = fmt.type,
+                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] { '\0' }),
+                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] { '\0' }),
+                            };
+
+                            if (fmt.type == packettype)
+                            {
+                                name = packettypecache[fmt.type].name;
+                                format = packettypecache[fmt.type].format;
+                                size = fmt.length;
+                                //break;
+                            }
+                        }
+                    }
+
+                    // didnt find a match, return unknown packet type
+                    if (size == 0)
+                        return;
+
+                    br.Seek(size - 3, SeekOrigin.Current);
+                    break;
+            }
+        }
+
+        public
+            object[] ReadMessageObjects(Stream br)
         {
             int log_step = 0;
 
@@ -273,14 +405,32 @@ namespace MissionPlanner.Log
                     string name = "";
                     int size = 0;
 
-                    foreach (log_Format fmt in logformat.Values)
+                    if (packettypecache.ContainsKey(packettype))
                     {
-                        if (fmt.type == packettype)
+                        var fmt = packettypecache[packettype];
+                        name = fmt.name;
+                        format = fmt.format;
+                        size = fmt.length;
+                    }
+                    else
+                    {
+                        foreach (log_Format fmt in logformat.Values)
                         {
-                            name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'});
-                            format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'});
-                            size = fmt.length;
-                            break;
+                            packettypecache[fmt.type] = new log_format_cache()
+                            {
+                                length = fmt.length,
+                                type = fmt.type,
+                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] { '\0' }),
+                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] { '\0' }),
+                            };
+
+                            if (fmt.type == packettype)
+                            {
+                                name = packettypecache[fmt.type].name;
+                                format = packettypecache[fmt.type].format;
+                                size = fmt.length;
+                                //break;
+                            }
                         }
                     }
 
