@@ -201,10 +201,10 @@ namespace MissionPlanner.Utilities
                                     Console.Write(stream.ReadByte());
                                 }
 
-                                byte[] packet = new byte[256];
+                                byte[] packet = new byte[1024];
 
-                                string sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," +
-                                                MainV2.comPort.MAV.cs.yaw;
+                                string sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," + MainV2.comPort.MAV.cs.yaw
+                                                + "," + MainV2.comPort.MAV.cs.lat + "," + MainV2.comPort.MAV.cs.lng + "," + MainV2.comPort.MAV.cs.alt;
 
                                 packet[0] = 0x81; // fin - binary
                                 packet[1] = (byte) sendme.Length;

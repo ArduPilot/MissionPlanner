@@ -30,7 +30,7 @@ namespace MissionPlanner.Utilities
         ~TerrainFollow()
         {
             log.Info("unSubscribe to packets");
-            MainV2.comPort.UnSubscribeToPacketType(subscription);
+            _interface.UnSubscribeToPacketType(subscription);
         }
 
         bool ReceviedPacket(byte[] rawpacket)

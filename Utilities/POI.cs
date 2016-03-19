@@ -49,14 +49,14 @@ namespace MissionPlanner.Utilities
             POIAdd(Point, output);
         }
 
-        public static void POIDelete(PointLatLngAlt Point)
+        public static void POIDelete(GMapMarkerPOI Point)
         {
             if (Point == null)
                 return;
 
             for (int a = 0; a < POI.POIs.Count; a++)
             {
-                if (POI.POIs[a].Point() == Point)
+                if (POI.POIs[a].Point() == Point.Position)
                 {
                     POI.POIs.RemoveAt(a);
                     if (POIModified != null)
@@ -66,7 +66,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static void POIEdit(PointLatLngAlt Point)
+        public static void POIEdit(GMapMarkerPOI Point)
         {
             if (Point == null)
                 return;
@@ -78,14 +78,31 @@ namespace MissionPlanner.Utilities
 
             for (int a = 0; a < POI.POIs.Count; a++)
             {
-                if (POI.POIs[a].Point() == Point)
+                if (POI.POIs[a].Point() == Point.Position)
                 {
-                    POI.POIs[a].Tag = output + "\n" + Point.ToString();
+                    POI.POIs[a].Tag = output + "\n" + Point.Position.ToString();
                     if (POIModified != null)
                         POIModified(null, null);
                     return;
                 }
             }
+        }
+
+        public static void POIMove(GMapMarkerPOI Point)
+        {
+            for (int a = 0; a < POI.POIs.Count; a++)
+            {
+                if (POIs[a].Tag == Point.ToolTipText)
+                {
+                    POIs[a].Lat = Point.Position.Lat;
+                    POIs[a].Lng = Point.Position.Lng;
+                    POIs[a].Tag = POIs[a].Tag.Substring(0,POIs[a].Tag.IndexOf('\n')) + "\n" + Point.Position.ToString();
+                    break;
+                }
+            }
+
+            if (POIModified != null)
+                POIModified(null, null);
         }
 
         public static void POISave()
@@ -119,7 +136,7 @@ namespace MissionPlanner.Utilities
 
             foreach (var pnt in POIs)
             {
-                poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot)
+                poioverlay.Markers.Add(new GMapMarkerPOI(pnt)
                 {
                     ToolTipMode = MarkerTooltipMode.OnMouseOver,
                     ToolTipText = pnt.Tag

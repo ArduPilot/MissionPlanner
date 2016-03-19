@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MissionPlanner</RootNamespace>
     <AssemblyName>MissionPlanner</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -298,6 +298,8 @@
     <Compile Include="Controls\DistanceBar.Designer.cs">
       <DependentUpon>DistanceBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Icon\Icon.cs" />
+    <Compile Include="Controls\Icon\Polygon.cs" />
     <Compile Include="Controls\LogAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -507,6 +509,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWAirspeed.Designer.cs">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWesp8266.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWesp8266.Designer.cs">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
       <SubType>UserControl</SubType>
@@ -807,18 +815,9 @@
     <Compile Include="Utilities\AP_GPS_GSOF.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\GMapMarkerPOI.cs" />
     <Compile Include="Utilities\GStreamer.cs" />
     <Compile Include="Utilities\Crypto.cs" />
-    <Compile Include="Utilities\DroneApi\APIConstants.cs" />
-    <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
-    <Compile Include="Utilities\DroneApi\DroneProto.cs" />
-    <Compile Include="Utilities\DroneApi\droneshare.cs" />
-    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utilities\DroneApi\UI\VehicleSelection.Designer.cs">
-      <DependentUpon>VehicleSelection.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\fft.cs" />
     <Compile Include="Utilities\fftui.cs">
       <SubType>Form</SubType>
@@ -836,7 +835,8 @@
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\NGEN.cs" />
-    <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
+    <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
+    <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
@@ -1474,6 +1474,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-TW.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWesp8266.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.id-ID.resx">
       <DependentUpon>ConfigHWBT.cs</DependentUpon>
@@ -2812,9 +2815,6 @@
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\DroneApi\UI\VehicleSelection.resx">
-      <DependentUpon>VehicleSelection.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Utilities\fftui.resx">
       <DependentUpon>fftui.cs</DependentUpon>
     </EmbeddedResource>
@@ -3596,7 +3596,6 @@
     <Content Include="DLLs\NumpyDotNet.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="ExtLibs\LibVLC.NET\LibVLC.NET.csproj" />
     <Content Include="LogAnalyzer\DataflashLog.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3668,10 +3667,18 @@
     <Content Include="mavgraphs.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ParameterFactMetaData.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\example7.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\example5 inject data.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Scripts\example6.py" />
+    <Content Include="Scripts\example6.py">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\TAKEOFF.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7278,9 +7285,6 @@
     <Content Include="Scripts\example1.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Utilities\DroneApi\webapi.proto">
-      <Generator>ProtoBufTool</Generator>
-    </None>
     <None Include="version.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

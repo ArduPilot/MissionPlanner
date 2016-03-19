@@ -37,7 +37,6 @@
             this.BUT_redokml = new MissionPlanner.Controls.MyButton();
             this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
             this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
-            this.chk_droneshare = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
@@ -101,28 +100,20 @@
             this.BUT_bintolog.UseVisualStyleBackColor = true;
             this.BUT_bintolog.Click += new System.EventHandler(this.BUT_bintolog_Click);
             // 
-            // chk_droneshare
-            // 
-            resources.ApplyResources(this.chk_droneshare, "chk_droneshare");
-            this.chk_droneshare.Name = "chk_droneshare";
-            this.chk_droneshare.UseVisualStyleBackColor = true;
-            this.chk_droneshare.CheckedChanged += new System.EventHandler(this.chk_droneshare_CheckedChanged);
-            // 
             // tableLayoutPanel1
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.TXT_seriallog, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_bintolog, 0, 8);
-            this.tableLayoutPanel1.Controls.Add(this.chk_droneshare, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_redokml, 0, 7);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_firstperson, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.BUT_clearlogs, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.CHK_logs, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.BUT_DLthese, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.BUT_DLall, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LabelStatus, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.LabelStatus, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_firstperson, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_redokml, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_bintolog, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 8);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // progressBar1
@@ -138,6 +129,7 @@
             // LabelStatus
             // 
             resources.ApplyResources(this.LabelStatus, "LabelStatus");
+            this.tableLayoutPanel1.SetColumnSpan(this.LabelStatus, 2);
             this.LabelStatus.ForeColor = System.Drawing.Color.Red;
             this.LabelStatus.Name = "LabelStatus";
             // 
@@ -165,7 +157,6 @@
         private System.Windows.Forms.TextBox TXT_seriallog;
         private Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_bintolog;
-        private System.Windows.Forms.CheckBox chk_droneshare;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label1;

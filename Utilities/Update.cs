@@ -9,6 +9,7 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
@@ -213,7 +214,7 @@ namespace MissionPlanner.Utilities
             frmProgressReporter.Dispose();
         }
 
-        static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
+        static async void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
         {
             var baseurl = ConfigurationManager.AppSettings["UpdateLocation"];
 
@@ -224,53 +225,56 @@ namespace MissionPlanner.Utilities
 
             L10N.ReplaceMirrorUrl(ref baseurl);
 
+            string responseFromServer = "";
+
             WebRequest request = WebRequest.Create(url);
             request.Timeout = 10000;
             // Set the Method property of the request to POST.
             request.Method = "GET";
-            // Get the request stream.
-            Stream dataStream; //= request.GetRequestStream();
             // Get the response.
-            WebResponse response = request.GetResponse();
-            // Display the status.
-            log.Info(((HttpWebResponse) response).StatusDescription);
             // Get the stream containing content returned by the server.
-            dataStream = response.GetResponseStream();
             // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
+            using (WebResponse response = request.GetResponse())
+            using (Stream dataStream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(dataStream))
+            {
+                // Display the status.
+                log.Info(((HttpWebResponse) response).StatusDescription);
+                // Read the content.
+                responseFromServer = reader.ReadToEnd();
+            }
 
             Regex regex = new Regex(@"([^\s]+)\s+upgrade/(.*)", RegexOptions.IgnoreCase);
 
             if (regex.IsMatch(responseFromServer))
             {
+                List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
+
                 MatchCollection matchs = regex.Matches(responseFromServer);
                 for (int i = 0; i < matchs.Count; i++)
                 {
                     string hash = matchs[i].Groups[1].Value.ToString();
                     string file = matchs[i].Groups[2].Value.ToString();
 
-                    if (file.ToLower().EndsWith(".etag"))
-                    {
-                        try
-                        {
-                            // remove all etags
-                            File.Delete(file);
-                        }
-                        catch
-                        {
-                        }
-                        continue;
-                    }
+                    Task<bool> ismatch = MD5File(file, hash);
 
+                    tasklist.Add(new Tuple<string,string, Task<bool>>(file, hash, ismatch));
+                }
+
+                log.Info("MD5File Running");
+
+                foreach (var task in tasklist)
+                {
+                    string file = task.Item1;
+                    string hash = task.Item2;
                     // check if existing matchs hash
-                    if (!MD5File(file, hash))
+                    bool match = await task.Item3;
+                    if (!match)
                     {
                         log.Info("Newer File " + file);
 
                         // check is we have already downloaded and matchs hash
-                        if (!MD5File(file + ".new", hash))
+                        if (!MD5File(file + ".new", hash).Result)
                         {
                             if (frmProgressReporter != null)
                                 frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Getting + file);
@@ -281,7 +285,7 @@ namespace MissionPlanner.Utilities
                                 Path.GetFileName(file));
 
                             // check the new downloaded file matchs hash
-                            if (!MD5File(file + ".new", hash))
+                            if (!MD5File(file + ".new", hash).Result)
                             {
                                 throw new Exception("File downloaded does not match hash: " + file);
                             }
@@ -302,15 +306,15 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static bool MD5File(string filename, string hash)
+        static async Task<bool> MD5File(string filename, string hash)
         {
             try
             {
+                if (!File.Exists(filename))
+                    return false;
+
                 using (var md5 = MD5.Create())
                 {
-                    if (!File.Exists(filename))
-                        return false;
-
                     using (var stream = File.OpenRead(filename))
                     {
                         return hash == BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
@@ -388,6 +392,8 @@ namespace MissionPlanner.Utilities
                         {
                             DateTime dt = DateTime.Now;
 
+                            log.Debug(file + " " + bytes);
+
                             while (dataStream.CanRead)
                             {
                                 try
@@ -406,7 +412,7 @@ namespace MissionPlanner.Utilities
                                 catch
                                 {
                                 }
-                                log.Debug(file + " " + bytes);
+                                
                                 int len = dataStream.Read(buf1, 0, buf1.Length);
                                 if (len == 0)
                                     break;

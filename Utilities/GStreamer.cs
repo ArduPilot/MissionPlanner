@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
@@ -13,14 +14,48 @@ namespace MissionPlanner.Utilities
     public class GStreamer
     {
 
-        //gst-launch-1.0.exe videotestsrc ! video/x-raw, width=1280, height=720, framerate=25/1 ! x264enc ! rtph264pay ! udpsink port=1234 host=10.56.9.160
+        //gst-launch-1.0.exe videotestsrc ! video/x-raw, width=1280, height=720, framerate=25/1 ! x264enc ! rtph264pay ! udpsink port=1234 host=192.168.0.1
         //gst-launch-1.0.exe -v udpsrc port=1234 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
 
+        public static string gstlaunch {
+            get { return Settings.Instance["gstlaunchexe"]; }
+            set { Settings.Instance["gstlaunchexe"] = value; }
+        }
 
+        public static bool checkGstLaunchExe()
+        {
+            if (File.Exists(gstlaunch))
+                return true;
+
+            return getGstLaunchExe();
+        } 
+
+        public static bool getGstLaunchExe()
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "gst-launch|gst-launch-1.0.exe";
+            ofd.FileName = gstlaunch;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(ofd.FileName))
+                {
+                    gstlaunch = ofd.FileName;
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public static void Start()
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(_Start);
+            if (File.Exists(gstlaunch))
+            {
+                System.Diagnostics.Process.Start(gstlaunch,
+                    "-v udpsrc port=1234 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false");
+
+                System.Threading.ThreadPool.QueueUserWorkItem(_Start);
+            }
         }
 
         static void _Start(object nothing)

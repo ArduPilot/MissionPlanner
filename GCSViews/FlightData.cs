@@ -5,11 +5,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using DirectShowLib;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
@@ -21,6 +23,7 @@ using MissionPlanner.Log;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using OpenTK;
+using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 
@@ -73,7 +76,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
 
-        Dictionary<Guid, Form> formguids = new Dictionary<Guid, Form>();
+        List<TabPage> TabListOriginal = new List<TabPage>();
 
         bool huddropout;
         bool huddropoutresize;
@@ -118,7 +121,7 @@ namespace MissionPlanner.GCSViews
             if (CurrentGMapMarker == null)
                 return;
 
-            POI.POIDelete(CurrentGMapMarker.Position);
+            POI.POIDelete((GMapMarkerPOI)CurrentGMapMarker);
         }
 
         private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -130,7 +133,6 @@ namespace MissionPlanner.GCSViews
         {
             POI.POISave();
         }
-
 
         protected override void Dispose(bool disposing)
         {
@@ -181,6 +183,9 @@ namespace MissionPlanner.GCSViews
             MainHcopy = MainH;
 
             mymap.Paint += mymap_Paint;
+
+            // populate the unmodified base list
+            tabControlactions.TabPages.ForEach(i => { TabListOriginal.Add((TabPage)i); });
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -658,6 +663,9 @@ namespace MissionPlanner.GCSViews
 
             NoFly.NoFly.NoFlyEvent += NoFly_NoFlyEvent;
 
+            // update tabs displayed
+            loadTabControlActions();
+
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = 24;
             TRK_zoom.Value = (float) gMapControl1.Zoom;
@@ -1038,7 +1046,9 @@ namespace MissionPlanner.GCSViews
                         // show disable joystick button
                         if (MainV2.joystick != null && MainV2.joystick.enabled)
                         {
-                            but_disablejoystick.Visible = true;
+                            this.Invoke((MethodInvoker) delegate {
+                                but_disablejoystick.Visible = true;
+                            });
                         }
 
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
@@ -1221,8 +1231,7 @@ namespace MissionPlanner.GCSViews
                                 {
                                     PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
 
-                                    if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                                        MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                                    if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
                                     {
                                         routes.Markers.Add(new GMapMarkerPlane(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
@@ -1231,7 +1240,7 @@ namespace MissionPlanner.GCSViews
                                             ToolTipMode = MarkerTooltipMode.Always
                                         });
                                     }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                                    else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
                                     {
                                         routes.Markers.Add(new GMapMarkerRover(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
@@ -1246,7 +1255,7 @@ namespace MissionPlanner.GCSViews
                                         routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
                                             MAV.cs.target_bearing));
                                     }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
                                     {
                                         routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw,
                                             MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
@@ -3569,22 +3578,36 @@ namespace MissionPlanner.GCSViews
 
                             if (logfile.ToLower().EndsWith(".bin"))
                             {
-                                string tempfile = Path.GetTempFileName();
-                                BinaryLog.ConvertBin(logfile, tempfile);
+                                using (tr = new StreamReader(logfile))
+                                {
+                                    GC.Collect();
+                                    CollectionBuffer<string> temp = new CollectionBuffer<string>(tr.BaseStream);
 
-                                tr = new StreamReader(tempfile);
+                                    uint a = 0;
+                                    foreach (var line in temp)
+                                    {
+                                        lo.processLine(line);
+                                        a++;
+
+                                        if ((a % 100000) == 0)
+                                            Console.WriteLine(a);
+                                    }
+
+                                    temp.Dispose();
+                                }
                             }
                             else
                             {
-                                tr = new StreamReader(logfile);
-                            }
+                                using (tr = new StreamReader(logfile))
+                                {
+                                    while (!tr.EndOfStream)
+                                    {
+                                        lo.processLine(tr.ReadLine());
+                                    }
 
-                            while (!tr.EndOfStream)
-                            {
-                                lo.processLine(tr.ReadLine());
+                                    tr.Close();
+                                }
                             }
-
-                            tr.Close();
                         }
                         catch (Exception ex)
                         {
@@ -3942,6 +3965,111 @@ namespace MissionPlanner.GCSViews
 
                 but_disablejoystick.Visible = false;
             }
+        }
+
+        private void startCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MainV2.MONO)
+                return;
+
+            try
+            {
+                MainV2.cam = new Capture(Settings.Instance.GetInt32("video_device"), new AMMediaType());
+
+                MainV2.cam.Start();
+
+                MainV2.cam.camimage += new CamImage(cam_camimage);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Camera Fail: " + ex.ToString(), Strings.ERROR);
+            }
+        }
+
+        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Form customForm = new Form();
+            CheckedListBox left = new CheckedListBox();
+            left.Dock = DockStyle.Fill;
+            left.CheckOnClick = true;
+
+            customForm.Controls.Add(left);
+
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            // setup default if doesnt exist
+            if (tabs == null)
+            {
+                saveTabControlActions();
+                tabs = Settings.Instance["tabcontrolactions"];
+            }
+
+            string[] tabarray = tabs.Split(';');
+
+            foreach (TabPage tabPage in TabListOriginal)
+            {
+                if (tabarray.Contains(tabPage.Name))
+                    left.Items.Add(tabPage.Name,true);
+                else
+                    left.Items.Add(tabPage.Name, false);
+            }
+
+            ThemeManager.ApplyThemeTo(customForm);
+
+            customForm.ShowDialog();
+
+            string answer = "";
+            foreach (var tabPage in left.CheckedItems)
+            {
+                answer += tabPage + ";";
+            }
+
+            Settings.Instance["tabcontrolactions"] = answer;
+
+            loadTabControlActions();
+        }
+
+        private void loadTabControlActions()
+        {
+            string tabs = Settings.Instance["tabcontrolactions"];
+
+            if (String.IsNullOrEmpty(tabs) || TabListOriginal == null || TabListOriginal.Count == 0)
+                return;
+
+            string[] tabarray = tabs.Split(';');
+
+            if (tabarray.Length == 0)
+                return;
+
+            tabControlactions.TabPages.Clear();
+
+            foreach (var tabname in tabarray)
+            {
+                int a = 0;
+                foreach (TabPage tabPage in TabListOriginal)
+                {
+                    if (tabPage.Name == tabname)
+                    {
+                        tabControlactions.TabPages.Add(tabPage);
+                        break;
+                    }
+                    a++;
+                }
+            }
+
+            ThemeManager.ApplyThemeTo(tabControlactions);
+        }
+
+        private void saveTabControlActions()
+        {
+            string answer = "";
+
+            foreach (TabPage tabPage in tabControlactions.TabPages)
+            {
+                answer += tabPage.Name + ";";
+            }
+
+            Settings.Instance["tabcontrolactions"] = answer;
         }
     }
 }

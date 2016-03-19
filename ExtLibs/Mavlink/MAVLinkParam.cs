@@ -54,7 +54,17 @@ public partial class MAVLink
         public Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
         public float float_value { get { return BitConverter.ToSingle(data, 0); } }
 
-        internal byte[] data = new byte[4];
+        byte[] _data = new byte[4];
+
+        public byte[] data
+        {
+            get { return _data; }
+            set
+            {
+                _data = value;
+                Array.Resize(ref _data, 4);
+            }
+        }
 
         /// <summary>
         /// used as a generic input to type the input data
@@ -80,7 +90,7 @@ public partial class MAVLink
             Name = name;
             Type = type;
             data = BitConverter.GetBytes(inputwire);
-            Array.Resize(ref data, 4);
+            Array.Resize(ref _data, 4);
         }
 
         /// <summary>
@@ -96,7 +106,7 @@ public partial class MAVLink
             Type = type;
             TypeAP = typeap;
             data = BitConverter.GetBytes(inputwire);
-            Array.Resize(ref data, 4);
+            Array.Resize(ref _data, 4);
         }
 
         public double GetValue()
@@ -128,19 +138,19 @@ public partial class MAVLink
             {
                 case MAV_PARAM_TYPE.UINT8:
                     data = BitConverter.GetBytes((byte)input);
-                    Array.Resize(ref data, 4);
+                    Array.Resize(ref _data, 4);
                     break;
                 case MAV_PARAM_TYPE.INT8:
                     data = BitConverter.GetBytes((sbyte)input);
-                    Array.Resize(ref data, 4);
+                    Array.Resize(ref _data, 4);
                     break;
                 case MAV_PARAM_TYPE.UINT16:
                     data = BitConverter.GetBytes((ushort)input);
-                    Array.Resize(ref data, 4);
+                    Array.Resize(ref _data, 4);
                     break;
                 case MAV_PARAM_TYPE.INT16:
                     data = BitConverter.GetBytes((short)input);
-                    Array.Resize(ref data, 4);
+                    Array.Resize(ref _data, 4);
                     break;
                 case MAV_PARAM_TYPE.UINT32:
                     data = BitConverter.GetBytes((UInt32)input);

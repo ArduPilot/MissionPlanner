@@ -20,6 +20,13 @@ namespace MissionPlanner.Mavlink
             hiddenlist.Add(0,new MAVState());
         }
 
+        public void AddHiddenList(byte sysid, byte compid)
+        {
+            int id = (byte)sysid * 256 + (byte)compid;
+
+            hiddenlist.Add(id, new MAVState() { sysid = sysid, compid = compid });
+        }
+
         public MAVState this[int sysid, int compid]
         {
             get
@@ -38,13 +45,6 @@ namespace MissionPlanner.Mavlink
             set
             {
                 int id = (byte) sysid*256 + (byte) compid;
-
-                // 3dr radio special case
-                if (sysid == 51 && compid == 68)
-                {
-                    hiddenlist[id] = value;
-                    return;
-                }
 
                 masterlist[id] = value;
             }

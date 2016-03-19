@@ -17,9 +17,9 @@ namespace MissionPlanner.Log
 
         BufferedStream basestream;
         private int _count;
-        List<long> linestartoffset = new List<long>();
+        List<uint> linestartoffset = new List<uint>();
 
-        Dictionary<byte, List<long>> messageindex = new Dictionary<byte, List<long>>();
+        Dictionary<byte, List<uint>> messageindex = new Dictionary<byte, List<uint>>();
 
         bool binary = false;
 
@@ -30,7 +30,7 @@ namespace MissionPlanner.Log
         {
             for (int a = 0; a <= byte.MaxValue; a++)
             {
-                messageindex[(byte) a] = new List<long>();
+                messageindex[(byte) a] = new List<uint>();
             }
 
             basestream = new BufferedStream(instream, 1024*256);
@@ -61,33 +61,19 @@ namespace MissionPlanner.Log
 
             if (binary)
             {
-                while (basestream.Position < basestream.Length)
+                long length = basestream.Length;
+                while (basestream.Position < length)
                 {
-                    offset = 0;
+                    var ans = binlog.ReadMessageTypeOffset(basestream);
 
-                    // seek back 5 on each buffer fill
-                    if (basestream.Position > 10)
-                        basestream.Seek(-5, SeekOrigin.Current);
+                    if (ans == null)
+                        continue;
 
-                    long startpos = basestream.Position;
+                    byte type = ans.Item1;
+                    messageindex[type].Add((uint)(ans.Item2));
 
-                    int read = basestream.Read(buffer, offset, buffer.Length);
-
-                    // 5 byte overlap
-                    while (read > 2)
-                    {
-                        if (buffer[offset] == BinaryLog.HEAD_BYTE1 && buffer[offset + 1] == BinaryLog.HEAD_BYTE2)
-                        {
-                            byte type = buffer[offset + 2];
-                            messageindex[type].Add(startpos + offset);
-
-                            linestartoffset.Add(startpos + offset);
-                            lineCount++;
-                        }
-
-                        offset++;
-                        read--;
-                    }
+                    linestartoffset.Add((uint)(ans.Item2));
+                    lineCount++;
                 }
 
                 _count = lineCount;
@@ -116,7 +102,7 @@ namespace MissionPlanner.Log
                     {
                         if (buffer[offset] == '\n')
                         {
-                            linestartoffset.Add(startpos + 1 + offset);
+                            linestartoffset.Add((uint)(startpos + 1 + offset));
                             lineCount++;
                         }
 

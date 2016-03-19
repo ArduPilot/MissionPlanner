@@ -9,7 +9,7 @@ namespace MissionPlanner.Utilities
 {
     public class vlcrender
     {
-        static List<vlcrender> store = new List<vlcrender>();
+        internal static List<vlcrender> store = new List<vlcrender>();
 
         LibVLCLibrary library;
         IntPtr inst, mp, m;

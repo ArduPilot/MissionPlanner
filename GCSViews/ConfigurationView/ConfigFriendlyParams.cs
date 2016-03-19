@@ -70,6 +70,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             ctl.Visible = false;
                         }
                     }
+                    else if (ctl.GetType() == typeof(MavlinkCheckBoxBitMask))
+                    {
+                        var bctl = (MavlinkCheckBoxBitMask)ctl;
+                        if (bctl.label1.Text.ToLower().Contains(searchfor.ToLower()) ||
+                            bctl.myLabel1.Text.ToLower().Contains(searchfor.ToLower()))
+                        {
+                            ctl.Visible = true;
+                            ctl.Location = new Point(ctl.Location.X, y);
+                            y += ctl.Height;
+                        }
+                        else
+                        {
+                            ctl.Visible = false;
+                        }
+                    }
                 }
             }
         }
@@ -465,7 +480,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
-                            bitmask.label1.Text = FitDescriptionText(units, description, bitmask.Width - 100);
+                            bitmask.label1.Text = FitDescriptionText(units, description, tableLayoutPanel1.Width-50);
+                            bitmask.Width = tableLayoutPanel1.Width - 50;
 
                             ThemeManager.ApplyThemeTo(bitmask);
 

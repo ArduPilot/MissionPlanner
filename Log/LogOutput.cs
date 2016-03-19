@@ -57,33 +57,10 @@ namespace MissionPlanner.Log
         {
             try
             {
-                if (doevent.Second != DateTime.Now.Second)
-                {
-                    Application.DoEvents();
-                    doevent = DateTime.Now;
-                }
-
                 if (line.Length == 0)
                     return;
 
-                DateTime start = DateTime.Now;
 
-                if (line.ToLower().Contains("ArduCopter"))
-                {
-                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
-                }
-                if (line.ToLower().Contains("ArduPlane"))
-                {
-                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-                }
-                if (line.ToLower().Contains("ArduRover"))
-                {
-                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
-                }
-
-
-                line = line.Replace(", ", ",");
-                line = line.Replace(": ", ":");
 
                 string[] items = line.Split(',', ':');
 
@@ -105,9 +82,9 @@ namespace MissionPlanner.Log
                         {
                             PointLatLngAlt temp =
                                 new PointLatLngAlt(
-                                    double.Parse(items[7], new System.Globalization.CultureInfo("en-US")),
-                                    double.Parse(items[8], new System.Globalization.CultureInfo("en-US")),
-                                    double.Parse(items[6], new System.Globalization.CultureInfo("en-US")),
+                                    double.Parse(items[7], CultureInfo.InvariantCulture),
+                                    double.Parse(items[8], CultureInfo.InvariantCulture),
+                                    double.Parse(items[6], CultureInfo.InvariantCulture),
                                     items[2].ToString());
                             cmd.Add(temp);
                         }
@@ -140,105 +117,20 @@ namespace MissionPlanner.Log
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
 
-                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
-                    //     return;
+                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")], CultureInfo.InvariantCulture);
 
-                    // 7 agl
-                    // 8 asl...
-                    double alt = double.Parse(items[dflog.FindMessageOffset("GPS", "Alt")],
-                        new System.Globalization.CultureInfo("en-US"));
-
-                    position[positionindex].Add(new Point3D(double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")],
-                        new System.Globalization.CultureInfo("en-US")),
-                        double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")],
-                            new System.Globalization.CultureInfo("en-US")), alt));
-                    oldlastpos = lastpos;
-                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
-                    lastline = line;
-                }
-                else if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" &&
-                         lastline != line) // check gps line and fixed status
-                {
-                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-
-                    if (position[positionindex] == null)
-                        position[positionindex] = new List<Point3D>();
-
-                    if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
+                    if (alt > 40000)
                         return;
 
-                    double alt = double.Parse(items[6], new System.Globalization.CultureInfo("en-US"));
+                    double lng = double.Parse(items[dflog.FindMessageOffset("GPS", "Lng")], CultureInfo.InvariantCulture);
+                    double lat = double.Parse(items[dflog.FindMessageOffset("GPS", "Lat")], CultureInfo.InvariantCulture);
 
-                    if (items.Length == 11 && items[6] == "0.0000")
-                        alt = double.Parse(items[7], new System.Globalization.CultureInfo("en-US"));
-                    if (items.Length == 11 && items[6] == "0")
-                        alt = double.Parse(items[7], new System.Globalization.CultureInfo("en-US"));
-
-
-                    position[positionindex].Add(
-                        new Point3D(double.Parse(items[5], new System.Globalization.CultureInfo("en-US")),
-                            double.Parse(items[4], new System.Globalization.CultureInfo("en-US")), alt));
-                    oldlastpos = lastpos;
-                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
-                    lastline = line;
-                }
-                else if (items[0].Contains("GPS") && items[4] != "0" && items[4] != "-1" && items.Length <= 9) // AC
-                {
-                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
-
-                    if (position[positionindex] == null)
-                        position[positionindex] = new List<Point3D>();
-
-                    if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
+                    if (lat < -90 || lat > 90)
+                        return;
+                    if (lng < -180 || lng > 180)
                         return;
 
-                    double alt = double.Parse(items[5], new System.Globalization.CultureInfo("en-US"));
-
-                    position[positionindex].Add(
-                        new Point3D(double.Parse(items[4], new System.Globalization.CultureInfo("en-US")),
-                            double.Parse(items[3], new System.Globalization.CultureInfo("en-US")), alt));
-                    oldlastpos = lastpos;
-                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
-                    lastline = line;
-                }
-                else if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" &&
-                          lastline != line && items.Length == 12) ||
-                         (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" &&
-                          lastline != line && items.Length == 14))
-                {
-                    if (position[positionindex] == null)
-                        position[positionindex] = new List<Point3D>();
-
-                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
-                    //     return;
-
-                    // 8 agl
-                    // 9 asl...
-                    double alt = double.Parse(items[9], new System.Globalization.CultureInfo("en-US"));
-
-                    position[positionindex].Add(
-                        new Point3D(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")),
-                            double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), alt));
-                    oldlastpos = lastpos;
-                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
-                    lastline = line;
-                }
-                else if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" &&
-                         lastline != line && items.Length == 11) // check gps line and fixed status
-                {
-                    if (position[positionindex] == null)
-                        position[positionindex] = new List<Point3D>();
-
-                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
-                    //     return;
-
-                    // 7 agl
-                    // 8 asl...
-                    double alt = double.Parse(items[8], new System.Globalization.CultureInfo("en-US"));
-
-                    position[positionindex].Add(
-                        new Point3D(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")),
-                            double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), alt));
+                    position[positionindex].Add(new Point3D(lng, lat, alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
@@ -311,14 +203,11 @@ namespace MissionPlanner.Log
                             oldlastpos = lastpos;
 
                             runmodel.Orientation.roll =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],
-                                    new System.Globalization.CultureInfo("en-US"))/-1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Roll")],CultureInfo.InvariantCulture) / -1;
                             runmodel.Orientation.tilt =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],
-                                    new System.Globalization.CultureInfo("en-US"))/-1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Pitch")],CultureInfo.InvariantCulture) / -1;
                             runmodel.Orientation.heading =
-                                double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],
-                                    new System.Globalization.CultureInfo("en-US"))/1;
+                                double.Parse(items[dflog.FindMessageOffset("ATT", "Yaw")],CultureInfo.InvariantCulture) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;
@@ -331,11 +220,6 @@ namespace MissionPlanner.Log
                     {
                         log.Error(ex);
                     }
-                }
-
-                if ((DateTime.Now - start).TotalMilliseconds > 5)
-                {
-                    Console.WriteLine(line);
                 }
             }
             catch (Exception)
@@ -907,6 +791,20 @@ gnssId GNSS Type
                 pmPOS.LineString.coordinates.Add(newpoint);
                 lastPoint3D = newpoint;
                 lastplla = item;
+                if (pmPOS.LineString.coordinates.Count > 20000)
+                {
+                    //add current
+                    pmPOS.AddStyle(style);
+                    fldr.Add(pmPOS);
+
+                    // create new
+                    pmPOS = new Placemark();
+                    pmPOS.name = "POS Message - extra";
+                    pmPOS.LineString = new LineString();
+                    pmPOS.LineString.coordinates = new Coordinates();
+                    lastPoint3D = new Point3D();
+                    lastplla = PointLatLngAlt.Zero;
+                }
             }
             pmPOS.AddStyle(style);
             fldr.Add(pmPOS);

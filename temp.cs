@@ -32,7 +32,6 @@ using MissionPlanner.Log;
 using MissionPlanner.Maps;
 using MissionPlanner.Swarm;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities.DroneApi;
 using MissionPlanner.Warnings;
 using resedit;
 using ILog = log4net.ILog;
@@ -786,7 +785,7 @@ namespace MissionPlanner
         {
             ParameterMetaDataParser.GetParameterInformation();
 
-            ParameterMetaDataRepository.Reload();
+            ParameterMetaDataRepositoryAPM.Reload();
         }
 
         private void myButton1_Click(object sender, EventArgs e)
@@ -1334,60 +1333,7 @@ namespace MissionPlanner
                 }
             }
         }
-
-        private void but_droneshare_Click(object sender, EventArgs e)
-        {
-            using (OpenFileDialog ofd = new OpenFileDialog())
-            {
-                ofd.Filter = "tlog|*.tlog|*.log|*.log";
-                ofd.Multiselect = true;
-                ofd.ShowDialog();
-
-                string droneshareusername = Settings.Instance["droneshareusername"];
-
-                InputBox.Show("Username", "Username", ref droneshareusername);
-
-                Settings.Instance["droneshareusername"] = droneshareusername;
-
-                string dronesharepassword = Settings.Instance["dronesharepassword"];
-
-                if (dronesharepassword != "")
-                {
-                    try
-                    {
-                        // fail on bad entry
-                        var crypto = new Crypto();
-                        dronesharepassword = crypto.DecryptString(dronesharepassword);
-                    }
-                    catch
-                    {
-                    }
-                }
-
-                InputBox.Show("Password", "Password", ref dronesharepassword, true);
-
-                var crypto2 = new Crypto();
-
-                string encryptedpw = crypto2.EncryptString(dronesharepassword);
-
-                Settings.Instance["dronesharepassword"] = encryptedpw;
-
-                if (File.Exists(ofd.FileName))
-                {
-                    foreach (var file in ofd.FileNames)
-                    {
-                        string viewurl = droneshare.doUpload(file, droneshareusername, dronesharepassword,
-                            Guid.NewGuid().ToString());
-
-                        if (viewurl != "")
-                            Process.Start(viewurl);
-                    }
-                }
-
-                dronesharepassword = null;
-            }
-        }
-
+        
         String SecureStringToString(SecureString value)
         {
             IntPtr valuePtr = IntPtr.Zero;
@@ -1428,74 +1374,6 @@ namespace MissionPlanner
             LogIndex form = new LogIndex();
 
             form.Show();
-        }
-
-        private void but_droneapi_Click(object sender, EventArgs e)
-        {
-            string droneshareusername = Settings.Instance["droneshareusername"];
-
-            InputBox.Show("Username", "Username", ref droneshareusername);
-
-            Settings.Instance["droneshareusername"] = droneshareusername;
-
-            string dronesharepassword = Settings.Instance["dronesharepassword"];
-
-            if (dronesharepassword != "")
-            {
-                try
-                {
-                    // fail on bad entry
-                    var crypto = new Crypto();
-                    dronesharepassword = crypto.DecryptString(dronesharepassword);
-                }
-                catch
-                {
-                }
-            }
-
-            InputBox.Show("Password", "Password", ref dronesharepassword, true);
-
-            var crypto2 = new Crypto();
-
-            string encryptedpw = crypto2.EncryptString(dronesharepassword);
-
-            Settings.Instance["dronesharepassword"] = encryptedpw;
-
-            DroneProto dp = new DroneProto();
-
-            // todo: make this async so we don't hang the UI thread...
-            CancellationTokenSource src = new CancellationTokenSource();
-
-            if (dp.connect())
-            {
-                if (dp.loginUser(droneshareusername, dronesharepassword))
-                {
-                    MAVLinkInterface mine = new MAVLinkInterface();
-                    var comfile = new CommsFile();
-                    mine.BaseStream = comfile;
-                    mine.BaseStream.PortName = @"C:\Users\hog\Documents\apm logs\iris 6-4-14\2014-04-06 09-07-32.tlog";
-                    mine.BaseStream.Open();
-
-                    comfile.bps = 4000;
-
-                    mine.getHeartBeat(src.Token);
-
-                    dp.setVechileId(mine.MAV.Guid, 0, mine.MAV.sysid);
-
-                    dp.startMission();
-
-                    while (true)
-                    {
-                        byte[] packet = mine.readPacket();
-
-                        dp.SendMavlink(packet, 0);
-                    }
-
-                    // dp.close();
-
-                    // mine.Close();
-                }
-            }
         }
 
         private void but_terrain_Click(object sender, EventArgs e)
@@ -1672,7 +1550,10 @@ namespace MissionPlanner
         {
             try
             {
-                GStreamer.Start();
+                if (GStreamer.checkGstLaunchExe())
+                {
+                    GStreamer.Start();
+                }
             }
             catch (Exception ex)
             {

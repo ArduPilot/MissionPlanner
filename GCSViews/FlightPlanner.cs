@@ -80,18 +80,18 @@ namespace MissionPlanner.GCSViews
 
         private void poieditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentGMapMarker == null)
+            if (CurrentPOIMarker == null)
                 return;
 
-            POI.POIEdit(CurrentGMapMarker.Position);
+            POI.POIEdit(CurrentPOIMarker);
         }
 
         private void poideleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentGMapMarker == null)
+            if (CurrentPOIMarker  == null)
                 return;
 
-            POI.POIDelete(CurrentGMapMarker.Position);
+            POI.POIDelete(CurrentPOIMarker);
         }
 
         private void poiaddToolStripMenuItem_Click(object sender, EventArgs e)
@@ -190,10 +190,8 @@ namespace MissionPlanner.GCSViews
                                     double.Parse(celllon.Value.ToString())).alt)*CurrentState.multiplierdist);
                         int newsrtm = (int) ((srtm.getAltitude(lat, lng).alt)*CurrentState.multiplierdist);
                         int newh = (int) (ans + newsrtm - oldsrtm);
-                        if (newh > newsrtm)
-                            cell.Value = newh;
-                        else
-                            cell.Value = newsrtm + int.Parse(TXT_DefaultAlt.Text);
+
+                        cell.Value = newh;
 
                         cell.DataGridView.EndEdit();
                     }
@@ -1689,7 +1687,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        internal void BUT_read_Click(object sender, EventArgs e)
+        public void BUT_read_Click(object sender, EventArgs e)
         {
             if (Commands.Rows.Count > 0)
             {
@@ -1832,7 +1830,7 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void BUT_write_Click(object sender, EventArgs e)
+        public void BUT_write_Click(object sender, EventArgs e)
         {
             if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
             {
@@ -2017,6 +2015,8 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                bool use_int = (port.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+
                 // set wp total
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
 
@@ -2034,8 +2034,6 @@ namespace MissionPlanner.GCSViews
 
                 // upload from wp0
                 a = 0;
-
-                bool use_int = true;
 
                 if (port.MAV.apname != MAVLink.MAV_AUTOPILOT.PX4)
                 {
@@ -2487,6 +2485,8 @@ namespace MissionPlanner.GCSViews
                 if (e.ColumnIndex == Delete.Index && (e.RowIndex + 0) < Commands.RowCount) // delete
                 {
                     quickadd = true;
+                    // mono fix
+                    Commands.CurrentCell = null;
                     Commands.Rows.RemoveAt(e.RowIndex);
                     quickadd = false;
                     writeKML();
@@ -2754,6 +2754,7 @@ namespace MissionPlanner.GCSViews
         string mobileGpsLog = string.Empty;
         GMapMarkerRect CurentRectMarker;
         GMapMarkerRallyPt CurrentRallyPt;
+        GMapMarkerPOI CurrentPOIMarker;
         GMapMarker CurrentGMapMarker;
         bool isMouseDown;
         bool isMouseDraging;
@@ -2779,6 +2780,10 @@ namespace MissionPlanner.GCSViews
                 if (item is GMapMarkerRallyPt)
                 {
                     CurrentRallyPt = null;
+                }
+                if (item is GMapMarkerPOI)
+                {
+                    CurrentPOIMarker = null;
                 }
                 if (item is GMapMarker)
                 {
@@ -2824,9 +2829,17 @@ namespace MissionPlanner.GCSViews
                     // do nothing - readonly
                     return;
                 }
+                if (item is GMapMarkerPOI)
+                {
+                    CurrentPOIMarker = item as GMapMarkerPOI;
+                }
+                if (item is GMapMarkerWP)
+                {
+                    //CurrentGMapMarker = item;
+                }
                 if (item is GMapMarker)
                 {
-                    CurrentGMapMarker = item;
+                    //CurrentGMapMarker = item;
                 }
             }
         }
@@ -3094,6 +3107,33 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            // check if the mouse up happend over our button
+            if (polyicon.Rectangle.Contains(e.Location))
+            {
+                polyicon.IsSelected = !polyicon.IsSelected;
+
+                if (e.Button == MouseButtons.Right)
+                {
+                    polyicon.IsSelected = false;
+                    clearPolygonToolStripMenuItem_Click(this, null);
+
+                    contextMenuStrip1.Visible = false;
+
+                    return;
+                }
+
+                if (polyicon.IsSelected)
+                {
+                    polygongridmode = true;
+                }
+                else
+                {
+                    polygongridmode = false;
+                }
+
+                return;
+            }
+
             MouseDownEnd = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             // Console.WriteLine("MainMap MU");
@@ -3105,6 +3145,13 @@ namespace MissionPlanner.GCSViews
 
             if (isMouseDown) // mouse down on some other object and dragged to here.
             {
+                // drag finished, update poi db
+                if (CurrentPOIMarker != null)
+                {
+                    POI.POIMove(CurrentPOIMarker);
+                    CurrentPOIMarker = null;
+                }
+
                 if (e.Button == MouseButtons.Left)
                 {
                     isMouseDown = false;
@@ -3357,6 +3404,12 @@ namespace MissionPlanner.GCSViews
                     {
                         CurentRectMarker.InnerMarker.Position = pnew;
                     }
+                }
+                else if (CurrentPOIMarker != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentPOIMarker.Position = pnew;
                 }
                 else if (CurrentGMapMarker != null)
                 {
@@ -3999,6 +4052,23 @@ namespace MissionPlanner.GCSViews
                 MainMap.Invalidate(true);
 
                 CurrentRallyPt = null;
+            }
+            else if (groupmarkers.Count > 0)
+            {
+                for (int a = Commands.Rows.Count; a > 0; a--)
+                {
+                    try
+                    {
+                        if (groupmarkers.Contains(a))
+                            Commands.Rows.RemoveAt(a - 1); // home is 0
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show("error selecting wp, please try again.");
+                    }
+                }
+
+                groupmarkers.Clear();
             }
 
 
@@ -5305,6 +5375,16 @@ namespace MissionPlanner.GCSViews
             {
                 geoFenceToolStripMenuItem.Enabled = true;
             }
+
+            if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
+            {
+                deleteWPToolStripMenuItem.Enabled = false;
+            }
+            else
+            {
+                deleteWPToolStripMenuItem.Enabled = true;
+            }
+
             isMouseClickOffMenu = false; // Just incase
         }
 
@@ -5332,10 +5412,8 @@ namespace MissionPlanner.GCSViews
         private void MainMap_Paint(object sender, PaintEventArgs e)
         {
             // draw utm grid
+            if (grid)
             {
-                if (!grid)
-                    return;
-
                 if (MainMap.Zoom < 10)
                     return;
 
@@ -5344,7 +5422,9 @@ namespace MissionPlanner.GCSViews
                 var plla1 = new PointLatLngAlt(rect.LocationTopLeft);
                 var plla2 = new PointLatLngAlt(rect.LocationRightBottom);
 
-                var zone = plla1.GetUTMZone();
+                var center = new PointLatLngAlt(rect.LocationMiddle);
+
+                var zone = center.GetUTMZone();
 
                 var utm1 = plla1.ToUTM(zone);
                 var utm2 = plla2.ToUTM(zone);
@@ -5403,7 +5483,12 @@ namespace MissionPlanner.GCSViews
                     e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
                 }
             }
+            
+            polyicon.Location = new Point(10,100);
+            polyicon.Paint(e.Graphics);
         }
+
+        MissionPlanner.Controls.Icon.Polygon polyicon = new MissionPlanner.Controls.Icon.Polygon();
 
         private void chk_grid_CheckedChanged(object sender, EventArgs e)
         {

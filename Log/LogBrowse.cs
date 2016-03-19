@@ -973,6 +973,7 @@ namespace MissionPlanner.Log
 
             double b = 0;
             DateTime screenupdate = DateTime.MinValue;
+            double value_prev = 0;
 
             foreach (var item in logdata.GetEnumeratorType(type))
             {
@@ -991,7 +992,7 @@ namespace MissionPlanner.Log
                         double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
 
                         // abandon realy bad data
-                        if (Math.Abs(value) > 3.15e20)
+                        if (Math.Abs(value) > 3.15e8)
                         {
                             a++;
                             continue;
@@ -999,6 +1000,13 @@ namespace MissionPlanner.Log
 
                         if (dataModifier.IsValid())
                         {
+                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            {
+                                // there is a glitch in the data, reject it by replacing it with the previous value
+                                value = value_prev;
+                            }
+                            value_prev = value;
+
                             if (dataModifier.doOffsetFirst)
                             {
                                 value += dataModifier.offset;

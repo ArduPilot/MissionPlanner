@@ -1,4 +1,160 @@
-﻿* Mission Planner 1.3.35 - 4-2-2016
+﻿* Mission Planner 1.3.37 - 14-3-2016
+FlightData: actions customisation add default init
+Common: rearrange code
+FlightData: maintain taborder from config file
+FlightData: add ability to customize actions tab display
+ConfigRawParam: speedup draw
+Script: add example 7 (wp load in FP)
+ParamMetaData: fix parser readover
+TerrainFollow: fix interface unsubscribe
+MissionPlanner: to .net 4.5 (XP will stop working)
+Update: add async md5
+ParamMetaData: fix backup, nested groups
+LogOutput: filter bad gps data
+FlightData: change .bin to kml to be direct from .bin files
+LogOutput: cleanup old log formats
+CollectionBuffer: reduce memory usage
+BinaryLog: improve performance
+KMLib Coordinates: improve performance
+FlightData: fix crossthread call, joystick related #1172
+FlightData: fix verify height alt on move #1183
+Icons: trial new icon
+GridUI: fix split mission #1182
+GStreamer: autostart gstreamer client
+vlcrender: prevent crash on close
+FlightData: add right click start camera option #1180
+GridUI: fix cam_trig_dist if breakup starts was off #1181
+HttpServer: update
+GridV2: resource files
+Common: add QLand
+GridV2: use new icons
+ParameterMetaData: expand support
+Common: add quadplane flight modes #1169
+MavlinkCheckBoxBitmask:  fix height calculation #1173
+Warning Engine: name thread
+GridUI: update on overlap values change #1171
+FlightPlanner: add group delete
+mavlink: update common.xml
+MAVLinkInterface: update getwp to use capabilities mask
+FlightPlanner: use capability based on version message
+CurrentState: add capabilities
+LogBrowse: modify bad data range
+FirmwareHistory: update urls
+Build: Fix the build by adding missing parenthesis around print.
+
+* Mission Planner 1.3.36 - 5-3-2016
+GridUI: add elevation range
+GMapControl: update scale color
+GMapControl: update scalebar to use transform
+CommsNTRIP: support @ in username
+ParameterMetaData: update backup
+Flightplanner: fix posible int issue
+Help: fix text colour
+Add Korean translation
+mavgraphs: update from upstream
+FirmwareHistory: update
+add px4 identification
+FlightPlanner: fix wp timeout upload for non int
+Update for new domain name firmware.ardupilot.org
+L10N: add logging to url modifications
+Update: update strings
+L10N: fix mirror check, add mirror replacement for update check
+L10N: update zh-Hans translation
+FlightPlanner: fix wp upload order
+mavcmd: add heading exit request
+FlightPlanner: tweak wp uploader
+FlightData: add another wp count parser
+LogSort: fix bugs
+GStreamer: initial commit
+MAVLinkInterface: add getHomePosition
+CurrentState: fix bitmask creation
+Settings: fix log directory
+GridUI: change min alt to 1m
+GMaps: update versions
+GridUI: improve mission splitting
+FlightPlanner: return row number on add
+FlightPlanner: Support mission_item_int uploading
+MAVLinkInterface: support sending mission_item_int
+MAVLinkInterface: add mavlink_mission_item_int_t
+LocationWP: add mavlink_mission_item_int_t support
+FlightData: add disable joystick button
+CurrentState: prevent +/- flipping
+GMapMarkerWP: update point numbers
+ProgressReporterSphere: remove config
+GMap.net.core: add missing file
+use IsReady to avoid requiring speech to be referenced everywhere
+these changes found to reduce the x11 errors
+fix log analyzer startup path
+improve HUD failure message
+remove non-existent files from projects
+swap to new sqllite library
+Mono/Linux case and build fixes
+ThemeManager: fix richtext
+CurrentState: add saftey switch status
+Formation: add leader and dynamic speed changes for plane
+utmpos: improve performance
+Common: update GMapMarkerPlane to use specified radius
+JSBSim update fix control socket issues
+JSBSim: update
+FlightData: fix disarm dialog logic #1156
+MAVLinkInterface: log handle exception check
+Swarm: update takeoff command
+MainV2: ensure mavchange event occurs
+Connection: Display/speed tweaks
+ThemeManager: fix help rtf
+ConnectionControl: fix sysid display
+LogBrowse: abandon data > 3.15e20
+MainV2: prevent exception
+ConnectionControl: update display value
+Formation: updates
+Comms: update portnames
+MAVLinkInterface: add mission_int receiving
+ConnectionControl: improve multiple connection support
+MainV2: handle theme error
+FlightPlanner: support kml placemarks loaded as poi's #909
+FlightData: display tweak
+GridUI: fix DO_DIGICAM_CONTROL
+Settings: change default back to null
+L10N: fix mistakes in zh-Hans, add mirror available check, update zh-Hans help text
+Create Settings class to wrap and manage application settings.
+Add progress feedback during firmware upload.
+ConfigHWCompass: add primary compass note #1141
+CurrentState: add rev throttle status #1146
+MAVLinkCheckBoxBitMask: handle types #1145
+MAVLinkInterface: fix possible null exception
+Help: update help text
+BoardDetect: remove apvar decoding
+Strings: fix spacing
+MAVLinkinterface: fix lost packet count #1124
+SITL: fix issue #1138
+mavlink: generate mavlink on every build - do not store output
+SoftwareConfig: update to use backstageview types
+ConfigFriendlyParams: seperate advanced view
+BackstageView: modify to use types
+ConfigRawParam: change search to regex
+Wizard: accellcalib renable start button on complete
+HUD: rename params and enable
+FlightPlanner: datagrid view speed improve
+Common: only calc text size if needed
+FlightPlanner: performance improvement
+BinaryLog: identify AntennaTracker logs #1133
+Grid: fix do_digicamcontrol #1135
+ConfigFirmware: modify firmware detection.
+FlightData: improve overlay draw
+GmapControl: performance tweaks
+Common: performance
+Grid: Improve Performance
+MainV2: add reload check on fw upload
+mavcmd: add vtol_transition
+Grid: resolve cam_trig_dist early start when leadin was used. #1129
+ConfigRawParam: add sticky column widths
+ConfigFirmware: update motor setup url #1128
+Quickview: force invalidate on format change
+mavcmd: add plane vtol commands
+hud: add ability to turn of ekf/vibe
+FlightData: add ctl-1-9 to switch tabs #1122
+
+* Mission Planner 1.3.35 - 4-2-2016
 * GeoRef: add gps2 support
 * Add translation: indonesian
 * Ardupilot loader cleanup

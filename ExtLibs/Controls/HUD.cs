@@ -93,7 +93,13 @@ namespace MissionPlanner.Controls
                 //return;
             }
 
-            displayheading = displayspeed = displayalt = displayconninfo = displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+            displayvibe =
+                displayekf =
+                    displayheading =
+                        displayspeed =
+                            displayalt =
+                                displayconninfo =
+                                    displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
 
             this.Name = "Hud";
 

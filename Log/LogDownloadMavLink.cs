@@ -73,8 +73,8 @@ namespace MissionPlanner.Log
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                try
-                {
+            try
+            {
                     this.logEntries = MainV2.comPort.GetLogList();
                     RunOnUIThread(LoadCheckedList);
                 }
@@ -110,7 +110,7 @@ namespace MissionPlanner.Log
                 }
             }
             status = SerialStatus.Done;
-        }
+            }
 
         string GetItemCaption(MAVLink.mavlink_log_entry_t item)
         {
@@ -127,7 +127,7 @@ namespace MissionPlanner.Log
                     CHK_logs.Items.Add(caption);
                 }
             }));
-        }
+            }
 
 
         void UpdateStatus(bool force)
@@ -156,16 +156,16 @@ namespace MissionPlanner.Log
         {
             this.BeginInvoke(new Action(() => 
             {            
-                try
-                {
+                    try
+                    {
                     a();
-                }
+                    }
                 catch (Exception e)
-                {
+                    {
                     Debug.WriteLine(LogStrings.UnhandledException + e.ToString());
-                }
+                    }
             }));
-        }
+            }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
@@ -224,7 +224,7 @@ namespace MissionPlanner.Log
                 MainV2.comPort.Progress -= comPort_Progress;
 
                 MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
-                
+
                 logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                           + hbpacket[3] + Path.DirectorySeparatorChar + no + " " + MakeValidFileName(fileName) + ".bin";
@@ -257,7 +257,7 @@ namespace MissionPlanner.Log
         }
 
         private string MakeValidFileName(string fileName)
-        {
+            {
             return fileName.Replace('/', '-').Replace('\\','-').Replace(':','-').Replace('?',' ').Replace('"','\'').Replace('<','[').Replace('>',']').Replace('|',' ');
         }
 
@@ -312,17 +312,6 @@ namespace MissionPlanner.Log
 
                     CreateLog(logname);
 
-                    if (chk_droneshare.Checked)
-                    {
-                        try
-                        {
-                            Utilities.DroneApi.droneshare.doUpload(logname);
-                        }
-                        catch (Exception ex)
-                        {
-                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
-                        }
-                    }
                     UpdateProgress(0, selectedLogs.Length, pos++);
                 }
 
@@ -338,7 +327,7 @@ namespace MissionPlanner.Log
             }
 
             RunOnUIThread(() =>
-            {
+                {
                 BUT_DLall.Enabled = true;
                 BUT_DLthese.Enabled = true;
                 status = SerialStatus.Done;
@@ -360,7 +349,7 @@ namespace MissionPlanner.Log
             {
                 yield return i;
             }
-        }
+                }
 
         private void UpdateProgress(int min, int max, int current)
         {
@@ -384,14 +373,14 @@ namespace MissionPlanner.Log
                     AppendSerialLog(LogStrings.NothingSelected);
                 }
                 else
-                {
+            {
                     BUT_DLall.Enabled = false;
                     BUT_DLthese.Enabled = false;
                     System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); });
-                    t11.Name = "Log download single thread";
-                    t11.Start();
-                }
+                t11.Name = "Log download single thread";
+                t11.Start();
             }
+        }
         }
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
@@ -459,9 +448,9 @@ namespace MissionPlanner.Log
 
                         AppendSerialLog(LogStrings.Done);
                     }
+                    }
                 }
             }
-        }
 
         private void AppendSerialLog(string msg)
         {

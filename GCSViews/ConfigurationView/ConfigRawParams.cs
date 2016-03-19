@@ -43,7 +43,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_paramfileload.Enabled = false;
             ThreadPool.QueueUserWorkItem(updatedefaultlist);
 
-            SuspendLayout();
+            Params.Enabled = false;
 
             foreach (DataGridViewColumn col in Params.Columns)
             {
@@ -55,7 +55,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             processToScreen();
 
-            ResumeLayout();
+            Params.Enabled = true;
 
             Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
 

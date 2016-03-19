@@ -12,7 +12,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Michael Oborne")]
 [assembly: AssemblyProduct("Mission Planner")]
-[assembly: AssemblyCopyright("Copyright © Michael Oborne 2010-2015")]
+[assembly: AssemblyCopyright("Copyright © Michael Oborne 2010-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -38,7 +38,7 @@ using System.Resources;
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("1.1.*")]
-[assembly: AssemblyFileVersion("1.3.35")]
+[assembly: AssemblyFileVersion("1.3.37")]
 [assembly: NeutralResourcesLanguageAttribute("")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]

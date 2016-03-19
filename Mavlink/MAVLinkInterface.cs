@@ -1398,8 +1398,8 @@ Please check the following
 
             mavlink_command_long_t req = new mavlink_command_long_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+                req.target_system = MAV.sysid;
+                req.target_component = MAV.compid;
 
             req.command = (ushort) actionid;
 
@@ -1828,19 +1828,41 @@ Please check the following
             while (giveComport)
                 System.Threading.Thread.Sleep(100);
 
+            bool use_int = (MAV.cs.capabilities & MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+
+            object req;
+
+            if (use_int)
+            {
+                mavlink_mission_request_int_t reqi = new mavlink_mission_request_int_t();
+
+                reqi.target_system = MAV.sysid;
+                reqi.target_component = MAV.compid;
+
+                reqi.seq = index;
+                
+                // request
+                generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, reqi);
+
+                req = reqi;
+            }
+            else
+            {
+                mavlink_mission_request_t reqf = new mavlink_mission_request_t();
+
+                reqf.target_system = MAV.sysid;
+                reqf.target_component = MAV.compid;
+
+                reqf.seq = index;
+
+                // request
+                generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, reqf);
+
+                req = reqf;
+            }
+
             giveComport = true;
             Locationwp loc = new Locationwp();
-            mavlink_mission_request_t req = new mavlink_mission_request_t();
-
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
-
-            req.seq = index;
-
-            //Console.WriteLine("getwp req "+ DateTime.Now.Millisecond);
-
-            // request
-            generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
 
             DateTime start = DateTime.Now;
             int retrys = 5;
@@ -1852,7 +1874,10 @@ Please check the following
                     if (retrys > 0)
                     {
                         log.Info("getWP Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                        if (use_int)
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, req);
+                        else
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
@@ -1872,7 +1897,7 @@ Please check the following
                         var wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
 
                         // received a packet, but not what we requested
-                        if (req.seq != wp.seq)
+                        if (index != wp.seq)
                         {
                             generatePacket((byte) MAVLINK_MSG_ID.MISSION_REQUEST, req);
                             continue;
@@ -1901,9 +1926,9 @@ Please check the following
                         var wp = buffer.ByteArrayToStructure<mavlink_mission_item_int_t>(6);
 
                         // received a packet, but not what we requested
-                        if (req.seq != wp.seq)
+                        if (index != wp.seq)
                         {
-                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST_INT, req);
                             continue;
                         }
 
@@ -2908,9 +2933,16 @@ Please check the following
             }
 
             // 3dr radios dont send a hb, so no mavstate is ever created, this overrides that behavior
-            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51,68))
+            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51, 68))
             {
-                // create an item
+                // create an item - hidden
+                MAVlist.AddHiddenList(sysid, compid);
+            }
+
+            // esp8266 no hb, provide param interface however
+            if (compid == (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE && !MAVlist.Contains(sysid, (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE))
+            {
+                // create an item - visible
                 MAVlist[sysid, compid] = MAVlist[sysid, compid];
                 MAVlist[sysid, compid].sysid = sysid;
                 MAVlist[sysid, compid].compid = compid;
@@ -2990,7 +3022,7 @@ Please check the following
                         {
                             var adsb = buffer.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>(6);
 
-                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading, adsb.ICAO_address.ToString("X5"));
+                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"));
                             MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
                         }
                     }

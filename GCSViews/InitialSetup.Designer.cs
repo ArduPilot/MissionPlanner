@@ -85,6 +85,8 @@
             this.backstageViewPageParachute = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWPa1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute();
             this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.backstageViewPageESP = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configHWESP8266 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -120,6 +122,7 @@
             this.backstageView.Pages.Add(this.backstageViewPageMotorTest);
             this.backstageView.Pages.Add(this.backstageViewPagehwbt);
             this.backstageView.Pages.Add(this.backstageViewPageParachute);
+            backstageView.Pages.Add(backstageViewPageESP);
             this.backstageView.WidthMenu = 172;
             // 
             // backstageViewPagefw
@@ -546,6 +549,22 @@
             this.backstageViewPageinstfw.Spacing = 30;
             resources.ApplyResources(this.backstageViewPageinstfw, "backstageViewPageinstfw");
             // 
+            // backstageViewPageESP
+            // 
+            this.backstageViewPageESP.Advanced = false;
+            this.backstageViewPageESP.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
+            this.backstageViewPageESP.LinkText = "ESP8266 Setup";
+            this.backstageViewPageESP.Page = this.configHWESP8266;
+            this.backstageViewPageESP.Parent = this.backstageViewPageopt;
+            this.backstageViewPageESP.Show = true;
+            this.backstageViewPageESP.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageESP, "backstageViewPageESP");
+            // 
+            // configHWESP8266
+            // 
+            resources.ApplyResources(this.configHWESP8266, "configHWESP8266");
+            this.configHWESP8266.Name = "configHWESP8266";
+            // 
             // InitialSetup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -553,9 +572,9 @@
             this.Controls.Add(this.configAccelerometerCalibration);
             this.Controls.Add(this.configHWBT1);
             this.Controls.Add(this.configBatteryMonitoring21);
-            this.MinimumSize = new System.Drawing.Size(1000, 450);
-            this.Name = "InitialSetup";
+            this.Controls.Add(this.configHWESP8266);
             resources.ApplyResources(this, "$this");
+            this.Name = "InitialSetup";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HardwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.HardwareConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).EndInit();
@@ -619,5 +638,7 @@
     private Controls.BackstageView.BackstageViewPage backstageViewPageESC;
         private ConfigurationView.ConfigESCCalibration configESC1;      private Controls.BackstageView.BackstageViewPage backstageViewPageBatt2;
         private ConfigurationView.ConfigBatteryMonitoring2 configBatteryMonitoring21;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageESP;
+        private ConfigurationView.ConfigHWESP8266 configHWESP8266;
       }
 }

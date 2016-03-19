@@ -38,7 +38,6 @@
             this.BUT_convertcsv = new MissionPlanner.Controls.MyButton();
             this.BUT_paramsfromlog = new MissionPlanner.Controls.MyButton();
             this.BUT_getwpsfromlog = new MissionPlanner.Controls.MyButton();
-            this.BUT_droneshare = new MissionPlanner.Controls.MyButton();
             this.BUT_matlab = new MissionPlanner.Controls.MyButton();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
@@ -102,13 +101,6 @@
             this.BUT_getwpsfromlog.UseVisualStyleBackColor = true;
             this.BUT_getwpsfromlog.Click += new System.EventHandler(this.BUT_getwpsfromlog_Click);
             // 
-            // BUT_droneshare
-            // 
-            resources.ApplyResources(this.BUT_droneshare, "BUT_droneshare");
-            this.BUT_droneshare.Name = "BUT_droneshare";
-            this.BUT_droneshare.UseVisualStyleBackColor = true;
-            this.BUT_droneshare.Click += new System.EventHandler(this.BUT_droneshare_Click);
-            // 
             // BUT_matlab
             // 
             resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
@@ -130,7 +122,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.BUT_matlab);
-            this.Controls.Add(this.BUT_droneshare);
             this.Controls.Add(this.BUT_getwpsfromlog);
             this.Controls.Add(this.BUT_paramsfromlog);
             this.Controls.Add(this.BUT_convertcsv);
@@ -155,7 +146,6 @@
         private Controls.MyButton BUT_convertcsv;
         private Controls.MyButton BUT_paramsfromlog;
         private Controls.MyButton BUT_getwpsfromlog;
-        private Controls.MyButton BUT_droneshare;
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.TreeView treeView1;
     }
