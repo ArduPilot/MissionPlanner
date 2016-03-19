@@ -121,7 +121,7 @@ namespace MissionPlanner.GCSViews
             if (CurrentGMapMarker == null)
                 return;
 
-            POI.POIDelete(CurrentGMapMarker.Position);
+            POI.POIDelete((GMapMarkerPOI)CurrentGMapMarker);
         }
 
         private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
@@ -133,7 +133,6 @@ namespace MissionPlanner.GCSViews
         {
             POI.POISave();
         }
-
 
         protected override void Dispose(bool disposing)
         {

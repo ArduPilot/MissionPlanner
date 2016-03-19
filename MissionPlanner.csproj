@@ -810,6 +810,7 @@
     <Compile Include="Utilities\AP_GPS_GSOF.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\GMapMarkerPOI.cs" />
     <Compile Include="Utilities\GStreamer.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\fft.cs" />

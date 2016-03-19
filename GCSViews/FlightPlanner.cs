@@ -80,18 +80,18 @@ namespace MissionPlanner.GCSViews
 
         private void poieditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentGMapMarker == null)
+            if (CurrentPOIMarker == null)
                 return;
 
-            POI.POIEdit(CurrentGMapMarker.Position);
+            POI.POIEdit(CurrentPOIMarker);
         }
 
         private void poideleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentGMapMarker == null)
+            if (CurrentPOIMarker  == null)
                 return;
 
-            POI.POIDelete(CurrentGMapMarker.Position);
+            POI.POIDelete(CurrentPOIMarker);
         }
 
         private void poiaddToolStripMenuItem_Click(object sender, EventArgs e)
@@ -2754,6 +2754,7 @@ namespace MissionPlanner.GCSViews
         string mobileGpsLog = string.Empty;
         GMapMarkerRect CurentRectMarker;
         GMapMarkerRallyPt CurrentRallyPt;
+        GMapMarkerPOI CurrentPOIMarker;
         GMapMarker CurrentGMapMarker;
         bool isMouseDown;
         bool isMouseDraging;
@@ -2779,6 +2780,10 @@ namespace MissionPlanner.GCSViews
                 if (item is GMapMarkerRallyPt)
                 {
                     CurrentRallyPt = null;
+                }
+                if (item is GMapMarkerPOI)
+                {
+                    CurrentPOIMarker = null;
                 }
                 if (item is GMapMarker)
                 {
@@ -2824,9 +2829,17 @@ namespace MissionPlanner.GCSViews
                     // do nothing - readonly
                     return;
                 }
+                if (item is GMapMarkerPOI)
+                {
+                    CurrentPOIMarker = item as GMapMarkerPOI;
+                }
+                if (item is GMapMarkerWP)
+                {
+                    //CurrentGMapMarker = item;
+                }
                 if (item is GMapMarker)
                 {
-                    CurrentGMapMarker = item;
+                    //CurrentGMapMarker = item;
                 }
             }
         }
@@ -3132,6 +3145,13 @@ namespace MissionPlanner.GCSViews
 
             if (isMouseDown) // mouse down on some other object and dragged to here.
             {
+                // drag finished, update poi db
+                if (CurrentPOIMarker != null)
+                {
+                    POI.POIMove(CurrentPOIMarker);
+                    CurrentPOIMarker = null;
+                }
+
                 if (e.Button == MouseButtons.Left)
                 {
                     isMouseDown = false;
@@ -3384,6 +3404,12 @@ namespace MissionPlanner.GCSViews
                     {
                         CurentRectMarker.InnerMarker.Position = pnew;
                     }
+                }
+                else if (CurrentPOIMarker != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentPOIMarker.Position = pnew;
                 }
                 else if (CurrentGMapMarker != null)
                 {
