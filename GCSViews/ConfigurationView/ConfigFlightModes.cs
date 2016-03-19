@@ -333,9 +333,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void updateDropDown(ComboBox ctl, string param)
         {
-            ctl.DataSource =
-                ParameterMetaDataRepository.GetParameterOptionsInt(param, MainV2.comPort.MAV.cs.firmware.ToString())
-                    .ToList();
+            ctl.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
         }
