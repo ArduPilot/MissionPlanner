@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
+using OpenTK.Graphics.ES20;
 
 namespace MissionPlanner.Plugin
 {
@@ -48,7 +50,7 @@ namespace MissionPlanner.Plugin
                 {
                     log.Info("Plugin Load " + file);
 
-                    Object o = Activator.CreateInstance(pluginInfo);
+                    Object o = Activator.CreateInstance(pluginInfo, BindingFlags.Default, null, null, CultureInfo.CurrentCulture);
                     Plugin plugin = (Plugin) o;
 
                     plugin.Assembly = asm;
