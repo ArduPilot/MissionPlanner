@@ -35,7 +35,10 @@ namespace MissionPlanner.Controls
         public ProgressReporterDialogue()
         {
             InitializeComponent();
-            doWorkArgs = new ProgressWorkerEventArgs();
+            doWorkArgs = new ProgressWorkerEventArgs()
+            {
+                CancellationTokenSource = new CancellationTokenSource()
+            };
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.btnClose.Visible = false;
 
@@ -251,6 +254,7 @@ namespace MissionPlanner.Controls
             this.progressBar1.Style = ProgressBarStyle.Marquee;
 
             doWorkArgs.CancelRequested = true;
+            doWorkArgs.CancellationTokenSource.Cancel();
         }
 
 
@@ -333,5 +337,6 @@ namespace MissionPlanner.Controls
         public string ErrorMessage;
         public volatile bool CancelRequested;
         public volatile bool CancelAcknowledged;
+        public CancellationTokenSource CancellationTokenSource;
     }
 }

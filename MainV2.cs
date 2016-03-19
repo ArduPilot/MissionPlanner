@@ -385,6 +385,8 @@ namespace MissionPlanner
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
 
+        private CancellationTokenSource backgroundTaskCancellation = new CancellationTokenSource();
+
         /// <summary>
         /// This 'Control' is the toolstrip control that holds the comport combo, baudrate combo etc
         /// Otiginally seperate controls, each hosted in a toolstip sqaure, combined into this custom
@@ -408,6 +410,8 @@ namespace MissionPlanner
 
         public MainV2()
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             log.Info("Mainv2 ctor");
 
             // set this before we reset it
@@ -1109,17 +1113,20 @@ namespace MissionPlanner
 
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
+                // todo: how should this background task be cancelled?
+                CancellationTokenSource src = new CancellationTokenSource();
+
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), src.Token);
                     }
                     catch
                     {
                     }
-                }
-                    );
+                }, src.Token);
+                
             }
             catch
             {
@@ -1597,17 +1604,21 @@ namespace MissionPlanner
             log.Info("sorting tlogs");
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
+                // todo: getHeartBeat can hang for a long time looking for a heart beat.
+                // so how should we handle cancellation since we are in the "Closing" method?
+                // This UI needs to be redesigned to allow for cancellation of this task.
+                CancellationTokenSource src = new CancellationTokenSource();
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), src.Token);
                     }
                     catch
                     {
                     }
-                }
-                    );
+                }, src.Token);
+                
             }
             catch
             {
@@ -1675,6 +1686,8 @@ namespace MissionPlanner
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
+
+            backgroundTaskCancellation.Cancel();
 
             Console.WriteLine("MainV2_FormClosed");
 
@@ -2436,10 +2449,10 @@ namespace MissionPlanner
                 Priority = ThreadPriority.BelowNormal
             };
             pluginthread.Start();
+            
+            System.Threading.Tasks.Task.Factory.StartNew(BGLoadAirports, backgroundTaskCancellation.Token);
 
-            ThreadPool.QueueUserWorkItem(BGLoadAirports);
-
-            ThreadPool.QueueUserWorkItem(BGCreateMaps);
+            System.Threading.Tasks.Task.Factory.StartNew(BGCreateMaps, backgroundTaskCancellation.Token);
 
             //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
@@ -2603,7 +2616,7 @@ namespace MissionPlanner
             // sort logs
             try
             {
-                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), backgroundTaskCancellation.Token);
             }
             catch (Exception ex)
             {

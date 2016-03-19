@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using KMLib;
 using KMLib.Feature;
@@ -19,24 +20,26 @@ using ICSharpCode.SharpZipLib.Core;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-
+using System.Diagnostics;
+using System.Threading;
 
 namespace MissionPlanner.Log
 {
     public partial class LogDownloadMavLink : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        serialstatus status = serialstatus.Connecting;
+        SerialStatus status = SerialStatus.Connecting;
         int currentlog = 0;
         string logfile = "";
         int receivedbytes = 0;
+        List<MAVLink.mavlink_log_entry_t> logEntries;
 
         //List<Model> orientation = new List<Model>();
 
         Object thisLock = new Object();
         DateTime start = DateTime.Now;
 
-        enum serialstatus
+        enum SerialStatus
         {
             Connecting,
             Createfile,
@@ -60,23 +63,40 @@ namespace MissionPlanner.Log
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
                 this.Close();
-                CustomMessageBox.Show("Please Connect");
+                CustomMessageBox.Show(LogStrings.NotConnected);
                 return;
             }
 
-            try
+            CHK_logs.Items.Clear();
+
+            AppendSerialLog(LogStrings.FetchingLogfileList);
+
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                var list = MainV2.comPort.GetLogList();
-
-                foreach (var item in list)
+                try
                 {
-                    genchkcombo(item.id);
+                    this.logEntries = MainV2.comPort.GetLogList();
+                    RunOnUIThread(LoadCheckedList);
+                }
+                catch (Exception ex)
+                {
+                    AppendSerialLog(LogStrings.UnhandledException + ex.ToString());
+                }
 
+            });
+        }
+
+        private void LoadCheckedList()
+        {
+            if (logEntries != null)
+            {
+                foreach (var item in logEntries)
+                {
+                    string caption = item.id + " " + GetItemCaption(item);
+                    AddCheckedListBoxItem(caption);
                     try
                     {
-                        TXT_seriallog.AppendText(item.id + "\t" +
-                                                 new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(
-                                                     item.time_utc).ToLocalTime() + "\test size:\t" + item.size + "\r\n");
+                        AppendSerialLog(item.id + "\t" + GetItemCaption(item) + "\t\t" + item.size);
                     }
                     catch (Exception ex)
                     {
@@ -84,93 +104,108 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                if (list.Count == 0)
+                if (logEntries.Count == 0)
                 {
-                    TXT_seriallog.AppendText("No logs to download");
+                    AppendSerialLog(LogStrings.NoLogsFound);
                 }
             }
-            catch
-            {
-                CustomMessageBox.Show(Strings.ErrorLogList, Strings.ERROR);
-                this.Close();
-            }
-
-            status = serialstatus.Done;
+            status = SerialStatus.Done;
         }
 
-        void genchkcombo(int logcount)
+        string GetItemCaption(MAVLink.mavlink_log_entry_t item)
         {
-            MethodInvoker m = delegate()
-            {
-                //CHK_logs.Items.Clear();
-                //for (int a = 1; a <= logcount; a++)
-                if (!CHK_logs.Items.Contains(logcount))
-                {
-                    CHK_logs.Items.Add(logcount);
-                }
-            };
-            try
-            {
-                BeginInvoke(m);
-            }
-            catch
-            {
-            }
+            return new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(item.time_utc).ToLocalTime().ToString();
         }
 
-        void updateDisplay()
+
+        void AddCheckedListBoxItem(string caption)
+        {
+            RunOnUIThread(new Action(() =>
+            {
+                if (!CHK_logs.Items.Contains(caption))
+                {
+                    CHK_logs.Items.Add(caption);
+                }
+            }));
+        }
+
+
+        void UpdateStatus(bool force)
         {
             if (this.IsDisposed)
                 return;
 
-            if (start.Second != DateTime.Now.Second)
+            System.TimeSpan span = DateTime.Now - start;
+
+            if (span.TotalSeconds > 1 || force)
             {
-                this.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
+                string caption = status.ToString();
+                if (status == SerialStatus.Reading)
                 {
-                    try
-                    {
-                        TXT_status.Text = status.ToString() + " " + receivedbytes;
-                    }
-                    catch
-                    {
-                    }
-                });
-                start = DateTime.Now;
+                    caption += " " + receivedbytes;
+                }
+
+                RunOnUIThread(new Action(() => {
+                    LabelStatus.Text = caption;
+                }));
             }
+            start = DateTime.Now;
+        }
+
+        void RunOnUIThread(Action a)
+        {
+            this.BeginInvoke(new Action(() => 
+            {            
+                try
+                {
+                    a();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine(LogStrings.UnhandledException + e.ToString());
+                }
+            }));
         }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (status == SerialStatus.Done)
             {
                 if (CHK_logs.Items.Count == 0)
                 {
-                    CustomMessageBox.Show("Nothing to download");
+                    CustomMessageBox.Show(LogStrings.NoLogsFound);
                     return;
                 }
+                BUT_DLall.Enabled = false;
+                BUT_DLthese.Enabled = false;
+                int[] toDownload = GetAllLogIndices().ToArray();
 
                 System.Threading.Thread t11 =
                     new System.Threading.Thread(
                         delegate()
                         {
-                            downloadthread(int.Parse(CHK_logs.Items[0].ToString()),
-                                int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString()));
+                            DownloadThread(toDownload);
                         });
                 t11.Name = "Log Download All thread";
                 t11.Start();
             }
         }
 
-        string GetLog(ushort no)
+        string GetLog(ushort no, string fileName)
         {
             log.Info("GetLog " + no);
 
             MainV2.comPort.Progress += comPort_Progress;
 
-            status = serialstatus.Reading;
+            status = SerialStatus.Reading;
+
+            // todo: this token needs to bubble up higher in the stack so these operations
+            // can be cancelled.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat.
+            CancellationTokenSource src = new CancellationTokenSource();
 
             // used for log fn
-            byte[] hbpacket = MainV2.comPort.getHeartBeat();
+            byte[] hbpacket = MainV2.comPort.getHeartBeat(src.Token);
 
             if (hbpacket != null)
                 log.Info("Got hbpacket length: " + hbpacket.Length);
@@ -183,18 +218,16 @@ namespace MissionPlanner.Log
                 if (ms != null)
                     log.Info("Got Log length: " + ms.Length);
 
-                status = serialstatus.Done;
-                updateDisplay();
+                status = SerialStatus.Done;
+                UpdateStatus(true);
 
                 MainV2.comPort.Progress -= comPort_Progress;
 
                 MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
-
+                
                 logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                          + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") +
-                          " " +
-                          no + ".bin";
+                          + hbpacket[3] + Path.DirectorySeparatorChar + no + " " + MakeValidFileName(fileName) + ".bin";
 
                 // make log dir
                 Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -220,48 +253,25 @@ namespace MissionPlanner.Log
             //update the new filename
             logfile = logfile + ".log";
 
-            log.Info("about to GetFirstGpsTime: " + logfile);
-            // get gps time of assci log
-            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
-
-            // rename log is we have a valid gps time
-            if (logtime != DateTime.MinValue)
-            {
-                string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
-                                        + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-                                        + hbpacket[3] + Path.DirectorySeparatorChar +
-                                        logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
-                try
-                {
-                    File.Move(logfile, newlogfilename);
-                    // rename bin as well
-                    File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
-                    logfile = newlogfilename;
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.ErrorRenameFile + " " + logfile + "\nto " + newlogfilename,
-                        Strings.ERROR);
-                }
-            }
-
             return logfile;
+        }
+
+        private string MakeValidFileName(string fileName)
+        {
+            return fileName.Replace('/', '-').Replace('\\','-').Replace(':','-').Replace('?',' ').Replace('"','\'').Replace('<','[').Replace('>',']').Replace('|',' ');
         }
 
         void comPort_Progress(int progress, string status)
         {
             receivedbytes = progress;
-            updateDisplay();
+            UpdateStatus(false);
         }
 
         void CreateLog(string logfile)
         {
             TextReader tr = new StreamReader(logfile);
             //
-
-            this.Invoke(
-                (System.Windows.Forms.MethodInvoker)
-                    delegate() { TXT_seriallog.AppendText("Creating KML for " + logfile + "\n"); });
+            AppendSerialLog(string.Format(LogStrings.CreatingKmlPrompt, logfile));
 
             LogOutput lo = new LogOutput();
 
@@ -279,19 +289,26 @@ namespace MissionPlanner.Log
             catch
             {
             } // usualy invalid lat long error
-            status = serialstatus.Done;
-            updateDisplay();
+            status = SerialStatus.Done;
+            UpdateStatus(true);
         }
 
-        private void downloadthread(int startlognum, int endlognum)
+        private void DownloadThread(int[] selectedLogs)
         {
             try
             {
-                for (int a = startlognum; a <= endlognum; a++)
+
+                status = SerialStatus.Reading;
+
+                UpdateProgress(0, selectedLogs.Length, 0);
+                int pos = 0;
+                foreach (int a in selectedLogs)
                 {
                     currentlog = a;
 
-                    var logname = GetLog((ushort) a);
+                    var entry = logEntries[a]; // mavlink_log_entry_t
+                    string fileName = GetItemCaption(entry);
+                    var logname = GetLog((ushort) a, fileName);
 
                     CreateLog(logname);
 
@@ -306,78 +323,88 @@ namespace MissionPlanner.Log
                             CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
                         }
                     }
+                    UpdateProgress(0, selectedLogs.Length, pos++);
                 }
 
-                status = serialstatus.Done;
-                updateDisplay();
+                UpdateProgress(0, selectedLogs.Length, selectedLogs.Length);
 
+                AppendSerialLog("Download complete.");
                 Console.Beep();
             }
             catch (Exception ex)
             {
+                AppendSerialLog("Error in log " + currentlog);
                 CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
+            }
+
+            RunOnUIThread(() =>
+            {
+                BUT_DLall.Enabled = true;
+                BUT_DLthese.Enabled = true;
+                status = SerialStatus.Done;
+                UpdateStatus(true);
+            });
+        }
+
+        IEnumerable<int> GetSelectedLogIndices()
+        {
+            foreach (int i in CHK_logs.CheckedIndices)
+            {
+                yield return i;
             }
         }
 
-        private void downloadsinglethread()
+        IEnumerable<int> GetAllLogIndices()
         {
-            try
+            for (int i = 0, n = logEntries.Count; i < n; i++)
             {
-                for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
-                {
-                    int a = (int) CHK_logs.CheckedItems[i];
-
-                    currentlog = a;
-
-                    var logname = GetLog((ushort) a);
-
-                    CreateLog(logname);
-
-                    if (chk_droneshare.Checked)
-                    {
-                        try
-                        {
-                            Utilities.DroneApi.droneshare.doUpload(logname);
-                        }
-                        catch (Exception ex)
-                        {
-                            CustomMessageBox.Show("Droneshare upload failed " + ex.ToString());
-                        }
-                    }
-                }
-
-                status = serialstatus.Done;
-                updateDisplay();
-
-                Console.Beep();
+                yield return i;
             }
-            catch (Exception ex)
+        }
+
+        private void UpdateProgress(int min, int max, int current)
+        {
+            RunOnUIThread(() =>
             {
-                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
-            }
+                progressBar1.Minimum = min;
+                progressBar1.Maximum = max;
+                progressBar1.Value = current;
+                progressBar1.Visible = (current < max);
+            });
+            UpdateStatus(current == max);
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (status == SerialStatus.Done)
             {
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
-                t11.Name = "Log download single thread";
-                t11.Start();
+                int[] toDownload = GetSelectedLogIndices().ToArray();
+                if (toDownload.Length == 0)
+                {
+                    AppendSerialLog(LogStrings.NothingSelected);
+                }
+                else
+                {
+                    BUT_DLall.Enabled = false;
+                    BUT_DLthese.Enabled = false;
+                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); });
+                    t11.Name = "Log download single thread";
+                    t11.Start();
+                }
             }
         }
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
-            if (CustomMessageBox.Show("Are you sure?", "sure", MessageBoxButtons.YesNo) ==
+            if (CustomMessageBox.Show(LogStrings.Confirmation, "sure", MessageBoxButtons.YesNo) ==
                 System.Windows.Forms.DialogResult.Yes)
             {
                 try
                 {
                     MainV2.comPort.EraseLog();
-                    TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
-                    status = serialstatus.Done;
-                    updateDisplay();
+                    AppendSerialLog(LogStrings.EraseComplete);
+                    status = SerialStatus.Done;
+                    UpdateStatus(true);
                     CHK_logs.Items.Clear();
                 }
                 catch (Exception ex)
@@ -407,7 +434,8 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        AppendSerialLog(Environment.NewLine + Environment.NewLine + 
+                            string.Format(LogStrings.ProcessingLog, logfile));
                         this.Refresh();
                         LogOutput lo = new LogOutput();
                         try
@@ -423,16 +451,24 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" +
+                            CustomMessageBox.Show(LogStrings.ErrorProcessingLogfile + Environment.NewLine + 
                                                   ex.ToString());
                         }
 
                         lo.writeKML(logfile + ".kml");
 
-                        TXT_seriallog.AppendText("Done\n");
+                        AppendSerialLog(LogStrings.Done);
                     }
                 }
             }
+        }
+
+        private void AppendSerialLog(string msg)
+        {
+            RunOnUIThread(new Action(() =>
+            {
+                TXT_seriallog.AppendText(msg + Environment.NewLine);
+            }));
         }
 
 
@@ -456,7 +492,8 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        AppendSerialLog(Environment.NewLine + Environment.NewLine +
+                            string.Format(LogStrings.ProcessingLog, logfile));
                         this.Refresh();
 
                         LogOutput lo = new LogOutput();
@@ -474,13 +511,13 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                            CustomMessageBox.Show(LogStrings.ErrorProcessingLogfile + Environment.NewLine + ex.Message);
                             continue;
                         }
 
                         lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
-                        TXT_seriallog.AppendText("Done\n");
+                        AppendSerialLog(LogStrings.Done);
                     }
                 }
             }

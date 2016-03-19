@@ -13,6 +13,7 @@ using log4net;
 using px4uploader;
 using System.Collections;
 using System.Xml.Serialization;
+using System.Threading;
 
 namespace MissionPlanner.Utilities
 {
@@ -671,6 +672,11 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         public bool UploadPX4(string filename, BoardDetect.boards board)
         {
+            // todo: this needs to bubble up higher so this entire operation can become async so we don't
+            // lock up the UI thread.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat if something is wrong with COM port.
+            CancellationTokenSource src = new CancellationTokenSource();
+
             Uploader up;
             updateProgress(0, "Reading Hex File");
             px4uploader.Firmware fw;
@@ -690,7 +696,7 @@ namespace MissionPlanner.Utilities
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
 
-                if (MainV2.comPort.getHeartBeat().Length > 0)
+                if (MainV2.comPort.getHeartBeat(src.Token).Length > 0)
                 {
                     MainV2.comPort.doReboot(true);
                     MainV2.comPort.Close();
@@ -833,7 +839,12 @@ namespace MissionPlanner.Utilities
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
 
-                if (MainV2.comPort.getHeartBeat().Length > 0)
+                // todo: this needs to bubble up higher so this entire operation can become async so we don't
+                // lock up the UI thread.  For example getHeartBeat can hang for a long time looking
+                // for a heart beat if something is wrong with COM port.
+                CancellationTokenSource src = new CancellationTokenSource();
+
+                if (MainV2.comPort.getHeartBeat(src.Token).Length > 0)
                 {
                     MainV2.comPort.doReboot(true);
                     MainV2.comPort.Close();

@@ -53,7 +53,11 @@ namespace MissionPlanner.Comms
                 mavint.BaseStream.Open();
             }
 
-            if (mavint.getHeartBeat().Length == 0)
+            // todo: this token needs to bubble up higher in the stack so these operations
+            // can be cancelled.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat.
+            CancellationTokenSource src = new CancellationTokenSource();
+            if (mavint.getHeartBeat(src.Token).Length == 0)
             {
                 throw new Exception("No valid heartbeats read from port");
             }

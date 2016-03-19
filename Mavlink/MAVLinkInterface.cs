@@ -429,12 +429,12 @@ Please check the following
                     // can see 2 heartbeat packets at any time, and will connect - was one after the other
 
                     if (buffer.Length == 0)
-                        buffer = getHeartBeat();
+                        buffer = getHeartBeat(progressWorkerEventArgs.CancellationTokenSource.Token);
 
                     System.Threading.Thread.Sleep(1);
 
                     if (buffer1.Length == 0)
-                        buffer1 = getHeartBeat();
+                        buffer1 = getHeartBeat(progressWorkerEventArgs.CancellationTokenSource.Token);
 
 
                     if (buffer.Length > 0 || buffer1.Length > 0)
@@ -541,12 +541,12 @@ Please check the following
                 MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
-        public byte[] getHeartBeat()
+        public byte[] getHeartBeat(CancellationToken token)
         {
             giveComport = true;
             DateTime start = DateTime.Now;
             int readcount = 0;
-            while (true)
+            while (token == null || !token.IsCancellationRequested)
             {
                 byte[] buffer = readPacket();
                 readcount++;
@@ -572,6 +572,7 @@ Please check the following
                     return new byte[0];
                 }
             }
+            return new byte[0];
         }
 
         public void sendPacket(object indata)
@@ -1333,7 +1334,11 @@ Please check the following
         /// <returns></returns>
         public bool doReboot(bool bootloadermode = false)
         {
-            byte[] buffer = getHeartBeat();
+            // todo: this token needs to bubble up higher in the stack so these operations
+            // can be cancelled.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat.
+            CancellationTokenSource src = new CancellationTokenSource();
+            byte[] buffer = getHeartBeat(src.Token);
 
             if (buffer.Length > 5)
             {

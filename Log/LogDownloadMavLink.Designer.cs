@@ -34,11 +34,15 @@
             this.BUT_DLthese = new MissionPlanner.Controls.MyButton();
             this.BUT_clearlogs = new MissionPlanner.Controls.MyButton();
             this.CHK_logs = new System.Windows.Forms.CheckedListBox();
-            this.TXT_status = new System.Windows.Forms.TextBox();
             this.BUT_redokml = new MissionPlanner.Controls.MyButton();
             this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
             this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
             this.chk_droneshare = new System.Windows.Forms.CheckBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.label1 = new System.Windows.Forms.Label();
+            this.LabelStatus = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXT_seriallog
@@ -46,6 +50,7 @@
             resources.ApplyResources(this.TXT_seriallog, "TXT_seriallog");
             this.TXT_seriallog.Name = "TXT_seriallog";
             this.TXT_seriallog.ReadOnly = true;
+            this.tableLayoutPanel1.SetRowSpan(this.TXT_seriallog, 9);
             // 
             // BUT_DLall
             // 
@@ -70,17 +75,10 @@
             // 
             // CHK_logs
             // 
+            resources.ApplyResources(this.CHK_logs, "CHK_logs");
             this.CHK_logs.CheckOnClick = true;
             this.CHK_logs.FormattingEnabled = true;
-            resources.ApplyResources(this.CHK_logs, "CHK_logs");
             this.CHK_logs.Name = "CHK_logs";
-            // 
-            // TXT_status
-            // 
-            resources.ApplyResources(this.TXT_status, "TXT_status");
-            this.TXT_status.ForeColor = System.Drawing.Color.Red;
-            this.TXT_status.Name = "TXT_status";
-            this.TXT_status.ReadOnly = true;
             // 
             // BUT_redokml
             // 
@@ -110,22 +108,48 @@
             this.chk_droneshare.UseVisualStyleBackColor = true;
             this.chk_droneshare.CheckedChanged += new System.EventHandler(this.chk_droneshare_CheckedChanged);
             // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.TXT_seriallog, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_bintolog, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.chk_droneshare, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_redokml, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_firstperson, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_clearlogs, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.CHK_logs, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_DLthese, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_DLall, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.LabelStatus, 1, 9);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // progressBar1
+            // 
+            resources.ApplyResources(this.progressBar1, "progressBar1");
+            this.progressBar1.Name = "progressBar1";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // LabelStatus
+            // 
+            resources.ApplyResources(this.LabelStatus, "LabelStatus");
+            this.LabelStatus.ForeColor = System.Drawing.Color.Red;
+            this.LabelStatus.Name = "LabelStatus";
+            // 
             // LogDownloadMavLink
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.chk_droneshare);
-            this.Controls.Add(this.BUT_bintolog);
-            this.Controls.Add(this.BUT_firstperson);
-            this.Controls.Add(this.BUT_redokml);
-            this.Controls.Add(this.TXT_status);
-            this.Controls.Add(this.CHK_logs);
-            this.Controls.Add(this.BUT_clearlogs);
-            this.Controls.Add(this.BUT_DLthese);
-            this.Controls.Add(this.BUT_DLall);
-            this.Controls.Add(this.TXT_seriallog);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "LogDownloadMavLink";
             this.Load += new System.EventHandler(this.Log_Load);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -137,11 +161,14 @@
         private Controls.MyButton BUT_DLthese;
         private Controls.MyButton BUT_clearlogs;
         private System.Windows.Forms.CheckedListBox CHK_logs;
-        private System.Windows.Forms.TextBox TXT_status;
         private Controls.MyButton BUT_redokml;
         private System.Windows.Forms.TextBox TXT_seriallog;
         private Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_bintolog;
         private System.Windows.Forms.CheckBox chk_droneshare;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label LabelStatus;
     }
 }
