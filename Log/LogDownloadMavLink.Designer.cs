@@ -38,9 +38,9 @@
             this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
             this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.LabelStatus = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,11 +116,6 @@
             this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 8);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
-            // progressBar1
-            // 
-            resources.ApplyResources(this.progressBar1, "progressBar1");
-            this.progressBar1.Name = "progressBar1";
-            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
@@ -132,6 +127,11 @@
             this.tableLayoutPanel1.SetColumnSpan(this.LabelStatus, 2);
             this.LabelStatus.ForeColor = System.Drawing.Color.Red;
             this.LabelStatus.Name = "LabelStatus";
+            // 
+            // progressBar1
+            // 
+            resources.ApplyResources(this.progressBar1, "progressBar1");
+            this.progressBar1.Name = "progressBar1";
             // 
             // LogDownloadMavLink
             // 
