@@ -26,7 +26,7 @@ namespace MissionPlanner.Plugin
 
             try
             {
-                asm = Assembly.LoadFrom(file);
+                asm = Assembly.LoadFile(file);
             }
             catch (Exception)
             {
