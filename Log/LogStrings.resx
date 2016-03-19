@@ -135,6 +135,9 @@
   <data name="FetchingLogfileList" xml:space="preserve">
     <value>Getting list of log files...</value>
   </data>
+  <data name="LogFilesFound" xml:space="preserve">
+    <value>Found {0} files, sizes shown are just an estimate</value>
+  </data>
   <data name="NoLogsFound" xml:space="preserve">
     <value>No logs to download</value>
   </data>

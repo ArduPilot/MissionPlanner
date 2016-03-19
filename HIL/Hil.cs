@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace MissionPlanner.HIL
 {
-    public delegate void ProgressEventHandler(int progress, string status);
+    public delegate void ProgressEventHandler(int bytesReceived, string status);
 
     public abstract class Hil
     {

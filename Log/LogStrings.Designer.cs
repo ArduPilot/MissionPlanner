@@ -115,6 +115,15 @@ namespace MissionPlanner.Log {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found {0} files, sizes shown are just an estimate.
+        /// </summary>
+        internal static string LogFilesFound {
+            get {
+                return ResourceManager.GetString("LogFilesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No logs to download.
         /// </summary>
         internal static string NoLogsFound {

@@ -31,7 +31,6 @@ namespace MissionPlanner.Log
         SerialStatus status = SerialStatus.Connecting;
         int currentlog = 0;
         string logfile = "";
-        int receivedbytes = 0;
         List<MAVLink.mavlink_log_entry_t> logEntries;
 
         //List<Model> orientation = new List<Model>();
@@ -73,8 +72,8 @@ namespace MissionPlanner.Log
 
             System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-            try
-            {
+                try
+                {
                     this.logEntries = MainV2.comPort.GetLogList();
                     RunOnUIThread(LoadCheckedList);
                 }
@@ -86,10 +85,21 @@ namespace MissionPlanner.Log
             });
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (downloadCancellation != null)
+            {
+                downloadCancellation.Cancel();
+            }
+            base.OnClosing(e);
+        }
+
         private void LoadCheckedList()
         {
-            if (logEntries != null)
+            if (logEntries != null && logEntries.Count > 0)
             {
+                AppendSerialLog(string.Format(LogStrings.LogFilesFound, logEntries.Count));
+
                 foreach (var item in logEntries)
                 {
                     string caption = item.id + " " + GetItemCaption(item);
@@ -103,14 +113,13 @@ namespace MissionPlanner.Log
                         log.Error(ex);
                     }
                 }
-
-                if (logEntries.Count == 0)
-                {
-                    AppendSerialLog(LogStrings.NoLogsFound);
-                }
+            }
+            else
+            {
+                AppendSerialLog(LogStrings.NoLogsFound);
             }
             status = SerialStatus.Done;
-            }
+        }
 
         string GetItemCaption(MAVLink.mavlink_log_entry_t item)
         {
@@ -127,7 +136,7 @@ namespace MissionPlanner.Log
                     CHK_logs.Items.Add(caption);
                 }
             }));
-            }
+        }
 
 
         void UpdateStatus(bool force)
@@ -142,11 +151,14 @@ namespace MissionPlanner.Log
                 string caption = status.ToString();
                 if (status == SerialStatus.Reading)
                 {
-                    caption += " " + receivedbytes;
+                    double percent = ((double)receivedBytes * 100.0) / (double)totalDownload;
+                    caption += " " + Math.Round(percent, 2) + "%";
                 }
 
-                RunOnUIThread(new Action(() => {
+                RunOnUIThread(new Action(() =>
+                {
                     LabelStatus.Text = caption;
+                    UpdateProgress(0, totalDownload, receivedBytes);
                 }));
             }
             start = DateTime.Now;
@@ -154,18 +166,26 @@ namespace MissionPlanner.Log
 
         void RunOnUIThread(Action a)
         {
-            this.BeginInvoke(new Action(() => 
-            {            
-                    try
-                    {
+            Action wrapped = () =>
+            {
+                try
+                {
                     a();
-                    }
+                }
                 catch (Exception e)
-                    {
-                    Debug.WriteLine(LogStrings.UnhandledException + e.ToString());
-                    }
-            }));
+                {
+                    AppendSerialLog(LogStrings.UnhandledException + e.ToString());
+                }
+            };
+            if (this.InvokeRequired)
+            {
+                this.BeginInvoke(wrapped);
             }
+            else
+            {
+                wrapped();
+            }
+        }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
@@ -180,18 +200,15 @@ namespace MissionPlanner.Log
                 BUT_DLthese.Enabled = false;
                 int[] toDownload = GetAllLogIndices().ToArray();
 
-                System.Threading.Thread t11 =
-                    new System.Threading.Thread(
-                        delegate()
-                        {
-                            DownloadThread(toDownload);
-                        });
-                t11.Name = "Log Download All thread";
-                t11.Start();
+                downloadCancellation = new CancellationTokenSource();
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
+                {
+                    DownloadThread(toDownload, downloadCancellation.Token);
+                }, downloadCancellation.Token);
             }
         }
 
-        string GetLog(ushort no, string fileName)
+        string GetLog(ushort no, string fileName, CancellationToken token)
         {
             log.Info("GetLog " + no);
 
@@ -199,13 +216,8 @@ namespace MissionPlanner.Log
 
             status = SerialStatus.Reading;
 
-            // todo: this token needs to bubble up higher in the stack so these operations
-            // can be cancelled.  For example getHeartBeat can hang for a long time looking
-            // for a heart beat.
-            CancellationTokenSource src = new CancellationTokenSource();
-
             // used for log fn
-            byte[] hbpacket = MainV2.comPort.getHeartBeat(src.Token);
+            byte[] hbpacket = MainV2.comPort.getHeartBeat(token);
 
             if (hbpacket != null)
                 log.Info("Got hbpacket length: " + hbpacket.Length);
@@ -223,7 +235,7 @@ namespace MissionPlanner.Log
 
                 MainV2.comPort.Progress -= comPort_Progress;
 
-                MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t) MainV2.comPort.DebugPacket(hbpacket);
+                MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)MainV2.comPort.DebugPacket(hbpacket);
 
                 logfile = Settings.Instance.LogDir + Path.DirectorySeparatorChar
                           + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
@@ -236,13 +248,13 @@ namespace MissionPlanner.Log
                 // save memorystream to file
                 using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(logfile)))
                 {
-                    byte[] buffer = new byte[256*1024];
+                    byte[] buffer = new byte[256 * 1024];
                     while (ms.Position < ms.Length)
                     {
                         int read = ms.Read(buffer, 0, buffer.Length);
                         bw.Write(buffer, 0, read);
                     }
-                }    
+                }
             }
 
             log.Info("about to convertbin: " + logfile);
@@ -257,13 +269,13 @@ namespace MissionPlanner.Log
         }
 
         private string MakeValidFileName(string fileName)
-            {
-            return fileName.Replace('/', '-').Replace('\\','-').Replace(':','-').Replace('?',' ').Replace('"','\'').Replace('<','[').Replace('>',']').Replace('|',' ');
+        {
+            return fileName.Replace('/', '-').Replace('\\', '-').Replace(':', '-').Replace('?', ' ').Replace('"', '\'').Replace('<', '[').Replace('>', ']').Replace('|', ' ');
         }
 
-        void comPort_Progress(int progress, string status)
+        void comPort_Progress(int bytesReceived, string status)
         {
-            receivedbytes = progress;
+            receivedBytes = startOfCurrentFile + (uint)bytesReceived;
             UpdateStatus(false);
         }
 
@@ -293,29 +305,51 @@ namespace MissionPlanner.Log
             UpdateStatus(true);
         }
 
-        private void DownloadThread(int[] selectedLogs)
+        private uint totalDownload;
+        private uint startOfCurrentFile;
+        private uint receivedBytes;
+        CancellationTokenSource downloadCancellation;
+
+
+        private void DownloadThread(int[] selectedLogs, CancellationToken token)
         {
             try
             {
 
                 status = SerialStatus.Reading;
 
-                UpdateProgress(0, selectedLogs.Length, 0);
-                int pos = 0;
+                totalDownload = 0;
+                receivedBytes = 0;
+
                 foreach (int a in selectedLogs)
                 {
+                    var entry = logEntries[a]; // mavlink_log_entry_t
+                    totalDownload += entry.size;
+                }
+
+                UpdateStatus(true);
+
+                foreach (int a in selectedLogs)
+                {
+                    if (token.IsCancellationRequested)
+                    {
+                        return;
+                    }
                     currentlog = a;
 
                     var entry = logEntries[a]; // mavlink_log_entry_t
                     string fileName = GetItemCaption(entry);
-                    var logname = GetLog((ushort) a, fileName);
+
+                    startOfCurrentFile = receivedBytes;
+                    var logname = GetLog((ushort)a, fileName, token);
 
                     CreateLog(logname);
 
-                    UpdateProgress(0, selectedLogs.Length, pos++);
+                    UpdateStatus(false);
                 }
 
-                UpdateProgress(0, selectedLogs.Length, selectedLogs.Length);
+                receivedBytes = totalDownload;
+                UpdateStatus(true);
 
                 AppendSerialLog("Download complete.");
                 Console.Beep();
@@ -328,11 +362,11 @@ namespace MissionPlanner.Log
 
             RunOnUIThread(() =>
                 {
-                BUT_DLall.Enabled = true;
-                BUT_DLthese.Enabled = true;
-                status = SerialStatus.Done;
-                UpdateStatus(true);
-            });
+                    BUT_DLall.Enabled = true;
+                    BUT_DLthese.Enabled = true;
+                    status = SerialStatus.Done;
+                    UpdateStatus(true);
+                });
         }
 
         IEnumerable<int> GetSelectedLogIndices()
@@ -349,18 +383,27 @@ namespace MissionPlanner.Log
             {
                 yield return i;
             }
-                }
+        }
 
-        private void UpdateProgress(int min, int max, int current)
+        private void UpdateProgress(uint min, uint max, uint current)
         {
+            // pin the value so it is inside min/max range.
+            if (current > max)
+            {
+                current = max;
+            }
+            if (current < min)
+            {
+                current = min;
+            }
+
             RunOnUIThread(() =>
             {
-                progressBar1.Minimum = min;
-                progressBar1.Maximum = max;
-                progressBar1.Value = current;
+                progressBar1.Minimum = (int)min;
+                progressBar1.Maximum = (int)max;
+                progressBar1.Value = (int)current;
                 progressBar1.Visible = (current < max);
             });
-            UpdateStatus(current == max);
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
@@ -373,14 +416,16 @@ namespace MissionPlanner.Log
                     AppendSerialLog(LogStrings.NothingSelected);
                 }
                 else
-            {
+                {
                     BUT_DLall.Enabled = false;
                     BUT_DLthese.Enabled = false;
-                    System.Threading.Thread t11 = new System.Threading.Thread(delegate () { DownloadThread(toDownload); });
-                t11.Name = "Log download single thread";
-                t11.Start();
+                    downloadCancellation = new CancellationTokenSource();
+                    System.Threading.Tasks.Task.Factory.StartNew(() =>
+                    {
+                        DownloadThread(toDownload, downloadCancellation.Token);
+                    }, downloadCancellation.Token);
+                }
             }
-        }
         }
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
@@ -423,7 +468,7 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        AppendSerialLog(Environment.NewLine + Environment.NewLine + 
+                        AppendSerialLog(Environment.NewLine + Environment.NewLine +
                             string.Format(LogStrings.ProcessingLog, logfile));
                         this.Refresh();
                         LogOutput lo = new LogOutput();
@@ -440,7 +485,7 @@ namespace MissionPlanner.Log
                         }
                         catch (Exception ex)
                         {
-                            CustomMessageBox.Show(LogStrings.ErrorProcessingLogfile + Environment.NewLine + 
+                            CustomMessageBox.Show(LogStrings.ErrorProcessingLogfile + Environment.NewLine +
                                                   ex.ToString());
                         }
 
@@ -448,9 +493,9 @@ namespace MissionPlanner.Log
 
                         AppendSerialLog(LogStrings.Done);
                     }
-                    }
                 }
             }
+        }
 
         private void AppendSerialLog(string msg)
         {

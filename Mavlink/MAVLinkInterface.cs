@@ -3450,7 +3450,7 @@ Please check the following
 
             if (Progress != null)
             {
-                Progress((int) 0, "");
+                Progress(0, "");
             }
 
             uint totallength = 0;
@@ -3518,7 +3518,7 @@ Please check the following
                         {
                             if (Progress != null)
                             {
-                                Progress((int) req.ofs, "");
+                                Progress((int)req.ofs, "");
                             }
 
                             //Console.WriteLine("log dl bps: " + bps.ToString());
@@ -3599,13 +3599,13 @@ Please check the following
                         ms.Write(data.data, 0, data.count);
 
                         // update new start point
-                        req.ofs = data.ofs + data.count;
+                        req.ofs = data.ofs + data.count;                        
 
                         if (bpstimer.Second != DateTime.Now.Second)
                         {
                             if (Progress != null)
                             {
-                                Progress((int) req.ofs, "");
+                                Progress((int)req.ofs, "");
                             }
 
                             //Console.WriteLine("log dl bps: " + bps.ToString());
@@ -3927,7 +3927,7 @@ Please check the following
             {
             }
 
-
+            bool errorReported = false; // this speeds up error recovery by a factor of 100 or more.
             int length = 5;
             int a = 0;
             while (a < length)
@@ -3937,7 +3937,11 @@ Please check the following
                 temp[a] = (byte) logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254)
                 {
-                    log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    if (!errorReported)
+                    {
+                        errorReported = true; 
+                        log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    }
                     a = 0;
                     continue;
                 }
