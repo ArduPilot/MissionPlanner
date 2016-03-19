@@ -2986,7 +2986,7 @@ Please check the following
                         {
                             var adsb = buffer.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>(6);
 
-                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01, adsb.ICAO_address.ToString("X5"));
+                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"));
                             MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
                         }
                     }
