@@ -1457,7 +1457,7 @@ namespace MissionPlanner.Log
                 route.IsHitTestVisible = false;
                 mapoverlay.Routes.Add(route);
                 rtcnt++;
-                myGMAP1.ZoomAndCenterRoute(route);
+                myGMAP1.ZoomAndCenterRoutes(mapoverlay.Id);
             }
             catch (Exception ex)
             {
