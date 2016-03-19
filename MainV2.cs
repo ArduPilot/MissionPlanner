@@ -36,9 +36,9 @@ namespace MissionPlanner
 
             [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
             internal static extern IntPtr RegisterDeviceNotification
-                (IntPtr hRecipient,
-                    IntPtr NotificationFilter,
-                    Int32 Flags);
+            (IntPtr hRecipient,
+            IntPtr NotificationFilter,
+            Int32 Flags);
 
             // Import SetThreadExecutionState Win32 API and necessary flags
 
@@ -74,7 +74,7 @@ namespace MissionPlanner
             public override Image fd
             {
                 get { return global::MissionPlanner.Properties.Resources.light_flightdata_icon; }
-            }
+        }
 
             public override Image fp
             {
@@ -132,7 +132,7 @@ namespace MissionPlanner
             public override Image fd
             {
                 get { return global::MissionPlanner.Properties.Resources.dark_flightdata_icon; }
-            }
+        }
 
             public override Image fp
             {
@@ -300,21 +300,33 @@ namespace MissionPlanner
         public static Joystick.Joystick joystick = null;
 
         /// <summary>
+        /// keyboard static variable
+        /// </summary>
+        public static bool keyboard = false;
+        /// <summary>
+        /// keyboard static Form 
+        /// </summary>
+        public static Form keyForm = null;
+        /// <summary>
         /// track last joystick packet sent. used to control rate
         /// </summary>
         DateTime lastjoystick = DateTime.Now;
+        /// <summary>
+        /// track last keyboard packet sent. used to control rate
+        /// </summary>
+        DateTime lastkeyboard = DateTime.Now;
 
         /// <summary>
         /// determine if we are running sitl
         /// </summary>
-        public static bool sitl
-        {
-            get
-            {
+        public static bool sitl 
+        { 
+            get 
+            { 
                 if (MissionPlanner.Controls.SITL.SITLSEND == null) return false;
                 if (MissionPlanner.Controls.SITL.SITLSEND.Client.Connected) return true;
                 return false;
-            }
+            } 
         }
 
         /// <summary>
@@ -331,8 +343,11 @@ namespace MissionPlanner
 
         bool joystickthreadrun = false;
 
+        bool keyboardthreadrun = false;
+
         Thread httpthread;
         Thread joystickthread;
+        Thread keyboardthread;
         Thread serialreaderthread;
         Thread pluginthread;
 
@@ -589,7 +604,7 @@ namespace MissionPlanner
                     {
                         log.Error("Bad Custom theme - reset to standard");
                         ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit);
-                    }
+                }
                 }
 
                 if (ThemeManager.CurrentTheme == ThemeManager.Themes.HighContrast)
@@ -693,9 +708,9 @@ namespace MissionPlanner
                     {
                         if (s.WorkingArea.Contains(startpos))
                         {
-                            this.Location = startpos;
+                    this.Location = startpos;
                             break;
-                        }
+                }
                     }
 
                 }
@@ -755,7 +770,7 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                }
+            }
             }
             catch
             {
@@ -766,7 +781,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(
                     "NOTE: your attitude rate is 0, the hud will not work\nChange in Configuration > Planner > Telemetry Rates");
             }
-            
+
             // create log dir if it doesnt exist
             if (!Directory.Exists(Settings.Instance.LogDir))
                 Directory.CreateDirectory(Settings.Instance.LogDir);
@@ -879,7 +894,7 @@ namespace MissionPlanner
             }
             catch
             {
-            }
+        }
         }
 
         void switchlight(menuicons icons)
@@ -887,7 +902,7 @@ namespace MissionPlanner
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
-            
+
             ThemeManager.ApplyThemeTo(MainMenu);
 
             MainMenu.BackgroundImage = displayicons.bg;
@@ -1109,9 +1124,9 @@ namespace MissionPlanner
                     }
                     catch
                     {
-                    }
                 }
-                    );
+                }
+                );
             }
             catch
             {
@@ -1416,7 +1431,7 @@ namespace MissionPlanner
                     UpdateConnectIcon();
                     comPort.Close();
                 }
-                catch (Exception ex2)
+                catch (Exception ex2) 
                 {
                     log.Warn(ex2);
                 }
@@ -1509,7 +1524,7 @@ namespace MissionPlanner
                     _connectionControl.CMB_baudrate.Text =
                         Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"];
                 }
-            }
+                }
             catch
             {
             }
@@ -1591,6 +1606,13 @@ namespace MissionPlanner
             if (joystickthread != null)
                 joystickthread.Join();
 
+            log.Info("closing keyboardthread");
+
+            keyboardthreadrun = false;
+
+            if (keyboardthread != null)
+                keyboardthread.Join();
+
             log.Info("closing httpthread");
 
             // if we are waiting on a socket we need to force an abort
@@ -1609,7 +1631,7 @@ namespace MissionPlanner
                     {
                     }
                 }
-                    );
+                );
             }
             catch
             {
@@ -1659,6 +1681,7 @@ namespace MissionPlanner
 
             Console.WriteLine(httpthread.IsAlive);
             Console.WriteLine(joystickthread.IsAlive);
+            Console.WriteLine(keyboardthread.IsAlive);
             Console.WriteLine(serialreaderthread.IsAlive);
             Console.WriteLine(pluginthread.IsAlive);
 
@@ -1690,9 +1713,9 @@ namespace MissionPlanner
         }
 
         private void LoadConfig()
-        {
-            try
             {
+                try
+                {
                 log.Info("Loading config");
 
                 Settings.Instance.Load();
@@ -1700,15 +1723,15 @@ namespace MissionPlanner
                 comPortName = Settings.Instance.ComPort;
             }
             catch (Exception ex)
-            {
+                        {
                 log.Error("Bad Config File", ex);
-            }
-        }
+                        }
+                    }
 
         private void SaveConfig()
-        {
-            try
             {
+                try
+                {
                 log.Info("Saving config");
                 Settings.Instance.ComPort = comPortName;
 
@@ -1718,9 +1741,9 @@ namespace MissionPlanner
                 Settings.Instance.APMFirmware = MainV2.comPort.MAV.cs.firmware.ToString();
 
                 Settings.Instance.Save();
-            }
-            catch (Exception ex)
-            {
+                }
+                catch (Exception ex)
+                {
                 CustomMessageBox.Show(ex.ToString());
             }
         }
@@ -1843,6 +1866,118 @@ namespace MissionPlanner
         }
 
         /// <summary>
+        /// needs to be true by default so that exits properly if no keyboard used.
+        /// </summary>
+        volatile private bool keyboardsendThreadExited = true;
+
+        /// <summary>
+        /// thread used to send keyboard packets to the MAV
+        /// </summary>
+        private void keyboardsend()
+        {
+            float rate = 50; // 1000 / 50 = 20 hz
+            int count = 0;
+
+            DateTime lastratechange = DateTime.Now;
+
+            keyboardthreadrun = true;
+
+            while (keyboardthreadrun)
+            {
+                keyboardsendThreadExited = false;
+                //so we know this thread is stil alive.           
+                try
+                { 
+                    //keyboard stuff
+
+                        if (keyboard)
+                        {
+                            MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+
+                            rc.target_component = comPort.MAV.compid;
+                            rc.target_system = comPort.MAV.sysid;
+
+                            if (MainV2.comPort.MAV.cs.rcoverridech1 != 0)
+                                rc.chan1_raw = MainV2.comPort.MAV.cs.rcoverridech1;
+                            if (MainV2.comPort.MAV.cs.rcoverridech2 != 0)
+                                rc.chan2_raw = MainV2.comPort.MAV.cs.rcoverridech2;
+                            if (MainV2.comPort.MAV.cs.rcoverridech3 != 0)
+                                rc.chan3_raw = MainV2.comPort.MAV.cs.rcoverridech3;
+                            if (MainV2.comPort.MAV.cs.rcoverridech4 != 0)
+                                rc.chan4_raw = MainV2.comPort.MAV.cs.rcoverridech4;
+                            if (MainV2.comPort.MAV.cs.rcoverridech5 != 0)
+                                rc.chan5_raw = MainV2.comPort.MAV.cs.rcoverridech5;
+                            if (MainV2.comPort.MAV.cs.rcoverridech6 != 0)
+                                rc.chan6_raw = MainV2.comPort.MAV.cs.rcoverridech6;
+                            if (MainV2.comPort.MAV.cs.rcoverridech7 != 0)
+                                rc.chan7_raw = MainV2.comPort.MAV.cs.rcoverridech7;
+                            if (MainV2.comPort.MAV.cs.rcoverridech8 != 0)
+                                rc.chan8_raw = MainV2.comPort.MAV.cs.rcoverridech8;
+
+                            if (lastkeyboard.AddMilliseconds(rate) < DateTime.Now)
+                            {
+                                /*
+                                if (MainV2.comPort.MAV.cs.rssi > 0 && MainV2.comPort.MAV.cs.remrssi > 0)
+                                {
+                                    if (lastratechange.Second != DateTime.Now.Second)
+                                    {
+                                        if (MainV2.comPort.MAV.cs.txbuffer > 90)
+                                        {
+                                            if (rate < 20)
+                                                rate = 21;
+                                            rate--;
+
+                                            if (MainV2.comPort.MAV.cs.linkqualitygcs < 70)
+                                                rate = 50;
+                                        }
+                                        else
+                                        {
+                                            if (rate > 100)
+                                                rate = 100;
+                                            rate++;
+                                        }
+
+                                        lastratechange = DateTime.Now;
+                                    }
+                                 
+                                }
+                                */
+                                //                                Console.WriteLine(DateTime.Now.Millisecond + " {0} {1} {2} {3} {4}", rc.chan1_raw, rc.chan2_raw, rc.chan3_raw, rc.chan4_raw,rate);
+
+                                //Console.WriteLine("Joystick btw " + comPort.BaseStream.BytesToWrite);
+
+                                if (!comPort.BaseStream.IsOpen)
+                                    continue;
+
+                                if (comPort.BaseStream.BytesToWrite < 50)
+                                {
+                                    if (sitl)
+                                    {
+                                        MissionPlanner.Controls.SITL.rcinput();
+                                    }
+                                    else
+                                    {
+                                        comPort.sendPacket(rc);
+                                    }
+                                    count++;
+                                    lastkeyboard = DateTime.Now;
+                                }
+
+                            }
+                        }
+                    
+                    Thread.Sleep(20);
+                }
+                catch
+                {
+
+                } // cant fall out
+            }
+            keyboardsendThreadExited = true;//so we know this thread exited.    
+        }
+
+
+        /// <summary>
         /// Used to fix the icon status for unexpected unplugs etc...
         /// </summary>
         private void UpdateConnectIcon()
@@ -1925,10 +2060,10 @@ namespace MissionPlanner
                                 {
                                     log.Error(ex);
                                 }
+                                }
                             }
                         }
                     }
-                }
                 catch
                 {
                 }
@@ -2015,7 +2150,7 @@ namespace MissionPlanner
                     // update connect/disconnect button and info stats
                     try
                     {
-                        UpdateConnectIcon();
+                    UpdateConnectIcon();
                     }
                     catch (Exception ex)
                     {
@@ -2210,7 +2345,7 @@ namespace MissionPlanner
                             {
                                 string speech = armedstatus ? Settings.Instance["speecharm"] : Settings.Instance["speechdisarm"];
                                 if (!string.IsNullOrEmpty(speech))
-                                {
+                            {
                                     MainV2.speechEngine.SpeakAsync(Common.speechConversion(speech));
                                 }
                             }
@@ -2246,10 +2381,10 @@ namespace MissionPlanner
                                     {
                                         this.Invoke((MethodInvoker)delegate()
                                         {
-                                            if (MyView.current.Name == "HWConfig")
-                                                MyView.ShowScreen("HWConfig");
-                                            if (MyView.current.Name == "SWConfig")
-                                                MyView.ShowScreen("SWConfig");
+                                        if (MyView.current.Name == "HWConfig")
+                                            MyView.ShowScreen("HWConfig");
+                                        if (MyView.current.Name == "SWConfig")
+                                            MyView.ShowScreen("SWConfig");
                                         });
                                     }
                                 }
@@ -2421,6 +2556,15 @@ namespace MissionPlanner
             };
             joystickthread.Start();
 
+            /// setup keyboard packet sender
+            keyboardthread = new Thread(new ThreadStart(keyboardsend))
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.AboveNormal,
+                Name = "Main keyboard sender"
+            };
+            keyboardthread.Start();
+
             // setup main serial reader
             serialreaderthread = new Thread(SerialReader)
             {
@@ -2511,13 +2655,13 @@ namespace MissionPlanner
 
                             Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
                         }
-                    }
+                        }
                     catch (Exception ex)
                     {
                         log.Error(ex);
                     }
                 }
-                    );
+                );
             }
             catch
             {
@@ -2588,7 +2732,7 @@ namespace MissionPlanner
                         Application.StartupPath + Path.DirectorySeparatorChar + "current_d1.alp");
                     Settings.Instance["almanac_date"] = DateTime.Now.ToShortDateString();
                 }
-            }
+                }
             catch
             {
             }

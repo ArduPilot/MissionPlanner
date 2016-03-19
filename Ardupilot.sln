@@ -70,6 +70,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibVLC.NET", "ExtLibs\LibVL
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikRadio", "SikRadio\SikRadio.csproj", "{B8943726-04B0-4477-BFDA-E156A0CD98A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D0ABBC31-36C2-4592-8C03-AEF99E3923C4}"
+	ProjectSection(SolutionItems) = preProject
+		Log\LogIndex.resx = Log\LogIndex.resx
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -393,9 +398,6 @@ Global
 		{ABA78B2E-77C3-4377-8568-9542AC227971} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{B5211B56-CA30-4B2A-843B-832849F18CEA} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 		{BB06DFF7-4F41-4B9D-A3C3-3B6D2B8702B6} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MissionPlanner.csproj

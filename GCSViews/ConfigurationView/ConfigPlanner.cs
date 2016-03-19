@@ -454,6 +454,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             joy.Show();
         }
 
+        private void BUT_Keyboard_Click(object sender, EventArgs e)
+        {
+            if (MainV2.keyForm == null)
+            {
+                MainV2.keyForm = new Keyboard.KeyboardSetup();
+                ThemeManager.ApplyThemeTo(MainV2.keyForm);
+                MainV2.keyForm.FormClosed += new FormClosedEventHandler(key_FormClosed);
+                MainV2.keyForm.FormClosing += new FormClosingEventHandler(key_FormClosing);
+                MainV2.keyForm.Show();
+            }
+            else
+            {
+                if (MainV2.keyForm.Visible == false)
+                    MainV2.keyForm.Show();
+                if (MainV2.keyForm.WindowState == FormWindowState.Minimized || MainV2.keyForm.WindowState == FormWindowState.Maximized)
+                    MainV2.keyForm.WindowState = FormWindowState.Normal;
+                MainV2.keyForm.Focus();
+            }           
+        }
+
+        void key_FormClosed(object sender, EventArgs e)
+        {
+            if (!MainV2.keyboard)
+                MainV2.keyForm = null;
+        }
+
+        void key_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MainV2.keyboard)
+            {
+                if (e.CloseReason != CloseReason.UserClosing) return;
+                e.Cancel = true;
+                MainV2.keyForm.Hide();              
+            }
+        }
+
         private void CMB_distunits_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
