@@ -2412,7 +2412,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(ex.ToString());
             }
 
-            /// setup joystick packet sender
+            // setup joystick packet sender
             joystickthread = new Thread(new ThreadStart(joysticksend))
             {
                 IsBackground = true,
@@ -2445,83 +2445,16 @@ namespace MissionPlanner
 
             //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
-            try
-            {
-                tfr.GetTFRs();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            ThreadPool.QueueUserWorkItem(BGgetTFR);
 
-            try
-            {
-                NoFly.NoFly.Scan();
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+            ThreadPool.QueueUserWorkItem(BGNoFly);
 
-            try
-            {
-                // check the last kindex date
-                if (Settings.Instance["kindexdate"] == DateTime.Now.ToShortDateString())
-                {
-                    // set the cached kindex
-                    if (Settings.Instance["kindex"] != "")
-                        KIndex_KIndex(Settings.Instance.GetInt32("kindex"), null);
-                }
-                else
-                {
-                    System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
-                    {
-                        try
-                        {
-                            // get a new kindex
-                            KIndex.KIndexEvent += KIndex_KIndex;
-                            KIndex.GetKIndex();
 
-                            Settings.Instance["kindexdate"] = DateTime.Now.ToShortDateString();
-                        }
-                        catch
-                        {
-                        }
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex);
-            }
+                    ThreadPool.QueueUserWorkItem(BGGetKIndex);
+
 
             // update firmware version list - only once per day
-            try
-            {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
-                {
-                    try
-                    {
-                        if (Settings.Instance["fw_check"] != DateTime.Now.ToShortDateString())
-                        {
-                            var fw = new Firmware();
-                            var list = fw.getFWList();
-                            if (list.Count > 1)
-                                Firmware.SaveSoftwares(list);
-
-                            Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-                }
-                    );
-            }
-            catch
-            {
-            }
+            ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
             this.ResumeLayout();
 
@@ -2558,23 +2491,74 @@ namespace MissionPlanner
                     FlightData.BUT_playlog_Click(null, null);
                 }
             }
+        }
 
-            // show wizard on first use
-            /*  if (getConfig("newuser") == "")
-              {
-                  if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                  {
-                      Wizard.Wizard wiz = new Wizard.Wizard();
+        private void BGFirmwareCheck(object state)
+        {
+            try
+            {
+                if (Settings.Instance["fw_check"] != DateTime.Now.ToShortDateString())
+                {
+                    var fw = new Firmware();
+                    var list = fw.getFWList();
+                    if (list.Count > 1)
+                        Firmware.SaveSoftwares(list);
 
-                      wiz.ShowDialog(this);
+                    Settings.Instance["fw_check"] = DateTime.Now.ToShortDateString();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
 
-                  }
+        private void BGGetKIndex(object state)
+        {
+            try
+            {
+                // check the last kindex date
+                if (Settings.Instance["kindexdate"] == DateTime.Now.ToShortDateString())
+                {
+                    KIndex_KIndex(Settings.Instance.GetInt32("kindex"), null);
+                }
+                else
+                {
+                    // get a new kindex
+                    KIndex.KIndexEvent += KIndex_KIndex;
+                    KIndex.GetKIndex();
 
-                  CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
+                    Settings.Instance["kindexdate"] = DateTime.Now.ToShortDateString();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
 
-                  config["newuser"] = DateTime.Now.ToShortDateString();
-              }
-              */
+        private void BGgetTFR(object state)
+        {
+            try
+            {
+                tfr.GetTFRs();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        private void BGNoFly(object state)
+        {
+            try
+            {
+                NoFly.NoFly.Scan();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private void BGGetAlmanac(object state)
