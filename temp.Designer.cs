@@ -89,6 +89,7 @@
             this.but_trimble = new MissionPlanner.Controls.MyButton();
             this.myButton_vlc = new MissionPlanner.Controls.MyButton();
             this.but_gstream = new MissionPlanner.Controls.MyButton();
+            this.but_agemapdata = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -456,6 +457,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(406, 548);
             this.tableLayoutPanel1.TabIndex = 57;
             // 
@@ -764,11 +766,22 @@
             this.but_gstream.UseVisualStyleBackColor = true;
             this.but_gstream.Click += new System.EventHandler(this.but_gstream_Click);
             // 
+            // but_agemapdata
+            // 
+            this.but_agemapdata.Location = new System.Drawing.Point(467, 294);
+            this.but_agemapdata.Name = "but_agemapdata";
+            this.but_agemapdata.Size = new System.Drawing.Size(75, 23);
+            this.but_agemapdata.TabIndex = 75;
+            this.but_agemapdata.Text = "Age Map Data";
+            this.but_agemapdata.UseVisualStyleBackColor = true;
+            this.but_agemapdata.Click += new System.EventHandler(this.but_agemapdata_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_agemapdata);
             this.Controls.Add(this.but_gstream);
             this.Controls.Add(this.myButton_vlc);
             this.Controls.Add(this.but_trimble);
@@ -850,5 +863,6 @@
         private Controls.MyButton but_trimble;
         private Controls.MyButton myButton_vlc;
         private Controls.MyButton but_gstream;
+        private Controls.MyButton but_agemapdata;
     }
 }

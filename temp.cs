@@ -1556,5 +1556,15 @@ namespace MissionPlanner
             }
 
         }
+
+        private void but_agemapdata_Click(object sender, EventArgs e)
+        {
+            int removed = ((PureImageCache)Maps.MyImageCache.Instance).DeleteOlderThan(DateTime.Now.AddDays(-30),
+                FlightData.instance.gMapControl1.MapProvider.DbId);
+            
+            CustomMessageBox.Show("Removed " + removed + " images");
+
+            log.InfoFormat("Removed {0} images", removed);
+        }
     }
 }

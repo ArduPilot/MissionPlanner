@@ -151,8 +151,12 @@ namespace MissionPlanner.Maps
             {
                 try
                 {
-                    File.Delete(filen);
-                    affectedRows++;
+                    var fi = new FileInfo(filen);
+                    if (fi.CreationTime < date)
+                    {
+                        File.Delete(filen);
+                        affectedRows++;
+                    }
                 }
                 catch
                 {
@@ -165,8 +169,12 @@ namespace MissionPlanner.Maps
             {
                 try
                 {
-                    File.Delete(filen);
-                    affectedRows++;
+                    var fi = new FileInfo(filen);
+                    if (fi.CreationTime < date)
+                    {
+                        File.Delete(filen);
+                        affectedRows++;
+                    }
                 }
                 catch
                 {
