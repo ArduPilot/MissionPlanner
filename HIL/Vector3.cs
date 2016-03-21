@@ -9,14 +9,12 @@ namespace MissionPlanner.HIL
 {
     public class Vector3
     {
-        Vector3 self;
         public double x;
         public double y;
         public double z;
 
         public Vector3(double x = 0, double y = 0, double z = 0)
         {
-            self = this;
             this.x = x;
             this.y = y;
             this.z = z;
@@ -24,7 +22,6 @@ namespace MissionPlanner.HIL
 
         public Vector3(Vector3 copyme)
         {
-            self = this;
             this.x = copyme.x;
             this.y = copyme.y;
             this.z = copyme.z;
@@ -32,9 +29,9 @@ namespace MissionPlanner.HIL
 
         public new string ToString()
         {
-            return String.Format("Vector3({0}, {1}, {2})", self.x,
-                self.y,
-                self.z);
+            return String.Format("Vector3({0}, {1}, {2})", x,
+                y,
+                z);
         }
 
         public static implicit operator Vector3(PointLatLngAlt a)
@@ -108,18 +105,18 @@ namespace MissionPlanner.HIL
 
         public Vector3 copy()
         {
-            return new Vector3(self.x, self.y, self.z);
+            return new Vector3(x, y, z);
         }
 
 
         public double length()
         {
-            return Math.Sqrt(self.x*self.x + self.y*self.y + self.z*self.z);
+            return Math.Sqrt(x*x + y*y + z*z);
         }
 
         public void zero()
         {
-            self.x = self.y = self.z = 0;
+            x = y = z = 0;
         }
 
         //public double angle (Vector3 self, Vector3 v) {
@@ -129,15 +126,15 @@ namespace MissionPlanner.HIL
 
         public Vector3 normalized()
         {
-            return self/self.length();
+            return this/length();
         }
 
         public void normalize()
         {
-            Vector3 v = self.normalized();
-            self.x = v.x;
-            self.y = v.y;
-            self.z = v.z;
+            Vector3 v = normalized();
+            x = v.x;
+            y = v.y;
+            z = v.z;
         }
 
         const double HALF_SQRT_2 = 0.70710678118654757;
