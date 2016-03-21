@@ -584,11 +584,13 @@ namespace MissionPlanner
             List<PointLatLng> segment = new List<PointLatLng>();
             double maxgroundelevation = double.MinValue;
             double mingroundelevation = double.MaxValue;
+            double startalt = plugin.Host.cs.HomeAlt;
 
             foreach (var item in grid)
             {
-                mingroundelevation = Math.Min(mingroundelevation, srtm.getAltitude(item.Lat, item.Lng).alt);
-                maxgroundelevation = Math.Max(maxgroundelevation, srtm.getAltitude(item.Lat, item.Lng).alt);
+                double currentalt = srtm.getAltitude(item.Lat, item.Lng).alt;
+                mingroundelevation = Math.Min(mingroundelevation, currentalt);
+                maxgroundelevation = Math.Max(maxgroundelevation, currentalt);
 
                 if (item.Tag == "M")
                 {
@@ -607,32 +609,38 @@ namespace MissionPlanner
                     {
                         if (TXT_fovH.Text != "")
                         {
-                            double fovh = double.Parse(TXT_fovH.Text);
-                            double fovv = double.Parse(TXT_fovV.Text);
-
-                            double startangle = 0;
-
-                            if (!CHK_camdirection.Checked)
-                            {
-                                startangle = 90;
-                            }
-
-                            double angle1 = startangle - (Math.Tan((fovv / 2.0) / (fovh / 2.0)) * rad2deg);
-                            double dist1 = Math.Sqrt(Math.Pow(fovh / 2.0, 2) + Math.Pow(fovv / 2.0, 2));
-
-                            double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
-
-                            List<PointLatLng> footprint = new List<PointLatLng>();
-                            footprint.Add(item.newpos(bearing + angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
-                            footprint.Add(item.newpos(bearing - angle1, dist1));
-
-                            GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
-                            poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (CHK_footprints.Checked)
+                            {
+                                double fovh = double.Parse(TXT_fovH.Text);
+                                double fovv = double.Parse(TXT_fovV.Text);
+
+                                getFOV(item.Alt + startalt - currentalt, ref fovh, ref fovv);
+
+                                double startangle = 0;
+
+                                if (!CHK_camdirection.Checked)
+                                {
+                                    startangle = 90;
+                                }
+
+                                double angle1 = startangle - (Math.Tan((fovv/2.0)/(fovh/2.0))*rad2deg);
+                                double dist1 = Math.Sqrt(Math.Pow(fovh/2.0, 2) + Math.Pow(fovv/2.0, 2));
+
+                                double bearing = (double) NUM_angle.Value;
+
+                                List<PointLatLng> footprint = new List<PointLatLng>();
+                                footprint.Add(item.newpos(bearing + angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
+                                footprint.Add(item.newpos(bearing - angle1, dist1));
+
+                                GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
+                                poly.Stroke =
+                                    new Pen(Color.FromArgb(250 - ((a*5)%240), 250 - ((a*3)%240), 250 - ((a*9)%240)), 1);
+                                poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
+
                                 routesOverlay.Polygons.Add(poly);
+                            }
                         }
                     }
                     catch { }
@@ -893,6 +901,16 @@ namespace MissionPlanner
 
             fovh = viewwidth;
             fovv = viewheight;
+        }
+
+        void getFOVangle(ref double fovh, ref double fovv)
+        {
+            double focallen = (double)NUM_focallength.Value;
+            double sensorwidth = double.Parse(TXT_senswidth.Text);
+            double sensorheight = double.Parse(TXT_sensheight.Text);
+
+            fovh = (float)(Math.Atan(sensorwidth / (2 * focallen)) * rad2deg * 2);
+            fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
         }
 
         void doCalc()
