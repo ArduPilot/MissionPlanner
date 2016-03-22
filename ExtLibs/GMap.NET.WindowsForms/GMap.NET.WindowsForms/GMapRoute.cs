@@ -159,12 +159,12 @@ namespace GMap.NET.WindowsForms
                 if (Stroke.DashStyle == DashStyle.Custom)
                 {
                     customarrows = true;
-                    Stroke.DashStyle = DashStyle.Solid;
+                    //Stroke.DashStyle = DashStyle.Solid;
                 }
 
                g.DrawPath(Stroke, graphicsPath);
 
-               if (Stroke.DashStyle == DashStyle.Custom)
+               if (customarrows)
                {
                    if (graphicsPath.PointCount > 0)
                    {
