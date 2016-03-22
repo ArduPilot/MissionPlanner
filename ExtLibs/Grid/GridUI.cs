@@ -623,10 +623,10 @@ namespace MissionPlanner
                                     startangle = 90;
                                 }
 
-                                double angle1 = startangle - (Math.Tan((fovv/2.0)/(fovh/2.0))*rad2deg);
+                                double angle1 = startangle - (Math.Sin((fovh/2.0)/(fovv/2.0))*rad2deg);
                                 double dist1 = Math.Sqrt(Math.Pow(fovh/2.0, 2) + Math.Pow(fovv/2.0, 2));
 
-                                double bearing = (double) NUM_angle.Value;
+                                double bearing = (double)NUM_angle.Value;
 
                                 List<PointLatLng> footprint = new List<PointLatLng>();
                                 footprint.Add(item.newpos(bearing + angle1, dist1));
