@@ -628,11 +628,18 @@ namespace MissionPlanner
 
                                 double bearing = (double)NUM_angle.Value;
 
+                                double fovha = 0;
+                                double fovva = 0;
+                                getFOVangle(ref fovha, ref fovva);
+                                var itemcopy = new PointLatLngAlt(item);
+                                itemcopy.Alt += startalt;
+                                var temp = ImageProjection.calc(itemcopy, 0, 0, bearing, fovha, fovva);
+
                                 List<PointLatLng> footprint = new List<PointLatLng>();
-                                footprint.Add(item.newpos(bearing + angle1, dist1));
-                                footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
-                                footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
-                                footprint.Add(item.newpos(bearing - angle1, dist1));
+                                footprint.Add(temp[0]);
+                                footprint.Add(temp[1]);
+                                footprint.Add(temp[2]);
+                                footprint.Add(temp[3]);
 
                                 GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
                                 poly.Stroke =
