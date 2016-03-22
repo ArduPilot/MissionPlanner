@@ -3629,11 +3629,17 @@ namespace MissionPlanner.GCSViews
         {
             if (messagecount != MainV2.comPort.MAV.cs.messages.Count)
             {
-                StringBuilder message = new StringBuilder();
-                MainV2.comPort.MAV.cs.messages.ForEach(x => { message.Insert(0, x + "\r\n"); });
-                txt_messagebox.Text = message.ToString();
+                try
+                {
+                    StringBuilder message = new StringBuilder();
+                    MainV2.comPort.MAV.cs.messages.ForEach(x => { message.Insert(0, x + "\r\n"); });
+                    txt_messagebox.Text = message.ToString();
 
-                messagecount = MainV2.comPort.MAV.cs.messages.Count;
+                    messagecount = MainV2.comPort.MAV.cs.messages.Count;
+                }
+                catch
+                {
+                }
             }
         }
 

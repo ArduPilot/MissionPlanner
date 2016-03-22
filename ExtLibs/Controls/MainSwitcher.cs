@@ -58,7 +58,14 @@ namespace MissionPlanner.Controls
             {
                 MainControl.Invoke((MethodInvoker) delegate
                 {
-                    current.Control = (MyUserControl) Activator.CreateInstance(type);
+                    try
+                    {
+                        current.Control = (MyUserControl)Activator.CreateInstance(type);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("Unable to invoke create control " + current.Name + " of type " + current.Type, ex);
+                    }
                 });
             }
             else
@@ -73,8 +80,9 @@ namespace MissionPlanner.Controls
                     {
                         current.Control = (MyUserControl) Activator.CreateInstance(type);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        throw new Exception("Unable to create control " + current.Name + " of type " + current.Type, ex);
                     }
                 }
             }

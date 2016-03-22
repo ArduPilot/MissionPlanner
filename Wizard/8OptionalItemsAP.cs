@@ -81,7 +81,8 @@ namespace MissionPlanner.Wizard
             {
                 // no airspeed - keep going
                 updateosd();
-                Wizard.instance.BeginInvoke((MethodInvoker) delegate { Wizard.instance.GoNext(1, false); });
+                if (Wizard.instance.IsHandleCreated)
+                    Wizard.instance.BeginInvoke((MethodInvoker) delegate { Wizard.instance.GoNext(1, false); });
             }
         }
 

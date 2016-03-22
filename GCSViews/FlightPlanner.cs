@@ -1903,31 +1903,40 @@ namespace MissionPlanner.GCSViews
 
         Locationwp DataViewtoLocationwp(int a)
         {
-            Locationwp temp = new Locationwp();
-            if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+            try
             {
-                temp.id = (byte) Commands.Rows[a].Cells[Command.Index].Tag;
+                Locationwp temp = new Locationwp();
+                if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                {
+                    temp.id = (byte) Commands.Rows[a].Cells[Command.Index].Tag;
+                }
+                else
+                {
+                    temp.id =
+                        (byte)
+                            (int)
+                                Enum.Parse(typeof (MAVLink.MAV_CMD),
+                                    Commands.Rows[a].Cells[Command.Index].Value.ToString(),
+                                    false);
+                }
+                temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+
+                temp.alt =
+                    (float)
+                        (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString())/CurrentState.multiplierdist);
+                temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
+                temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
+
+                temp.p2 = (float) (double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
+                temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
+                temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
+
+                return temp;
             }
-            else
+            catch (Exception ex)
             {
-                temp.id =
-                    (byte)
-                        (int)
-                            Enum.Parse(typeof (MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(),
-                                false);
+                throw new FormatException("Invalid number on row " + (a + 1).ToString(), ex);
             }
-            temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
-
-            temp.alt =
-                (float) (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString())/CurrentState.multiplierdist);
-            temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
-            temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
-
-            temp.p2 = (float) (double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
-            temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
-            temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
-
-            return temp;
         }
 
         List<Locationwp> GetCommandList()
