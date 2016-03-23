@@ -682,10 +682,10 @@ namespace MissionPlanner.Controls
 
                 GL.Begin(PrimitiveType.TriangleStrip);
 
-                GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(0, 0);
-                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(0, this.Height);
-                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(this.Width, 0);
-                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(this.Width, this.Height);
+                GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(x, y);
+                GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(x, y + height);
+                GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(x + width, y);
+                GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(x + width, y + height);
 
                 GL.End();
 
