@@ -44,7 +44,7 @@ namespace MissionPlanner.Utilities
             var fovh = Math.Tan(hfov/2.0 * deg2rad)*2.0;
             var fovv = Math.Tan(vfov/2.0 * deg2rad)*2.0;
 
-            DoDebug();
+            //DoDebug();
 
             addtomap(plla, "plane");
 
