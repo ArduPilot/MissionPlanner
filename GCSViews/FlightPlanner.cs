@@ -3479,7 +3479,8 @@ namespace MissionPlanner.GCSViews
             MethodInvoker m = delegate { lbl_status.Text = "Status: loading tiles..."; };
             try
             {
-                BeginInvoke(m);
+                if (IsHandleCreated)
+                    BeginInvoke(m);
             }
             catch
             {
@@ -3501,7 +3502,7 @@ namespace MissionPlanner.GCSViews
             };
             try
             {
-                if (!IsDisposed)
+                if (!IsDisposed && IsHandleCreated)
                     BeginInvoke(m);
             }
             catch
