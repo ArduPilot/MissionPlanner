@@ -2106,7 +2106,11 @@ namespace MissionPlanner.GCSViews
 
                     log.Info("Open logfile " + file);
 
-                    MainV2.comPort.getHeartBeat();
+                    // todo: this token needs to bubble up higher in the stack so these operations
+                    // can be cancelled.  For example getHeartBeat can hang for a long time looking
+                    // for a heart beat.
+                    CancellationTokenSource src = new CancellationTokenSource();
+                    MainV2.comPort.getHeartBeat(src.Token);
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;

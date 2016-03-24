@@ -25,7 +25,38 @@ namespace MissionPlanner
     public class MAVLinkInterface : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        public ICommsSerial BaseStream { get; set; }
+
+        ICommsSerial _baseStream;
+
+        public ICommsSerial BaseStream {
+            get { return _baseStream; }
+            set {
+                // This is called every time user changes the port selection, so we need to make sure we cleanup
+                // any previous objects so we don't leave that cleanup to the garbage collector, this fixes random
+                // problems with the port being in a bad state.
+                if (_baseStream != null)
+                {
+                    try
+                    {
+                        if (_baseStream.IsOpen)
+                        {
+                            _baseStream.Close();
+                        }
+                    }
+                    catch { }
+                    IDisposable dsp = _baseStream as IDisposable;
+                    if (dsp != null)
+                    {
+                        try
+                        {
+                            dsp.Dispose();
+                        }
+                        catch { }
+                    }
+                }
+                _baseStream = value;
+            }
+        }
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
@@ -398,12 +429,12 @@ Please check the following
                     // can see 2 heartbeat packets at any time, and will connect - was one after the other
 
                     if (buffer.Length == 0)
-                        buffer = getHeartBeat();
+                        buffer = getHeartBeat(progressWorkerEventArgs.CancellationTokenSource.Token);
 
                     System.Threading.Thread.Sleep(1);
 
                     if (buffer1.Length == 0)
-                        buffer1 = getHeartBeat();
+                        buffer1 = getHeartBeat(progressWorkerEventArgs.CancellationTokenSource.Token);
 
 
                     if (buffer.Length > 0 || buffer1.Length > 0)
@@ -510,12 +541,12 @@ Please check the following
                 MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
-        public byte[] getHeartBeat()
+        public byte[] getHeartBeat(CancellationToken token)
         {
             giveComport = true;
             DateTime start = DateTime.Now;
             int readcount = 0;
-            while (true)
+            while (token == null || !token.IsCancellationRequested)
             {
                 byte[] buffer = readPacket();
                 readcount++;
@@ -541,6 +572,7 @@ Please check the following
                     return new byte[0];
                 }
             }
+            return new byte[0];
         }
 
         public void sendPacket(object indata)
@@ -1302,7 +1334,11 @@ Please check the following
         /// <returns></returns>
         public bool doReboot(bool bootloadermode = false)
         {
-            byte[] buffer = getHeartBeat();
+            // todo: this token needs to bubble up higher in the stack so these operations
+            // can be cancelled.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat.
+            CancellationTokenSource src = new CancellationTokenSource();
+            byte[] buffer = getHeartBeat(src.Token);
 
             if (buffer.Length > 5)
             {
@@ -3414,7 +3450,7 @@ Please check the following
 
             if (Progress != null)
             {
-                Progress((int) 0, "");
+                Progress(0, "");
             }
 
             uint totallength = 0;
@@ -3482,7 +3518,7 @@ Please check the following
                         {
                             if (Progress != null)
                             {
-                                Progress((int) req.ofs, "");
+                                Progress((int)req.ofs, "");
                             }
 
                             //Console.WriteLine("log dl bps: " + bps.ToString());
@@ -3563,13 +3599,13 @@ Please check the following
                         ms.Write(data.data, 0, data.count);
 
                         // update new start point
-                        req.ofs = data.ofs + data.count;
+                        req.ofs = data.ofs + data.count;                        
 
                         if (bpstimer.Second != DateTime.Now.Second)
                         {
                             if (Progress != null)
                             {
-                                Progress((int) req.ofs, "");
+                                Progress((int)req.ofs, "");
                             }
 
                             //Console.WriteLine("log dl bps: " + bps.ToString());
@@ -3891,7 +3927,7 @@ Please check the following
             {
             }
 
-
+            bool errorReported = false; // this speeds up error recovery by a factor of 100 or more.
             int length = 5;
             int a = 0;
             while (a < length)
@@ -3901,7 +3937,11 @@ Please check the following
                 temp[a] = (byte) logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254)
                 {
-                    log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    if (!errorReported)
+                    {
+                        errorReported = true; 
+                        log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    }
                     a = 0;
                     continue;
                 }

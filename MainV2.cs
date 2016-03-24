@@ -385,6 +385,8 @@ namespace MissionPlanner
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
 
+        private CancellationTokenSource backgroundTaskCancellation = new CancellationTokenSource();
+
         /// <summary>
         /// This 'Control' is the toolstrip control that holds the comport combo, baudrate combo etc
         /// Otiginally seperate controls, each hosted in a toolstip sqaure, combined into this custom
@@ -408,6 +410,8 @@ namespace MissionPlanner
 
         public MainV2()
         {
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
+
             log.Info("Mainv2 ctor");
 
             // set this before we reset it
@@ -836,10 +840,17 @@ namespace MissionPlanner
 
             MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
 
-            // when uploading a firmware we dont want to reload this screen.
-            if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)
-                && ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage.Text == "Install Firmware")
-                return;
+            if (instance.MyView.current.Control != null)
+            {
+                // when uploading a firmware we dont want to reload this screen.
+                if (instance.MyView.current.Control.GetType() == typeof(GCSViews.InitialSetup)) {
+                    var page = ((GCSViews.InitialSetup)instance.MyView.current.Control).backstageView.SelectedPage;
+                    if (page != null && page.Text == "Install Firmware")
+                    {
+                        return;
+                    }
+                }
+            }
 
             if (this.InvokeRequired)
             {
@@ -887,7 +898,7 @@ namespace MissionPlanner
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
-            
+
             ThemeManager.ApplyThemeTo(MainMenu);
 
             MainMenu.BackgroundImage = displayicons.bg;
@@ -1101,17 +1112,20 @@ namespace MissionPlanner
 
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
+                // todo: how should this background task be cancelled?
+                CancellationTokenSource src = new CancellationTokenSource();
+
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), src.Token);
                     }
                     catch
                     {
                     }
-                }
-                    );
+                }, src.Token);
+                
             }
             catch
             {
@@ -1599,17 +1613,21 @@ namespace MissionPlanner
             log.Info("sorting tlogs");
             try
             {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback) delegate
+                // todo: getHeartBeat can hang for a long time looking for a heart beat.
+                // so how should we handle cancellation since we are in the "Closing" method?
+                // This UI needs to be redesigned to allow for cancellation of this task.
+                CancellationTokenSource src = new CancellationTokenSource();
+                System.Threading.Tasks.Task.Factory.StartNew(() =>
                 {
                     try
                     {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), src.Token);
                     }
                     catch
                     {
                     }
-                }
-                    );
+                }, src.Token);
+                
             }
             catch
             {
@@ -1677,6 +1695,8 @@ namespace MissionPlanner
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
+
+            backgroundTaskCancellation.Cancel();
 
             Console.WriteLine("MainV2_FormClosed");
 
@@ -2438,10 +2458,10 @@ namespace MissionPlanner
                 Priority = ThreadPriority.BelowNormal
             };
             pluginthread.Start();
+            
+            System.Threading.Tasks.Task.Factory.StartNew(BGLoadAirports, backgroundTaskCancellation.Token);
 
-            ThreadPool.QueueUserWorkItem(BGLoadAirports);
-
-            ThreadPool.QueueUserWorkItem(BGCreateMaps);
+            System.Threading.Tasks.Task.Factory.StartNew(BGCreateMaps, backgroundTaskCancellation.Token);
 
             //ThreadPool.QueueUserWorkItem(BGGetAlmanac);
 
@@ -2589,7 +2609,7 @@ namespace MissionPlanner
             // sort logs
             try
             {
-                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"), backgroundTaskCancellation.Token);
             }
             catch (Exception ex)
             {

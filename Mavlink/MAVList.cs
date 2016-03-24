@@ -24,7 +24,8 @@ namespace MissionPlanner.Mavlink
         {
             int id = (byte)sysid * 256 + (byte)compid;
 
-            hiddenlist.Add(id, new MAVState() { sysid = sysid, compid = compid });
+            // if record exists, just replace it with this new state.
+            hiddenlist[id] = new MAVState() { sysid = sysid, compid = compid };
         }
 
         public MAVState this[int sysid, int compid]

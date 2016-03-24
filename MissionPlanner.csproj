@@ -725,6 +725,11 @@
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\DFLog.cs" />
+    <Compile Include="Log\LogStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Log\LogIndex.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2125,6 +2130,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogStrings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>

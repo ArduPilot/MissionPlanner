@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MissionPlanner.Controls
 {
@@ -140,7 +141,8 @@ namespace MissionPlanner.Controls
                 }
             }
             catch (Exception ex)
-            {
+            {                
+                Debug.WriteLine("OnPaint caught exception: " + ex.ToString());
             }
         }
 

@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using BrightIdeasSoftware;
 using log4net;
 using MissionPlanner.Utilities;
+using System.Threading;
 
 namespace MissionPlanner.Log
 {
@@ -17,6 +18,8 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        CancellationTokenSource bgTokenSource = new CancellationTokenSource();
 
         public LogIndex()
         {
@@ -30,6 +33,14 @@ namespace MissionPlanner.Log
             //processbg(Settings.Instance.LogDir);
             System.Threading.ThreadPool.QueueUserWorkItem(processbg, Settings.Instance.LogDir);
         }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            bgTokenSource.Cancel();
+            base.OnClosed(e);
+        }
+
+        const int MaxPlaybackLogSize = 100000;
 
         void processbg(object directory)
         {
@@ -54,6 +65,10 @@ namespace MissionPlanner.Log
                 if (!File.Exists(file + ".jpg"))
                 {
                     LogMap.MapLogs(new string[] {file});
+                }
+                if (bgTokenSource.IsCancellationRequested)
+                {
+                    break;
                 }
 
                 var loginfo = new loginfo();
@@ -84,7 +99,7 @@ namespace MissionPlanner.Log
 
                         mine.MAV.packets.Initialize(); // clear
 
-                        mine.getHeartBeat();
+                        mine.getHeartBeat(bgTokenSource.Token);
 
                         loginfo.Date = mine.lastlogread;
                         loginfo.Aircraft = mine.sysidcurrent;
@@ -93,7 +108,10 @@ namespace MissionPlanner.Log
 
                         try
                         {
-                            mine.logplaybackfile.BaseStream.Seek(-100000, SeekOrigin.End);
+                            if (mine.logplaybackfile.BaseStream.Length > MaxPlaybackLogSize)
+                            {
+                                mine.logplaybackfile.BaseStream.Seek(-MaxPlaybackLogSize, SeekOrigin.End);
+                            }
                         }
                         catch
                         {

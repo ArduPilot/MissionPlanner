@@ -27,6 +27,7 @@ using MissionPlanner.Utilities;
 using System.CodeDom.Compiler;
 using MissionPlanner;
 using MissionPlanner.Controls;
+using System.Threading;
 
 namespace MissionPlanner.Log
 {
@@ -774,6 +775,10 @@ namespace MissionPlanner.Log
             this.packetdata.Clear();
 
             colorStep = 0;
+            // todo: this token needs to bubble up higher in the stack so these operations
+            // can be cancelled.  For example getHeartBeat can hang for a long time looking
+            // for a heart beat.
+            CancellationTokenSource src = new CancellationTokenSource();
 
             using (MAVLinkInterface MavlinkInterface = new MAVLinkInterface())
             {
@@ -795,7 +800,7 @@ namespace MissionPlanner.Log
                 CurrentState cs = new CurrentState();
 
                 // to get first packet time
-                MavlinkInterface.getHeartBeat();
+                MavlinkInterface.getHeartBeat(src.Token);
                 MavlinkInterface.setAPType(MavlinkInterface.MAV.sysid, MavlinkInterface.MAV.compid);
 
                 DateTime startlogtime = MavlinkInterface.lastlogread;

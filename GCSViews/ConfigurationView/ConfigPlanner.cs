@@ -123,14 +123,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var hudcolor = Settings.Instance["hudcolor"];
             if (hudcolor != null)
             {
-                var index = CMB_osdcolor.Items.IndexOf(hudcolor ?? "White");
-                try
-                {
-                    CMB_osdcolor.SelectedIndex = index;
-                }
-                catch
-                {
-                }
+            var index = CMB_osdcolor.Items.IndexOf(hudcolor ?? "White");
+            try
+            {
+                CMB_osdcolor.SelectedIndex = index;
+            }
+            catch
+            {
+            }
             }
 
 

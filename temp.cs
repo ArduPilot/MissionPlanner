@@ -951,7 +951,12 @@ namespace MissionPlanner
             {
                 try
                 {
-                    LogSort.SortLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog"));
+                    // todo: this needs to move to a background thread with a UI for cancellation
+                    // so we don't hang the UI thread. For example getHeartBeat can hang for a long time looking
+                    // for a heart beat if something is wrong with COM port.
+                    CancellationTokenSource src = new CancellationTokenSource();
+
+                    LogSort.SortLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog"), src.Token);
                 }
                 catch
                 {

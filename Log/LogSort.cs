@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace MissionPlanner.Log
 {
@@ -12,10 +13,14 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static void SortLogs(string[] logs)
+        public static void SortLogs(string[] logs, CancellationToken token)
         {
             foreach (var logfile in logs)
             {
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
                 FileInfo info = new FileInfo(logfile);
 
                 // delete 0 size files
@@ -65,10 +70,10 @@ namespace MissionPlanner.Log
 
                         mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
 
-                        byte[] hbpacket = mine.getHeartBeat();
-                        byte[] hbpacket1 = mine.getHeartBeat();
-                        byte[] hbpacket2 = mine.getHeartBeat();
-                        byte[] hbpacket3 = mine.getHeartBeat();
+                        byte[] hbpacket = mine.getHeartBeat(token);
+                        byte[] hbpacket1 = mine.getHeartBeat(token);
+                        byte[] hbpacket2 = mine.getHeartBeat(token);
+                        byte[] hbpacket3 = mine.getHeartBeat(token);
 
                         if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 && hbpacket3.Length == 0)
                         {
