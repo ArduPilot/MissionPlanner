@@ -300,9 +300,14 @@ namespace MissionPlanner
         public static Joystick.Joystick joystick = null;
 
         /// <summary>
-        /// track last joystick packet sent. used to control rate
+        /// joystick static class
         /// </summary>
-        DateTime lastjoystick = DateTime.Now;
+        public static Joystick.CameraJoystick camerajoystick = null;
+
+    /// <summary>
+    /// track last joystick packet sent. used to control rate
+    /// </summary>
+    DateTime lastjoystick = DateTime.Now;
 
         /// <summary>
         /// determine if we are running sitl
@@ -1687,7 +1692,14 @@ namespace MissionPlanner
 
                 joystick.Dispose(); //proper clean up of joystick.
             }
-        }
+
+            if(camerajoystick != null) {
+              while(!joysendThreadExited)
+                Thread.Sleep(10);
+
+              camerajoystick.Dispose(); //proper clean up of camerajoystick.
+            }
+    }
 
         private void LoadConfig()
         {
@@ -1756,6 +1768,8 @@ namespace MissionPlanner
 
                     if (!MONO)
                     {
+                      
+                      
                         //joystick stuff
 
                         if (joystick != null && joystick.enabled)
@@ -1832,7 +1846,47 @@ namespace MissionPlanner
                                 }
                             }
                         }
-                    }
+
+
+                        // camera joystick stuff
+                        // we do camera joystick after so it can override the main controller
+                        // this is needed for example: if the rudder channel is used for PAN, like on a copter with a 2 axis gimble
+                        // be careful!
+                        // there are options in the config to only override at a threshold from stick center, that is the safety
+
+                        if(camerajoystick != null && camerajoystick.enabled) {
+                          MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+
+                          rc.target_component = MainV2.comPort.MAV.compid;
+                          rc.target_system = MainV2.comPort.MAV.sysid;
+
+                          if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Pan) != Joystick.CameraJoystick.joystickaxis.None) {
+                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Pan), rc);
+                          }
+                          if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Tilt) != Joystick.CameraJoystick.joystickaxis.None) {
+                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Tilt), rc);
+                          }
+                          if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Zoom) != Joystick.CameraJoystick.joystickaxis.None) {
+                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Zoom), rc);
+                          }
+
+                          if(lastjoystick.AddMilliseconds(rate) < DateTime.Now) {
+                            if(MainV2.comPort.BaseStream.IsOpen) {
+
+                              if(MainV2.comPort.BaseStream.BytesToWrite < 50) {
+                                if(MainV2.sitl) {
+                                  MissionPlanner.Controls.SITL.rcinput();
+                                } else {
+                                  MainV2.comPort.sendPacket(rc);
+                                }
+                                count++;
+                                lastjoystick = DateTime.Now;
+                              }
+                            }
+                          }
+                        }
+
+          }
                     Thread.Sleep(20);
                 }
                 catch
@@ -1842,10 +1896,39 @@ namespace MissionPlanner
             joysendThreadExited = true; //so we know this thread exited.    
         }
 
-        /// <summary>
-        /// Used to fix the icon status for unexpected unplugs etc...
-        /// </summary>
-        private void UpdateConnectIcon()
+        private void setRawCh(int ch, MAVLink.mavlink_rc_channels_override_t rc) {
+          switch(ch) {
+            case 1:
+              rc.chan1_raw = MainV2.comPort.MAV.cs.rcoverridech1;
+              break;
+            case 2:
+              rc.chan2_raw = MainV2.comPort.MAV.cs.rcoverridech2;
+              break;
+            case 3:
+              rc.chan3_raw = MainV2.comPort.MAV.cs.rcoverridech3;
+              break;
+            case 4:
+              rc.chan4_raw = MainV2.comPort.MAV.cs.rcoverridech4;
+              break;
+            case 5:
+              rc.chan5_raw = MainV2.comPort.MAV.cs.rcoverridech5;
+              break;
+            case 6:
+              rc.chan6_raw = MainV2.comPort.MAV.cs.rcoverridech6;
+              break;
+            case 7:
+              rc.chan7_raw = MainV2.comPort.MAV.cs.rcoverridech7;
+              break;
+            case 8:
+              rc.chan8_raw = MainV2.comPort.MAV.cs.rcoverridech8;
+              break;
+          }
+        }
+
+    /// <summary>
+    /// Used to fix the icon status for unexpected unplugs etc...
+    /// </summary>
+    private void UpdateConnectIcon()
         {
             if ((DateTime.Now - connectButtonUpdate).Milliseconds > 500)
             {

@@ -157,6 +157,8 @@
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.PointCameraCoordsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.BUT_camerajoystick = new MissionPlanner.Controls.MyButton();
+            this.but_disablecamerajoystick = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -517,6 +519,7 @@
             // 
             // tabActions
             // 
+      this.tabActions.Controls.Add(this.BUT_camerajoystick);
             this.tabActions.Controls.Add(this.BUT_abortland);
             this.tabActions.Controls.Add(this.BUT_resumemis);
             this.tabActions.Controls.Add(this.CMB_mountmode);
@@ -1577,6 +1580,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
+      this.splitContainer1.Panel2.Controls.Add(this.but_disablecamerajoystick);
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
@@ -1707,7 +1711,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+      this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -1917,6 +1921,21 @@
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // BUT_camerajoystick
+            // 
+            resources.ApplyResources(this.BUT_camerajoystick, "BUT_camerajoystick");
+            this.BUT_camerajoystick.Name = "BUT_camerajoystick";
+            this.toolTip1.SetToolTip(this.BUT_camerajoystick, resources.GetString("BUT_camerajoystick.ToolTip"));
+            this.BUT_camerajoystick.UseVisualStyleBackColor = true;
+            this.BUT_camerajoystick.Click += new System.EventHandler(this.BUT_camerajoystick_Click);
+            // 
+            // but_disablecamerajoystick
+            // 
+            resources.ApplyResources(this.but_disablecamerajoystick, "but_disablecamerajoystick");
+            this.but_disablecamerajoystick.Name = "but_disablecamerajoystick";
+            this.but_disablecamerajoystick.UseVisualStyleBackColor = true;
+            this.but_disablecamerajoystick.Click += new System.EventHandler(this.but_disablecamerajoystick_Click);
             // 
             // PointCameraCoordsToolStripMenuItem1
             // 
@@ -2134,5 +2153,7 @@
         private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PointCameraCoordsToolStripMenuItem1;
+        private Controls.MyButton BUT_camerajoystick;
+        private Controls.MyButton but_disablecamerajoystick;
     }
 }

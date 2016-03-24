@@ -1051,6 +1051,12 @@ namespace MissionPlanner.GCSViews
                             });
                         }
 
+                        if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
+                          this.Invoke((MethodInvoker)delegate {
+                            but_disablecamerajoystick.Visible = true;
+                          });
+                        }
+
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
                             // dont holdinvalidation here
@@ -1331,7 +1337,7 @@ namespace MissionPlanner.GCSViews
                             foreach (var gMapPolygon in routes.Polygons.Reverse())
                             {
                                 routes.Polygons.Remove(gMapPolygon);
-                            }
+                        }
 
                             routes.Polygons.Add(new GMapPolygon(footprint.ConvertAll(x => x.Point()), "FP") { Fill = Brushes.Transparent});
                             */
@@ -4118,5 +4124,21 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
             }
         }
+
+    private void BUT_camerajoystick_Click(object sender, EventArgs e) {
+      Form joy = new ConfigureCameraJoystick();
+      ThemeManager.ApplyThemeTo(joy);
+      joy.Show();
+    }
+
+    private void but_disablecamerajoystick_Click(object sender, EventArgs e) {
+      if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
+        MainV2.camerajoystick.enabled = false;
+
+        MainV2.camerajoystick.clearRCOverride();
+
+        but_disablecamerajoystick.Visible = false;
+      }
+    }
     }
 }
