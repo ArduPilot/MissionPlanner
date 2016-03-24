@@ -860,5 +860,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var temp = new temp();
             temp.Show();
         }
+
+    private void BUT_CameraJoystick_Click(object sender, EventArgs e) {
+      Form joy = new ConfigureCameraJoystick();
+      ThemeManager.ApplyThemeTo(joy);
+      joy.Show();
     }
+  }
 }
