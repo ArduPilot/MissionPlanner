@@ -4077,5 +4077,23 @@ namespace MissionPlanner.GCSViews
         {
             POI.POILoad();
         }
+
+        private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            var location = "";
+            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt'", ref location);
+
+            var split = location.Split(';');
+
+            if (split.Length == 3)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
+
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
+                    alt/CurrentState.multiplierdist);
+            }
+        }
     }
 }
