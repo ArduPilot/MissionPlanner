@@ -325,13 +325,13 @@
     <value>5, 5, 5, 5</value>
   </data>
   <data name="LabelStatus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>362, 13</value>
+    <value>358, 13</value>
   </data>
   <data name="LabelStatus.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
   <data name="LabelStatus.Text" xml:space="preserve">
-    <value>NOTE: When posting support querys, please send the .BIN file</value>
+    <value>NOTE: When posting support querys, please send the .bin file</value>
   </data>
   <data name="&gt;&gt;LabelStatus.Name" xml:space="preserve">
     <value>LabelStatus</value>

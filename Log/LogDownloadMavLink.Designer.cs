@@ -49,7 +49,6 @@
             // 
             resources.ApplyResources(this.TXT_seriallog, "TXT_seriallog");
             this.TXT_seriallog.Name = "TXT_seriallog";
-            this.TXT_seriallog.ReadOnly = true;
             this.tableLayoutPanel1.SetRowSpan(this.TXT_seriallog, 7);
             // 
             // BUT_DLall

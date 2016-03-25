@@ -3482,7 +3482,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - GetLog");
+                    throw new Exception("Timeout on LOG_REQUEST_DATA, no data returned");
                 }
 
                 buffer = readPacket();

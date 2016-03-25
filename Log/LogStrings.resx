@@ -132,6 +132,9 @@
   <data name="ErrorProcessingLogfile" xml:space="preserve">
     <value>Error processing file. Make sure the file is not in use</value>
   </data>
+  <data name="FetchingLog" xml:space="preserve">
+    <value>Fetching log file {0} ...</value>
+  </data>
   <data name="FetchingLogfileList" xml:space="preserve">
     <value>Getting list of log files...</value>
   </data>

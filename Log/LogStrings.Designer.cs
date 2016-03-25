@@ -106,6 +106,15 @@ namespace MissionPlanner.Log {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fetching log file {0} ....
+        /// </summary>
+        public static string FetchingLog {
+            get {
+                return ResourceManager.GetString("FetchingLog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Getting list of log files....
         /// </summary>
         public static string FetchingLogfileList {
