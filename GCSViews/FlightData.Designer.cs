@@ -342,16 +342,19 @@
             // 
             this.recordHudToAVIToolStripMenuItem.Name = "recordHudToAVIToolStripMenuItem";
             resources.ApplyResources(this.recordHudToAVIToolStripMenuItem, "recordHudToAVIToolStripMenuItem");
+            this.recordHudToAVIToolStripMenuItem.Click += new System.EventHandler(this.recordHudToAVIToolStripMenuItem_Click);
             // 
             // stopRecordToolStripMenuItem
             // 
             this.stopRecordToolStripMenuItem.Name = "stopRecordToolStripMenuItem";
             resources.ApplyResources(this.stopRecordToolStripMenuItem, "stopRecordToolStripMenuItem");
+            this.stopRecordToolStripMenuItem.Click += new System.EventHandler(this.stopRecordToolStripMenuItem_Click);
             // 
             // setMJPEGSourceToolStripMenuItem
             // 
             this.setMJPEGSourceToolStripMenuItem.Name = "setMJPEGSourceToolStripMenuItem";
             resources.ApplyResources(this.setMJPEGSourceToolStripMenuItem, "setMJPEGSourceToolStripMenuItem");
+            this.setMJPEGSourceToolStripMenuItem.Click += new System.EventHandler(this.setMJPEGSourceToolStripMenuItem_Click);
             // 
             // startCameraToolStripMenuItem
             // 

@@ -2952,12 +2952,14 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            string alt = (100*CurrentState.multiplierdist).ToString("0");
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute)", ref alt))
+            double srtmalt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
+
+            string alt = (srtmalt *CurrentState.multiplierdist).ToString("0");
+            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute, default value is ground alt)", ref alt))
                 return;
 
-            int intalt = (int) (100*CurrentState.multiplierdist);
-            if (!int.TryParse(alt, out intalt))
+            float intalt = 0;
+            if (!float.TryParse(alt, out intalt))
             {
                 CustomMessageBox.Show("Bad Alt");
                 return;
@@ -2968,9 +2970,6 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Bad Lat/Long");
                 return;
             }
-
-            //MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
-            //MainV2.comPort.setMountControl(MouseDownStart.Lat, MouseDownStart.Lng, (int)(intalt / CurrentState.multiplierdist), true);
 
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
                 (float) MouseDownStart.Lng, intalt/CurrentState.multiplierdist);
