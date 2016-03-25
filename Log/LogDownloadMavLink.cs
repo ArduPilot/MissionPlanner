@@ -30,6 +30,7 @@ namespace MissionPlanner.Log
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         SerialStatus status = SerialStatus.Connecting;
         int currentlog;
+        bool closed;
         string logfile = "";
         uint receivedbytes; // current log file
         uint tallyBytes; // previous downloaded logs
@@ -53,6 +54,8 @@ namespace MissionPlanner.Log
         public LogDownloadMavLink()
         {
             InitializeComponent();
+
+            labelBytes.Text = "";
 
             ThemeManager.ApplyThemeTo(this);
 
@@ -146,6 +149,10 @@ namespace MissionPlanner.Log
 
         void RunOnUIThread(Action a)
         {
+            if (closed)
+            {
+                return;
+            }
             this.BeginInvoke(new Action(() =>
             {
                 try
@@ -245,9 +252,25 @@ namespace MissionPlanner.Log
 
         protected override void OnClosed(EventArgs e)
         {
+            this.closed = true;
             MainV2.comPort.Progress -= comPort_Progress;
 
             base.OnClosed(e);
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (status == SerialStatus.Reading)
+            {
+                if (CustomMessageBox.Show(LogStrings.CancelDownload, "Cancel Download", MessageBoxButtons.YesNo) ==
+                    System.Windows.Forms.DialogResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
+
+            base.OnClosing(e);
         }
 
         private string MakeValidFileName(string fileName)
@@ -365,6 +388,15 @@ namespace MissionPlanner.Log
                 progressBar1.Maximum = (int)max;
                 progressBar1.Value = (int)current;
                 progressBar1.Visible = (current < max);
+
+                if (current < max)
+                {
+                    labelBytes.Text = current.ToString();
+                }
+                else
+                {
+                    labelBytes.Text = "";
+                }
             });
 
         }

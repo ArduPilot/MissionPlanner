@@ -61,6 +61,15 @@ namespace MissionPlanner.Log {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You are downloading a log file, do you want to cancel?.
+        /// </summary>
+        public static string CancelDownload {
+            get {
+                return ResourceManager.GetString("CancelDownload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string Confirmation {

@@ -38,18 +38,23 @@
             this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
             this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.LabelStatus = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.labelBytes = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // TXT_seriallog
             // 
             resources.ApplyResources(this.TXT_seriallog, "TXT_seriallog");
             this.TXT_seriallog.Name = "TXT_seriallog";
-            this.tableLayoutPanel1.SetRowSpan(this.TXT_seriallog, 7);
+            this.tableLayoutPanel1.SetRowSpan(this.TXT_seriallog, 2);
             // 
             // BUT_DLall
             // 
@@ -104,23 +109,13 @@
             // 
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.TXT_seriallog, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_clearlogs, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 9);
             this.tableLayoutPanel1.Controls.Add(this.CHK_logs, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_DLthese, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_DLall, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.LabelStatus, 1, 9);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_firstperson, 0, 5);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_redokml, 0, 6);
-            this.tableLayoutPanel1.Controls.Add(this.BUT_bintolog, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.LabelStatus, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            // 
-            // progressBar1
-            // 
-            resources.ApplyResources(this.progressBar1, "progressBar1");
-            this.progressBar1.Name = "progressBar1";
             // 
             // label1
             // 
@@ -138,6 +133,34 @@
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.progressBar1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.labelBytes, 1, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            // 
+            // progressBar1
+            // 
+            resources.ApplyResources(this.progressBar1, "progressBar1");
+            this.progressBar1.Name = "progressBar1";
+            // 
+            // labelBytes
+            // 
+            resources.ApplyResources(this.labelBytes, "labelBytes");
+            this.labelBytes.Name = "labelBytes";
+            // 
+            // tableLayoutPanel3
+            // 
+            resources.ApplyResources(this.tableLayoutPanel3, "tableLayoutPanel3");
+            this.tableLayoutPanel3.Controls.Add(this.BUT_DLall, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.BUT_clearlogs, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.BUT_firstperson, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.BUT_DLthese, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.BUT_bintolog, 1, 2);
+            this.tableLayoutPanel3.Controls.Add(this.BUT_redokml, 1, 1);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            // 
             // LogDownloadMavLink
             // 
             resources.ApplyResources(this, "$this");
@@ -147,6 +170,10 @@
             this.Load += new System.EventHandler(this.Log_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,9 +190,12 @@
         private Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_bintolog;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LabelStatus;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label labelBytes;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
     }
 }
