@@ -112,9 +112,10 @@
             // 
             // BUT_changedir
             // 
+            this.BUT_changedir.AutoSize = true;
             this.BUT_changedir.Location = new System.Drawing.Point(13, 13);
             this.BUT_changedir.Name = "BUT_changedir";
-            this.BUT_changedir.Size = new System.Drawing.Size(75, 23);
+            this.BUT_changedir.Size = new System.Drawing.Size(99, 23);
             this.BUT_changedir.TabIndex = 1;
             this.BUT_changedir.Text = "Change Directory";
             this.BUT_changedir.UseVisualStyleBackColor = true;
@@ -132,6 +133,7 @@
             this.Load += new System.EventHandler(this.LogIndex_Load);
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

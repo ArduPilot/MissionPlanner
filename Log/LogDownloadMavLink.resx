@@ -123,90 +123,32 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="TXT_seriallog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>135, 43</value>
+    <value>259, 26</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_seriallog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="TXT_seriallog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
+  <data name="tableLayoutPanel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
-  <data name="TXT_seriallog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>470, 352</value>
+  <data name="tableLayoutPanel1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="TXT_seriallog.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
   </data>
-  <data name="TXT_seriallog.Text" xml:space="preserve">
-    <value>NOTE: When posting support querys, please send the .BIN file
-</value>
-  </data>
-  <data name="&gt;&gt;TXT_seriallog.Name" xml:space="preserve">
-    <value>TXT_seriallog</value>
-  </data>
-  <data name="&gt;&gt;TXT_seriallog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TXT_seriallog.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TXT_seriallog.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="BUT_DLall.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 13</value>
-  </data>
-  <data name="BUT_DLall.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
-  </data>
-  <data name="BUT_DLall.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="BUT_DLall.Text" xml:space="preserve">
-    <value>Download All Logs</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLall.Name" xml:space="preserve">
-    <value>BUT_DLall</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLall.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLall.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLall.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="BUT_DLthese.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 43</value>
-  </data>
-  <data name="BUT_DLthese.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
-  </data>
-  <data name="BUT_DLthese.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="BUT_DLthese.Text" xml:space="preserve">
-    <value>Download These Log</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLthese.Name" xml:space="preserve">
-    <value>BUT_DLthese</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLthese.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLthese.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_DLthese.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="BUT_clearlogs.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="BUT_clearlogs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 187</value>
+    <value>3, 323</value>
+  </data>
+  <data name="BUT_clearlogs.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
   </data>
   <data name="BUT_clearlogs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>136, 23</value>
   </data>
   <data name="BUT_clearlogs.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
@@ -221,19 +163,52 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_clearlogs.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_clearlogs.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>1</value>
+  </data>
+  <data name="progressBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="progressBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="progressBar1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 439</value>
+  </data>
+  <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>250, 20</value>
+  </data>
+  <data name="progressBar1.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="progressBar1.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Name" xml:space="preserve">
+    <value>progressBar1</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;progressBar1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_logs.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="CHK_logs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 72</value>
+    <value>3, 26</value>
   </data>
-  <data name="CHK_logs.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="CHK_logs.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>250, 4</value>
   </data>
   <data name="CHK_logs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 109</value>
+    <value>250, 229</value>
   </data>
   <data name="CHK_logs.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -245,64 +220,142 @@
     <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_logs.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CHK_logs.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="TXT_status.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="TXT_status.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 217</value>
-  </data>
-  <data name="TXT_status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 20</value>
-  </data>
-  <data name="TXT_status.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;TXT_status.Name" xml:space="preserve">
-    <value>TXT_status</value>
-  </data>
-  <data name="&gt;&gt;TXT_status.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TXT_status.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;TXT_status.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="BUT_redokml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 311</value>
+  <data name="BUT_DLthese.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
-  <data name="BUT_redokml.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+  <data name="BUT_DLthese.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 294</value>
   </data>
-  <data name="BUT_redokml.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+  <data name="BUT_DLthese.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
   </data>
-  <data name="BUT_redokml.Text" xml:space="preserve">
-    <value>Recreate KML</value>
+  <data name="BUT_DLthese.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
-  <data name="&gt;&gt;BUT_redokml.Name" xml:space="preserve">
-    <value>BUT_redokml</value>
+  <data name="BUT_DLthese.Text" xml:space="preserve">
+    <value>Download Selected Logs</value>
   </data>
-  <data name="&gt;&gt;BUT_redokml.Type" xml:space="preserve">
+  <data name="&gt;&gt;BUT_DLthese.Name" xml:space="preserve">
+    <value>BUT_DLthese</value>
+  </data>
+  <data name="&gt;&gt;BUT_DLthese.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;BUT_redokml.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;BUT_DLthese.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;BUT_redokml.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;BUT_DLthese.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="BUT_DLall.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="BUT_DLall.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 265</value>
+  </data>
+  <data name="BUT_DLall.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
+  </data>
+  <data name="BUT_DLall.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
+  </data>
+  <data name="BUT_DLall.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="BUT_DLall.Text" xml:space="preserve">
+    <value>Download All Logs</value>
+  </data>
+  <data name="&gt;&gt;BUT_DLall.Name" xml:space="preserve">
+    <value>BUT_DLall</value>
+  </data>
+  <data name="&gt;&gt;BUT_DLall.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_DLall.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_DLall.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 5</value>
+  </data>
+  <data name="label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Log files:</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="LabelStatus.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="LabelStatus.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 8.25pt, style=Bold</value>
+  </data>
+  <data name="LabelStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 441</value>
+  </data>
+  <data name="LabelStatus.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="LabelStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>362, 13</value>
+  </data>
+  <data name="LabelStatus.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="LabelStatus.Text" xml:space="preserve">
+    <value>NOTE: When posting support querys, please send the .BIN file</value>
+  </data>
+  <data name="&gt;&gt;LabelStatus.Name" xml:space="preserve">
+    <value>LabelStatus</value>
+  </data>
+  <data name="&gt;&gt;LabelStatus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;LabelStatus.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;LabelStatus.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="BUT_firstperson.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="BUT_firstperson.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 282</value>
+    <value>3, 352</value>
+  </data>
+  <data name="BUT_firstperson.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
   </data>
   <data name="BUT_firstperson.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>136, 23</value>
   </data>
   <data name="BUT_firstperson.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -317,19 +370,55 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_firstperson.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_firstperson.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>8</value>
+  </data>
+  <data name="BUT_redokml.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="BUT_redokml.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 381</value>
+  </data>
+  <data name="BUT_redokml.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
+  </data>
+  <data name="BUT_redokml.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
+  </data>
+  <data name="BUT_redokml.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="BUT_redokml.Text" xml:space="preserve">
+    <value>Recreate KML</value>
+  </data>
+  <data name="&gt;&gt;BUT_redokml.Name" xml:space="preserve">
+    <value>BUT_redokml</value>
+  </data>
+  <data name="&gt;&gt;BUT_redokml.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_redokml.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;BUT_redokml.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="BUT_bintolog.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="BUT_bintolog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_bintolog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 340</value>
+    <value>3, 410</value>
+  </data>
+  <data name="BUT_bintolog.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>136, 23</value>
   </data>
   <data name="BUT_bintolog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>116, 23</value>
+    <value>136, 23</value>
   </data>
   <data name="BUT_bintolog.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
@@ -344,9 +433,87 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_bintolog.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_bintolog.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>261, 5</value>
+  </data>
+  <data name="label2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>5, 5, 5, 5</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Output:</value>
+  </data>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>734, 462</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="TXT_seriallog" Row="1" RowSpan="7" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_clearlogs" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="progressBar1" Row="9" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CHK_logs" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_DLthese" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_DLall" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="LabelStatus" Row="9" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_firstperson" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_redokml" Row="6" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="BUT_bintolog" Row="7" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="label2" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="AutoSize,0,Percent,100" /&gt;&lt;Rows Styles="AutoSize,0,Percent,100,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,AutoSize,0,Absolute,20" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="TXT_seriallog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="TXT_seriallog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>472, 407</value>
+  </data>
+  <data name="TXT_seriallog.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TXT_seriallog.Name" xml:space="preserve">
+    <value>TXT_seriallog</value>
+  </data>
+  <data name="&gt;&gt;TXT_seriallog.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_seriallog.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;TXT_seriallog.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -356,7 +523,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>617, 407</value>
+    <value>734, 461</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -435,7 +602,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Log</value>
+    <value>Log Downloader</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>LogDownloadMavLink</value>
