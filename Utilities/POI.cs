@@ -127,6 +127,28 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public static void POILoad()
+        {
+            using (OpenFileDialog sfd = new OpenFileDialog())
+            {
+                sfd.Filter = "Poi File|*.txt";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    using (Stream file = sfd.OpenFile())
+                    {
+                        using (StreamReader sr = new StreamReader(file))
+                        {
+                            string[] items = sr.ReadLine().Split('\t');
+
+                            POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
+                                    , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
+                        }
+                    }
+                }
+            }
+        }
+
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
         {
             if (poioverlay == null)

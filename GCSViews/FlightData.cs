@@ -4072,5 +4072,10 @@ namespace MissionPlanner.GCSViews
 
             Settings.Instance["tabcontrolactions"] = answer;
         }
+
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            POI.POILoad();
+        }
     }
 }
