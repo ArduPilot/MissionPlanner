@@ -130,13 +130,13 @@
     <value>611, 59</value>
   </data>
   <data name="lbl_gndelev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_gndelev.TabIndex" type="System.Int32, mscorlib">
     <value>23</value>
   </data>
   <data name="lbl_gndelev.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_gndelev.Name" xml:space="preserve">
     <value>lbl_gndelev</value>
@@ -190,13 +190,13 @@
     <value>611, 46</value>
   </data>
   <data name="lbl_turnrad.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_turnrad.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
   <data name="lbl_turnrad.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_turnrad.Name" xml:space="preserve">
     <value>lbl_turnrad</value>
@@ -250,13 +250,13 @@
     <value>611, 33</value>
   </data>
   <data name="lbl_photoevery.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_photoevery.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
   </data>
   <data name="lbl_photoevery.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_photoevery.Name" xml:space="preserve">
     <value>lbl_photoevery</value>
@@ -310,13 +310,13 @@
     <value>611, 20</value>
   </data>
   <data name="lbl_flighttime.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_flighttime.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
   <data name="lbl_flighttime.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_flighttime.Name" xml:space="preserve">
     <value>lbl_flighttime</value>
@@ -370,13 +370,13 @@
     <value>381, 59</value>
   </data>
   <data name="lbl_distbetweenlines.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_distbetweenlines.TabIndex" type="System.Int32, mscorlib">
     <value>15</value>
   </data>
   <data name="lbl_distbetweenlines.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_distbetweenlines.Name" xml:space="preserve">
     <value>lbl_distbetweenlines</value>
@@ -430,13 +430,13 @@
     <value>381, 46</value>
   </data>
   <data name="lbl_footprint.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_footprint.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
   <data name="lbl_footprint.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_footprint.Name" xml:space="preserve">
     <value>lbl_footprint</value>
@@ -490,13 +490,13 @@
     <value>381, 33</value>
   </data>
   <data name="lbl_strips.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_strips.TabIndex" type="System.Int32, mscorlib">
     <value>11</value>
   </data>
   <data name="lbl_strips.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_strips.Name" xml:space="preserve">
     <value>lbl_strips</value>
@@ -520,13 +520,13 @@
     <value>381, 20</value>
   </data>
   <data name="lbl_pictures.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_pictures.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
   </data>
   <data name="lbl_pictures.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_pictures.Name" xml:space="preserve">
     <value>lbl_pictures</value>
@@ -610,13 +610,13 @@
     <value>154, 59</value>
   </data>
   <data name="lbl_grndres.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_grndres.TabIndex" type="System.Int32, mscorlib">
     <value>7</value>
   </data>
   <data name="lbl_grndres.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_grndres.Name" xml:space="preserve">
     <value>lbl_grndres</value>
@@ -670,13 +670,13 @@
     <value>154, 46</value>
   </data>
   <data name="lbl_spacing.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_spacing.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="lbl_spacing.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_spacing.Name" xml:space="preserve">
     <value>lbl_spacing</value>
@@ -730,13 +730,13 @@
     <value>154, 33</value>
   </data>
   <data name="lbl_distance.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_distance.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="lbl_distance.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_distance.Name" xml:space="preserve">
     <value>lbl_distance</value>
@@ -760,13 +760,13 @@
     <value>154, 20</value>
   </data>
   <data name="lbl_area.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>28, 13</value>
   </data>
   <data name="lbl_area.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
   <data name="lbl_area.Text" xml:space="preserve">
-    <value>Distance: </value>
+    <value>0.00</value>
   </data>
   <data name="&gt;&gt;lbl_area.Name" xml:space="preserve">
     <value>lbl_area</value>
