@@ -17,6 +17,7 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        const int MaxPlaybackLogSize = 100000;
 
         public LogIndex()
         {
@@ -93,7 +94,11 @@ namespace MissionPlanner.Log
 
                         try
                         {
-                            mine.logplaybackfile.BaseStream.Seek(-100000, SeekOrigin.End);
+                            if (mine.logplaybackfile.BaseStream.Length > MaxPlaybackLogSize)
+                            {
+                                mine.logplaybackfile.BaseStream.Seek(-MaxPlaybackLogSize, SeekOrigin.End);
+                            }
+
                         }
                         catch
                         {
