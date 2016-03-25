@@ -10,10 +10,8 @@ namespace MissionPlanner
 {
     public class Script
     {
-        DateTime timeout = DateTime.Now;
-        //List<string> items = new List<string>();
-        static Microsoft.Scripting.Hosting.ScriptEngine engine;
-        static Microsoft.Scripting.Hosting.ScriptScope scope;
+        Microsoft.Scripting.Hosting.ScriptEngine engine;
+        Microsoft.Scripting.Hosting.ScriptScope scope;
 
         // keeps history
         MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
