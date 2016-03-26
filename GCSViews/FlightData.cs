@@ -4081,7 +4081,7 @@ namespace MissionPlanner.GCSViews
         private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt'", ref location);
+            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
 
             var split = location.Split(';');
 
@@ -4093,6 +4093,18 @@ namespace MissionPlanner.GCSViews
 
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
                     alt/CurrentState.multiplierdist);
+            } 
+            else if (split.Length == 2)
+            {
+                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
+
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float) alt);
+            }
+            else
+            {
+                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
             }
         }
     }
