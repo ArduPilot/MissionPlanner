@@ -684,6 +684,11 @@ namespace MissionPlanner
             set { _trackerloc = value; }
         }
 
+        public PointLatLngAlt Location
+        {
+            get { return new PointLatLngAlt(lat, lng, altasl); }
+        }
+
         [DisplayText("Distance to Home (dist)")]
         public float DistToHome
         {
