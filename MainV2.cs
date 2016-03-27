@@ -367,8 +367,7 @@ namespace MissionPlanner
             ArduRover,
             Ateryx,
             ArduTracker,
-            Gymbal,
-            PX4
+            Gymbal
         }
 
         DateTime connectButtonUpdate = DateTime.Now;
@@ -381,7 +380,7 @@ namespace MissionPlanner
 
         public GCSViews.FlightPlanner FlightPlanner;
         GCSViews.Simulation Simulation;
-
+        //public GCSViews.NewAutoWP2 NewAutoWP;
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
 
@@ -401,8 +400,8 @@ namespace MissionPlanner
             }
             else
             {
-                MenuTerminal.Visible = true;
-                MenuSimulation.Visible = true;
+                //MenuTerminal.Visible = true;  /*   Modify */
+                // MenuSimulation.Visible = true;   /*   Modify */
             }
         }
 
@@ -648,6 +647,8 @@ namespace MissionPlanner
                 Simulation = new GCSViews.Simulation();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
+
+                //NewAutoWP = new GCSViews.NewAutoWP2();
 
                 FlightData.Width = MyView.Width;
                 FlightPlanner.Width = MyView.Width;
@@ -922,10 +923,10 @@ namespace MissionPlanner
                 MenuFlightData.Visible = true;
                 MenuFlightPlanner.Visible = true;
                 MenuConfigTune.Visible = true;
-                MenuHelp.Visible = true;
+                // MenuHelp.Visible = true;  /* Modify */
                 MenuInitConfig.Visible = true;
-                MenuSimulation.Visible = true;
-                MenuTerminal.Visible = true;
+                //MenuSimulation.Visible = true;  /* Modify */
+                // MenuTerminal.Visible = true;  /* Modify */
             }
             else
             {
@@ -934,10 +935,10 @@ namespace MissionPlanner
                     MenuFlightData.Visible = true;
                     MenuFlightPlanner.Visible = true;
                     MenuConfigTune.Visible = true;
-                    MenuHelp.Visible = true;
+                   // MenuHelp.Visible = true;  /* Modify */
                     MenuInitConfig.Visible = true;
-                    MenuSimulation.Visible = true;
-                    MenuTerminal.Visible = true;
+                    // MenuSimulation.Visible = true;  /* Modify */
+                    //  MenuTerminal.Visible = true;  /* Modify */
                 }
             }
         }
@@ -2348,9 +2349,9 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
             MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof(GCSViews.InitialSetup), false));
             MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof(GCSViews.SoftwareConfig), false));
-            MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
-            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
+            //  MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));   /* Modify */
+            //  MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));   /* Modify */
+            //  MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));   /* Modify */
 
             try
             {

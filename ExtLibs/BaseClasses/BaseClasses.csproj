@@ -100,9 +100,7 @@
     <None Include="BaseClassesNET.snk" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClasses.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="BaseClasses.cs" />
     <Compile Include="DirectShow.cs" />
     <Compile Include="DSHelper.cs" />
   </ItemGroup>
