@@ -92,22 +92,22 @@ namespace MissionPlanner.HIL
 
         public void from_euler312(double roll, double pitch, double yaw)
         {
-            double c3 = Utils.cosf(pitch);
-            double s3 = Utils.sinf(pitch);
-            double s2 = Utils.sinf(roll);
-            double c2 = Utils.cosf(roll);
-            double s1 = Utils.sinf(yaw);
-            double c1 = Utils.cosf(yaw);
+            double cp = Utils.cosf(pitch);
+            double sp = Utils.sinf(pitch);
+            double sr = Utils.sinf(roll);
+            double cr = Utils.cosf(roll);
+            double sy = Utils.sinf(yaw);
+            double cy = Utils.cosf(yaw);
 
-            a.x = c1*c3 - s1*s2*s3;
-            b.y = c1*c2;
-            c.z = c3*c2;
-            a.y = -c2*s1;
-            a.z = s3*c1 + c3*s2*s1;
-            b.x = c3*s1 + s3*s2*c1;
-            b.z = s1*s3 - s2*c1*c3;
-            c.x = -s3*c2;
-            c.y = s2;
+            a.x = cy*cp - sy*sr*sp;
+            b.y = cy*cr;
+            c.z = cp*cr;
+            a.y = -cr*sy;
+            a.z = sp*cy + cp*sr*sy;
+            b.x = cp*sy + sp*sr*cy;
+            b.z = sy*sp - sr*cy*cp;
+            c.x = -sp*cr;
+            c.y = sr;
         }
 
         public Vector3 to_euler_yxz()
