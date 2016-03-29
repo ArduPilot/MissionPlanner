@@ -113,4 +113,12 @@
     <senh>15.7</senh>
     <senw>23.5</senw>
   </Camera>
+  <Camera>
+    <name>FIREFLY 6S</name>
+    <flen>3</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.7058</senh>
+    <senw>6.2372</senw>
+  </Camera>
 </Cameras>
