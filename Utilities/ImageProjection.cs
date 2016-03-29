@@ -36,10 +36,10 @@ namespace MissionPlanner.Utilities
 
             GMapPolygon poly = new GMapPolygon(new List<PointLatLng>(), "rect");
 
-            double frontangle = (P) + vfov / 2;
-            double backangle = (P) - vfov / 2;
-            double leftangle = (R) + hfov / 2;
-            double rightangle = (R) - hfov / 2;
+            double frontangle = (P*0) + vfov/2;
+            double backangle = (P*0) - vfov/2;
+            double leftangle = (R*0) + hfov/2;
+            double rightangle = (R*0) - hfov/2;
 
             var fovh = Math.Tan(hfov/2.0 * deg2rad)*2.0;
             var fovv = Math.Tan(vfov/2.0 * deg2rad)*2.0;
@@ -50,10 +50,10 @@ namespace MissionPlanner.Utilities
 
             Matrix3 dcm = new Matrix3();
 
-            dcm.from_euler312(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
             dcm.normalize();
 
-            Vector3 center1 = new Vector3(0, 0, 20000);
+            Vector3 center1 = new Vector3(0, 0, 10000);
 
             var test = dcm * center1;
 
@@ -61,18 +61,30 @@ namespace MissionPlanner.Utilities
 
             var newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
-            //addtomap(newpos2, "center");
+            newpos2.Alt -= test.z;
+
+            var cen = calcIntersection(plla, newpos2);
+
+            var dist = plla.GetDistance(cen);
+
+            addtomap(cen, "center "+ dist.ToString("0"));
 
             //
-            dcm.from_euler312(rightangle * deg2rad, frontangle * deg2rad, (Y) * deg2rad);
+            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.rotate(new Vector3(rightangle * deg2rad, 0, 0));
+            dcm.normalize();
+            dcm.rotate(new Vector3(0, frontangle * deg2rad, 0));
+            dcm.normalize();
 
             test = dcm * center1;
 
-            bearing2 = Math.Atan2(test.y, test.x) * rad2deg;
+            bearing2 = (Math.Atan2(test.y, test.x) * rad2deg);
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
             newpos2.Alt -= test.z;
+
+            //addtomap(newpos2, "tr2");
 
             var groundpointtr = calcIntersection(plla, newpos2);
 
@@ -81,14 +93,17 @@ namespace MissionPlanner.Utilities
             addtomap(groundpointtr, "tr");
 
             //
-            dcm.from_euler312(leftangle * deg2rad, frontangle * deg2rad, (Y) * deg2rad);
+            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.rotate(new Vector3(leftangle * deg2rad, 0, 0));
+            dcm.normalize();
+            dcm.rotate(new Vector3(0, frontangle * deg2rad, 0));
+            dcm.normalize();
 
             test = dcm * center1;
 
-            bearing2 = Math.Atan2(test.y, test.x) * rad2deg;
+            bearing2 = Math.Atan2(test.y, test.x)*rad2deg;
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
-
 
             newpos2.Alt -= test.z;
 
@@ -97,8 +112,13 @@ namespace MissionPlanner.Utilities
             poly.Points.Add(groundpointtl);
 
             addtomap(groundpointtl, "tl");
+
             //
-            dcm.from_euler312(leftangle * deg2rad, backangle * deg2rad, (Y) * deg2rad);
+            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.rotate(new Vector3(leftangle * deg2rad, 0, 0));
+            dcm.normalize();
+            dcm.rotate(new Vector3(0, backangle * deg2rad, 0));
+            dcm.normalize();
 
             test = dcm * center1;
 
@@ -115,7 +135,11 @@ namespace MissionPlanner.Utilities
             addtomap(groundpointbl, "bl");
 
             //
-            dcm.from_euler312(rightangle * deg2rad, backangle * deg2rad, (Y) * deg2rad);
+            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.rotate(new Vector3(rightangle * deg2rad, 0, 0));
+            dcm.normalize();
+            dcm.rotate(new Vector3(0, backangle * deg2rad, 0));
+            dcm.normalize();
 
             test = dcm * center1;
 
@@ -154,7 +178,7 @@ namespace MissionPlanner.Utilities
             var Y = plla.GetBearing(dest);
 
             // 20 km
-            while (distout < 20000)
+            while (distout < (dist+100))
             {
                 // get a projected point to test intersection against - not using slope distance
                 PointLatLngAlt newposdist = plla.newpos(Y, distout);
@@ -183,7 +207,9 @@ namespace MissionPlanner.Utilities
 
             //addtomap(newpos, distout.ToString());
 
-            return plla;
+            dest.Alt = 0;
+
+            return dest;
         }
 
         static GMapOverlay polygons = new GMapOverlay("polygons");
@@ -195,7 +221,7 @@ namespace MissionPlanner.Utilities
             {
                 if (map.Overlays.Count != 0)
                 {
-                    while (polygons.Markers.Count > 20)
+                    while (polygons.Markers.Count > 7)
                         polygons.Markers.RemoveAt(0);
                     //polygons.Markers.Clear();
                     return;
