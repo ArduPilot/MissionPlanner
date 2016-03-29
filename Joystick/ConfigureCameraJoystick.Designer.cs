@@ -61,6 +61,9 @@
       this.PAN_OVERRIDETHRESHOLD = new System.Windows.Forms.NumericUpDown();
       this.TILT_OVERRIDETHRESHOLD = new System.Windows.Forms.NumericUpDown();
       this.ZOOM_OVERRIDETHRESHOLD = new System.Windows.Forms.NumericUpDown();
+      this.label11 = new System.Windows.Forms.Label();
+      this.TILT_RATECONV = new System.Windows.Forms.CheckBox();
+      this.ZOOM_RATECONV = new System.Windows.Forms.CheckBox();
       ((System.ComponentModel.ISupportInitialize)(this.PAN_EXPO)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.TILT_EXPO)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.ZOOM_EXPO)).BeginInit();
@@ -493,11 +496,44 @@
       this.ZOOM_OVERRIDETHRESHOLD.Size = new System.Drawing.Size(100, 20);
       this.ZOOM_OVERRIDETHRESHOLD.TabIndex = 87;
       // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+      this.label11.Location = new System.Drawing.Point(650, 47);
+      this.label11.Name = "label11";
+      this.label11.Size = new System.Drawing.Size(61, 13);
+      this.label11.TabIndex = 88;
+      this.label11.Text = "Rate Conv.";
+      // 
+      // TILT_RATECONV
+      // 
+      this.TILT_RATECONV.AutoSize = true;
+      this.TILT_RATECONV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+      this.TILT_RATECONV.Location = new System.Drawing.Point(653, 96);
+      this.TILT_RATECONV.Name = "TILT_RATECONV";
+      this.TILT_RATECONV.Size = new System.Drawing.Size(15, 14);
+      this.TILT_RATECONV.TabIndex = 90;
+      this.TILT_RATECONV.UseVisualStyleBackColor = true;
+      // 
+      // ZOOM_RATECONV
+      // 
+      this.ZOOM_RATECONV.AutoSize = true;
+      this.ZOOM_RATECONV.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+      this.ZOOM_RATECONV.Location = new System.Drawing.Point(653, 123);
+      this.ZOOM_RATECONV.Name = "ZOOM_RATECONV";
+      this.ZOOM_RATECONV.Size = new System.Drawing.Size(15, 14);
+      this.ZOOM_RATECONV.TabIndex = 91;
+      this.ZOOM_RATECONV.UseVisualStyleBackColor = true;
+      // 
       // ConfigureCameraJoystick
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(664, 157);
+      this.ClientSize = new System.Drawing.Size(721, 157);
+      this.Controls.Add(this.ZOOM_RATECONV);
+      this.Controls.Add(this.TILT_RATECONV);
+      this.Controls.Add(this.label11);
       this.Controls.Add(this.ZOOM_OVERRIDETHRESHOLD);
       this.Controls.Add(this.TILT_OVERRIDETHRESHOLD);
       this.Controls.Add(this.PAN_OVERRIDETHRESHOLD);
@@ -588,5 +624,8 @@
     private System.Windows.Forms.NumericUpDown ZOOM_EXPO;
     private System.Windows.Forms.NumericUpDown TILT_EXPO;
     private System.Windows.Forms.NumericUpDown PAN_EXPO;
+    private System.Windows.Forms.Label label11;
+    private System.Windows.Forms.CheckBox TILT_RATECONV;
+    private System.Windows.Forms.CheckBox ZOOM_RATECONV;
   }
 }

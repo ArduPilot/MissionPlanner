@@ -53,6 +53,7 @@ namespace MissionPlanner.Joystick {
       public bool reverse;
       public int expo;
       public int overridecenter;
+      internal bool rateconv;
     }
 
     public struct CameraJoyButton {
@@ -448,7 +449,7 @@ namespace MissionPlanner.Joystick {
       JoyAxes[(int)axis].axis = joyaxis;
     }
 
-    public void setChannel(CameraAxis axis, int channel, joystickaxis joyaxis, bool reverse, int expo, int overridecenter) {
+    public void setChannel(CameraAxis axis, int channel, joystickaxis joyaxis, bool reverse, int expo, int overridecenter, bool RateConv) {
       CameraJoyAxis joy = new CameraJoyAxis();
       joy.axis = joyaxis;
       joy.channel = channel;
@@ -456,6 +457,7 @@ namespace MissionPlanner.Joystick {
       joy.reverse = reverse;
       joy.camaxis = axis;
       joy.overridecenter = overridecenter;
+      joy.rateconv = RateConv;
 
       JoyAxes[(int)axis] = joy;
     }
@@ -555,8 +557,9 @@ namespace MissionPlanner.Joystick {
               setOverrideCh(JoyAxes[(int)CameraAxis.Pan].channel, doOverride ? val : (ushort)0);
             }
             if(getJoystickAxis(CameraAxis.Tilt) != CameraJoystick.joystickaxis.None) {
+              int tilt_raw;
               ushort val = pickchannel(JoyAxes[(int)CameraAxis.Tilt].channel, JoyAxes[(int)CameraAxis.Tilt].axis,
-                   JoyAxes[(int)CameraAxis.Tilt].reverse, JoyAxes[(int)CameraAxis.Tilt].expo);
+                   JoyAxes[(int)CameraAxis.Tilt].reverse, JoyAxes[(int)CameraAxis.Tilt].expo, out tilt_raw);
               bool doOverride = false;
               int ovc = JoyAxes[(int)CameraAxis.Tilt].overridecenter;
               if(ovc > 0) {
@@ -571,11 +574,25 @@ namespace MissionPlanner.Joystick {
                 doOverride = true;
               }
 
+              if(JoyAxes[(int)CameraAxis.Tilt].rateconv) {
+                // tilt_raw is a vlaue from -500 to 500, which will end up being our rate
+                tilt_raw = tilt_raw / 5;
+                // we only do a change of up to 100 per cycle
+                int val_tmp = Convert.ToInt32(getOverrideCh(JoyAxes[(int)CameraAxis.Tilt].channel)) + tilt_raw;
+                val_tmp = Math.Max(getChanMin(JoyAxes[(int)CameraAxis.Tilt].channel), val_tmp);
+                val_tmp = Math.Min(getChanMax(JoyAxes[(int)CameraAxis.Tilt].channel), val_tmp);
+
+                if(val_tmp < UInt16.MinValue) val_tmp = UInt16.MinValue;
+                if(val_tmp > UInt16.MaxValue) val_tmp = UInt16.MaxValue;
+                val = Convert.ToUInt16(val_tmp);
+              }
+
               setOverrideCh(JoyAxes[(int)CameraAxis.Tilt].channel, doOverride ? val : (ushort)0);
             }
             if(getJoystickAxis(CameraAxis.Zoom) != CameraJoystick.joystickaxis.None) {
+              int zoom_raw;
               ushort val = pickchannel(JoyAxes[(int)CameraAxis.Zoom].channel, JoyAxes[(int)CameraAxis.Zoom].axis,
-                   JoyAxes[(int)CameraAxis.Zoom].reverse, JoyAxes[(int)CameraAxis.Zoom].expo);
+                   JoyAxes[(int)CameraAxis.Zoom].reverse, JoyAxes[(int)CameraAxis.Zoom].expo, out zoom_raw);
               bool doOverride = false;
               int ovc = JoyAxes[(int)CameraAxis.Zoom].overridecenter;
               if(ovc > 0) {
@@ -588,6 +605,19 @@ namespace MissionPlanner.Joystick {
                 }
               } else {
                 doOverride = true;
+              }
+
+              if(JoyAxes[(int)CameraAxis.Zoom].rateconv) {
+                // tilt_raw is a vlaue from -500 to 500, which will end up being our rate
+                zoom_raw = zoom_raw / 5;
+                // we only do a change of up to 100 per cycle
+                int val_tmp = Convert.ToInt32(getOverrideCh(JoyAxes[(int)CameraAxis.Zoom].channel)) + zoom_raw;
+                val_tmp = Math.Max(getChanMin(JoyAxes[(int)CameraAxis.Zoom].channel), val_tmp);
+                val_tmp = Math.Min(getChanMax(JoyAxes[(int)CameraAxis.Zoom].channel), val_tmp);
+
+                if(val_tmp < UInt16.MinValue) val_tmp = UInt16.MinValue;
+                if(val_tmp > UInt16.MaxValue) val_tmp = UInt16.MaxValue;
+                val = Convert.ToUInt16(val_tmp);
               }
 
               setOverrideCh(JoyAxes[(int)CameraAxis.Zoom].channel, doOverride ? val : (ushort)0);
@@ -1160,7 +1190,53 @@ namespace MissionPlanner.Joystick {
       return trim;
     }
 
+    int getChanMax(int chan) {
+      if(chan <= 0) return 0;
+
+      int max = 0;
+      if(MainV2.comPort.MAV.param.Count > 0) {
+        try {
+          if(MainV2.comPort.MAV.param.ContainsKey("RC" + chan + "_MAX")) {
+            max = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MAX"]);
+          } else {
+            max = 3000;
+          }
+        } catch {
+          max = 3000;
+        }
+      } else {
+        max = 3000;
+      }
+      return max;
+    }
+
+    int getChanMin(int chan) {
+      if(chan <= 0) return 0;
+
+      int min = 0;
+      if(MainV2.comPort.MAV.param.Count > 0) {
+        try {
+          if(MainV2.comPort.MAV.param.ContainsKey("RC" + chan + "_MIN")) {
+            min = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MIN"]);
+          } else {
+            min = 0;
+          }
+        } catch {
+          min = 0;
+        }
+      } else {
+        min = 0;
+      }
+      return min;
+    }
+
     ushort pickchannel(int chan, joystickaxis axis, bool rev, int expo) {
+      int raw;
+      return pickchannel(chan, axis, rev, expo, out raw);
+      }
+
+    ushort pickchannel(int chan, joystickaxis axis, bool rev, int expo, out int rawJSVal) {
+      rawJSVal = 0;
       if(chan <= 0) return (ushort)0;
 
       int min, max, trim = 0;
@@ -1336,6 +1412,7 @@ namespace MissionPlanner.Joystick {
 
       // save for later
       int raw = working;
+      rawJSVal = raw;
 
       working = (int)Expo(working, expo, min, max, trim);
 
