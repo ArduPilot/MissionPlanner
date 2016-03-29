@@ -1324,6 +1324,17 @@ namespace MissionPlanner.GCSViews
                                     }
                                 }
                             }
+                            /*
+                            var footprint = ImageProjection.calc(MainV2.comPort.MAV.cs.Location, MainV2.comPort.MAV.cs.roll,
+                                MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw, 63, 43);
+
+                            foreach (var gMapPolygon in routes.Polygons.Reverse())
+                            {
+                                routes.Polygons.Remove(gMapPolygon);
+                            }
+
+                            routes.Polygons.Add(new GMapPolygon(footprint.ConvertAll(x => x.Point()), "FP") { Fill = Brushes.Transparent});
+                            */
                         }
                         catch
                         {
@@ -2514,7 +2525,7 @@ namespace MissionPlanner.GCSViews
             {
                 Name = "select",
                 Width = 50,
-                Height = 350,
+                Height = 550,
                 Text = "Graph This"
             };
 
@@ -2649,8 +2660,8 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 800,
-                Height = 410,
+                Width = 50,
+                Height = 50,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
@@ -3024,8 +3035,8 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 800,
-                Height = 410,
+                Width = 50,
+                Height = 50,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
