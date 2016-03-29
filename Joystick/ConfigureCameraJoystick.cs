@@ -168,7 +168,8 @@ namespace MissionPlanner.Joystick {
                 (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), PAN_AXIS.Text),
                 PAN_REV.Checked,
                 Convert.ToInt32(PAN_EXPO.Value),
-                Convert.ToInt32(PAN_OVERRIDETHRESHOLD.Value)
+                Convert.ToInt32(PAN_OVERRIDETHRESHOLD.Value),
+                false
               );
             }
 
@@ -179,7 +180,8 @@ namespace MissionPlanner.Joystick {
                 (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), TILT_AXIS.Text),
                 TILT_REV.Checked,
                 Convert.ToInt32(TILT_EXPO.Value),
-                Convert.ToInt32(TILT_OVERRIDETHRESHOLD.Value)
+                Convert.ToInt32(TILT_OVERRIDETHRESHOLD.Value),
+                TILT_RATECONV.Checked
               );
             }
 
@@ -190,7 +192,8 @@ namespace MissionPlanner.Joystick {
                 (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), ZOOM_AXIS.Text),
                 ZOOM_REV.Checked,
                 Convert.ToInt32(ZOOM_EXPO.Value),
-                Convert.ToInt32(ZOOM_OVERRIDETHRESHOLD.Value)
+                Convert.ToInt32(ZOOM_OVERRIDETHRESHOLD.Value),
+                ZOOM_RATECONV.Checked
               );
             }
 
@@ -314,7 +317,8 @@ namespace MissionPlanner.Joystick {
           (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), PAN_AXIS.Text),
           PAN_REV.Checked,
           Convert.ToInt32(PAN_EXPO.Value),
-          Convert.ToInt32(PAN_OVERRIDETHRESHOLD.Value)
+          Convert.ToInt32(PAN_OVERRIDETHRESHOLD.Value),
+          false
         );
       }
     }
@@ -331,7 +335,8 @@ namespace MissionPlanner.Joystick {
           (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), TILT_AXIS.Text),
           TILT_REV.Checked,
           Convert.ToInt32(TILT_EXPO.Value),
-          Convert.ToInt32(TILT_OVERRIDETHRESHOLD.Value)
+          Convert.ToInt32(TILT_OVERRIDETHRESHOLD.Value),
+          TILT_RATECONV.Checked
         );
       }
     }
@@ -348,7 +353,8 @@ namespace MissionPlanner.Joystick {
           (CameraJoystick.joystickaxis)Enum.Parse(typeof(CameraJoystick.joystickaxis), ZOOM_AXIS.Text),
           ZOOM_REV.Checked,
           Convert.ToInt32(ZOOM_EXPO.Value),
-          Convert.ToInt32(ZOOM_OVERRIDETHRESHOLD.Value)
+          Convert.ToInt32(ZOOM_OVERRIDETHRESHOLD.Value),
+          ZOOM_RATECONV.Checked
         );
       }
     }
