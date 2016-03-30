@@ -24,6 +24,7 @@ namespace MissionPlanner.Joystick {
     JoystickState state;
     public bool enabled = false;
     public bool UserEnabled = true;
+    public bool MasterEnabled = true;
     byte[] buttonpressed = new byte[128];
     public string name;
     //public bool elevons = false;
@@ -535,7 +536,7 @@ namespace MissionPlanner.Joystick {
             }
           }
 
-          if(UserEnabled) {
+          if(MasterEnabled && UserEnabled) {
             if(getJoystickAxis(CameraAxis.Pan) != CameraJoystick.joystickaxis.None) {
 
               ushort val = pickchannel(JoyAxes[(int)CameraAxis.Pan].channel, JoyAxes[(int)CameraAxis.Pan].axis,
@@ -646,31 +647,33 @@ namespace MissionPlanner.Joystick {
     }
 
     public static void setOverrideCh(int ch, ushort val) {
-      //MainV2.comPort.MAV.cs.rcoverridech
+      // if we are setting 0 (not overridden) and the main JS has it overridden, then don't set at all, leave at main Joystick value!
+
+      //MainV2.comPort.MAV.cs.CAMERA_rcoverridech
       switch(ch) {
         case 1:
-          MainV2.comPort.MAV.cs.rcoverridech1 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech1 = val;
           break;
         case 2:
-          MainV2.comPort.MAV.cs.rcoverridech2 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech2 = val;
           break;
         case 3:
-          MainV2.comPort.MAV.cs.rcoverridech3 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech3 = val;
           break;
         case 4:
-          MainV2.comPort.MAV.cs.rcoverridech4 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech4 = val;
           break;
         case 5:
-          MainV2.comPort.MAV.cs.rcoverridech5 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech5 = val;
           break;
         case 6:
-          MainV2.comPort.MAV.cs.rcoverridech6 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech6 = val;
           break;
         case 7:
-          MainV2.comPort.MAV.cs.rcoverridech7 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech7 = val;
           break;
         case 8:
-          MainV2.comPort.MAV.cs.rcoverridech8 = val;
+          MainV2.comPort.MAV.cs.CAMERA_rcoverridech8 = val;
           break;
       }
     }
@@ -678,26 +681,26 @@ namespace MissionPlanner.Joystick {
     public static ushort getOverrideCh(int ch) {
       switch(ch) {
         case 1:
-          return MainV2.comPort.MAV.cs.rcoverridech1;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech1;
         case 2:
-          return MainV2.comPort.MAV.cs.rcoverridech2;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech2;
         case 3:
-          return MainV2.comPort.MAV.cs.rcoverridech3;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech3;
         case 4:
-          return MainV2.comPort.MAV.cs.rcoverridech4;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech4;
         case 5:
-          return MainV2.comPort.MAV.cs.rcoverridech5;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech5;
         case 6:
-          return MainV2.comPort.MAV.cs.rcoverridech6;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech6;
         case 7:
-          return MainV2.comPort.MAV.cs.rcoverridech7;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech7;
         case 8:
-          return MainV2.comPort.MAV.cs.rcoverridech8;
+          return MainV2.comPort.MAV.cs.CAMERA_rcoverridech8;
       }
       return (ushort)0;
     }
 
-    public void clearRCOverride() {
+    public void clearRCOverride(bool forceFullOff=false) {
       // disable it, before continuing
       this.enabled = false;
 
@@ -706,33 +709,61 @@ namespace MissionPlanner.Joystick {
       rc.target_component = MainV2.comPort.MAV.compid;
       rc.target_system = MainV2.comPort.MAV.sysid;
 
-      rc.chan1_raw = 0;
-      rc.chan2_raw = 0;
-      rc.chan3_raw = 0;
-      rc.chan4_raw = 0;
-      rc.chan5_raw = 0;
-      rc.chan6_raw = 0;
-      rc.chan7_raw = 0;
-      rc.chan8_raw = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech1 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech2 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech3 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech4 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech5 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech6 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech7 = 0;
+      MainV2.comPort.MAV.cs.CAMERA_rcoverridech8 = 0;
 
+      if(forceFullOff) {
+        rc.chan1_raw = 0;
+        rc.chan2_raw = 0;
+        rc.chan3_raw = 0;
+        rc.chan4_raw = 0;
+        rc.chan5_raw = 0;
+        rc.chan6_raw = 0;
+        rc.chan7_raw = 0;
+        rc.chan8_raw = 0;
+      } else {
+        rc.chan1_raw = MainV2.comPort.MAV.cs.rcoverridech1;
+        rc.chan2_raw = MainV2.comPort.MAV.cs.rcoverridech2;
+        rc.chan3_raw = MainV2.comPort.MAV.cs.rcoverridech3;
+        rc.chan4_raw = MainV2.comPort.MAV.cs.rcoverridech4;
+        rc.chan5_raw = MainV2.comPort.MAV.cs.rcoverridech5;
+        rc.chan6_raw = MainV2.comPort.MAV.cs.rcoverridech6;
+        rc.chan7_raw = MainV2.comPort.MAV.cs.rcoverridech7;
+        rc.chan8_raw = MainV2.comPort.MAV.cs.rcoverridech8;
+      }
+      
+      
       try {
-        MainV2.comPort.sendPacket(rc);
-        System.Threading.Thread.Sleep(20);
-        MainV2.comPort.sendPacket(rc);
-        System.Threading.Thread.Sleep(20);
-        MainV2.comPort.sendPacket(rc);
-        System.Threading.Thread.Sleep(20);
-        MainV2.comPort.sendPacket(rc);
-        System.Threading.Thread.Sleep(20);
-        MainV2.comPort.sendPacket(rc);
-        System.Threading.Thread.Sleep(20);
-        MainV2.comPort.sendPacket(rc);
+        if(forceFullOff) {
+          MainV2.comPort.sendPacket(rc);
+          System.Threading.Thread.Sleep(20);
+          MainV2.comPort.sendPacket(rc);
+          System.Threading.Thread.Sleep(20);
+          MainV2.comPort.sendPacket(rc);
+          System.Threading.Thread.Sleep(20);
+          MainV2.comPort.sendPacket(rc);
+          System.Threading.Thread.Sleep(20);
+          MainV2.comPort.sendPacket(rc);
+          System.Threading.Thread.Sleep(20);
+          MainV2.comPort.sendPacket(rc);
 
-        MainV2.comPort.sendPacket(rc);
-        MainV2.comPort.sendPacket(rc);
+          MainV2.comPort.sendPacket(rc);
+          MainV2.comPort.sendPacket(rc);
+        }
+        // if not forceFullOff, we at least run it once
         MainV2.comPort.sendPacket(rc);
       } catch(Exception ex) {
         //log.Error(ex);
+      }
+
+      if(forceFullOff && MainV2.joystick != null) {
+        MainV2.joystick.clearRCOverride();
       }
     }
 
@@ -746,7 +777,7 @@ namespace MissionPlanner.Joystick {
 
     void ProcessButtonEvent(CameraJoyButton but, bool buttondown) {
       if(but.buttonno != -1) {
-        if(!UserEnabled && but.function != buttonfunction.Switch_CameraJoystick && but.function != buttonfunction.Toggle_CameraJoystick) {
+        if(!MasterEnabled || (!UserEnabled && but.function != buttonfunction.Switch_CameraJoystick && but.function != buttonfunction.Toggle_CameraJoystick)) {
           // the camera is disabled using a user defined button action
           return;
         }
