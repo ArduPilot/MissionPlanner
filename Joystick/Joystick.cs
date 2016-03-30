@@ -101,7 +101,9 @@ namespace MissionPlanner.Joystick
             Mount_Control_0,
             Button_axis0,
             Button_axis1,
-        }
+            Toggle_CameraJoystick,
+            Switch_CameraJoystick,
+    }
 
 
         public void Dispose()
@@ -652,6 +654,15 @@ namespace MissionPlanner.Joystick
             rc.target_component = MainV2.comPort.MAV.compid;
             rc.target_system = MainV2.comPort.MAV.sysid;
 
+            MainV2.comPort.MAV.cs.rcoverridech1 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech2 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech3 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech4 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech5 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech6 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech7 = 0;
+            MainV2.comPort.MAV.cs.rcoverridech8 = 0;
+
             rc.chan1_raw = 0;
             rc.chan2_raw = 0;
             rc.chan3_raw = 0;
@@ -705,7 +716,8 @@ namespace MissionPlanner.Joystick
                 {
                     if (but.function != buttonfunction.Do_Set_Relay &&
                         but.function != buttonfunction.Button_axis0 &&
-                        but.function != buttonfunction.Button_axis1)
+                        but.function != buttonfunction.Button_axis1 &&
+                        but.function != buttonfunction.Switch_CameraJoystick)
                     {
                         return;
                     }
@@ -942,6 +954,22 @@ namespace MissionPlanner.Joystick
                             }
                         });
                         break;
+                    // these use the "MasterEnabled" property and not the "UserEnabled" property
+                    // this is for safety so the AVO can force it off with a switch/button, and MPO cannot override
+                    case buttonfunction.Toggle_CameraJoystick:
+                      // maybe even show sometype of alert/msg like on the hud if this is enabled/disabled, if possible
+                      if(MainV2.camerajoystick != null) {
+                        MainV2.camerajoystick.MasterEnabled = !MainV2.camerajoystick.MasterEnabled;
+                      }
+                      break;
+                    case buttonfunction.Switch_CameraJoystick:
+                      // this makes it enabled ONLY while the button is down, such as a physical switch
+                      // maybe even show sometype of alert/msg like on the hud if this is enabled/disabled, if possible
+                      if(MainV2.camerajoystick != null) {
+                        if(buttondown) MainV2.camerajoystick.MasterEnabled = true;
+                        else MainV2.camerajoystick.MasterEnabled = false;
+                      }
+                      break;
                 }
             }
         }
