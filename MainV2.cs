@@ -1768,7 +1768,7 @@ namespace MissionPlanner
 
                     if(!MONO) {
 
-                      if((joystick != null && joystick.enabled) || (camerajoystick != null && camerajoystick.enabled && camerajoystick.UserEnabled)) {
+                      if((joystick != null && joystick.enabled) || (camerajoystick != null && camerajoystick.enabled && camerajoystick.MasterEnabled && camerajoystick.UserEnabled)) {
                         MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
                         rc.target_component = comPort.MAV.compid;
@@ -1806,15 +1806,15 @@ namespace MissionPlanner
                         // this is needed for example: if the rudder channel is used for PAN, like on a copter with a 2 axis gimble
                         // be careful!
                         // there are options in the config to only override at a threshold from stick center, that is the safety
-                        if(camerajoystick != null && camerajoystick.enabled && camerajoystick.UserEnabled) {
+                        if(camerajoystick != null && camerajoystick.enabled && camerajoystick.MasterEnabled && camerajoystick.UserEnabled) {
                           if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Pan) != Joystick.CameraJoystick.joystickaxis.None) {
-                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Pan), ref rc);
+                            setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Pan), ref rc);
                           }
                           if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Tilt) != Joystick.CameraJoystick.joystickaxis.None) {
-                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Tilt), ref rc);
+                            setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Tilt), ref rc);
                           }
                           if(camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Zoom) != Joystick.CameraJoystick.joystickaxis.None) {
-                            setRawCh(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Zoom), ref rc);
+                            setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Zoom), ref rc);
                           }
                         }
 
@@ -1873,31 +1873,39 @@ namespace MissionPlanner
             joysendThreadExited = true; //so we know this thread exited.    
         }
 
-        private void setRawCh(int ch, ref MAVLink.mavlink_rc_channels_override_t rc) {
+        private void setRawChForCamera(int ch, ref MAVLink.mavlink_rc_channels_override_t rc) {
           switch(ch) {
             case 1:
-              rc.chan1_raw = MainV2.comPort.MAV.cs.rcoverridech1;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech1 > 0 || MainV2.comPort.MAV.cs.rcoverridech1 == 0)
+                rc.chan1_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech1;
               break;
             case 2:
-              rc.chan2_raw = MainV2.comPort.MAV.cs.rcoverridech2;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech2 > 0 || MainV2.comPort.MAV.cs.rcoverridech2 == 0)
+                rc.chan2_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech2;
               break;
             case 3:
-              rc.chan3_raw = MainV2.comPort.MAV.cs.rcoverridech3;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech3 > 0 || MainV2.comPort.MAV.cs.rcoverridech3 == 0)
+                rc.chan3_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech3;
               break;
             case 4:
-              rc.chan4_raw = MainV2.comPort.MAV.cs.rcoverridech4;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech4 > 0 || MainV2.comPort.MAV.cs.rcoverridech4 == 0)
+                rc.chan4_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech4;
               break;
             case 5:
-              rc.chan5_raw = MainV2.comPort.MAV.cs.rcoverridech5;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech5 > 0 || MainV2.comPort.MAV.cs.rcoverridech5 == 0)
+                rc.chan5_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech5;
               break;
             case 6:
-              rc.chan6_raw = MainV2.comPort.MAV.cs.rcoverridech6;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech6 > 0 || MainV2.comPort.MAV.cs.rcoverridech6 == 0)
+                rc.chan6_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech6;
               break;
             case 7:
-              rc.chan7_raw = MainV2.comPort.MAV.cs.rcoverridech7;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech7 > 0 || MainV2.comPort.MAV.cs.rcoverridech7 == 0)
+                rc.chan7_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech7;
               break;
             case 8:
-              rc.chan8_raw = MainV2.comPort.MAV.cs.rcoverridech8;
+              if(MainV2.comPort.MAV.cs.CAMERA_rcoverridech8 > 0 || MainV2.comPort.MAV.cs.rcoverridech8 == 0)
+                rc.chan8_raw = MainV2.comPort.MAV.cs.CAMERA_rcoverridech8;
               break;
           }
         }

@@ -952,6 +952,16 @@ namespace MissionPlanner
         public ushort rcoverridech7 { get; set; }
         public ushort rcoverridech8 { get; set; }
 
+        // CAMERA rc override
+        public ushort CAMERA_rcoverridech1 { get; set; }
+        public ushort CAMERA_rcoverridech2 { get; set; }
+        public ushort CAMERA_rcoverridech3 { get; set; }
+        public ushort CAMERA_rcoverridech4 { get; set; }
+        public ushort CAMERA_rcoverridech5 { get; set; }
+        public ushort CAMERA_rcoverridech6 { get; set; }
+        public ushort CAMERA_rcoverridech7 { get; set; }
+        public ushort CAMERA_rcoverridech8 { get; set; }
+
         public bool connected
         {
             get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); }
