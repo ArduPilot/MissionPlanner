@@ -4079,21 +4079,48 @@ namespace MissionPlanner.GCSViews
 
             Settings.Instance["tabcontrolactions"] = answer;
         }
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e) {
+          POI.POILoad();
+        }
 
-    private void BUT_camerajoystick_Click(object sender, EventArgs e) {
-      Form joy = new ConfigureCameraJoystick();
-      ThemeManager.ApplyThemeTo(joy);
-      joy.Show();
-    }
+        private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e) {
+          var location = "";
+          InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
 
-    private void but_disablecamerajoystick_Click(object sender, EventArgs e) {
-      if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
-        MainV2.camerajoystick.enabled = false;
+          var split = location.Split(';');
 
-        MainV2.camerajoystick.clearRCOverride();
+          if(split.Length == 3) {
+            var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+            var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+            var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-        but_disablecamerajoystick.Visible = false;
-      }
-    }
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
+                alt / CurrentState.multiplierdist);
+          } else if(split.Length == 2) {
+            var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+            var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+            var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float)alt);
+          } else {
+            CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+          }
+        }
+
+        private void BUT_camerajoystick_Click(object sender, EventArgs e) {
+            Form joy = new ConfigureCameraJoystick();
+            ThemeManager.ApplyThemeTo(joy);
+            joy.Show();
+          }
+
+          private void but_disablecamerajoystick_Click(object sender, EventArgs e) {
+            if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
+              MainV2.camerajoystick.enabled = false;
+
+              MainV2.camerajoystick.clearRCOverride();
+
+              but_disablecamerajoystick.Visible = false;
+            }
+          }
   }
 }
