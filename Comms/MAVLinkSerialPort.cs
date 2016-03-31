@@ -50,7 +50,7 @@ namespace MissionPlanner.Comms
 
             if (!mavint.BaseStream.IsOpen)
             {
-                mavint.BaseStream.Open();
+                throw new Exception(Strings.PleaseConnect);
             }
 
             if (mavint.getHeartBeat().Length == 0)

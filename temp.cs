@@ -1172,19 +1172,26 @@ namespace MissionPlanner
             if (comport != null)
                 comport.Close();
 
-            comport = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
-
-            if (listener != null)
+            try
             {
-                listener.Stop();
-                listener = null;
+                comport = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
+
+                if (listener != null)
+                {
+                    listener.Stop();
+                    listener = null;
+                }
+
+                listener = new TcpListener(IPAddress.Any, 500);
+
+                listener.Start();
+
+                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
             }
-
-            listener = new TcpListener(IPAddress.Any, 500);
-
-            listener.Start();
-
-            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR);
+            }
         }
 
         private void DoAcceptTcpClientCallback(IAsyncResult ar)
@@ -1345,12 +1352,18 @@ namespace MissionPlanner
 
         private void but_gimbaltest_Click(object sender, EventArgs e)
         {
-            var answer = GimbalPoint.ProjectPoint();
+            if (MainV2.comPort.BaseStream.IsOpen)
+                GimbalPoint.ProjectPoint();
+            else
+                CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
         }
 
         private void but_mntstatus_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.GetMountStatus();
+            if (MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.GetMountStatus();
+            else
+                CustomMessageBox.Show(Strings.PleaseConnect,Strings.ERROR);
         }
 
         private void but_maplogs_Click(object sender, EventArgs e)
