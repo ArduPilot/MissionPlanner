@@ -1318,13 +1318,13 @@ namespace MissionPlanner.Joystick
                     break;
 
                 case joystickaxis.Custom1:
-                    custom0 = (int) Constrain(custom0, 0, 65535);
-                    working = custom0;
+                    working = (int)(((float)(custom0 - min) / range) * ushort.MaxValue);
+                    working = (int)Constrain(working, 0, 65535);
                     break;
 
                 case joystickaxis.Custom2:
-                    custom1 = (int) Constrain(custom1, 0, 65535);
-                    working = custom1;
+                    working = (int)(((float)(custom1 - min) / range) * ushort.MaxValue);
+                    working = (int)Constrain(working, 0, 65535);
                     break;
             }
             // between 0 and 65535 - convert to int -500 to 500
