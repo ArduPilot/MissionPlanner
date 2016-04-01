@@ -1051,6 +1051,12 @@ namespace MissionPlanner.GCSViews
                             });
                         }
 
+                        if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
+                          this.Invoke((MethodInvoker)delegate {
+                            but_disablecamerajoystick.Visible = true;
+                          });
+                        }
+
                         if (Settings.Instance.GetBoolean("CHK_maprotation"))
                         {
                             // dont holdinvalidation here
@@ -1324,17 +1330,6 @@ namespace MissionPlanner.GCSViews
                                     }
                                 }
                             }
-                            /*
-                            var footprint = ImageProjection.calc(MainV2.comPort.MAV.cs.Location, MainV2.comPort.MAV.cs.roll,
-                                MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw, 63, 43);
-
-                            foreach (var gMapPolygon in routes.Polygons.Reverse())
-                            {
-                                routes.Polygons.Remove(gMapPolygon);
-                            }
-
-                            routes.Polygons.Add(new GMapPolygon(footprint.ConvertAll(x => x.Point()), "FP") { Fill = Brushes.Transparent});
-                            */
                         }
                         catch
                         {
@@ -2525,7 +2520,7 @@ namespace MissionPlanner.GCSViews
             {
                 Name = "select",
                 Width = 50,
-                Height = 550,
+                Height = 350,
                 Text = "Graph This"
             };
 
@@ -2660,8 +2655,8 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
-                Height = 50,
+                Width = 800,
+                Height = 410,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
@@ -2963,14 +2958,12 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            double srtmalt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
-
-            string alt = (srtmalt *CurrentState.multiplierdist).ToString("0");
-            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute, default value is ground alt)", ref alt))
+            string alt = (100*CurrentState.multiplierdist).ToString("0");
+            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute)", ref alt))
                 return;
 
-            float intalt = 0;
-            if (!float.TryParse(alt, out intalt))
+            int intalt = (int) (100*CurrentState.multiplierdist);
+            if (!int.TryParse(alt, out intalt))
             {
                 CustomMessageBox.Show("Bad Alt");
                 return;
@@ -2981,6 +2974,9 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Bad Lat/Long");
                 return;
             }
+
+            //MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
+            //MainV2.comPort.setMountControl(MouseDownStart.Lat, MouseDownStart.Lng, (int)(intalt / CurrentState.multiplierdist), true);
 
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
                 (float) MouseDownStart.Lng, intalt/CurrentState.multiplierdist);
@@ -3035,8 +3031,8 @@ namespace MissionPlanner.GCSViews
             Form selectform = new Form
             {
                 Name = "select",
-                Width = 50,
-                Height = 50,
+                Width = 800,
+                Height = 410,
                 Text = "Display This",
                 AutoSize = true,
                 StartPosition = FormStartPosition.CenterParent,
@@ -4083,40 +4079,48 @@ namespace MissionPlanner.GCSViews
 
             Settings.Instance["tabcontrolactions"] = answer;
         }
-
-        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            POI.POILoad();
+        private void loadFileToolStripMenuItem_Click(object sender, EventArgs e) {
+          POI.POILoad();
         }
 
-        private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            var location = "";
-            InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
+        private void PointCameraCoordsToolStripMenuItem1_Click(object sender, EventArgs e) {
+          var location = "";
+          InputBox.Show("Enter Coords", "Please enter the coords 'lat;long;alt' or 'lat;long'", ref location);
 
-            var split = location.Split(';');
+          var split = location.Split(';');
 
-            if (split.Length == 3)
-            {
-                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
-                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
+          if(split.Length == 3) {
+            var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+            var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+            var alt = float.Parse(split[2], CultureInfo.InvariantCulture);
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
-                    alt/CurrentState.multiplierdist);
-            } 
-            else if (split.Length == 2)
-            {
-                var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
-                var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
-                var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng,
+                alt / CurrentState.multiplierdist);
+          } else if(split.Length == 2) {
+            var lat = float.Parse(split[0], CultureInfo.InvariantCulture);
+            var lng = float.Parse(split[1], CultureInfo.InvariantCulture);
+            var alt = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt;
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float) alt);
-            }
-            else
-            {
-                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
-            }
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, lat, lng, (float)alt);
+          } else {
+            CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+          }
         }
-    }
+
+        private void BUT_camerajoystick_Click(object sender, EventArgs e) {
+            Form joy = new ConfigureCameraJoystick();
+            ThemeManager.ApplyThemeTo(joy);
+            joy.Show();
+          }
+
+          private void but_disablecamerajoystick_Click(object sender, EventArgs e) {
+            if(MainV2.camerajoystick != null && MainV2.camerajoystick.enabled) {
+              MainV2.camerajoystick.enabled = false;
+
+              MainV2.camerajoystick.clearRCOverride();
+
+              but_disablecamerajoystick.Visible = false;
+            }
+          }
+  }
 }

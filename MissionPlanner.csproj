@@ -673,6 +673,13 @@
     <Compile Include="GeoRef\SingleLocation.cs" />
     <Compile Include="GeoRef\VehicleLocation.cs" />
     <Compile Include="HIL\QuadCopter.cs" />
+    <Compile Include="Joystick\CameraJoystick.cs" />
+    <Compile Include="Joystick\ConfigureCameraJoystick.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\ConfigureCameraJoystick.Designer.cs">
+      <DependentUpon>ConfigureCameraJoystick.cs</DependentUpon>
+    </Compile>
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2124,6 +2131,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\ConfigureCameraJoystick.resx">
+      <DependentUpon>ConfigureCameraJoystick.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
