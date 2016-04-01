@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="MavlinkCRC.cs" />
     <Compile Include="Mavlink.cs" />
+    <Compile Include="MAVLinkMessage.cs" />
     <Compile Include="MAVLinkParam.cs" />
     <Compile Include="MAVLinkParamList.cs" />
     <Compile Include="MavlinkParse.cs" />
