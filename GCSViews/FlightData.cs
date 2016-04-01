@@ -2046,9 +2046,15 @@ namespace MissionPlanner.GCSViews
                      && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
             {
                 modifyandSetSpeed.Value = (decimal) (float) MainV2.comPort.MAV.param["TRIM_THROTTLE"];
-                    // percent
+                // percent
                 modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
             }
+
+            if (MainV2.comPort.MAV.param.ContainsKey("LOITER_RAD"))
+                modifyandSetLoiterRad.Value = (decimal) (float) MainV2.comPort.MAV.param["LOITER_RAD"];
+
+            if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
+                modifyandSetLoiterRad.Value = (decimal) (float) MainV2.comPort.MAV.param["WP_LOITER_RAD"];
         }
 
         void cam_camimage(Image camimage)
@@ -4116,6 +4122,20 @@ namespace MissionPlanner.GCSViews
             else
             {
                 CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
+            }
+        }
+
+        private void modifyandSetLoiterRad_Click(object sender, EventArgs e)
+        {
+            int newrad = (int)modifyandSetLoiterRad.Value;
+            
+            try
+            {
+                MainV2.comPort.setParam(new[] { "LOITER_RAD", "WP_LOITER_RAD" },newrad / CurrentState.multiplierdist);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
         }
     }
