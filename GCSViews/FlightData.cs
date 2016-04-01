@@ -2051,10 +2051,10 @@ namespace MissionPlanner.GCSViews
             }
 
             if (MainV2.comPort.MAV.param.ContainsKey("LOITER_RAD"))
-                modifyandSetLoiterRad.Value = (decimal) (float) MainV2.comPort.MAV.param["LOITER_RAD"];
+                modifyandSetLoiterRad.Value = (decimal)((float)MainV2.comPort.MAV.param["LOITER_RAD"] * CurrentState.multiplierdist);
 
             if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
-                modifyandSetLoiterRad.Value = (decimal) (float) MainV2.comPort.MAV.param["WP_LOITER_RAD"];
+                modifyandSetLoiterRad.Value = (decimal)((float)MainV2.comPort.MAV.param["WP_LOITER_RAD"] * CurrentState.multiplierdist);
         }
 
         void cam_camimage(Image camimage)
