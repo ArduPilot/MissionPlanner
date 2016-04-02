@@ -118,6 +118,8 @@ namespace MissionPlanner
 
         public Dictionary<int, mavlink_fence_point_t> fencepoints = new Dictionary<int, mavlink_fence_point_t>();
 
+        public List<mavlink_camera_feedback_t> camerapoints = new List<mavlink_camera_feedback_t>();
+
         /// <summary>
         /// Store the guided mode wp location
         /// </summary>

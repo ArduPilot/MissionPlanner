@@ -3268,6 +3268,18 @@ Please check the following
                     rallypt.break_alt);
             }
 
+            if (buffer[5] == (byte)MAVLINK_MSG_ID.CAMERA_FEEDBACK)
+            {
+                mavlink_camera_feedback_t camerapt = buffer.ByteArrayToStructure<mavlink_camera_feedback_t>(6);
+
+                if (camerapt.target_system == gcssysid)
+                {
+                    camerapt.target_system = sysid;
+                }
+
+                MAVlist[camerapt.target_system, compid].camerapoints.Add(camerapt);
+            }
+
             if (buffer[5] == (byte) MAVLINK_MSG_ID.FENCE_POINT)
             {
                 mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
