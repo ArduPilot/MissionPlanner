@@ -56,6 +56,9 @@ namespace MissionPlanner.Controls
                 if (e.X >= lastx - buffer && e.X <= lastx + buffer && e.Y >= lasty - buffer && e.Y <= lasty + buffer)
                     return;
 
+                if (HoldInvalidation)
+                    return;
+
                 lastx = e.X;
                 lasty = e.Y;
 
