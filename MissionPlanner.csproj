@@ -810,6 +810,7 @@
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />
+    <Compile Include="Utilities\GMapMarkerPhoto.cs" />
     <Compile Include="Utilities\GStreamer.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\fft.cs" />
@@ -3661,6 +3662,7 @@
     <Content Include="ParameterFactMetaData.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\camera-icon.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
