@@ -161,7 +161,12 @@ namespace MissionPlanner
         /// <summary>
         /// enabled read from file mode
         /// </summary>
-        public bool logreadmode { get; set; }
+        public bool logreadmode {
+            get { return _logreadmode; }
+            set { _logreadmode = value; MAVlist.Clear(); }
+        }
+
+        bool _logreadmode = false;
 
         public DateTime lastlogread { get; set; }
         public BinaryReader logplaybackfile { get; set; }
@@ -3272,12 +3277,10 @@ Please check the following
             {
                 mavlink_camera_feedback_t camerapt = buffer.ByteArrayToStructure<mavlink_camera_feedback_t>(6);
 
-                if (camerapt.target_system == gcssysid)
+                if (MAVlist[sysid, compid].camerapoints.Count == 0 || MAVlist[sysid, compid].camerapoints.Last().time_usec != camerapt.time_usec)
                 {
-                    camerapt.target_system = sysid;
+                    MAVlist[sysid, compid].camerapoints.Add(camerapt);
                 }
-
-                MAVlist[camerapt.target_system, compid].camerapoints.Add(camerapt);
             }
 
             if (buffer[5] == (byte) MAVLINK_MSG_ID.FENCE_POINT)

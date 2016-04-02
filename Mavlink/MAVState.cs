@@ -26,6 +26,8 @@ namespace MissionPlanner
             this.SerialString = "";
             this.FrameString = "";
 
+            camerapoints.Clear();
+
             this.packetslost = 0f;
             this.packetsnotlost = 0f;
             this.packetlosttimer = DateTime.MinValue;
