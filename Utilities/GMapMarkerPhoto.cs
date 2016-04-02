@@ -37,7 +37,7 @@ namespace MissionPlanner.Utilities
             Size = localcache2.Size;
             Alt = mark.alt_msl;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
-            ToolTipText = "Photo" + "\nAlt: " + mark.alt_msl;
+            ToolTipText = "Photo" + "\nAlt: " + mark.alt_msl + "\nNo: "+ mark.img_idx;
 
             Tag = mark.time_usec;
 

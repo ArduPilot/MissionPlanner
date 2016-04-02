@@ -1232,7 +1232,12 @@ namespace MissionPlanner.GCSViews
                                 }
                             }
 
-                            // populate camera_feedback to map
+                            
+                            // cleanup old - no markers where added, so remove all old 
+                            if (MainV2.comPort.MAV.camerapoints.Count == 0)
+                                photosoverlay.Markers.Clear();
+
+                            // add new - populate camera_feedback to map
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
                                 bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
@@ -1242,6 +1247,7 @@ namespace MissionPlanner.GCSViews
                                 }
                             }
 
+                            // age current
                             int camcount = MainV2.comPort.MAV.camerapoints.Count;
                             int a = 0;
                             foreach (var mark in photosoverlay.Markers)
