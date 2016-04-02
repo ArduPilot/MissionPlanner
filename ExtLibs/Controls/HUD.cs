@@ -991,6 +991,8 @@ namespace MissionPlanner.Controls
                     bgon = true;
                 }
 
+                // localize it
+                float _roll = this._roll;
 
                 if (float.IsNaN(_roll) || float.IsNaN(_pitch) || float.IsNaN(_heading))
                 {
@@ -1002,7 +1004,6 @@ namespace MissionPlanner.Controls
                 }
 
                 graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
-
 
                 if (!Russian)
                 {
