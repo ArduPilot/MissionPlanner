@@ -3663,6 +3663,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\camera-icon.png" />
+    <None Include="Resources\camera-icon-G.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

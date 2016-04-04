@@ -12,6 +12,7 @@ namespace MissionPlanner.Utilities
     [Serializable]
     public class GMapMarkerPhoto : GMapMarker
     {
+        static Bitmap localcache1 = new Bitmap(Resources.camera_icon_G, 32, 32);
         static Bitmap localcache2 = new Bitmap(Resources.camera_icon, 32, 32);
 
         public double Alt { get; set; }
@@ -28,13 +29,15 @@ namespace MissionPlanner.Utilities
         MAVLink.mavlink_camera_feedback_t local;
 
         GMapPolygon footprintpoly;
+        private bool shotBellowMinInterval;
 
-        public GMapMarkerPhoto(MAVLink.mavlink_camera_feedback_t mark)
+        public GMapMarkerPhoto(MAVLink.mavlink_camera_feedback_t mark, bool shotBellowMinInterval = false)
             : base(new PointLatLng(mark.lat/1e7, mark.lng/1e7))
         {
             local = mark;
+            this.shotBellowMinInterval = shotBellowMinInterval;
             Offset = new Point(-16, -16);
-            Size = localcache2.Size;
+            Size = localcache1.Size;
             Alt = mark.alt_msl;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
             ToolTipText = "Photo" + "\nAlt: " + mark.alt_msl + "\nNo: "+ mark.img_idx;
@@ -51,7 +54,10 @@ namespace MissionPlanner.Utilities
 
         public override void OnRender(Graphics g)
         {
-            g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);
+            if (shotBellowMinInterval)
+                g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);
+            else
+                g.DrawImageUnscaled(localcache1, LocalPosition.X, LocalPosition.Y);
 
             if (drawfootprint || IsMouseOver)
             {

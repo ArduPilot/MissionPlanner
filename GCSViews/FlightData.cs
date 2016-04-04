@@ -1237,14 +1237,24 @@ namespace MissionPlanner.GCSViews
                             if (MainV2.comPort.MAV.camerapoints.Count == 0)
                                 photosoverlay.Markers.Clear();
 
+                            var min_interval = 0.0;
+                            if (MainV2.comPort.MAV.param.ContainsKey("CAM_MIN_INTERVAL"))
+                                min_interval = MainV2.comPort.MAV.param["CAM_MIN_INTERVAL"].Value;
+
                             // add new - populate camera_feedback to map
+                            double oldtime = double.MinValue;
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
+                                var timesincelastshotms = (mark.time_usec/1000)/1000 - oldtime;
                                 bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
                                 if (!contains)
                                 {
-                                    addMissionPhotoMarker(new GMapMarkerPhoto(mark));
+                                    if (timesincelastshotms < min_interval)
+                                        addMissionPhotoMarker(new GMapMarkerPhoto(mark, true));
+                                    else
+                                        addMissionPhotoMarker(new GMapMarkerPhoto(mark, false));
                                 }
+                                oldtime = (mark.time_usec/1000)/1000;
                             }
 
                             // age current
