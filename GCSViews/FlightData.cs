@@ -1245,11 +1245,12 @@ namespace MissionPlanner.GCSViews
                             double oldtime = double.MinValue;
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
-                                var timesincelastshotms = (mark.time_usec/1000)/1000 - oldtime;
+                                var timesincelastshot = (mark.time_usec/1000)/1000 - oldtime;
+                                MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
                                 bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
                                 if (!contains)
                                 {
-                                    if (timesincelastshotms < min_interval)
+                                    if (timesincelastshot < min_interval)
                                         addMissionPhotoMarker(new GMapMarkerPhoto(mark, true));
                                     else
                                         addMissionPhotoMarker(new GMapMarkerPhoto(mark, false));

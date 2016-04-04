@@ -915,6 +915,8 @@ namespace MissionPlanner
 
         public ushort i2cerrors { get; set; }
 
+        public double timesincelastshot { get; set; }
+
         // requested stream rates
         public byte rateattitude { get; set; }
         public byte rateposition { get; set; }
