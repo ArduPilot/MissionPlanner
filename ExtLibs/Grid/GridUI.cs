@@ -1619,6 +1619,13 @@ namespace MissionPlanner
                 // Redraw the polygon in FP
                 plugin.Host.RedrawFPPolygon(list);
 
+                // save camera fov's for use with footprints
+                double fovha = 0;
+                double fovva = 0;
+                getFOVangle(ref fovha, ref fovva);
+                Settings.Instance["camera_fovh"] = fovha.ToString();
+                Settings.Instance["camera_fovv"] = fovva.ToString();
+
                 savesettings();
 
                 MainV2.instance.FlightPlanner.quickadd = false;

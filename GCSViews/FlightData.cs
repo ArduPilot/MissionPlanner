@@ -1241,6 +1241,13 @@ namespace MissionPlanner.GCSViews
                             if (MainV2.comPort.MAV.param.ContainsKey("CAM_MIN_INTERVAL"))
                                 min_interval = MainV2.comPort.MAV.param["CAM_MIN_INTERVAL"].Value;
 
+                            // set fov's based on last grid calc
+                            if (Settings.Instance["camera_fovh"] != null)
+                            {
+                                GMapMarkerPhoto.hfov = Settings.Instance.GetDouble("camera_fovh");
+                                GMapMarkerPhoto.vfov = Settings.Instance.GetDouble("camera_fovv");
+                            }
+
                             // add new - populate camera_feedback to map
                             double oldtime = double.MinValue;
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
