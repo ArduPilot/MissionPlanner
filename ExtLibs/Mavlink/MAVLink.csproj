@@ -41,41 +41,78 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mavlink.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MavlinkCRC.cs" />
-    <Compile Include="Mavlink.cs" />
     <Compile Include="MAVLinkMessage.cs" />
     <Compile Include="MAVLinkParam.cs" />
     <Compile Include="MAVLinkParamList.cs" />
-    <Compile Include="MavlinkParse.cs" />
+    <Compile Include="MavlinkParse.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MavlinkUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="generator\gen_all.py" />
-    <Content Include="generator\mavcrc.py" />
-    <Content Include="generator\mavextra.py" />
-    <Content Include="generator\mavgen.py" />
-    <Content Include="generator\mavgen_c.py" />
-    <Content Include="generator\mavgen_csharp.py" />
-    <Content Include="generator\mavgen_python.py" />
-    <Content Include="generator\mavlink.py" />
-    <Content Include="generator\mavparse.py" />
-    <Content Include="generator\mavtemplate.py" />
-    <Content Include="generator\mavtestgen.py" />
-    <Content Include="generator\mavutil.py" />
-    <Content Include="generator\message_definitions\ardupilotmega.xml" />
-    <Content Include="generator\message_definitions\common.xml" />
+    <Content Include="message_definitions\ardupilotmega.xml" />
+    <Content Include="message_definitions\common.xml" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlif4Dom.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifApi.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifBase.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifDom.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifElementTree.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifMinidom.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifODict.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmliftest.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\xmlifUtils.py" />
+    <Content Include="pymavlink\generator\lib\genxmlif\__init__.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\minixsvWrapper.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\pyxsval.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalBase.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalErrorHandler.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalSchema.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalSimpleTypes.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalUtils.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\xsvalXmlIf.py" />
+    <Content Include="pymavlink\generator\lib\minixsv\__init__.py" />
+    <Content Include="pymavlink\generator\lib\__init__.py" />
+    <Content Include="pymavlink\generator\mavcrc.py" />
+    <Content Include="pymavlink\generator\mavgen.py" />
+    <Content Include="pymavlink\generator\mavgen_csharp.py" />
+    <Content Include="pymavlink\generator\mavparse.py" />
+    <Content Include="pymavlink\generator\mavtemplate.py" />
+    <Content Include="pymavlink\generator\__init__.py" />
+    <Content Include="pymavlink\tools\mavgen.py" />
+    <Content Include="pymavlink\tools\__init__.py" />
+    <Content Include="pymavlink\__init__.py" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="generator\mavschema.xsd">
+    <None Include="pymavlink\generator\lib\minixsv\datatypes.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="pymavlink\generator\lib\minixsv\XInclude.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="pymavlink\generator\lib\minixsv\xml.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="pymavlink\generator\lib\minixsv\XMLSchema-instance.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="pymavlink\generator\lib\minixsv\XMLSchema.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="pymavlink\generator\mavschema.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>rd /s /q "$(ProjectDir)generator\Csharp"
-python $(ProjectDir)generator\mavgen.py --lang=csharp -o "$(ProjectDir)generator\Csharp" --wire-protocol=1.0 "$(ProjectDir)generator\message_definitions\ardupilotmega.xml"  
-copy /y "$(ProjectDir)generator\Csharp\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
+    <PreBuildEvent>rd /s /q "$(ProjectDir)mavlink"
+cd "$(ProjectDir)"
+python -m pymavlink.tools.mavgen --lang=csharp --wire-protocol=1.0 "$(ProjectDir)message_definitions\ardupilotmega.xml"  
+copy /y "$(ProjectDir)mavlink\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
 </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

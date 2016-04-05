@@ -9,11 +9,20 @@ public partial class MAVLink
     {
         public byte header;
         public byte length;
+
+        public byte incompat_flags;
+        public byte compat_flags;
+
         public byte seq;
         public byte sysid;
         public byte compid;
-        public byte messid;
+
+        public byte dialect;
+
+        public ushort messid;
         public object data;
+
+        public ushort crc16;
 
         public MAVLinkMessage(byte header1, byte length1, byte seq1, byte sysid1, byte compid1, byte messid1, object data)
         {

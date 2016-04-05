@@ -2,12 +2,12 @@
 '''
 parse a MAVLink protocol XML file and generate a C# implementation
 
-Copyright Michael Oborne 2011
+Copyright Michael Oborne 2016
 Released under GNU GPL version 3 or later
 '''
 
 import sys, textwrap, os, time, re
-import mavparse, mavtemplate
+from . import mavparse, mavtemplate
 
 t = mavtemplate.MAVTemplate()
     
@@ -33,46 +33,38 @@ def generate_message_header(f, xml):
     for i in xml.include:
         base = i[:-4]
         xml.include_list.append(mav_include(base))
-
-    # form message lengths array
-    xml.message_lengths_array = ''
-    for mlen in xml.message_lengths:
-        xml.message_lengths_array += '%u, ' % mlen
-    xml.message_lengths_array = xml.message_lengths_array[:-2]
+    
+    xml.message_names_enum = ''
+    for msgid in range(256):
+        name = xml.message_names.get(msgid, None)
+        if name is not None:
+            xml.message_names_enum += '%s = %u,\n' % (name, msgid)
 
     # and message CRCs array
-    xml.message_crcs_array = ''
-    for crc in xml.message_crcs:
-        xml.message_crcs_array += '%u, ' % crc
-    xml.message_crcs_array = xml.message_crcs_array[:-2]
-
-	# and message names array
-    xml.message_names_array = ''
-    for name in xml.message_names:
-        if name is not None:
-            xml.message_names_array += '"%s", ' % name.upper()
-        else:
-            xml.message_names_array += 'null, '
-    xml.message_names_array = xml.message_names_array[:-2]
-
-	# and message names enum
-    xml.message_names_enum = ''
-    count = 0
-    for name in xml.message_names:
-        if name is not None:
-            xml.message_names_enum += '%s = %u,\n' % (name, count)
-        count += 1
-
-    # form message info array
-    xml.message_info_array = ''
-    for name in xml.message_names:
-        if name is not None:
-            xml.message_info_array += 'typeof( mavlink_%s_t ), ' % name.lower()
-        else:
-            xml.message_info_array += 'null, '
-    xml.message_info_array = xml.message_info_array[:-2]
+    xml.message_infos_array = ''
+    if xml.multi_dialect:
+        # we sort with primary key msgid, secondary key dialect
+        for (dialect,msgid) in sorted(xml.message_crcs.keys(), key=lambda x: (x[1]<<8)|x[0]):
+            name = xml.message_names[(dialect,msgid)]
+            xml.message_infos_array += 'new message_info(%u, %u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, dialect,
+                                                                name,
+                                                                xml.message_crcs[(dialect, msgid)],
+                                                                xml.message_lengths[(dialect,msgid)],
+                                                                name.lower())
+            xml.message_names_enum += '%s = %u,\n' % (name, msgid)
+    else:
+        for msgid in range(256):
+            dialect = 0
+            crc = xml.message_crcs.get(msgid, None)
+            name = xml.message_names.get(msgid, None)
+            length = xml.message_lengths.get(msgid, None)
+            if name is not None:
+                xml.message_infos_array += 'new message_info(%u, %u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, dialect,
+                                                                    name,
+                                                                    crc,
+                                                                    length,
+                                                                    name.lower())
     
-
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
         m.description = m.description.replace("\n"," ")
@@ -85,7 +77,6 @@ def generate_message_header(f, xml):
             firstchar = re.search('^([0-9])', fe.name )
             if firstchar != None and firstchar.group():
                 fe.name = '_%s' % fe.name
-                print(fe.name)
            
     t.write(f, '''
 using System;
@@ -112,31 +103,100 @@ public partial class MAVLink
         
         public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-        public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] {${message_lengths_array}};
-
-        public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] {${message_crcs_array}};
-
-        public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] {${message_info_array}};
-
-		public static readonly string[] MAVLINK_NAMES = new string[] {${message_names_array}};
+        // msgid, dialect, name, crc, length, type
+        public static readonly message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {${message_infos_array}};
 
         public const byte MAVLINK_VERSION = ${version};
 
-		public enum MAVLINK_MSG_ID 
-		{
-			${message_names_enum}
-		}
+        static string[] names;
+        static Type[] infos;
+        static byte[] crcs;
+        static byte[] lens;
 
-    
-        ${{enum:
-        ///<summary> ${description} </summary>
-        public enum ${name}
+        public static byte[] MAVLINK_MESSAGE_LENGTHS 
         {
-    ${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
-            ${name}=${value}, 
-        }}
-        };
-        }}
+            get
+            {
+                if (lens != null)
+                    return lens;
+                lens = new byte[256];
+                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
+                {
+                    lens[(byte)messageInfo.msgid] = (byte)messageInfo.length;
+                }
+                return lens;
+            }
+        }
+
+        public static byte[] MAVLINK_MESSAGE_CRCS
+        {
+            get
+            {
+                if (crcs != null)
+                    return crcs;
+                crcs = new byte[256];
+                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
+                {
+                    crcs[(byte)messageInfo.msgid] = (byte)messageInfo.crc;
+                }
+                return crcs;
+            }
+        }
+
+        public static Type[] MAVLINK_MESSAGE_INFO
+        {
+            get
+            {
+                if (infos != null)
+                    return infos;
+                infos = new Type[256];
+                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
+                {
+                    infos[(byte)messageInfo.msgid] = messageInfo.type;
+                }
+                return infos;
+            }
+        }
+
+        public static string[] MAVLINK_NAMES
+        {
+            get
+            {
+                if (names != null)
+                    return names;
+                names = new string[256];
+                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
+                {
+                    names[(byte)messageInfo.msgid] = messageInfo.name;
+                }
+                return names;
+            }
+        }
+
+        public struct message_info
+        {
+            public int msgid;
+            public int dialect;
+            public string name;
+            public uint crc;
+            public uint length;
+            public Type type;
+
+            public message_info(int msgid, int dialect, string name, UInt32 crc, uint length, Type type)
+            {
+                this.msgid = msgid;
+                this.dialect = dialect;
+                this.name = name;
+                this.crc = crc;
+                this.length = length;
+                this.type = type;
+            }
+        }  
+
+        public enum MAVLINK_MSG_ID 
+        {
+            ${message_names_enum}
+        }      
     
 ''', xml)
 
@@ -152,7 +212,6 @@ def generate_message_enums(f, xml):
             firstchar = re.search('^([0-9])', fe.name )
             if firstchar != None and firstchar.group():
                 fe.name = '_%s' % fe.name
-                print(fe.name)
             
     t.write(f, '''
         ${{enum:
@@ -195,7 +254,7 @@ class mav_include(object):
 
 def generate_one(fh, basename, xml):
     '''generate headers for one XML file'''
-
+    
     directory = os.path.join(basename, xml.basename)
 
     print("Generating CSharp implementation in directory %s" % directory)
@@ -273,7 +332,7 @@ def generate_one(fh, basename, xml):
                 elif f.type == 'int64_t':     
                     f.type = "Int64";   
                 elif f.type == 'float':     
-                    f.type = "Single"; 					
+                    f.type = "Single"; 
                 else:
                     f.c_test_value = f.test_value
                 f.array_suffix = ''
@@ -311,29 +370,29 @@ def generate_one(fh, basename, xml):
     
     for m in xml.message:
         generate_message_h(fh, directory, m)
-        
+		
 
 
 
 def generate(basename, xml_list):
-    '''generate complete MAVLink C implemenation'''
+    '''generate complete MAVLink Csharp implemenation'''
+
+    xml = xml_list[0]
     
-    print ("HERE ",basename, xml_list[0])
-    
-    directory = os.path.join(basename, xml_list[0].basename)
-    
+    directory = os.path.join(basename, xml.basename)
+
     if not os.path.exists(directory): 
         os.makedirs(directory) 
 
     f = open(os.path.join(directory, "mavlink.cs"), mode='w')
-    
-    generate_message_header(f, xml_list[0])
-    
-    if len(xml_list) > 1:
-        generate_message_enums(f, xml_list[1]);
-    
-    for xml in xml_list:
-        generate_one(f, basename, xml)
+
+    generate_message_header(f, xml)
+
+    for xml1 in xml_list:
+        generate_message_enums(f, xml1);
         
+    for xml2 in xml_list:
+        generate_one(f, basename, xml2)
+    
     generate_message_footer(f,xml)
     
