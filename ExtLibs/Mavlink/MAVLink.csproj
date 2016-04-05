@@ -74,7 +74,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>rd /s /q "$(ProjectDir)generator\Csharp"
-python $(ProjectDir)generator\mavgen.py --lang=csharp -o "$(ProjectDir)generator\Csharp" --wire-protocol=1.0 "$(ProjectDir)generator\message_definitions\ardupilotmega.xml"  
+python "$(ProjectDir)generator\mavgen.py" --lang=csharp -o "$(ProjectDir)generator\Csharp" --wire-protocol=1.0 "$(ProjectDir)generator\message_definitions\ardupilotmega.xml"  
 copy /y "$(ProjectDir)generator\Csharp\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
 </PreBuildEvent>
   </PropertyGroup>
