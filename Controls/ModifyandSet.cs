@@ -11,11 +11,15 @@ namespace MissionPlanner.Controls
 {
     public partial class ModifyandSet : UserControl
     {
-        [System.ComponentModel.Browsable(true)]
-        public NumericUpDown NumericUpDown { get; set; }
+        [System.ComponentModel.Browsable(false)]
+        public NumericUpDown NumericUpDown {
+            get { return numericUpDown1; }
+        }
 
-        [System.ComponentModel.Browsable(true)]
-        public MyButton Button { get; set; }
+        [System.ComponentModel.Browsable(false)]
+        public MyButton Button {
+            get { return myButton1; }
+        }
 
         [System.ComponentModel.Browsable(true)]
         public String ButtonText
@@ -31,15 +35,26 @@ namespace MissionPlanner.Controls
             set { NumericUpDown.Value = value; }
         }
 
+        [System.ComponentModel.Browsable(true)]
+        public Decimal Minimum
+        {
+            get { return NumericUpDown.Minimum; }
+            set { NumericUpDown.Minimum = value; }
+        }
+
+        [System.ComponentModel.Browsable(true)]
+        public Decimal Maximum
+        {
+            get { return NumericUpDown.Maximum; }
+            set { NumericUpDown.Maximum = value; }
+        }
+
         public new event EventHandler Click;
         public event EventHandler ValueChanged;
 
         public ModifyandSet()
         {
             InitializeComponent();
-
-            NumericUpDown = numericUpDown1;
-            Button = myButton1;
         }
 
         private void myButton1_Click(object sender, EventArgs e)
