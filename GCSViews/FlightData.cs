@@ -798,6 +798,33 @@ namespace MissionPlanner.GCSViews
                 return true;
             }
 
+            if (keyData == (Keys.Space))
+            {
+                if (MainV2.comPort.logplaybackfile != null)
+                {
+                    BUT_playlog_Click(null, null);
+                    return true;
+                }
+            }
+            else if (keyData == (Keys.Subtract))
+            {
+                if (LogPlayBackSpeed > 1)
+                    LogPlayBackSpeed--;
+                else
+                    LogPlayBackSpeed /= 2;
+
+                updateLogPlayPosition();
+            }
+            else if (keyData == (Keys.Add))
+            {
+                if (LogPlayBackSpeed > 1)
+                    LogPlayBackSpeed++;
+                else
+                    LogPlayBackSpeed *= 2;
+
+                updateLogPlayPosition();
+            }
+
             return false;
         }
 
@@ -1640,6 +1667,9 @@ namespace MissionPlanner.GCSViews
                         lbl_logpercent.Text =
                             (MainV2.comPort.logplaybackfile.BaseStream.Position/
                              (double) MainV2.comPort.logplaybackfile.BaseStream.Length).ToString("0.00%");
+
+                    if (lbl_playbackspeed.Visible)
+                        lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
                 }
                 catch
                 {
