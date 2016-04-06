@@ -565,6 +565,11 @@ namespace MissionPlanner.GCSViews
 
             CheckBatteryShow();
 
+            // make sure the hud user items/warnings/checklist are using the current state
+            HUD.Custom.src = MainV2.comPort.MAV.cs;
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
+            MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
+
             if (Settings.Instance["maplast_lat"] != "")
             {
                 try
