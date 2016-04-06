@@ -33,8 +33,11 @@ namespace MissionPlanner
             BottomLeft = 1,
             TopLeft = 2,
             BottomRight = 3,
-            TopRight = 4
+            TopRight = 4,
+            Point = 5
         }
+
+        public static PointLatLngAlt StartPointLatLngAlt = PointLatLngAlt.Zero;
 
         static void addtomap(linelatlng pos)
         {
@@ -305,7 +308,9 @@ namespace MissionPlanner
                 case StartPosition.TopRight:
                     startposutm = new utmpos(area.Right, area.Top, utmzone);
                     break;
-
+                case StartPosition.Point:
+                    startposutm = new utmpos(StartPointLatLngAlt);
+                    break;
             }
 
             // find closest line point to startpos

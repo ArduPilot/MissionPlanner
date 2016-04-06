@@ -65,6 +65,7 @@ namespace MissionPlanner
             public float imagewidth;
             public float imageheight;
         }
+
         public struct GridData
         {
             public List<PointLatLngAlt> poly;
@@ -93,6 +94,7 @@ namespace MissionPlanner
             public decimal overlap;
             public decimal sidelap;
             public decimal spacing;
+            public bool crossgrid;
             // Copter Settings
             public decimal copter_delay;
             public bool copter_headinghold_chk;
@@ -246,6 +248,7 @@ namespace MissionPlanner
             num_overlap.Value = griddata.overlap;
             num_sidelap.Value = griddata.sidelap;
             NUM_spacing.Value = griddata.spacing;
+            chk_crossgrid.Checked = griddata.crossgrid;
             
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
@@ -293,6 +296,7 @@ namespace MissionPlanner
             griddata.overlap = num_overlap.Value;
             griddata.sidelap = num_sidelap.Value;
             griddata.spacing = NUM_spacing.Value;
+            griddata.crossgrid = chk_crossgrid.Checked;
             
             // Copter Settings
             griddata.copter_delay = NUM_copter_delay.Value;
@@ -339,6 +343,7 @@ namespace MissionPlanner
                 loadsetting("grid_overlap", num_overlap);
                 loadsetting("grid_sidelap", num_sidelap);
                 loadsetting("grid_spacing", NUM_spacing);
+                loadsetting("grid_crossgrid",chk_crossgrid);
 
                 // Should probably be saved as one setting, and us logic
                 loadsetting("grid_trigdist", rad_trigdist);
@@ -406,6 +411,7 @@ namespace MissionPlanner
             plugin.Host.config["grid_overlap"] = num_overlap.Value.ToString();
             plugin.Host.config["grid_sidelap"] = num_sidelap.Value.ToString();
             plugin.Host.config["grid_spacing"] = NUM_spacing.Value.ToString();
+            plugin.Host.config["grid_crossgrid"] = chk_crossgrid.Checked.ToString();
 
             plugin.Host.config["grid_startfrom"] = CMB_startfrom.Text;
 
@@ -556,11 +562,11 @@ namespace MissionPlanner
 
             // new grid system test
 
-            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value), (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false, (float)NUM_Lane_Dist.Value, (float)NUM_leadin.Value);
-
-            List<PointLatLng> list2 = new List<PointLatLng>();
-
-            grid.ForEach(x => { list2.Add(x); });
+            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
+                (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
+                (Grid.StartPosition) Enum.Parse(typeof (Grid.StartPosition), CMB_startfrom.Text), false,
+                (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value);
 
             map.HoldInvalidation = true;
 
@@ -571,6 +577,18 @@ namespace MissionPlanner
             if (grid.Count == 0)
             {
                 return;
+            }
+
+            if (chk_crossgrid.Checked)
+            {
+                // add crossover
+                Grid.StartPointLatLngAlt = grid[grid.Count - 1];
+
+                grid.AddRange(Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                    (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value + 90.0,
+                    (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
+                    Grid.StartPosition.Point, false,
+                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value));
             }
 
             if (CHK_boundary.Checked)
