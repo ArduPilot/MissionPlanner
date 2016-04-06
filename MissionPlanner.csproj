@@ -731,6 +731,11 @@
       <DependentUpon>LogIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogMap.cs" />
+    <Compile Include="Log\LogStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogStrings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Maps\MapboxNoFly.cs" />
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
@@ -2125,6 +2130,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogStrings.resx">
+      <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
