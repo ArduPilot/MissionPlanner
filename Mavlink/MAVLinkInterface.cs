@@ -196,13 +196,19 @@ namespace MissionPlanner
         /// </summary>
         public bool logreadmode {
             get { return _logreadmode; }
-            set { _logreadmode = value; MAVlist.Clear(); }
+            set { _logreadmode = value; }
         }
 
         bool _logreadmode = false;
 
+        BinaryReader _logplaybackfile;
+
         public DateTime lastlogread { get; set; }
-        public BinaryReader logplaybackfile { get; set; }
+        public BinaryReader logplaybackfile
+        {
+            get { return _logplaybackfile; }
+            set { _logplaybackfile = value; MAVlist.Clear(); }
+        }
         public BufferedStream logfile { get; set; }
         public BufferedStream rawlogfile { get; set; }
 
