@@ -1244,7 +1244,7 @@ namespace MissionPlanner.GCSViews
 
                             var min_interval = 0.0;
                             if (MainV2.comPort.MAV.param.ContainsKey("CAM_MIN_INTERVAL"))
-                                min_interval = MainV2.comPort.MAV.param["CAM_MIN_INTERVAL"].Value;
+                                min_interval = MainV2.comPort.MAV.param["CAM_MIN_INTERVAL"].Value/1000.0;
 
                             // set fov's based on last grid calc
                             if (Settings.Instance["camera_fovh"] != null)
@@ -1257,7 +1257,7 @@ namespace MissionPlanner.GCSViews
                             double oldtime = double.MinValue;
                             foreach (var mark in MainV2.comPort.MAV.camerapoints.ToArray())
                             {
-                                var timesincelastshot = (mark.time_usec/1000)/1000 - oldtime;
+                                var timesincelastshot = (mark.time_usec/1000.0)/1000.0 - oldtime;
                                 MainV2.comPort.MAV.cs.timesincelastshot = timesincelastshot;
                                 bool contains = photosoverlay.Markers.Any(p => p.Tag.Equals(mark.time_usec));
                                 if (!contains)
@@ -1267,7 +1267,7 @@ namespace MissionPlanner.GCSViews
                                     else
                                         addMissionPhotoMarker(new GMapMarkerPhoto(mark, false));
                                 }
-                                oldtime = (mark.time_usec/1000)/1000;
+                                oldtime = (mark.time_usec/1000.0)/1000.0;
                             }
 
                             // age current
