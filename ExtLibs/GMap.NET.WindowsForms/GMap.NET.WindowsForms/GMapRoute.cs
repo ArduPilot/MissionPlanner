@@ -133,6 +133,9 @@ namespace GMap.NET.WindowsForms
             {
                GPoint p2 = LocalPoints[i];
 
+                if (Math.Abs(p2.X) > 5000 || Math.Abs(p2.Y) > 5000)
+                    Stroke.DashStyle = DashStyle.Solid;
+
                if(i == 0)
                {
                   graphicsPath.AddLine(p2.X, p2.Y, p2.X, p2.Y);
@@ -159,7 +162,6 @@ namespace GMap.NET.WindowsForms
                 if (Stroke.DashStyle == DashStyle.Custom)
                 {
                     customarrows = true;
-                    //Stroke.DashStyle = DashStyle.Solid;
                 }
 
                g.DrawPath(Stroke, graphicsPath);
