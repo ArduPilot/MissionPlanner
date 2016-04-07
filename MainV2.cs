@@ -1331,7 +1331,7 @@ namespace MissionPlanner
 
                                 if (ver2 > ver1)
                                 {
-                                    Common.MessageShowAgain(Strings.NewFirmware,
+                                    Common.MessageShowAgain(Strings.NewFirmware + "-" + item.name,
                                         Strings.NewFirmwareA + item.name + Strings.Pleaseup);
                                     break;
                                 }
