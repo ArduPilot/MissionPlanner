@@ -20,7 +20,7 @@ namespace MissionPlanner
 
         public override string Version
         {
-            get { return "0.1"; }
+            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
         }
 
         public override string Author
