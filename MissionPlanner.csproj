@@ -299,6 +299,12 @@
     </Compile>
     <Compile Include="Controls\Icon\Icon.cs" />
     <Compile Include="Controls\Icon\Polygon.cs" />
+    <Compile Include="Controls\Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LogAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -936,6 +942,9 @@
     <Compile Include="Wizard\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.de-DE.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>

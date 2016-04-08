@@ -602,4 +602,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="Failed_to_connect_to_SITL_instance" xml:space="preserve">
     <value>Failed to connect to SITL instance</value>
   </data>
+  <data name="Scanning_File" xml:space="preserve">
+    <value>Scanning File</value>
+  </data>
 </root>

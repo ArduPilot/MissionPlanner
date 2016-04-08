@@ -1196,6 +1196,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scanning File.
+        /// </summary>
+        public static string Scanning_File {
+            get {
+                return ResourceManager.GetString("Scanning_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a comport.
         /// </summary>
         public static string SelectComport {

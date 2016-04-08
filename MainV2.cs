@@ -15,6 +15,7 @@ using IronPython.Hosting;
 using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.Comms;
+using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 
@@ -2489,13 +2490,21 @@ namespace MissionPlanner
                 log.Error("Update check failed", ex);
             }
 
-            // play a tlog that was passed to the program
+            // play a tlog that was passed to the program/ load a bin log passed
             if (Program.args.Length > 0)
             {
-                if (File.Exists(Program.args[0]) && Program.args[0].ToLower().Contains(".tlog"))
+                if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".tlog"))
                 {
                     FlightData.LoadLogFile(Program.args[0]);
                     FlightData.BUT_playlog_Click(null, null);
+                } 
+                else if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".bin"))
+                {
+                    LogBrowse logbrowse = new LogBrowse();
+                    ThemeManager.ApplyThemeTo(logbrowse);
+                    logbrowse.logfilename = Program.args[0];
+                    logbrowse.Show();
+                    logbrowse.TopMost = true;
                 }
             }
         }
