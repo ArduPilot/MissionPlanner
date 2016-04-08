@@ -134,6 +134,8 @@ namespace MissionPlanner.Log
                     b++;
                 }
             }
+
+            indexcachelineno = -1;
         }
 
 
@@ -290,6 +292,19 @@ namespace MissionPlanner.Log
             basestream.Close();
             linestartoffset.Clear();
             linestartoffset = null;
+        }
+
+        public bool EndOfStream 
+        {
+            get
+            {
+                return (indexcachelineno >= (linestartoffset.Count-1)); 
+            }
+        }
+
+        public T ReadLine()
+        {
+            return this[indexcachelineno+1];
         }
     }
 }
