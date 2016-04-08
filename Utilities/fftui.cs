@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Log;
 using ZedGraph;
 
 namespace MissionPlanner.Utilities
@@ -121,14 +122,14 @@ namespace MissionPlanner.Utilities
 
             using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log|*.log";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin";
 
                 ofd.ShowDialog();
 
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file = new StreamReader(File.OpenRead(ofd.FileName));
+                var file =  new CollectionBuffer<string>(File.OpenRead(ofd.FileName));
 
                 int bins = (int) NUM_bins.Value;
 
@@ -309,14 +310,14 @@ namespace MissionPlanner.Utilities
             using (
                 OpenFileDialog ofd = new OpenFileDialog())
             {
-                ofd.Filter = "*.log|*.log";
+                ofd.Filter = "*.log;*.bin|*.log;*.bin";
 
                 ofd.ShowDialog();
 
                 if (!File.Exists(ofd.FileName))
                     return;
 
-                var file = new StreamReader(File.OpenRead(ofd.FileName));
+                var file = new CollectionBuffer<string>(File.OpenRead(ofd.FileName));
 
                 int bins = (int) NUM_bins.Value;
 
