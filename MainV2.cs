@@ -2329,6 +2329,7 @@ namespace MissionPlanner
                 }
                 catch (Exception e)
                 {
+                    Tracking.AddException(e);
                     log.Error("Serial Reader fail :" + e.ToString());
                     try
                     {
