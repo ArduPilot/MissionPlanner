@@ -43,6 +43,8 @@ namespace MissionPlanner.Log
 
         DFLog dflog = new DFLog();
 
+        public string logfilename;
+
         private bool readmavgraphsxml_runonce = false;
 
         class DataModifer
@@ -199,7 +201,8 @@ namespace MissionPlanner.Log
                 items =
                     new displayitem[]
                     {
-                        new displayitem() {type = "IMU", field = "AccX"}, new displayitem() {type = "IMU", field = "AccY"},
+                        new displayitem() {type = "IMU", field = "AccX"},
+                        new displayitem() {type = "IMU", field = "AccY"},
                         new displayitem() {type = "IMU", field = "AccZ"}
                     }
             },
@@ -387,7 +390,9 @@ namespace MissionPlanner.Log
 
             List<graphitem> items = new List<graphitem>();
 
-            using (XmlReader reader = XmlReader.Create(Application.StartupPath + Path.DirectorySeparatorChar + "mavgraphs.xml"))
+            using (
+                XmlReader reader =
+                    XmlReader.Create(Application.StartupPath + Path.DirectorySeparatorChar + "mavgraphs.xml"))
             {
                 while (reader.Read())
                 {
@@ -491,164 +496,177 @@ namespace MissionPlanner.Log
 
             seenmessagetypes = new Hashtable();
 
-            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            if (!File.Exists(logfilename))
             {
-                openFileDialog1.Filter = "Log Files|*.log;*.bin";
-                openFileDialog1.FilterIndex = 2;
-                openFileDialog1.RestoreDirectory = true;
-
-                openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
-
-                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
                 {
-                    try
+                    openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                    openFileDialog1.FilterIndex = 2;
+                    openFileDialog1.RestoreDirectory = true;
+
+                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
+
+                    if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        Stream stream;
+                        logfilename = openFileDialog1.FileName;
 
-                        stream = File.Open(openFileDialog1.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-                        log.Info("before read " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                        logdata = new CollectionBuffer<string>(stream);
-
-                        log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                        //logdata = dflog.ReadLog(stream);
-
-                        this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
-                        log.Info("about to create DataTable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                        m_dtCSV = new DataTable();
-
-                        log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                        bool largelog = true; // logdata.Count > 500000 ? true : false;
-
-                        int b = 0;
-
-                        foreach (var item2 in logdata)
-                        {
-                            b++;
-                            var item = dflog.GetDFItemFromLine(item2, b);
-
-                            if (item.items != null)
-                            {
-                                while (m_dtCSV.Columns.Count < (item.items.Length + typecoloum))
-                                {
-                                    m_dtCSV.Columns.Add();
-                                }
-
-                                seenmessagetypes[item.msgtype] = "";
-
-                                // check first 1000000 lines for max coloums needed
-                                if (b > 1000000 && largelog)
-                                    break;
-
-                                if (largelog)
-                                    continue;
-
-                                DataRow dr = m_dtCSV.NewRow();
-
-                                dr[0] = item.lineno;
-                                dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
-                                for (int a = 0; a < item.items.Length; a++)
-                                {
-                                    dr[a + typecoloum] = item.items[a];
-                                }
-
-                                m_dtCSV.Rows.Add(dr);
-                            }
-                        }
-
-                        log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                        //PopulateDataTableFromUploadedFile(stream);
-
-                        // stream.Close();
-
-                        log.Info("set dgv datasourse " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                        if (MainV2.MONO)
-                        {
-                            //if (m_dtCSV.Rows.Count > 5000)
-                            // {
-                            //     CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
-                            //     dataGridView1.Visible = false;
-                            // }
-                            // else
-                            {
-                                BindingSource bs = new BindingSource();
-                                bs.DataSource = m_dtCSV;
-                                dataGridView1.DataSource = bs;
-                            }
-                        }
-                        else
-                        {
-                            dataGridView1.VirtualMode = true;
-                            dataGridView1.RowCount = 0;
-                            dataGridView1.RowCount = logdata.Count;
-                            dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
-
-                            log.Info("datagrid size set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                        }
-
-
-                        //dataGridView1.Columns[0].Visible = false;
-
-                        log.Info("datasource set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                        LoadLog(logfilename);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        CustomMessageBox.Show("Failed to read File: " + ex.ToString());
-                        return;
-                    }
-
-                    foreach (DataGridViewColumn column in dataGridView1.Columns)
-                    {
-                        column.SortMode = DataGridViewColumnSortMode.NotSortable;
-                    }
-
-                    log.Info("Done timetable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                    DrawMap();
-
-                    log.Info("Done map " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                    try
-                    {
-                        DrawTime();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
-
-                    log.Info("Done time " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-
-                    CreateChart(zg1);
-
-                    ResetTreeView(seenmessagetypes);
-
-                    if (dflog.logformat.Count == 0)
-                    {
-                        CustomMessageBox.Show(Strings.WarningLogBrowseFMTMissing, Strings.ERROR);
                         this.Close();
                         return;
                     }
+                }
+            }
+            else
+            {
+                LoadLog(logfilename);
+            }
+        }
 
-                    // update preselection graphs
-                    readmavgraphsxml();
+        public void LoadLog(string FileName)
+        {
+            Loading.ShowLoading(Strings.Scanning_File, this);
 
-                    //CMB_preselect.DisplayMember = "Name";
-                    CMB_preselect.DataSource = null;
-                    CMB_preselect.DataSource = graphs;
+            try
+            {
+                Stream stream;
+
+                stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
+
+                log.Info("before read " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                logdata = new CollectionBuffer<string>(stream);
+
+                log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                this.Text = "Log Browser - " + Path.GetFileName(FileName);
+                log.Info("about to create DataTable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                m_dtCSV = new DataTable();
+
+                log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                Loading.ShowLoading("Scanning coloum widths", this);
+
+                bool largelog = true; // logdata.Count > 500000 ? true : false;
+
+                int b = 0;
+
+                foreach (var item2 in logdata)
+                {
+                    b++;
+                    var item = dflog.GetDFItemFromLine(item2, b);
+
+                    if (item.items != null)
+                    {
+                        while (m_dtCSV.Columns.Count < (item.items.Length + typecoloum))
+                        {
+                            m_dtCSV.Columns.Add();
+                        }
+
+                        seenmessagetypes[item.msgtype] = "";
+
+                        // check first 1000000 lines for max coloums needed
+                        if (b > 1000000 && largelog)
+                            break;
+
+                        if (largelog)
+                            continue;
+
+                        DataRow dr = m_dtCSV.NewRow();
+
+                        dr[0] = item.lineno;
+                        dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                        for (int a = 0; a < item.items.Length; a++)
+                        {
+                            dr[a + typecoloum] = item.items[a];
+                        }
+
+                        m_dtCSV.Rows.Add(dr);
+                    }
+                }
+
+                log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                log.Info("set dgv datasourse " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                if (MainV2.MONO)
+                {
+                    //if (m_dtCSV.Rows.Count > 5000)
+                    // {
+                    //     CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
+                    //     dataGridView1.Visible = false;
+                    // }
+                    // else
+                    {
+                        BindingSource bs = new BindingSource();
+                        bs.DataSource = m_dtCSV;
+                        dataGridView1.DataSource = bs;
+                    }
                 }
                 else
                 {
-                    this.Close();
-                    return;
+                    dataGridView1.VirtualMode = true;
+                    dataGridView1.RowCount = 0;
+                    dataGridView1.RowCount = logdata.Count;
+                    dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
+
+                    log.Info("datagrid size set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
                 }
+
+                log.Info("datasource set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
             }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                return;
+            }
+
+            foreach (DataGridViewColumn column in dataGridView1.Columns)
+            {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            log.Info("Done timetable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+            Loading.ShowLoading("Generating Map/Time", this);
+
+            DrawMap();
+
+            log.Info("Done map " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+            try
+            {
+                DrawTime();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            log.Info("Done time " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+            CreateChart(zg1);
+
+            ResetTreeView(seenmessagetypes);
+
+            Loading.Close();
+
+            if (dflog.logformat.Count == 0)
+            {
+                CustomMessageBox.Show(Strings.WarningLogBrowseFMTMissing, Strings.ERROR);
+                this.Close();
+                return;
+            }
+
+            // update preselection graphs
+            readmavgraphsxml();
+
+            //CMB_preselect.DisplayMember = "Name";
+            CMB_preselect.DataSource = null;
+            CMB_preselect.DataSource = graphs;
         }
 
         private void UntickTreeView()
@@ -967,6 +985,8 @@ namespace MissionPlanner.Log
 
             log.Info("Graphing " + type + " - " + fieldname);
 
+            Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
+
             PointPairList list1 = new PointPairList();
 
             string header = fieldname;
@@ -1050,7 +1070,10 @@ namespace MissionPlanner.Log
             }
 
             if (list1.Count < 1)
+            {
+                Loading.Close();
                 return;
+            }
 
             LineItem myCurve;
 
@@ -1084,6 +1107,7 @@ namespace MissionPlanner.Log
 
             // Force a redraw
             zg1.Refresh();
+            Loading.Close();
         }
 
         void DrawErrors()
@@ -2228,18 +2252,28 @@ namespace MissionPlanner.Log
 
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
-            chk_time.Enabled = true;
-
             ModeCache.Clear();
             ErrorCache.Clear();
             TimeCache.Clear();
 
-            zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
+            if (chk_time.Checked)
+            {
+                zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
 
-            zg1.GraphPane.XAxis.Type = AxisType.Date;
-            zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss.fff";
-            zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
-            zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+                zg1.GraphPane.XAxis.Type = AxisType.Date;
+                zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss.fff";
+                zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
+                zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+            }
+            else
+            {
+                // Set the titles and axis labels
+                zg1.GraphPane.XAxis.Type = AxisType.Linear;
+                zg1.GraphPane.XAxis.Scale.Format = "f0";
+                zg1.GraphPane.Title.Text = "Value Graph";
+                zg1.GraphPane.XAxis.Title.Text = "Line Number";
+                zg1.GraphPane.YAxis.Title.Text = "Output";
+            }
         }
     }
 }
