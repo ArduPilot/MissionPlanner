@@ -42,6 +42,25 @@ namespace MissionPlanner.GCSViews
 {
     public partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
     {
+        // * Modify 
+        public static string strBulidingHeigth = "";  //建筑高度
+        public static string strCircleHeigth = "";  //盘旋高度
+        public static string strRadius = "";  //盘旋半径
+        public  static string strPhotoNumber = "";  //每圈拍照数量
+        public  static string strStartAzimuth = "";  //起始方位角
+
+        public static double baBiaoStartAzimuth = 0; //靶标起始方位角
+
+        public static PointLatLngAlt targetCentral=new PointLatLngAlt(); //靶标中心坐标
+           
+
+        public static PointLatLngAlt[] arrayPointLatLngAlt = new PointLatLngAlt[9];
+
+       // public GCSViews.NewAutoWP2 NewAutoWP;
+   
+
+        // * Modify
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         int selectedrow;
         public bool quickadd;
@@ -2052,8 +2071,6 @@ namespace MissionPlanner.GCSViews
                     catch (TimeoutException ex)
                     {
                         use_int = false;
-                        // added here to prevent timeout errors
-                        port.setWPTotal(totalwpcountforupload);
                         var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
                         if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                         {
@@ -2111,7 +2128,7 @@ namespace MissionPlanner.GCSViews
                         // resend for partial upload
                         port.setWPPartialUpdate((ushort) (a), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort) (a), frame, 0, 1, use_int);
+                        ans = port.setWP(temp, (ushort) (a), frame, 0);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
@@ -4687,7 +4704,7 @@ namespace MissionPlanner.GCSViews
             timer1.Start();
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 &&
-                MainV2.comPort.MAV.cs.version < new Version(3, 3))
+                MainV2.comPort.MAV.cs.version < new Version(3, 4))
             {
                 CMB_altmode.Visible = false;
             }
@@ -6253,6 +6270,389 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 quickadd = false;
                 writeKML();
+            }
+        }
+
+
+        Controls.MainSwitcher MyView2;  // Modify
+
+        private void newAutoWPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           // public static Splash Splash;
+
+            //NewAutoWP2 NewAutoWP;
+            ///NewAutoWP = new NewAutoWP2();
+            //NewAutoWP.Owner= ;
+
+           // NewAutoWP.BorderStyle
+
+            //NewAutoWP.Text = "创建曲线圈";
+
+            //MyView2.AddScreen(new MainSwitcher.Screen("NewAutoWP",NewAutoWP,true));
+
+            //MyView.ShowScreen(NewAutoWP);
+           // NewAutoWP.Show();
+
+         
+
+            
+
+            //string RadiusIn = "50";
+            //if (DialogResult.Cancel == InputBox.Show("Radius", "Radius", ref RadiusIn))
+            //    return;
+
+            //string minaltin = "5";
+            //if (DialogResult.Cancel == InputBox.Show("min alt", "Min Alt", ref minaltin))
+            //    return;
+
+            //string maxaltin = "20";
+            //if (DialogResult.Cancel == InputBox.Show("max alt", "Max Alt", ref maxaltin))
+            //    return;
+
+            //string altstepin = "5";
+            //if (DialogResult.Cancel == InputBox.Show("alt step", "alt step", ref altstepin))
+            //    return;
+
+
+            //string startanglein = "0";
+            //if (DialogResult.Cancel == InputBox.Show("angle", "Angle of first point (whole degrees)", ref startanglein))
+            //    return;
+
+ 
+            
+
+            //string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            //Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
+            //Splash.Text = "飞繁地面站（版本1.0）";  /* Modify */
+            //Splash.Show();
+
+           // Application.Run(new NewAutoWP());
+        }
+
+
+        public  void newSplineCircle()
+        {
+             //while (!NewAutoWP.IsDisposed) ; //循环判断NewAutoWP窗体是否关闭
+           
+
+            int Points = 4;
+            int Radius = 0;
+            int startangle = 0;
+            int minalt = 5;
+            int maxalt = 20;
+            int altstep = 5;
+
+            //MessageBox.Show(strRadius + "/" + strBulidingHeigth);
+
+            if (!int.TryParse(strRadius, out Radius))
+            {
+                CustomMessageBox.Show("Bad Radius");
+                return;
+            }
+
+            if (!int.TryParse(strBulidingHeigth, out minalt))
+            {
+                CustomMessageBox.Show("Bad min alt");
+                return;
+            }
+            if (!int.TryParse(strCircleHeigth, out maxalt))
+            {
+                CustomMessageBox.Show("Bad maxalt");
+                return;
+            }
+            if (!int.TryParse(strPhotoNumber, out altstep))
+            {
+                CustomMessageBox.Show("Bad alt step");
+                return;
+            }
+
+            double a = startangle;
+            double step = 360.0f / Points;
+
+            quickadd = true;
+
+            AddCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, MouseDownStart.Lng, MouseDownStart.Lat, 0);
+
+            bool startup = true;
+
+            for (int stepalt = minalt; stepalt <= maxalt; )
+            {
+                for (a = 0; a <= (startangle + 360) && a >= 0; a += step)
+                {
+                    selectedrow = Commands.Rows.Add();
+
+                    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+
+                    ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
+
+                    float d = Radius;
+                    float R = 6371000;
+
+                    var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Cos(d / R) +
+                                         Math.Cos(MouseDownEnd.Lat * deg2rad) * Math.Sin(d / R) * Math.Cos(a * deg2rad));
+                    var lon2 = MouseDownEnd.Lng * deg2rad +
+                               Math.Atan2(Math.Sin(a * deg2rad) * Math.Sin(d / R) * Math.Cos(MouseDownEnd.Lat * deg2rad),
+                                   Math.Cos(d / R) - Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Sin(lat2));
+
+                    PointLatLng pll = new PointLatLng(lat2 * rad2deg, lon2 * rad2deg);
+
+                    setfromMap(pll.Lat, pll.Lng, stepalt);
+
+                    if (!startup)
+                        stepalt += altstep / Points;
+                }
+
+                // reset back to the start
+                if (startup)
+                    stepalt = minalt;
+
+                // we have finsihed the first run
+                startup = false;
+            }
+
+            quickadd = false;
+            writeKML();
+
+        }
+
+        private void setNewSplineCircleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+
+            // NewAutoWP.BorderStyle
+            NewAutoWP NewAutoWP = new NewAutoWP();
+
+            NewAutoWP.StartPosition = FormStartPosition.CenterScreen;
+
+            NewAutoWP.Text = "创建曲线圈";
+
+            NewAutoWP.Show();
+
+        }
+
+        private void runNewSplineCircleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            createSplineCircle2();
+        }
+
+
+        private void createSplineCircle2()
+        {
+            float buildingHeight=0; //建筑高度
+            float[] flyHeight;  //飞行高度数组，高度从低到高排列，与半径对应
+            float[] flyRadius; //盘旋半径数组
+            int photosPerCircle=0;//每圈照片张数
+            float startAzimuth=0;//起始方位角
+            int Points = 4;//每圈4个点
+
+            char[] separator = { ',' };
+            string[] strflyHeight = strCircleHeigth.Split(separator);
+            string[] strflyRadius = strRadius.Split(separator);
+            flyHeight = new float[strflyHeight.Length];
+            flyRadius = new float[strflyHeight.Length];
+
+            for(int i=0;i<strflyHeight.Length;i++)
+            {         
+                if (!float.TryParse(strBulidingHeigth, out buildingHeight))        
+                {
+                    CustomMessageBox.Show("建筑高度输入有误");
+                    return;         
+                }
+                if (!float.TryParse(strflyHeight[i], out flyHeight[i]))
+                {
+                    CustomMessageBox.Show("飞行高度输入有误");
+                    return;
+                }
+                if (!float.TryParse(strflyRadius[i], out flyRadius[i]))
+                {
+                    CustomMessageBox.Show("半径输入有误");
+                    return;
+                }
+                if (!int.TryParse(strPhotoNumber, out photosPerCircle))
+                {
+                    CustomMessageBox.Show("拍摄数量输入有误");
+                    return;
+                }
+                if (!float.TryParse(strStartAzimuth, out startAzimuth))
+                {
+                    CustomMessageBox.Show("初始方位角有误");
+                    return;
+                }
+
+            }
+
+
+            //测试，赋值
+            //buildingHeight = 30;
+            //flyHeight = new float[] { 40, 50 }; //高度从低到高排列，与半径对应
+            //flyRadius = new float[] { 30, 40 };
+            //photosPerCircle = 20;
+            //startAzimuth = 0;
+
+            //检查输入合法性
+            if (flyHeight.Length != flyRadius.Length)
+            {
+                CustomMessageBox.Show("高度与半径不对应。");
+                return;
+            }
+            if (buildingHeight < 0)
+            {
+                CustomMessageBox.Show("建筑物高度错误。");
+                return;
+            }
+            if (startAzimuth < 0 || startAzimuth > 360)
+            {
+                CustomMessageBox.Show("起始方位角错误。");
+                return;
+            }
+
+            //生成航线
+
+            double a = startAzimuth;
+            double step = 360.0f / Points;
+
+            quickadd = true;
+
+            AddCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, MouseDownStart.Lng, MouseDownStart.Lat, buildingHeight / 2); //相机指向建筑物中心
+
+            int circleCount = flyHeight.Length;
+
+            for (int i = 0; i < circleCount; i++)
+            {
+                double camTriggDist = 2 * Math.PI * flyHeight[i] / photosPerCircle;
+                AddCommand(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, camTriggDist, 0, 0, 0, 0, 0, 0);//启动相机
+
+                for (int j = 0; j <= Points; j++)
+                {
+
+
+                    selectedrow = Commands.Rows.Add();
+
+                    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+
+                    ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
+
+                    float d = flyRadius[i];
+                    float R = 6371000;
+
+                    var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Cos(d / R) +
+                                         Math.Cos(MouseDownEnd.Lat * deg2rad) * Math.Sin(d / R) * Math.Cos(a * deg2rad));
+                    var lon2 = MouseDownEnd.Lng * deg2rad +
+                               Math.Atan2(Math.Sin(a * deg2rad) * Math.Sin(d / R) * Math.Cos(MouseDownEnd.Lat * deg2rad),
+                                   Math.Cos(d / R) - Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Sin(lat2));
+
+                    PointLatLng pll = new PointLatLng(lat2 * rad2deg, lon2 * rad2deg);
+
+                    setfromMap(pll.Lat, pll.Lng, Convert.ToInt32((Math.Floor(flyHeight[i])))); //检查高度
+
+                    if (i == circleCount - 1 && j == Points) //保证圆弧完整性
+                    {
+                        selectedrow = Commands.Rows.Add();
+
+                        Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
+
+                        ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
+
+                        setfromMap(pll.Lat, pll.Lng, Convert.ToInt32((Math.Floor(flyHeight[i])))); //检查高度
+                    }
+                    a = a + step;
+                }
+            }
+
+            AddCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, 0, 0, 0);
+
+            quickadd = false;
+            writeKML();
+
+        }
+
+        private void setBaBiaoFlyPlanMenuItem_Click(object sender, EventArgs e)
+        {
+            //double centralLng = MouseDownEnd.Lng;//靶标中心经度
+            //double centralLat = MouseDownEnd.Lat;//靶标中心纬度
+            //targetCentral = new PointLatLngAlt(centralLat, centralLng, 0);//靶标中心坐标
+           
+            setBaBiaoFlyPlan setBaBiaoFlyPlan = new setBaBiaoFlyPlan();
+            setBaBiaoFlyPlan.Show();
+
+        }
+
+        private void runBaBiaoFlyPlanMenuItem_Click(object sender, EventArgs e)
+        {
+            formFlightPath(arrayPointLatLngAlt , baBiaoStartAzimuth);
+        }
+
+        /// <summary>
+        /// 生成航点（多光谱靶标实验）
+        /// </summary>
+        /// <param name="points">航点数组，按顺序排列</param>        
+        /// <param name="bearing">飞机指向</param>
+        private void formFlightPath(PointLatLngAlt[] points, double bearing)
+        {
+            int waitSecond = 2;//到达航点等待时间（等待拍照）
+            int loiterTime = 5;
+            //double centralLng = MouseDownEnd.Lng;//靶标中心经度
+            //double centralLat = MouseDownEnd.Lat;//靶标中心纬度
+            //PointLatLngAlt targetCentral = new PointLatLngAlt(centralLat, centralLng, 0);//靶标中心坐标
+
+            for (int i = 0; i < points.Length; i++)
+            {
+                // AddCommand(MAVLink.MAV_CMD.CONDITION_YAW, bearing, 0, 0, 0, 0, 0, 0);//飞机指向某个角度
+                //AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
+                AddCommand(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, points[i].Lng, points[i].Lat, points[i].Alt);//添加航点
+                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiterTime, 0, 0, 0, points[i].Lng, points[i].Lat, points[i].Alt);
+                AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
+                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiterTime, 0, 0, 0, points[i].Lng, points[i].Lat, points[i].Alt);
+                AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
+
+            }
+            AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
+        }
+
+        private void targetCenterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double centralLng = MouseDownEnd.Lng;//靶标中心经度
+            double centralLat = MouseDownEnd.Lat;//靶标中心纬度
+            targetCentral = new PointLatLngAlt(centralLat, centralLng, 0);//靶标中心坐标
+        }
+
+        private void panoramaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string altin = "50";
+            int alt = 0;
+            if (DialogResult.Cancel == InputBox.Show("min alt", "Min Alt", ref altin))
+                return;
+            if (!int.TryParse(altin, out alt))
+            {
+                CustomMessageBox.Show("Bad altitude");
+                return;
+            }
+            double mlat = MouseDownEnd.Lat;
+            double mlon = MouseDownEnd.Lng;
+            AddCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, alt);
+            AddCommand(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, mlon, mlat, alt);
+            panoramaPhotos(12, 20, mlon, mlat, alt);
+            panoramaPhotos(12, -10, mlon, mlat, alt);
+            panoramaPhotos(10, -40, mlon, mlat, alt);
+            panoramaPhotos(8, -70, mlon, mlat, alt);
+            panoramaPhotos(4, -90, mlon, mlat, alt);
+        }
+        private void panoramaPhotos(int photoCount, int gimbalAngle, double mlon, double mlat, int alt)
+        {
+            float angle = 360 / photoCount;
+            int loiter_1 = 2;
+            int loiter_2 = 1;
+            AddCommand(MAVLink.MAV_CMD.DO_MOUNT_CONTROL, gimbalAngle, 0, 0, 0, 0, 0, 10);
+            AddCommand(MAVLink.MAV_CMD.LOITER_TIME, 3, 0, 0, 0, mlon, mlat, alt);//等
+            AddCommand(MAVLink.MAV_CMD.CONDITION_YAW, 0, 0, 0, 0, 0, 0, 0); //转角度
+            AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_1, 0, 0, 0, mlon, mlat, alt);//等
+            for (int i = 0; i < photoCount; i++)
+            {
+                int azimuth = Convert.ToInt32(angle * i);
+                AddCommand(MAVLink.MAV_CMD.CONDITION_YAW, azimuth, 0, 0, 0, 0, 0, 0); //转角度
+                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_1, 0, 0, 0, mlon, mlat, alt);//等
+                AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
+                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_2, 0, 0, 0, mlon, mlat, alt);//等
             }
         }
     }

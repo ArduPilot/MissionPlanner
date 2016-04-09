@@ -169,6 +169,7 @@
             this.setNewSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runNewSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.baBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.targetCenterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setBaBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.runBaBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -201,7 +202,7 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.targetCenterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -1068,7 +1069,8 @@
             this.createWpCircleToolStripMenuItem,
             this.areaToolStripMenuItem,
             this.createSplineCircleToolStripMenuItem,
-            this.textToolStripMenuItem});
+            this.textToolStripMenuItem,
+            this.panoramaToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
             // 
@@ -1125,6 +1127,12 @@
             this.runBaBiaoFlyPlanMenuItem});
             this.baBiaoFlyPlanMenuItem.Name = "baBiaoFlyPlanMenuItem";
             resources.ApplyResources(this.baBiaoFlyPlanMenuItem, "baBiaoFlyPlanMenuItem");
+            // 
+            // targetCenterToolStripMenuItem
+            // 
+            this.targetCenterToolStripMenuItem.Name = "targetCenterToolStripMenuItem";
+            resources.ApplyResources(this.targetCenterToolStripMenuItem, "targetCenterToolStripMenuItem");
+            this.targetCenterToolStripMenuItem.Click += new System.EventHandler(this.targetCenterToolStripMenuItem_Click);
             // 
             // setBaBiaoFlyPlanMenuItem
             // 
@@ -1336,11 +1344,11 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // targetCenterToolStripMenuItem
+            // panoramaToolStripMenuItem
             // 
-            this.targetCenterToolStripMenuItem.Name = "targetCenterToolStripMenuItem";
-            resources.ApplyResources(this.targetCenterToolStripMenuItem, "targetCenterToolStripMenuItem");
-            this.targetCenterToolStripMenuItem.Click += new System.EventHandler(this.targetCenterToolStripMenuItem_Click);
+            this.panoramaToolStripMenuItem.Name = "panoramaToolStripMenuItem";
+            resources.ApplyResources(this.panoramaToolStripMenuItem, "panoramaToolStripMenuItem");
+            this.panoramaToolStripMenuItem.Click += new System.EventHandler(this.panoramaToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1522,5 +1530,6 @@
         private System.Windows.Forms.ToolStripMenuItem runBaBiaoFlyPlanMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem targetCenterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem panoramaToolStripMenuItem;
     }
 }
