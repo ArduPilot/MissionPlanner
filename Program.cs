@@ -121,6 +121,7 @@ namespace MissionPlanner
             Splash = new MissionPlanner.Splash();
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
+            Splash.Text = "飞繁地面站（版本1.0）";  /* Modify */
             Splash.Show();
 
             Application.DoEvents();

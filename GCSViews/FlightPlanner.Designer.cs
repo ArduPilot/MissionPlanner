@@ -165,6 +165,14 @@
             this.areaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.panoramaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newAutoWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setNewSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runNewSplineCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.baBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.targetCenterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setBaBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.runBaBiaoFlyPlanMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -189,6 +197,7 @@
             this.modifyAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enterUTMCoordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.switchDockingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
             this.label11 = new System.Windows.Forms.Label();
             this.panelBASE = new System.Windows.Forms.Panel();
@@ -779,6 +788,7 @@
             // 
             // contextMenuStrip1
             // 
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
             this.insertWpToolStripMenuItem,
@@ -795,6 +805,8 @@
             this.rallyPointsToolStripMenuItem,
             this.geoFenceToolStripMenuItem,
             this.autoWPToolStripMenuItem,
+            this.newAutoWPToolStripMenuItem,
+            this.baBiaoFlyPlanMenuItem,
             this.mapToolToolStripMenuItem,
             this.fileLoadSaveToolStripMenuItem,
             this.pOIToolStripMenuItem,
@@ -802,7 +814,8 @@
             this.flyToHereToolStripMenuItem,
             this.modifyAltToolStripMenuItem,
             this.enterUTMCoordToolStripMenuItem,
-            this.switchDockingToolStripMenuItem});
+            this.switchDockingToolStripMenuItem,
+            this.toolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             this.contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.contextMenuStrip1_Closed);
@@ -1056,7 +1069,8 @@
             this.createWpCircleToolStripMenuItem,
             this.areaToolStripMenuItem,
             this.createSplineCircleToolStripMenuItem,
-            this.textToolStripMenuItem});
+            this.textToolStripMenuItem,
+            this.panoramaToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
             // 
@@ -1083,6 +1097,60 @@
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
             resources.ApplyResources(this.textToolStripMenuItem, "textToolStripMenuItem");
             this.textToolStripMenuItem.Click += new System.EventHandler(this.textToolStripMenuItem_Click);
+            // 
+            // panoramaToolStripMenuItem
+            // 
+            this.panoramaToolStripMenuItem.Name = "panoramaToolStripMenuItem";
+            resources.ApplyResources(this.panoramaToolStripMenuItem, "panoramaToolStripMenuItem");
+            this.panoramaToolStripMenuItem.Click += new System.EventHandler(this.panoramaToolStripMenuItem_Click);
+            // 
+            // newAutoWPToolStripMenuItem
+            // 
+            this.newAutoWPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setNewSplineCircleToolStripMenuItem,
+            this.runNewSplineCircleToolStripMenuItem});
+            this.newAutoWPToolStripMenuItem.Name = "newAutoWPToolStripMenuItem";
+            resources.ApplyResources(this.newAutoWPToolStripMenuItem, "newAutoWPToolStripMenuItem");
+            this.newAutoWPToolStripMenuItem.Click += new System.EventHandler(this.newAutoWPToolStripMenuItem_Click);
+            // 
+            // setNewSplineCircleToolStripMenuItem
+            // 
+            this.setNewSplineCircleToolStripMenuItem.Name = "setNewSplineCircleToolStripMenuItem";
+            resources.ApplyResources(this.setNewSplineCircleToolStripMenuItem, "setNewSplineCircleToolStripMenuItem");
+            this.setNewSplineCircleToolStripMenuItem.Click += new System.EventHandler(this.setNewSplineCircleToolStripMenuItem_Click);
+            // 
+            // runNewSplineCircleToolStripMenuItem
+            // 
+            this.runNewSplineCircleToolStripMenuItem.Name = "runNewSplineCircleToolStripMenuItem";
+            resources.ApplyResources(this.runNewSplineCircleToolStripMenuItem, "runNewSplineCircleToolStripMenuItem");
+            this.runNewSplineCircleToolStripMenuItem.Click += new System.EventHandler(this.runNewSplineCircleToolStripMenuItem_Click);
+            // 
+            // baBiaoFlyPlanMenuItem
+            // 
+            this.baBiaoFlyPlanMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.targetCenterToolStripMenuItem,
+            this.setBaBiaoFlyPlanMenuItem,
+            this.runBaBiaoFlyPlanMenuItem});
+            this.baBiaoFlyPlanMenuItem.Name = "baBiaoFlyPlanMenuItem";
+            resources.ApplyResources(this.baBiaoFlyPlanMenuItem, "baBiaoFlyPlanMenuItem");
+            // 
+            // targetCenterToolStripMenuItem
+            // 
+            this.targetCenterToolStripMenuItem.Name = "targetCenterToolStripMenuItem";
+            resources.ApplyResources(this.targetCenterToolStripMenuItem, "targetCenterToolStripMenuItem");
+            this.targetCenterToolStripMenuItem.Click += new System.EventHandler(this.targetCenterToolStripMenuItem_Click);
+            // 
+            // setBaBiaoFlyPlanMenuItem
+            // 
+            this.setBaBiaoFlyPlanMenuItem.Name = "setBaBiaoFlyPlanMenuItem";
+            resources.ApplyResources(this.setBaBiaoFlyPlanMenuItem, "setBaBiaoFlyPlanMenuItem");
+            this.setBaBiaoFlyPlanMenuItem.Click += new System.EventHandler(this.setBaBiaoFlyPlanMenuItem_Click);
+            // 
+            // runBaBiaoFlyPlanMenuItem
+            // 
+            this.runBaBiaoFlyPlanMenuItem.Name = "runBaBiaoFlyPlanMenuItem";
+            resources.ApplyResources(this.runBaBiaoFlyPlanMenuItem, "runBaBiaoFlyPlanMenuItem");
+            this.runBaBiaoFlyPlanMenuItem.Click += new System.EventHandler(this.runBaBiaoFlyPlanMenuItem_Click);
             // 
             // mapToolToolStripMenuItem
             // 
@@ -1243,6 +1311,11 @@
             resources.ApplyResources(this.switchDockingToolStripMenuItem, "switchDockingToolStripMenuItem");
             this.switchDockingToolStripMenuItem.Click += new System.EventHandler(this.switchDockingToolStripMenuItem_Click);
             // 
+            // toolStripMenuItem
+            // 
+            this.toolStripMenuItem.Name = "toolStripMenuItem";
+            resources.ApplyResources(this.toolStripMenuItem, "toolStripMenuItem");
+            // 
             // trackBar1
             // 
             resources.ApplyResources(this.trackBar1, "trackBar1");
@@ -1368,6 +1441,9 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem setROIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoWPToolStripMenuItem;
+
+        private System.Windows.Forms.ToolStripMenuItem newAutoWPToolStripMenuItem;  //modify
+
         private System.Windows.Forms.ToolStripMenuItem createWpCircleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapToolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContextMeasure;
@@ -1447,5 +1523,13 @@
         public System.Windows.Forms.TextBox TXT_loiterrad;
         public System.Windows.Forms.CheckBox CHK_splinedefault;
         public System.Windows.Forms.ComboBox CMB_altmode;
+        private System.Windows.Forms.ToolStripMenuItem setNewSplineCircleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runNewSplineCircleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem baBiaoFlyPlanMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setBaBiaoFlyPlanMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem runBaBiaoFlyPlanMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem targetCenterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem panoramaToolStripMenuItem;
     }
 }
