@@ -1800,19 +1800,31 @@
     <value>新自动航点</value>
   </data>
   <data name="targetCenterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>144, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="targetCenterToolStripMenuItem.Text" xml:space="preserve">
     <value>中心点</value>
   </data>
   <data name="setBaBiaoFlyPlanMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>144, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="setBaBiaoFlyPlanMenuItem.Text" xml:space="preserve">
     <value>参数设置</value>
   </data>
   <data name="runBaBiaoFlyPlanMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>144, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="runBaBiaoFlyPlanMenuItem.Text" xml:space="preserve">
     <value>运行</value>
@@ -1917,19 +1929,31 @@
     <value>File Load/Save</value>
   </data>
   <data name="poiaddToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>132, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="poiaddToolStripMenuItem.Text" xml:space="preserve">
     <value>Add</value>
   </data>
   <data name="poideleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>132, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="poideleteToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
   <data name="poieditToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+<<<<<<< HEAD
     <value>132, 26</value>
+=======
+    <value>181, 26</value>
+>>>>>>> origin/FeifanGCS
   </data>
   <data name="poieditToolStripMenuItem.Text" xml:space="preserve">
     <value>Edit</value>
@@ -2516,12 +2540,15 @@
   <data name="&gt;&gt;baBiaoFlyPlanMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+<<<<<<< HEAD
   <data name="&gt;&gt;targetCenterToolStripMenuItem.Name" xml:space="preserve">
     <value>targetCenterToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;targetCenterToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+=======
+>>>>>>> origin/FeifanGCS
   <data name="&gt;&gt;setBaBiaoFlyPlanMenuItem.Name" xml:space="preserve">
     <value>setBaBiaoFlyPlanMenuItem</value>
   </data>
@@ -2696,10 +2723,17 @@
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+<<<<<<< HEAD
   <data name="&gt;&gt;panoramaToolStripMenuItem.Name" xml:space="preserve">
     <value>panoramaToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;panoramaToolStripMenuItem.Type" xml:space="preserve">
+=======
+  <data name="&gt;&gt;targetCenterToolStripMenuItem.Name" xml:space="preserve">
+    <value>targetCenterToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;targetCenterToolStripMenuItem.Type" xml:space="preserve">
+>>>>>>> origin/FeifanGCS
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

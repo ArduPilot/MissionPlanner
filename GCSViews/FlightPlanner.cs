@@ -6615,6 +6615,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             double centralLat = MouseDownEnd.Lat;//靶标中心纬度
             targetCentral = new PointLatLngAlt(centralLat, centralLng, 0);//靶标中心坐标
         }
+<<<<<<< HEAD
 
         private void panoramaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -6655,5 +6656,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_2, 0, 0, 0, mlon, mlat, alt);//等
             }
         }
+=======
+>>>>>>> origin/FeifanGCS
     }
 }
