@@ -3113,7 +3113,7 @@ Please check the following
                                 Settings.Instance["speechenable"] != null &&
                                 Settings.Instance["speechenable"].ToString() == "True")
                             {
-                                MainV2.speechEngine.SpeakAsync(logdata);
+                                 MainV2.speechEngine.SpeakAsync(logdata);
                             }
                         }
                     }

@@ -2139,10 +2139,13 @@ namespace MissionPlanner
                         {
                             // say the latest high priority message
                             if (MainV2.speechEngine.IsReady &&
-                                lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
+                                lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh && MainV2.comPort.MAV.cs.messageHigh != null)
                             {
-                                MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
-                                lastmessagehigh = MainV2.comPort.MAV.cs.messageHigh;
+                                if (!MainV2.comPort.MAV.cs.messageHigh.StartsWith("PX4v2 "))
+                                {
+                                    MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
+                                    lastmessagehigh = MainV2.comPort.MAV.cs.messageHigh;
+                                }
                             }
                         }
                         catch
