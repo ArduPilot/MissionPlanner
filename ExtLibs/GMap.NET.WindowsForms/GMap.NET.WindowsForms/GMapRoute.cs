@@ -133,7 +133,7 @@ namespace GMap.NET.WindowsForms
             {
                GPoint p2 = LocalPoints[i];
 
-                if (Math.Abs(p2.X) > 5000 || Math.Abs(p2.Y) > 5000)
+                if (Math.Abs(p2.X) > 99000 || Math.Abs(p2.Y) > 99000)
                     Stroke.DashStyle = DashStyle.Solid;
 
                if(i == 0)
@@ -188,7 +188,7 @@ namespace GMap.NET.WindowsForms
                            // distance
                            double r = Math.Sqrt(Math.Pow(polx, 2) + Math.Pow(poly, 2));
 
-                           if (r == 0)
+                           if (r <= 20)
                                continue;
 
                            // angle
