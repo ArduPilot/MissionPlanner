@@ -99,10 +99,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public MainV2 MainForm
         {
-            get
-            {
-                return MainV2.instance;
-            }
+            get { return MainV2.instance; }
         }
 
         /// <summary>
@@ -196,10 +193,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public GMapControl FPGMapControl
         {
-            get
-            {
-                return MainV2.instance.FlightPlanner.MainMap;
-            }
+            get { return MainV2.instance.FlightPlanner.MainMap; }
         }
 
         /// <summary>
@@ -207,10 +201,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public GMapControl FDGMapControl
         {
-            get
-            {
-                return MainV2.instance.FlightData.gMapControl1;
-            }
+            get { return MainV2.instance.FlightData.gMapControl1; }
         }
 
         /// <summary>
@@ -225,15 +216,29 @@ namespace MissionPlanner.Plugin
         /// <param name="y"></param>
         /// <param name="z"></param>
         public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
-            double z)
+            double z, object tag = null)
         {
-            return MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z);
+            return MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z, tag);
         }
 
-        public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
-            double z)
+        public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
+            double y,
+            double z, object tag = null)
         {
             MainV2.instance.FlightPlanner.InsertCommand(idx, cmd, p1, p2, p3, p4, x, y, z);
+        }
+
+        public int AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
+            double z)
+        {
+            return AddWPtoList(cmd, p1, p2, p3, p4, x, y, z, null);
+        }
+
+        public void InsertWP(int idx, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
+            double y,
+            double z)
+        {
+            InsertWP(idx, cmd, p1, p2, p3, p4, x, y, z, null);
         }
 
         /// <summary>

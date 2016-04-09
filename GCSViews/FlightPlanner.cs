@@ -5116,11 +5116,11 @@ namespace MissionPlanner.GCSViews
         }
 
         public int AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
-            double z)
+            double z, object tag = null)
         {
             selectedrow = Commands.Rows.Add();
 
-            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
+            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z, tag);
 
             writeKML();
 
@@ -5128,11 +5128,11 @@ namespace MissionPlanner.GCSViews
         }
 
         public void InsertCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y,
-            double z)
+            double z, object tag = null)
         {
             if (Commands.Rows.Count <= rowIndex)
             {
-                AddCommand(cmd, p1, p2, p3, p4, x, y, z);
+                AddCommand(cmd, p1, p2, p3, p4, x, y, z, tag);
                 return;
             }
 
@@ -5140,15 +5140,18 @@ namespace MissionPlanner.GCSViews
 
             this.selectedrow = rowIndex;
 
-            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z);
+            FillCommand(this.selectedrow, cmd, p1, p2, p3, p4, x, y, z, tag);
 
             writeKML();
         }
 
         private void FillCommand(int rowIndex, MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x,
-            double y, double z)
+            double y, double z, object tag = null)
         {
             Commands.Rows[rowIndex].Cells[Command.Index].Value = cmd.ToString();
+            Commands.Rows[rowIndex].Cells[Tag.Index].Tag = tag;
+            Commands.Rows[rowIndex].Cells[Tag.Index].Value = tag;
+
             ChangeColumnHeader(cmd.ToString());
 
             // switch wp to spline if spline checked
