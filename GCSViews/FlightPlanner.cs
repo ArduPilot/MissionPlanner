@@ -6615,48 +6615,5 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             double centralLat = MouseDownEnd.Lat;//靶标中心纬度
             targetCentral = new PointLatLngAlt(centralLat, centralLng, 0);//靶标中心坐标
         }
-<<<<<<< HEAD
-
-        private void panoramaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            string altin = "50";
-            int alt = 0;
-            if (DialogResult.Cancel == InputBox.Show("min alt", "Min Alt", ref altin))
-                return;
-            if (!int.TryParse(altin, out alt))
-            {
-                CustomMessageBox.Show("Bad altitude");
-                return;
-            }
-            double mlat = MouseDownEnd.Lat;
-            double mlon = MouseDownEnd.Lng;
-            AddCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, alt);
-            AddCommand(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, mlon, mlat, alt);
-            panoramaPhotos(12, 20, mlon, mlat, alt);
-            panoramaPhotos(12, -10, mlon, mlat, alt);
-            panoramaPhotos(10, -40, mlon, mlat, alt);
-            panoramaPhotos(8, -70, mlon, mlat, alt);
-            panoramaPhotos(4, -90, mlon, mlat, alt);
-        }
-        private void panoramaPhotos(int photoCount, int gimbalAngle, double mlon, double mlat, int alt)
-        {
-            float angle = 360 / photoCount;
-            int loiter_1 = 2;
-            int loiter_2 = 1;
-            AddCommand(MAVLink.MAV_CMD.DO_MOUNT_CONTROL, gimbalAngle, 0, 0, 0, 0, 0, 10);
-            AddCommand(MAVLink.MAV_CMD.LOITER_TIME, 3, 0, 0, 0, mlon, mlat, alt);//等
-            AddCommand(MAVLink.MAV_CMD.CONDITION_YAW, 0, 0, 0, 0, 0, 0, 0); //转角度
-            AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_1, 0, 0, 0, mlon, mlat, alt);//等
-            for (int i = 0; i < photoCount; i++)
-            {
-                int azimuth = Convert.ToInt32(angle * i);
-                AddCommand(MAVLink.MAV_CMD.CONDITION_YAW, azimuth, 0, 0, 0, 0, 0, 0); //转角度
-                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_1, 0, 0, 0, mlon, mlat, alt);//等
-                AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
-                AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_2, 0, 0, 0, mlon, mlat, alt);//等
-            }
-        }
-=======
->>>>>>> origin/FeifanGCS
     }
 }
