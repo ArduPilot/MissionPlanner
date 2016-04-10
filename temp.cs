@@ -1374,6 +1374,8 @@ namespace MissionPlanner
             if (fbd.ShowDialog() == DialogResult.OK)
             {
                 LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
+                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.bin", SearchOption.AllDirectories));
+                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.log", SearchOption.AllDirectories));
             }
         }
 
