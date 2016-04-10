@@ -168,6 +168,10 @@ namespace tlogThumbnailHandler
                 if (!Directory.Exists(commonAppData))
                     Directory.CreateDirectory(commonAppData);
 
+                var dir = Path.GetDirectoryName(queuefile);
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+
                 using (var st = File.Open(queuefile,FileMode.Append))
                 {
                     byte[] data = ASCIIEncoding.ASCII.GetBytes(m_filename + "\r\n");
