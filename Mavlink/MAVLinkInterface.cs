@@ -2940,20 +2940,11 @@ Please check the following
                 return buffer; // new byte[0];
             }
 
-            // 3dr radios dont send a hb, so no mavstate is ever created, this overrides that behavior
-            if (sysid == 51 && compid == 68 && !MAVlist.Contains(51, 68))
+            // create a state for any sysid/compid
+            if (!MAVlist.Contains(sysid, compid))
             {
                 // create an item - hidden
                 MAVlist.AddHiddenList(sysid, compid);
-            }
-
-            // esp8266 no hb, provide param interface however
-            if (compid == (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE && !MAVlist.Contains(sysid, (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE))
-            {
-                // create an item - visible
-                MAVlist[sysid, compid] = MAVlist[sysid, compid];
-                MAVlist[sysid, compid].sysid = sysid;
-                MAVlist[sysid, compid].compid = compid;
             }
 
             try
@@ -3044,7 +3035,7 @@ Please check the following
                         if (hb.type != (byte) MAV_TYPE.GCS)
                         {
                             // add a seen sysid
-                            if (!MAVlist.Contains(sysid, compid))
+                            if (!MAVlist.Contains(sysid, compid, false))
                             {
                                 // ensure its set from connect or log playback
                                 MAVlist.Create(sysid, compid);

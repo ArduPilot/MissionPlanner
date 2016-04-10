@@ -70,7 +70,7 @@ namespace MissionPlanner.Mavlink
             masterlist.Clear();
         }
 
-        public bool Contains(byte sysid, byte compid)
+        public bool Contains(byte sysid, byte compid, bool includehidden = true)
         {
             foreach (var item in masterlist)
             {
@@ -78,10 +78,13 @@ namespace MissionPlanner.Mavlink
                     return true;
             }
 
-            foreach (var item in hiddenlist)
+            if (includehidden)
             {
-                if (item.Value.sysid == sysid && item.Value.compid == compid)
-                    return true;
+                foreach (var item in hiddenlist)
+                {
+                    if (item.Value.sysid == sysid && item.Value.compid == compid)
+                        return true;
+                }
             }
 
             return false;
@@ -90,6 +93,13 @@ namespace MissionPlanner.Mavlink
         internal void Create(byte sysid, byte compid)
         {
             int id = (byte) sysid*256 + (byte) compid;
+
+            // move from hidden to visible
+            if (hiddenlist.ContainsKey(id))
+            {
+                masterlist[id] = hiddenlist[id];
+                hiddenlist.Remove(id);
+            }
 
             if (!masterlist.ContainsKey(id))
                 masterlist[id] = new MAVState();
