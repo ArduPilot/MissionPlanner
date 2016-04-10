@@ -148,7 +148,8 @@ namespace MissionPlanner
 
             try
             {
-                th.Abort();
+                if (th != null)
+                    th.Abort();
             }
             catch
             {
@@ -662,7 +663,8 @@ namespace MissionPlanner
             saveconfig();
             try
             {
-                m_mediaCtrl.Stop();
+                if (m_mediaCtrl != null)
+                    m_mediaCtrl.Stop();
             }
             catch
             {
@@ -670,7 +672,8 @@ namespace MissionPlanner
             try
             {
                 frame = framecount;
-                th.Abort();
+                if (th != null)
+                    th.Abort();
             }
             catch
             {
