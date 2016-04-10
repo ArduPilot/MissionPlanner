@@ -56,6 +56,10 @@ namespace MissionPlanner.Utilities
 
             text = text.Replace("PreArm", "Pre Arm");
 
+            text = text.Replace("dist ", "distance ");
+
+            text = text.Replace("NAV ", "Navigation ");
+
             if (MONO)
             {
                 try
