@@ -2174,7 +2174,7 @@ namespace MissionPlanner.GCSViews
             using (OpenFileDialog fd = new OpenFileDialog())
             {
                 fd.AddExtension = true;
-                fd.Filter = "Ardupilot Telemtry log (*.tlog)|*.tlog|Mavlink Log (*.mavlog)|*.mavlog";
+                fd.Filter = "Telemetry log (*.tlog)|*.tlog;*.tlog.*|Mavlink Log (*.mavlog)|*.mavlog";
                 fd.InitialDirectory = Settings.Instance.LogDir;
                 fd.DefaultExt = ".tlog";
                 DialogResult result = fd.ShowDialog();

@@ -45,6 +45,8 @@ namespace MissionPlanner.Log
 
         PointLatLngAlt homepos = new PointLatLngAlt();
 
+        string tlogfilemask = "Telemetry Log|*.tlog;*.tlog.*";
+
         public MavlinkLog()
         {
             InitializeComponent();
@@ -389,7 +391,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -624,7 +626,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -712,7 +714,7 @@ namespace MissionPlanner.Log
                 catch
                 {
                 } // incase dir doesnt exist
-                openFileDialog1.Filter = "Telemetry Log|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = false;
@@ -1413,7 +1415,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -1486,7 +1488,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -1567,7 +1569,7 @@ namespace MissionPlanner.Log
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog";
+                openFileDialog1.Filter = tlogfilemask;
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
