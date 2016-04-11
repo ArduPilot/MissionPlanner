@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Speech.Synthesis;
+using System.Text.RegularExpressions;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -54,11 +55,11 @@ namespace MissionPlanner.Utilities
             if (text == null)
                 return;
 
-            text = text.Replace("PreArm", "Pre Arm");
-
-            text = text.Replace("dist ", "distance ");
-
-            text = text.Replace("NAV ", "Navigation ");
+            text = Regex.Replace(text, @"\bPreArm\b", "Pre Arm", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\bdist\b", "distance", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\bNAV\b", "Navigation", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\b([0-9]+)m\b", "$1 meters", RegexOptions.IgnoreCase);
+            text = Regex.Replace(text, @"\b([0-9]+)ft\b", "$1 feet", RegexOptions.IgnoreCase);
 
             if (MONO)
             {
