@@ -26,7 +26,7 @@ namespace MissionPlanner.Controls
             get { return label1.Text; }
             set
             {
-                if (this.IsHandleCreated)
+                if (this.IsHandleCreated && !IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
