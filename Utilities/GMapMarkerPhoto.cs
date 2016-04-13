@@ -28,7 +28,7 @@ namespace MissionPlanner.Utilities
 
         MAVLink.mavlink_camera_feedback_t local;
 
-        GMapPolygon footprintpoly;
+        public GMapPolygon footprintpoly;
         private bool shotBellowMinInterval;
 
         public GMapMarkerPhoto(MAVLink.mavlink_camera_feedback_t mark, bool shotBellowMinInterval = false)
