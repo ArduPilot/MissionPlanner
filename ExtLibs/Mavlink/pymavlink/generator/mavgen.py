@@ -8,7 +8,7 @@ Released under GNU GPL version 3 or later
 
 '''
 import sys, textwrap, os, copy
-import mavparse
+from . import mavparse
 
 # XSD schema file
 schemaFile = os.path.join(os.path.dirname(os.path.realpath(__file__)), "mavschema.xsd")
