@@ -214,7 +214,7 @@ namespace MissionPlanner.Utilities
             frmProgressReporter.Dispose();
         }
 
-        static async void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
+        static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
         {
             var baseurl = ConfigurationManager.AppSettings["UpdateLocation"];
 
@@ -256,25 +256,25 @@ namespace MissionPlanner.Utilities
                     string hash = matchs[i].Groups[1].Value.ToString();
                     string file = matchs[i].Groups[2].Value.ToString();
 
-                    Task<bool> ismatch = MD5File(file, hash);
+                    Task<bool> ismatch = Task<bool>.Factory.StartNew(() => MD5File(file, hash));
 
-                    tasklist.Add(new Tuple<string,string, Task<bool>>(file, hash, ismatch));
+                    tasklist.Add(new Tuple<string, string, Task<bool>>(file, hash, ismatch));
                 }
-
-                log.Info("MD5File Running");
 
                 foreach (var task in tasklist)
                 {
                     string file = task.Item1;
                     string hash = task.Item2;
                     // check if existing matchs hash
-                    bool match = await task.Item3;
+                    task.Item3.Wait();
+                    bool match = task.Item3.Result;
+
                     if (!match)
                     {
                         log.Info("Newer File " + file);
 
                         // check is we have already downloaded and matchs hash
-                        if (!MD5File(file + ".new", hash).Result)
+                        if (!MD5File(file + ".new", hash))
                         {
                             if (frmProgressReporter != null)
                                 frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Getting + file);
@@ -285,7 +285,7 @@ namespace MissionPlanner.Utilities
                                 Path.GetFileName(file));
 
                             // check the new downloaded file matchs hash
-                            if (!MD5File(file + ".new", hash).Result)
+                            if (!MD5File(file + ".new", hash))
                             {
                                 throw new Exception("File downloaded does not match hash: " + file);
                             }
@@ -306,7 +306,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        static async Task<bool> MD5File(string filename, string hash)
+        static bool MD5File(string filename, string hash)
         {
             try
             {
