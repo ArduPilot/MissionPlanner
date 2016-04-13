@@ -26,11 +26,11 @@ namespace MissionPlanner.Controls
             get { return label1.Text; }
             set
             {
-                label1.Text = value;
                 if (this.IsHandleCreated)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
+                        label1.Text = value;
                         Application.DoEvents();
                     });
                 }
@@ -45,7 +45,10 @@ namespace MissionPlanner.Controls
                 {
                     if (Instance.IsHandleCreated)
                     {
-                        ((Form) Instance).Close();
+                        Instance.Invoke((MethodInvoker)delegate
+                        {
+                            ((Form) Instance).Close();
+                        });
                         Instance = null;
                     }
                 }
@@ -68,6 +71,7 @@ namespace MissionPlanner.Controls
             Loading frm = new Loading();
             frm.Text = Text;
             frm.TopMost = true;
+            frm.StartPosition = FormStartPosition.CenterParent;
 
             ThemeManager.ApplyThemeTo(frm);
 
