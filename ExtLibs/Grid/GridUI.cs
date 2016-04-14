@@ -51,6 +51,7 @@ namespace MissionPlanner
         PointLatLng currentMousePosition;
         GMapMarker marker;
         GMapMarker CurrentGMapMarker = null;
+        GMapMarkerOverlapCount GMapMarkerOverlap = new GMapMarkerOverlapCount(PointLatLng.Empty);
         int CurrentGMapMarkerIndex = 0;
         bool isMouseDown = false;
         bool isMouseDraging = false;
@@ -576,6 +577,8 @@ namespace MissionPlanner
             routesOverlay.Polygons.Clear();
             routesOverlay.Markers.Clear();
 
+            GMapMarkerOverlap.Clear();
+
             if (grid.Count == 0)
             {
                 return;
@@ -669,9 +672,12 @@ namespace MissionPlanner
                                 GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
                                 poly.Stroke =
                                     new Pen(Color.FromArgb(250 - ((a*5)%240), 250 - ((a*3)%240), 250 - ((a*9)%240)), 1);
-                                poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
+                                poly.Fill = new SolidBrush(Color.Transparent);
+
+                                GMapMarkerOverlap.Add(poly);
 
                                 routesOverlay.Polygons.Add(poly);
+                                a++;
                             }
                         }
                     }
@@ -703,6 +709,8 @@ namespace MissionPlanner
                 segment.Clear();
             }
 
+            if (CHK_footprints.Checked)
+                routesOverlay.Markers.Add(GMapMarkerOverlap);
             /*      Old way of drawing route, incase something breaks using segments
             GMapRoute wproute = new GMapRoute(list2, "GridRoute");
             wproute.Stroke = new Pen(Color.Yellow, 4);
