@@ -1296,7 +1296,7 @@ namespace MissionPlanner.GCSViews
                                 }
                                 oldtime = (mark.time_usec/1000.0)/1000.0;
                             }
-
+                            
                             // age current
                             int camcount = MainV2.comPort.MAV.camerapoints.Count;
                             int a = 0;
@@ -1304,10 +1304,17 @@ namespace MissionPlanner.GCSViews
                             {
                                 if (mark is GMapMarkerPhoto)
                                 {
+                                    MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(((GMapMarkerPhoto)mark).footprintpoly);
                                     if (a < (camcount-4))
                                         ((GMapMarkerPhoto)mark).drawfootprint = false;
                                 }
                                 a++;
+                            }
+
+                            if (!kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount) && camcount > 0)
+                            {
+                                kmlpolygons.Markers.Clear();
+                                kmlpolygons.Markers.Add(MainV2.comPort.MAV.GMapMarkerOverlapCount);
                             }
                         }
                         catch
