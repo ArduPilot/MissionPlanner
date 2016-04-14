@@ -12,8 +12,8 @@ namespace MissionPlanner.Utilities
     [Serializable]
     public class GMapMarkerPhoto : GMapMarker
     {
-        static Bitmap localcache1 = new Bitmap(Resources.camera_icon_G, 32, 32);
-        static Bitmap localcache2 = new Bitmap(Resources.camera_icon, 32, 32);
+        static Bitmap localcache1 = new Bitmap(Resources.camera_icon_G, 20, 20);
+        static Bitmap localcache2 = new Bitmap(Resources.camera_icon, 20, 20);
 
         public double Alt { get; set; }
 
@@ -36,7 +36,7 @@ namespace MissionPlanner.Utilities
         {
             local = mark;
             this.shotBellowMinInterval = shotBellowMinInterval;
-            Offset = new Point(-16, -16);
+            Offset = new Point(-localcache1.Width/2, -localcache1.Height/2);
             Size = localcache1.Size;
             Alt = mark.alt_msl;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
