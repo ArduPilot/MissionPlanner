@@ -1581,5 +1581,63 @@ namespace MissionPlanner
 
             log.InfoFormat("Removed {0} images", removed);
         }
+
+        private void myButton1_Click_2(object sender, EventArgs e)
+        {
+            ParameterMetaDataParser.GetParameterInformation(
+         "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-2.8.1/ArduCopter/Parameters.pde"
+         , "ArduCopter2.8.1.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+         "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-2.9.1/ArduCopter/Parameters.pde"
+         , "ArduCopter2.9.1.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.0/ArduCopter/Parameters.pde"
+                , "ArduCopter3.0.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.1.5/ArduCopter/Parameters.pde"
+                , "ArduCopter3.1.5.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduCopter-3.2.1/ArduCopter/Parameters.pde"
+                , "ArduCopter3.2.1.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.3.2/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.3.2.xml");
+
+
+// plane
+
+            ParameterMetaDataParser.GetParameterInformation(
+        "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.5.2/ArduPlane/Parameters.cpp"
+        , "ArduPlane3.5.2.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.3.0/ArduPlane/Parameters.pde"
+, "ArduPlane3.3.0.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.2.2/ArduPlane/Parameters.pde"
+, "ArduPlane3.2.2.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.1.0/ArduPlane/Parameters.pde"
+, "ArduPlane3.1.0.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.0.3/ArduPlane/Parameters.pde"
+, "ArduPlane3.0.3.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-2.78b/ArduPlane/Parameters.pde"
+, "ArduPlane2.78b.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+"https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-2.75/ArduPlane/Parameters.pde"
+, "ArduPlane2.75.xml");
+        }
     }
 }

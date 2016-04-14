@@ -28,27 +28,28 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// retrived parameter info from the net
         /// </summary>
-        /// <param name="ap">xml name for arduplane</param>
-        /// <param name="ac">xml name for arducopter</param>
-        /// <param name="ar">xml name for ardurover</param>
-        public static void GetParameterInformation()
+        public static void GetParameterInformation(string urls = null,string file = null)
         {
             string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
 
             if (MissionPlanner.Utilities.Update.dobeta)
                 parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
 
+            if (urls != null)
+                parameterLocationsString = urls;
+
+            string XMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar,
+                ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+
+            if (file != null)
+                XMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, file);
+
             if (!String.IsNullOrEmpty(parameterLocationsString))
             {
                 var parameterLocations = parameterLocationsString.Split(';').ToList();
                 parameterLocations.RemoveAll(String.IsNullOrEmpty);
 
-                string sStartupPath = Application.StartupPath;
-                using (
-                    var objXmlTextWriter =
-                        new XmlTextWriter(
-                            String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar,
-                                ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]), null))
+                using (var objXmlTextWriter = new XmlTextWriter(XMLFileName, null))
                 {
                     objXmlTextWriter.Formatting = Formatting.Indented;
                     objXmlTextWriter.WriteStartDocument();
