@@ -85,7 +85,7 @@ namespace MissionPlanner.Comms
             string url = OnSettings("NTRIP_url", "");
 
             if (System.Windows.Forms.DialogResult.Cancel ==
-                InputBox.Show("remote host", "Enter url", ref url))
+                InputBox.Show("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url))
             {
                 throw new Exception("Canceled by request");
             }
