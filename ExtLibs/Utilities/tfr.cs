@@ -61,15 +61,17 @@ namespace MissionPlanner.Utilities
                     // Set the State of request to asynchronous.
                     WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
 
-                    WebResponse response = myWebRequest1.EndGetResponse(ar);
+                    using (WebResponse response = myWebRequest1.EndGetResponse(ar))
+                    {
 
-                    var st = response.GetResponseStream();
+                        var st = response.GetResponseStream();
 
-                    StreamReader sr = new StreamReader(st);
+                        StreamReader sr = new StreamReader(st);
 
-                    content = sr.ReadToEnd();
+                        content = sr.ReadToEnd();
 
-                    File.WriteAllText(tfrcache, content);                    
+                        File.WriteAllText(tfrcache, content);
+                    }
                 }
 
                 XDocument xdoc = XDocument.Parse(content);

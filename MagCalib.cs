@@ -156,15 +156,16 @@ namespace MissionPlanner
             if (dointro)
                 CustomMessageBox.Show(Strings.MagCalibMsg);
 
-            ProgressReporterSphere prd = new ProgressReporterSphere();
+            using (ProgressReporterSphere prd = new ProgressReporterSphere())
+            {
+                prd.btnCancel.Text = "Done";
 
-            prd.btnCancel.Text = "Done";
+                Utilities.ThemeManager.ApplyThemeTo(prd);
 
-            Utilities.ThemeManager.ApplyThemeTo(prd);
+                prd.DoWork += prd_DoWork;
 
-            prd.DoWork += prd_DoWork;
-
-            prd.RunBackgroundOperationAsync();
+                prd.RunBackgroundOperationAsync();
+            }
 
             if (ans != null)
                 MagCalib.SaveOffsets(ans);

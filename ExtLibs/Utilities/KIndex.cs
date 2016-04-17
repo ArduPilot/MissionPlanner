@@ -34,28 +34,29 @@ namespace MissionPlanner.Utilities
                 // Set the State of request to asynchronous.
                 WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
 
-                WebResponse response = myWebRequest1.EndGetResponse(ar);
-
-                var st = response.GetResponseStream();
-
-                StreamReader sr = new StreamReader(st);
-
-                string content = sr.ReadToEnd();
-
-                Match match = kregex.Match(content);
-
-                if (match.Success) 
+                using (WebResponse response = myWebRequest1.EndGetResponse(ar))
                 {
-                    string number = match.Groups[1].Value;
+                    var st = response.GetResponseStream();
 
-                    int kno = int.Parse(number);
+                    StreamReader sr = new StreamReader(st);
 
-                    log.Info("K-Index is " + kno);
+                    string content = sr.ReadToEnd();
 
-                    if (KIndexEvent != null)
-                        KIndexEvent(kno, null);
+                    Match match = kregex.Match(content);
 
-                    return;
+                    if (match.Success)
+                    {
+                        string number = match.Groups[1].Value;
+
+                        int kno = int.Parse(number);
+
+                        log.Info("K-Index is " + kno);
+
+                        if (KIndexEvent != null)
+                            KIndexEvent(kno, null);
+
+                        return;
+                    }
                 }
             }
             catch (Exception ex)

@@ -138,7 +138,9 @@ namespace MissionPlanner
             map.OnRouteEnter += new RouteEnter(map_OnRouteEnter);
             map.OnRouteLeave += new RouteLeave(map_OnRouteLeave);
 
-            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+            var points = plugin.Host.FPDrawnPolygon;
+            points.Points.ForEach(x => { list.Add(x); });
+            points.Dispose();
             if (plugin.Host.config["distunits"] != null)
                 DistUnits = plugin.Host.config["distunits"].ToString();
 
@@ -703,9 +705,16 @@ namespace MissionPlanner
                 seg.Stroke = new Pen(Color.Yellow, 4);
                 seg.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
                 seg.IsHitTestVisible = true;
-                if (CHK_grid.Checked)
-                    routesOverlay.Routes.Add(seg);
                 routetotal = routetotal + (float)seg.Distance;
+                if (CHK_grid.Checked)
+                {
+                    routesOverlay.Routes.Add(seg);
+                }
+                else
+                {
+                    seg.Dispose();
+                }
+
                 segment.Clear();
             }
 

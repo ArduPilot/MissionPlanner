@@ -4089,45 +4089,47 @@ namespace MissionPlanner.GCSViews
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form customForm = new Form();
-            CheckedListBox left = new CheckedListBox();
-            left.Dock = DockStyle.Fill;
-            left.CheckOnClick = true;
-
-            customForm.Controls.Add(left);
-
-            string tabs = Settings.Instance["tabcontrolactions"];
-
-            // setup default if doesnt exist
-            if (tabs == null)
+            using (Form customForm = new Form())
             {
-                saveTabControlActions();
-                tabs = Settings.Instance["tabcontrolactions"];
+                CheckedListBox left = new CheckedListBox();
+                left.Dock = DockStyle.Fill;
+                left.CheckOnClick = true;
+
+                customForm.Controls.Add(left);
+
+                string tabs = Settings.Instance["tabcontrolactions"];
+
+                // setup default if doesnt exist
+                if (tabs == null)
+                {
+                    saveTabControlActions();
+                    tabs = Settings.Instance["tabcontrolactions"];
+                }
+
+                string[] tabarray = tabs.Split(';');
+
+                foreach (TabPage tabPage in TabListOriginal)
+                {
+                    if (tabarray.Contains(tabPage.Name))
+                        left.Items.Add(tabPage.Name, true);
+                    else
+                        left.Items.Add(tabPage.Name, false);
+                }
+
+                ThemeManager.ApplyThemeTo(customForm);
+
+                customForm.ShowDialog();
+
+                string answer = "";
+                foreach (var tabPage in left.CheckedItems)
+                {
+                    answer += tabPage + ";";
+                }
+
+                Settings.Instance["tabcontrolactions"] = answer;
+
+                loadTabControlActions();
             }
-
-            string[] tabarray = tabs.Split(';');
-
-            foreach (TabPage tabPage in TabListOriginal)
-            {
-                if (tabarray.Contains(tabPage.Name))
-                    left.Items.Add(tabPage.Name,true);
-                else
-                    left.Items.Add(tabPage.Name, false);
-            }
-
-            ThemeManager.ApplyThemeTo(customForm);
-
-            customForm.ShowDialog();
-
-            string answer = "";
-            foreach (var tabPage in left.CheckedItems)
-            {
-                answer += tabPage + ";";
-            }
-
-            Settings.Instance["tabcontrolactions"] = answer;
-
-            loadTabControlActions();
         }
 
         private void loadTabControlActions()

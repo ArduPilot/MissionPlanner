@@ -334,35 +334,40 @@ namespace MissionPlanner
                     }
                     try
                     {
-                        if (TXT_fovH != "")
+                        if (chk_footprints.Checked)
                         {
-                            double fovh = double.Parse(TXT_fovH);
-                            double fovv = double.Parse(TXT_fovV);
-
-                            double startangle = 0;
-
-                            if (!RAD_camdirectionland.Checked)
+                            if (TXT_fovH != "")
                             {
-                                startangle = 90;
-                            }
+                                double fovh = double.Parse(TXT_fovH);
+                                double fovv = double.Parse(TXT_fovV);
 
-                            double angle1 = startangle - (Math.Tan((fovv / 2.0) / (fovh / 2.0)) * rad2deg);
-                            double dist1 = Math.Sqrt(Math.Pow(fovh / 2.0, 2) + Math.Pow(fovv / 2.0, 2));
+                                double startangle = 0;
 
-                            double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
+                                if (!RAD_camdirectionland.Checked)
+                                {
+                                    startangle = 90;
+                                }
 
-                            List<PointLatLng> footprint = new List<PointLatLng>();
-                            footprint.Add(item.newpos(bearing + angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
-                            footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
-                            footprint.Add(item.newpos(bearing - angle1, dist1));
+                                double angle1 = startangle - (Math.Tan((fovv/2.0)/(fovh/2.0))*rad2deg);
+                                double dist1 = Math.Sqrt(Math.Pow(fovh/2.0, 2) + Math.Pow(fovv/2.0, 2));
 
-                            GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
-                            poly.Stroke.Width = 1;
-                            poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
-                            if (chk_footprints.Checked)
+                                double bearing = (double) NUM_angle.Value;
+                                    // (prevpoint.GetBearing(item) + 360.0) % 360;
+
+                                List<PointLatLng> footprint = new List<PointLatLng>();
+                                footprint.Add(item.newpos(bearing + angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 - angle1, dist1));
+                                footprint.Add(item.newpos(bearing + 180 + angle1, dist1));
+                                footprint.Add(item.newpos(bearing - angle1, dist1));
+
+                                GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
+                                poly.Stroke.Color = Color.FromArgb(250 - ((a*5)%240), 250 - ((a*3)%240),
+                                    250 - ((a*9)%240));
+                                poly.Stroke.Width = 1;
+                                poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
+
                                 layerpolygons.Polygons.Add(poly);
+                            }
                         }
                     }
                     catch { }
@@ -729,8 +734,6 @@ namespace MissionPlanner
                                 case "xml":
                                     break;
                                 default:
-                                    if (xmlreader.Name == "") // line feeds
-                                        break;
                                     break;
                             }
                         }

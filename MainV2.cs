@@ -440,9 +440,14 @@ namespace MissionPlanner
 
             //disable dpi scaling
             if (Font.Name != "宋体")
+            {
                 //Chinese displayed normally when scaling. But would be too small or large using this line of code.
-                Font = new Font(Font.Name, 8.25f*96f/CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet,
-                    Font.GdiVerticalFont);
+                using (var g = CreateGraphics())
+                {
+                    Font = new Font(Font.Name, 8.25f*96f/g.DpiX, Font.Style, Font.Unit, Font.GdiCharSet,
+                        Font.GdiVerticalFont);
+                }
+            }
 
             InitializeComponent();
 

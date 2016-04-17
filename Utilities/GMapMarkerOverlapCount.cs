@@ -135,21 +135,26 @@ namespace MissionPlanner.Utilities
 
             pos.Offset(-LocalPosition.X, -LocalPosition.Y);
 
-            StringFormat stringFormat = new StringFormat();
-            stringFormat.Alignment = StringAlignment.Center;
-            stringFormat.LineAlignment = StringAlignment.Center;
-
-            int a = 0;
-            foreach (var brush in colorbrushs)
+            using (StringFormat stringFormat = new StringFormat())
             {
-                GPoint p = new GPoint(20, (long)(100 + a * (widthc+5)));
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
 
-                p.Offset(-pos.X, -pos.Y);
+                int a = 0;
+                foreach (var brush in colorbrushs)
+                {
+                    GPoint p = new GPoint(20, (long) (100 + a*(widthc + 5)));
 
-                g.FillPie(brush, (float)(p.X - halfwidthc), (float)(p.Y - halfwidthc), (float)(widthc), (float)(widthc), 0, 360);
+                    p.Offset(-pos.X, -pos.Y);
 
-                g.DrawString((a + 1).ToString(), SystemFonts.DefaultFont, Brushes.White, new RectangleF((float)(p.X - halfwidthc), (float)(p.Y - halfwidthc), (float)widthc, (float)widthc), stringFormat);
-                a++;
+                    g.FillPie(brush, (float) (p.X - halfwidthc), (float) (p.Y - halfwidthc), (float) (widthc),
+                        (float) (widthc), 0, 360);
+
+                    g.DrawString((a + 1).ToString(), SystemFonts.DefaultFont, Brushes.White,
+                        new RectangleF((float) (p.X - halfwidthc), (float) (p.Y - halfwidthc), (float) widthc,
+                            (float) widthc), stringFormat);
+                    a++;
+                }
             }
         }
 

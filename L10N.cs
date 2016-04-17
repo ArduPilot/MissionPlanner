@@ -110,17 +110,19 @@ namespace MissionPlanner
         {
             try
             {
-                System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping();
-                System.Net.NetworkInformation.PingOptions options = new System.Net.NetworkInformation.PingOptions();
-                options.DontFragment = true;
-                string data = "MissionPlanner";
-                byte[] buffer = Encoding.ASCII.GetBytes(data);
-                int timeout = 500;
-                System.Net.NetworkInformation.PingReply reply = p.Send(ip, timeout, buffer, options);
-                if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
-                    return true;
-                else
-                    return false;
+                using (System.Net.NetworkInformation.Ping p = new System.Net.NetworkInformation.Ping())
+                {
+                    System.Net.NetworkInformation.PingOptions options = new System.Net.NetworkInformation.PingOptions();
+                    options.DontFragment = true;
+                    string data = "MissionPlanner";
+                    byte[] buffer = Encoding.ASCII.GetBytes(data);
+                    int timeout = 500;
+                    System.Net.NetworkInformation.PingReply reply = p.Send(ip, timeout, buffer, options);
+                    if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
+                        return true;
+                    else
+                        return false;
+                }
             }
             catch
             {
@@ -134,11 +136,13 @@ namespace MissionPlanner
             {
                 HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
                 req.Timeout = 500;
-                HttpWebResponse response = (HttpWebResponse) req.GetResponse();
-                if (response.StatusCode == HttpStatusCode.OK)
-                    return true;
-                else
-                    return false;
+                using (HttpWebResponse response = (HttpWebResponse) req.GetResponse())
+                {
+                    if (response.StatusCode == HttpStatusCode.OK)
+                        return true;
+                    else
+                        return false;
+                }
             }
             catch
             {

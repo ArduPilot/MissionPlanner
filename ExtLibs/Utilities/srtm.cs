@@ -105,41 +105,43 @@ namespace MissionPlanner
                     // add to cache
                     if (!cache.ContainsKey(filename))
                     {
-                        FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-                        if (fs.Length == (1201 * 1201 * 2))
+                        using (
+                            FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename,
+                                FileMode.Open, FileAccess.Read, FileShare.Read))
                         {
-                            size = 1201;
-                        }
-                        else if (fs.Length == (3601 * 3601 * 2))
-                        {
-                            size = 3601;
-                        }
-                        else
-                            return answer;
 
-                        byte[] altbytes = new byte[2];
-                        short[,] altdata = new short[size, size];
-
-
-                        int altlat = 0;
-                        int altlng = 0;
-
-                        while (fs.Read(altbytes, 0, 2) != 0)
-                        {
-                            altdata[altlat, altlng] = (short)((altbytes[0] << 8) + altbytes[1]);
-
-                            altlat++;
-                            if (altlat >= size)
+                            if (fs.Length == (1201*1201*2))
                             {
-                                altlng++;
-                                altlat = 0;
+                                size = 1201;
                             }
+                            else if (fs.Length == (3601*3601*2))
+                            {
+                                size = 3601;
+                            }
+                            else
+                                return answer;
+
+                            byte[] altbytes = new byte[2];
+                            short[,] altdata = new short[size, size];
+
+
+                            int altlat = 0;
+                            int altlng = 0;
+
+                            while (fs.Read(altbytes, 0, 2) != 0)
+                            {
+                                altdata[altlat, altlng] = (short) ((altbytes[0] << 8) + altbytes[1]);
+
+                                altlat++;
+                                if (altlat >= size)
+                                {
+                                    altlng++;
+                                    altlat = 0;
+                                }
+                            }
+
+                            cache[filename] = altdata;
                         }
-
-                        fs.Close();
-
-                        cache[filename] = altdata;
                     }
 
                     if (cache[filename].Length == (1201 * 1201))
@@ -187,89 +189,92 @@ namespace MissionPlanner
 
                 if (File.Exists(datadirectory + Path.DirectorySeparatorChar + filename2))
                 {
-                    StreamReader sr = new StreamReader(readFile(datadirectory + Path.DirectorySeparatorChar + filename2));
-
-                    int nox = 0;
-                    int noy = 0;
-                    float left = 0;
-                    float top = 0;
-                    int nodata = -9999;
-                    float cellsize = 0;
-
-                    int rowcounter = 0;
-
-                    float wantrow = 0;
-                    float wantcol = 0;
-
-
-                    while (!sr.EndOfStream)
+                    using (
+                        StreamReader sr =
+                            new StreamReader(readFile(datadirectory + Path.DirectorySeparatorChar + filename2)))
                     {
-                        string line = sr.ReadLine();
 
-                        if (line.StartsWith("ncols"))
-                        {
-                            nox = int.Parse(line.Substring(line.IndexOf(' ')));
+                        int nox = 0;
+                        int noy = 0;
+                        float left = 0;
+                        float top = 0;
+                        int nodata = -9999;
+                        float cellsize = 0;
 
-                            //hgtdata = new int[nox * noy];
-                        }
-                        else if (line.StartsWith("nrows"))
-                        {
-                            noy = int.Parse(line.Substring(line.IndexOf(' ')));
+                        int rowcounter = 0;
 
-                            //hgtdata = new int[nox * noy];
-                        }
-                        else if (line.StartsWith("xllcorner"))
-                        {
-                            left = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("yllcorner"))
-                        {
-                            top = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("cellsize"))
-                        {
-                            cellsize = float.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else if (line.StartsWith("NODATA_value"))
-                        {
-                            nodata = int.Parse(line.Substring(line.IndexOf(' ')));
-                        }
-                        else
-                        {
-                            string[] data = line.Split(new char[] { ' ' });
+                        float wantrow = 0;
+                        float wantcol = 0;
 
-                            if (data.Length == (nox + 1))
+
+                        while (!sr.EndOfStream)
+                        {
+                            string line = sr.ReadLine();
+
+                            if (line.StartsWith("ncols"))
                             {
+                                nox = int.Parse(line.Substring(line.IndexOf(' ')));
 
-
-
-                                wantcol = (float)((lng - Math.Round(left, 0)));
-
-                                wantrow = (float)((lat - Math.Round(top, 0)));
-
-                                wantrow = (int)(wantrow / cellsize);
-                                wantcol = (int)(wantcol / cellsize);
-
-                                wantrow = noy - wantrow;
-
-                                if (rowcounter == wantrow)
-                                {
-                                    Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top, data[(int)wantcol], (nox + wantcol * cellsize));
-
-                                    answer.currenttype = tiletype.valid;
-                                    answer.alt = int.Parse(data[(int)wantcol]);
-                                    return answer;
-                                }
-
-                                rowcounter++;
+                                //hgtdata = new int[nox * noy];
                             }
+                            else if (line.StartsWith("nrows"))
+                            {
+                                noy = int.Parse(line.Substring(line.IndexOf(' ')));
+
+                                //hgtdata = new int[nox * noy];
+                            }
+                            else if (line.StartsWith("xllcorner"))
+                            {
+                                left = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("yllcorner"))
+                            {
+                                top = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("cellsize"))
+                            {
+                                cellsize = float.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else if (line.StartsWith("NODATA_value"))
+                            {
+                                nodata = int.Parse(line.Substring(line.IndexOf(' ')));
+                            }
+                            else
+                            {
+                                string[] data = line.Split(new char[] {' '});
+
+                                if (data.Length == (nox + 1))
+                                {
+
+
+
+                                    wantcol = (float) ((lng - Math.Round(left, 0)));
+
+                                    wantrow = (float) ((lat - Math.Round(top, 0)));
+
+                                    wantrow = (int) (wantrow/cellsize);
+                                    wantcol = (int) (wantcol/cellsize);
+
+                                    wantrow = noy - wantrow;
+
+                                    if (rowcounter == wantrow)
+                                    {
+                                        Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top,
+                                            data[(int) wantcol], (nox + wantcol*cellsize));
+
+                                        answer.currenttype = tiletype.valid;
+                                        answer.alt = int.Parse(data[(int) wantcol]);
+                                        return answer;
+                                    }
+
+                                    rowcounter++;
+                                }
+                            }
+
+
+
                         }
-
-
-
                     }
-
-                    //sr.Close();
                     answer.currenttype = tiletype.valid;
                     answer.alt = alt;
                     return answer;

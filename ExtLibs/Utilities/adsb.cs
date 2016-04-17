@@ -72,13 +72,14 @@ namespace MissionPlanner.Utilities
                 {
                     if (!String.IsNullOrEmpty(server))
                     {
-                        TcpClient cl = new TcpClient();
+                        using (TcpClient cl = new TcpClient())
+                        {
+                            cl.Connect(server, serverport);
 
-                        cl.Connect(server, serverport);
+                            log.Info("Connected " + server + ":" + serverport);
 
-                        log.Info("Connected " + server + ":" + serverport);
-
-                        ReadMessage(cl.GetStream());
+                            ReadMessage(cl.GetStream());
+                        }
                     }
                 }
                 catch (Exception ex) { log.Error(ex); }
@@ -86,26 +87,30 @@ namespace MissionPlanner.Utilities
                 // dump1090 sbs
                 try
                 {
-                    TcpClient cl = new TcpClient();
+                    using (TcpClient cl = new TcpClient())
+                    {
 
-                    cl.Connect(System.Net.IPAddress.Loopback, 30003);
+                        cl.Connect(System.Net.IPAddress.Loopback, 30003);
 
-                    log.Info("Connected loopback:30003");
+                        log.Info("Connected loopback:30003");
 
-                    ReadMessage(cl.GetStream());
+                        ReadMessage(cl.GetStream());
+                    }
                 }
                 catch (Exception) {  }
 
                 // dump1090 avr
                 try
                 {
-                    TcpClient cl = new TcpClient();
+                    using (TcpClient cl = new TcpClient())
+                    {
 
-                    cl.Connect(System.Net.IPAddress.Loopback, 30002);
+                        cl.Connect(System.Net.IPAddress.Loopback, 30002);
 
-                    log.Info("Connected loopback:30002");
+                        log.Info("Connected loopback:30002");
 
-                    ReadMessage(cl.GetStream());
+                        ReadMessage(cl.GetStream());
+                    }
                 }
                 catch (Exception) {  }
 
@@ -113,26 +118,30 @@ namespace MissionPlanner.Utilities
                 // rtl1090 -sbs1
                 try
                 {
-                    TcpClient cl = new TcpClient();
+                    using (TcpClient cl = new TcpClient())
+                    {
 
-                    cl.Connect(System.Net.IPAddress.Loopback, 31004);
+                        cl.Connect(System.Net.IPAddress.Loopback, 31004);
 
-                    log.Info("Connected loopback:31004");
+                        log.Info("Connected loopback:31004");
 
-                    ReadMessage(cl.GetStream());
+                        ReadMessage(cl.GetStream());
+                    }
                 }
                 catch (Exception) { }
 
                 // rtl1090 - avr
                 try
                 {
-                    TcpClient cl = new TcpClient();
+                    using (TcpClient cl = new TcpClient())
+                    {
 
-                    cl.Connect(System.Net.IPAddress.Loopback, 31001);
+                        cl.Connect(System.Net.IPAddress.Loopback, 31001);
 
-                    log.Info("Connected loopback:31001");
+                        log.Info("Connected loopback:31001");
 
-                    ReadMessage(cl.GetStream());
+                        ReadMessage(cl.GetStream());
+                    }
                 }
                 catch (Exception) {  }
 
@@ -140,13 +149,15 @@ namespace MissionPlanner.Utilities
                 // adsb#
                 try
                 {
-                    TcpClient cl = new TcpClient();
+                    using (TcpClient cl = new TcpClient())
+                    {
 
-                    cl.Connect(System.Net.IPAddress.Loopback, 47806);
+                        cl.Connect(System.Net.IPAddress.Loopback, 47806);
 
-                    log.Info("Connected loopback:47806");
+                        log.Info("Connected loopback:47806");
 
-                    ReadMessage(cl.GetStream());
+                        ReadMessage(cl.GetStream());
+                    }
                 }
                 catch (Exception) {  }
 

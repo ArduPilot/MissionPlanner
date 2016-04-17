@@ -290,15 +290,17 @@ namespace MissionPlanner.Utilities
                     streamWriter.Write(data);
                     streamWriter.Flush();
 
-                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                    if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)
+                    using (var httpResponse = (HttpWebResponse) httpWebRequest.GetResponse())
                     {
-                        // response is a gif file
-                        log.Debug(httpResponse.StatusCode);
-                    }
-                    else
-                    {
-                        log.Debug(httpResponse.StatusCode);
+                        if (httpResponse.StatusCode >= HttpStatusCode.OK && (int) httpResponse.StatusCode < 300)
+                        {
+                            // response is a gif file
+                            log.Debug(httpResponse.StatusCode);
+                        }
+                        else
+                        {
+                            log.Debug(httpResponse.StatusCode);
+                        }
                     }
                 }
             }

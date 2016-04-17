@@ -57,10 +57,10 @@ namespace MissionPlanner.Controls.PreFlight
             panel1.Controls.Clear();
 
             int y = 0;
-            rowcount = 0;
-
             lock (this.CheckListItems)
             {
+                rowcount = 0;
+
                 foreach (var item in this.CheckListItems)
                 {
                     var wrnctl = addwarningcontrol(5, y, item);

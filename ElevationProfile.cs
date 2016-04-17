@@ -86,7 +86,7 @@ namespace MissionPlanner
             }
             // GE plot
             double a = 0;
-            double increment = (distance/(gelocs.Count - 1));
+            double increment = (distance/(float)(gelocs.Count - 1));
 
             foreach (PointLatLngAlt geloc in gelocs)
             {

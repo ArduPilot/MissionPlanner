@@ -63,11 +63,12 @@ namespace MissionPlanner
 
         void but_Click(object sender, EventArgs e)
         {
-            var gridui = new GridUIv2(this);
-            MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
+            using (var gridui = new GridUIv2(this))
+            {
+                MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
 
                 gridui.ShowDialog();
-          
+            }
         }
 
         public override bool Exit()

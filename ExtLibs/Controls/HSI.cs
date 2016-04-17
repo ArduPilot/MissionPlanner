@@ -76,68 +76,75 @@ namespace MissionPlanner.Controls
             {
                 _headingimage = new Bitmap(Width, Height);
 
-                Graphics g = Graphics.FromImage(_headingimage);
-
-                g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
-                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                //Graphics g = e.Graphics;
-
-                g.TranslateTransform(this.Width/2,this.Height /2);
-
-                int font = this.Width / 14;
-
-                for (int a = 0; a <= 360; a += 5)
+                using (Graphics g = Graphics.FromImage(_headingimage))
                 {
-                    if (a == 0) 
-                    {
-                        g.DrawString("N".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
 
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
-                    }
-                    else if (a == 90)
-                    {
-                        g.DrawString("E".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                    g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bicubic;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                    //Graphics g = e.Graphics;
 
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
-                    }
-                    else if (a == 180)
-                    {
-                        g.DrawString("S".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                    g.TranslateTransform(this.Width/2, this.Height/2);
 
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
-                    }
-                    else if (a == 270)
-                    {
-                        g.DrawString("W".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                    int font = this.Width/14;
 
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
-                    }
-                    else if (a == 360)
+                    for (int a = 0; a <= 360; a += 5)
                     {
-                        // ignore it, as we process it at 0
-                    }
-                    else if ((a % 30) == 0) // number labeled
-                    {
-                        g.DrawString((a / 10).ToString("0").PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White, new PointF(-font, -_radiusoutside));
+                        if (a == 0)
+                        {
+                            g.DrawString("N".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                                new PointF(-font, -_radiusoutside));
 
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
-                    }
-                    else if (a % 10 == 0) // larger line
-                    {
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 7);
-                    }
-                    else if (a % 5 == 0) // small line
-                    {
-                        g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 4);
-                    } 
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
+                        }
+                        else if (a == 90)
+                        {
+                            g.DrawString("E".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                                new PointF(-font, -_radiusoutside));
 
-                    g.RotateTransform(5);
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
+                        }
+                        else if (a == 180)
+                        {
+                            g.DrawString("S".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                                new PointF(-font, -_radiusoutside));
+
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
+                        }
+                        else if (a == 270)
+                        {
+                            g.DrawString("W".PadLeft(2), new Font(FontFamily.GenericSansSerif, font), Brushes.White,
+                                new PointF(-font, -_radiusoutside));
+
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
+                        }
+                        else if (a == 360)
+                        {
+                            // ignore it, as we process it at 0
+                        }
+                        else if ((a%30) == 0) // number labeled
+                        {
+                            g.DrawString((a/10).ToString("0").PadLeft(2), new Font(FontFamily.GenericSansSerif, font),
+                                Brushes.White, new PointF(-font, -_radiusoutside));
+
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 11);
+                        }
+                        else if (a%10 == 0) // larger line
+                        {
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 7);
+                        }
+                        else if (a%5 == 0) // small line
+                        {
+                            g.DrawLine(Pens.White, 0, _radiusinside, 0, _radiusinside + 4);
+                        }
+
+                        g.RotateTransform(5);
+                    }
+
+                    g.ResetTransform();
+
+                    drawnheading = true;
                 }
-
-                g.ResetTransform();
-
-                drawnheading = true;
             }
 
             e.Graphics.TranslateTransform(Width / 2, Height / 2);

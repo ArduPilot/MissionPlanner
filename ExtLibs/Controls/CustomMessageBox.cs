@@ -60,6 +60,7 @@ namespace System
 
         static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
+            DialogResult answer = DialogResult.Abort;
 
             if (text == null)
                 text = "";
@@ -91,77 +92,87 @@ namespace System
             if (icon != MessageBoxIcon.None)
                 textSize.Width += SystemIcons.Question.Width;
 
-            var msgBoxFrm = new Form
-                                {
-                                    FormBorderStyle = FormBorderStyle.FixedDialog,
-                                    ShowInTaskbar = true,
-                                    StartPosition = FormStartPosition.CenterParent,
-                                    Text = caption,
-                                    MaximizeBox = false,
-                                    MinimizeBox = false,
-                                    Width = textSize.Width + 50,
-                                    Height = textSize.Height + 120,
-                                    TopMost = true,
-                                    AutoScaleMode = AutoScaleMode.None,
-                                };
-
-            Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
-            int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
-
-            var lblMessage = new Label
-                                 {
-                                     Left = 58,
-                                     Top = 15,
-                                     Width = textSize.Width + 10,
-                                     Height = textSize.Height + 10,
-                                     Text = text
-                                 };
-
-            msgBoxFrm.Controls.Add(lblMessage);
-
-            msgBoxFrm.Width = lblMessage.Right + 50;
-
-            if (link != "" && linktext != "")
+            using (var msgBoxFrm = new Form
             {
-                var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
-                linklbl.Click += linklbl_Click;
-
-                msgBoxFrm.Controls.Add(linklbl);
-            }
-
-            var actualIcon = getMessageBoxIcon(icon);
-
-            if (actualIcon == null)
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                ShowInTaskbar = true,
+                StartPosition = FormStartPosition.CenterParent,
+                Text = caption,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                Width = textSize.Width + 50,
+                Height = textSize.Height + 120,
+                TopMost = true,
+                AutoScaleMode = AutoScaleMode.None,
+            })
             {
-                lblMessage.Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN);
+
+                Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
+                int titleHeight = screenRectangle.Top - msgBoxFrm.Top;
+
+                var lblMessage = new Label
+                {
+                    Left = 58,
+                    Top = 15,
+                    Width = textSize.Width + 10,
+                    Height = textSize.Height + 10,
+                    Text = text
+                };
+
+                msgBoxFrm.Controls.Add(lblMessage);
+
+                msgBoxFrm.Width = lblMessage.Right + 50;
+
+                if (link != "" && linktext != "")
+                {
+                    var linklbl = new LinkLabel
+                    {
+                        Left = lblMessage.Left,
+                        Top = lblMessage.Bottom,
+                        Width = lblMessage.Width,
+                        Height = 15,
+                        Text = linktext,
+                        Tag = link
+                    };
+                    linklbl.Click += linklbl_Click;
+
+                    msgBoxFrm.Controls.Add(linklbl);
+                }
+
+                var actualIcon = getMessageBoxIcon(icon);
+
+                if (actualIcon == null)
+                {
+                    lblMessage.Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN);
+                }
+                else
+                {
+                    var iconPbox = new PictureBox
+                    {
+                        Image = actualIcon.ToBitmap(),
+                        Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
+                    };
+                    msgBoxFrm.Controls.Add(iconPbox);
+                }
+
+
+                AddButtonsToForm(msgBoxFrm, buttons);
+
+                // display even if theme fails
+                try
+                {
+                    if (ApplyTheme != null)
+                        ApplyTheme(msgBoxFrm);
+                    //ThemeManager.ApplyThemeTo(msgBoxFrm);
+                }
+                catch
+                {
+                }
+
+                DialogResult test = msgBoxFrm.ShowDialog();
+
+                answer = _state;
             }
-            else
-            {
-                var iconPbox = new PictureBox
-                                   {
-                                       Image = actualIcon.ToBitmap(),
-                                       Location = new Point(FORM_X_MARGIN, FORM_Y_MARGIN)
-                                   };
-                msgBoxFrm.Controls.Add(iconPbox);
-            }
-
-
-            AddButtonsToForm(msgBoxFrm, buttons);
-
-            // display even if theme fails
-            try
-            {
-                if (ApplyTheme != null)
-                    ApplyTheme(msgBoxFrm);
-                //ThemeManager.ApplyThemeTo(msgBoxFrm);
-            }
-            catch { }
-
-            DialogResult test;
-
-                test = msgBoxFrm.ShowDialog();
-
-            DialogResult answer = _state;
 
             return answer;
         }

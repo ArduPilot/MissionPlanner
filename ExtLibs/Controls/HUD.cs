@@ -1122,7 +1122,7 @@ namespace MissionPlanner.Controls
 
                     lengthlong = this.Height / 66;
 
-                    int extra = (int)(this.Height / 15 * 4.9f);
+                    int extra = (int)(this.Height / 15.0 * 4.9f);
 
                     int lengthlongex = lengthlong + 2;
 

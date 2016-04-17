@@ -64,9 +64,11 @@ namespace MissionPlanner.SimpleGrid
         {
             if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
             {
-                Form gridui = new GridUI(this);
-                MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
-                gridui.ShowDialog();
+                using (Form gridui = new GridUI(this))
+                {
+                    MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
+                    gridui.ShowDialog();
+                }
             }
             else
             {

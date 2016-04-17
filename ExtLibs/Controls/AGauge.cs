@@ -1528,200 +1528,282 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                 }
                 catch { } // ignore for now - happens when the control gets to small for text
 
-                Graphics ggr = Graphics.FromImage(gaugeBitmap);
-                ggr.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
-
-                if (BackgroundImage != null)
+                using (Graphics ggr = Graphics.FromImage(gaugeBitmap))
                 {
-                    switch (BackgroundImageLayout)
+                    ggr.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
+
+                    if (BackgroundImage != null)
                     {
-                        case ImageLayout.Center:
-                            ggr.DrawImageUnscaled(BackgroundImage, Width / 2 - BackgroundImage.Width / 2, Height / 2 - BackgroundImage.Height / 2);
-                            break;
-                        case ImageLayout.None:
-                            ggr.DrawImageUnscaled(BackgroundImage, 0, 0);
-                            break;
-                        case ImageLayout.Stretch:
-                            ggr.DrawImage(BackgroundImage, 0, 0, Width, Height);
-                            break;
-                        case ImageLayout.Tile:
-                            Int32 pixelOffsetX = 0;
-                            Int32 pixelOffsetY = 0;
-                            while (pixelOffsetX < Width)
-                            {
-                                pixelOffsetY = 0;
-                                while (pixelOffsetY < Height)
+                        switch (BackgroundImageLayout)
+                        {
+                            case ImageLayout.Center:
+                                ggr.DrawImageUnscaled(BackgroundImage, Width/2 - BackgroundImage.Width/2,
+                                    Height/2 - BackgroundImage.Height/2);
+                                break;
+                            case ImageLayout.None:
+                                ggr.DrawImageUnscaled(BackgroundImage, 0, 0);
+                                break;
+                            case ImageLayout.Stretch:
+                                ggr.DrawImage(BackgroundImage, 0, 0, Width, Height);
+                                break;
+                            case ImageLayout.Tile:
+                                Int32 pixelOffsetX = 0;
+                                Int32 pixelOffsetY = 0;
+                                while (pixelOffsetX < Width)
                                 {
-                                    ggr.DrawImageUnscaled(BackgroundImage, pixelOffsetX, pixelOffsetY);
-                                    pixelOffsetY += BackgroundImage.Height;
+                                    pixelOffsetY = 0;
+                                    while (pixelOffsetY < Height)
+                                    {
+                                        ggr.DrawImageUnscaled(BackgroundImage, pixelOffsetX, pixelOffsetY);
+                                        pixelOffsetY += BackgroundImage.Height;
+                                    }
+                                    pixelOffsetX += BackgroundImage.Width;
                                 }
-                                pixelOffsetX += BackgroundImage.Width;
-                            }
-                            break;
-                        case ImageLayout.Zoom:
-                            if ((Single)(BackgroundImage.Width / Width) < (Single)(BackgroundImage.Height / Height))
-                            {
-                                ggr.DrawImage(BackgroundImage, 0, 0, Height, Height);
-                            }
-                            else
-                            {
-                                ggr.DrawImage(BackgroundImage, 0, 0, Width, Width);
-                            }
-                            break;
+                                break;
+                            case ImageLayout.Zoom:
+                                if ((BackgroundImage.Width/Width) < (BackgroundImage.Height/Height))
+                                {
+                                    ggr.DrawImage(BackgroundImage, 0, 0, Height, Height);
+                                }
+                                else
+                                {
+                                    ggr.DrawImage(BackgroundImage, 0, 0, Width, Width);
+                                }
+                                break;
+                        }
                     }
-                }
 
-                ggr.SmoothingMode = SmoothingMode.HighQuality;
-                ggr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                    ggr.SmoothingMode = SmoothingMode.HighQuality;
+                    ggr.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                // scale it
-                if (basesize != null)
-                {
-                    ggr.ScaleTransform(scale, scale);
-                }
-
-                GraphicsPath gp = new GraphicsPath();
-                Single rangeStartAngle;
-                Single rangeSweepAngle;
-                for (Int32 counter = 0; counter < NUMOFRANGES; counter++)
-                {
-                    if (m_RangeEndValue[counter] > m_RangeStartValue[counter]
-                    && m_RangeEnabled[counter])
+                    // scale it
+                    if (basesize != null)
                     {
-                        rangeStartAngle = m_BaseArcStart + (m_RangeStartValue[counter] - m_MinValue) * m_BaseArcSweep / (m_MaxValue - m_MinValue);
-                        rangeSweepAngle = (m_RangeEndValue[counter] - m_RangeStartValue[counter]) * m_BaseArcSweep / (m_MaxValue - m_MinValue);
+                        ggr.ScaleTransform(scale, scale);
+                    }
+
+                    GraphicsPath gp = new GraphicsPath();
+                    Single rangeStartAngle;
+                    Single rangeSweepAngle;
+                    for (Int32 counter = 0; counter < NUMOFRANGES; counter++)
+                    {
+                        if (m_RangeEndValue[counter] > m_RangeStartValue[counter]
+                            && m_RangeEnabled[counter])
+                        {
+                            rangeStartAngle = m_BaseArcStart +
+                                              (m_RangeStartValue[counter] - m_MinValue)*m_BaseArcSweep/
+                                              (m_MaxValue - m_MinValue);
+                            rangeSweepAngle = (m_RangeEndValue[counter] - m_RangeStartValue[counter])*m_BaseArcSweep/
+                                              (m_MaxValue - m_MinValue);
+                            gp.Reset();
+                            gp.AddPie(
+                                new Rectangle(m_Center.X - m_RangeOuterRadius[counter],
+                                    m_Center.Y - m_RangeOuterRadius[counter], 2*m_RangeOuterRadius[counter],
+                                    2*m_RangeOuterRadius[counter]), rangeStartAngle, rangeSweepAngle);
+                            gp.Reverse();
+                            gp.AddPie(
+                                new Rectangle(m_Center.X - m_RangeInnerRadius[counter],
+                                    m_Center.Y - m_RangeInnerRadius[counter], 2*m_RangeInnerRadius[counter],
+                                    2*m_RangeInnerRadius[counter]), rangeStartAngle, rangeSweepAngle);
+                            gp.Reverse();
+                            ggr.SetClip(gp);
+                            ggr.FillPie(new SolidBrush(m_RangeColor[counter]),
+                                new Rectangle(m_Center.X - m_RangeOuterRadius[counter],
+                                    m_Center.Y - m_RangeOuterRadius[counter], 2*m_RangeOuterRadius[counter],
+                                    2*m_RangeOuterRadius[counter]), rangeStartAngle, rangeSweepAngle);
+                        }
+                    }
+
+                    ggr.SetClip(ClientRectangle);
+                    if (m_BaseArcRadius > 0)
+                    {
+                        ggr.DrawArc(new Pen(m_BaseArcColor, m_BaseArcWidth),
+                            new Rectangle(m_Center.X - m_BaseArcRadius, m_Center.Y - m_BaseArcRadius, 2*m_BaseArcRadius,
+                                2*m_BaseArcRadius), m_BaseArcStart, m_BaseArcSweep);
+                    }
+
+                    String valueText = "";
+                    SizeF boundingBox;
+                    Single countValue = 0;
+                    Int32 counter1 = 0;
+                    while (countValue <= (m_MaxValue - m_MinValue))
+                    {
+                        valueText = (m_MinValue + countValue).ToString(m_ScaleNumbersFormat);
+                        ggr.ResetTransform();
+                        // scale it
+                        if (basesize != null)
+                        {
+                            ggr.ScaleTransform(scale, scale);
+                        }
+                        boundingBox = ggr.MeasureString(valueText, Font, -1, StringFormat.GenericTypographic);
+
                         gp.Reset();
-                        gp.AddPie(new Rectangle(m_Center.X - m_RangeOuterRadius[counter], m_Center.Y - m_RangeOuterRadius[counter], 2 * m_RangeOuterRadius[counter], 2 * m_RangeOuterRadius[counter]), rangeStartAngle, rangeSweepAngle);
+                        gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMajorOuterRadius,
+                            m_Center.Y - m_ScaleLinesMajorOuterRadius, 2*m_ScaleLinesMajorOuterRadius,
+                            2*m_ScaleLinesMajorOuterRadius));
                         gp.Reverse();
-                        gp.AddPie(new Rectangle(m_Center.X - m_RangeInnerRadius[counter], m_Center.Y - m_RangeInnerRadius[counter], 2 * m_RangeInnerRadius[counter], 2 * m_RangeInnerRadius[counter]), rangeStartAngle, rangeSweepAngle);
+                        gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMajorInnerRadius,
+                            m_Center.Y - m_ScaleLinesMajorInnerRadius, 2*m_ScaleLinesMajorInnerRadius,
+                            2*m_ScaleLinesMajorInnerRadius));
                         gp.Reverse();
                         ggr.SetClip(gp);
-                        ggr.FillPie(new SolidBrush(m_RangeColor[counter]), new Rectangle(m_Center.X - m_RangeOuterRadius[counter], m_Center.Y - m_RangeOuterRadius[counter], 2 * m_RangeOuterRadius[counter], 2 * m_RangeOuterRadius[counter]), rangeStartAngle, rangeSweepAngle);
+
+                        // major - mono doesnt appear to scale drawline correctly
+                        ggr.DrawLine(new Pen(m_ScaleLinesMajorColor, m_ScaleLinesMajorWidth),
+                            (Single) (Center.X),
+                            (Single) (Center.Y),
+                            (Single)
+                                (Center.X +
+                                 2*m_ScaleLinesMajorOuterRadius*
+                                 Math.Cos((m_BaseArcStart + countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue))*Math.PI/
+                                          180.0)),
+                            (Single)
+                                (Center.Y +
+                                 2*m_ScaleLinesMajorOuterRadius*
+                                 Math.Sin((m_BaseArcStart + countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue))*Math.PI/
+                                          180.0)));
+
+                        gp.Reset();
+                        gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorOuterRadius,
+                            m_Center.Y - m_ScaleLinesMinorOuterRadius, 2*m_ScaleLinesMinorOuterRadius,
+                            2*m_ScaleLinesMinorOuterRadius));
+                        gp.Reverse();
+                        gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorInnerRadius,
+                            m_Center.Y - m_ScaleLinesMinorInnerRadius, 2*m_ScaleLinesMinorInnerRadius,
+                            2*m_ScaleLinesMinorInnerRadius));
+                        gp.Reverse();
+                        ggr.SetClip(gp);
+
+                        if (countValue < (m_MaxValue - m_MinValue))
+                        {
+                            for (Int32 counter2 = 1; counter2 <= m_ScaleLinesMinorNumOf; counter2++)
+                            {
+                                if (((m_ScaleLinesMinorNumOf%2) == 1) &&
+                                    ((Int32) (m_ScaleLinesMinorNumOf/2) + 1 == counter2))
+                                {
+                                    gp.Reset();
+                                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesInterOuterRadius,
+                                        m_Center.Y - m_ScaleLinesInterOuterRadius, 2*m_ScaleLinesInterOuterRadius,
+                                        2*m_ScaleLinesInterOuterRadius));
+                                    gp.Reverse();
+                                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesInterInnerRadius,
+                                        m_Center.Y - m_ScaleLinesInterInnerRadius, 2*m_ScaleLinesInterInnerRadius,
+                                        2*m_ScaleLinesInterInnerRadius));
+                                    gp.Reverse();
+                                    ggr.SetClip(gp);
+
+                                    ggr.DrawLine(new Pen(m_ScaleLinesInterColor, m_ScaleLinesInterWidth),
+                                        (Single) (Center.X),
+                                        (Single) (Center.Y),
+                                        (Single)
+                                            (Center.X +
+                                             2*m_ScaleLinesInterOuterRadius*
+                                             Math.Cos((m_BaseArcStart +
+                                                       countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue) +
+                                                       counter2*m_BaseArcSweep/
+                                                       (((Single) ((m_MaxValue - m_MinValue)/m_ScaleLinesMajorStepValue))*
+                                                        (m_ScaleLinesMinorNumOf + 1)))*Math.PI/180.0)),
+                                        (Single)
+                                            (Center.Y +
+                                             2*m_ScaleLinesInterOuterRadius*
+                                             Math.Sin((m_BaseArcStart +
+                                                       countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue) +
+                                                       counter2*m_BaseArcSweep/
+                                                       (((Single) ((m_MaxValue - m_MinValue)/m_ScaleLinesMajorStepValue))*
+                                                        (m_ScaleLinesMinorNumOf + 1)))*Math.PI/180.0)));
+
+                                    gp.Reset();
+                                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorOuterRadius,
+                                        m_Center.Y - m_ScaleLinesMinorOuterRadius, 2*m_ScaleLinesMinorOuterRadius,
+                                        2*m_ScaleLinesMinorOuterRadius));
+                                    gp.Reverse();
+                                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorInnerRadius,
+                                        m_Center.Y - m_ScaleLinesMinorInnerRadius, 2*m_ScaleLinesMinorInnerRadius,
+                                        2*m_ScaleLinesMinorInnerRadius));
+                                    gp.Reverse();
+                                    ggr.SetClip(gp);
+                                }
+                                else
+                                {
+                                    ggr.DrawLine(new Pen(m_ScaleLinesMinorColor, m_ScaleLinesMinorWidth),
+                                        (Single) (Center.X),
+                                        (Single) (Center.Y),
+                                        (Single)
+                                            (Center.X +
+                                             2*m_ScaleLinesMinorOuterRadius*
+                                             Math.Cos((m_BaseArcStart +
+                                                       countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue) +
+                                                       counter2*m_BaseArcSweep/
+                                                       (((Single) ((m_MaxValue - m_MinValue)/m_ScaleLinesMajorStepValue))*
+                                                        (m_ScaleLinesMinorNumOf + 1)))*Math.PI/180.0)),
+                                        (Single)
+                                            (Center.Y +
+                                             2*m_ScaleLinesMinorOuterRadius*
+                                             Math.Sin((m_BaseArcStart +
+                                                       countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue) +
+                                                       counter2*m_BaseArcSweep/
+                                                       (((Single) ((m_MaxValue - m_MinValue)/m_ScaleLinesMajorStepValue))*
+                                                        (m_ScaleLinesMinorNumOf + 1)))*Math.PI/180.0)));
+                                }
+                            }
+                        }
+
+                        ggr.SetClip(ClientRectangle);
+
+                        if (m_ScaleNumbersRotation != 0)
+                        {
+                            ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                            ggr.RotateTransform(90.0F + m_BaseArcStart +
+                                                countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue));
+                        }
+
+                        /*ggr.TranslateTransform((Single)(Center.X + m_ScaleNumbersRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
+                                           (Single)(Center.Y + m_ScaleNumbersRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)), 
+                                           System.Drawing.Drawing2D.MatrixOrder.Append);*/
+
+                        ggr.TranslateTransform(
+                            (Single)
+                                (Center.X*scale +
+                                 m_ScaleNumbersRadius*scale*
+                                 Math.Cos((m_BaseArcStart + countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue))*Math.PI/
+                                          180.0f)),
+                            (Single)
+                                (Center.Y*scale +
+                                 m_ScaleNumbersRadius*scale*
+                                 Math.Sin((m_BaseArcStart + countValue*m_BaseArcSweep/(m_MaxValue - m_MinValue))*Math.PI/
+                                          180.0f)),
+                            System.Drawing.Drawing2D.MatrixOrder.Append);
+
+                        if (counter1 >= ScaleNumbersStartScaleLine - 1)
+                        {
+                            ggr.DrawString(valueText, Font, new SolidBrush(m_ScaleNumbersColor), -boundingBox.Width/2,
+                                -fontBoundY1 - (fontBoundY2 - fontBoundY1 + 1)/2, StringFormat.GenericTypographic);
+                        }
+
+                        countValue += m_ScaleLinesMajorStepValue;
+                        counter1++;
                     }
-                }
 
-                ggr.SetClip(ClientRectangle);
-                if (m_BaseArcRadius > 0)
-                {
-                    ggr.DrawArc(new Pen(m_BaseArcColor, m_BaseArcWidth), new Rectangle(m_Center.X - m_BaseArcRadius, m_Center.Y - m_BaseArcRadius, 2 * m_BaseArcRadius, 2 * m_BaseArcRadius), m_BaseArcStart, m_BaseArcSweep);
-                }
-
-                String valueText = "";
-                SizeF boundingBox;
-                Single countValue = 0;
-                Int32 counter1 = 0;
-                while (countValue <= (m_MaxValue - m_MinValue))
-                {
-                    valueText = (m_MinValue + countValue).ToString(m_ScaleNumbersFormat);
                     ggr.ResetTransform();
                     // scale it
                     if (basesize != null)
                     {
                         ggr.ScaleTransform(scale, scale);
                     }
-                    boundingBox = ggr.MeasureString(valueText, Font, -1, StringFormat.GenericTypographic);
-
-                    gp.Reset();
-                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMajorOuterRadius, m_Center.Y - m_ScaleLinesMajorOuterRadius, 2 * m_ScaleLinesMajorOuterRadius, 2 * m_ScaleLinesMajorOuterRadius));
-                    gp.Reverse();
-                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMajorInnerRadius, m_Center.Y - m_ScaleLinesMajorInnerRadius, 2 * m_ScaleLinesMajorInnerRadius, 2 * m_ScaleLinesMajorInnerRadius));
-                    gp.Reverse();
-                    ggr.SetClip(gp);
-
-                    // major - mono doesnt appear to scale drawline correctly
-                    ggr.DrawLine(new Pen(m_ScaleLinesMajorColor, m_ScaleLinesMajorWidth),
-                    (Single)(Center.X),
-                    (Single)(Center.Y),
-                    (Single)(Center.X + 2 * m_ScaleLinesMajorOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0)),
-                    (Single)(Center.Y + 2 * m_ScaleLinesMajorOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0)));
-                    
-                    gp.Reset();
-                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorOuterRadius, m_Center.Y - m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius));
-                    gp.Reverse();
-                    gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorInnerRadius, m_Center.Y - m_ScaleLinesMinorInnerRadius, 2 * m_ScaleLinesMinorInnerRadius, 2 * m_ScaleLinesMinorInnerRadius));
-                    gp.Reverse();
-                    ggr.SetClip(gp);
-
-                    if (countValue < (m_MaxValue - m_MinValue))
-                    {
-                        for (Int32 counter2 = 1; counter2 <= m_ScaleLinesMinorNumOf; counter2++)
-                        {
-                            if (((m_ScaleLinesMinorNumOf % 2) == 1) && ((Int32)(m_ScaleLinesMinorNumOf / 2) + 1 == counter2))
-                            {
-                                gp.Reset();
-                                gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesInterOuterRadius, m_Center.Y - m_ScaleLinesInterOuterRadius, 2 * m_ScaleLinesInterOuterRadius, 2 * m_ScaleLinesInterOuterRadius));
-                                gp.Reverse();
-                                gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesInterInnerRadius, m_Center.Y - m_ScaleLinesInterInnerRadius, 2 * m_ScaleLinesInterInnerRadius, 2 * m_ScaleLinesInterInnerRadius));
-                                gp.Reverse();
-                                ggr.SetClip(gp);
-
-                                ggr.DrawLine(new Pen(m_ScaleLinesInterColor, m_ScaleLinesInterWidth),
-                                (Single)(Center.X),
-                                (Single)(Center.Y),
-                                (Single)(Center.X + 2 * m_ScaleLinesInterOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)),
-                                (Single)(Center.Y + 2 * m_ScaleLinesInterOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)));
-
-                                gp.Reset();
-                                gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorOuterRadius, m_Center.Y - m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius));
-                                gp.Reverse();
-                                gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorInnerRadius, m_Center.Y - m_ScaleLinesMinorInnerRadius, 2 * m_ScaleLinesMinorInnerRadius, 2 * m_ScaleLinesMinorInnerRadius));
-                                gp.Reverse();
-                                ggr.SetClip(gp);
-                            }
-                            else
-                            {
-                                ggr.DrawLine(new Pen(m_ScaleLinesMinorColor, m_ScaleLinesMinorWidth),
-                                (Single)(Center.X),
-                                (Single)(Center.Y),
-                                (Single)(Center.X + 2 * m_ScaleLinesMinorOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)),
-                                (Single)(Center.Y + 2 * m_ScaleLinesMinorOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)));
-                            }
-                        }
-                    }
-
                     ggr.SetClip(ClientRectangle);
 
                     if (m_ScaleNumbersRotation != 0)
                     {
-                        ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-                        ggr.RotateTransform(90.0F + m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue));
+                        ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
                     }
 
-                    /*ggr.TranslateTransform((Single)(Center.X + m_ScaleNumbersRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
-                                           (Single)(Center.Y + m_ScaleNumbersRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)), 
-                                           System.Drawing.Drawing2D.MatrixOrder.Append);*/
-
-                    ggr.TranslateTransform((Single)(Center.X * scale + m_ScaleNumbersRadius * scale * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
-                       (Single)(Center.Y * scale + m_ScaleNumbersRadius * scale * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
-                       System.Drawing.Drawing2D.MatrixOrder.Append);
-                    
-                    if (counter1 >= ScaleNumbersStartScaleLine - 1)
+                    for (Int32 counter = 0; counter < NUMOFCAPS; counter++)
                     {
-                        ggr.DrawString(valueText, Font, new SolidBrush(m_ScaleNumbersColor), -boundingBox.Width / 2, -fontBoundY1 - (fontBoundY2 - fontBoundY1 + 1) / 2, StringFormat.GenericTypographic);
-                    }
-
-                    countValue += m_ScaleLinesMajorStepValue;
-                    counter1++;
-                }
-
-                ggr.ResetTransform();
-                // scale it
-                if (basesize != null)
-                {
-                    ggr.ScaleTransform(scale, scale);
-                }
-                ggr.SetClip(ClientRectangle);
-
-                if (m_ScaleNumbersRotation != 0)
-                {
-                    ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-                }
-
-                for (Int32 counter = 0; counter < NUMOFCAPS; counter++)
-                {
-                    if (m_CapText[counter] != "")
-                    {
-                        ggr.DrawString(m_CapText[counter], Font, new SolidBrush(m_CapColor[counter]), m_CapPosition[counter].X, m_CapPosition[counter].Y, StringFormat.GenericTypographic);
+                        if (m_CapText[counter] != "")
+                        {
+                            ggr.DrawString(m_CapText[counter], Font, new SolidBrush(m_CapColor[counter]),
+                                m_CapPosition[counter].X, m_CapPosition[counter].Y, StringFormat.GenericTypographic);
+                        }
                     }
                 }
             } // end bg
@@ -1854,6 +1936,12 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
 
                         pe.Graphics.DrawLine(new Pen(m_NeedleColor2[m_NeedIdx]), Center.X, Center.Y, points[0].X, points[0].Y);
                         pe.Graphics.DrawLine(new Pen(m_NeedleColor2[m_NeedIdx]), Center.X, Center.Y, points[1].X, points[1].Y);
+
+                        brush1.Dispose();
+                        brush2.Dispose();
+                        brush3.Dispose();
+                        brush4.Dispose();
+
                         break;
                     case 1:
                         Point startPoint = new Point((Int32)(Center.X - m_NeedleRadius[m_NeedIdx] / 8 * Math.Cos(needleAngle)),

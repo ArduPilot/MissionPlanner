@@ -143,6 +143,7 @@ namespace MissionPlanner.Joystick
                 if (!joy.start(CMB_joysticks.Text))
                 {
                     CustomMessageBox.Show("Please Connect a Joystick", "No Joystick");
+                    joy.Dispose();
                     return;
                 }
 

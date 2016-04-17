@@ -98,11 +98,11 @@ namespace CircularBuffer
 
         public int Put(T[] src, int offset, int count)
         {
-            if (!AllowOverflow &&  count > capacity - size)
-                throw new InvalidOperationException("Buffer Overflow");
-
             lock (_syncRoot)
             {
+                if (!AllowOverflow &&  count > capacity - size)
+                    throw new InvalidOperationException("Buffer Overflow");
+
                 int srcIndex = offset;
                 for (int i = 0; i < count; i++, tail++, srcIndex++)
                 {
@@ -117,11 +117,11 @@ namespace CircularBuffer
 
         public void Put(T item)
         {
-            if (!AllowOverflow && size == capacity)
-                throw new InvalidOperationException("Buffer Overflow");
-
             lock (_syncRoot)
             {
+                if (!AllowOverflow && size == capacity)
+                    throw new InvalidOperationException("Buffer Overflow");
+
                 buffer[tail] = item;
                 if (++tail == capacity)
                     tail = 0;
@@ -170,11 +170,11 @@ namespace CircularBuffer
 
         public T Get()
         {
-            if (size == 0)
-                throw new InvalidOperationException("Buffer Empty");
-
             lock (_syncRoot)
             {
+                if (size == 0)
+                    throw new InvalidOperationException("Buffer Empty");
+                
                 var item = buffer[head];
                 if (++head == capacity)
                     head = 0;
