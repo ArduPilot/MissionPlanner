@@ -287,14 +287,17 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                progressBarRoll.maxline = MainV2.joystick.getRawValueForChannel(1);
-                progressBarPith.maxline = MainV2.joystick.getRawValueForChannel(2);
-                progressBarThrottle.maxline = MainV2.joystick.getRawValueForChannel(3);
-                progressBarRudder.maxline = MainV2.joystick.getRawValueForChannel(4);
-                ProgressBarCH5.maxline = MainV2.joystick.getRawValueForChannel(5);
-                ProgressBarCH6.maxline = MainV2.joystick.getRawValueForChannel(6);
-                ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
-                ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
+                if (MainV2.joystick != null)
+                {
+                    progressBarRoll.maxline = MainV2.joystick.getRawValueForChannel(1);
+                    progressBarPith.maxline = MainV2.joystick.getRawValueForChannel(2);
+                    progressBarThrottle.maxline = MainV2.joystick.getRawValueForChannel(3);
+                    progressBarRudder.maxline = MainV2.joystick.getRawValueForChannel(4);
+                    ProgressBarCH5.maxline = MainV2.joystick.getRawValueForChannel(5);
+                    ProgressBarCH6.maxline = MainV2.joystick.getRawValueForChannel(6);
+                    ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
+                    ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
+                }
             }
             catch
             {

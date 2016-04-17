@@ -1388,6 +1388,9 @@ namespace MissionPlanner
                         FileInfo lcImgFile = new FileInfo(fn);
                         // Loading all meta data
                         lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
+
+                        if (lcMetadata == null)
+                            return;
                     }
                     catch (JpegProcessingException ex)
                     {

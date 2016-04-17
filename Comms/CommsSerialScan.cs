@@ -65,8 +65,11 @@ namespace MissionPlanner.Comms
 
                 redo:
 
-                if (run == 0)
-                    return;
+                lock (runlock)
+                {
+                    if (run == 0)
+                        return;
+                }
 
                 DateTime deadline = DateTime.Now.AddSeconds(5);
 

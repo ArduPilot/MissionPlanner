@@ -111,6 +111,9 @@ public partial class MAVLink
         {
             byte[] buffer = ReadPacket(BaseStream);
 
+            if (buffer == null)
+                return null;
+
             byte header = buffer[0];
             byte length = buffer[1];
             byte seq = buffer[2];

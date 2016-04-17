@@ -180,10 +180,9 @@ SizeConst = 4)]
     {
         avi_close();
     }
-
-
-    static int nframes;
-    static uint totalsize;
+    
+    int nframes;
+    uint totalsize;
     System.IO.BufferedStream fd;
     DateTime start = DateTime.MinValue;
     int targetfps = 10;

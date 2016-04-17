@@ -188,15 +188,16 @@ namespace LibVLC.NET
     private static MediaPlayer GetMediaPlayer(IntPtr handle)
     {
       WeakReference<MediaPlayer> media_player_reference;
-      if(m_MediaPlayers.TryGetValue(handle, out media_player_reference))
-      {
-        MediaPlayer media_player;
-        if(media_player_reference.TryGetTarget(out media_player))
-          if(media_player != null)
-            return media_player;
+      lock (m_MediaPlayers)
+          if(m_MediaPlayers.TryGetValue(handle, out media_player_reference))
+          {
+            MediaPlayer media_player;
+            if(media_player_reference.TryGetTarget(out media_player))
+              if(media_player != null)
+                return media_player;
 
-        Debug.WriteLine(String.Format("MediaPlayer {0} has already been collected!", handle), "MediaPlayer");
-      }
+            Debug.WriteLine(String.Format("MediaPlayer {0} has already been collected!", handle), "MediaPlayer");
+          }
 
       StartCleanupMediaPlayers();
       return null;

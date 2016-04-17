@@ -472,7 +472,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             try
             {
-                var data = GitHubContent.GetFileContent("diydrones", "ardupilot",
+                var data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
                     ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);

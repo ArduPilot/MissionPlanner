@@ -50,15 +50,16 @@ namespace MissionPlanner.Controls.PreFlight
 
         public void Draw()
         {
-            if (rowcount == this.CheckListItems.Count)
-                return;
-
-            panel1.SuspendLayout();
-            panel1.Controls.Clear();
-
-            int y = 0;
             lock (this.CheckListItems)
             {
+                if (rowcount == this.CheckListItems.Count)
+                    return;
+
+                panel1.SuspendLayout();
+                panel1.Controls.Clear();
+
+                int y = 0;
+
                 rowcount = 0;
 
                 foreach (var item in this.CheckListItems)

@@ -439,7 +439,10 @@ namespace LibVLC.NET
     /// </remarks>
     public static LibVLCLibrary Load(string libVLCDirectory)
     {
-      return GetOrLoadLibrary(libVLCDirectory).Library;
+        lock(m_LibraryHandles)
+        {
+            return GetOrLoadLibrary(libVLCDirectory).Library;
+        }
     }
 
     //==========================================================================

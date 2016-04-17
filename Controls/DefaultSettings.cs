@@ -70,7 +70,7 @@ namespace MissionPlanner.Controls
 
             try
             {
-                byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot",
+                byte[] data = GitHubContent.GetFileContent("ardupilot", "ardupilot",
                     ((GitHubContent.FileInfo) CMB_paramfiles.SelectedValue).path);
 
                 File.WriteAllBytes(filepath, data);

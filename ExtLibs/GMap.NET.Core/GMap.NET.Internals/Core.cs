@@ -1242,17 +1242,17 @@ namespace GMap.NET.Internals
                Matrix = null;
             }
 
-            if(FailedLoads != null)
+            lock (FailedLoads)
             {
-               lock(FailedLoads)
-               {
-                  FailedLoads.Clear();
-                  RaiseEmptyTileError = false;
-               }
-               FailedLoads = null;
+                if (FailedLoads != null)
+                {
+                    FailedLoads.Clear();
+                    RaiseEmptyTileError = false;
+                }
+                FailedLoads = null;
             }
 
-            // cancel waiting loaders
+             // cancel waiting loaders
             Monitor.Enter(tileLoadQueue);
             try
             {

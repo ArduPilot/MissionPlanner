@@ -220,10 +220,10 @@ namespace MissionPlanner.Log
             // get df log from mav
             using (var ms = MainV2.comPort.GetLog(no))
             {
-                ms.Seek(0, SeekOrigin.Begin);
-
                 if (ms != null)
                     log.Info("Got Log length: " + ms.Length);
+
+                ms.Seek(0, SeekOrigin.Begin);
 
                 status = SerialStatus.Done;
 

@@ -549,8 +549,6 @@ namespace MissionPlanner.Log
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
-                bool largelog = true; // logdata.Count > 500000 ? true : false;
-
                 int b = 0;
 
                 foreach (var item2 in logdata)
@@ -568,23 +566,8 @@ namespace MissionPlanner.Log
                         seenmessagetypes[item.msgtype] = "";
 
                         // check first 1000000 lines for max coloums needed
-                        if (b > 1000000 && largelog)
+                        if (b > 1000000)
                             break;
-
-                        if (largelog)
-                            continue;
-
-                        DataRow dr = m_dtCSV.NewRow();
-
-                        dr[0] = item.lineno;
-                        dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
-
-                        for (int a = 0; a < item.items.Length; a++)
-                        {
-                            dr[a + typecoloum] = item.items[a];
-                        }
-
-                        m_dtCSV.Rows.Add(dr);
                     }
                 }
 

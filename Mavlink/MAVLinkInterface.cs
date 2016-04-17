@@ -2669,8 +2669,7 @@ Please check the following
             int count = 0;
             int length = 0;
             int readcount = 0;
-            lastbad = new byte[2];
-
+            
             BaseStream.ReadTimeout = 1200; // 1200 ms between chars - the gps detection requires this.
 
             DateTime start = DateTime.Now;
@@ -2679,6 +2678,8 @@ Please check the following
 
             lock (readlock)
             {
+                lastbad = new byte[2];
+
                 //Console.WriteLine(DateTime.Now.Millisecond + " SR1 " + BaseStream.BytesToRead);
 
                 while (BaseStream.IsOpen || logreadmode)
