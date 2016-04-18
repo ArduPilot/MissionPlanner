@@ -218,15 +218,7 @@ namespace MissionPlanner.GeoRef
             // DataFlash Log
             else
             {
-                // convert bin to log
-                if (fn.ToLower().EndsWith("bin"))
-                {
-                    string tempfile = Path.GetTempFileName();
-                    Log.BinaryLog.ConvertBin(fn, tempfile);
-                    fn = tempfile;
-                }
-
-                using (StreamReader sr = new StreamReader(fn))
+                using (var sr = new CollectionBuffer<string>(File.OpenRead(fn)))
                 {
                     // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
                     float currentYaw = 0f;
@@ -916,21 +908,17 @@ namespace MissionPlanner.GeoRef
                 TXT_outputlog.AppendText("Log Read for GPS Messages\n");
             }
 
-
-            //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
             TXT_outputlog.AppendText("Reading log for CAM Messages\n");
 
             var list = readCAMMsgInLog(logFile);
 
             if (list == null)
             {
-                TXT_outputlog.AppendText("Log file problem. Aborting....\n");
+                TXT_outputlog.AppendText("Log file problem. No CAM messages. Aborting....\n");
                 return null;
             }
 
             TXT_outputlog.AppendText("Log Read with - " + list.Count + " - CAM Messages found\n");
-
-            //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
 
             TXT_outputlog.AppendText("Read images\n");
 
@@ -941,7 +929,7 @@ namespace MissionPlanner.GeoRef
             // Check that we have same number of CAMs than files
             if (files.Length != list.Count)
             {
-                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. Check it!\n");
+                TXT_outputlog.AppendText(string.Format("CAM Msgs and Files discrepancy. Check it! files: {0} vs CAM msg: {1}\n",files.Length,list.Count));
                 return null;
             }
 
