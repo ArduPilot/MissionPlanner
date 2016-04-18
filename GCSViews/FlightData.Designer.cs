@@ -132,6 +132,7 @@
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
@@ -1657,7 +1658,8 @@
             this.triggerCameraToolStripMenuItem,
             this.flightPlannerToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
-            this.takeOffToolStripMenuItem});
+            this.takeOffToolStripMenuItem,
+            this.onOffCameraOverlapToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -1736,6 +1738,13 @@
             this.takeOffToolStripMenuItem.Name = "takeOffToolStripMenuItem";
             resources.ApplyResources(this.takeOffToolStripMenuItem, "takeOffToolStripMenuItem");
             this.takeOffToolStripMenuItem.Click += new System.EventHandler(this.takeOffToolStripMenuItem_Click);
+            // 
+            // onOffCameraOverlapToolStripMenuItem
+            // 
+            this.onOffCameraOverlapToolStripMenuItem.CheckOnClick = true;
+            this.onOffCameraOverlapToolStripMenuItem.Name = "onOffCameraOverlapToolStripMenuItem";
+            resources.ApplyResources(this.onOffCameraOverlapToolStripMenuItem, "onOffCameraOverlapToolStripMenuItem");
+            this.onOffCameraOverlapToolStripMenuItem.Click += new System.EventHandler(this.onOffCameraOverlapToolStripMenuItem_Click);
             // 
             // but_disablejoystick
             // 
@@ -1973,6 +1982,7 @@
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.MainH);
+            this.MinimumSize = new System.Drawing.Size(1008, 462);
             this.Name = "FlightData";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FlightData_FormClosing);
             this.Load += new System.EventHandler(this.FlightData_Load);
@@ -2179,5 +2189,6 @@
         private System.Windows.Forms.ToolStripMenuItem loadFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PointCameraCoordsToolStripMenuItem1;
         private Controls.ModifyandSet modifyandSetLoiterRad;
+        private System.Windows.Forms.ToolStripMenuItem onOffCameraOverlapToolStripMenuItem;
     }
 }

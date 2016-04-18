@@ -1304,17 +1304,29 @@ namespace MissionPlanner.GCSViews
                             {
                                 if (mark is GMapMarkerPhoto)
                                 {
-                                    MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(((GMapMarkerPhoto)mark).footprintpoly);
+                                    if (CameraOverlap)
+                                    {
+                                        MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(
+                                            ((GMapMarkerPhoto) mark).footprintpoly);
+                                    }
                                     if (a < (camcount-4))
                                         ((GMapMarkerPhoto)mark).drawfootprint = false;
                                 }
                                 a++;
                             }
 
-                            if (!kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount) && camcount > 0)
+                            if (CameraOverlap)
+                            {
+                                if (!kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount) &&
+                                    camcount > 0)
+                                {
+                                    kmlpolygons.Markers.Clear();
+                                    kmlpolygons.Markers.Add(MainV2.comPort.MAV.GMapMarkerOverlapCount);
+                                }
+                            }
+                            else if (kmlpolygons.Markers.Contains(MainV2.comPort.MAV.GMapMarkerOverlapCount))
                             {
                                 kmlpolygons.Markers.Clear();
-                                kmlpolygons.Markers.Add(MainV2.comPort.MAV.GMapMarkerOverlapCount);
                             }
                         }
                         catch
@@ -3723,6 +3735,7 @@ namespace MissionPlanner.GCSViews
         }
 
         int messagecount;
+        private bool CameraOverlap;
 
         private void Messagetabtimer_Tick(object sender, EventArgs e)
         {
@@ -4222,6 +4235,11 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR);
             }
+        }
+
+        private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
         }
     }
 }
