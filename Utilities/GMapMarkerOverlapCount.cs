@@ -30,7 +30,7 @@ namespace MissionPlanner.Utilities
                 int a = 0;
                 foreach (var color1 in color)
                 {
-                    colorbrushs[a] = new SolidBrush(Color.FromArgb(140, color1.R,color1.G,color1.B));
+                    colorbrushs[a] = new SolidBrush(Color.FromArgb(140, color1.R, color1.G, color1.B));
                     a++;
                 }
             }
@@ -38,10 +38,10 @@ namespace MissionPlanner.Utilities
 
         static Color[] color = new[]
         {
-            Color.Purple, 
+            Color.Purple,
             Color.Blue,
             Color.Aqua,
-            Color.Green, 
+            Color.Green,
             Color.Yellow,
             Color.Orange,
             Color.Red,
@@ -52,16 +52,18 @@ namespace MissionPlanner.Utilities
 
         public override void OnRender(Graphics g)
         {
-            generateCoverage();
-
+            DateTime start = DateTime.Now;
             var pos = Overlay.Control.FromLatLngToLocal(Position);
 
             pos.Offset(-LocalPosition.X, -LocalPosition.Y);
 
             double width =
                 (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0),
-                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-            double m2pixelwidth = Overlay.Control.Width / width;
+                    Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
+            double m2pixelwidth = Overlay.Control.Width/width;
+
+            Rect screenRect = new Rect(Overlay.Control.Width/-2, Overlay.Control.Height/-2, Overlay.Control.Width,
+                Overlay.Control.Height);
 
             foreach (var pg in overlapCount)
             {
@@ -69,7 +71,11 @@ namespace MissionPlanner.Utilities
 
                 p.Offset(-pos.X, -pos.Y);
 
-                var col = Math.Min(pg.Value-1, 7);
+                if (p.X < screenRect.Left || p.X > screenRect.Right ||
+                    p.Y < screenRect.Top || p.Y > screenRect.Bottom)
+                    continue;
+
+                var col = Math.Min(pg.Value - 1, 7);
 
                 var coloruse = colorbrushs[col];
 
@@ -77,10 +83,12 @@ namespace MissionPlanner.Utilities
 
                 var halfwidthc = widthc/2.0f;
 
-                g.FillPie(coloruse, (float)(p.X - halfwidthc), (float)(p.Y - halfwidthc), (float)(widthc), (float)(widthc), 0, 360);
+                g.FillPie(coloruse, (float) (p.X - halfwidthc), (float) (p.Y - halfwidthc), (float) (widthc),
+                    (float) (widthc), 0, 360);
             }
 
             drawLegend(g);
+            Console.WriteLine(DateTime.Now - start);
         }
 
         public void Add(GMapPolygon footprint)
@@ -114,6 +122,8 @@ namespace MissionPlanner.Utilities
                     area = RectLatLng.FromLTRB(tllng, tllat, brlng, brlat);
                 }
             }
+
+            generateCoverageFP(footprint);
         }
 
         public void drawLegend(Graphics g)
@@ -125,11 +135,11 @@ namespace MissionPlanner.Utilities
             // width in m
             double width = Overlay.Control.MapProvider.Projection.GetDistance(tl, tr)*1000.0;
             // meters per pixel
-            double m2pixelwidth = Overlay.Control.Width / width;
-            
+            double m2pixelwidth = Overlay.Control.Width/width;
+
             var widthc = 20;
 
-            var halfwidthc = widthc / 2.0f;
+            var halfwidthc = widthc/2.0f;
 
             var pos = Overlay.Control.FromLatLngToLocal(Position);
 
@@ -158,11 +168,11 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public void generateCoverage()
+        public void generateCoverageAll()
         {
             overlapCount.Clear();
 
-            if (area.WidthLng > 1 | area.HeightLat > 1)
+            if (area.WidthLng > 1 || area.HeightLat > 1)
                 return;
 
             for (double lat = Math.Round(area.Lat, 4); lat >= area.Bottom; lat -= 0.0001)
@@ -171,7 +181,7 @@ namespace MissionPlanner.Utilities
                 {
                     var p = new PointLatLng(lat, lng);
                     foreach (var footprintpoly in footprintpolys)
-                    {                        
+                    {
                         if (footprintpoly.IsInside(p))
                         {
                             if (overlapCount.ContainsKey(p))
@@ -185,6 +195,33 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
+            }
+        }
+
+        public void generateCoverageFP(GMapPolygon footprintpoly)
+        {
+            if (area.WidthLng > 1 || area.HeightLat > 1)
+                return;
+
+            for (double lat = Math.Round(area.Lat, 4); lat >= area.Bottom; lat -= 0.0001)
+            {
+                for (double lng = Math.Round(area.Lng, 4); lng <= area.Right; lng += 0.0001)
+                {
+                    var p = new PointLatLng(lat, lng);
+
+                    if (footprintpoly.IsInside(p))
+                    {
+                        if (overlapCount.ContainsKey(p))
+                        {
+                            overlapCount[p]++;
+                        }
+                        else
+                        {
+                            overlapCount[p] = 1;
+                        }
+                    }
+                }
+
             }
         }
 
