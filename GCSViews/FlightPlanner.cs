@@ -66,7 +66,7 @@ namespace MissionPlanner.GCSViews
         public bool quickadd;
         bool isonline = true;
         bool sethome;
-        bool polygongridmode;
+        public bool polygongridmode;
         Hashtable param = new Hashtable();
         bool splinemode;
         altmode currentaltmode = altmode.Relative;
@@ -6634,16 +6634,16 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             double mlon = MouseDownEnd.Lng;
             AddCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, alt);
             AddCommand(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, mlon, mlat, alt);
-            panoramaPhotos(12, 20, mlon, mlat, alt);
             panoramaPhotos(12, -10, mlon, mlat, alt);
+            panoramaPhotos(12, -20, mlon, mlat, alt);
             panoramaPhotos(10, -40, mlon, mlat, alt);
-            panoramaPhotos(8, -70, mlon, mlat, alt);
-            panoramaPhotos(4, -90, mlon, mlat, alt);
+            panoramaPhotos(8, -60, mlon, mlat, alt);
+            panoramaPhotos(3, -90, mlon, mlat, alt);
         }
         private void panoramaPhotos(int photoCount, int gimbalAngle, double mlon, double mlat, int alt)
         {
             float angle = 360 / photoCount;
-            int loiter_1 = 2;
+            int loiter_1 = 1;
             int loiter_2 = 1;
             AddCommand(MAVLink.MAV_CMD.DO_MOUNT_CONTROL, gimbalAngle, 0, 0, 0, 0, 0, 10);
             AddCommand(MAVLink.MAV_CMD.LOITER_TIME, 3, 0, 0, 0, mlon, mlat, alt);//等
@@ -6657,6 +6657,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 AddCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);//拍照
                 AddCommand(MAVLink.MAV_CMD.LOITER_TIME, loiter_2, 0, 0, 0, mlon, mlat, alt);//等
             }
+        }
+
+        private void 电塔观测ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FlightPathPlanning.TowerObservation towerOb = new FlightPathPlanning.TowerObservation();
+            towerOb.Show();
+
         }
     }
 }

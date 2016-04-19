@@ -1782,16 +1782,22 @@
     <value>Auto WP</value>
   </data>
   <data name="setNewSplineCircleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 26</value>
+    <value>181, 26</value>
   </data>
   <data name="setNewSplineCircleToolStripMenuItem.Text" xml:space="preserve">
     <value>参数设置</value>
   </data>
   <data name="runNewSplineCircleToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 26</value>
+    <value>181, 26</value>
   </data>
   <data name="runNewSplineCircleToolStripMenuItem.Text" xml:space="preserve">
     <value>运行</value>
+  </data>
+  <data name="电塔观测ToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>181, 26</value>
+  </data>
+  <data name="电塔观测ToolStripMenuItem.Text" xml:space="preserve">
+    <value>电塔观测</value>
   </data>
   <data name="newAutoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>233, 26</value>
@@ -2131,6 +2137,9 @@
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>51</value>
   </metadata>
   <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
@@ -2701,6 +2710,12 @@
   </data>
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;电塔观测ToolStripMenuItem.Name" xml:space="preserve">
+    <value>电塔观测ToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;电塔观测ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>FlightPlanner</value>

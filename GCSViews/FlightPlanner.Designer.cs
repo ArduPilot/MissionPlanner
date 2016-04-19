@@ -203,6 +203,7 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.电塔观测ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -1108,7 +1109,8 @@
             // 
             this.newAutoWPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.setNewSplineCircleToolStripMenuItem,
-            this.runNewSplineCircleToolStripMenuItem});
+            this.runNewSplineCircleToolStripMenuItem,
+            this.电塔观测ToolStripMenuItem});
             this.newAutoWPToolStripMenuItem.Name = "newAutoWPToolStripMenuItem";
             resources.ApplyResources(this.newAutoWPToolStripMenuItem, "newAutoWPToolStripMenuItem");
             this.newAutoWPToolStripMenuItem.Click += new System.EventHandler(this.newAutoWPToolStripMenuItem_Click);
@@ -1350,6 +1352,12 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // 电塔观测ToolStripMenuItem
+            // 
+            this.电塔观测ToolStripMenuItem.Name = "电塔观测ToolStripMenuItem";
+            resources.ApplyResources(this.电塔观测ToolStripMenuItem, "电塔观测ToolStripMenuItem");
+            this.电塔观测ToolStripMenuItem.Click += new System.EventHandler(this.电塔观测ToolStripMenuItem_Click);
+            // 
             // FlightPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1531,5 +1539,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem targetCenterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem panoramaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 电塔观测ToolStripMenuItem;
     }
 }

@@ -441,6 +441,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\FlightPathPlanning\TowerObservation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GCSViews\FlightPathPlanning\TowerObservation.Designer.cs">
+      <DependentUpon>TowerObservation.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\NewAutoWP.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1154,6 +1160,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-TW.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightPathPlanning\TowerObservation.resx">
+      <DependentUpon>TowerObservation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.ja-JP.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
