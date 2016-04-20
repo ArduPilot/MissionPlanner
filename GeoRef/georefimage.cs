@@ -184,8 +184,6 @@ namespace MissionPlanner.GeoRef
                         new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
                     mine.logreadmode = true;
 
-                    mine.MAV.packets.Initialize(); // clear
-
                     CurrentState cs = new CurrentState();
 
                     while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)

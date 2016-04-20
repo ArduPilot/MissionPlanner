@@ -431,8 +431,6 @@ namespace MissionPlanner.Log
                             }
                             mine.logreadmode = true;
 
-                            mine.MAV.packets.Initialize(); // clear
-
                             double oldlatlngsum = 0;
 
                             int appui = 0;
@@ -658,8 +656,6 @@ namespace MissionPlanner.Log
 
                             mine.logreadmode = true;
 
-                            mine.MAV.packets.Initialize(); // clear
-
                             StreamWriter sw =
                                 new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
                                                  Path.GetFileNameWithoutExtension(logfile) + ".txt");
@@ -791,8 +787,6 @@ namespace MissionPlanner.Log
                     return options;
                 }
                 MavlinkInterface.logreadmode = true;
-
-                MavlinkInterface.MAV.packets.Initialize(); // clear
 
                 CurrentState cs = new CurrentState();
 
@@ -1446,8 +1440,6 @@ namespace MissionPlanner.Log
                             }
                             mine.logreadmode = true;
 
-                            mine.MAV.packets.Initialize(); // clear
-
                             StreamWriter sw =
                                 new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
                                                  Path.GetFileNameWithoutExtension(logfile) + ".csv");
@@ -1522,8 +1514,6 @@ namespace MissionPlanner.Log
                                 }
 
                                 mine.logreadmode = true;
-
-                                mine.MAV.packets.Initialize(); // clear
 
                                 StreamWriter sw =
                                     new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
@@ -1603,8 +1593,6 @@ namespace MissionPlanner.Log
 
                             mine.logreadmode = true;
 
-                            mine.MAV.packets.Initialize(); // clear
-
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
                                 int percent =
@@ -1642,9 +1630,9 @@ namespace MissionPlanner.Log
                                 {
                                     //get mission count info 
                                     var item =
-                                        mine.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.MISSION_COUNT]
+                                        mine.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT)
                                             .ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
-                                    mine.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
+                                    mine.MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT);
                                     sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " +
                                                  item.target_system);
                                 }

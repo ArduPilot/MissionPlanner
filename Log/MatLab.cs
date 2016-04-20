@@ -271,8 +271,6 @@ namespace MissionPlanner.Log
                 }
                 mine.logreadmode = true;
 
-                mine.MAV.packets.Initialize(); // clear               
-
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
                     MAVLink.MAVLinkMessage packet = mine.readPacket();

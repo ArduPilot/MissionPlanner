@@ -688,73 +688,69 @@ namespace MissionPlanner.Utilities
 
                         Messagejson message = new Messagejson();
 
-
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE] != null)
                             message.ATTITUDE = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE]
-                                        .ByteArrayToStructure<MAVLink.mavlink_attitude_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_attitude_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.VFR_HUD] != null)
                             message.VFR_HUD = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.VFR_HUD],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.VFR_HUD]
-                                        .ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT] != null)
                             message.NAV_CONTROLLER_OUTPUT = new Message2()
                             {
-                                index =
-                                    MainV2.comPort.MAV.packetseencount[
-                                        (byte) MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT]
-                                        .ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT] != null)
                             message.GPS_RAW_INT = new Message2()
                             {
-                                index =
-                                    MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT]
-                                        .ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT] != null)
                             message.HEARTBEAT = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.HEARTBEAT]
-                                        .ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS] != null)
                             message.GPS_STATUS = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.GPS_STATUS]
-                                        .ByteArrayToStructure<MAVLink.mavlink_gps_status_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_gps_status_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT] != null)
                             message.STATUSTEXT = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.STATUSTEXT]
-                                        .ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_statustext_t>()
                             };
                         if (MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS] != null)
                             message.SYS_STATUS = new Message2()
                             {
-                                index = MainV2.comPort.MAV.packetseencount[(byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS],
+                                index = 1,
                                 msg =
                                     MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.SYS_STATUS]
-                                        .ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6)
+                                        .ByteArrayToStructure<MAVLink.mavlink_sys_status_t>()
                             };
 
                         message.META_LINKQUALITY =

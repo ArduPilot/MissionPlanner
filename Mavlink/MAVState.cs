@@ -18,8 +18,7 @@ namespace MissionPlanner
             this.sysid = 0;
             this.compid = 0;
             this.param = new MAVLinkParamList();
-            this.packets = new byte[0x100][];
-            this.packetseencount = new int[0x100];
+            this.packets = new Dictionary<uint, MAVLinkMessage>();
             this.aptype = 0;
             this.apname = 0;
             this.recvpacketcount = 0;
@@ -80,9 +79,25 @@ namespace MissionPlanner
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
-        public byte[][] packets { get; set; }
+        public Dictionary<uint, MAVLinkMessage> packets { get; set; }
 
-        public int[] packetseencount { get; set; }
+        public MAVLinkMessage getPacket(uint mavlinkid)
+        {
+            if (packets.ContainsKey(mavlinkid))
+            {
+                return packets[mavlinkid];
+            }
+
+            return null;
+        }
+
+        public void clearPacket(uint mavlinkid)
+        {
+            if (packets.ContainsKey(mavlinkid))
+            {
+                packets[mavlinkid] = null;
+            }
+        }
 
         /// <summary>
         /// time seen of last mavlink packet

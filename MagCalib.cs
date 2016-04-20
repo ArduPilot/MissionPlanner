@@ -833,8 +833,6 @@ namespace MissionPlanner
 
                 mine.logreadmode = true;
 
-                mine.MAV.packets.Initialize(); // clear
-
                 // gather data
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {

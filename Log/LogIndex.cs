@@ -143,8 +143,6 @@ namespace MissionPlanner.Log
                     }
                     mine.logreadmode = true;
 
-                    mine.MAV.packets.Initialize(); // clear
-
                     mine.getHeartBeat();
 
                     loginfo.Date = mine.lastlogread;

@@ -127,11 +127,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             txt_status.SelectionStart = txt_status.Text.Length;
             txt_status.ScrollToCaret();
 
-            var bytearray = MainV2.comPort.MAV.packets[(byte) MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS];
+            var bytearray = MainV2.comPort.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.COMPASSMOT_STATUS);
 
             if (bytearray != null)
             {
-                var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_compassmot_status_t>(6);
+                var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_compassmot_status_t>();
 
                 lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " +
                                   status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") +

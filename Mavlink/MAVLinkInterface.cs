@@ -2018,14 +2018,17 @@ Please check the following
         /// <returns>struct of data</returns>
         public object DebugPacket(MAVLinkMessage datin, ref string text, bool PrintToConsole, string delimeter = " ")
         {
-            string textoutput;
+            string textoutput = "";
             try
             {
                 if (datin.Length > 5)
                 {
-
-                    textoutput = string.Format("{0,2:X}{6}{1,2:X}{6}{2,2:X}{6}{3,2:X}{6}{4,2:X}{6}{5,2:X}{6}", datin.header,
-                        datin.payloadlength, datin.seq, datin.sysid, datin.compid, datin.msgid, delimeter);
+                        textoutput =
+                            string.Format(
+                                "{0,2:X}{8}{1,2:X}{8}{2,2:X}{8}{3,2:X}{8}{4,2:X}{8}{5,2:X}{8}{6,2:X}{8}{7,6:X}{8}",
+                                datin.header,
+                                datin.payloadlength, datin.incompat_flags, datin.compat_flags, datin.seq, datin.sysid,
+                                datin.compid, datin.msgid, delimeter);
 
                     object data = datin.data;
 
@@ -2953,7 +2956,7 @@ Please check the following
 
             try
             {
-                if ((message.header == 'U' || message.header == 0xfe || message.header == 0xfd) && buffer.Length >= buffer[1])
+                if ((message.header == 'U' || message.header == 0xfe || message.header == 0xfd) && buffer.Length >= message.payloadlength)
                 {
                     // check if we lost pacakets based on seqno
                     int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1)%0x100);
@@ -3008,21 +3011,19 @@ Please check the following
                     // store packet history
                     lock (objlock)
                     {
-                        MAVlist[sysid, compid].packets[msgid] = buffer;
-                        MAVlist[sysid, compid].packetseencount[msgid]++;
+                        MAVlist[sysid, compid].packets[msgid] = message;
 
                         // 3dr radio status packet are injected into the current mav
                         if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS ||
                             msgid == (byte)MAVLink.MAVLINK_MSG_ID.RADIO)
                         {
-                            MAVlist[sysidcurrent, compidcurrent].packets[msgid] = buffer;
-                            MAVlist[sysidcurrent, compidcurrent].packetseencount[msgid]++;
+                            MAVlist[sysidcurrent, compidcurrent].packets[msgid] = message;
                         }
 
                         // adsb packets are forwarded and can be from any sysid/compid
                         if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE)
                         {
-                            var adsb = buffer.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>(6);
+                            var adsb = message.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>();
 
                             MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"));
                             MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
@@ -3032,7 +3033,7 @@ Please check the following
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
                     if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
                     {
-                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
+                        mavlink_heartbeat_t hb = message.ByteArrayToStructure<mavlink_heartbeat_t>();
 
                         // not a gcs
                         if (hb.type != (byte) MAV_TYPE.GCS)
@@ -3065,7 +3066,7 @@ Please check the following
 
                     if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT) // status text
                     {
-                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>();
+                        var msg = message.ByteArrayToStructure<MAVLink.mavlink_statustext_t>();
 
                         byte sev = msg.severity;
 
@@ -3174,8 +3175,9 @@ Please check the following
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
 
             // update last valid packet receive time

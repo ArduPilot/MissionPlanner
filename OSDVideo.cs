@@ -320,8 +320,6 @@ namespace MissionPlanner
                 }
                 mine.logreadmode = true;
 
-                mine.MAV.packets.Initialize(); // clear
-
                 mine.readPacket();
 
                 startlogtime = mine.lastlogread;

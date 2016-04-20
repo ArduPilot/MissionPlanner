@@ -29,7 +29,7 @@ public static class MavlinkUtil
         ByteArrayToStructureEndian(bytearray, ref newPacket, startoffset);
         return (TMavlinkPacket)newPacket;
     }
-
+    
         public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
     {
         int len = Marshal.SizeOf(obj);
