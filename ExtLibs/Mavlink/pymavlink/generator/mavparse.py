@@ -108,12 +108,11 @@ class MAVField(object):
 
 
 class MAVType(object):
-    def __init__(self, name, id, dialect, linenumber, description=''):
+    def __init__(self, name, id, linenumber, description=''):
         self.name = name
         self.name_lower = name.lower()
         self.linenumber = linenumber
         self.id = int(id)
-        self.dialect = dialect
         self.description = description
         self.fields = []
         self.fieldnames = []
@@ -124,18 +123,22 @@ class MAVEnumParam(object):
         self.description = description
 
 class MAVEnumEntry(object):
-    def __init__(self, name, value, description='', end_marker=False):
+    def __init__(self, name, value, description='', end_marker=False, autovalue=False, origin_file='', origin_line=0):
         self.name = name
         self.value = value
         self.description = description
         self.param = []
         self.end_marker = end_marker
+        self.autovalue = autovalue  # True if value was *not* specified in XML
+        self.origin_file = origin_file
+        self.origin_line = origin_line
 
 class MAVEnum(object):
     def __init__(self, name, linenumber, description=''):
         self.name = name
         self.description = description
         self.entry = []
+        self.start_value = None
         self.highest_value = 0
         self.linenumber = linenumber
 
@@ -149,11 +152,12 @@ class MAVXML(object):
         self.basename_upper = self.basename.upper()
         self.message = []
         self.enum = []
-        self.parse_time = time.asctime()
+        # we use only the day for the parse_time, as otherwise
+        # it causes a lot of unnecessary cache misses with ccache
+        self.parse_time = time.strftime("%a %b %d %Y")
         self.version = 2
         self.include = []
         self.wire_protocol_version = wire_protocol_version
-        self.dialect = 0
 
         # setup the protocol features for the requested protocol version
         if wire_protocol_version == PROTOCOL_0_9:
@@ -162,24 +166,21 @@ class MAVXML(object):
             self.little_endian = False
             self.crc_extra = False
             self.crc_struct = False
-            self.command_16bit = False
-            self.multi_dialect = False
+            self.command_24bit = False
         elif wire_protocol_version == PROTOCOL_1_0:
             self.protocol_marker = 0xFE
             self.sort_fields = True
             self.little_endian = True
             self.crc_extra = True
             self.crc_struct = False
-            self.command_16bit = False
-            self.multi_dialect = False
+            self.command_24bit = False
         elif wire_protocol_version == PROTOCOL_2_0:
             self.protocol_marker = 0xFD
             self.sort_fields = True
             self.little_endian = True
             self.crc_extra = True
             self.crc_struct = True
-            self.command_16bit = True
-            self.multi_dialect = True
+            self.command_24bit = True
         else:
             print("Unknown wire protocol version")
             print("Available versions are: %s %s" % (PROTOCOL_0_9, PROTOCOL_1_0, PROTOCOL_2_0))
@@ -199,7 +200,7 @@ class MAVXML(object):
             #print in_element
             if in_element == "mavlink.messages.message":
                 check_attrs(attrs, ['name', 'id'], 'message')
-                self.message.append(MAVType(attrs['name'], attrs['id'], self.dialect, p.CurrentLineNumber))
+                self.message.append(MAVType(attrs['name'], attrs['id'], p.CurrentLineNumber))
             elif in_element == "mavlink.messages.message.field":
                 check_attrs(attrs, ['name', 'type'], 'field')
                 if 'print_format' in attrs:
@@ -217,13 +218,21 @@ class MAVXML(object):
                 self.enum.append(MAVEnum(attrs['name'], p.CurrentLineNumber))
             elif in_element == "mavlink.enums.enum.entry":
                 check_attrs(attrs, ['name'], 'enum entry')
+                # determine value and if it was automatically assigned (for possible merging later)
                 if 'value' in attrs:
                     value = eval(attrs['value'])
+                    autovalue = False
                 else:
                     value = self.enum[-1].highest_value + 1
+                    autovalue = True
+                # check lowest value
+                if (self.enum[-1].start_value == None or value < self.enum[-1].start_value):
+                    self.enum[-1].start_value = value
+                # check highest value
                 if (value > self.enum[-1].highest_value):
                     self.enum[-1].highest_value = value
-                self.enum[-1].entry.append(MAVEnumEntry(attrs['name'], value))
+                # append the new entry
+                self.enum[-1].entry.append(MAVEnumEntry(attrs['name'], value, '', False, autovalue, self.filename, p.CurrentLineNumber))
             elif in_element == "mavlink.enums.enum.entry.param":
                 check_attrs(attrs, ['index'], 'enum param')
                 self.enum[-1].entry[-1].param.append(MAVEnumParam(attrs['index']))
@@ -245,8 +254,6 @@ class MAVXML(object):
                 self.enum[-1].entry[-1].param[-1].description += data
             elif in_element == "mavlink.version":
                 self.version = int(data)
-            elif in_element == "mavlink.dialect":
-                self.dialect = int(data)
             elif in_element == "mavlink.include":
                 self.include.append(data)
 
@@ -263,7 +270,20 @@ class MAVXML(object):
         self.message_names = {}
         self.largest_payload = 0
 
+        if not self.command_24bit:
+            # remove messages with IDs > 255
+            m2 = []
+            for m in self.message:
+                if m.id <= 255:
+                    m2.append(m)
+                else:
+                    print("Ignoring MAVLink2 message %s" % m.name)
+            self.message = m2
+
         for m in self.message:
+            if not self.command_24bit and m.id > 255:
+                continue
+
             m.wire_length = 0
             m.fieldnames = []
             m.fieldlengths = []
@@ -296,10 +316,7 @@ class MAVXML(object):
                     m.num_fields, 64))
             m.crc_extra = message_checksum(m)
 
-            if self.multi_dialect:
-                key = (m.dialect,m.id)
-            else:
-                key = m.id
+            key = m.id
             self.message_crcs[key] = m.crc_extra
             self.message_lengths[key] = m.wire_length
             self.message_names[key] = m.name
@@ -335,9 +352,18 @@ def merge_enums(xml):
         newenums = []
         for enum in x.enum:
             if enum.name in emap:
-                emap[enum.name].entry.extend(enum.entry)
-                if not emap[enum.name].description:
-                    emap[enum.name].description = enum.description
+                emapitem = emap[enum.name]
+                # check for possible conflicting auto-assigned values after merge
+                if (emapitem.start_value <= enum.highest_value and emapitem.highest_value >= enum.start_value):
+                    for entry in emapitem.entry:
+                        # correct the value if necessary, but only if it was auto-assigned to begin with
+                        if entry.value <= enum.highest_value and entry.autovalue == True:
+                            entry.value = enum.highest_value + 1
+                            enum.highest_value = entry.value
+                # merge the entries
+                emapitem.entry.extend(enum.entry)
+                if not emapitem.description:
+                    emapitem.description = enum.description
                 print("Merged enum %s" % enum.name)
             else:
                 newenums.append(enum)
@@ -361,13 +387,10 @@ def check_duplicates(xml):
     enummap = {}
     for x in xml:
         for m in x.message:
-            if x.multi_dialect:
-                key = (m.dialect,m.id)
-            else:
-                key = m.id
+            key = m.id
             if key in msgmap:
-                print("ERROR: Duplicate message id %u:%u for %s (%s:%u) also used by %s" % (
-                    m.dialect, m.id,
+                print("ERROR: Duplicate message id %u for %s (%s:%u) also used by %s" % (
+                    m.id,
                     m.name,
                     x.filename, m.linenumber,
                     msgmap[key]))
@@ -383,15 +406,17 @@ def check_duplicates(xml):
             msgmap[key] = '%s (%s:%u)' % (m.name, x.filename, m.linenumber)
         for enum in x.enum:
             for entry in enum.entry:
+                if entry.autovalue == True and "common.xml" not in entry.origin_file:
+                    print("Note: An enum value was auto-generated: %s = %u" % (entry.name, entry.value))
                 s1 = "%s.%s" % (enum.name, entry.name)
                 s2 = "%s.%s" % (enum.name, entry.value)
                 if s1 in enummap or s2 in enummap:
-                    print("ERROR1: Duplicate enums %s/%s at %s:%u and %s" % (
-                        s1, entry.value, x.filename, enum.linenumber,
+                    print("ERROR: Duplicate enum %s:\n\t%s = %s @ %s:%u\n\t%s" % (
+                        "names" if s1 in enummap else "values",
+                        s1, entry.value, entry.origin_file, entry.origin_line,
                         enummap.get(s1) or enummap.get(s2)))
                     return True
-                enummap[s1] = "%s:%u" % (x.filename, enum.linenumber)
-                enummap[s2] = "%s:%u" % (x.filename, enum.linenumber)
+                enummap[s1] = enummap[s2] = "%s.%s = %s @ %s:%u" % (enum.name, entry.name, entry.value, entry.origin_file, entry.origin_line)
 
     return False
 

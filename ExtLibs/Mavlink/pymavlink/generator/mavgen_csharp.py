@@ -23,6 +23,11 @@ def generate_message_header(f, xml):
     else:
         xml.crc_extra_define = "0"
 
+    if xml.command_24bit:
+        xml.command_24bit_define = "1"
+    else:
+        xml.command_24bit_define = "0"
+
     if xml.sort_fields:
         xml.aligned_fields_define = "1"
     else:
@@ -33,23 +38,19 @@ def generate_message_header(f, xml):
     for i in xml.include:
         base = i[:-4]
         xml.include_list.append(mav_include(base))
-    
+
     xml.message_names_enum = ''
-    for msgid in range(256):
-        name = xml.message_names.get(msgid, None)
-        if name is not None:
-            xml.message_names_enum += '%s = %u,\n' % (name, msgid)
 
     # and message CRCs array
     xml.message_infos_array = ''
-    if xml.multi_dialect:
+    if xml.command_24bit:
         # we sort with primary key msgid, secondary key dialect
-        for (dialect,msgid) in sorted(xml.message_crcs.keys(), key=lambda x: (x[1]<<8)|x[0]):
-            name = xml.message_names[(dialect,msgid)]
-            xml.message_infos_array += 'new message_info(%u, %u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, dialect,
+        for msgid in sorted(xml.message_names.keys()):
+            name = xml.message_names[msgid]
+            xml.message_infos_array += 'new message_info(%u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
                                                                 name,
-                                                                xml.message_crcs[(dialect, msgid)],
-                                                                xml.message_lengths[(dialect,msgid)],
+                                                                xml.message_crcs[msgid],
+                                                                xml.message_lengths[msgid],
                                                                 name.lower())
             xml.message_names_enum += '%s = %u,\n' % (name, msgid)
     else:
@@ -64,6 +65,7 @@ def generate_message_header(f, xml):
                                                                     crc,
                                                                     length,
                                                                     name.lower())
+                xml.message_names_enum += '%s = %u,\n' % (name, msgid)
     
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
@@ -108,66 +110,66 @@ public partial class MAVLink
 
         public const byte MAVLINK_VERSION = ${version};
 
-        static string[] names;
-        static Type[] infos;
-        static byte[] crcs;
-        static byte[] lens;
+        static Dictionary<uint,string> names;
+        static Dictionary<uint,Type> infos;
+        static Dictionary<uint,byte> crcs;
+        static Dictionary<uint,byte> lens;
 
-        public static byte[] MAVLINK_MESSAGE_LENGTHS 
+        public static Dictionary<uint,byte> MAVLINK_MESSAGE_LENGTHS 
         {
             get
             {
                 if (lens != null)
                     return lens;
-                lens = new byte[256];
+                lens = new Dictionary<uint, byte>();
                 foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
                 {
-                    lens[(byte)messageInfo.msgid] = (byte)messageInfo.length;
+                    lens[messageInfo.msgid] = (byte)messageInfo.length;
                 }
                 return lens;
             }
         }
 
-        public static byte[] MAVLINK_MESSAGE_CRCS
+        public static Dictionary<uint, byte> MAVLINK_MESSAGE_CRCS
         {
             get
             {
                 if (crcs != null)
                     return crcs;
-                crcs = new byte[256];
+                crcs = new Dictionary<uint, byte>();
                 foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
                 {
-                    crcs[(byte)messageInfo.msgid] = (byte)messageInfo.crc;
+                    crcs[messageInfo.msgid] = (byte)messageInfo.crc;
                 }
                 return crcs;
             }
         }
 
-        public static Type[] MAVLINK_MESSAGE_INFO
+        public static Dictionary<uint,Type> MAVLINK_MESSAGE_INFO
         {
             get
             {
                 if (infos != null)
                     return infos;
-                infos = new Type[256];
+                infos = new Dictionary<uint, Type>();
                 foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
                 {
-                    infos[(byte)messageInfo.msgid] = messageInfo.type;
+                    infos[messageInfo.msgid] = messageInfo.type;
                 }
                 return infos;
             }
         }
 
-        public static string[] MAVLINK_NAMES
+        public static Dictionary<uint, string> MAVLINK_NAMES
         {
             get
             {
                 if (names != null)
                     return names;
-                names = new string[256];
+                names = new Dictionary<uint, string>();
                 foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
                 {
-                    names[(byte)messageInfo.msgid] = messageInfo.name;
+                    names[messageInfo.msgid] = messageInfo.name;
                 }
                 return names;
             }
@@ -175,23 +177,21 @@ public partial class MAVLink
 
         public struct message_info
         {
-            public int msgid;
-            public int dialect;
+            public uint msgid;
             public string name;
-            public uint crc;
+            public byte crc;
             public uint length;
             public Type type;
 
-            public message_info(int msgid, int dialect, string name, UInt32 crc, uint length, Type type)
+            public message_info(uint msgid, string name, byte crc, uint length, Type type)
             {
                 this.msgid = msgid;
-                this.dialect = dialect;
                 this.name = name;
                 this.crc = crc;
                 this.length = length;
                 this.type = type;
             }
-        }  
+        }   
 
         public enum MAVLINK_MSG_ID 
         {
