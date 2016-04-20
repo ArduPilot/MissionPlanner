@@ -114,20 +114,7 @@ public partial class MAVLink
             if (buffer == null)
                 return null;
 
-            byte header = buffer[0];
-            byte length = buffer[1];
-            byte seq = buffer[2];
-            byte sysid = buffer[3];
-            byte compid = buffer[4];
-            byte messid = buffer[5];
-
-            //create the object specified by the packet type
-            object data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[messid]);
-
-            // fill in the data of the object
-            MavlinkUtil.ByteArrayToStructure(buffer, ref data, 6);
-
-            return new MAVLinkMessage(header, length, seq, sysid, compid, messid, data);
+            return new MAVLinkMessage(buffer);
         }
 
         public byte[] GenerateMAVLinkPacket(MAVLINK_MSG_ID messageType, object indata)
@@ -138,7 +125,7 @@ public partial class MAVLink
 
             byte[] packet = new byte[data.Length + 6 + 2];
 
-            packet[0] = 254;
+            packet[0] = 0xfe;
             packet[1] = (byte)data.Length;
             packet[2] = (byte)packetcount;
 

@@ -30,7 +30,7 @@ public static class MavlinkUtil
         return (TMavlinkPacket)newPacket;
     }
 
-    public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
+        public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
     {
         int len = Marshal.SizeOf(obj);
 

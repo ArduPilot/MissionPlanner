@@ -111,7 +111,7 @@
   <PropertyGroup>
     <PreBuildEvent>rd /s /q "$(ProjectDir)mavlink"
 cd "$(ProjectDir)"
-python -m pymavlink.tools.mavgen --lang=csharp --wire-protocol=1.0 "$(ProjectDir)message_definitions\ardupilotmega.xml"  
+python -m pymavlink.tools.mavgen --lang=csharp --wire-protocol=2.0 "$(ProjectDir)message_definitions\ardupilotmega.xml"  
 copy /y "$(ProjectDir)mavlink\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
 </PreBuildEvent>
   </PropertyGroup>
