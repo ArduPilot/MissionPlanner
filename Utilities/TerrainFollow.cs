@@ -15,7 +15,7 @@ namespace MissionPlanner.Utilities
 
         MAVLink.mavlink_terrain_request_t lastrequest;
 
-        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> subscription;
+        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
 
         private MAVLinkInterface _interface;
 
@@ -33,9 +33,9 @@ namespace MissionPlanner.Utilities
             _interface.UnSubscribeToPacketType(subscription);
         }
 
-        bool ReceviedPacket(byte[] rawpacket)
+        bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
-            if (rawpacket[5] == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
+            if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
             {
                 MAVLink.mavlink_terrain_request_t packet =
                     rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
 
                 System.Threading.ThreadPool.QueueUserWorkItem(QueueSendGrid);
             }
-            else if (rawpacket[5] == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
+            else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
                 MAVLink.mavlink_terrain_report_t packet =
                     rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();

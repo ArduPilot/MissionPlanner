@@ -275,8 +275,8 @@ namespace MissionPlanner.Log
 
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    byte[] packet = mine.readPacket();
-                    object data = mine.GetPacket(packet);
+                    MAVLink.MAVLinkMessage packet = mine.readPacket();
+                    object data = packet.data;
 
                     if (data == null)
                         continue;

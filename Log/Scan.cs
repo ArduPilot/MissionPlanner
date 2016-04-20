@@ -32,7 +32,7 @@ namespace MissionPlanner.Log
                     {
                         while (mavi.logplaybackfile.BaseStream.Position < mavi.logplaybackfile.BaseStream.Length)
                         {
-                            byte[] packet = mavi.readPacket();
+                            MAVLink.MAVLinkMessage packet = mavi.readPacket();
 
                             if (packet.Length == 0)
                                 break;

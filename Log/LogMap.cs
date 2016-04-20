@@ -42,7 +42,7 @@ namespace MissionPlanner.Log
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                byte[] packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = mine.readPacket();
 
                                 if (packet.Length < 5)
                                     continue;
@@ -56,9 +56,9 @@ namespace MissionPlanner.Log
                                 {
                                 }
 
-                                if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                                 {
-                                    var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
+                                    var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>();
 
                                     if (loc.lat == 0 || loc.lon == 0)
                                         continue;

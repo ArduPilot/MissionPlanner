@@ -921,7 +921,8 @@ namespace MissionPlanner.GCSViews
                     DateTime logplayback = MainV2.comPort.lastlogread;
                     try
                     {
-                        MainV2.comPort.readPacket();
+                        if (!MainV2.comPort.giveComport)
+                            MainV2.comPort.readPacket();
                     }
                     catch
                     {

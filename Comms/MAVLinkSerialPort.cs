@@ -17,7 +17,7 @@ namespace MissionPlanner.Comms
 
         MAVLinkInterface mavint;
 
-        static KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> subscription;
+        static KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
 
         uint baud = 0;
 
@@ -97,7 +97,7 @@ namespace MissionPlanner.Comms
         int packetcount = 0;
         int packetwithdata = 0;
 
-        bool ReceviedPacket(byte[] packet)
+        bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
             if (packetcounttimer.Second != DateTime.Now.Second)
             {

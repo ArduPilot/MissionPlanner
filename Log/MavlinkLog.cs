@@ -449,7 +449,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                byte[] packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = mine.readPacket();
 
                                 mine.MAV.cs.datetime = mine.lastlogread;
 
@@ -676,7 +676,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                byte[] packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = mine.readPacket();
                                 string text = "";
                                 mine.DebugPacket(packet, ref text);
 
@@ -815,7 +815,7 @@ namespace MissionPlanner.Log
                         progressBar1.Refresh();
                     }
 
-                    byte[] packet = MavlinkInterface.readPacket();
+                    MAVLink.MAVLinkMessage packet = MavlinkInterface.readPacket();
 
                     cs.datetime = MavlinkInterface.lastlogread;
 
@@ -1464,7 +1464,7 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
-                                byte[] packet = mine.readPacket();
+                                MAVLink.MAVLinkMessage packet = mine.readPacket();
                                 string text = "";
                                 mine.DebugPacket(packet, ref text, true, ",");
 

@@ -2310,7 +2310,7 @@ namespace MissionPlanner
                         }
 
                         while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes &&
-                               port.giveComport == false)
+                               port.giveComport == false && serialThread)
                         {
                             try
                             {

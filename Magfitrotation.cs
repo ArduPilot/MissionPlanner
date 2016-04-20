@@ -185,10 +185,10 @@ namespace MissionPlanner
             //# now gather all the data
             while (DateTime.Now < Deadline || mavint.BaseStream.BytesToRead > 0)
             {
-                byte[] packetbytes = mavint.readPacket();
+                MAVLink.MAVLinkMessage packetbytes = mavint.readPacket();
                 if (packetbytes.Length < 5)
                     continue;
-                object packet = mavint.GetPacket(packetbytes);
+                object packet = packetbytes.data;
                 if (packet == null)
                     continue;
                 if (packet is MAVLink.mavlink_param_value_t)

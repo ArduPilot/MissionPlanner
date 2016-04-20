@@ -356,9 +356,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private List<MAVLink.mavlink_mag_cal_progress_t> mprog = new List<MAVLink.mavlink_mag_cal_progress_t>();
         private List<MAVLink.mavlink_mag_cal_report_t> mrep = new List<MAVLink.mavlink_mag_cal_report_t>();
 
-        private bool ReceviedPacket(byte[] packet)
+        private bool ReceviedPacket(MAVLink.MAVLinkMessage packet)
         {
-            if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
+            if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
             {
                 var mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
 
@@ -369,7 +369,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 return true;
             }
-            else if (packet[5] == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
+            else if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
             {
                 var mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
 
@@ -384,8 +384,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return true;
         }
 
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> packetsub1;
-        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> packetsub2;
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub1;
+        private KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> packetsub2;
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {

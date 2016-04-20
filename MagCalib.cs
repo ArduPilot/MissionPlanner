@@ -191,9 +191,9 @@ namespace MissionPlanner
 
         static List<Tuple<float, float, float>> datacompass3 = new List<Tuple<float, float, float>>();
 
-        static bool ReceviedPacket(byte[] rawpacket)
+        static bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
-            if (rawpacket[5] == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
+            if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
             {
                 MAVLink.mavlink_scaled_imu2_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_scaled_imu2_t>();
 
@@ -230,7 +230,7 @@ namespace MissionPlanner
 
                 return true;
             }
-            else if (rawpacket[5] == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
+            else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
             {
                 MAVLink.mavlink_scaled_imu3_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_scaled_imu3_t>();
 
@@ -267,7 +267,7 @@ namespace MissionPlanner
 
                 return true;
             }
-            else if (rawpacket[5] == (byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU)
+            else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU)
             {
                 MAVLink.mavlink_raw_imu_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
 
@@ -838,7 +838,7 @@ namespace MissionPlanner
                 // gather data
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    byte[] packetraw = mine.readPacket();
+                    MAVLink.MAVLinkMessage packetraw = mine.readPacket();
 
                     var packet = mine.DebugPacket(packetraw, false);
 

@@ -77,7 +77,7 @@ namespace MissionPlanner.Comms
                 {
                     Console.WriteLine("Scan port {0} at {1}", port.BaseStream.PortName, port.BaseStream.BaudRate);
 
-                    byte[] packet = new byte[0];
+                    MAVLink.MAVLinkMessage packet;
 
                     try
                     {
@@ -85,6 +85,7 @@ namespace MissionPlanner.Comms
                     }
                     catch
                     {
+                        continue;
                     }
 
                     if (packet.Length > 0)

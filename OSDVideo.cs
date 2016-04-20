@@ -332,7 +332,7 @@ namespace MissionPlanner
 
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    byte[] packet = mine.readPacket();
+                    MAVLink.MAVLinkMessage packet = mine.readPacket();
 
                     cs.datetime = mine.lastlogread;
 

@@ -65,10 +65,10 @@ namespace MissionPlanner.Log
 
                         mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
 
-                        byte[] hbpacket = mine.getHeartBeat();
-                        byte[] hbpacket1 = mine.getHeartBeat();
-                        byte[] hbpacket2 = mine.getHeartBeat();
-                        byte[] hbpacket3 = mine.getHeartBeat();
+                        MAVLink.MAVLinkMessage hbpacket = mine.getHeartBeat();
+                        MAVLink.MAVLinkMessage hbpacket1 = mine.getHeartBeat();
+                        MAVLink.MAVLinkMessage hbpacket2 = mine.getHeartBeat();
+                        MAVLink.MAVLinkMessage hbpacket3 = mine.getHeartBeat();
 
                         if (hbpacket.Length == 0 && hbpacket1.Length == 0 && hbpacket2.Length == 0 && hbpacket3.Length == 0)
                         {
