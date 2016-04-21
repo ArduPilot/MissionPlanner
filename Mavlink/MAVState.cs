@@ -17,6 +17,7 @@ namespace MissionPlanner
             this.lastvalidpacket = DateTime.MinValue;
             this.sysid = 0;
             this.compid = 0;
+            linkid = 0;
             this.param = new MAVLinkParamList();
             this.packets = new Dictionary<uint, MAVLinkMessage>();
             this.aptype = 0;
@@ -68,6 +69,8 @@ namespace MissionPlanner
         /// mavlink remove compid
         /// </summary>
         public byte compid { get; set; }
+
+        public byte linkid { get; set; }
 
         /// <summary>
         /// storage for whole paramater list

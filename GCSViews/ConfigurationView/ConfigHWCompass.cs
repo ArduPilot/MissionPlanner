@@ -360,7 +360,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS)
             {
-                var mprog = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_progress_t>();
+                var mprog = packet.ToStructure<MAVLink.mavlink_mag_cal_progress_t>();
 
                 lock (this.mprog)
                 {
@@ -371,7 +371,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT)
             {
-                var mrep = packet.ByteArrayToStructure<MAVLink.mavlink_mag_cal_report_t>();
+                var mrep = packet.ToStructure<MAVLink.mavlink_mag_cal_report_t>();
 
                 lock (this.mrep)
                 {

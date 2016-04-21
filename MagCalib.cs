@@ -195,7 +195,7 @@ namespace MissionPlanner
         {
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
             {
-                MAVLink.mavlink_scaled_imu2_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_scaled_imu2_t>();
+                MAVLink.mavlink_scaled_imu2_t packet = rawpacket.ToStructure<MAVLink.mavlink_scaled_imu2_t>();
 
                 // filter dataset
                 string item = (int) (packet.xmag/div) + "," +
@@ -232,7 +232,7 @@ namespace MissionPlanner
             }
             else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3)
             {
-                MAVLink.mavlink_scaled_imu3_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_scaled_imu3_t>();
+                MAVLink.mavlink_scaled_imu3_t packet = rawpacket.ToStructure<MAVLink.mavlink_scaled_imu3_t>();
 
                 // filter dataset
                 string item = (int) (packet.xmag/div) + "," +
@@ -269,7 +269,7 @@ namespace MissionPlanner
             }
             else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.RAW_IMU)
             {
-                MAVLink.mavlink_raw_imu_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
+                MAVLink.mavlink_raw_imu_t packet = rawpacket.ToStructure<MAVLink.mavlink_raw_imu_t>();
 
                 if (packet.xmag == 0 && packet.ymag == 0)
                     return false;

@@ -392,36 +392,23 @@
     <value>..\Resources\dark_help_icon.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="help_text" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang3081\deflangfe3081{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
-{\*\generator Riched20 10.0.14257}{\*\mmathPr\mnaryLim0\mdispDef1\mwrapIndent1440 }\viewkind5\uc1\viewbksp1{\*\background 
-{\shp{\*\shpinst{\sp{\sn fillType}{\sv 0}}
-{\sp{\sn fillFocus}{\sv 0}}
-{\sp{\sn fillBlip}{\sv {\pict{\*\picprop}\wmetafile0 
-}}}}}}
-
-\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
+    <value>{\rtf1\ansi\ansicpg1252\deff0\deflang3081\deflangfe3081{\fonttbl{\f0\fswiss\fprq2\fcharset0 Calibri;}}
+{\colortbl ;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\sa200\sl276\slmult1\f0\fs22\par
 \tab Welcome to the \b Mission Planner\b0 , mission planning for Unmanned Aerial Vehicles (\b UAV\b0 ).\par
-\tab Getting started:\par
-\tab\tab\tab\b Flight Data \endash  \b0 Primary flying screen with location and attitude.\par
-\b\tab\tab\tab Flight Planner \endash  \b0 Plans your flight and other scripted actions.\par
-\b\tab\tab\tab Configuration \endash  \b0 Customises the PIDS and other critical settings including enabling and disabling hardware.\par
-\b\tab\tab\tab Simulation \endash  \b0 Used with Xplanes and Flightgear for HIL simulation when used with your board.\par
-\b\tab\tab\tab Firmware \endash  \b0 Updates your APM Firmware with the latest stable build, sets up your new ArduPlane/ArduCopter/ArduRover.\par
-\b\tab\tab\tab Terminal \endash  \b0 Manual set up of your APM and run tests on sensors, log reading and other functions.\par
-
+\pard\nowidctlpar\fi720\b Help:\par
+Arduplane: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/plane"}}{\fldrslt{\ul\cf1 http://ardupilot.org/plane}}}\f0\fs22\par
+ArduCopter: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/copter"}}{\fldrslt{\ul\cf1 http://ardupilot.org/copter}}}\f0\fs22\par
+ArduRover: {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/rover"}}{\fldrslt{\ul\cf1 http://ardupilot.org/rover}}}\f0\fs22\par
+\par
+\pard\nowidctlpar\sa200\sl276\slmult1\tab Please visit {\field{\*\fldinst{HYPERLINK "http://ardupilot.org/planner"}}{\fldrslt{\ul\cf1 http://ardupilot.org/planner}}}\f0\fs22  further information.\b0\par
 \pard\nowidctlpar\b\tab Main Developer:\b0  Michael Oborne\par
 \tab\b Design:\b0  Samantha Nelson\par
-\tab\b Contributions from:\b0  Andrew Radford,  Marooned, Ryan Beall\par
-
+\tab\b Contributions from:\b0  Andrew Radford,  Marooned, Ryan Beall and {\field{\*\fldinst{HYPERLINK "https://github.com/ArduPilot/MissionPlanner/graphs/contributors"}}{\fldrslt{\ul\cf1 https://github.com/ArduPilot/MissionPlanner/graphs/contributors}}}\f0\fs22\par
 \pard\nowidctlpar\fi720\b ArduCopter Illustrations:\b0  Max Levine\par
-\b Librarys:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
+\b Librarys:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph, alglib, BouncyCastle, DotSpatial, LibVLC, netDXF\par
 \par
-\b Help:\par
-Arduplane: {{\field{\*\fldinst{HYPERLINK http://plane.ardupilot.com }}{\fldrslt{http://plane.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
-ArduCopter: {{\field{\*\fldinst{HYPERLINK http://copter.ardupilot.com }}{\fldrslt{http://copter.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
-ArduRover: {{\field{\*\fldinst{HYPERLINK http://rover.ardupilot.com }}{\fldrslt{http://rover.ardupilot.com\ul0\cf0}}}}\f0\fs22\par
-\par
-Please visit {\cf0{\field{\*\fldinst{HYPERLINK www.diydrones.com }}{\fldrslt{www.diydrones.com\ul0\cf0}}}}\f0\fs22  for further information.\par
+\b Companys that have contributed to Mission Planners development: \b0 3D Robotics, Falcon Unmanned, UAV Solutions\b\par
 \par
 ShortCuts\par
 \par
@@ -431,7 +418,6 @@ F3 - FlightPlanner\par
 F4 - Tuning\par
 F5 - Refresh full param list\par
 Control-F - Temp screen\par
-Control-X - sysid selector\par
 Control-T - Blind connect\par
 \par
 FlightData\par

@@ -47,7 +47,7 @@ def generate_message_header(f, xml):
         # we sort with primary key msgid, secondary key dialect
         for msgid in sorted(xml.message_names.keys()):
             name = xml.message_names[msgid]
-            xml.message_infos_array += 'new message_info(%u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
+            xml.message_infos_array += '		new message_info(%u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid,
                                                                 name,
                                                                 xml.message_crcs[msgid],
                                                                 xml.message_lengths[msgid],
@@ -55,12 +55,11 @@ def generate_message_header(f, xml):
             xml.message_names_enum += '%s = %u,\n' % (name, msgid)
     else:
         for msgid in range(256):
-            dialect = 0
             crc = xml.message_crcs.get(msgid, None)
             name = xml.message_names.get(msgid, None)
             length = xml.message_lengths.get(msgid, None)
             if name is not None:
-                xml.message_infos_array += 'new message_info(%u, %u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, dialect,
+                xml.message_infos_array += '		new message_info(%u, "%s", %u, %u, typeof( mavlink_%s_t )),\n' % (msgid, 
                                                                     name,
                                                                     crc,
                                                                     length,
@@ -88,115 +87,131 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "${parse_time}";
-        public const string MAVLINK_WIRE_PROTOCOL_VERSION = "${wire_protocol_version}";
-        public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = ${largest_payload};
+    public const string MAVLINK_BUILD_DATE = "${parse_time}";
+    public const string MAVLINK_WIRE_PROTOCOL_VERSION = "${wire_protocol_version}";
+    public const int MAVLINK_MAX_PAYLOAD_LEN = ${largest_payload};
 
-        public const int MAVLINK_LITTLE_ENDIAN = 1;
-        public const int MAVLINK_BIG_ENDIAN = 0;
+    public const byte MAVLINK_CORE_HEADER_LEN = 9;///< Length of core header (of the comm. layer)
+    public const byte MAVLINK_CORE_HEADER_MAVLINK1_LEN = 5;///< Length of MAVLink1 core header (of the comm. layer)
+    public const byte MAVLINK_NUM_HEADER_BYTES = (MAVLINK_CORE_HEADER_LEN + 1);///< Length of all header bytes, including core and stx
+    public const byte MAVLINK_NUM_CHECKSUM_BYTES = 2;
+    public const byte MAVLINK_NUM_NON_PAYLOAD_BYTES = (MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES);
 
-        public const byte MAVLINK_STX = ${protocol_marker};
+    public const int MAVLINK_MAX_PACKET_LEN = (MAVLINK_MAX_PAYLOAD_LEN + MAVLINK_NUM_NON_PAYLOAD_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN);///< Maximum packet length
+    public const byte MAVLINK_SIGNATURE_BLOCK_LEN = 13;
 
-        public const byte MAVLINK_ENDIAN = ${mavlink_endian};
+    public const int MAVLINK_LITTLE_ENDIAN = 1;
+    public const int MAVLINK_BIG_ENDIAN = 0;
 
-        public const bool MAVLINK_ALIGNED_FIELDS = (${aligned_fields_define} == 1);
+    public const byte MAVLINK_STX = ${protocol_marker};
 
-        public const byte MAVLINK_CRC_EXTRA = ${crc_extra_define};
+	public const byte MAVLINK_STX_MAVLINK1 = 0xFE;
+
+    public const byte MAVLINK_ENDIAN = ${mavlink_endian};
+
+    public const bool MAVLINK_ALIGNED_FIELDS = (${aligned_fields_define} == 1);
+
+    public const byte MAVLINK_CRC_EXTRA = ${crc_extra_define};
         
-        public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
+    public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-        // msgid, dialect, name, crc, length, type
-        public static readonly message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {${message_infos_array}};
+    // msgid, name, crc, length, type
+    public static readonly message_info[] MAVLINK_MESSAGE_INFOS = new message_info[] {
+${message_infos_array}
+	};
 
-        public const byte MAVLINK_VERSION = ${version};
+    public const byte MAVLINK_VERSION = ${version};
 
-        static Dictionary<uint,string> names;
-        static Dictionary<uint,Type> infos;
-        static Dictionary<uint,byte> crcs;
-        static Dictionary<uint,byte> lens;
+	public const byte MAVLINK_IFLAG_SIGNED=  0x01;
+	public const byte MAVLINK_IFLAG_MASK   = 0x01;
 
-        public static Dictionary<uint,byte> MAVLINK_MESSAGE_LENGTHS 
+    static Dictionary<uint,string> names;
+    static Dictionary<uint,Type> infos;
+    static Dictionary<uint,byte> crcs;
+    static Dictionary<uint,byte> lens;
+
+    public static Dictionary<uint,byte> MAVLINK_MESSAGE_LENGTHS 
+    {
+        get
         {
-            get
-            {
-                if (lens != null)
-                    return lens;
-                lens = new Dictionary<uint, byte>();
-                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-                {
-                    lens[messageInfo.msgid] = (byte)messageInfo.length;
-                }
+            if (lens != null)
                 return lens;
-            }
-        }
-
-        public static Dictionary<uint, byte> MAVLINK_MESSAGE_CRCS
-        {
-            get
+            lens = new Dictionary<uint, byte>();
+            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
             {
-                if (crcs != null)
-                    return crcs;
-                crcs = new Dictionary<uint, byte>();
-                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-                {
-                    crcs[messageInfo.msgid] = (byte)messageInfo.crc;
-                }
+                lens[messageInfo.msgid] = (byte)messageInfo.length;
+            }
+            return lens;
+        }
+    }
+
+    public static Dictionary<uint, byte> MAVLINK_MESSAGE_CRCS
+    {
+        get
+        {
+            if (crcs != null)
                 return crcs;
-            }
-        }
-
-        public static Dictionary<uint,Type> MAVLINK_MESSAGE_INFO
-        {
-            get
+            crcs = new Dictionary<uint, byte>();
+            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
             {
-                if (infos != null)
-                    return infos;
-                infos = new Dictionary<uint, Type>();
-                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-                {
-                    infos[messageInfo.msgid] = messageInfo.type;
-                }
+                crcs[messageInfo.msgid] = (byte)messageInfo.crc;
+            }
+            return crcs;
+        }
+    }
+
+    public static Dictionary<uint,Type> MAVLINK_MESSAGE_INFO
+    {
+        get
+        {
+            if (infos != null)
                 return infos;
-            }
-        }
-
-        public static Dictionary<uint, string> MAVLINK_NAMES
-        {
-            get
+            infos = new Dictionary<uint, Type>();
+            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
             {
-                if (names != null)
-                    return names;
-                names = new Dictionary<uint, string>();
-                foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-                {
-                    names[messageInfo.msgid] = messageInfo.name;
-                }
+                infos[messageInfo.msgid] = messageInfo.type;
+            }
+            return infos;
+        }
+    }
+
+    public static Dictionary<uint, string> MAVLINK_NAMES
+    {
+        get
+        {
+            if (names != null)
                 return names;
-            }
-        }
-
-        public struct message_info
-        {
-            public uint msgid;
-            public string name;
-            public byte crc;
-            public uint length;
-            public Type type;
-
-            public message_info(uint msgid, string name, byte crc, uint length, Type type)
+            names = new Dictionary<uint, string>();
+            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
             {
-                this.msgid = msgid;
-                this.name = name;
-                this.crc = crc;
-                this.length = length;
-                this.type = type;
+                names[messageInfo.msgid] = messageInfo.name;
             }
-        }   
+            return names;
+        }
+    }
 
-        public enum MAVLINK_MSG_ID 
+    public struct message_info
+    {
+        public uint msgid;
+        public string name;
+        public byte crc;
+        public uint length;
+        public Type type;
+
+        public message_info(uint msgid, string name, byte crc, uint length, Type type)
         {
-            ${message_names_enum}
-        }      
+            this.msgid = msgid;
+            this.name = name;
+            this.crc = crc;
+            this.length = length;
+            this.type = type;
+        }
+    }   
+
+    public enum MAVLINK_MSG_ID 
+    {
+        ${message_names_enum}
+    }      
     
 ''', xml)
 
@@ -214,15 +229,15 @@ def generate_message_enums(f, xml):
                 fe.name = '_%s' % fe.name
             
     t.write(f, '''
-        ${{enum:
-        ///<summary> ${description} </summary>
-        public enum ${name}
-        {
-    ${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
-            ${name}=${value}, 
-        }}
-        };
-        }}
+    ${{enum:
+    ///<summary> ${description} </summary>
+    public enum ${name}
+    {
+		${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
+        ${name}=${value}, 
+    }}
+    };
+    }}
 ''', xml)
 
 

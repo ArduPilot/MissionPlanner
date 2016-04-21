@@ -58,7 +58,7 @@ namespace MissionPlanner.Log
 
                                 if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                                 {
-                                    var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>();
+                                    var loc = packet.ToStructure<MAVLink.mavlink_global_position_int_t>();
 
                                     if (loc.lat == 0 || loc.lon == 0)
                                         continue;

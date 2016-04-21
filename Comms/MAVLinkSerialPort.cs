@@ -109,7 +109,7 @@ namespace MissionPlanner.Comms
 
             packetcount++;
 
-            MAVLink.mavlink_serial_control_t item = packet.ByteArrayToStructure<MAVLink.mavlink_serial_control_t>();
+            MAVLink.mavlink_serial_control_t item = packet.ToStructure<MAVLink.mavlink_serial_control_t>();
 
             if (item.count == 0)
                 return true;

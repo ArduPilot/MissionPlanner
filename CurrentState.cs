@@ -1156,11 +1156,11 @@ namespace MissionPlanner
                         lastdata = DateTime.Now.AddSeconds(30); // prevent flooding
                     }
 
-                    MAVLink.MAVLinkMessage bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED);
+                    MAVLink.MAVLinkMessage mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED);
 
-                    if (bytearray != null) // hil mavlink 0.9
+                    if (mavLinkMessage != null) // hil mavlink 0.9
                     {
-                        var hil = bytearray.ByteArrayToStructure<MAVLink.mavlink_rc_channels_scaled_t>();
+                        var hil = mavLinkMessage.ToStructure<MAVLink.mavlink_rc_channels_scaled_t>();
 
                         hilch1 = hil.chan1_scaled;
                         hilch2 = hil.chan2_scaled;
@@ -1176,11 +1176,11 @@ namespace MissionPlanner
                         MAV.clearPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var version = bytearray.ByteArrayToStructure<MAVLink.mavlink_autopilot_version_t>();
+                        var version = mavLinkMessage.ToStructure<MAVLink.mavlink_autopilot_version_t>();
                         //#define FIRMWARE_VERSION 3,4,0,FIRMWARE_VERSION_TYPE_DEV
                         //		flight_sw_version	0x03040000	uint
 
@@ -1197,11 +1197,11 @@ namespace MissionPlanner
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.FENCE_STATUS);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.FENCE_STATUS);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var fence = bytearray.ByteArrayToStructure<MAVLink.mavlink_fence_status_t>();
+                        var fence = mavLinkMessage.ToStructure<MAVLink.mavlink_fence_status_t>();
 
                         if (fence.breach_status != (byte) MAVLink.FENCE_BREACH.NONE)
                         {
@@ -1213,11 +1213,11 @@ namespace MissionPlanner
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.FENCE_STATUS);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HIL_CONTROLS);
 
-                    if (bytearray != null) // hil mavlink 0.9 and 1.0
+                    if (mavLinkMessage != null) // hil mavlink 0.9 and 1.0
                     {
-                        var hil = bytearray.ByteArrayToStructure<MAVLink.mavlink_hil_controls_t>();
+                        var hil = mavLinkMessage.ToStructure<MAVLink.mavlink_hil_controls_t>();
 
                         hilch1 = (int) (hil.roll_ailerons*10000);
                         hilch2 = (int) (hil.pitch_elevator*10000);
@@ -1227,11 +1227,11 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>();
+                        var optflow = mavLinkMessage.ToStructure<MAVLink.mavlink_optical_flow_t>();
 
                         opt_m_x = optflow.flow_comp_m_x;
                         opt_m_y = optflow.flow_comp_m_y;
@@ -1240,22 +1240,22 @@ namespace MissionPlanner
                         opt_qua = optflow.quality;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.MOUNT_STATUS);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.MOUNT_STATUS);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_mount_status_t>();
+                        var status = mavLinkMessage.ToStructure<MAVLink.mavlink_mount_status_t>();
 
                         campointa = status.pointing_a/100.0f;
                         campointb = status.pointing_b/100.0f;
                         campointc = status.pointing_c/100.0f;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.VIBRATION);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.VIBRATION);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var vibe = bytearray.ByteArrayToStructure<MAVLink.mavlink_vibration_t>();
+                        var vibe = mavLinkMessage.ToStructure<MAVLink.mavlink_vibration_t>();
 
                         vibeclip0 = vibe.clipping_0;
                         vibeclip1 = vibe.clipping_1;
@@ -1265,20 +1265,20 @@ namespace MissionPlanner
                         vibez = vibe.vibration_z;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var asac = bytearray.ByteArrayToStructure<MAVLink.mavlink_airspeed_autocal_t>();
+                        var asac = mavLinkMessage.ToStructure<MAVLink.mavlink_airspeed_autocal_t>();
 
                         asratio = asac.ratio;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SYSTEM_TIME);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SYSTEM_TIME);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var systime = bytearray.ByteArrayToStructure<MAVLink.mavlink_system_time_t>();
+                        var systime = mavLinkMessage.ToStructure<MAVLink.mavlink_system_time_t>();
 
                         DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
                         try
@@ -1292,11 +1292,11 @@ namespace MissionPlanner
                         }
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HWSTATUS);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HWSTATUS);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var hwstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_hwstatus_t>();
+                        var hwstatus = mavLinkMessage.ToStructure<MAVLink.mavlink_hwstatus_t>();
 
                         hwvoltage = hwstatus.Vcc/1000.0f;
                         i2cerrors = hwstatus.I2Cerr;
@@ -1304,10 +1304,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HWSTATUS);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.EKF_STATUS_REPORT);
+                    if (mavLinkMessage != null)
                     {
-                        var ekfstatusm = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>();
+                        var ekfstatusm = mavLinkMessage.ToStructure<MAVLink.mavlink_ekf_status_report_t>();
 
                         // > 1, between 0-1 typical > 1 = reject measurement - red
                         // 0.5 > amber
@@ -1382,19 +1382,19 @@ namespace MissionPlanner
                         }
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RANGEFINDER);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RANGEFINDER);
+                    if (mavLinkMessage != null)
                     {
-                        var sonar = bytearray.ByteArrayToStructure<MAVLink.mavlink_rangefinder_t>();
+                        var sonar = mavLinkMessage.ToStructure<MAVLink.mavlink_rangefinder_t>();
 
                         sonarrange = sonar.distance;
                         sonarvoltage = sonar.voltage;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.POWER_STATUS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.POWER_STATUS);
+                    if (mavLinkMessage != null)
                     {
-                        var power = bytearray.ByteArrayToStructure<MAVLink.mavlink_power_status_t>();
+                        var power = mavLinkMessage.ToStructure<MAVLink.mavlink_power_status_t>();
 
                         boardvoltage = power.Vcc;
                         servovoltage = power.Vservo;
@@ -1403,10 +1403,10 @@ namespace MissionPlanner
                     }
 
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.WIND);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.WIND);
+                    if (mavLinkMessage != null)
                     {
-                        var wind = bytearray.ByteArrayToStructure<MAVLink.mavlink_wind_t>();
+                        var wind = mavLinkMessage.ToStructure<MAVLink.mavlink_wind_t>();
 
                         gotwind = true;
 
@@ -1415,10 +1415,10 @@ namespace MissionPlanner
                     }
 
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HEARTBEAT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.HEARTBEAT);
+                    if (mavLinkMessage != null)
                     {
-                        var hb = bytearray.ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>();
+                        var hb = mavLinkMessage.ToStructure<MAVLink.mavlink_heartbeat_t>();
 
                         if (hb.type == (byte) MAVLink.MAV_TYPE.GCS)
                         {
@@ -1481,10 +1481,10 @@ namespace MissionPlanner
                     }
 
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
+                    if (mavLinkMessage != null)
                     {
-                        var sysstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_sys_status_t>();
+                        var sysstatus = mavLinkMessage.ToStructure<MAVLink.mavlink_sys_status_t>();
 
                         load = (float) sysstatus.load/10.0f;
 
@@ -1565,26 +1565,26 @@ namespace MissionPlanner
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.BATTERY2);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.BATTERY2);
+                    if (mavLinkMessage != null)
                     {
-                        var bat = bytearray.ByteArrayToStructure<MAVLink.mavlink_battery2_t>();
+                        var bat = mavLinkMessage.ToStructure<MAVLink.mavlink_battery2_t>();
                         _battery_voltage2 = bat.voltage;
                         current2 = bat.current_battery;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE);
+                    if (mavLinkMessage != null)
                     {
-                        var pres = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_pressure_t>();
+                        var pres = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_pressure_t>();
                         press_abs = pres.press_abs;
                         press_temp = pres.temperature;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT);
+                    if (mavLinkMessage != null)
                     {
-                        var terrainrep = bytearray.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
+                        var terrainrep = mavLinkMessage.ToStructure<MAVLink.mavlink_terrain_report_t>();
                         ter_curalt = terrainrep.current_height;
                         ter_alt = terrainrep.terrain_height;
                         ter_load = terrainrep.loaded;
@@ -1592,10 +1592,10 @@ namespace MissionPlanner
                         ter_space = terrainrep.spacing;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS);
+                    if (mavLinkMessage != null)
                     {
-                        var sensofs = bytearray.ByteArrayToStructure<MAVLink.mavlink_sensor_offsets_t>();
+                        var sensofs = mavLinkMessage.ToStructure<MAVLink.mavlink_sensor_offsets_t>();
 
                         mag_ofs_x = sensofs.mag_ofs_x;
                         mag_ofs_y = sensofs.mag_ofs_y;
@@ -1614,11 +1614,11 @@ namespace MissionPlanner
                         accel_cal_z = sensofs.accel_cal_z;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.ATTITUDE);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.ATTITUDE);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var att = bytearray.ByteArrayToStructure<MAVLink.mavlink_attitude_t>();
+                        var att = mavLinkMessage.ToStructure<MAVLink.mavlink_attitude_t>();
 
                         roll = att.roll*rad2deg;
                         pitch = att.pitch*rad2deg;
@@ -1629,10 +1629,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.ATTITUDE);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT);
+                    if (mavLinkMessage != null)
                     {
-                        var loc = bytearray.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>();
+                        var loc = mavLinkMessage.ToStructure<MAVLink.mavlink_global_position_int_t>();
 
                         // the new arhs deadreckoning may send 0 alt and 0 long. check for and undo
 
@@ -1652,10 +1652,10 @@ namespace MissionPlanner
                         }
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT);
+                    if (mavLinkMessage != null)
                     {
-                        var gps = bytearray.ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>();
+                        var gps = mavLinkMessage.ToStructure<MAVLink.mavlink_gps_raw_int_t>();
 
                         if (!useLocation)
                         {
@@ -1679,10 +1679,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.GPS_RAW);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS2_RAW);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS2_RAW);
+                    if (mavLinkMessage != null)
                     {
-                        var gps = bytearray.ByteArrayToStructure<MAVLink.mavlink_gps2_raw_t>();
+                        var gps = mavLinkMessage.ToStructure<MAVLink.mavlink_gps2_raw_t>();
 
                         lat2 = gps.lat*1.0e-7;
                         lng2 = gps.lon*1.0e-7;
@@ -1697,17 +1697,17 @@ namespace MissionPlanner
                         groundcourse2 = gps.cog*1.0e-2f;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS_STATUS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.GPS_STATUS);
+                    if (mavLinkMessage != null)
                     {
-                        var gps = bytearray.ByteArrayToStructure<MAVLink.mavlink_gps_status_t>();
+                        var gps = mavLinkMessage.ToStructure<MAVLink.mavlink_gps_status_t>();
                         satcount = gps.satellites_visible;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RADIO);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RADIO);
+                    if (mavLinkMessage != null)
                     {
-                        var radio = bytearray.ByteArrayToStructure<MAVLink.mavlink_radio_t>();
+                        var radio = mavLinkMessage.ToStructure<MAVLink.mavlink_radio_t>();
                         rssi = radio.rssi;
                         remrssi = radio.remrssi;
                         txbuffer = radio.txbuf;
@@ -1717,10 +1717,10 @@ namespace MissionPlanner
                         fixedp = radio.@fixed;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RADIO_STATUS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RADIO_STATUS);
+                    if (mavLinkMessage != null)
                     {
-                        var radio = bytearray.ByteArrayToStructure<MAVLink.mavlink_radio_status_t>();
+                        var radio = mavLinkMessage.ToStructure<MAVLink.mavlink_radio_status_t>();
                         rssi = radio.rssi;
                         remrssi = radio.remrssi;
                         txbuffer = radio.txbuf;
@@ -1730,10 +1730,10 @@ namespace MissionPlanner
                         fixedp = radio.@fixed;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.MISSION_CURRENT);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.MISSION_CURRENT);
+                    if (mavLinkMessage != null)
                     {
-                        var wpcur = bytearray.ByteArrayToStructure<MAVLink.mavlink_mission_current_t>();
+                        var wpcur = mavLinkMessage.ToStructure<MAVLink.mavlink_mission_current_t>();
 
                         int oldwp = (int) wpno;
 
@@ -1753,11 +1753,11 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.WAYPOINT_CURRENT);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var nav = bytearray.ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>();
+                        var nav = mavLinkMessage.ToStructure<MAVLink.mavlink_nav_controller_output_t>();
 
                         nav_roll = nav.nav_roll;
                         nav_pitch = nav.nav_pitch;
@@ -1771,11 +1771,11 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RPM);
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RPM);
 
-                    if (bytearray != null)
+                    if (mavLinkMessage != null)
                     {
-                        var rpm = bytearray.ByteArrayToStructure<MAVLink.mavlink_rpm_t>();
+                        var rpm = mavLinkMessage.ToStructure<MAVLink.mavlink_rpm_t>();
 
                         rpm1 = rpm.rpm1;
                         rpm2 = rpm.rpm2;
@@ -1783,10 +1783,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.NAV_CONTROLLER_OUTPUT);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_RAW);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_RAW);
+                    if (mavLinkMessage != null)
                     {
-                        var rcin = bytearray.ByteArrayToStructure<MAVLink.mavlink_rc_channels_raw_t>();
+                        var rcin = mavLinkMessage.ToStructure<MAVLink.mavlink_rc_channels_raw_t>();
 
                         ch1in = rcin.chan1_raw;
                         ch2in = rcin.chan2_raw;
@@ -1803,10 +1803,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RC_CHANNELS);
+                    if (mavLinkMessage != null)
                     {
-                        var rcin = bytearray.ByteArrayToStructure<MAVLink.mavlink_rc_channels_t>();
+                        var rcin = mavLinkMessage.ToStructure<MAVLink.mavlink_rc_channels_t>();
 
                         ch1in = rcin.chan1_raw;
                         ch2in = rcin.chan2_raw;
@@ -1832,10 +1832,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);
+                    if (mavLinkMessage != null)
                     {
-                        var servoout = bytearray.ByteArrayToStructure<MAVLink.mavlink_servo_output_raw_t>();
+                        var servoout = mavLinkMessage.ToStructure<MAVLink.mavlink_servo_output_raw_t>();
 
                         ch1out = servoout.servo1_raw;
                         ch2out = servoout.servo2_raw;
@@ -1849,10 +1849,10 @@ namespace MissionPlanner
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RAW_IMU);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.RAW_IMU);
+                    if (mavLinkMessage != null)
                     {
-                        var imu = bytearray.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
+                        var imu = mavLinkMessage.ToStructure<MAVLink.mavlink_raw_imu_t>();
 
                         gx = imu.xgyro;
                         gy = imu.ygyro;
@@ -1882,10 +1882,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU);
+                    if (mavLinkMessage != null)
                     {
-                        var imu = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu_t>();
+                        var imu = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_imu_t>();
 
                         gx = imu.xgyro;
                         gy = imu.ygyro;
@@ -1902,10 +1902,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU);
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2);
+                    if (mavLinkMessage != null)
                     {
-                        var imu2 = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu2_t>();
+                        var imu2 = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_imu2_t>();
 
                         gx2 = imu2.xgyro;
                         gy2 = imu2.ygyro;
@@ -1921,10 +1921,10 @@ namespace MissionPlanner
                     }
 
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_IMU3);
+                    if (mavLinkMessage != null)
                     {
-                        var imu3 = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu3_t>();
+                        var imu3 = mavLinkMessage.ToStructure<MAVLink.mavlink_scaled_imu3_t>();
 
                         gx3 = imu3.xgyro;
                         gy3 = imu3.ygyro;
@@ -1939,10 +1939,10 @@ namespace MissionPlanner
                         mz3 = imu3.zmag;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.PID_TUNING);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.PID_TUNING);
+                    if (mavLinkMessage != null)
                     {
-                        var pid = bytearray.ByteArrayToStructure<MAVLink.mavlink_pid_tuning_t>();
+                        var pid = mavLinkMessage.ToStructure<MAVLink.mavlink_pid_tuning_t>();
 
                         //todo: currently only deals with single axis at once
 
@@ -1955,10 +1955,10 @@ namespace MissionPlanner
                         pidachieved = pid.achieved;
                     }
 
-                    bytearray = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.VFR_HUD);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.VFR_HUD);
+                    if (mavLinkMessage != null)
                     {
-                        var vfr = bytearray.ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>();
+                        var vfr = mavLinkMessage.ToStructure<MAVLink.mavlink_vfr_hud_t>();
 
                         groundspeed = vfr.groundspeed;
 
@@ -1982,10 +1982,10 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.VFR_HUD);
                     }
 
-                    bytearray = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.MEMINFO);
-                    if (bytearray != null)
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.MEMINFO);
+                    if (mavLinkMessage != null)
                     {
-                        var mem = bytearray.ByteArrayToStructure<MAVLink.mavlink_meminfo_t>();
+                        var mem = mavLinkMessage.ToStructure<MAVLink.mavlink_meminfo_t>();
                         freemem = mem.freemem;
                         brklevel = mem.brkval;
                     }

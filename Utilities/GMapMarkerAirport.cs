@@ -49,7 +49,7 @@ namespace MissionPlanner.Utilities
                 wprad = 9000;
 
             // aus
-            if (p.Lat < -10 && p.Lng > 109 && p.lng < 180)
+            if (p.Lat < -10 && p.Lng > 109 && p.Lng < 180)
                 wprad = 5559;
 
             // do not forget set Size of the marker

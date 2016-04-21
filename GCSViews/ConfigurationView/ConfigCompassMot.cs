@@ -131,7 +131,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (bytearray != null)
             {
-                var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_compassmot_status_t>();
+                var status = bytearray.ToStructure<MAVLink.mavlink_compassmot_status_t>();
 
                 lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " +
                                   status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") +

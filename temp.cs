@@ -1639,5 +1639,10 @@ namespace MissionPlanner
 "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-2.75/ArduPlane/Parameters.pde"
 , "ArduPlane2.75.xml");
         }
+
+        private void but_signkey_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setupSigning("test");
+        }
     }
 }

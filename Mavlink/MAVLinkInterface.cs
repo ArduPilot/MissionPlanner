@@ -13,6 +13,7 @@ using System.Threading;
 using MissionPlanner.Controls;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
@@ -70,6 +71,30 @@ namespace MissionPlanner
         public event EventHandler CommsClose;
 
         const int gcssysid = 255;
+
+        public bool signing = false;
+        private byte[] _signingkey;
+        internal byte[] signingKey {
+            get
+            {
+                if (_signingkey == null)
+                {
+                    if (Settings.Instance.ContainsKey("signingKey"))
+                    {
+                        _signingkey = Convert.FromBase64String(Settings.Instance["signingKey"]);
+                    }
+                    else
+                    {
+                        throw new FormatException("signing key has not been set");
+                    }
+                }
+                return _signingkey; 
+            }
+            set { 
+                _signingkey = value;
+                Settings.Instance["signingKey"] = Convert.ToBase64String(_signingkey);
+            }
+        }
 
         /// <summary>
         /// used to prevent comport access for exclusive use
@@ -184,7 +209,7 @@ namespace MissionPlanner
         /// </summary>
         byte mavlinkversion = 0;
 
-        private MavlinkParse mavparse = new MavlinkParse();
+        bool mavlinkv2 = false;
 
         /// <summary>
         /// turns on console packet display
@@ -458,7 +483,7 @@ Please check the following
                     // 2 hbs that match
                     if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
                     {
-                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>();
+                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAVLink.MAV_TYPE.GCS)
                         {
@@ -470,7 +495,7 @@ Please check the following
                     // 2 hb's that dont match. more than one sysid here
                     if (buffer.Length > 5 && buffer1.Length > 5 && (buffer.sysid == buffer1.sysid || buffer.compid == buffer1.compid))
                     {
-                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>();
+                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAVLink.MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAVLink.MAV_TYPE.GCS)
                         {
@@ -478,7 +503,7 @@ Please check the following
                             break;
                         }
 
-                        hb = buffer1.ByteArrayToStructure<mavlink_heartbeat_t>();
+                        hb = buffer1.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAVLink.MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAVLink.MAV_TYPE.GCS)
                         {
@@ -568,7 +593,7 @@ Please check the following
                     //log.Info("getHB packet received: " + buffer.Length + " btr " + BaseStream.BytesToRead + " type " + buffer.msgid );
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.HEARTBEAT)
                     {
-                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>();
+                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                         if (hb.type != (byte) MAVLink.MAV_TYPE.GCS)
                         {
@@ -644,18 +669,18 @@ Please check the following
                 byte[] packet = new byte[0];
                 int i = 0;
 
-                if (mavlinkversion == 2)
+                if (!mavlinkv2)
                 {
                     //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                     packet = new byte[data.Length + 6 + 2];
 
-                    packet[0] = 254;
+                    packet[0] = MAVLINK_STX_MAVLINK1;
                     packet[1] = (byte) data.Length;
                     packet[2] = (byte) packetcount;
 
                     packetcount++;
 
-                    packet[3] = gcssysid; // this is always 255 - MYGCS
+                    packet[3] = gcssysid;
                     packet[4] = (byte) MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
                     packet[5] = (byte)messageType;
 
@@ -679,19 +704,21 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
                 }
-                else if (mavlinkversion == 3)
+                else if (mavlinkv2)
                 {
-                    packet = new byte[data.Length + 10 + 2];
+                    packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
 
-                    packet[0] = 253;
+                    packet[0] = MAVLINK_STX ;
                     packet[1] = (byte)data.Length;
                     packet[2] = 0; // incompat
+                    if (signing)
+                        packet[2] |= MAVLINK_IFLAG_SIGNED;
                     packet[3] = 0; // compat
                     packet[4] = (byte)packetcount;
 
                     packetcount++;
 
-                    packet[5] = gcssysid; // this is always 255 - MYGCS
+                    packet[5] = gcssysid;
                     packet[6] = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
                     packet[7] = (byte)(messageType & 0xff);
                     packet[8] = (byte)((messageType >> 8) & 0xff);
@@ -704,7 +731,7 @@ Please check the following
                         i++;
                     }
 
-                    ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + 10);
+                    ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + MAVLINK_NUM_HEADER_BYTES);
 
                     checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[(uint)messageType], checksum);
 
@@ -715,6 +742,50 @@ Please check the following
                     i += 1;
                     packet[i] = ck_b;
                     i += 1;
+
+                    if (signing)
+                    {
+                        //https://docs.google.com/document/d/1ETle6qQRcaNWAmpG2wz0oOpFKSF_bcTmYMQvtTGI8ns/edit
+
+                        /*
+                        8 bits of link ID
+                        48 bits of timestamp
+                        48 bits of signature
+                        */
+
+                        // signature = sha256_48(secret_key + header + payload + CRC + link-ID + timestamp)
+
+                        var timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
+                        var timebytes = BitConverter.GetBytes(timestamp);
+
+                        var sig = new byte[7]; // 13 includes the outgoing hash
+                        sig[0] = 0;
+                        Array.Copy(timebytes, 0, sig, 1, 6); // timestamp
+
+                        //Console.WriteLine("gen linkid {0}, time {1} {2} {3} {4} {5} {6}", sig[0], sig[1], sig[2], sig[3], sig[4], sig[5], sig[6]);
+
+                        using (SHA256Managed signit = new SHA256Managed())
+                        {
+
+                            signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
+                            signit.TransformBlock(packet, 0, i, null, 0);
+                            var ctx = signit.TransformFinalBlock(sig, 0, sig.Length);
+                            // trim to 48
+                            Array.Resize(ref ctx, 6);
+
+                            foreach (byte b in sig)
+                            {
+                                packet[i] = b;
+                                i++;
+                            }
+
+                            foreach (byte b in ctx)
+                            {
+                                packet[i] = b;
+                                i++;
+                            }
+                        }
+                    }
                 }
 
                 if (BaseStream.IsOpen)
@@ -752,6 +823,37 @@ Please check the following
             }
             _bytesSentSubj.OnNext(line.Length);
             return true;
+        }
+
+        public bool setupSigning(string userseed)
+        {
+            // sha the user input string
+            SHA256Managed signit = new SHA256Managed();
+            var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
+            Array.Resize(ref shauser, 32);
+
+            signingKey = shauser;
+
+            mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
+            sign.initial_timestamp = (UInt64)((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
+            sign.secret_key = shauser;
+            sign.target_component = (byte)compidcurrent;
+            sign.target_system = (byte)sysidcurrent;
+
+            generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign);
+
+            generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign);
+
+            enableSigning();
+
+            return signing;
+        }
+
+        public bool enableSigning()
+        {
+            signing = true;
+
+            return signing;
         }
 
         /// <summary>
@@ -844,7 +946,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
                     {
-                        mavlink_param_value_t par = buffer.ByteArrayToStructure<mavlink_param_value_t>();
+                        mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
                         string st = System.Text.ASCIIEncoding.ASCII.GetString(par.param_id);
 
@@ -1027,7 +1129,7 @@ Please check the following
                         if (!onebyone)
                             start = DateTime.Now;
 
-                        mavlink_param_value_t par = buffer.ByteArrayToStructure<mavlink_param_value_t>();
+                        mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
                         // set new target
                         param_total = (par.param_count);
@@ -1085,7 +1187,7 @@ Please check the following
                     }
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.STATUSTEXT)
                     {
-                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>();
+                        var msg = buffer.ToStructure<MAVLink.mavlink_statustext_t>();
 
                         string logdata = Encoding.ASCII.GetString(msg.text);
 
@@ -1200,7 +1302,7 @@ Please check the following
                     {
                         giveComport = false;
 
-                        mavlink_param_value_t par = buffer.ByteArrayToStructure<mavlink_param_value_t>();
+                        mavlink_param_value_t par = buffer.ToStructure<mavlink_param_value_t>();
 
                         string st = System.Text.ASCIIEncoding.ASCII.GetString(par.param_id);
 
@@ -1378,7 +1480,7 @@ Please check the following
 
             if (buffer.Length > 5)
             {
-                mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>();
+                mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
                 mavlinkversion = hb.mavlink_version;
                 MAV.aptype = (MAV_TYPE) hb.type;
@@ -1513,7 +1615,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK)
                     {
-                        var ack = buffer.ByteArrayToStructure<mavlink_command_ack_t>();
+                        var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
@@ -1791,7 +1893,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
                     {
-                        var count = buffer.ByteArrayToStructure<mavlink_mission_count_t>();
+                        var count = buffer.ToStructure<mavlink_mission_count_t>();
 
 
                         log.Info("wpcount: " + count.count);
@@ -1839,7 +1941,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte)MAVLINK_MSG_ID.HOME_POSITION)
                     {
-                        var home = buffer.ByteArrayToStructure<mavlink_home_position_t>();
+                        var home = buffer.ToStructure<mavlink_home_position_t>();
 
                         var loc = new Locationwp().Set(home.latitude / 1.0e7, home.longitude / 1.0e7, home.altitude / 1000.0, (byte)MAV_CMD.WAYPOINT);
 
@@ -1930,7 +2032,7 @@ Please check the following
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
-                        var wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>();
+                        var wp = buffer.ToStructure<mavlink_mission_item_t>();
 
                         // received a packet, but not what we requested
                         if (index != wp.seq)
@@ -1959,7 +2061,7 @@ Please check the following
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
-                        var wp = buffer.ByteArrayToStructure<mavlink_mission_item_int_t>();
+                        var wp = buffer.ToStructure<mavlink_mission_item_int_t>();
 
                         // received a packet, but not what we requested
                         if (index != wp.seq)
@@ -2098,7 +2200,7 @@ Please check the following
                                 textoutput = textoutput + field.Name + delimeter + fieldValue.ToString() + delimeter;
                             }
                         }
-                        textoutput = textoutput + delimeter + "Len" + delimeter + datin.Length + "\r\n";
+                        textoutput = textoutput + delimeter + "sig "+Convert.ToBase64String(datin.sig) +delimeter + "Len" + delimeter + datin.Length + "\r\n";
                         if (PrintToConsole)
                             Console.Write(textoutput);
 
@@ -2173,7 +2275,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
                     {
-                        var request = buffer.ByteArrayToStructure<mavlink_mission_request_t>();
+                        var request = buffer.ToStructure<mavlink_mission_request_t>();
 
                         if (request.seq == 0)
                         {
@@ -2316,7 +2418,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ACK)
                     {
-                        var ans = buffer.ByteArrayToStructure<mavlink_mission_ack_t>();
+                        var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
                                  Enum.Parse(typeof (MAV_MISSION_RESULT), ans.type.ToString()));
                         giveComport = false;
@@ -2337,7 +2439,7 @@ Please check the following
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
                     {
-                        var ans = buffer.ByteArrayToStructure<mavlink_mission_request_t>();
+                        var ans = buffer.ToStructure<mavlink_mission_request_t>();
                         if (ans.seq == (index + 1))
                         {
                             log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
@@ -2412,7 +2514,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_ACK)
                     {
-                        var ans = buffer.ByteArrayToStructure<mavlink_mission_ack_t>();
+                        var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
                                  Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
                         giveComport = false;
@@ -2433,7 +2535,7 @@ Please check the following
                     }
                     else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST)
                     {
-                        var ans = buffer.ByteArrayToStructure<mavlink_mission_request_t>();
+                        var ans = buffer.ToStructure<mavlink_mission_request_t>();
                         if (ans.seq == (index + 1))
                         {
                             log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer.msgid);
@@ -2654,7 +2756,7 @@ Please check the following
         /// <returns></returns>
         public MAVLinkMessage readPacket()
         {
-            byte[] buffer = new byte[MAVLINK_MAX_DIALECT_PAYLOAD_SIZE + 25];
+            byte[] buffer = new byte[MAVLINK_MAX_PACKET_LEN + 25];
             int count = 0;
             int length = 0;
             int readcount = 0;
@@ -2755,7 +2857,9 @@ Please check the following
 
                     //Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream.BytesToRead);
 
-                    int headerlength = buffer[0] == 0xfd ? 9 : 5;
+                    mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
+
+                    int headerlength = buffer[0] == MAVLINK_STX ? 9 : 5;
                     int headerlengthstx = headerlength + 1;
 
                     // check for a header
@@ -2786,6 +2890,10 @@ Please check the following
                         if (buffer[0] == 0xfd)
                         {
                             length = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - magic - length
+                            if ((buffer[2] & MAVLINK_IFLAG_SIGNED) > 0)
+                            {
+                                length += MAVLINK_SIGNATURE_BLOCK_LEN;
+                            }
                         }
                         else
                         {
@@ -2803,7 +2911,7 @@ Please check the following
                                 {
                                     DateTime to = DateTime.Now.AddMilliseconds(BaseStream.ReadTimeout);
 
-                                    while (BaseStream.IsOpen && BaseStream.BytesToRead < (length - 4))
+                                    while (BaseStream.IsOpen && BaseStream.BytesToRead < (length - count))
                                     {
                                         if (DateTime.Now > to)
                                         {
@@ -2871,7 +2979,8 @@ Please check the following
             msginfo = MAVLINK_MESSAGE_INFOS.SingleOrDefault(p => p.msgid == msgid);
 
             // calc crc
-            ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
+            var sigsize = (message.sig != null) ? MAVLINK_SIGNATURE_BLOCK_LEN : 0;
+            ushort crc = MavlinkCRC.crc_calculate(buffer, message.Length - sigsize-MAVLINK_NUM_CHECKSUM_BYTES);
 
             // calc extra bit of crc for mavlink 1.0/2.0
             if (message.header == 0xfe || message.header == 0xfd)
@@ -2915,11 +3024,39 @@ Please check the following
                 return new MAVLinkMessage();
             }
 
-            // packet is now verified
-
             byte sysid = message.sysid;
             byte compid = message.compid;
             byte packetSeqNo = message.seq;
+
+            //check sig
+            if (message.sig != null)
+            {
+                using (SHA256Managed signit = new SHA256Managed())
+                {
+                    signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
+                    signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);
+                    var ctx = signit.Hash;
+                    // trim to 48
+                    Array.Resize(ref ctx, 6);
+
+                    //Console.WriteLine("linkid {0}, time {1} {2} {3} {4} {5} {6}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6]);
+
+                    for (int i = 0; i < ctx.Length; i++)
+                    {
+                        if (ctx[i] != message.sig[7 + i])
+                        {
+                            log.InfoFormat("Packet failed signature but passed crc");
+                            return new MAVLinkMessage();
+                        }
+                    }
+
+                    MAVlist[sysid, compid].linkid = message.sig[0];
+
+                    enableSigning();
+                }
+            }
+
+            // packet is now verified
 
             // update packet loss statistics
             if (!logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < DateTime.Now)
@@ -3023,7 +3160,7 @@ Please check the following
                         // adsb packets are forwarded and can be from any sysid/compid
                         if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.ADSB_VEHICLE)
                         {
-                            var adsb = message.ByteArrayToStructure<MAVLink.mavlink_adsb_vehicle_t>();
+                            var adsb = message.ToStructure<MAVLink.mavlink_adsb_vehicle_t>();
 
                             MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"));
                             MainV2.instance.adsbPlaneAge[adsb.ICAO_address.ToString("X5")] = DateTime.Now;
@@ -3033,7 +3170,7 @@ Please check the following
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
                     if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
                     {
-                        mavlink_heartbeat_t hb = message.ByteArrayToStructure<mavlink_heartbeat_t>();
+                        mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
 
                         // not a gcs
                         if (hb.type != (byte) MAV_TYPE.GCS)
@@ -3066,7 +3203,7 @@ Please check the following
 
                     if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT) // status text
                     {
-                        var msg = message.ByteArrayToStructure<MAVLink.mavlink_statustext_t>();
+                        var msg = message.ToStructure<MAVLink.mavlink_statustext_t>();
 
                         byte sev = msg.severity;
 
@@ -3257,7 +3394,7 @@ Please check the following
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
             {
                 // clear old
-                mavlink_mission_count_t wp = buffer.ByteArrayToStructure<mavlink_mission_count_t>();
+                mavlink_mission_count_t wp = buffer.ToStructure<mavlink_mission_count_t>();
 
                 if (wp.target_system == gcssysid)
                 {
@@ -3270,7 +3407,7 @@ Please check the following
 
             if (buffer.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
             {
-                mavlink_mission_item_t wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>();
+                mavlink_mission_item_t wp = buffer.ToStructure<mavlink_mission_item_t>();
 
                 if (wp.target_system == gcssysid)
                 {
@@ -3294,7 +3431,7 @@ Please check the following
 
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
-                mavlink_rally_point_t rallypt = buffer.ByteArrayToStructure<mavlink_rally_point_t>();
+                mavlink_rally_point_t rallypt = buffer.ToStructure<mavlink_rally_point_t>();
 
                 if (rallypt.target_system == gcssysid)
                 {
@@ -3310,7 +3447,7 @@ Please check the following
 
             if (buffer.msgid == (byte)MAVLINK_MSG_ID.CAMERA_FEEDBACK)
             {
-                mavlink_camera_feedback_t camerapt = buffer.ByteArrayToStructure<mavlink_camera_feedback_t>();
+                mavlink_camera_feedback_t camerapt = buffer.ToStructure<mavlink_camera_feedback_t>();
 
                 if (MAVlist[sysid, compid].camerapoints.Count == 0 || MAVlist[sysid, compid].camerapoints.Last().time_usec != camerapt.time_usec)
                 {
@@ -3320,7 +3457,7 @@ Please check the following
 
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
             {
-                mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>();
+                mavlink_fence_point_t fencept = buffer.ToStructure<mavlink_fence_point_t>();
 
                 if (fencept.target_system == gcssysid)
                 {
@@ -3333,7 +3470,7 @@ Please check the following
 
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
             {
-                mavlink_param_value_t value = buffer.ByteArrayToStructure<mavlink_param_value_t>();
+                mavlink_param_value_t value = buffer.ToStructure<mavlink_param_value_t>();
 
                 string st = System.Text.ASCIIEncoding.ASCII.GetString(value.param_id);
 
@@ -3440,7 +3577,7 @@ Please check the following
                     {
                         giveComport = false;
 
-                        mavlink_fence_point_t fp = buffer.ByteArrayToStructure<mavlink_fence_point_t>();
+                        mavlink_fence_point_t fp = buffer.ToStructure<mavlink_fence_point_t>();
 
                         plla.Lat = fp.lat;
                         plla.Lng = fp.lng;
@@ -3508,7 +3645,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
                     {
-                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
+                        var data = buffer.ToStructure<mavlink_log_data_t>();
 
                         if (data.id != no)
                             continue;
@@ -3595,7 +3732,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
                     {
-                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
+                        var data = buffer.ToStructure<mavlink_log_data_t>();
 
                         if (data.id != no)
                             continue;
@@ -3712,7 +3849,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_ENTRY)
                     {
-                        var ans = buffer.ByteArrayToStructure<mavlink_log_entry_t>();
+                        var ans = buffer.ToStructure<mavlink_log_entry_t>();
 
                         if (ans.id >= startno && ans.id <= endno)
                         {
@@ -3801,7 +3938,7 @@ Please check the following
                 {
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
                     {
-                        mavlink_rally_point_t fp = buffer.ByteArrayToStructure<mavlink_rally_point_t>();
+                        mavlink_rally_point_t fp = buffer.ToStructure<mavlink_rally_point_t>();
 
                         if (req.idx != fp.idx)
                         {
@@ -3957,10 +4094,15 @@ Please check the following
                 }
                 if (a == 1)
                 {
-                    int headerlength = temp[0] == 0xfd ? 9 : 5;
+                    int headerlength = temp[0] == MAVLINK_STX ? 9 : 5;
                     int headerlengthstx = headerlength + 1;
 
                     length = temp[1] + headerlengthstx + 2; // header + 2 checksum
+                }
+                if (a == 2)
+                {
+                    if ((temp[a] & MAVLINK_IFLAG_SIGNED) > 0)
+                        length += MAVLINK_SIGNATURE_BLOCK_LEN;
                 }
                 a++;
             }

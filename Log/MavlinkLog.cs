@@ -1631,7 +1631,7 @@ namespace MissionPlanner.Log
                                     //get mission count info 
                                     var item =
                                         mine.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT)
-                                            .ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
+                                            .ToStructure<MAVLink.mavlink_mission_count_t>();
                                     mine.MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT);
                                     sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " +
                                                  item.target_system);

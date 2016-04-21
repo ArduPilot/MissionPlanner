@@ -42,7 +42,7 @@ public partial class MAVLink
             }
         }
 
-        public T ByteArrayToStructure<T>()
+        public T ToStructure<T>()
         {
             return (T)data;
         }
@@ -51,14 +51,14 @@ public partial class MAVLink
 
         public byte[] sig;
 
-        /*public byte this[int index]
+        public int Length
         {
-            get { return buffer[index]; }
-        }*/
-
-        public int Length { get
-        {
-            if (buffer == null) return 0; return buffer.Length; } }
+            get
+            {
+                if (buffer == null) return 0;
+                return buffer.Length;
+            }
+        }
 
         public MAVLinkMessage()
         {
@@ -84,6 +84,13 @@ public partial class MAVLink
                 var crc2 = 9 + payloadlength+2;
 
                 crc16 = (ushort)((buffer[crc2] << 8) + buffer[crc1]);
+
+                if ((incompat_flags & MAVLINK_IFLAG_SIGNED) > 0)
+                {
+                    sig = new byte[MAVLINK_SIGNATURE_BLOCK_LEN];
+                    Array.ConstrainedCopy(buffer, buffer.Length - MAVLINK_SIGNATURE_BLOCK_LEN, sig, 0,
+                        MAVLINK_SIGNATURE_BLOCK_LEN);
+                }
             }
             else
             {

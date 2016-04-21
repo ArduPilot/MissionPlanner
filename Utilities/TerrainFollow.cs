@@ -38,7 +38,7 @@ namespace MissionPlanner.Utilities
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
             {
                 MAVLink.mavlink_terrain_request_t packet =
-                    rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
+                    rawpacket.ToStructure<MAVLink.mavlink_terrain_request_t>();
 
                 if (issending)
                     return false;
@@ -53,7 +53,7 @@ namespace MissionPlanner.Utilities
             else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
                 MAVLink.mavlink_terrain_report_t packet =
-                    rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
+                    rawpacket.ToStructure<MAVLink.mavlink_terrain_report_t>();
                 log.Info("received TERRAIN_REPORT " + packet.lat/1e7 + " " + packet.lon/1e7 + " " + packet.loaded + " " +
                          packet.pending);
             }

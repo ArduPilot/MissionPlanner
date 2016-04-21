@@ -91,6 +91,7 @@
             this.but_gstream = new MissionPlanner.Controls.MyButton();
             this.but_agemapdata = new MissionPlanner.Controls.MyButton();
             this.myButton1 = new MissionPlanner.Controls.MyButton();
+            this.but_signkey = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -787,11 +788,22 @@
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click_2);
             // 
+            // but_signkey
+            // 
+            this.but_signkey.Location = new System.Drawing.Point(467, 352);
+            this.but_signkey.Name = "but_signkey";
+            this.but_signkey.Size = new System.Drawing.Size(75, 23);
+            this.but_signkey.TabIndex = 76;
+            this.but_signkey.Text = "signing";
+            this.but_signkey.UseVisualStyleBackColor = true;
+            this.but_signkey.Click += new System.EventHandler(this.but_signkey_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_signkey);
             this.Controls.Add(this.myButton1);
             this.Controls.Add(this.but_agemapdata);
             this.Controls.Add(this.but_gstream);
@@ -877,5 +889,6 @@
         private Controls.MyButton but_gstream;
         private Controls.MyButton but_agemapdata;
         private Controls.MyButton myButton1;
+        private Controls.MyButton but_signkey;
     }
 }
