@@ -6639,6 +6639,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             panoramaPhotos(10, -40, mlon, mlat, alt);
             panoramaPhotos(8, -60, mlon, mlat, alt);
             panoramaPhotos(3, -90, mlon, mlat, alt);
+            AddCommand(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
         }
         private void panoramaPhotos(int photoCount, int gimbalAngle, double mlon, double mlat, int alt)
         {
