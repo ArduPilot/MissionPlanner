@@ -769,7 +769,8 @@ Please check the following
 
                             signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
                             signit.TransformBlock(packet, 0, i, null, 0);
-                            var ctx = signit.TransformFinalBlock(sig, 0, sig.Length);
+                            signit.TransformFinalBlock(sig, 0, sig.Length);
+                            var ctx = signit.Hash;
                             // trim to 48
                             Array.Resize(ref ctx, 6);
 
@@ -3039,7 +3040,7 @@ Please check the following
                     // trim to 48
                     Array.Resize(ref ctx, 6);
 
-                    //Console.WriteLine("linkid {0}, time {1} {2} {3} {4} {5} {6}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6]);
+                    //Console.WriteLine("linkid {0}, time {1} {2} {3} {4} {5} {6} - {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
 
                     for (int i = 0; i < ctx.Length; i++)
                     {

@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 public partial class MAVLink
 {
     public class MAVLinkMessage
     {
-        public byte[] buffer;
+        public byte[] buffer { get; internal set; }
 
-        public byte header;
-        public byte payloadlength;
+        public byte header { get; internal set; }
+        public byte payloadlength { get; internal set; }
 
-        public byte incompat_flags;
-        public byte compat_flags;
+        public byte incompat_flags { get; internal set; }
+        public byte compat_flags { get; internal set; }
 
-        public byte seq;
-        public byte sysid;
-        public byte compid;
+        public byte seq { get; internal set; }
+        public byte sysid { get; internal set; }
+        public byte compid { get; internal set; }
 
-        public uint msgid;
+        public uint msgid { get; internal set; }
         object _data;
         public object data
         {
@@ -47,9 +48,37 @@ public partial class MAVLink
             return (T)data;
         }
 
-        public ushort crc16;
+        public ushort crc16 { get; internal set; }
 
-        public byte[] sig;
+        public byte[] sig { get; internal set; }
+
+        public byte sigLinkid
+        {
+            get
+            {
+                if (sig != null)
+                {
+                    return sig[0];
+                }
+
+                return 0;
+            }
+        }
+
+        public ulong sigTimestamp 
+        {
+            get
+            {
+                if (sig != null)
+                {
+                    byte[] temp = new byte[8];
+                    Array.Copy(sig, 1, temp, 0, 6);
+                    return BitConverter.ToUInt64(temp, 0);
+                }
+
+                return 0;
+            }
+        }
 
         public int Length
         {
@@ -69,7 +98,7 @@ public partial class MAVLink
         {
             this.buffer = buffer;
 
-            if (buffer[0] == 0xfd)
+            if (buffer[0] == MAVLINK_STX)
             {
                 header = buffer[0];
                 payloadlength = buffer[1];
@@ -80,8 +109,8 @@ public partial class MAVLink
                 compid = buffer[6];
                 msgid = (uint)((buffer[9] << 16) + (buffer[8] << 8) + buffer[7]);
 
-                var crc1 = 9 + payloadlength+1;
-                var crc2 = 9 + payloadlength+2;
+                var crc1 = MAVLINK_CORE_HEADER_LEN + payloadlength + 1;
+                var crc2 = MAVLINK_CORE_HEADER_LEN + payloadlength + 2;
 
                 crc16 = (ushort)((buffer[crc2] << 8) + buffer[crc1]);
 
@@ -101,8 +130,8 @@ public partial class MAVLink
                 compid = buffer[4];
                 msgid = buffer[5];
 
-                var crc1 = 5 + payloadlength + 1;
-                var crc2 = 5 + payloadlength + 2;
+                var crc1 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 1;
+                var crc2 = MAVLINK_CORE_HEADER_MAVLINK1_LEN + payloadlength + 2;
 
                 crc16 = (ushort)((buffer[crc2] << 8) + buffer[crc1]);
             }
