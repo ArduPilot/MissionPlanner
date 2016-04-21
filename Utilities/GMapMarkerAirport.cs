@@ -29,7 +29,7 @@ namespace MissionPlanner.Utilities
         public GMapMarker InnerMarker;
 
         // m
-        public int wprad = 5559;
+        public int wprad = 9000;
 
         public void ResetColor()
         {
@@ -43,6 +43,14 @@ namespace MissionPlanner.Utilities
             : base(p)
         {
             Pen.DashStyle = DashStyle.Dash;
+
+            // the US + south America
+            if (p.Lng < -25)
+                wprad = 9000;
+
+            // aus
+            if (p.Lat < -10 && p.Lng > 109 && p.lng < 180)
+                wprad = 5559;
 
             // do not forget set Size of the marker
             // if so, you shall have no event on it ;}
