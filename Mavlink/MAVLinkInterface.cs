@@ -2201,7 +2201,11 @@ Please check the following
                                 textoutput = textoutput + field.Name + delimeter + fieldValue.ToString() + delimeter;
                             }
                         }
-                        textoutput = textoutput + delimeter + "sig "+Convert.ToBase64String(datin.sig) +delimeter + "Len" + delimeter + datin.Length + "\r\n";
+                        var sig = "";
+                        if (datin.sig != null)
+                            sig = Convert.ToBase64String(datin.sig);
+
+                        textoutput = textoutput + delimeter + "sig " + sig + delimeter + "Len" + delimeter + datin.Length + "\r\n";
                         if (PrintToConsole)
                             Console.Write(textoutput);
 
