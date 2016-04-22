@@ -114,11 +114,11 @@ namespace MissionPlanner.Utilities
                     {
                         while (client.Connected && client.Available > 0)
                         {
-                            byte[] packet = mav.ReadPacket(client.GetStream());
+                            var packet = mav.ReadPacket(client.GetStream());
                             if (packet == null)
                                 continue;
                             if (Server != null && Server.Connected)
-                                Server.GetStream().Write(packet, 0, packet.Length);
+                                Server.GetStream().Write(packet.buffer, 0, packet.Length);
                         }
                     }
                     catch

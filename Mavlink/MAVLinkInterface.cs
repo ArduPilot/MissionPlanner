@@ -2860,7 +2860,7 @@ Please check the following
 
                     mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
 
-                    int headerlength = buffer[0] == MAVLINK_STX ? 9 : 5;
+                    int headerlength = mavlinkv2 ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
                     int headerlengthstx = headerlength + 1;
 
                     // check for a header

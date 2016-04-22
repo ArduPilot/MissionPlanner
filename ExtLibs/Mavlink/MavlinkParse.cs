@@ -49,7 +49,7 @@ public partial class MAVLink
             }
         }
 
-        public byte[] ReadPacket(Stream BaseStream)
+        public MAVLinkMessage ReadPacket(Stream BaseStream)
         {
             byte[] buffer = new byte[270];
 
@@ -60,23 +60,40 @@ public partial class MAVLink
                 // read STX byte
                 ReadWithTimeout(BaseStream, buffer, 0, 1);
 
-                if (buffer[0] == MAVLink.MAVLINK_STX)
+                if (buffer[0] == MAVLink.MAVLINK_STX || buffer[0] == MAVLINK_STX_MAVLINK1)
                     break;
 
                 readcount++;
             }
 
+            var headerlength = buffer[0] == MAVLINK_STX ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
+            var headerlengthstx = headerlength + 1;
+
             // read header
-            ReadWithTimeout(BaseStream, buffer, 1, 5);
+            ReadWithTimeout(BaseStream, buffer, 1, headerlength);
 
             // packet length
-            int lengthtoread = buffer[1] + 6 + 2 - 2; // data + header + checksum - STX - length
+            int lengthtoread = 0;
+            if (buffer[0] == MAVLINK_STX)
+            {
+                lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - magic - length
+                if ((buffer[2] & MAVLINK_IFLAG_SIGNED) > 0)
+                {
+                    lengthtoread += MAVLINK_SIGNATURE_BLOCK_LEN;
+                }
+            }
+            else
+            {
+                lengthtoread = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - U - length    
+            }
 
             //read rest of packet
-            ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - 4);
+            ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - (headerlengthstx-2));
+
+            MAVLinkMessage message = new MAVLinkMessage(buffer);
 
             // check message length vs table
-            if (buffer[1] != MAVLINK_MESSAGE_LENGTHS[buffer[5]])
+            if (buffer[1] != MAVLINK_MESSAGE_LENGTHS[message.msgid])
             {
                 badLength++;
                 // bad or unknown packet
@@ -89,35 +106,25 @@ public partial class MAVLink
             // calc crc
             ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
 
-            // calc extra bit of crc for mavlink 1.0
-            if (buffer.Length > 5 && buffer[0] == 254)
+            // calc extra bit of crc for mavlink 1.0+
+            if (message.header == MAVLINK_STX || message.header == MAVLINK_STX_MAVLINK1)
             {
-                crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[buffer[5]], crc);
+                crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[message.msgid], crc);
             }
 
             // check crc
-            if (buffer.Length < 5 || buffer[buffer.Length - 1] != (crc >> 8) ||
-                buffer[buffer.Length - 2] != (crc & 0xff))
+            if ((message.crc16 >> 8) != (crc >> 8) ||
+                      (message.crc16 & 0xff) != (crc & 0xff))
             {
                 badCRC++;
                 // crc fail
                 return null;
             }
 
-            return buffer;
+            return message;
         }
 
-        public MAVLinkMessage ReadPacketObj(Stream BaseStream)
-        {
-            byte[] buffer = ReadPacket(BaseStream);
-
-            if (buffer == null)
-                return null;
-
-            return new MAVLinkMessage(buffer);
-        }
-
-        public byte[] GenerateMAVLinkPacket(MAVLINK_MSG_ID messageType, object indata)
+        public byte[] GenerateMAVLinkPacket10(MAVLINK_MSG_ID messageType, object indata)
         {
             byte[] data;
 
