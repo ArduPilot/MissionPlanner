@@ -106,14 +106,12 @@
     <None Include="pymavlink\generator\mavschema.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="regenerate.bat" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PreBuildEvent>rd /s /q "$(ProjectDir)mavlink"
-cd "$(ProjectDir)"
-python -m pymavlink.tools.mavgen --lang=csharp --wire-protocol=2.0 "$(ProjectDir)message_definitions\ardupilotmega.xml"  
-copy /y "$(ProjectDir)mavlink\ardupilotmega\mavlink.cs" "$(ProjectDir)Mavlink.cs"
-</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
