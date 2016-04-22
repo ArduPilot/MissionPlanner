@@ -3632,7 +3632,16 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                MainV2.comPort.setParam(new string[] {"MNT_MODE", "MNT_DEFLT_MODE"}, (int) CMB_mountmode.SelectedValue);
+                if (MainV2.comPort.MAV.param.ContainsKey("MNT_MODE"))
+                {
+                    MainV2.comPort.setParam("MNT_MODE",(int) CMB_mountmode.SelectedValue);
+                }
+                else
+                {
+                    // copter 3.3 acks with an error, but is ok
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, 0, 0, 0,
+                        (int) CMB_mountmode.SelectedValue);
+                }
             }
             catch
             {
