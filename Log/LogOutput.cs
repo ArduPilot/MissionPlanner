@@ -27,6 +27,7 @@ namespace MissionPlanner.Log
 
         // wp list
         List<PointLatLngAlt> cmd = new List<PointLatLngAlt>();
+        List<string> cmdraw = new List<string>();
 
         Point3D oldlastpos = new Point3D();
         Point3D lastpos = new Point3D();
@@ -74,20 +75,24 @@ namespace MissionPlanner.Log
                     {
                     }
                 }
-                else if (items[0].Contains("CMD"))
+                else if (items[0].Contains("CMD")) // "CMD", "QHHHfffffff","TimeUS,CTot,CNum,CId,Prm1,Prm2,Prm3,Prm4,Lat,Lng,Alt" }, \
                 {
-                    if (flightdata.Count == 0)
+                    cmdraw.Add(line);
+
+                    int cidindex = dflog.FindMessageOffset("CMD", "CId");
+
+                    if (int.Parse(items[cidindex]) <= (int) MAVLink.MAV_CMD.LAST) // wps
                     {
-                        if (int.Parse(items[3]) <= (int) MAVLink.MAV_CMD.LAST) // wps
-                        {
-                            PointLatLngAlt temp =
-                                new PointLatLngAlt(
-                                    double.Parse(items[7], CultureInfo.InvariantCulture),
-                                    double.Parse(items[8], CultureInfo.InvariantCulture),
-                                    double.Parse(items[6], CultureInfo.InvariantCulture),
-                                    items[2].ToString());
-                            cmd.Add(temp);
-                        }
+                        int cmdflatindex = dflog.FindMessageOffset("CMD", "Lat");
+                        int cmdlngindex = dflog.FindMessageOffset("CMD", "Lng");
+                        int cmdaltindex = dflog.FindMessageOffset("CMD", "Alt");
+
+                        int cmdnumindex = dflog.FindMessageOffset("CMD", "CNum");
+
+                        cmd.Add(new PointLatLngAlt(
+                            double.Parse(items[cmdflatindex], CultureInfo.InvariantCulture),
+                            double.Parse(items[cmdlngindex], CultureInfo.InvariantCulture),
+                            double.Parse(items[cmdaltindex], CultureInfo.InvariantCulture), items[cmdnumindex]));
                     }
                 }
                 else if (items[0].Contains("MOD"))
@@ -351,6 +356,7 @@ namespace MissionPlanner.Log
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
             cmd.Clear();
+            cmdraw.Clear();
         }
 
 
@@ -424,6 +430,56 @@ namespace MissionPlanner.Log
             DateTime week = datum.AddDays(weeknumber*7);
             DateTime time = week.AddSeconds(seconds);
             return time;
+        }
+
+        public void writeWPFile(string basefilename)
+        {
+            int fileindex = 0;
+
+            double currenttotaltarget = -1;
+            double lastseenwpno = -1;
+
+            StreamWriter sw = null;
+
+            foreach (string line in cmdraw)
+            {
+                string[] items = line.Split(',', ':');
+
+                var CTot = double.Parse(items[dflog.FindMessageOffset("CMD", "CTot")], CultureInfo.InvariantCulture);
+                var CNum = double.Parse(items[dflog.FindMessageOffset("CMD", "CNum")], CultureInfo.InvariantCulture);
+                // if the total changes we are in a new upload, or if the current wpno is less than the last seen wpno
+                if (CTot != currenttotaltarget || CNum < lastseenwpno)
+                {
+                    currenttotaltarget = CTot;
+                    // close old if we need to
+                    if (sw != null)
+                        sw.Close();
+
+                    // new filename
+                    string file = Path.GetDirectoryName(basefilename) + Path.DirectorySeparatorChar +
+                                  Path.GetFileNameWithoutExtension(basefilename) + fileindex + "wp.txt";
+                    fileindex++;
+
+                    // create a new file
+                    sw = new StreamWriter(file);
+                    sw.WriteLine("QGC WPL 110");
+                }
+                lastseenwpno = CNum;
+
+                var CId = double.Parse(items[dflog.FindMessageOffset("CMD", "CId")], CultureInfo.InvariantCulture);
+                var Prm1 = double.Parse(items[dflog.FindMessageOffset("CMD", "Prm1")], CultureInfo.InvariantCulture);
+                var Prm2 = double.Parse(items[dflog.FindMessageOffset("CMD", "Prm2")], CultureInfo.InvariantCulture);
+                var Prm3 = double.Parse(items[dflog.FindMessageOffset("CMD", "Prm3")], CultureInfo.InvariantCulture);
+                var Prm4 = double.Parse(items[dflog.FindMessageOffset("CMD", "Prm4")], CultureInfo.InvariantCulture);
+                var Lat = double.Parse(items[dflog.FindMessageOffset("CMD", "Lat")], CultureInfo.InvariantCulture);
+                var Lng = double.Parse(items[dflog.FindMessageOffset("CMD", "Lng")], CultureInfo.InvariantCulture);
+                var Alt = double.Parse(items[dflog.FindMessageOffset("CMD", "Alt")], CultureInfo.InvariantCulture);
+
+                sw.WriteLine("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}\t{7}\t{8}\t{9}\t{10}\t{11}", CNum, 0, 3/*relative*/, CId, Prm1, Prm2, Prm3, Prm4, Lat, Lng, Alt, 1);
+            }
+
+            if (sw != null)
+                sw.Close();
         }
 
         public void writeRinex(string filename)
@@ -654,6 +710,8 @@ gnssId GNSS Type
                 writeGPX(filename);
 
                 writeRinex(filename);
+
+                writeWPFile(filename);
             }
             catch
             {
@@ -974,6 +1032,7 @@ gnssId GNSS Type
             flightdata.Clear();
             position = new List<Core.Geometry.Point3D>[200];
             cmd.Clear();
+            cmdraw.Clear();
         }
     }
 }
