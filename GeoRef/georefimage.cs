@@ -205,6 +205,8 @@ namespace MissionPlanner.GeoRef
                         location.Pitch = cs.pitch;
                         location.Yaw = cs.yaw;
 
+                        location.SAlt = cs.sonarrange;
+
                         vehiclePositionList[ToMilliseconds(location.Time)] = location;
                         // 4 5 7
                         Console.Write((mine.logplaybackfile.BaseStream.Position*100/
@@ -222,6 +224,7 @@ namespace MissionPlanner.GeoRef
                     float currentYaw = 0f;
                     float currentRoll = 0f;
                     float currentPitch = 0f;
+                    float currentSAlt = 0f;
                     int a = 0;
 
                     while (!sr.EndOfStream)
@@ -261,6 +264,8 @@ namespace MissionPlanner.GeoRef
                                 location.Pitch = currentPitch;
                                 location.Yaw = currentYaw;
 
+                                location.SAlt = currentSAlt;
+
                                 long millis = ToMilliseconds(location.Time);
 
                                 //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
@@ -282,6 +287,15 @@ namespace MissionPlanner.GeoRef
                             currentRoll = float.Parse(item.items[Rindex], CultureInfo.InvariantCulture);
                             currentPitch = float.Parse(item.items[Pindex], CultureInfo.InvariantCulture);
                             currentYaw = float.Parse(item.items[Yindex], CultureInfo.InvariantCulture);
+                        }
+                        else if (item.msgtype == "CTUN")
+                        {
+                            int SAltindex = dflog.FindMessageOffset("CTUN", "SAlt");
+
+                            if (SAltindex != -1)
+                            {
+                                currentSAlt = float.Parse(item.items[SAltindex]);
+                            }
                         }
                     }
                 }
@@ -608,7 +622,7 @@ namespace MissionPlanner.GeoRef
                 swloctel.WriteLine("#longitude and latitude - in degrees");
                 swloctel.WriteLine("#name	utc	longitude	latitude	height");
 
-                swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll");
+                swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll SAlt");
 
                 TXT_outputlog.AppendText("Start Processing\n");
 
@@ -708,7 +722,7 @@ namespace MissionPlanner.GeoRef
 
                     swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " +
                                        picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " +
-                                       picInfo.Roll);
+                                       picInfo.Roll + " " + picInfo.SAlt);
 
 
                     swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" +

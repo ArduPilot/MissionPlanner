@@ -47,6 +47,14 @@ namespace MissionPlanner.GeoRef
             set { relAlt = value; }
         }
 
+        double salt;
+
+        public double SAlt
+        {
+            get { return salt; }
+            set { salt = value; }
+        }
+
         float roll;
 
         public float Roll
