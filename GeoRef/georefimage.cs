@@ -408,7 +408,7 @@ namespace MissionPlanner.GeoRef
             if (files == null || files.Length == 0)
                 return -1;
 
-            Array.Sort(files, Comparer.DefaultInvariant);
+            Array.Sort(files, compareFileByPhotoTime);
 
             double ans = 0;
 
@@ -830,7 +830,7 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
-            Array.Sort(files, Comparer.DefaultInvariant);
+            Array.Sort(files, compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
@@ -878,6 +878,13 @@ namespace MissionPlanner.GeoRef
             }
 
             return picturesInformationTemp;
+        }
+
+        private int compareFileByPhotoTime(string x, string y)
+        {
+            if (getPhotoTime(x) < getPhotoTime(y)) return -1;
+            if (getPhotoTime(x) > getPhotoTime(y)) return 1;
+            return 0;
         }
 
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
@@ -931,7 +938,7 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
-            Array.Sort(files, Comparer.DefaultInvariant);
+            Array.Sort(files, compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
