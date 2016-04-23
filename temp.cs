@@ -1642,7 +1642,10 @@ namespace MissionPlanner
 
         private void but_signkey_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setupSigning("test");
+            string key = "this is an example";
+            InputBox.Show("Signing Key", "Please enter your pass phrase", ref key);
+
+            MainV2.comPort.setupSigning(key);
         }
     }
 }
