@@ -495,16 +495,19 @@ namespace MissionPlanner
 
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + name))
             {
-                using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
+                if (new FileInfo(datadirectory + Path.DirectorySeparatorChar + name).Length > 0)
                 {
-                    while (!sr.EndOfStream)
+                    using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
                     {
-                        list.Add(sr.ReadLine());
-                    }
+                        while (!sr.EndOfStream)
+                        {
+                            list.Add(sr.ReadLine());
+                        }
 
-                    sr.Close();
+                        sr.Close();
+                    }
+                    return list;
                 }
-                return list;
             }
 
             try
