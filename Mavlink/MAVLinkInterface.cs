@@ -1223,12 +1223,18 @@ Please check the following
                     break;
                 }
                 if (!logreadmode && !BaseStream.IsOpen)
-                    throw new Exception("Not Connected");
+                {
+                    var exp = new Exception("Not Connected");
+                    frmProgressReporter.doWorkArgs.ErrorMessage = exp.ToString();
+                    throw exp;
+                }
             } while (indexsreceived.Count < param_total);
 
             if (indexsreceived.Count != param_total)
             {
-                throw new Exception("Missing Params");
+                var exp = new Exception("Missing Params " + indexsreceived.Count + " vs " + param_total);
+                frmProgressReporter.doWorkArgs.ErrorMessage = exp.ToString();
+                throw exp;
             }
             giveComport = false;
 
@@ -4104,7 +4110,7 @@ Please check the following
 
                     length = temp[1] + headerlengthstx + 2; // header + 2 checksum
                 }
-                if (a == 2)
+                if (a == 2 && temp[0] == MAVLINK_STX)
                 {
                     if ((temp[a] & MAVLINK_IFLAG_SIGNED) > 0)
                         length += MAVLINK_SIGNATURE_BLOCK_LEN;

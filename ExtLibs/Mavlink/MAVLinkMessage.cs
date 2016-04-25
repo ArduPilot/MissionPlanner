@@ -30,7 +30,7 @@ public partial class MAVLink
                 _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[msgid]);
 
                 // fill in the data of the object
-                if (buffer[0] == 0xfd)
+                if (buffer[0] == MAVLINK_STX)
                 {
                     MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 10);
                 }
