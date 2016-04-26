@@ -615,16 +615,14 @@ Please check the following
         public void sendPacket(object indata)
         {
             bool validPacket = false;
-            byte a = 0;
-            foreach (Type ty in MAVLINK_MESSAGE_INFO.Values)
+            foreach (var ty in MAVLINK_MESSAGE_INFO)
             {
-                if (ty == indata.GetType())
+                if (ty.Value == indata.GetType())
                 {
                     validPacket = true;
-                    generatePacket(a, indata);
+                    generatePacket((int)ty.Key, indata);
                     return;
                 }
-                a++;
             }
             if (!validPacket)
             {
@@ -1123,7 +1121,7 @@ Please check the following
                 {
                     packets++;
                     // stopwatch.Start();
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         restart = DateTime.Now;
                         // if we are doing one by one dont update start time
@@ -1225,7 +1223,7 @@ Please check the following
                 if (!logreadmode && !BaseStream.IsOpen)
                 {
                     var exp = new Exception("Not Connected");
-                    frmProgressReporter.doWorkArgs.ErrorMessage = exp.ToString();
+                    frmProgressReporter.doWorkArgs.ErrorMessage = exp.Message;
                     throw exp;
                 }
             } while (indexsreceived.Count < param_total);
@@ -1233,7 +1231,7 @@ Please check the following
             if (indexsreceived.Count != param_total)
             {
                 var exp = new Exception("Missing Params " + indexsreceived.Count + " vs " + param_total);
-                frmProgressReporter.doWorkArgs.ErrorMessage = exp.ToString();
+                frmProgressReporter.doWorkArgs.ErrorMessage = exp.Message;
                 throw exp;
             }
             giveComport = false;
@@ -2224,6 +2222,7 @@ Please check the following
             }
             catch
             {
+                textoutput = textoutput + "\r\n";
             }
 
             return null;
