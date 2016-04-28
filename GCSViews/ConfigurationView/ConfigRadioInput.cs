@@ -9,9 +9,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigRadioInput : UserControl, IActivate, IDeactivate
     {
-        private readonly float[] rcmax = new float[8];
-        private readonly float[] rcmin = new float[8];
-        private readonly float[] rctrim = new float[8];
+        private readonly float[] rcmax = new float[16];
+        private readonly float[] rcmin = new float[16];
+        private readonly float[] rctrim = new float[16];
         private readonly Timer timer = new Timer();
         private int chpitch = -1;
         private int chroll = -1;
@@ -223,6 +223,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     rcmin[7] = Math.Min(rcmin[7], MainV2.comPort.MAV.cs.ch8in);
                     rcmax[7] = Math.Max(rcmax[7], MainV2.comPort.MAV.cs.ch8in);
 
+                    rcmin[8] = Math.Min(rcmin[8], MainV2.comPort.MAV.cs.ch9in);
+                    rcmax[8] = Math.Max(rcmax[8], MainV2.comPort.MAV.cs.ch9in);
+
+                    rcmin[9] = Math.Min(rcmin[9], MainV2.comPort.MAV.cs.ch10in);
+                    rcmax[9] = Math.Max(rcmax[9], MainV2.comPort.MAV.cs.ch10in);
+
+                    rcmin[10] = Math.Min(rcmin[10], MainV2.comPort.MAV.cs.ch11in);
+                    rcmax[10] = Math.Max(rcmax[10], MainV2.comPort.MAV.cs.ch11in);
+
+                    rcmin[11] = Math.Min(rcmin[11], MainV2.comPort.MAV.cs.ch12in);
+                    rcmax[11] = Math.Max(rcmax[11], MainV2.comPort.MAV.cs.ch12in);
+
+                    rcmin[12] = Math.Min(rcmin[12], MainV2.comPort.MAV.cs.ch13in);
+                    rcmax[12] = Math.Max(rcmax[12], MainV2.comPort.MAV.cs.ch13in);
+
+                    rcmin[13] = Math.Min(rcmin[13], MainV2.comPort.MAV.cs.ch14in);
+                    rcmax[13] = Math.Max(rcmax[13], MainV2.comPort.MAV.cs.ch14in);
+
+                    rcmin[14] = Math.Min(rcmin[14], MainV2.comPort.MAV.cs.ch15in);
+                    rcmax[14] = Math.Max(rcmax[14], MainV2.comPort.MAV.cs.ch15in);
+
+                    rcmin[15] = Math.Min(rcmin[15], MainV2.comPort.MAV.cs.ch16in);
+                    rcmax[15] = Math.Max(rcmax[15], MainV2.comPort.MAV.cs.ch16in);
+
                     BARroll.minline = (int) rcmin[chroll - 1];
                     BARroll.maxline = (int) rcmax[chroll - 1];
 
@@ -271,9 +295,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             rctrim[6] = MainV2.comPort.MAV.cs.ch7in;
             rctrim[7] = MainV2.comPort.MAV.cs.ch8in;
 
+            rctrim[8] = MainV2.comPort.MAV.cs.ch9in;
+            rctrim[9] = MainV2.comPort.MAV.cs.ch10in;
+            rctrim[10] = MainV2.comPort.MAV.cs.ch11in;
+            rctrim[11] = MainV2.comPort.MAV.cs.ch12in;
+            rctrim[12] = MainV2.comPort.MAV.cs.ch13in;
+            rctrim[13] = MainV2.comPort.MAV.cs.ch14in;
+            rctrim[14] = MainV2.comPort.MAV.cs.ch15in;
+            rctrim[15] = MainV2.comPort.MAV.cs.ch16in;
+
             var data = "---------------\n";
 
-            for (var a = 0; a < 8; a++)
+            for (var a = 0; a < rctrim.Length; a++)
             {
                 // we want these to save no matter what
                 BUT_Calibrateradio.Text = Strings.Saving;
@@ -289,7 +322,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Failed to set Channel " + (a + 1));
+                    if (MainV2.comPort.MAV.param.ContainsKey("RC" + (a + 1).ToString("0") + "_MIN"))
+                        CustomMessageBox.Show("Failed to set Channel " + (a + 1));
                 }
 
                 data = data + "CH" + (a + 1) + " " + rcmin[a] + " | " + rcmax[a] + "\n";
