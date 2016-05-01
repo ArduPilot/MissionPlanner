@@ -693,7 +693,7 @@ namespace MissionPlanner.Utilities
                                 continue;
 
                             if (UpdatePlanePosition != null && plane != null)
-                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident), EventArgs.Empty);
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident, DateTime.Now), EventArgs.Empty);
                         }
                         else if (strArray[1] == "4")
                         {
@@ -1020,13 +1020,14 @@ namespace MissionPlanner.Utilities
                 this.Tag = plla.Tag;
             }
 
-            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag)
+            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag, DateTime time)
             {
                 this.Lat = lat;
                 this.Lng = lng;
                 this.Alt = alt;
                 this.Heading = heading;
                 this.Tag = tag;
+                this.Time = time;
             }
 
             public float Heading { get; set; }
@@ -1035,6 +1036,8 @@ namespace MissionPlanner.Utilities
             //{
               //  return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);
             //}
+
+            public DateTime Time { get; set; }
         }
     }
 }

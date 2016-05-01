@@ -271,7 +271,6 @@ namespace MissionPlanner
         internal object adsblock = new object();
 
         public Hashtable adsbPlanes = new Hashtable();
-        public Hashtable adsbPlaneAge = new Hashtable();
 
         string titlebar;
 
@@ -960,7 +959,7 @@ namespace MissionPlanner
             {
                 adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender).Tag] =
                     ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                adsbPlaneAge[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender).Tag] = DateTime.Now;
+                adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender).Tag] = DateTime.Now;
             }
         }
 

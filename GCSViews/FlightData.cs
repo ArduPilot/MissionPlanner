@@ -1349,7 +1349,7 @@ namespace MissionPlanner.GCSViews
                             foreach (adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                             {
                                 // 30 seconds history
-                                if (((DateTime) MainV2.instance.adsbPlaneAge[plla.Tag]) > DateTime.Now.AddSeconds(-30))
+                                if (((DateTime) plla.Time) > DateTime.Now.AddSeconds(-30))
                                 {
                                     addMissionRouteMarker(new GMapMarkerADSBPlane(plla, plla.Heading)
                                     {
