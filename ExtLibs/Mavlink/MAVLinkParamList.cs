@@ -8,7 +8,7 @@ public partial class MAVLink
 {
     public class MAVLinkParamList: List<MAVLinkParam>
     {
-        object locker = new object();
+        static object locker = new object();
 
         public MAVLinkParam this[string name]
         { 
@@ -75,15 +75,42 @@ public partial class MAVLink
             return false;
         }
 
+        public new void Clear()
+        {
+            lock (locker)
+            {
+                base.Clear();
+            }
+        }
+
+        public void Add(MAVLinkParam item)
+        {
+            lock (locker)
+            {
+                base.Add(item);
+            }
+        }
+
+        public new void AddRange(IEnumerable<MAVLinkParam> collection)
+        {
+            lock (locker)
+            {
+                base.AddRange(collection);
+            }
+        }
+
         public static implicit operator Hashtable(MAVLinkParamList list)
         {
-            Hashtable copy = new Hashtable();
-            foreach (MAVLinkParam item in list)
+            lock (locker)
             {
-                copy[item.Name] = item.Value;
-            }
+                Hashtable copy = new Hashtable();
+                foreach (MAVLinkParam item in list)
+                {
+                    copy[item.Name] = item.Value;
+                }
 
-            return copy;
+                return copy;
+            }
         }
     }
 }
