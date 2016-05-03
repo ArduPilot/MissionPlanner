@@ -172,7 +172,7 @@ namespace MissionPlanner.GCSViews
             DataGridViewTextBoxCell cell;
             if (alt == -2 && Commands.Columns[Alt.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][6] /*"Alt"*/))
             {
-                if (CHK_verifyheight.Checked) //Drag with verifyheight // use srtm data
+                if (CHK_verifyheight.Checked && (altmode)CMB_altmode.SelectedValue != altmode.Terrain) //Drag with verifyheight // use srtm data
                 {
                     cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
                     float ans;
@@ -265,6 +265,10 @@ namespace MissionPlanner.GCSViews
                             cell.Value =
                                 ((srtm.getAltitude(lat, lng).alt)*CurrentState.multiplierdist +
                                  int.Parse(TXT_DefaultAlt.Text)).ToString();
+                        }
+                        else if ((altmode) CMB_altmode.SelectedValue == altmode.Terrain)
+                        {
+                            cell.Value = int.Parse(TXT_DefaultAlt.Text);
                         }
                         else
                         {
