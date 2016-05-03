@@ -147,10 +147,13 @@ namespace MissionPlanner
         [DisplayText("Sat Count")]
         public float satcount { get; set; }
 
+        [DisplayText("Latitude2 (dd)")]
         public double lat2 { get; set; }
 
+        [DisplayText("Longitude2 (dd)")]
         public double lng2 { get; set; }
 
+        [DisplayText("Altitude2 (dist)")]
         public float altasl2 { get; set; }
 
         public float gpsstatus2 { get; set; }
@@ -161,6 +164,7 @@ namespace MissionPlanner
 
         public float groundspeed2 { get; set; }
 
+        [DisplayText("GroundCourse2 (deg)")]
         public float groundcourse2 { get; set; }
 
         public float altd1000
@@ -341,6 +345,7 @@ namespace MissionPlanner
         public float ch6out { get; set; }
         public float ch7out { get; set; }
         public float ch8out { get; set; }
+
         public float ch9out { get; set; }
         public float ch10out { get; set; }
         public float ch11out { get; set; }
@@ -978,7 +983,7 @@ namespace MissionPlanner
         static CurrentState()
         {
             // set default telemrates
-            rateattitudebackup = 6;
+            rateattitudebackup = 4;
             ratepositionbackup = 2;
             ratestatusbackup = 2;
             ratesensorsbackup = 2;
