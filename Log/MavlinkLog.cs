@@ -1529,6 +1529,8 @@ namespace MissionPlanner.Log
                                     progressBar1.Refresh();
                                 }
 
+                                mine.getHeartBeat();
+
                                 mine.getParamList();
 
                                 foreach (string item in mine.MAV.param.Keys)
@@ -1592,6 +1594,8 @@ namespace MissionPlanner.Log
                             }
 
                             mine.logreadmode = true;
+
+                            mine.getHeartBeat();
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
