@@ -1303,7 +1303,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
+                    if (buffer.msgid == (byte)MAVLINK_MSG_ID.PARAM_VALUE && buffer.sysid == req.target_system && buffer.compid == req.target_component)
                     {
                         giveComport = false;
 
