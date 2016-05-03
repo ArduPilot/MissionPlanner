@@ -94,6 +94,9 @@ namespace Updater
                             {
                                 Console.WriteLine(file + " Failed.");
                                 System.Threading.Thread.Sleep(500);
+                                // normally in use by explorer.exe
+                                if (file.ToLower().Contains("tlogThumbnailHandler"))
+                                    done = true;
                             }
                         }
                         all_done = all_done && done;
