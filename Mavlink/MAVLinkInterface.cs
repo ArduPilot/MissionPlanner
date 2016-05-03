@@ -1030,7 +1030,6 @@ Please check the following
             // create new list so if canceled we use the old list
             MAVLinkParamList newparamlist = new MAVLinkParamList();
 
-            int param_count = 0;
             int param_total = 1;
 
             mavlink_param_request_list_t req = new mavlink_param_request_list_t();
@@ -1170,8 +1169,9 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2b ");
 
-                        param_count++;
-                        indexsreceived.Add(par.param_index);
+                        // exclude index of 65535
+                        if (par.param_index != 65535)
+                            indexsreceived.Add(par.param_index);
 
                         MAV.param_types[paramID] = (MAV_PARAM_TYPE) par.param_type;
 
