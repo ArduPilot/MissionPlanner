@@ -96,13 +96,13 @@ namespace wix
 
             header();
 
-            sw.WriteLine("<Directory Id=\"INSTALLDIR\" Name=\"Mission Planner\">");
+            sw.WriteLine("    <Directory Id=\"INSTALLDIR\" Name=\"Mission Planner\">");
 
-            sw.WriteLine(@"<Component Id=""InstallDirPermissions"" Guid=""{525389D7-EB3C-4d77-A5F6-A285CF99437D}"" KeyPath=""yes""> 
-                        <CreateFolder> 
-                            <Permission User=""Everyone"" GenericAll=""yes"" /> 
-                        </CreateFolder>");
-            sw.WriteLine(@"</Component>");
+            sw.WriteLine(@"        <Component Id=""InstallDirPermissions"" Guid=""{525389D7-EB3C-4d77-A5F6-A285CF99437D}"" KeyPath=""yes""> 
+            <CreateFolder> 
+                <Permission User=""Everyone"" GenericAll=""yes"" /> 
+            </CreateFolder>
+        </Component>");
 
             dodirectory(path, 0);
 
@@ -187,27 +187,26 @@ namespace wix
 
     <Product Id=""" + newid + @""" Name=""Mission Planner"" Language=""1033"" Version=""" + version + @""" Manufacturer=""Michael Oborne"" UpgradeCode=""{625389D7-EB3C-4d77-A5F6-A285CF99437D}"">
 
-        <Package Description=""Mission Planner Installer"" Comments=""Mission Planner Installer"" Manufacturer=""Michael Oborne"" InstallerVersion=""200"" Compressed=""yes"" />
+    <Package Description=""Mission Planner Installer"" Comments=""Mission Planner Installer"" Manufacturer=""Michael Oborne"" InstallerVersion=""200"" Compressed=""yes"" />
 
+    <Upgrade Id=""{625389D7-EB3C-4d77-A5F6-A285CF99437D}"">
+        <UpgradeVersion OnlyDetect=""yes"" Minimum=""" + version + @""" Property=""NEWERVERSIONDETECTED"" IncludeMinimum=""no"" />
+        <UpgradeVersion OnlyDetect=""no"" Minimum=""0.0.0"" Maximum=""" + version + @""" Property=""OLDERVERSIONBEINGUPGRADED"" IncludeMinimum=""yes"" IncludeMaximum=""yes"" />
+    </Upgrade>
 
-<Upgrade Id=""{625389D7-EB3C-4d77-A5F6-A285CF99437D}"">
-    <UpgradeVersion OnlyDetect=""yes"" Minimum=""" + version + @""" Property=""NEWERVERSIONDETECTED"" IncludeMinimum=""no"" />
-    <UpgradeVersion OnlyDetect=""no"" Minimum=""0.0.0"" Maximum=""" + version + @""" Property=""OLDERVERSIONBEINGUPGRADED"" IncludeMinimum=""yes"" IncludeMaximum=""yes"" />
-</Upgrade>
+    <InstallExecuteSequence>
+        <RemoveExistingProducts After=""InstallInitialize"" />
+    </InstallExecuteSequence>
 
-<InstallExecuteSequence>
-    <RemoveExistingProducts After=""InstallInitialize"" />
-</InstallExecuteSequence>
+    <SetProperty Action='SetTARGETDIR' Before='LaunchConditions' Id='TARGETDIR' Value=""[ProgramFilesFolder]"" />
 
-<SetProperty Action='SetTARGETDIR' Before='LaunchConditions' Id='TARGETDIR' Value=""[ProgramFilesFolder]"" />
+    <PropertyRef Id=""NETFRAMEWORK40FULL"" />
 
-        <PropertyRef Id=""NETFRAMEWORK40FULL"" />
+    <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK40FULL]]></Condition>
 
-        <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK40FULL]]></Condition>
+    <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 
-        <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
-
-        <Directory Id=""TARGETDIR"" Name=""SourceDir"">
+    <Directory Id=""TARGETDIR"" Name=""SourceDir"">
                 ";
 
             sw.WriteLine(data);
@@ -217,76 +216,73 @@ namespace wix
         {
 
             string data = @"
-            </Directory>
-
-            <Directory Id=""ProgramMenuFolder"">
-                <Directory Id=""ApplicationProgramsFolder"" Name=""Mission Planner"" />
-            </Directory>
-
         </Directory>
 
+        <Directory Id=""ProgramMenuFolder"">
+            <Directory Id=""ApplicationProgramsFolder"" Name=""Mission Planner"" />
+        </Directory>
+    </Directory>
 
-
-<Binary Id=""signedcer""  SourceFile=""..\Drivers\signed.cer"" />
+    <Binary Id=""signedcer""  SourceFile=""..\Drivers\signed.cer"" />
   
-  <CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
-  Directory='Drivers'  ExeCommand='[Drivers]DPInstx86.exe' Return='ignore' Impersonate='no'/>
-  <CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
-  Directory='Drivers'  ExeCommand='[Drivers]DPInstx64.exe' Return='ignore' Impersonate='no'/>
+    <CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
+    Directory='Drivers'  ExeCommand='[Drivers]DPInstx86.exe' Return='ignore' Impersonate='no'/>
+    <CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
+    Directory='Drivers'  ExeCommand='[Drivers]DPInstx64.exe' Return='ignore' Impersonate='no'/>
 
- <InstallExecuteSequence>
+    <InstallExecuteSequence>
     <Custom Action=""Install_signed_Driver86""  After=""CreateShortcuts"">NOT 
-	Installed AND NOT VersionNT64</Custom>
+    Installed AND NOT VersionNT64</Custom>
     <Custom Action=""Install_signed_Driver64""  After=""CreateShortcuts"">NOT 
-	Installed AND VersionNT64</Custom>
-  </InstallExecuteSequence>
+    Installed AND VersionNT64</Custom>
+    </InstallExecuteSequence>
 
-<InstallExecuteSequence>
-  <Custom Action='comReg' After='CreateShortcuts'>NOT REMOVE</Custom>
-  <Custom Action='comUnreg' Before='RemoveFiles'>Installed</Custom> 
-  <Custom Action='comReg64' After='CreateShortcuts'>NOT REMOVE AND VersionNT64</Custom>
-  <Custom Action='comUnreg64' Before='RemoveFiles'>Installed AND VersionNT64</Custom> 
-</InstallExecuteSequence>
+    <InstallExecuteSequence>
+    <Custom Action='comReg' After='CreateShortcuts'>NOT REMOVE</Custom>
+    <Custom Action='comUnreg' Before='RemoveFiles'>Installed</Custom> 
+    <Custom Action='comReg64' After='CreateShortcuts'>NOT REMOVE AND VersionNT64</Custom>
+    <Custom Action='comUnreg64' Before='RemoveFiles'>Installed AND VersionNT64</Custom> 
+    </InstallExecuteSequence>
  
-<CustomAction
-  Id='comReg' Impersonate='no' Execute='deferred' 
-  Directory='INSTALLDIR'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
-  Return='ignore' />
+    <CustomAction
+    Id='comReg' Impersonate='no' Execute='deferred' 
+    Directory='INSTALLDIR'
+    ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
+    Return='ignore' />
  
-<CustomAction
-  Id='comUnreg' Impersonate='no' Execute='deferred' 
-  Directory='INSTALLDIR'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
-  Return='ignore' />        
+    <CustomAction
+    Id='comUnreg' Impersonate='no' Execute='deferred' 
+    Directory='INSTALLDIR'
+    ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
+    Return='ignore' />        
 
-<CustomAction
-  Id='comReg64' Impersonate='no' Execute='deferred' 
-  Directory='INSTALLDIR'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
-  Return='ignore' />
+    <CustomAction
+    Id='comReg64' Impersonate='no' Execute='deferred' 
+    Directory='INSTALLDIR'
+    ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
+    Return='ignore' />
  
-<CustomAction
-  Id='comUnreg64' Impersonate='no' Execute='deferred' 
-  Directory='INSTALLDIR'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
-  Return='ignore' />           
+    <CustomAction
+    Id='comUnreg64' Impersonate='no' Execute='deferred' 
+    Directory='INSTALLDIR'
+    ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
+    Return='ignore' />           
 
-        <DirectoryRef Id=""ApplicationProgramsFolder"">
-            <Component Id=""ApplicationShortcut"" Guid=""*"">
-                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner"" Description=""Mission Planner"" Target=""[INSTALLDIR]MissionPlanner.exe"" WorkingDirectory=""INSTALLDIR"" />
-                <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
-                <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
+    <DirectoryRef Id=""ApplicationProgramsFolder"">
+        <Component Id=""ApplicationShortcut"" Guid=""*"">
+            <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner"" Description=""Mission Planner"" Target=""[INSTALLDIR]MissionPlanner.exe"" WorkingDirectory=""INSTALLDIR"" />
+            <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
+            <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
 
-                <RemoveFolder Id=""dltApplicationProgramsFolder"" Directory=""ApplicationProgramsFolder"" On=""uninstall"" />
+            <RemoveFolder Id=""dltApplicationProgramsFolder"" Directory=""ApplicationProgramsFolder"" On=""uninstall"" />
 
-                <iis:Certificate Id=""rootcert"" StoreLocation=""localMachine"" StoreName=""root"" Overwrite='yes' BinaryKey='signedcer' Request=""no"" Name='Michael Oborne' />
-            </Component>
-        </DirectoryRef>
+            <iis:Certificate Id=""rootcert"" StoreLocation=""localMachine"" StoreName=""root"" Overwrite='yes' BinaryKey='signedcer' Request=""no"" Name='Michael Oborne' />
+        </Component>
+    </DirectoryRef>
 
 
-        <Feature Id=""Complete"" Title=""Mission Planner"" Level=""1"">
-            <ComponentRef Id=""InstallDirPermissions"" />
+    <Feature Id=""Complete"" Title=""Mission Planner"" Level=""1"">
+        <ComponentRef Id=""InstallDirPermissions"" />
 ";
             sw.WriteLine(data);
 
@@ -297,13 +293,13 @@ namespace wix
 
             data = @"
             
-            <ComponentRef Id=""ApplicationShortcut"" />
-        </Feature>
+        <ComponentRef Id=""ApplicationShortcut"" />
+    </Feature>
         
-            <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
+    <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
     <Property Id=""WIXUI_INSTALLDIR"" Value=""INSTALLDIR"" />
 
-<WixVariable Id=""WixUILicenseRtf"" Value=""licence.rtf"" />
+    <WixVariable Id=""WixUILicenseRtf"" Value=""licence.rtf"" />
 
     <UI>
         <UIRef Id=""WixUI_InstallDir"" />
@@ -331,15 +327,19 @@ namespace wix
         {
             string[] dirs = Directory.GetDirectories(path);
 
+            string tabs = "".PadLeft(level + 1, '\t');
+            string tabs2 = "".PadLeft(level + 2, '\t');
+            string tabs3 = "".PadLeft(level + 3, '\t');
+
             if (level != 0)
             {
                 if (dircache.ContainsKey(Path.GetFileName(path).Replace('-', '_')))
                 {
-                    sw.WriteLine("<Directory Id=\"" + Path.GetFileName(path).Replace('-', '_') + no + "\" Name=\"" + Path.GetFileName(path) + "\">");
+                    sw.WriteLine(tabs+"<Directory Id=\"" + Path.GetFileName(path).Replace('-', '_') + no + "\" Name=\"" + Path.GetFileName(path) + "\">");
                 }
                 else
                 {
-                    sw.WriteLine("<Directory Id=\"" + Path.GetFileName(path).Replace('-', '_') + "\" Name=\"" + Path.GetFileName(path) + "\">");
+                    sw.WriteLine(tabs + "<Directory Id=\"" + Path.GetFileName(path).Replace('-', '_') + "\" Name=\"" + Path.GetFileName(path) + "\">");
                 }
 
                 dircache[Path.GetFileName(path).Replace('-', '_')] = "";
@@ -350,7 +350,7 @@ namespace wix
             no++;
 
             string compname = fixname(Path.GetFileName(path));
-            sw.WriteLine("<Component Id=\"" + compname + "\" Guid=\"" + System.Guid.NewGuid().ToString() + "\">");
+            sw.WriteLine(tabs2 + "<Component Id=\"" + compname + "\" Guid=\"" + System.Guid.NewGuid().ToString() + "\">");
             components.Add(compname);
 
             foreach (string filepath in files)
@@ -368,7 +368,7 @@ namespace wix
                 {
                     mainexeid = "_" + no;
 
-                    sw.WriteLine("<File Id=\"" + mainexeid + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
+                    sw.WriteLine(tabs3 + "<File Id=\"" + mainexeid + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
 
                     sw.WriteLine(@"<ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
   <Extension Id='tlog' ContentType='application/tlog'>
@@ -381,7 +381,7 @@ namespace wix
                 }
                 else
                 {
-                    sw.WriteLine("<File Id=\"" + fixname(Path.GetFileName(filepath)) + "\" Source=\"" + filepath + "\" />");
+                    sw.WriteLine(tabs3 + "<File Id=\"" + fixname(Path.GetFileName(filepath)) + "\" Source=\"" + filepath + "\" />");
                 }
             }
 
@@ -389,21 +389,21 @@ namespace wix
             if (files.Length == 0)
             {
                 File.WriteAllText(basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt", "");
-                sw.WriteLine("<File Id=\"_placeholder_" + no + "\" Source=\"" + basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt" + "\" />");
+                sw.WriteLine(tabs2 + "<File Id=\"_placeholder_" + no + "\" Source=\"" + basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt" + "\" />");
                 no++;
             }
 
-            sw.WriteLine("</Component>");
+            sw.WriteLine(tabs2 + "</Component>");
 
             foreach (string dir in dirs)
             {
                 if (dir.ToLower().EndsWith("gmapcache") || dir.ToLower().EndsWith("srtm") || dir.ToLower().EndsWith("logs"))
                     continue;
-                dodirectory(dir);
+                dodirectory(dir, level + 1);
             }
 
             if (level != 0)
-                sw.WriteLine("</Directory>");
+                sw.WriteLine(tabs + "</Directory>");
         }
 
         static bool IsNumeric(string s)
