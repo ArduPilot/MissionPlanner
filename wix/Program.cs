@@ -96,7 +96,7 @@ namespace wix
 
             header();
 
-            sw.WriteLine("<Directory Id=\"MissionPlanner\" Name=\"Mission Planner\">");
+            sw.WriteLine("<Directory Id=\"INSTALLDIR\" Name=\"Mission Planner\">");
 
             sw.WriteLine(@"<Component Id=""InstallDirPermissions"" Guid=""{525389D7-EB3C-4d77-A5F6-A285CF99437D}"" KeyPath=""yes""> 
                         <CreateFolder> 
@@ -128,8 +128,9 @@ namespace wix
 
             st.WriteLine("pause");
 
-            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!*.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!*.bin -xr!*.xyz -xr!*.sqlite -xr!*.dxf -xr!*.zip -xr!*.h -xr!*.param -xr!ParameterMetaData.xml -xr!translation -xr!mavelous_web -xr!stats.xml -xr!driver -xr!*.etag -xr!srtm -xr!*.rlog -xr!*.zip -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new -xr!*.log -xr!ArdupilotPlanner.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip " + path + "*");
+            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!*.log* -xr!beta.bat -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!*.bin -xr!*.xyz -xr!*.sqlite -xr!*.dxf -xr!*.zip -xr!*.h -xr!*.param -xr!ParameterMetaData.xml -xr!translation -xr!mavelous_web -xr!stats.xml -xr!driver -xr!*.etag -xr!srtm -xr!*.rlog -xr!*.zip -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new -xr!*.log -xr!ArdupilotPlanner.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip " + path + "*");
 
+            st.WriteLine("About to upload!!!!!!!!!");
             st.WriteLine("pause");
 
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
@@ -198,6 +199,7 @@ namespace wix
     <RemoveExistingProducts After=""InstallInitialize"" />
 </InstallExecuteSequence>
 
+<SetProperty Action='SetTARGETDIR' Before='LaunchConditions' Id='TARGETDIR' Value=""[ProgramFilesFolder]"" />
 
         <PropertyRef Id=""NETFRAMEWORK40FULL"" />
 
@@ -206,7 +208,6 @@ namespace wix
         <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 
         <Directory Id=""TARGETDIR"" Name=""SourceDir"">
-            <Directory Id=""ProgramFilesFolder"" Name=""PFiles"">
                 ";
 
             sw.WriteLine(data);
@@ -216,7 +217,6 @@ namespace wix
         {
 
             string data = @"
-                </Directory>
             </Directory>
 
             <Directory Id=""ProgramMenuFolder"">
@@ -250,31 +250,31 @@ namespace wix
  
 <CustomAction
   Id='comReg' Impersonate='no' Execute='deferred' 
-  Directory='MissionPlanner'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" ""[MissionPlanner]tlogThumbnailHandler.dll"" /codebase""'
+  Directory='INSTALLDIR'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
   Return='ignore' />
  
 <CustomAction
   Id='comUnreg' Impersonate='no' Execute='deferred' 
-  Directory='MissionPlanner'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" /u ""[MissionPlanner]tlogThumbnailHandler.dll""""'
+  Directory='INSTALLDIR'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
   Return='ignore' />        
 
 <CustomAction
   Id='comReg64' Impersonate='no' Execute='deferred' 
-  Directory='MissionPlanner'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" ""[MissionPlanner]tlogThumbnailHandler.dll"" /codebase""'
+  Directory='INSTALLDIR'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" ""[INSTALLDIR]tlogThumbnailHandler.dll"" /codebase""'
   Return='ignore' />
  
 <CustomAction
   Id='comUnreg64' Impersonate='no' Execute='deferred' 
-  Directory='MissionPlanner'
-  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" /u ""[MissionPlanner]tlogThumbnailHandler.dll""""'
+  Directory='INSTALLDIR'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" /u ""[INSTALLDIR]tlogThumbnailHandler.dll""""'
   Return='ignore' />           
 
         <DirectoryRef Id=""ApplicationProgramsFolder"">
             <Component Id=""ApplicationShortcut"" Guid=""*"">
-                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner"" Description=""Mission Planner"" Target=""[MissionPlanner]MissionPlanner.exe"" WorkingDirectory=""MissionPlanner"" />
+                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner"" Description=""Mission Planner"" Target=""[INSTALLDIR]MissionPlanner.exe"" WorkingDirectory=""INSTALLDIR"" />
                 <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
                 <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
 
@@ -301,9 +301,7 @@ namespace wix
         </Feature>
         
             <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
-    <Property Id=""WIXUI_INSTALLDIR"" Value=""MissionPlanner"" />
-
-<Property Id=""ApplicationFolderName"" Value=""MissionPlanner"" /> 
+    <Property Id=""WIXUI_INSTALLDIR"" Value=""INSTALLDIR"" />
 
 <WixVariable Id=""WixUILicenseRtf"" Value=""licence.rtf"" />
 
@@ -360,7 +358,7 @@ namespace wix
                 if (filepath.ToLower().EndsWith("release\\config.xml") || filepath.ToLower().Contains(".log") || filepath.ToLower().StartsWith("joystick") ||
                     filepath.ToLower().StartsWith("camera.xml") || filepath.ToLower().StartsWith("firmware.hex") || filepath.ToLower().EndsWith(".param") ||
                     filepath.ToLower().EndsWith(".bin") || filepath.ToLower().EndsWith(".etag") || filepath.ToLower().EndsWith("parametermetadata.xml") ||
-                    filepath.ToLower().EndsWith(".zip") || filepath.ToLower().EndsWith(".rlog") || filepath.ToLower().Contains("stats.xml"))
+                    filepath.ToLower().EndsWith(".zip") || filepath.ToLower().EndsWith(".rlog") || filepath.ToLower().Contains("stats.xml") || filepath.ToLower().Contains("beta.bat"))
                     continue;
 
                 no++;
