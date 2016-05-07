@@ -132,7 +132,9 @@ public static class MavlinkUtil
             }
             else
             {
-                reversestartoffset += ((byte[]) fieldValue).Length;
+                var elementsize = Marshal.SizeOf(((Array)fieldValue).GetValue(0));
+
+                reversestartoffset += ((Array)fieldValue).Length * elementsize;
             }
 
         }
