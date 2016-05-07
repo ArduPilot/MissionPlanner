@@ -56,22 +56,22 @@ S15: MAX_WINDOW=131
             //SPLIT_remote.Panel2Collapsed = true;
 
             // setup netid
-            S3.DataSource = Enumerable.Range(0, 500).ToArray();
-            RS3.DataSource = Enumerable.Range(0, 500).ToArray();
+            NETID.DataSource = Enumerable.Range(0, 500).ToArray();
+            RNETID.DataSource = Enumerable.Range(0, 500).ToArray();
 
             var dict = Enum.GetValues(typeof (mavlink_option))
                 .Cast<mavlink_option>()
                 .ToDictionary(t => (int) t, t => t.ToString());
 
-            S6.DisplayMember = "Value";
-            S6.ValueMember = "Key";
-            S6.DataSource = dict.ToArray();
-            RS6.DisplayMember = "Value";
-            RS6.ValueMember = "Key";
-            RS6.DataSource = dict.ToArray();
+            MAVLINK.DisplayMember = "Value";
+            MAVLINK.ValueMember = "Key";
+            MAVLINK.DataSource = dict.ToArray();
+            RMAVLINK.DisplayMember = "Value";
+            RMAVLINK.ValueMember = "Key";
+            RMAVLINK.DataSource = dict.ToArray();
 
-            S15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
-            RS15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
+            MAX_WINDOW.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
+            RMAX_WINDOW.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
         }
 
         private bool getFirmware(Uploader.Board device, bool custom = false)
@@ -444,7 +444,7 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
-                                var controls = Controls.Find("R" + values[0].Trim(), true);
+                                var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
@@ -469,7 +469,7 @@ S15: MAX_WINDOW=131
                                     else if (controls[0] is TextBox)
                                     {
                                     }
-                                    else if (controls[0].Name.Contains("S6")) //
+                                    else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
@@ -531,7 +531,7 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
-                                var controls = Controls.Find(values[0].Trim(), true);
+                                var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
@@ -556,7 +556,7 @@ S15: MAX_WINDOW=131
                                     else if (controls[0] is TextBox)
                                     {
                                     }
-                                    else if (controls[0].Name.Contains("S6")) //
+                                    else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
@@ -699,38 +699,41 @@ S15: MAX_WINDOW=131
                     // 8 and 9
                     if (freq == Uploader.Frequency.FREQ_915)
                     {
-                        S8.DataSource = Range(895000, 1000, 935000);
-                        RS8.DataSource = Range(895000, 1000, 935000);
+                        MIN_FREQ.DataSource = Range(895000, 1000, 935000);
+                        RMIN_FREQ.DataSource = Range(895000, 1000, 935000);
 
-                        S9.DataSource = Range(895000, 1000, 935000);
-                        RS9.DataSource = Range(895000, 1000, 935000);
+                        MAX_FREQ.DataSource = Range(895000, 1000, 935000);
+                        RMAX_FREQ.DataSource = Range(895000, 1000, 935000);
                     }
                     else if (freq == Uploader.Frequency.FREQ_433)
                     {
-                        S8.DataSource = Range(414000, 50, 460000);
-                        RS8.DataSource = Range(414000, 50, 460000);
+                        MIN_FREQ.DataSource = Range(414000, 50, 460000);
+                        RMIN_FREQ.DataSource = Range(414000, 50, 460000);
 
-                        S9.DataSource = Range(414000, 50, 460000);
-                        RS9.DataSource = Range(414000, 50, 460000);
+                        MAX_FREQ.DataSource = Range(414000, 50, 460000);
+                        RMAX_FREQ.DataSource = Range(414000, 50, 460000);
                     }
                     else if (freq == Uploader.Frequency.FREQ_868)
                     {
-                        S8.DataSource = Range(849000, 1000, 889000);
-                        RS8.DataSource = Range(849000, 1000, 889000);
+                        MIN_FREQ.DataSource = Range(849000, 1000, 889000);
+                        RMIN_FREQ.DataSource = Range(849000, 1000, 889000);
 
-                        S9.DataSource = Range(849000, 1000, 889000);
-                        RS9.DataSource = Range(849000, 1000, 889000);
+                        MAX_FREQ.DataSource = Range(849000, 1000, 889000);
+                        RMAX_FREQ.DataSource = Range(849000, 1000, 889000);
                     }
 
                     if (board == Uploader.Board.DEVICE_ID_RFD900 ||
                         board == Uploader.Board.DEVICE_ID_RFD900A
                         || board == Uploader.Board.DEVICE_ID_RFD900P ||
-                        board == Uploader.Board.DEVICE_ID_RFD900U)
+                        board == Uploader.Board.DEVICE_ID_RFD900U ||
+                        board == Uploader.Board.DEVICE_ID_RFD900Plus)
                     {
-                        S4.DataSource = Range(1, 1, 30);
-                        RS4.DataSource = Range(1, 1, 30);
+                        TXPOWER.DataSource = Range(1, 1, 30);
+                        RTXPOWER.DataSource = Range(1, 1, 30);
                     }
 
+                    txt_aeskey.Text = doCommand(comPort, "AT&E?").Trim();
+                    txt_Raeskey.Text = doCommand(comPort, "RT&E?").Trim();
 
                     RSSI.Text = doCommand(comPort, "ATI7").Trim();
 
@@ -748,7 +751,7 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
-                                var controls = Controls.Find(values[0].Trim(), true);
+                                var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
 
                                 if (controls.Length > 0)
                                 {
@@ -762,7 +765,7 @@ S15: MAX_WINDOW=131
                                     {
                                         ((TextBox) controls[0]).Text = values[2].Trim();
                                     }
-                                    else if (controls[0].Name.Contains("S6")) //
+                                    else if (controls[0].Name.Contains("MAVLINK")) //
                                     {
                                         var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
                                         ((ComboBox) controls[0]).Text = ans.ToString();
@@ -777,9 +780,9 @@ S15: MAX_WINDOW=131
                     }
 
                     // remote
-                    foreach (Control ctl in groupBox2.Controls)
+                    foreach (Control ctl in groupBoxRemote.Controls)
                     {
-                        if (ctl.Name.StartsWith("RS") && ctl.Name != "RSSI")
+                        if (ctl.Name != "RSSI")
                             ctl.ResetText();
                     }
 
@@ -799,7 +802,7 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
-                                var controls = Controls.Find("R" + values[0].Trim(), true);
+                                var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
 
                                 if (controls.Length == 0)
                                     continue;
@@ -814,7 +817,7 @@ S15: MAX_WINDOW=131
                                 {
                                     ((TextBox) controls[0]).Text = values[2].Trim();
                                 }
-                                else if (controls[0].Name.Contains("S6")) //
+                                else if (controls[0].Name.Contains("MAVLINK")) //
                                 {
                                     var ans = Enum.Parse(typeof (mavlink_option), values[2].Trim());
                                     ((ComboBox) controls[0]).Text = ans.ToString();
@@ -1024,14 +1027,15 @@ S15: MAX_WINDOW=131
 
         private void BUT_Syncoptions_Click(object sender, EventArgs e)
         {
-            RS2.Text = S2.Text;
-            RS3.Text = S3.Text;
-            RS5.Checked = S5.Checked;
-            RS6.Text = S6.Text;
-            RS8.Text = S8.Text;
-            RS9.Text = S9.Text;
-            RS10.Text = S10.Text;
-            RS15.Text = S15.Text;
+            RAIR_SPEED.Text = AIR_SPEED.Text;
+            RNETID.Text = NETID.Text;
+            RECC.Checked = ECC.Checked;
+            RMAVLINK.Text = MAVLINK.Text;
+            RMIN_FREQ.Text = MIN_FREQ.Text;
+            RMAX_FREQ.Text = MAX_FREQ.Text;
+            RNUM_CHANNELS.Text = NUM_CHANNELS.Text;
+            RMAX_WINDOW.Text = MAX_WINDOW.Text;
+            RENCRYPTION_LEVEL.Checked = ENCRYPTION_LEVEL.Checked;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1111,20 +1115,20 @@ red LED solid - in firmware update mode");
 
         private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            S6.SelectedValue = 1;
-            S15.Text = 131.ToString();
+            MAVLINK.SelectedValue = 1;
+            MAX_WINDOW.Text = 131.ToString();
 
-            RS6.SelectedValue = 1;
-            RS15.Text = 131.ToString();
+            RMAVLINK.SelectedValue = 1;
+            RMAX_WINDOW.Text = 131.ToString();
         }
 
         private void linkLabel_lowlatency_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            S6.SelectedValue = 2;
-            S15.Text = 33.ToString();
+            MAVLINK.SelectedValue = 2;
+            MAX_WINDOW.Text = 33.ToString();
 
-            RS6.SelectedValue = 2;
-            RS15.Text = 33.ToString();
+            RMAVLINK.SelectedValue = 2;
+            RMAX_WINDOW.Text = 33.ToString();
         }
 
         private enum mavlink_option
