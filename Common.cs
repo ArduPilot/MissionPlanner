@@ -300,6 +300,7 @@ union px4_custom_mode {
                 flightModes.Add(new KeyValuePair<int, string>(18, "QHover"));
                 flightModes.Add(new KeyValuePair<int, string>(19, "QLoiter"));
                 flightModes.Add(new KeyValuePair<int, string>(20, "QLand"));
+                flightModes.Add(new KeyValuePair<int, string>(21, "QRTL"));
 
                 return flightModes;
             }
