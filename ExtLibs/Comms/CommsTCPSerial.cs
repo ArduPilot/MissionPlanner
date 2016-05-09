@@ -68,7 +68,22 @@ namespace MissionPlanner.Comms
 
         public int BytesToWrite { get { return 0; } }
 
-        public bool IsOpen { get { try { return client.Client.Connected; } catch { return false; } } }
+        public bool IsOpen
+        {
+            get
+            {
+                try
+                {
+                    if (client == null) return false;
+                    if (client.Client == null) return false;
+                    return client.Client.Connected;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
         public bool DtrEnable
         {
