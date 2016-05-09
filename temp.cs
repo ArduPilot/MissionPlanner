@@ -1647,5 +1647,31 @@ namespace MissionPlanner
 
             MainV2.comPort.setupSigning(key);
         }
+
+        private void but_optflowcalib_Click(object sender, EventArgs e)
+        {
+            var test = new Form();
+            var imagebox = new PictureBox();
+            imagebox.Dock = DockStyle.Fill;
+            imagebox.SizeMode = PictureBoxSizeMode.Zoom;
+            test.Controls.Add(imagebox);
+
+            test.Show();
+
+            OpticalFlow flow = new OpticalFlow(MainV2.comPort);
+
+            // disable on close form
+            test.Closed += (o, args) =>
+            {
+                flow.CalibrationMode(false);
+                flow.Close();
+            };
+
+            // enable calibration mode
+            flow.CalibrationMode(true);
+
+            // setup bitmap to screen
+            flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
+        }
     }
 }

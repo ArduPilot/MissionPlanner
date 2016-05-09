@@ -846,6 +846,7 @@
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\NGEN.cs" />
+    <Compile Include="Utilities\OpticalFlow.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
