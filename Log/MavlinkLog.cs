@@ -1629,7 +1629,7 @@ namespace MissionPlanner.Log
                                                      Path.GetFileNameWithoutExtension(logfile) + "-" + wplists +
                                                      ".waypoints");
 
-                                sw.WriteLine("QGC WPL 120");
+                                sw.WriteLine("QGC WPL 110");
                                 try
                                 {
                                     //get mission count info 
@@ -1649,7 +1649,7 @@ namespace MissionPlanner.Log
                                     //sw.WriteLine(item + "\t" + mine.param[item]);
                                     byte mode = (byte) wp.id;
 
-                                    sw.Write((a + 1)); // seq
+                                    sw.Write((a)); // seq
                                     sw.Write("\t" + 0); // current
                                     sw.Write("\t" + (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
                                     sw.Write("\t" + mode);
