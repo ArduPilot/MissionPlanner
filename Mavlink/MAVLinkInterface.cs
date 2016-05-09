@@ -2966,9 +2966,18 @@ Please check the following
             _bytesReceivedSubj.OnNext(buffer.Length);
 
             // update bps statistics
-            if (bpstime.Second != DateTime.Now.Second && !logreadmode && BaseStream.IsOpen)
+            if (bpstime.Second != DateTime.Now.Second)
             {
-                Console.Write("bps {0} loss {1} left {2} mem {3}      \n", bps1, MAV.synclost, BaseStream.BytesToRead,
+                long btr = 0;
+                if (BaseStream != null && BaseStream.IsOpen)
+                {
+                    btr = BaseStream.BytesToRead;
+                }
+                else if (logreadmode)
+                {
+                    btr = logplaybackfile.BaseStream.Length - logplaybackfile.BaseStream.Position;
+                }
+                Console.Write("bps {0} loss {1} left {2} mem {3}      \n", bps1, MAV.synclost, btr,
                     System.GC.GetTotalMemory(false)/1024/1024.0);
                 bps2 = bps1; // prev sec
                 bps1 = 0; // current sec
