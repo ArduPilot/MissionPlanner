@@ -2585,6 +2585,35 @@ Please check the following
             // return MAV_MISSION_RESULT.MAV_MISSION_INVALID;
         }
 
+        public int getRequestedWPNo()
+        {
+            giveComport = true;
+            DateTime start = DateTime.Now;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(1500) > DateTime.Now))
+                {
+                    giveComport = false;
+                    throw new TimeoutException("Timeout on read - getRequestedWPNo");
+                }
+                MAVLinkMessage buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
+                    {
+                        var ans = buffer.ToStructure<mavlink_mission_request_t>();
+
+                        log.InfoFormat("getRequestedWPNo seq {0} ts {1} tc {2}", ans.seq, ans.target_system, ans.target_component);
+
+                        giveComport = false;
+
+                        return ans.seq;
+                    }
+                }
+            }
+        }
+
         public void setNextWPTargetAlt(ushort wpno, float alt)
         {
             // get the existing wp
