@@ -3282,6 +3282,9 @@ Please check the following
                             }
                         }
 
+                        if (logdata.StartsWith("Tuning:"))
+                            printit = true;
+
                         if (printit)
                         {
                             MAVlist[sysid, compid].cs.messageHigh = logdata;
