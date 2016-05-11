@@ -580,5 +580,46 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
+
+        private void Params_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // Only process the Description column
+            if (e.RowIndex == -1 || startup || e.ColumnIndex != 4)
+                return;
+
+            try
+            {
+                string descStr = Params[e.ColumnIndex, e.RowIndex].Value.ToString();
+                CheckForUrlAndLaunchInBrowser(descStr);
+            }
+            catch { }
+        }
+
+        public static void CheckForUrlAndLaunchInBrowser(string stringWithPossibleUrl)
+        {
+            if (stringWithPossibleUrl == null)
+                return;
+
+            foreach (string url in stringWithPossibleUrl.Split(' '))
+            {
+                Uri uriResult;
+                if (Uri.TryCreate(url, UriKind.Absolute, out uriResult) &&
+                    (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                {
+                    try
+                    {
+                        // launch the URL in your default browser
+                        System.Diagnostics.Process process = new System.Diagnostics.Process();
+                        process.StartInfo.UseShellExecute = true;
+                        process.StartInfo.FileName = url;
+                        process.Start();
+                    }
+                    catch { }
+
+                    // only handle the first valid URL
+                    return;
+                }
+            }
+        }
     }
 }
