@@ -65,7 +65,7 @@
             this.STB_RLL_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label46 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
-            this.RATE_YAW_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.RATE_YAW_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
             this.RATE_YAW_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
@@ -76,7 +76,7 @@
             this.RATE_YAW_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
-            this.RATE_PIT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.RATE_PIT_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.RATE_PIT_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
@@ -87,7 +87,7 @@
             this.RATE_PIT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label87 = new System.Windows.Forms.Label();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
-            this.RATE_RLL_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.RATE_RLL_FILT = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.RATE_RLL_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
@@ -145,19 +145,19 @@
             this.groupBox22.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).BeginInit();
             this.groupBox23.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).BeginInit();
             this.groupBox24.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).BeginInit();
             this.groupBox25.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FILT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_I)).BeginInit();
@@ -442,7 +442,7 @@
             // 
             // groupBox23
             // 
-            this.groupBox23.Controls.Add(this.RATE_YAW_FF);
+            this.groupBox23.Controls.Add(this.RATE_YAW_FILT);
             this.groupBox23.Controls.Add(this.label18);
             this.groupBox23.Controls.Add(this.RATE_YAW_D);
             this.groupBox23.Controls.Add(this.label10);
@@ -456,14 +456,14 @@
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.TabStop = false;
             // 
-            // RATE_YAW_FF
+            // RATE_YAW_FILT
             // 
-            resources.ApplyResources(this.RATE_YAW_FF, "RATE_YAW_FF");
-            this.RATE_YAW_FF.Max = 1F;
-            this.RATE_YAW_FF.Min = 0F;
-            this.RATE_YAW_FF.Name = "RATE_YAW_FF";
-            this.RATE_YAW_FF.ParamName = null;
-            this.RATE_YAW_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            resources.ApplyResources(this.RATE_YAW_FILT, "RATE_YAW_FILT");
+            this.RATE_YAW_FILT.Max = 1F;
+            this.RATE_YAW_FILT.Min = 0F;
+            this.RATE_YAW_FILT.Name = "RATE_YAW_FILT";
+            this.RATE_YAW_FILT.ParamName = null;
+            this.RATE_YAW_FILT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label18
             // 
@@ -528,7 +528,7 @@
             // 
             // groupBox24
             // 
-            this.groupBox24.Controls.Add(this.RATE_PIT_FF);
+            this.groupBox24.Controls.Add(this.RATE_PIT_FILT);
             this.groupBox24.Controls.Add(this.label14);
             this.groupBox24.Controls.Add(this.RATE_PIT_D);
             this.groupBox24.Controls.Add(this.label11);
@@ -542,14 +542,14 @@
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.TabStop = false;
             // 
-            // RATE_PIT_FF
+            // RATE_PIT_FILT
             // 
-            resources.ApplyResources(this.RATE_PIT_FF, "RATE_PIT_FF");
-            this.RATE_PIT_FF.Max = 1F;
-            this.RATE_PIT_FF.Min = 0F;
-            this.RATE_PIT_FF.Name = "RATE_PIT_FF";
-            this.RATE_PIT_FF.ParamName = null;
-            this.RATE_PIT_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            resources.ApplyResources(this.RATE_PIT_FILT, "RATE_PIT_FILT");
+            this.RATE_PIT_FILT.Max = 1F;
+            this.RATE_PIT_FILT.Min = 0F;
+            this.RATE_PIT_FILT.Name = "RATE_PIT_FILT";
+            this.RATE_PIT_FILT.ParamName = null;
+            this.RATE_PIT_FILT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label14
             // 
@@ -614,7 +614,7 @@
             // 
             // groupBox25
             // 
-            this.groupBox25.Controls.Add(this.RATE_RLL_FF);
+            this.groupBox25.Controls.Add(this.RATE_RLL_FILT);
             this.groupBox25.Controls.Add(this.label12);
             this.groupBox25.Controls.Add(this.RATE_RLL_D);
             this.groupBox25.Controls.Add(this.label17);
@@ -628,14 +628,14 @@
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
             // 
-            // RATE_RLL_FF
+            // RATE_RLL_FILT
             // 
-            resources.ApplyResources(this.RATE_RLL_FF, "RATE_RLL_FF");
-            this.RATE_RLL_FF.Max = 1F;
-            this.RATE_RLL_FF.Min = 0F;
-            this.RATE_RLL_FF.Name = "RATE_RLL_FF";
-            this.RATE_RLL_FF.ParamName = null;
-            this.RATE_RLL_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            resources.ApplyResources(this.RATE_RLL_FILT, "RATE_RLL_FILT");
+            this.RATE_RLL_FILT.Max = 1F;
+            this.RATE_RLL_FILT.Min = 0F;
+            this.RATE_RLL_FILT.Name = "RATE_RLL_FILT";
+            this.RATE_RLL_FILT.ParamName = null;
+            this.RATE_RLL_FILT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label12
             // 
@@ -956,19 +956,19 @@
             this.groupBox22.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).EndInit();
             this.groupBox23.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).EndInit();
             this.groupBox24.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).EndInit();
             this.groupBox25.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FILT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_I)).EndInit();
@@ -1080,11 +1080,11 @@
         private Controls.MyButton BUT_refreshpart;
         private Controls.MyLabel myLabel4;
         private Controls.MavlinkComboBox CH8_OPT;
-        private Controls.MavlinkNumericUpDown RATE_YAW_FF;
+        private Controls.MavlinkNumericUpDown RATE_YAW_FILT;
         private System.Windows.Forms.Label label18;
-        private Controls.MavlinkNumericUpDown RATE_PIT_FF;
+        private Controls.MavlinkNumericUpDown RATE_PIT_FILT;
         private System.Windows.Forms.Label label14;
-        private Controls.MavlinkNumericUpDown RATE_RLL_FF;
+        private Controls.MavlinkNumericUpDown RATE_RLL_FILT;
         private System.Windows.Forms.Label label12;
     }
 }

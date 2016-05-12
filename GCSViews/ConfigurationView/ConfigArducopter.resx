@@ -135,7 +135,7 @@
     <value>TUNE_LOW</value>
   </data>
   <data name="&gt;&gt;TUNE_LOW.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE_LOW.Parent" xml:space="preserve">
     <value>$this</value>
@@ -159,7 +159,7 @@
     <value>TUNE_HIGH</value>
   </data>
   <data name="&gt;&gt;TUNE_HIGH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE_HIGH.Parent" xml:space="preserve">
     <value>$this</value>
@@ -183,7 +183,7 @@
     <value>TUNE</value>
   </data>
   <data name="&gt;&gt;TUNE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;TUNE.Parent" xml:space="preserve">
     <value>$this</value>
@@ -207,7 +207,7 @@
     <value>CH7_OPT</value>
   </data>
   <data name="&gt;&gt;CH7_OPT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH7_OPT.Parent" xml:space="preserve">
     <value>$this</value>
@@ -231,7 +231,7 @@
     <value>THR_RATE_P</value>
   </data>
   <data name="&gt;&gt;THR_RATE_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_RATE_P.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -337,7 +337,7 @@
     <value>WPNAV_SPEED_UP</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_UP.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_UP.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -388,7 +388,7 @@
     <value>WPNAV_LOIT_SPEED</value>
   </data>
   <data name="&gt;&gt;WPNAV_LOIT_SPEED.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_LOIT_SPEED.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -439,7 +439,7 @@
     <value>WPNAV_SPEED_DN</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_DN.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED_DN.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -490,7 +490,7 @@
     <value>WPNAV_RADIUS</value>
   </data>
   <data name="&gt;&gt;WPNAV_RADIUS.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_RADIUS.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -541,7 +541,7 @@
     <value>WPNAV_SPEED</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;WPNAV_SPEED.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -616,7 +616,7 @@
     <value>THR_ALT_P</value>
   </data>
   <data name="&gt;&gt;THR_ALT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ALT_P.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -691,7 +691,7 @@
     <value>HLD_LAT_P</value>
   </data>
   <data name="&gt;&gt;HLD_LAT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HLD_LAT_P.Parent" xml:space="preserve">
     <value>groupBox19</value>
@@ -766,7 +766,7 @@
     <value>STB_YAW_P</value>
   </data>
   <data name="&gt;&gt;STB_YAW_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_YAW_P.Parent" xml:space="preserve">
     <value>groupBox20</value>
@@ -841,7 +841,7 @@
     <value>STB_PIT_P</value>
   </data>
   <data name="&gt;&gt;STB_PIT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_PIT_P.Parent" xml:space="preserve">
     <value>groupBox21</value>
@@ -916,7 +916,7 @@
     <value>STB_RLL_P</value>
   </data>
   <data name="&gt;&gt;STB_RLL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;STB_RLL_P.Parent" xml:space="preserve">
     <value>groupBox22</value>
@@ -975,28 +975,28 @@
   <data name="&gt;&gt;groupBox22.ZOrder" xml:space="preserve">
     <value>21</value>
   </data>
-  <data name="RATE_YAW_FF.Enabled" type="System.Boolean, mscorlib">
+  <data name="RATE_YAW_FILT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="RATE_YAW_FF.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="RATE_YAW_FILT.Location" type="System.Drawing.Point, System.Drawing">
     <value>80, 110</value>
   </data>
-  <data name="RATE_YAW_FF.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="RATE_YAW_FILT.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 20</value>
   </data>
-  <data name="RATE_YAW_FF.TabIndex" type="System.Int32, mscorlib">
+  <data name="RATE_YAW_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;RATE_YAW_FF.Name" xml:space="preserve">
-    <value>RATE_YAW_FF</value>
+  <data name="&gt;&gt;RATE_YAW_FILT.Name" xml:space="preserve">
+    <value>RATE_YAW_FILT</value>
   </data>
-  <data name="&gt;&gt;RATE_YAW_FF.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;RATE_YAW_FILT.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;RATE_YAW_FF.Parent" xml:space="preserve">
+  <data name="&gt;&gt;RATE_YAW_FILT.Parent" xml:space="preserve">
     <value>groupBox23</value>
   </data>
-  <data name="&gt;&gt;RATE_YAW_FF.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;RATE_YAW_FILT.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1012,7 +1012,7 @@
     <value>8</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
-    <value>FF</value>
+    <value>FILT</value>
   </data>
   <data name="&gt;&gt;label18.Name" xml:space="preserve">
     <value>label18</value>
@@ -1042,7 +1042,7 @@
     <value>RATE_YAW_D</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_D.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1093,7 +1093,7 @@
     <value>RATE_YAW_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_IMAX.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1144,7 +1144,7 @@
     <value>RATE_YAW_I</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_I.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1195,7 +1195,7 @@
     <value>RATE_YAW_P</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_YAW_P.Parent" xml:space="preserve">
     <value>groupBox23</value>
@@ -1254,28 +1254,28 @@
   <data name="&gt;&gt;groupBox23.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
-  <data name="RATE_PIT_FF.Enabled" type="System.Boolean, mscorlib">
+  <data name="RATE_PIT_FILT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="RATE_PIT_FF.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="RATE_PIT_FILT.Location" type="System.Drawing.Point, System.Drawing">
     <value>80, 109</value>
   </data>
-  <data name="RATE_PIT_FF.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="RATE_PIT_FILT.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 20</value>
   </data>
-  <data name="RATE_PIT_FF.TabIndex" type="System.Int32, mscorlib">
+  <data name="RATE_PIT_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;RATE_PIT_FF.Name" xml:space="preserve">
-    <value>RATE_PIT_FF</value>
+  <data name="&gt;&gt;RATE_PIT_FILT.Name" xml:space="preserve">
+    <value>RATE_PIT_FILT</value>
   </data>
-  <data name="&gt;&gt;RATE_PIT_FF.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;RATE_PIT_FILT.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;RATE_PIT_FF.Parent" xml:space="preserve">
+  <data name="&gt;&gt;RATE_PIT_FILT.Parent" xml:space="preserve">
     <value>groupBox24</value>
   </data>
-  <data name="&gt;&gt;RATE_PIT_FF.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;RATE_PIT_FILT.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1291,7 +1291,7 @@
     <value>8</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>FF</value>
+    <value>FILT</value>
   </data>
   <data name="&gt;&gt;label14.Name" xml:space="preserve">
     <value>label14</value>
@@ -1321,7 +1321,7 @@
     <value>RATE_PIT_D</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_D.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1372,7 +1372,7 @@
     <value>RATE_PIT_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_IMAX.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1423,7 +1423,7 @@
     <value>RATE_PIT_I</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_I.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1474,7 +1474,7 @@
     <value>RATE_PIT_P</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_PIT_P.Parent" xml:space="preserve">
     <value>groupBox24</value>
@@ -1533,28 +1533,28 @@
   <data name="&gt;&gt;groupBox24.ZOrder" xml:space="preserve">
     <value>23</value>
   </data>
-  <data name="RATE_RLL_FF.Enabled" type="System.Boolean, mscorlib">
+  <data name="RATE_RLL_FILT.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="RATE_RLL_FF.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="RATE_RLL_FILT.Location" type="System.Drawing.Point, System.Drawing">
     <value>80, 109</value>
   </data>
-  <data name="RATE_RLL_FF.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="RATE_RLL_FILT.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 20</value>
   </data>
-  <data name="RATE_RLL_FF.TabIndex" type="System.Int32, mscorlib">
+  <data name="RATE_RLL_FILT.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
   </data>
-  <data name="&gt;&gt;RATE_RLL_FF.Name" xml:space="preserve">
-    <value>RATE_RLL_FF</value>
+  <data name="&gt;&gt;RATE_RLL_FILT.Name" xml:space="preserve">
+    <value>RATE_RLL_FILT</value>
   </data>
-  <data name="&gt;&gt;RATE_RLL_FF.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;RATE_RLL_FILT.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;RATE_RLL_FF.Parent" xml:space="preserve">
+  <data name="&gt;&gt;RATE_RLL_FILT.Parent" xml:space="preserve">
     <value>groupBox25</value>
   </data>
-  <data name="&gt;&gt;RATE_RLL_FF.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;RATE_RLL_FILT.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -1570,7 +1570,7 @@
     <value>8</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>FF</value>
+    <value>FILT</value>
   </data>
   <data name="&gt;&gt;label12.Name" xml:space="preserve">
     <value>label12</value>
@@ -1600,7 +1600,7 @@
     <value>RATE_RLL_D</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_D.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -1651,7 +1651,7 @@
     <value>RATE_RLL_IMAX</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_IMAX.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -1702,7 +1702,7 @@
     <value>RATE_RLL_I</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_I.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -1753,7 +1753,7 @@
     <value>RATE_RLL_P</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;RATE_RLL_P.Parent" xml:space="preserve">
     <value>groupBox25</value>
@@ -1831,7 +1831,7 @@
     <value>LOITER_LAT_D</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_D.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -1882,7 +1882,7 @@
     <value>LOITER_LAT_IMAX</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_IMAX.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -1933,7 +1933,7 @@
     <value>LOITER_LAT_I</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_I.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -1984,7 +1984,7 @@
     <value>LOITER_LAT_P</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;LOITER_LAT_P.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -2191,7 +2191,7 @@
     <value>THR_ACCEL_D</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_D.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_D.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2269,7 +2269,7 @@
     <value>THR_ACCEL_IMAX</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_IMAX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_IMAX.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2293,7 +2293,7 @@
     <value>THR_ACCEL_I</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_I.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_I.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2344,7 +2344,7 @@
     <value>THR_ACCEL_P</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_P.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;THR_ACCEL_P.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -2473,7 +2473,7 @@
     <value>CH8_OPT</value>
   </data>
   <data name="&gt;&gt;CH8_OPT.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5737.644, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5974.34213, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CH8_OPT.Parent" xml:space="preserve">
     <value>$this</value>
