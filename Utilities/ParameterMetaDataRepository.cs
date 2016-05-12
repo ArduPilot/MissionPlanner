@@ -136,5 +136,17 @@ namespace MissionPlanner.Utilities
 
             return answer;
         }
+
+        public static bool GetParameterIncrement(string nodeKey, ref double inc, string vechileType)
+        {
+            string incrementAmt = ParameterMetaDataRepository.GetParameterMetaData(nodeKey,
+                ParameterMetaDataConstants.Increment, vechileType);
+            if (incrementAmt.Length == 0) return false;
+            float Amt = 0;
+            float.TryParse(incrementAmt, NumberStyles.Float, CultureInfo.InvariantCulture, out Amt);
+            inc = Amt;
+            return true;
+        }
     }
+}
 }

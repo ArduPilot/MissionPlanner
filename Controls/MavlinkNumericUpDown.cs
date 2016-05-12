@@ -71,6 +71,14 @@ namespace MissionPlanner.Controls
                 Max = (float) maxt;
             }
 
+            if (Increment == 0)
+            {
+                double Inc = 0;
+                if (ParameterMetaDataRepository.GetParameterIncrement(ParamName, ref Inc,
+                    MainV2.comPort.MAV.cs.firmware.ToString()))
+                    Increment = (float) Inc;
+            }
+
             _scale = Scale;
             this.Minimum = (decimal) (Min);
             this.Maximum = (decimal) (Max);
