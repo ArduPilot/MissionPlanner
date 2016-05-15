@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace MissionPlanner.Utilities
 {
-    class AP_GPS_SBF
+    class AP_GPS_SBF : AP_GPS
     {
         const uint8_t SBF_PREAMBLE1 = (byte) '$';
         const uint8_t SBF_PREAMBLE2 = (byte) '@';
@@ -49,8 +49,6 @@ namespace MissionPlanner.Utilities
         ushort last_hdop;
         uint32_t crc_error_counter;
         bool validcommand = false;
-
-        GPS_State state = new GPS_State();
 
         sbf_msg_parser sbf_msg = new sbf_msg_parser();
 
@@ -335,10 +333,10 @@ namespace MissionPlanner.Utilities
                     float ground_vector_sq = state.velocity[0]*state.velocity[0] + state.velocity[1]*state.velocity[1];
                     state.ground_speed = (float) safe_sqrt(ground_vector_sq);
 
-                    state.ground_course_cd = (int32_t) (100*ToDeg(atan2f(state.velocity[1], state.velocity[0])));
-                    if (state.ground_course_cd < 0)
+                    state.ground_course = (float) (ToDeg(atan2f(state.velocity[1], state.velocity[0])));
+                    if (state.ground_course < 0)
                     {
-                        state.ground_course_cd += 36000;
+                        state.ground_course += 36000;
                     }
 
                     state.horizontal_accuracy = (float) temp.HAccuracy*0.01f;
@@ -594,110 +592,6 @@ namespace MissionPlanner.Utilities
             public uint16_t VDOP;
             public float HPL;
             public float VPL;
-        }
-
-        private double safe_sqrt(double ground_vector_sq)
-        {
-            return Math.Sqrt(ground_vector_sq);
-        }
-
-        private double ToDeg(double p)
-        {
-            return p*(180/Math.PI);
-        }
-
-        private double atan2f(double p1, double p2)
-        {
-            return Math.Atan2(p1, p2);
-        }
-
-        public struct Location
-        {
-            public uint8_t options;
-
-            /// allows writing all flags to eeprom as one byte
-
-            // by making alt 24 bit we can make p1 in a command 16 bit,
-            // allowing an accurate angle in centi-degrees. This keeps the
-            // storage cost per mission item at 15 bytes, and allows mission
-            // altitudes of up to +/- 83km
-            public int32_t alt;
-
-            ///< param 2 - Altitude in centimeters (meters * 100)
-            public int32_t lat;
-
-            ///< param 3 - Lattitude * 10**7
-            public int32_t lng;
-
-            ///< param 4 - Longitude * 10**7
-            ///
-            public override string ToString()
-            {
-                return lat + ", " + lng + ", " + alt;
-            }
-        };
-
-        public enum GPS_Status
-        {
-            NO_GPS = 0,
-
-            ///< No GPS connected/detected
-            NO_FIX = 1,
-
-            ///< Receiving valid GPS messages but no lock
-            GPS_OK_FIX_2D = 2,
-
-            ///< Receiving valid messages and 2D lock
-            GPS_OK_FIX_3D = 3,
-
-            ///< Receiving valid messages and 3D lock
-            GPS_OK_FIX_3D_DGPS = 4,
-
-            ///< Receiving valid messages and 3D lock with differential improvements
-            GPS_OK_FIX_3D_RTK = 5, ///< Receiving valid messages and 3D lock, with relative-positioning improvements
-        };
-
-        public struct GPS_State
-        {
-            public uint8_t instance; // the instance number of this GPS
-
-            // all the following fields must all be filled by the backend driver
-            public GPS_Status status;
-
-            ///< driver fix status
-            public uint32_t time_week_ms;
-
-            ///< GPS time (milliseconds from start of GPS week)
-            public uint16_t time_week;
-
-            ///< GPS week number
-            public Location location;
-
-            ///< last fix location
-            public float ground_speed;
-
-            ///< ground speed in m/sec
-            public int32_t ground_course_cd;
-
-            ///< ground course in 100ths of a degree
-            public uint16_t hdop;
-
-            ///< horizontal dilution of precision in cm
-            public uint8_t num_sats;
-
-            ///< Number of visible satelites        
-            public Vector3f velocity;
-
-            ///< 3D velocitiy in m/s, in NED format
-            public float speed_accuracy;
-
-            public float horizontal_accuracy;
-            public float vertical_accuracy;
-            public bool have_vertical_velocity; //:1;      ///< does this GPS give vertical velocity?
-            public bool have_speed_accuracy; //:1;
-            public bool have_horizontal_accuracy; //:1;
-            public bool have_vertical_accuracy; //:1;
-            public uint32_t last_gps_time_ms; ///< the system time we got the last GPS timestamp, milliseconds
         }
 
 

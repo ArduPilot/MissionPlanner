@@ -16,7 +16,7 @@ using SerialPort = System.IO.Ports.SerialPort;
 
 namespace MissionPlanner.Utilities
 {
-    public class AP_GPS_GSOF
+    public class AP_GPS_GSOF : AP_GPS
     {
         const uint8_t GSOF_STX = 0x02;
         const uint8_t GSOF_ETX = 0x03;
@@ -51,8 +51,6 @@ namespace MissionPlanner.Utilities
         gsof_msg_parser_t gsof_state;
 
         gsof_msg_parser gsof_msg = new gsof_msg_parser();
-
-        AP_GPS_SBF.GPS_State state = new AP_GPS_SBF.GPS_State();
 
         public AP_GPS_GSOF(string portname)
         {
@@ -218,16 +216,6 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
-        private double ToDeg(double p)
-        {
-            return p*(180/Math.PI);
-        }
-
-        private double ToRad(double p)
-        {
-            return p*(Math.PI/180);
-        }
-
         private double SwapDouble(byte[] src, uint32_t pos)
         {
             uint8_t[] dst = new uint8_t[sizeof (double)];
@@ -298,15 +286,6 @@ namespace MissionPlanner.Utilities
             return (long) r;
         }
 
-        void fill_3d_velocity()
-        {
-            double gps_heading = ToRad(state.ground_course_cd*0.01);
-
-            state.velocity.X = state.ground_speed*(float) Math.Cos(gps_heading);
-            state.velocity.Y = state.ground_speed*(float) Math.Sin(gps_heading);
-            state.velocity.Z = 0;
-            state.have_vertical_velocity = false;
-        }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct rt27_6_27_epochHeader
@@ -620,7 +599,7 @@ namespace MissionPlanner.Utilities
                         if ((vflag & 1) == 1)
                         {
                             state.ground_speed = SwapFloat(gsof_msg.data, a + 1);
-                            state.ground_course_cd = (int32_t) (ToDeg(SwapFloat(gsof_msg.data, a + 5))*100);
+                            state.ground_course = (float)(ToDeg(SwapFloat(gsof_msg.data, a + 5)));
                             fill_3d_velocity();
                             state.velocity.Z = -SwapFloat(gsof_msg.data, a + 9);
                             state.have_vertical_velocity = true;
