@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialSetup));
             this.backstageView = new MissionPlanner.Controls.BackstageView.BackstageView();
+            this.backstageViewPagePX4Flow = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.backstageViewPagefw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.initialSetupBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.configFirmware1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware();
@@ -84,9 +85,10 @@
             this.configHWBT1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT();
             this.backstageViewPageParachute = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWPa1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWParachute();
-            this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.backstageViewPageESP = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWESP8266 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWESP8266();
+            this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configHWPX4Flow1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWPX4Flow();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -115,6 +117,7 @@
             this.backstageView.Pages.Add(this.backstageViewPagecompassmot);
             this.backstageView.Pages.Add(this.backstageViewPagesonar);
             this.backstageView.Pages.Add(this.backstageViewPageairspeed);
+            this.backstageView.Pages.Add(this.backstageViewPagePX4Flow);
             this.backstageView.Pages.Add(this.backstageViewPageoptflow);
             this.backstageView.Pages.Add(this.backstageViewPageosd);
             this.backstageView.Pages.Add(this.backstageViewPagegimbal);
@@ -122,8 +125,18 @@
             this.backstageView.Pages.Add(this.backstageViewPageMotorTest);
             this.backstageView.Pages.Add(this.backstageViewPagehwbt);
             this.backstageView.Pages.Add(this.backstageViewPageParachute);
-            backstageView.Pages.Add(backstageViewPageESP);
+            this.backstageView.Pages.Add(this.backstageViewPageESP);
             this.backstageView.WidthMenu = 172;
+            // 
+            // backstageViewPagePX4Flow
+            // 
+            this.backstageViewPagePX4Flow.Advanced = false;
+            this.backstageViewPagePX4Flow.LinkText = "PX4Flow";
+            this.backstageViewPagePX4Flow.Page = this.configHWPX4Flow1;
+            this.backstageViewPagePX4Flow.Parent = this.backstageViewPageopt;
+            this.backstageViewPagePX4Flow.Show = true;
+            this.backstageViewPagePX4Flow.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPagePX4Flow, "backstageViewPagePX4Flow");
             // 
             // backstageViewPagefw
             // 
@@ -538,17 +551,6 @@
             resources.ApplyResources(this.configHWPa1, "configHWPa1");
             this.configHWPa1.Name = "configHWPa1";
             // 
-            // backstageViewPageinstfw
-            // 
-            this.backstageViewPageinstfw.Advanced = false;
-            this.backstageViewPageinstfw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
-            this.backstageViewPageinstfw.LinkText = "Install Firmware";
-            this.backstageViewPageinstfw.Page = this.configFirmware1;
-            this.backstageViewPageinstfw.Parent = null;
-            this.backstageViewPageinstfw.Show = false;
-            this.backstageViewPageinstfw.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPageinstfw, "backstageViewPageinstfw");
-            // 
             // backstageViewPageESP
             // 
             this.backstageViewPageESP.Advanced = false;
@@ -565,6 +567,22 @@
             resources.ApplyResources(this.configHWESP8266, "configHWESP8266");
             this.configHWESP8266.Name = "configHWESP8266";
             // 
+            // backstageViewPageinstfw
+            // 
+            this.backstageViewPageinstfw.Advanced = false;
+            this.backstageViewPageinstfw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
+            this.backstageViewPageinstfw.LinkText = "Install Firmware";
+            this.backstageViewPageinstfw.Page = this.configFirmware1;
+            this.backstageViewPageinstfw.Parent = null;
+            this.backstageViewPageinstfw.Show = false;
+            this.backstageViewPageinstfw.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageinstfw, "backstageViewPageinstfw");
+            // 
+            // configHWPX4Flow1
+            // 
+            resources.ApplyResources(this.configHWPX4Flow1, "configHWPX4Flow1");
+            this.configHWPX4Flow1.Name = "configHWPX4Flow1";
+            // 
             // InitialSetup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -573,8 +591,10 @@
             this.Controls.Add(this.configHWBT1);
             this.Controls.Add(this.configBatteryMonitoring21);
             this.Controls.Add(this.configHWESP8266);
-            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.configHWPX4Flow1);
+            this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
+            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HardwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.HardwareConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).EndInit();
@@ -640,5 +660,7 @@
         private ConfigurationView.ConfigBatteryMonitoring2 configBatteryMonitoring21;
         private Controls.BackstageView.BackstageViewPage backstageViewPageESP;
         private ConfigurationView.ConfigHWESP8266 configHWESP8266;
+        private Controls.BackstageView.BackstageViewPage backstageViewPagePX4Flow;
+        private ConfigurationView.ConfigHWPX4Flow configHWPX4Flow1;
       }
 }
