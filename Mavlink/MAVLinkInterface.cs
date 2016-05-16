@@ -72,7 +72,6 @@ namespace MissionPlanner
 
         const int gcssysid = 255;
 
-        public bool signing = false;
         private byte[] _signingkey;
         internal byte[] signingKey {
             get
@@ -709,7 +708,7 @@ Please check the following
                     packet[0] = MAVLINK_STX ;
                     packet[1] = (byte)data.Length;
                     packet[2] = 0; // incompat
-                    if (signing)
+                    if (MAV.signing) // current mav
                         packet[2] |= MAVLINK_IFLAG_SIGNED;
                     packet[3] = 0; // compat
                     packet[4] = (byte)packetcount;
@@ -741,7 +740,7 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
 
-                    if (signing)
+                    if (MAV.signing)
                     {
                         //https://docs.google.com/document/d/1ETle6qQRcaNWAmpG2wz0oOpFKSF_bcTmYMQvtTGI8ns/edit
 
@@ -843,16 +842,14 @@ Please check the following
 
             generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign);
 
-            enableSigning();
-
-            return signing;
+            return enableSigning();
         }
 
         public bool enableSigning()
         {
-            signing = true;
+            MAV.signing = true;
 
-            return signing;
+            return MAV.signing;
         }
 
         /// <summary>
@@ -3076,8 +3073,8 @@ Please check the following
             byte compid = message.compid;
             byte packetSeqNo = message.seq;
 
-            //check sig
-            if (message.sig != null)
+            //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
+            if (message.sig != null && !MAVlist[sysid,compid].signingignore)
             {
                 using (SHA256Managed signit = new SHA256Managed())
                 {

@@ -18,6 +18,7 @@ namespace MissionPlanner
             this.sysid = 0;
             this.compid = 0;
             linkid = 0;
+            signing = false;
             this.param = new MAVLinkParamList();
             this.packets = new Dictionary<uint, MAVLinkMessage>();
             this.aptype = 0;
@@ -71,6 +72,9 @@ namespace MissionPlanner
         public byte compid { get; set; }
 
         public byte linkid { get; set; }
+
+        public bool signing { get; set; }
+        public bool signingignore { get; set; }
 
         /// <summary>
         /// storage for whole paramater list
