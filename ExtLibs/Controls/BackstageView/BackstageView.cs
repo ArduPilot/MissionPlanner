@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using log4net;
 using MissionPlanner.Controls.BackstageView;
 
 namespace MissionPlanner.Controls.BackstageView
@@ -16,6 +17,8 @@ namespace MissionPlanner.Controls.BackstageView
     /// </remarks>
     public partial class BackstageView : UserControl, IContainerControl
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private Color _buttonsAreaBgColor = Color.White;
         private Color _buttonsAreaPencilColor = Color.DarkGray;
         private Color _selectedTextColor = Color.White;
@@ -451,7 +454,14 @@ namespace MissionPlanner.Controls.BackstageView
             // Deactivate old page
             if (_activePage != null && _activePage.Page is IDeactivate)
             {
-                ((IDeactivate)(_activePage.Page)).Deactivate();
+                try
+                {
+                    ((IDeactivate) (_activePage.Page)).Deactivate();
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
             }
 
             // deactivate the old page - obsolete way of notifying activation
@@ -471,7 +481,10 @@ namespace MissionPlanner.Controls.BackstageView
                     oldButton.IsSelected = false;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             associatedPage.Page.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -493,7 +506,10 @@ namespace MissionPlanner.Controls.BackstageView
                 var newButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == associatedPage);
                 newButton.IsSelected = true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             _activePage = associatedPage;
         }
@@ -510,7 +526,14 @@ namespace MissionPlanner.Controls.BackstageView
 
                 if (((BackstageViewPage)page).Page is IDeactivate)
                 {
-                    ((IDeactivate)((BackstageViewPage)(page)).Page).Deactivate();
+                    try
+                    {
+                        ((IDeactivate) ((BackstageViewPage) (page)).Page).Deactivate();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                     ((BackstageViewPage)page).Page.Dispose();
                 }
                 else
