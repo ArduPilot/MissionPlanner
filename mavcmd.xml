@@ -272,7 +272,7 @@
       <P1>Turns</P1>
       <P2>Heading req</P2>
       <P3>Radius</P3>
-      <P4></P4>
+      <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
@@ -281,7 +281,7 @@
       <P1>Time s</P1>
       <P2>Heading req</P2>
       <P3>Dir 1=CW</P3>
-      <P4></P4>
+      <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
@@ -290,7 +290,7 @@
       <P1>Heading req</P1>
       <P2>Radius</P2>
       <P3></P3>
-      <P4></P4>
+      <P4>1=Exit Tangent</P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
