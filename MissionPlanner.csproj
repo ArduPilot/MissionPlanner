@@ -826,7 +826,7 @@
     </Compile>
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
-    <Compile Include="Utilities\AP_GPS.cs" />
+    <Compile Include="Utilities\AP_GPS_base.cs" />
     <Compile Include="Utilities\AP_GPS_GSOF.cs" />
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />

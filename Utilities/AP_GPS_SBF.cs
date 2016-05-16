@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace MissionPlanner.Utilities
 {
-    class AP_GPS_SBF : AP_GPS
+    class AP_GPS_SBF : AP_GPS_base
     {
         const uint8_t SBF_PREAMBLE1 = (byte) '$';
         const uint8_t SBF_PREAMBLE2 = (byte) '@';
@@ -361,38 +361,38 @@ namespace MissionPlanner.Utilities
                 switch (temp.Mode & 15)
                 {
                     case 0:
-                        state.status = GPS_Status.NO_FIX;
+                        state.status = AP_GPS.NO_FIX;
                         break;
                     case 1:
-                        state.status = GPS_Status.GPS_OK_FIX_3D;
+                        state.status = AP_GPS.GPS_OK_FIX_3D;
                         break;
                     case 2:
-                        state.status = GPS_Status.GPS_OK_FIX_3D_DGPS;
+                        state.status = AP_GPS.GPS_OK_FIX_3D_DGPS;
                         break;
                     case 3:
-                        state.status = GPS_Status.GPS_OK_FIX_3D;
+                        state.status = AP_GPS.GPS_OK_FIX_3D;
                         break;
                     case 4:
-                        state.status = GPS_Status.GPS_OK_FIX_3D_RTK;
+                        state.status = AP_GPS.GPS_OK_FIX_3D_RTK;
                         break;
                     case 5:
-                        state.status = GPS_Status.GPS_OK_FIX_3D_DGPS;
+                        state.status = AP_GPS.GPS_OK_FIX_3D_DGPS;
                         break;
                     case 6:
-                        state.status = GPS_Status.GPS_OK_FIX_3D;
+                        state.status = AP_GPS.GPS_OK_FIX_3D;
                         break;
                     case 7:
-                        state.status = GPS_Status.GPS_OK_FIX_3D_RTK;
+                        state.status = AP_GPS.GPS_OK_FIX_3D_RTK;
                         break;
                     case 8:
-                        state.status = GPS_Status.GPS_OK_FIX_3D_DGPS;
+                        state.status = AP_GPS.GPS_OK_FIX_3D_DGPS;
                         break;
                 }
 
                 if ((temp.Mode & 64) > 0) // gps is in base mode
-                    state.status = GPS_Status.NO_FIX;
+                    state.status = AP_GPS.NO_FIX;
                 if ((temp.Mode & 128) > 0) // gps only has 2d fix
-                    state.status = GPS_Status.GPS_OK_FIX_2D;
+                    state.status = AP_GPS.GPS_OK_FIX_2D;
 
                 Type t = state.GetType(); //where obj is object whose properties you need.
                 FieldInfo[] pi = t.GetFields();

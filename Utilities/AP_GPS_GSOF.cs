@@ -16,7 +16,7 @@ using SerialPort = System.IO.Ports.SerialPort;
 
 namespace MissionPlanner.Utilities
 {
-    public class AP_GPS_GSOF : AP_GPS
+    public class AP_GPS_GSOF : AP_GPS_base
     {
         const uint8_t GSOF_STX = 0x02;
         const uint8_t GSOF_ETX = 0x03;
@@ -629,19 +629,19 @@ namespace MissionPlanner.Utilities
 
                         if ((posf1 & 1) == 1)
                         {
-                            state.status = AP_GPS_SBF.GPS_Status.GPS_OK_FIX_3D;
+                            state.status = AP_GPS.GPS_OK_FIX_3D;
                             if ((posf2 & 1) == 1)
                             {
-                                state.status = AP_GPS_SBF.GPS_Status.GPS_OK_FIX_3D_DGPS;
+                                state.status = AP_GPS.GPS_OK_FIX_3D_DGPS;
                                 if ((posf2 & 4) == 4)
                                 {
-                                    state.status = AP_GPS_SBF.GPS_Status.GPS_OK_FIX_3D_RTK;
+                                    state.status = AP_GPS.GPS_OK_FIX_3D_RTK;
                                 }
                             }
                         }
                         else
                         {
-                            state.status = AP_GPS_SBF.GPS_Status.NO_FIX;
+                            state.status = AP_GPS.NO_FIX;
                         }
                     }
 

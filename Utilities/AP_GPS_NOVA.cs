@@ -16,7 +16,7 @@ using System.Reflection;
 
 namespace MissionPlanner.Utilities
 {
-    class AP_GPS_NOVA : AP_GPS
+    class AP_GPS_NOVA : AP_GPS_base
     {
         const uint8_t NOVA_PREAMBLE1 = (byte) 0xaa;
         const uint8_t NOVA_PREAMBLE2 = (byte) 0x44;
@@ -72,6 +72,8 @@ namespace MissionPlanner.Utilities
 
         struct nova_msg_parser
         {
+            public readstate nova_state;
+
             public nova_header header;
 
             // 32
@@ -85,7 +87,7 @@ namespace MissionPlanner.Utilities
         }
 
 
-        readstate nova_state;
+        
         uint32_t crc_error_counter;
 
         nova_msg_parser nova_msg = new nova_msg_parser();
@@ -95,7 +97,7 @@ namespace MissionPlanner.Utilities
         public AP_GPS_NOVA()
         {
             crc_error_counter = 0;
-            nova_state = readstate.PREAMBLE1;
+            nova_msg.nova_state = readstate.PREAMBLE1;
 
             var sport = new SerialPort("com13", 115200);
 
@@ -143,35 +145,36 @@ log com_30 headingb onchanged
 
         private bool parse(uint8_t temp)
         {
-            switch (nova_state)
+            switch (nova_msg.nova_state)
             {
+                default:
                 case readstate.PREAMBLE1:
                     if (temp == NOVA_PREAMBLE1)
-                        nova_state++;
-                    else
-                        Console.Write(".");
+                        nova_msg.nova_state++;
+                    //else
+                      //  Console.Write(".");
                     nova_msg.read = 0;
                     break;
                 case readstate.PREAMBLE2:
                     if (temp == NOVA_PREAMBLE2)
                     {
-                        nova_state++;
+                        nova_msg.nova_state++;
                     }
                     else
                     {
-                        Console.WriteLine("Bad Sync " + temp);
-                        nova_state = readstate.PREAMBLE1;
+                        //Console.WriteLine("Bad Sync " + temp);
+                        nova_msg.nova_state = readstate.PREAMBLE1;
                     }
                     break;
                 case readstate.PREAMBLE3:
                     if (temp == NOVA_PREAMBLE3)
                     {
-                        nova_state++;
+                        nova_msg.nova_state++;
                     }
                     else
                     {
-                        Console.WriteLine("Bad Sync " + temp);
-                        nova_state = readstate.PREAMBLE1;
+                       // Console.WriteLine("Bad Sync " + temp);
+                        nova_msg.nova_state = readstate.PREAMBLE1;
                     }
                     break;
                 case readstate.HEADERLENGTH:
@@ -181,7 +184,7 @@ log com_30 headingb onchanged
                     nova_msg.headerdata[2] = NOVA_PREAMBLE3;
                     nova_msg.headerdata[3] = temp;
                     nova_msg.header.headerlength = temp;
-                    nova_state++;
+                    nova_msg.nova_state++;
                     nova_msg.read = 4;
                     break;
                 case readstate.HEADERDATA:
@@ -196,7 +199,7 @@ log com_30 headingb onchanged
                         Console.WriteLine("{0} {1} {2}         ", nova_msg.header.week, nova_msg.header.tow,
                             nova_msg.header.messageid);
 
-                        nova_state++;
+                        nova_msg.nova_state++;
                     }
                     break;
                 case readstate.DATA:
@@ -204,31 +207,31 @@ log com_30 headingb onchanged
                     nova_msg.read++;
                     if (nova_msg.read >= (nova_msg.header.messagelength + nova_msg.header.headerlength))
                     {
-                        nova_state++;
+                        nova_msg.nova_state++;
                     }
                     break;
                 case readstate.CRC1:
                     nova_msg.crc = (uint32_t) (temp << 0);
-                    nova_state++;
+                    nova_msg.nova_state++;
                     break;
                 case readstate.CRC2:
                     nova_msg.crc += (uint32_t) (temp << 8);
-                    nova_state++;
+                    nova_msg.nova_state++;
                     break;
                 case readstate.CRC3:
                     nova_msg.crc += (uint32_t) (temp << 16);
-                    nova_state++;
+                    nova_msg.nova_state++;
                     break;
                 case readstate.CRC4:
                     nova_msg.crc += (uint32_t) (temp << 24);
-                    nova_state = readstate.PREAMBLE1;
+                    nova_msg.nova_state = readstate.PREAMBLE1;
 
                     UInt32 crc = crc32.CalculateBlockCRC32(nova_msg.headerdata);
                     crc = crc32.CalculateBlockCRC32(nova_msg.data, crc);
 
                     if (nova_msg.crc == crc)
                     {
-                        process_message();
+                        return process_message();
                     }
                     else
                     {
@@ -269,33 +272,33 @@ log com_30 headingb onchanged
                     switch (bestpos.postype)
                     {
                         case 16:
-                            state.status = GPS_Status.GPS_OK_FIX_3D;
+                            state.status = AP_GPS.GPS_OK_FIX_3D;
                             break;
                         case 17: // psrdiff
                         case 18: // waas
                         case 20: // omnistar
                         case 68: // ppp_converg
                         case 69: // ppp
-                            state.status = GPS_Status.GPS_OK_FIX_3D_DGPS;
+                            state.status = AP_GPS.GPS_OK_FIX_3D_DGPS;
                             break;
                         case 32: // l1 float
                         case 33: // iono float
                         case 34: // narrow float
                         case 48: // l1 int
                         case 50: // narrow int
-                            state.status = GPS_Status.GPS_OK_FIX_3D_RTK;
+                            state.status = AP_GPS.GPS_OK_FIX_3D_RTK;
                             break;
                         case 0: // NONE
                         case 1: // FIXEDPOS
                         case 2: // FIXEDHEIGHT
                         default:
-                            state.status = GPS_Status.NO_FIX;
+                            state.status = AP_GPS.NO_FIX;
                             break;
                     }
                 }
                 else
                 {
-                    state.status = GPS_Status.NO_FIX;
+                    state.status = AP_GPS.NO_FIX;
                 }
 
                 Type t = state.GetType(); //where obj is object whose properties you need.
@@ -304,6 +307,7 @@ log com_30 headingb onchanged
                 {
                     System.Console.WriteLine(p.Name + "    " + p.GetValue(state).ToString());
                 }
+                return true;
             }
 
             if (messageid == 99) // bestvel
@@ -315,6 +319,7 @@ log com_30 headingb onchanged
                 fill_3d_velocity();
                 state.velocity.Z = -(float) bestvel.vertspd;
                 state.have_vertical_velocity = true;
+                return true;
             }
 
             if (messageid == 174) // psrdop
@@ -323,6 +328,7 @@ log com_30 headingb onchanged
 
                 state.hdop = (ushort) (psrdop.hdop*100);
                 state.vdop = (ushort) (psrdop.htdop*100);
+                return true;
             }
 
             return false;
