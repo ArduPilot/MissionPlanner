@@ -16,6 +16,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using MissionPlanner.GCSViews;
 using MissionPlanner.Properties;
 using MissionPlanner.Utilities;
 using ProjNet.CoordinateSystems;
@@ -35,6 +36,7 @@ namespace MissionPlanner
         static public Object thisLock = new Object();
 
         GMapOverlay routesOverlay;
+        GMapOverlay kmlpolygonsoverlay;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
         List<PointLatLngAlt> grid;
 
@@ -126,6 +128,9 @@ namespace MissionPlanner
 
             map.MapProvider = plugin.Host.FDMapType;
 
+            kmlpolygonsoverlay = new GMapOverlay("kmlpolygons");
+            map.Overlays.Add(kmlpolygonsoverlay);
+
             routesOverlay = new GMapOverlay("routes");
             map.Overlays.Add(routesOverlay);
 
@@ -144,18 +149,27 @@ namespace MissionPlanner
             if (plugin.Host.config["distunits"] != null)
                 DistUnits = plugin.Host.config["distunits"].ToString();
 
-            CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
+            CMB_startfrom.DataSource = Enum.GetNames(typeof (Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
             // set and angle that is good
-            NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
+            NUM_angle.Value = (decimal) ((getAngleOfLongestSide(list) + 360)%360);
             TXT_headinghold.Text = (Math.Round(NUM_angle.Value)).ToString();
 
             if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduPlane)
-                NUM_UpDownFlySpeed.Value = (decimal)(12 * CurrentState.multiplierspeed);
+                NUM_UpDownFlySpeed.Value = (decimal) (12*CurrentState.multiplierspeed);
 
             map.MapScaleInfoEnabled = true;
             map.ScalePen = new Pen(Color.Orange);
+
+            foreach (var temp in FlightData.kmlpolygons.Polygons)
+            {
+                kmlpolygonsoverlay.Polygons.Add(new GMapPolygon(temp.Points, "") {Fill = Brushes.Transparent});
+            }
+            foreach (var temp in FlightData.kmlpolygons.Routes)
+            {
+                kmlpolygonsoverlay.Routes.Add(new GMapRoute(temp.Points,""));
+            }
         }
 
         private void GridUI_Load(object sender, EventArgs e)

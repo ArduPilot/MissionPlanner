@@ -605,4 +605,19 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="Scanning_File" xml:space="preserve">
     <value>Scanning File</value>
   </data>
+  <data name="Zoom_to_the_center_or_the_loaded_file" xml:space="preserve">
+    <value>Zoom to the center or the loaded file?</value>
+  </data>
+  <data name="Zoom_To" xml:space="preserve">
+    <value>Zoom To</value>
+  </data>
+  <data name="Do_you_want_to_load_this_into_the_flight_data_screen" xml:space="preserve">
+    <value>Do you want to load this into the flight data screen?</value>
+  </data>
+  <data name="Load_data" xml:space="preserve">
+    <value>Load data</value>
+  </data>
+  <data name="Bad_KML_File" xml:space="preserve">
+    <value>Bad KML File :</value>
+  </data>
 </root>

@@ -808,6 +808,7 @@ namespace MissionPlanner.GCSViews
                 GMapPolygon kmlpolygon = new GMapPolygon(new List<PointLatLng>(), "kmlpolygon");
 
                 kmlpolygon.Stroke.Color = Color.Purple;
+                kmlpolygon.Fill = Brushes.Transparent;
 
                 foreach (var loc in polygon.OuterBoundary.LinearRing.Coordinates)
                 {
@@ -5052,7 +5053,7 @@ namespace MissionPlanner.GCSViews
                         parser.ParseString(kml, false);
 
                         if (DialogResult.Yes ==
-                            CustomMessageBox.Show("Do you want to load this into the flight data screen?", "Load data",
+                            CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen, Strings.Load_data,
                                 MessageBoxButtons.YesNo))
                         {
                             foreach (var temp in kmlpolygonsoverlay.Polygons)
@@ -5064,13 +5065,134 @@ namespace MissionPlanner.GCSViews
                                 FlightData.kmlpolygons.Routes.Add(temp);
                             }
                         }
+
+                        if (
+                            CustomMessageBox.Show(Strings.Zoom_To, Strings.Zoom_to_the_center_or_the_loaded_file, MessageBoxButtons.YesNo) ==
+                            DialogResult.Yes)
+                        {
+                            MainMap.SetZoomToFitRect(GetBoundingLayer(kmlpolygonsoverlay));
+                        }
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Bad KML File :" + ex);
+                        CustomMessageBox.Show(Strings.Bad_KML_File + ex);
                     }
                 }
             }
+        }
+
+        public static RectLatLng GetBoundingLayer(GMapOverlay o)
+        {
+            RectLatLng ret = RectLatLng.Empty;
+
+            double left = double.MaxValue;
+            double top = double.MinValue;
+            double right = double.MinValue;
+            double bottom = double.MaxValue;
+
+            if (o.IsVisibile)
+            {
+                foreach (var m in o.Markers)
+                {
+                    if (m.IsVisible)
+                    {
+                        // left
+                        if (m.Position.Lng < left)
+                        {
+                            left = m.Position.Lng;
+                        }
+
+                        // top
+                        if (m.Position.Lat > top)
+                        {
+                            top = m.Position.Lat;
+                        }
+
+                        // right
+                        if (m.Position.Lng > right)
+                        {
+                            right = m.Position.Lng;
+                        }
+
+                        // bottom
+                        if (m.Position.Lat < bottom)
+                        {
+                            bottom = m.Position.Lat;
+                        }
+                    }
+                }
+                foreach (GMapRoute route in o.Routes)
+                {
+                    if (route.IsVisible && route.From.HasValue && route.To.HasValue)
+                    {
+                        foreach (PointLatLng p in route.Points)
+                        {
+                            // left
+                            if (p.Lng < left)
+                            {
+                                left = p.Lng;
+                            }
+
+                            // top
+                            if (p.Lat > top)
+                            {
+                                top = p.Lat;
+                            }
+
+                            // right
+                            if (p.Lng > right)
+                            {
+                                right = p.Lng;
+                            }
+
+                            // bottom
+                            if (p.Lat < bottom)
+                            {
+                                bottom = p.Lat;
+                            }
+                        }
+                    }
+                }
+                foreach (GMapPolygon polygon in o.Polygons)
+                {
+                    if (polygon.IsVisible)
+                    {
+                        foreach (PointLatLng p in polygon.Points)
+                        {
+                            // left
+                            if (p.Lng < left)
+                            {
+                                left = p.Lng;
+                            }
+
+                            // top
+                            if (p.Lat > top)
+                            {
+                                top = p.Lat;
+                            }
+
+                            // right
+                            if (p.Lng > right)
+                            {
+                                right = p.Lng;
+                            }
+
+                            // bottom
+                            if (p.Lat < bottom)
+                            {
+                                bottom = p.Lat;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (left != double.MaxValue && right != double.MinValue && top != double.MinValue && bottom != double.MaxValue)
+            {
+                ret = RectLatLng.FromLTRB(left, top, right, bottom);
+            }
+
+            return ret;
         }
 
         private void elevationGraphToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5698,7 +5820,7 @@ namespace MissionPlanner.GCSViews
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Bad KML File :" + ex);
+                        CustomMessageBox.Show(Strings.Bad_KML_File + ex);
                     }
                 }
             }
@@ -6361,6 +6483,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 quickadd = false;
                 writeKML();
             }
+        }
+
+        private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TXT_homealt.Text = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt.ToString("0");
+            TXT_homelat.Text = MouseDownStart.Lat.ToString();
+            TXT_homelng.Text = MouseDownStart.Lng.ToString();
         }
     }
 }

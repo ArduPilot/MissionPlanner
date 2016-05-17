@@ -71,7 +71,7 @@ namespace MissionPlanner.GCSViews
         CurveItem list10curve;
 
         internal static GMapOverlay tfrpolygons;
-        internal static GMapOverlay kmlpolygons;
+        public static GMapOverlay kmlpolygons;
         internal static GMapOverlay geofence;
         internal static GMapOverlay rallypointoverlay;
         internal static GMapOverlay photosoverlay;
