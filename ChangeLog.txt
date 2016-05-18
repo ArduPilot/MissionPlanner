@@ -1,4 +1,175 @@
-﻿* Mission Planner 1.3.37 - 14-3-2016
+﻿* Mission Planner 1.3.38 - 19-5-2016
+GridUI: support kml overlay and autozoom to overlay
+AP_GPS: rename internals
+BackStageView: fix exception handleing in Deactivate
+MAVLinkInterface: make signing per mav
+ConfigHWPX4Flow: add px4flow focus calibration
+AP_GPS_NOVA: testing and AP_GPS updates
+ConfigArduCopter: update FILT and IMAX scale #1250
+app.config: update param metadata urls #1250
+MavlinkNumericUpDown: use parameter based increment value
+MAVLinkInterface: always print/anounce tuning
+Added QRTL mode for plane
+FlightPlanner: fix posible bad wp upload #1248
+MavlinkLog: fix wp index on tlog wp extraction
+OpticalFlow: add calibration mode support and display
+SerialInjectGPS: add m8p config string
+MAVLinkInterface: support bps for logplayback
+CommsTCPSerial: fix exception on non connected client
+Sikradio: add new rfd900+ AES key display
+AP_GPS_GSOF: add event handling
+MavlinkUtil: calc array length for all data types
+CommTCPSerial: fix recursive get
+Wix: whitespace change
+Wix: update msi installer
+Updater: add file exclude
+MAVLinkParamList: make more threadsafe
+CurrentState: update descriptions
+MAVLinkInterface: verify source system on getparam
+MavlinkLog: select mav for param extraction
+MAVLinkInterface: check for invalid param index
+FlightPlanner: use default alt for terrain points #1239
+srtm: add dl exclusions
+ADSB: add Time to PLLAH
+ConfigRadioInput: support 16 channels
+MAVLinkInterface: fix sendpacket type id
+MAVLinkInterface: show error vs unexpected error
+srtm: add 0 size file check
+temp: add support for custom signing key
+GeoRef: add sonar alt #1126
+LogOutput: add wp file creation from log #1234
+GeoRef: sort files by exif time #1235
+MAVLinkInterface: fix null exception #1233
+MavlinkParser: cleanup
+FlightData: fix mount mode button
+MAVLink: add back mavlink.cs
+MAVLink2 signing working
+MAVLink2 refactoring
+GMapMarkerAirport: increase base nofly size to 9km
+httpserver: access packet history via getPacket
+Multiple: refactoring mavlink
+Multiple: factor out mavlinkmessage
+MAVLink: update
+MAVLink: generator update 24bit msgid
+ConfigArducopter: update param names #1228
+FlightData: add on/off for overlap count
+GMapMarkerOverlapCount: improve performance.
+georefimage: error message mods
+CommsNTRIP: add example
+FlightData: Use new overlay marker for photo coverage
+GridUI: use new overlay marker type for footprints
+GMapMarkerOverlayCount: add new marker type
+GMapMarkerPhoto: update photo icon size
+temp: add older param metadata
+Loading: additional disposed check
+LogIndex: multithread speedup
+Loading: fix cross thread calls
+GMapMarkerPhoto: make footprint public
+MAVList: fix posible exception
+mavgen: update import #1226
+Speech: add word substitutes
+MAVLinkInterface: add compid to missed packet message
+OSDVideo: fix exceptions
+MAVLinkInterface: improve unknown sysid/compid action
+tlogThumbnailHandler: fix directory create
+GridUI: add griddata to all grid commands
+temp: scan for all valid file types in log map creation
+Speech: word replacement
+MavlinkLog: add broader file mask
+GMapRoute: change arrow draw frequency
+MainV2: prevent px4v2 serial readout #1222
+MainV2: add extra exception reporting
+fftui: add bin support
+CollectionBuffer: implement stream like functions
+Loading: add missing file
+LogBrowse: add loading dialogs
+MainV2: add MP log review from cmd line
+GridPlugin: use version
+MainV2: prompt about new fw on any version increment
+FlightPlanner: always show alt mode when not connected.
+GridUI: add cross grid
+FlightData: add tlog playback shortcuts (space/+/-) #502
+FlightData: fix CAM_MIN_INTERVAL scale and rounding #1216
+FlightData: rebind datasource on activate #1155
+GmapRoute: fix custom line issue with long lines #1219
+MAVLinkInterface: fix playback pause reset #1218
+LogStrings: add missing file
+LogIndex: fix seek
+Fix null reference in MainV2 form.
+Dispose SerialPort Streams properly.
+Fix bugs in LogDownloadMavLink dialog.
+MAVLink: upgrade generator
+ModifyandSet: min and maxs fix
+FlightData: fix issue with negative loiter radius
+GridUI: save fov anagles
+CurrentState: add timesincelastshot to status
+GMapMarkerPhoto: add min_interval check
+GridUI: fix bugs #1214
+GMapMarkerPhoto: add photo number (mouse over)
+FlightData: add camera_feedback to map and footprints
+GMapMarkerPhoto: add new marker
+MAVLinkInterface: add CAMERA_FEEDBACK history
+myGMAP: add invalidation check to mouse movement
+HUD: fix hud rocking when using russian hud
+MAVLinkInterface: store camera_feedback messages
+FlightData: fix loiter rad scaling #932
+FlightData: add set loiter rad #932
+SimpleExample: update
+Joystick: fix custom1/2 scale bug
+Exception checks
+Wix: update for new server
+camerasBuiltin: add camera
+FlightData: tweak graph this height
+ImageProjection: fix rotations
+Matrix3: update names
+CurrentState: add Location
+FlightData: accept just lat/long in point camera here coords
+Script: remove statics
+MyUserControl: add exception logging
+FlightData: add point camera coords
+POI: add load
+FlightData: default point camera here alt to ground alt #1200
+GridUI: change default placeholder text number
+Rename Solution File
+PluginLoader: fix plugin cultures
+ImageProjection: remove debug
+FlightPlanner: add handle checks
+HUD: fix drawimage implementation
+Help: add exception check around update checks
+ConfigHWCompass: add param check
+Exception Fix's
+GridUI: use image projection for footprints
+ImageProjection: add new calc library
+GMapRoute: enable custom line type
+FlightData: fix quickview initial scale
+GridUI: fix footprint angle calc
+GridUI: use home alt and terrain alt when calcing photo footprints
+Matrix3: update lib
+MainV2: improve startup time
+L10N: prevent exception
+MyImageCache: implement removal date
+LogBrowse: fix map zoom after draw
+PluginLoader: fix load method
+ConfigFlightModes: change to use predefined lists
+PluginLoader: plugin culture/path fix
+MAVLinkInterface: fix type from pull request
+POI: update poi moves
+Log: reject large spikes in log files
+Use Assembly.LoadFrom when loading plugins
+ADSB: fixed heading for new XML
+MAVLinkParam: fix compile
+ConfigHWESP8266: add simple config
+MAVLinkInterface: support udp bridge component
+MAVParam: expose raw data
+BackstageView: change docking and fix designer mode
+CollectionBuffer: Improve message index detection.
+DroneShare: Remove
+GeoRefImage: option out relalt #1193
+FlightData: make icon more generic
+HUD: fix default ekf and vibe state #1188
+FlightData: turn on ekf and vibe #1188
+
+* Mission Planner 1.3.37 - 14-3-2016
 FlightData: actions customisation add default init
 Common: rearrange code
 FlightData: maintain taborder from config file
