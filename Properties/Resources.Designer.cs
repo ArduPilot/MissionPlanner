@@ -1292,6 +1292,16 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap PX4FLOW1 {
+            get {
+                object obj = ResourceManager.GetObject("PX4FLOW1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap quad {
             get {
                 object obj = ResourceManager.GetObject("quad", resourceCulture);
