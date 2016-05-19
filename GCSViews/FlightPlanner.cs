@@ -1756,7 +1756,7 @@ namespace MissionPlanner.GCSViews
                     catch (TimeoutException ex)
                     {
                         // blank home
-                        cmds.Add(new Locationwp() { id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                        cmds.Add(new Locationwp() { id = (ushort)MAVLink.MAV_CMD.WAYPOINT });
                     }
                 }
 
@@ -1913,12 +1913,12 @@ namespace MissionPlanner.GCSViews
                 Locationwp temp = new Locationwp();
                 if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                 {
-                    temp.id = (byte) Commands.Rows[a].Cells[Command.Index].Tag;
+                    temp.id = (ushort)Commands.Rows[a].Cells[Command.Index].Tag;
                 }
                 else
                 {
                     temp.id =
-                        (byte)
+                        (ushort) 
                             (int)
                                 Enum.Parse(typeof (MAVLink.MAV_CMD),
                                     Commands.Rows[a].Cells[Command.Index].Value.ToString(),
@@ -1976,7 +1976,7 @@ namespace MissionPlanner.GCSViews
                 Locationwp home = new Locationwp();
                 try
                 {
-                    home.id = (byte) MAVLink.MAV_CMD.WAYPOINT;
+                    home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
                     home.lat = (double.Parse(TXT_homelat.Text));
                     home.lng = (double.Parse(TXT_homelng.Text));
                     home.alt = (float.Parse(TXT_homealt.Text)/CurrentState.multiplierdist); // use saved home
@@ -2095,7 +2095,7 @@ namespace MissionPlanner.GCSViews
                         "Setting WP " + a);
 
                     // make sure we are using the correct frame for these commands
-                    if (temp.id < (byte) MAVLink.MAV_CMD.LAST || temp.id == (byte) MAVLink.MAV_CMD.DO_SET_HOME)
+                    if (temp.id < (ushort)MAVLink.MAV_CMD.LAST || temp.id == (ushort)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
                         var mode = currentaltmode;
 
@@ -2242,7 +2242,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 // from ap_common.h
-                if (temp.id < (byte) MAVLink.MAV_CMD.LAST || temp.id == (byte) MAVLink.MAV_CMD.DO_SET_HOME)
+                if (temp.id < (ushort)MAVLink.MAV_CMD.LAST || temp.id == (ushort)MAVLink.MAV_CMD.DO_SET_HOME)
                 {
                     // check ralatice and terrain flags
                     if ((temp.options & 0x9) == 0 && i != 0)
@@ -2641,7 +2641,7 @@ namespace MissionPlanner.GCSViews
                         {
                             temp.options = 0;
                         }
-                        temp.id = (byte) (int) Enum.Parse(typeof (MAVLink.MAV_CMD), items[3], false);
+                        temp.id = (ushort)(int)Enum.Parse(typeof (MAVLink.MAV_CMD), items[3], false);
                         temp.p1 = float.Parse(items[4], new CultureInfo("en-US"));
 
                         if (temp.id == 99)

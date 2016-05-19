@@ -1136,7 +1136,7 @@ namespace MissionPlanner.GCSViews
                                 if (plla.x == 0 || plla.y == 0)
                                     continue;
 
-                                if (plla.command == (byte) MAVLink.MAV_CMD.DO_SET_ROI)
+                                if (plla.command == (ushort)MAVLink.MAV_CMD.DO_SET_ROI)
                                 {
                                     addpolygonmarkerred(plla.seq.ToString(), plla.y, plla.x, (int) plla.z, Color.Red,
                                         routes);
@@ -2039,7 +2039,7 @@ namespace MissionPlanner.GCSViews
 
             Locationwp gotohere = new Locationwp();
 
-            gotohere.id = (byte) MAVLink.MAV_CMD.WAYPOINT;
+            gotohere.id = (ushort) MAVLink.MAV_CMD.WAYPOINT;
             gotohere.alt = MainV2.comPort.MAV.GuidedMode.z; // back to m
             gotohere.lat = (MouseDownStart.Lat);
             gotohere.lng = (MouseDownStart.Lng);
@@ -3907,11 +3907,11 @@ namespace MissionPlanner.GCSViews
 
                         if (a < lastwpno && a != 0) // allow home
                         {
-                            if (wpdata.id != (byte) MAVLink.MAV_CMD.TAKEOFF)
-                                if (wpdata.id < (byte) MAVLink.MAV_CMD.LAST)
+                            if (wpdata.id != (ushort)MAVLink.MAV_CMD.TAKEOFF)
+                                if (wpdata.id < (ushort)MAVLink.MAV_CMD.LAST)
                                     continue;
 
-                            if (wpdata.id > (byte) MAVLink.MAV_CMD.DO_LAST)
+                            if (wpdata.id > (ushort)MAVLink.MAV_CMD.DO_LAST)
                                 continue;
                         }
 

@@ -131,7 +131,7 @@ namespace MissionPlanner.Swarm
                         alt = (float) target.Alt,
                         lat = target.Lat,
                         lng = target.Lng,
-                        id = (byte) MAVLink.MAV_CMD.WAYPOINT
+                        id = (ushort)MAVLink.MAV_CMD.WAYPOINT
                     });
 
                     Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);

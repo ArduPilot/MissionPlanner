@@ -813,6 +813,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Strings.id-ID.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.id-ID.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Strings.ja-JP.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.ja-JP.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Strings.ko-KR.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.ko-KR.resx</DependentUpon>
+    </Compile>
     <Compile Include="Strings.zh-Hans.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -2828,9 +2843,18 @@
     <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Strings.id-ID.resx" />
-    <EmbeddedResource Include="Strings.ja-JP.resx" />
-    <EmbeddedResource Include="Strings.ko-KR.resx" />
+    <EmbeddedResource Include="Strings.id-ID.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.id-ID.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.ja-JP.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.ja-JP.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.ko-KR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.ko-KR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
       <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -3698,6 +3722,7 @@
     </Content>
     <None Include="Resources\camera-icon.png" />
     <None Include="Resources\camera-icon-G.png" />
+    <None Include="Resources\PX4FLOW1.jpg" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -11,7 +11,7 @@ namespace MissionPlanner.Utilities
     /// </summary>
     public struct Locationwp
     {
-        public Locationwp Set(double lat, double lng, double alt, byte id)
+        public Locationwp Set(double lat, double lng, double alt, ushort id)
         {
             this.lat = lat;
             this.lng = lng;
@@ -35,7 +35,7 @@ namespace MissionPlanner.Utilities
         {
             Locationwp temp = new Locationwp()
             {
-                id = (byte)input.command,
+                id = input.command,
                 p1 = input.param1,
                 p2 = input.param2,
                 p3 = input.param3,
@@ -52,7 +52,7 @@ namespace MissionPlanner.Utilities
         {
             Locationwp temp = new Locationwp()
             {
-                id = (byte)input.command,
+                id = input.command,
                 p1 = input.param1,
                 p2 = input.param2,
                 p3 = input.param3,
@@ -101,7 +101,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public byte id;				// command id
+        public ushort id;				// command id
         public byte options;
         public float p1;				// param 1
         public float p2;				// param 2

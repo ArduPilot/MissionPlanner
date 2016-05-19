@@ -1647,7 +1647,7 @@ namespace MissionPlanner.Log
                                 {
                                     Locationwp wp = mine.getWP(a);
                                     //sw.WriteLine(item + "\t" + mine.param[item]);
-                                    byte mode = (byte) wp.id;
+                                    ushort mode = wp.id;
 
                                     sw.Write((a)); // seq
                                     sw.Write("\t" + 0); // current

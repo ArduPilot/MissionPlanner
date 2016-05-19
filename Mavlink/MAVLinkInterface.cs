@@ -2044,7 +2044,7 @@ Please check the following
                         }
 
                         loc.options = (byte) (wp.frame);
-                        loc.id = (byte) (wp.command);
+                        loc.id = (ushort)(wp.command);
                         loc.p1 = (wp.param1);
                         loc.p2 = (wp.param2);
                         loc.p3 = (wp.param3);
@@ -2073,7 +2073,7 @@ Please check the following
                         }
 
                         loc.options = (byte)(wp.frame);
-                        loc.id = (byte)(wp.command);
+                        loc.id = (ushort)(wp.command);
                         loc.p1 = (wp.param1);
                         loc.p2 = (wp.param2);
                         loc.p3 = (wp.param3);
@@ -2649,7 +2649,7 @@ Please check the following
 
             try
             {
-                gotohere.id = (byte) MAV_CMD.WAYPOINT;
+                gotohere.id = (ushort)MAV_CMD.WAYPOINT;
 
                 // fix for followme change
                 if (MAV.cs.mode.ToUpper() != "GUIDED")
@@ -2674,7 +2674,7 @@ Please check the following
 
             try
             {
-                gotohere.id = (byte) MAV_CMD.WAYPOINT;
+                gotohere.id = (ushort)MAV_CMD.WAYPOINT;
 
                 MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 3);
 
