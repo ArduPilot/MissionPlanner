@@ -266,8 +266,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_test_yaw_Click(object sender, EventArgs e)
         {
-            var output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum,
-                (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+            double output = 1500;
+
+            if (mavlinkCheckBox1.Checked)
+            {
+                output = map(myTrackBar1.Value, myTrackBar1.Maximum, myTrackBar1.Minimum,
+                    (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+            }
+            else
+            {
+                output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum,
+                    (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
+            }
 
             try
             {
@@ -281,8 +291,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_test_pitch_Click(object sender, EventArgs e)
         {
-            var output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum,
-                (double) mavlinkNumericUpDown6.Value, (double) mavlinkNumericUpDown5.Value);
+            double output = 1500;
+            if (mavlinkCheckBox2.Checked)
+            {
+                output = map(myTrackBar2.Value, myTrackBar2.Maximum, myTrackBar2.Minimum, 
+                    (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
+            }
+            else
+            {
+                output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum,
+                    (double) mavlinkNumericUpDown6.Value, (double) mavlinkNumericUpDown5.Value);
+            }
 
             try
             {
