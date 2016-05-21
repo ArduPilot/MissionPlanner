@@ -145,6 +145,7 @@ namespace MissionPlanner.Log
         {
             public string type;
             public string field;
+            public string expression;
             public bool left = true;
         }
 
@@ -444,20 +445,28 @@ namespace MissionPlanner.Log
                 {
                     var matchs = Regex.Matches(item.Trim(), @"^([A-z0-9_]+)\.([A-z0-9_]+)[:2]*$");
 
-                    // there is a item we dont understand/abandon it
-                    if (matchs.Count == 0)
-                        break;
+                    if (matchs.Count > 0)
+                    {
+                        foreach (Match match in matchs)
+                        {
+                            var temp = new displayitem();
+                            // right axis
+                            if (item.EndsWith(":2"))
+                                temp.left = false;
 
-                    foreach (Match match in matchs)
+                            temp.type = match.Groups[1].Value.ToString();
+                            temp.field = match.Groups[2].Value.ToString();
+
+                            list.Add(temp);
+                        }
+                    }
+                    else
                     {
                         var temp = new displayitem();
-                        // right axis
                         if (item.EndsWith(":2"))
-                            temp.left = false;
-
-                        temp.type = match.Groups[1].Value.ToString();
-                        temp.field = match.Groups[2].Value.ToString();
-
+                                temp.left = false;
+                        temp.expression = item;
+                        temp.type = item;
                         list.Add(temp);
                     }
                 }
@@ -917,7 +926,7 @@ namespace MissionPlanner.Log
             GraphItem(type, fieldname, left);
         }
 
-        void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true)
+        void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true, bool isexpression = false)
         {
             double a = 0; // row counter
             int error = 0;
@@ -953,103 +962,111 @@ namespace MissionPlanner.Log
                 }
             }
 
-            if (!dflog.logformat.ContainsKey(type))
-            {
-                if (displayerror)
-                    CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
-                return;
-            }
-
-            int col = dflog.FindMessageOffset(type, fieldname);
-
-            // field does not exist
-            if (col == -1)
-                return;
-
-            log.Info("Graphing " + type + " - " + fieldname);
-
-            Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
-
             PointPairList list1 = new PointPairList();
-
             string header = fieldname;
 
-            double b = 0;
-            DateTime screenupdate = DateTime.MinValue;
-            double value_prev = 0;
-
-            foreach (var item in logdata.GetEnumeratorType(type))
+            if (!isexpression)
             {
-                b = item.lineno;
-
-                if (screenupdate.Second != DateTime.Now.Second)
+                if (!dflog.logformat.ContainsKey(type))
                 {
-                    Console.Write(b + " of " + logdata.Count + "     \r");
-                    screenupdate = DateTime.Now;
+                    if (displayerror)
+                        CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
+                    return;
                 }
 
-                if (item.msgtype == type)
+                int col = dflog.FindMessageOffset(type, fieldname);
+
+                // field does not exist
+                if (col == -1)
+                    return;
+
+                log.Info("Graphing " + type + " - " + fieldname);
+
+                Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
+
+                double b = 0;
+                DateTime screenupdate = DateTime.MinValue;
+                double value_prev = 0;
+
+
+                foreach (var item in logdata.GetEnumeratorType(type))
                 {
-                    try
+                    b = item.lineno;
+
+                    if (screenupdate.Second != DateTime.Now.Second)
                     {
-                        double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
+                        Console.Write(b + " of " + logdata.Count + "     \r");
+                        screenupdate = DateTime.Now;
+                    }
 
-                        // abandon realy bad data
-                        if (Math.Abs(value) > 3.15e8)
+                    if (item.msgtype == type)
+                    {
+                        try
                         {
-                            a++;
-                            continue;
-                        }
+                            double value = double.Parse(item.items[col],
+                                System.Globalization.CultureInfo.InvariantCulture);
 
-                        if (dataModifier.IsValid())
-                        {
-                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            // abandon realy bad data
+                            if (Math.Abs(value) > 3.15e8)
                             {
-                                // there is a glitch in the data, reject it by replacing it with the previous value
-                                value = value_prev;
+                                a++;
+                                continue;
                             }
-                            value_prev = value;
 
-                            if (dataModifier.doOffsetFirst)
+                            if (dataModifier.IsValid())
                             {
-                                value += dataModifier.offset;
-                                value *= dataModifier.scalar;
+                                if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                                {
+                                    // there is a glitch in the data, reject it by replacing it with the previous value
+                                    value = value_prev;
+                                }
+                                value_prev = value;
+
+                                if (dataModifier.doOffsetFirst)
+                                {
+                                    value += dataModifier.offset;
+                                    value *= dataModifier.scalar;
+                                }
+                                else
+                                {
+                                    value *= dataModifier.scalar;
+                                    value += dataModifier.offset;
+                                }
+                            }
+
+                            if (chk_time.Checked)
+                            {
+                                var e = new DataGridViewCellValueEventArgs(1, (int) b);
+                                dataGridView1_CellValueNeeded(dataGridView1, e);
+
+                                XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
+
+                                list1.Add(time, value);
                             }
                             else
                             {
-                                value *= dataModifier.scalar;
-                                value += dataModifier.offset;
+                                list1.Add(b, value);
                             }
                         }
-
-                        if (chk_time.Checked)
+                        catch
                         {
-                            var e = new DataGridViewCellValueEventArgs(1, (int) b);
-                            dataGridView1_CellValueNeeded(dataGridView1, e);
-
-                            XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
-
-                            list1.Add(time, value);
-                        }
-                        else
-                        {
-                            list1.Add(b, value);
+                            error++;
+                            log.Info("Bad Data : " + type + " " + col + " " + a);
+                            if (error >= 500)
+                            {
+                                CustomMessageBox.Show("There is to much bad data - failing");
+                                break;
+                            }
                         }
                     }
-                    catch
-                    {
-                        error++;
-                        log.Info("Bad Data : " + type + " " + col + " " + a);
-                        if (error >= 500)
-                        {
-                            CustomMessageBox.Show("There is to much bad data - failing");
-                            break;
-                        }
-                    }
+
+
+                    a++;
                 }
-
-
-                a++;
+            }
+            else
+            {
+                list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
             }
 
             if (list1.Count < 1)
@@ -1602,6 +1619,8 @@ namespace MissionPlanner.Log
         {
             // clear existing lists
             zg1.GraphPane.CurveList.Clear();
+            // reset logname
+            logfilename = "";
             // reload
             LogBrowse_Load(sender, e);
         }
@@ -1874,7 +1893,14 @@ namespace MissionPlanner.Log
             {
                 try
                 {
-                    GraphItem(item.type, item.field, item.left, false);
+                    if (!string.IsNullOrEmpty(item.expression))
+                    {
+                        GraphItem(item.expression, "", item.left, false, true);
+                    }
+                    else
+                    {
+                        GraphItem(item.type, item.field, item.left, false);
+                    }
                 }
                 catch
                 {

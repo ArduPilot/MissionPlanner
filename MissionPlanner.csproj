@@ -732,6 +732,7 @@
     </Compile>
     <Compile Include="L10N.cs" />
     <Compile Include="Log\CollectionBuffer.cs" />
+    <Compile Include="Log\DFLogScript.cs" />
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -812,21 +813,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.id-ID.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.id-ID.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ja-JP.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ja-JP.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ko-KR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ko-KR.resx</DependentUpon>
     </Compile>
     <Compile Include="Strings.zh-Hans.Designer.cs">
       <AutoGen>True</AutoGen>
