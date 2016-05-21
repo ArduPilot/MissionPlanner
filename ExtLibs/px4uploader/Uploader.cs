@@ -652,6 +652,9 @@ namespace px4uploader
                 throw new Exception("Bootloader protocol mismatch");
             }
 
+            // revert to default write timeout
+            port.WriteTimeout = 500;
+
             self.board_type = self.__getInfo(Info.BOARD_ID);
             self.board_rev = self.__getInfo(Info.BOARD_REV);
             self.fw_maxsize = self.__getInfo(Info.FLASH_SIZE);
