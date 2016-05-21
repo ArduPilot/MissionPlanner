@@ -13,6 +13,7 @@ namespace MissionPlanner.Utilities
 
         bool issending = false;
 
+        MAVLink.MAVLinkMessage lastmessage;
         MAVLink.mavlink_terrain_request_t lastrequest;
 
         KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
@@ -43,6 +44,7 @@ namespace MissionPlanner.Utilities
                 if (issending)
                     return false;
 
+                lastmessage = rawpacket;
                 lastrequest = packet;
 
                 log.Info("received TERRAIN_REQUEST " + packet.lat/1e7 + " " + packet.lon/1e7 + " space " +
@@ -128,7 +130,7 @@ namespace MissionPlanner.Utilities
                 resp.data[i] = (short) alt.alt;
             }
 
-            _interface.sendPacket(resp);
+            _interface.sendPacket(resp, lastmessage.sysid, lastmessage.compid);
         }
 
         public void checkTerrain(double lat, double lon)
@@ -138,7 +140,7 @@ namespace MissionPlanner.Utilities
             packet.lat = (int) (lat*1e7);
             packet.lon = (int) (lon*1e7);
 
-            _interface.sendPacket(packet);
+            _interface.sendPacket(packet, _interface.sysidcurrent, _interface.compidcurrent);
         }
     }
 }

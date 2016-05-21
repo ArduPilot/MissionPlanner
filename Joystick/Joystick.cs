@@ -663,21 +663,21 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
 
-                MainV2.comPort.sendPacket(rc);
-                MainV2.comPort.sendPacket(rc);
-                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
+                MainV2.comPort.sendPacket(rc, rc.target_system, rc.target_component);
             }
             catch (Exception ex)
             {

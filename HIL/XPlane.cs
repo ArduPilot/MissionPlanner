@@ -308,12 +308,12 @@ namespace MissionPlanner.HIL
             hilstate.yacc = (short) (sitldata.yAccel*1000); // (mg)
             hilstate.zacc = (short) (sitldata.zAccel*1000); // (mg)
 
-            MainV2.comPort.sendPacket(hilstate);
+            MainV2.comPort.sendPacket(hilstate, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
 
             MainV2.comPort.sendPacket(new MAVLink.mavlink_vfr_hud_t()
             {
                 airspeed = (float) sitldata.airspeed
-            });
+            }, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
         }
 
         public override void GetFromAP()

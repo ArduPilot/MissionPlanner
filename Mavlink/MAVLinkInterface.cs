@@ -208,8 +208,6 @@ namespace MissionPlanner
         /// </summary>
         byte mavlinkversion = 0;
 
-        bool mavlinkv2 = false;
-
         /// <summary>
         /// turns on console packet display
         /// </summary>
@@ -611,7 +609,7 @@ Please check the following
             }
         }
 
-        public void sendPacket(object indata)
+        public void sendPacket(object indata, int sysid, int compid)
         {
             bool validPacket = false;
             foreach (var ty in MAVLINK_MESSAGE_INFO)
@@ -619,7 +617,7 @@ Please check the following
                 if (ty.Value == indata.GetType())
                 {
                     validPacket = true;
-                    generatePacket((int)ty.Key, indata);
+                    generatePacket((int)ty.Key, indata, sysid, compid);
                     return;
                 }
             }
@@ -629,12 +627,18 @@ Please check the following
             }
         }
 
+        void generatePacket(int messageType, object indata)
+        {
+            //uses currently targeted mavs sysid and compid
+            generatePacket(messageType, indata, MAV.sysid, MAV.compid);
+        }
+
         /// <summary>
         /// Generate a Mavlink Packet and write to serial
         /// </summary>
         /// <param name="messageType">type number = MAVLINK_MSG_ID</param>
         /// <param name="indata">struct of data</param>
-        void generatePacket(int messageType, object indata)
+        void generatePacket(int messageType, object indata, int sysid, int compid)
         {
             if (!BaseStream.IsOpen)
             {
@@ -666,7 +670,8 @@ Please check the following
                 byte[] packet = new byte[0];
                 int i = 0;
 
-                if (!mavlinkv2)
+                // are we mavlink2 enabled for this sysid/compid
+                if (!MAVlist[sysid,compid].mavlinkv2)
                 {
                     //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                     packet = new byte[data.Length + 6 + 2];
@@ -701,14 +706,14 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
                 }
-                else if (mavlinkv2)
+                else if (MAVlist[sysid, compid].mavlinkv2)
                 {
                     packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
 
                     packet[0] = MAVLINK_STX ;
                     packet[1] = (byte)data.Length;
                     packet[2] = 0; // incompat
-                    if (MAV.signing) // current mav
+                    if (MAVlist[sysid, compid].signing) // current mav
                         packet[2] |= MAVLINK_IFLAG_SIGNED;
                     packet[3] = 0; // compat
                     packet[4] = (byte)packetcount;
@@ -740,7 +745,7 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
 
-                    if (MAV.signing)
+                    if (MAVlist[sysid, compid].signing)
                     {
                         //https://docs.google.com/document/d/1ETle6qQRcaNWAmpG2wz0oOpFKSF_bcTmYMQvtTGI8ns/edit
 
@@ -838,9 +843,9 @@ Please check the following
             sign.target_component = (byte)compidcurrent;
             sign.target_system = (byte)sysidcurrent;
 
-            generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign);
+            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
 
-            generatePacket((int)MAVLINK_MSG_ID.SETUP_SIGNING, sign);
+            generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
 
             return enableSigning();
         }
@@ -848,6 +853,7 @@ Please check the following
         public bool enableSigning()
         {
             MAV.signing = true;
+            MAV.mavlinkv2 = true;
 
             return MAV.signing;
         }
@@ -2893,7 +2899,7 @@ Please check the following
 
                     //Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream.BytesToRead);
 
-                    mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
+                    var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
 
                     int headerlength = mavlinkv2 ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
                     int headerlengthstx = headerlength + 1;
@@ -3073,6 +3079,15 @@ Please check the following
             byte compid = message.compid;
             byte packetSeqNo = message.seq;
 
+            // create a state for any sysid/compid includes gcs on log playback
+            if (!MAVlist.Contains(sysid, compid))
+            {
+                // create an item - hidden
+                MAVlist.AddHiddenList(sysid, compid);
+            }
+
+            MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
+
             //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
             if (message.sig != null && !MAVlist[sysid,compid].signingignore)
             {
@@ -3103,20 +3118,6 @@ Please check the following
 
             // packet is now verified
 
-            // update packet loss statistics
-            if (!logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < DateTime.Now)
-            {
-                MAVlist[sysid, compid].packetlosttimer = DateTime.Now;
-                MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost*0.8f);
-                MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost*0.8f);
-            }
-            else if (logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < lastlogread)
-            {
-                MAVlist[sysid, compid].packetlosttimer = lastlogread;
-                MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost*0.8f);
-                MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost*0.8f);
-            }
-
             // extract wp's from stream
             if (buffer.Length >= 5)
             {
@@ -3129,11 +3130,18 @@ Please check the following
                 return message;
             }
 
-            // create a state for any sysid/compid
-            if (!MAVlist.Contains(sysid, compid))
+            // update packet loss statistics
+            if (!logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < DateTime.Now)
             {
-                // create an item - hidden
-                MAVlist.AddHiddenList(sysid, compid);
+                MAVlist[sysid, compid].packetlosttimer = DateTime.Now;
+                MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
+                MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
+            }
+            else if (logreadmode && MAVlist[sysid, compid].packetlosttimer.AddSeconds(5) < lastlogread)
+            {
+                MAVlist[sysid, compid].packetlosttimer = lastlogread;
+                MAVlist[sysid, compid].packetslost = (MAVlist[sysid, compid].packetslost * 0.8f);
+                MAVlist[sysid, compid].packetsnotlost = (MAVlist[sysid, compid].packetsnotlost * 0.8f);
             }
 
             try

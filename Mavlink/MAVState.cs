@@ -73,8 +73,20 @@ namespace MissionPlanner
 
         public byte linkid { get; set; }
 
+        /// <summary>
+        /// are we signing outgoing packets, and checking incomming packet signatures
+        /// </summary>
         public bool signing { get; set; }
+
+        /// <summary>
+        /// ignore the incomming signature
+        /// </summary>
         public bool signingignore { get; set; }
+
+        /// <summary>
+        /// mavlink 2 enable
+        /// </summary>
+        public bool mavlinkv2 = false;
 
         /// <summary>
         /// storage for whole paramater list

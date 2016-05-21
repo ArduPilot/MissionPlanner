@@ -159,7 +159,7 @@ namespace MissionPlanner.Wizard
 
             try
             {
-                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() {command = 1, result = count});
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() {command = 1, result = count}, MainV2.comPort.sysidcurrent, MainV2.comPort.compidcurrent);
             }
             catch (Exception ex)
             {

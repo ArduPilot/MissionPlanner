@@ -1837,7 +1837,7 @@ namespace MissionPlanner
                                     }
                                     else
                                     {
-                                        comPort.sendPacket(rc);
+                                        comPort.sendPacket(rc, rc.target_system, rc.target_component);
                                     }
                                     count++;
                                     lastjoystick = DateTime.Now;
@@ -2242,30 +2242,67 @@ namespace MissionPlanner
                             mavlink_version = 3 // MAVLink.MAVLINK_VERSION
                         };
 
+                        // enumerate each link
                         foreach (var port in Comports)
                         {
-                            try
+                            // there are 3 hb types we can send, mavlink1, mavlink2 signed and unsigned
+                            bool sentsigned = false;
+                            bool sentmavlink1 = false;
+                            bool sentmavlink2 = false;
+
+                            // enumerate each mav
+                            foreach (var MAV in port.MAVlist.GetMAVStates())
                             {
-                                port.sendPacket(htb);
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error(ex);
-                                // close the bad port
-                                port.Close();
-                                // refresh the screen if needed
-                                if (port == MainV2.comPort)
+                                try
                                 {
-                                    // refresh config window if needed
-                                    if (MyView.current != null)
+                                    // are we talking to a mavlink2 device
+                                    if (MAV.mavlinkv2)
                                     {
-                                        this.Invoke((MethodInvoker)delegate()
+                                        // is signing enabled
+                                        if (MAV.signing)
                                         {
-                                            if (MyView.current.Name == "HWConfig")
-                                                MyView.ShowScreen("HWConfig");
-                                            if (MyView.current.Name == "SWConfig")
-                                                MyView.ShowScreen("SWConfig");
-                                        });
+                                            // check if we have already sent
+                                            if (sentsigned)
+                                                continue;
+                                            sentsigned = true;
+                                        }
+                                        else
+                                        {
+                                            // check if we have already sent
+                                            if (sentmavlink2)
+                                                continue;
+                                            sentmavlink2 = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // check if we have already sent
+                                        if (sentmavlink1)
+                                            continue;
+                                        sentmavlink1 = true;
+                                    }
+
+                                    port.sendPacket(htb, MAV.sysid, MAV.compid);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                    // close the bad port
+                                    port.Close();
+                                    // refresh the screen if needed
+                                    if (port == MainV2.comPort)
+                                    {
+                                        // refresh config window if needed
+                                        if (MyView.current != null)
+                                        {
+                                            this.Invoke((MethodInvoker) delegate()
+                                            {
+                                                if (MyView.current.Name == "HWConfig")
+                                                    MyView.ShowScreen("HWConfig");
+                                                if (MyView.current.Name == "SWConfig")
+                                                    MyView.ShowScreen("SWConfig");
+                                            });
+                                        }
                                     }
                                 }
                             }

@@ -858,7 +858,7 @@ namespace MissionPlanner.GCSViews
             //  if (packetcount % 2 == 0) 
             //      return;
 
-            comPort.sendPacket(hilstate);
+            comPort.sendPacket(hilstate,comPort.sysidcurrent,comPort.compidcurrent);
 
 
             //            comPort.sendPacket(oldgps);
