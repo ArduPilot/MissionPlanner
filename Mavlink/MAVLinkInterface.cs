@@ -84,7 +84,8 @@ namespace MissionPlanner
                     }
                     else
                     {
-                        throw new FormatException("signing key has not been set");
+                        _signingkey = new byte[32];
+                        log.Error("signing key has not been set default to 0's");
                     }
                 }
                 return _signingkey; 
@@ -517,15 +518,20 @@ Please check the following
                 frmProgressReporter.UpdateProgressAndStatus(0,
                     "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
+                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + Application.ProductVersion + "\0");
+                Array.Resize(ref temp, 50);
+                // 
+                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
+                    new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp });
+                // mavlink2
+                generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
+                    new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp}, sysidcurrent,
+                    compidcurrent, true, true);
+
                 if (getparams)
                 {
                     getParamListBG();
                 }
-
-                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + Application.ProductVersion + "\0");
-                Array.Resize(ref temp, 50);
-                generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
-                    new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp});
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
                 {
@@ -638,7 +644,7 @@ Please check the following
         /// </summary>
         /// <param name="messageType">type number = MAVLINK_MSG_ID</param>
         /// <param name="indata">struct of data</param>
-        void generatePacket(int messageType, object indata, int sysid, int compid)
+        void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
         {
             if (!BaseStream.IsOpen)
             {
@@ -671,7 +677,7 @@ Please check the following
                 int i = 0;
 
                 // are we mavlink2 enabled for this sysid/compid
-                if (!MAVlist[sysid,compid].mavlinkv2)
+                if (!MAVlist[sysid, compid].mavlinkv2 && messageType < 256 && !forcemavlink2)
                 {
                     //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                     packet = new byte[data.Length + 6 + 2];
@@ -706,14 +712,14 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
                 }
-                else if (MAVlist[sysid, compid].mavlinkv2)
+                else
                 {
                     packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
 
                     packet[0] = MAVLINK_STX ;
                     packet[1] = (byte)data.Length;
                     packet[2] = 0; // incompat
-                    if (MAVlist[sysid, compid].signing) // current mav
+                    if (MAVlist[sysid, compid].signing || forcesigning) // current mav
                         packet[2] |= MAVLINK_IFLAG_SIGNED;
                     packet[3] = 0; // compat
                     packet[4] = (byte)packetcount;
@@ -745,7 +751,7 @@ Please check the following
                     packet[i] = ck_b;
                     i += 1;
 
-                    if (MAVlist[sysid, compid].signing)
+                    if (MAVlist[sysid, compid].signing || forcesigning)
                     {
                         //https://docs.google.com/document/d/1ETle6qQRcaNWAmpG2wz0oOpFKSF_bcTmYMQvtTGI8ns/edit
 
@@ -847,15 +853,15 @@ Please check the following
 
             generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
 
-            return enableSigning();
+            return enableSigning(sysidcurrent, compidcurrent);
         }
 
-        public bool enableSigning()
+        public bool enableSigning(int sysid, int compid)
         {
-            MAV.signing = true;
-            MAV.mavlinkv2 = true;
+            MAVlist[sysid,compid].signing = true;
+            MAVlist[sysid, compid].mavlinkv2 = true;
 
-            return MAV.signing;
+            return MAVlist[sysid, compid].signing;
         }
 
         /// <summary>
@@ -3009,8 +3015,8 @@ Please check the following
                 {
                     btr = logplaybackfile.BaseStream.Length - logplaybackfile.BaseStream.Position;
                 }
-                Console.Write("bps {0} loss {1} left {2} mem {3}      \n", bps1, MAV.synclost, btr,
-                    System.GC.GetTotalMemory(false)/1024/1024.0);
+                Console.Write("bps {0} loss {1} left {2} mem {3} mav2 {4} sign {5}      \n", bps1, MAV.synclost, btr,
+                    System.GC.GetTotalMemory(false)/1024/1024.0, MAV.mavlinkv2, MAV.signing);
                 bps2 = bps1; // prev sec
                 bps1 = 0; // current sec
                 bpstime = DateTime.Now;
@@ -3025,9 +3031,7 @@ Please check the following
 
             uint msgid = message.msgid;
 
-            message_info msginfo;
-
-            msginfo = MAVLINK_MESSAGE_INFOS.SingleOrDefault(p => p.msgid == msgid);
+            message_info msginfo = MAVLINK_MESSAGE_INFOS.SingleOrDefault(p => p.msgid == msgid);
 
             // calc crc
             var sigsize = (message.sig != null) ? MAVLINK_SIGNATURE_BLOCK_LEN : 0;
@@ -3086,10 +3090,13 @@ Please check the following
                 MAVlist.AddHiddenList(sysid, compid);
             }
 
-            MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
+            // once set it cannot be reverted
+            if (!MAVlist[sysid, compid].mavlinkv2)
+                MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
 
             //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
-            if (message.sig != null && !MAVlist[sysid,compid].signingignore)
+            //logreadmode we always ignore signing as they would not be in the log if they failed the signature
+            if (message.sig != null && !MAVlist[sysid, compid].signingignore && !logreadmode)
             {
                 using (SHA256Managed signit = new SHA256Managed())
                 {
@@ -3112,7 +3119,7 @@ Please check the following
 
                     MAVlist[sysid, compid].linkid = message.sig[0];
 
-                    enableSigning();
+                    enableSigning(sysid, compid);
                 }
             }
 
