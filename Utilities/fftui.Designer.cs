@@ -43,6 +43,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.NUM_startfreq = new System.Windows.Forms.NumericUpDown();
             this.BUT_log2 = new MissionPlanner.Controls.MyButton();
+            this.but_fftimu = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_bins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_startfreq)).BeginInit();
@@ -264,11 +265,23 @@
             this.BUT_log2.UseVisualStyleBackColor = true;
             this.BUT_log2.Click += new System.EventHandler(this.BUT_log2_Click);
             // 
+            // but_fftimu
+            // 
+            this.but_fftimu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.but_fftimu.Location = new System.Drawing.Point(479, 508);
+            this.but_fftimu.Name = "but_fftimu";
+            this.but_fftimu.Size = new System.Drawing.Size(75, 23);
+            this.but_fftimu.TabIndex = 9;
+            this.but_fftimu.Text = "Run all imus - imu";
+            this.but_fftimu.UseVisualStyleBackColor = true;
+            this.but_fftimu.Click += new System.EventHandler(this.but_fftimu_Click);
+            // 
             // fftui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(809, 542);
+            this.Controls.Add(this.but_fftimu);
             this.Controls.Add(this.BUT_log2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NUM_startfreq);
@@ -303,5 +316,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown NUM_startfreq;
         private Controls.MyButton BUT_log2;
+        private Controls.MyButton but_fftimu;
     }
 }
