@@ -52,6 +52,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txt_MaxPacketInterval = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.chk_signing = new System.Windows.Forms.CheckBox();
+            this.chk_mavlink2 = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -194,9 +196,25 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
+            // chk_signing
+            // 
+            resources.ApplyResources(this.chk_signing, "chk_signing");
+            this.chk_signing.Name = "chk_signing";
+            this.chk_signing.UseVisualStyleBackColor = true;
+            this.chk_signing.CheckedChanged += new System.EventHandler(this.chk_signing_CheckedChanged);
+            // 
+            // chk_mavlink2
+            // 
+            resources.ApplyResources(this.chk_mavlink2, "chk_mavlink2");
+            this.chk_mavlink2.Name = "chk_mavlink2";
+            this.chk_mavlink2.UseVisualStyleBackColor = true;
+            this.chk_mavlink2.CheckedChanged += new System.EventHandler(this.chk_mavlink2_CheckedChanged);
+            // 
             // ConnectionStats
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.chk_mavlink2);
+            this.Controls.Add(this.chk_signing);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
             this.Name = "ConnectionStats";
@@ -206,6 +224,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -231,5 +250,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txt_MaxPacketInterval;
+        private System.Windows.Forms.CheckBox chk_signing;
+        private System.Windows.Forms.CheckBox chk_mavlink2;
     }
 }

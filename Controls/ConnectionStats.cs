@@ -20,6 +20,10 @@ namespace MissionPlanner.Controls
         {
             _mavlink = comPort;
 
+            chk_mavlink2.Checked = _mavlink.MAV.mavlinkv2;
+
+            chk_signing.Checked = _mavlink.MAV.signing;
+
             this.Load += ConnectionStats_Load;
             this.Disposed += (sender, e) => StopUpdates();
         }
@@ -156,6 +160,16 @@ namespace MissionPlanner.Controls
             if (i > 1024)
                 return string.Format("{0:0.00}K", i/(float) 1024);
             return string.Format("{0:####}", i);
+        }
+
+        private void chk_mavlink2_CheckedChanged(object sender, EventArgs e)
+        {
+            _mavlink.MAV.mavlinkv2 = chk_mavlink2.Checked;
+        }
+
+        private void chk_signing_CheckedChanged(object sender, EventArgs e)
+        {
+            _mavlink.MAV.signing = chk_signing.Checked;
         }
     }
 
