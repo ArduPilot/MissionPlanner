@@ -235,9 +235,12 @@ namespace MissionPlanner
         public BufferedStream logfile { get; set; }
         public BufferedStream rawlogfile { get; set; }
 
-        int bps1 = 0;
-        int bps2 = 0;
-        public DateTime bpstime { get; set; }
+        int _mavlink1count = 0;
+        int _mavlink2count = 0;
+        int _mavlink2signed = 0;
+        int _bps1 = 0;
+        int _bps2 = 0;
+        DateTime _bpstime { get; set; }
 
 
         public MAVLinkInterface()
@@ -259,10 +262,12 @@ namespace MissionPlanner
             this.logplaybackfile = null;
             this.logfile = null;
             this.rawlogfile = null;
-            this.bps1 = 0;
-            this.bps2 = 0;
-            this.bpstime = DateTime.MinValue;
-
+            this._bps1 = 0;
+            this._bps2 = 0;
+            this._bpstime = DateTime.MinValue;
+            _mavlink1count = 0;
+            _mavlink2count = 0;
+            _mavlink2signed = 0;
 
             this.lastbad = new byte[2];
         }
@@ -3004,7 +3009,7 @@ Please check the following
             _bytesReceivedSubj.OnNext(buffer.Length);
 
             // update bps statistics
-            if (bpstime.Second != DateTime.Now.Second)
+            if (_bpstime.Second != DateTime.Now.Second)
             {
                 long btr = 0;
                 if (BaseStream != null && BaseStream.IsOpen)
@@ -3015,14 +3020,17 @@ Please check the following
                 {
                     btr = logplaybackfile.BaseStream.Length - logplaybackfile.BaseStream.Position;
                 }
-                Console.Write("bps {0} loss {1} left {2} mem {3} mav2 {4} sign {5}      \n", bps1, MAV.synclost, btr,
-                    System.GC.GetTotalMemory(false)/1024/1024.0, MAV.mavlinkv2, MAV.signing);
-                bps2 = bps1; // prev sec
-                bps1 = 0; // current sec
-                bpstime = DateTime.Now;
+                Console.Write("bps {0} loss {1} left {2} mem {3} mav2 {4} sign {5} mav1 {6} mav2 {7} signed {8}      \n", _bps1, MAV.synclost, btr,
+                    System.GC.GetTotalMemory(false)/1024/1024.0, MAV.mavlinkv2, MAV.signing, _mavlink1count, _mavlink2count, _mavlink2signed);
+                _bps2 = _bps1; // prev sec
+                _bps1 = 0; // current sec
+                _bpstime = DateTime.Now;
+                _mavlink1count = 0;
+                _mavlink2count = 0;
+                _mavlink2signed = 0;
             }
 
-            bps1 += buffer.Length;
+            _bps1 += buffer.Length;
 
             if (buffer.Length == 0)
                 return new MAVLinkMessage();
@@ -3094,10 +3102,18 @@ Please check the following
             if (!MAVlist[sysid, compid].mavlinkv2)
                 MAVlist[sysid, compid].mavlinkv2 = message.buffer[0] == MAVLINK_STX ? true : false;
 
+            // stat count
+            if (message.buffer[0] == MAVLINK_STX)
+                _mavlink2count++;
+            else if (message.buffer[0] == MAVLINK_STX_MAVLINK1)
+                _mavlink1count++;
+
             //check if sig was included in packet, and we are not ignoring the signature (signing isnt checked else we wont enable signing)
             //logreadmode we always ignore signing as they would not be in the log if they failed the signature
             if (message.sig != null && !MAVlist[sysid, compid].signingignore && !logreadmode)
             {
+                _mavlink2signed++;
+
                 using (SHA256Managed signit = new SHA256Managed())
                 {
                     signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
