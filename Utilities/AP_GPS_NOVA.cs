@@ -22,6 +22,13 @@ namespace MissionPlanner.Utilities
         const uint8_t NOVA_PREAMBLE2 = (byte) 0x44;
         const uint8_t NOVA_PREAMBLE3 = (byte) 0x12; // oem4 = 0x12 (oem 3 = 0x11)
 
+           // do we have new position information?
+    bool            _new_position;
+    // do we have new speed information?
+    bool            _new_speed;
+    
+    uint32_t        _last_vel_time;
+
         public enum readstate
         {
             PREAMBLE1 = 0,
@@ -99,7 +106,7 @@ namespace MissionPlanner.Utilities
             crc_error_counter = 0;
             nova_msg.nova_state = readstate.PREAMBLE1;
 
-            var sport = new SerialPort("com13", 115200);
+            var sport = new SerialPort("com14", 115200);
 
             sport.Open();
 
@@ -301,13 +308,7 @@ log com_30 headingb onchanged
                     state.status = AP_GPS.NO_FIX;
                 }
 
-                Type t = state.GetType(); //where obj is object whose properties you need.
-                FieldInfo[] pi = t.GetFields();
-                foreach (var p in pi)
-                {
-                    System.Console.WriteLine(p.Name + "    " + p.GetValue(state).ToString());
-                }
-                return true;
+                _new_position = true;
             }
 
             if (messageid == 99) // bestvel
@@ -319,7 +320,9 @@ log com_30 headingb onchanged
                 fill_3d_velocity();
                 state.velocity.Z = -(float) bestvel.vertspd;
                 state.have_vertical_velocity = true;
-                return true;
+
+                _last_vel_time = (uint32_t)nova_msg.header.tow;
+                _new_speed = true;
             }
 
             if (messageid == 174) // psrdop
@@ -328,6 +331,21 @@ log com_30 headingb onchanged
 
                 state.hdop = (ushort) (psrdop.hdop*100);
                 state.vdop = (ushort) (psrdop.htdop*100);
+                return false;
+            }
+
+            // ensure out position and velocity stay insync
+            if (_new_position && _new_speed && _last_vel_time == state.last_gps_time_ms)
+            {
+                _new_speed = _new_position = false;
+
+                Type t = state.GetType(); //where obj is object whose properties you need.
+                FieldInfo[] pi = t.GetFields();
+                foreach (var p in pi)
+                {
+                    System.Console.WriteLine(p.Name + "    " + p.GetValue(state).ToString());
+                }
+
                 return true;
             }
 
