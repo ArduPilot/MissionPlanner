@@ -32,27 +32,36 @@ public static class MavlinkUtil
         return (TMavlinkPacket) newPacket;
     }
 
-    public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
+    public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset,int payloadlength = 0)
     {
         int len = Marshal.SizeOf(obj);
 
-        IntPtr i = Marshal.AllocHGlobal(len);
+        IntPtr iptr = Marshal.AllocHGlobal(len);
 
-        Array.Resize(ref bytearray, len);
-        
+        //clear memory
+        for (int i = 0; i < len; i += 8)
+        {
+            Marshal.WriteInt64(iptr,i, 0x00);
+        }
+
+        for (int i = len % 8; i < -1; i--)
+        {
+            Marshal.WriteByte(iptr, len - i, 0x00);
+        }
+
         try
         {
             // copy byte array to ptr
-            Marshal.Copy(bytearray, startoffset, i, len);
+            Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
         }
         catch (Exception ex)
         {
             Console.WriteLine("ByteArrayToStructure FAIL " + ex.Message);
         }
 
-        obj = Marshal.PtrToStructure(i, obj.GetType());
+        obj = Marshal.PtrToStructure(iptr, obj.GetType());
 
-        Marshal.FreeHGlobal(i);
+        Marshal.FreeHGlobal(iptr);
     }
 
     public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
@@ -85,7 +94,8 @@ public static class MavlinkUtil
         {
             length--;
         }
-        Array.Resize(ref payload, length);
+        if (length != payload.Length)
+            Array.Resize(ref payload, length);
         return length;
     }
 

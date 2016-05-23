@@ -32,11 +32,11 @@ public partial class MAVLink
                 // fill in the data of the object
                 if (buffer[0] == MAVLINK_STX)
                 {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 10);
+                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
                 }
                 else
                 {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6);
+                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
                 }
 
                 return _data;
