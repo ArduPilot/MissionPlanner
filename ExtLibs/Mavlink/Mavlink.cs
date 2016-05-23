@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Apr 22 2016";
+    public const string MAVLINK_BUILD_DATE = "Mon May 23 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -30,6 +30,8 @@ public partial class MAVLink
     public const bool MAVLINK_ALIGNED_FIELDS = (1 == 1);
 
     public const byte MAVLINK_CRC_EXTRA = 1;
+    
+    public const byte MAVLINK_COMMAND_24BIT = 1;
         
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
@@ -146,13 +148,14 @@ public partial class MAVLink
 		new message_info(141, "ALTITUDE", 47, 32, typeof( mavlink_altitude_t )),
 		new message_info(142, "RESOURCE_REQUEST", 72, 243, typeof( mavlink_resource_request_t )),
 		new message_info(143, "SCALED_PRESSURE3", 131, 14, typeof( mavlink_scaled_pressure3_t )),
+		new message_info(144, "FOLLOW_TARGET", 127, 93, typeof( mavlink_follow_target_t )),
 		new message_info(146, "CONTROL_SYSTEM_STATE", 103, 100, typeof( mavlink_control_system_state_t )),
 		new message_info(147, "BATTERY_STATUS", 154, 36, typeof( mavlink_battery_status_t )),
 		new message_info(148, "AUTOPILOT_VERSION", 178, 60, typeof( mavlink_autopilot_version_t )),
 		new message_info(149, "LANDING_TARGET", 200, 30, typeof( mavlink_landing_target_t )),
 		new message_info(150, "SENSOR_OFFSETS", 134, 42, typeof( mavlink_sensor_offsets_t )),
 		new message_info(151, "SET_MAG_OFFSETS", 219, 8, typeof( mavlink_set_mag_offsets_t )),
-		new message_info(152, "MEMINFO", 208, 4, typeof( mavlink_meminfo_t )),
+		new message_info(152, "MEMINFO", 208, 8, typeof( mavlink_meminfo_t )),
 		new message_info(153, "AP_ADC", 188, 12, typeof( mavlink_ap_adc_t )),
 		new message_info(154, "DIGICAM_CONFIGURE", 84, 15, typeof( mavlink_digicam_configure_t )),
 		new message_info(155, "DIGICAM_CONTROL", 22, 13, typeof( mavlink_digicam_control_t )),
@@ -199,6 +202,9 @@ public partial class MAVLink
 		new message_info(218, "GOPRO_SET_REQUEST", 17, 7, typeof( mavlink_gopro_set_request_t )),
 		new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, typeof( mavlink_gopro_set_response_t )),
 		new message_info(226, "RPM", 207, 8, typeof( mavlink_rpm_t )),
+		new message_info(230, "ESTIMATOR_STATUS", 163, 42, typeof( mavlink_estimator_status_t )),
+		new message_info(231, "WIND_COV", 105, 40, typeof( mavlink_wind_cov_t )),
+		new message_info(233, "GPS_RTCM_DATA", 35, 182, typeof( mavlink_gps_rtcm_data_t )),
 		new message_info(241, "VIBRATION", 90, 32, typeof( mavlink_vibration_t )),
 		new message_info(242, "HOME_POSITION", 104, 52, typeof( mavlink_home_position_t )),
 		new message_info(243, "SET_HOME_POSITION", 85, 53, typeof( mavlink_set_home_position_t )),
@@ -417,6 +423,7 @@ ACTUATOR_CONTROL_TARGET = 140,
 ALTITUDE = 141,
 RESOURCE_REQUEST = 142,
 SCALED_PRESSURE3 = 143,
+FOLLOW_TARGET = 144,
 CONTROL_SYSTEM_STATE = 146,
 BATTERY_STATUS = 147,
 AUTOPILOT_VERSION = 148,
@@ -470,6 +477,9 @@ GOPRO_GET_RESPONSE = 217,
 GOPRO_SET_REQUEST = 218,
 GOPRO_SET_RESPONSE = 219,
 RPM = 226,
+ESTIMATOR_STATUS = 230,
+WIND_COV = 231,
+GPS_RTCM_DATA = 233,
 VIBRATION = 241,
 HOME_POSITION = 242,
 SET_HOME_POSITION = 243,
@@ -487,7 +497,6 @@ SETUP_SIGNING = 256,
 
     }      
     
-    
     ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. </summary>
     public enum MAV_CMD
     {
@@ -495,9 +504,9 @@ SETUP_SIGNING = 256,
         WAYPOINT=16, 
     	///<summary> Loiter around this MISSION an unlimited amount of time |Empty| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
         LOITER_UNLIM=17, 
-    	///<summary> Loiter around this MISSION for X turns |Turns| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Loiter around this MISSION for X turns |Turns| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
         LOITER_TURNS=18, 
-    	///<summary> Loiter around this MISSION for X seconds |Seconds (decimal)| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Desired yaw angle.| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Loiter around this MISSION for X seconds |Seconds (decimal)| Empty| Radius around MISSION, in meters. If positive loiter clockwise, else counter-clockwise| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location. Else, this is desired yaw angle| Latitude| Longitude| Altitude|  </summary>
         LOITER_TIME=19, 
     	///<summary> Return to launch location |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         RETURN_TO_LAUNCH=20, 
@@ -513,8 +522,12 @@ SETUP_SIGNING = 256,
         FOLLOW=25, 
     	///<summary> Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached. |Climb or Descend (0 = Neutral, command completes when within 5m of this command's altitude, 1 = Climbing, command completes when at or above this command's altitude, 2 = Descending, command completes when at or below this command's altitude. | Empty| Empty| Empty| Empty| Empty| Desired altitude in meters|  </summary>
         CONTINUE_AND_CHANGE_ALT=30, 
-    	///<summary> Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached.  Additionally, if the Heading Required parameter is non-zero the  aircraft will not leave the loiter until heading toward the next waypoint.  |Heading Required (0 = False)| Radius in meters. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
+    	///<summary> Begin loiter at the specified Latitude and Longitude.  If Lat=Lon=0, then loiter at the current position.  Don't consider the navigation command complete (don't leave loiter) until the altitude has been reached.  Additionally, if the Heading Required parameter is non-zero the  aircraft will not leave the loiter until heading toward the next waypoint.  |Heading Required (0 = False)| Radius in meters. If positive loiter clockwise, negative counter-clockwise, 0 means no change to standard loiter.| Empty| Forward moving aircraft this sets exit xtrack location: 0 for center of loiter wp, 1 for exit location| Latitude| Longitude| Altitude|  </summary>
         LOITER_TO_ALT=31, 
+    	///<summary> Being following a target |System ID (the system ID of the FOLLOW_TARGET beacon). Send 0 to disable follow-me and return to the default position hold mode| RESERVED| RESERVED| altitude flag: 0: Keep current altitude, 1: keep altitude difference to target, 2: go to a fixed altitude above home| altitude| RESERVED| TTL in seconds in which the MAV should go to the default position hold mode after a message rx timeout|  </summary>
+        DO_FOLLOW=32, 
+    	///<summary> Reposition the MAV after a follow target command has been sent |Camera q1 (where 0 is on the ray from the camera to the tracking device)| Camera q2| Camera q3| Camera q4| altitude offset from target (m)| X offset from target (m)| Y offset from target (m)|  </summary>
+        DO_FOLLOW_REPOSITION=33, 
     	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| MISSION index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
         ROI=80, 
     	///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal, in compass degrees, [0..360]| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
@@ -529,6 +542,8 @@ SETUP_SIGNING = 256,
         VTOL_LAND=85, 
     	///<summary> hand control over to an external controller |On / Off (> 0.5f on)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         GUIDED_ENABLE=92, 
+    	///<summary> Delay the next navigation command a number of seconds or until a specified time |Delay in seconds (decimal, -1 to enable time-of-day fields)| hour (24h format, UTC, -1 to ignore)| minute (24h format, UTC, -1 to ignore)| second (24h format, UTC)| Empty| Empty| Empty|  </summary>
+        DELAY=93, 
     	///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         LAST=95, 
     	///<summary> Delay mission state machine. |Delay in seconds (decimal)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -545,7 +560,7 @@ SETUP_SIGNING = 256,
         DO_SET_MODE=176, 
     	///<summary> Jump to the desired command in the mission list.  Repeat this action only the specified number of times |Sequence number| Repeat count| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_JUMP=177, 
-    	///<summary> Change speed and/or throttle set points. |Speed type (0=Airspeed, 1=Ground Speed)| Speed  (m/s, -1 indicates no change)| Throttle  ( Percent, -1 indicates no change)| Empty| Empty| Empty| Empty|  </summary>
+    	///<summary> Change speed and/or throttle set points. |Speed type (0=Airspeed, 1=Ground Speed)| Speed  (m/s, -1 indicates no change)| Throttle  ( Percent, -1 indicates no change)| absolute or relative [0,1]| Empty| Empty| Empty|  </summary>
         DO_CHANGE_SPEED=178, 
     	///<summary> Changes the home location either to the current location or a specified location. |Use current (1=use current location, 0=use specified location)| Empty| Empty| Empty| Latitude| Longitude| Altitude|  </summary>
         DO_SET_HOME=179, 
@@ -567,6 +582,10 @@ SETUP_SIGNING = 256,
         DO_RALLY_LAND=190, 
     	///<summary> Mission command to safely abort an autonmous landing. |Altitude (meters)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_GO_AROUND=191, 
+    	///<summary> Reposition the vehicle to a specific WGS84 global position. |Ground speed, less than 0 (-1) for default| Bitmask of option flags, see the MAV_DO_REPOSITION_FLAGS enum.| Reserved| Yaw heading, NaN for unchanged. For planes indicates loiter direction (0: clockwise, 1: counter clockwise)| Latitude (deg * 1E7)| Longitude (deg * 1E7)| Altitude (meters)|  </summary>
+        DO_REPOSITION=192, 
+    	///<summary> If in a GPS controlled position mode, hold the current position or continue. |0: Pause current mission or reposition command, hold current position. 1: Continue mission. A VTOL capable vehicle should enter hover mode (multicopter and VTOL planes). A plane should loiter with the default loiter radius.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
+        DO_PAUSE_CONTINUE=193, 
     	///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds (decimal)| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
         DO_CONTROL_VIDEO=200, 
     	///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| MISSION index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
@@ -645,6 +664,36 @@ SETUP_SIGNING = 256,
         PAYLOAD_PREPARE_DEPLOY=30001, 
     	///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deploment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         PAYLOAD_CONTROL_DEPLOY=30002, 
+    	///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        WAYPOINT_USER_1=31000, 
+    	///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        WAYPOINT_USER_2=31001, 
+    	///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        WAYPOINT_USER_3=31002, 
+    	///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        WAYPOINT_USER_4=31003, 
+    	///<summary> User defined waypoint item. Ground Station will show the Vehicle as flying through this item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        WAYPOINT_USER_5=31004, 
+    	///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        SPATIAL_USER_1=31005, 
+    	///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        SPATIAL_USER_2=31006, 
+    	///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        SPATIAL_USER_3=31007, 
+    	///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        SPATIAL_USER_4=31008, 
+    	///<summary> User defined spatial item. Ground Station will not show the Vehicle as flying through this item. Example: ROI item. |User defined| User defined| User defined| User defined| Latitude unscaled| Longitude unscaled| Altitude, in meters AMSL|  </summary>
+        SPATIAL_USER_5=31009, 
+    	///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        USER_1=31010, 
+    	///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        USER_2=31011, 
+    	///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        USER_3=31012, 
+    	///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        USER_4=31013, 
+    	///<summary> User defined command. Ground Station will not show the Vehicle as flying through this item. Example: MAV_CMD_DO_SET_PARAMETER item. |User defined| User defined| User defined| User defined| User defined| User defined| User defined|  </summary>
+        USER_5=31014, 
     	///<summary> A system wide power-off event has been initiated. |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         POWER_OFF_INITIATED=42000, 
     	///<summary> FLY button has been clicked. |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1642,6 +1691,10 @@ SETUP_SIGNING = 256,
         MAV_COMP_ID_LOG=155, 
     	///<summary>  | </summary>
         MAV_COMP_ID_ADSB=156, 
+    	///<summary> On Screen Display (OSD) devices for video links | </summary>
+        MAV_COMP_ID_OSD=157, 
+    	///<summary> Generic autopilot peripheral component ID. Meant for devices that do not implement the parameter sub-protocol | </summary>
+        MAV_COMP_ID_PERIPHERAL=158, 
     	///<summary>  | </summary>
         MAV_COMP_ID_MAPPER=180, 
     	///<summary>  | </summary>
@@ -2361,6 +2414,46 @@ SETUP_SIGNING = 256,
     
     };
     
+    ///<summary> Bitmask of options for the MAV_CMD_DO_REPOSITION </summary>
+    public enum MAV_DO_REPOSITION_FLAGS
+    {
+			///<summary> The aircraft should immediately transition into guided. This should not be set for follow me applications | </summary>
+        CHANGE_MODE=1, 
+    	///<summary>  | </summary>
+        ENUM_END=2, 
+    
+    };
+    
+    ///<summary> Flags in EKF_STATUS message </summary>
+    public enum ESTIMATOR_STATUS_FLAGS
+    {
+			///<summary> True if the attitude estimate is good | </summary>
+        ESTIMATOR_ATTITUDE=1, 
+    	///<summary> True if the horizontal velocity estimate is good | </summary>
+        ESTIMATOR_VELOCITY_HORIZ=2, 
+    	///<summary> True if the  vertical velocity estimate is good | </summary>
+        ESTIMATOR_VELOCITY_VERT=4, 
+    	///<summary> True if the horizontal position (relative) estimate is good | </summary>
+        ESTIMATOR_POS_HORIZ_REL=8, 
+    	///<summary> True if the horizontal position (absolute) estimate is good | </summary>
+        ESTIMATOR_POS_HORIZ_ABS=16, 
+    	///<summary> True if the vertical position (absolute) estimate is good | </summary>
+        ESTIMATOR_POS_VERT_ABS=32, 
+    	///<summary> True if the vertical position (above ground) estimate is good | </summary>
+        ESTIMATOR_POS_VERT_AGL=64, 
+    	///<summary> True if the EKF is in a constant position mode and is not using external measurements (eg GPS or optical flow) | </summary>
+        ESTIMATOR_CONST_POS_MODE=128, 
+    	///<summary> True if the EKF has sufficient data to enter a mode that will provide a (relative) position estimate | </summary>
+        ESTIMATOR_PRED_POS_HORIZ_REL=256, 
+    	///<summary> True if the EKF has sufficient data to enter a mode that will provide a (absolute) position estimate | </summary>
+        ESTIMATOR_PRED_POS_HORIZ_ABS=512, 
+    	///<summary> True if the EKF has detected a GPS glitch | </summary>
+        ESTIMATOR_GPS_GLITCH=1024, 
+    	///<summary>  | </summary>
+        ENUM_END=1025, 
+    
+    };
+    
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
     public struct mavlink_sensor_offsets_t
@@ -2410,13 +2503,15 @@ SETUP_SIGNING = 256,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
     public struct mavlink_meminfo_t
     {
         /// <summary> heap top </summary>
         public  UInt16 brkval;
             /// <summary> free memory </summary>
         public  UInt16 freemem;
+            /// <summary> free memory (32 bit) </summary>
+        public  UInt32 freemem32;
     
     };
 
@@ -4972,7 +5067,7 @@ SETUP_SIGNING = 256,
         public  Single pressure_alt;
             /// <summary> Temperature in degrees celsius </summary>
         public  Single temperature;
-            /// <summary> Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12: temperature </summary>
+            /// <summary> Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12: temperature, bit 31: full reset of attitude/position/velocities/etc was performed in sim. </summary>
         public  UInt32 fields_updated;
     
     };
@@ -5718,6 +5813,40 @@ SETUP_SIGNING = 256,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=93)]
+    public struct mavlink_follow_target_t
+    {
+        /// <summary> Timestamp in milliseconds since system boot </summary>
+        public  UInt64 timestamp;
+            /// <summary> button states or switches of a tracker device </summary>
+        public  UInt64 custom_state;
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lat;
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lon;
+            /// <summary> AMSL, in meters </summary>
+        public  Single alt;
+            /// <summary> target velocity (0,0,0) for unknown </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public float vel;
+            /// <summary> linear target acceleration (0,0,0) for unknown </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public float acc;
+            /// <summary> (1 0 0 0 for unknown) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float attitude_q;
+            /// <summary> (0 0 0 for unknown) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public float rates;
+            /// <summary> eph epv </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
+		public float position_cov;
+            /// <summary> bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3) </summary>
+        public  byte est_capabilities;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=100)]
     public struct mavlink_control_system_state_t
     {
@@ -5839,6 +5968,72 @@ SETUP_SIGNING = 256,
         public  byte target_num;
             /// <summary> MAV_FRAME enum specifying the whether the following feilds are earth-frame, body-frame, etc. </summary>
         public  byte frame;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
+    public struct mavlink_estimator_status_t
+    {
+        /// <summary> Timestamp (micros since boot or Unix epoch) </summary>
+        public  UInt64 time_usec;
+            /// <summary> Velocity innovation test ratio </summary>
+        public  Single vel_ratio;
+            /// <summary> Horizontal position innovation test ratio </summary>
+        public  Single pos_horiz_ratio;
+            /// <summary> Vertical position innovation test ratio </summary>
+        public  Single pos_vert_ratio;
+            /// <summary> Magnetometer innovation test ratio </summary>
+        public  Single mag_ratio;
+            /// <summary> Height above terrain innovation test ratio </summary>
+        public  Single hagl_ratio;
+            /// <summary> True airspeed innovation test ratio </summary>
+        public  Single tas_ratio;
+            /// <summary> Horizontal position 1-STD accuracy relative to the EKF local origin (m) </summary>
+        public  Single pos_horiz_accuracy;
+            /// <summary> Vertical position 1-STD accuracy relative to the EKF local origin (m) </summary>
+        public  Single pos_vert_accuracy;
+            /// <summary> Integer bitmask indicating which EKF outputs are valid. See definition for ESTIMATOR_STATUS_FLAGS. </summary>
+        public  UInt16 flags;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
+    public struct mavlink_wind_cov_t
+    {
+        /// <summary> Timestamp (micros since boot or Unix epoch) </summary>
+        public  UInt64 time_usec;
+            /// <summary> Wind in X (NED) direction in m/s </summary>
+        public  Single wind_x;
+            /// <summary> Wind in Y (NED) direction in m/s </summary>
+        public  Single wind_y;
+            /// <summary> Wind in Z (NED) direction in m/s </summary>
+        public  Single wind_z;
+            /// <summary> Variability of the wind in XY. RMS of a 1 Hz lowpassed wind estimate. </summary>
+        public  Single var_horiz;
+            /// <summary> Variability of the wind in Z. RMS of a 1 Hz lowpassed wind estimate. </summary>
+        public  Single var_vert;
+            /// <summary> AMSL altitude (m) this measurement was taken at </summary>
+        public  Single wind_alt;
+            /// <summary> Horizontal speed 1-STD accuracy </summary>
+        public  Single horiz_accuracy;
+            /// <summary> Vertical speed 1-STD accuracy </summary>
+        public  Single vert_accuracy;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=182)]
+    public struct mavlink_gps_rtcm_data_t
+    {
+        /// <summary> LSB: 1 means message is fragmented </summary>
+        public  byte flags;
+            /// <summary> data length </summary>
+        public  byte len;
+            /// <summary> RTCM message (may be fragmented) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=180)]
+		public byte[] data;
     
     };
 

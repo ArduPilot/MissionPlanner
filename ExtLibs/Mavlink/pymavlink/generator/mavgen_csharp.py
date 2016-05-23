@@ -112,6 +112,8 @@ public partial class MAVLink
     public const bool MAVLINK_ALIGNED_FIELDS = (${aligned_fields_define} == 1);
 
     public const byte MAVLINK_CRC_EXTRA = ${crc_extra_define};
+    
+    public const byte MAVLINK_COMMAND_24BIT = ${command_24bit_define};
         
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
@@ -211,8 +213,8 @@ ${message_infos_array}
     public enum MAVLINK_MSG_ID 
     {
         ${message_names_enum}
-    }      
-    
+    }  
+	    
 ''', xml)
 
 def generate_message_enums(f, xml):
