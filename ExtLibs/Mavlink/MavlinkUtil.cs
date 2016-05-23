@@ -87,7 +87,7 @@ public static class MavlinkUtil
         return (TMavlinkPacket) obj;
     }
 
-    public static int trim_payload(this byte[] payload)
+    public static byte[] trim_payload(ref byte[] payload)
     {
         var length = payload.Length;
         while (length > 0 && payload[length - 1] == 0)
@@ -96,7 +96,7 @@ public static class MavlinkUtil
         }
         if (length != payload.Length)
             Array.Resize(ref payload, length);
-        return length;
+        return payload;
     }
 
     public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct
