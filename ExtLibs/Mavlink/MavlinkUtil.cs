@@ -38,6 +38,8 @@ public static class MavlinkUtil
 
         IntPtr i = Marshal.AllocHGlobal(len);
 
+        Array.Resize(ref bytearray, len);
+        
         try
         {
             // copy byte array to ptr
@@ -74,6 +76,17 @@ public static class MavlinkUtil
         Marshal.FreeHGlobal(i);
 
         return (TMavlinkPacket) obj;
+    }
+
+    public static int trim_payload(this byte[] payload)
+    {
+        var length = payload.Length;
+        while (length > 0 && payload[length - 1] == 0)
+        {
+            length--;
+        }
+        Array.Resize(ref payload, length);
+        return length;
     }
 
     public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct

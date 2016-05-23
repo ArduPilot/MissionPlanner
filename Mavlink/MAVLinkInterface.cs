@@ -719,6 +719,9 @@ Please check the following
                 }
                 else
                 {
+                    // trim packet for mavlink2
+                    data.trim_payload();
+
                     packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
 
                     packet[0] = MAVLINK_STX ;
