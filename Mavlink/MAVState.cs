@@ -17,7 +17,7 @@ namespace MissionPlanner
             this.lastvalidpacket = DateTime.MinValue;
             this.sysid = 0;
             this.compid = 0;
-            linkid = 0;
+            sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
             this.packets = new Dictionary<uint, MAVLinkMessage>();
@@ -72,6 +72,10 @@ namespace MissionPlanner
         public byte compid { get; set; }
 
         public byte linkid { get; set; }
+
+        public byte sendlinkid { get; internal set; }
+
+        public UInt64 timestamp { get; set; }
 
         /// <summary>
         /// are we signing outgoing packets, and checking incomming packet signatures

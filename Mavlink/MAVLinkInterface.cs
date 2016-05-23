@@ -684,6 +684,12 @@ Please check the following
                 // are we mavlink2 enabled for this sysid/compid
                 if (!MAVlist[sysid, compid].mavlinkv2 && messageType < 256 && !forcemavlink2)
                 {
+                    var info = MAVLINK_MESSAGE_INFOS.SingleOrDefault(p => p.msgid == messageType);
+                    if (data.Length != info.minlength)
+                    {
+                        Array.Resize(ref data, (int)info.minlength);
+                    }
+
                     //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                     packet = new byte[data.Length + 6 + 2];
 
@@ -720,7 +726,7 @@ Please check the following
                 else
                 {
                     // trim packet for mavlink2
-                    data.trim_payload();
+                    MavlinkUtil.trim_payload(ref data);
 
                     packet = new byte[data.Length + MAVLINK_NUM_HEADER_BYTES + MAVLINK_NUM_CHECKSUM_BYTES + MAVLINK_SIGNATURE_BLOCK_LEN];
 
@@ -771,14 +777,20 @@ Please check the following
 
                         // signature = sha256_48(secret_key + header + payload + CRC + link-ID + timestamp)
 
-                        var timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
+                        var timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*100);
+
+                        if (timestamp == MAVlist[sysid, compid].timestamp)
+                            timestamp++;
+
+                        MAVlist[sysid, compid].timestamp = timestamp;
+
                         var timebytes = BitConverter.GetBytes(timestamp);
 
                         var sig = new byte[7]; // 13 includes the outgoing hash
-                        sig[0] = 0;
+                        sig[0] = MAVlist[sysid, compid].sendlinkid;
                         Array.Copy(timebytes, 0, sig, 1, 6); // timestamp
 
-                        //Console.WriteLine("gen linkid {0}, time {1} {2} {3} {4} {5} {6}", sig[0], sig[1], sig[2], sig[3], sig[4], sig[5], sig[6]);
+                        //Console.WriteLine("gen linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", sig[0], sig[1], sig[2], sig[3], sig[4], sig[5], sig[6], timestamp);
 
                         using (SHA256Managed signit = new SHA256Managed())
                         {
@@ -851,16 +863,16 @@ Please check the following
             var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
             Array.Resize(ref shauser, 32);
 
-            signingKey = shauser;
-
             mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
             if (!clearkey)
             {
-                sign.initial_timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
+                signingKey = shauser;
+                sign.initial_timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*100);
                 sign.secret_key = shauser;
             }
             else
             {
+                signingKey = new byte[32];
                 sign.initial_timestamp = 0;
                 sign.secret_key = new byte[32];
             }
@@ -871,6 +883,11 @@ Please check the following
 
             generatePacket((int) MAVLINK_MSG_ID.SETUP_SIGNING, sign, MAV.sysid, MAV.compid);
 
+            if (clearkey)
+            {
+                return disableSigning(sysidcurrent, compidcurrent);
+            }
+
             return enableSigning(sysidcurrent, compidcurrent);
         }
 
@@ -878,6 +895,14 @@ Please check the following
         {
             MAVlist[sysid,compid].signing = true;
             MAVlist[sysid, compid].mavlinkv2 = true;
+
+            return MAVlist[sysid, compid].signing;
+        }
+
+        public bool disableSigning(int sysid, int compid)
+        {
+            MAVlist[sysid, compid].signing = false;
+            MAVlist[sysid, compid].mavlinkv2 = false;
 
             return MAVlist[sysid, compid].signing;
         }
@@ -3122,7 +3147,7 @@ Please check the following
                     // trim to 48
                     Array.Resize(ref ctx, 6);
 
-                    //Console.WriteLine("linkid {0}, time {1} {2} {3} {4} {5} {6} - {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
+                    //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
 
                     for (int i = 0; i < ctx.Length; i++)
                     {
@@ -3134,6 +3159,19 @@ Please check the following
                     }
 
                     MAVlist[sysid, compid].linkid = message.sig[0];
+
+                    // 1 minute in 10ns blocks
+                    uint offset = 60*100*1000;
+                    if (MAVlist[sysid, compid].timestamp < (message.sigTimestamp + offset) &&
+                        MAVlist[sysid, compid].timestamp > (message.sigTimestamp - offset))
+                    {
+                        // valid timestamp
+                        //MAVlist[sysid, compid].timestamp = message.sigTimestamp;
+                    }
+                    else
+                    {
+                        //invalid timestamp
+                    }
 
                     enableSigning(sysid, compid);
                 }
