@@ -841,6 +841,8 @@ Please check the following
 
         public bool setupSigning(string userseed)
         {
+            bool clearkey = String.IsNullOrEmpty(userseed);
+            
             // sha the user input string
             SHA256Managed signit = new SHA256Managed();
             var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
@@ -849,8 +851,16 @@ Please check the following
             signingKey = shauser;
 
             mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
-            sign.initial_timestamp = (UInt64)((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
-            sign.secret_key = shauser;
+            if (!clearkey)
+            {
+                sign.initial_timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*1000);
+                sign.secret_key = shauser;
+            }
+            else
+            {
+                sign.initial_timestamp = 0;
+                sign.secret_key = new byte[32];
+            }
             sign.target_component = (byte)compidcurrent;
             sign.target_system = (byte)sysidcurrent;
 
@@ -3051,27 +3061,14 @@ Please check the following
                 crc = MavlinkCRC.crc_accumulate(msginfo.crc, crc);
             }
 
-            // check message length vs table
-            if (message.payloadlength != msginfo.length)
+            if (buffer.Length == 11 && message.header == 'U' && message.msgid == 0) // check for 0.9 hb packet
             {
-                if (msginfo.length == 0) // pass for unknown packets
-                {
-                    log.InfoFormat("unknown packet type {0}", message.msgid);
-                }
-                else
-                {
-                    log.InfoFormat("Mavlink Bad Packet (Len Fail) len {0} pkno {1}", buffer.Length, message.msgid);
-                    if (buffer.Length == 11 && message.header == 'U' && message.msgid == 0) // check for 0.9 hb packet
-                    {
-                        string messagehb =
-                            "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
-                        Console.WriteLine(messagehb);
-                        if (logreadmode)
-                            logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
-                        throw new Exception(messagehb);
-                    }
-                    return new MAVLinkMessage();
-                }
+                string messagehb =
+                    "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
+                Console.WriteLine(messagehb);
+                if (logreadmode)
+                    logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
+                throw new Exception(messagehb);
             }
 
             // check crc
