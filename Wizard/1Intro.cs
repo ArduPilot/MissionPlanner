@@ -15,6 +15,9 @@ namespace MissionPlanner.Wizard
         public _1Intro()
         {
             InitializeComponent();
+
+            if (Program.Logo != null)
+                radialGradientBG1.Image.Image = Program.Logo;
         }
 
         public int WizardValidate()

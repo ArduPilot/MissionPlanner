@@ -801,9 +801,9 @@ namespace MissionPlanner
                 }
             }
 
-            if (Program.Logo != null)
+            if (Program.IconFile != null)
             {
-                this.Icon = Icon.FromHandle(((Bitmap) Program.Logo).GetHicon());
+                this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
             if (Program.Logo != null && Program.vvvvz)

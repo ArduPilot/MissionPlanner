@@ -99,6 +99,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label TXT_version;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        public System.Windows.Forms.PictureBox pictureBox1;
     }
 }
