@@ -432,6 +432,11 @@ S15: MAX_WINDOW=131
                 if (RTI.Text != "")
                 {
                     // remote
+                    if (RENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                    }
+
                     var answer = doCommand(comPort, "RTI5", true);
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
@@ -444,6 +449,8 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
+                                values[1] = values[1].Replace("/", "_");
+
                                 var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
 
                                 if (controls.Length > 0)
@@ -519,6 +526,11 @@ S15: MAX_WINDOW=131
                 comPort.DiscardInBuffer();
                 {
                     //local
+                    if (ENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                    }
+
                     var answer = doCommand(comPort, "ATI5", true);
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
@@ -531,6 +543,8 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
+                                values[1] = values[1].Replace("/", "_");
+
                                 var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
 
                                 if (controls.Length > 0)
@@ -674,8 +688,6 @@ S15: MAX_WINDOW=131
 
                     ATI.Text = doCommand(comPort, "ATI");
 
-                    RTI.Text = doCommand(comPort, "RTI");
-
                     var freq =
                         (Uploader.Frequency)
                             Enum.Parse(typeof (Uploader.Frequency), doCommand(comPort, "ATI3"));
@@ -686,16 +698,7 @@ S15: MAX_WINDOW=131
                     ATI3.Text = freq.ToString();
 
                     ATI2.Text = board.ToString();
-                    try
-                    {
-                        var resp = doCommand(comPort, "RTI2");
-                        if (resp.Trim() != "")
-                            RTI2.Text =
-                                ((Uploader.Board) Enum.Parse(typeof (Uploader.Board), resp)).ToString();
-                    }
-                    catch
-                    {
-                    }
+
                     // 8 and 9
                     if (freq == Uploader.Frequency.FREQ_915)
                     {
@@ -733,7 +736,6 @@ S15: MAX_WINDOW=131
                     }
 
                     txt_aeskey.Text = doCommand(comPort, "AT&E?").Trim();
-                    txt_Raeskey.Text = doCommand(comPort, "RT&E?").Trim();
 
                     RSSI.Text = doCommand(comPort, "ATI7").Trim();
 
@@ -751,6 +753,8 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
+                                values[1] = values[1].Replace("/", "_");
+
                                 var controls = groupBoxLocal.Controls.Find(values[1].Trim(), true);
 
                                 if (controls.Length > 0)
@@ -788,6 +792,21 @@ S15: MAX_WINDOW=131
 
                     comPort.DiscardInBuffer();
 
+                    RTI.Text = doCommand(comPort, "RTI");
+
+                    try
+                    {
+                        var resp = doCommand(comPort, "RTI2");
+                        if (resp.Trim() != "")
+                            RTI2.Text =
+                                ((Uploader.Board)Enum.Parse(typeof(Uploader.Board), resp)).ToString();
+                    }
+                    catch
+                    {
+                    }
+
+                    txt_Raeskey.Text = doCommand(comPort, "RT&E?").Trim();
+
                     lbl_status.Text = "Doing Command RTI5";
 
                     answer = doCommand(comPort, "RTI5", true);
@@ -802,6 +821,8 @@ S15: MAX_WINDOW=131
 
                             if (values.Length == 3)
                             {
+                                values[1] = values[1].Replace("/", "_");
+
                                 var controls = groupBoxRemote.Controls.Find("R" + values[1].Trim(), true);
 
                                 if (controls.Length == 0)
@@ -1036,6 +1057,7 @@ S15: MAX_WINDOW=131
             RNUM_CHANNELS.Text = NUM_CHANNELS.Text;
             RMAX_WINDOW.Text = MAX_WINDOW.Text;
             RENCRYPTION_LEVEL.Checked = ENCRYPTION_LEVEL.Checked;
+            txt_Raeskey.Text = txt_aeskey.Text;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -1136,6 +1158,17 @@ red LED solid - in firmware update mode");
             RawData = 0,
             Mavlink = 1,
             LowLatency = 2
+        }
+
+        private void txt_aeskey_TextChanged(object sender, EventArgs e)
+        {
+            string item = txt_aeskey.Text;
+            UInt64 n = 0;
+            if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
+            {
+                txt_aeskey.Text = item.Remove(item.Length - 1, 1);
+                txt_aeskey.SelectionStart = txt_aeskey.Text.Length;
+            }
         }
     }
 }

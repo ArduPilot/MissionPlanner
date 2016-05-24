@@ -125,6 +125,132 @@
   <data name="SPLIT_local.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 81</value>
   </data>
+  <data name="label40.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label40.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label40.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 246</value>
+  </data>
+  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 13</value>
+  </data>
+  <data name="label40.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>GPI1_1R/COUT</value>
+  </data>
+  <data name="&gt;&gt;label40.Name" xml:space="preserve">
+    <value>label40</value>
+  </data>
+  <data name="&gt;&gt;label40.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label40.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label40.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="GPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>95, 243</value>
+  </data>
+  <data name="GPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="GPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Name" xml:space="preserve">
+    <value>GPO1_1R_COUT</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel1</value>
+  </data>
+  <data name="&gt;&gt;GPO1_1R_COUT.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label39.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label39.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label39.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 220</value>
+  </data>
+  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
+  </data>
+  <data name="label39.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label39.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="&gt;&gt;label39.Name" xml:space="preserve">
+    <value>label39</value>
+  </data>
+  <data name="&gt;&gt;label39.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label39.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label39.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="GPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="GPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="GPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>81, 217</value>
+  </data>
+  <data name="GPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="GPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Name" xml:space="preserve">
+    <value>GPI1_1R_CIN</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel1</value>
+  </data>
+  <data name="&gt;&gt;GPI1_1R_CIN.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
   <data name="MAVLINK.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -137,9 +263,6 @@
   <data name="MAVLINK.TabIndex" type="System.Int32, mscorlib">
     <value>21</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="MAVLINK.ToolTip" xml:space="preserve">
     <value>AIR_SPEED is the inter-radio data rate in rounded kbps. So 128 means 128kbps. Max is 192, min is 2. I would not recommend values below 16 as the frequency hopping and tdm sync times get too long. </value>
   </data>
@@ -153,7 +276,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;MAVLINK.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>4</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -180,7 +303,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>5</value>
   </data>
   <data name="SERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -235,7 +358,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;SERIAL_SPEED.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -262,7 +385,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="FORMAT.Location" type="System.Drawing.Point, System.Drawing">
     <value>81, 3</value>
@@ -283,7 +406,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;FORMAT.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="AIR_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -349,7 +472,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;AIR_SPEED.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -376,7 +499,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="NETID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -493,7 +616,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;NETID.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -520,7 +643,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="TXPOWER.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -572,7 +695,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;TXPOWER.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -599,7 +722,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>14</value>
   </data>
   <data name="ECC.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -627,7 +750,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;ECC.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>15</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -654,7 +777,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>16</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -681,7 +804,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>17</value>
   </data>
   <data name="OPPRESEND.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -709,7 +832,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;OPPRESEND.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>18</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -736,7 +859,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>19</value>
   </data>
   <data name="&gt;&gt;SPLIT_local.Panel1.Name" xml:space="preserve">
     <value>SPLIT_local.Panel1</value>
@@ -753,7 +876,6 @@
   <data name="ENCRYPTION_LEVEL.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="ENCRYPTION_LEVEL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -839,10 +961,13 @@
     <value>2</value>
   </data>
   <data name="txt_aeskey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 217</value>
+    <value>3, 236</value>
+  </data>
+  <data name="txt_aeskey.MaxLength" type="System.Int32, mscorlib">
+    <value>32</value>
   </data>
   <data name="txt_aeskey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>196, 20</value>
   </data>
   <data name="txt_aeskey.TabIndex" type="System.Int32, mscorlib">
     <value>22</value>
@@ -1390,6 +1515,21 @@
   <data name="LBT_RSSI.Items1" xml:space="preserve">
     <value>25</value>
   </data>
+  <data name="LBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="LBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="LBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data>
+  <data name="LBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="LBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
+  </data>
   <data name="LBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
     <value>96, 109</value>
   </data>
@@ -1609,6 +1749,36 @@
   <data name="SPLIT_remote.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 81</value>
   </data>
+  <data name="label41.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label41.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label41.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 246</value>
+  </data>
+  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 13</value>
+  </data>
+  <data name="label41.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>GPI1_1R/COUT</value>
+  </data>
+  <data name="&gt;&gt;label41.Name" xml:space="preserve">
+    <value>label41</value>
+  </data>
+  <data name="&gt;&gt;label41.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label41.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label41.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="RMAVLINK.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1634,7 +1804,38 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RMAVLINK.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 243</value>
+  </data>
+  <data name="RGPO1_1R_COUT.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 20</value>
+  </data>
+  <data name="RGPO1_1R_COUT.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="RGPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Name" xml:space="preserve">
+    <value>RGPO1_1R_COUT</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel1</value>
+  </data>
+  <data name="&gt;&gt;RGPO1_1R_COUT.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="RFORMAT.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 3</value>
@@ -1655,7 +1856,68 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RFORMAT.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
+  </data>
+  <data name="label42.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label42.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 220</value>
+  </data>
+  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 13</value>
+  </data>
+  <data name="label42.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="label42.Text" xml:space="preserve">
+    <value>GPI1_1R/CIN</value>
+  </data>
+  <data name="&gt;&gt;label42.Name" xml:space="preserve">
+    <value>label42</value>
+  </data>
+  <data name="&gt;&gt;label42.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label42.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel1</value>
+  </data>
+  <data name="&gt;&gt;label42.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 217</value>
+  </data>
+  <data name="RGPI1_1R_CIN.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 20</value>
+  </data>
+  <data name="RGPI1_1R_CIN.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND enables/disables "opportunistic resend". When enabled the radio will send a packet twice if the serial input buffer has less than 256 bytes in it. The 2nd send is marked as a resend and discarded by the receiving radio if it got the first packet OK. This makes a big difference to the link quality, especially for uplink commands. 
+</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Name" xml:space="preserve">
+    <value>RGPI1_1R_CIN</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel1</value>
+  </data>
+  <data name="&gt;&gt;RGPI1_1R_CIN.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="RSERIAL_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1710,7 +1972,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RSERIAL_SPEED.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>6</value>
   </data>
   <data name="RAIR_SPEED.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1776,7 +2038,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RAIR_SPEED.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>7</value>
   </data>
   <data name="RNETID.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1893,7 +2155,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RNETID.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>8</value>
   </data>
   <data name="label25.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1902,7 +2164,7 @@
     <value>NoControl</value>
   </data>
   <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 199</value>
+    <value>6, 194</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -1923,7 +2185,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
   <data name="RTXPOWER.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1975,7 +2237,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RTXPOWER.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>10</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2005,7 +2267,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
   </data>
   <data name="RECC.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2033,7 +2295,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RECC.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
   </data>
   <data name="label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2063,7 +2325,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2093,7 +2355,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>14</value>
   </data>
   <data name="ROPPRESEND.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2121,7 +2383,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;ROPPRESEND.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>15</value>
   </data>
   <data name="label29.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2151,7 +2413,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label29.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>16</value>
   </data>
   <data name="label32.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2181,7 +2443,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label32.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>17</value>
   </data>
   <data name="label30.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2211,7 +2473,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label30.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>18</value>
   </data>
   <data name="label31.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2241,7 +2503,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label31.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>19</value>
   </data>
   <data name="&gt;&gt;SPLIT_remote.Panel1.Name" xml:space="preserve">
     <value>SPLIT_remote.Panel1</value>
@@ -2313,10 +2575,13 @@
     <value>1</value>
   </data>
   <data name="txt_Raeskey.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 217</value>
+    <value>3, 236</value>
+  </data>
+  <data name="txt_Raeskey.MaxLength" type="System.Int32, mscorlib">
+    <value>32</value>
   </data>
   <data name="txt_Raeskey.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
+    <value>180, 20</value>
   </data>
   <data name="txt_Raeskey.TabIndex" type="System.Int32, mscorlib">
     <value>61</value>
@@ -2806,6 +3071,21 @@
   </data>
   <data name="RLBT_RSSI.Items1" xml:space="preserve">
     <value>25</value>
+  </data>
+  <data name="RLBT_RSSI.Items2" xml:space="preserve">
+    <value>50</value>
+  </data>
+  <data name="RLBT_RSSI.Items3" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="RLBT_RSSI.Items4" xml:space="preserve">
+    <value>150</value>
+  </data>
+  <data name="RLBT_RSSI.Items5" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="RLBT_RSSI.Items6" xml:space="preserve">
+    <value>250</value>
   </data>
   <data name="RLBT_RSSI.Location" type="System.Drawing.Point, System.Drawing">
     <value>97, 109</value>

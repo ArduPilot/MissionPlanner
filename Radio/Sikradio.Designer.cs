@@ -31,6 +31,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Sikradio));
             this.SPLIT_local = new System.Windows.Forms.SplitContainer();
+            this.label40 = new System.Windows.Forms.Label();
+            this.GPO1_1R_COUT = new System.Windows.Forms.CheckBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.GPI1_1R_CIN = new System.Windows.Forms.CheckBox();
             this.MAVLINK = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.SERIAL_SPEED = new System.Windows.Forms.ComboBox();
@@ -47,6 +51,10 @@
             this.label8 = new System.Windows.Forms.Label();
             this.OPPRESEND = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.ENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.txt_aeskey = new System.Windows.Forms.TextBox();
             this.RTSCTS = new System.Windows.Forms.CheckBox();
             this.label19 = new System.Windows.Forms.Label();
             this.linkLabel_mavlink = new System.Windows.Forms.LinkLabel();
@@ -64,8 +72,12 @@
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
+            this.label41 = new System.Windows.Forms.Label();
             this.RMAVLINK = new System.Windows.Forms.ComboBox();
+            this.RGPO1_1R_COUT = new System.Windows.Forms.CheckBox();
             this.RFORMAT = new System.Windows.Forms.TextBox();
+            this.label42 = new System.Windows.Forms.Label();
+            this.RGPI1_1R_CIN = new System.Windows.Forms.CheckBox();
             this.RSERIAL_SPEED = new System.Windows.Forms.ComboBox();
             this.RAIR_SPEED = new System.Windows.Forms.ComboBox();
             this.RNETID = new System.Windows.Forms.ComboBox();
@@ -80,6 +92,10 @@
             this.label32 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
+            this.RENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
+            this.txt_Raeskey = new System.Windows.Forms.TextBox();
+            this.label37 = new System.Windows.Forms.Label();
             this.RRTSCTS = new System.Windows.Forms.CheckBox();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
@@ -116,14 +132,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
-            this.txt_aeskey = new System.Windows.Forms.TextBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.ENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
-            this.label36 = new System.Windows.Forms.Label();
-            this.RENCRYPTION_LEVEL = new System.Windows.Forms.CheckBox();
-            this.label37 = new System.Windows.Forms.Label();
-            this.label38 = new System.Windows.Forms.Label();
-            this.txt_Raeskey = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.SPLIT_local)).BeginInit();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
@@ -143,6 +151,10 @@
             // 
             // SPLIT_local.Panel1
             // 
+            this.SPLIT_local.Panel1.Controls.Add(this.label40);
+            this.SPLIT_local.Panel1.Controls.Add(this.GPO1_1R_COUT);
+            this.SPLIT_local.Panel1.Controls.Add(this.label39);
+            this.SPLIT_local.Panel1.Controls.Add(this.GPI1_1R_CIN);
             this.SPLIT_local.Panel1.Controls.Add(this.MAVLINK);
             this.SPLIT_local.Panel1.Controls.Add(this.label2);
             this.SPLIT_local.Panel1.Controls.Add(this.SERIAL_SPEED);
@@ -182,6 +194,28 @@
             this.SPLIT_local.Panel2.Controls.Add(this.MIN_FREQ);
             this.SPLIT_local.Panel2.Controls.Add(this.label15);
             this.SPLIT_local.Panel2.Controls.Add(this.label14);
+            // 
+            // label40
+            // 
+            resources.ApplyResources(this.label40, "label40");
+            this.label40.Name = "label40";
+            // 
+            // GPO1_1R_COUT
+            // 
+            resources.ApplyResources(this.GPO1_1R_COUT, "GPO1_1R_COUT");
+            this.GPO1_1R_COUT.Name = "GPO1_1R_COUT";
+            this.toolTip1.SetToolTip(this.GPO1_1R_COUT, resources.GetString("GPO1_1R_COUT.ToolTip"));
+            // 
+            // label39
+            // 
+            resources.ApplyResources(this.label39, "label39");
+            this.label39.Name = "label39";
+            // 
+            // GPI1_1R_CIN
+            // 
+            resources.ApplyResources(this.GPI1_1R_CIN, "GPI1_1R_CIN");
+            this.GPI1_1R_CIN.Name = "GPI1_1R_CIN";
+            this.toolTip1.SetToolTip(this.GPI1_1R_CIN, resources.GetString("GPI1_1R_CIN.ToolTip"));
             // 
             // MAVLINK
             // 
@@ -340,6 +374,27 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // ENCRYPTION_LEVEL
+            // 
+            resources.ApplyResources(this.ENCRYPTION_LEVEL, "ENCRYPTION_LEVEL");
+            this.ENCRYPTION_LEVEL.Name = "ENCRYPTION_LEVEL";
+            // 
+            // label36
+            // 
+            resources.ApplyResources(this.label36, "label36");
+            this.label36.Name = "label36";
+            // 
+            // label35
+            // 
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
+            // txt_aeskey
+            // 
+            resources.ApplyResources(this.txt_aeskey, "txt_aeskey");
+            this.txt_aeskey.Name = "txt_aeskey";
+            this.txt_aeskey.TextChanged += new System.EventHandler(this.txt_aeskey_TextChanged);
+            // 
             // RTSCTS
             // 
             resources.ApplyResources(this.RTSCTS, "RTSCTS");
@@ -487,7 +542,12 @@
             this.LBT_RSSI.FormattingEnabled = true;
             this.LBT_RSSI.Items.AddRange(new object[] {
             resources.GetString("LBT_RSSI.Items"),
-            resources.GetString("LBT_RSSI.Items1")});
+            resources.GetString("LBT_RSSI.Items1"),
+            resources.GetString("LBT_RSSI.Items2"),
+            resources.GetString("LBT_RSSI.Items3"),
+            resources.GetString("LBT_RSSI.Items4"),
+            resources.GetString("LBT_RSSI.Items5"),
+            resources.GetString("LBT_RSSI.Items6")});
             this.LBT_RSSI.Name = "LBT_RSSI";
             this.toolTip1.SetToolTip(this.LBT_RSSI, resources.GetString("LBT_RSSI.ToolTip"));
             // 
@@ -533,8 +593,12 @@
             // 
             // SPLIT_remote.Panel1
             // 
+            this.SPLIT_remote.Panel1.Controls.Add(this.label41);
             this.SPLIT_remote.Panel1.Controls.Add(this.RMAVLINK);
+            this.SPLIT_remote.Panel1.Controls.Add(this.RGPO1_1R_COUT);
             this.SPLIT_remote.Panel1.Controls.Add(this.RFORMAT);
+            this.SPLIT_remote.Panel1.Controls.Add(this.label42);
+            this.SPLIT_remote.Panel1.Controls.Add(this.RGPI1_1R_CIN);
             this.SPLIT_remote.Panel1.Controls.Add(this.RSERIAL_SPEED);
             this.SPLIT_remote.Panel1.Controls.Add(this.RAIR_SPEED);
             this.SPLIT_remote.Panel1.Controls.Add(this.RNETID);
@@ -571,6 +635,11 @@
             this.SPLIT_remote.Panel2.Controls.Add(this.label21);
             this.SPLIT_remote.Panel2.Controls.Add(this.label20);
             // 
+            // label41
+            // 
+            resources.ApplyResources(this.label41, "label41");
+            this.label41.Name = "label41";
+            // 
             // RMAVLINK
             // 
             resources.ApplyResources(this.RMAVLINK, "RMAVLINK");
@@ -578,11 +647,28 @@
             this.RMAVLINK.Name = "RMAVLINK";
             this.toolTip1.SetToolTip(this.RMAVLINK, resources.GetString("RMAVLINK.ToolTip"));
             // 
+            // RGPO1_1R_COUT
+            // 
+            resources.ApplyResources(this.RGPO1_1R_COUT, "RGPO1_1R_COUT");
+            this.RGPO1_1R_COUT.Name = "RGPO1_1R_COUT";
+            this.toolTip1.SetToolTip(this.RGPO1_1R_COUT, resources.GetString("RGPO1_1R_COUT.ToolTip"));
+            // 
             // RFORMAT
             // 
             resources.ApplyResources(this.RFORMAT, "RFORMAT");
             this.RFORMAT.Name = "RFORMAT";
             this.RFORMAT.ReadOnly = true;
+            // 
+            // label42
+            // 
+            resources.ApplyResources(this.label42, "label42");
+            this.label42.Name = "label42";
+            // 
+            // RGPI1_1R_CIN
+            // 
+            resources.ApplyResources(this.RGPI1_1R_CIN, "RGPI1_1R_CIN");
+            this.RGPI1_1R_CIN.Name = "RGPI1_1R_CIN";
+            this.toolTip1.SetToolTip(this.RGPI1_1R_CIN, resources.GetString("RGPI1_1R_CIN.ToolTip"));
             // 
             // RSERIAL_SPEED
             // 
@@ -728,6 +814,27 @@
             resources.ApplyResources(this.label31, "label31");
             this.label31.Name = "label31";
             // 
+            // label38
+            // 
+            resources.ApplyResources(this.label38, "label38");
+            this.label38.Name = "label38";
+            // 
+            // RENCRYPTION_LEVEL
+            // 
+            resources.ApplyResources(this.RENCRYPTION_LEVEL, "RENCRYPTION_LEVEL");
+            this.RENCRYPTION_LEVEL.Name = "RENCRYPTION_LEVEL";
+            // 
+            // txt_Raeskey
+            // 
+            resources.ApplyResources(this.txt_Raeskey, "txt_Raeskey");
+            this.txt_Raeskey.Name = "txt_Raeskey";
+            this.txt_Raeskey.TextChanged += new System.EventHandler(this.txt_aeskey_TextChanged);
+            // 
+            // label37
+            // 
+            resources.ApplyResources(this.label37, "label37");
+            this.label37.Name = "label37";
+            // 
             // RRTSCTS
             // 
             resources.ApplyResources(this.RRTSCTS, "RRTSCTS");
@@ -856,7 +963,12 @@
             this.RLBT_RSSI.FormattingEnabled = true;
             this.RLBT_RSSI.Items.AddRange(new object[] {
             resources.GetString("RLBT_RSSI.Items"),
-            resources.GetString("RLBT_RSSI.Items1")});
+            resources.GetString("RLBT_RSSI.Items1"),
+            resources.GetString("RLBT_RSSI.Items2"),
+            resources.GetString("RLBT_RSSI.Items3"),
+            resources.GetString("RLBT_RSSI.Items4"),
+            resources.GetString("RLBT_RSSI.Items5"),
+            resources.GetString("RLBT_RSSI.Items6")});
             this.RLBT_RSSI.Name = "RLBT_RSSI";
             this.toolTip1.SetToolTip(this.RLBT_RSSI, resources.GetString("RLBT_RSSI.ToolTip"));
             // 
@@ -1039,48 +1151,6 @@
             this.BUT_loadcustom.UseVisualStyleBackColor = true;
             this.BUT_loadcustom.Click += new System.EventHandler(this.BUT_loadcustom_Click);
             // 
-            // txt_aeskey
-            // 
-            resources.ApplyResources(this.txt_aeskey, "txt_aeskey");
-            this.txt_aeskey.Name = "txt_aeskey";
-            this.txt_aeskey.ReadOnly = true;
-            // 
-            // label35
-            // 
-            resources.ApplyResources(this.label35, "label35");
-            this.label35.Name = "label35";
-            // 
-            // ENCRYPTION_LEVEL
-            // 
-            resources.ApplyResources(this.ENCRYPTION_LEVEL, "ENCRYPTION_LEVEL");
-            this.ENCRYPTION_LEVEL.Name = "ENCRYPTION_LEVEL";
-            // 
-            // label36
-            // 
-            resources.ApplyResources(this.label36, "label36");
-            this.label36.Name = "label36";
-            // 
-            // RENCRYPTION_LEVEL
-            // 
-            resources.ApplyResources(this.RENCRYPTION_LEVEL, "RENCRYPTION_LEVEL");
-            this.RENCRYPTION_LEVEL.Name = "RENCRYPTION_LEVEL";
-            // 
-            // label37
-            // 
-            resources.ApplyResources(this.label37, "label37");
-            this.label37.Name = "label37";
-            // 
-            // label38
-            // 
-            resources.ApplyResources(this.label38, "label38");
-            this.label38.Name = "label38";
-            // 
-            // txt_Raeskey
-            // 
-            resources.ApplyResources(this.txt_Raeskey, "txt_Raeskey");
-            this.txt_Raeskey.Name = "txt_Raeskey";
-            this.txt_Raeskey.ReadOnly = true;
-            // 
             // Sikradio
             // 
             resources.ApplyResources(this, "$this");
@@ -1216,5 +1286,13 @@
         private System.Windows.Forms.Label label37;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TextBox txt_Raeskey;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.CheckBox GPO1_1R_COUT;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.CheckBox GPI1_1R_CIN;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.CheckBox RGPO1_1R_COUT;
+        private System.Windows.Forms.Label label42;
+        private System.Windows.Forms.CheckBox RGPI1_1R_CIN;
     }
 }
