@@ -1679,8 +1679,17 @@ namespace MissionPlanner
                 double fovha = 0;
                 double fovva = 0;
                 getFOVangle(ref fovha, ref fovva);
-                Settings.Instance["camera_fovh"] = fovha.ToString();
-                Settings.Instance["camera_fovv"] = fovva.ToString();
+
+                if (CHK_camdirection.Checked)
+                {
+                    Settings.Instance["camera_fovh"] = fovha.ToString();
+                    Settings.Instance["camera_fovv"] = fovva.ToString();
+                }
+                else
+                {
+                    Settings.Instance["camera_fovh"] = fovva.ToString();
+                    Settings.Instance["camera_fovv"] = fovha.ToString();
+                }
 
                 savesettings();
 
