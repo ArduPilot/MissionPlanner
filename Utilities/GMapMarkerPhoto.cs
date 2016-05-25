@@ -50,6 +50,7 @@ namespace MissionPlanner.Utilities
             footprintpoly = new GMapPolygon(footprint.ConvertAll(x => x.Point()), "FP"+mark.time_usec);
 
             footprintpoly.Fill = Brushes.Transparent;
+            footprintpoly.Stroke = Pens.Crimson;
         }
 
         public override void OnRender(Graphics g)
