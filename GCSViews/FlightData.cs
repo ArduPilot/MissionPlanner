@@ -3716,7 +3716,8 @@ namespace MissionPlanner.GCSViews
 
         private void Messagetabtimer_Tick(object sender, EventArgs e)
         {
-            if (messagecount != MainV2.comPort.MAV.cs.messages.Count)
+            var newmsgcount = MainV2.comPort.MAV.cs.messages.Count;
+            if (messagecount != newmsgcount)
             {
                 try
                 {
@@ -3724,7 +3725,7 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.MAV.cs.messages.ForEach(x => { message.Insert(0, x + "\r\n"); });
                     txt_messagebox.Text = message.ToString();
 
-                    messagecount = MainV2.comPort.MAV.cs.messages.Count;
+                    messagecount = newmsgcount;
                 }
                 catch
                 {
