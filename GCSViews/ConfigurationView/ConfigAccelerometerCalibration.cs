@@ -119,7 +119,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Invoke((MethodInvoker) delegate
             {
-                if (!MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
+                if (MainV2.comPort.MAV.cs.message.ToLower().Contains("place vehicle") || MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration"))
                     lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
             });
         }
