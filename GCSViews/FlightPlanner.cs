@@ -4170,37 +4170,9 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.cs.lat == 0 || MainV2.comPort.MAV.cs.lng == 0)
                     return;
 
-                PointLatLng currentloc = new PointLatLng(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
+                var marker = Common.getMAVMarker(MainV2.comPort.MAV);
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane ||
-                    MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-                {
-                    routesoverlay.Markers.Add(new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw,
-                        MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing,
-                        MainV2.comPort.MAV.cs.target_bearing, MainV2.comPort.MAV.cs.radius));
-                }
-                else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-                {
-                    routesoverlay.Markers.Add(new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw,
-                        MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing,
-                        MainV2.comPort.MAV.cs.target_bearing));
-                }
-                else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
-                {
-                    routesoverlay.Markers.Add(
-                        (new GMapMarkerHeli(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse,
-                            MainV2.comPort.MAV.cs.nav_bearing)));
-                }
-                else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
-                {
-                    routesoverlay.Markers.Add(new GMapMarkerAntennaTracker(currentloc, MainV2.comPort.MAV.cs.yaw,
-                        MainV2.comPort.MAV.cs.target_bearing));
-                }
-                else
-                {
-                    routesoverlay.Markers.Add(new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw,
-                        MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.sysid));
-                }
+                routesoverlay.Markers.Add(marker);
 
                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
                 {
@@ -4213,6 +4185,7 @@ namespace MissionPlanner.GCSViews
                 {
                     if (route.Points[route.Points.Count - 1].Lat != 0 && (mapupdate.AddSeconds(3) < DateTime.Now))
                     {
+                        PointLatLng currentloc = new PointLatLng(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
                         updateMapPosition(currentloc);
                         mapupdate = DateTime.Now;
                     }

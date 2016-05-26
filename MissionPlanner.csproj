@@ -3709,6 +3709,7 @@
     <None Include="Resources\camera-icon.png" />
     <None Include="Resources\camera-icon-G.png" />
     <None Include="Resources\PX4FLOW1.jpg" />
+    <None Include="Resources\redsinglecopter2.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

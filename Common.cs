@@ -475,6 +475,51 @@ union px4_custom_mode {
 
             return input;
         }
+
+        public static GMapMarker getMAVMarker(MAVState MAV)
+        {
+            PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
+
+            if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
+            {
+                return (new GMapMarkerPlane(portlocation, MAV.cs.yaw,
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
+                {
+                    ToolTipText = MAV.cs.alt.ToString("0"),
+                    ToolTipMode = MarkerTooltipMode.Always
+                });
+            }
+            else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
+            {
+                return  (new GMapMarkerRover(portlocation, MAV.cs.yaw,
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+            }
+            else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
+            {
+                return (new GMapMarkerHeli(portlocation, MAV.cs.yaw,
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing));
+            }
+            else if (MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+            {
+                return (new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
+                    MAV.cs.target_bearing));
+            }
+            else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
+            {
+                return (new GMapMarkerQuad(portlocation, MAV.cs.yaw,
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
+            }
+            else if (MAV.aptype == MAVLink.MAV_TYPE.COAXIAL)
+            {
+                return (new GMapMarkerSingle(portlocation, MAV.cs.yaw,
+                   MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
+            }
+            else
+            {
+                // unknown type
+                return (new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot));
+            }
+        }
     }
 
     /// <summary>
@@ -868,6 +913,68 @@ union px4_custom_mode {
             g.Transform = temp;
         }
     }
+
+    [Serializable]
+    public class GMapMarkerSingle : GMapMarker
+    {
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.redsinglecopter2;
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+        private int sysid = -1;
+
+        public GMapMarkerSingle(PointLatLng p, float heading, float cog, float target, int sysid)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            this.sysid = sysid;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * deg2rad) * length);
+            }
+            catch
+            {
+            }
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
+                (float)Math.Sin((cog - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
+                (float)Math.Sin((target - 90) * deg2rad) * length);
+            // anti NaN
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+
+            g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
+
+            g.DrawString(sysid.ToString(), new Font(FontFamily.GenericMonospace, 15, FontStyle.Bold), Brushes.Red, -8,
+                -8);
+
+            g.Transform = temp;
+        }
+    }
+
 
     [Serializable]
     public class GMapMarkerHeli : GMapMarker

@@ -1379,42 +1379,9 @@ namespace MissionPlanner.GCSViews
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist.GetMAVStates())
                                 {
-                                    PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
+                                    var marker = Common.getMAVMarker(MAV);
 
-                                    if (MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
-                                    {
-                                        addMissionRouteMarker(new GMapMarkerPlane(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing, MAV.cs.radius)
-                                        {
-                                            ToolTipText = MAV.cs.alt.ToString("0"),
-                                            ToolTipMode = MarkerTooltipMode.Always
-                                        });
-                                    }
-                                    else if (MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
-                                    {
-                                        addMissionRouteMarker(new GMapMarkerRover(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
-                                    }
-                                    else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
-                                    {
-                                        addMissionRouteMarker(new GMapMarkerHeli(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing));
-                                    }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-                                    {
-                                        addMissionRouteMarker(new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw,
-                                            MAV.cs.target_bearing));
-                                    }
-                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
-                                    {
-                                        addMissionRouteMarker(new GMapMarkerQuad(portlocation, MAV.cs.yaw,
-                                            MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.sysid));
-                                    }
-                                    else
-                                    {
-                                        // unknown type
-                                        addMissionRouteMarker(new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot));
-                                    }
+                                    addMissionRouteMarker(marker);
                                 }
                             }
 
