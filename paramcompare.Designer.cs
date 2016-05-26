@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ParamCompare));
             this.Params = new System.Windows.Forms.DataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,6 +42,9 @@
             // 
             this.Params.AllowUserToAddRows = false;
             this.Params.AllowUserToDeleteRows = false;
+            this.Params.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Params.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.Params.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Command,
@@ -52,7 +54,7 @@
             this.Params.Location = new System.Drawing.Point(12, 12);
             this.Params.Name = "Params";
             this.Params.RowHeadersVisible = false;
-            this.Params.Size = new System.Drawing.Size(428, 467);
+            this.Params.Size = new System.Drawing.Size(399, 474);
             this.Params.TabIndex = 0;
             // 
             // Command
@@ -82,7 +84,8 @@
             // 
             // BUT_save
             // 
-            this.BUT_save.Location = new System.Drawing.Point(185, 485);
+            this.BUT_save.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.BUT_save.Location = new System.Drawing.Point(171, 492);
             this.BUT_save.Name = "BUT_save";
             this.BUT_save.Size = new System.Drawing.Size(75, 23);
             this.BUT_save.TabIndex = 1;
@@ -92,10 +95,11 @@
             // 
             // CHK_toggleall
             // 
+            this.CHK_toggleall.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.CHK_toggleall.AutoSize = true;
             this.CHK_toggleall.Checked = true;
             this.CHK_toggleall.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_toggleall.Location = new System.Drawing.Point(320, 489);
+            this.CHK_toggleall.Location = new System.Drawing.Point(306, 496);
             this.CHK_toggleall.Name = "CHK_toggleall";
             this.CHK_toggleall.Size = new System.Drawing.Size(120, 17);
             this.CHK_toggleall.TabIndex = 2;
@@ -108,12 +112,11 @@
             this.AcceptButton = this.BUT_save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(457, 516);
+            this.ClientSize = new System.Drawing.Size(428, 523);
             this.Controls.Add(this.CHK_toggleall);
             this.Controls.Add(this.BUT_save);
             this.Controls.Add(this.Params);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.Name = "ParamCompare";
             this.Text = "ParamCompare";
             ((System.ComponentModel.ISupportInitialize)(this.Params)).EndInit();
