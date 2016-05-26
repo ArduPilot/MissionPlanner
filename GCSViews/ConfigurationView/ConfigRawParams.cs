@@ -50,6 +50,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!String.IsNullOrEmpty(Settings.Instance["rawparam_" + col.Name + "_width"]))
                 {
                     col.Width = Settings.Instance.GetInt32("rawparam_" + col.Name + "_width");
+                    log.InfoFormat("{0} to {1}", col.Name, col.Width);
                 }
             }
 
@@ -369,11 +370,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
 
+            log.Info("processToScreen");
+
             var sorted = new List<string>();
             foreach (string item in MainV2.comPort.MAV.param.Keys)
                 sorted.Add(item);
 
             sorted.Sort();
+
+            log.Info("sorted");
 
             var rowlist = new List<DataGridViewRow>();
 
@@ -383,7 +388,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (value == null || value == "")
                     continue;
 
-                //System.Diagnostics.Debug.WriteLine("Doing: " + value);
+                log.Info("Doing: " + value);
 
                 var row = new DataGridViewRow();
                 rowlist.Add(row);
@@ -417,7 +422,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
+            log.Info("about to add all");
+
+            Params.Enabled = false;
             Params.Rows.AddRange(rowlist.ToArray());
+            Params.Enabled = true;
+
+            log.Info("Done");
         }
 
         private void updatedefaultlist(object crap)
