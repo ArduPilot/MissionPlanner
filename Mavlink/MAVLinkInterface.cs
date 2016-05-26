@@ -3348,7 +3348,7 @@ Please check the following
                             }
                         }
 
-                        if (logdata.StartsWith("Tuning:"))
+                        if (logdata.StartsWith("Tuning:") || logdata.StartsWith("PreArm:") || logdata.StartsWith("Arm:"))
                             printit = true;
 
                         if (printit)
