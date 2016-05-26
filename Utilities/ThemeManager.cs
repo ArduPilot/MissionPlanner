@@ -567,6 +567,18 @@ mc:Ignorable=""d""
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor; // Color.FromArgb(0xe6, 0xe8, 0xea);
                 }
+                else if (ctl.GetType() == typeof(RadialGradientBG))
+                {
+                    var rbg = ctl as RadialGradientBG;
+                    rbg.CenterColor = ControlBGColor;
+                    rbg.OutsideColor = ButBG;
+                }
+                else if (ctl.GetType() == typeof(GradientBG))
+                {
+                    var rbg = ctl as GradientBG;
+                    rbg.CenterColor = ControlBGColor;
+                    rbg.OutsideColor = ButBG;
+                }
                 else if (ctl.GetType() == typeof (Form))
                 {
                     ctl.BackColor = BGColor;
@@ -668,6 +680,11 @@ mc:Ignorable=""d""
                 {
                     ((HorizontalProgressBar2) ctl).BackgroundColor = ControlBGColor;
                     ((HorizontalProgressBar2) ctl).ValueColor = Color.FromArgb(148, 193, 31);
+                }
+                else if (ctl.GetType() == typeof(MyProgressBar))
+                {
+                    ((MyProgressBar)ctl).BGGradBot = ControlBGColor;
+                    ((MyProgressBar)ctl).BGGradTop = BGColor;
                 }
 
                 if (ctl.Controls.Count > 0)

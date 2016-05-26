@@ -9,6 +9,7 @@ using System.Xml;
 using System.Collections;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using System.Linq;
 using System.Threading;
 using MissionPlanner.Utilities;
 using IronPython.Hosting;
@@ -806,7 +807,7 @@ namespace MissionPlanner
                 this.Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
             }
 
-            if (Program.Logo != null && Program.vvvvz)
+            if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
                 MenuDonate.Text = "";
@@ -821,6 +822,12 @@ namespace MissionPlanner
                 MenuInitConfig.Visible = false;
                 MenuSimulation.Visible = false;
                 MenuTerminal.Visible = false;
+            }
+            else if (Program.Logo != null && Program.names.Contains(Program.name))
+            {
+                MenuDonate.Click -= this.toolStripMenuItem1_Click;
+                MenuDonate.Text = "";
+                MenuDonate.Image = Program.Logo;
             }
 
             Application.DoEvents();
@@ -2431,7 +2438,7 @@ namespace MissionPlanner
                 log.Error(ex);
             }
 
-            if (Program.Logo != null && Program.vvvvz)
+            if (Program.Logo != null && Program.name == "VVVVZ")
             {
                 this.PerformLayout();
                 MenuFlightPlanner_Click(this, e);

@@ -22,7 +22,8 @@ namespace MissionPlanner
 
         public static DateTime starttime = DateTime.Now;
 
-        public static bool vvvvz = false;
+        public static string name { get; internal set; }
+
         public static Image Logo = null;
         public static Image IconFile = null;
 
@@ -32,7 +33,8 @@ namespace MissionPlanner
 
         public static string[] args = new string[] {};
         public static Bitmap SplashBG = null;
-        
+
+        public static string[] names = new string[] { "VVVVZ" };
 
         /// <summary>
         /// The main entry point for the application.
@@ -70,6 +72,45 @@ namespace MissionPlanner
                 return;
             }
 
+            name = "Mission Planner";
+
+            try
+            {
+                if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt"))
+                    name = File.ReadAllLines(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt",
+                        Encoding.UTF8)[0];
+            }
+            catch
+            {
+            }
+
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png"))
+                Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
+
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png")) // 128*128
+                IconFile = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png");
+
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png")) // 600*375
+                SplashBG = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png");
+
+
+            Splash = new MissionPlanner.Splash();
+            if (SplashBG != null)
+            {
+                Splash.BackgroundImage = SplashBG;
+                Splash.pictureBox1.Visible = false;
+            }
+
+            if (IconFile != null)
+                Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
+
+            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
+            Splash.Show();
+
+            Application.DoEvents();
+            Application.DoEvents();
+
             // setup theme provider
             CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
@@ -96,24 +137,8 @@ namespace MissionPlanner
             WebRequest.DefaultWebProxy = WebRequest.GetSystemWebProxy();
             WebRequest.DefaultWebProxy.Credentials = CredentialCache.DefaultNetworkCredentials;
 
-            string name = "Mission Planner";
-
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt"))
-                name = File.ReadAllText(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt",
-                    Encoding.UTF8);
-
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png"))
-                Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
-
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png"))
-                IconFile = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png");
-
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png"))
-                SplashBG = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png");
-
             if (name == "VVVVZ")
             {
-                vvvvz = true;
                 // set pw
                 Settings.Instance["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
                 Settings.Instance["password_protect"] = "True";
@@ -126,18 +151,6 @@ namespace MissionPlanner
             CleanupFiles();
 
             Utilities.NGEN.doNGEN();
-
-            Splash = new MissionPlanner.Splash();
-            if (SplashBG != null)
-                Splash.BackgroundImage = SplashBG;
-            if (IconFile != null)
-                Splash.Icon = Icon.FromHandle(((Bitmap)IconFile).GetHicon());
-            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Splash.Text = name + " " + Application.ProductVersion + " build " + strVersion;
-            Splash.Show();
-
-            Application.DoEvents();
-            Application.DoEvents();
 
             try
             {
