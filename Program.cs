@@ -12,6 +12,7 @@ using System.Linq;
 using MissionPlanner.Utilities;
 using MissionPlanner;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 
 namespace MissionPlanner
@@ -87,8 +88,15 @@ namespace MissionPlanner
             if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png"))
                 Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
 
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png")) // 128*128
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png"))
+            {
+                // 128*128
                 IconFile = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png");
+            }
+            else
+            {
+                IconFile = MissionPlanner.Properties.Resources.mpdesktop.ToBitmap();
+            }
 
             if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png")) // 600*375
                 SplashBG = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png");

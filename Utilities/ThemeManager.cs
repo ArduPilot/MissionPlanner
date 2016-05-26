@@ -582,7 +582,9 @@ mc:Ignorable=""d""
                 else if (ctl.GetType() == typeof (Form))
                 {
                     ctl.BackColor = BGColor;
-                    ctl.ForeColor = TextColor; // Color.FromArgb(0xe6, 0xe8, 0xea);
+                    ctl.ForeColor = TextColor;
+                    if (Program.IconFile != null)
+                        ((Form)ctl).Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
@@ -829,7 +831,9 @@ mc:Ignorable=""d""
                 else if (ctl.GetType() == typeof (Form))
                 {
                     ctl.BackColor = BGColor;
-                    ctl.ForeColor = TextColor; // Color.FromArgb(0xe6, 0xe8, 0xea);
+                    ctl.ForeColor = TextColor;
+                    if (Program.IconFile != null)
+                        ((Form)ctl).Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
@@ -1052,7 +1056,9 @@ mc:Ignorable=""d""
                 else if (ctl.GetType() == typeof (Form))
                 {
                     ctl.BackColor = BGColor;
-                    ctl.ForeColor = TextColor; // Color.FromArgb(0xe6, 0xe8, 0xea);
+                    ctl.ForeColor = TextColor;
+                    if (Program.IconFile != null)
+                        ((Form)ctl).Icon = Icon.FromHandle(((Bitmap)Program.IconFile).GetHicon());
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
