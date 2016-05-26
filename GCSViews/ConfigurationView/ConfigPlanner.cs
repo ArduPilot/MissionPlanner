@@ -96,6 +96,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("advancedview", CHK_advancedview);
             SetCheckboxFromConfig("showairports", CHK_showairports);
             SetCheckboxFromConfig("enableadsb", chk_ADSB);
+            SetCheckboxFromConfig("norcreceiver", chk_norcreceiver);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
@@ -859,6 +860,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var temp = new temp();
             temp.Show();
+        }
+
+        private void chk_norcreceiver_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["norcreceiver"] = chk_norcreceiver.Checked.ToString();
         }
     }
 }

@@ -3696,7 +3696,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Parachute.png" />
-    <None Include="Resources\zhHans.txt" />
     <Content Include="LogAnalyzer\VehicleType.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -7373,7 +7372,6 @@
     </Content>
     <None Include="Resources\plane2.png" />
     <None Include="Resources\quad2.png" />
-    <None Include="Resources\quad.png" />
     <None Include="Resources\planetracker.png" />
     <None Include="Resources\planner.png" />
     <None Include="Resources\configuration.png" />

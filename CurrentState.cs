@@ -1562,8 +1562,14 @@ namespace MissionPlanner
                         else if (sensors_health.rc_receiver != sensors_enabled.rc_receiver &&
                                  sensors_present.rc_receiver)
                         {
-                            messageHigh = Strings.NORCReceiver;
-                            messageHighTime = DateTime.Now;
+                            bool reporterror = true;
+                            if (Settings.Instance["norcreceiver"] != null)
+                                reporterror = !bool.Parse(Settings.Instance["norcreceiver"]);
+                            if (reporterror)
+                            {
+                                messageHigh = Strings.NORCReceiver;
+                                messageHighTime = DateTime.Now;
+                            }
                         }
 
 
