@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Controls.PreFlight
 {
@@ -73,6 +74,17 @@ namespace MissionPlanner.Controls.PreFlight
         /// <returns></returns>
         public string DisplayText()
         {
+            if (Name == "PARAM")
+            {
+                var valuep = HandleParam();
+
+                var answer = Convert.ToDouble(valuep);
+
+                return
+                    Text.Replace("{trigger}", TriggerValue.ToString("0.##"))
+                        .Replace("{value}", answer.ToString("0.##"));
+            }
+
             if (Item == null)
                 return "";
 
@@ -104,6 +116,12 @@ namespace MissionPlanner.Controls.PreFlight
             {
                 if (defaultsrc == null)
                     throw new ArgumentNullException("src");
+
+                if (Name == "PARAM")
+                {
+                    return HandleParam();
+                }
+
                 if (Item == null)
                     throw new ArgumentNullException("Item");
 
@@ -126,11 +144,36 @@ namespace MissionPlanner.Controls.PreFlight
             {
                 if (defaultsrc == null)
                     throw new ArgumentNullException("src");
+
+                if (Name == "PARAM")
+                {
+                    return HandleParam();
+                }
+
                 if (Item == null)
                     throw new ArgumentNullException("Item");
 
                 return Item.GetValue(defaultsrc, null);
             }
+        }
+
+        double HandleParam()
+        {
+            if (Name == "PARAM")
+            {
+                var match = Regex.Match(Description, @"\{(.+)\}");
+                if (match.Success)
+                {
+                    var paramname = match.Groups[1].Value;
+
+                    if (MainV2.comPort.MAV.param.ContainsKey(paramname))
+                    {
+                        var answer = MainV2.comPort.MAV.param[paramname].Value;
+                        return answer;
+                    }
+                }
+            }
+            return 0;
         }
 
         public void SetField(string name)
@@ -151,6 +194,13 @@ namespace MissionPlanner.Controls.PreFlight
                     Name = name;
                     return;
                 }
+            }
+
+            if (name == "PARAM")
+            {
+                Item = null;
+                Name = name;
+                return;
             }
 
             throw new MissingFieldException("No such name");
@@ -190,6 +240,8 @@ namespace MissionPlanner.Controls.PreFlight
 
                 answer.Add(field.Name);
             }
+
+            answer.Add("PARAM");
 
             return answer;
         }
