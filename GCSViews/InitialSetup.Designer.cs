@@ -507,7 +507,7 @@
             // backstageViewPageMotorTest
             // 
             this.backstageViewPageMotorTest.Advanced = false;
-            this.backstageViewPageMotorTest.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPageMotorTest.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isConnected", true));
             this.backstageViewPageMotorTest.LinkText = "Motor Test";
             this.backstageViewPageMotorTest.Page = this.configMotor1;
             this.backstageViewPageMotorTest.Parent = this.backstageViewPageopt;

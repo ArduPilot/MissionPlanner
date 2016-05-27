@@ -75,39 +75,71 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var motormax = 8;
 
-            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
+            var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE");
+
+            if (!enable)
             {
                 Enabled = false;
                 return motormax;
             }
 
+            MAVLink.MAV_TYPE type = MAVLink.MAV_TYPE.QUADROTOR;
+            int frame_type = 0; // + frame
+
+            if (MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_CLASS"))
+            {
+                var value = (int)MainV2.comPort.MAV.param["Q_FRAME_CLASS"].Value;
+                switch (value)
+                {
+                    case 0:
+                        type = MAVLink.MAV_TYPE.QUADROTOR;
+                        break;
+                    case 1:
+                        type = MAVLink.MAV_TYPE.HEXAROTOR;
+                        break;
+                    case 2:
+                        type = MAVLink.MAV_TYPE.OCTOROTOR;
+                        break;
+                    case 3:
+                        type = MAVLink.MAV_TYPE.OCTOROTOR;
+                        break;
+                }
+
+                frame_type = (int)MainV2.comPort.MAV.param["Q_FRAME_TYPE"].Value;
+            }
+            else
+            {
+                type = MainV2.comPort.MAV.aptype;
+                frame_type = (int)MainV2.comPort.MAV.param["FRAME"].Value;
+            }
+
             var motors = new Motor[0];
 
-            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
+            if (type == MAVLink.MAV_TYPE.TRICOPTER)
             {
                 motormax = 4;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, frame_type);
             }
-            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
+            else if (type == MAVLink.MAV_TYPE.QUADROTOR)
             {
                 motormax = 4;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, frame_type);
             }
-            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR)
+            else if (type == MAVLink.MAV_TYPE.HEXAROTOR)
             {
                 motormax = 6;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, frame_type);
             }
-            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR)
+            else if (type == MAVLink.MAV_TYPE.OCTOROTOR)
             {
                 motormax = 8;
 
-                motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int) (double) MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, frame_type);
             }
-            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
+            else if (type == MAVLink.MAV_TYPE.HELICOPTER)
             {
                 motormax = 0;
             }
