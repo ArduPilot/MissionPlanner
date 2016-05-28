@@ -24,6 +24,10 @@ namespace MissionPlanner.Utilities
         public static double pitchtrim = 0;
         public static double yawtrim = 0;
 
+        public double Roll { get; internal set; }
+        public double Pitch { get; internal set; }
+        public double Yaw { get; internal set; }
+
         public bool drawfootprint = true;
 
         MAVLink.mavlink_camera_feedback_t local;
@@ -40,12 +44,17 @@ namespace MissionPlanner.Utilities
             Size = localcache1.Size;
             Alt = mark.alt_msl;
             ToolTipMode = MarkerTooltipMode.OnMouseOver;
-            ToolTipText = "Photo" + "\nAlt: " + mark.alt_msl + "\nNo: "+ mark.img_idx;
+
+            Roll = local.roll - rolltrim;
+            Pitch = local.pitch - pitchtrim;
+            Yaw = local.yaw - yawtrim;
+
+            ToolTipText = "Photo" + "\nAlt: " + mark.alt_msl + "\nNo: "+ mark.img_idx + "\nRoll: "+Roll.ToString("0.00");
 
             Tag = mark.time_usec;
 
-            var footprint = ImageProjection.calc(new PointLatLngAlt(Position.Lat, Position.Lng, Alt), local.roll - rolltrim,
-                local.pitch - pitchtrim, local.yaw - yawtrim, hfov, vfov);
+            var footprint = ImageProjection.calc(new PointLatLngAlt(Position.Lat, Position.Lng, Alt), Roll,
+                Pitch, Yaw, hfov, vfov);
 
             footprintpoly = new GMapPolygon(footprint.ConvertAll(x => x.Point()), "FP"+mark.time_usec);
 

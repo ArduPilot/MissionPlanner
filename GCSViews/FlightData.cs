@@ -1307,8 +1307,13 @@ namespace MissionPlanner.GCSViews
                                 {
                                     if (CameraOverlap)
                                     {
-                                        MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(
-                                            ((GMapMarkerPhoto) mark).footprintpoly);
+                                        var marker = ((GMapMarkerPhoto) mark);
+                                        // abandon roll higher than 25 degrees
+                                        if (Math.Abs(marker.Roll) < 25)
+                                        {
+                                            MainV2.comPort.MAV.GMapMarkerOverlapCount.Add(
+                                                ((GMapMarkerPhoto) mark).footprintpoly);
+                                        }
                                     }
                                     if (a < (camcount-4))
                                         ((GMapMarkerPhoto)mark).drawfootprint = false;

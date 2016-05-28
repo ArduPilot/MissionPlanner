@@ -65,6 +65,8 @@ namespace MissionPlanner.Utilities
             Rect screenRect = new Rect(Overlay.Control.Width/-2, Overlay.Control.Height/-2, Overlay.Control.Width,
                 Overlay.Control.Height);
 
+            int skipped = 0;
+
             foreach (var pg in overlapCount)
             {
                 GPoint p = Overlay.Control.FromLatLngToLocal(pg.Key);
@@ -73,7 +75,10 @@ namespace MissionPlanner.Utilities
 
                 if (p.X < screenRect.Left || p.X > screenRect.Right ||
                     p.Y < screenRect.Top || p.Y > screenRect.Bottom)
+                {
+                    skipped++;
                     continue;
+                }
 
                 var col = Math.Min(pg.Value - 1, 7);
 
@@ -88,11 +93,12 @@ namespace MissionPlanner.Utilities
             }
 
             drawLegend(g);
-            Console.WriteLine(DateTime.Now - start);
+            Console.WriteLine("OnRender "+(DateTime.Now - start));
         }
 
         public void Add(GMapPolygon footprint)
         {
+            DateTime start = DateTime.Now;
             // if the same name footprint exists exit
             if (footprintpolys.Any(p => p.Name == footprint.Name))
             {
@@ -124,6 +130,8 @@ namespace MissionPlanner.Utilities
             }
 
             generateCoverageFP(footprint);
+
+            Console.WriteLine("Add "+(DateTime.Now - start));
         }
 
         public void drawLegend(Graphics g)
