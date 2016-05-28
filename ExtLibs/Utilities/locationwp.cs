@@ -42,7 +42,9 @@ namespace MissionPlanner.Utilities
                 p4 = input.param4,
                 lat = input.x,
                 lng = input.y,
-                alt = input.z
+                alt = input.z,
+                _seq = input.seq,
+                _frame = input.frame
             };
 
             return temp;
@@ -59,7 +61,9 @@ namespace MissionPlanner.Utilities
                 p4 = input.param4,
                 lat = input.x / 1.0e7,
                 lng = input.y / 1.0e7,
-                alt = input.z
+                alt = input.z,
+                _seq = input.seq,
+                _frame = input.frame
             };
 
             return temp;
@@ -78,7 +82,9 @@ namespace MissionPlanner.Utilities
                     param4 = cmd.p4,
                     x = (int)(cmd.lat * 1.0e7),
                     y = (int)(cmd.lng * 1.0e7),
-                    z = (float) cmd.alt
+                    z = (float) cmd.alt,
+                    seq = cmd._seq,
+                    frame = cmd._frame
                 };
 
                 return temp;
@@ -94,12 +100,17 @@ namespace MissionPlanner.Utilities
                     param4 = cmd.p4,
                     x = (float) cmd.lat,
                     y = (float) cmd.lng,
-                    z = (float) cmd.alt
+                    z = (float) cmd.alt,
+                    seq = cmd._seq,
+                    frame = cmd._frame
                 };
 
                 return temp;
             }
         }
+
+        private ushort _seq;
+        private byte _frame;
 
         public ushort id;				// command id
         public byte options;

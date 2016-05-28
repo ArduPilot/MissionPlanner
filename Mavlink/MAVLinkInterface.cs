@@ -3545,6 +3545,30 @@ Please check the following
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
 
+            if (buffer.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT)
+            {
+                mavlink_mission_item_int_t wp = buffer.ToStructure<mavlink_mission_item_int_t>();
+
+                if (wp.target_system == gcssysid)
+                {
+                    wp.target_system = sysid;
+                    wp.target_component = compid;
+                }
+
+                if (wp.current == 2)
+                {
+                    // guide mode wp
+                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)wp;
+                }
+                else
+                {
+                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (mavlink_mission_item_t)(Locationwp)wp;
+                }
+
+                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2,
+                    wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
+            }
+
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
                 mavlink_rally_point_t rallypt = buffer.ToStructure<mavlink_rally_point_t>();
