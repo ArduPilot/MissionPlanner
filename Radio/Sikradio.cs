@@ -185,7 +185,7 @@ S15: MAX_WINDOW=131
             {
                 try
                 {
-                    comPort = new MAVLinkSerialPort(MainV2.comPort, 0); //MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+                    getTelemPortWithRadio(ref comPort);
 
                     uploader.PROG_MULTI_MAX = 64;
                 }
@@ -398,9 +398,7 @@ S15: MAX_WINDOW=131
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    comPort = new MAVLinkSerialPort(MainV2.comPort, 0); //MAVLink.SERIAL_CONTROL_DEV.TELEM1);
-
-                    comPort.BaudRate = 57600;
+                    getTelemPortWithRadio(ref comPort);
                 }
                 else
                 {
@@ -643,19 +641,48 @@ S15: MAX_WINDOW=131
             return list;
         }
 
+        void getTelemPortWithRadio(ref ICommsSerial comPort)
+        {
+            // try telem1
+
+            comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+            comPort.ReadTimeout = 4000;
+
+            comPort.Open();
+
+            if (doConnect(comPort))
+            {
+                return;
+            }
+
+            comPort.Close();
+
+            // try telem2
+
+            comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.TELEM2);
+
+            comPort.ReadTimeout = 4000;
+
+            comPort.Open();
+
+            if (doConnect(comPort))
+            {
+                return;
+            }
+
+            comPort.Close();
+        }
 
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
             ICommsSerial comPort = new SerialPort();
 
-
             try
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    comPort = new MAVLinkSerialPort(MainV2.comPort, 0); //MAVLink.SERIAL_CONTROL_DEV.TELEM1);
-
-                    comPort.BaudRate = 57600;
+                    getTelemPortWithRadio(ref comPort);
                 }
                 else
                 {

@@ -976,6 +976,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No valid heartbeats read from port.
+        /// </summary>
+        public static string No_valid_heartbeats_read_from_port {
+            get {
+                return ResourceManager.GetString("No_valid_heartbeats_read_from_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No FMT message for .
         /// </summary>
         public static string NoFMTMessage {

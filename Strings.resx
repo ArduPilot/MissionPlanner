@@ -620,4 +620,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="Bad_KML_File" xml:space="preserve">
     <value>Bad KML File :</value>
   </data>
+  <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
+    <value>No valid heartbeats read from port</value>
+  </data>
 </root>
