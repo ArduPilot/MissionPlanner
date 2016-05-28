@@ -3420,19 +3420,29 @@ namespace MissionPlanner.GCSViews
                     {
                         CurentRectMarker.InnerMarker.Position = pnew;
                     }
+                    
+                    if (CurrentGMapMarker != null)
+                    {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentGMapMarker.Position = pnew;
+                    }
                 }
+                
                 else if (CurrentPOIMarker != null)
                 {
                     PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
 
                     CurrentPOIMarker.Position = pnew;
                 }
+                /*
                 else if (CurrentGMapMarker != null)
                 {
                     PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
 
                     CurrentGMapMarker.Position = pnew;
                 }
+                */
                 else if (ModifierKeys == Keys.Control)
                 {
                     // draw selection box
