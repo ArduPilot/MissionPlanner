@@ -80,6 +80,22 @@
     <Compile Include="..\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
+    <Compile Include="..\ExtLibs\Comms\CommsSerialPort.cs">
+      <Link>Linked\CommsSerialPort.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Comms\ICommsSerial.cs">
+      <Link>Linked\ICommsSerial.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Controls\CustomMessageBox.cs">
+      <Link>Linked\CustomMessageBox.cs</Link>
+    </Compile>
+    <Compile Include="..\ExtLibs\Controls\MyButton.cs">
+      <Link>Linked\MyButton.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\ExtLibs\Mavlink\Mavlink.cs">
+      <Link>Linked\Mavlink.cs</Link>
+    </Compile>
     <Compile Include="..\Radio\IHex.cs">
       <Link>Linked\IHex.cs</Link>
     </Compile>
@@ -237,20 +253,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\sik.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ExtLibs\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
-      <Name>MissionPlanner.Comms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
-      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
-      <Name>MissionPlanner.Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
-      <Name>MissionPlanner.Utilities</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

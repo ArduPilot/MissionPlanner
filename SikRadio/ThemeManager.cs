@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
-using MissionPlanner.Controls.BackstageView;
 
 namespace MissionPlanner.Utilities
 {
@@ -211,18 +210,6 @@ namespace MissionPlanner.Utilities
                     LNK.ActiveLinkColor = TextColor;
                     LNK.LinkColor = TextColor;
                     LNK.VisitedLinkColor = TextColor;
-                }
-                else if (ctl.GetType() == typeof (BackstageView))
-                {
-                    var bsv = ctl as BackstageView;
-
-                    bsv.BackColor = BGColor;
-                    bsv.ButtonsAreaBgColor = ControlBGColor;
-                    bsv.HighlightColor2 = Color.FromArgb(0x94, 0xc1, 0x1f);
-                    bsv.HighlightColor1 = Color.FromArgb(0x40, 0x57, 0x04);
-                    bsv.SelectedTextColor = Color.White;
-                    bsv.UnSelectedTextColor = Color.Gray;
-                    bsv.ButtonsAreaPencilColor = Color.DarkGray;
                 }
 
                 if (ctl.Controls.Count > 0)

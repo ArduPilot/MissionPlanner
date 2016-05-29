@@ -645,7 +645,7 @@ S15: MAX_WINDOW=131
         {
             // try telem1
 
-            comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+            comPort = new MAVLinkSerialPort(MainV2.comPort, (int)MAVLink.SERIAL_CONTROL_DEV.TELEM1);
 
             comPort.ReadTimeout = 4000;
 
@@ -660,7 +660,7 @@ S15: MAX_WINDOW=131
 
             // try telem2
 
-            comPort = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.TELEM2);
+            comPort = new MAVLinkSerialPort(MainV2.comPort, (int)MAVLink.SERIAL_CONTROL_DEV.TELEM2);
 
             comPort.ReadTimeout = 4000;
 
