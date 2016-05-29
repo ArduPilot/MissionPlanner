@@ -427,14 +427,19 @@ S15: MAX_WINDOW=131
 
                 lbl_status.Text = "Doing Command";
 
+                // set encryption keys at the same time, so if we are enabled we dont lose comms.
+                if (RENCRYPTION_LEVEL.Checked)
+                {
+                    doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                }
+                if (ENCRYPTION_LEVEL.Checked)
+                {
+                    doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                }
+
                 if (RTI.Text != "")
                 {
                     // remote
-                    if (RENCRYPTION_LEVEL.Checked)
-                    {
-                        doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
-                    }
-
                     var answer = doCommand(comPort, "RTI5", true);
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
@@ -512,22 +517,12 @@ S15: MAX_WINDOW=131
                         }
                     }
 
-                    // write it
-                    doCommand(comPort, "RT&W");
-
-                    // return to normal mode
-                    doCommand(comPort, "RTZ");
-
                     Sleep(100);
                 }
 
                 comPort.DiscardInBuffer();
                 {
                     //local
-                    if (ENCRYPTION_LEVEL.Checked)
-                    {
-                        doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
-                    }
 
                     var answer = doCommand(comPort, "ATI5", true);
 
@@ -604,6 +599,15 @@ S15: MAX_WINDOW=131
                                 }
                             }
                         }
+                    }
+
+                    if (RTI.Text != "")
+                    {
+                        // write it
+                        doCommand(comPort, "RT&W");
+
+                        // return to normal mode
+                        doCommand(comPort, "RTZ");
                     }
 
                     // write it

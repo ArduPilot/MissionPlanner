@@ -82,6 +82,7 @@
     </Compile>
     <Compile Include="..\ExtLibs\Comms\CommsSerialPort.cs">
       <Link>Linked\CommsSerialPort.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\ExtLibs\Comms\ICommsSerial.cs">
       <Link>Linked\ICommsSerial.cs</Link>
