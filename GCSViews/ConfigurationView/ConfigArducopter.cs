@@ -280,7 +280,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
                                 "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                        {
+                            try
+                            {
+                                // set control as well
+                                var textControls = Controls.Find(value, true);
+                                if (textControls.Length > 0)
+                                {
+                                    // restore old value
+                                    textControls[0].Text = MainV2.comPort.MAV.param[value].Value.ToString();
+                                    textControls[0].BackColor = Color.FromArgb(0x43, 0x44, 0x45);
+                                }
+                            }
+                            catch
+                            {
+                            }
                             return;
+                        }
 
                     MainV2.comPort.setParam(value, (float) changes[value]);
 
