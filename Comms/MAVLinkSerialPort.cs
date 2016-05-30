@@ -43,6 +43,12 @@ namespace MissionPlanner.Comms
             get { return (int) baud; }
         }
 
+        public MAVLinkSerialPort(MAVLinkInterface mavint, int port)
+            : this(mavint, (MAVLink.SERIAL_CONTROL_DEV)port)
+        {
+
+        }
+
         public MAVLinkSerialPort(MAVLinkInterface mavint, MAVLink.SERIAL_CONTROL_DEV port)
         {
             this.mavint = mavint;
