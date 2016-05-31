@@ -207,9 +207,7 @@ namespace MissionPlanner.Utilities
 
             //addtomap(newpos, distout.ToString());
 
-            dest.Alt = 0;
-
-            return dest;
+            return plla;
         }
 
         static GMapOverlay polygons = new GMapOverlay("polygons");
