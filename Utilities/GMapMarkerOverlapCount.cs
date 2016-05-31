@@ -187,7 +187,8 @@ namespace MissionPlanner.Utilities
             {
                 for (double lng = Math.Round(area.Lng, 4); lng <= area.Right; lng += 0.0001)
                 {
-                    var p = new PointLatLng(lat, lng);
+                    var p = new PointLatLng(Math.Round(lat, 4), Math.Round(lng, 4));
+
                     foreach (var footprintpoly in footprintpolys)
                     {
                         if (footprintpoly.IsInside(p))
@@ -215,7 +216,7 @@ namespace MissionPlanner.Utilities
             {
                 for (double lng = Math.Round(area.Lng, 4); lng <= area.Right; lng += 0.0001)
                 {
-                    var p = new PointLatLng(lat, lng);
+                    var p = new PointLatLng(Math.Round(lat, 4), Math.Round(lng, 4));
 
                     if (footprintpoly.IsInside(p))
                     {
