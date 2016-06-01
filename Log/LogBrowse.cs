@@ -25,7 +25,7 @@ namespace MissionPlanner.Log
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         DataTable m_dtCSV = new DataTable();
 
-        CollectionBuffer<string> logdata;
+        CollectionBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
         Hashtable seenmessagetypes = new Hashtable();
 
@@ -546,7 +546,7 @@ namespace MissionPlanner.Log
 
                 log.Info("before read " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-                logdata = new CollectionBuffer<string>(stream);
+                logdata = new CollectionBuffer(stream);
 
                 log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 

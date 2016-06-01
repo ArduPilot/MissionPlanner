@@ -63,7 +63,7 @@ namespace MissionPlanner.Log
             return ret;
         }
 
-        public static PointPairList ProcessExpression(ref DFLog dflog, ref CollectionBuffer<string> logdata, string expression)
+        public static PointPairList ProcessExpression(ref DFLog dflog, ref CollectionBuffer logdata, string expression)
         {
             PointPairList answer = new PointPairList();
 

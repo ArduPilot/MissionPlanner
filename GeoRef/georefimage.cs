@@ -218,7 +218,7 @@ namespace MissionPlanner.GeoRef
             // DataFlash Log
             else
             {
-                using (var sr = new CollectionBuffer<string>(File.OpenRead(fn)))
+                using (var sr = new CollectionBuffer(File.OpenRead(fn)))
                 {
                     // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
                     float currentYaw = 0f;

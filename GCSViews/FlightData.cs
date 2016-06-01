@@ -3670,7 +3670,7 @@ namespace MissionPlanner.GCSViews
                                 using (tr = new StreamReader(logfile))
                                 {
                                     GC.Collect();
-                                    CollectionBuffer<string> temp = new CollectionBuffer<string>(tr.BaseStream);
+                                    CollectionBuffer temp = new CollectionBuffer(tr.BaseStream);
 
                                     uint a = 0;
                                     foreach (var line in temp)
