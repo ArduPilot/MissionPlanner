@@ -111,6 +111,9 @@
     <Compile Include="..\Radio\Uploader.cs">
       <Link>Linked\Uploader.cs</Link>
     </Compile>
+    <Compile Include="..\Radio\XModem.cs">
+      <Link>Linked\XModem.cs</Link>
+    </Compile>
     <Compile Include="Common.cs" />
     <Compile Include="Config.cs">
       <SubType>Form</SubType>

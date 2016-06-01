@@ -9,6 +9,7 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
+using MissionPlanner.Radio;
 using uploader;
 
 namespace MissionPlanner
@@ -96,7 +97,7 @@ S15: MAX_WINDOW=131
                 {
                     return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio.rfd900.hex", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
@@ -105,7 +106,7 @@ S15: MAX_WINDOW=131
                     return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio.rfd900a.hex", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
@@ -113,7 +114,7 @@ S15: MAX_WINDOW=131
                 {
                     return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900u.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
@@ -121,7 +122,7 @@ S15: MAX_WINDOW=131
                 {
                     return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900p.ihx", firmwarefile);
             }
             return false;
         }
@@ -168,6 +169,66 @@ S15: MAX_WINDOW=131
                     test++;
                 }
             }
+        }
+
+        bool upload_xmodem(ICommsSerial comPort)
+        {
+            // try xmodem mode
+            // xmodem - short cts to ground
+            try
+            {
+                uploader_LogEvent("Trying XModem Mode");
+                //comPort.BaudRate = 57600;
+                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                comPort.ReadTimeout = 1000;
+
+                Thread.Sleep(2000);
+                var tempd = comPort.ReadExisting();
+                Console.WriteLine(tempd);
+                comPort.Write("U");
+                Thread.Sleep(1000);
+                var resp1 = Serial_ReadLine(comPort); // echo
+                var resp2 = Serial_ReadLine(comPort); // echo 2
+                var tempd2 = comPort.ReadExisting(); // posibly bootloader info / use to sync
+                // identify
+                comPort.Write("i");
+                // responce is rfd900....
+                var resp3 = Serial_ReadLine(comPort); //echo
+                var resp4 = Serial_ReadLine(comPort); // newline
+                var resp5 = Serial_ReadLine(comPort); // bootloader info
+                uploader_LogEvent(resp5);
+                if (resp5.Contains("RFD900"))
+                {
+                    // start upload
+                    comPort.Write("u");
+                    var resp6 = Serial_ReadLine(comPort); // echo
+                    var resp7 = Serial_ReadLine(comPort); // Ready
+                    if (resp7.Contains("Ready"))
+                    {
+                        comPort.ReadTimeout = 3500;
+                        // responce is C
+                        var isC = comPort.ReadByte();
+                        var temp = comPort.ReadExisting();
+                        if (isC == 'C')
+                        {
+                            XModem.LogEvent += uploader_LogEvent;
+                            XModem.ProgressEvent += uploader_ProgressEvent;
+                            // start file send
+                            XModem.Upload(@"SiK900x.bin",
+                                comPort);
+                            XModem.LogEvent -= uploader_LogEvent;
+                            XModem.ProgressEvent -= uploader_ProgressEvent;
+                            return true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex2)
+            {
+                log.Error(ex2);
+            }
+
+            return false;
         }
 
         private void BUT_upload_Click(object sender, EventArgs e)
@@ -220,8 +281,17 @@ S15: MAX_WINDOW=131
             // attempt bootloader mode
             try
             {
+                if (upload_xmodem(comPort))
+                {
+                    comPort.Close();
+                    return;
+                }
+
+                comPort.BaudRate = 115200;
+
                 uploader_ProgressEvent(0);
                 uploader_LogEvent("Trying Bootloader Mode");
+
                 uploader.port = comPort;
                 uploader.connect_and_sync();
 
@@ -231,8 +301,10 @@ S15: MAX_WINDOW=131
                 uploader_LogEvent("In Bootloader Mode");
                 bootloadermode = true;
             }
-            catch
+            catch (Exception ex1)
             {
+                log.Error(ex1);
+
                 // cleanup bootloader mode fail, and try firmware mode
                 comPort.Close();
                 if (MainV2.comPort.BaseStream.IsOpen)
@@ -280,8 +352,22 @@ S15: MAX_WINDOW=131
                     }
                 }
 
-                // force sync after changing baudrate
-                uploader.connect_and_sync();
+                if (upload_xmodem(comPort))
+                {
+                    comPort.Close();
+                    return;
+                }
+
+                try
+                {
+                    // force sync after changing baudrate
+                    uploader.connect_and_sync();
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Failed to sync with Radio");
+                    goto exit;
+                }
 
                 var device = Uploader.Board.FAILED;
                 var freq = Uploader.Frequency.FAILED;
@@ -1029,7 +1115,11 @@ S15: MAX_WINDOW=131
                 Sleep(1500, comPort);
                 comPort.DiscardInBuffer();
                 // send config string
-                comPort.Write("+++");
+                comPort.Write("+");
+                Sleep(200, comPort);
+                comPort.Write("+");
+                Sleep(200, comPort);
+                comPort.Write("+");
                 Sleep(1500, comPort);
                 // check for config response "OK"
                 log.Info("Connect btr " + comPort.BytesToRead + " baud " + comPort.BaudRate);

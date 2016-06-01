@@ -791,6 +791,7 @@
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ConfigCameraStabModel.cs" />
+    <Compile Include="Radio\XModem.cs" />
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
     </Compile>
