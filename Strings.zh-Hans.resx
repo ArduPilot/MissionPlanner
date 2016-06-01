@@ -318,10 +318,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在检查 </value>
   </data>
   <data name="DownloadedFromInternet" xml:space="preserve">
-    <value>已从奠基网镜像下载完毕</value>
+    <value>下载完毕</value>
   </data>
   <data name="Getting" xml:space="preserve">
-    <value>正在从奠基网镜像获取 </value>
+    <value>正在获取 </value>
   </data>
   <data name="GettingUpdatedParams" xml:space="preserve">
     <value>正在获取更新的参数列表</value>
@@ -342,7 +342,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在检测控制板的版本</value>
   </data>
   <data name="DownloadingFromInternet" xml:space="preserve">
-    <value>正在从奠基网镜像下载</value>
+    <value>正在下载</value>
   </data>
   <data name="EppromChanged" xml:space="preserve">
     <value>Epprom更改了, 您所有的设置将在更新中丢失,
@@ -364,10 +364,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>上传失败</value>
   </data>
   <data name="GettingFWList" xml:space="preserve">
-    <value>正在从奠基网镜像获取固件列表</value>
+    <value>正在获取固件列表</value>
   </data>
   <data name="GettingFWVersion" xml:space="preserve">
-    <value>正在从奠基网镜像获取固件版本</value>
+    <value>正在获取固件版本</value>
   </data>
   <data name="InvalidBoardType" xml:space="preserve">
     <value>无效的控制板类型</value>
@@ -379,7 +379,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在读取十六进制文件</value>
   </data>
   <data name="ReceivedList" xml:space="preserve">
-    <value>从奠基网镜像获取列表完成</value>
+    <value>获取列表完成</value>
   </data>
   <data name="UploadComplete" xml:space="preserve">
     <value>上传完成</value>
