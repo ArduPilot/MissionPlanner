@@ -29,20 +29,13 @@ namespace MissionPlanner
         {
             if (Settings.Instance["language"] == null)
                 return CultureInfo.CurrentUICulture;
-
-            CultureInfo ci = CultureInfoEx.GetCultureInfo(Settings.Instance["language"]);
-            if (ci != null)
-            {
-                return ci;
-            }
             else
-            {
-                return System.Globalization.CultureInfo.CurrentUICulture;
-            }
+                return CultureInfoEx.GetCultureInfo(Settings.Instance["language"]);
         }
 
         public static string ReplaceMirrorUrl(ref string url)
         {
+            /* PS: the webmaster of APMCN seems do not maintain mirror server any more
             switch (ConfigLang.Name)
             {
                 case "zh-CN":
@@ -63,23 +56,21 @@ namespace MissionPlanner
                         {
                             url = url.Replace("raw.github.com", "githubraw.diywrj.com");
                         }
-                        /*
-	                    else if (url.Contains("raw.githubusercontent.com"))
-	                    {
-	                        url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
-	                    }
-	                    else if (url.Contains("github.com"))
-	                    {
-	                        url = url.Replace("github.com", "github.diywrj.com");
-	                    }
-	                    */
+	                    //else if (url.Contains("raw.githubusercontent.com"))
+	                    //{
+	                    //    url = url.Replace("raw.githubusercontent.com", "githubraw.diywrj.com");
+	                    //}
+	                    //else if (url.Contains("github.com"))
+	                    //{
+	                    //    url = url.Replace("github.com", "github.diywrj.com");
+	                    //}                
                         log.InfoFormat("updated url {0}", url);
                     }
                     break;
                 default:
                     break;
             }
-
+            */
             return url;
         }
 
@@ -116,7 +107,7 @@ namespace MissionPlanner
                     options.DontFragment = true;
                     string data = "MissionPlanner";
                     byte[] buffer = Encoding.ASCII.GetBytes(data);
-                    int timeout = 500;
+                    int timeout = 2000;
                     System.Net.NetworkInformation.PingReply reply = p.Send(ip, timeout, buffer, options);
                     if (reply.Status == System.Net.NetworkInformation.IPStatus.Success)
                         return true;
@@ -135,7 +126,7 @@ namespace MissionPlanner
             try
             {
                 HttpWebRequest req = WebRequest.Create(url) as HttpWebRequest;
-                req.Timeout = 500;
+                req.Timeout = 2000;
                 using (HttpWebResponse response = (HttpWebResponse) req.GetResponse())
                 {
                     if (response.StatusCode == HttpStatusCode.OK)
@@ -147,6 +138,37 @@ namespace MissionPlanner
             catch
             {
                 return false;
+            }
+        }
+
+        public static string GetString(string s)
+        {
+            // would be optimized later
+            switch (ConfigLang.Name)
+            {
+                case "zh-CN":
+                case "zh-Hans":
+                    switch (s)
+                    {
+                        case "FailSafe":
+                            return "故障保护";
+                        case "Ensure your props are not on the Plane/Quad":
+                            return "进入此页面请卸掉螺旋桨以确保安全";
+                        case "hdop":
+                            return "GPS精度";
+                        case "Sats":
+                            return "GPS星数";
+                        case "New Mag Offsets":
+                            return "新的磁偏移量";
+                        case "New offsets are ":
+                            return "新的磁偏量是 ";
+                        case "These have been saved for you.":
+                            return "已为你保存新的磁偏移量";
+                        default:
+                            return s;
+                    }
+                default:
+                    return s;
             }
         }
     }

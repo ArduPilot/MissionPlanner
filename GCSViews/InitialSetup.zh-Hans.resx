@@ -199,4 +199,10 @@
   <data name="backstageViewPageBatt2.Text" xml:space="preserve">
     <value>电池监测器2</value>
   </data>
+  <data name="backstageViewPageESP.Text" xml:space="preserve">
+    <value>ESP8266设置</value>
+  </data>
+  <data name="backstageViewPagePX4Flow.Text" xml:space="preserve">
+    <value>PX4Flow光流</value>
+  </data>
 </root>
