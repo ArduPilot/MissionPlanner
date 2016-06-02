@@ -257,6 +257,32 @@ namespace MissionPlanner.Log
             //update the new filename
             logfile = logfile + ".log";
 
+            // rename file if needed
+            log.Info("about to GetFirstGpsTime: " + logfile);
+            // get gps time of assci log
+            DateTime logtime = new DFLog().GetFirstGpsTime(logfile);
+
+            // rename log is we have a valid gps time
+            if (logtime != DateTime.MinValue)
+            {
+                string newlogfilename = Settings.Instance.LogDir + Path.DirectorySeparatorChar
+                                        + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
+                                        + hbpacket.sysid + Path.DirectorySeparatorChar +
+                                        logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
+                try
+                {
+                    File.Move(logfile, newlogfilename);
+                    // rename bin as well
+                    File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
+                    logfile = newlogfilename;
+                }
+                catch
+                {
+                    CustomMessageBox.Show(Strings.ErrorRenameFile + " " + logfile + "\nto " + newlogfilename,
+                        Strings.ERROR);
+                }
+            }
+
             MainV2.comPort.Progress -= comPort_Progress;
 
             return logfile;
@@ -355,7 +381,7 @@ namespace MissionPlanner.Log
 
                     tallyBytes += receivedbytes;
                     receivedbytes = 0;
-                    UpdateProgress(0, totalBytes, tallyBytes);
+                    UpdateProgress(0, totalBytes, tallyBytes);                    
                 }
 
                 UpdateProgress(0, totalBytes, totalBytes);
