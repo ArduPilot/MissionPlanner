@@ -1580,8 +1580,8 @@ namespace MissionPlanner
                     if (mavLinkMessage != null)
                     {
                         var bat = mavLinkMessage.ToStructure<MAVLink.mavlink_battery2_t>();
-                        _battery_voltage2 = bat.voltage;
-                        current2 = bat.current_battery;
+                        _battery_voltage2 = bat.voltage / 1000.0f;
+                        current2 = bat.current_battery / 100.0f;
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE);
