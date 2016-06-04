@@ -117,6 +117,10 @@ namespace MissionPlanner
             public decimal repeatservo_pwm;
             public decimal repeatservo_cycle;
 
+            // do set servo
+            public decimal setservo_no;
+            public decimal setservo_low;
+            public decimal setservo_high;
         }
 
         // GridUI
@@ -278,6 +282,10 @@ namespace MissionPlanner
             num_reptpwm.Value = griddata.repeatservo_pwm;
             NUM_repttime.Value = griddata.repeatservo_cycle;
 
+            num_setservono.Value = griddata.setservo_no;
+            num_setservolow.Value = griddata.setservo_low;
+            num_setservohigh.Value = griddata.setservo_high;
+
             // Copter Settings
             NUM_copter_delay.Value = griddata.copter_delay;
             CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
@@ -333,6 +341,10 @@ namespace MissionPlanner
             griddata.repeatservo_no = NUM_reptservo.Value;
             griddata.repeatservo_pwm = num_reptpwm.Value;
             griddata.repeatservo_cycle = NUM_repttime.Value;
+
+            griddata.setservo_no = num_setservono.Value;
+            griddata.setservo_low = num_setservolow.Value;
+            griddata.setservo_high = num_setservohigh.Value;
 
             return griddata;
         }
