@@ -1578,9 +1578,14 @@ namespace MissionPlanner
                             {
                                 if (rad_repeatservo.Checked)
                                 {
-                                    AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float) NUM_reptservo.Value,
-                                        (float)num_reptpwm.Value, 1, (float)NUM_repttime.Value, 0, 0, 0, gridobject);
+                                    if (!chk_stopstart.Checked)
+                                    {
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
+                                            (float) NUM_reptservo.Value,
+                                            (float) num_reptpwm.Value, 1, (float) NUM_repttime.Value, 0, 0, 0,
+                                            gridobject);
+                                    }
                                 }
                                 if (rad_digicam.Checked)
                                 {
@@ -1618,6 +1623,27 @@ namespace MissionPlanner
                                                 0, 0, 0, 0, 0, 0, gridobject);
                                             startedtrigdist = true;
                                         }
+                                    }
+                                } 
+                                else if (rad_repeatservo.Checked)
+                                {
+                                    if (chk_stopstart.Checked)
+                                    {
+                                        if (plla.Tag == "SM")
+                                        {
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
+                                                (float)NUM_reptservo.Value,
+                                                (float)num_reptpwm.Value, 999, (float)NUM_repttime.Value, 0, 0, 0,
+                                                gridobject);
+                                        }
+                                        else if (plla.Tag == "ME")
+                                        {
+                                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
+                                                (float)NUM_reptservo.Value,
+                                                (float)num_reptpwm.Value, 0, (float)NUM_repttime.Value, 0, 0, 0,
+                                                gridobject);
+                                        }
+
                                     }
                                 }
                             }
