@@ -1643,7 +1643,23 @@ namespace MissionPlanner
                                                 (float)num_reptpwm.Value, 0, (float)NUM_repttime.Value, 0, 0, 0,
                                                 gridobject);
                                         }
-
+                                    }
+                                }
+                                else if (rad_do_set_servo.Checked)
+                                {
+                                    if (plla.Tag == "SM")
+                                    {
+                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
+                                            (float)num_setservono.Value,
+                                            (float)num_setservolow.Value, 0, 0, 0, 0, 0,
+                                            gridobject);
+                                    }
+                                    else if (plla.Tag == "ME")
+                                    {
+                                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
+                                            (float) num_setservono.Value,
+                                            (float) num_setservohigh.Value, 0, 0, 0, 0, 0,
+                                            gridobject);
                                     }
                                 }
                             }
