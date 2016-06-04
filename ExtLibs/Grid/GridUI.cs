@@ -1580,7 +1580,7 @@ namespace MissionPlanner
                                 {
                                     AddWP(plla.Lng, plla.Lat, plla.Alt);
                                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float) NUM_reptservo.Value,
-                                        (float)num_reptpwm.Value, 999, (float)NUM_repttime.Value, 0, 0, 0, gridobject);
+                                        (float)num_reptpwm.Value, 1, (float)NUM_repttime.Value, 0, 0, 0, gridobject);
                                 }
                                 if (rad_digicam.Checked)
                                 {
