@@ -106,7 +106,7 @@ namespace MissionPlanner
                         "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9:ddMMyy},{10},", "RMC",
                         DateTime.Now.ToUniversalTime(), "A", Math.Abs(lat*100),
                         MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng*100),
-                        MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.groundspeed*3.6,
+                        MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.groundspeed*1.943844,
                         MainV2.comPort.MAV.cs.groundcourse, DateTime.Now, 0);
 
                     checksum = GetChecksum(line);
