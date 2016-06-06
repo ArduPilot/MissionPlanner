@@ -316,15 +316,7 @@ namespace MissionPlanner.GeoRef
             if (fn.ToLower().EndsWith("tlog"))
                 return null;
 
-            // convert bin to log
-            if (fn.ToLower().EndsWith("bin"))
-            {
-                string tempfile = Path.GetTempFileName();
-                Log.BinaryLog.ConvertBin(fn, tempfile);
-                fn = tempfile;
-            }
-
-            using (StreamReader sr = new StreamReader(fn))
+            using (var sr = new CollectionBuffer(File.OpenRead(fn)))
             {
                 int a = 0;
                 while (!sr.EndOfStream)
