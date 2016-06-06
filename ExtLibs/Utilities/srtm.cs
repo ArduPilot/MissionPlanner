@@ -75,13 +75,13 @@ namespace MissionPlanner
             int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
 
             string ns;
-            if (y > 0)
+            if (y >= 0)
                 ns = "N";
             else
                 ns = "S";
 
             string ew;
-            if (x > 0)
+            if (x >= 0)
                 ew = "E";
             else
                 ew = "W";
