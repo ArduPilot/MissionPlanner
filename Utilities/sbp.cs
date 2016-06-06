@@ -11,13 +11,13 @@ using s64 = System.Int64;
 
 namespace MissionPlanner.Utilities
 {
-    public class sbp
+    public class sbp : ICorrections
     {
         int state = 0;
 
         piksimsg msg = new piksimsg();
 
-        int length = 0;
+        int lengthcount = 0;
 
         Crc16Ccitt crc;
 
@@ -73,20 +73,20 @@ namespace MissionPlanner.Utilities
                     msg.length = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     msg.payload = new u8[msg.length];
-                    length = 0;
+                    lengthcount = 0;
                     state++;
                     break;
                 case 6:
-                    if (length == msg.length)
+                    if (lengthcount == msg.length)
                     {
                         state++;
                         goto case 7;
                     }
                     else
                     {
-                        msg.payload[length] = data;
+                        msg.payload[lengthcount] = data;
                         crcpacket = crc.Accumulate(data, crcpacket);
-                        length++;
+                        lengthcount++;
                     }
                     break;
                 case 7:
@@ -164,6 +164,19 @@ namespace MissionPlanner.Utilities
                         table[i] = temp;
                     }
                 }
+            }
+        }
+
+        public s32 length
+        {
+            get { return Marshal.SizeOf(msg); }
+        }
+
+        public u8[] packet
+        {
+            get
+            {
+                return MavlinkUtil.StructureToByteArray(msg);
             }
         }
     }

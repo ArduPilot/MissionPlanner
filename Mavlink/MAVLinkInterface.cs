@@ -2370,13 +2370,21 @@ Please check the following
         {
             mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
 
-            gps.data = new byte[110];
-            Array.Copy(data, gps.data, length);
-            gps.len = length;
-            gps.target_component = MAV.compid;
-            gps.target_system = MAV.sysid;
+            var len = (length % 128) == 0 ? length / 128 : (length / 128) + 1;
 
-            generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+            for (int a = 0; a < len; a++)
+            {
+                gps.data = new byte[110];
+
+                int copy = Math.Min(length - a*110, 110);
+
+                Array.Copy(data, a * 110, gps.data, 0, copy);
+                gps.len = (byte)copy;
+                gps.target_component = MAV.compid;
+                gps.target_system = MAV.sysid;
+
+                generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+            }
         }
 
         /// <summary>

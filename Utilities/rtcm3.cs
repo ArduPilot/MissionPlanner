@@ -11,15 +11,15 @@ using gps_time_t = System.UInt64;
 
 namespace MissionPlanner.Utilities
 {
-    public class rtcm3
+    public class rtcm3 : ICorrections
     {
         const byte RTCM3PREAMB = 0xD3;
 
         int step = 0;
 
-        byte[] packet = new u8[1024 * 4];
-        u32 len = 0;
-        int a = 0;
+        byte[] buffer = new u8[1024 * 4];
+        u32 payloadlen = 0;
+        int msglencount = 0;
         rtcmpreamble pre;
 
         public int Read(byte data)
@@ -31,29 +31,29 @@ namespace MissionPlanner.Utilities
                     if (data == RTCM3PREAMB)
                     {
                         step = 1;
-                        packet[0] = data;
+                        buffer[0] = data;
                     }
                     break;
                 case 1:
-                    packet[1] = data;
+                    buffer[1] = data;
                     step++;
                     break;
                 case 2:
-                    packet[2] = data;
+                    buffer[2] = data;
                     step++;
                     pre = new rtcmpreamble();
-                    pre.Read(packet);
-                    len = pre.length;
-                    a = 0;
+                    pre.Read(buffer);
+                    payloadlen = pre.length;
+                    msglencount = 0;
                     // reset on oversize packet
-                    if (len > packet.Length)
+                    if (payloadlen > buffer.Length)
                         step = 0;
                     break;
                 case 3:
-                    if (a < (len))
+                    if (msglencount < (payloadlen))
                     {
-                        packet[a + 3] = data;
-                        a++;
+                        buffer[msglencount + 3] = data;
+                        msglencount++;
                     }
                     else
                     {
@@ -62,25 +62,24 @@ namespace MissionPlanner.Utilities
                     }
                     break;
                 case 4:
-                    packet[len + 3] = data;
-
+                    buffer[payloadlen + 3] = data;
                     step++;
                     break;
                 case 5:
-                    packet[len + 3 + 1] = data;
+                    buffer[payloadlen + 3 + 1] = data;
                     step++;
                     break;
                 case 6:
-                    packet[len + 3 + 2] = data;
+                    buffer[payloadlen + 3 + 2] = data;
 
-                    len = len + 3;
-                    u32 crc = crc24.crc24q(packet, len, 0);
-                    u32 crcpacket = getbitu(packet, len * 8, 24);
+                    payloadlen = payloadlen + 3;
+                    u32 crc = crc24.crc24q(buffer, payloadlen, 0);
+                    u32 crcpacket = getbitu(buffer, payloadlen * 8, 24);
 
                     if (crc == crcpacket)
                     {
                         rtcmheader head = new rtcmheader();
-                        head.Read(packet);
+                        head.Read(buffer);
 
                         step = 0;
 
@@ -240,6 +239,16 @@ namespace MissionPlanner.Utilities
                     crc = ((crc << 8) & 0xFFFFFF) ^ crc24qtab[(crc >> 16) ^ buf[i]];
                 return crc;
             }
+        }
+
+        public s32 length
+        {
+            get { return (s32)(payloadlen + 2 + 1); }
+        }
+
+        public u8[] packet
+        {
+            get { return buffer; }
         }
     }
 }

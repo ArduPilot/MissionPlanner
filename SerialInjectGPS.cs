@@ -170,6 +170,10 @@ namespace MissionPlanner
         {
             DateTime lastrecv = DateTime.MinValue;
             threadrun = true;
+
+            bool isrtcm = false;
+            bool issbp = false;
+
             while (threadrun)
             {
                 try
@@ -208,7 +212,8 @@ namespace MissionPlanner
                         bytes += read;
                         bps += read;
 
-                        MainV2.comPort.InjectGpsData(buffer, (byte) read);
+                        if (!(isrtcm || issbp))
+                            MainV2.comPort.InjectGpsData(buffer, (byte) read);
 
                         // check for valid rtcm packets
                         for (int a = 0; a < read; a++)
@@ -217,6 +222,8 @@ namespace MissionPlanner
                             // rtcm
                             if ((seen = rtcm3.Read(buffer[a])) > 0)
                             {
+                                isrtcm = true;
+                                MainV2.comPort.InjectGpsData(rtcm3.packet, (byte)rtcm3.length);
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
@@ -224,6 +231,8 @@ namespace MissionPlanner
                             // sbp
                             if ((seen = sbp.read(buffer[a])) > 0)
                             {
+                                issbp = true;
+                                MainV2.comPort.InjectGpsData(sbp.packet, (byte)sbp.length);
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
