@@ -27,7 +27,7 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// Abstract object
         /// </summary>
-        SymmetricAlgorithm algorithm;
+        public SymmetricAlgorithm algorithm;
 
         /// <summary>
         /// Default constructor

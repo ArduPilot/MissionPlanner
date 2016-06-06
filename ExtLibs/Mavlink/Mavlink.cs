@@ -6168,7 +6168,7 @@ SETUP_SIGNING = 256,
             /// <summary> The callsign, 8+null </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public byte[] callsign;
-            /// <summary> Type from ADSB_EMITTER_TYPE enum </summary>
+        /// <summary> Type from ADSB_EMITTER_TYPE enum </summary>
         public  byte emitter_type;
             /// <summary> Time since last communication in seconds </summary>
         public  byte tslc;

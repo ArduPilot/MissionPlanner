@@ -1,0 +1,96 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.Text;
+using System.Xml.Serialization;
+using log4net;
+using MissionPlanner.Utilities;
+using Org.BouncyCastle.Crypto.Engines;
+
+namespace MissionPlanner.Mavlink
+{
+    internal class MAVAuthKeys
+    {
+        private static readonly ILog log =
+    LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        static string keyfile = "authkeys.xml";
+
+        static Crypto Rij = new Crypto();
+
+        static internal AuthKeys Keys = new AuthKeys();
+
+        //https://msdn.microsoft.com/en-us/library/aa347850(v=vs.110).aspx
+
+        [CollectionDataContract(ItemName = "AuthKeys", Namespace = "")]
+        internal class AuthKeys : Dictionary<string, AuthKey>
+        {
+        }
+
+        [DataContract(Name = "AuthKey", Namespace = "")]
+        public struct AuthKey
+        {
+            [DataMember()]
+            public string Name;
+            [DataMember()]
+            public byte[] Key;
+        }
+
+        static MAVAuthKeys()
+        {
+            Load();
+        }
+
+        internal static void AddKey(string name, string seed)
+        {
+            // sha the user input string
+            SHA256Managed signit = new SHA256Managed();
+            var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(seed));
+            Array.Resize(ref shauser, 32);
+
+            Keys[name] = new AuthKey() { Key = shauser, Name = name };
+        }
+
+        internal static void Save()
+        {
+            // save config
+            DataContractSerializer writer =
+                new DataContractSerializer(typeof(AuthKeys),
+                    new Type[] {typeof (AuthKey)});
+
+            using (var fs = new FileStream(keyfile, FileMode.Create))
+            using (var sw = new CryptoStream(fs, Rij.algorithm.CreateEncryptor(), CryptoStreamMode.Write))
+            {
+                writer.WriteObject(sw, Keys);
+            }
+        }
+
+        internal static void Load()
+        {
+            if (!File.Exists(keyfile))
+                return;
+
+            try
+            {
+
+                DataContractSerializer reader =
+                    new DataContractSerializer(typeof (AuthKeys),
+                        new Type[] {typeof (AuthKey)});
+
+                using (var fs = new FileStream(keyfile, FileMode.Open))
+                using (var sr = new CryptoStream(fs, Rij.algorithm.CreateDecryptor(), CryptoStreamMode.Read))
+                {
+                    Keys = (AuthKeys) reader.ReadObject(sr);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+    }
+}

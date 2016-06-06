@@ -92,14 +92,6 @@ public partial class MAVLink
 
             MAVLinkMessage message = new MAVLinkMessage(buffer);
 
-            // check message length vs table
-            if (buffer[1] != MAVLINK_MESSAGE_LENGTHS[message.msgid])
-            {
-                badLength++;
-                // bad or unknown packet
-                return null;
-            }
-
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);
 

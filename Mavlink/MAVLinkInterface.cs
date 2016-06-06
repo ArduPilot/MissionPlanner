@@ -72,30 +72,6 @@ namespace MissionPlanner
 
         const int gcssysid = 255;
 
-        private byte[] _signingkey;
-        internal byte[] signingKey {
-            get
-            {
-                if (_signingkey == null)
-                {
-                    if (Settings.Instance.ContainsKey("signingKey"))
-                    {
-                        _signingkey = Convert.FromBase64String(Settings.Instance["signingKey"]);
-                    }
-                    else
-                    {
-                        _signingkey = new byte[32];
-                        log.Error("signing key has not been set default to 0's");
-                    }
-                }
-                return _signingkey; 
-            }
-            set { 
-                _signingkey = value;
-                Settings.Instance["signingKey"] = Convert.ToBase64String(_signingkey);
-            }
-        }
-
         /// <summary>
         /// used to prevent comport access for exclusive use
         /// </summary>
@@ -792,9 +768,15 @@ Please check the following
 
                         //Console.WriteLine("gen linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", sig[0], sig[1], sig[2], sig[3], sig[4], sig[5], sig[6], timestamp);
 
+                        var signingKey = MAVlist[sysid, compid].signingKey;
+
+                        if (signingKey == null || signingKey.Length != 32)
+                        {
+                            signingKey = new byte[32];
+                        }
+
                         using (SHA256Managed signit = new SHA256Managed())
                         {
-
                             signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
                             signit.TransformBlock(packet, 0, i, null, 0);
                             signit.TransformFinalBlock(sig, 0, sig.Length);
@@ -866,13 +848,13 @@ Please check the following
             mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
             if (!clearkey)
             {
-                signingKey = shauser;
+                MAV.signingKey = shauser;
                 sign.initial_timestamp = (UInt64) ((DateTime.UtcNow - new DateTime(2015, 1, 1)).TotalMilliseconds*100);
                 sign.secret_key = shauser;
             }
             else
             {
-                signingKey = new byte[32];
+                MAV.signingKey = new byte[32];
                 sign.initial_timestamp = 0;
                 sign.secret_key = new byte[32];
             }
@@ -895,6 +877,7 @@ Please check the following
         {
             MAVlist[sysid,compid].signing = true;
             MAVlist[sysid, compid].mavlinkv2 = true;
+
 
             return MAVlist[sysid, compid].signing;
         }
@@ -3147,41 +3130,46 @@ Please check the following
             {
                 _mavlink2signed++;
 
-                using (SHA256Managed signit = new SHA256Managed())
+                bool valid = false;
+
+                foreach (var AuthKey in MAVAuthKeys.Keys.Values)
                 {
-                    signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
-                    signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);
-                    var ctx = signit.Hash;
-                    // trim to 48
-                    Array.Resize(ref ctx, 6);
-
-                    //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
-
-                    for (int i = 0; i < ctx.Length; i++)
+                    using (SHA256Managed signit = new SHA256Managed())
                     {
-                        if (ctx[i] != message.sig[7 + i])
+                        signit.TransformBlock(AuthKey.Key, 0, AuthKey.Key.Length, null, 0);
+                        signit.TransformFinalBlock(message.buffer, 0, message.Length - MAVLINK_SIGNATURE_BLOCK_LEN + 7);
+                        var ctx = signit.Hash;
+                        // trim to 48
+                        Array.Resize(ref ctx, 6);
+
+                        //Console.WriteLine("rec linkid {0}, time {1} {2} {3} {4} {5} {6} {7}", message.sig[0], message.sig[1], message.sig[2], message.sig[3], message.sig[4], message.sig[5], message.sig[6], message.sigTimestamp);
+
+                        for (int i = 0; i < ctx.Length; i++)
                         {
-                            log.InfoFormat("Packet failed signature but passed crc");
-                            return new MAVLinkMessage();
+                            if (ctx[i] != message.sig[7 + i])
+                            {
+                                // not this key, check next
+                                continue;
+                            }
                         }
-                    }
 
-                    MAVlist[sysid, compid].linkid = message.sig[0];
+                        // got valid key
+                        valid = true;
 
-                    // 1 minute in 10ns blocks
-                    uint offset = 60*100*1000;
-                    if (MAVlist[sysid, compid].timestamp < (message.sigTimestamp + offset) &&
-                        MAVlist[sysid, compid].timestamp > (message.sigTimestamp - offset))
-                    {
-                        // valid timestamp
-                        //MAVlist[sysid, compid].timestamp = message.sigTimestamp;
-                    }
-                    else
-                    {
-                        //invalid timestamp
-                    }
+                        MAVlist[sysid, compid].linkid = message.sig[0];
 
-                    enableSigning(sysid, compid);
+                        MAVlist[sysid, compid].signingKey = AuthKey.Key;
+
+                        enableSigning(sysid, compid);
+
+                        break;
+                    }
+                }
+
+                if (!valid)
+                {
+                    log.InfoFormat("Packet failed signature but passed crc");
+                    return new MAVLinkMessage();
                 }
             }
 

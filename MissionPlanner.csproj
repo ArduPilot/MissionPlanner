@@ -199,6 +199,7 @@
     <Reference Include="System.Reactive.PlatformServices">
       <HintPath>packages\Rx-PlatformServices.2.2.4\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Speech">
       <Private>True</Private>
@@ -282,6 +283,12 @@
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
     <Compile Include="Comms\MAVLinkSerialPort.cs" />
+    <Compile Include="Controls\AuthKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\AuthKeys.Designer.cs">
+      <DependentUpon>AuthKeys.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ConnectionControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -756,6 +763,7 @@
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="Maps\Statkart_Topo2.cs" />
+    <Compile Include="Mavlink\MAVAuthKeys.cs" />
     <Compile Include="Mavlink\MAVList.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="MovingBase.cs">
@@ -851,6 +859,7 @@
     <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerAirport.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
+    <Compile Include="Utilities\ICorrections.cs" />
     <Compile Include="Utilities\ImageProjection.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
@@ -957,6 +966,9 @@
     <Compile Include="Wizard\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\AuthKeys.resx">
+      <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
     </EmbeddedResource>
@@ -2978,7 +2990,6 @@
     <Compile Include="Utilities\rtcm3.cs" />
     <Compile Include="Utilities\sbp.cs" />
     <Compile Include="Utilities\Settings.cs" />
-    <Compile Include="Utilities\SignXML.cs" />
     <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\TerrainFollow.cs" />

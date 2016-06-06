@@ -1660,6 +1660,12 @@ namespace MissionPlanner
 
         private void but_signkey_Click(object sender, EventArgs e)
         {
+            AuthKeys auth = new AuthKeys();
+
+            auth.Show();
+
+            return;
+
             string key = "this is an example";
             InputBox.Show("Signing Key", "Please enter your pass phrase", ref key);
 
