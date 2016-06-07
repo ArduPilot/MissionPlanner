@@ -499,13 +499,13 @@
     <value>353, 92</value>
   </data>
   <data name="RDIO_CAMMsgSynchro.Size" type="System.Drawing.Size, System.Drawing">
-    <value>136, 17</value>
+    <value>202, 17</value>
   </data>
   <data name="RDIO_CAMMsgSynchro.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
   <data name="RDIO_CAMMsgSynchro.Text" xml:space="preserve">
-    <value>CAM Message Synchro</value>
+    <value>CAM Message Synchro (DF Log only)</value>
   </data>
   <data name="&gt;&gt;RDIO_CAMMsgSynchro.Name" xml:space="preserve">
     <value>RDIO_CAMMsgSynchro</value>

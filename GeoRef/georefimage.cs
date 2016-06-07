@@ -313,49 +313,96 @@ namespace MissionPlanner.GeoRef
         {
             Dictionary<long, VehicleLocation> list = new Dictionary<long, VehicleLocation>();
 
+            // Telemetry Log
             if (fn.ToLower().EndsWith("tlog"))
-                return null;
-
-            using (var sr = new CollectionBuffer(File.OpenRead(fn)))
             {
-                int a = 0;
-                while (!sr.EndOfStream)
+                TXT_outputlog.AppendText("Warning: tlogs are not fully supported when using CAM Messages\n");
+
+                using (MAVLinkInterface mine = new MAVLinkInterface())
                 {
-                    a++;
-                    string line = sr.ReadLine();
+                    mine.logplaybackfile =
+                        new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    mine.logreadmode = true;
 
-                    var item = dflog.GetDFItemFromLine(line, a);
+                    CurrentState cs = new CurrentState();
 
-                    if (item.msgtype == "CAM")
+                    while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                     {
-                        int latindex = dflog.FindMessageOffset("CAM", "Lat");
-                        int lngindex = dflog.FindMessageOffset("CAM", "Lng");
-                        int altindex = dflog.FindMessageOffset("CAM", "Alt");
-                        int raltindex = dflog.FindMessageOffset("CAM", "RelAlt");
+                        MAVLink.MAVLinkMessage packet = mine.readPacket();
 
-                        int rindex = dflog.FindMessageOffset("CAM", "Roll");
-                        int pindex = dflog.FindMessageOffset("CAM", "Pitch");
-                        int yindex = dflog.FindMessageOffset("CAM", "Yaw");
+                        cs.datetime = mine.lastlogread;
+                        cs.UpdateCurrentSettings(null, true, mine);
 
-                        int gtimeindex = dflog.FindMessageOffset("CAM", "GPSTime");
-                        int gweekindex = dflog.FindMessageOffset("CAM", "GPSWeek");
+                        if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK)
+                        {
+                            var msg = (MAVLink.mavlink_camera_feedback_t)packet.data;
 
-                        VehicleLocation p = new VehicleLocation();
+                            VehicleLocation location = new VehicleLocation();
+                            location.Time = FromUTCTimeMilliseconds((long)(msg.time_usec / 1000));// cs.datetime;
+                            location.Lat = msg.lat;
+                            location.Lon = msg.lng;
+                            location.RelAlt = msg.alt_rel;
+                            location.AltAMSL = msg.alt_msl;
 
-                        p.Time = GetTimeFromGps(int.Parse(item.items[gweekindex], CultureInfo.InvariantCulture),
-                            int.Parse(item.items[gtimeindex], CultureInfo.InvariantCulture));
+                            location.Roll = msg.roll;
+                            location.Pitch = msg.pitch;
+                            location.Yaw = msg.yaw;
 
-                        p.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
-                        p.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
-                        p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
-                        if (raltindex != -1)
-                            p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                            location.SAlt = cs.sonarrange;
 
-                        p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
-                        p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
-                        p.Yaw = float.Parse(item.items[yindex], CultureInfo.InvariantCulture);
+                            list[ToMilliseconds(location.Time)] = location;
 
-                        list[ToMilliseconds(p.Time)] = p;
+                            Console.Write((mine.logplaybackfile.BaseStream.Position*100/
+                                           mine.logplaybackfile.BaseStream.Length) + "    \r");
+                        }
+                    }
+                    mine.logplaybackfile.Close();
+                }
+            }
+            // DataFlash Log
+            else
+            {
+                using (var sr = new CollectionBuffer(File.OpenRead(fn)))
+                {
+                    int a = 0;
+                    while (!sr.EndOfStream)
+                    {
+                        a++;
+                        string line = sr.ReadLine();
+
+                        var item = dflog.GetDFItemFromLine(line, a);
+
+                        if (item.msgtype == "CAM")
+                        {
+                            int latindex = dflog.FindMessageOffset("CAM", "Lat");
+                            int lngindex = dflog.FindMessageOffset("CAM", "Lng");
+                            int altindex = dflog.FindMessageOffset("CAM", "Alt");
+                            int raltindex = dflog.FindMessageOffset("CAM", "RelAlt");
+
+                            int rindex = dflog.FindMessageOffset("CAM", "Roll");
+                            int pindex = dflog.FindMessageOffset("CAM", "Pitch");
+                            int yindex = dflog.FindMessageOffset("CAM", "Yaw");
+
+                            int gtimeindex = dflog.FindMessageOffset("CAM", "GPSTime");
+                            int gweekindex = dflog.FindMessageOffset("CAM", "GPSWeek");
+
+                            VehicleLocation p = new VehicleLocation();
+
+                            p.Time = GetTimeFromGps(int.Parse(item.items[gweekindex], CultureInfo.InvariantCulture),
+                                int.Parse(item.items[gtimeindex], CultureInfo.InvariantCulture));
+
+                            p.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
+                            p.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
+                            p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
+                            if (raltindex != -1)
+                                p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+
+                            p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
+                            p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
+                            p.Yaw = float.Parse(item.items[yindex], CultureInfo.InvariantCulture);
+
+                            list[ToMilliseconds(p.Time)] = p;
+                        }
                     }
                 }
             }
