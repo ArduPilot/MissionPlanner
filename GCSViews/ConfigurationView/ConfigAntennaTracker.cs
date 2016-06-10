@@ -46,9 +46,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkComboBox1.setup(
                 ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION",
                     MainV2.comPort.MAV.cs.firmware.ToString()), "AHRS_ORIENTATION", MainV2.comPort.MAV.param);
-            mavlinkComboBox2.setup(
-                ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE",
-                    MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBoxservo_yaw_type.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_YAW_TYPE",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_YAW_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBoxservo_pitch_type.setup(
+            ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_PITCH_TYPE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_PITCH_TYPE", MainV2.comPort.MAV.param);
+
+            mavlinkComboBoxalt_source.setup(
+            ParameterMetaDataRepository.GetParameterOptionsInt("ALT_SOURCE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "ALT_SOURCE", MainV2.comPort.MAV.param);
+
 
             // yaw
             mavlinkNumericUpDown1.setup(900, 2200, 1, 1, "RC1_MIN", MainV2.comPort.MAV.param);

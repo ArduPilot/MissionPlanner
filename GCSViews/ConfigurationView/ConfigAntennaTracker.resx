@@ -117,25 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="mavlinkComboBox1.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="mavlinkComboBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
-  </data>
-  <data name="mavlinkComboBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 21</value>
-  </data>
-  <data name="mavlinkComboBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;mavlinkComboBox1.Name" xml:space="preserve">
     <value>mavlinkComboBox1</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox1.Parent" xml:space="preserve">
     <value>groupBox22</value>
@@ -143,12 +129,14 @@
   <data name="&gt;&gt;mavlinkComboBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="groupBox22.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 5</value>
   </data>
   <data name="groupBox22.Size" type="System.Drawing.Size, System.Drawing">
     <value>159, 42</value>
   </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="groupBox22.TabIndex" type="System.Int32, mscorlib">
     <value>30</value>
   </data>
@@ -165,14 +153,92 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox22.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>6</value>
+  </data>
+  <data name="mavlinkComboBox1.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="mavlinkComboBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 21</value>
+  </data>
+  <data name="mavlinkComboBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox1.Name" xml:space="preserve">
+    <value>mavlinkComboBox1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox1.Parent" xml:space="preserve">
+    <value>groupBox22</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>groupBox25</value>
+  </data>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkComboBoxservo_yaw_type.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBoxservo_yaw_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 19</value>
+  </data>
+  <data name="mavlinkComboBoxservo_yaw_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 21</value>
+  </data>
+  <data name="mavlinkComboBoxservo_yaw_type.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_yaw_type.Name" xml:space="preserve">
+    <value>mavlinkComboBoxservo_yaw_type</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_yaw_type.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_yaw_type.Parent" xml:space="preserve">
+    <value>groupBox25</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_yaw_type.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="BUT_test_yaw.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_test_yaw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 110</value>
+    <value>159, 142</value>
   </data>
   <data name="BUT_test_yaw.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 23</value>
@@ -193,13 +259,13 @@
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;BUT_test_yaw.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="mavlinkNumericUpDown3.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 61</value>
+    <value>72, 93</value>
   </data>
   <data name="mavlinkNumericUpDown3.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -211,19 +277,19 @@
     <value>mavlinkNumericUpDown3</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3.Parent" xml:space="preserve">
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="mavlinkNumericUpDown2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 38</value>
+    <value>72, 70</value>
   </data>
   <data name="mavlinkNumericUpDown2.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -235,19 +301,19 @@
     <value>mavlinkNumericUpDown2</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2.Parent" xml:space="preserve">
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="myTrackBar1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="myTrackBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 110</value>
+    <value>9, 142</value>
   </data>
   <data name="myTrackBar1.Size" type="System.Drawing.Size, System.Drawing">
     <value>144, 45</value>
@@ -265,13 +331,13 @@
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;myTrackBar1.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="mavlinkNumericUpDown1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 14</value>
+    <value>72, 46</value>
   </data>
   <data name="mavlinkNumericUpDown1.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -283,13 +349,13 @@
     <value>mavlinkNumericUpDown1</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1.Parent" xml:space="preserve">
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="mavlinkCheckBox1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -301,7 +367,7 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 87</value>
+    <value>10, 119</value>
   </data>
   <data name="mavlinkCheckBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 17</value>
@@ -316,13 +382,13 @@
     <value>mavlinkCheckBox1</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox1.Parent" xml:space="preserve">
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -331,7 +397,7 @@
     <value>NoControl</value>
   </data>
   <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 63</value>
+    <value>6, 95</value>
   </data>
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 13</value>
@@ -352,7 +418,7 @@
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="label90.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -361,7 +427,7 @@
     <value>NoControl</value>
   </data>
   <data name="label90.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
+    <value>6, 72</value>
   </data>
   <data name="label90.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -382,7 +448,7 @@
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;label90.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="label91.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -391,7 +457,7 @@
     <value>NoControl</value>
   </data>
   <data name="label91.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
+    <value>6, 48</value>
   </data>
   <data name="label91.Size" type="System.Drawing.Size, System.Drawing">
     <value>24, 13</value>
@@ -412,13 +478,13 @@
     <value>groupBox25</value>
   </data>
   <data name="&gt;&gt;label91.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="groupBox25.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 53</value>
   </data>
   <data name="groupBox25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 146</value>
+    <value>203, 174</value>
   </data>
   <data name="groupBox25.TabIndex" type="System.Int32, mscorlib">
     <value>33</value>
@@ -436,160 +502,172 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox25.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>7</value>
   </data>
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <data name="mavlinkComboBox2.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
   </data>
-  <data name="mavlinkComboBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="mavlinkComboBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>147, 21</value>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="mavlinkComboBox2.TabIndex" type="System.Int32, mscorlib">
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox2.Name" xml:space="preserve">
-    <value>mavlinkComboBox2</value>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Name" xml:space="preserve">
+    <value>mavlinkComboBoxservo_pitch_type</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox2.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;mavlinkComboBox2.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>172, 5</value>
+  <data name="&gt;&gt;BUT_test_pitch.Name" xml:space="preserve">
+    <value>BUT_test_pitch</value>
   </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>159, 42</value>
+  <data name="&gt;&gt;BUT_test_pitch.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+  <data name="&gt;&gt;BUT_test_pitch.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Servo Type</value>
+  <data name="&gt;&gt;BUT_test_pitch.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown4.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown4</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown4.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown4.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkNumericUpDown4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown5.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown5</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown5.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown5.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;myTrackBar2.Name" xml:space="preserve">
+    <value>myTrackBar2</value>
+  </data>
+  <data name="&gt;&gt;myTrackBar2.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyTrackBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;myTrackBar2.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;myTrackBar2.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="BUT_refreshpart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown6.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown6</value>
   </data>
-  <data name="BUT_refreshpart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>502, 253</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown6.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="BUT_refreshpart.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 15, 0, 0</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown6.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="BUT_refreshpart.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
-  </data>
-  <data name="BUT_refreshpart.TabIndex" type="System.Int32, mscorlib">
-    <value>76</value>
-  </data>
-  <data name="BUT_refreshpart.Text" xml:space="preserve">
-    <value>Refresh Screen</value>
-  </data>
-  <data name="BUT_refreshpart.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;BUT_refreshpart.Name" xml:space="preserve">
-    <value>BUT_refreshpart</value>
-  </data>
-  <data name="&gt;&gt;BUT_refreshpart.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_refreshpart.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_refreshpart.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkNumericUpDown6.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="BUT_rerequestparams.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;mavlinkCheckBox2.Name" xml:space="preserve">
+    <value>mavlinkCheckBox2</value>
   </data>
-  <data name="BUT_rerequestparams.Location" type="System.Drawing.Point, System.Drawing">
-    <value>502, 277</value>
+  <data name="&gt;&gt;mavlinkCheckBox2.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="BUT_rerequestparams.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 15, 0, 0</value>
+  <data name="&gt;&gt;mavlinkCheckBox2.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="BUT_rerequestparams.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
-  </data>
-  <data name="BUT_rerequestparams.TabIndex" type="System.Int32, mscorlib">
-    <value>74</value>
-  </data>
-  <data name="BUT_rerequestparams.Text" xml:space="preserve">
-    <value>Refresh Params</value>
-  </data>
-  <data name="BUT_rerequestparams.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;BUT_rerequestparams.Name" xml:space="preserve">
-    <value>BUT_rerequestparams</value>
-  </data>
-  <data name="&gt;&gt;BUT_rerequestparams.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_rerequestparams.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_rerequestparams.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkCheckBox2.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="BUT_writePIDS.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
   </data>
-  <data name="BUT_writePIDS.Location" type="System.Drawing.Point, System.Drawing">
-    <value>502, 302</value>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="BUT_writePIDS.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 19</value>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="BUT_writePIDS.TabIndex" type="System.Int32, mscorlib">
-    <value>70</value>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
-  <data name="BUT_writePIDS.Text" xml:space="preserve">
-    <value>Write Params</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="BUT_writePIDS.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;BUT_writePIDS.Name" xml:space="preserve">
-    <value>BUT_writePIDS</value>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>groupBox3</value>
   </data>
-  <data name="&gt;&gt;BUT_writePIDS.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>9</value>
   </data>
-  <data name="&gt;&gt;BUT_writePIDS.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>293, 53</value>
+  </data>
+  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 174</value>
+  </data>
+  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>Pitch Servo</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;BUT_writePIDS.ZOrder" xml:space="preserve">
-    <value>8</value>
+  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+    <value>5</value>
   </data>
   <data name="BUT_test_pitch.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_test_pitch.Location" type="System.Drawing.Point, System.Drawing">
-    <value>159, 110</value>
+    <value>109, 145</value>
   </data>
   <data name="BUT_test_pitch.Size" type="System.Drawing.Size, System.Drawing">
     <value>38, 23</value>
@@ -610,13 +688,13 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;BUT_test_pitch.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="mavlinkNumericUpDown4.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 61</value>
+    <value>72, 93</value>
   </data>
   <data name="mavlinkNumericUpDown4.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -628,19 +706,19 @@
     <value>mavlinkNumericUpDown4</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown4.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown4.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="mavlinkNumericUpDown5.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 38</value>
+    <value>72, 70</value>
   </data>
   <data name="mavlinkNumericUpDown5.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -652,22 +730,25 @@
     <value>mavlinkNumericUpDown5</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown5.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown5.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="myTrackBar2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="myTrackBar2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 110</value>
+    <value>153, 14</value>
+  </data>
+  <data name="myTrackBar2.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
+    <value>Vertical</value>
   </data>
   <data name="myTrackBar2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 45</value>
+    <value>45, 154</value>
   </data>
   <data name="myTrackBar2.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
@@ -682,13 +763,13 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;myTrackBar2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="mavlinkNumericUpDown6.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDown6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>72, 14</value>
+    <value>72, 46</value>
   </data>
   <data name="mavlinkNumericUpDown6.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -700,13 +781,13 @@
     <value>mavlinkNumericUpDown6</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown6.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown6.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="mavlinkCheckBox2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -718,7 +799,7 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 87</value>
+    <value>10, 119</value>
   </data>
   <data name="mavlinkCheckBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 17</value>
@@ -733,13 +814,13 @@
     <value>mavlinkCheckBox2</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox2.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBox2.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -748,7 +829,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 63</value>
+    <value>6, 95</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>41, 13</value>
@@ -769,7 +850,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -778,7 +859,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
+    <value>6, 72</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -799,7 +880,7 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -808,7 +889,7 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
+    <value>6, 48</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>24, 13</value>
@@ -829,30 +910,54 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
-  <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 53</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown7.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown7</value>
   </data>
-  <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 146</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown7.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
-    <value>34</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown7.Parent" xml:space="preserve">
+    <value>groupBox4</value>
   </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>Pitch Servo</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown7.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
-    <value>groupBox3</value>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 233</value>
+  </data>
+  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 42</value>
+  </data>
+  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Yaw Range of Movement</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="mavlinkNumericUpDown7.Enabled" type="System.Boolean, mscorlib">
@@ -871,7 +976,7 @@
     <value>mavlinkNumericUpDown7</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown7.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -909,28 +1014,52 @@
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 205</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown8.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown8</value>
   </data>
-  <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="&gt;&gt;mavlinkNumericUpDown8.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown8.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown8.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox5</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>293, 233</value>
+  </data>
+  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 42</value>
   </data>
-  <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
-    <value>31</value>
+  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
   </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Yaw Range of Movement</value>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>Pitch Range of Movement</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Name" xml:space="preserve">
-    <value>groupBox4</value>
+  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
+    <value>groupBox5</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox4.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
   <data name="mavlinkNumericUpDown8.Enabled" type="System.Boolean, mscorlib">
@@ -949,7 +1078,7 @@
     <value>mavlinkNumericUpDown8</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown8.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -987,28 +1116,148 @@
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 205</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown13.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown13</value>
   </data>
-  <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 42</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown13.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
-    <value>32</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown13.Parent" xml:space="preserve">
+    <value>groupBox6</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Pitch Range of Movement</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown13.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;groupBox5.Name" xml:space="preserve">
-    <value>groupBox5</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown12.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown12</value>
   </data>
-  <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkNumericUpDown12.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown12.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown12.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown11.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown11</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown11.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown11.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown11.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown10.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown10</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown10.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown10.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown10.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown9.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown9</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown9.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown9.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown9.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label88.Name" xml:space="preserve">
+    <value>label88</value>
+  </data>
+  <data name="&gt;&gt;label88.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label88.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label88.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 281</value>
+  </data>
+  <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>203, 136</value>
+  </data>
+  <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
+    <value>77</value>
+  </data>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>Yaw Gain</value>
+  </data>
+  <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;groupBox6.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox5.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
   <data name="mavlinkNumericUpDown13.Enabled" type="System.Boolean, mscorlib">
@@ -1027,7 +1276,7 @@
     <value>mavlinkNumericUpDown13</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown13.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown13.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1051,7 +1300,7 @@
     <value>mavlinkNumericUpDown12</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown12.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown12.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1075,7 +1324,7 @@
     <value>mavlinkNumericUpDown11</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown11.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown11.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1099,7 +1348,7 @@
     <value>mavlinkNumericUpDown10</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown10.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1123,7 +1372,7 @@
     <value>mavlinkNumericUpDown9</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown9.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -1281,28 +1530,148 @@
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 253</value>
+  <data name="&gt;&gt;mavlinkNumericUpDown18.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown18</value>
   </data>
-  <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="&gt;&gt;mavlinkNumericUpDown18.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown18.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown18.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown17.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown17</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown17.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown17.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown17.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown16.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown16</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown16.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown16.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown16.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown15.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown15</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown15.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown15.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown15.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown14.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown14</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown14.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown14.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown14.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>293, 281</value>
+  </data>
+  <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
     <value>203, 136</value>
   </data>
-  <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
-    <value>77</value>
+  <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
   </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Yaw Gain</value>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>Pitch Gain</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Name" xml:space="preserve">
-    <value>groupBox6</value>
+  <data name="&gt;&gt;groupBox7.Name" xml:space="preserve">
+    <value>groupBox7</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Type" xml:space="preserve">
+  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox6.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="mavlinkNumericUpDown18.Enabled" type="System.Boolean, mscorlib">
@@ -1321,7 +1690,7 @@
     <value>mavlinkNumericUpDown18</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown18.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown18.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -1345,7 +1714,7 @@
     <value>mavlinkNumericUpDown17</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown17.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown17.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -1369,7 +1738,7 @@
     <value>mavlinkNumericUpDown16</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown16.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown16.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -1393,7 +1762,7 @@
     <value>mavlinkNumericUpDown15</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown15.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown15.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -1417,7 +1786,7 @@
     <value>mavlinkNumericUpDown14</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown14.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5522.33182, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown14.Parent" xml:space="preserve">
     <value>groupBox7</value>
@@ -1575,28 +1944,118 @@
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>293, 253</value>
+  <data name="mavlinkComboBoxservo_pitch_type.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>203, 136</value>
+  <data name="mavlinkComboBoxservo_pitch_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 19</value>
   </data>
-  <data name="groupBox7.TabIndex" type="System.Int32, mscorlib">
-    <value>78</value>
+  <data name="mavlinkComboBoxservo_pitch_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 21</value>
   </data>
-  <data name="groupBox7.Text" xml:space="preserve">
-    <value>Pitch Gain</value>
+  <data name="mavlinkComboBoxservo_pitch_type.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
   </data>
-  <data name="&gt;&gt;groupBox7.Name" xml:space="preserve">
-    <value>groupBox7</value>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Name" xml:space="preserve">
+    <value>mavlinkComboBoxservo_pitch_type</value>
   </data>
-  <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxservo_pitch_type.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Name" xml:space="preserve">
+    <value>mavlinkComboBoxalt_source</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>293, 5</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 42</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Altitude Source</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
     <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;groupBox7.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkComboBoxalt_source.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBoxalt_source.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="mavlinkComboBoxalt_source.Size" type="System.Drawing.Size, System.Drawing">
+    <value>147, 21</value>
+  </data>
+  <data name="mavlinkComboBoxalt_source.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Name" xml:space="preserve">
+    <value>mavlinkComboBoxalt_source</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6005.19816, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxalt_source.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -1612,7 +2071,7 @@
     <value>True</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>631, 396</value>
+    <value>631, 435</value>
   </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
     <value>toolTip1</value>
