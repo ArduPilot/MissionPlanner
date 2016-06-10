@@ -2555,7 +2555,7 @@ namespace MissionPlanner
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);
                     logbrowse.logfilename = Program.args[0];
-                    logbrowse.Show();
+                    logbrowse.Show(this);
                     logbrowse.TopMost = true;
                 }
             }

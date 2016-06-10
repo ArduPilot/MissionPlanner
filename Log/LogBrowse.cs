@@ -512,14 +512,33 @@ namespace MissionPlanner.Log
                     openFileDialog1.Filter = "Log Files|*.log;*.bin";
                     openFileDialog1.FilterIndex = 2;
                     openFileDialog1.RestoreDirectory = true;
+                    openFileDialog1.Multiselect = true;
 
                     openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
 
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
-                        logfilename = openFileDialog1.FileName;
-
-                        LoadLog(logfilename);
+                        int a = 0;
+                        foreach (var fileName in openFileDialog1.FileNames)
+                        {
+                            if (a == 0)
+                            {
+                                // load first file
+                                logfilename = fileName;
+                                LoadLog(logfilename);
+                            }
+                            else
+                            {
+                                // load additional files in new windows
+                                if (File.Exists(fileName))
+                                {
+                                    LogBrowse browse = new LogBrowse();
+                                    browse.logfilename = fileName;
+                                    browse.Show(this);
+                                }
+                            }
+                            a++;
+                        }
                     }
                     else
                     {
