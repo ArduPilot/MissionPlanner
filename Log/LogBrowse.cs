@@ -12,6 +12,7 @@ using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Threading;
 using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
@@ -359,6 +360,8 @@ namespace MissionPlanner.Log
         {
             InitializeComponent();
 
+            ThemeManager.ApplyThemeTo(this);
+
             mapoverlay = new GMapOverlay("overlay");
             markeroverlay = new GMapOverlay("markers");
 
@@ -464,7 +467,7 @@ namespace MissionPlanner.Log
                     {
                         var temp = new displayitem();
                         if (item.EndsWith(":2"))
-                                temp.left = false;
+                            temp.left = false;
                         temp.expression = item;
                         temp.type = item;
                         list.Add(temp);
@@ -525,7 +528,7 @@ namespace MissionPlanner.Log
                             {
                                 // load first file
                                 logfilename = fileName;
-                                LoadLog(logfilename);
+                                ThreadPool.QueueUserWorkItem(o => LoadLog(logfilename));
                             }
                             else
                             {
@@ -549,7 +552,7 @@ namespace MissionPlanner.Log
             }
             else
             {
-                LoadLog(logfilename);
+                ThreadPool.QueueUserWorkItem(o => LoadLog(logfilename));
             }
         }
 
@@ -569,7 +572,6 @@ namespace MissionPlanner.Log
 
                 log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-                this.Text = "Log Browser - " + Path.GetFileName(FileName);
                 log.Info("about to create DataTable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
                 m_dtCSV = new DataTable();
 
@@ -600,6 +602,23 @@ namespace MissionPlanner.Log
                 }
 
                 log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                this.Invoke((Action) delegate {
+                                                  LoadLog2(FileName, logdata);
+                });
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
+                return;
+            }
+        }
+
+        void LoadLog2(String FileName, CollectionBuffer logdata)
+        {
+            try
+            {
+                this.Text = "Log Browser - " + Path.GetFileName(FileName);
 
                 log.Info("set dgv datasourse " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
@@ -945,10 +964,9 @@ namespace MissionPlanner.Log
             GraphItem(type, fieldname, left);
         }
 
-        void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true, bool isexpression = false)
+        void GraphItem(string type, string fieldname, bool left = true, bool displayerror = true,
+            bool isexpression = false)
         {
-            double a = 0; // row counter
-            int error = 0;
             DataModifer dataModifier = new DataModifer();
             string nodeName = DataModifer.GetNodeName(type, fieldname);
 
@@ -981,9 +999,6 @@ namespace MissionPlanner.Log
                 }
             }
 
-            PointPairList list1 = new PointPairList();
-            string header = fieldname;
-
             if (!isexpression)
             {
                 if (!dflog.logformat.ContainsKey(type))
@@ -993,101 +1008,117 @@ namespace MissionPlanner.Log
                     return;
                 }
 
-                int col = dflog.FindMessageOffset(type, fieldname);
-
-                // field does not exist
-                if (col == -1)
-                    return;
-
                 log.Info("Graphing " + type + " - " + fieldname);
 
                 Loading.ShowLoading("Graphing " + type + " - " + fieldname, this);
 
-                double b = 0;
-                DateTime screenupdate = DateTime.MinValue;
-                double value_prev = 0;
-
-
-                foreach (var item in logdata.GetEnumeratorType(type))
-                {
-                    b = item.lineno;
-
-                    if (screenupdate.Second != DateTime.Now.Second)
-                    {
-                        Console.Write(b + " of " + logdata.Count + "     \r");
-                        screenupdate = DateTime.Now;
-                    }
-
-                    if (item.msgtype == type)
-                    {
-                        try
-                        {
-                            double value = double.Parse(item.items[col],
-                                System.Globalization.CultureInfo.InvariantCulture);
-
-                            // abandon realy bad data
-                            if (Math.Abs(value) > 3.15e8)
-                            {
-                                a++;
-                                continue;
-                            }
-
-                            if (dataModifier.IsValid())
-                            {
-                                if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
-                                {
-                                    // there is a glitch in the data, reject it by replacing it with the previous value
-                                    value = value_prev;
-                                }
-                                value_prev = value;
-
-                                if (dataModifier.doOffsetFirst)
-                                {
-                                    value += dataModifier.offset;
-                                    value *= dataModifier.scalar;
-                                }
-                                else
-                                {
-                                    value *= dataModifier.scalar;
-                                    value += dataModifier.offset;
-                                }
-                            }
-
-                            if (chk_time.Checked)
-                            {
-                                var e = new DataGridViewCellValueEventArgs(1, (int) b);
-                                dataGridView1_CellValueNeeded(dataGridView1, e);
-
-                                XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
-
-                                list1.Add(time, value);
-                            }
-                            else
-                            {
-                                list1.Add(b, value);
-                            }
-                        }
-                        catch
-                        {
-                            error++;
-                            log.Info("Bad Data : " + type + " " + col + " " + a);
-                            if (error >= 500)
-                            {
-                                CustomMessageBox.Show("There is to much bad data - failing");
-                                break;
-                            }
-                        }
-                    }
-
-
-                    a++;
-                }
+                ThreadPool.QueueUserWorkItem(o => GraphItem_GetList(fieldname, type, dflog, dataModifier, left));
             }
             else
             {
-                list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
+                var list1 = DFLogScript.ProcessExpression(ref dflog, ref logdata, type);
+                GraphItem_AddCurve(list1, type, fieldname, left);
+            }
+        }
+
+        void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left)
+        {
+            int col = dflog.FindMessageOffset(type, fieldname);
+
+            // field does not exist
+            if (col == -1)
+                return;
+
+            PointPairList list1 = new PointPairList();
+
+            int error = 0;
+
+            double a = 0; // row counter
+            double b = 0;
+            DateTime screenupdate = DateTime.MinValue;
+            double value_prev = 0;
+
+            foreach (var item in logdata.GetEnumeratorType(type))
+            {
+                b = item.lineno;
+
+                if (screenupdate.Second != DateTime.Now.Second)
+                {
+                    Console.Write(b + " of " + logdata.Count + "     \r");
+                    screenupdate = DateTime.Now;
+                }
+
+                if (item.msgtype == type)
+                {
+                    try
+                    {
+                        double value = double.Parse(item.items[col],
+                            System.Globalization.CultureInfo.InvariantCulture);
+
+                        // abandon realy bad data
+                        if (Math.Abs(value) > 3.15e8)
+                        {
+                            a++;
+                            continue;
+                        }
+
+                        if (dataModifier.IsValid())
+                        {
+                            if ((a != 0) && Math.Abs(value - value_prev) > 1e5)
+                            {
+                                // there is a glitch in the data, reject it by replacing it with the previous value
+                                value = value_prev;
+                            }
+                            value_prev = value;
+
+                            if (dataModifier.doOffsetFirst)
+                            {
+                                value += dataModifier.offset;
+                                value *= dataModifier.scalar;
+                            }
+                            else
+                            {
+                                value *= dataModifier.scalar;
+                                value += dataModifier.offset;
+                            }
+                        }
+
+                        if (chk_time.Checked)
+                        {
+                            var e = new DataGridViewCellValueEventArgs(1, (int) b);
+                            dataGridView1_CellValueNeeded(dataGridView1, e);
+
+                            XDate time = new XDate(DateTime.Parse(e.Value.ToString()));
+
+                            list1.Add(time, value);
+                        }
+                        else
+                        {
+                            list1.Add(b, value);
+                        }
+                    }
+                    catch
+                    {
+                        error++;
+                        log.Info("Bad Data : " + type + " " + col + " " + a);
+                        if (error >= 500)
+                        {
+                            CustomMessageBox.Show("There is to much bad data - failing");
+                            break;
+                        }
+                    }
+                }
+
+                a++;
             }
 
+            Invoke((Action) delegate {
+                GraphItem_AddCurve(list1, type, fieldname, left);
+            });
+        }
+        
+        void GraphItem_AddCurve(PointPairList list1,string type, string header, bool left)
+        {
             if (list1.Count < 1)
             {
                 Loading.Close();

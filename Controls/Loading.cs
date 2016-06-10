@@ -16,6 +16,8 @@ namespace MissionPlanner.Controls
     {
         static Loading Instance;
 
+        static object locker = new object();
+
         public Loading()
         {
             InitializeComponent();
@@ -62,27 +64,32 @@ namespace MissionPlanner.Controls
         /// <returns></returns>
         public static Loading ShowLoading(string Text, IWin32Window owner = null)
         {
-            if (Instance != null && !Instance.IsDisposed)
+            // ensure we only have one instance at a time
+            lock (locker)
             {
-                Instance.Text = Text;
-                return Instance;
+                if (Instance != null && !Instance.IsDisposed)
+                {
+                    Instance.Text = Text;
+                    return Instance;
+                }
+
+                Loading frm = new Loading();
+                frm.Text = Text;
+                frm.TopMost = true;
+                frm.StartPosition = FormStartPosition.CenterParent;
+
+                ThemeManager.ApplyThemeTo(frm);
+
+                MainV2.instance.Invoke((MethodInvoker) delegate
+                {
+                    frm.Show(owner);
+                    Application.DoEvents();
+                });
+
+                Instance = frm;
+
+                return frm;
             }
-
-            Loading frm = new Loading();
-            frm.Text = Text;
-            frm.TopMost = true;
-            frm.StartPosition = FormStartPosition.CenterParent;
-
-            ThemeManager.ApplyThemeTo(frm);
-
-            MainV2.instance.Invoke((MethodInvoker) delegate {
-                frm.Show(owner);
-                Application.DoEvents();
-            });
-
-            Instance = frm;
-
-            return frm;
         }
     }
 }

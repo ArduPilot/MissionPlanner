@@ -23,6 +23,8 @@ namespace MissionPlanner.Log
 
         bool binary = false;
 
+        object locker = new object();
+
         int indexcachelineno = -1;
         String currentindexcache = null;
 
@@ -157,45 +159,49 @@ namespace MissionPlanner.Log
         {
             get
             {
-                // return cached value is same index
-                if (indexcachelineno == index)
+                // prevent multi io to file
+                lock (locker)
+                {
+                    // return cached value is same index
+                    if (indexcachelineno == index)
+                        return currentindexcache;
+
+                    long startoffset = linestartoffset[index];
+                    long endoffset = startoffset;
+
+                    if ((index + 1) >= linestartoffset.Count)
+                    {
+                        endoffset = basestream.Length;
+                    }
+                    else
+                    {
+                        endoffset = linestartoffset[index + 1];
+                    }
+
+                    int length = (int) (endoffset - startoffset);
+
+                    if (linestartoffset[index] != basestream.Position)
+                        basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
+
+                    if (binary)
+                    {
+                        var answer = binlog.ReadMessage(basestream);
+
+                        currentindexcache = answer;
+                        indexcachelineno = index;
+                    }
+                    else
+                    {
+                        byte[] data = new byte[length];
+
+                        basestream.Read(data, 0, length);
+
+                        currentindexcache = ASCIIEncoding.ASCII.GetString(data);
+                        indexcachelineno = index;
+                    }
+
                     return currentindexcache;
-
-                long startoffset = linestartoffset[index];
-                long endoffset = startoffset;
-
-                if ((index + 1) >= linestartoffset.Count)
-                {
-                    endoffset = basestream.Length;
                 }
-                else
-                {
-                    endoffset = linestartoffset[index + 1];
-                }
-
-                int length = (int) (endoffset - startoffset);
-
-                if (linestartoffset[index] != basestream.Position)
-                    basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
-
-                if (binary)
-                {
-                    var answer = binlog.ReadMessage(basestream);
-
-                    currentindexcache = answer;
-                    indexcachelineno = index;
-                }
-                else
-                {
-                    byte[] data = new byte[length];
-
-                    basestream.Read(data, 0, length);
-
-                    currentindexcache = ASCIIEncoding.ASCII.GetString(data);
-                    indexcachelineno = index;
-                }
-
-                return currentindexcache;
             }
             set { throw new NotImplementedException(); }
         }

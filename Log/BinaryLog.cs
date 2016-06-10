@@ -41,6 +41,7 @@ namespace MissionPlanner.Log
         private string inputfn;
         private string outputfn;
         private event convertProgress convertstatus;
+        object locker = new object();
 
         private delegate void convertProgress(ProgressReporterDialogue prd, float progress);
 
@@ -114,335 +115,353 @@ namespace MissionPlanner.Log
 
         public string ReadMessage(Stream br)
         {
-            int log_step = 0;
-
-            long length = br.Length;
-
-            while (br.Position < length)
+            lock (locker)
             {
-                byte data = (byte) br.ReadByte();
+                int log_step = 0;
 
-                switch (log_step)
+                long length = br.Length;
+
+                while (br.Position < length)
                 {
-                    case 0:
-                        if (data == HEAD_BYTE1)
-                        {
-                            log_step++;
-                        }
-                        break;
+                    byte data = (byte) br.ReadByte();
 
-                    case 1:
-                        if (data == HEAD_BYTE2)
-                        {
-                            log_step++;
-                        }
-                        else
-                        {
+                    switch (log_step)
+                    {
+                        case 0:
+                            if (data == HEAD_BYTE1)
+                            {
+                                log_step++;
+                            }
+                            break;
+
+                        case 1:
+                            if (data == HEAD_BYTE2)
+                            {
+                                log_step++;
+                            }
+                            else
+                            {
+                                log_step = 0;
+                            }
+                            break;
+
+                        case 2:
                             log_step = 0;
-                        }
-                        break;
+                            try
+                            {
+                                string line = logEntry(data, br);
 
-                    case 2:
-                        log_step = 0;
-                        try
-                        {
-                            string line = logEntry(data, br);
+                                // we need to know the mav type to use the correct mode list.
+                                if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") ||
+                                    line.Contains("Copter"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                }
+                                else if ((line.Contains("PARM, H_SWASH_PLATE")) || line.Contains("ArduCopter"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                }
+                                else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane") ||
+                                         line.Contains("Plane"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                                }
+                                else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover") ||
+                                         line.Contains("Rover"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                                }
+                                else if (line.Contains("AntennaTracker") || line.Contains("Tracker"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
+                                }
 
-                            // we need to know the mav type to use the correct mode list.
-                            if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter") || line.Contains("Copter"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                return line;
                             }
-                            else if ((line.Contains("PARM, H_SWASH_PLATE")) || line.Contains("ArduCopter"))
+                            catch
                             {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                Console.WriteLine("Bad Binary log line {0}", data);
                             }
-                            else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane") || line.Contains("Plane"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-                            }
-                            else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover") || line.Contains("Rover"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
-                            }
-                            else if (line.Contains("AntennaTracker") || line.Contains("Tracker"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
-                            }
-
-                            return line;
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Bad Binary log line {0}", data);
-                        }
-                        break;
+                            break;
+                    }
                 }
-            }
 
-            return "";
+                return "";
+            }
         }
 
 
         public Tuple<byte, long> ReadMessageTypeOffset(Stream br)
         {
-            int log_step = 0;
-            long length = br.Length;
-
-            while (br.Position < length)
+            lock (locker)
             {
-                byte data = (byte) br.ReadByte();
+                int log_step = 0;
+                long length = br.Length;
 
-                switch (log_step)
+                while (br.Position < length)
                 {
-                    case 0:
-                        if (data == HEAD_BYTE1)
-                        {
-                            log_step++;
-                        }
-                        break;
+                    byte data = (byte) br.ReadByte();
 
-                    case 1:
-                        if (data == HEAD_BYTE2)
-                        {
-                            log_step++;
-                        }
-                        else
-                        {
+                    switch (log_step)
+                    {
+                        case 0:
+                            if (data == HEAD_BYTE1)
+                            {
+                                log_step++;
+                            }
+                            break;
+
+                        case 1:
+                            if (data == HEAD_BYTE2)
+                            {
+                                log_step++;
+                            }
+                            else
+                            {
+                                log_step = 0;
+                            }
+                            break;
+
+                        case 2:
                             log_step = 0;
-                        }
-                        break;
+                            try
+                            {
+                                long pos = br.Position - 3;
+                                logEntryFMT(data, br);
 
-                    case 2:
-                        log_step = 0;
-                        try
-                        {
-                            long pos = br.Position - 3;
-                            logEntryFMT(data, br);
-
-                            return new Tuple<byte, long>(data, pos);
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Bad Binary log line {0}", data);
-                        }
-                        break;
+                                return new Tuple<byte, long>(data, pos);
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Bad Binary log line {0}", data);
+                            }
+                            break;
+                    }
                 }
-            }
 
-            return null;
+                return null;
+            }
         }
 
         void logEntryFMT(byte packettype, Stream br)
         {
-            switch (packettype)
+            lock (locker)
             {
-                case 0x80: // FMT
+                switch (packettype)
+                {
+                    case 0x80: // FMT
 
-                    log_Format logfmt = new log_Format();
+                        log_Format logfmt = new log_Format();
 
-                    object obj = logfmt;
+                        object obj = logfmt;
 
-                    int len = Marshal.SizeOf(obj);
+                        int len = Marshal.SizeOf(obj);
 
-                    byte[] bytearray = new byte[len];
+                        byte[] bytearray = new byte[len];
 
-                    br.Read(bytearray, 0, bytearray.Length);
+                        br.Read(bytearray, 0, bytearray.Length);
 
-                    IntPtr i = Marshal.AllocHGlobal(len);
+                        IntPtr i = Marshal.AllocHGlobal(len);
 
-                    // create structure from ptr
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        // create structure from ptr
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    // copy byte array to ptr
-                    Marshal.Copy(bytearray, 0, i, len);
+                        // copy byte array to ptr
+                        Marshal.Copy(bytearray, 0, i, len);
 
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    Marshal.FreeHGlobal(i);
+                        Marshal.FreeHGlobal(i);
 
-                    logfmt = (log_Format) obj;
+                        logfmt = (log_Format) obj;
 
-                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                    string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                    string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+                        string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
+                        string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
+                        string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
 
-                    logformat[lgname] = logfmt;
+                        logformat[lgname] = logfmt;
 
-                    return;
-
-                default:
-                    string format = "";
-                    string name = "";
-                    int size = 0;
-
-                    if (packettypecache.ContainsKey(packettype))
-                    {
-                        var fmt = packettypecache[packettype];
-                        name = fmt.name;
-                        format = fmt.format;
-                        size = fmt.length;
-                    }
-                    else
-                    {
-                        foreach (log_Format fmt in logformat.Values)
-                        {
-                            packettypecache[fmt.type] = new log_format_cache()
-                            {
-                                length = fmt.length,
-                                type = fmt.type,
-                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] { '\0' }),
-                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] { '\0' }),
-                            };
-
-                            if (fmt.type == packettype)
-                            {
-                                name = packettypecache[fmt.type].name;
-                                format = packettypecache[fmt.type].format;
-                                size = fmt.length;
-                                //break;
-                            }
-                        }
-                    }
-
-                    // didnt find a match, return unknown packet type
-                    if (size == 0)
                         return;
 
-                    br.Seek(size - 3, SeekOrigin.Current);
-                    break;
+                    default:
+                        string format = "";
+                        string name = "";
+                        int size = 0;
+
+                        if (packettypecache.ContainsKey(packettype))
+                        {
+                            var fmt = packettypecache[packettype];
+                            name = fmt.name;
+                            format = fmt.format;
+                            size = fmt.length;
+                        }
+                        else
+                        {
+                            foreach (log_Format fmt in logformat.Values)
+                            {
+                                packettypecache[fmt.type] = new log_format_cache()
+                                {
+                                    length = fmt.length,
+                                    type = fmt.type,
+                                    name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
+                                    format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
+                                };
+
+                                if (fmt.type == packettype)
+                                {
+                                    name = packettypecache[fmt.type].name;
+                                    format = packettypecache[fmt.type].format;
+                                    size = fmt.length;
+                                    //break;
+                                }
+                            }
+                        }
+
+                        // didnt find a match, return unknown packet type
+                        if (size == 0)
+                            return;
+
+                        br.Seek(size - 3, SeekOrigin.Current);
+                        break;
+                }
             }
         }
 
         public
             object[] ReadMessageObjects(Stream br)
         {
-            int log_step = 0;
-
-            while (br.Position < br.Length)
+            lock (locker)
             {
-                byte data = (byte) br.ReadByte();
+                int log_step = 0;
 
-                switch (log_step)
+                while (br.Position < br.Length)
                 {
-                    case 0:
-                        if (data == HEAD_BYTE1)
-                        {
-                            log_step++;
-                        }
-                        break;
+                    byte data = (byte) br.ReadByte();
 
-                    case 1:
-                        if (data == HEAD_BYTE2)
-                        {
-                            log_step++;
-                        }
-                        else
-                        {
+                    switch (log_step)
+                    {
+                        case 0:
+                            if (data == HEAD_BYTE1)
+                            {
+                                log_step++;
+                            }
+                            break;
+
+                        case 1:
+                            if (data == HEAD_BYTE2)
+                            {
+                                log_step++;
+                            }
+                            else
+                            {
+                                log_step = 0;
+                            }
+                            break;
+
+                        case 2:
                             log_step = 0;
-                        }
-                        break;
+                            try
+                            {
+                                var line = logEntryObjects(data, br);
 
-                    case 2:
-                        log_step = 0;
-                        try
-                        {
-                            var line = logEntryObjects(data, br);
-
-                            return line;
-                        }
-                        catch
-                        {
-                            Console.WriteLine("Bad Binary log line {0}", data);
-                        }
-                        break;
+                                return line;
+                            }
+                            catch
+                            {
+                                Console.WriteLine("Bad Binary log line {0}", data);
+                            }
+                            break;
+                    }
                 }
-            }
 
-            return null;
+                return null;
+            }
         }
 
         object[] logEntryObjects(byte packettype, Stream br)
         {
-            switch (packettype)
+            lock (locker)
             {
-                case 0x80: // FMT
+                switch (packettype)
+                {
+                    case 0x80: // FMT
 
-                    log_Format logfmt = new log_Format();
+                        log_Format logfmt = new log_Format();
 
-                    object obj = logfmt;
+                        object obj = logfmt;
 
-                    int len = Marshal.SizeOf(obj);
+                        int len = Marshal.SizeOf(obj);
 
-                    byte[] bytearray = new byte[len];
+                        byte[] bytearray = new byte[len];
 
-                    br.Read(bytearray, 0, bytearray.Length);
+                        br.Read(bytearray, 0, bytearray.Length);
 
-                    IntPtr i = Marshal.AllocHGlobal(len);
+                        IntPtr i = Marshal.AllocHGlobal(len);
 
-                    // create structure from ptr
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        // create structure from ptr
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    // copy byte array to ptr
-                    Marshal.Copy(bytearray, 0, i, len);
+                        // copy byte array to ptr
+                        Marshal.Copy(bytearray, 0, i, len);
 
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    Marshal.FreeHGlobal(i);
+                        Marshal.FreeHGlobal(i);
 
-                    logfmt = (log_Format) obj;
+                        logfmt = (log_Format) obj;
 
-                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                    string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                    string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+                        string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
+                        string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
+                        string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
 
-                    logformat[lgname] = logfmt;
+                        logformat[lgname] = logfmt;
 
-                    return null;
-
-                default:
-                    string format = "";
-                    string name = "";
-                    int size = 0;
-
-                    if (packettypecache.ContainsKey(packettype))
-                    {
-                        var fmt = packettypecache[packettype];
-                        name = fmt.name;
-                        format = fmt.format;
-                        size = fmt.length;
-                    }
-                    else
-                    {
-                        foreach (log_Format fmt in logformat.Values)
-                        {
-                            packettypecache[fmt.type] = new log_format_cache()
-                            {
-                                length = fmt.length,
-                                type = fmt.type,
-                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] { '\0' }),
-                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] { '\0' }),
-                            };
-
-                            if (fmt.type == packettype)
-                            {
-                                name = packettypecache[fmt.type].name;
-                                format = packettypecache[fmt.type].format;
-                                size = fmt.length;
-                                //break;
-                            }
-                        }
-                    }
-
-                    // didnt find a match, return unknown packet type
-                    if (size == 0)
                         return null;
 
-                    byte[] data = new byte[size - 3]; // size - 3 = message - messagetype - (header *2)
+                    default:
+                        string format = "";
+                        string name = "";
+                        int size = 0;
 
-                    br.Read(data, 0, data.Length);
+                        if (packettypecache.ContainsKey(packettype))
+                        {
+                            var fmt = packettypecache[packettype];
+                            name = fmt.name;
+                            format = fmt.format;
+                            size = fmt.length;
+                        }
+                        else
+                        {
+                            foreach (log_Format fmt in logformat.Values)
+                            {
+                                packettypecache[fmt.type] = new log_format_cache()
+                                {
+                                    length = fmt.length,
+                                    type = fmt.type,
+                                    name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
+                                    format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
+                                };
 
-                    return ProcessMessageObjects(data, name, format);
+                                if (fmt.type == packettype)
+                                {
+                                    name = packettypecache[fmt.type].name;
+                                    format = packettypecache[fmt.type].format;
+                                    size = fmt.length;
+                                    //break;
+                                }
+                            }
+                        }
+
+                        // didnt find a match, return unknown packet type
+                        if (size == 0)
+                            return null;
+
+                        byte[] data = new byte[size - 3]; // size - 3 = message - messagetype - (header *2)
+
+                        br.Read(data, 0, data.Length);
+
+                        return ProcessMessageObjects(data, name, format);
+                }
             }
         }
 
@@ -550,87 +569,92 @@ namespace MissionPlanner.Log
         /// <returns>string of converted data</returns>
         string logEntry(byte packettype, Stream br)
         {
-            switch (packettype)
+            lock (locker)
             {
-                case 0x80: // FMT
+                switch (packettype)
+                {
+                    case 0x80: // FMT
 
-                    log_Format logfmt = new log_Format();
+                        log_Format logfmt = new log_Format();
 
-                    object obj = logfmt;
+                        object obj = logfmt;
 
-                    int len = Marshal.SizeOf(obj);
+                        int len = Marshal.SizeOf(obj);
 
-                    byte[] bytearray = new byte[len];
+                        byte[] bytearray = new byte[len];
 
-                    br.Read(bytearray, 0, bytearray.Length);
+                        br.Read(bytearray, 0, bytearray.Length);
 
-                    IntPtr i = Marshal.AllocHGlobal(len);
+                        IntPtr i = Marshal.AllocHGlobal(len);
 
-                    // create structure from ptr
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        // create structure from ptr
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    // copy byte array to ptr
-                    Marshal.Copy(bytearray, 0, i, len);
+                        // copy byte array to ptr
+                        Marshal.Copy(bytearray, 0, i, len);
 
-                    obj = Marshal.PtrToStructure(i, obj.GetType());
+                        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-                    Marshal.FreeHGlobal(i);
+                        Marshal.FreeHGlobal(i);
 
-                    logfmt = (log_Format) obj;
+                        logfmt = (log_Format) obj;
 
-                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
-                    string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
-                    string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
+                        string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] {'\0'});
+                        string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] {'\0'});
+                        string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] {'\0'});
 
-                    logformat[lgname] = logfmt;
+                        logformat[lgname] = logfmt;
 
-                    string line = String.Format("FMT, {0}, {1}, {2}, {3}, {4}\r\n", logfmt.type, logfmt.length, lgname,
-                        lgformat, lglabels);
+                        string line = String.Format("FMT, {0}, {1}, {2}, {3}, {4}\r\n", logfmt.type, logfmt.length,
+                            lgname,
+                            lgformat, lglabels);
 
-                    return line;
+                        return line;
 
-                default:
-                    string format = "";
-                    string name = "";
-                    int size = 0;
+                    default:
+                        string format = "";
+                        string name = "";
+                        int size = 0;
 
-                    if (packettypecache.ContainsKey(packettype))
-                    {
-                        var fmt = packettypecache[packettype];
-                        name = fmt.name;
-                        format = fmt.format;
-                        size = fmt.length;
-                    }
-                    else
-                    {
-                        foreach (log_Format fmt in logformat.Values)
+                        if (packettypecache.ContainsKey(packettype))
                         {
-                            packettypecache[fmt.type] = new log_format_cache() {
-                                length = fmt.length,
-                                type = fmt.type,
-                                name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
-                                format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
-                            };
-
-                            if (fmt.type == packettype)
+                            var fmt = packettypecache[packettype];
+                            name = fmt.name;
+                            format = fmt.format;
+                            size = fmt.length;
+                        }
+                        else
+                        {
+                            foreach (log_Format fmt in logformat.Values)
                             {
-                                name = packettypecache[fmt.type].name;
-                                format = packettypecache[fmt.type].format;
-                                size = fmt.length;
-                                //break;
+                                packettypecache[fmt.type] = new log_format_cache()
+                                {
+                                    length = fmt.length,
+                                    type = fmt.type,
+                                    name = ASCIIEncoding.ASCII.GetString(fmt.name).Trim(new char[] {'\0'}),
+                                    format = ASCIIEncoding.ASCII.GetString(fmt.format).Trim(new char[] {'\0'}),
+                                };
+
+                                if (fmt.type == packettype)
+                                {
+                                    name = packettypecache[fmt.type].name;
+                                    format = packettypecache[fmt.type].format;
+                                    size = fmt.length;
+                                    //break;
+                                }
                             }
                         }
-                    }
 
-                    // didnt find a match, return unknown packet type
-                    if (size == 0)
-                        return "UNKW, " + packettype;
+                        // didnt find a match, return unknown packet type
+                        if (size == 0)
+                            return "UNKW, " + packettype;
 
-                    byte[] data = new byte[size - 3]; // size - 3 = message - messagetype - (header *2)
+                        byte[] data = new byte[size - 3]; // size - 3 = message - messagetype - (header *2)
 
-                    br.Read(data, 0, data.Length);
+                        br.Read(data, 0, data.Length);
 
-                    return ProcessMessage(data, name, format);
+                        return ProcessMessage(data, name, format);
+                }
             }
         }
 
