@@ -2686,7 +2686,7 @@ Please check the following
             setWPCurrent(wpno);
         }
 
-        public void setGuidedModeWP(Locationwp gotohere)
+        public void setGuidedModeWP(Locationwp gotohere, bool setguidedmode = true)
         {
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
@@ -2697,9 +2697,12 @@ Please check the following
             {
                 gotohere.id = (ushort)MAV_CMD.WAYPOINT;
 
-                // fix for followme change
-                if (MAV.cs.mode.ToUpper() != "GUIDED")
-                    setMode("GUIDED");
+                if (setguidedmode)
+                {
+                    // fix for followme change
+                    if (MAV.cs.mode.ToUpper() != "GUIDED")
+                        setMode("GUIDED");
+                }
 
                 MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 2);
 

@@ -36,7 +36,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.BUT_connect = new Controls.MyButton();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -120,15 +120,11 @@
             // 
             // BUT_connect
             // 
-            this.BUT_connect.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_connect.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_connect.Location = new System.Drawing.Point(360, 21);
             this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_connect.Size = new System.Drawing.Size(75, 23);
             this.BUT_connect.TabIndex = 1;
-            this.BUT_connect.Text = Strings.Connect;
-            this.BUT_connect.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_connect.Text = global::MissionPlanner.Strings.Connect;
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 

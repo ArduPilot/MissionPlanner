@@ -201,7 +201,7 @@ namespace MissionPlanner
                             {
                                 MainV2.comPort.giveComport = true;
 
-                                MainV2.comPort.setGuidedModeWP(gotohere);
+                                MainV2.comPort.setGuidedModeWP(gotohere, false);
 
                                 MainV2.comPort.giveComport = false;
                             }
