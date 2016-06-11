@@ -2260,7 +2260,7 @@ namespace MissionPlanner.GCSViews
                 }
 
                 cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                cell.Value = Math.Round((temp.alt*CurrentState.multiplierdist), 0);
+                cell.Value = temp.alt*CurrentState.multiplierdist;
                 cell = Commands.Rows[i].Cells[Lat.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.lat;
                 cell = Commands.Rows[i].Cells[Lon.Index] as DataGridViewTextBoxCell;
