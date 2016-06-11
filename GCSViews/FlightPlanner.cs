@@ -970,7 +970,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lng"></param>
         /// <param name="lat"></param>
         /// <param name="alt"></param>
-        private void addpolygonmarker(string tag, double lng, double lat, int alt, Color? color)
+        private void addpolygonmarker(string tag, double lng, double lat, double alt, Color? color)
         {
             try
             {
@@ -1093,7 +1093,7 @@ namespace MissionPlanner.GCSViews
                     if (objectsoverlay != null) // during startup
                     {
                         pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text),
-                            (int) double.Parse(TXT_homealt.Text), "H"));
+                            double.Parse(TXT_homealt.Text), "H"));
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
                         addpolygonmarker("H", double.Parse(TXT_homelng.Text), double.Parse(TXT_homelat.Text), 0, null);
                     }
@@ -1166,7 +1166,7 @@ namespace MissionPlanner.GCSViews
                             if (command == (byte) MAVLink.MAV_CMD.DO_SET_ROI)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    (int) double.Parse(cell2) + homealt, "ROI" + (a + 1)) {color = Color.Red});
+                                    double.Parse(cell2) + homealt, "ROI" + (a + 1)) {color = Color.Red});
                                 // do set roi is not a nav command. so we dont route through it
                                 //fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 GMarkerGoogle m =
@@ -1195,29 +1195,29 @@ namespace MissionPlanner.GCSViews
                                      command == (byte) MAVLink.MAV_CMD.LOITER_UNLIM)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    (int) double.Parse(cell2) + homealt, (a + 1).ToString())
+                                    double.Parse(cell2) + homealt, (a + 1).ToString())
                                 {
                                     color = Color.LightBlue
                                 });
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    (int) double.Parse(cell2), Color.LightBlue);
+                                    double.Parse(cell2), Color.LightBlue);
                             }
                             else if (command == (byte) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    (int) double.Parse(cell2) + homealt, (a + 1).ToString()) {Tag2 = "spline"});
+                                    double.Parse(cell2) + homealt, (a + 1).ToString()) {Tag2 = "spline"});
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    (int) double.Parse(cell2), Color.Green);
+                                    double.Parse(cell2), Color.Green);
                             }
                             else
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
-                                    (int) double.Parse(cell2) + homealt, (a + 1).ToString()));
+                                    double.Parse(cell2) + homealt, (a + 1).ToString()));
                                 fullpointlist.Add(pointlist[pointlist.Count - 1]);
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
-                                    (int) double.Parse(cell2), null);
+                                    double.Parse(cell2), null);
                             }
 
                             avglong += double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString());
