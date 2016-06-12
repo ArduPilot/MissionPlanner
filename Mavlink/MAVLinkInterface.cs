@@ -1511,42 +1511,46 @@ Please check the following
         }
 
         /// <summary>
-        /// send lots of packets to reset the hardware, this asumes we dont know the sysid in the first place
+        /// reboot the vehicle
         /// </summary>
+        /// <param name="bootloadermode">reboot into bootloader mode?</param>
+        /// <param name="currentvehicle">use current sysid/compid or scan for it</param>
         /// <returns></returns>
-        public bool doReboot(bool bootloadermode = false)
+        public bool doReboot(bool bootloadermode = false, bool currentvehicle = true)
         {
-            MAVLinkMessage buffer = getHeartBeat();
-
-            if (buffer.Length > 5)
-            {
-                mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
-
-                mavlinkversion = hb.mavlink_version;
-                MAV.aptype = (MAV_TYPE) hb.type;
-                MAV.apname = (MAV_AUTOPILOT) hb.autopilot;
-                MAV.sysid = buffer.sysid;
-                MAV.compid = buffer.compid;
-            }
-
             int param1 = 1;
             if (bootloadermode)
             {
                 param1 = 3;
             }
 
-            if (MAV.sysid != 0 && MAV.compid != 0)
+            // reboot the current selected mav
+            if (currentvehicle)
             {
                 doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
                 doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
             }
-            else
+            else 
             {
-                for (byte a = byte.MinValue; a < byte.MaxValue; a++)
+                // scan for hb on unknown mav
+                MAVLinkMessage buffer = getHeartBeat();
+
+                if (buffer.Length > 5)
                 {
-                    giveComport = true;
-                    MAV.sysid = a;
+                    mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
+
+                    mavlinkversion = hb.mavlink_version;
+                    MAV.aptype = (MAV_TYPE)hb.type;
+                    MAV.apname = (MAV_AUTOPILOT)hb.autopilot;
+                    MAV.sysid = buffer.sysid;
+                    MAV.compid = buffer.compid;
+                }
+
+                // reboot if we have seen hb
+                if (MAV.sysid != 0 && MAV.compid != 0)
+                {
                     doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
+                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
                 }
             }
             giveComport = false;

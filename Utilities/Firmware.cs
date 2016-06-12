@@ -692,7 +692,7 @@ namespace MissionPlanner.Utilities
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
-                    MainV2.comPort.doReboot(true);
+                    MainV2.comPort.doReboot(true, false);
                     MainV2.comPort.Close();
 
                     //specific action for VRBRAIN4 board that needs to be manually disconnected before uploading
@@ -835,7 +835,7 @@ namespace MissionPlanner.Utilities
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
-                    MainV2.comPort.doReboot(true);
+                    MainV2.comPort.doReboot(true, false);
                     MainV2.comPort.Close();
 
                     //specific action for VRBRAIN4 board that needs to be manually disconnected before uploading

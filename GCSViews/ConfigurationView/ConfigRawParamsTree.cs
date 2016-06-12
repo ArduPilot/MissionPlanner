@@ -492,7 +492,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     MainV2.comPort.setParam(new[] {"FORMAT_VERSION", "SYSID_SW_MREV"}, 0);
                     Thread.Sleep(1000);
-                    MainV2.comPort.doReboot(false);
+                    MainV2.comPort.doReboot(false, true);
                     MainV2.comPort.BaseStream.Close();
 
                     CustomMessageBox.Show(

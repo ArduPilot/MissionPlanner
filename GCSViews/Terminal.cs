@@ -392,7 +392,7 @@ namespace MissionPlanner.GCSViews
                         {
                             log.Info("got packet - sending reboot via mavlink");
                             TXT_terminal.AppendText("Via Mavlink\n");
-                            mine.doReboot(false);
+                            mine.doReboot(false, false);
                             try
                             {
                                 mine.BaseStream.Close();

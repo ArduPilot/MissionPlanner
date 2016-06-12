@@ -474,7 +474,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    MainV2.comPort.doReboot(true);
+                    MainV2.comPort.doReboot(true, false);
                     CustomMessageBox.Show("Please ignore the unplug and plug back in when uploading flight firmware.");
                 }
                 else
