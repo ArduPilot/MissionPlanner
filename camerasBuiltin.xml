@@ -121,4 +121,20 @@
     <senh>4.7058</senh>
     <senw>6.2372</senw>
   </Camera>
+   <Camera>
+    <name>Sony A6000</name>
+    <flen>20</flen>
+    <imgh>4000</imgh>
+    <imgw>6000</imgw>
+    <senh>15.6/senh>
+    <senw>23.5</senw>
+  </Camera>
+  <Camera>
+    <name>Sony A7R</name>
+    <flen>28</flen>
+    <imgh>4912</imgh>
+    <imgw>7360</imgw>
+    <senh>24.0/senh>
+    <senw>35.9</senw>
+  </Camera>
 </Cameras>
