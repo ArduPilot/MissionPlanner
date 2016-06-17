@@ -297,6 +297,15 @@ namespace MissionPlanner.GeoRef
                                 currentSAlt = float.Parse(item.items[SAltindex]);
                             }
                         }
+                        else if (item.msgtype == "RFND")
+                        {
+                            int SAltindex = dflog.FindMessageOffset("RFND", "Dist1");
+
+                            if (SAltindex != -1)
+                            {
+                                currentSAlt = float.Parse(item.items[SAltindex]);
+                            }
+                        }
                     }
                 }
             }
@@ -863,6 +872,8 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
+            TXT_outputlog.AppendText("Log locations : " + vehicleLocations.Count + "\n");
+
             TXT_outputlog.AppendText("Read images\n");
 
             List<string> filelist = new List<string>();
@@ -964,6 +975,8 @@ namespace MissionPlanner.GeoRef
                     }
                 }
                 TXT_outputlog.AppendText("Log Read for GPS Messages\n");
+                TXT_outputlog.AppendText("Log locations : " + vehicleLocations.Count + "\n");
+
             }
 
             TXT_outputlog.AppendText("Reading log for CAM Messages\n");
