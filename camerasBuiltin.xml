@@ -121,4 +121,36 @@
     <senh>4.7058</senh>
     <senw>6.2372</senw>
   </Camera>
+<Camera>
+    <name>Sony A6000</name>
+    <flen>20</flen>
+    <imgh>4000</imgh>
+    <imgw>6000</imgw>
+    <senh>15.6</senh>
+    <senw>23.5</senw>
+</Camera>
+<Camera>
+    <name>Sony A7R</name>
+    <flen>28</flen>
+    <imgh>4912</imgh>
+    <imgw>7360</imgw>
+    <senh>24.0</senh>
+    <senw>35.9</senw>
+</Camera>
+<Camera>
+  <name>Parrot Sequoia Monochrome</name>
+    <flen>3.98</flen>
+    <imgh>960</imgh>
+    <imgw>1280</imgw>
+    <senh>3.6</senh>
+    <senw>4.8</senw>
+</Camera>
+  <Camera>
+    <name>Parrot Sequoia RGB</name>
+    <flen>4.88</flen>
+    <imgh>3456</imgh>
+    <imgw>4608</imgw>
+    <senh>4.63</senh>
+    <senw>6.17</senw>
+</Camera>
 </Cameras>
