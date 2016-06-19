@@ -640,6 +640,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (startup)
                 return;
             Settings.Instance["CHK_maprotation"] = CHK_maprotation.Checked.ToString();
+            FlightData.instance.gMapControl1.Bearing = 0;
         }
 
         private static void SetCheckboxFromConfig(string configKey, CheckBox chk)

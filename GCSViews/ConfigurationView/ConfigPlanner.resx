@@ -1444,9 +1444,6 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Map Follow</value>
   </data>
-  <data name="label1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -1473,9 +1470,6 @@
   </data>
   <data name="CHK_maprotation.Text" xml:space="preserve">
     <value>Map is rotated to follow the plane</value>
-  </data>
-  <data name="CHK_maprotation.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;CHK_maprotation.Name" xml:space="preserve">
     <value>CHK_maprotation</value>

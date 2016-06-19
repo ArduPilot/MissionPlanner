@@ -1470,6 +1470,8 @@ namespace GMap.NET.WindowsForms
                   var pos = center;
                   pos.OffsetNegative(delta);
 
+                  e.Graphics.RotateTransform(-Bearing);
+
                   e.Graphics.ScaleTransform(MapRenderTransform.Value, MapRenderTransform.Value, MatrixOrder.Append);
                   e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
@@ -1496,14 +1498,20 @@ namespace GMap.NET.WindowsForms
                   e.Graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
                   e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                  e.Graphics.TranslateTransform((float)(Core.Width / 2.0), (float)(Core.Height / 2.0));
-                  e.Graphics.RotateTransform(-Bearing);
-                  e.Graphics.TranslateTransform((float)(-Core.Width / 2.0), (float)(-Core.Height / 2.0));
+                  var center = new GPoint(Width / 2, Height / 2);
+                  var delta = center;
+                  delta.OffsetNegative(Core.renderOffset);
+                  var pos = center;
+                  pos.OffsetNegative(delta);
 
-                  e.Graphics.TranslateTransform(Core.renderOffset.X, Core.renderOffset.Y);
+                  e.Graphics.RotateTransform(-Bearing);
+
+                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
                   DrawMap(e.Graphics);
-                  OnPaintOverlays(e.Graphics);
+                  e.Graphics.ResetTransform();
+
+                  e.Graphics.TranslateTransform(pos.X, pos.Y, MatrixOrder.Append);
 
                   #endregion
                }
@@ -1569,45 +1577,45 @@ namespace GMap.NET.WindowsForms
          }
          set
          {
-            //if(Core.bearing != value)
-            //{
-            //   bool resize = Core.bearing == 0;
-            //   Core.bearing = value;
+            if(Core.bearing != value)
+            {
+               bool resize = Core.bearing == 0;
+               Core.bearing = value;
 
-            //   //if(VirtualSizeEnabled)
-            //   //{
-            //   //   c.X += (Width - Core.vWidth) / 2;
-            //   //   c.Y += (Height - Core.vHeight) / 2;
-            //   //}
+               //if(VirtualSizeEnabled)
+               //{
+               //   c.X += (Width - Core.vWidth) / 2;
+               //   c.Y += (Height - Core.vHeight) / 2;
+               //}
 
-            //   UpdateRotationMatrix();
+               UpdateRotationMatrix();
 
-            //   if(value != 0 && value % 360 != 0)
-            //   {
-            //      Core.IsRotated = true;
+               if(value != 0 && value % 360 != 0)
+               {
+                  Core.IsRotated = true;
 
-            //      if(Core.tileRectBearing.Size == Core.tileRect.Size)
-            //      {
-            //         Core.tileRectBearing = Core.tileRect;
-            //         Core.tileRectBearing.Inflate(1, 1);
-            //      }
-            //   }
-            //   else
-            //   {
-            //      Core.IsRotated = false;
-            //      Core.tileRectBearing = Core.tileRect;
-            //   }
+                  if(Core.tileRectBearing.Size == Core.tileRect.Size)
+                  {
+                     Core.tileRectBearing = Core.tileRect;
+                     Core.tileRectBearing.Inflate(1, 1);
+                  }
+               }
+               else
+               {
+                  Core.IsRotated = false;
+                  Core.tileRectBearing = Core.tileRect;
+               }
 
-            //   if(resize)
-            //   {
-            //      Core.OnMapSizeChanged(Width, Height);
-            //   }
+               if(resize)
+               {
+                  Core.OnMapSizeChanged(Width, Height);
+               }
 
-            //   if(!HoldInvalidation && Core.IsStarted)
-            //   {
-            //      ForceUpdateOverlays();
-            //   }
-            //}
+               if(!HoldInvalidation && Core.IsStarted)
+               {
+                  ForceUpdateOverlays();
+               }
+            }
          }
       }
 #endif

@@ -3892,7 +3892,6 @@ namespace MissionPlanner.GCSViews
             if (float.TryParse(heading, out ans))
             {
                 MainMap.Bearing = ans;
-                FlightData.mymap.Bearing = ans;
             }
         }
 
@@ -5600,7 +5599,9 @@ namespace MissionPlanner.GCSViews
                     e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
                 }
             }
-            
+
+            e.Graphics.ResetTransform();
+
             polyicon.Location = new Point(10,100);
             polyicon.Paint(e.Graphics);
         }

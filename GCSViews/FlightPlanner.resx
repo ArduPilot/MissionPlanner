@@ -343,6 +343,9 @@
   <data name="Tag.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="Tag.Width" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
   <data name="Commands.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 55</value>
   </data>
@@ -1802,9 +1805,6 @@
   <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Rotate Map</value>
   </data>
-  <data name="rotateMapToolStripMenuItem.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="zoomToToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>167, 22</value>
   </data>
@@ -1938,7 +1938,7 @@
     <value>Set Home Here</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>167, 494</value>
+    <value>167, 516</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
