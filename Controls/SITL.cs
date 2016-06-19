@@ -35,17 +35,32 @@ namespace MissionPlanner.Controls
         internal static System.Diagnostics.Process simulator;
 
         /*
-        { "+",         MultiCopter::create },
-    { "quad",      MultiCopter::create },
-    { "copter",    MultiCopter::create },
-    { "x",         MultiCopter::create },
-    { "hexa",      MultiCopter::create },
-    { "octa",      MultiCopter::create },
-    { "heli",      Helicopter::create },
-    { "rover",     Rover::create },
-    { "crrcsim",   CRRCSim::create },
-    { "jsbsim",    JSBSim::create },
-    { "last_letter", last_letter::create }
+    { "quadplane",          QuadPlane::create },
+    { "xplane",             XPlane::create },
+    { "firefly",            QuadPlane::create },
+    { "+",                  MultiCopter::create },
+    { "quad",               MultiCopter::create },
+    { "copter",             MultiCopter::create },
+    { "x",                  MultiCopter::create },
+    { "hexa",               MultiCopter::create },
+    { "octa",               MultiCopter::create },
+    { "tri",                MultiCopter::create },
+    { "y6",                 MultiCopter::create },
+    { "heli",               Helicopter::create },
+    { "heli-dual",          Helicopter::create },
+    { "heli-compound",      Helicopter::create },
+    { "singlecopter",       SingleCopter::create },
+    { "coaxcopter",         SingleCopter::create },
+    { "rover",              SimRover::create },
+    { "crrcsim",            CRRCSim::create },
+    { "jsbsim",             JSBSim::create },
+    { "flightaxis",         FlightAxis::create },
+    { "gazebo",             Gazebo::create },
+    { "last_letter",        last_letter::create },
+    { "tracker",            Tracker::create },
+    { "balloon",            Balloon::create },
+    { "plane",              Plane::create },
+    { "calibration",        Calibration::create },
              */
 
         ///tmp/.build/ArduCopter.elf -M+ -O-34.98106,117.85201,40,0 
@@ -113,8 +128,8 @@ namespace MissionPlanner.Controls
 
             if (!File.Exists(destfile))
             {
-                Directory.CreateDirectory(simdir);
-                File.Copy(Application.StartupPath + Path.DirectorySeparatorChar + "JSBSim.exe", destfile);
+                //Directory.CreateDirectory(simdir);
+                //File.Copy(Application.StartupPath + Path.DirectorySeparatorChar + "JSBSim.exe", destfile);
             }
 
             if (markeroverlay.Markers.Count == 0)
@@ -123,8 +138,9 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-            StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value),
-                @" --autotest-dir """ + Application.StartupPath.Replace('\\', '/') + @"""", 1);
+            //StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value),@" --autotest-dir """ + Application.StartupPath.Replace('\\', '/') + @"""", 1);
+
+            StartSITL(exepath, "plane", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value));
         }
 
         private void pictureBoxrover_Click(object sender, EventArgs e)
