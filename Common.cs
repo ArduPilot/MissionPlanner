@@ -607,16 +607,26 @@ union px4_custom_mode {
         const float rad2deg = (float) (180/Math.PI);
         const float deg2rad = (float) (1.0/rad2deg);
 
-        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01;
+        private static readonly Bitmap icong = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01, new Size(40, 40));
+        private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_011, new Size(40, 40));
+        private static readonly Bitmap icono = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_012, new Size(40, 40));
 
         float heading = 0;
+        AlertLevel alert = AlertLevel.Green;
 
-        public GMapMarkerADSBPlane(PointLatLng p, float heading)
+        public enum AlertLevel
+        {
+            Green,
+            Orange,
+            Red
+        }
+
+        public GMapMarkerADSBPlane(PointLatLng p, float heading, AlertLevel alert = AlertLevel.Green)
             : base(p)
         {
-            icon = new Bitmap(icon, new Size(40, 40));
+            this.alert = alert;
             this.heading = heading;
-            Size = icon.Size;
+            Size = icong.Size;
         }
 
         public override void OnRender(Graphics g)
@@ -633,7 +643,19 @@ union px4_custom_mode {
             catch
             {
             }
-            g.DrawImageUnscaled(icon, icon.Width/-2, icon.Height/-2);
+
+            switch (alert)
+            {
+                case AlertLevel.Green:
+                    g.DrawImageUnscaled(icong, icong.Width/-2, icong.Height/-2);
+                    break;
+                case AlertLevel.Orange:
+                    g.DrawImageUnscaled(icono, icono.Width/-2, icono.Height/-2);
+                    break;
+                case AlertLevel.Red:
+                    g.DrawImageUnscaled(iconr, iconr.Width/-2, iconr.Height/-2);
+                    break;
+            }
 
             g.Transform = temp;
         }

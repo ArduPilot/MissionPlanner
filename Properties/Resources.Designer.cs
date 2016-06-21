@@ -603,6 +603,26 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap FW_icons_2013_logos_011 {
+            get {
+                object obj = ResourceManager.GetObject("FW icons 2013+logos-011", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap FW_icons_2013_logos_012 {
+            get {
+                object obj = ResourceManager.GetObject("FW icons 2013+logos-012", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap FW_icons_2013_logos_02 {
             get {
                 object obj = ResourceManager.GetObject("FW icons 2013+logos-02", resourceCulture);
