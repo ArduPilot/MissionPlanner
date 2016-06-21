@@ -1732,17 +1732,24 @@ namespace MissionPlanner
                 // save camera fov's for use with footprints
                 double fovha = 0;
                 double fovva = 0;
-                getFOVangle(ref fovha, ref fovva);
+                try
+                {
+                    getFOVangle(ref fovha, ref fovva);
 
-                if (CHK_camdirection.Checked)
-                {
-                    Settings.Instance["camera_fovh"] = fovha.ToString();
-                    Settings.Instance["camera_fovv"] = fovva.ToString();
+                    if (CHK_camdirection.Checked)
+                    {
+                        Settings.Instance["camera_fovh"] = fovha.ToString();
+                        Settings.Instance["camera_fovv"] = fovva.ToString();
+                    }
+                    else
+                    {
+                        Settings.Instance["camera_fovh"] = fovva.ToString();
+                        Settings.Instance["camera_fovv"] = fovha.ToString();
+                    }
                 }
-                else
+                catch(Exception ex)
                 {
-                    Settings.Instance["camera_fovh"] = fovva.ToString();
-                    Settings.Instance["camera_fovv"] = fovha.ToString();
+                    log.Error(ex);
                 }
 
                 savesettings();
