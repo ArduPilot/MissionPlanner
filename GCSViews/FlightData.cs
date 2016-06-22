@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
@@ -23,6 +24,7 @@ using MissionPlanner.Log;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using OpenTK;
+using Org.BouncyCastle.Asn1.X509.Qualified;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
@@ -1435,9 +1437,25 @@ namespace MissionPlanner.GCSViews
             {
                 return (double) input;
             }
+            if (input.GetType() == typeof(ulong))
+            {
+                return (ulong)input;
+            }
+            if (input.GetType() == typeof(long))
+            {
+                return (long)input;
+            }
             if (input.GetType() == typeof (int))
             {
                 return (int) input;
+            }
+            if (input.GetType() == typeof(uint))
+            {
+                return (uint)input;
+            }
+            if (input.GetType() == typeof(short))
+            {
+                return (short)input;
             }
             if (input.GetType() == typeof (ushort))
             {
@@ -1447,8 +1465,19 @@ namespace MissionPlanner.GCSViews
             {
                 return (bool) input ? 1 : 0;
             }
+            if (input.GetType() == typeof(string))
+            {
+                double ans = 0;
+                if (double.TryParse((string)input, out ans))
+                {
+                    return ans;
+                }
+            }
 
-            throw new Exception("Bad Type");
+            if (input == null)
+                throw new Exception("Bad Type Null");
+            else 
+                throw new Exception("Bad Type " + input.GetType().ToString());
         }
 
         private void updateClearRoutesMarkers()
