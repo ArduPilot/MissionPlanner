@@ -2298,7 +2298,13 @@ namespace MissionPlanner
                                 {
                                     log.Error(ex);
                                     // close the bad port
-                                    port.Close();
+                                    try
+                                    {
+                                        port.Close();
+                                    }
+                                    catch
+                                    {
+                                    }
                                     // refresh the screen if needed
                                     if (port == MainV2.comPort)
                                     {
