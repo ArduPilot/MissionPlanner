@@ -849,7 +849,8 @@ namespace MissionPlanner.GCSViews
             double taketime = 0;
             double timeerror = 0;
 
-            //comPort.stopall(true);
+            while (!IsHandleCreated)
+                Thread.Sleep(100);
 
             while (threadrun)
             {
