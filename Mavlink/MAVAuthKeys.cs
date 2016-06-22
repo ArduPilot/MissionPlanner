@@ -9,7 +9,6 @@ using System.Text;
 using System.Xml.Serialization;
 using log4net;
 using MissionPlanner.Utilities;
-using Org.BouncyCastle.Crypto.Engines;
 
 namespace MissionPlanner.Mavlink
 {

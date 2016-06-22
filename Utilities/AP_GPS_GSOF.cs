@@ -11,7 +11,6 @@ using int8_t = System.SByte;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using MissionPlanner.Comms;
-using Org.BouncyCastle.Crypto.Paddings;
 using SerialPort = System.IO.Ports.SerialPort;
 
 namespace MissionPlanner.Utilities

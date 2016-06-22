@@ -964,9 +964,12 @@ namespace MissionPlanner
         {
             lock (adsblock)
             {
-                adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender).Tag] =
+                var llah = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
+                var tag = llah.Tag;
+
+                adsbPlanes[tag] =
                     ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender).Tag] = DateTime.Now;
+                ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)adsbPlanes[tag]).Time = DateTime.Now;
             }
         }
 
