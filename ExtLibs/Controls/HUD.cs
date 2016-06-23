@@ -1396,14 +1396,14 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
-                    float viewrange = 26;
+                    double viewrange = 26;
 
-                    float speed = _airspeed;
+                    double speed = _airspeed;
                     if (speed == 0)
                         speed = _groundspeed;
 
-                    float space = (scrollbg.Height) / (float)viewrange;
-                    float start = (speed - viewrange / 2);
+                    double space = (scrollbg.Height) / viewrange;
+                    double start = (long)(speed - viewrange / 2);
 
                     if (start > _targetspeed)
                     {
@@ -1420,7 +1420,8 @@ namespace MissionPlanner.Controls
                         this._greenPen.Color = Color.FromArgb(255, this._greenPen.Color);
                     }
 
-                    for (long a = (long)start; a <= (speed + viewrange / 2); a += 1)
+                    long end = (long)(speed + viewrange / 2);
+                    for (long a = (long)start; a <= end; a += 1)
                     {
                         if (a == (long)_targetspeed && _targetspeed != 0)
                         {
@@ -1431,13 +1432,13 @@ namespace MissionPlanner.Controls
                         {
                             //Console.WriteLine(a + " " + scrollbg.Right + " " + (scrollbg.Top - space * (a - start)) + " " + (scrollbg.Right - 20) + " " + (scrollbg.Top - space * (a - start)));
                             graphicsObject.DrawLine(this._whitePen, scrollbg.Right, scrollbg.Top - space * (a - start), scrollbg.Right - 10, scrollbg.Top - space * (a - start));
-                            drawstring(graphicsObject, a.ToString().PadLeft(5), font, fontsize, _whiteBrush, scrollbg.Right - 50 - 4 * fontoffset, scrollbg.Top - space * (a - start) - 6 - fontoffset);
+                            drawstring(graphicsObject, a.ToString("0").PadLeft(5), font, fontsize, _whiteBrush, 0, (float)(scrollbg.Top - space * (a - start) - 6 - fontoffset));
                         }
                     }
 
                     graphicsObject.DrawPolygon(this._blackPen, arrow);
                     graphicsObject.FillPolygon(Brushes.Black, arrow);
-                    drawstring(graphicsObject, ((int)speed).ToString("0"), font, 10, (SolidBrush)Brushes.AliceBlue, 0, -9);
+                    drawstring(graphicsObject, (speed).ToString("0"), font, 10, (SolidBrush)Brushes.AliceBlue, 0, -9);
 
                     graphicsObject.ResetTransform();
 
