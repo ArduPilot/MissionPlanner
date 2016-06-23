@@ -227,14 +227,16 @@ namespace MissionPlanner.GeoRef
                     float currentSAlt = 0f;
                     int a = 0;
 
-                    while (!sr.EndOfStream)
+                    foreach (var item in sr.GetEnumeratorType(new string[] { "FMT", "GPS", "GPS2", "ATT", "CTUN", "RFND" }))
                     {
-                        a++;
-                        string line = sr.ReadLine();
-
-                        var item = dflog.GetDFItemFromLine(line, a);
                         // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
                         // So we have to look for one ATT message after having read a GPS one
+
+                        if (item.msgtype == "FMT")
+                        {
+                            dflog.FMTLine(sr[item.lineno]);
+                            continue;
+                        }
 
                         var gpstouse = UseGpsorGPS2();
 
@@ -254,11 +256,15 @@ namespace MissionPlanner.GeoRef
 
                             try
                             {
-                                location.Time = dflog.GetTimeGPS(line);
-                                location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
-                                location.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
-                                location.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
-                                location.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
+                                location.Time = item.time;
+                                if (latindex != -1)
+                                    location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
+                                if (lngindex != -1)
+                                    location.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
+                                if (raltindex != -1)
+                                    location.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+                                if (altindex != -1)
+                                    location.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
 
                                 location.Roll = currentRoll;
                                 location.Pitch = currentPitch;
@@ -284,9 +290,12 @@ namespace MissionPlanner.GeoRef
                             int Pindex = dflog.FindMessageOffset("ATT", "Pitch");
                             int Yindex = dflog.FindMessageOffset("ATT", "Yaw");
 
-                            currentRoll = float.Parse(item.items[Rindex], CultureInfo.InvariantCulture);
-                            currentPitch = float.Parse(item.items[Pindex], CultureInfo.InvariantCulture);
-                            currentYaw = float.Parse(item.items[Yindex], CultureInfo.InvariantCulture);
+                            if (Rindex != -1)
+                                currentRoll = float.Parse(item.items[Rindex], CultureInfo.InvariantCulture);
+                            if (Pindex != -1)
+                                currentPitch = float.Parse(item.items[Pindex], CultureInfo.InvariantCulture);
+                            if (Yindex != -1)
+                                currentYaw = float.Parse(item.items[Yindex], CultureInfo.InvariantCulture);
                         }
                         else if (item.msgtype == "CTUN")
                         {
