@@ -1487,7 +1487,7 @@ namespace MissionPlanner.Controls
                     int viewrange = 26;
 
                     float space = (scrollbg.Height) / (float)viewrange;
-                    int start = ((int)_alt - viewrange / 2);
+                    long start = ((int)_alt - viewrange / 2);
 
                     if (start > _targetalt)
                     {
@@ -1506,7 +1506,7 @@ namespace MissionPlanner.Controls
 
                     bool ground = false;
 
-                    for (int a = (int)start; a <= (_alt + viewrange / 2); a += 1)
+                    for (long a = start; a <= (_alt + viewrange / 2); a += 1)
                     {
                         if (a == Math.Round(_targetalt) && _targetalt != 0)
                         {
