@@ -1396,14 +1396,14 @@ namespace MissionPlanner.Controls
 
                     graphicsObject.TranslateTransform(0, this.Height / 2);
 
-                    int viewrange = 26;
+                    float viewrange = 26;
 
                     float speed = _airspeed;
                     if (speed == 0)
                         speed = _groundspeed;
 
                     float space = (scrollbg.Height) / (float)viewrange;
-                    int start = ((int)speed - viewrange / 2);
+                    float start = (speed - viewrange / 2);
 
                     if (start > _targetspeed)
                     {
@@ -1420,9 +1420,9 @@ namespace MissionPlanner.Controls
                         this._greenPen.Color = Color.FromArgb(255, this._greenPen.Color);
                     }
 
-                    for (int a = (int)start; a <= (speed + viewrange / 2); a += 1)
+                    for (long a = (long)start; a <= (speed + viewrange / 2); a += 1)
                     {
-                        if (a == (int)_targetspeed && _targetspeed != 0)
+                        if (a == (long)_targetspeed && _targetspeed != 0)
                         {
                             this._greenPen.Width = 6;
                             graphicsObject.DrawLine(this._greenPen, scrollbg.Left, scrollbg.Top - space * (a - start), scrollbg.Left + scrollbg.Width, scrollbg.Top - space * (a - start));
