@@ -1573,7 +1573,7 @@ Please check the following
                 (float) throttle, (float) timeout, 0, 0, 0);
         }
 
-        public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7)
+        public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true)
         {
             giveComport = true;
             MAVLinkMessage buffer;
@@ -1597,6 +1597,9 @@ Please check the following
                 p7);
 
             generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
+
+            if (!requireack)
+                return true;
 
             DateTime start = DateTime.Now;
             int retrys = 3;
@@ -3375,7 +3378,7 @@ Please check the following
 
                         if (BaseStream.IsOpen)
                         {
-                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0);
+                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0, false);
                         }
                     }
 
@@ -3439,7 +3442,7 @@ Please check the following
             // update last valid packet receive time
             MAVlist[sysid, compid].lastvalidpacket = DateTime.Now;
 
-            return new MAVLinkMessage(buffer);
+            return message;
         }
 
         private void PacketReceived(MAVLinkMessage buffer)
