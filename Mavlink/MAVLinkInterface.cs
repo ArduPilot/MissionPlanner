@@ -3789,7 +3789,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(1000) > DateTime.Now))
+                if (!(start.AddMilliseconds(3000) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -3993,7 +3993,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(1000) > DateTime.Now))
+                if (!(start.AddMilliseconds(2000) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
