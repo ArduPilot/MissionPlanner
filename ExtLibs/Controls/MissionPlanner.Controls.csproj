@@ -71,6 +71,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ControlExt.cs" />
+    <Compile Include="ControlHelpers.cs" />
     <Compile Include="Coords.cs">
       <SubType>UserControl</SubType>
     </Compile>

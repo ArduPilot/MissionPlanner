@@ -335,6 +335,12 @@ namespace MissionPlanner.GCSViews
             MainV2_AdvancedChanged(null, null);
         }
 
+        protected override void OnInvalidated(InvalidateEventArgs e)
+        {
+            base.OnInvalidated(e);
+            updateBindingSourceWork();
+        }
+
         void NoFly_NoFlyEvent(object sender, NoFly.NoFly.NoFlyEventArgs e)
         {
             Invoke((Action) delegate
@@ -859,6 +865,7 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.giveComport)
                 {
                     Thread.Sleep(50);
+                    updateBindingSource();
                     continue;
                 }
 
@@ -1574,6 +1581,7 @@ namespace MissionPlanner.GCSViews
         DateTime lastscreenupdate = DateTime.Now;
         object updateBindingSourcelock = new object();
         volatile int updateBindingSourcecount;
+        string updateBindingSourceThreadName = "";
 
         private void updateBindingSource()
         {
@@ -1587,53 +1595,59 @@ namespace MissionPlanner.GCSViews
                 lock (updateBindingSourcelock)
                 {
                     updateBindingSourcecount++;
+                    updateBindingSourceThreadName = Thread.CurrentThread.Name;
                 }
 
-                // async
-                BeginInvoke((MethodInvoker) delegate
+                this.BeginInvokeIfRequired((MethodInvoker)delegate
                 {
-                    try
-                    {
-                        if (this.Visible)
-                        {
-                            //Console.Write("bindingSource1 ");
-                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
-                            //Console.Write("bindingSourceHud ");
-                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
-                            //Console.WriteLine("DONE ");
+                    updateBindingSourceWork();
 
-                            if (tabControlactions.SelectedTab == tabStatus)
-                            {
-                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab);
-                            }
-                            else if (tabControlactions.SelectedTab == tabQuick)
-                            {
-                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab);
-                            }
-                            else if (tabControlactions.SelectedTab == tabGauges)
-                            {
-                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
-                            }
-                            else if (tabControlactions.SelectedTab == tabPagePreFlight)
-                            {
-                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
-                            }
-                        }
-                        else
-                        {
-                            //Console.WriteLine("Null Binding");
-                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
-                        }
-                        lastscreenupdate = DateTime.Now;
-                    }
-                    catch
-                    {
-                    }
                     lock (updateBindingSourcelock)
                     {
                         updateBindingSourcecount--;
                     }
                 });
+            }
+        }
+
+        private void updateBindingSourceWork()
+        {
+            try
+            {
+                if (this.Visible)
+                {
+                    //Console.Write("bindingSource1 ");
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                    //Console.Write("bindingSourceHud ");
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                    //Console.WriteLine("DONE ");
+
+                    if (tabControlactions.SelectedTab == tabStatus)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab);
+                    }
+                    else if (tabControlactions.SelectedTab == tabQuick)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab);
+                    }
+                    else if (tabControlactions.SelectedTab == tabGauges)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                    }
+                    else if (tabControlactions.SelectedTab == tabPagePreFlight)
+                    {
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                    }
+                }
+                else
+                {
+                    //Console.WriteLine("Null Binding");
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                }
+                lastscreenupdate = DateTime.Now;
+            }
+            catch
+            {
             }
         }
 
@@ -1912,9 +1926,17 @@ namespace MissionPlanner.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
-            if (CMB_action.Text == "Trigger Camera NOW")
+            try
             {
-                MainV2.comPort.setDigicamControl(true);
+                if (CMB_action.Text == "Trigger Camera NOW")
+                {
+                    MainV2.comPort.setDigicamControl(true);
+                    return;
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 return;
             }
 

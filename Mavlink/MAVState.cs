@@ -2,14 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using GMap.NET;
+using log4net;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
     public class MAVState : MAVLink
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public MAVState()
         {
             this.packetspersecond = new double[0x100];
@@ -108,6 +112,7 @@ namespace MissionPlanner
 
         public MAVLinkMessage getPacket(uint mavlinkid)
         {
+            //log.InfoFormat("getPacket {0}", (MAVLINK_MSG_ID)mavlinkid);
             if (packets.ContainsKey(mavlinkid))
             {
                 return packets[mavlinkid];

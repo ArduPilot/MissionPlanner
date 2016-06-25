@@ -1599,7 +1599,12 @@ Please check the following
             generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
 
             if (!requireack)
+            {
+                giveComport = false;
                 return true;
+            }
+
+            DateTime GUI = DateTime.Now;
 
             DateTime start = DateTime.Now;
             int retrys = 3;
@@ -1610,6 +1615,7 @@ Please check the following
             if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p5 == 1)
             {
                 // this is for advanced accel offsets, and blocks execution
+                giveComport = false;
                 return true;
             }
             else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION)
@@ -1638,23 +1644,33 @@ Please check the following
             }
             else if (actionid == MAV_CMD.GET_HOME_POSITION)
             {
+                giveComport = false;
                 return true;
             }
 
             while (true)
             {
+                if (DateTime.Now > GUI.AddMilliseconds(100))
+                {
+                    GUI = DateTime.Now;
+
+                    MainV2.instance.Invalidate();
+                    MainV2.instance.FlightData.Invalidate();
+                    MainV2.instance.Update();
+                }
+
                 if (!(start.AddMilliseconds(timeout) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
-                        log.Info("doAction Retry " + retrys);
+                        log.Info("doCommand Retry " + retrys);
                         generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - doAction");
+                    throw new Exception("Timeout on read - doCommand");
                 }
 
                 buffer = readPacket();
@@ -1664,6 +1680,7 @@ Please check the following
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
+                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
                         {
@@ -1957,7 +1974,7 @@ Please check the following
 
         public Locationwp getHomePosition()
         {
-            doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0);
+            doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
 
             giveComport = true;
             MAVLinkMessage buffer;
@@ -1972,7 +1989,7 @@ Please check the following
                     if (retrys > 0)
                     {
                         log.Info("getHomePosition Retry " + retrys + " - giv com " + giveComport);
-                        doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0);
+                        doCommand(MAV_CMD.GET_HOME_POSITION, 0, 0, 0, 0, 0, 0, 0, false);
                         giveComport = true;
                         start = DateTime.Now;
                         retrys--;
