@@ -937,6 +937,8 @@ namespace MissionPlanner.GeoRef
                     p.Roll = shotLocation.Roll;
                     p.Yaw = shotLocation.Yaw;
 
+                    p.SAlt = shotLocation.SAlt;
+
                     p.Time = shotLocation.Time;
 
                     p.Path = filename;
@@ -1060,6 +1062,8 @@ namespace MissionPlanner.GeoRef
                     p.Roll = currentCAM.Roll;
                     p.Yaw = currentCAM.Yaw;
 
+                    p.SAlt = currentCAM.SAlt;
+
                     p.Path = files[i];
 
                     string picturePath = files[i];
@@ -1136,6 +1140,8 @@ namespace MissionPlanner.GeoRef
                         p.Pitch = currentCAM.Pitch;
                         p.Roll = currentCAM.Roll;
                         p.Yaw = currentCAM.Yaw;
+
+                        p.SAlt = currentCAM.SAlt;
 
                         p.Path = files[i];
 
