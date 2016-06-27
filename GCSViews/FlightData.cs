@@ -1392,7 +1392,7 @@ namespace MissionPlanner.GCSViews
                             foreach (var port in MainV2.Comports)
                             {
                                 // draw the mavs seen on this port
-                                foreach (var MAV in port.MAVlist.GetMAVStates())
+                                foreach (var MAV in port.MAVlist)
                                 {
                                     var marker = Common.getMAVMarker(MAV);
 

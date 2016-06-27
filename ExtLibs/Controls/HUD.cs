@@ -191,11 +191,11 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float turnrate { get { return _turnrate; } set { if (_turnrate != value) { _turnrate = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float verticalspeed { get { return _verticalspeed; } set { if (_verticalspeed != value) { _verticalspeed = value; this.Invalidate(); } } }
+        public float verticalspeed { get { return _verticalspeed; } set { if (_verticalspeed != Math.Round(value, 1)) { _verticalspeed = (float)Math.Round(value, 1); this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float linkqualitygcs { get { return _linkqualitygcs; } set { if (_linkqualitygcs != value) { _linkqualitygcs = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public DateTime datetime { get { return _datetime; } set { if (_datetime != value) { _datetime = value; this.Invalidate(); } } }
+        public DateTime datetime { get { return _datetime; } set { if (_datetime.Hour == value.Hour && _datetime.Minute == value.Minute && _datetime.Second == value.Second) return; if (_datetime != value) { _datetime = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool failsafe { get; set; }
 

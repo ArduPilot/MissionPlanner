@@ -1286,11 +1286,8 @@ namespace MissionPlanner
                     return;
                 }
 
-                // get all mavstates
-                var list = comPort.MAVlist.GetMAVStates();
-
                 // get all the params
-                foreach (var mavstate in list)
+                foreach (var mavstate in comPort.MAVlist)
                 {
                     comPort.sysidcurrent = mavstate.sysid;
                     comPort.compidcurrent = mavstate.compid;
@@ -1298,8 +1295,8 @@ namespace MissionPlanner
                 }
 
                 // set to first seen
-                comPort.sysidcurrent = list[0].sysid;
-                comPort.compidcurrent = list[0].compid;
+                comPort.sysidcurrent = comPort.MAVlist.First().sysid;
+                comPort.compidcurrent = comPort.MAVlist.First().compid;
 
                 _connectionControl.UpdateSysIDS();
 
@@ -2261,7 +2258,7 @@ namespace MissionPlanner
                             bool sentmavlink2 = false;
 
                             // enumerate each mav
-                            foreach (var MAV in port.MAVlist.GetMAVStates())
+                            foreach (var MAV in port.MAVlist)
                             {
                                 try
                                 {
@@ -2374,7 +2371,7 @@ namespace MissionPlanner
                             }
                         }
                         // update currentstate of sysids on the port
-                        foreach (var MAV in port.MAVlist.GetMAVStates())
+                        foreach (var MAV in port.MAVlist)
                         {
                             try
                             {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management.Instrumentation;
@@ -8,7 +9,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Mavlink
 {
-    public class MAVList
+    public class MAVList : IEnumerable<MAVState>
     {
         private Dictionary<int, MAVState> masterlist = new Dictionary<int, MAVState>();
 
@@ -60,11 +61,6 @@ namespace MissionPlanner.Mavlink
             return masterlist.Keys.ToList<int>();
         }
 
-        public MAVState[] GetMAVStates()
-        {
-            return masterlist.Values.ToArray<MAVState>();
-        }
-
         public void Clear()
         {
             masterlist.Clear();
@@ -103,6 +99,19 @@ namespace MissionPlanner.Mavlink
 
             if (!masterlist.ContainsKey(id))
                 masterlist[id] = new MAVState();
+        }
+
+        public IEnumerator<MAVState> GetEnumerator()
+        {
+            foreach (var key in masterlist.Values)
+            {
+                yield return key;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
         }
     }
 }

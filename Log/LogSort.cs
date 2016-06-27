@@ -112,7 +112,7 @@ namespace MissionPlanner.Log
                         // find most appropriate
                         if (mine.MAVlist.Count > 1)
                         {
-                            foreach (var mav in mine.MAVlist.GetMAVStates())
+                            foreach (var mav in mine.MAVlist)
                             {
                                 if (mav.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
                                     continue;
