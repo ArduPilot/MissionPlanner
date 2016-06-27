@@ -13,7 +13,12 @@ namespace MissionPlanner.Log
         BinaryLog binlog = new BinaryLog();
 
         // used for fmt messages
-        DFLog dflog = new DFLog();
+        public DFLog dflog 
+        {
+            get { return _dflog; }
+        }
+
+        DFLog _dflog = new DFLog();
 
         BufferedStream basestream;
         private int _count;
