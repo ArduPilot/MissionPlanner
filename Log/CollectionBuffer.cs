@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MissionPlanner.Log
 {
-    public class CollectionBuffer : IList<String>, ICollection<String>, IEnumerable<String>, IDisposable
+    public class CollectionBuffer : IEnumerable<String>, IDisposable
     {
         // used for binary log line conversion
         BinaryLog binlog = new BinaryLog();
@@ -139,22 +139,6 @@ namespace MissionPlanner.Log
             indexcachelineno = -1;
         }
 
-
-        public int IndexOf(String item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insert(int index, String item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void RemoveAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
         public String this[int index]
         {
             get
@@ -206,26 +190,11 @@ namespace MissionPlanner.Log
             set { throw new NotImplementedException(); }
         }
 
-        public void Add(String item)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Clear()
         {
             basestream.Close();
             _count = 0;
             linestartoffset.Clear();
-        }
-
-        public bool Contains(String item)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void CopyTo(String[] array, int arrayIndex)
-        {
-            throw new NotImplementedException();
         }
 
         public int Count
@@ -236,11 +205,6 @@ namespace MissionPlanner.Log
         public bool IsReadOnly
         {
             get { return true; }
-        }
-
-        public bool Remove(String item)
-        {
-            throw new NotImplementedException();
         }
 
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string type)
