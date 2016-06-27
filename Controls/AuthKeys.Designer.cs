@@ -29,10 +29,11 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.FName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.but_save = new MissionPlanner.Controls.MyButton();
             this.but_add = new MissionPlanner.Controls.MyButton();
-            this.DName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -44,14 +45,35 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.DName,
+            this.FName,
+            this.Use,
             this.Key});
             this.dataGridView1.Location = new System.Drawing.Point(12, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(598, 167);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
             this.dataGridView1.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.dataGridView1_UserDeletedRow);
+            // 
+            // FName
+            // 
+            this.FName.HeaderText = "Friendly Name";
+            this.FName.Name = "FName";
+            // 
+            // Use
+            // 
+            this.Use.HeaderText = "Use";
+            this.Use.Name = "Use";
+            this.Use.ReadOnly = true;
+            this.Use.Width = 50;
+            // 
+            // Key
+            // 
+            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Key.HeaderText = "Key";
+            this.Key.Name = "Key";
+            this.Key.ReadOnly = true;
             // 
             // but_save
             // 
@@ -73,18 +95,6 @@
             this.but_add.UseVisualStyleBackColor = true;
             this.but_add.Click += new System.EventHandler(this.but_add_Click);
             // 
-            // FName
-            // 
-            this.DName.HeaderText = "Friendly Name";
-            this.DName.Name = "FName";
-            // 
-            // Key
-            // 
-            this.Key.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Key.HeaderText = "Key";
-            this.Key.Name = "Key";
-            this.Key.ReadOnly = true;
-            // 
             // AuthKeys
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -103,9 +113,10 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn DName;
         private MyButton but_save;
         private MyButton but_add;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FName;
+        private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
     }
 }

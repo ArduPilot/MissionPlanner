@@ -836,14 +836,25 @@ Please check the following
             return true;
         }
 
-        public bool setupSigning(string userseed)
+        public bool setupSigning(string userseed, byte[] key = null)
         {
-            bool clearkey = String.IsNullOrEmpty(userseed);
-            
-            // sha the user input string
-            SHA256Managed signit = new SHA256Managed();
-            var shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
-            Array.Resize(ref shauser, 32);
+            byte[] shauser;
+            bool clearkey = false;
+
+            if (key == null)
+            {
+                clearkey = String.IsNullOrEmpty(userseed);
+
+                // sha the user input string
+                SHA256Managed signit = new SHA256Managed();
+                shauser = signit.ComputeHash(Encoding.UTF8.GetBytes(userseed));
+                Array.Resize(ref shauser, 32);
+            }
+            else
+            {
+                shauser = key;
+                Array.Resize(ref shauser, 32);
+            }
 
             mavlink_setup_signing_t sign = new mavlink_setup_signing_t();
             if (!clearkey)

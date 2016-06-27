@@ -1663,13 +1663,6 @@ namespace MissionPlanner
             AuthKeys auth = new AuthKeys();
 
             auth.Show();
-
-            return;
-
-            string key = "this is an example";
-            InputBox.Show("Signing Key", "Please enter your pass phrase", ref key);
-
-            MainV2.comPort.setupSigning(key);
         }
 
         private void but_optflowcalib_Click(object sender, EventArgs e)
