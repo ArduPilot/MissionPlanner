@@ -42,8 +42,10 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.NUM_heading = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.num_simspeed = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -53,6 +55,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_simspeed)).BeginInit();
             this.SuspendLayout();
             // 
             // myGMAP1
@@ -229,6 +232,8 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Controls.Add(this.num_simspeed);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Location = new System.Drawing.Point(13, 341);
@@ -238,13 +243,6 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Options";
             // 
-            // NUM_heading
-            // 
-            this.NUM_heading.Location = new System.Drawing.Point(60, 18);
-            this.NUM_heading.Name = "NUM_heading";
-            this.NUM_heading.Size = new System.Drawing.Size(51, 20);
-            this.NUM_heading.TabIndex = 0;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -253,6 +251,39 @@
             this.label1.Size = new System.Drawing.Size(47, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Heading";
+            // 
+            // NUM_heading
+            // 
+            this.NUM_heading.Location = new System.Drawing.Point(60, 18);
+            this.NUM_heading.Name = "NUM_heading";
+            this.NUM_heading.Size = new System.Drawing.Size(51, 20);
+            this.NUM_heading.TabIndex = 0;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(129, 20);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Sim Speed";
+            // 
+            // num_simspeed
+            // 
+            this.num_simspeed.Location = new System.Drawing.Point(193, 18);
+            this.num_simspeed.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_simspeed.Name = "num_simspeed";
+            this.num_simspeed.Size = new System.Drawing.Size(51, 20);
+            this.num_simspeed.TabIndex = 2;
+            this.num_simspeed.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // SITL
             // 
@@ -276,6 +307,7 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_simspeed)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -297,5 +329,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown NUM_heading;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown num_simspeed;
     }
 }

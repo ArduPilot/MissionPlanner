@@ -118,8 +118,7 @@ namespace MissionPlanner.Controls
 
         private void pictureBoxplane_Click(object sender, EventArgs e)
         {
-            Common.MessageShowAgain("MS Visual C++ Runtime 2013",
-                "Please note that the plane sim requires\n'Visual C++ Redistributable Packages for Visual Studio 2013' to run.\n https://www.microsoft.com/en-us/download/details.aspx?id=40784");
+            //Common.MessageShowAgain("MS Visual C++ Runtime 2013", "Please note that the plane sim requires\n'Visual C++ Redistributable Packages for Visual Studio 2013' to run.\n https://www.microsoft.com/en-us/download/details.aspx?id=40784");
 
             var exepath = CheckandGetSITLImage("ArduPlane.elf");
 
@@ -140,7 +139,7 @@ namespace MissionPlanner.Controls
 
             //StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value),@" --autotest-dir """ + Application.StartupPath.Replace('\\', '/') + @"""", 1);
 
-            StartSITL(exepath, "plane", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value));
+            StartSITL(exepath, "plane", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
         }
 
         private void pictureBoxrover_Click(object sender, EventArgs e)
@@ -152,7 +151,7 @@ namespace MissionPlanner.Controls
             }
             var exepath = CheckandGetSITLImage("APMrover2.elf");
 
-            StartSITL(exepath, "rover", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value));
+            StartSITL(exepath, "rover", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
         }
 
         private void pictureBoxquad_Click(object sender, EventArgs e)
@@ -164,7 +163,7 @@ namespace MissionPlanner.Controls
             }
             var exepath = CheckandGetSITLImage("ArduCopter.elf");
 
-            StartSITL(exepath, "+", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value));
+            StartSITL(exepath, "+", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
         }
 
         private void pictureBoxheli_Click(object sender, EventArgs e)
@@ -176,7 +175,7 @@ namespace MissionPlanner.Controls
             }
             var exepath = CheckandGetSITLImage("ArduHeli.elf");
 
-            StartSITL(exepath, "heli", BuildHomeLocation(markeroverlay.Markers[0].Position, (int) NUM_heading.Value));
+            StartSITL(exepath, "heli", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), "", (int)num_simspeed.Value);
         }
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
