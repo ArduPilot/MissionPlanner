@@ -5483,15 +5483,6 @@ namespace MissionPlanner.GCSViews
 
         private void contextMenuStrip1_Opening(object sender, CancelEventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.firmware != MainV2.Firmwares.ArduPlane)
-            {
-                geoFenceToolStripMenuItem.Enabled = false;
-            }
-            else
-            {
-                geoFenceToolStripMenuItem.Enabled = true;
-            }
-
             if (CurentRectMarker == null && CurrentRallyPt == null && groupmarkers.Count == 0)
             {
                 deleteWPToolStripMenuItem.Enabled = false;
