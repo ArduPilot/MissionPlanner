@@ -44,6 +44,9 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
             this.panel1.SuspendLayout();
@@ -55,6 +58,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).BeginInit();
+            this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_simspeed)).BeginInit();
             this.SuspendLayout();
             // 
@@ -232,13 +236,11 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Controls.Add(this.num_simspeed);
             this.groupBox3.Controls.Add(this.label1);
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Location = new System.Drawing.Point(13, 341);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(837, 43);
+            this.groupBox3.Size = new System.Drawing.Size(415, 43);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Options";
@@ -259,18 +261,76 @@
             this.NUM_heading.Size = new System.Drawing.Size(51, 20);
             this.NUM_heading.TabIndex = 0;
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.cmb_model);
+            this.groupBox4.Controls.Add(this.label2);
+            this.groupBox4.Controls.Add(this.num_simspeed);
+            this.groupBox4.Location = new System.Drawing.Point(434, 341);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(416, 43);
+            this.groupBox4.TabIndex = 5;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Advanced users only";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(127, 20);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(36, 13);
+            this.label7.TabIndex = 9;
+            this.label7.Text = "Model";
+            // 
+            // cmb_model
+            // 
+            this.cmb_model.FormattingEnabled = true;
+            this.cmb_model.Items.AddRange(new object[] {
+            "",
+            "quadplane",
+            "xplane",
+            "firefly",
+            "+",
+            "quad",
+            "copter",
+            "x",
+            "hexa",
+            "octa",
+            "tri",
+            "y6",
+            "heli",
+            "heli-dual",
+            "heli-compound",
+            "singlecopter",
+            "coaxcopter",
+            "rover",
+            "crrcsim",
+            "jsbsim",
+            "flightaxis",
+            "gazebo",
+            "last_letter",
+            "tracker",
+            "balloon",
+            "plane",
+            "calibration"});
+            this.cmb_model.Location = new System.Drawing.Point(169, 17);
+            this.cmb_model.Name = "cmb_model";
+            this.cmb_model.Size = new System.Drawing.Size(121, 21);
+            this.cmb_model.TabIndex = 8;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(129, 20);
+            this.label2.Location = new System.Drawing.Point(6, 20);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(58, 13);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 7;
             this.label2.Text = "Sim Speed";
             // 
             // num_simspeed
             // 
-            this.num_simspeed.Location = new System.Drawing.Point(193, 18);
+            this.num_simspeed.Location = new System.Drawing.Point(70, 18);
             this.num_simspeed.Minimum = new decimal(new int[] {
             1,
             0,
@@ -278,7 +338,7 @@
             0});
             this.num_simspeed.Name = "num_simspeed";
             this.num_simspeed.Size = new System.Drawing.Size(51, 20);
-            this.num_simspeed.TabIndex = 2;
+            this.num_simspeed.TabIndex = 6;
             this.num_simspeed.Value = new decimal(new int[] {
             1,
             0,
@@ -290,6 +350,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(862, 544);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -307,6 +368,8 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_simspeed)).EndInit();
             this.ResumeLayout(false);
 
@@ -329,6 +392,9 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown NUM_heading;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox cmb_model;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown num_simspeed;
     }

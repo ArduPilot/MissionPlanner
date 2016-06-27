@@ -220,13 +220,17 @@ namespace MissionPlanner.Controls
                 return;
             }
 
+            // override default model
+            if (cmb_model.Text != "")
+                model = cmb_model.Text;
+
             string simdir = sitldirectory + model + Path.DirectorySeparatorChar;
 
             Directory.CreateDirectory(simdir);
 
             string path = Environment.GetEnvironmentVariable("PATH");
 
-            Environment.SetEnvironmentVariable("PATH", simdir + ";" + path, EnvironmentVariableTarget.Process);
+            Environment.SetEnvironmentVariable("PATH", sitldirectory + ";" + simdir + ";" + path, EnvironmentVariableTarget.Process);
 
             Environment.SetEnvironmentVariable("HOME", simdir, EnvironmentVariableTarget.Process);
 
