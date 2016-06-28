@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon May 23 2016";
+    public const string MAVLINK_BUILD_DATE = "Tue Jun 28 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -211,6 +211,7 @@ public partial class MAVLink
 		new message_info(244, "MESSAGE_INTERVAL", 95, 6, 6, typeof( mavlink_message_interval_t )),
 		new message_info(245, "EXTENDED_SYS_STATE", 130, 2, 2, typeof( mavlink_extended_sys_state_t )),
 		new message_info(246, "ADSB_VEHICLE", 184, 38, 38, typeof( mavlink_adsb_vehicle_t )),
+		new message_info(247, "COLLISION", 229, 19, 19, typeof( mavlink_collision_t )),
 		new message_info(248, "V2_EXTENSION", 8, 254, 254, typeof( mavlink_v2_extension_t )),
 		new message_info(249, "MEMORY_VECT", 204, 36, 36, typeof( mavlink_memory_vect_t )),
 		new message_info(250, "DEBUG_VECT", 49, 30, 30, typeof( mavlink_debug_vect_t )),
@@ -488,6 +489,7 @@ SET_HOME_POSITION = 243,
 MESSAGE_INTERVAL = 244,
 EXTENDED_SYS_STATE = 245,
 ADSB_VEHICLE = 246,
+COLLISION = 247,
 V2_EXTENSION = 248,
 MEMORY_VECT = 249,
 DEBUG_VECT = 250,
@@ -1599,7 +1601,7 @@ SETUP_SIGNING = 256,
     
     };
     
-    ///<summary> These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it                simplifies the use of the mode flags. Note that manual input is enabled in all modes as a safety override. </summary>
+    ///<summary>          These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it         simplifies the use of the mode flags. Note that manual input is enabled in all modes as a safety override.        </summary>
     public enum MAV_MODE
     {
 			///<summary> System is not ready to fly, booting, calibrating, etc. No flag is set. | </summary>
@@ -1881,7 +1883,7 @@ SETUP_SIGNING = 256,
     
     };
     
-    ///<summary> THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a      recommendation to the autopilot software. Individual autopilots may or may not obey      the recommended messages. </summary>
+    ///<summary>          THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a         recommendation to the autopilot software. Individual autopilots may or may not obey         the recommended messages.        </summary>
     public enum MAV_DATA_STREAM
     {
 			///<summary> Enable all data streams | </summary>
@@ -1907,7 +1909,7 @@ SETUP_SIGNING = 256,
     
     };
     
-    ///<summary>  The ROI (region of interest) for the vehicle. This can be                 be used by the vehicle for camera/vehicle attitude alignment (see                 MAV_CMD_NAV_ROI). </summary>
+    ///<summary>          The ROI (region of interest) for the vehicle. This can be         be used by the vehicle for camera/vehicle attitude alignment (see         MAV_CMD_NAV_ROI).        </summary>
     public enum MAV_ROI
     {
 			///<summary> No region of interest. | </summary>
@@ -2454,6 +2456,58 @@ SETUP_SIGNING = 256,
         ESTIMATOR_GPS_GLITCH=1024, 
     	///<summary>  | </summary>
         ENUM_END=1025, 
+    
+    };
+    
+    ///<summary> Possible actions an aircraft can take to avoid a collision. </summary>
+    public enum MAV_COLLISION_ACTION
+    {
+			///<summary> Ignore any potential collisions | </summary>
+        NONE=0, 
+    	///<summary> Report potential collision | </summary>
+        REPORT=1, 
+    	///<summary> Descend to avoid thread (or do not take off) | </summary>
+        VERTICAL_DESCEND=2, 
+    	///<summary> Ascend to avoid thread | </summary>
+        VERTICAL_ASCEND=3, 
+    	///<summary> Follow TCAS protocol | </summary>
+        TCAS=4, 
+    	///<summary> Aircraft to move perpendicular to the collision's velocity vector | </summary>
+        MOVE_PERPENDICULAR=5, 
+    	///<summary> Aircraft to fly directly back to its launch point | </summary>
+        RTL=6, 
+    	///<summary> Aircraft to stop in place | </summary>
+        HOVER=7, 
+    	///<summary> Aircraft to return along path it has followed | </summary>
+        RETRACE_PATH=8, 
+    	///<summary>  | </summary>
+        ENUM_END=9, 
+    
+    };
+    
+    ///<summary> Aircraft-rated danger from this threat. </summary>
+    public enum MAV_COLLISION_THREAT_LEVEL
+    {
+			///<summary> Not a threat | </summary>
+        NONE=0, 
+    	///<summary> Craft is mildly concerned about this threat | </summary>
+        LOW=1, 
+    	///<summary> Craft is panicing, and may take actions to avoid threat | </summary>
+        HIGH=2, 
+    	///<summary>  | </summary>
+        ENUM_END=3, 
+    
+    };
+    
+    ///<summary> Source of information about this collision. </summary>
+    public enum MAV_COLLISION_SRC
+    {
+			///<summary> ID field references ADSB_VEHICLE packets | </summary>
+        ADSB=0, 
+    	///<summary> ID field references MAVLink SRC ID | </summary>
+        MAVLINK_GPS_GLOBAL_INT=1, 
+    	///<summary>  | </summary>
+        ENUM_END=2, 
     
     };
     
@@ -6168,10 +6222,31 @@ SETUP_SIGNING = 256,
             /// <summary> The callsign, 8+null </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
 		public byte[] callsign;
-        /// <summary> Type from ADSB_EMITTER_TYPE enum </summary>
+            /// <summary> Type from ADSB_EMITTER_TYPE enum </summary>
         public  byte emitter_type;
             /// <summary> Time since last communication in seconds </summary>
         public  byte tslc;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
+    public struct mavlink_collision_t
+    {
+        /// <summary> Unique identifier, domain based on COLLISION_TYPE </summary>
+        public  UInt32 id;
+            /// <summary> Estimated time until this collision is realised (seconds) </summary>
+        public  Single time_to_minimum_delta;
+            /// <summary> Closest vehicle will approach this collision (altitude, in metres) </summary>
+        public  Single minimum_delta_altitude;
+            /// <summary> Closest vehicle will approach this collision (horizontal distance, in metres) </summary>
+        public  Single minimum_delta_xy;
+            /// <summary> Collision type </summary>
+        public  byte collision_type;
+            /// <summary> Action that is being taken to avoid this collision </summary>
+        public  byte action;
+            /// <summary> How concerned the aircraft is about this collision </summary>
+        public  byte threat_level;
     
     };
 
