@@ -1032,6 +1032,8 @@ namespace MissionPlanner.Utilities
 
             public float Heading { get; set; }
 
+            public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
+
             //public static implicit operator PointLatLngAltHdg(PointLatLngAlt a)
             //{
               //  return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);

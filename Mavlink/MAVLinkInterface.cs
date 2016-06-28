@@ -3312,6 +3312,30 @@ Please check the following
 
                             MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"), DateTime.Now);
                         }
+
+                        if (msgid == (byte) MAVLink.MAVLINK_MSG_ID.COLLISION)
+                        {
+                            var coll = message.ToStructure<MAVLink.mavlink_collision_t>();
+
+                            var id = coll.id.ToString("X5");
+
+                            var coll_type = (MAVLink.MAV_COLLISION_SRC)coll.collision_type;
+
+                            var action = (MAVLink.MAV_COLLISION_ACTION)coll.action;
+
+                            if (action > MAV_COLLISION_ACTION.REPORT)
+                            {
+                                // we are reacting to a threat
+
+                            }
+
+                            var threat_level = (MAVLink.MAV_COLLISION_THREAT_LEVEL)coll.threat_level;
+
+                            if (MainV2.instance.adsbPlanes.ContainsKey(id))
+                            {
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).ThreatLevel = threat_level;
+                            }
+                        }
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets

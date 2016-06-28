@@ -1366,11 +1366,26 @@ namespace MissionPlanner.GCSViews
                                 // 30 seconds history
                                 if (((DateTime) plla.Time) > DateTime.Now.AddSeconds(-30))
                                 {
-                                    addMissionRouteMarker(new GMapMarkerADSBPlane(plla, plla.Heading)
+                                    var adsbplane = new GMapMarkerADSBPlane(plla, plla.Heading)
                                     {
                                         ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"),
-                                        ToolTipMode = MarkerTooltipMode.OnMouseOver
-                                    });
+                                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                                    };
+
+                                    switch (plla.ThreatLevel)
+                                    {
+                                        case MAVLink.MAV_COLLISION_THREAT_LEVEL.NONE:
+                                            adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Green;
+                                            break;
+                                        case MAVLink.MAV_COLLISION_THREAT_LEVEL.LOW:
+                                            adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Orange;
+                                            break;
+                                        case MAVLink.MAV_COLLISION_THREAT_LEVEL.HIGH:
+                                            adsbplane.AlertLevel = GMapMarkerADSBPlane.AlertLevelOptions.Red;
+                                            break;
+                                    }
+
+                                    addMissionRouteMarker(adsbplane);
                                 }
                             }
                         }
