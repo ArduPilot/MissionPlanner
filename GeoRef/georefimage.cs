@@ -1580,14 +1580,21 @@ namespace MissionPlanner.GeoRef
 18 00 00 00 01 00 00 00--> 24/1
 06 02 00 00 0A 00 00 00--> 518/10
 */
-
+            
             Array.Copy(BitConverter.GetBytes((uint) d), 0, output, 0, sizeof (uint));
             Array.Copy(BitConverter.GetBytes((uint) 1), 0, output, 4, sizeof (uint));
             Array.Copy(BitConverter.GetBytes((uint) m), 0, output, 8, sizeof (uint));
             Array.Copy(BitConverter.GetBytes((uint) 1), 0, output, 12, sizeof (uint));
-            Array.Copy(BitConverter.GetBytes((uint) (s*10)), 0, output, 16, sizeof (uint));
-            Array.Copy(BitConverter.GetBytes((uint) 10), 0, output, 20, sizeof (uint));
-
+            Array.Copy(BitConverter.GetBytes((uint)(s * 1.0e7)), 0, output, 16, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)1.0e7), 0, output, 20, sizeof(uint));
+            /*
+            Array.Copy(BitConverter.GetBytes((uint)d * 1.0e7), 0, output, 0, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)1.0e7), 0, output, 4, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)0), 0, output, 8, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)1), 0, output, 12, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)0), 0, output, 16, sizeof(uint));
+            Array.Copy(BitConverter.GetBytes((uint)1), 0, output, 20, sizeof(uint));
+            */
             return output;
         }
 
