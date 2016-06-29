@@ -611,7 +611,7 @@ union px4_custom_mode {
         private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_011, new Size(40, 40));
         private static readonly Bitmap icono = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_012, new Size(40, 40));
 
-        float heading = 0;
+        public float heading = 0;
         public AlertLevelOptions AlertLevel = AlertLevelOptions.Green;
 
         public enum AlertLevelOptions

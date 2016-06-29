@@ -3310,7 +3310,23 @@ Please check the following
                         {
                             var adsb = message.ToStructure<MAVLink.mavlink_adsb_vehicle_t>();
 
-                            MainV2.instance.adsbPlanes[adsb.ICAO_address.ToString("X5")] = new MissionPlanner.Utilities.adsb.PointLatLngAltHdg(adsb.lat / 1e7, adsb.lon / 1e7, adsb.altitude / 1000, adsb.heading * 0.01f, adsb.ICAO_address.ToString("X5"), DateTime.Now);
+                            var id = adsb.ICAO_address.ToString("X5");
+
+                            if (MainV2.instance.adsbPlanes.ContainsKey(id))
+                            {
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.lat/1e7;
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.lon/1e7;
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.altitude/1000.0;
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.heading*0.01f;
+                                ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
+                            }
+                            else
+                            {
+                                MainV2.instance.adsbPlanes[id] =
+                                    new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
+                                        adsb.altitude/1000.0, adsb.heading*0.01f, id,
+                                        DateTime.Now);
+                            }
                         }
 
                         if (msgid == (byte) MAVLink.MAVLINK_MSG_ID.COLLISION)
