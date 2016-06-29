@@ -1638,38 +1638,51 @@ namespace MissionPlanner.Log
                                             .ToStructure<MAVLink.mavlink_mission_count_t>();
                                     mine.MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT);
                                     sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " +
-                                                 item.target_system);
+                                                 item.target_system + " # " + item.count);
                                 }
                                 catch
                                 {
                                 }
                                 for (ushort a = 0; a < count; a++)
                                 {
-                                    Locationwp wp = mine.getWP(a);
-                                    //sw.WriteLine(item + "\t" + mine.param[item]);
-                                    ushort mode = wp.id;
+                                    try
+                                    {
+                                        Locationwp wp = mine.getWP(a);
+                                        //sw.WriteLine(item + "\t" + mine.param[item]);
+                                        ushort mode = wp.id;
 
-                                    sw.Write((a)); // seq
-                                    sw.Write("\t" + 0); // current
-                                    sw.Write("\t" + (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
-                                    sw.Write("\t" + mode);
-                                    sw.Write("\t" +
-                                             wp.p1.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             wp.p2.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             wp.p3.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" +
-                                             (wp.alt/CurrentState.multiplierdist).ToString("0.000000",
-                                                 new System.Globalization.CultureInfo("en-US")));
-                                    sw.Write("\t" + 1);
-                                    sw.WriteLine("");
+                                        sw.Write((a)); // seq
+                                        sw.Write("\t" + 0); // current
+                                        sw.Write("\t" + (byte) MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
+                                        sw.Write("\t" + mode);
+                                        sw.Write("\t" +
+                                                 wp.p1.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 wp.p2.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 wp.p3.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 wp.p4.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 wp.lat.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 wp.lng.ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" +
+                                                 (wp.alt/CurrentState.multiplierdist).ToString("0.000000",
+                                                     new System.Globalization.CultureInfo("en-US")));
+                                        sw.Write("\t" + 1);
+                                        sw.WriteLine("");
+                                    }
+                                    catch
+                                    {
+                                        break;
+                                    }
                                 }
 
                                 sw.Close();
