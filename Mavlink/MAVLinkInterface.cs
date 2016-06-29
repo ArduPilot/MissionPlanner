@@ -1975,10 +1975,6 @@ Please check the following
                         giveComport = false;
                         return count.count; // should be ushort, but apm has limited wp count < byte
                     }
-                    else
-                    {
-                        log.Info(DateTime.Now + " PC wpcount " + buffer.msgid + " need " + MAVLINK_MSG_ID.MISSION_COUNT);
-                    }
                 }
             }
         }
@@ -2899,7 +2895,6 @@ Please check the following
                     {
                         if (readcount > 300)
                         {
-                            log.Info("MAVLink readpacket No valid mavlink packets");
                             break;
                         }
                         readcount++;
