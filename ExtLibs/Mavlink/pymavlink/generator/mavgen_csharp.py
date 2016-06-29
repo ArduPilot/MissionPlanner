@@ -324,6 +324,10 @@ def generate_one(fh, basename, xml):
                     f.type = "UInt16[]";
                     f.array_tag = 'getBytes'
                     f.return_type = 'UInt16[]'
+                elif f.type == 'float':
+                    f.type = "float[]";
+                    f.array_tag = 'getBytes'
+                    f.return_type = 'float[]'
                 else:
                     test_strings = []
                     for v in f.test_value:

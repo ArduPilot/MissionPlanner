@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Jun 28 2016";
+    public const string MAVLINK_BUILD_DATE = "Wed Jun 29 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -4230,7 +4230,7 @@ SETUP_SIGNING = 256,
         public  UInt32 time_boot_ms;
             /// <summary> Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Roll angular speed (rad/s) </summary>
         public  Single rollspeed;
             /// <summary> Pitch angular speed (rad/s) </summary>
@@ -4239,7 +4239,7 @@ SETUP_SIGNING = 256,
         public  Single yawspeed;
             /// <summary> Attitude covariance </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
-		public float covariance;
+		public float[] covariance;
     
     };
 
@@ -4290,7 +4290,7 @@ SETUP_SIGNING = 256,
         public  Single vz;
             /// <summary> Covariance matrix (first six entries are the first ROW, next six entries are the second row, etc.) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=36)]
-		public float covariance;
+		public float[] covariance;
             /// <summary> Class id of the estimator this estimate originated from. </summary>
         public  byte estimator_type;
     
@@ -4324,7 +4324,7 @@ SETUP_SIGNING = 256,
         public  Single az;
             /// <summary> Covariance matrix upper right triangular (first nine entries are the first ROW, next eight entries are the second row, etc.) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=45)]
-		public float covariance;
+		public float[] covariance;
             /// <summary> Class id of the estimator this estimate originated from. </summary>
         public  byte estimator_type;
     
@@ -4611,7 +4611,7 @@ SETUP_SIGNING = 256,
         public  UInt32 time_boot_ms;
             /// <summary> Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Body roll rate in radians per second </summary>
         public  Single body_roll_rate;
             /// <summary> Body roll rate in radians per second </summary>
@@ -4637,7 +4637,7 @@ SETUP_SIGNING = 256,
         public  UInt32 time_boot_ms;
             /// <summary> Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Body roll rate in radians per second </summary>
         public  Single body_roll_rate;
             /// <summary> Body roll rate in radians per second </summary>
@@ -5309,7 +5309,7 @@ SETUP_SIGNING = 256,
         public  UInt64 time_usec;
             /// <summary> Vehicle attitude expressed as normalized quaternion in w, x, y, z order (with 1 0 0 0 being the null-rotation) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float attitude_quaternion;
+		public float[] attitude_quaternion;
             /// <summary> Body frame roll / phi angular speed (rad/s) </summary>
         public  Single rollspeed;
             /// <summary> Body frame pitch / theta angular speed (rad/s) </summary>
@@ -5772,7 +5772,7 @@ SETUP_SIGNING = 256,
         public  UInt64 time_usec;
             /// <summary> Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> X position in meters (NED) </summary>
         public  Single x;
             /// <summary> Y position in meters (NED) </summary>
@@ -5790,7 +5790,7 @@ SETUP_SIGNING = 256,
         public  UInt64 time_usec;
             /// <summary> Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs. </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
-		public float controls;
+		public float[] controls;
             /// <summary> Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances. </summary>
         public  byte group_mlx;
             /// <summary> System ID </summary>
@@ -5808,7 +5808,7 @@ SETUP_SIGNING = 256,
         public  UInt64 time_usec;
             /// <summary> Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs. </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
-		public float controls;
+		public float[] controls;
             /// <summary> Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances. </summary>
         public  byte group_mlx;
     
@@ -5885,19 +5885,19 @@ SETUP_SIGNING = 256,
         public  Single alt;
             /// <summary> target velocity (0,0,0) for unknown </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float vel;
+		public float[] vel;
             /// <summary> linear target acceleration (0,0,0) for unknown </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float acc;
+		public float[] acc;
             /// <summary> (1 0 0 0 for unknown) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float attitude_q;
+		public float[] attitude_q;
             /// <summary> (0 0 0 for unknown) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float rates;
+		public float[] rates;
             /// <summary> eph epv </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float position_cov;
+		public float[] position_cov;
             /// <summary> bit positions for tracker reporting capabilities (POS = 0, VEL = 1, ACCEL = 2, ATT + RATES = 3) </summary>
         public  byte est_capabilities;
     
@@ -5931,13 +5931,13 @@ SETUP_SIGNING = 256,
         public  Single airspeed;
             /// <summary> Variance of body velocity estimate </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float vel_variance;
+		public float[] vel_variance;
             /// <summary> Variance in local position </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=3)]
-		public float pos_variance;
+		public float[] pos_variance;
             /// <summary> The attitude, represented as Quaternion </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Angular rate in roll axis </summary>
         public  Single roll_rate;
             /// <summary> Angular rate in pitch axis </summary>
@@ -6133,7 +6133,7 @@ SETUP_SIGNING = 256,
         public  Single z;
             /// <summary> World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone. </summary>
         public  Single approach_x;
             /// <summary> Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone. </summary>
@@ -6161,7 +6161,7 @@ SETUP_SIGNING = 256,
         public  Single z;
             /// <summary> World to surface normal and heading transformation of the takeoff position. Used to indicate the heading and slope of the ground </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
-		public float q;
+		public float[] q;
             /// <summary> Local X position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone. </summary>
         public  Single approach_x;
             /// <summary> Local Y position of the end of the approach vector. Multicopters should set this position based on their takeoff path. Grass-landing fixed wing aircraft should set it the same way as multicopters. Runway-landing fixed wing aircraft should set it to the opposite direction of the takeoff, assuming the takeoff happened from the threshold / touchdown zone. </summary>
