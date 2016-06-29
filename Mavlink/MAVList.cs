@@ -113,5 +113,10 @@ namespace MissionPlanner.Mavlink
         {
             return this.GetEnumerator();
         }
+
+        public static int GetID(byte sysid, byte compid)
+        {
+           return  sysid*256 + compid;
+        }
     }
 }
