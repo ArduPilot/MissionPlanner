@@ -1460,7 +1460,8 @@ namespace MissionPlanner.Log
                                 string text = "";
                                 mine.DebugPacket(packet, ref text, true, ",");
 
-                                sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
+                                if (!String.IsNullOrEmpty(text))
+                                    sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
                             }
 
                             sw.Close();
@@ -1630,6 +1631,7 @@ namespace MissionPlanner.Log
                                                      ".waypoints");
 
                                 sw.WriteLine("QGC WPL 110");
+                                sw.WriteLine("# wp count " + count);
                                 try
                                 {
                                     //get mission count info 
@@ -1695,13 +1697,16 @@ namespace MissionPlanner.Log
                             mine.logplaybackfile.Close();
                             mine.logplaybackfile = null;
 
-                            if (wplists == 0)
+                            if (openFileDialog1.FileNames.Length == 1)
                             {
-                                CustomMessageBox.Show("No Waypoint found in file!");
-                            }
-                            else
-                            {
-                                CustomMessageBox.Show("File Saved with log file!");
+                                if (wplists == 0)
+                                {
+                                    CustomMessageBox.Show("No Waypoint found in file!");
+                                }
+                                else
+                                {
+                                    CustomMessageBox.Show("File Saved with log file!");
+                                }
                             }
                         }
                     }
