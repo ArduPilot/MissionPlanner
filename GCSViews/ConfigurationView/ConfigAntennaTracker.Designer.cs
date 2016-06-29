@@ -33,6 +33,8 @@
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBox1 = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxservo_yaw_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_yaw = new MissionPlanner.Controls.MyButton();
             this.mavlinkNumericUpDown3 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown2 = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -44,6 +46,8 @@
             this.label91 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxservo_pitch_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_pitch = new MissionPlanner.Controls.MyButton();
             this.mavlinkNumericUpDown4 = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown5 = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -81,10 +85,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
-            this.mavlinkComboBoxservo_pitch_type = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.mavlinkComboBoxservo_yaw_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBoxalt_source = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox22.SuspendLayout();
@@ -149,6 +149,20 @@
             resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // mavlinkComboBoxservo_yaw_type
+            // 
+            this.mavlinkComboBoxservo_yaw_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxservo_yaw_type, "mavlinkComboBoxservo_yaw_type");
+            this.mavlinkComboBoxservo_yaw_type.FormattingEnabled = true;
+            this.mavlinkComboBoxservo_yaw_type.Name = "mavlinkComboBoxservo_yaw_type";
+            this.mavlinkComboBoxservo_yaw_type.ParamName = null;
+            this.mavlinkComboBoxservo_yaw_type.SubControl = null;
             // 
             // BUT_test_yaw
             // 
@@ -238,6 +252,20 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // mavlinkComboBoxservo_pitch_type
+            // 
+            this.mavlinkComboBoxservo_pitch_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxservo_pitch_type, "mavlinkComboBoxservo_pitch_type");
+            this.mavlinkComboBoxservo_pitch_type.FormattingEnabled = true;
+            this.mavlinkComboBoxservo_pitch_type.Name = "mavlinkComboBoxservo_pitch_type";
+            this.mavlinkComboBoxservo_pitch_type.ParamName = null;
+            this.mavlinkComboBoxservo_pitch_type.SubControl = null;
             // 
             // BUT_test_pitch
             // 
@@ -508,34 +536,6 @@
             // 
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
-            // 
-            // mavlinkComboBoxservo_pitch_type
-            // 
-            this.mavlinkComboBoxservo_pitch_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBoxservo_pitch_type, "mavlinkComboBoxservo_pitch_type");
-            this.mavlinkComboBoxservo_pitch_type.FormattingEnabled = true;
-            this.mavlinkComboBoxservo_pitch_type.Name = "mavlinkComboBoxservo_pitch_type";
-            this.mavlinkComboBoxservo_pitch_type.ParamName = null;
-            this.mavlinkComboBoxservo_pitch_type.SubControl = null;
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // mavlinkComboBoxservo_yaw_type
-            // 
-            this.mavlinkComboBoxservo_yaw_type.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBoxservo_yaw_type, "mavlinkComboBoxservo_yaw_type");
-            this.mavlinkComboBoxservo_yaw_type.FormattingEnabled = true;
-            this.mavlinkComboBoxservo_yaw_type.Name = "mavlinkComboBoxservo_yaw_type";
-            this.mavlinkComboBoxservo_yaw_type.ParamName = null;
-            this.mavlinkComboBoxservo_yaw_type.SubControl = null;
             // 
             // groupBox1
             // 

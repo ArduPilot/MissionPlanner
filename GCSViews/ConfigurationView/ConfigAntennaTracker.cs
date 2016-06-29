@@ -276,7 +276,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             double output = 1500;
 
-            if (mavlinkCheckBox1.Checked)
+            if (!mavlinkCheckBox1.Checked)
             {
                 output = map(myTrackBar1.Value, myTrackBar1.Maximum, myTrackBar1.Minimum,
                     (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
