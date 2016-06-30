@@ -2166,7 +2166,14 @@ namespace MissionPlanner.GCSViews
             // QUAD
             if (MainV2.comPort.MAV.param.ContainsKey("WP_SPEED_MAX"))
             {
-                modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["WP_SPEED_MAX"]/100.0);
+                try
+                {
+                    modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["WP_SPEED_MAX"]/100.0);
+                }
+                catch
+                {
+                    modifyandSetSpeed.Enabled = false;
+                }
             } // plane with airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") &&
                      MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
@@ -2174,23 +2181,55 @@ namespace MissionPlanner.GCSViews
                      (float) MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
                      && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 1)
             {
-                modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["TRIM_ARSPD_CM"]/100.0);
+                try
+                {
+                    modifyandSetSpeed.Value = (decimal) ((float) MainV2.comPort.MAV.param["TRIM_ARSPD_CM"]/100.0);
+                }
+                catch
+                {
+                    modifyandSetSpeed.Enabled = false;
+                }
             } // plane without airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") &&
                      MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE")
                      && (float) MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
             {
-                modifyandSetSpeed.Value = (decimal) (float) MainV2.comPort.MAV.param["TRIM_THROTTLE"];
+                try
+                {
+                    modifyandSetSpeed.Value = (decimal) (float) MainV2.comPort.MAV.param["TRIM_THROTTLE"];
+                }
+                catch
+                {
+                    modifyandSetSpeed.Enabled = false;
+                }
                 // percent
                 modifyandSetSpeed.ButtonText = Strings.ChangeThrottle;
             }
 
-            if (MainV2.comPort.MAV.param.ContainsKey("LOITER_RAD"))
-                modifyandSetLoiterRad.Value = (decimal)((float)MainV2.comPort.MAV.param["LOITER_RAD"] * CurrentState.multiplierdist);
-
-            if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
-                modifyandSetLoiterRad.Value = (decimal)((float)MainV2.comPort.MAV.param["WP_LOITER_RAD"] * CurrentState.multiplierdist);
+            try
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey("LOITER_RAD"))
+                    modifyandSetLoiterRad.Value =
+                        (decimal) ((float) MainV2.comPort.MAV.param["LOITER_RAD"]*CurrentState.multiplierdist);
+            }
+            catch
+            {
+                modifyandSetLoiterRad.Enabled = false;
+            }
+            try
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey("WP_LOITER_RAD"))
+                {
+                    modifyandSetLoiterRad.Value =
+                        (decimal) ((float) MainV2.comPort.MAV.param["WP_LOITER_RAD"]*CurrentState.multiplierdist);
+                }
+            }
+            catch
+            {
+                modifyandSetLoiterRad.Enabled = false;
+            }
         }
+        
 
         void cam_camimage(Image camimage)
         {
