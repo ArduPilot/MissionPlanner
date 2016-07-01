@@ -2137,7 +2137,6 @@ namespace MissionPlanner.Controls
                     }
                     catch { }
                 }
-                charDict.Clear();
 
                 if (opengl)
                 {
@@ -2150,10 +2149,10 @@ namespace MissionPlanner.Controls
                             GL.DeleteTexture(texid.gltextureid);
                     }
                 }
+
+                charDict.Clear();
             }
             catch { }
-
-            // GC.Collect();
 
             try
             {
