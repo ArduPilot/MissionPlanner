@@ -1,7 +1,7 @@
 MissionPlanner
 ==============
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/diydrones/MissionPlanner?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ArduPilot/MissionPlanner?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Website : http://planner.ardupilot.com/  
   
@@ -9,9 +9,9 @@ Forum : http://ardupilot.com/forum/viewforum.php?f=12
   
 Download latest stable version : http://ardupilot.com/wp-content/plugins/download-monitor/download.php?id=82  
   
-Changelog : https://github.com/diydrones/MissionPlanner/blob/master/ChangeLog.txt  
+Changelog : https://github.com/ArduPilot/MissionPlanner/blob/master/ChangeLog.txt  
   
-License : https://github.com/diydrones/MissionPlanner/blob/master/COPYING.txt  
+License : https://github.com/ArduPilot/MissionPlanner/blob/master/COPYING.txt  
 
 
 How to compile
@@ -36,16 +36,17 @@ How to compile
 
 - Create an empty folder anywhere
 - In explorer left click and select "Git Clone"
-  set URL https://github.com/diydrones/MissionPlanner
+  set URL https://github.com/ArduPilot/MissionPlanner
   OK
 
 3. Build
 
-- Open ArdupilotMega.sln with Visual Studio express 2013 for windows desktop.
+- Open MissionPlanner.sln with Visual Studio express 2013 for windows desktop.
 - Compile.
 
 
 -----------MONO-------------
+
 run using 
 mono MissionPlanner.exe
 
