@@ -88,8 +88,8 @@ namespace MissionPlanner
         {
             //DoDebug();
 
-            if (spacing < 10 && spacing != 0)
-                spacing = 10;
+            if (spacing < 4 && spacing != 0)
+                spacing = 4;
 
             if (distance < 0.1)
                 distance = 0.1;
