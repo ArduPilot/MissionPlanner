@@ -17,6 +17,7 @@ using System.Xml;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using MissionPlanner.Log;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GeoRef
 {
@@ -736,7 +737,7 @@ namespace MissionPlanner.GeoRef
                     double lng = picInfo.Lon;
                     double alpha = picInfo.Yaw + (double) num_camerarotation.Value;
 
-                    RectangleF rect = getboundingbox(lat, lng, alpha, (double) num_hfov.Value, (double) num_vfov.Value);
+                    RectangleF rect = getboundingbox(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
 
                     Console.WriteLine(rect);
 
@@ -1284,63 +1285,30 @@ namespace MissionPlanner.GeoRef
             return lastRecordN;
         }
 
-        private RectangleF getboundingbox(double centery, double centerx, double angle, double width, double height)
+        private RectangleF getboundingbox(double centery, double centerx, double alt, double angle, double width, double height)
         {
             double lat = centery;
             double lng = centerx;
             double alpha = angle;
 
-            double ang = degrees(Math.Atan((width/2.0)/(height/2.0)));
+            var rect = ImageProjection.calc(new PointLatLngAlt(lat, lng, alt), 0, 0, alpha, width, height);
 
-            double hyplength =
-                Math.Sqrt(Math.Pow((double) num_vfov.Value/2.0, 2) + Math.Pow((double) num_hfov.Value/2.0, 2));
 
-            double lat1 = lat;
-            double lng1 = lng;
-
-            newpos(ref lat1, ref lng1, alpha + ang, hyplength);
-
-            double lat2 = lat;
-            double lng2 = lng;
-
-            newpos(ref lat2, ref lng2, alpha + 180 - ang, hyplength);
-
-            double lat3 = lat;
-            double lng3 = lng;
-
-            newpos(ref lat3, ref lng3, alpha + 180 + ang, hyplength);
-
-            double lat4 = lat;
-            double lng4 = lng;
-
-            newpos(ref lat4, ref lng4, alpha + 360 - ang, hyplength);
 
             double minx = 999, miny = 999, maxx = -999, maxy = -999;
 
+            foreach (var pnt in rect)
+            {
+                maxx = Math.Max(maxx, pnt.Lat);
 
-            maxx = Math.Max(maxx, lat1);
-            maxx = Math.Max(maxx, lat2);
-            maxx = Math.Max(maxx, lat3);
-            maxx = Math.Max(maxx, lat4);
+                minx = Math.Min(minx, pnt.Lat);
 
-            minx = Math.Min(minx, lat1);
-            minx = Math.Min(minx, lat2);
-            minx = Math.Min(minx, lat3);
-            minx = Math.Min(minx, lat4);
+                miny = Math.Min(miny, pnt.Lng);
 
-            miny = Math.Min(miny, lng1);
-            miny = Math.Min(miny, lng2);
-            miny = Math.Min(miny, lng3);
-            miny = Math.Min(miny, lng4);
-
-            maxy = Math.Max(maxy, lng1);
-            maxy = Math.Max(maxy, lng2);
-            maxy = Math.Max(maxy, lng3);
-            maxy = Math.Max(maxy, lng4);
+                maxy = Math.Max(maxy, pnt.Lng);
+            }
 
             Console.WriteLine("{0} {1} {2} {3}", minx, maxx, miny, maxy);
-            Console.WriteLine("{0} {1} {2} {3}", lat1, lat2, lat3, lat4);
-            Console.WriteLine("{0} {1} {2} {3}", lng1, lng2, lng3, lng4);
 
             return new RectangleF((float) miny, (float) minx, (float) (maxy - miny), (float) (maxx - minx));
         }
