@@ -23,3 +23,6 @@ obj/
 *.pyc
 /ExtLibs/Mavlink/Mavlink.cs
 /ExtLibs/Mavlink/mavlink
+/LogAnalyzer/LogAnalyzer.zip
+/LogAnalyzer/py2exe/dist
+/LogAnalyzer/py2exe/build
