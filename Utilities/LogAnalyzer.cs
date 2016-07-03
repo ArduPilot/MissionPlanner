@@ -2,11 +2,16 @@ using IronPython.Hosting;
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using ICSharpCode.SharpZipLib.Zip;
+using Ionic.Zip;
+using MissionPlanner.Controls;
+using ZipFile = ICSharpCode.SharpZipLib.Zip.ZipFile;
 
 namespace MissionPlanner.Utilities
 {
@@ -17,79 +22,79 @@ namespace MissionPlanner.Utilities
 
         public static string CheckLogFile(string FileName)
         {
-            var engine = Python.CreateEngine();
-            var scope = engine.CreateScope();
+            var dir = Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" +
+                      Path.DirectorySeparatorChar;
 
-            var all = System.Reflection.Assembly.GetExecutingAssembly();
-            engine.Runtime.LoadAssembly(all);
+            var runner = dir + "runner.exe";
 
-            engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
+            var zip = dir + "LogAnalyzer.zip";
 
-            List<string> paths = new List<string>(engine.GetSearchPaths());
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
-            paths.Add(Environment.CurrentDirectory);
-
-            paths.Add(
-                Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" +
-               Path.DirectorySeparatorChar + "LogAnalyzer.py"));
-         paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "Lib" + Path.DirectorySeparatorChar +
-            "site-packages");
-
-            engine.SetSearchPaths(paths);
-
-            //  engine.CreateScriptSourceFromFile(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py");
-
-
-            string bootloader = @"
-import sys
-import clr
-clr.AddReference('mtrand.dll')
-
-
-
-import numpy
-#import scipy
-
-print numpy.__version__
-#print scipy.__version__
-
-import mtrand
-
-import numpy
-
-import LogAnalyzer
-
-import sys
-
-sys.argv.append('-x')
-sys.argv.append('" + FileName.Replace('\\', '/') + @".xml')
-sys.argv.append('-s')
-sys.argv.append('" + FileName.Replace('\\', '/') + @"')
-
-print sys.argv
-
-
-LogAnalyzer.main()
-
-";
-            try
+            if (!File.Exists(runner))
             {
-                var memstream = new MemoryStream();
+                Loading.ShowLoading("Downloading LogAnalyzer");
+                // download zip
+                if (
+                    Common.getFilefromNet(
+                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
+                        zip))
+                {
+                    Loading.ShowLoading("Extracting zip file");
+                    // extract zip
+                    FastZip fzip = new FastZip();
+                    fzip.ExtractZip(zip, dir, "");
+                }
+                else
+                {
+                    CustomMessageBox.Show("Failed to download LogAnalyzer");
+                    return "";
+                }
 
-                engine.Runtime.IO.SetOutput(memstream, UnicodeEncoding.ASCII);
-
-                engine.CreateScriptSourceFromString(bootloader).Execute(scope);
-
-                stringresult = Encoding.ASCII.GetString(memstream.GetBuffer());
             }
-            catch (Exception ex)
+
+            if (!File.Exists(runner))
             {
-                log.Error(ex);
-                CustomMessageBox.Show(ex.Message, Strings.ERROR);
+                CustomMessageBox.Show("Failed to download LogAnalyzer");
                 return "";
             }
 
-            engine = null;
+            var sb = new StringBuilder();
+
+            Process P = new Process();
+            P.StartInfo.FileName = runner;
+            P.StartInfo.Arguments = @" -x """ + FileName + @".xml"" -s """ + FileName + @"""";
+
+            P.StartInfo.UseShellExecute = false;
+            P.StartInfo.WorkingDirectory = dir;
+
+            P.StartInfo.RedirectStandardOutput = true;
+            P.StartInfo.RedirectStandardError = true;
+
+            P.OutputDataReceived += (sender, args) => sb.AppendLine(args.Data);
+            P.ErrorDataReceived += (sender, args) => sb.AppendLine(args.Data);
+
+            try
+            {
+                Loading.ShowLoading("Running LogAnalyzer");
+
+                P.Start();
+
+                P.BeginOutputReadLine();
+                P.BeginErrorReadLine();
+
+                // until we are done
+                P.WaitForExit();
+
+                log.Info(sb.ToString());
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to start LogAnalyzer");
+            }
+
+            Loading.Close();
 
             return FileName + ".xml";
         }

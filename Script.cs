@@ -27,6 +27,11 @@ namespace MissionPlanner
                 engine.Runtime.Shutdown();
 
             engine = Python.CreateEngine(options);
+
+            var paths = engine.GetSearchPaths();
+            paths.Add(Application11.StartupPath + Path.DirectorySeparatorChar + "Lib.zip");
+            engine.SetSearchPaths(paths);
+
             scope = engine.CreateScope();
 
             var all = System.Reflection.Assembly.GetExecutingAssembly();
