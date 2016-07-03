@@ -28,7 +28,14 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    return _speechwindows.State == SynthesizerState.Ready;
+                    try
+                    {
+                        return _speechwindows.State == SynthesizerState.Ready;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
                 }
             }
         }
