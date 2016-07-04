@@ -47,8 +47,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            flow.CalibrationMode(false);
-            flow.Close();
+            if (flow != null)
+            {
+                flow.CalibrationMode(false);
+                flow.Close();
+            }
         }
     }
 }
