@@ -30,12 +30,14 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        return _speechwindows.State == SynthesizerState.Ready;
+                        if (_speechwindows != null)
+                            return _speechwindows.State == SynthesizerState.Ready;
                     }
                     catch
                     {
                         return false;
                     }
+                    return false;
                 }
             }
         }
@@ -98,7 +100,8 @@ namespace MissionPlanner.Utilities
             }
             else
             {
-                _speechwindows.SpeakAsync(text);
+                if (_speechwindows != null)
+                    _speechwindows.SpeakAsync(text);
             }
 
             log.Info("TTS: say " + text);
@@ -126,9 +129,14 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    _speechwindows.SpeakAsyncCancelAll();
+                    if (_speechwindows!= null)
+                        _speechwindows.SpeakAsyncCancelAll();
                 }
-                catch { } // System.PlatformNotSupportedException:
+                catch (System.PlatformNotSupportedException)
+                {
+                    _speechwindows = null;
+                }
+                catch { }
             }
         }
 
