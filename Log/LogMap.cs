@@ -131,7 +131,7 @@ namespace MissionPlanner.Log
                     }
 
 
-                    if (loc_list.First().Value.Count > 10)
+                    if (loc_list.Count > 0 && loc_list.First().Value.Count > 10)
                     {
                         // add a bit of buffer
                         var area = RectLatLng.FromLTRB(minx - 0.001, maxy + 0.001, maxx + 0.001, miny - 0.001);
