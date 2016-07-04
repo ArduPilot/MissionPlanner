@@ -162,6 +162,16 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
+                        if (item.Groups[0].Value.ToString().StartsWith("R") || item.Groups[0].Value.ToString().StartsWith("B"))
+                        {
+                            // start new element
+                            if (pointlist.Count > 0)
+                            {
+                                list.Add(pointlist);
+                                pointlist = new List<PointLatLng>();
+                            }
+                        }
+
                         if (item.Groups[2].Value == "L")
                         {
                             var point = new PointLatLngAlt(double.Parse(item.Groups[4].Value, CultureInfo.InvariantCulture), double.Parse(item.Groups[6].Value, CultureInfo.InvariantCulture));
@@ -200,8 +210,6 @@ namespace MissionPlanner.Utilities
 
                                 pointlist.Add(point);
 
-                                list.Add(pointlist);
-                                pointlist = new List<PointLatLng>();
 
                                 isarcterminate = false;
                                 iscircleterminate = false;
@@ -271,6 +279,9 @@ namespace MissionPlanner.Utilities
                     }
                     catch { }
                 }
+
+                if(pointlist.Count > 0)
+                    list.Add(pointlist);
 
                 return list;
             }
