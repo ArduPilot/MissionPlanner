@@ -122,6 +122,6 @@
         private System.Windows.Forms.ComboBox cmb_ConnectionType;
         private System.Windows.Forms.ComboBox cmb_Connection;
         private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.ComboBox cmb_sysid;
+        public System.Windows.Forms.ComboBox cmb_sysid;
     }
 }

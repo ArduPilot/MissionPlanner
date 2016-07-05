@@ -464,6 +464,7 @@ namespace MissionPlanner
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
+            _connectionControl.cmb_sysid.Click += cmb_sysid_Click;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
             srtm.datadirectory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
@@ -838,6 +839,11 @@ namespace MissionPlanner
 
             // save config to test we have write access
             SaveConfig();
+        }
+
+        void cmb_sysid_Click(object sender, EventArgs e)
+        {
+            MainV2._connectionControl.UpdateSysIDS();
         }
 
         void comPort_MavChanged(object sender, EventArgs e)
