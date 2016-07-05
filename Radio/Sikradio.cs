@@ -97,7 +97,7 @@ S15: MAX_WINDOW=131
                 {
                     return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio.rfd900.hex", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900A)
             {
@@ -106,23 +106,23 @@ S15: MAX_WINDOW=131
                     return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/beta/radio~rfd900a.ihx",
                         firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio.rfd900a.hex", firmwarefile);
+                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900a.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900U)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900u.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900u.ihx", firmwarefile);
+                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900u.ihx", firmwarefile);
             }
             if (device == Uploader.Board.DEVICE_ID_RFD900P)
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/MPSiK%20V2.6%20rfd900p.ihx", firmwarefile);
                 }
-                return Common.getFilefromNet("http://firmware.ardupilot.org/SiK/stable/radio~rfd900p.ihx", firmwarefile);
+                return Common.getFilefromNet("http://files.rfdesign.com.au/Files/firmware/RFDSiK%20V1.9%20rfd900p.ihx", firmwarefile);
             }
             return false;
         }
