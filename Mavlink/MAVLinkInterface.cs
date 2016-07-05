@@ -1578,10 +1578,10 @@ Please check the following
             return doCommand(MAV_CMD.DO_GO_AROUND, 0, 0, 0, 0, 0, 0, 0);
         }
 
-        public bool doMotorTest(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout)
+        public bool doMotorTest(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout, int motorcount = 0)
         {
             return MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_MOTOR_TEST, (float) motor, (float) (byte) thr_type,
-                (float) throttle, (float) timeout, 0, 0, 0);
+                (float) throttle, (float) timeout, (float) motorcount, 0, 0);
         }
 
         public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true)

@@ -69,6 +69,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
             Controls.Add(but);
+
+            y += 39;
+
+            but = new MyButton();
+            but.Text = "Test all in Sequence";
+            but.Location = new Point(x, y);
+            but.Size = new Size(75, 37);
+            but.Click += but_TestAllSeq;
+            Controls.Add(but);
         }
 
         private int get_motormax()
@@ -159,6 +168,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        private void but_TestAllSeq(object sender, EventArgs e)
+        {
+            int motormax = this.get_motormax();
+            int speed = (int) NUM_thr_percent.Value;
+            int time = (int) NUM_duration.Value;
+
+            testMotor(1, speed, time, motormax);
+        }
+
         private void but_StopAll(object sender, EventArgs e)
         {
             int motormax = this.get_motormax();
@@ -183,13 +201,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void testMotor(int motor, int speed, int time)
+        private void testMotor(int motor, int speed, int time,int motorcount = 0)
         {
             try
             {
                 if (
                     !MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT,
-                        speed, time))
+                        speed, time, motorcount))
                 {
                     CustomMessageBox.Show("Command was denied by the autopilot");
                 }
