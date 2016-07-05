@@ -117,6 +117,9 @@ namespace MissionPlanner.Controls
 
         private void CMB_sysid_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (cmb_sysid.SelectedItem == null)
+                return;
+
             var temp = (port_sysid) cmb_sysid.SelectedItem;
 
             foreach (var port in MainV2.Comports)
