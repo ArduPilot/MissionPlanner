@@ -80,17 +80,11 @@ namespace MissionPlanner.GCSViews
 
                     AddBackstageViewPage(typeof( ConfigRawParamsTree), Strings.FullParameterTree, null, true);
 
-
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     {
                         start = AddBackstageViewPage(typeof( ConfigFlightModes), Strings.FlightModes);
                         AddBackstageViewPage(typeof( ConfigAteryxSensors), "Ateryx Zero Sensors");
                         AddBackstageViewPage(typeof( ConfigAteryx), "Ateryx Pids");
-                    }
-
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-                    {
-                        start = AddBackstageViewPage(typeof( ConfigRawParams), Strings.FullParameterList, null, true);
                     }
 
                     AddBackstageViewPage(typeof( ConfigPlanner), "Planner");
