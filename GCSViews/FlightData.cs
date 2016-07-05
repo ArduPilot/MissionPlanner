@@ -933,6 +933,19 @@ namespace MissionPlanner.GCSViews
                     {
                         if (!MainV2.comPort.giveComport)
                             MainV2.comPort.readPacket();
+
+                        // update currentstate of sysids on the port
+                        foreach (var MAV in MainV2.comPort.MAVlist)
+                        {
+                            try
+                            {
+                                MAV.cs.UpdateCurrentSettings(null, false, MainV2.comPort, MAV);
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error(ex);
+                            }
+                        }
                     }
                     catch
                     {
