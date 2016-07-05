@@ -201,6 +201,32 @@ namespace MissionPlanner
             {
                 File.Delete(file);
             }
+
+            try
+            {
+                foreach (string newupdater in Directory.GetFiles(Application.StartupPath, "Updater.exe*.new"))
+                {
+                    File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
+                    File.Delete(newupdater);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception during update", ex);
+            }
+
+            try
+            {
+                foreach (string newupdater in Directory.GetFiles(Application.StartupPath, "tlogThumbnailHandler.dll.new"))
+                {
+                    File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
+                    File.Delete(newupdater);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Exception during update", ex);
+            }
         }
 
 
