@@ -87,6 +87,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBoxalt_source = new MissionPlanner.Controls.MavlinkComboBox();
+            this.lbl_pitchpwm = new System.Windows.Forms.Label();
+            this.lbl_yawpwm = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox22.SuspendLayout();
             this.groupBox25.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).BeginInit();
@@ -135,6 +138,7 @@
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.lbl_yawpwm);
             this.groupBox25.Controls.Add(this.label16);
             this.groupBox25.Controls.Add(this.mavlinkComboBoxservo_yaw_type);
             this.groupBox25.Controls.Add(this.BUT_test_yaw);
@@ -238,6 +242,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.lbl_pitchpwm);
             this.groupBox3.Controls.Add(this.label15);
             this.groupBox3.Controls.Add(this.mavlinkComboBoxservo_pitch_type);
             this.groupBox3.Controls.Add(this.BUT_test_pitch);
@@ -553,6 +558,20 @@
             this.mavlinkComboBoxalt_source.ParamName = null;
             this.mavlinkComboBoxalt_source.SubControl = null;
             // 
+            // lbl_pitchpwm
+            // 
+            resources.ApplyResources(this.lbl_pitchpwm, "lbl_pitchpwm");
+            this.lbl_pitchpwm.Name = "lbl_pitchpwm";
+            // 
+            // lbl_yawpwm
+            // 
+            resources.ApplyResources(this.lbl_yawpwm, "lbl_yawpwm");
+            this.lbl_yawpwm.Name = "lbl_yawpwm";
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // ConfigAntennaTracker
             // 
             resources.ApplyResources(this, "$this");
@@ -663,5 +682,8 @@
         private Controls.MavlinkComboBox mavlinkComboBoxservo_pitch_type;
         private System.Windows.Forms.GroupBox groupBox1;
         private Controls.MavlinkComboBox mavlinkComboBoxalt_source;
+        private System.Windows.Forms.Label lbl_yawpwm;
+        private System.Windows.Forms.Label lbl_pitchpwm;
+        private System.Windows.Forms.Timer timer1;
     }
 }

@@ -9,7 +9,7 @@ using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigAntennaTracker : UserControl, IActivate
+    public partial class ConfigAntennaTracker : UserControl, IActivate, IDeactivate
     {
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
         private const int maximumSingleLineTooltipLength = 50;
@@ -87,6 +87,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDown16.setup(0, 100, 1, .1f, "PITCH2SRV_D", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown17.setup(0, 100, 1, 1, "PITCH2SRV_IMAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown18.setup(0, 100, 1, .1f, "PITCH_SLEW_TIME", MainV2.comPort.MAV.param);
+
+            timer1.Start();
 
             startup = false;
         }
@@ -324,6 +326,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
             return (x - in_min)*(out_max - out_min)/(in_max - in_min) + out_min;
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            lbl_yawpwm.Text = MainV2.comPort.MAV.cs.ch1out.ToString();
+            lbl_pitchpwm.Text = MainV2.comPort.MAV.cs.ch2out.ToString();
+        }
+
+        public void Deactivate()
+        {
+             timer1.Stop();
         }
     }
 }
