@@ -336,7 +336,7 @@ S15: MAX_WINDOW=131
             // check for either already bootloadermode, or if we can do a ATI to ID the firmware 
             if (bootloadermode || doConnect(comPort))
             {
-                // put into bootloader mode/udpate mode
+                // put into bootloader mode/update mode
                 if (!bootloadermode)
                 {
                     try
@@ -350,12 +350,14 @@ S15: MAX_WINDOW=131
                     catch
                     {
                     }
-                }
 
-                if (upload_xmodem(comPort))
-                {
-                    comPort.Close();
-                    return;
+                    if (upload_xmodem(comPort))
+                    {
+                        comPort.Close();
+                        return;
+                    }
+
+                    comPort.BaudRate = 115200;
                 }
 
                 try
@@ -468,7 +470,7 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                Progressbar.Value = (int) (completed*100);
+                Progressbar.Value = (int)Math.Min (completed*100,100);
                 Application.DoEvents();
             }
             catch
