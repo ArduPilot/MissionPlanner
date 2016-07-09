@@ -4312,37 +4312,47 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            string minalts =
-                (int.Parse(MainV2.comPort.MAV.param["FENCE_MINALT"].ToString())*CurrentState.multiplierdist).ToString(
-                    "0");
-            if (DialogResult.Cancel == InputBox.Show("Min Alt", "Box Minimum Altitude?", ref minalts))
-                return;
-
-            string maxalts =
-                (int.Parse(MainV2.comPort.MAV.param["FENCE_MAXALT"].ToString())*CurrentState.multiplierdist).ToString(
-                    "0");
-            if (DialogResult.Cancel == InputBox.Show("Max Alt", "Box Maximum Altitude?", ref maxalts))
-                return;
-
             int minalt = 0;
             int maxalt = 0;
 
-            if (!int.TryParse(minalts, out minalt))
+            if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MINALT"))
             {
-                CustomMessageBox.Show("Bad Min Alt");
-                return;
+                string minalts =
+                    (int.Parse(MainV2.comPort.MAV.param["FENCE_MINALT"].ToString())*CurrentState.multiplierdist)
+                        .ToString(
+                            "0");
+                if (DialogResult.Cancel == InputBox.Show("Min Alt", "Box Minimum Altitude?", ref minalts))
+                    return;
+
+                if (!int.TryParse(minalts, out minalt))
+                {
+                    CustomMessageBox.Show("Bad Min Alt");
+                    return;
+                }
             }
 
-            if (!int.TryParse(maxalts, out maxalt))
+            if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MAXALT"))
             {
-                CustomMessageBox.Show("Bad Max Alt");
-                return;
+                string maxalts =
+                    (int.Parse(MainV2.comPort.MAV.param["FENCE_MAXALT"].ToString())*CurrentState.multiplierdist)
+                        .ToString(
+                            "0");
+                if (DialogResult.Cancel == InputBox.Show("Max Alt", "Box Maximum Altitude?", ref maxalts))
+                    return;
+
+                if (!int.TryParse(maxalts, out maxalt))
+                {
+                    CustomMessageBox.Show("Bad Max Alt");
+                    return;
+                }
             }
 
             try
             {
-                MainV2.comPort.setParam("FENCE_MINALT", minalt);
-                MainV2.comPort.setParam("FENCE_MAXALT", maxalt);
+                if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MINALT"))
+                    MainV2.comPort.setParam("FENCE_MINALT", minalt);
+                if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MAXALT"))
+                    MainV2.comPort.setParam("FENCE_MAXALT", maxalt);
             }
             catch
             {
@@ -4420,7 +4430,8 @@ namespace MissionPlanner.GCSViews
                 FlightData.geofence.Polygons.Clear();
                 FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd")
                 {
-                    Stroke = geofencepolygon.Stroke
+                    Stroke = geofencepolygon.Stroke,
+                    Fill = Brushes.Transparent
                 });
                 FlightData.geofence.Markers.Add(new GMarkerGoogle(geofenceoverlay.Markers[0].Position,
                     GMarkerGoogleType.red)
