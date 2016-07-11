@@ -968,6 +968,9 @@ namespace MissionPlanner.GCSViews
                     {
                     }
 
+                    if (LogPlayBackSpeed >= 4 && MainV2.speechEnable)
+                        MainV2.speechEngine.SpeakAsyncCancelAll();
+
                     double timetook = (DateTime.Now - tsreal).TotalMilliseconds;
                     if (timetook != 0)
                     {
