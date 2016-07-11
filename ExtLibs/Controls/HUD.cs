@@ -952,7 +952,7 @@ namespace MissionPlanner.Controls
                     objBitmap.MakeTransparent();
                     graphicsObjectGDIP = Graphics.FromImage(objBitmap);
 
-                    graphicsObjectGDIP.SmoothingMode = SmoothingMode.AntiAlias;
+                    graphicsObjectGDIP.SmoothingMode = SmoothingMode.HighSpeed;
                     graphicsObjectGDIP.InterpolationMode = InterpolationMode.NearestNeighbor;
                     graphicsObjectGDIP.CompositingMode = CompositingMode.SourceOver;
                     graphicsObjectGDIP.CompositingQuality = CompositingQuality.HighSpeed;
@@ -1149,7 +1149,7 @@ namespace MissionPlanner.Controls
                         graphicsObject.ResetTransform();
                         graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
                         graphicsObject.RotateTransform(a - _roll);
-                        drawstring(graphicsObject, Math.Abs(a).ToString("0").PadLeft(2), font, fontsize, _whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
+                        drawstring(graphicsObject, Math.Abs(a).ToString("#0"), font, fontsize, _whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
                         graphicsObject.DrawLine(this._whitePen, 0, -lengthlong * 3 - extra, 0, -lengthlong * 3 - extra - lengthlong);
                     }
 
@@ -1281,7 +1281,7 @@ namespace MissionPlanner.Controls
                             }
                             else
                             {
-                                drawstring(graphicsObject, (disp % 360).ToString().PadLeft(3), font, fontsize, _whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                                drawstring(graphicsObject, (disp % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                             }
                         }
                         else if ((int)a % 5 == 0)
@@ -1297,11 +1297,11 @@ namespace MissionPlanner.Controls
 
                     if (Math.Abs(_heading - _targetheading) < 4)
                     {
-                        drawstring(graphicsObject, (heading % 360).ToString("0").PadLeft(3), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                        drawstring(graphicsObject, (heading % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                     }
                     else
                     {
-                        drawstring(graphicsObject, (heading % 360).ToString("0").PadLeft(3), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                        drawstring(graphicsObject, (heading % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                     }
 
                 }
@@ -1432,7 +1432,7 @@ namespace MissionPlanner.Controls
                         {
                             //Console.WriteLine(a + " " + scrollbg.Right + " " + (scrollbg.Top - space * (a - start)) + " " + (scrollbg.Right - 20) + " " + (scrollbg.Top - space * (a - start)));
                             graphicsObject.DrawLine(this._whitePen, scrollbg.Right, scrollbg.Top - space * (a - start), scrollbg.Right - 10, scrollbg.Top - space * (a - start));
-                            drawstring(graphicsObject, a.ToString("0").PadLeft(5), font, fontsize, _whiteBrush, 0, (float)(scrollbg.Top - space * (a - start) - 6 - fontoffset));
+                            drawstring(graphicsObject, a.ToString("####0"), font, fontsize, _whiteBrush, 0, (float)(scrollbg.Top - space * (a - start) - 6 - fontoffset));
                         }
                     }
 
@@ -1525,7 +1525,7 @@ namespace MissionPlanner.Controls
                         {
                             //Console.WriteLine(a + " " + scrollbg.Left + " " + (scrollbg.Top - space * (a - start)) + " " + (scrollbg.Left + 20) + " " + (scrollbg.Top - space * (a - start)));
                             graphicsObject.DrawLine(this._whitePen, scrollbg.Left, scrollbg.Top - space * (a - start), scrollbg.Left + 10, scrollbg.Top - space * (a - start));
-                            drawstring(graphicsObject, a.ToString().PadLeft(5), font, fontsize, _whiteBrush, scrollbg.Left + 0 + (int)(0 * fontoffset), scrollbg.Top - space * (a - start) - 6 - fontoffset);
+                            drawstring(graphicsObject, a.ToString("####0"), font, fontsize, _whiteBrush, scrollbg.Left + 0 + (int)(0 * fontoffset), scrollbg.Top - space * (a - start) - 6 - fontoffset);
                         }
 
                     }
@@ -1896,11 +1896,9 @@ namespace MissionPlanner.Controls
             GL.PopMatrix(); printer.End();
             */
 
-            char[] chars = text.ToCharArray();
-
             float maxy = 1;
 
-            foreach (char cha in chars)
+            foreach (char cha in text)
             {
                 int charno = (int)cha;
 
@@ -1976,24 +1974,31 @@ namespace MissionPlanner.Controls
                     charDict[charid].gltextureid = textureId;
                 }
 
-                //GL.Enable(EnableCap.Blend);
-                GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                // dont draw spaces
+                if (cha != ' ')
+                {
+                    //GL.Enable(EnableCap.Blend);
+                    GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
-                GL.Enable(EnableCap.Texture2D);
-                GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
+                    GL.Enable(EnableCap.Texture2D);
+                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
 
-                float scale = 1.0f;
+                    float scale = 1.0f;
 
-                GL.Begin(PrimitiveType.Quads);
-                GL.TexCoord2(0, 0); GL.Vertex2(x, y);
-                GL.TexCoord2(1, 0); GL.Vertex2(x + charDict[charid].bitmap.Width * scale, y);
-                GL.TexCoord2(1, 1); GL.Vertex2(x + charDict[charid].bitmap.Width * scale, y + charDict[charid].bitmap.Height * scale);
-                GL.TexCoord2(0, 1); GL.Vertex2(x + 0, y + charDict[charid].bitmap.Height * scale);
-                GL.End();
+                    GL.Begin(PrimitiveType.Quads);
+                    GL.TexCoord2(0, 0);
+                    GL.Vertex2(x, y);
+                    GL.TexCoord2(1, 0);
+                    GL.Vertex2(x + charDict[charid].bitmap.Width*scale, y);
+                    GL.TexCoord2(1, 1);
+                    GL.Vertex2(x + charDict[charid].bitmap.Width*scale, y + charDict[charid].bitmap.Height*scale);
+                    GL.TexCoord2(0, 1);
+                    GL.Vertex2(x + 0, y + charDict[charid].bitmap.Height*scale);
+                    GL.End();
 
-                //GL.Disable(EnableCap.Blend);
-                GL.Disable(EnableCap.Texture2D);
-
+                    //GL.Disable(EnableCap.Blend);
+                    GL.Disable(EnableCap.Texture2D);
+                }
                 x += charDict[charid].width * scale;
             }
         }
@@ -2003,12 +2008,9 @@ namespace MissionPlanner.Controls
             if (text == null || text == "")
                 return;
 
-
-            char[] chars = text.ToCharArray();
-
             float maxy = 0;
 
-            foreach (char cha in chars)
+            foreach (char cha in text)
             {
                 int charno = (int)cha;
 
@@ -2061,8 +2063,9 @@ namespace MissionPlanner.Controls
                 // draw it
 
                 float scale = 1.0f;
-
-                DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
+                // dont draw spaces
+                if (cha != ' ')
+                    DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
 
                 x += charDict[charid].width * scale;
             }
