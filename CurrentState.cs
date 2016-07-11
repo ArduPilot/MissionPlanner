@@ -618,7 +618,7 @@ namespace MissionPlanner
             {
                 if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime;
                 // case for no sensor
-                if (value == -1)
+                if (value == -0.01f)
                 {
                     _current = 0;
                     return;
