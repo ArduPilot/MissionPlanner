@@ -196,6 +196,9 @@ namespace GMap.NET
 
       void worker_DoWork(object sender, DoWorkEventArgs e)
       {
+          while (!IsHandleCreated)
+              Thread.Sleep(100);
+
          if(list != null)
          {
             list.Clear();
@@ -264,7 +267,11 @@ namespace GMap.NET
 
          if(!IsDisposed)
          {
-            done.WaitOne();
+             try
+             {
+                 done.WaitOne();
+             }
+             catch { }
          }
       }
 
