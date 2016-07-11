@@ -641,6 +641,9 @@ namespace MissionPlanner
         [DisplayText("Bat efficiency (mah/km)")]
         public float battery_mahperkm { get {return battery_usedmah / (distTraveled/1000.0f); } }
 
+        [DisplayText("Bat km left EST (km)")]
+        public float battery_kmleft { get { return (((100.0f / (100.0f - battery_remaining)) * battery_usedmah) - battery_usedmah) / battery_mahperkm; } }
+
         [DisplayText("Bat used EST (mah)")]
         public float battery_usedmah { get; set; }
 
