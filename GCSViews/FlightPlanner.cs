@@ -2597,7 +2597,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp";
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.mission";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
@@ -2609,8 +2609,29 @@ namespace MissionPlanner.GCSViews
                     }
                     else
                     {
-                        wpfilename = file;
-                        readQGC110wpfile(file);
+                        string line = "";
+                        using (var fs = File.OpenText(file))
+                        {
+                            line = fs.ReadLine();
+                        }
+
+                        if (line.StartsWith("{"))
+                        {
+                            var format = MissionFile.ReadFile(file);
+
+                            var cmds = MissionFile.ConvertToLocationwps(format);
+
+                            processToScreen(cmds);
+
+                            writeKML();
+
+                            MainMap.ZoomAndCenterMarkers("objects");
+                        }
+                        else
+                        {
+                            wpfilename = file;
+                            readQGC110wpfile(file);
+                        }
                     }
 
                     lbl_wpfile.Text = "Loaded " + Path.GetFileName(file);
