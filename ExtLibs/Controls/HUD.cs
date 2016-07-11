@@ -1974,6 +1974,8 @@ namespace MissionPlanner.Controls
                     charDict[charid].gltextureid = textureId;
                 }
 
+                float scale = 1.0f;
+
                 // dont draw spaces
                 if (cha != ' ')
                 {
@@ -1983,7 +1985,7 @@ namespace MissionPlanner.Controls
                     GL.Enable(EnableCap.Texture2D);
                     GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
 
-                    float scale = 1.0f;
+                    
 
                     GL.Begin(PrimitiveType.Quads);
                     GL.TexCoord2(0, 0);
