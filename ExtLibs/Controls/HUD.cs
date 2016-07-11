@@ -1297,7 +1297,7 @@ namespace MissionPlanner.Controls
 
                     if (Math.Abs(_heading - _targetheading) < 4)
                     {
-                        drawstring(graphicsObject, String.Format("{0,3}", (heading % 360)), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                        drawstring(graphicsObject, String.Format("{0,3}", (int)(heading % 360)), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                     }
                     else
                     {
