@@ -1149,7 +1149,7 @@ namespace MissionPlanner.Controls
                         graphicsObject.ResetTransform();
                         graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
                         graphicsObject.RotateTransform(a - _roll);
-                        drawstring(graphicsObject, Math.Abs(a).ToString("#0"), font, fontsize, _whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
+                        drawstring(graphicsObject, String.Format("{0,2}",Math.Abs(a)), font, fontsize, _whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
                         graphicsObject.DrawLine(this._whitePen, 0, -lengthlong * 3 - extra, 0, -lengthlong * 3 - extra - lengthlong);
                     }
 
@@ -1281,7 +1281,7 @@ namespace MissionPlanner.Controls
                             }
                             else
                             {
-                                drawstring(graphicsObject, (disp % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                                drawstring(graphicsObject, String.Format("{0,3}",(int)(disp % 360)), font, fontsize, _whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                             }
                         }
                         else if ((int)a % 5 == 0)
@@ -1297,11 +1297,11 @@ namespace MissionPlanner.Controls
 
                     if (Math.Abs(_heading - _targetheading) < 4)
                     {
-                        drawstring(graphicsObject, (heading % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                        drawstring(graphicsObject, String.Format("{0,3}", (heading % 360)), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                     }
                     else
                     {
-                        drawstring(graphicsObject, (heading % 360).ToString("##0"), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                        drawstring(graphicsObject, String.Format("{0,3}",(int)(heading % 360)), font, fontsize, _whiteBrush, headbg.Width / 2 - (fontsize * 1f), headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                     }
 
                 }
@@ -1432,7 +1432,7 @@ namespace MissionPlanner.Controls
                         {
                             //Console.WriteLine(a + " " + scrollbg.Right + " " + (scrollbg.Top - space * (a - start)) + " " + (scrollbg.Right - 20) + " " + (scrollbg.Top - space * (a - start)));
                             graphicsObject.DrawLine(this._whitePen, scrollbg.Right, scrollbg.Top - space * (a - start), scrollbg.Right - 10, scrollbg.Top - space * (a - start));
-                            drawstring(graphicsObject, a.ToString("####0"), font, fontsize, _whiteBrush, 0, (float)(scrollbg.Top - space * (a - start) - 6 - fontoffset));
+                            drawstring(graphicsObject, String.Format("{0,5}",a), font, fontsize, _whiteBrush, 0, (float)(scrollbg.Top - space * (a - start) - 6 - fontoffset));
                         }
                     }
 
@@ -1525,7 +1525,7 @@ namespace MissionPlanner.Controls
                         {
                             //Console.WriteLine(a + " " + scrollbg.Left + " " + (scrollbg.Top - space * (a - start)) + " " + (scrollbg.Left + 20) + " " + (scrollbg.Top - space * (a - start)));
                             graphicsObject.DrawLine(this._whitePen, scrollbg.Left, scrollbg.Top - space * (a - start), scrollbg.Left + 10, scrollbg.Top - space * (a - start));
-                            drawstring(graphicsObject, a.ToString("####0"), font, fontsize, _whiteBrush, scrollbg.Left + 0 + (int)(0 * fontoffset), scrollbg.Top - space * (a - start) - 6 - fontoffset);
+                            drawstring(graphicsObject, String.Format("{0,5}", a), font, fontsize, _whiteBrush, scrollbg.Left + 0 + (int)(0 * fontoffset), scrollbg.Top - space * (a - start) - 6 - fontoffset);
                         }
 
                     }
@@ -2067,7 +2067,13 @@ namespace MissionPlanner.Controls
                 float scale = 1.0f;
                 // dont draw spaces
                 if (cha != ' ')
+                {
                     DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
+                }
+                else
+                {
+
+                }
 
                 x += charDict[charid].width * scale;
             }
