@@ -638,6 +638,9 @@ namespace MissionPlanner
 
         private DateTime _lastcurrent = DateTime.MinValue;
 
+        [DisplayText("Bat efficiency (mah/km)")]
+        public float battery_mahperkm { get {return battery_usedmah / (distTraveled/1000.0f); } }
+
         [DisplayText("Bat used EST (mah)")]
         public float battery_usedmah { get; set; }
 
