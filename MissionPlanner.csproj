@@ -302,6 +302,12 @@
     <Compile Include="Controls\ConnectionStats.Designer.cs">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ControlTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlTest.Designer.cs">
+      <DependentUpon>ControlTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DistanceBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -985,6 +991,9 @@
     </Compile>
     <EmbeddedResource Include="Controls\AuthKeys.resx">
       <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ControlTest.resx">
+      <DependentUpon>ControlTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
