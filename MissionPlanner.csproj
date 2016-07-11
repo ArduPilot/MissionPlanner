@@ -176,7 +176,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>DLLs\mtrand.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="ObjectListView">
       <HintPath>packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
@@ -886,7 +885,6 @@
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
-    <Compile Include="Utilities\MissionFile.cs" />
     <Compile Include="Utilities\NGEN.cs" />
     <Compile Include="Utilities\OpticalFlow.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />

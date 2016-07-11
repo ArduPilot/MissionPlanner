@@ -1627,7 +1627,7 @@ namespace MissionPlanner.GCSViews
         {
             using (SaveFileDialog fd = new SaveFileDialog())
             {
-                fd.Filter = "Ardupilot Mission|*.waypoints;*.txt";
+                fd.Filter = "Mission|*.waypoints;*.txt|Mission JSON|*.mission";
                 fd.DefaultExt = ".waypoints";
                 fd.FileName = wpfilename;
                 DialogResult result = fd.ShowDialog();
@@ -1636,6 +1636,27 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
+                        if (file.EndsWith(".mission"))
+                        {
+                            var list = GetCommandList();
+                            Locationwp home = new Locationwp();
+                            try
+                            {
+                                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                                home.lat = (double.Parse(TXT_homelat.Text));
+                                home.lng = (double.Parse(TXT_homelng.Text));
+                                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+                            }
+                            catch { }
+
+                            list.Insert(0, home);
+
+                            var format = MissionFile.ConvertFromLocationwps(list);
+
+                            MissionFile.WriteFile(file, format);
+                            return;
+                        }
+
                         StreamWriter sw = new StreamWriter(file);
                         sw.WriteLine("QGC WPL 110");
                         try

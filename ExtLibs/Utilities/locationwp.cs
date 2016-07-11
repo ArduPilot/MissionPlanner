@@ -47,6 +47,15 @@ namespace MissionPlanner.Utilities
                 _frame = input.frame
             };
 
+            if (input.frame == 3)
+            {
+                temp.options = 1;
+            }
+            else
+            {
+                temp.options = 0;
+            }
+
             return temp;
         }
 
@@ -64,6 +73,60 @@ namespace MissionPlanner.Utilities
                 alt = input.z,
                 _seq = input.seq,
                 _frame = input.frame
+            };
+
+            if (input.frame == 3)
+            {
+                temp.options = 1;
+            }
+            else
+            {
+                temp.options = 0;
+            }
+
+            return temp;
+        }
+
+        public static implicit operator Locationwp(MissionFile.MissionItem input)
+        {
+            Locationwp temp = new Locationwp()
+            {
+                id = input.command,
+                p1 = input.param1,
+                p2 = input.param2,
+                p3 = input.param3,
+                p4 = input.param4,
+                lat = input.coordinate[0],
+                lng = input.coordinate[1],
+                alt = (float)input.coordinate[2],
+                _seq = (ushort)input.id,
+                _frame = input.frame
+            };
+
+            if (input.frame == 3)
+            {
+                temp.options = 1;
+            }
+            else
+            {
+                temp.options = 0;
+            }
+
+            return temp;
+        }
+
+        public static implicit operator MissionFile.MissionItem(Locationwp input)
+        {
+            MissionFile.MissionItem temp = new MissionFile.MissionItem()
+            {
+                command = input.id,
+                param1 = input.p1,
+                param2 = input.p2,
+                param3 = input.p3,
+                param4 = input.p4,
+                coordinate = new double[] { input.lat, input.lng, input.alt },
+                id = input._seq,
+                frame = input._frame
             };
 
             return temp;
