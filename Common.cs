@@ -473,6 +473,42 @@ union px4_custom_mode {
             input = input.Replace("{timeinair}",
                 (new TimeSpan(0, 0, 0, (int)MainV2.comPort.MAV.cs.timeInAir)).ToString());
 
+            try
+            {
+                object thisBoxed = MainV2.comPort.MAV.cs;
+                Type test = thisBoxed.GetType();
+
+                PropertyInfo[] props = test.GetProperties();
+
+                //props
+                foreach (var field in props)
+                {
+                    // field.Name has the field's name.
+                    object fieldValue;
+                    TypeCode typeCode;
+                    try
+                    {
+                        fieldValue = field.GetValue(thisBoxed, null); // Get value
+
+                        if (fieldValue == null)
+                            continue;
+                        // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                        typeCode = Type.GetTypeCode(fieldValue.GetType());
+                    }
+                    catch
+                    {
+                        continue;
+                    }
+
+                    var fname = String.Format("{{{0}}}", field.Name);
+                    input = input.Replace(fname, fieldValue.ToString());
+                }
+            }
+            catch
+            {
+                
+            }
+
             return input;
         }
 
