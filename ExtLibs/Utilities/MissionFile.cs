@@ -67,7 +67,7 @@ namespace MissionPlanner.Utilities
             public string groundStation;
             public List<MissionItem> items= new List<MissionItem>();
             public MissionItem plannedHomePosition;
-            public string version;
+            public string version = "1.0";
         }
 
         public class MissionItem
@@ -81,10 +81,9 @@ namespace MissionPlanner.Utilities
             public Single param2;
             public Single param3;
             public Single param4;
-            public string type;
         }
 
-        public static Format ConvertFromLocationwps(List<Locationwp> list)
+        public static Format ConvertFromLocationwps(List<Locationwp> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
         {
             Format temp = new Format()
             {
@@ -101,11 +100,29 @@ namespace MissionPlanner.Utilities
                 int a = -1;
                 foreach (var item in list)
                 {
-                    a++;
                     // skip home
-                    if (a == 0)
+                    if (a == -1)
+                    {
+                        a++;
                         continue;
-                    temp.items.Add(ConvertFromLocationwp(item));
+                    }
+
+                    var temploc = ConvertFromLocationwp(item);
+
+                    // set id count
+                    temploc.id = (ushort)a;
+                    // set frame type
+                    temploc.frame = frame;
+
+                    temp.items.Add(temploc);
+
+                    if (item.Tag != null)
+                    {
+                        if (!temp.complexItems.Contains(item.Tag))
+                            temp.complexItems.Add(item.Tag);
+                    }
+
+                    a++;
                 }
             }
 

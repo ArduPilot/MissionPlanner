@@ -47,15 +47,6 @@ namespace MissionPlanner.Utilities
                 _frame = input.frame
             };
 
-            if (input.frame == 3)
-            {
-                temp.options = 1;
-            }
-            else
-            {
-                temp.options = 0;
-            }
-
             return temp;
         }
 
@@ -75,15 +66,6 @@ namespace MissionPlanner.Utilities
                 _frame = input.frame
             };
 
-            if (input.frame == 3)
-            {
-                temp.options = 1;
-            }
-            else
-            {
-                temp.options = 0;
-            }
-
             return temp;
         }
 
@@ -102,15 +84,6 @@ namespace MissionPlanner.Utilities
                 _seq = (ushort)input.id,
                 _frame = input.frame
             };
-
-            if (input.frame == 3)
-            {
-                temp.options = 1;
-            }
-            else
-            {
-                temp.options = 0;
-            }
 
             return temp;
         }
@@ -174,6 +147,7 @@ namespace MissionPlanner.Utilities
 
         private ushort _seq;
         private byte _frame;
+        public object Tag;
 
         public ushort id;				// command id
         public byte options;

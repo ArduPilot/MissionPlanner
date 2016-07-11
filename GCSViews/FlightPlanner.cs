@@ -1651,7 +1651,7 @@ namespace MissionPlanner.GCSViews
 
                             list.Insert(0, home);
 
-                            var format = MissionFile.ConvertFromLocationwps(list);
+                            var format = MissionFile.ConvertFromLocationwps(list, (byte)(altmode)CMB_altmode.SelectedValue);
 
                             MissionFile.WriteFile(file, format);
                             return;
@@ -1974,6 +1974,8 @@ namespace MissionPlanner.GCSViews
                 temp.p2 = (float) (double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
                 temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
                 temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
+
+                temp.Tag = Commands.Rows[a].Cells[Tag.Index].Value;
 
                 return temp;
             }
