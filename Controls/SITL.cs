@@ -236,7 +236,7 @@ namespace MissionPlanner.Controls
 
             ProcessStartInfo exestart = new ProcessStartInfo();
             exestart.FileName = exepath;
-            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} {3}", model, homelocation, speedup, extraargs);
+            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --uartA tcp:0 {3}", model, homelocation, speedup, extraargs);
             exestart.WorkingDirectory = simdir;
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             exestart.UseShellExecute = true;
