@@ -1566,7 +1566,7 @@ namespace MissionPlanner.GeoRef
             return output;
         }
 
-        private void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
+        public void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
@@ -1579,13 +1579,13 @@ namespace MissionPlanner.GeoRef
 
                     pi[0].Id = 0x0004;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof (ulong)*3;
+                    pi[0].Len = sizeof(ulong) * 3;
                     pi[0].Value = coordtobytearray(dLong);
                     Pic.SetPropertyItem(pi[0]);
 
                     pi[0].Id = 0x0002;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof (ulong)*3;
+                    pi[0].Len = sizeof(ulong) * 3;
                     pi[0].Value = coordtobytearray(dLat);
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1601,11 +1601,11 @@ namespace MissionPlanner.GeoRef
 
                     if (dLat < 0)
                     {
-                        pi[0].Value = new byte[] {(byte) 'S', 0};
+                        pi[0].Value = new byte[] { (byte)'S', 0 };
                     }
                     else
                     {
-                        pi[0].Value = new byte[] {(byte) 'N', 0};
+                        pi[0].Value = new byte[] { (byte)'N', 0 };
                     }
 
                     Pic.SetPropertyItem(pi[0]);
@@ -1615,11 +1615,11 @@ namespace MissionPlanner.GeoRef
                     pi[0].Type = 2;
                     if (dLong < 0)
                     {
-                        pi[0].Value = new byte[] {(byte) 'W', 0};
+                        pi[0].Value = new byte[] { (byte)'W', 0 };
                     }
                     else
                     {
-                        pi[0].Value = new byte[] {(byte) 'E', 0};
+                        pi[0].Value = new byte[] { (byte)'E', 0 };
                     }
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1632,11 +1632,25 @@ namespace MissionPlanner.GeoRef
                                             Path.GetExtension(Filename);
 
                     // Just in case
-                    File.Delete(outputfilename);
+                    if (File.Exists(outputfilename))
+                        File.Delete(outputfilename);
 
-                    Pic.Save(outputfilename);
+                    ImageCodecInfo ici = GetImageCodec("image/jpeg");
+                    EncoderParameters eps = new EncoderParameters(1);
+                    eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+
+                    Pic.Save(outputfilename, ici, eps);
                 }
             }
+        }
+
+        static ImageCodecInfo GetImageCodec(string mimetype)
+        {
+            foreach (ImageCodecInfo ici in ImageCodecInfo.GetImageEncoders())
+            {
+                if (ici.MimeType == mimetype) return ici;
+            }
+            return null;
         }
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
