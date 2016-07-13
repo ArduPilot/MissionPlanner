@@ -83,6 +83,7 @@ namespace MissionPlanner.GCSViews
 
         bool huddropout;
         bool huddropoutresize;
+        bool displayICAO = false;
 
         Thread thisthread;
 
@@ -1387,6 +1388,9 @@ namespace MissionPlanner.GCSViews
                                         ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"),
                                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
                                     };
+
+                                    if (displayICAO)
+                                        adsbplane.ToolTipMode = MarkerTooltipMode.Always;
 
                                     switch (plla.ThreatLevel)
                                     {
@@ -4345,6 +4349,11 @@ namespace MissionPlanner.GCSViews
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
+        }
+
+        private void iCAOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            displayICAO = iCAOToolStripMenuItem.Checked;
         }
     }
 }
