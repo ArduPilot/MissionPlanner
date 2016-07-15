@@ -667,7 +667,7 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
-    <MAV_CMD_DO_SET_REVERSE>
+    <DO_SET_REVERSE>
       <P1>Direction (0=F,1=R)</P1>
       <P2></P2>
       <P3></P3>
@@ -675,7 +675,7 @@
       <X></X>
       <Y></Y>
       <Z></Z>
-    </MAV_CMD_DO_SET_REVERSE>
+    </DO_SET_REVERSE>
     <DO_SET_MODE>
       <P1></P1>
       <P2></P2>
