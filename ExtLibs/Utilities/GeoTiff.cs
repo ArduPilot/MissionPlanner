@@ -138,6 +138,9 @@ namespace MissionPlanner.Utilities
 
         public static srtm.altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
+            if (index.Count == 0)
+                return srtm.altresponce.Invalid;
+
             var answer = new srtm.altresponce();
 
             foreach (var geotiffdata in index)
@@ -195,7 +198,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            return new srtm.altresponce();
+            return srtm.altresponce.Invalid;
         }
 
         private static double GetAlt(string filename, int x, int y)

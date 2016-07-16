@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Collections;
+using GMap.NET;
 using log4net;
 
 namespace MissionPlanner
@@ -25,13 +26,14 @@ namespace MissionPlanner
 
         public class altresponce
         {
+            public static readonly altresponce Invalid = new altresponce() { currenttype = tiletype.invalid };
+            public static readonly altresponce Ocean = new altresponce() { currenttype = tiletype.ocean };
+
             public tiletype currenttype = tiletype.invalid;
             public double alt = 0;
         }
 
         public static string datadirectory = "./srtm/";
-
-        static List<string> allhgts = new List<string>();
 
         static object objlock = new object();
 
@@ -41,23 +43,44 @@ namespace MissionPlanner
 
         static List<string> queue = new List<string>();
 
-        static Hashtable fnamecache = new Hashtable();
-
         static Hashtable filecache = new Hashtable();
 
         static List<string> oceantile = new List<string>();
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
+        static Dictionary<int,string> filenameDictionary = new Dictionary<int, string>();
+
         static srtm()
         {
+            // running tostring at a high rate was costing cpu
+            for (int y = -90; y <= 90; y++)
+            {
+                var sy = Math.Abs(y).ToString("00");
 
+                for (int x = -180; x <= 180; x++)
+                {
+                     var sx = Math.Abs(x).ToString("000");
+
+                    filenameDictionary[y * 1000 + x] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
+                        x >= 0 ? "E" : "W", sx, ".hgt");
+                }
+            }
+        }
+
+        static string GetFilename(double lat, double lng)
+        {
+            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
+            int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
+
+            string filename = filenameDictionary[y * 1000 + x];
+
+            return filename;
         }
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
-            var answer = new altresponce();
 
             var trytiff = Utilities.GeoTiff.getAltitude(lat, lng);
 
@@ -71,34 +94,14 @@ namespace MissionPlanner
             //		lng	117.94178754638671	double
             // 		alt	70	short
 
-            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
-            int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
-
-            string ns;
-            if (y >= 0)
-                ns = "N";
-            else
-                ns = "S";
-
-            string ew;
-            if (x >= 0)
-                ew = "E";
-            else
-                ew = "W";
-
-            // running tostring at a high rate was costing cpu
-            if (fnamecache[y] == null)
-                fnamecache[y] = Math.Abs(y).ToString("00");
-            if (fnamecache[1000 + x] == null)
-                fnamecache[1000 + x] = Math.Abs(x).ToString("000");
-
-            string filename = ns + fnamecache[y] + ew + fnamecache[1000 + x] + ".hgt";
+            var filename = GetFilename(lat, lng);
 
             try
             {
 
                 if (cache.ContainsKey(filename) || File.Exists(datadirectory + Path.DirectorySeparatorChar + filename))
-                { // srtm hgt files
+                {
+                    // srtm hgt files
 
                     int size = -1;
 
@@ -119,7 +122,7 @@ namespace MissionPlanner
                                 size = 3601;
                             }
                             else
-                                return answer;
+                                return srtm.altresponce.Invalid;
 
                             byte[] altbytes = new byte[2];
                             short[,] altdata = new short[size, size];
@@ -144,29 +147,32 @@ namespace MissionPlanner
                         }
                     }
 
-                    if (cache[filename].Length == (1201 * 1201))
+                    if (cache[filename].Length == (1201*1201))
                     {
                         size = 1201;
                     }
-                    else if (cache[filename].Length == (3601 * 3601))
+                    else if (cache[filename].Length == (3601*3601))
                     {
                         size = 3601;
                     }
                     else
-                        return answer;
+                        return srtm.altresponce.Invalid;
+
+                    int x = (lng < 0) ? (int) (lng - 1) : (int) lng;
+                    int y = (lat < 0) ? (int) (lat - 1) : (int) lat;
 
                     // remove the base lat long
                     lat -= y;
                     lng -= x;
 
                     // values should be 0-1199, 1200 is for interpolation
-                    double xf = lng * (size - 2);
-                    double yf = lat * (size - 2);
+                    double xf = lng*(size - 2);
+                    double yf = lat*(size - 2);
 
-                    int x_int = (int)xf;
+                    int x_int = (int) xf;
                     double x_frac = xf - x_int;
 
-                    int y_int = (int)yf;
+                    int y_int = (int) yf;
                     double y_frac = yf - y_int;
 
                     y_int = (size - 2) - y_int;
@@ -180,12 +186,18 @@ namespace MissionPlanner
                     double v2 = avg(alt01, alt11, x_frac);
                     double v = avg(v1, v2, -y_frac);
 
-                    answer.currenttype = tiletype.valid;
-                    answer.alt = v;
-                    return answer;
+                    if(v < -1000)
+                        return altresponce.Invalid;
+
+                    return new altresponce()
+                    {
+                        currenttype = tiletype.valid,
+                        alt = v
+                    };
                 }
 
-                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" + Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
+                string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180)/5, 0).ToString("00") + "_" +
+                                   Math.Round((60 - lat + 2.5)/5, 0).ToString("00") + ".asc";
 
                 if (File.Exists(datadirectory + Path.DirectorySeparatorChar + filename2))
                 {
@@ -245,9 +257,6 @@ namespace MissionPlanner
 
                                 if (data.Length == (nox + 1))
                                 {
-
-
-
                                     wantcol = (float) ((lng - Math.Round(left, 0)));
 
                                     wantrow = (float) ((lat - Math.Round(top, 0)));
@@ -262,34 +271,34 @@ namespace MissionPlanner
                                         Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top,
                                             data[(int) wantcol], (nox + wantcol*cellsize));
 
-                                        answer.currenttype = tiletype.valid;
-                                        answer.alt = int.Parse(data[(int) wantcol]);
-                                        return answer;
+                                        return new altresponce()
+                                        {
+                                            currenttype = tiletype.valid,
+                                            alt = int.Parse(data[(int) wantcol])
+                                        };
                                     }
 
                                     rowcounter++;
                                 }
                             }
-
-
-
                         }
                     }
-                    answer.currenttype = tiletype.valid;
-                    answer.alt = alt;
-                    return answer;
+                    return new altresponce()
+                    {
+                        currenttype = tiletype.valid,
+                        alt = alt
+                    };
                 }
                 else // get something
                 {
                     if (filename.Contains("S00W000") || filename.Contains("S00W001") ||
                         filename.Contains("S01W000") || filename.Contains("S01W001"))
                     {
-                        answer.currenttype = tiletype.ocean;
-                        return answer;
+                        return altresponce.Ocean;
                     }
 
                     if (oceantile.Contains(filename))
-                        answer.currenttype = tiletype.ocean;
+                        return altresponce.Ocean;
 
                     if (zoom >= 7)
                     {
@@ -322,11 +331,13 @@ namespace MissionPlanner
                         }
                     }
                 }
-
             }
-            catch { answer.alt = 0; answer.currenttype = tiletype.invalid; }
+            catch
+            {
+                return altresponce.Invalid;
+            }
 
-            return answer;
+            return altresponce.Invalid;
         }
 
         static double GetAlt(string filename, int x, int y)
@@ -396,7 +407,7 @@ namespace MissionPlanner
 
         static void get3secfile(object name)
         {
-            string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
+            string baseurl1sec = "http://firmware.ardupilot.org/SRTM/USGS/SRTM1/version2_1/SRTM1/";
             string baseurl = "http://firmware.ardupilot.org/SRTM/";
 
             // check file doesnt already exist
