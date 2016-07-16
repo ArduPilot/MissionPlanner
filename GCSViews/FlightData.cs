@@ -1374,7 +1374,8 @@ namespace MissionPlanner.GCSViews
                                 if (routes.Markers[a].ToolTipText != null &&
                                     routes.Markers[a].ToolTipText.Contains("ICAO"))
                                 {
-                                    routes.Markers.RemoveAt(a);
+                                    if (MainV2.instance.adsbPlanes.Values.Select(o => o.Tag == routes.Markers[a].Tag) == null)
+                                        routes.Markers.RemoveAt(a);
                                 }
                             }
 
@@ -1387,6 +1388,7 @@ namespace MissionPlanner.GCSViews
                                     {
                                         ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"),
                                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                                        Tag = plla.Tag
                                     };
 
                                     if (displayICAO)

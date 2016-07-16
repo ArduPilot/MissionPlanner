@@ -3309,6 +3309,7 @@ Please check the following
 
                             if (MainV2.instance.adsbPlanes.ContainsKey(id))
                             {
+                                // update existing
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.lat/1e7;
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.lon/1e7;
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.altitude/1000.0;
@@ -3317,6 +3318,7 @@ Please check the following
                             }
                             else
                             {
+                                // create new plane
                                 MainV2.instance.adsbPlanes[id] =
                                     new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
                                         adsb.altitude/1000.0, adsb.heading*0.01f, id,

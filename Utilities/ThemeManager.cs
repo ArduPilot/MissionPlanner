@@ -102,7 +102,6 @@ namespace MissionPlanner.Utilities
             temp.Add(new GCSViews.FlightPlanner());
             temp.Add(new GCSViews.Help());
             temp.Add(new GCSViews.InitialSetup());
-            temp.Add(new GCSViews.Simulation());
             temp.Add(new GCSViews.SoftwareConfig());
             temp.Add(new GCSViews.Terminal());
 

@@ -17,7 +17,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner.Controls
 {
-    public partial class SITL : Form
+    public partial class SITL : MyUserControl, IActivate
     {
         //https://regex101.com/r/cH3kV3/2
         Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\}]+""default_params_filename""\s*:\s*""([^""]+)""\s*[^\}]*\}");
@@ -90,6 +90,10 @@ namespace MissionPlanner.Controls
             if (!Directory.Exists(sitldirectory))
                 Directory.CreateDirectory(sitldirectory);
 
+        }
+
+        public void Activate()
+        {
             homemarker.Position = MainV2.comPort.MAV.cs.HomeLocation;
 
             myGMAP1.Position = homemarker.Position;
@@ -295,8 +299,6 @@ namespace MissionPlanner.Controls
             {
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
             }
-
-            this.Close();
         }
 
         static internal void rcinput()

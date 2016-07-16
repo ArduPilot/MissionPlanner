@@ -271,7 +271,7 @@ namespace MissionPlanner
         /// </summary>
         internal object adsblock = new object();
 
-        public Hashtable adsbPlanes = new Hashtable();
+        public Dictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new Dictionary<string, adsb.PointLatLngAltHdg>();
 
         string titlebar;
 
@@ -381,7 +381,7 @@ namespace MissionPlanner
         public GCSViews.FlightData FlightData;
 
         public GCSViews.FlightPlanner FlightPlanner;
-        GCSViews.Simulation Simulation;
+        Controls.SITL Simulation;
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -653,7 +653,7 @@ namespace MissionPlanner
                 FlightPlanner = new GCSViews.FlightPlanner();
                 //Configuration = new GCSViews.ConfigurationView.Setup();
                 log.Info("Create SIM");
-                Simulation = new GCSViews.Simulation();
+                Simulation = new SITL();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
 
@@ -970,12 +970,27 @@ namespace MissionPlanner
         {
             lock (adsblock)
             {
-                var llah = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                var tag = llah.Tag;
+                var adsb = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
 
-                adsbPlanes[tag] =
-                    ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)adsbPlanes[tag]).Time = DateTime.Now;
+                var id = adsb.Tag;
+
+                if (MainV2.instance.adsbPlanes.ContainsKey(id))
+                {
+                    // update existing
+                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.Lat;
+                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.Lng;
+                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.Alt;
+                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.Heading;
+                    ((adsb.PointLatLngAltHdg)MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
+                }
+                else
+                {
+                    // create new plane
+                    MainV2.instance.adsbPlanes[id] =
+                        new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
+                            adsb.Alt, adsb.Heading, id,
+                            DateTime.Now);
+                }
             }
         }
 

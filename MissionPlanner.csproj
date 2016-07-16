@@ -363,7 +363,7 @@
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\SITL.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\SITL.Designer.cs">
       <DependentUpon>SITL.cs</DependentUpon>
@@ -674,12 +674,6 @@
     </Compile>
     <Compile Include="GCSViews\InitialSetup.Designer.cs">
       <DependentUpon>InitialSetup.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GCSViews\Simulation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\Simulation.Designer.cs">
-      <DependentUpon>Simulation.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\SoftwareConfig.cs">
       <SubType>UserControl</SubType>
@@ -2111,46 +2105,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.zh-TW.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.de-DE.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.es-ES.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.fr.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.id-ID.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.it-IT.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.ja-JP.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.ko-KR.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.pl.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.ru-RU.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.zh-Hans.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.zh-Hant.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simulation.zh-TW.resx">
-      <DependentUpon>Simulation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
