@@ -110,15 +110,6 @@ namespace MissionPlanner.Controls
 
             myGMAP1.Invalidate();
 
-            try
-            {
-                if (simulator != null)
-                    simulator.Kill();
-            }
-            catch
-            {
-            }
-
             Utilities.ThemeManager.ApplyThemeTo(this);
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -249,6 +240,16 @@ namespace MissionPlanner.Controls
             {
                 CustomMessageBox.Show(Strings.Invalid_home_location, Strings.ERROR);
                 return;
+            }
+
+            // kill old session
+            try
+            {
+                if (simulator != null)
+                    simulator.Kill();
+            }
+            catch
+            {
             }
 
             // override default model
