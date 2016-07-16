@@ -159,7 +159,6 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.iCAOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -1660,8 +1659,8 @@
             this.flightPlannerToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem,
-            this.onOffCameraOverlapToolStripMenuItem,
-            this.iCAOToolStripMenuItem});
+            this.onOffCameraOverlapToolStripMenuItem
+            });
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -1979,13 +1978,6 @@
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // iCAOToolStripMenuItem
-            // 
-            this.iCAOToolStripMenuItem.CheckOnClick = true;
-            this.iCAOToolStripMenuItem.Name = "iCAOToolStripMenuItem";
-            resources.ApplyResources(this.iCAOToolStripMenuItem, "iCAOToolStripMenuItem");
-            this.iCAOToolStripMenuItem.Click += new System.EventHandler(this.iCAOToolStripMenuItem_Click);
-            // 
             // FlightData
             // 
             resources.ApplyResources(this, "$this");
@@ -2199,6 +2191,5 @@
         private System.Windows.Forms.ToolStripMenuItem PointCameraCoordsToolStripMenuItem1;
         private Controls.ModifyandSet modifyandSetLoiterRad;
         private System.Windows.Forms.ToolStripMenuItem onOffCameraOverlapToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem iCAOToolStripMenuItem;
     }
 }

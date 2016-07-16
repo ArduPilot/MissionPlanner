@@ -83,7 +83,6 @@ namespace MissionPlanner.GCSViews
 
         bool huddropout;
         bool huddropoutresize;
-        bool displayICAO = false;
 
         Thread thisthread;
 
@@ -1368,17 +1367,6 @@ namespace MissionPlanner.GCSViews
 
                         lock (MainV2.instance.adsblock)
                         {
-                            // cleanup old
-                            for (int a = (routes.Markers.Count - 1); a >= 0; a--)
-                            {
-                                if (routes.Markers[a].ToolTipText != null &&
-                                    routes.Markers[a].ToolTipText.Contains("ICAO"))
-                                {
-                                    if (MainV2.instance.adsbPlanes.Values.Select(o => o.Tag == routes.Markers[a].Tag) == null)
-                                        routes.Markers.RemoveAt(a);
-                                }
-                            }
-
                             foreach (adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                             {
                                 // 30 seconds history
@@ -1388,10 +1376,10 @@ namespace MissionPlanner.GCSViews
                                     {
                                         ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"),
                                         ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                                        Tag = plla.Tag
+                                        Tag = plla
                                     };
 
-                                    if (displayICAO)
+                                    if (plla.DisplayICAO)
                                         adsbplane.ToolTipMode = MarkerTooltipMode.Always;
 
                                     switch (plla.ThreatLevel)
@@ -2073,6 +2061,19 @@ namespace MissionPlanner.GCSViews
             if (ModifierKeys == Keys.Control)
             {
                 goHereToolStripMenuItem_Click(null, null);
+            }
+
+            if (gMapControl1.IsMouseOverMarker)
+            {
+                if (CurrentGMapMarker is GMapMarkerADSBPlane)
+                {
+                    var marker = CurrentGMapMarker as GMapMarkerADSBPlane;
+                    if (marker.Tag is adsb.PointLatLngAltHdg)
+                    {
+                        var plla = marker.Tag as adsb.PointLatLngAltHdg;
+                        plla.DisplayICAO = !plla.DisplayICAO;
+                    }
+                }
             }
         }
 
@@ -4351,11 +4352,6 @@ namespace MissionPlanner.GCSViews
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
-        }
-
-        private void iCAOToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            displayICAO = iCAOToolStripMenuItem.Checked;
         }
     }
 }

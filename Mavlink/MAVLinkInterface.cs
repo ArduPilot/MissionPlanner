@@ -3315,6 +3315,7 @@ Please check the following
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.altitude/1000.0;
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.heading*0.01f;
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
+                                ((adsb.PointLatLngAltHdg)MainV2.instance.adsbPlanes[id]).CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign);
                             }
                             else
                             {
@@ -3322,7 +3323,7 @@ Please check the following
                                 MainV2.instance.adsbPlanes[id] =
                                     new adsb.PointLatLngAltHdg(adsb.lat/1e7, adsb.lon/1e7,
                                         adsb.altitude/1000.0, adsb.heading*0.01f, id,
-                                        DateTime.Now);
+                                        DateTime.Now) {CallSign = ASCIIEncoding.ASCII.GetString(adsb.callsign)};
                             }
                         }
 

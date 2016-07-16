@@ -1035,6 +1035,10 @@ namespace MissionPlanner.Utilities
             public MAVLink.MAV_COLLISION_THREAT_LEVEL ThreatLevel { get; set; }
 
             public DateTime Time { get; set; }
+
+            public bool DisplayICAO { get; set; }
+
+            public string CallSign { get; set; }
         }
     }
 }

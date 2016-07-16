@@ -977,11 +977,12 @@ namespace MissionPlanner
                 if (MainV2.instance.adsbPlanes.ContainsKey(id))
                 {
                     // update existing
-                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lat = adsb.Lat;
-                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Lng = adsb.Lng;
-                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Alt = adsb.Alt;
-                    ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).Heading = adsb.Heading;
-                    ((adsb.PointLatLngAltHdg)MainV2.instance.adsbPlanes[id]).Time = DateTime.Now;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lat = adsb.Lat;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lng = adsb.Lng;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Alt = adsb.Alt;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Heading = adsb.Heading;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Time = DateTime.Now;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).CallSign = adsb.CallSign;
                 }
                 else
                 {
@@ -989,7 +990,7 @@ namespace MissionPlanner
                     MainV2.instance.adsbPlanes[id] =
                         new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
                             adsb.Alt, adsb.Heading, id,
-                            DateTime.Now);
+                            DateTime.Now) {CallSign = adsb.CallSign};
                 }
             }
         }
