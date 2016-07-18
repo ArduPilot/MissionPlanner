@@ -956,9 +956,10 @@ namespace MissionPlanner.GeoRef
 
         private int compareFileByPhotoTime(string x, string y)
         {
-            if (getPhotoTime(x) < getPhotoTime(y)) return -1;
-            if (getPhotoTime(x) > getPhotoTime(y)) return 1;
-            return 0;
+            // compare times
+            var ans1 = getPhotoTime(x).CompareTo(getPhotoTime(y));
+            // if times are the same, compare filenames
+            return ans1 != 0 ? ans1 : x.CompareTo(y);
         }
 
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
