@@ -199,6 +199,8 @@ namespace MissionPlanner.Controls.BackstageView
 
             _items.Add(page);
 
+            DrawMenu(_activePage, false);
+
             return page;
         }
 
@@ -252,6 +254,7 @@ namespace MissionPlanner.Controls.BackstageView
             lnkButton.DoubleClick += lnkButton_DoubleClick;
 
             ButtonTopPos += lnkButton.Height;
+            pnlMenu.Invalidate();
         }
 
         public void DrawMenu(BackstageViewPage CurrentPage, bool force = false)
@@ -512,6 +515,11 @@ namespace MissionPlanner.Controls.BackstageView
             }
 
             _activePage = associatedPage;
+        }
+
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
         }
 
         public void Close()
