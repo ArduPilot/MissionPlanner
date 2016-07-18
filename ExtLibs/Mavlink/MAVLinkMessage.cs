@@ -26,6 +26,9 @@ public partial class MAVLink
         {
             get
             {
+                if (_data != null)
+                    return _data;
+
                 //_data the object specified by the packet type
                 _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[msgid]);
 
