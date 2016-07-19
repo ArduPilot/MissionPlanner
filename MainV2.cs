@@ -777,10 +777,12 @@ namespace MissionPlanner
             }
             
             // create log dir if it doesnt exist
-            if (!Directory.Exists(Settings.Instance.LogDir))
-                Directory.CreateDirectory(Settings.Instance.LogDir);
-
-            //System.Threading.Thread.Sleep(2000);
+            try
+            {
+                if (!Directory.Exists(Settings.Instance.LogDir))
+                    Directory.CreateDirectory(Settings.Instance.LogDir);
+            }
+            catch (Exception ex) { log.Error(ex); }
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
@@ -2228,6 +2230,7 @@ namespace MissionPlanner
                         {
                             try
                             {
+                                //MainV2.comPort.getHomePosition();
                                 MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                 if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                 {
