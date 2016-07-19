@@ -30,6 +30,9 @@ namespace MissionPlanner.Controls
         MemoryStream _streamjpg = new MemoryStream();
         //[System.ComponentModel.Browsable(false)]
         public MemoryStream streamjpg { get { lock (streamlock) { return _streamjpg; } } set { lock (streamlock) { _streamjpg = value; } } }
+
+        DateTime textureResetDateTime = DateTime.Now;
+
         /// <summary>
         /// this is to reduce cpu usage
         /// </summary>
@@ -467,6 +470,10 @@ namespace MissionPlanner.Controls
                 //e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);          
                 return;
             }
+
+            // force texture reset
+            if (textureResetDateTime.Hour != DateTime.Now.Hour)
+                doResize();
 
             lock (this)
             {
