@@ -21,6 +21,7 @@ namespace MissionPlanner.Maps
 
         WMSProvider()
         {
+            MaxZoom = 22;
         }
 
         static WMSProvider()
