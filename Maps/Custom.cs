@@ -21,6 +21,7 @@ namespace MissionPlanner.Maps
 
         Custom()
         {
+            MaxZoom = 22;
         }
 
         static Custom()
@@ -32,6 +33,8 @@ namespace MissionPlanner.Maps
             Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>) field.GetValue(Instance);
 
             list.Add(Instance.DbId, Instance);
+
+            
         }
 
         #region GMapProvider Members

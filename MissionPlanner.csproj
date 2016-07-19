@@ -2508,22 +2508,10 @@
     <None Include="Drivers\vrbrain.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Drivers\vrcore.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Drivers\vrflightstop.cat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Drivers\vrgimbal.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Drivers\vrhero.cat" />
-    <None Include="Drivers\vrmapper.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Drivers\vrspark.cat">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Drivers\vrthermal.cat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
