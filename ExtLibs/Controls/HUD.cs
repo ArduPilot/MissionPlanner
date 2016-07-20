@@ -473,7 +473,10 @@ namespace MissionPlanner.Controls
 
             // force texture reset
             if (textureResetDateTime.Hour != DateTime.Now.Hour)
+            {
+                textureResetDateTime = DateTime.Now;
                 doResize();
+            }
 
             lock (this)
             {
