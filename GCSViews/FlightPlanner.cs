@@ -2097,8 +2097,11 @@ namespace MissionPlanner.GCSViews
                         var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
                         if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                         {
-                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                            return;
+                            if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                            {
+                                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                                return;
+                            }
                         }
                         a++;
                     }
@@ -2110,8 +2113,11 @@ namespace MissionPlanner.GCSViews
                         var homeans = port.setWP(home, (ushort)a, MAVLink.MAV_FRAME.GLOBAL, 0, 1, use_int);
                         if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                         {
-                            CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
-                            return;
+                            if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                            {
+                                CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                                return;
+                            }
                         }
                         a++;
                     }
