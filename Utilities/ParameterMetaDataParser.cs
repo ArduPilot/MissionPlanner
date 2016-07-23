@@ -134,51 +134,15 @@ namespace MissionPlanner.Utilities
                                         StringSplitOptions.None)
                                         .ForEach(separatedPath =>
                                         {
-                                            separatedPath = separatedPath.Trim();
                                             log.Info("Process " + node.Key + " : " + separatedPath);
-                                            // Match based on the regex defined at the top of this class
-                                            Match pathMatch = _parentDirectoryRegex.Match(separatedPath);
-                                            if (pathMatch.Success && pathMatch.Groups["Path"] != null &&
-                                                !String.IsNullOrEmpty(pathMatch.Groups["Path"].Value))
-                                            {
-                                                if (pathMatch.Groups["ParentDirectory"] != null &&
-                                                    !String.IsNullOrEmpty(pathMatch.Groups["ParentDirectory"].Value))
-                                                {
-                                                    // How many directories from the original path do we have to move
-                                                    int numberOfParentDirectoryMoves =
-                                                        pathMatch.Groups["ParentDirectory"].Value.Split(
-                                                            new string[] {"../"}, StringSplitOptions.None).Count();
+                                            Uri newUri = new Uri(new Uri(parameterLocation), separatedPath.Trim());
 
-                                                    // We need to remove the http:// or https:// prefix to build the new URL properly
-                                                    string httpTest = parameterLocation.Substring(0, 7);
-                                                    int trimHttpPrefixIdx = httpTest == "http://" ? 7 : 8;
+                                            var newPath = newUri.AbsoluteUri;
 
-                                                    // Get the parts of the original URL
-                                                    var parameterLocationParts =
-                                                        parameterLocation.Substring(trimHttpPrefixIdx,
-                                                            parameterLocation.Length - trimHttpPrefixIdx)
-                                                            .Split(new char[] {'/'});
+                                            // Parse the param info from the newly constructed URL
+                                            ParseParameterInformation(ReadDataFromAddress(newPath),
+                                                objXmlTextWriter, node.Key, newPath);
 
-                                                    // Rebuild the new url taking into account the numberOfParentDirectoryMoves
-                                                    string urlAfterParentDirectory = string.Empty;
-                                                    for (int i = 0;
-                                                        i < parameterLocationParts.Length &&
-                                                        i < parameterLocationParts.Length - numberOfParentDirectoryMoves;
-                                                        i++)
-                                                    {
-                                                        urlAfterParentDirectory += parameterLocationParts[i] + "/";
-                                                    }
-
-                                                    // This is the URL of the file we need to parse for comments
-                                                    string newPath = String.Format("{0}{1}{2}",
-                                                        parameterLocation.Substring(0, trimHttpPrefixIdx),
-                                                        urlAfterParentDirectory, pathMatch.Groups["Path"].Value);
-
-                                                    // Parse the param info from the newly constructed URL
-                                                    ParseParameterInformation(ReadDataFromAddress(newPath),
-                                                        objXmlTextWriter, node.Key, newPath);
-                                                }
-                                            }
                                         }));
                     }
                 });
