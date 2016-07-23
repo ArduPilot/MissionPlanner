@@ -2147,6 +2147,326 @@
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </POSCON__ACC_XY_FILT>
+    <SR0_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_SENS>
+    <SR0_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXT_STAT>
+    <SR0_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS_RAW to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RC_CHAN>
+    <SR0_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_CTRL>
+    <SR0_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Stream rate of GLOBAL_POSITION_INT to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_POSITION>
+    <SR0_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA1>
+    <SR0_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Stream rate of VFR_HUD to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA2>
+    <SR0_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA3>
+    <SR0_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Stream rate of PARAM_VALUE to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_PARAMS>
+    <SR0_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_ADSB>
+    <SR1_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_SENS>
+    <SR1_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXT_STAT>
+    <SR1_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS_RAW to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RC_CHAN>
+    <SR1_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_CTRL>
+    <SR1_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Stream rate of GLOBAL_POSITION_INT to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_POSITION>
+    <SR1_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA1>
+    <SR1_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Stream rate of VFR_HUD to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA2>
+    <SR1_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA3>
+    <SR1_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Stream rate of PARAM_VALUE to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_PARAMS>
+    <SR1_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_ADSB>
+    <SR2_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_SENS>
+    <SR2_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXT_STAT>
+    <SR2_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS_RAW to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RC_CHAN>
+    <SR2_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_CTRL>
+    <SR2_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Stream rate of GLOBAL_POSITION_INT to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_POSITION>
+    <SR2_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA1>
+    <SR2_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Stream rate of VFR_HUD to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA2>
+    <SR2_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA3>
+    <SR2_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Stream rate of PARAM_VALUE to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_PARAMS>
+    <SR2_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_ADSB>
+    <SR3_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Stream rate of RAW_IMU, SCALED_IMU2, SCALED_PRESSURE, and SENSOR_OFFSETS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_SENS>
+    <SR3_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Stream rate of SYS_STATUS, MEMINFO, MISSION_CURRENT, GPS_RAW_INT, NAV_CONTROLLER_OUTPUT, and LIMITS_STATUS to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXT_STAT>
+    <SR3_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>Stream rate of SERVO_OUTPUT_RAW and RC_CHANNELS_RAW to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RC_CHAN>
+    <SR3_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Stream rate of RC_CHANNELS_SCALED (HIL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_CTRL>
+    <SR3_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Stream rate of GLOBAL_POSITION_INT to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_POSITION>
+    <SR3_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Stream rate of ATTITUDE and SIMSTATE (SITL only) to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA1>
+    <SR3_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Stream rate of VFR_HUD to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA2>
+    <SR3_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Stream rate of AHRS, HWSTATUS, and SYSTEM_TIME to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA3>
+    <SR3_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Stream rate of PARAM_VALUE to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_PARAMS>
+    <SR3_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_ADSB>
     <AHRS_GPS_GAIN>
       <DisplayName>AHRS GPS gain</DisplayName>
       <Description>This controls how how much to use the GPS to correct the attitude. This should never be set to zero for a plane as it would result in the plane losing control in turns. For a plane please use the default value of 1.0.</Description>
@@ -4382,6 +4702,590 @@
       <Values>0:Disable,1:Enable</Values>
       <User>Advanced</User>
     </NTF_LED_OVERRIDE>
+    <SYSID_SW_MREV>
+      <DisplayName>Eeprom format version number</DisplayName>
+      <Description>This value is incremented when changes are made to the eeprom format</Description>
+      <User>Advanced</User>
+      <ReadOnly>True</ReadOnly>
+    </SYSID_SW_MREV>
+    <SYSID_SW_TYPE>
+      <DisplayName>Software Type</DisplayName>
+      <Description>This is used by the ground station to recognise the software type (eg ArduPlane vs ArduCopter)</Description>
+      <Values>0:ArduPlane,4:AntennaTracker,10:Copter,20:Rover</Values>
+      <User>Advanced</User>
+      <ReadOnly>True</ReadOnly>
+    </SYSID_SW_TYPE>
+    <SYSID_THISMAV>
+      <DisplayName>MAVLink system ID of this vehicle</DisplayName>
+      <Description>Allows setting an individual MAVLink system id for this vehicle to distinguish it from others on the same network</Description>
+      <Range>1 255</Range>
+      <User>Advanced</User>
+    </SYSID_THISMAV>
+    <SYSID_MYGCS>
+      <DisplayName>My ground station number</DisplayName>
+      <Description>Allows restricting radio overrides to only come from my ground station</Description>
+      <Values>255:Mission Planner and DroidPlanner, 252: AP Planner 2</Values>
+      <User>Advanced</User>
+    </SYSID_MYGCS>
+    <CLI_ENABLED>
+      <DisplayName>CLI Enable</DisplayName>
+      <Description>This enables/disables the checking for three carriage returns on telemetry links on startup to enter the diagnostics command line interface</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </CLI_ENABLED>
+    <PILOT_THR_FILT>
+      <DisplayName>Throttle filter cutoff</DisplayName>
+      <Description>Throttle filter cutoff (Hz) - active whenever altitude control is inactive - 0 to disable</Description>
+      <User>Advanced</User>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>.5</Increment>
+    </PILOT_THR_FILT>
+    <PILOT_TKOFF_ALT>
+      <DisplayName>Pilot takeoff altitude</DisplayName>
+      <Description>Altitude that altitude control modes will climb to when a takeoff is triggered with the throttle stick.</Description>
+      <User>Standard</User>
+      <Units>Centimeters</Units>
+      <Range>0.0 1000.0</Range>
+      <Increment>10</Increment>
+    </PILOT_TKOFF_ALT>
+    <PILOT_TKOFF_DZ>
+      <DisplayName>Takeoff trigger deadzone</DisplayName>
+      <Description>Offset from mid stick at which takeoff is triggered</Description>
+      <User>Standard</User>
+      <Range>0.0 500.0</Range>
+      <Increment>10</Increment>
+    </PILOT_TKOFF_DZ>
+    <PILOT_THR_BHV>
+      <DisplayName>Throttle stick behavior</DisplayName>
+      <Description>Bitmask containing various throttle stick options. Add up the values for options that you want.</Description>
+      <User>Standard</User>
+      <Values>0:None,1:Feedback from mid stick,2:High throttle cancels landing,4:Disarm on land detection</Values>
+      <Bitmask>0:Feedback from mid stick,1:High throttle cancels landing,2:Disarm on land detection</Bitmask>
+      <Group>SERIAL</Group>
+      <Path>../libraries/AP_SerialManager/AP_SerialManager.cpp</Path>
+    </PILOT_THR_BHV>
+    <TELEM_DELAY>
+      <DisplayName>Telemetry startup delay</DisplayName>
+      <Description>The amount of time (in seconds) to delay radio telemetry to prevent an Xbee bricking on power up</Description>
+      <User>Advanced</User>
+      <Units>seconds</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+    </TELEM_DELAY>
+    <GCS_PID_MASK>
+      <DisplayName>GCS PID tuning mask</DisplayName>
+      <Description>bitmask of PIDs to send MAVLink PID_TUNING messages for</Description>
+      <User>Advanced</User>
+      <Values>0:None,1:Roll,2:Pitch,4:Yaw</Values>
+      <Bitmask>0:Roll,1:Pitch,2:Yaw</Bitmask>
+    </GCS_PID_MASK>
+    <RTL_ALT>
+      <DisplayName>RTL Altitude</DisplayName>
+      <Description>The minimum relative altitude the model will move to before Returning to Launch.  Set to zero to return at current altitude.</Description>
+      <Units>Centimeters</Units>
+      <Range>0 8000</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </RTL_ALT>
+    <RTL_CONE_SLOPE>
+      <DisplayName>RTL cone slope</DisplayName>
+      <Description>Defines a cone above home which determines maximum climb</Description>
+      <Range>0.5 10.0</Range>
+      <Increment>.1</Increment>
+      <Values>0:Disabled,1:Shallow,3:Steep</Values>
+      <User>Standard</User>
+    </RTL_CONE_SLOPE>
+    <RTL_SPEED>
+      <DisplayName>RTL speed</DisplayName>
+      <Description>Defines the speed in cm/s which the aircraft will attempt to maintain horizontally while flying home. If this is set to zero, WPNAV_SPEED will be used instead.</Description>
+      <Units>cm/s</Units>
+      <Range>0 2000</Range>
+      <Increment>50</Increment>
+      <User>Standard</User>
+    </RTL_SPEED>
+    <RNGFND_GAIN>
+      <DisplayName>Rangefinder gain</DisplayName>
+      <Description>Used to adjust the speed with which the target altitude is changed when objects are sensed below the copter</Description>
+      <Range>0.01 2.0</Range>
+      <Increment>0.01</Increment>
+      <User>Standard</User>
+    </RNGFND_GAIN>
+    <FS_BATT_ENABLE>
+      <DisplayName>Battery Failsafe Enable</DisplayName>
+      <Description>Controls whether failsafe will be invoked when battery voltage or current runs low</Description>
+      <Values>0:Disabled,1:Land,2:RTL</Values>
+      <User>Standard</User>
+    </FS_BATT_ENABLE>
+    <FS_BATT_VOLTAGE>
+      <DisplayName>Failsafe battery voltage</DisplayName>
+      <Description>Battery voltage to trigger failsafe. Set to 0 to disable battery voltage failsafe. If the battery voltage drops below this voltage then the copter will RTL</Description>
+      <Units>Volts</Units>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </FS_BATT_VOLTAGE>
+    <FS_BATT_MAH>
+      <DisplayName>Failsafe battery milliAmpHours</DisplayName>
+      <Description>Battery capacity remaining to trigger failsafe. Set to 0 to disable battery remaining failsafe. If the battery remaining drops below this level then the copter will RTL</Description>
+      <Units>mAh</Units>
+      <Increment>50</Increment>
+      <User>Standard</User>
+    </FS_BATT_MAH>
+    <FS_GCS_ENABLE>
+      <DisplayName>Ground Station Failsafe Enable</DisplayName>
+      <Description>Controls whether failsafe will be invoked (and what action to take) when connection with Ground station is lost for at least 5 seconds. NB. The GCS Failsafe is only active when RC_OVERRIDE is being used to control the vehicle.</Description>
+      <Values>0:Disabled,1:Enabled always RTL,2:Enabled Continue with Mission in Auto Mode</Values>
+      <User>Standard</User>
+    </FS_GCS_ENABLE>
+    <GPS_HDOP_GOOD>
+      <DisplayName>GPS Hdop Good</DisplayName>
+      <Description>GPS Hdop value at or below this value represent a good position.  Used for pre-arm checks</Description>
+      <Range>100 900</Range>
+      <User>Advanced</User>
+    </GPS_HDOP_GOOD>
+    <MAG_ENABLE>
+      <DisplayName>Compass enable/disable</DisplayName>
+      <Description>Setting this to Enabled(1) will enable the compass. Setting this to Disabled(0) will disable the compass</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </MAG_ENABLE>
+    <SUPER_SIMPLE>
+      <DisplayName>Super Simple Mode</DisplayName>
+      <Description>Bitmask to enable Super Simple mode for some flight modes. Setting this to Disabled(0) will disable Super Simple Mode</Description>
+      <Values>0:Disabled,1:Mode1,2:Mode2,3:Mode1+2,4:Mode3,5:Mode1+3,6:Mode2+3,7:Mode1+2+3,8:Mode4,9:Mode1+4,10:Mode2+4,11:Mode1+2+4,12:Mode3+4,13:Mode1+3+4,14:Mode2+3+4,15:Mode1+2+3+4,16:Mode5,17:Mode1+5,18:Mode2+5,19:Mode1+2+5,20:Mode3+5,21:Mode1+3+5,22:Mode2+3+5,23:Mode1+2+3+5,24:Mode4+5,25:Mode1+4+5,26:Mode2+4+5,27:Mode1+2+4+5,28:Mode3+4+5,29:Mode1+3+4+5,30:Mode2+3+4+5,31:Mode1+2+3+4+5,32:Mode6,33:Mode1+6,34:Mode2+6,35:Mode1+2+6,36:Mode3+6,37:Mode1+3+6,38:Mode2+3+6,39:Mode1+2+3+6,40:Mode4+6,41:Mode1+4+6,42:Mode2+4+6,43:Mode1+2+4+6,44:Mode3+4+6,45:Mode1+3+4+6,46:Mode2+3+4+6,47:Mode1+2+3+4+6,48:Mode5+6,49:Mode1+5+6,50:Mode2+5+6,51:Mode1+2+5+6,52:Mode3+5+6,53:Mode1+3+5+6,54:Mode2+3+5+6,55:Mode1+2+3+5+6,56:Mode4+5+6,57:Mode1+4+5+6,58:Mode2+4+5+6,59:Mode1+2+4+5+6,60:Mode3+4+5+6,61:Mode1+3+4+5+6,62:Mode2+3+4+5+6,63:Mode1+2+3+4+5+6</Values>
+      <User>Standard</User>
+    </SUPER_SIMPLE>
+    <RTL_ALT_FINAL>
+      <DisplayName>RTL Final Altitude</DisplayName>
+      <Description>This is the altitude the vehicle will move to as the final stage of Returning to Launch or after completing a mission.  Set to zero to land.</Description>
+      <Units>Centimeters</Units>
+      <Range>-1 1000</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </RTL_ALT_FINAL>
+    <RTL_CLIMB_MIN>
+      <DisplayName>RTL minimum climb</DisplayName>
+      <Description>The vehicle will climb this many cm during the initial climb portion of the RTL</Description>
+      <Units>Centimeters</Units>
+      <Range>0 3000</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </RTL_CLIMB_MIN>
+    <WP_YAW_BEHAVIOR>
+      <DisplayName>Yaw behaviour during missions</DisplayName>
+      <Description>Determines how the autopilot controls the yaw during missions and RTL</Description>
+      <Values>0:Never change yaw, 1:Face next waypoint, 2:Face next waypoint except RTL, 3:Face along GPS course</Values>
+      <User>Standard</User>
+    </WP_YAW_BEHAVIOR>
+    <RTL_LOIT_TIME>
+      <DisplayName>RTL loiter time</DisplayName>
+      <Description>Time (in milliseconds) to loiter above home before beginning final descent</Description>
+      <Units>ms</Units>
+      <Range>0 60000</Range>
+      <Increment>1000</Increment>
+      <User>Standard</User>
+    </RTL_LOIT_TIME>
+    <LAND_SPEED>
+      <DisplayName>Land speed</DisplayName>
+      <Description>The descent speed for the final stage of landing in cm/s</Description>
+      <Units>cm/s</Units>
+      <Range>30 200</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </LAND_SPEED>
+    <LAND_SPEED_HIGH>
+      <DisplayName>Land speed high</DisplayName>
+      <Description>The descent speed for the first stage of landing in cm/s. If this is zero then WPNAV_SPEED_DN is used</Description>
+      <Units>cm/s</Units>
+      <Range>0 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </LAND_SPEED_HIGH>
+    <PILOT_VELZ_MAX>
+      <DisplayName>Pilot maximum vertical speed</DisplayName>
+      <Description>The maximum vertical velocity the pilot may request in cm/s</Description>
+      <Units>Centimeters/Second</Units>
+      <Range>50 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </PILOT_VELZ_MAX>
+    <PILOT_ACCEL_Z>
+      <DisplayName>Pilot vertical acceleration</DisplayName>
+      <Description>The vertical acceleration used when pilot is controlling the altitude</Description>
+      <Units>cm/s/s</Units>
+      <Range>50 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </PILOT_ACCEL_Z>
+    <FS_THR_ENABLE>
+      <DisplayName>Throttle Failsafe Enable</DisplayName>
+      <Description>The throttle failsafe allows you to configure a software failsafe activated by a setting on the throttle input channel</Description>
+      <Values>0:Disabled,1:Enabled always RTL,2:Enabled Continue with Mission in Auto Mode,3:Enabled always LAND</Values>
+      <User>Standard</User>
+    </FS_THR_ENABLE>
+    <FS_THR_VALUE>
+      <DisplayName>Throttle Failsafe Value</DisplayName>
+      <Description>The PWM level on channel 3 below which throttle sailsafe triggers</Description>
+      <Range>925 1100</Range>
+      <Units>pwm</Units>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </FS_THR_VALUE>
+    <THR_DZ>
+      <DisplayName>Throttle deadzone</DisplayName>
+      <Description>The deadzone above and below mid throttle.  Used in AltHold, Loiter, PosHold flight modes</Description>
+      <User>Standard</User>
+      <Range>0 300</Range>
+      <Units>pwm</Units>
+      <Increment>1</Increment>
+    </THR_DZ>
+    <FLTMODE1>
+      <DisplayName>Flight Mode 1</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &lt;= 1230</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE1>
+    <FLTMODE2>
+      <DisplayName>Flight Mode 2</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &gt;1230, &lt;= 1360</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE2>
+    <FLTMODE3>
+      <DisplayName>Flight Mode 3</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &gt;1360, &lt;= 1490</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE3>
+    <FLTMODE4>
+      <DisplayName>Flight Mode 4</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &gt;1490, &lt;= 1620</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE4>
+    <FLTMODE5>
+      <DisplayName>Flight Mode 5</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &gt;1620, &lt;= 1749</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE5>
+    <FLTMODE6>
+      <DisplayName>Flight Mode 6</DisplayName>
+      <Description>Flight mode when Channel 5 pwm is &gt;=1750</Description>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,11:Drift,13:Sport,14:Flip,15:AutoTune,16:PosHold,17:Brake,18:Throw</Values>
+      <User>Standard</User>
+    </FLTMODE6>
+    <SIMPLE>
+      <DisplayName>Simple mode bitmask</DisplayName>
+      <Description>Bitmask which holds which flight modes use simple heading mode (eg bit 0 = 1 means Flight Mode 0 uses simple mode)</Description>
+      <User>Advanced</User>
+    </SIMPLE>
+    <LOG_BITMASK>
+      <DisplayName>Log bitmask</DisplayName>
+      <Description>4 byte bitmap of log types to enable</Description>
+      <Values>830:Default,894:Default+RCIN,958:Default+IMU,1854:Default+Motors,-6146:NearlyAll-AC315,45054:NearlyAll,131071:All+FastATT,262142:All+MotBatt,393214:All+FastIMU,397310:All+FastIMU+PID,655358:All+FullIMU,0:Disabled</Values>
+      <Bitmask>0:ATTITUDE_FAST,1:ATTITUDE_MED,2:GPS,3:PM,4:CTUN,5:NTUN,6:RCIN,7:IMU,8:CMD,9:CURRENT,10:RCOUT,11:OPTFLOW,12:PID,13:COMPASS,14:INAV,15:CAMERA,17:MOTBATT,18:IMU_FAST,19:IMU_RAW</Bitmask>
+      <User>Standard</User>
+    </LOG_BITMASK>
+    <ESC_CALIBRATION>
+      <DisplayName>ESC Calibration</DisplayName>
+      <Description>Controls whether ArduCopter will enter ESC calibration on the next restart.  Do not adjust this parameter manually.</Description>
+      <User>Advanced</User>
+      <Values>0:Normal Start-up, 1:Start-up in ESC Calibration mode if throttle high, 2:Start-up in ESC Calibration mode regardless of throttle, 9:Disabled</Values>
+    </ESC_CALIBRATION>
+    <TUNE>
+      <DisplayName>Channel 6 Tuning</DisplayName>
+      <Description>Controls which parameters (normally PID gains) are being tuned with transmitter's channel 6 knob</Description>
+      <User>Standard</User>
+      <Values>0:None,1:Stab Roll/Pitch kP,4:Rate Roll/Pitch kP,5:Rate Roll/Pitch kI,21:Rate Roll/Pitch kD,3:Stab Yaw kP,6:Rate Yaw kP,26:Rate Yaw kD,14:Altitude Hold kP,7:Throttle Rate kP,34:Throttle Accel kP,35:Throttle Accel kI,36:Throttle Accel kD,42:Loiter Speed,12:Loiter Pos kP,22:Velocity XY kP,28:Velocity XY kI,10:WP Speed,25:Acro RollPitch kP,40:Acro Yaw kP,13:Heli Ext Gyro,17:OF Loiter kP,18:OF Loiter kI,19:OF Loiter kD,38:Declination,39:Circle Rate,41:RangeFinder Gain,46:Rate Pitch kP,47:Rate Pitch kI,48:Rate Pitch kD,49:Rate Roll kP,50:Rate Roll kI,51:Rate Roll kD,52:Rate Pitch FF,53:Rate Roll FF,54:Rate Yaw FF</Values>
+    </TUNE>
+    <TUNE_LOW>
+      <DisplayName>Tuning minimum</DisplayName>
+      <Description>The minimum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob</Description>
+      <User>Standard</User>
+      <Range>0 32767</Range>
+    </TUNE_LOW>
+    <TUNE_HIGH>
+      <DisplayName>Tuning maximum</DisplayName>
+      <Description>The maximum value that will be applied to the parameter currently being tuned with the transmitter's channel 6 knob</Description>
+      <User>Standard</User>
+      <Range>0 32767</Range>
+    </TUNE_HIGH>
+    <FRAME>
+      <DisplayName>Frame Orientation (+, X or V)</DisplayName>
+      <Description>Controls motor mixing for multicopters.  Not used for Tri or Traditional Helicopters.</Description>
+      <Values>0:Plus, 1:X, 2:V, 3:H, 4:V-Tail, 5:A-Tail, 10:Y6B (New)</Values>
+      <User>Standard</User>
+    </FRAME>
+    <CH7_OPT>
+      <DisplayName>Channel 7 option</DisplayName>
+      <Description>Select which function if performed when CH7 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH7_OPT>
+    <CH8_OPT>
+      <DisplayName>Channel 8 option</DisplayName>
+      <Description>Select which function if performed when CH8 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH8_OPT>
+    <CH9_OPT>
+      <DisplayName>Channel 9 option</DisplayName>
+      <Description>Select which function if performed when CH9 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH9_OPT>
+    <CH10_OPT>
+      <DisplayName>Channel 10 option</DisplayName>
+      <Description>Select which function if performed when CH10 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH10_OPT>
+    <CH11_OPT>
+      <DisplayName>Channel 11 option</DisplayName>
+      <Description>Select which function if performed when CH11 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH11_OPT>
+    <CH12_OPT>
+      <DisplayName>Channel 12 option</DisplayName>
+      <Description>Select which function if performed when CH12 is above 1800 pwm</Description>
+      <Values>0:Do Nothing, 2:Flip, 3:Simple Mode, 4:RTL, 5:Save Trim, 7:Save WP, 9:Camera Trigger, 10:RangeFinder, 11:Fence, 12:ResetToArmedYaw, 13:Super Simple Mode, 14:Acro Trainer, 16:Auto, 17:AutoTune, 18:Land, 19:EPM, 21:Parachute Enable, 22:Parachute Release, 23:Parachute 3pos, 24:Auto Mission Reset, 25:AttCon Feed Forward, 26:AttCon Accel Limits, 27:Retract Mount, 28:Relay On/Off, 34:Relay2 On/Off, 35:Relay3 On/Off, 36:Relay4 On/Off, 29:Landing Gear, 30:Lost Copter Sound, 31:Motor Emergency Stop, 32:Motor Interlock, 33:Brake, 37:Throw</Values>
+      <User>Standard</User>
+    </CH12_OPT>
+    <ARMING_CHECK>
+      <DisplayName>Arming check</DisplayName>
+      <Description>Allows enabling or disabling of pre-arming checks of receiver, accelerometer, barometer, compass and GPS</Description>
+      <Values>0:Disabled, 1:Enabled, -3:Skip Baro, -5:Skip Compass, -9:Skip GPS, -17:Skip INS, -33:Skip Params/Rangefinder, -65:Skip RC, 127:Skip Voltage</Values>
+      <Bitmask>0:All,1:Baro,2:Compass,3:GPS,4:INS,5:Parameters+Rangefinder,6:RC,7:Voltage</Bitmask>
+      <User>Standard</User>
+    </ARMING_CHECK>
+    <DISARM_DELAY>
+      <DisplayName>Disarm delay</DisplayName>
+      <Description>Delay before automatic disarm in seconds. A value of zero disables auto disarm.</Description>
+      <Units>Seconds</Units>
+      <Range>0 127</Range>
+      <User>Advanced</User>
+    </DISARM_DELAY>
+    <ANGLE_MAX>
+      <DisplayName>Angle Max</DisplayName>
+      <Description>Maximum lean angle in all flight modes</Description>
+      <Units>Centi-degrees</Units>
+      <Range>1000 8000</Range>
+      <User>Advanced</User>
+    </ANGLE_MAX>
+    <RC_FEEL_RP>
+      <DisplayName>RC Feel Roll/Pitch</DisplayName>
+      <Description>RC feel for roll/pitch which controls vehicle response to user input with 0 being extremely soft and 100 being crisp</Description>
+      <Range>0 100</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+      <Values>0:Very Soft, 25:Soft, 50:Medium, 75:Crisp, 100:Very Crisp</Values>
+    </RC_FEEL_RP>
+    <PHLD_BRAKE_RATE>
+      <DisplayName>PosHold braking rate</DisplayName>
+      <Description>PosHold flight mode's rotation rate during braking in deg/sec</Description>
+      <Units>deg/sec</Units>
+      <Range>4 12</Range>
+      <User>Advanced</User>
+    </PHLD_BRAKE_RATE>
+    <PHLD_BRAKE_ANGLE>
+      <DisplayName>PosHold braking angle max</DisplayName>
+      <Description>PosHold flight mode's max lean angle during braking in centi-degrees</Description>
+      <Units>Centi-degrees</Units>
+      <Range>2000 4500</Range>
+      <User>Advanced</User>
+    </PHLD_BRAKE_ANGLE>
+    <LAND_REPOSITION>
+      <DisplayName>Land repositioning</DisplayName>
+      <Description>Enables user input during LAND mode, the landing phase of RTL, and auto mode landings.</Description>
+      <Values>0:No repositioning, 1:Repositioning</Values>
+      <User>Advanced</User>
+    </LAND_REPOSITION>
+    <FS_EKF_ACTION>
+      <DisplayName>EKF Failsafe Action</DisplayName>
+      <Description>Controls the action that will be taken when an EKF failsafe is invoked</Description>
+      <Values>1:Land, 2:AltHold, 3:Land even in Stabilize</Values>
+      <User>Advanced</User>
+    </FS_EKF_ACTION>
+    <FS_EKF_THRESH>
+      <DisplayName>EKF failsafe variance threshold</DisplayName>
+      <Description>Allows setting the maximum acceptable compass and velocity variance</Description>
+      <Values>0.6:Strict, 0.8:Default, 1.0:Relaxed</Values>
+      <User>Advanced</User>
+    </FS_EKF_THRESH>
+    <FS_CRASH_CHECK>
+      <DisplayName>Crash check enable</DisplayName>
+      <Description>This enables automatic crash checking. When enabled the motors will disarm if a crash is detected.</Description>
+      <Values>0:Disabled, 1:Enabled</Values>
+      <User>Advanced</User>
+      <Group>RC1_</Group>
+      <Path>../libraries/RC_Channel/RC_Channel.cpp</Path>
+    </FS_CRASH_CHECK>
+    <RC_SPEED>
+      <DisplayName>ESC Update Speed</DisplayName>
+      <Description>This is the speed in Hertz that your ESCs will receive updates</Description>
+      <Units>Hz</Units>
+      <Range>50 490</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RC_SPEED>
+    <ACRO_RP_P>
+      <DisplayName>Acro Roll and Pitch P gain</DisplayName>
+      <Description>Converts pilot roll and pitch into a desired rate of rotation in ACRO and SPORT mode.  Higher values mean faster rate of rotation.</Description>
+      <Range>1 10</Range>
+      <User>Standard</User>
+    </ACRO_RP_P>
+    <ACRO_YAW_P>
+      <DisplayName>Acro Yaw P gain</DisplayName>
+      <Description>Converts pilot yaw input into a desired rate of rotation in ACRO, Stabilize and SPORT modes.  Higher values mean faster rate of rotation.</Description>
+      <Range>1 10</Range>
+      <User>Standard</User>
+    </ACRO_YAW_P>
+    <ACRO_BAL_ROLL>
+      <DisplayName>Acro Balance Roll</DisplayName>
+      <Description>rate at which roll angle returns to level in acro mode.  A higher value causes the vehicle to return to level faster.</Description>
+      <Range>0 3</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </ACRO_BAL_ROLL>
+    <ACRO_BAL_PITCH>
+      <DisplayName>Acro Balance Pitch</DisplayName>
+      <Description>rate at which pitch angle returns to level in acro mode.  A higher value causes the vehicle to return to level faster.</Description>
+      <Range>0 3</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </ACRO_BAL_PITCH>
+    <ACRO_TRAINER>
+      <DisplayName>Acro Trainer</DisplayName>
+      <Description>Type of trainer used in acro mode</Description>
+      <Values>0:Disabled,1:Leveling,2:Leveling and Limited</Values>
+      <User>Advanced</User>
+    </ACRO_TRAINER>
+    <ACRO_EXPO>
+      <DisplayName>Acro Expo</DisplayName>
+      <Description>Acro roll/pitch Expo to allow faster rotation when stick at edges</Description>
+      <Values>0:Disabled,0.1:Very Low,0.2:Low,0.3:Medium,0.4:High,0.5:Very High</Values>
+      <User>Advanced</User>
+    </ACRO_EXPO>
+    <VEL_XY_P>
+      <DisplayName>Velocity (horizontal) P gain</DisplayName>
+      <Description>Velocity (horizontal) P gain.  Converts the difference between desired velocity to a target acceleration</Description>
+      <Range>0.1 6.0</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </VEL_XY_P>
+    <VEL_XY_I>
+      <DisplayName>Velocity (horizontal) I gain</DisplayName>
+      <Description>Velocity (horizontal) I gain.  Corrects long-term difference in desired velocity to a target acceleration</Description>
+      <Range>0.02 1.00</Range>
+      <Increment>0.01</Increment>
+      <User>Advanced</User>
+    </VEL_XY_I>
+    <VEL_XY_IMAX>
+      <DisplayName>Velocity (horizontal) integrator maximum</DisplayName>
+      <Description>Velocity (horizontal) integrator maximum.  Constrains the target acceleration that the I gain will output</Description>
+      <Range>0 4500</Range>
+      <Increment>10</Increment>
+      <Units>cm/s/s</Units>
+      <User>Advanced</User>
+    </VEL_XY_IMAX>
+    <VEL_Z_P>
+      <DisplayName>Velocity (vertical) P gain</DisplayName>
+      <Description>Velocity (vertical) P gain.  Converts the difference between desired vertical speed and actual speed into a desired acceleration that is passed to the throttle acceleration controller</Description>
+      <Range>1.000 8.000</Range>
+      <User>Standard</User>
+    </VEL_Z_P>
+    <ACCEL_Z_P>
+      <DisplayName>Throttle acceleration controller P gain</DisplayName>
+      <Description>Throttle acceleration controller P gain.  Converts the difference between desired vertical acceleration and actual acceleration into a motor output</Description>
+      <Range>0.500 1.500</Range>
+      <Increment>0.05</Increment>
+      <User>Standard</User>
+    </ACCEL_Z_P>
+    <ACCEL_Z_I>
+      <DisplayName>Throttle acceleration controller I gain</DisplayName>
+      <Description>Throttle acceleration controller I gain.  Corrects long-term difference in desired vertical acceleration and actual acceleration</Description>
+      <Range>0.000 3.000</Range>
+      <User>Standard</User>
+    </ACCEL_Z_I>
+    <ACCEL_Z_IMAX>
+      <DisplayName>Throttle acceleration controller I gain maximum</DisplayName>
+      <Description>Throttle acceleration controller I gain maximum.  Constrains the maximum pwm that the I term will generate</Description>
+      <Range>0 1000</Range>
+      <Units>Percent*10</Units>
+      <User>Standard</User>
+    </ACCEL_Z_IMAX>
+    <ACCEL_Z_D>
+      <DisplayName>Throttle acceleration controller D gain</DisplayName>
+      <Description>Throttle acceleration controller D gain.  Compensates for short-term change in desired vertical acceleration vs actual acceleration</Description>
+      <Range>0.000 0.400</Range>
+      <User>Standard</User>
+    </ACCEL_Z_D>
+    <ACCEL_Z_FILT_HZ>
+      <DisplayName>Throttle acceleration filter</DisplayName>
+      <Description>Filter applied to acceleration to reduce noise.  Lower values reduce noise but add delay.</Description>
+      <Range>1.000 100.000</Range>
+      <Units>Hz</Units>
+      <User>Standard</User>
+    </ACCEL_Z_FILT_HZ>
+    <POS_Z_P>
+      <DisplayName>Position (vertical) controller P gain</DisplayName>
+      <Description>Position (vertical) controller P gain.  Converts the difference between the desired altitude and actual altitude into a climb or descent rate which is passed to the throttle rate controller</Description>
+      <Range>1.000 3.000</Range>
+      <User>Standard</User>
+    </POS_Z_P>
+    <POS_XY_P>
+      <DisplayName>Position (horizonal) controller P gain</DisplayName>
+      <Description>Loiter position controller P gain.  Converts the distance (in the latitude direction) to the target location into a desired speed which is then passed to the loiter latitude rate controller</Description>
+      <Range>0.500 2.000</Range>
+      <User>Standard</User>
+      <Group>CAM_</Group>
+      <Path>../libraries/AP_Camera/AP_Camera.cpp</Path>
+    </POS_XY_P>
+    <AUTOTUNE_AXES>
+      <DisplayName>Autotune axis bitmask</DisplayName>
+      <Description>1-byte bitmap of axes to autotune</Description>
+      <Values>7:All,1:Roll Only,2:Pitch Only,4:Yaw Only,3:Roll and Pitch,5:Roll and Yaw,6:Pitch and Yaw</Values>
+      <Bitmask>0:Roll,1:Pitch,2:Yaw</Bitmask>
+      <User>Standard</User>
+    </AUTOTUNE_AXES>
+    <AUTOTUNE_AGGR>
+      <DisplayName>Autotune aggressiveness</DisplayName>
+      <Description>Autotune aggressiveness. Defines the bounce back used to detect size of the D term.</Description>
+      <Range>0.05 0.10</Range>
+      <User>Standard</User>
+    </AUTOTUNE_AGGR>
+    <AUTOTUNE_MIN_D>
+      <DisplayName>AutoTune minimum D</DisplayName>
+      <Description>Defines the minimum D gain</Description>
+      <Range>0.001 0.006</Range>
+      <User>Standard</User>
+      <Group>NTF_</Group>
+      <Path>../libraries/AP_Notify/AP_Notify.cpp</Path>
+    </AUTOTUNE_MIN_D>
+    <THROW_MOT_START>
+      <DisplayName>Start motors before throwing is detected</DisplayName>
+      <Description>Used by THROW mode. Controls whether motors will run at the speed set by THR_MIN or will be stopped when armed and waiting for the throw.</Description>
+      <Values>0:Stopped,1:Running</Values>
+      <User>Standard</User>
+    </THROW_MOT_START>
+    <TERRAIN_FOLLOW>
+      <DisplayName>Terrain Following use control</DisplayName>
+      <Description>This enables terrain following for RTL and LAND flight modes. To use this option TERRAIN_ENABLE must be 1 and the GCS must  support sending terrain data to the aircraft.  In RTL the RTL_ALT will be considered a height above the terrain.  In LAND mode the vehicle will slow to LAND_SPEED 10m above terrain (instead of 10m above home).  This parameter does not affect AUTO and Guided which use a per-command flag to determine if the height is above-home, absolute or above-terrain.</Description>
+      <Values>0:Do Not Use in RTL and Land,1:Use in RTL and Land</Values>
+      <User>Standard</User>
+      <Group />
+      <Path>Parameters.cpp</Path>
+    </TERRAIN_FOLLOW>
+    <TKOFF_NAV_ALT>
+      <DisplayName>Takeoff navigation altitude</DisplayName>
+      <Description>This is the altitude in meters above the takeoff point that attitude changes for navigation can begin</Description>
+      <Range>0 5</Range>
+      <User>Standard</User>
+      <Group>BTN_</Group>
+      <Path>../libraries/AP_Button/AP_Button.cpp</Path>
+    </TKOFF_NAV_ALT>
     <BTN_ENABLE>
       <DisplayName>Enable button reporting</DisplayName>
       <Description>This enables the button checking module. When this is disabled the parameters for setting button inputs are not visible</Description>
@@ -5255,6 +6159,12 @@
       <Values>0:TriggerLow,1:TriggerHigh</Values>
       <User>Standard</User>
     </CAM_FEEDBACK_POL>
+    <ARMING_RUDDER>
+      <DisplayName>Rudder Arming</DisplayName>
+      <Description>Control arm/disarm by rudder input. When enabled arming is done with right rudder, disarming with left rudder. Rudder arming only works in manual throttle modes with throttle at zero +- deadzone (RCx_DZ)</Description>
+      <Values>0:Disabled,1:ArmingOnly,2:ArmOrDisarm</Values>
+      <User>Advanced</User>
+    </ARMING_RUDDER>
     <ARMING_REQUIRE>
       <DisplayName>Require Arming Motors</DisplayName>
       <Description>Arming disabled until some requirements are met. If 0, there are no requirements (arm immediately).  If 1, require rudder stick or GCS arming before arming motors and send THR_MIN PWM to throttle channel when disarmed.  If 2, require rudder stick or GCS arming and send 0 PWM to throttle channel when disarmed. See the ARMING_CHECK_* parameters to see what checks are done before arming. Note, if setting this parameter to 0 a reboot is required to arm the plane.  Also note, even with this parameter at 0, if ARMING_CHECK parameter is not also zero the plane may fail to arm throttle at boot due to a pre-arm check failure.</Description>
@@ -5741,6 +6651,277 @@
       <Values>0:Disabled,1:Rx-Only,2:Tx-Only,3:Rx and Tx Enabled</Values>
       <User>Advanced</User>
     </ADSB_RF_SELECT>
+    <Q_ENABLE>
+      <DisplayName>Enable QuadPlane</DisplayName>
+      <Description>This enables QuadPlane functionality, assuming multicopter motors start on output 5. If this is set to 2 then when starting AUTO mode it will initially be in VTOL AUTO mode.</Description>
+      <Values>0:Disable,1:Enable,2:Enable VTOL AUTO</Values>
+      <User>Standard</User>
+      <Group>M_</Group>
+      <Path>../libraries/AP_Motors/AP_MotorsMulticopter.cpp</Path>
+    </Q_ENABLE>
+    <Q_ANGLE_MAX>
+      <DisplayName>Angle Max</DisplayName>
+      <Description>Maximum lean angle in all VTOL flight modes</Description>
+      <Units>Centi-degrees</Units>
+      <Range>1000 8000</Range>
+      <User>Advanced</User>
+    </Q_ANGLE_MAX>
+    <Q_TRANSITION_MS>
+      <DisplayName>Transition time</DisplayName>
+      <Description>Transition time in milliseconds after minimum airspeed is reached</Description>
+      <Units>milli-seconds</Units>
+      <Range>0 30000</Range>
+      <User>Advanced</User>
+    </Q_TRANSITION_MS>
+    <Q_PZ_P>
+      <DisplayName>Position (vertical) controller P gain</DisplayName>
+      <Description>Position (vertical) controller P gain.  Converts the difference between the desired altitude and actual altitude into a climb or descent rate which is passed to the throttle rate controller</Description>
+      <Range>1.000 3.000</Range>
+      <User>Standard</User>
+    </Q_PZ_P>
+    <Q_PXY_P>
+      <DisplayName>Position (horizonal) controller P gain</DisplayName>
+      <Description>Loiter position controller P gain.  Converts the distance (in the latitude direction) to the target location into a desired speed which is then passed to the loiter latitude rate controller</Description>
+      <Range>0.500 2.000</Range>
+      <User>Standard</User>
+    </Q_PXY_P>
+    <Q_VXY_P>
+      <DisplayName>Velocity (horizontal) P gain</DisplayName>
+      <Description>Velocity (horizontal) P gain.  Converts the difference between desired velocity to a target acceleration</Description>
+      <Range>0.1 6.0</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </Q_VXY_P>
+    <Q_VXY_I>
+      <DisplayName>Velocity (horizontal) I gain</DisplayName>
+      <Description>Velocity (horizontal) I gain.  Corrects long-term difference in desired velocity to a target acceleration</Description>
+      <Range>0.02 1.00</Range>
+      <Increment>0.01</Increment>
+      <User>Advanced</User>
+    </Q_VXY_I>
+    <Q_VXY_IMAX>
+      <DisplayName>Velocity (horizontal) integrator maximum</DisplayName>
+      <Description>Velocity (horizontal) integrator maximum.  Constrains the target acceleration that the I gain will output</Description>
+      <Range>0 4500</Range>
+      <Increment>10</Increment>
+      <Units>cm/s/s</Units>
+      <User>Advanced</User>
+    </Q_VXY_IMAX>
+    <Q_VZ_P>
+      <DisplayName>Velocity (vertical) P gain</DisplayName>
+      <Description>Velocity (vertical) P gain.  Converts the difference between desired vertical speed and actual speed into a desired acceleration that is passed to the throttle acceleration controller</Description>
+      <Range>1.000 8.000</Range>
+      <User>Standard</User>
+    </Q_VZ_P>
+    <Q_AZ_P>
+      <DisplayName>Throttle acceleration controller P gain</DisplayName>
+      <Description>Throttle acceleration controller P gain.  Converts the difference between desired vertical acceleration and actual acceleration into a motor output</Description>
+      <Range>0.500 1.500</Range>
+      <User>Standard</User>
+    </Q_AZ_P>
+    <Q_AZ_I>
+      <DisplayName>Throttle acceleration controller I gain</DisplayName>
+      <Description>Throttle acceleration controller I gain.  Corrects long-term difference in desired vertical acceleration and actual acceleration</Description>
+      <Range>0.000 3.000</Range>
+      <User>Standard</User>
+    </Q_AZ_I>
+    <Q_AZ_IMAX>
+      <DisplayName>Throttle acceleration controller I gain maximum</DisplayName>
+      <Description>Throttle acceleration controller I gain maximum.  Constrains the maximum pwm that the I term will generate</Description>
+      <Range>0 1000</Range>
+      <Units>Percent*10</Units>
+      <User>Standard</User>
+    </Q_AZ_IMAX>
+    <Q_AZ_D>
+      <DisplayName>Throttle acceleration controller D gain</DisplayName>
+      <Description>Throttle acceleration controller D gain.  Compensates for short-term change in desired vertical acceleration vs actual acceleration</Description>
+      <Range>0.000 0.400</Range>
+      <User>Standard</User>
+    </Q_AZ_D>
+    <Q_AZ_FILT_HZ>
+      <DisplayName>Throttle acceleration filter</DisplayName>
+      <Description>Filter applied to acceleration to reduce noise.  Lower values reduce noise but add delay.</Description>
+      <Range>1.000 100.000</Range>
+      <Units>Hz</Units>
+      <User>Standard</User>
+      <Group>P_</Group>
+      <Path>../libraries/AC_AttitudeControl/AC_PosControl.cpp</Path>
+    </Q_AZ_FILT_HZ>
+    <Q_VELZ_MAX>
+      <DisplayName>Pilot maximum vertical speed</DisplayName>
+      <Description>The maximum vertical velocity the pilot may request in cm/s</Description>
+      <Units>Centimeters/Second</Units>
+      <Range>50 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </Q_VELZ_MAX>
+    <Q_ACCEL_Z>
+      <DisplayName>Pilot vertical acceleration</DisplayName>
+      <Description>The vertical acceleration used when pilot is controlling the altitude</Description>
+      <Units>cm/s/s</Units>
+      <Range>50 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+      <Group>WP_</Group>
+      <Path>../libraries/AC_WPNav/AC_WPNav.cpp</Path>
+    </Q_ACCEL_Z>
+    <Q_RC_SPEED>
+      <DisplayName>RC output speed in Hz</DisplayName>
+      <Description>This is the PWM refresh rate in Hz for QuadPlane quad motors</Description>
+      <Units>Hz</Units>
+      <Range>50 500</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </Q_RC_SPEED>
+    <Q_THR_MIN_PWM>
+      <DisplayName>Minimum PWM output</DisplayName>
+      <Description>This is the minimum PWM output for the quad motors</Description>
+      <Units>Hz</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </Q_THR_MIN_PWM>
+    <Q_THR_MAX_PWM>
+      <DisplayName>Maximum PWM output</DisplayName>
+      <Description>This is the maximum PWM output for the quad motors</Description>
+      <Units>Hz</Units>
+      <Range>800 2200</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </Q_THR_MAX_PWM>
+    <Q_ASSIST_SPEED>
+      <DisplayName>Quadplane assistance speed</DisplayName>
+      <Description>This is the speed below which the quad motors will provide stability and lift assistance in fixed wing modes. Zero means no assistance except during transition</Description>
+      <Units>m/s</Units>
+      <Range>0 100</Range>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </Q_ASSIST_SPEED>
+    <Q_YAW_RATE_MAX>
+      <DisplayName>Maximum yaw rate</DisplayName>
+      <Description>This is the maximum yaw rate in degrees/second</Description>
+      <Units>degrees/second</Units>
+      <Range>50 500</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </Q_YAW_RATE_MAX>
+    <Q_LAND_SPEED>
+      <DisplayName>Land speed</DisplayName>
+      <Description>The descent speed for the final stage of landing in cm/s</Description>
+      <Units>cm/s</Units>
+      <Range>30 200</Range>
+      <Increment>10</Increment>
+      <User>Standard</User>
+    </Q_LAND_SPEED>
+    <Q_LAND_FINAL_ALT>
+      <DisplayName>Land final altitude</DisplayName>
+      <Description>The altitude at which we should switch to Q_LAND_SPEED descent rate</Description>
+      <Units>m</Units>
+      <Range>0.5 50</Range>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </Q_LAND_FINAL_ALT>
+    <Q_TRAN_PIT_MAX>
+      <DisplayName>Transition max pitch</DisplayName>
+      <Description>Maximum pitch during transition to auto fixed wing flight</Description>
+      <User>Standard</User>
+      <Range>0 30</Range>
+      <Units>Degrees</Units>
+      <Increment>1</Increment>
+    </Q_TRAN_PIT_MAX>
+    <Q_FRAME_CLASS>
+      <DisplayName>Frame Class</DisplayName>
+      <Description>Controls major frame class for multicopter component</Description>
+      <Values>0:Quad, 1:Hexa, 2:Octa, 3:OctaQuad, 4:Y6</Values>
+      <User>Standard</User>
+    </Q_FRAME_CLASS>
+    <Q_FRAME_TYPE>
+      <DisplayName>Frame Type (+, X or V)</DisplayName>
+      <Description>Controls motor mixing for multicopter component</Description>
+      <Values>0:Plus, 1:X, 2:V, 3:H, 4:V-Tail, 5:A-Tail, 10:Y6B</Values>
+      <User>Standard</User>
+    </Q_FRAME_TYPE>
+    <Q_VFWD_GAIN>
+      <DisplayName>Forward velocity hold gain</DisplayName>
+      <Description>Controls use of forward motor in vtol modes. If this is zero then the forward motor will not be used for position control in VTOL modes. A value of 0.05 is a good place to start if you want to use the forward motor for position control. No forward motor will be used in QSTABILIZE or QHOVER modes. Use QLOITER for position hold with the forward motor.</Description>
+      <Range>0 0.5</Range>
+      <Increment>0.01</Increment>
+      <User>Standard</User>
+    </Q_VFWD_GAIN>
+    <Q_WVANE_GAIN>
+      <DisplayName>Weathervaning gain</DisplayName>
+      <Description>This controls the tendency to yaw to face into the wind. A value of 0.1 is to start with and will give a slow turn into the wind. Use a value of 0.4 for more rapid response. The weathervaning works by turning into the direction of roll.</Description>
+      <Range>0 1</Range>
+      <Increment>0.01</Increment>
+      <User>Standard</User>
+    </Q_WVANE_GAIN>
+    <Q_WVANE_MINROLL>
+      <DisplayName>Weathervaning min roll</DisplayName>
+      <Description>This set the minimum roll in degrees before active weathervaning will start. This may need to be larger if your aircraft has bad roll trim.</Description>
+      <Range>0 10</Range>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </Q_WVANE_MINROLL>
+    <Q_RTL_ALT>
+      <DisplayName>QRTL return altitude</DisplayName>
+      <Description>The altitude which QRTL mode heads to initially</Description>
+      <Units>m</Units>
+      <Range>1 200</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </Q_RTL_ALT>
+    <Q_RTL_MODE>
+      <DisplayName>VTOL RTL mode</DisplayName>
+      <Description>If this is set to 1 then an RTL will change to QRTL when the loiter target is reached</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </Q_RTL_MODE>
+    <Q_TILT_MASK>
+      <DisplayName>Tiltrotor mask</DisplayName>
+      <Description>This is a bitmask of motors that are tiltable in a tiltrotor (or tiltwing). The mask is in terms of the standard motor order for the frame type.</Description>
+      <User>Standard</User>
+    </Q_TILT_MASK>
+    <Q_TILT_RATE>
+      <DisplayName>Tiltrotor tilt rate</DisplayName>
+      <Description>This is the maximum speed at which the motor angle will change for a tiltrotor</Description>
+      <Units>degrees/second</Units>
+      <Increment>1</Increment>
+      <Range>10 300</Range>
+      <User>Standard</User>
+    </Q_TILT_RATE>
+    <Q_TILT_MAX>
+      <DisplayName>Tiltrotor maximum VTOL angle</DisplayName>
+      <Description>This is the maximum angle of the tiltable motors at which multicopter control will be enabled. Beyond this angle the plane will fly solely as a fixed wing aircraft and the motors will tilt to their maximum angle at the TILT_RATE</Description>
+      <Units>degrees</Units>
+      <Increment>1</Increment>
+      <Range>20 80</Range>
+      <User>Standard</User>
+    </Q_TILT_MAX>
+    <Q_GUIDED_MODE>
+      <DisplayName>Enable VTOL in GUIDED mode</DisplayName>
+      <Description>This enables use of VTOL in guided mode. When enabled the aircraft will switch to VTOL flight when the guided destination is reached and hover at the destination.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </Q_GUIDED_MODE>
+    <Q_ESC_CAL>
+      <DisplayName>ESC Calibration</DisplayName>
+      <Description>This is used to calibrate the throttle range of the VTOL motors. Please read http://ardupilot.org/plane/docs/quadplane-esc-calibration.html before using. This parameter is automatically set back to 0 on every boot. This parameter only takes effect in QSTABILIZE mode. When set to 1 the output of all motors will come directly from the throttle stick when armed, and will be zero when disarmed. When set to 2 the output of all motors will be maximum when armed and zero when disarmed. Make sure you remove all properllers before using.</Description>
+      <Values>0:Disabled,1:ThrottleInput,2:FullInput</Values>
+      <User>Standard</User>
+    </Q_ESC_CAL>
+    <Q_VFWD_ALT>
+      <DisplayName>Forward velocity alt cutoff</DisplayName>
+      <Description>Controls altitude to disable forward velocity assist when below this relative altitude. This is useful to keep the forward velocity propeller from hitting the ground. Rangefinder height data is incorporated when available.</Description>
+      <Range>0 10</Range>
+      <Increment>0.25</Increment>
+      <User>Standard</User>
+    </Q_VFWD_ALT>
+    <TUNE_PARAM>
+      <DisplayName>Transmitter tuning parameter or set of parameters</DisplayName>
+      <Description>This sets which parameter or set of parameters will be tuned. Values greater than 100 indicate a set of parameters rather than a single parameter. Parameters less than 50 are for QuadPlane vertical lift motors only.</Description>
+      <Values>0:None,1:RateRollPI,2:RateRollP,3:RateRollI,4:RateRollD,5:RatePitchPI,6:RatePitchP,7:RatePitchI,8:RatePitchD,9:RateYawPI,10:RateYawP,11:RateYawI,12:RateYawD,13:AngleRollP,14:AnglePitchP,15:AngleYawP,16:PosXYP,17:PosZP,18:VelXYP,19:VelXYI,20:VelZP,21:AccelZP,22:AccelZI,23:AccelZD,50:FixedWingRollP,51:FixedWingRollI,52:FixedWingRollD,53:FixedWingRollFF,54:FixedWingPitchP,55:FixedWingPitchI,56:FixedWingPitchD,57:FixedWingPitchFF,101:Set_RateRollPitch,102:Set_RateRoll,103:Set_RatePitch,104:Set_RateYaw,105:Set_AngleRollPitch,106:Set_VelXY,107:Set_AccelZ</Values>
+      <User>Standard</User>
+    </TUNE_PARAM>
     <TUNE_CHAN>
       <DisplayName>Transmitter tuning channel</DisplayName>
       <Description>This sets the channel for transmitter tuning. This should be connected to a knob or slider on your transmitter. It needs to be setup to use the PWM range given by TUNE_CHAN_MIN to TUNE_CHAN_MAX</Description>
@@ -7628,6 +8809,326 @@
       <User>Advanced</User>
       <RebootRequired>True</RebootRequired>
     </RCMAP_YAW>
+    <SR0_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_SENS>
+    <SR0_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXT_STAT>
+    <SR0_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RC_CHAN>
+    <SR0_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_CTRL>
+    <SR0_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_POSITION>
+    <SR0_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA1>
+    <SR0_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA2>
+    <SR0_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA3>
+    <SR0_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_PARAMS>
+    <SR0_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_ADSB>
+    <SR1_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_SENS>
+    <SR1_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXT_STAT>
+    <SR1_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RC_CHAN>
+    <SR1_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_CTRL>
+    <SR1_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_POSITION>
+    <SR1_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA1>
+    <SR1_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA2>
+    <SR1_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA3>
+    <SR1_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_PARAMS>
+    <SR1_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_ADSB>
+    <SR2_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_SENS>
+    <SR2_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXT_STAT>
+    <SR2_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RC_CHAN>
+    <SR2_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_CTRL>
+    <SR2_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_POSITION>
+    <SR2_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA1>
+    <SR2_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA2>
+    <SR2_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA3>
+    <SR2_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_PARAMS>
+    <SR2_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_ADSB>
+    <SR3_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_SENS>
+    <SR3_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXT_STAT>
+    <SR3_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RC_CHAN>
+    <SR3_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_CTRL>
+    <SR3_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_POSITION>
+    <SR3_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA1>
+    <SR3_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA2>
+    <SR3_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA3>
+    <SR3_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_PARAMS>
+    <SR3_ADSB>
+      <DisplayName>ADSB stream rate to ground station</DisplayName>
+      <Description>ADSB stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 50</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_ADSB>
     <INS_PRODUCT_ID>
       <DisplayName>IMU Product ID</DisplayName>
       <Description>Which type of IMU is installed (read-only).</Description>
@@ -9498,6 +10999,944 @@
       <Values>0:Disable,1:Enable</Values>
       <User>Advanced</User>
     </NTF_LED_OVERRIDE>
+    <FORMAT_VERSION>
+      <DisplayName>Eeprom format version number</DisplayName>
+      <Description>This value is incremented when changes are made to the eeprom format</Description>
+      <User>Advanced</User>
+    </FORMAT_VERSION>
+    <SYSID_SW_TYPE>
+      <DisplayName>Software Type</DisplayName>
+      <Description>This is used by the ground station to recognise the software type (eg ArduPlane vs ArduCopter)</Description>
+      <User>Advanced</User>
+      <ReadOnly>True</ReadOnly>
+    </SYSID_SW_TYPE>
+    <SYSID_THISMAV>
+      <DisplayName>MAVLink system ID of this vehicle</DisplayName>
+      <Description>Allows setting an individual MAVLink system id for this vehicle to distinguish it from others on the same network</Description>
+      <Range>1 255</Range>
+      <User>Advanced</User>
+    </SYSID_THISMAV>
+    <SYSID_MYGCS>
+      <DisplayName>Ground station MAVLink system ID</DisplayName>
+      <Description>The identifier of the ground station in the MAVLink protocol. Don't change this unless you also modify the ground station to match.</Description>
+      <Range>1 255</Range>
+      <User>Advanced</User>
+    </SYSID_MYGCS>
+    <CLI_ENABLED>
+      <DisplayName>CLI Enable</DisplayName>
+      <Description>This enables/disables the checking for three carriage returns on telemetry links on startup to enter the diagnostics command line interface</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+      <Group>SERIAL</Group>
+      <Path>../libraries/AP_SerialManager/AP_SerialManager.cpp</Path>
+    </CLI_ENABLED>
+    <AUTOTUNE_LEVEL>
+      <DisplayName>Autotune level</DisplayName>
+      <Description>Level of aggressiveness for autotune. When autotune is run a lower AUTOTUNE_LEVEL will result in a 'softer' tune, with less aggressive gains. For most users a level of 6 is recommended.</Description>
+      <Range>1 10</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </AUTOTUNE_LEVEL>
+    <TELEM_DELAY>
+      <DisplayName>Telemetry startup delay</DisplayName>
+      <Description>The amount of time (in seconds) to delay radio telemetry to prevent an Xbee bricking on power up</Description>
+      <User>Standard</User>
+      <Units>seconds</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+    </TELEM_DELAY>
+    <GCS_PID_MASK>
+      <DisplayName>GCS PID tuning mask</DisplayName>
+      <Description>bitmask of PIDs to send MAVLink PID_TUNING messages for</Description>
+      <User>Advanced</User>
+      <Values>0:None,1:Roll,2:Pitch,4:Yaw</Values>
+      <Bitmask>0:Roll,1:Pitch,2:Yaw</Bitmask>
+    </GCS_PID_MASK>
+    <KFF_RDDRMIX>
+      <DisplayName>Rudder Mix</DisplayName>
+      <Description>The amount of rudder mix to apply during aileron movement 0 = 0 %, 1 = 100%</Description>
+      <Range>0 1</Range>
+      <Increment>0.01</Increment>
+      <User>Standard</User>
+    </KFF_RDDRMIX>
+    <KFF_THR2PTCH>
+      <DisplayName>Throttle to Pitch Mix</DisplayName>
+      <Description>Throttle to pitch feed-forward gain.</Description>
+      <Range>0 5</Range>
+      <Increment>0.01</Increment>
+      <User>Advanced</User>
+    </KFF_THR2PTCH>
+    <STAB_PITCH_DOWN>
+      <DisplayName>Low throttle pitch down trim</DisplayName>
+      <Description>This controls the amount of down pitch to add in FBWA and AUTOTUNE modes when at low throttle. No down trim is added when throttle is above TRIM_THROTTLE. Below TRIM_THROTTLE downtrim is added in proportion to the amount the throttle is below TRIM_THROTTLE. At zero throttle the full downpitch specified in this parameter is added. This parameter is meant to help keep airspeed up when flying in FBWA mode with low throttle, such as when on a landing approach, without relying on an airspeed sensor. A value of 2 degrees is good for many planes, although a higher value may be needed for high drag aircraft.</Description>
+      <Range>0 15</Range>
+      <Increment>0.1</Increment>
+      <Units>Degrees</Units>
+      <User>Advanced</User>
+    </STAB_PITCH_DOWN>
+    <GLIDE_SLOPE_MIN>
+      <DisplayName>Glide slope minimum</DisplayName>
+      <Description>This controls the minimum altitude change for a waypoint before a glide slope will be used instead of an immediate altitude change. The default value is 15 meters, which helps to smooth out waypoint missions where small altitude changes happen near waypoints. If you don't want glide slopes to be used in missions then you can set this to zero, which will disable glide slope calculations. Otherwise you can set it to a minimum number of meters of altitude error to the destination waypoint before a glide slope will be used to change altitude.</Description>
+      <Range>0 1000</Range>
+      <Increment>1</Increment>
+      <Units>meters</Units>
+      <User>Advanced</User>
+    </GLIDE_SLOPE_MIN>
+    <GLIDE_SLOPE_THR>
+      <DisplayName>Glide slope threshold</DisplayName>
+      <Description>This controls the height above the glide slope the plane may be before rebuilding a glide slope. This is useful for smoothing out an autotakeoff</Description>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <Units>meters</Units>
+      <User>Advanced</User>
+    </GLIDE_SLOPE_THR>
+    <STICK_MIXING>
+      <DisplayName>Stick Mixing</DisplayName>
+      <Description>When enabled, this adds user stick input to the control surfaces in auto modes, allowing the user to have some degree of flight control without changing modes.  There are two types of stick mixing available. If you set STICK_MIXING to 1 then it will use "fly by wire" mixing, which controls the roll and pitch in the same way that the FBWA mode does. This is the safest option if you usually fly ArduPlane in FBWA or FBWB mode. If you set STICK_MIXING to 2 then it will enable direct mixing mode, which is what the STABILIZE mode uses. That will allow for much more extreme maneuvers while in AUTO mode.</Description>
+      <Values>0:Disabled,1:FBWMixing,2:DirectMixing</Values>
+      <User>Advanced</User>
+    </STICK_MIXING>
+    <AUTO_FBW_STEER>
+      <DisplayName>Use FBWA steering in AUTO</DisplayName>
+      <Description>When enabled this option gives FBWA navigation and steering in AUTO mode. This can be used to allow manual stabilised piloting with waypoint logic for triggering payloads. With this enabled the pilot has the same control over the plane as in FBWA mode, and the normal AUTO navigation is completely disabled. THIS OPTION IS NOT RECOMMENDED FOR NORMAL USE.</Description>
+      <Values>0:Disabled,42:Enabled</Values>
+      <User>Advanced</User>
+    </AUTO_FBW_STEER>
+    <TKOFF_THR_MINSPD>
+      <DisplayName>Takeoff throttle min speed</DisplayName>
+      <Description>Minimum GPS ground speed in m/s used by the speed check that un-suppresses throttle in auto-takeoff. This can be be used for catapult launches where you want the motor to engage only after the plane leaves the catapult, but it is preferable to use the TKOFF_THR_MINACC and TKOFF_THR_DELAY parameters for catapult launches due to the errors associated with GPS measurements. For hand launches with a pusher prop it is strongly advised that this parameter be set to a value no less than 4 m/s to provide additional protection against premature motor start. Note that the GPS velocity will lag the real velocity by about 0.5 seconds. The ground speed check is delayed by the TKOFF_THR_DELAY parameter.</Description>
+      <Units>m/s</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>User</User>
+    </TKOFF_THR_MINSPD>
+    <TKOFF_THR_MINACC>
+      <DisplayName>Takeoff throttle min acceleration</DisplayName>
+      <Description>Minimum forward acceleration in m/s/s before arming the ground speed check in auto-takeoff. This is meant to be used for hand launches. Setting this value to 0 disables the acceleration test which means the ground speed check will always be armed which could allow GPS velocity jumps to start the engine. For hand launches and bungee launches this should be set to around 15.</Description>
+      <Units>m/s/s</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>User</User>
+    </TKOFF_THR_MINACC>
+    <TKOFF_THR_DELAY>
+      <DisplayName>Takeoff throttle delay</DisplayName>
+      <Description>This parameter sets the time delay (in 1/10ths of a second) that the ground speed check is delayed after the forward acceleration check controlled by TKOFF_THR_MINACC has passed. For hand launches with pusher propellers it is essential that this is set to a value of no less than 2 (0.2 seconds) to ensure that the aircraft is safely clear of the throwers arm before the motor can start. For bungee launches a larger value can be used (such as 30) to give time for the bungee to release from the aircraft before the motor is started.</Description>
+      <Units>0.1 seconds</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>User</User>
+    </TKOFF_THR_DELAY>
+    <TKOFF_TDRAG_ELEV>
+      <DisplayName>Takeoff tail dragger elevator</DisplayName>
+      <Description>This parameter sets the amount of elevator to apply during the initial stage of a takeoff. It is used to hold the tail wheel of a taildragger on the ground during the initial takeoff stage to give maximum steering. This option should be combined with the TKOFF_TDRAG_SPD1 option and the GROUND_STEER_ALT option along with tuning of the ground steering controller. A value of zero means to bypass the initial "tail hold" stage of takeoff. Set to zero for hand and catapult launch. For tail-draggers you should normally set this to 100, meaning full up elevator during the initial stage of takeoff. For most tricycle undercarriage aircraft a value of zero will work well, but for some tricycle aircraft a small negative value (say around -20 to -30) will apply down elevator which will hold the nose wheel firmly on the ground during initial acceleration. Only use a negative value if you find that the nosewheel doesn't grip well during takeoff. Too much down elevator on a tricycle undercarriage may cause instability in steering as the plane pivots around the nosewheel. Add down elevator 10 percent at a time.</Description>
+      <Units>Percent</Units>
+      <Range>-100 100</Range>
+      <Increment>1</Increment>
+      <User>User</User>
+    </TKOFF_TDRAG_ELEV>
+    <TKOFF_TDRAG_SPD1>
+      <DisplayName>Takeoff tail dragger speed1</DisplayName>
+      <Description>This parameter sets the airspeed at which to stop holding the tail down and transition to rudder control of steering on the ground. When TKOFF_TDRAG_SPD1 is reached the pitch of the aircraft will be held level until TKOFF_ROTATE_SPD is reached, at which point the takeoff pitch specified in the mission will be used to "rotate" the pitch for takeoff climb. Set TKOFF_TDRAG_SPD1 to zero to go straight to rotation. This should be set to zero for hand launch and catapult launch. It should also be set to zero for tricycle undercarriages unless you are using the method above to genetly hold the nose wheel down. For tail dragger aircraft it should be set just below the stall speed.</Description>
+      <Units>m/s</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>User</User>
+    </TKOFF_TDRAG_SPD1>
+    <TKOFF_ROTATE_SPD>
+      <DisplayName>Takeoff rotate speed</DisplayName>
+      <Description>This parameter sets the airspeed at which the aircraft will "rotate", setting climb pitch specified in the mission. If TKOFF_ROTATE_SPD is zero then the climb pitch will be used as soon as takeoff is started. For hand launch and catapult launches a TKOFF_ROTATE_SPD of zero should be set. For all ground launches TKOFF_ROTATE_SPD should be set above the stall speed, usually by about 10 to 30 percent</Description>
+      <Units>m/s</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>User</User>
+    </TKOFF_ROTATE_SPD>
+    <TKOFF_THR_SLEW>
+      <DisplayName>Takeoff throttle slew rate</DisplayName>
+      <Description>This parameter sets the slew rate for the throttle during auto takeoff. When this is zero the THR_SLEWRATE parameter is used during takeoff. For rolling takeoffs it can be a good idea to set a lower slewrate for takeoff to give a slower acceleration which can improve ground steering control. The value is a percentage throttle change per second, so a value of 20 means to advance the throttle over 5 seconds on takeoff. Values below 20 are not recommended as they may cause the plane to try to climb out with too little throttle.</Description>
+      <Units>percent</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>User</User>
+    </TKOFF_THR_SLEW>
+    <TKOFF_PLIM_SEC>
+      <DisplayName>Takeoff pitch limit reduction</DisplayName>
+      <Description>This parameter reduces the pitch minimum limit of an auto-takeoff just a few seconds before it reaches the target altitude. This reduces overshoot by allowing the flight controller to start leveling off a few seconds before reaching the target height. When set to zero, the mission pitch min is enforced all the way to and through the target altitude, otherwise the pitch min slowly reduces to zero in the final segment. This is the pitch_min, not the demand. The flight controller should still be commanding to gain altitude to finish the takeoff but with this param it is not forcing it higher than it wants to be.</Description>
+      <Units>seconds</Units>
+      <Range>0 10</Range>
+      <Increment>0.5</Increment>
+      <User>Advanced</User>
+    </TKOFF_PLIM_SEC>
+    <LAND_THR_SLEW>
+      <DisplayName>Landing throttle slew rate</DisplayName>
+      <Description>This parameter sets the slew rate for the throttle during auto landing. When this is zero the THR_SLEWRATE parameter is used during landing. The value is a percentage throttle change per second, so a value of 20 means to advance the throttle over 5 seconds on landing. Values below 50 are not recommended as it may cause a stall when airspeed is low and you can not throttle up fast enough.</Description>
+      <Units>percent</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>User</User>
+    </LAND_THR_SLEW>
+    <TKOFF_FLAP_PCNT>
+      <DisplayName>Takeoff flap percentage</DisplayName>
+      <Description>The amount of flaps (as a percentage) to apply in automatic takeoff</Description>
+      <Range>0 100</Range>
+      <Units>Percent</Units>
+      <User>Advanced</User>
+    </TKOFF_FLAP_PCNT>
+    <FBWA_TDRAG_CHAN>
+      <DisplayName>FBWA taildragger channel</DisplayName>
+      <Description>This is a RC input channel which when it goes above 1700 enables FBWA taildragger takeoff mode. It should be assigned to a momentary switch. Once this feature is enabled it will stay enabled until the aircraft goes above TKOFF_TDRAG_SPD1 airspeed, changes mode, or the pitch goes above the initial pitch when this is engaged or goes below 0 pitch. When enabled the elevator will be forced to TKOFF_TDRAG_ELEV. This option allows for easier takeoffs on taildraggers in FBWA mode, and also makes it easier to test auto-takeoff steering handling in FBWA. Setting it to 0 disables this option.</Description>
+      <User>Standard</User>
+    </FBWA_TDRAG_CHAN>
+    <LEVEL_ROLL_LIMIT>
+      <DisplayName>Level flight roll limit</DisplayName>
+      <Description>This controls the maximum bank angle in degrees during flight modes where level flight is desired, such as in the final stages of landing, and during auto takeoff. This should be a small angle (such as 5 degrees) to prevent a wing hitting the runway during takeoff or landing. Setting this to zero will completely disable heading hold on auto takeoff and final landing approach.</Description>
+      <Units>degrees</Units>
+      <Range>0 45</Range>
+      <Increment>1</Increment>
+      <User>User</User>
+    </LEVEL_ROLL_LIMIT>
+    <LAND_SLOPE_RCALC>
+      <DisplayName>Landing slope re-calc threshold</DisplayName>
+      <Description>This parameter is used when using a rangefinder during landing for altitude correction from baro drift (RNGFND_LANDING=1) and the altitude correction indicates your altitude is lower than the intended slope path. This value is the threshold of the correction to re-calculate the landing approach slope. Set to zero to keep the original slope all the way down and any detected baro drift will be corrected by pitching/throttling up to snap back to resume the original slope path. Otherwise, when a rangefinder altitude correction exceeds this threshold it will trigger a slope re-calculate to give a shallower slope. This also smoothes out the approach when flying over objects such as trees. Recommend a value of 2m.</Description>
+      <Range>0 5</Range>
+      <Units>meters</Units>
+      <Increment>0.5</Increment>
+      <User>Advanced</User>
+    </LAND_SLOPE_RCALC>
+    <LAND_ABORT_DEG>
+      <DisplayName>Landing auto-abort slope threshold</DisplayName>
+      <Description>This parameter is used when using a rangefinder during landing for altitude correction from baro drift (RNGFND_LANDING=1) and the altitude correction indicates your actual altitude is higher than the intended slope path. Normally it would pitch down steeply but that can result in a crash with high airspeed so this allows remembering the baro offset and self-abort the landing and come around for another landing with the correct baro offset applied for a perfect slope. An auto-abort go-around will only happen once, next attempt will not auto-abort again. This operation happens entirely automatically in AUTO mode. This value is the delta degrees threshold to trigger the go-around compared to the origional slope. Example: if set to 5 deg and the mission planned slope is 15 deg then if the new slope is 21 then it will go-around. Set to 0 to disable. Requires LAND_SLOPE_RCALC &gt; 0.</Description>
+      <Range>0 90</Range>
+      <Units>degrees</Units>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_ABORT_DEG>
+    <LAND_PITCH_CD>
+      <DisplayName>Landing Pitch</DisplayName>
+      <Description>Used in autoland to give the minimum pitch in the final stage of landing (after the flare). This parameter can be used to ensure that the final landing attitude is appropriate for the type of undercarriage on the aircraft. Note that it is a minimum pitch only - the landing code will control pitch above this value to try to achieve the configured landing sink rate.</Description>
+      <Units>centi-Degrees</Units>
+      <User>Advanced</User>
+    </LAND_PITCH_CD>
+    <LAND_FLARE_ALT>
+      <DisplayName>Landing flare altitude</DisplayName>
+      <Description>Altitude in autoland at which to lock heading and flare to the LAND_PITCH_CD pitch. Note that this option is secondary to LAND_FLARE_SEC. For a good landing it preferable that the flare is triggered by LAND_FLARE_SEC.</Description>
+      <Units>meters</Units>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_FLARE_ALT>
+    <LAND_FLARE_SEC>
+      <DisplayName>Landing flare time</DisplayName>
+      <Description>Vertical time before landing point at which to lock heading and flare with the motor stopped. This is vertical time, and is calculated based solely on the current height above the ground and the current descent rate.  Set to 0 if you only wish to flare based on altitude (see LAND_FLARE_ALT).</Description>
+      <Units>seconds</Units>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_FLARE_SEC>
+    <LAND_PF_ALT>
+      <DisplayName>Landing pre-flare altitude</DisplayName>
+      <Description>Altitude to trigger pre-flare flight stage where LAND_PF_ARSPD controls airspeed. The pre-flare flight stage trigger works just like LAND_FLARE_ALT but higher. Disabled when LAND_PF_ARSPD is 0.</Description>
+      <Units>meters</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_PF_ALT>
+    <LAND_PF_SEC>
+      <DisplayName>Landing pre-flare time</DisplayName>
+      <Description>Vertical time to ground to trigger pre-flare flight stage where LAND_PF_ARSPD controls airspeed. This pre-flare flight stage trigger works just like LAND_FLARE_SEC but earlier. Disabled when LAND_PF_ARSPD is 0.</Description>
+      <Units>seconds</Units>
+      <Range>0 10</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_PF_SEC>
+    <LAND_PF_ARSPD>
+      <DisplayName>Landing pre-flare airspeed</DisplayName>
+      <Description>Desired airspeed during pre-flare flight stage. This is useful to reduce airspeed just before the flare. Use 0 to disable.</Description>
+      <Units>m/s</Units>
+      <Range>0 30</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </LAND_PF_ARSPD>
+    <USE_REV_THRUST>
+      <DisplayName>Bitmask for when to allow negative reverse thrust</DisplayName>
+      <Description>Typically THR_MIN will be clipped to zero unless reverse thrust is available. Since you may not want negative thrust available at all times this bitmask allows THR_MIN to go below 0 while executing certain auto-mission commands.</Description>
+      <Values>0:Disabled,1:AlwaysAllowedInAuto,2:Auto_LandApproach,4:Auto_LoiterToAlt,8:Auto_Loiter,16:Auto_Waypoint,32:Loiter,64:RTL,128:Circle,256:Cruise,512:FBWB,1024:Guided</Values>
+      <Bitmask>0:AUTO_ALWAYS,1:AUTO_LAND,2:AUTO_LOITER_TO_ALT,3:AUTO_LOITER_ALL,4:AUTO_WAYPOINTS,5:LOITER,6:RTL,7:CIRCLE,8:CRUISE,9:FBWB,10:GUIDED</Bitmask>
+      <User>Advanced</User>
+    </USE_REV_THRUST>
+    <LAND_DISARMDELAY>
+      <DisplayName>Landing disarm delay</DisplayName>
+      <Description>After a landing has completed using a LAND waypoint, automatically disarm after this many seconds have passed. Use 0 to not disarm.</Description>
+      <Units>seconds</Units>
+      <Increment>1</Increment>
+      <Range>0 127</Range>
+      <User>Advanced</User>
+    </LAND_DISARMDELAY>
+    <LAND_THEN_NEUTRL>
+      <DisplayName>Set servos to neutral after landing</DisplayName>
+      <Description>When enabled, after an autoland and auto-disarm via LAND_DISARMDELAY happens then set all servos to neutral. This is helpful when an aircraft has a rough landing upside down or a crazy angle causing the servos to strain.</Description>
+      <Values>0:Disabled, 1:Servos to Neutral, 2:Servos to Zero PWM</Values>
+      <User>Advanced</User>
+    </LAND_THEN_NEUTRL>
+    <LAND_ABORT_THR>
+      <DisplayName>Landing abort using throttle</DisplayName>
+      <Description>Allow a landing abort to trigger with a throttle &gt; 95%</Description>
+      <Values>0:Disabled, 1:Enabled</Values>
+      <User>Advanced</User>
+    </LAND_ABORT_THR>
+    <NAV_CONTROLLER>
+      <DisplayName>Navigation controller selection</DisplayName>
+      <Description>Which navigation controller to enable. Currently the only navigation controller available is L1. From time to time other experimental controllers will be added which are selected using this parameter.</Description>
+      <Values>0:Default,1:L1Controller</Values>
+      <User>Standard</User>
+    </NAV_CONTROLLER>
+    <ALT_MIX>
+      <DisplayName>GPS to Baro Mix</DisplayName>
+      <Description>The percent of mixing between GPS altitude and baro altitude. 0 = 100% gps, 1 = 100% baro. It is highly recommend that you not change this from the default of 1, as GPS altitude is notoriously unreliable. The only time I would recommend changing this is if you have a high altitude enabled GPS, and you are dropping a plane from a high altitude balloon many kilometers off the ground.</Description>
+      <Units>Percent</Units>
+      <Range>0 1</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </ALT_MIX>
+    <ALT_CTRL_ALG>
+      <DisplayName>Altitude control algorithm</DisplayName>
+      <Description>This sets what algorithm will be used for altitude control. The default is zero, which selects the most appropriate algorithm for your airframe. Currently the default is to use TECS (total energy control system). From time to time we will add other experimental altitude control algorithms which will be selected using this parameter.</Description>
+      <Values>0:Automatic</Values>
+      <User>Advanced</User>
+    </ALT_CTRL_ALG>
+    <ALT_OFFSET>
+      <DisplayName>Altitude offset</DisplayName>
+      <Description>This is added to the target altitude in automatic flight. It can be used to add a global altitude offset to a mission</Description>
+      <Units>Meters</Units>
+      <Range>-32767 32767</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </ALT_OFFSET>
+    <WP_RADIUS>
+      <DisplayName>Waypoint Radius</DisplayName>
+      <Description>Defines the maximum distance from a waypoint that when crossed indicates the waypoint may be complete. To avoid the aircraft looping around the waypoint in case it misses by more than the WP_RADIUS an additional check is made to see if the aircraft has crossed a "finish line" passing through the waypoint and perpendicular to the flight path from the previous waypoint. If that finish line is crossed then the waypoint is considered complete. Note that the navigation controller may decide to turn later than WP_RADIUS before a waypoint, based on how sharp the turn is and the speed of the aircraft. It is safe to set WP_RADIUS much larger than the usual turn radius of your aircraft and the navigation controller will work out when to turn. If you set WP_RADIUS too small then you will tend to overshoot the turns.</Description>
+      <Units>Meters</Units>
+      <Range>1 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </WP_RADIUS>
+    <WP_MAX_RADIUS>
+      <DisplayName>Waypoint Maximum Radius</DisplayName>
+      <Description>Sets the maximum distance to a waypoint for the waypoint to be considered complete. This overrides the "cross the finish line" logic that is normally used to consider a waypoint complete. For normal AUTO behaviour this parameter should be set to zero. Using a non-zero value is only recommended when it is critical that the aircraft does approach within the given radius, and should loop around until it has done so. This can cause the aircraft to loop forever if its turn radius is greater than the maximum radius set.</Description>
+      <Units>Meters</Units>
+      <Range>0 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </WP_MAX_RADIUS>
+    <WP_LOITER_RAD>
+      <DisplayName>Waypoint Loiter Radius</DisplayName>
+      <Description>Defines the distance from the waypoint center, the plane will maintain during a loiter. If you set this value to a negative number then the default loiter direction will be counter-clockwise instead of clockwise.</Description>
+      <Units>Meters</Units>
+      <Range>-32767 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </WP_LOITER_RAD>
+    <RTL_RADIUS>
+      <DisplayName>RTL loiter radius</DisplayName>
+      <Description>Defines the radius of the loiter circle when in RTL mode. If this is zero then WP_LOITER_RAD is used. If the radius is negative then a counter-clockwise is used. If positive then a clockwise loiter is used.</Description>
+      <Units>Meters</Units>
+      <Range>-32767 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </RTL_RADIUS>
+    <FENCE_ACTION>
+      <DisplayName>Action on geofence breach</DisplayName>
+      <Description>What to do on fence breach. If this is set to 0 then no action is taken, and geofencing is disabled. If this is set to 1 then the plane will enter GUIDED mode, with the target waypoint as the fence return point. If this is set to 2 then the fence breach is reported to the ground station, but no other action is taken. If set to 3 then the plane enters guided mode but the pilot retains manual throttle control. If set to 4 the plane enters RTL mode, with the target waypoint as the closest rally point (or home point if there are no rally points).</Description>
+      <Values>0:None,1:GuidedMode,2:ReportOnly,3:GuidedModeThrPass,4:RTL_Mode</Values>
+      <User>Standard</User>
+    </FENCE_ACTION>
+    <FENCE_TOTAL>
+      <DisplayName>Fence Total</DisplayName>
+      <Description>Number of geofence points currently loaded</Description>
+      <User>Advanced</User>
+    </FENCE_TOTAL>
+    <FENCE_CHANNEL>
+      <DisplayName>Fence Channel</DisplayName>
+      <Description>RC Channel to use to enable geofence. PWM input above 1750 enables the geofence</Description>
+      <User>Standard</User>
+    </FENCE_CHANNEL>
+    <FENCE_MINALT>
+      <DisplayName>Fence Minimum Altitude</DisplayName>
+      <Description>Minimum altitude allowed before geofence triggers</Description>
+      <Units>meters</Units>
+      <Range>0 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </FENCE_MINALT>
+    <FENCE_MAXALT>
+      <DisplayName>Fence Maximum Altitude</DisplayName>
+      <Description>Maximum altitude allowed before geofence triggers</Description>
+      <Units>meters</Units>
+      <Range>0 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </FENCE_MAXALT>
+    <FENCE_RETALT>
+      <DisplayName>Fence Return Altitude</DisplayName>
+      <Description>Altitude the aircraft will transit to when a fence breach occurs.  If FENCE_RETALT is &lt;= 0 then the midpoint between FENCE_MAXALT and FENCE_MINALT is used, unless FENCE_MAXALT &lt; FENCE_MINALT.  If FENCE_MAXALT &lt; FENCE_MINALT AND FENCE_RETALT is &lt;= 0 then ALT_HOLD_RTL is the altitude used on a fence breach.</Description>
+      <Units>meters</Units>
+      <Range>0 32767</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </FENCE_RETALT>
+    <FENCE_AUTOENABLE>
+      <DisplayName>Fence automatic enable</DisplayName>
+      <Description>When set to 1, geofence automatically enables after an auto takeoff and automatically disables at the beginning of an auto landing.  When on the ground before takeoff the fence is disabled.  When set to 2, the fence autoenables after an auto takeoff, but only disables the fence floor during landing. It is highly recommended to not use this option for line of sight flying and use a fence enable channel instead.</Description>
+      <Values>0:NoAutoEnable,1:AutoEnable,2:AutoEnableDisableFloorOnly</Values>
+      <User>Standard</User>
+    </FENCE_AUTOENABLE>
+    <FENCE_RET_RALLY>
+      <DisplayName>Fence Return to Rally</DisplayName>
+      <Description>When set to 1: on fence breach the plane will return to the nearest rally point rather than the fence return point.  If no rally points have been defined the plane will return to the home point.</Description>
+      <Values>0:FenceReturnPoint,1:NearestRallyPoint</Values>
+      <User>Standard</User>
+    </FENCE_RET_RALLY>
+    <STALL_PREVENTION>
+      <DisplayName>Enable stall prevention</DisplayName>
+      <Description>This controls the use of stall prevention techniques, including roll limits at low speed and raising the minimum airspeed in turns. The limits are based on the aerodynamic load factor of a banked turn. This option relies on the correct ARSPD_FBW_MIN value being set correctly. Note that if you don't have an airspeed sensor then stall prevention will use an airspeed estimate based on the ground speed plus a wind estimate taken from the response of the autopilot banked turns. That synthetic airspeed estimate may be inaccurate, so you should not assume that stall prevention with no airspeed sensor will be effective.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </STALL_PREVENTION>
+    <ARSPD_FBW_MIN>
+      <DisplayName>Minimum Airspeed</DisplayName>
+      <Description>This is the minimum airspeed you want to fly at in modes where the autopilot controls the airspeed. This should be set to a value around 20% higher than the level flight stall speed for the airframe. This value is also used in the STALL_PREVENTION code.</Description>
+      <Units>m/s</Units>
+      <Range>5 100</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </ARSPD_FBW_MIN>
+    <ARSPD_FBW_MAX>
+      <DisplayName>Maximum Airspeed</DisplayName>
+      <Description>This is the maximum airspeed that you want to allow for your airframe in auto-throttle modes. You should ensure that this value is sufficiently above the ARSPD_FBW_MIN value to allow for a sufficient flight envelope to accurately control altitude using airspeed. A value at least 50% above ARSPD_FBW_MIN is recommended.</Description>
+      <Units>m/s</Units>
+      <Range>5 100</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </ARSPD_FBW_MAX>
+    <FBWB_ELEV_REV>
+      <DisplayName>Fly By Wire elevator reverse</DisplayName>
+      <Description>Reverse sense of elevator in FBWB and CRUISE modes. When set to 0 up elevator (pulling back on the stick) means to lower altitude. When set to 1, up elevator means to raise altitude.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </FBWB_ELEV_REV>
+    <TERRAIN_FOLLOW>
+      <DisplayName>Use terrain following</DisplayName>
+      <Description>This enables terrain following for CRUISE mode, FBWB mode, RTL and for rally points. To use this option you also need to set TERRAIN_ENABLE to 1, which enables terrain data fetching from the GCS, and you need to have a GCS that supports sending terrain data to the aircraft. When terrain following is enabled then CRUISE and FBWB mode will hold height above terrain rather than height above home. In RTL the return to launch altitude will be considered to be a height above the terrain. Rally point altitudes will be taken as height above the terrain. This option does not affect mission items, which have a per-waypoint flag for whether they are height above home or height above the terrain. To use terrain following missions you need a ground station which can set the waypoint type to be a terrain height waypoint when creating the mission.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </TERRAIN_FOLLOW>
+    <TERRAIN_LOOKAHD>
+      <DisplayName>Terrain lookahead</DisplayName>
+      <Description>This controls how far ahead the terrain following code looks to ensure it stays above upcoming terrain. A value of zero means no lookahead, so the controller will track only the terrain directly below the aircraft. The lookahead will never extend beyond the next waypoint when in AUTO mode.</Description>
+      <Range>0 10000</Range>
+      <Units>meters</Units>
+      <User>Standard</User>
+    </TERRAIN_LOOKAHD>
+    <FBWB_CLIMB_RATE>
+      <DisplayName>Fly By Wire B altitude change rate</DisplayName>
+      <Description>This sets the rate in m/s at which FBWB and CRUISE modes will change its target altitude for full elevator deflection. Note that the actual climb rate of the aircraft can be lower than this, depending on your airspeed and throttle control settings. If you have this parameter set to the default value of 2.0, then holding the elevator at maximum deflection for 10 seconds would change the target altitude by 20 meters.</Description>
+      <Range>1 10</Range>
+      <Units>m/s</Units>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </FBWB_CLIMB_RATE>
+    <THR_MIN>
+      <DisplayName>Minimum Throttle</DisplayName>
+      <Description>The minimum throttle setting (as a percentage) which the autopilot will apply. For the final stage of an automatic landing this is always zero. If your ESC supports reverse, use a negative value to configure for reverse thrust.</Description>
+      <Units>Percent</Units>
+      <Range>-100 100</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </THR_MIN>
+    <THR_MAX>
+      <DisplayName>Maximum Throttle</DisplayName>
+      <Description>The maximum throttle setting (as a percentage) which the autopilot will apply.</Description>
+      <Units>Percent</Units>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </THR_MAX>
+    <TKOFF_THR_MAX>
+      <DisplayName>Maximum Throttle for takeoff</DisplayName>
+      <Description>The maximum throttle setting during automatic takeoff. If this is zero then THR_MAX is used for takeoff as well.</Description>
+      <Units>Percent</Units>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </TKOFF_THR_MAX>
+    <THR_SLEWRATE>
+      <DisplayName>Throttle slew rate</DisplayName>
+      <Description>maximum percentage change in throttle per second. A setting of 10 means to not change the throttle by more than 10% of the full throttle range in one second.</Description>
+      <Units>Percent</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </THR_SLEWRATE>
+    <FLAP_SLEWRATE>
+      <DisplayName>Flap slew rate</DisplayName>
+      <Description>maximum percentage change in flap output per second. A setting of 25 means to not change the flap by more than 25% of the full flap range in one second. A value of 0 means no rate limiting.</Description>
+      <Units>Percent</Units>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </FLAP_SLEWRATE>
+    <THR_SUPP_MAN>
+      <DisplayName>Throttle suppress manual passthru</DisplayName>
+      <Description>When throttle is suppressed in auto mode it is normally forced to zero. If you enable this option, then while suppressed it will be manual throttle. This is useful on petrol engines to hold the idle throttle manually while waiting for takeoff</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </THR_SUPP_MAN>
+    <THR_PASS_STAB>
+      <DisplayName>Throttle passthru in stabilize</DisplayName>
+      <Description>If this is set then when in STABILIZE, FBWA or ACRO modes the throttle is a direct passthru from the transmitter. This means the THR_MIN and THR_MAX settings are not used in these modes. This is useful for petrol engines where you setup a throttle cut switch that suppresses the throttle below the normal minimum.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </THR_PASS_STAB>
+    <THR_FAILSAFE>
+      <DisplayName>Throttle Failsafe Enable</DisplayName>
+      <Description>The throttle failsafe allows you to configure a software failsafe activated by a setting on the throttle input channel</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </THR_FAILSAFE>
+    <THR_FS_VALUE>
+      <DisplayName>Throttle Failsafe Value</DisplayName>
+      <Description>The PWM level on channel 3 below which throttle failsafe triggers</Description>
+      <Range>925 2200</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </THR_FS_VALUE>
+    <TRIM_THROTTLE>
+      <DisplayName>Throttle cruise percentage</DisplayName>
+      <Description>The target percentage of throttle to apply for normal flight</Description>
+      <Units>Percent</Units>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </TRIM_THROTTLE>
+    <THROTTLE_NUDGE>
+      <DisplayName>Throttle nudge enable</DisplayName>
+      <Description>When enabled, this uses the throttle input in auto-throttle modes to 'nudge' the throttle or airspeed to higher or lower values. When you have an airspeed sensor the nudge affects the target airspeed, so that throttle inputs above 50% will increase the target airspeed from TRIM_ARSPD_CM up to a maximum of ARSPD_FBW_MAX. When no airspeed sensor is enabled the throttle nudge will push up the target throttle for throttle inputs above 50%.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </THROTTLE_NUDGE>
+    <FS_SHORT_ACTN>
+      <DisplayName>Short failsafe action</DisplayName>
+      <Description>The action to take on a short (FS_SHORT_TIMEOUT) failsafe event. A short failsafe even can be triggered either by loss of RC control (see THR_FS_VALUE) or by loss of GCS control (see FS_GCS_ENABL). If in CIRCLE or RTL mode this parameter is ignored. A short failsafe event in stabilization and manual modes will cause an change to CIRCLE mode if FS_SHORT_ACTN is 0 or 1, and a change to FBWA mode if FS_SHORT_ACTN is 2. In all other modes (AUTO, GUIDED and LOITER) a short failsafe event will cause no mode change is FS_SHORT_ACTN is set to 0, will cause a change to CIRCLE mode if set to 1 and will change to FBWA mode if set to 2. Please see the documentation for FS_LONG_ACTN for the behaviour after FS_LONG_TIMEOUT seconds of failsafe.</Description>
+      <Values>0:CIRCLE/no change(if already in AUTO|GUIDED|LOITER),1:CIRCLE,2:FBWA</Values>
+      <User>Standard</User>
+    </FS_SHORT_ACTN>
+    <FS_SHORT_TIMEOUT>
+      <DisplayName>Short failsafe timeout</DisplayName>
+      <Description>The time in seconds that a failsafe condition has to persist before a short failsafe event will occur. This defaults to 1.5 seconds</Description>
+      <Units>seconds</Units>
+      <Range>1 100</Range>
+      <Increment>0.5</Increment>
+      <User>Standard</User>
+    </FS_SHORT_TIMEOUT>
+    <FS_LONG_ACTN>
+      <DisplayName>Long failsafe action</DisplayName>
+      <Description>The action to take on a long (FS_LONG_TIMEOUT seconds) failsafe event. If the aircraft was in a stabilization or manual mode when failsafe started and a long failsafe occurs then it will change to RTL mode if FS_LONG_ACTN is 0 or 1, and will change to FBWA if FS_LONG_ACTN is set to 2. If the aircraft was in an auto mode (such as AUTO or GUIDED) when the failsafe started then it will continue in the auto mode if FS_LONG_ACTN is set to 0, will change to RTL mode if FS_LONG_ACTN is set to 1 and will change to FBWA mode if FS_LONG_ACTN is set to 2. If FS_LONG_ACTION is set to 3, the parachute will be deployed (make sure the chute is configured and enabled).</Description>
+      <Values>0:Continue,1:ReturnToLaunch,2:Glide,3:Deploy Parachute</Values>
+      <User>Standard</User>
+    </FS_LONG_ACTN>
+    <FS_LONG_TIMEOUT>
+      <DisplayName>Long failsafe timeout</DisplayName>
+      <Description>The time in seconds that a failsafe condition has to persist before a long failsafe event will occur. This defaults to 5 seconds.</Description>
+      <Units>seconds</Units>
+      <Range>1 300</Range>
+      <Increment>0.5</Increment>
+      <User>Standard</User>
+    </FS_LONG_TIMEOUT>
+    <FS_BATT_VOLTAGE>
+      <DisplayName>Failsafe battery voltage</DisplayName>
+      <Description>Battery voltage to trigger failsafe. Set to 0 to disable battery voltage failsafe. If the battery voltage drops below this voltage continuously for 10 seconds then the plane will switch to RTL mode.</Description>
+      <Units>Volts</Units>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </FS_BATT_VOLTAGE>
+    <FS_BATT_MAH>
+      <DisplayName>Failsafe battery milliAmpHours</DisplayName>
+      <Description>Battery capacity remaining to trigger failsafe. Set to 0 to disable battery remaining failsafe. If the battery remaining drops below this level then the plane will switch to RTL mode immediately.</Description>
+      <Units>mAh</Units>
+      <Increment>50</Increment>
+      <User>Standard</User>
+    </FS_BATT_MAH>
+    <FS_GCS_ENABL>
+      <DisplayName>GCS failsafe enable</DisplayName>
+      <Description>Enable ground control station telemetry failsafe. Failsafe will trigger after FS_LONG_TIMEOUT seconds of no MAVLink heartbeat messages. There are two possible enabled settings. Seeing FS_GCS_ENABL to 1 means that GCS failsafe will be triggered when the aircraft has not received a MAVLink HEARTBEAT message. Setting FS_GCS_ENABL to 2 means that GCS failsafe will be triggered on either a loss of HEARTBEAT messages, or a RADIO_STATUS message from a MAVLink enabled 3DR radio indicating that the ground station is not receiving status updates from the aircraft, which is indicated by the RADIO_STATUS.remrssi field being zero (this may happen if you have a one way link due to asymmetric noise on the ground station and aircraft radios).Setting FS_GCS_ENABL to 3 means that GCS failsafe will be triggered by Heartbeat(like option one), but only in AUTO mode. WARNING: Enabling this option opens up the possibility of your plane going into failsafe mode and running the motor on the ground it it loses contact with your ground station. If this option is enabled on an electric plane then you should enable ARMING_REQUIRED.</Description>
+      <Values>0:Disabled,1:Heartbeat,2:HeartbeatAndREMRSSI,3:HeartbeatAndAUTO</Values>
+      <User>Standard</User>
+    </FS_GCS_ENABL>
+    <FLTMODE_CH>
+      <DisplayName>Flightmode channel</DisplayName>
+      <Description>RC Channel to use for flight mode control</Description>
+      <User>Advanced</User>
+    </FLTMODE_CH>
+    <FLTMODE1>
+      <DisplayName>FlightMode1</DisplayName>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+      <Description>Flight mode for switch position 1 (910 to 1230 and above 2049)</Description>
+    </FLTMODE1>
+    <FLTMODE2>
+      <DisplayName>FlightMode2</DisplayName>
+      <Description>Flight mode for switch position 2 (1231 to 1360)</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+    </FLTMODE2>
+    <FLTMODE3>
+      <DisplayName>FlightMode3</DisplayName>
+      <Description>Flight mode for switch position 3 (1361 to 1490)</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+    </FLTMODE3>
+    <FLTMODE4>
+      <DisplayName>FlightMode4</DisplayName>
+      <Description>Flight mode for switch position 4 (1491 to 1620)</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+    </FLTMODE4>
+    <FLTMODE5>
+      <DisplayName>FlightMode5</DisplayName>
+      <Description>Flight mode for switch position 5 (1621 to 1749)</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+    </FLTMODE5>
+    <FLTMODE6>
+      <DisplayName>FlightMode6</DisplayName>
+      <Description>Flight mode for switch position 6 (1750 to 2049)</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Standard</User>
+    </FLTMODE6>
+    <INITIAL_MODE>
+      <DisplayName>Initial flight mode</DisplayName>
+      <Description>This selects the mode to start in on boot. This is useful for when you want to start in AUTO mode on boot without a receiver.</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Advanced</User>
+    </INITIAL_MODE>
+    <LIM_ROLL_CD>
+      <DisplayName>Maximum Bank Angle</DisplayName>
+      <Description>The maximum commanded bank angle in either direction</Description>
+      <Units>centi-Degrees</Units>
+      <Range>0 9000</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </LIM_ROLL_CD>
+    <LIM_PITCH_MAX>
+      <DisplayName>Maximum Pitch Angle</DisplayName>
+      <Description>The maximum commanded pitch up angle</Description>
+      <Units>centi-Degrees</Units>
+      <Range>0 9000</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </LIM_PITCH_MAX>
+    <LIM_PITCH_MIN>
+      <DisplayName>Minimum Pitch Angle</DisplayName>
+      <Description>The minimum commanded pitch down angle</Description>
+      <Units>centi-Degrees</Units>
+      <Range>-9000 0</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </LIM_PITCH_MIN>
+    <ACRO_ROLL_RATE>
+      <DisplayName>ACRO mode roll rate</DisplayName>
+      <Description>The maximum roll rate at full stick deflection in ACRO mode</Description>
+      <Units>degrees/second</Units>
+      <Range>10 500</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </ACRO_ROLL_RATE>
+    <ACRO_PITCH_RATE>
+      <DisplayName>ACRO mode pitch rate</DisplayName>
+      <Description>The maximum pitch rate at full stick deflection in ACRO mode</Description>
+      <Units>degrees/second</Units>
+      <Range>10 500</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </ACRO_PITCH_RATE>
+    <ACRO_LOCKING>
+      <DisplayName>ACRO mode attitude locking</DisplayName>
+      <Description>Enable attitude locking when sticks are released</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </ACRO_LOCKING>
+    <GROUND_STEER_ALT>
+      <DisplayName>Ground steer altitude</DisplayName>
+      <Description>Altitude at which to use the ground steering controller on the rudder. If non-zero then the STEER2SRV controller will be used to control the rudder for altitudes within this limit of the home altitude.</Description>
+      <Units>Meters</Units>
+      <Range>-100 100</Range>
+      <Increment>0.1</Increment>
+      <User>Standard</User>
+    </GROUND_STEER_ALT>
+    <GROUND_STEER_DPS>
+      <DisplayName>Ground steer rate</DisplayName>
+      <Description>Ground steering rate in degrees per second for full rudder stick deflection</Description>
+      <Units>degrees/second</Units>
+      <Range>10 360</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </GROUND_STEER_DPS>
+    <TRIM_AUTO>
+      <DisplayName>Automatic trim adjustment</DisplayName>
+      <Description>Set RC trim PWM levels to current levels when switching away from manual mode. When this option is enabled and you change from MANUAL to any other mode then the APM will take the current position of the control sticks as the trim values for aileron, elevator and rudder. It will use those to set RC1_TRIM, RC2_TRIM and RC4_TRIM. This option is disabled by default as if a pilot is not aware of this option and changes from MANUAL to another mode while control inputs are not centered then the trim could be changed to a dangerously bad value. You can enable this option to assist with trimming your plane, by enabling it before takeoff then switching briefly to MANUAL in flight, and seeing how the plane reacts. You can then switch back to FBWA, trim the surfaces then again test MANUAL mode. Each time you switch from MANUAL the APM will take your control inputs as the new trim. After you have good trim on your aircraft you can disable TRIM_AUTO for future flights.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </TRIM_AUTO>
+    <ELEVON_MIXING>
+      <DisplayName>Elevon mixing</DisplayName>
+      <Description>This enables an older form of elevon mixing which is now deprecated. Please see the ELEVON_OUTPUT option for setting up elevons. The ELEVON_MIXING option should be set to 0 for elevon planes except for backwards compatibility with older setups.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </ELEVON_MIXING>
+    <ELEVON_REVERSE>
+      <DisplayName>Elevon reverse</DisplayName>
+      <Description>Reverse elevon mixing</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </ELEVON_REVERSE>
+    <ELEVON_CH1_REV>
+      <DisplayName>Elevon reverse</DisplayName>
+      <Description>Reverse elevon channel 1</Description>
+      <Values>-1:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </ELEVON_CH1_REV>
+    <ELEVON_CH2_REV>
+      <DisplayName>Elevon reverse</DisplayName>
+      <Description>Reverse elevon channel 2</Description>
+      <Values>-1:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </ELEVON_CH2_REV>
+    <VTAIL_OUTPUT>
+      <DisplayName>VTail output</DisplayName>
+      <Description>Enable VTail output in software. If enabled then the APM will provide software VTail mixing on the elevator and rudder channels. There are 4 different mixing modes available, which refer to the 4 ways the elevator can be mapped to the two VTail servos. Note that you must not use VTail output mixing with hardware pass-through of RC values, such as with channel 8 manual control on an APM1. So if you use an APM1 then set FLTMODE_CH to something other than 8 before you enable VTAIL_OUTPUT. Please also see the MIXING_GAIN parameter for the output gain of the mixer.</Description>
+      <Values>0:Disabled,1:UpUp,2:UpDown,3:DownUp,4:DownDown</Values>
+      <User>User</User>
+    </VTAIL_OUTPUT>
+    <ELEVON_OUTPUT>
+      <DisplayName>Elevon output</DisplayName>
+      <Description>Enable software elevon output mixer. If enabled then the APM will provide software elevon mixing on the aileron and elevator channels. There are 4 different mixing modes available, which refer to the 4 ways the elevator can be mapped to the two elevon servos. Note that you must not use elevon output mixing with hardware pass-through of RC values, such as with channel 8 manual control on an APM1. So if you use an APM1 then set FLTMODE_CH to something other than 8 before you enable ELEVON_OUTPUT. Please also see the MIXING_GAIN parameter for the output gain of the mixer.</Description>
+      <Values>0:Disabled,1:UpUp,2:UpDown,3:DownUp,4:DownDown</Values>
+      <User>User</User>
+    </ELEVON_OUTPUT>
+    <MIXING_GAIN>
+      <DisplayName>Mixing Gain</DisplayName>
+      <Description>The gain for the Vtail and elevon output mixers. The default is 0.5, which ensures that the mixer doesn't saturate, allowing both input channels to go to extremes while retaining control over the output. Hardware mixers often have a 1.0 gain, which gives more servo throw, but can saturate. If you don't have enough throw on your servos with VTAIL_OUTPUT or ELEVON_OUTPUT enabled then you can raise the gain using MIXING_GAIN. The mixer allows outputs in the range 900 to 2100 microseconds.</Description>
+      <Range>0.5 1.2</Range>
+      <User>User</User>
+    </MIXING_GAIN>
+    <RUDDER_ONLY>
+      <DisplayName>Rudder only aircraft</DisplayName>
+      <Description>Enable rudder only mode. The rudder will control attitude in attitude controlled modes (such as FBWA). You should setup your transmitter to send roll stick inputs to the RCMAP_YAW channel (normally channel 4). The rudder servo should be attached to the RCMAP_YAW channel as well. Note that automatic ground steering will be disabled for rudder only aircraft. You should also set KFF_RDDRMIX to 1.0. You will also need to setup the YAW2SRV_DAMP yaw damping appropriately for your aircraft. A value of 0.5 for YAW2SRV_DAMP is a good starting point.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </RUDDER_ONLY>
+    <MIXING_OFFSET>
+      <DisplayName>Mixing Offset</DisplayName>
+      <Description>The offset for the Vtail and elevon output mixers, as a percentage. This can be used in combination with MIXING_GAIN to configure how the control surfaces respond to input. The response to aileron or elevator input can be increased by setting this parameter to a positive or negative value. A common usage is to enter a positive value to increase the aileron response of the elevons of a flying wing. The default value of zero will leave the aileron-input response equal to the elevator-input response.</Description>
+      <Units>percent</Units>
+      <Range>-1000 1000</Range>
+      <User>User</User>
+    </MIXING_OFFSET>
+    <DSPOILR_RUD_RATE>
+      <DisplayName>Differential spoilers rudder rate</DisplayName>
+      <Description>Sets the amount of deflection that the rudder output will apply to the differential spoilers, as a percentage. The default value of 100 results in full rudder applying full deflection. A value of 0 will result in the differential spoilers exactly following the elevons (no rudder effect).</Description>
+      <Units>percent</Units>
+      <Range>-1000 1000</Range>
+      <User>User</User>
+    </DSPOILR_RUD_RATE>
+    <SYS_NUM_RESETS>
+      <DisplayName>Num Resets</DisplayName>
+      <Description>Number of APM board resets</Description>
+      <User>Advanced</User>
+    </SYS_NUM_RESETS>
+    <LOG_BITMASK>
+      <DisplayName>Log bitmask</DisplayName>
+      <Description>Bitmap of what log types to enable in dataflash. This values is made up of the sum of each of the log types you want to be saved on dataflash. On a PX4 or Pixhawk the large storage size of a microSD card means it is usually best just to enable all log types by setting this to 65535. On APM2 the smaller 4 MByte dataflash means you need to be more selective in your logging or you may run out of log space while flying (in which case it will wrap and overwrite the start of the log). The individual bits are ATTITUDE_FAST=1, ATTITUDE_MEDIUM=2, GPS=4, PerformanceMonitoring=8, ControlTuning=16, NavigationTuning=32, Mode=64, IMU=128, Commands=256, Battery=512, Compass=1024, TECS=2048, Camera=4096, RCandServo=8192, Sonar=16384, Arming=32768, FullLogs=65535</Description>
+      <Values>0:Disabled,5190:APM2-Default,65535:PX4/Pixhawk-Default</Values>
+      <Bitmask>0:ATTITUDE_FAST,1:ATTITUDE_MED,2:GPS,3:PM,4:CTUN,5:NTUN,6:MODE,7:IMU,8:CMD,9:CURRENT,10:COMPASS,11:TECS,12:CAMERA,13:RC,14:SONAR,15:ARM/DISARM,19:IMU_RAW</Bitmask>
+      <User>Advanced</User>
+    </LOG_BITMASK>
+    <RST_SWITCH_CH>
+      <DisplayName>Reset Switch Channel</DisplayName>
+      <Description>RC channel to use to reset to last flight mode	after geofence takeover.</Description>
+      <User>Advanced</User>
+    </RST_SWITCH_CH>
+    <RST_MISSION_CH>
+      <DisplayName>Reset Mission Channel</DisplayName>
+      <Description>RC channel to use to reset the mission to the first waypoint. When this channel goes above 1750 the mission is reset. Set RST_MISSION_CH to 0 to disable.</Description>
+      <User>Advanced</User>
+    </RST_MISSION_CH>
+    <TRIM_ARSPD_CM>
+      <DisplayName>Target airspeed</DisplayName>
+      <Description>Airspeed in cm/s to aim for when airspeed is enabled in auto mode. This is a calibrated (apparent) airspeed.</Description>
+      <Units>cm/s</Units>
+      <User>User</User>
+    </TRIM_ARSPD_CM>
+    <SCALING_SPEED>
+      <DisplayName>speed used for speed scaling calculations</DisplayName>
+      <Description>Airspeed in m/s to use when calculating surface speed scaling. Note that changing this value will affect all PID values</Description>
+      <Units>m/s</Units>
+      <User>Advanced</User>
+    </SCALING_SPEED>
+    <MIN_GNDSPD_CM>
+      <DisplayName>Minimum ground speed</DisplayName>
+      <Description>Minimum ground speed in cm/s when under airspeed control</Description>
+      <Units>cm/s</Units>
+      <User>Advanced</User>
+    </MIN_GNDSPD_CM>
+    <TRIM_PITCH_CD>
+      <DisplayName>Pitch angle offset</DisplayName>
+      <Description>offset to add to pitch - used for in-flight pitch trimming. It is recommended that instead of using this parameter you level your plane correctly on the ground for good flight attitude.</Description>
+      <Units>centi-Degrees</Units>
+      <User>Advanced</User>
+    </TRIM_PITCH_CD>
+    <ALT_HOLD_RTL>
+      <DisplayName>RTL altitude</DisplayName>
+      <Description>Return to launch target altitude. This is the relative altitude the plane will aim for and loiter at when returning home. If this is negative (usually -1) then the plane will use the current altitude at the time of entering RTL. Note that when transiting to a Rally Point the altitude of the Rally Point is used instead of ALT_HOLD_RTL.</Description>
+      <Units>centimeters</Units>
+      <User>User</User>
+    </ALT_HOLD_RTL>
+    <ALT_HOLD_FBWCM>
+      <DisplayName>Minimum altitude for FBWB mode</DisplayName>
+      <Description>This is the minimum altitude in centimeters that FBWB and CRUISE modes will allow. If you attempt to descend below this altitude then the plane will level off. A value of zero means no limit.</Description>
+      <Units>centimeters</Units>
+      <User>User</User>
+    </ALT_HOLD_FBWCM>
+    <MAG_ENABLE>
+      <DisplayName>Enable Compass</DisplayName>
+      <Description>Setting this to Enabled(1) will enable the compass. Setting this to Disabled(0) will disable the compass. Note that this is separate from COMPASS_USE. This will enable the low level senor, and will enable logging of magnetometer data. To use the compass for navigation you must also set COMPASS_USE to 1.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </MAG_ENABLE>
+    <FLAP_IN_CHANNEL>
+      <DisplayName>Flap input channel</DisplayName>
+      <Description>An RC input channel to use for flaps control. If this is set to a RC channel number then that channel will be used for manual flaps control. When enabled, the percentage of flaps is taken as the percentage travel from the TRIM value of the channel to the MIN value of the channel. A value above the TRIM values will give inverse flaps (spoilers). This option needs to be enabled in conjunction with a FUNCTION setting on an output channel to one of the flap functions. When a FLAP_IN_CHANNEL is combined with auto-flaps the higher of the two flap percentages is taken. You must also enable a FLAPERON_OUTPUT flaperon mixer setting if using flaperons.</Description>
+      <User>User</User>
+    </FLAP_IN_CHANNEL>
+    <FLAPERON_OUTPUT>
+      <DisplayName>Flaperon output</DisplayName>
+      <Description>Enable flaperon output in software. If enabled then the APM will provide software flaperon mixing on the FLAPERON1 and FLAPERON2 output channels specified using the FUNCTION on two auxiliary channels. There are 4 different mixing modes available, which refer to the 4 ways the flap and aileron outputs can be mapped to the two flaperon servos. Note that you must not use flaperon output mixing with hardware pass-through of RC values, such as with channel 8 manual control on an APM1. So if you use an APM1 then set FLTMODE_CH to something other than 8 before you enable FLAPERON_OUTPUT. Please also see the MIXING_GAIN parameter for the output gain of the mixer. FLAPERON_OUTPUT cannot be combined with ELEVON_OUTPUT or ELEVON_MIXING.</Description>
+      <Values>0:Disabled,1:UpUp,2:UpDown,3:DownUp,4:DownDown</Values>
+      <User>User</User>
+    </FLAPERON_OUTPUT>
+    <FLAP_1_PERCNT>
+      <DisplayName>Flap 1 percentage</DisplayName>
+      <Description>The percentage change in flap position when FLAP_1_SPEED is reached. Use zero to disable flaps</Description>
+      <Range>0 100</Range>
+      <Units>Percent</Units>
+      <User>Advanced</User>
+    </FLAP_1_PERCNT>
+    <FLAP_1_SPEED>
+      <DisplayName>Flap 1 speed</DisplayName>
+      <Description>The speed in meters per second at which to engage FLAP_1_PERCENT of flaps. Note that FLAP_1_SPEED should be greater than or equal to FLAP_2_SPEED</Description>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <Units>m/s</Units>
+      <User>Advanced</User>
+    </FLAP_1_SPEED>
+    <FLAP_2_PERCNT>
+      <DisplayName>Flap 2 percentage</DisplayName>
+      <Description>The percentage change in flap position when FLAP_2_SPEED is reached. Use zero to disable flaps</Description>
+      <Range>0 100</Range>
+      <Units>Percent</Units>
+      <User>Advanced</User>
+    </FLAP_2_PERCNT>
+    <FLAP_2_SPEED>
+      <DisplayName>Flap 2 speed</DisplayName>
+      <Description>The speed in meters per second at which to engage FLAP_2_PERCENT of flaps. Note that FLAP_1_SPEED should be greater than or equal to FLAP_2_SPEED</Description>
+      <Range>0 100</Range>
+      <Units>m/s</Units>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </FLAP_2_SPEED>
+    <LAND_FLAP_PERCNT>
+      <DisplayName>Landing flap percentage</DisplayName>
+      <Description>The amount of flaps (as a percentage) to apply in the landing approach and flare of an automatic landing</Description>
+      <Range>0 100</Range>
+      <Units>Percent</Units>
+      <User>Advanced</User>
+    </LAND_FLAP_PERCNT>
+    <OVERRIDE_CHAN>
+      <DisplayName>PX4IO override channel</DisplayName>
+      <Description>If set to a non-zero value then this is an RC input channel number to use for giving PX4IO manual control in case the main FMU microcontroller on a PX4 or Pixhawk fails. When this RC input channel goes above 1750 the FMU microcontroller will no longer be involved in controlling the servos and instead the PX4IO microcontroller will directly control the servos. Note that PX4IO manual control will be automatically activated if the FMU crashes for any reason. This parameter allows you to test for correct manual behaviour without actually crashing the FMU. This parameter is can be set to a non-zero value either for ground testing purposes or for giving the effect of an external override control board. Please also see the docs on OVERRIDE_SAFETY. Note that you may set OVERRIDE_CHAN to the same channel as FLTMODE_CH to get PX4IO based override when in flight mode 6. Note that when override is triggered due to a FMU crash the 6 auxiliary output channels on Pixhawk will no longer be updated, so all the flight controls you need must be assigned to the first 8 channels.</Description>
+      <User>Advanced</User>
+    </OVERRIDE_CHAN>
+    <OVERRIDE_SAFETY>
+      <DisplayName>PX4IO override safety switch</DisplayName>
+      <Description>This controls whether the safety switch is turned off when you activate override with OVERRIDE_CHAN. When set to 1 the safety switch is de-activated (activating the servos) then a PX4IO override is triggered. In that case the safety remains de-activated after override is disabled. If OVERRIDE_SAFETTY is set to 0 then the safety switch state does not change. Note that regardless of the value of this parameter the servos will be active while override is active.</Description>
+      <User>Advanced</User>
+    </OVERRIDE_SAFETY>
+    <INVERTEDFLT_CH>
+      <DisplayName>Inverted flight channel</DisplayName>
+      <Description>A RC input channel number to enable inverted flight. If this is non-zero then the APM will monitor the corresponding RC input channel and will enable inverted flight when the channel goes above 1750.</Description>
+      <Values>0:Disabled,1:Channel1,2:Channel2,3:Channel3,4:Channel4,5:Channel5,6:Channel6,7:Channel7,8:Channel8</Values>
+      <User>Standard</User>
+    </INVERTEDFLT_CH>
+    <HIL_MODE>
+      <DisplayName>HIL mode enable</DisplayName>
+      <Description>This enables and disables hardware in the loop mode. If HIL_MODE is 1 then on the next reboot all sensors are replaced with HIL sensors which come from the GCS.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </HIL_MODE>
+    <HIL_SERVOS>
+      <DisplayName>HIL Servos enable</DisplayName>
+      <Description>This controls whether real servo controls are used in HIL mode. If you enable this then the APM will control the real servos in HIL mode. If disabled it will report servo values, but will not output to the real servos. Be careful that your motor and propeller are not connected if you enable this option.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </HIL_SERVOS>
+    <HIL_ERR_LIMIT>
+      <DisplayName>Limit of error in HIL attitude before reset</DisplayName>
+      <Description>This controls the maximum error in degrees on any axis before HIL will reset the DCM attitude to match the HIL_STATE attitude. This limit will prevent poor timing on HIL from causing a major attitude error. If the value is zero then no limit applies.</Description>
+      <Units>degrees</Units>
+      <Range>0 90</Range>
+      <Increment>0.1</Increment>
+      <User>Advanced</User>
+    </HIL_ERR_LIMIT>
+    <RTL_AUTOLAND>
+      <DisplayName>RTL auto land</DisplayName>
+      <Description>Automatically begin landing sequence after arriving at RTL location. This requires the addition of a DO_LAND_START mission item, which acts as a marker for the start of a landing sequence. The closest landing sequence will be chosen to the current location.</Description>
+      <Values>0:Disable,1:Enable - go HOME then land,2:Enable - go directly to landing sequence</Values>
+      <User>Standard</User>
+    </RTL_AUTOLAND>
+    <RC_TRIM_AT_START>
+      <DisplayName>RC Trims auto set at start.</DisplayName>
+      <Description>Automatically set roll/pitch trim from Tx at ground start. This makes the assumption that the RC transmitter has not been altered since trims were last captured.</Description>
+      <Values>0:Disable,1:Enable</Values>
+      <User>Standard</User>
+    </RC_TRIM_AT_START>
+    <CRASH_ACC_THRESH>
+      <DisplayName>Crash Deceleration Threshold</DisplayName>
+      <Description>X-Axis deceleration threshold to notify the crash detector that there was a possible impact which helps disarm the motor quickly after a crash. This value should be much higher than normal negative x-axis forces during normal flight, check flight log files to determine the average IMU.x values for your aircraft and motor type. Higher value means less sensative (triggers on higher impact). For electric planes that don't vibrate much during fight a value of 25 is good (that's about 2.5G). For petrol/nitro planes you'll want a higher value. Set to 0 to disable the collision detector.</Description>
+      <Units>m/s/s</Units>
+      <Values>10 127</Values>
+      <User>Advanced</User>
+    </CRASH_ACC_THRESH>
+    <CRASH_DETECT>
+      <DisplayName>Crash Detection</DisplayName>
+      <Description>Automatically detect a crash during AUTO flight and perform the bitmask selected action(s). Disarm will turn off motor for safety and to help against burning out ESC and motor. Setting the mode to manual will help save the servos from burning out by overexerting if the aircraft crashed in an odd orientation such as upsidedown.</Description>
+      <Values>0:Disabled,1:Disarm</Values>
+      <Bitmask>0:Disarm</Bitmask>
+      <User>Advanced</User>
+      <Group>GND_</Group>
+      <Path>../libraries/AP_Baro/AP_Baro.cpp</Path>
+    </CRASH_DETECT>
+    <CHUTE_CHAN>
+      <DisplayName>Parachute release channel</DisplayName>
+      <Description>If set to a non-zero value then this is an RC input channel number to use for manually releasing the parachute. When this channel goes above 1700 the parachute will be released</Description>
+      <User>Advanced</User>
+      <Group>RNGFND</Group>
+      <Path>../libraries/AP_RangeFinder/RangeFinder.cpp</Path>
+    </CHUTE_CHAN>
+    <RNGFND_LANDING>
+      <DisplayName>Enable rangefinder for landing</DisplayName>
+      <Description>This enables the use of a rangefinder for automatic landing. The rangefinder will be used both on the landing approach and for final flare</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+      <Group>TERRAIN_</Group>
+      <Path>../libraries/AP_Terrain/AP_Terrain.cpp</Path>
+    </RNGFND_LANDING>
     <BTN_ENABLE>
       <DisplayName>Enable button reporting</DisplayName>
       <Description>This enables the button checking module. When this is disabled the parameters for setting button inputs are not visible</Description>
@@ -11921,6 +14360,294 @@
       <User>Advanced</User>
       <RebootRequired>True</RebootRequired>
     </RCMAP_YAW>
+    <SR0_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_SENS>
+    <SR0_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXT_STAT>
+    <SR0_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RC_CHAN>
+    <SR0_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_CTRL>
+    <SR0_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_POSITION>
+    <SR0_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA1>
+    <SR0_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA2>
+    <SR0_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA3>
+    <SR0_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_PARAMS>
+    <SR1_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_SENS>
+    <SR1_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXT_STAT>
+    <SR1_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RC_CHAN>
+    <SR1_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_CTRL>
+    <SR1_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_POSITION>
+    <SR1_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA1>
+    <SR1_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA2>
+    <SR1_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA3>
+    <SR1_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_PARAMS>
+    <SR2_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_SENS>
+    <SR2_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXT_STAT>
+    <SR2_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RC_CHAN>
+    <SR2_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_CTRL>
+    <SR2_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_POSITION>
+    <SR2_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA1>
+    <SR2_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA2>
+    <SR2_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA3>
+    <SR2_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_PARAMS>
+    <SR3_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_SENS>
+    <SR3_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXT_STAT>
+    <SR3_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RC_CHAN>
+    <SR3_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_CTRL>
+    <SR3_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_POSITION>
+    <SR3_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA1>
+    <SR3_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA2>
+    <SR3_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA3>
+    <SR3_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_PARAMS>
     <SERIAL0_BAUD>
       <DisplayName>Serial0 baud rate</DisplayName>
       <Description>The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
@@ -14640,6 +17367,294 @@
       <RebootRequired>True</RebootRequired>
       <User>Advanced</User>
     </SCHED_LOOP_RATE>
+    <SR0_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_SENS>
+    <SR0_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXT_STAT>
+    <SR0_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RC_CHAN>
+    <SR0_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_RAW_CTRL>
+    <SR0_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_POSITION>
+    <SR0_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA1>
+    <SR0_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA2>
+    <SR0_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_EXTRA3>
+    <SR0_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR0_PARAMS>
+    <SR1_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_SENS>
+    <SR1_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXT_STAT>
+    <SR1_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RC_CHAN>
+    <SR1_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_RAW_CTRL>
+    <SR1_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_POSITION>
+    <SR1_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA1>
+    <SR1_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA2>
+    <SR1_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_EXTRA3>
+    <SR1_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR1_PARAMS>
+    <SR2_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_SENS>
+    <SR2_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXT_STAT>
+    <SR2_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RC_CHAN>
+    <SR2_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_RAW_CTRL>
+    <SR2_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_POSITION>
+    <SR2_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA1>
+    <SR2_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA2>
+    <SR2_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_EXTRA3>
+    <SR2_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR2_PARAMS>
+    <SR3_RAW_SENS>
+      <DisplayName>Raw sensor stream rate</DisplayName>
+      <Description>Raw sensor stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_SENS>
+    <SR3_EXT_STAT>
+      <DisplayName>Extended status stream rate to ground station</DisplayName>
+      <Description>Extended status stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXT_STAT>
+    <SR3_RC_CHAN>
+      <DisplayName>RC Channel stream rate to ground station</DisplayName>
+      <Description>RC Channel stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RC_CHAN>
+    <SR3_RAW_CTRL>
+      <DisplayName>Raw Control stream rate to ground station</DisplayName>
+      <Description>Raw Control stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_RAW_CTRL>
+    <SR3_POSITION>
+      <DisplayName>Position stream rate to ground station</DisplayName>
+      <Description>Position stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_POSITION>
+    <SR3_EXTRA1>
+      <DisplayName>Extra data type 1 stream rate to ground station</DisplayName>
+      <Description>Extra data type 1 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA1>
+    <SR3_EXTRA2>
+      <DisplayName>Extra data type 2 stream rate to ground station</DisplayName>
+      <Description>Extra data type 2 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA2>
+    <SR3_EXTRA3>
+      <DisplayName>Extra data type 3 stream rate to ground station</DisplayName>
+      <Description>Extra data type 3 stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_EXTRA3>
+    <SR3_PARAMS>
+      <DisplayName>Parameter stream rate to ground station</DisplayName>
+      <Description>Parameter stream rate to ground station</Description>
+      <Units>Hz</Units>
+      <Range>0 10</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </SR3_PARAMS>
     <INS_PRODUCT_ID>
       <DisplayName>IMU Product ID</DisplayName>
       <Description>Which type of IMU is installed (read-only).</Description>
