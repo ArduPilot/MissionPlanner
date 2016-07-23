@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Jul 15 2016";
+    public const string MAVLINK_BUILD_DATE = "Sat Jul 23 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -220,7 +220,9 @@ public partial class MAVLink
 		new message_info(253, "STATUSTEXT", 83, 51, 51, typeof( mavlink_statustext_t )),
 		new message_info(254, "DEBUG", 46, 9, 9, typeof( mavlink_debug_t )),
 		new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
-
+		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
+		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
+		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
 	};
 
     public const byte MAVLINK_VERSION = 2;
@@ -498,6 +500,9 @@ NAMED_VALUE_INT = 252,
 STATUSTEXT = 253,
 DEBUG = 254,
 SETUP_SIGNING = 256,
+UAVIONIX_ADSB_OUT_CFG = 10001,
+UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
+UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
 
     }  
 	    
@@ -2510,6 +2515,175 @@ SETUP_SIGNING = 256,
         MAVLINK_GPS_GLOBAL_INT=1, 
     	///<summary>  | </summary>
         ENUM_END=2, 
+    
+    };
+    
+    
+    ///<summary> State flags for ADS-B transponder dynamic report </summary>
+    public enum UAVIONIX_ADSB_OUT_DYNAMIC_STATE
+    {
+			///<summary>  | </summary>
+        INTENT_CHANGE=1, 
+    	///<summary>  | </summary>
+        AUTOPILOT_ENABLED=2, 
+    	///<summary>  | </summary>
+        NICBARO_CROSSCHECKED=4, 
+    	///<summary>  | </summary>
+        ON_GROUND=8, 
+    	///<summary>  | </summary>
+        IDENT=16, 
+    	///<summary>  | </summary>
+        ENUM_END=17, 
+    
+    };
+    
+    ///<summary> Transceiver RF control flags for ADS-B transponder dynamic reports </summary>
+    public enum UAVIONIX_ADSB_OUT_RF_SELECT
+    {
+			///<summary>  | </summary>
+        STANDBY=0, 
+    	///<summary>  | </summary>
+        RX_ENABLED=1, 
+    	///<summary>  | </summary>
+        TX_ENABLED=2, 
+    	///<summary>  | </summary>
+        ENUM_END=3, 
+    
+    };
+    
+    ///<summary> Status for ADS-B transponder dynamic input </summary>
+    public enum UAVIONIX_ADSB_OUT_DYNAMIC_GPS_FIX
+    {
+			///<summary>  | </summary>
+        NONE_0=0, 
+    	///<summary>  | </summary>
+        NONE_1=1, 
+    	///<summary>  | </summary>
+        _2D=2, 
+    	///<summary>  | </summary>
+        _3D=3, 
+    	///<summary>  | </summary>
+        DGPS=4, 
+    	///<summary>  | </summary>
+        RTK=5, 
+    	///<summary>  | </summary>
+        ENUM_END=6, 
+    
+    };
+    
+    ///<summary> Status flags for ADS-B transponder dynamic output </summary>
+    public enum UAVIONIX_ADSB_RF_HEALTH
+    {
+			///<summary>  | </summary>
+        INITIALIZING=0, 
+    	///<summary>  | </summary>
+        OK=1, 
+    	///<summary>  | </summary>
+        FAIL_TX=2, 
+    	///<summary>  | </summary>
+        FAIL_RX=16, 
+    	///<summary>  | </summary>
+        ENUM_END=17, 
+    
+    };
+    
+    ///<summary> Definitions for aircraft size </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_AIRCRAFT_SIZE
+    {
+			///<summary>  | </summary>
+        NO_DATA=0, 
+    	///<summary>  | </summary>
+        L15M_W23M=1, 
+    	///<summary>  | </summary>
+        L25M_W28P5M=2, 
+    	///<summary>  | </summary>
+        L25_34M=3, 
+    	///<summary>  | </summary>
+        L35_33M=4, 
+    	///<summary>  | </summary>
+        L35_38M=5, 
+    	///<summary>  | </summary>
+        L45_39P5M=6, 
+    	///<summary>  | </summary>
+        L45_45M=7, 
+    	///<summary>  | </summary>
+        L55_45M=8, 
+    	///<summary>  | </summary>
+        L55_52M=9, 
+    	///<summary>  | </summary>
+        L65_59P5M=10, 
+    	///<summary>  | </summary>
+        L65_67M=11, 
+    	///<summary>  | </summary>
+        L75_W72P5M=12, 
+    	///<summary>  | </summary>
+        L75_W80M=13, 
+    	///<summary>  | </summary>
+        L85_W80M=14, 
+    	///<summary>  | </summary>
+        L85_W90M=15, 
+    	///<summary>  | </summary>
+        ENUM_END=16, 
+    
+    };
+    
+    ///<summary> GPS lataral offset encoding </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LAT
+    {
+			///<summary>  | </summary>
+        NO_DATA=0, 
+    	///<summary>  | </summary>
+        LEFT_2M=1, 
+    	///<summary>  | </summary>
+        LEFT_4M=2, 
+    	///<summary>  | </summary>
+        LEFT_6M=3, 
+    	///<summary>  | </summary>
+        RIGHT_0M=4, 
+    	///<summary>  | </summary>
+        RIGHT_2M=5, 
+    	///<summary>  | </summary>
+        RIGHT_4M=6, 
+    	///<summary>  | </summary>
+        RIGHT_6M=7, 
+    	///<summary>  | </summary>
+        ENUM_END=8, 
+    
+    };
+    
+    ///<summary> GPS longitudinal offset encoding </summary>
+    public enum UAVIONIX_ADSB_OUT_CFG_GPS_OFFSET_LON
+    {
+			///<summary>  | </summary>
+        NO_DATA=0, 
+    	///<summary>  | </summary>
+        APPLIED_BY_SENSOR=1, 
+    	///<summary>  | </summary>
+        ENUM_END=2, 
+    
+    };
+    
+    ///<summary> Emergency status encoding </summary>
+    public enum UAVIONIX_ADSB_EMERGENCY_STATUS
+    {
+			///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_NO_EMERGENCY=0, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_GENERAL_EMERGENCY=1, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_LIFEGUARD_EMERGENCY=2, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_MINIMUM_FUEL_EMERGENCY=3, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_NO_COMM_EMERGENCY=4, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_UNLAWFUL_INTERFERANCE_EMERGENCY=5, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY=6, 
+    	///<summary>  | </summary>
+        UAVIONIX_ADSB_OUT_RESERVED=7, 
+    	///<summary>  | </summary>
+        ENUM_END=8, 
     
     };
     
@@ -6370,6 +6544,78 @@ SETUP_SIGNING = 256,
             /// <summary> signing key </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] secret_key;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
+    public struct mavlink_uavionix_adsb_out_cfg_t
+    {
+        /// <summary> Vehicle address (24 bit) </summary>
+        public  UInt32 ICAO;
+            /// <summary> Aircraft stall speed in cm/s </summary>
+        public  UInt16 stallSpeed;
+            /// <summary> Vehicle identifier (8 characters, null terminated, valid characters are A-Z, 0-9, " " only) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=9)]
+		public byte[] callsign;
+            /// <summary> Transmitting vehicle type. See ADSB_EMITTER_TYPE enum </summary>
+        public  byte emitterType;
+            /// <summary> Aircraft length and width encoding (table 2-35 of DO-282B) </summary>
+        public  byte aircraftSize;
+            /// <summary> GPS antenna lateral offset (table 2-36 of DO-282B) </summary>
+        public  byte gpsOffsetLat;
+            /// <summary> GPS antenna longitudinal offset from nose [if non-zero, take position (in meters) divide by 2 and add one] (table 2-37 DO-282B) </summary>
+        public  byte gpsOffsetLon;
+            /// <summary> ADS-B transponder reciever and transmit enable flags </summary>
+        public  byte rfSelect;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=41)]
+    public struct mavlink_uavionix_adsb_out_dynamic_t
+    {
+        /// <summary> UTC time in seconds since GPS epoch (Jan 6, 1980). If unknown set to UINT32_MAX </summary>
+        public  UInt32 utcTime;
+            /// <summary> Latitude WGS84 (deg * 1E7). If unknown set to INT32_MAX </summary>
+        public  Int32 gpsLat;
+            /// <summary> Longitude WGS84 (deg * 1E7). If unknown set to INT32_MAX </summary>
+        public  Int32 gpsLon;
+            /// <summary> Altitude in mm (m * 1E-3) UP +ve. WGS84 altitude. If unknown set to INT32_MAX </summary>
+        public  Int32 gpsAlt;
+            /// <summary> Barometric pressure altitude relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX </summary>
+        public  Int32 baroAltMSL;
+            /// <summary> Horizontal accuracy in mm (m * 1E-3). If unknown set to UINT32_MAX </summary>
+        public  UInt32 accuracyHor;
+            /// <summary> Vertical accuracy in cm. If unknown set to UINT16_MAX </summary>
+        public  UInt16 accuracyVert;
+            /// <summary> Velocity accuracy in mm/s (m * 1E-3). If unknown set to UINT16_MAX </summary>
+        public  UInt16 accuracyVel;
+            /// <summary> GPS vertical speed in cm/s. If unknown set to INT16_MAX </summary>
+        public  Int16 velVert;
+            /// <summary> North-South velocity over ground in cm/s North +ve. If unknown set to INT16_MAX </summary>
+        public  Int16 velNS;
+            /// <summary> East-West velocity over ground in cm/s East +ve. If unknown set to INT16_MAX </summary>
+        public  Int16 VelEW;
+            /// <summary> ADS-B transponder dynamic input state flags </summary>
+        public  UInt16 state;
+            /// <summary> Mode A code (typically 1200 [0x04B0] for VFR) </summary>
+        public  UInt16 squawk;
+            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK </summary>
+        public  byte gpsFix;
+            /// <summary> Number of satellites visible. If unknown set to UINT8_MAX </summary>
+        public  byte numSats;
+            /// <summary> Emergency status </summary>
+        public  byte emergencyStatus;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
+    public struct mavlink_uavionix_adsb_transceiver_health_report_t
+    {
+        /// <summary> ADS-B transponder messages </summary>
+        public  byte rfHealth;
     
     };
 

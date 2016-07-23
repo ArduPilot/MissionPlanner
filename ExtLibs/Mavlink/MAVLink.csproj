@@ -57,6 +57,7 @@
   <ItemGroup>
     <Content Include="message_definitions\ardupilotmega.xml" />
     <Content Include="message_definitions\common.xml" />
+    <Content Include="message_definitions\uAvionix.xml" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlif4Dom.py" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlifApi.py" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlifBase.py" />
