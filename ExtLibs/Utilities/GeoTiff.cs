@@ -34,9 +34,6 @@ namespace MissionPlanner.Utilities
                     height = tiff.GetField(TiffTag.IMAGELENGTH)[0].ToInt();
                     bits = tiff.GetField(TiffTag.BITSPERSAMPLE)[0].ToInt();
 
-                    if (bits != 16)
-                        return false;
-
                     var modelscale = tiff.GetField(TiffTag.GEOTIFF_MODELPIXELSCALETAG);
                     var tiepoint = tiff.GetField(TiffTag.GEOTIFF_MODELTIEPOINTTAG);
 
@@ -150,7 +147,7 @@ namespace MissionPlanner.Utilities
                     // add to cache
                     if (!cache.ContainsKey(geotiffdata.FileName))
                     {
-                        short[,] altdata = new short[geotiffdata.width, geotiffdata.height];
+                        short[,] altdata = new short[geotiffdata.height, geotiffdata.width];
 
                         using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
                         {
@@ -162,7 +159,14 @@ namespace MissionPlanner.Utilities
 
                                 for (int col = 0; col < geotiffdata.width; col++)
                                 {
-                                    altdata[row, col] = (short) ((scanline[col*2 + 1] << 8) + scanline[col*2]);
+                                    if (geotiffdata.bits == 16)
+                                    {
+                                        altdata[row, col] = (short) ((scanline[col*2 + 1] << 8) + scanline[col*2]);
+                                    }
+                                    else if (geotiffdata.bits == 32)
+                                    {
+                                        altdata[row, col] = (short) BitConverter.ToSingle(scanline, col*4);
+                                    }
                                 }
                             }
                         }
