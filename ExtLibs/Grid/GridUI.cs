@@ -823,7 +823,7 @@ namespace MissionPlanner
             seconds = ((routetotal * 1000.0) / (flyspeedms));
             lbl_photoevery.Text = secondsToNice(((double)NUM_spacing.Value / flyspeedms));
             map.HoldInvalidation = false;
-            if (!isMouseDown)
+            if (!isMouseDown && sender != NUM_angle)
                 map.ZoomAndCenterMarkers("routes");
 
             CalcHeadingHold();
