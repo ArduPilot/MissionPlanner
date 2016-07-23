@@ -73,9 +73,16 @@ namespace MissionPlanner
             int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
             int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
 
-            string filename = filenameDictionary[y * 1000 + x];
+            int id = y*1000 + x;
 
-            return filename;
+            if (filenameDictionary.ContainsKey(id))
+            {
+                string filename = filenameDictionary[y*1000 + x];
+
+                return filename;
+            }
+
+            return "";
         }
 
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
@@ -95,6 +102,9 @@ namespace MissionPlanner
             // 		alt	70	short
 
             var filename = GetFilename(lat, lng);
+
+            if (String.IsNullOrEmpty(filename))
+                return altresponce.Invalid;
 
             try
             {
