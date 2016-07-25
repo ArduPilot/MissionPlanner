@@ -296,7 +296,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                         else if (item.msgtype == "RFND")
@@ -305,7 +305,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                     }
@@ -417,7 +417,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                     }
