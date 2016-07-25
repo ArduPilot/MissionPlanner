@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sat Jul 23 2016";
+    public const string MAVLINK_BUILD_DATE = "Tue Jul 26 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -61,7 +61,7 @@ public partial class MAVLink
 		new message_info(33, "GLOBAL_POSITION_INT", 104, 28, 28, typeof( mavlink_global_position_int_t )),
 		new message_info(34, "RC_CHANNELS_SCALED", 237, 22, 22, typeof( mavlink_rc_channels_scaled_t )),
 		new message_info(35, "RC_CHANNELS_RAW", 244, 22, 22, typeof( mavlink_rc_channels_raw_t )),
-		new message_info(36, "SERVO_OUTPUT_RAW", 222, 21, 21, typeof( mavlink_servo_output_raw_t )),
+		new message_info(36, "SERVO_OUTPUT_RAW", 222, 21, 37, typeof( mavlink_servo_output_raw_t )),
 		new message_info(37, "MISSION_REQUEST_PARTIAL_LIST", 212, 6, 6, typeof( mavlink_mission_request_partial_list_t )),
 		new message_info(38, "MISSION_WRITE_PARTIAL_LIST", 9, 6, 6, typeof( mavlink_mission_write_partial_list_t )),
 		new message_info(39, "MISSION_ITEM", 254, 37, 37, typeof( mavlink_mission_item_t )),
@@ -204,6 +204,7 @@ public partial class MAVLink
 		new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
 		new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
 		new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
+		new message_info(232, "GPS_INPUT", 151, 63, 63, typeof( mavlink_gps_input_t )),
 		new message_info(233, "GPS_RTCM_DATA", 35, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
 		new message_info(241, "VIBRATION", 90, 32, 32, typeof( mavlink_vibration_t )),
 		new message_info(242, "HOME_POSITION", 104, 52, 52, typeof( mavlink_home_position_t )),
@@ -211,7 +212,7 @@ public partial class MAVLink
 		new message_info(244, "MESSAGE_INTERVAL", 95, 6, 6, typeof( mavlink_message_interval_t )),
 		new message_info(245, "EXTENDED_SYS_STATE", 130, 2, 2, typeof( mavlink_extended_sys_state_t )),
 		new message_info(246, "ADSB_VEHICLE", 184, 38, 38, typeof( mavlink_adsb_vehicle_t )),
-		new message_info(247, "COLLISION", 229, 19, 19, typeof( mavlink_collision_t )),
+		new message_info(247, "COLLISION", 81, 19, 19, typeof( mavlink_collision_t )),
 		new message_info(248, "V2_EXTENSION", 8, 254, 254, typeof( mavlink_v2_extension_t )),
 		new message_info(249, "MEMORY_VECT", 204, 36, 36, typeof( mavlink_memory_vect_t )),
 		new message_info(250, "DEBUG_VECT", 49, 30, 30, typeof( mavlink_debug_vect_t )),
@@ -220,9 +221,12 @@ public partial class MAVLink
 		new message_info(253, "STATUSTEXT", 83, 51, 51, typeof( mavlink_statustext_t )),
 		new message_info(254, "DEBUG", 46, 9, 9, typeof( mavlink_debug_t )),
 		new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
+		new message_info(257, "BUTTON_CHANGE", 131, 9, 9, typeof( mavlink_button_change_t )),
+		new message_info(258, "PLAY_TUNE", 187, 32, 32, typeof( mavlink_play_tune_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
+
 	};
 
     public const byte MAVLINK_VERSION = 2;
@@ -484,6 +488,7 @@ GOPRO_SET_RESPONSE = 219,
 RPM = 226,
 ESTIMATOR_STATUS = 230,
 WIND_COV = 231,
+GPS_INPUT = 232,
 GPS_RTCM_DATA = 233,
 VIBRATION = 241,
 HOME_POSITION = 242,
@@ -500,6 +505,8 @@ NAMED_VALUE_INT = 252,
 STATUSTEXT = 253,
 DEBUG = 254,
 SETUP_SIGNING = 256,
+BUTTON_CHANGE = 257,
+PLAY_TUNE = 258,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -586,6 +593,8 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         DO_REPEAT_SERVO=184, 
     	///<summary> Terminate flight immediately |Flight termination activated if > 0.5| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_FLIGHTTERMINATION=185, 
+    	///<summary> Change altitude set point. |Altitude in meters| Mav frame of new altitude (see MAV_FRAME)| Empty| Empty| Empty| Empty| Empty|  </summary>
+        DO_CHANGE_ALTITUDE=186, 
     	///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0/0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
         DO_LAND_START=189, 
     	///<summary> Mission command to perform a landing from a rally point. |Break altitude (meters)| Landing speed (m/s)| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -630,11 +639,13 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         DO_GUIDED_MASTER=221, 
     	///<summary> set limits for external control |timeout - maximum time (in seconds) that external controller will be allowed to control vehicle. 0 means no timeout| absolute altitude min (in meters, AMSL) - if vehicle moves below this alt, the command will be aborted and the mission will continue.  0 means no lower altitude limit| absolute altitude max (in meters)- if vehicle moves above this alt, the command will be aborted and the mission will continue.  0 means no upper altitude limit| horizontal move limit (in meters, AMSL) - if vehicle moves more than this distance from it's location at the moment the command was executed, the command will be aborted and the mission will continue. 0 means no horizontal altitude limit| Empty| Empty| Empty|  </summary>
         DO_GUIDED_LIMITS=222, 
+    	///<summary> Control vehicle engine. This is interpreted by the vehicles engine controller to change the target engine state. It is intended for vehicles with internal combustion engines |0: Stop engine, 1:Start Engine| 0: Warm start, 1:Cold start. Controls use of choke where applicable| Height delay (meters). This is for commanding engine start only after the vehicle has gained the specified height. Used in VTOL vehicles during takeoff to start engine after the aircraft is off the ground. Zero for no delay.| Empty| Empty| Empty| Empty| Empty|  </summary>
+        DO_ENGINE_CONTROL=223, 
     	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_LAST=240, 
     	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Compass/Motor interference calibration: 0: no, 1: yes| Empty|  </summary>
         PREFLIGHT_CALIBRATION=241, 
-    	///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
+    	///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
         PREFLIGHT_SET_SENSOR_OFFSETS=242, 
     	///<summary> Trigger UAVCAN config. This command will be only accepted if in pre-flight mode. |1: Trigger actuator ID assignment and direction mapping.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
         PREFLIGHT_UAVCAN=243, 
@@ -672,6 +683,10 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         PANORAMA_CREATE=2800, 
     	///<summary> Request VTOL transition |The target VTOL state, as defined by ENUM MAV_VTOL_STATE. Only MAV_VTOL_STATE_MC and MAV_VTOL_STATE_FW can be used.|  </summary>
         DO_VTOL_TRANSITION=3000, 
+    	///<summary> This command sets the submode to standard guided when vehicle is in guided mode. The vehicle holds position and altitude and the user can input the desired velocites along all three axes.                    | </summary>
+        SET_GUIDED_SUBMODE_STANDARD=4000, 
+    	///<summary> This command sets submode circle when vehicle is in guided mode. Vehicle flies along a circle facing the center of the circle. The user can input the velocity along the circle and change the radius. If no input is given the vehicle will hold position.                    |Radius of desired circle in CIRCLE_MODE| User defined| User defined| User defined| Unscaled target latitude of center of circle in CIRCLE_MODE| Unscaled target longitude of center of circle in CIRCLE_MODE|  </summary>
+        SET_GUIDED_SUBMODE_CIRCLE=4001, 
     	///<summary> Deploy payload on a Lat / Lon / Alt position. This includes the navigation to reach the required release position and velocity. |Operation mode. 0: prepare single payload deploy (overwriting previous requests), but do not execute it. 1: execute payload deploy immediately (rejecting further deploy commands during execution, but allowing abort). 2: add payload deploy to existing deployment list.| Desired approach vector in degrees compass heading (0..360). A negative value indicates the system can define the approach vector at will.| Desired ground speed at release time. This can be overriden by the airframe in case it needs to meet minimum airspeed. A negative value indicates the system can define the ground speed at will.| Minimum altitude clearance to the release position in meters. A negative value indicates the system can define the clearance at will.| Latitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Longitude unscaled for MISSION_ITEM or in 1e7 degrees for MISSION_ITEM_INT| Altitude, in meters AMSL|  </summary>
         PAYLOAD_PREPARE_DEPLOY=30001, 
     	///<summary> Control the payload deployment. |Operation mode. 0: Abort deployment, continue normal mission. 1: switch to payload deploment mode. 100: delete first payload deployment request. 101: delete all payload deployment requests.| Reserved| Reserved| Reserved| Reserved| Reserved| Reserved|  </summary>
@@ -792,20 +807,6 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         PARACHUTE_ENABLE=1, 
     	///<summary> Release parachute | </summary>
         PARACHUTE_RELEASE=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
-    
-    };
-    
-    ///<summary>  </summary>
-    public enum MOTOR_TEST_THROTTLE_TYPE
-    {
-			///<summary> throttle as a percentage from 0 ~ 100 | </summary>
-        MOTOR_TEST_THROTTLE_PERCENT=0, 
-    	///<summary> throttle as an absolute PWM value (normally in range of 1000~2000) | </summary>
-        MOTOR_TEST_THROTTLE_PWM=1, 
-    	///<summary> throttle pass-through from pilot's transmitter | </summary>
-        MOTOR_TEST_THROTTLE_PILOT=2, 
     	///<summary>  | </summary>
         ENUM_END=3, 
     
@@ -1608,7 +1609,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     
     };
     
-    ///<summary>          These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it         simplifies the use of the mode flags. Note that manual input is enabled in all modes as a safety override.        </summary>
+    ///<summary> These defines are predefined OR-combined mode flags. There is no need to use values from this enum, but it                simplifies the use of the mode flags. Note that manual input is enabled in all modes as a safety override. </summary>
     public enum MAV_MODE
     {
 			///<summary> System is not ready to fly, booting, calibrating, etc. No flag is set. | </summary>
@@ -1707,6 +1708,8 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         MAV_COMP_ID_OSD=157, 
     	///<summary> Generic autopilot peripheral component ID. Meant for devices that do not implement the parameter sub-protocol | </summary>
         MAV_COMP_ID_PERIPHERAL=158, 
+    	///<summary>  | </summary>
+        MAV_COMP_ID_QX1_GIMBAL=159, 
     	///<summary>  | </summary>
         MAV_COMP_ID_MAPPER=180, 
     	///<summary>  | </summary>
@@ -1851,8 +1854,10 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         REPORT=2, 
     	///<summary> Switched to guided mode to return point (fence point 0) with manual throttle control | </summary>
         GUIDED_THR_PASS=3, 
+    	///<summary> Switch to RTL (return to launch) mode and head for the return point. | </summary>
+        RTL=4, 
     	///<summary>  | </summary>
-        ENUM_END=4, 
+        ENUM_END=5, 
     
     };
     
@@ -1890,7 +1895,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     
     };
     
-    ///<summary>          THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a         recommendation to the autopilot software. Individual autopilots may or may not obey         the recommended messages.        </summary>
+    ///<summary> THIS INTERFACE IS DEPRECATED AS OF JULY 2015. Please use MESSAGE_INTERVAL instead. A data stream is not a fixed set of messages, but rather a      recommendation to the autopilot software. Individual autopilots may or may not obey      the recommended messages. </summary>
     public enum MAV_DATA_STREAM
     {
 			///<summary> Enable all data streams | </summary>
@@ -1916,7 +1921,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     
     };
     
-    ///<summary>          The ROI (region of interest) for the vehicle. This can be         be used by the vehicle for camera/vehicle attitude alignment (see         MAV_CMD_NAV_ROI).        </summary>
+    ///<summary>  The ROI (region of interest) for the vehicle. This can be                 be used by the vehicle for camera/vehicle attitude alignment (see                 MAV_CMD_NAV_ROI). </summary>
     public enum MAV_ROI
     {
 			///<summary> No region of interest. | </summary>
@@ -2466,6 +2471,44 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     
     };
     
+    ///<summary>  </summary>
+    public enum MOTOR_TEST_THROTTLE_TYPE
+    {
+			///<summary> throttle as a percentage from 0 ~ 100 | </summary>
+        MOTOR_TEST_THROTTLE_PERCENT=0, 
+    	///<summary> throttle as an absolute PWM value (normally in range of 1000~2000) | </summary>
+        MOTOR_TEST_THROTTLE_PWM=1, 
+    	///<summary> throttle pass-through from pilot's transmitter | </summary>
+        MOTOR_TEST_THROTTLE_PILOT=2, 
+    	///<summary>  | </summary>
+        ENUM_END=3, 
+    
+    };
+    
+    ///<summary>  </summary>
+    public enum GPS_INPUT_IGNORE_FLAGS
+    {
+			///<summary> ignore altitude field | </summary>
+        GPS_INPUT_IGNORE_FLAG_ALT=1, 
+    	///<summary> ignore hdop field | </summary>
+        GPS_INPUT_IGNORE_FLAG_HDOP=2, 
+    	///<summary> ignore vdop field | </summary>
+        GPS_INPUT_IGNORE_FLAG_VDOP=4, 
+    	///<summary> ignore horizontal velocity field (vn and ve) | </summary>
+        GPS_INPUT_IGNORE_FLAG_VEL_HORIZ=8, 
+    	///<summary> ignore vertical velocity field (vd) | </summary>
+        GPS_INPUT_IGNORE_FLAG_VEL_VERT=16, 
+    	///<summary> ignore speed accuracy field | </summary>
+        GPS_INPUT_IGNORE_FLAG_SPEED_ACCURACY=32, 
+    	///<summary> ignore horizontal accuracy field | </summary>
+        GPS_INPUT_IGNORE_FLAG_HORIZONTAL_ACCURACY=64, 
+    	///<summary> ignore vertical accuracy field | </summary>
+        GPS_INPUT_IGNORE_FLAG_VERTICAL_ACCURACY=128, 
+    	///<summary>  | </summary>
+        ENUM_END=129, 
+    
+    };
+    
     ///<summary> Possible actions an aircraft can take to avoid a collision. </summary>
     public enum MAV_COLLISION_ACTION
     {
@@ -2473,22 +2516,18 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         NONE=0, 
     	///<summary> Report potential collision | </summary>
         REPORT=1, 
-    	///<summary> Descend to avoid thread (or do not take off) | </summary>
-        VERTICAL_DESCEND=2, 
-    	///<summary> Ascend to avoid thread | </summary>
-        VERTICAL_ASCEND=3, 
-    	///<summary> Follow TCAS protocol | </summary>
-        TCAS=4, 
+    	///<summary> Ascend or Descend to avoid thread | </summary>
+        ASCEND_OR_DESCEND=2, 
+    	///<summary> Ascend or Descend to avoid thread | </summary>
+        MOVE_HORIZONTALLY=3, 
     	///<summary> Aircraft to move perpendicular to the collision's velocity vector | </summary>
-        MOVE_PERPENDICULAR=5, 
+        MOVE_PERPENDICULAR=4, 
     	///<summary> Aircraft to fly directly back to its launch point | </summary>
-        RTL=6, 
+        RTL=5, 
     	///<summary> Aircraft to stop in place | </summary>
-        HOVER=7, 
-    	///<summary> Aircraft to return along path it has followed | </summary>
-        RETRACE_PATH=8, 
+        HOVER=6, 
     	///<summary>  | </summary>
-        ENUM_END=9, 
+        ENUM_END=7, 
     
     };
     
@@ -4102,7 +4141,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=21)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     public struct mavlink_servo_output_raw_t
     {
         /// <summary> Timestamp (microseconds since system boot) </summary>
@@ -4125,6 +4164,22 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         public  UInt16 servo8_raw;
             /// <summary> Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows to encode more than 8 servos. </summary>
         public  byte port;
+            /// <summary> Servo output 9 value, in microseconds </summary>
+        public  UInt16 servo9_raw;
+            /// <summary> Servo output 10 value, in microseconds </summary>
+        public  UInt16 servo10_raw;
+            /// <summary> Servo output 11 value, in microseconds </summary>
+        public  UInt16 servo11_raw;
+            /// <summary> Servo output 12 value, in microseconds </summary>
+        public  UInt16 servo12_raw;
+            /// <summary> Servo output 13 value, in microseconds </summary>
+        public  UInt16 servo13_raw;
+            /// <summary> Servo output 14 value, in microseconds </summary>
+        public  UInt16 servo14_raw;
+            /// <summary> Servo output 15 value, in microseconds </summary>
+        public  UInt16 servo15_raw;
+            /// <summary> Servo output 16 value, in microseconds </summary>
+        public  UInt16 servo16_raw;
     
     };
 
@@ -5994,7 +6049,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
     public struct mavlink_altitude_t
     {
-        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        /// <summary> Timestamp (micros since boot or Unix epoch) </summary>
         public  UInt64 time_usec;
             /// <summary> This altitude measure is initialized on system boot and monotonic (it is never reset, but represents the local altitude change). The only guarantee on this field is that it will never be reset and is consistent within a flight. The recommended value for this field is the uncorrected barometric altitude at boot time. This altitude will also drift and vary between flights. </summary>
         public  Single altitude_monotonic;
@@ -6257,6 +6312,49 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=63)]
+    public struct mavlink_gps_input_t
+    {
+        /// <summary> Timestamp (micros since boot or Unix epoch) </summary>
+        public  UInt64 time_usec;
+            /// <summary> GPS time (milliseconds from start of GPS week) </summary>
+        public  UInt32 time_week_ms;
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lat;
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lon;
+            /// <summary> Altitude (AMSL, not WGS84), in m (positive for up) </summary>
+        public  Single alt;
+            /// <summary> GPS HDOP horizontal dilution of position in m </summary>
+        public  Single hdop;
+            /// <summary> GPS VDOP vertical dilution of position in m </summary>
+        public  Single vdop;
+            /// <summary> GPS velocity in m/s in NORTH direction in earth-fixed NED frame </summary>
+        public  Single vn;
+            /// <summary> GPS velocity in m/s in EAST direction in earth-fixed NED frame </summary>
+        public  Single ve;
+            /// <summary> GPS velocity in m/s in DOWN direction in earth-fixed NED frame </summary>
+        public  Single vd;
+            /// <summary> GPS speed accuracy in m/s </summary>
+        public  Single speed_accuracy;
+            /// <summary> GPS horizontal accuracy in m </summary>
+        public  Single horiz_accuracy;
+            /// <summary> GPS vertical accuracy in m </summary>
+        public  Single vert_accuracy;
+            /// <summary> Flags indicating which fields to ignore (see GPS_INPUT_IGNORE_FLAGS enum).  All other fields must be provided. </summary>
+        public  UInt16 ignore_flags;
+            /// <summary> GPS week number </summary>
+        public  UInt16 time_week;
+            /// <summary> ID of the GPS for multiple GPS inputs </summary>
+        public  byte gps_id;
+            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix. 4: 3D with DGPS. 5: 3D with RTK </summary>
+        public  byte fix_type;
+            /// <summary> Number of satellites visible. </summary>
+        public  byte satellites_visible;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=182)]
     public struct mavlink_gps_rtcm_data_t
     {
@@ -6409,16 +6507,16 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=19)]
     public struct mavlink_collision_t
     {
-        /// <summary> Unique identifier, domain based on COLLISION_TYPE </summary>
+        /// <summary> Unique identifier, domain based on src field </summary>
         public  UInt32 id;
-            /// <summary> Estimated time until this collision is realised (seconds) </summary>
+            /// <summary> Estimated time until collision occurs (seconds) </summary>
         public  Single time_to_minimum_delta;
-            /// <summary> Closest vehicle will approach this collision (altitude, in metres) </summary>
-        public  Single minimum_delta_altitude;
-            /// <summary> Closest vehicle will approach this collision (horizontal distance, in metres) </summary>
-        public  Single minimum_delta_xy;
-            /// <summary> Collision type </summary>
-        public  byte collision_type;
+            /// <summary> Closest vertical distance in meters between vehicle and object </summary>
+        public  Single altitude_minimum_delta;
+            /// <summary> Closest horizontal distance in meteres between vehicle and object </summary>
+        public  Single horizontal_minimum_delta;
+            /// <summary> Collision data source </summary>
+        public  byte src;
             /// <summary> Action that is being taken to avoid this collision </summary>
         public  byte action;
             /// <summary> How concerned the aircraft is about this collision </summary>
@@ -6544,6 +6642,33 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
             /// <summary> signing key </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
 		public byte[] secret_key;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
+    public struct mavlink_button_change_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Time of last change of button state </summary>
+        public  UInt32 last_change_ms;
+            /// <summary> Bitmap state of buttons </summary>
+        public  byte state;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
+    public struct mavlink_play_tune_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> tune in board specific format </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
+		public byte[] tune;
     
     };
 

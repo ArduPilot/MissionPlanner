@@ -3333,7 +3333,7 @@ Please check the following
 
                             var id = coll.id.ToString("X5");
 
-                            var coll_type = (MAVLink.MAV_COLLISION_SRC)coll.collision_type;
+                            var coll_type = (MAVLink.MAV_COLLISION_SRC)coll.src;
 
                             var action = (MAVLink.MAV_COLLISION_ACTION)coll.action;
 
