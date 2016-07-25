@@ -35,11 +35,22 @@ namespace MissionPlanner.Utilities
             if (!File.Exists(runner))
             {
                 Loading.ShowLoading("Downloading LogAnalyzer");
-                // download zip
-                if (
-                    Common.getFilefromNet(
+                bool gotit = false;
+                if (Environment.Is64BitOperatingSystem)
+                {
+                    gotit = Common.getFilefromNet(
+                        "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer64.zip",
+                        zip);
+                }
+                else
+                {
+                    gotit = Common.getFilefromNet(
                         "http://firmware.ardupilot.org/Tools/MissionPlanner/LogAnalyzer/LogAnalyzer.zip",
-                        zip))
+                        zip);
+                }
+
+                // download zip
+                if (gotit)
                 {
                     Loading.ShowLoading("Extracting zip file");
                     // extract zip
