@@ -41,9 +41,16 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public double Alt { get { return _alt; } set
+        public double Alt
         {
-            if (_alt == value) return; _alt = value; this.Invalidate(); } }
+            get { return _alt; }
+            set
+            {
+                if (_alt == value) return;
+                _alt = value;
+                this.Invalidate();
+            }
+        }
 
         public string AltUnit
         {
@@ -55,6 +62,8 @@ namespace MissionPlanner.Controls
                 this.Invalidate();
             }
         }
+
+        public string AltSource { get; set; }
 
         [System.ComponentModel.Browsable(true)]
         public bool Vertical { get; set; }
@@ -77,6 +86,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             this.DoubleBuffered = true;
             CMB_coordsystem.DataSource = Enum.GetNames(typeof(CoordsSystems));
+            AltSource = "";
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -90,6 +100,8 @@ namespace MissionPlanner.Controls
                 if (Vertical)
                 {
                     e.Graphics.DrawString(Lat.ToString("0.000000") + "\n" + Lng.ToString("0.000000") + "\n" + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(AltSource, this.Font, new SolidBrush(this.ForeColor),
+                        new PointF(CMB_coordsystem.Left, CMB_coordsystem.Bottom + 4), StringFormat.GenericDefault);
                 }
                 else
                 {
