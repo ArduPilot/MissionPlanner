@@ -642,29 +642,6 @@ namespace MissionPlanner.Utilities
                 Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
         }
 
-        void apmtype(object temp)
-        {
-            try
-            {
-                // Create a request using a URL that can receive a post. 
-                HttpWebRequest request =
-                    (HttpWebRequest) HttpWebRequest.Create("http://vps.oborne.me/axs/ax.pl?" + (string) temp);
-                //request.AllowAutoRedirect = true;
-                request.UserAgent = MainV2.instance.Text + " (res" + Screen.PrimaryScreen.Bounds.Width + "x" +
-                                    Screen.PrimaryScreen.Bounds.Height + "; " + Environment.OSVersion.VersionString +
-                                    "; cores " + Environment.ProcessorCount + ")";
-                request.Timeout = 10000;
-                // Set the Method property of the request to POST.
-                request.Method = "GET";
-                // Get the request stream.
-                // Get the response.
-                WebResponse response = request.GetResponse();
-            }
-            catch
-            {
-            }
-        }
-
         /// <summary>
         /// upload to px4 standalone
         /// </summary>
@@ -672,7 +649,7 @@ namespace MissionPlanner.Utilities
         public bool UploadPX4(string filename, BoardDetect.boards board)
         {
             Uploader up;
-            updateProgress(0, "Reading Hex File");
+            updateProgress(-1, "Reading Hex File");
             px4uploader.Firmware fw;
             try
             {
@@ -686,12 +663,14 @@ namespace MissionPlanner.Utilities
 
             try
             {
+                updateProgress(-1, "Look for HeartBeat");
                 // check if we are seeing heartbeats
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
+                    updateProgress(-1, "Reboot to Bootloader");
                     MainV2.comPort.doReboot(true, false);
                     MainV2.comPort.Close();
 
@@ -704,6 +683,7 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
+                    updateProgress(-1, "No HeartBeat found");
                     MainV2.comPort.BaseStream.Close();
                     CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
                 }
@@ -716,7 +696,7 @@ namespace MissionPlanner.Utilities
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
-            updateProgress(0, "Scanning comports");
+            updateProgress(-1, "Scanning comports");
 
             while (DateTime.Now < DEADLINE)
             {
@@ -725,8 +705,6 @@ namespace MissionPlanner.Utilities
                 foreach (string port in allports)
                 {
                     log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
-
-                    updateProgress(-1, "Connecting");
 
                     try
                     {
@@ -756,6 +734,8 @@ namespace MissionPlanner.Utilities
                         up.close();
                         continue;
                     }
+
+                    updateProgress(-1, "Connecting");
 
                     // test if pausing here stops - System.TimeoutException: The write timed out.
                     System.Threading.Thread.Sleep(500);
