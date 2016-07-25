@@ -320,7 +320,9 @@ namespace MissionPlanner.GCSViews
 
             coords1.Lat = mouseposdisplay.Lat;
             coords1.Lng = mouseposdisplay.Lng;
-            coords1.Alt = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom).alt;
+            var altdata = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
+            coords1.Alt = altdata.alt;
+            coords1.AltSource = altdata.altsource;
 
             try
             {

@@ -72,7 +72,7 @@ namespace MissionPlanner
                 Utilities.Update.DoUpdate();
                 return;
             }
-            
+
             name = "Mission Planner";
 
             try

@@ -84,6 +84,7 @@
     <Compile Include="CircularStream.cs" />
     <Compile Include="CleanDrivers.cs" />
     <Compile Include="CollectionExtensions.cs" />
+    <Compile Include="DTED.cs" />
     <Compile Include="EnumTranslator.cs" />
     <Compile Include="GeoTiff.cs" />
     <Compile Include="hires.cs" />

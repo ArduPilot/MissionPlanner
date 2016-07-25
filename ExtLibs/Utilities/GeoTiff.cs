@@ -198,6 +198,7 @@ namespace MissionPlanner.Utilities
                     if (v > -1000)
                         answer.currenttype = srtm.tiletype.valid;
                     answer.alt = v;
+                    answer.altsource = "GeoTiff";
                     return answer;
                 }
             }

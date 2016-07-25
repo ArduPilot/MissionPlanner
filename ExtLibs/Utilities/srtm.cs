@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Collections;
-using GMap.NET;
 using log4net;
 
 namespace MissionPlanner
 {
-    public class srtm: IDisposable
+    public class srtm : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public enum tiletype
         {
@@ -26,11 +24,12 @@ namespace MissionPlanner
 
         public class altresponce
         {
-            public static readonly altresponce Invalid = new altresponce() { currenttype = tiletype.invalid };
-            public static readonly altresponce Ocean = new altresponce() { currenttype = tiletype.ocean };
+            public static readonly altresponce Invalid = new altresponce() {currenttype = tiletype.invalid, altsource = "Invalid"};
+            public static readonly altresponce Ocean = new altresponce() {currenttype = tiletype.ocean, altsource = "Ocean"};
 
             public tiletype currenttype = tiletype.invalid;
             public double alt = 0;
+            public string altsource = "";
         }
 
         public static string datadirectory = "./srtm/";
@@ -49,7 +48,7 @@ namespace MissionPlanner
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
-        static Dictionary<int,string> filenameDictionary = new Dictionary<int, string>();
+        static Dictionary<int, string> filenameDictionary = new Dictionary<int, string>();
 
         static srtm()
         {
@@ -60,9 +59,9 @@ namespace MissionPlanner
 
                 for (int x = -180; x <= 180; x++)
                 {
-                     var sx = Math.Abs(x).ToString("000");
+                    var sx = Math.Abs(x).ToString("000");
 
-                    filenameDictionary[y * 1000 + x] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
+                    filenameDictionary[y*1000 + x] = string.Format("{0}{1}{2}{3}{4}", y >= 0 ? "N" : "S", sy,
                         x >= 0 ? "E" : "W", sx, ".hgt");
                 }
             }
@@ -70,8 +69,8 @@ namespace MissionPlanner
 
         static string GetFilename(double lat, double lng)
         {
-            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
-            int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
+            int x = (lng < 0) ? (int) (lng - 1) : (int) lng; //(int)Math.Floor(lng);
+            int y = (lat < 0) ? (int) (lat - 1) : (int) lat; //(int)Math.Floor(lat);
 
             int id = y*1000 + x;
 
@@ -93,6 +92,11 @@ namespace MissionPlanner
 
             if (trytiff.currenttype == tiletype.valid)
                 return trytiff;
+
+            var trydted = Utilities.DTED.getAltitude(lat, lng);
+
+            if (trydted.currenttype == tiletype.valid)
+                return trydted;
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;
@@ -196,13 +200,14 @@ namespace MissionPlanner
                     double v2 = avg(alt01, alt11, x_frac);
                     double v = avg(v1, v2, -y_frac);
 
-                    if(v < -1000)
+                    if (v < -1000)
                         return altresponce.Invalid;
 
                     return new altresponce()
                     {
                         currenttype = tiletype.valid,
-                        alt = v
+                        alt = v,
+                        altsource = "SRTM"
                     };
                 }
 
@@ -296,7 +301,8 @@ namespace MissionPlanner
                     return new altresponce()
                     {
                         currenttype = tiletype.valid,
-                        alt = alt
+                        alt = alt,
+                        altsource = "ASCII"
                     };
                 }
                 else // get something
@@ -357,27 +363,27 @@ namespace MissionPlanner
 
         static double avg(double v1, double v2, double weight)
         {
-            return v2 * weight + v1 * (1 - weight);
+            return v2*weight + v1*(1 - weight);
         }
 
         static MemoryStream readFile(string filename)
         {
             if (filecache.ContainsKey(filename))
             {
-                return (MemoryStream)filecache[filename];
+                return (MemoryStream) filecache[filename];
             }
             else
             {
                 FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read);
 
                 byte[] file = new byte[fs.Length];
-                fs.Read(file, 0, (int)fs.Length);
+                fs.Read(file, 0, (int) fs.Length);
 
                 filecache[filename] = new MemoryStream(file);
 
                 fs.Close();
 
-                return (MemoryStream)filecache[filename];
+                return (MemoryStream) filecache[filename];
             }
         }
 
@@ -408,7 +414,7 @@ namespace MissionPlanner
                     }
                 }
                 catch (Exception ex)
-                { 
+                {
                     log.Error(ex);
                 }
                 Thread.Sleep(1000);
@@ -421,9 +427,9 @@ namespace MissionPlanner
             string baseurl = "http://firmware.ardupilot.org/SRTM/";
 
             // check file doesnt already exist
-            if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string)name))
+            if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string) name))
             {
-                FileInfo fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + (string)name);
+                FileInfo fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + (string) name);
                 if (fi.Length != 0)
                     return;
             }
@@ -445,11 +451,11 @@ namespace MissionPlanner
                 foreach (string hgt in hgtfiles)
                 {
                     checkednames++;
-                    if (hgt.Contains((string)name))
+                    if (hgt.Contains((string) name))
                     {
                         // get file
 
-                        gethgt(hgt, (string)name);
+                        gethgt(hgt, (string) name);
                         return;
                     }
                 }
@@ -457,10 +463,10 @@ namespace MissionPlanner
 
             // if there are no http exceptions, and the list is >= 20, then everything above is valid
             // 15760 is all srtm3 and srtm1
-            if (list.Count >= 12 && checkednames > 14000 && !oceantile.Contains((string)name))
+            if (list.Count >= 12 && checkednames > 14000 && !oceantile.Contains((string) name))
             {
                 // we must be an ocean tile - no matchs
-                oceantile.Add((string)name);
+                oceantile.Add((string) name);
             }
         }
 
@@ -474,7 +480,9 @@ namespace MissionPlanner
 
                 using (WebResponse res = req.GetResponse())
                 using (Stream resstream = res.GetResponseStream())
-                using (BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
+                using (
+                    BinaryWriter bw =
+                        new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
                 {
                     byte[] buf1 = new byte[1024];
 
@@ -565,7 +573,7 @@ namespace MissionPlanner
                 {
                     list.ForEach(x =>
                     {
-                        sw.WriteLine((string)x);
+                        sw.WriteLine((string) x);
                     });
 
                     if (name.Equals("README.txt") || name.Equals("Region_definition.jpg"))
