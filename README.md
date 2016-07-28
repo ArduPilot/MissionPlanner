@@ -23,7 +23,7 @@ How to compile
   http://code.google.com/p/msysgit/downloads/list
   Select a file summarized as "Full installer for official Git for Windows"
    with the highest version
-- TortuiseGit
+- TortoiseGit
   http://code.google.com/p/tortoisegit/wiki/Download
 - Visual Studio
   http://www.visualstudio.com/downloads/download-visual-studio-vs
