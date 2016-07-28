@@ -39,6 +39,8 @@ namespace MissionPlanner
         GMapOverlay kmlpolygonsoverlay;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
         List<PointLatLngAlt> grid;
+        bool loadedfromfile = false;
+        bool loading = false;
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
 
@@ -130,6 +132,8 @@ namespace MissionPlanner
 
             InitializeComponent();
 
+            loading = true;
+
             map.MapProvider = plugin.Host.FDMapType;
 
             kmlpolygonsoverlay = new GMapOverlay("kmlpolygons");
@@ -174,25 +178,29 @@ namespace MissionPlanner
             {
                 kmlpolygonsoverlay.Routes.Add(new GMapRoute(temp.Points,""));
             }
-        }
 
-        private void GridUI_Load(object sender, EventArgs e)
-        {
             xmlcamera(false, "camerasBuiltin.xml");
 
             xmlcamera(false);
 
+            loading = false;
+        }
+
+        private void GridUI_Load(object sender, EventArgs e)
+        {
+            loading = true;
+            if (!loadedfromfile)
+                loadsettings();
+
             // setup state before settings load
             CHK_advanced_CheckedChanged(null, null);
-
-            loadsettings();
-
-            //CHK_advanced_CheckedChanged(null, null);
 
             TRK_zoom.Value = (float)map.Zoom;
 
             label1.Text += " (" + CurrentState.DistanceUnit+")";
             label24.Text += " (" + CurrentState.SpeedUnit + ")";
+
+            loading = false;
 
             domainUpDown1_ValueChanged(this, null);
         }
@@ -218,7 +226,9 @@ namespace MissionPlanner
                     {
                         var test = (GridData)reader.Deserialize(sr);
 
+                        loading = true;
                         loadgriddata(test);
+                        loading = false;
                     }
                 }
             }
@@ -259,9 +269,6 @@ namespace MissionPlanner
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
             NUM_split.Value = griddata.splitmission;
 
-            CHK_internals.Checked = griddata.internals;
-            CHK_footprints.Checked = griddata.footprints;
-            CHK_advanced.Checked = griddata.advanced;
 
             NUM_Distance.Value = griddata.dist;
             NUM_overshoot.Value = griddata.overshoot1;
@@ -293,6 +300,13 @@ namespace MissionPlanner
 
             // Plane Settings
             NUM_Lane_Dist.Value = griddata.minlaneseparation;
+
+            // update display options last
+            CHK_internals.Checked = griddata.internals;
+            CHK_footprints.Checked = griddata.footprints;
+            CHK_advanced.Checked = griddata.advanced;
+
+            loadedfromfile = true;
         }
 
         GridData savegriddata()
@@ -353,7 +367,6 @@ namespace MissionPlanner
         {
             if (plugin.Host.config.ContainsKey("grid_camera"))
             {
-
                 loadsetting("grid_alt", NUM_altitude);
                 //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
@@ -361,10 +374,6 @@ namespace MissionPlanner
                 loadsetting("grid_speed", NUM_UpDownFlySpeed);
                 loadsetting("grid_autotakeoff", CHK_toandland);
                 loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
-
-                loadsetting("grid_internals", CHK_internals);
-                loadsetting("grid_footprints", CHK_footprints);
-                loadsetting("grid_advanced", CHK_advanced);
 
                 loadsetting("grid_dist", NUM_Distance);
                 loadsetting("grid_overshoot1", NUM_overshoot);
@@ -395,6 +404,10 @@ namespace MissionPlanner
 
                 // Plane Settings
                 loadsetting("grid_min_lane_separation", NUM_Lane_Dist);
+
+                loadsetting("grid_internals", CHK_internals);
+                loadsetting("grid_footprints", CHK_footprints);
+                loadsetting("grid_advanced", CHK_advanced);
             }
         }
 
@@ -588,8 +601,13 @@ namespace MissionPlanner
         // Do Work
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            if (loading)
+                return;
+
             if (CMB_camera.Text != "")
+            {
                 doCalc();
+            }
 
             // new grid system test
 
@@ -689,7 +707,7 @@ namespace MissionPlanner
                                 getFOVangle(ref fovha, ref fovva);
                                 var itemcopy = new PointLatLngAlt(item);
                                 itemcopy.Alt += startalt;
-                                var temp = ImageProjection.calc(itemcopy, 0, 0, bearing, fovha, fovva);
+                                var temp = ImageProjection.calc(itemcopy, 0, 0, bearing + startangle, fovha, fovva);
 
                                 List<PointLatLng> footprint = new List<PointLatLng>();
                                 footprint.Add(temp[0]);
@@ -1264,7 +1282,7 @@ namespace MissionPlanner
 
         private void NUM_ValueChanged(object sender, EventArgs e)
         {
-            doCalc();
+            domainUpDown1_ValueChanged(null,null);
         }
 
         private void CMB_camera_SelectedIndexChanged(object sender, EventArgs e)
@@ -1282,25 +1300,29 @@ namespace MissionPlanner
                 //NUM_Distance.Enabled = false;
             }
 
-            doCalc();
+            GMapMarkerOverlap.Clear();
+
+            domainUpDown1_ValueChanged(null, null);
         }
 
         private void TXT_TextChanged(object sender, EventArgs e)
         {
-            doCalc();
+            domainUpDown1_ValueChanged(null, null);
         }
 
         private void CHK_camdirection_CheckedChanged(object sender, EventArgs e)
         {
-            doCalc();
+            domainUpDown1_ValueChanged(null, null);
         }
 
         private void CHK_advanced_CheckedChanged(object sender, EventArgs e)
         {
             if (CHK_advanced.Checked)
             {
-                tabControl1.TabPages.Add(tabGrid);
-                tabControl1.TabPages.Add(tabCamera);
+                if (!tabControl1.TabPages.Contains(tabGrid))
+                    tabControl1.TabPages.Add(tabGrid);
+                if (!tabControl1.TabPages.Contains(tabCamera))
+                    tabControl1.TabPages.Add(tabCamera);
             }
             else
             {
