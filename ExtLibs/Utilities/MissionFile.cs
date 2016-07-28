@@ -81,6 +81,21 @@ namespace MissionPlanner.Utilities
             public Single param2;
             public Single param3;
             public Single param4;
+            public string type;
+        }
+
+        public class SurveyItem
+        {
+            public bool cameraTrigger = false;
+            public double cameraTriggerDistance;
+            public double gridAltitude;
+            public bool gridAltitudeRelative;
+            public double gridAngle;
+            public double gridSpacing;
+            public int id;
+            public List<double[]> polygon = new List<double[]>();
+            public string type;
+            public int version;
         }
 
         public static Format ConvertFromLocationwps(List<Locationwp> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
