@@ -34,6 +34,57 @@ namespace MissionPlanner.Utilities
             // P pitch where the center os pointing ie -80
             // R roll 
 
+            // if roll and pitch is 0, use the quick method.
+            if (R == 0 && P == 0)
+            {
+                // calc fov in m on the ground at 0 alt
+                var fovh = Math.Tan(hfov / 2.0 * deg2rad) * plla.Alt;
+                var fovv = Math.Tan(vfov / 2.0 * deg2rad) * plla.Alt;
+                var fovd = Math.Sqrt(fovh * fovh + fovv * fovv);
+
+                // where we put our footprint
+                var ans2 = new List<PointLatLngAlt>();
+
+                // calc bearing from center to corner
+                var bearing1 = Math.Atan2(fovh, fovv) * rad2deg;
+
+                // calc first corner point
+                var newpos1 = plla.newpos(bearing1 + Y, Math.Sqrt(fovh * fovh + fovv * fovv));
+                // set alt to 0, as we used the hypot for distance and fov is based on 0 alt
+                newpos1.Alt = 0;
+                // calc intersection from center to new point and return ground hit point
+                var cen1 = calcIntersection(plla, newpos1);
+                // add to our footprint poly
+                ans2.Add(cen1);
+                addtomap(cen1, "cen1");
+
+                //repeat
+
+                newpos1 = plla.newpos(Y - bearing1, Math.Sqrt(fovh * fovh + fovv * fovv));
+                newpos1.Alt = 0;
+                cen1 = calcIntersection(plla, newpos1);
+                ans2.Add(cen1);
+                addtomap(cen1, "cen2");
+
+                newpos1 = plla.newpos(bearing1 + Y - 180, Math.Sqrt(fovh * fovh + fovv * fovv));
+                newpos1.Alt = 0;
+                cen1 = calcIntersection(plla, newpos1);
+                ans2.Add(cen1);
+                addtomap(cen1, "cen3");
+
+                newpos1 = plla.newpos(Y - bearing1 - 180, Math.Sqrt(fovh * fovh + fovv * fovv));
+                newpos1.Alt = 0;
+                cen1 = calcIntersection(plla, newpos1);
+                ans2.Add(cen1);
+                addtomap(cen1, "cen4");
+
+
+                addtomap(plla, "plane");
+
+                return ans2;
+            }
+
+            
             GMapPolygon poly = new GMapPolygon(new List<PointLatLng>(), "rect");
 
             double frontangle = (P*0) + vfov/2;
@@ -41,10 +92,6 @@ namespace MissionPlanner.Utilities
             double leftangle = (R*0) + hfov/2;
             double rightangle = (R*0) - hfov/2;
 
-            var fovh = Math.Tan(hfov/2.0 * deg2rad)*2.0;
-            var fovv = Math.Tan(vfov/2.0 * deg2rad)*2.0;
-
-            //DoDebug();
 
             addtomap(plla, "plane");
 
@@ -75,9 +122,25 @@ namespace MissionPlanner.Utilities
             dcm.normalize();
             dcm.rotate(new Vector3(0, frontangle * deg2rad, 0));
             dcm.normalize();
+            /*
+            var mx = new Matrix3();
+            var my = new Matrix3();
+            var mz = new Matrix3();
 
-            test = dcm * center1;
+            mx.from_euler((rightangle + R) * deg2rad, 0, 0);
+            my.from_euler(0, (frontangle + P) * deg2rad, 0);
+            mz.from_euler(0, 0, Y * deg2rad);
 
+            printdcm(mx);
+            printdcm(my);
+            printdcm(mz);
+            printdcm(my * mx);
+            printdcm(mz * my * mx);
+
+            test = mz * my * mx * center1;
+            */
+            test = dcm * center1;  
+              
             bearing2 = (Math.Atan2(test.y, test.x) * rad2deg);
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
@@ -139,7 +202,7 @@ namespace MissionPlanner.Utilities
             dcm.rotate(new Vector3(rightangle * deg2rad, 0, 0));
             dcm.normalize();
             dcm.rotate(new Vector3(0, backangle * deg2rad, 0));
-            dcm.normalize();
+            dcm.normalize(); 
 
             test = dcm * center1;
 
@@ -167,6 +230,39 @@ namespace MissionPlanner.Utilities
             ans.Add(groundpointbl);
 
             return ans;
+        }
+
+        private static void printdcm(Matrix3 dcm)
+        {
+            double R = 0;
+            double P = 0;
+            double Y = 0;
+
+            dcm.to_euler(ref R, ref P, ref Y);
+
+            Console.WriteLine("{0} {1} {2}", R * rad2deg, P * rad2deg, Y * rad2deg);
+        }
+
+        // polar to rectangular
+        static void newpos(ref double x, ref double y, double bearing, double distance)
+        {
+            double degN = 90 - bearing;
+            if (degN < 0)
+                degN += 360;
+            x = x + distance * Math.Cos(degN * deg2rad);
+            y = y + distance * Math.Sin(degN * deg2rad);
+        }
+
+        // polar to rectangular
+        static utmpos newpos(utmpos input, double bearing, double distance)
+        {
+            double degN = 90 - bearing;
+            if (degN < 0)
+                degN += 360;
+            double x = input.x + distance * Math.Cos(degN * deg2rad);
+            double y = input.y + distance * Math.Sin(degN * deg2rad);
+
+            return new utmpos(x, y, input.zone);
         }
 
         static PointLatLngAlt calcIntersection(PointLatLngAlt plla, PointLatLngAlt dest, int step = 100)
