@@ -90,7 +90,7 @@ public static class MavlinkUtil
     public static byte[] trim_payload(ref byte[] payload)
     {
         var length = payload.Length;
-        while (length > 0 && payload[length - 1] == 0)
+        while (length > 1 && payload[length - 1] == 0)
         {
             length--;
         }
