@@ -3400,6 +3400,10 @@ Please check the following
 
                         MAVlist[sysid, compid].cs.messages.Add(logdata);
 
+                        // gymbals etc are a child/slave to the main sysid, this displays the children messages under the current displayed vehicle
+                        if (sysid == sysidcurrent && compid != compidcurrent)
+                            MAVlist[sysidcurrent, compidcurrent].cs.messages.Add(compid + " : "+logdata);
+
                         bool printit = false;
 
                         // the change of severity and the autopilot version where introduced at the same time, so any version non 0 can be used
