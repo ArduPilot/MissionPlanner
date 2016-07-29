@@ -8,6 +8,8 @@ public partial class MAVLink
 {
     public class MAVLinkMessage
     {
+        public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
+
         public byte[] buffer { get; internal set; }
 
         public byte header { get; internal set; }

@@ -382,8 +382,8 @@ namespace MissionPlanner
                     Thread.Sleep(1000);
                 }
 
-                MAVLinkMessage buffer = new MAVLinkMessage();
-                MAVLinkMessage buffer1 = new MAVLinkMessage();
+                MAVLinkMessage buffer = MAVLinkMessage.Invalid;
+                MAVLinkMessage buffer1 = MAVLinkMessage.Invalid;
 
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
@@ -591,7 +591,7 @@ Please check the following
                 if (DateTime.Now > start.AddMilliseconds(2200) || readcount > 200) // was 1200 , now 2.2 sec
                 {
                     giveComport = false;
-                    return new MAVLinkMessage();
+                    return MAVLinkMessage.Invalid;
                 }
             }
         }
@@ -2902,7 +2902,7 @@ Please check the following
                         {
                             buffer = readlogPacketMavlink().buffer;
                             if (buffer.Length == 0)
-                                return new MAVLinkMessage();
+                                return MAVLinkMessage.Invalid;
                         }
                         else
                         {
@@ -3095,7 +3095,7 @@ Please check the following
             _bps1 += buffer.Length;
 
             if (buffer.Length == 0)
-                return new MAVLinkMessage();
+                return MAVLinkMessage.Invalid;
 
             MAVLinkMessage message = new MAVLinkMessage(buffer);
 
@@ -3133,7 +3133,7 @@ Please check the following
                         message.crc16);
                 if (logreadmode)
                     log.InfoFormat("bad packet pos {0} ", logplaybackfile.BaseStream.Position);
-                return new MAVLinkMessage();
+                return MAVLinkMessage.Invalid;
             }
 
             byte sysid = message.sysid;
@@ -3202,7 +3202,7 @@ Please check the following
                 if (!valid)
                 {
                     log.InfoFormat("Packet failed signature but passed crc");
-                    return new MAVLinkMessage();
+                    return MAVLinkMessage.Invalid;
                 }
             }
 
