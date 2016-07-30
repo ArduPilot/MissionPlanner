@@ -661,7 +661,7 @@ namespace MissionPlanner
 
             bool ellipsoid = false;
 
-            if (MainV2.comPort.MAV.param.ContainsKey("MAG_DIA"))
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
             {
                 ellipsoid = true;
             }

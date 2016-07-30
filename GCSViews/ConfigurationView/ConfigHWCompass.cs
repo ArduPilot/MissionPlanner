@@ -391,6 +391,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
 
+            mprog.Clear();
+            mrep.Clear();
+
             packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket);
             packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket);
 
@@ -421,32 +424,59 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            lbl_obmagresult.Clear();
+            int compasscount = 0;
+            int completecount = 0;
             lock (mprog)
             {
+                // somewhere to save our %
+                Dictionary<byte,byte> status = new Dictionary<byte, byte>();
                 foreach (var item in mprog)
                 {
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " " + item.completion_pct.ToString() + "% " +
-                                               "\n");
+                    status[item.compass_id] = item.completion_pct;
                 }
 
-                mprog.Clear();
+                // message for user
+                string message = "";
+                foreach (var item in status)
+                {
+                    message += "id:" + item.Key + " " + item.Value.ToString() + "% ";
+                    compasscount++;
+                }
+                lbl_obmagresult.AppendText(message + "\n");
             }
 
             lock (mrep)
             {
+                // somewhere to save our answer
+                Dictionary<byte, MAVLink.mavlink_mag_cal_report_t> status = new Dictionary<byte, MAVLink.mavlink_mag_cal_report_t>();
                 foreach (var item in mrep)
                 {
                     if (item.compass_id == 0 && item.ofs_x == 0)
                         continue;
 
-                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x + " y:" + item.ofs_y + " z:" +
-                                               item.ofs_z + " fit:" + item.fitness + "\n");
+                    status[item.compass_id] = item;
                 }
 
-                mrep.Clear();
-            }
+                // message for user
+                string message = "";
+                foreach (var item in status.Values)
+                {
+                    lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x.ToString("0.0") + " y:" + item.ofs_y.ToString("0.0") + " z:" +
+                                             item.ofs_z.ToString("0.0") + " fit:" + item.fitness.ToString("0.0") + " " + (MAVLink.MAG_CAL_STATUS)item.cal_status + "\n");
 
-            lbl_obmagresult.SelectionStart = lbl_obmagresult.Text.Length - 1;
+                    if (item.autosaved == 1)
+                    {
+                        completecount++;
+                        BUT_OBmagcalcancel.Enabled = false;
+                        BUT_OBmagcalaccept.Enabled = false;
+                        timer1.Interval = 1000;
+                    }
+                }
+
+                if (compasscount == completecount && compasscount != 0)
+                    timer1.Stop();
+            }
         }
 
         private void buttonQuickPixhawk_Click(object sender, EventArgs e)
