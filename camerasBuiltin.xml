@@ -224,4 +224,12 @@
     <senh>8.704</senh>
     <senw>10.88</senw>
   </Camera>
+  <Camera>
+    <name>GoPro Hero 4 Black Wide</name>
+    <flen>2.46</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.56</senh>
+    <senw>6.17</senw>
+  </Camera>
 </Cameras>
