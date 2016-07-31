@@ -67,7 +67,8 @@ System.ComponentModel.Description("draw text under Bar")]
             : base()
         {
             drawlbl();
-            //this.Parent.Controls.AddRange(new Control[] { lbl, lbl1 });
+            Maximum = 100;
+            Minimum = 0;
         }
 
         public new int Value
@@ -104,6 +105,7 @@ System.ComponentModel.Description("draw text under Bar")]
             }
         }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(0)]
         public new int Minimum
         {
             get { return _min; }
@@ -130,6 +132,7 @@ System.ComponentModel.Description("draw text under Bar")]
             }
         }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(100)]
         public new int Maximum { get { return _max; } set { _max = value; base.Maximum = value; } }
 
         [System.ComponentModel.Browsable(true),
