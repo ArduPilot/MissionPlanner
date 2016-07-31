@@ -393,6 +393,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mprog.Clear();
             mrep.Clear();
+            horizontalProgressBar1.Value = 0;
+            horizontalProgressBar2.Value = 0;
+            horizontalProgressBar3.Value = 0;
 
             packetsub1 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_PROGRESS, ReceviedPacket);
             packetsub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.MAG_CAL_REPORT, ReceviedPacket);
@@ -440,6 +443,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 string message = "";
                 foreach (var item in status)
                 {
+                    try
+                    {
+                        if (item.Key == 0)
+                            horizontalProgressBar1.Value = item.Value;
+                        if (item.Key == 1)
+                            horizontalProgressBar2.Value = item.Value;
+                        if (item.Key == 2)
+                            horizontalProgressBar3.Value = item.Value;
+                    }
+                    catch { }
+
                     message += "id:" + item.Key + " " + item.Value.ToString() + "% ";
                     compasscount++;
                 }
@@ -464,6 +478,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x.ToString("0.0") + " y:" + item.ofs_y.ToString("0.0") + " z:" +
                                              item.ofs_z.ToString("0.0") + " fit:" + item.fitness.ToString("0.0") + " " + (MAVLink.MAG_CAL_STATUS)item.cal_status + "\n");
+
+                    try
+                    {
+                        if (item.compass_id == 0)
+                            horizontalProgressBar1.Value = 100;
+                        if (item.compass_id == 1)
+                            horizontalProgressBar2.Value = 100;
+                        if (item.compass_id == 2)
+                            horizontalProgressBar3.Value = 100;
+                    }
+                    catch { }
+
+                    if ((MAVLink.MAG_CAL_STATUS)item.cal_status != MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
+                    {
+                        CustomMessageBox.Show(Strings.CommandFailed);
+                    }
 
                     if (item.autosaved == 1)
                     {
