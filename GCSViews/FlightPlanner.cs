@@ -1166,7 +1166,8 @@ namespace MissionPlanner.GCSViews
                                     Enum.Parse(typeof (MAVLink.MAV_CMD),
                                         Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
                         if (command < (byte) MAVLink.MAV_CMD.LAST &&
-                            command != (byte) MAVLink.MAV_CMD.TAKEOFF &&
+                            command != (byte) MAVLink.MAV_CMD.TAKEOFF && // doesnt have a position
+                            command != (byte)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
                             command != (byte) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
                             command != (byte) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
                             command != (byte) MAVLink.MAV_CMD.GUIDED_ENABLE
