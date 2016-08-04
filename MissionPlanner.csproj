@@ -452,12 +452,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.Designer.cs">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigCameraStab.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigCameraStab.Designer.cs">
-      <DependentUpon>ConfigCameraStab.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigCompassMot.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1281,9 +1275,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.zh-TW.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCameraStab.resx">
-      <DependentUpon>ConfigCameraStab.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
       <DependentUpon>ConfigCompassMot.cs</DependentUpon>
