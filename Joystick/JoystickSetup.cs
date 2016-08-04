@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Microsoft.DirectX.DirectInput;
-using OpenTK.Input;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
+using SharpDX.DirectInput;
 
 
 namespace MissionPlanner.Joystick
@@ -31,7 +25,7 @@ namespace MissionPlanner.Joystick
         {
             try
             {
-                DeviceList joysticklist = Joystick.getDevices();
+                var joysticklist = Joystick.getDevices();
 
                 foreach (DeviceInstance device in joysticklist)
                 {
@@ -232,6 +226,8 @@ namespace MissionPlanner.Joystick
 
                         noButtons = Math.Min(15, noButtons);
 
+                        SuspendLayout();
+
                         for (int f = 0; f < noButtons; f++)
                         {
                             string name = (f).ToString();
@@ -242,6 +238,8 @@ namespace MissionPlanner.Joystick
 
                             joy.setButton(f, config);
                         }
+
+                        ResumeLayout();
 
                         MainV2.joystick = joy;
 
@@ -264,7 +262,7 @@ namespace MissionPlanner.Joystick
                     //Console.WriteLine(DateTime.Now.Millisecond + " end ");
                 }
             }
-            catch (InputLostException ex)
+            catch (SharpDX.SharpDXException ex)
             {
                 ex.ToString();
                 if (MainV2.joystick != null && MainV2.joystick.enabled == true)
@@ -323,7 +321,7 @@ namespace MissionPlanner.Joystick
         {
             CMB_joysticks.Items.Clear();
 
-            DeviceList joysticklist = Joystick.getDevices();
+            var joysticklist = Joystick.getDevices();
 
             foreach (DeviceInstance device in joysticklist)
             {
