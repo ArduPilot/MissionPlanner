@@ -81,6 +81,9 @@
             this.servoOptions5 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions6 = new MissionPlanner.Controls.ServoOptions();
             this.servoOptions7 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions8 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions9 = new MissionPlanner.Controls.ServoOptions();
+            this.servoOptions10 = new MissionPlanner.Controls.ServoOptions();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPaneltlogs = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_loadtelem = new MissionPlanner.Controls.MyButton();
@@ -1291,6 +1294,9 @@
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions5);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions6);
             this.flowLayoutPanelServos.Controls.Add(this.servoOptions7);
+            this.flowLayoutPanelServos.Controls.Add(this.servoOptions8);
+            this.flowLayoutPanelServos.Controls.Add(this.servoOptions9);
+            this.flowLayoutPanelServos.Controls.Add(this.servoOptions10);
             this.flowLayoutPanelServos.Name = "flowLayoutPanelServos";
             // 
             // servoOptions1
@@ -1334,6 +1340,24 @@
             resources.ApplyResources(this.servoOptions7, "servoOptions7");
             this.servoOptions7.Name = "servoOptions7";
             this.servoOptions7.thisservo = 11;
+            // 
+            // servoOptions8
+            // 
+            resources.ApplyResources(this.servoOptions8, "servoOptions8");
+            this.servoOptions8.Name = "servoOptions8";
+            this.servoOptions8.thisservo = 12;
+            // 
+            // servoOptions9
+            // 
+            resources.ApplyResources(this.servoOptions9, "servoOptions9");
+            this.servoOptions9.Name = "servoOptions9";
+            this.servoOptions9.thisservo = 13;
+            // 
+            // servoOptions10
+            // 
+            resources.ApplyResources(this.servoOptions10, "servoOptions10");
+            this.servoOptions10.Name = "servoOptions10";
+            this.servoOptions10.thisservo = 14;
             // 
             // tabTLogs
             // 
@@ -1659,8 +1683,7 @@
             this.flightPlannerToolStripMenuItem,
             this.setHomeHereToolStripMenuItem,
             this.takeOffToolStripMenuItem,
-            this.onOffCameraOverlapToolStripMenuItem
-            });
+            this.onOffCameraOverlapToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -1767,7 +1790,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -1872,6 +1895,7 @@
             // coords1
             // 
             this.coords1.Alt = 0D;
+            this.coords1.AltSource = "";
             this.coords1.AltUnit = "m";
             this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Alt", this.bindingSource1, "alt", true));
             this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Lat", this.bindingSource1, "lat", true));
@@ -2119,6 +2143,9 @@
         private Controls.ServoOptions servoOptions5;
         private Controls.ServoOptions servoOptions6;
         private Controls.ServoOptions servoOptions7;
+        private Controls.ServoOptions servoOptions8;
+        private Controls.ServoOptions servoOptions9;
+        private Controls.ServoOptions servoOptions10;
         private System.Windows.Forms.BindingSource bindingSourceHud;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelQuick;
         private System.Windows.Forms.Panel panel2;
