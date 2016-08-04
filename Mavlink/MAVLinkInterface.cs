@@ -2376,27 +2376,54 @@ Please check the following
         }
 
         /// <summary>
-        /// used to injecy data into the gps ie rtcm/sbp/ubx
+        /// used to inject data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
         public void InjectGpsData(byte[] data, byte length)
         {
-            mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
-
-            var len = (length % 128) == 0 ? length / 128 : (length / 128) + 1;
-
-            for (int a = 0; a < len; a++)
+            // new message
+            if (false)
             {
-                gps.data = new byte[110];
+                mavlink_gps_rtcm_data_t gps = new mavlink_gps_rtcm_data_t();
+                var msglen = 180;
 
-                int copy = Math.Min(length - a*110, 110);
+                var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
 
-                Array.Copy(data, a * 110, gps.data, 0, copy);
-                gps.len = (byte)copy;
-                gps.target_component = MAV.compid;
-                gps.target_system = MAV.sysid;
+                for (int a = 0; a < len; a++)
+                {
+                    gps.data = new byte[msglen];
 
-                generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+                    int copy = Math.Min(length - a * msglen, msglen);
+
+                    Array.Copy(data, a * msglen, gps.data, 0, copy);
+                    gps.len = (byte)copy;
+
+                    if (a < (len - 1))
+                        gps.flags = 1;
+
+                    generatePacket((byte)MAVLINK_MSG_ID.GPS_RTCM_DATA, gps);
+                }
+            }
+            else
+            {
+                mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
+                var msglen = 110;
+
+                var len = (length%msglen) == 0 ? length/msglen : (length/msglen) + 1;
+
+                for (int a = 0; a < len; a++)
+                {
+                    gps.data = new byte[msglen];
+
+                    int copy = Math.Min(length - a*msglen, msglen);
+
+                    Array.Copy(data, a*msglen, gps.data, 0, copy);
+                    gps.len = (byte) copy;
+                    gps.target_component = MAV.compid;
+                    gps.target_system = MAV.sysid;
+
+                    generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+                }
             }
         }
 
