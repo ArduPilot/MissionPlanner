@@ -174,7 +174,6 @@ namespace MissionPlanner.Utilities
             temp.Add(new GCSViews.ConfigurationView.ConfigAteryx());
             temp.Add(new GCSViews.ConfigurationView.ConfigAteryxSensors());
             temp.Add(new GCSViews.ConfigurationView.ConfigBatteryMonitoring());
-            temp.Add(new GCSViews.ConfigurationView.ConfigCameraStab());
             temp.Add(new GCSViews.ConfigurationView.ConfigFailSafe());
             temp.Add(new GCSViews.ConfigurationView.ConfigFirmwareDisabled());
             temp.Add(new GCSViews.ConfigurationView.ConfigFlightModes());
