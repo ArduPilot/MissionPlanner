@@ -36,7 +36,6 @@ namespace MissionPlanner.Log
         uint tallyBytes; // previous downloaded logs
         uint totalBytes; // total expected
         List<MAVLink.mavlink_log_entry_t> logEntries;
-        ToolTip toolTip;
 
         //List<Model> orientation = new List<Model>();
 

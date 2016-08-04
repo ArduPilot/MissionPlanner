@@ -13,15 +13,13 @@ namespace MissionPlanner.Controls
 {
     public partial class AuthKeys : Form
     {
-        static string keyfile = "authkeys.xml";
-
         public AuthKeys()
         {
             InitializeComponent();
 
             ThemeManager.ApplyThemeTo(this);
 
-            Load();
+            LoadKeys();
         }
 
         private void but_save_Click(object sender, EventArgs e)
@@ -29,7 +27,7 @@ namespace MissionPlanner.Controls
             Save();
         }
 
-        private void Load()
+        private void LoadKeys()
         {
             dataGridView1.Rows.Clear();
             foreach (var authKey in MAVAuthKeys.Keys)
@@ -76,7 +74,7 @@ namespace MissionPlanner.Controls
 
                 Save();
 
-                Load();
+                LoadKeys();
             }
         }
 

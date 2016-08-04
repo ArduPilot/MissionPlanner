@@ -82,8 +82,6 @@ namespace MissionPlanner.Utilities
 
                     using (var stream = client.GetStream())
                     {
-                        bool lastvalid = false;
-
                         while (client.Client.Connected)
                         {
                             while (client.Available > 0)

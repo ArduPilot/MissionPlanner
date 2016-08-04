@@ -224,7 +224,6 @@ namespace MissionPlanner.GeoRef
                     float currentRoll = 0f;
                     float currentPitch = 0f;
                     float currentSAlt = 0f;
-                    int a = 0;
 
                     foreach (var item in sr.GetEnumeratorType(new string[] { "GPS", "GPS2", "ATT", "CTUN", "RFND" }))
                     {

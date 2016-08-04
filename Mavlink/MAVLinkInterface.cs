@@ -27,7 +27,6 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private ICommsSerial _baseStream;
-        private bool pauseStreams;
 
         public ICommsSerial BaseStream
         {
@@ -3127,7 +3126,7 @@ Please check the following
             if ((message.crc16 >> 8) != (crc >> 8) ||
                 (message.crc16 & 0xff) != (crc & 0xff))
             {
-                if (message.msgid != -1 && buffer.Length > 5 && msginfo.name != null)
+                if (buffer.Length > 5 && msginfo.name != null)
                     log.InfoFormat("Mavlink Bad Packet (crc fail) len {0} crc {1} vs {4} pkno {2} {3}", buffer.Length,
                         crc, message.msgid, msginfo.name.ToString(),
                         message.crc16);

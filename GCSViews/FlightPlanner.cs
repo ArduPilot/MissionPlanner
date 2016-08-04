@@ -4972,11 +4972,6 @@ namespace MissionPlanner.GCSViews
                 area.HeightLat = top - bottom;
                 area.WidthLng = right - left;
 
-
-                int todo;
-                // todo
-                // split up pull area to smaller chunks
-
                 for (int i = 1; i <= MainMap.MaxZoom; i++)
                 {
                     if (res == DialogResult.Yes)
@@ -6329,7 +6324,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
             int Points = 4;
             int Radius = 0;
-            int Direction = 1;
             int startangle = 0;
             int minalt = 5;
             int maxalt = 20;

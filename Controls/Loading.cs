@@ -23,7 +23,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
-        public string Text 
+        public new string Text 
         {
             get { return label1.Text; }
             set
