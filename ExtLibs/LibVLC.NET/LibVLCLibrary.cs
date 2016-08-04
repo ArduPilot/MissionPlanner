@@ -394,6 +394,7 @@ namespace LibVLC.NET
           entry_assembly_path = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(Assembly.GetEntryAssembly().Location)), "VLC");
         string current_directory_path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "VLC");
         string program_files_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "VideoLAN", "VLC");
+        string program_files_path1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VideoLAN", "VLC");
 
         foreach(string directory in
                   new string[] 
@@ -401,7 +402,8 @@ namespace LibVLC.NET
                     executing_assembly_path,
                     entry_assembly_path,
                     current_directory_path,
-                    program_files_path
+                    program_files_path,
+                    program_files_path1
                   })
           if(System.IO.Directory.Exists(directory))
             try
