@@ -1795,7 +1795,7 @@ namespace MissionPlanner.GCSViews
                     {
                         cmds.Add(port.getHomePosition());
                     }
-                    catch (TimeoutException ex)
+                    catch (TimeoutException)
                     {
                         // blank home
                         cmds.Add(new Locationwp() { id = (ushort)MAVLink.MAV_CMD.WAYPOINT });
@@ -2108,7 +2108,7 @@ namespace MissionPlanner.GCSViews
                         }
                         a++;
                     }
-                    catch (TimeoutException ex)
+                    catch (TimeoutException)
                     {
                         use_int = false;
                         // added here to prevent timeout errors

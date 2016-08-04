@@ -44,7 +44,7 @@ namespace MissionPlanner
 
                 MainV2._connectionControl.UpdateSysIDS();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

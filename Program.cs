@@ -160,6 +160,9 @@ namespace MissionPlanner
 
             Utilities.NGEN.doNGEN();
 
+            log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
+                System.Environment.Is64BitProcess);
+
             try
             {
                 //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;

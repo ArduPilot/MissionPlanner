@@ -45,6 +45,16 @@ namespace MissionPlanner.GCSViews
             get { return isConnected && MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER; }
         }
 
+        public bool isQuadPlane
+        {
+            get
+            {
+                return isConnected && isPlane &&
+                       MainV2.comPort.MAV.param.ContainsKey("Q_ENABLE") &&
+                       (MainV2.comPort.MAV.param["Q_ENABLE"].Value == 1.0);
+            }
+        }
+
         public bool isPlane
         {
             get

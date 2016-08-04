@@ -39,7 +39,7 @@ namespace MissionPlanner.Controls
             }
         }
 
-        public static void Close()
+        public new static void Close()
         {
             if (Instance != null)
             {

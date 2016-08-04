@@ -473,7 +473,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
 
                 // message for user
-                string message = "";
                 foreach (var item in status.Values)
                 {
                     lbl_obmagresult.AppendText("id:" + item.compass_id + " x:" + item.ofs_x.ToString("0.0") + " y:" + item.ofs_y.ToString("0.0") + " z:" +
