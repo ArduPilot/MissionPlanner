@@ -961,6 +961,8 @@ Please check the following
                     new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE) MAV.param_types[paramname]).float_value;
             }
 
+            int currentparamcount = MAV.param.Count;
+
             generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req);
 
             log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, req.param_value, MAV.sysid,
@@ -1022,6 +1024,16 @@ Please check the following
 
                         giveComport = false;
                         //System.Threading.Thread.Sleep(100);//(int)(8.5 * 5)); // 8.5ms per byte
+
+                        // check if enabeling this param has added subparams, queue on gui thread
+                        if (currentparamcount < par.param_count)
+                        {
+                            MainV2.instance.BeginInvoke((Action) delegate
+                            {
+                                Loading.ShowLoading(String.Format("A Param refresh is required - Please press F5\nold #{0}  new #{1}",currentparamcount,par.param_count));
+                            });
+                        }
+
                         return true;
                     }
                 }

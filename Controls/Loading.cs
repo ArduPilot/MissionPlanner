@@ -28,11 +28,12 @@ namespace MissionPlanner.Controls
             get { return label1.Text; }
             set
             {
+                label1.Text = value;
+
                 if (this.IsHandleCreated && !IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
-                        label1.Text = value;
                         Application.DoEvents();
                     });
                 }
