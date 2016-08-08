@@ -59,6 +59,7 @@ namespace MissionPlanner.Utilities
             // the "ToArray" makes this safe for someone to add items while enumerating.
             get { return config.Keys.ToArray(); }
         }
+
         public bool ContainsKey(string key)
         {
             return config.ContainsKey(key);
@@ -101,7 +102,7 @@ namespace MissionPlanner.Utilities
 
         public int Count { get { return config.Count; } }
 
-        static string GetDefaultLogDir()
+        public static string GetDefaultLogDir()
         {
             string directory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"logs";
             if (!Directory.Exists(directory))
@@ -112,7 +113,7 @@ namespace MissionPlanner.Utilities
             return directory;
         }
 
-        internal int GetInt32(string key)
+        public int GetInt32(string key)
         {
             int result = 0;
             string value = null;
@@ -123,7 +124,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        internal bool GetBoolean(string key)
+        public bool GetBoolean(string key)
         {
             bool result = false;
             string value = null;
@@ -134,7 +135,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        internal float GetFloat(string key)
+        public float GetFloat(string key)
         {
             float result = 0f;
             string value = null;
@@ -145,7 +146,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        internal double GetDouble(string key)
+        public double GetDouble(string key)
         {
             double result = 0D;
             string value = null;
@@ -156,7 +157,7 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        internal byte GetByte(string key)
+        public byte GetByte(string key)
         {
             byte result = 0;
             string value = null;
