@@ -52,6 +52,8 @@ etc
 
             public void LoadFile(string filename)
             {
+                log.InfoFormat("DTED {0}", filename);
+
                 using (var stream = File.OpenRead(filename))
                 {
                     byte[] buffer = new byte[80];
@@ -72,18 +74,27 @@ etc
                     width = int.Parse(UHL.Groups[10].Value);
                     height = int.Parse(UHL.Groups[11].Value);
 
+                    log.InfoFormat("Size ({0},{1})", width, height);
+
                     // lower left corner
                     x = DDDMMSSH2DD(UHL.Groups[3].Value);
                     y = DDDMMSSH2DD(UHL.Groups[4].Value);
+
+                    log.InfoFormat("Start Point ({0},{1})", x, y);
 
                     // scales
                     xscale = SSSS2DD(UHL.Groups[5].Value);
                     yscale = SSSS2DD(UHL.Groups[6].Value);
 
+                    log.InfoFormat("Scale ({0},{1})", xscale, yscale);
+
                     // switch top for bottom
                     y += height * yscale;
 
                     Area = new RectLatLng(y, x, width * xscale, height * yscale);
+
+                    log.InfoFormat("Coverage {0}", Area.ToString());
+
                     FileName = filename;
                     index.Add(this);
                 }
@@ -132,9 +143,9 @@ etc
             if (!Directory.Exists(srtm.datadirectory))
                 return;
 
-            var files = Directory.GetFiles(srtm.datadirectory, "*.dt0").ToList();
+            var files = Directory.GetFiles(srtm.datadirectory, "*.dt2").ToList();
             files.AddRange(Directory.GetFiles(srtm.datadirectory, "*.dt1"));
-            files.AddRange(Directory.GetFiles(srtm.datadirectory, "*.dt2"));
+            files.AddRange(Directory.GetFiles(srtm.datadirectory, "*.dt0"));
 
             foreach (var file in files)
             {
