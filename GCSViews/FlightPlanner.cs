@@ -292,6 +292,9 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            // convert to utm
+            convertToUTM(lat, lng);
+
             // Add more for other params
             if (Commands.Columns[Param1.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][1] /*"Delay"*/))
             {
@@ -302,6 +305,48 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
             Commands.EndEdit();
+        }
+
+        void convertToUTM(double lat, double lng)
+        {
+            if (lat == 0 && lng == 0)
+            {
+                return;
+            }
+
+            var temp = new PointLatLngAlt(lat, lng);
+            int zone = temp.GetUTMZone();
+            var temp2 = temp.ToUTM();
+            Commands[coordZone.Index, selectedrow].Value = zone;
+            Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
+            Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
+        }
+
+        void convertFromUTM(int rowindex)
+        {
+            try
+            {
+                var zone = int.Parse(Commands[coordZone.Index, rowindex].Value.ToString());
+
+                var east = double.Parse(Commands[coordEasting.Index, rowindex].Value.ToString());
+
+                var north = double.Parse(Commands[coordNorthing.Index, rowindex].Value.ToString());
+
+                if (east == 0 && north == 0)
+                {
+                    return;
+                }
+
+                var utm = new utmpos(east, north, zone);
+
+                Commands[Lat.Index, rowindex].Value = utm.ToLLA().Lat;
+                Commands[Lon.Index, rowindex].Value = utm.ToLLA().Lng;
+
+            }
+            catch
+            {
+                return;
+            }
         }
 
         PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
@@ -1978,7 +2023,7 @@ namespace MissionPlanner.GCSViews
                 temp.p3 = (float) (double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
                 temp.p4 = (float) (double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
 
-                temp.Tag = Commands.Rows[a].Cells[Tag.Index].Value;
+                temp.Tag = Commands.Rows[a].Cells[TagData.Index].Value;
 
                 return temp;
             }
@@ -3776,6 +3821,22 @@ namespace MissionPlanner.GCSViews
 
         private void Commands_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            // we have modified a utm coords
+            if (e.ColumnIndex == coordZone.Index ||
+                e.ColumnIndex == coordNorthing.Index ||
+                e.ColumnIndex == coordEasting.Index)
+            {
+                convertFromUTM(e.RowIndex);
+            }
+
+            // we have modified a ll coord
+            if (e.ColumnIndex == Lat.Index ||
+                e.ColumnIndex == Lon.Index)
+            {
+                convertToUTM(double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString()),
+                    double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString()));
+            }
+
             Commands_RowEnter(null,
                 new DataGridViewCellEventArgs(Commands.CurrentCell.ColumnIndex, Commands.CurrentCell.RowIndex));
 
@@ -5326,8 +5387,8 @@ namespace MissionPlanner.GCSViews
             double y, double z, object tag = null)
         {
             Commands.Rows[rowIndex].Cells[Command.Index].Value = cmd.ToString();
-            Commands.Rows[rowIndex].Cells[Tag.Index].Tag = tag;
-            Commands.Rows[rowIndex].Cells[Tag.Index].Value = tag;
+            Commands.Rows[rowIndex].Cells[TagData.Index].Tag = tag;
+            Commands.Rows[rowIndex].Cells[TagData.Index].Value = tag;
 
             ChangeColumnHeader(cmd.ToString());
 
