@@ -1572,7 +1572,7 @@ namespace MissionPlanner.GeoRef
             {
                 TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
                 Application.DoEvents();
-
+                
                 using (Image Pic = Image.FromStream(ms))
                 {
                     PropertyItem[] pi = Pic.PropertyItems;
@@ -1639,7 +1639,7 @@ namespace MissionPlanner.GeoRef
                     EncoderParameters eps = new EncoderParameters(1);
                     eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
 
-                    Pic.Save(outputfilename, ici, eps);
+                    Pic.Save(outputfilename);
                 }
             }
         }
