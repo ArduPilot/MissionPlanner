@@ -1625,7 +1625,8 @@ namespace MissionPlanner
                                 if (rad_digicam.Checked)
                                 {
                                     AddWP(plla.Lng, plla.Lat, plla.Alt);
-                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 0, 0, 1, 0, gridobject);
+                                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 1, 0, 0, 0, 0, 1, 0,
+                                        gridobject);
                                 }
                             }
                             else
@@ -1646,8 +1647,7 @@ namespace MissionPlanner
                                     {
                                         if (plla.Tag == "SM")
                                         {
-                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
                                                 (float) NUM_spacing.Value,
@@ -1655,8 +1655,7 @@ namespace MissionPlanner
                                         }
                                         else if (plla.Tag == "ME")
                                         {
-                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0,
                                                 0, 0, 0, 0, 0, 0, gridobject);
@@ -1673,29 +1672,27 @@ namespace MissionPlanner
                                             startedtrigdist = true;
                                         }
                                     }
-                                } 
+                                }
                                 else if (rad_repeatservo.Checked)
                                 {
                                     if (chk_stopstart.Checked)
                                     {
                                         if (plla.Tag == "SM")
                                         {
-                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
-                                                (float)NUM_reptservo.Value,
-                                                (float)num_reptpwm.Value, 999, (float)NUM_repttime.Value, 0, 0, 0,
+                                                (float) NUM_reptservo.Value,
+                                                (float) num_reptpwm.Value, 999, (float) NUM_repttime.Value, 0, 0, 0,
                                                 gridobject);
                                         }
                                         else if (plla.Tag == "ME")
                                         {
-                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
-                                                (float)NUM_reptservo.Value,
-                                                (float)num_reptpwm.Value, 0, (float)NUM_repttime.Value, 0, 0, 0,
+                                                (float) NUM_reptservo.Value,
+                                                (float) num_reptpwm.Value, 0, (float) NUM_repttime.Value, 0, 0, 0,
                                                 gridobject);
                                         }
                                     }
@@ -1704,18 +1701,16 @@ namespace MissionPlanner
                                 {
                                     if (plla.Tag == "SM")
                                     {
-                                        if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
-                                            (float)num_setservono.Value,
-                                            (float)num_setservolow.Value, 0, 0, 0, 0, 0,
+                                            (float) num_setservono.Value,
+                                            (float) num_setservolow.Value, 0, 0, 0, 0, 0,
                                             gridobject);
                                     }
                                     else if (plla.Tag == "ME")
                                     {
-                                        if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng || plla.Alt != lastplla.Alt)
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
                                             (float) num_setservono.Value,
