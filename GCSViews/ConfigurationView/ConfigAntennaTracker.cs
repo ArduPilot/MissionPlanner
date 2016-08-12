@@ -72,7 +72,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // ranges
             mavlinkNumericUpDown7.setup(0, 360, 1, 1, "YAW_RANGE", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown8.setup(0, 180, 1, 1, "PITCH_RANGE", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown8.setup(-90, 90, 1, 1, "PITCH_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown19.setup(-90, 90, 1, 1, "PITCH_MAX", MainV2.comPort.MAV.param);
 
             // yaw gain
             mavlinkNumericUpDown9.setup(0, 100, 1, .1f, "YAW2SRV_P", MainV2.comPort.MAV.param);

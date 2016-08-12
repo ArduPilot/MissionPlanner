@@ -33,6 +33,7 @@
             this.groupBox22 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBox1 = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
+            this.lbl_yawpwm = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.mavlinkComboBoxservo_yaw_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_yaw = new MissionPlanner.Controls.MyButton();
@@ -46,6 +47,7 @@
             this.label91 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.lbl_pitchpwm = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.mavlinkComboBoxservo_pitch_type = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_test_pitch = new MissionPlanner.Controls.MyButton();
@@ -87,9 +89,9 @@
             this.label14 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBoxalt_source = new MissionPlanner.Controls.MavlinkComboBox();
-            this.lbl_pitchpwm = new System.Windows.Forms.Label();
-            this.lbl_yawpwm = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.mavlinkNumericUpDown19 = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox22.SuspendLayout();
             this.groupBox25.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).BeginInit();
@@ -118,6 +120,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox22
@@ -153,6 +156,11 @@
             resources.ApplyResources(this.groupBox25, "groupBox25");
             this.groupBox25.Name = "groupBox25";
             this.groupBox25.TabStop = false;
+            // 
+            // lbl_yawpwm
+            // 
+            resources.ApplyResources(this.lbl_yawpwm, "lbl_yawpwm");
+            this.lbl_yawpwm.Name = "lbl_yawpwm";
             // 
             // label16
             // 
@@ -258,6 +266,11 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
+            // lbl_pitchpwm
+            // 
+            resources.ApplyResources(this.lbl_pitchpwm, "lbl_pitchpwm");
+            this.lbl_pitchpwm.Name = "lbl_pitchpwm";
+            // 
             // label15
             // 
             resources.ApplyResources(this.label15, "label15");
@@ -361,6 +374,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.mavlinkNumericUpDown19);
+            this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Controls.Add(this.mavlinkNumericUpDown8);
             this.groupBox5.Controls.Add(this.label5);
             resources.ApplyResources(this.groupBox5, "groupBox5");
@@ -558,19 +573,22 @@
             this.mavlinkComboBoxalt_source.ParamName = null;
             this.mavlinkComboBoxalt_source.SubControl = null;
             // 
-            // lbl_pitchpwm
-            // 
-            resources.ApplyResources(this.lbl_pitchpwm, "lbl_pitchpwm");
-            this.lbl_pitchpwm.Name = "lbl_pitchpwm";
-            // 
-            // lbl_yawpwm
-            // 
-            resources.ApplyResources(this.lbl_yawpwm, "lbl_yawpwm");
-            this.lbl_yawpwm.Name = "lbl_yawpwm";
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // mavlinkNumericUpDown19
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDown19, "mavlinkNumericUpDown19");
+            this.mavlinkNumericUpDown19.Max = 360F;
+            this.mavlinkNumericUpDown19.Min = 0F;
+            this.mavlinkNumericUpDown19.Name = "mavlinkNumericUpDown19";
+            this.mavlinkNumericUpDown19.ParamName = null;
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
             // 
             // ConfigAntennaTracker
             // 
@@ -619,6 +637,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown15)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown14)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown19)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -685,5 +704,7 @@
         private System.Windows.Forms.Label lbl_yawpwm;
         private System.Windows.Forms.Label lbl_pitchpwm;
         private System.Windows.Forms.Timer timer1;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDown19;
+        private System.Windows.Forms.Label label18;
     }
 }
