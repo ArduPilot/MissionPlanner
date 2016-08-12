@@ -75,6 +75,15 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <DELAY>
+      <P1>Seconds (or -1)</P1>
+      <P2>Hour UTC (or -1)</P2>
+      <P3>Minute UTC (or -1)</P3>
+      <P4>Second UTC</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DELAY>
     <GUIDED_ENABLE>
       <P1>on=1/off=0</P1>
       <P2></P2>
