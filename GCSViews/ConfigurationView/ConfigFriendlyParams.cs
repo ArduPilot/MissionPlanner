@@ -163,16 +163,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         protected void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             var errorThrown = false;
-            _params_changed.ForEach(x =>
+
+            var list = _params_changed.Keys.ToList();
+
+            // set enable last
+            list.Sort((a, b) => { if (a.EndsWith("ENABLE")) return 1; return -1; });
+
+            list.ForEach(x =>
             {
                 try
                 {
-                    MainV2.comPort.setParam(x.Key, float.Parse(x.Value, CultureInfo.InvariantCulture));
+                    MainV2.comPort.setParam(x, float.Parse(_params_changed[x], CultureInfo.InvariantCulture));
                 }
                 catch
                 {
                     errorThrown = true;
-                    CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, x.Key), Strings.ERROR);
+                    CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, x), Strings.ERROR);
                 }
             });
             if (!errorThrown)
