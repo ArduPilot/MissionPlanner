@@ -491,20 +491,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     if ((MAVLink.MAG_CAL_STATUS)item.cal_status != MAVLink.MAG_CAL_STATUS.MAG_CAL_SUCCESS)
                     {
-                        CustomMessageBox.Show(Strings.CommandFailed);
+                        //CustomMessageBox.Show(Strings.CommandFailed);
                     }
 
                     if (item.autosaved == 1)
                     {
                         completecount++;
-                        BUT_OBmagcalcancel.Enabled = false;
-                        BUT_OBmagcalaccept.Enabled = false;
                         timer1.Interval = 1000;
                     }
                 }
 
                 if (compasscount == completecount && compasscount != 0)
+                {
+                    BUT_OBmagcalcancel.Enabled = false;
+                    BUT_OBmagcalaccept.Enabled = false;
                     timer1.Stop();
+                }
             }
         }
 
