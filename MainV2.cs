@@ -3154,7 +3154,7 @@ namespace MissionPlanner
                 case WM_DEVICECHANGE:
                     // The WParam value identifies what is occurring.
                     WM_DEVICECHANGE_enum n = (WM_DEVICECHANGE_enum) m.WParam;
-                    int l = (int) m.LParam;
+                    var l = m.LParam;
                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEREMOVEPENDING)
                     {
                         Console.WriteLine("DBT_DEVICEREMOVEPENDING");
