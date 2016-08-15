@@ -1023,12 +1023,12 @@ namespace MissionPlanner
             double epsg = 0.00000001;
             double epsf = 0;
             double epsx = 0;
-            int maxits = 0;
+            int maxits = 20;
 
             alglib.minlmstate state;
             alglib.minlmreport rep;
 
-            alglib.minlmcreatev(data.Count, x, 100, out state);
+            alglib.minlmcreatev(data.Count, x, 1, out state);
             alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
@@ -1068,6 +1068,18 @@ namespace MissionPlanner
                 }
 
                 error2 = Math.Round(Math.Sqrt(Math.Abs(error2)), 2);
+            }
+
+            if (data == datacompass3)
+            {
+                error3 = 0;
+
+                foreach (var item in state.fi)
+                {
+                    error3 += item;
+                }
+
+                error3 = Math.Round(Math.Sqrt(Math.Abs(error3)), 2);
             }
 
             return x;
