@@ -389,7 +389,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
 
             mprog.Clear();
             mrep.Clear();
@@ -506,6 +506,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     BUT_OBmagcalcancel.Enabled = false;
                     BUT_OBmagcalaccept.Enabled = false;
                     timer1.Stop();
+                    CustomMessageBox.Show("Please reboot the autopilot");
                 }
             }
         }
