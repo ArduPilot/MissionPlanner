@@ -143,6 +143,10 @@ namespace MissionPlanner.Log
             DATA_ROTOR_RUNUP_COMPLETE = 58, // Heli only
             DATA_ROTOR_SPEED_BELOW_CRITICAL = 59, // Heli only
             DATA_EKF_ALT_RESET = 60,
+            DATA_LAND_CANCELLED_BY_PILOT = 61,
+            DATA_EKF_YAW_RESET = 62,
+            DATA_AVOIDANCE_ADSB_ENABLE = 63,
+            DATA_AVOIDANCE_ADSB_DISABLE = 64,
         }
 
         public Dictionary<string, Label> logformat = new Dictionary<string, Label>();
