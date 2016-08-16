@@ -163,6 +163,9 @@
     <param name="endpoint">
       The DNS endpoint at which the <c>adb</c> server on the device is running.
     </param>
+    <returns>
+      A string with the adb server response message
+    </returns>
   </Connect>
 
   <SetDevice>

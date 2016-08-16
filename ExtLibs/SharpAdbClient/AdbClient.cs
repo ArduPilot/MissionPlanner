@@ -410,7 +410,7 @@ namespace SharpAdbClient
         }
 
         /// <inheritdoc/>
-        public void Connect(DnsEndPoint endpoint)
+        public string Connect(DnsEndPoint endpoint)
         {
             if (endpoint == null)
             {
@@ -421,6 +421,8 @@ namespace SharpAdbClient
             {
                 socket.SendAdbRequest($"host:connect:{endpoint.Host}:{endpoint.Port}");
                 var response = socket.ReadAdbResponse();
+
+                return socket.ReadString();
             }
         }
 
