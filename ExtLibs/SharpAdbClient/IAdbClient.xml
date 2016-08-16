@@ -133,23 +133,6 @@
     <param name="maxTimeToOutputResponse">The max time to output response.</param>
   </ExecuteRemoteCommand>
 
-  <GetFrameBuffer>
-    <summary>
-      Gets the frame buffer from the specified end point.
-    </summary>
-    <param name="device">The device.</param>
-    <param name="cancellationToken">
-      A <see cref="CancellationToken"/> that can be used to cancel the asynchronous task.
-    </param>
-    <returns>Returns a <see cref="Task"/> which returns the raw frame buffer.</returns>
-    <exception cref="SharpAdbClient.Exceptions.AdbException">
-      failed asking for frame buffer
-    </exception>
-    <exception cref="SharpAdbClient.Exceptions.AdbException">
-      failed nudging
-    </exception>
-  </GetFrameBuffer>
-
   <RunLogService>
     <summary>
       Runs the Event log service on the Device.

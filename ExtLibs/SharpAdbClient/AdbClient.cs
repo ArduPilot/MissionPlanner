@@ -30,7 +30,7 @@ namespace SharpAdbClient
     ///     call the <see cref="GetDevices"/> method.
     /// </para>
     /// <para>
-    ///     To run a command on a device, you can use the <see cref="ExecuteRemoteCommandAsync(string, DeviceData, IShellOutputReceiver, CancellationToken, int)"/>
+    ///     To run a command on a device, you can use the <see cref="ExecuteRemoteCommand(string, DeviceData, IShellOutputReceiver, CancellationToken, int)"/>
     ///     method.
     /// </para>
     /// </summary>
@@ -287,7 +287,7 @@ namespace SharpAdbClient
         }
 
         /// <inheritdoc/>
-        public async Task ExecuteRemoteCommandAsync(string command, DeviceData device, IShellOutputReceiver receiver, CancellationToken cancellationToken, int maxTimeToOutputResponse)
+        public void ExecuteRemoteCommand(string command, DeviceData device, IShellOutputReceiver receiver, CancellationToken cancellationToken, int maxTimeToOutputResponse)
         {
             this.EnsureDevice(device);
 
@@ -309,7 +309,7 @@ namespace SharpAdbClient
                         // -- one of the integration test fetches output 1000 times and found no truncations.
                         while (!cancellationToken.IsCancellationRequested)
                         {
-                            var line = await reader.ReadLineAsync().ConfigureAwait(false);
+                            var line = reader.ReadLine();
 
                             if (line == null)
                             {
@@ -340,36 +340,6 @@ namespace SharpAdbClient
                         receiver.Flush();
                     }
                 }
-            }
-        }
-
-        /// <inheritdoc/>
-        public async Task<Image> GetFrameBufferAsync(DeviceData device, CancellationToken cancellationToken)
-        {
-            this.EnsureDevice(device);
-
-            using (IAdbSocket socket = Factories.AdbSocketFactory(this.EndPoint))
-            {
-                // Select the target device
-                this.SetDevice(socket, device);
-
-                // Send the framebuffer command
-                socket.SendAdbRequest("framebuffer:");
-                socket.ReadAdbResponse();
-
-                // The result first is a FramebufferHeader object,
-                var size = Marshal.SizeOf(typeof(FramebufferHeader));
-                var headerData = new byte[size];
-                await socket.ReadAsync(headerData, cancellationToken).ConfigureAwait(false);
-
-                var header = FramebufferHeader.Read(headerData);
-
-                // followed by the actual framebuffer content
-                var imageData = new byte[header.Size];
-                socket.Read(imageData);
-
-                // Convert the framebuffer to an image, and return that.
-                return header.ToImage(imageData);
             }
         }
 

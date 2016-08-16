@@ -163,6 +163,7 @@ namespace SharpAdbClient
         /// <param name="logLevel"></param>
         /// <param name="tag"></param>
         /// <param name="message"></param>
+        /// <param name="args"></param>
         private static void WriteLine(LogLevel.LogLevelInfo logLevel, string tag, string message, params object[] args)
         {
             if (logLevel.Priority >= Level.Priority)

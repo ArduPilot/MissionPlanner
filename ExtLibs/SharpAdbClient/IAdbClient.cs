@@ -57,7 +57,7 @@ namespace SharpAdbClient
         IEnumerable<ForwardData> ListForward(DeviceData device);
 
         /// <include file='IAdbClient.xml' path='/IAdbClient/ExecuteRemoteCommand/*'/>
-        Task ExecuteRemoteCommandAsync(string command, DeviceData device, IShellOutputReceiver receiver, CancellationToken cancellationToken, int maxTimeToOutputResponse);
+        void ExecuteRemoteCommand(string command, DeviceData device, IShellOutputReceiver receiver, CancellationToken cancellationToken, int maxTimeToOutputResponse);
 
         // shell: not implemented
         // remount: not implemented
@@ -67,9 +67,6 @@ namespace SharpAdbClient
         // local:<path> not implemented
         // localreserved:<path> not implemented
         // localabstract:<path> not implemented
-
-        /// <include file='IAdbClient.xml' path='/IAdbClient/GetFrameBuffer/*'/>
-        Task<Image> GetFrameBufferAsync(DeviceData device, CancellationToken cancellationToken);
 
         // jdwp:<pid>: not implemented
         // track-jdwp: not implemented

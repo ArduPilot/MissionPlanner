@@ -16,9 +16,6 @@
     <param name="timestamp">
       The time at which the file was last modified.
     </param>
-    <param name="progress">
-      A <see cref="IProgress{T}"/> that can be used to monitor the progress of the push operation.
-    </param>
     <param name="cancellationToken">
       A <see cref="CancellationToken"/> that can be used to cancel the task.
     </param>
@@ -33,9 +30,6 @@
     </param>
     <param name="stream">
       A <see cref="Stream"/> that will receive the contents of the file.
-    </param>
-    <param name="progress">
-      A <see cref="IProgress{T}"/> that can be used to monitor the progress of the pull operation.
     </param>
     <param name="cancellationToken">
       A <see cref="CancellationToken"/> that can be used to cancel the task.

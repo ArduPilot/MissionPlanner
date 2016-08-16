@@ -120,15 +120,6 @@ namespace SharpAdbClient
         void Read(byte[] data);
 
         /// <summary>
-        /// Reads a <see cref="string"/> from an <see cref="IAdbSocket"/> instance when
-        /// the connection is in sync mode.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="string"/> received from the <see cref = "IAdbSocket"/>.
-        /// </returns>
-        Task ReadAsync(byte[] data, CancellationToken cancellationToken);
-
-        /// <summary>
         /// Reads a <see cref="string"/> from an <see cref="IAdbSocket"/> instance.
         /// </summary>
         /// <returns>
@@ -144,15 +135,6 @@ namespace SharpAdbClient
         /// The <see cref="string"/> received from the <see cref = "IAdbSocket"/>.
         /// </returns>
         string ReadSyncString();
-
-        /// <summary>
-        /// Asynchronously reads a <see cref="string"/> from an <see cref="IAdbSocket"/> instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="Task"/> that represents the asynchronous operation. The return value
-        /// of the task is the<see cref="string"/> received from the <see cref = "IAdbSocket"/>.
-        /// </returns>
-        Task<string> ReadStringAsync(CancellationToken cancellationToken);
 
         /// <summary>
         /// Closes the<see cref="AdbSocket"/> connection and releases all associated resources.

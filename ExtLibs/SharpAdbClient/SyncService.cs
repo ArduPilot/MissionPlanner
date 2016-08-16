@@ -127,7 +127,7 @@ namespace SharpAdbClient
         }
 
         /// <include file='.\ISyncService.xml' path='/SyncService/Push/*'/>
-        public void Push(Stream stream, string remotePath, int permissions, DateTime timestamp, IProgress<int> progress, CancellationToken cancellationToken)
+        public void Push(Stream stream, string remotePath, int permissions, DateTime timestamp, CancellationToken cancellationToken)
         {
             if (stream == null)
             {
@@ -192,7 +192,7 @@ namespace SharpAdbClient
         }
 
         /// <include file='.\ISyncService.xml' path='/SyncService/PullFile2/*'/>
-        public void Pull(string remoteFilepath, Stream stream, IProgress<int> progress, CancellationToken cancellationToken)
+        public void Pull(string remoteFilepath, Stream stream, CancellationToken cancellationToken)
         {
             if (remoteFilepath == null)
             {

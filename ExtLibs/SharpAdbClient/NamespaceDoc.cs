@@ -22,11 +22,6 @@ namespace SharpAdbClient
     /// <para>
     ///     To send and receive files to and from Android devices, you can use the <see cref="SyncService"/> class.
     /// </para>
-    ///
-    /// <para>
-    ///     To be notified when Android devices connect to or disconnect from your PC, you can use the <see cref="DeviceMonitor"/>
-    ///     class.
-    /// </para>
     /// </summary>
     ///
     /// <example>

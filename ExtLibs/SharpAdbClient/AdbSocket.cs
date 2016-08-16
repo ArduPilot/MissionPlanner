@@ -121,12 +121,6 @@ namespace SharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual Task ReadAsync(byte[] data, CancellationToken cancellationToken)
-        {
-            return this.ReadAsync(data, -1, cancellationToken);
-        }
-
-        /// <inheritdoc/>
         public virtual void SendSyncRequest(SyncCommand command, string path, int permissions)
         {
             this.SendSyncRequest(command, $"{path},{permissions}");
@@ -218,25 +212,6 @@ namespace SharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual async Task<string> ReadStringAsync(CancellationToken cancellationToken)
-        {
-            // The first 4 bytes contain the length of the string
-            var reply = new byte[4];
-            await this.ReadAsync(reply, cancellationToken).ConfigureAwait(false);
-
-            // Convert the bytes to a hex string
-            string lenHex = AdbClient.Encoding.GetString(reply);
-            int len = int.Parse(lenHex, NumberStyles.HexNumber);
-
-            // And get the string
-            reply = new byte[len];
-            await this.ReadAsync(reply, cancellationToken).ConfigureAwait(false);
-
-            string value = AdbClient.Encoding.GetString(reply);
-            return value;
-        }
-
-        /// <inheritdoc/>
         public virtual AdbResponse ReadAdbResponse()
         {
             var response = this.ReadAdbResponseInner();
@@ -296,68 +271,6 @@ namespace SharpAdbClient
                 Log.Error(TAG, sex);
                 throw;
             }
-        }
-
-        /// <summary>
-        /// Receives data from a <see cref="IAdbSocket"/> into a receive buffer.
-        /// </summary>
-        /// <param name="data">
-        /// An array of type <see cref="byte"/> that is the storage location for the received data.
-        /// </param>
-        /// <param name="length">
-        /// The number of bytes to receive.
-        /// </param>
-        /// <param name="cancellationToken">
-        /// A <see cref="CancellationToken"/> that can be used to cancel the task.
-        /// </param>
-        /// <remarks>
-        /// Cancelling the task will also close the socket.
-        /// </remarks>
-        /// <returns>
-        /// A <see cref="Task"/> that represents the asynchronous operation. The result value of the
-        /// task contains the number of bytes received.
-        /// </returns>
-        public virtual async Task<int> ReadAsync(byte[] data, int length, CancellationToken cancellationToken)
-        {
-            int expLen = length != -1 ? length : data.Length;
-            int count = -1;
-            int totalRead = 0;
-
-            while (count != 0 && totalRead < expLen)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-
-                try
-                {
-                    int left = expLen - totalRead;
-                    int buflen = left < this.socket.ReceiveBufferSize ? left : this.socket.ReceiveBufferSize;
-
-                    byte[] buffer = new byte[buflen];
-                    this.socket.ReceiveBufferSize = expLen;
-                    count = await this.socket.ReceiveAsync(buffer, 0, buflen, SocketFlags.None, cancellationToken).ConfigureAwait(false);
-
-                    if (count < 0)
-                    {
-                        Log.Error(TAG, "read: channel EOF");
-                        throw new AdbException("EOF");
-                    }
-                    else if (count == 0)
-                    {
-                        Log.Info(TAG, "DONE with Read");
-                    }
-                    else
-                    {
-                        Array.Copy(buffer, 0, data, totalRead, count);
-                        totalRead += count;
-                    }
-                }
-                catch (SocketException ex)
-                {
-                    throw new AdbException($"An error occurred while receiving data from the adb server: {ex.Message}.", ex);
-                }
-            }
-
-            return totalRead;
         }
 
         /// <inheritdoc/>

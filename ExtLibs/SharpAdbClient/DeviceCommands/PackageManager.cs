@@ -206,7 +206,7 @@ namespace SharpAdbClient.DeviceCommands
                     string message = $"Uploading file onto device '{this.Device.Serial}'";
                     Log.Debug(Tag, message);
 
-                    sync.Push(stream, remoteFilePath, 644, File.GetLastWriteTime(localFilePath), null, CancellationToken.None);
+                    sync.Push(stream, remoteFilePath, 644, File.GetLastWriteTime(localFilePath), CancellationToken.None);
                 }
 
                 return remoteFilePath;
