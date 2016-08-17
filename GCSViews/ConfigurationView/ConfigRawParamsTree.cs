@@ -190,8 +190,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var temp = new List<string>();
             foreach (var item in _changes.Keys)
             {
-                if (item == null)
-                    continue;
                 temp.Add((string)item);
             }
 
