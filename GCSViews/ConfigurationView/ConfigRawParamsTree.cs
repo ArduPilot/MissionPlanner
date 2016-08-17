@@ -190,10 +190,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var temp = new List<string>();
             foreach (var item in _changes.Keys)
             {
+                if (item == null)
+                    continue;
                 temp.Add((string)item);
             }
 
-            temp.Sort((a, b) => { if (a.EndsWith("ENABLE")) return 1; return -1; });
+            temp.Sort((a, b) =>
+            {
+                if (a == null || b == null) return 0;
+                if (a.EndsWith("ENABLE")) return 1; return -1;
+            });
 
             foreach (string value in temp)
             {
