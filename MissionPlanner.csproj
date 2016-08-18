@@ -3856,6 +3856,10 @@
       <Project>{bb06dff7-4f41-4b9d-a3c3-3b6d2b8702b6}</Project>
       <Name>LibVLC.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj">
+      <Project>{cce510f7-1da6-40f2-8921-b86ed41bb85e}</Project>
+      <Name>ManagedNativeWifi.Simple</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
       <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>
       <Name>MAVLink</Name>
