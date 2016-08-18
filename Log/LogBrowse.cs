@@ -31,6 +31,7 @@ namespace MissionPlanner.Log
         Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> EventCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
 
@@ -504,6 +505,7 @@ namespace MissionPlanner.Log
 
             ErrorCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
+            EventCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
 
             seenmessagetypes = new Hashtable();
@@ -1147,6 +1149,8 @@ namespace MissionPlanner.Log
             {
                 DrawModes();
 
+                DrawArms();
+
                 DrawErrors();
 
                 DrawTime();
@@ -1235,6 +1239,72 @@ namespace MissionPlanner.Log
             }
         }
 
+
+        void DrawArms()
+        {
+            bool top = false;
+            double a = 0;
+
+            if (EventCache.Count > 0)
+            {
+                foreach (var item in EventCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+
+                return;
+            }
+
+            EventCache.Clear();
+
+            foreach (var item in logdata.GetEnumeratorType("EV"))
+            {
+                a = item.lineno;
+
+                if (item.msgtype == "EV")
+                {
+                    if (!dflog.logformat.ContainsKey("EV"))
+                        return;
+
+                    int index = dflog.FindMessageOffset("EV", "Id");
+                    if (index == -1)
+                    {
+                        continue;
+                    }
+
+                    if (chk_time.Checked)
+                    {
+                        XDate date = new XDate(item.time);
+                        a = date.XLDate;
+                    }
+
+                    string mode = item.items[index].ToString().Trim();
+
+                    mode = Enum.GetName(typeof(DFLog.events), Int32.Parse(mode));   //use DFLog.events enum names, -> mode
+
+                    if (top)
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Top);
+                        EventCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    else
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Bottom);
+                        EventCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    top = !top;
+                }
+                a++;
+            }
+        }
+
+
+
         void DrawModes()
         {
             bool top = false;
@@ -1249,6 +1319,7 @@ namespace MissionPlanner.Log
                     item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
                     zg1.GraphPane.GraphObjList.Add(item);
                 }
+
                 return;
             }
 
@@ -1791,6 +1862,7 @@ namespace MissionPlanner.Log
             try
             {
                 DrawModes();
+                DrawArms();
                 DrawErrors();
                 DrawTime();
             }
@@ -2312,6 +2384,7 @@ namespace MissionPlanner.Log
         private void chk_time_CheckedChanged(object sender, EventArgs e)
         {
             ModeCache.Clear();
+            EventCache.Clear();
             ErrorCache.Clear();
             TimeCache.Clear();
 
