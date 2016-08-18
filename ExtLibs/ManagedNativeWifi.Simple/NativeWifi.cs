@@ -84,7 +84,7 @@ namespace ManagedNativeWifi.Simple
 						+ 8 /* Offset for dwNumberOfItems and dwIndex */
 						+ (Marshal.SizeOf(typeof(WLAN_INTERFACE_INFO)) * i) /* Offset for preceding items */);
 
-					InterfaceInfo[i] = Marshal.PtrToStructure<WLAN_INTERFACE_INFO>(interfaceInfo);
+					InterfaceInfo[i] = (WLAN_INTERFACE_INFO)Marshal.PtrToStructure(interfaceInfo, typeof(WLAN_INTERFACE_INFO));
 				}
 			}
 		}
@@ -133,7 +133,7 @@ namespace ManagedNativeWifi.Simple
 						+ 8 /* Offset for dwNumberOfItems and dwIndex */
 						+ (Marshal.SizeOf(typeof(WLAN_AVAILABLE_NETWORK)) * i) /* Offset for preceding items */);
 
-					Network[i] = Marshal.PtrToStructure<WLAN_AVAILABLE_NETWORK>(availableNetwork);
+					Network[i] = (WLAN_AVAILABLE_NETWORK)Marshal.PtrToStructure(availableNetwork, typeof(WLAN_AVAILABLE_NETWORK));
 				}
 			}
 		}
@@ -453,7 +453,7 @@ namespace ManagedNativeWifi.Simple
 						IntPtr.Zero) != ERROR_SUCCESS) // If not connected to a network, ERROR_INVALID_STATE will be returned.
 						continue;
 
-					var connection = Marshal.PtrToStructure<WLAN_CONNECTION_ATTRIBUTES>(queryData);
+					var connection = (WLAN_CONNECTION_ATTRIBUTES)Marshal.PtrToStructure(queryData, typeof(WLAN_CONNECTION_ATTRIBUTES));
 					if (connection.isState != WLAN_INTERFACE_STATE.wlan_interface_state_connected)
 						continue;
 
