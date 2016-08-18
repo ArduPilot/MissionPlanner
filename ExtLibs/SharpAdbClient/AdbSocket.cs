@@ -190,9 +190,18 @@ namespace SharpAdbClient
         }
 
         /// <inheritdoc/>
-        public virtual string ReadSyncString()
+        public virtual string ReadSyncString(int length)
         {
-            // The first 4 bytes contain the length of the string
+            var reply = new byte[length];
+            this.Read(reply);
+
+            string value = AdbClient.Encoding.GetString(reply);
+            return value;
+        }
+
+        /// <inheritdoc/>
+        public virtual int ReadSyncLength()
+        {
             var reply = new byte[4];
             this.Read(reply);
 
@@ -201,14 +210,7 @@ namespace SharpAdbClient
                 Array.Reverse(reply);
             }
 
-            int len = BitConverter.ToInt32(reply, 0);
-
-            // And get the string
-            reply = new byte[len];
-            this.Read(reply);
-
-            string value = AdbClient.Encoding.GetString(reply);
-            return value;
+            return BitConverter.ToInt32(reply, 0);
         }
 
         /// <inheritdoc/>

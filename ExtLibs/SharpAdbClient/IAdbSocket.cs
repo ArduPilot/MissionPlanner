@@ -131,10 +131,22 @@ namespace SharpAdbClient
         /// Reads a <see cref="string"/> from an <see cref="IAdbSocket"/> instance when
         /// the connection is in sync mode.
         /// </summary>
+        /// <param name="length">
+        /// The lenght of the string to retrieve
+        /// </param>
         /// <returns>
         /// The <see cref="string"/> received from the <see cref = "IAdbSocket"/>.
         /// </returns>
-        string ReadSyncString();
+        string ReadSyncString(int length);
+
+        /// <summary>
+        /// Reads the length field from an <see cref="IAdbSocket"/> instance when
+        /// the connection is in sync mode.
+        /// </summary>
+        /// <returns>
+        /// The <see cref="int"/> representing the length received from the <see cref = "IAdbSocket"/>.
+        /// </returns>
+        int ReadSyncLength();
 
         /// <summary>
         /// Closes the<see cref="AdbSocket"/> connection and releases all associated resources.

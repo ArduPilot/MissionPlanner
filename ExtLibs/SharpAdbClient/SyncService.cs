@@ -178,10 +178,11 @@ namespace SharpAdbClient
             // read the result, in a byte array containing 2 ints
             // (id, size)
             var result = this.Socket.ReadSyncResponse();
+            var length = this.Socket.ReadSyncLength();
 
             if (result == SyncCommand.FAIL)
             {
-                var message = this.Socket.ReadSyncString();
+                var message = this.Socket.ReadSyncString(length);
 
                 throw new AdbException(message);
             }
@@ -211,6 +212,7 @@ namespace SharpAdbClient
             while (true)
             {
                 var response = this.Socket.ReadSyncResponse();
+                var length = this.Socket.ReadSyncLength();
                 cancellationToken.ThrowIfCancellationRequested();
 
                 if (response == SyncCommand.DONE)
@@ -219,7 +221,7 @@ namespace SharpAdbClient
                 }
                 else if (response == SyncCommand.FAIL)
                 {
-                    var message = this.Socket.ReadSyncString();
+                    var message = this.Socket.ReadSyncString(length);
                     throw new AdbException($"Failed to pull '{remoteFilepath}'. {message}");
                 }
                 else if (response != SyncCommand.DATA)
@@ -227,25 +229,14 @@ namespace SharpAdbClient
                     throw new AdbException($"The server sent an invalid response {response}");
                 }
 
-                // The first 4 bytes contain the length of the data packet
-                var reply = new byte[4];
-                this.Socket.Read(reply);
-
-                if (!BitConverter.IsLittleEndian)
+                if (length > MaxBufferSize)
                 {
-                    Array.Reverse(reply);
-                }
-
-                int size = BitConverter.ToInt32(reply, 0);
-
-                if (size > MaxBufferSize)
-                {
-                    throw new AdbException($"The adb server is sending {size} bytes of data, which exceeds the maximum chunk size {MaxBufferSize}");
+                    throw new AdbException($"The adb server is sending {length} bytes of data, which exceeds the maximum chunk size {MaxBufferSize}");
                 }
 
                 // now read the length we received
-                this.Socket.Read(buffer, size);
-                stream.Write(buffer, 0, size);
+                this.Socket.Read(buffer, length);
+                stream.Write(buffer, 0, length);
             }
         }
 
@@ -281,6 +272,10 @@ namespace SharpAdbClient
             while (true)
             {
                 var response = this.Socket.ReadSyncResponse();
+                FileStatistics entry = new FileStatistics();
+                this.ReadStatistics(entry);
+
+                var length = this.Socket.ReadSyncLength();
 
                 if (response == SyncCommand.DONE)
                 {
@@ -291,9 +286,7 @@ namespace SharpAdbClient
                     throw new AdbException($"The server returned an invalid sync response.");
                 }
 
-                FileStatistics entry = new FileStatistics();
-                this.ReadStatistics(entry);
-                entry.Path = this.Socket.ReadSyncString();
+                entry.Path = this.Socket.ReadSyncString(length);
 
                 value.Add(entry);
             }
