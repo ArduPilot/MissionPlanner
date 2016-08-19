@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{CCE510F7-1DA6-40F2-8921-B86ED41BB85E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ManagedNativeWifi.Simple</RootNamespace>
     <AssemblyName>ManagedNativeWifi.Simple</AssemblyName>
@@ -46,7 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NativeWifi.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
