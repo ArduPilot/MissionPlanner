@@ -181,6 +181,14 @@ namespace MissionPlanner.Arduino
                 }
             }
 
+            if (DialogResult.Yes == CustomMessageBox.Show("Is this a Linux board?", "Linux", MessageBoxButtons.YesNo))
+            {
+                if (DialogResult.Yes == CustomMessageBox.Show("Is this Bebop2?", "Bebop2", MessageBoxButtons.YesNo))
+                {
+                    return boards.bebop2;
+                }
+            }
+
             if (serialPort.IsOpen)
                 serialPort.Close();
 
