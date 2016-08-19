@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<IDeviceMonitor>
+  <DeviceChanged>
+    <summary>
+      Occurs when the status of one of the connected devices has changed.
+    </summary>
+  </DeviceChanged>
+
+  <DeviceConnected>
+    <summary>
+      Occurs when a device has connected to the Android Debug Bridge.
+    </summary>
+  </DeviceConnected>
+
+  <DeviceDisconnected>
+    <summary>
+      Occurs when a device has disconnected from the Android Debug Bridge.
+    </summary>
+  </DeviceDisconnected>
+
+  <Devices>
+    <summary>
+      Gets the devices that are currently connected to the Android Debug Bridge.
+    </summary>
+  </Devices>
+
+  <Start>
+    <summary>
+      Starts the monitoring
+    </summary>
+  </Start>
+</IDeviceMonitor>
