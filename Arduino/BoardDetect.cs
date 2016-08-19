@@ -30,7 +30,8 @@ namespace MissionPlanner.Arduino
             vrbrainv52,
             vrcorev10,
             vrubrainv51,
-            vrubrainv52
+            vrubrainv52,
+            bebop2
         }
 
         /// <summary>

@@ -71,6 +71,7 @@ namespace MissionPlanner.Utilities
             public string urlvrcorev10;
             public string urlvrubrainv51;
             public string urlvrubrainv52;
+            public string urlbebop2;
             public string name;
             public string desc;
             public int k_format_version;
@@ -190,6 +191,7 @@ namespace MissionPlanner.Utilities
             string vrcorev10 = "";
             string vrubrainv51 = "";
             string vrubrainv52 = "";
+            string bebop2 = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -258,6 +260,9 @@ namespace MissionPlanner.Utilities
                             case "urlvrubrainv52":
                                 vrubrainv52 = xmlreader.ReadString();
                                 break;
+                            case "urlbebop2":
+                                bebop2 = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -286,6 +291,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlvrcorev10 = vrcorev10;
                                     temp.urlvrubrainv51 = vrubrainv51;
                                     temp.urlvrubrainv52 = vrubrainv52;
+                                    temp.urlbebop2 = bebop2;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -331,6 +337,7 @@ namespace MissionPlanner.Utilities
                                 vrcorev10 = "";
                                 vrubrainv51 = "";
                                 vrubrainv52 = "";
+                                bebop2 = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -548,6 +555,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.vrubrainv52)
                 {
                     baseurl = temp.urlvrubrainv52.ToString();
+                }
+                else if (board == BoardDetect.boards.bebop2)
+                {
+                    baseurl = temp.urlbebop2.ToString();
                 }
                 else
                 {
