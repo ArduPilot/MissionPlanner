@@ -321,7 +321,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx"})
+            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
