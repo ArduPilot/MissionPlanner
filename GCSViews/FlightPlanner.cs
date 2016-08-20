@@ -2369,6 +2369,9 @@ namespace MissionPlanner.GCSViews
                 cell.Value = temp.p3;
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
+
+                // convert to utm
+                convertToUTM(temp.lat, temp.lng);
             }
 
             Commands.Enabled = true;
