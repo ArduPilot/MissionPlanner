@@ -1,18 +1,18 @@
 ﻿<graphs>
   <graph name="Velocity accel vs gps x">
-    <expression>earth_accel_df(IMU2,ATT).x earth_accel_df(IMU,ATT).x delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS)</expression>
+    <expression>earth_accel_df(IMU2,ATT).x earth_accel_df(IMU,ATT).x delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS) delta(gps_velocity_df(GPS2).x,'x',GPS2.TimeUS)</expression>
     <description>
 Velocity comparison x
     </description>
   </graph>
   <graph name="Velocity accel vs gps y">
-    <expression>earth_accel_df(IMU2,ATT).y earth_accel_df(IMU,ATT).y delta(gps_velocity_df(GPS).y,'y',GPS.TimeUS)</expression>
+    <expression>earth_accel_df(IMU2,ATT).y earth_accel_df(IMU,ATT).y delta(gps_velocity_df(GPS).y,'y',GPS.TimeUS) delta(gps_velocity_df(GPS2).y,'y',GPS2.TimeUS)</expression>
     <description>
       Velocity comparison y
     </description>
   </graph>
   <graph name="Velocity accel vs gps z">
-    <expression>earth_accel_df(IMU2,ATT).z earth_accel_df(IMU,ATT).z delta(gps_velocity_df(GPS).z,'z',GPS.TimeUS)-9.8</expression>
+    <expression>earth_accel_df(IMU2,ATT).z earth_accel_df(IMU,ATT).z delta(gps_velocity_df(GPS).z,'z',GPS.TimeUS)-9.8 delta(gps_velocity_df(GPS2).z,'z',GPS2.TimeUS)-9.8</expression>
     <description>
       Velocity comparison z
     </description>
@@ -201,7 +201,7 @@ Velocity comparison x
       SERVO_OUTPUT_RAW.servo1_raw SERVO_OUTPUT_RAW.servo2_raw SERVO_OUTPUT_RAW.servo3_raw SERVO_OUTPUT_RAW.servo4_raw
     </expression>
     <expression>
-      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
+      RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
     </expression>
   </graph>
 
@@ -212,8 +212,8 @@ Velocity comparison x
       SERVO_OUTPUT_RAW.servo5_raw SERVO_OUTPUT_RAW.servo6_raw SERVO_OUTPUT_RAW.servo7_raw SERVO_OUTPUT_RAW.servo8_raw
     </expression>
     <expression>
-      RCOU.Ch1 RCOU.Ch2 RCOU.Ch3 RCOU.Ch4
-      RCOU.Ch5 RCOU.Ch6 RCOU.Ch7 RCOU.Ch8
+      RCOU.C1 RCOU.C2 RCOU.C3 RCOU.C4
+      RCOU.C5 RCOU.C6 RCOU.C7 RCOU.C8
     </expression>
   </graph>
 

@@ -147,6 +147,33 @@ namespace MissionPlanner.Log
                     }
                 }
             }
+            else if (expression.Contains("delta(gps_velocity_df(GPS2)"))
+            {
+                foreach (var item in logdata.GetEnumeratorType("GPS2"))
+                {
+                    var gps = new GPS();
+
+                    if (item.msgtype == "GPS2")
+                    {
+                        GPS.Spd = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "Spd")]);
+                        GPS.GCrs = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "GCrs")]);
+                        GPS.VZ = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "VZ")]);
+                    }
+
+                    if (expression.Contains(".x"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
+                    }
+                    else if (expression.Contains(".y"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
+                    }
+                    else if (expression.Contains(".z"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).z, "z", item.timems * 1000) - 9.8);
+                    }
+                }
+            }
             else if (expression.StartsWith("degrees"))
             {
                 var matchs = Regex.Matches(expression, @"([A-z0-9_]+)\.([A-z0-9_]+)");
