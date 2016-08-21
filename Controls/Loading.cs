@@ -28,12 +28,11 @@ namespace MissionPlanner.Controls
             get { return label1.Text; }
             set
             {
-                label1.Text = value;
-
                 if (this.IsHandleCreated && !IsDisposed)
                 {
                     this.Invoke((MethodInvoker)delegate
                     {
+                        label1.Text = value;
                         Application.DoEvents();
                     });
                 }
@@ -75,7 +74,6 @@ namespace MissionPlanner.Controls
                 }
 
                 Loading frm = new Loading();
-                frm.Text = Text;
                 frm.TopMost = true;
                 frm.StartPosition = FormStartPosition.CenterParent;
 
@@ -86,6 +84,8 @@ namespace MissionPlanner.Controls
                     frm.Show(owner);
                     Application.DoEvents();
                 });
+
+                frm.Text = Text;
 
                 Instance = frm;
 
