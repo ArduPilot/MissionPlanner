@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<FileListingService>
+  <Device>
+    <summary>
+      Gets or sets the device.
+    </summary>
+    <value>
+      The device.
+    </value>
+  </Device>
+
+  <Root>
+    <summary>
+      Gets or sets the root.
+    </summary>
+    <value>The root.</value>
+  </Root>
+
+  <ForceBusyBox>
+    <summary>
+      Gets or sets a value indicating whether [force busy box].
+    </summary>
+    <value>
+      <see langword="true"/> if [force busy box]; otherwise, <see langword="false"/>.
+    </value>
+  </ForceBusyBox>
+
+  <GetChildren>
+    <summary>
+      Gets the children.
+      </summary>
+    <param name="entry">The entry.</param>
+    <param name="useCache">
+      if set to <see langword="true"/> [use cache].
+    </param>
+    <param name="receiver">The receiver.</param>
+    <returns></returns>
+  </GetChildren>
+
+  <FindFileEntry>
+    <summary>
+      Finds an entry from the path.
+      </summary>
+    <param name="path">The file path of</param>
+    <returns>The FileEntry</returns>
+    <exception cref="FileNotFoundException">Throws if unable to locate the file or directory</exception>
+  </FindFileEntry>
+
+  <FindFileEntry2>
+    <summary>
+      Finds the file entry.
+      </summary>
+    <param name="parent">The parent.</param>
+    <param name="path">The path.</param>
+    <returns></returns>
+  </FindFileEntry2>
+</FileListingService>

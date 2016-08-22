@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Rules for Managed.Adb" Description="Code analysis rules for Managed.Adb.csproj." ToolsVersion="14.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="AsyncUsageAnalyzers" RuleNamespace="AsyncUsageAnalyzers">
+    <Rule Id="UseConfigureAwait" Action="Warning" />
+  </Rules>
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA1208" Action="None" />
+    <Rule Id="SA1600" Action="None" />
+    <Rule Id="SA1601" Action="None" />
+    <Rule Id="SA1602" Action="None" />
+    <Rule Id="SA1604" Action="None" />
+    <Rule Id="SA1605" Action="None" />
+    <Rule Id="SA1606" Action="None" />
+    <Rule Id="SA1607" Action="None" />
+    <Rule Id="SA1608" Action="None" />
+    <Rule Id="SA1610" Action="None" />
+    <Rule Id="SA1611" Action="None" />
+    <Rule Id="SA1612" Action="None" />
+    <Rule Id="SA1613" Action="None" />
+    <Rule Id="SA1614" Action="None" />
+    <Rule Id="SA1615" Action="None" />
+    <Rule Id="SA1616" Action="None" />
+    <Rule Id="SA1617" Action="None" />
+    <Rule Id="SA1618" Action="None" />
+    <Rule Id="SA1619" Action="None" />
+    <Rule Id="SA1620" Action="None" />
+    <Rule Id="SA1621" Action="None" />
+    <Rule Id="SA1622" Action="None" />
+  </Rules>
+</RuleSet>
