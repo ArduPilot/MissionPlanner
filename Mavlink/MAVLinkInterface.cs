@@ -2914,7 +2914,8 @@ Please check the following
             int count = 0;
             int length = 0;
             int readcount = 0;
-            
+            MAVLinkMessage message;
+
             BaseStream.ReadTimeout = 1200; // 1200 ms between chars - the gps detection requires this.
 
             DateTime start = DateTime.Now;
@@ -3135,11 +3136,11 @@ Please check the following
             if (buffer.Length == 0)
                 return MAVLinkMessage.Invalid;
 
-            MAVLinkMessage message = new MAVLinkMessage(buffer);
+            message = new MAVLinkMessage(buffer);
 
             uint msgid = message.msgid;
 
-            message_info msginfo = MAVLINK_MESSAGE_INFOS.SingleOrDefault(p => p.msgid == msgid);
+            message_info msginfo = MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid);
 
             // calc crc
             var sigsize = (message.sig != null) ? MAVLINK_SIGNATURE_BLOCK_LEN : 0;
@@ -4332,13 +4333,10 @@ Please check the following
             {
             }
 
-
             int length = 5;
             int a = 0;
             while (a < length)
             {
-                if (logplaybackfile.BaseStream.Position == logplaybackfile.BaseStream.Length)
-                    break;
                 temp[a] = (byte) logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254 && temp[0] != 253)
                 {
@@ -4346,6 +4344,7 @@ Please check the following
                     a = 0;
                     continue;
                 }
+                // handle length
                 if (a == 1)
                 {
                     int headerlength = temp[0] == MAVLINK_STX ? 9 : 5;
@@ -4353,10 +4352,17 @@ Please check the following
 
                     length = temp[1] + headerlengthstx + 2; // header + 2 checksum
                 }
+                // handle signing and mavlink2
                 if (a == 2 && temp[0] == MAVLINK_STX)
                 {
                     if ((temp[a] & MAVLINK_IFLAG_SIGNED) > 0)
                         length += MAVLINK_SIGNATURE_BLOCK_LEN;
+                }
+                // handle rest
+                if (a == 2)
+                {
+                    logplaybackfile.Read(temp, a + 1, length - (a + 1));
+                    break;
                 }
                 a++;
             }
@@ -4470,18 +4476,22 @@ Please check the following
                     break;
             }
 
-            switch (MAVlist[sysid, compid].cs.firmware)
+            try
             {
-                case MainV2.Firmwares.ArduCopter2:
-                    MAVlist[sysid, compid].Guid = Settings.Instance["copter_guid"].ToString();
-                    break;
-                case MainV2.Firmwares.ArduPlane:
-                    MAVlist[sysid, compid].Guid = Settings.Instance["plane_guid"].ToString();
-                    break;
-                case MainV2.Firmwares.ArduRover:
-                    MAVlist[sysid, compid].Guid = Settings.Instance["rover_guid"].ToString();
-                    break;
+                switch (MAVlist[sysid, compid].cs.firmware)
+                {
+                    case MainV2.Firmwares.ArduCopter2:
+                        MAVlist[sysid, compid].Guid = Settings.Instance["copter_guid"].ToString();
+                        break;
+                    case MainV2.Firmwares.ArduPlane:
+                        MAVlist[sysid, compid].Guid = Settings.Instance["plane_guid"].ToString();
+                        break;
+                    case MainV2.Firmwares.ArduRover:
+                        MAVlist[sysid, compid].Guid = Settings.Instance["rover_guid"].ToString();
+                        break;
+                }
             }
+            catch { }
         }
 
         public override string ToString()
