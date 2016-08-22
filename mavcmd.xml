@@ -676,6 +676,15 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
+    <DO_SET_ROI>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI>
     <DO_SET_REVERSE>
       <P1>Direction (0=F,1=R)</P1>
       <P2></P2>
