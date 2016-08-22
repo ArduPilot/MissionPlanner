@@ -1045,6 +1045,9 @@ namespace MissionPlanner
                     if (software.urlvrubrainv52 != "")
                         xmlwriter.WriteElementString("urlvrubrainv52",
                             new Uri(software.urlvrubrainv52).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlbebop2 != "")
+                        xmlwriter.WriteElementString("urlbebop2",
+                            new Uri(software.urlbebop2).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
@@ -1114,6 +1117,11 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlvrubrainv52,
                             basedir + new Uri(software.urlvrubrainv52).LocalPath);
+                    }
+                    if (software.urlbebop2 != "")
+                    {
+                        Common.getFilefromNet(software.urlbebop2,
+                            basedir + new Uri(software.urlbebop2).LocalPath);
                     }
                 }
 
