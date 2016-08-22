@@ -12,10 +12,14 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        static bool issitl = false;
+
         public static void SortLogs(string[] logs)
         {
             foreach (var logfile in logs)
             {
+                issitl = false;
+
                 FileInfo info = new FileInfo(logfile);
 
                 // delete 0 size files
@@ -64,6 +68,10 @@ namespace MissionPlanner.Log
                         var midpoint = mine.logplaybackfile.BaseStream.Length / 2;
 
                         mine.logplaybackfile.BaseStream.Seek(midpoint, SeekOrigin.Begin);
+
+                        // used for sitl detection
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIMSTATE, sitldetection);
+                        mine.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SIM_STATE, sitldetection);
 
                         MAVLink.MAVLinkMessage hbpacket = mine.getHeartBeat();
                         MAVLink.MAVLinkMessage hbpacket1 = mine.getHeartBeat();
@@ -131,6 +139,14 @@ namespace MissionPlanner.Log
                                          + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                                          + mine.MAV.sysid + Path.DirectorySeparatorChar;
 
+                        if (issitl)
+                        {
+                            destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar 
+                                + "SITL" + Path.DirectorySeparatorChar 
+                                + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar 
+                                + mine.MAV.sysid + Path.DirectorySeparatorChar;
+                        }
+
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
 
@@ -142,6 +158,13 @@ namespace MissionPlanner.Log
                     continue;
                 }
             }
+        }
+
+        private static bool sitldetection(MAVLink.MAVLinkMessage arg)
+        {
+            issitl = true;
+
+            return true;
         }
 
         static void movefileusingmask(string logfile, string destdir)

@@ -26,6 +26,8 @@ namespace MissionPlanner.Log
                 double miny = 99999;
                 double maxy = -99999;
 
+                bool sitl = false;
+
                 Dictionary<int,List<PointLatLngAlt>> loc_list = new Dictionary<int, List<PointLatLngAlt>>();
 
                 try
@@ -54,6 +56,11 @@ namespace MissionPlanner.Log
                                 }
                                 catch
                                 {
+                                }
+
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE || packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
+                                {
+                                    sitl = true;
                                 }
 
                                 if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
@@ -139,6 +146,11 @@ namespace MissionPlanner.Log
 
                         var grap = Graphics.FromImage(map);
 
+                        if (sitl)
+                        {
+                            AddTextToMap(grap, "SITL");
+                        }
+
                         Color[] colours =
                         {
                             Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo,
@@ -191,13 +203,18 @@ namespace MissionPlanner.Log
 
             var grap = Graphics.FromImage(map);
 
-            grap.DrawString(text, SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
+            AddTextToMap(grap, text);
 
             map.Save(jpgname, System.Drawing.Imaging.ImageFormat.Jpeg);
 
             map.Dispose();
 
             map = null;
+        }
+
+        static void AddTextToMap(Graphics grap, string text)
+        {
+            grap.DrawString(text, SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
         }
 
         static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size)
