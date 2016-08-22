@@ -3409,6 +3409,12 @@
     <Content Include="acsimplepids.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="adb.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="AdbWinApi.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="aircraft.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3856,6 +3862,10 @@
       <Project>{bb06dff7-4f41-4b9d-a3c3-3b6d2b8702b6}</Project>
       <Name>LibVLC.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj">
+      <Project>{cce510f7-1da6-40f2-8921-b86ed41bb85e}</Project>
+      <Name>ManagedNativeWifi.Simple</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
       <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>
       <Name>MAVLink</Name>
@@ -3867,6 +3877,10 @@
     <ProjectReference Include="ExtLibs\px4uploader\px4uploader.csproj">
       <Project>{664FC484-2A94-4B0D-808F-A71F88E06B11}</Project>
       <Name>px4uploader</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\SharpAdbClient\SharpAdbClient.csproj">
+      <Project>{65473257-e70f-410b-9269-d0c0f771ea87}</Project>
+      <Name>SharpAdbClient</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>

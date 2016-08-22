@@ -30,7 +30,8 @@ namespace MissionPlanner.Arduino
             vrbrainv52,
             vrcorev10,
             vrubrainv51,
-            vrubrainv52
+            vrubrainv52,
+            bebop2
         }
 
         /// <summary>
@@ -177,6 +178,14 @@ namespace MissionPlanner.Arduino
                     {
                         return boards.b2560;
                     }
+                }
+            }
+
+            if (DialogResult.Yes == CustomMessageBox.Show("Is this a Linux board?", "Linux", MessageBoxButtons.YesNo))
+            {
+                if (DialogResult.Yes == CustomMessageBox.Show("Is this Bebop2?", "Bebop2", MessageBoxButtons.YesNo))
+                {
+                    return boards.bebop2;
                 }
             }
 
