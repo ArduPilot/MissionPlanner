@@ -27,3 +27,4 @@ obj/
 /LogAnalyzer/py2exe/dist
 /LogAnalyzer/py2exe/build
 /LogAnalyzer/LogAnalyzer64.zip
+/gstream
