@@ -270,6 +270,7 @@ namespace MissionPlanner.Log
                     return;
                 }
                 mine.logreadmode = true;
+                mine.speechenabled = false;
 
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {

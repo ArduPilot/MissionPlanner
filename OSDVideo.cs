@@ -319,6 +319,7 @@ namespace MissionPlanner
                     return;
                 }
                 mine.logreadmode = true;
+                mine.speechenabled = false;
 
                 mine.readPacket();
 
@@ -343,15 +344,7 @@ namespace MissionPlanner
                         appui = DateTime.Now.Second;
                     }
 
-                    try
-                    {
-                        if (MainV2.speechEngine != null)
-                            MainV2.speechEngine.SpeakAsyncCancelAll();
-                    }
-                    catch
-                    {
-                    }
-                        // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                    // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
                     // if ((float)(cs.lat + cs.lng + cs.alt) != oldlatlngsum
                     //     && cs.lat != 0 && cs.lng != 0)

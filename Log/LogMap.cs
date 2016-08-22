@@ -41,6 +41,7 @@ namespace MissionPlanner.Log
                             )
                         {
                             mine.logreadmode = true;
+                            mine.speechenabled = false;
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
@@ -48,15 +49,6 @@ namespace MissionPlanner.Log
 
                                 if (packet.Length < 5)
                                     continue;
-
-                                try
-                                {
-                                    if (MainV2.speechEngine != null)
-                                        MainV2.speechEngine.SpeakAsyncCancelAll();
-                                }
-                                catch
-                                {
-                                }
 
                                 if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE || packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
                                 {

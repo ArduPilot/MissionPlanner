@@ -197,6 +197,12 @@ namespace MissionPlanner
             set { _logreadmode = value; }
         }
 
+
+        /// <summary>
+        /// used to disable all speech originating from this module
+        /// </summary>
+        public bool speechenabled = true;
+
         bool _logreadmode = false;
 
         BinaryReader _logplaybackfile;
@@ -3476,7 +3482,8 @@ Please check the following
                                 Settings.Instance["speechenable"] != null &&
                                 Settings.Instance["speechenable"].ToString() == "True")
                             {
-                                 MainV2.speechEngine.SpeakAsync(logdata);
+                                if (speechenabled)
+                                    MainV2.speechEngine.SpeakAsync(logdata);
                             }
                         }
                     }
@@ -4340,7 +4347,8 @@ Please check the following
                 temp[a] = (byte) logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254 && temp[0] != 253)
                 {
-                    log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0],
+                        logplaybackfile.BaseStream.Position);
                     a = 0;
                     continue;
                 }

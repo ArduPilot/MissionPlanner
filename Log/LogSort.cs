@@ -64,6 +64,7 @@ namespace MissionPlanner.Log
                             new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
                     {
                         mine.logreadmode = true;
+                        mine.speechenabled = false;
 
                         var midpoint = mine.logplaybackfile.BaseStream.Length / 2;
 

@@ -430,6 +430,7 @@ namespace MissionPlanner.Log
                                 return;
                             }
                             mine.logreadmode = true;
+                            mine.speechenabled = false;
 
                             double oldlatlngsum = 0;
 
@@ -460,15 +461,7 @@ namespace MissionPlanner.Log
                                     appui = DateTime.Now.Second;
                                 }
 
-                                try
-                                {
-                                    if (MainV2.speechEngine != null)
-                                        MainV2.speechEngine.SpeakAsyncCancelAll();
-                                }
-                                catch
-                                {
-                                }
-                                    // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                                // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
                                 if ((mine.MAV.cs.lat + mine.MAV.cs.lng) != oldlatlngsum
                                     && mine.MAV.cs.lat != 0 && mine.MAV.cs.lng != 0)

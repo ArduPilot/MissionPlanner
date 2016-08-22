@@ -142,6 +142,7 @@ namespace MissionPlanner.Log
                         return;
                     }
                     mine.logreadmode = true;
+                    mine.speechenabled = false;
 
                     mine.getHeartBeat();
 
