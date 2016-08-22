@@ -76,33 +76,36 @@ namespace MissionPlanner.Controls.PreFlight
 
         void UpdateDisplay()
         {
-            foreach (Control item in panel1.Controls)
+            foreach (Control itemp in panel1.Controls)
             {
-                if (item.Tag == null)
-                    continue;
-
-                internaldata data = (internaldata)item.Tag;
-
-                if (item.Name.StartsWith("utext"))
+                foreach (Control item in itemp.Controls)
                 {
-                    item.Text = data.CLItem.DisplayText();
-                    data.desc.Text = data.CLItem.Description;
-                }
-                if (item.Name.StartsWith("utickbox"))
-                {
-                    var tickbox = item as CheckBox;
-                    if (data.CLItem.ConditionType != CheckListItem.Conditional.NONE)
-                        tickbox.Checked = data.CLItem.checkCond(data.CLItem);
+                    if (item.Tag == null)
+                        continue;
 
-                    if (tickbox.Checked)
+                    internaldata data = (internaldata)item.Tag;
+
+                    if (item.Name.StartsWith("utext"))
                     {
-                        data.text.ForeColor = data.CLItem._TrueColor;
-                        data.desc.ForeColor = data.CLItem._TrueColor;
+                        item.Text = data.CLItem.DisplayText();
+                        data.desc.Text = data.CLItem.Description;
                     }
-                    else
+                    if (item.Name.StartsWith("utickbox"))
                     {
-                        data.text.ForeColor = data.CLItem._FalseColor;
-                        data.desc.ForeColor = data.CLItem._FalseColor;
+                        var tickbox = item as CheckBox;
+                        if (data.CLItem.ConditionType != CheckListItem.Conditional.NONE)
+                            tickbox.Checked = data.CLItem.checkCond(data.CLItem);
+
+                        if (tickbox.Checked)
+                        {
+                            data.text.ForeColor = data.CLItem._TrueColor;
+                            data.desc.ForeColor = data.CLItem._TrueColor;
+                        }
+                        else
+                        {
+                            data.text.ForeColor = data.CLItem._FalseColor;
+                            data.desc.ForeColor = data.CLItem._FalseColor;
+                        }
                     }
                 }
             }
@@ -113,28 +116,30 @@ namespace MissionPlanner.Controls.PreFlight
             var desctext = item.Description;
             var texttext = item.DisplayText();
 
-            var height = 21;
-            if (desctext.Length > 25 || texttext.Length > 25)
-                height = 42;
+            var height = TextRenderer.MeasureText(desctext, this.Font).Height;
 
-            Label desc = new Label() { Text = desctext, Location = new Point(x, y), Size = new Size(150, height), Name = "udesc" + y };
-            Label text = new Label() { Text = texttext, Location = new Point(desc.Right, y), Size = new Size(150, height), Name = "utext" + y };
-            CheckBox tickbox = new CheckBox() { Checked = item.checkCond(item), Location = new Point(text.Right, y), Size = new Size(21, 21), Name = "utickbox" + y };
+            GroupBox gb = new GroupBox() { Text = "", Location = new Point(x,y), Size = new Size(330, 17 + height), Name = "gb" + y };
+
+            Label desc = new Label() { Text = desctext, Location = new Point(5, 9), Size = new Size(150, height), Name = "udesc" + y };
+            Label text = new Label() { Text = texttext, Location = new Point(desc.Right, 9), Size = new Size(150, height), Name = "utext" + y };
+            CheckBox tickbox = new CheckBox() { Checked = item.checkCond(item), Location = new Point(text.Right, 7), Size = new Size(21, 21), Name = "utickbox" + y };
 
             desc.Tag = text.Tag = tickbox.Tag = new internaldata { CLItem = item, desc = desc, text = text, tickbox = tickbox };
 
-            panel1.Controls.Add(desc);
-            panel1.Controls.Add(text);
-            panel1.Controls.Add(tickbox);
+            gb.Controls.Add(desc);
+            gb.Controls.Add(text);
+            gb.Controls.Add(tickbox);
 
-            y = desc.Bottom;
+            panel1.Controls.Add(gb);
+
+            y = gb.Bottom;
 
             if (item.Child != null)
             {
                 //return addwarningcontrol(x += 5, y, item.Child, true);
             }
 
-            return desc;
+            return gb;
         }
 
         public void LoadConfig()
