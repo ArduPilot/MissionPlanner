@@ -111,10 +111,11 @@ namespace MissionPlanner.Log
                                     {
                                         var item = dflog.GetDFItemFromLine(line, 0);
 
+                                        var status = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Status")]);
                                         var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
                                         var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
 
-                                        if (lat == 0 || lon == 0)
+                                        if (lat == 0 || lon == 0 || status < 3)
                                             continue;                                            
 
                                         loc_list[0].Add(new PointLatLngAlt(lat, lon));
