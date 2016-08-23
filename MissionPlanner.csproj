@@ -783,6 +783,11 @@
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ConfigCameraStabModel.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Radio\XModem.cs" />
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
@@ -3365,14 +3370,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="SerialOutputNMEA.resx">
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </EmbeddedResource>
@@ -3526,6 +3526,7 @@
     <None Include="Resources\redsinglecopter2.png" />
     <None Include="Resources\FW icons 2013+logos-011.png" />
     <None Include="Resources\FW icons 2013+logos-012.png" />
+    <None Include="pixhawk2cube.jpg" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

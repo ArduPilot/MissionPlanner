@@ -153,12 +153,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxAPM.Text = temp.name;
                 pictureBoxAPM.Tag = temp;
             }
-            else if (temp.url2560.ToLower().Contains("APHIL-".ToLower()) ||
-                     temp.url2560.ToLower().Contains("apm1-hilsensors/ArduPlane".ToLower()))
-            {
-                pictureBoxAPHil.Text = temp.name;
-                pictureBoxAPHil.Tag = temp;
-            }
             else if (temp.url2560.ToLower().Contains("ac2-quad-".ToLower()) ||
                      temp.url2560.ToLower().Contains("1-quad/ArduCopter".ToLower()))
             {
@@ -188,18 +182,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 pictureBoxHeli.Text = temp.name += " heli";
                 pictureBoxHeli.Tag = temp;
-            }
-            else if (temp.url2560.ToLower().Contains("ac2-helhil".ToLower()) ||
-                     temp.url2560.ToLower().Contains("-heli-hil/ArduCopter".ToLower()))
-            {
-                pictureBoxACHHil.Text = temp.name += " heli hil";
-                pictureBoxACHHil.Tag = temp;
-            }
-            else if (temp.url2560.ToLower().Contains("ac2-quadhil".ToLower()) ||
-                     temp.url2560.ToLower().Contains("-quad-hil/ArduCopter".ToLower()))
-            {
-                pictureBoxACHil.Text = temp.name += " hil";
-                pictureBoxACHil.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-octaquad-".ToLower()) ||
                      temp.url2560.ToLower()
@@ -497,6 +479,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch
             {
                 CustomMessageBox.Show("http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams", Strings.ERROR);
+            }
+        }
+
+        private void picturebox_ph2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(@"http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission");
+            }
+            catch
+            {
+                CustomMessageBox.Show("http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission", Strings.ERROR);
             }
         }
     }
