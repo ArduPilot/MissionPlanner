@@ -1168,10 +1168,12 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// upload to arduino standalone
+        /// Upload firmware
         /// </summary>
+        /// <param name="comport"></param>
         /// <param name="filename"></param>
         /// <param name="board"></param>
+        /// <returns>pass/fail</returns>
         public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 || board == BoardDetect.boards.px4v4)
@@ -1200,6 +1202,11 @@ namespace MissionPlanner.Utilities
                 return UploadParrot(filename, board);
             }
 
+            return UploadArduino(comport, filename, board);
+        }
+
+        public bool UploadArduino(string comport, string filename, BoardDetect.boards board)
+        { 
             byte[] FLASH = new byte[1];
             try
             {

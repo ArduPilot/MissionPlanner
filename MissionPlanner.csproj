@@ -257,7 +257,7 @@
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
     <Compile Include="Arduino\IArduinoComms.cs" />
-    <Compile Include="Arduino\BoardDetect.cs" />
+    <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
       <SubType>Component</SubType>
     </Compile>

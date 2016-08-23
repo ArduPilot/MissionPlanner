@@ -8,7 +8,7 @@ using System.Globalization;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 
-namespace MissionPlanner.Arduino
+namespace MissionPlanner.Utilities
 {
     public class BoardDetect
     {
@@ -35,10 +35,10 @@ namespace MissionPlanner.Arduino
         }
 
         /// <summary>
-        /// Detects APM board version
+        /// Detect board version
         /// </summary>
         /// <param name="port"></param>
-        /// <returns> (1280/2560/2560-2/px4/px4v2)</returns>
+        /// <returns> boards enum value</returns>
         public static boards DetectBoard(string port)
         {
             SerialPort serialPort = new SerialPort();
@@ -318,49 +318,6 @@ namespace MissionPlanner.Arduino
                     return boards.b2560;
                 }
             }
-        }
-
-        public enum ap_var_type
-        {
-            AP_PARAM_NONE = 0,
-            AP_PARAM_INT8,
-            AP_PARAM_INT16,
-            AP_PARAM_INT32,
-            AP_PARAM_FLOAT,
-            AP_PARAM_VECTOR3F,
-            AP_PARAM_VECTOR6F,
-            AP_PARAM_MATRIX3F,
-            AP_PARAM_GROUP
-        };
-
-        internal static string[] type_names = new string[]
-        {
-            "NONE", "INT8", "INT16", "INT32", "FLOAT", "VECTOR3F", "VECTOR6F", "MATRIX6F", "GROUP"
-        };
-
-        internal static byte type_size(ap_var_type type)
-        {
-            switch (type)
-            {
-                case ap_var_type.AP_PARAM_NONE:
-                case ap_var_type.AP_PARAM_GROUP:
-                    return 0;
-                case ap_var_type.AP_PARAM_INT8:
-                    return 1;
-                case ap_var_type.AP_PARAM_INT16:
-                    return 2;
-                case ap_var_type.AP_PARAM_INT32:
-                    return 4;
-                case ap_var_type.AP_PARAM_FLOAT:
-                    return 4;
-                case ap_var_type.AP_PARAM_VECTOR3F:
-                    return 3*4;
-                case ap_var_type.AP_PARAM_VECTOR6F:
-                    return 6*4;
-                case ap_var_type.AP_PARAM_MATRIX3F:
-                    return 3*3*4;
-            }
-            return 0;
         }
 
         /// <summary>
