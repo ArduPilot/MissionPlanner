@@ -7,6 +7,7 @@ using System.Text;
 using GMap.NET;
 using log4net;
 using MissionPlanner.Utilities;
+using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
@@ -163,11 +164,11 @@ namespace MissionPlanner
         /// <summary>
         /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
         /// </summary>
-        public Dictionary<int, mavlink_mission_item_t> wps = new Dictionary<int, mavlink_mission_item_t>();
+        public ConcurrentDictionary<int, mavlink_mission_item_t> wps = new ConcurrentDictionary<int, mavlink_mission_item_t>();
 
-        public Dictionary<int, mavlink_rally_point_t> rallypoints = new Dictionary<int, mavlink_rally_point_t>();
+        public ConcurrentDictionary<int, mavlink_rally_point_t> rallypoints = new ConcurrentDictionary<int, mavlink_rally_point_t>();
 
-        public Dictionary<int, mavlink_fence_point_t> fencepoints = new Dictionary<int, mavlink_fence_point_t>();
+        public ConcurrentDictionary<int, mavlink_fence_point_t> fencepoints = new ConcurrentDictionary<int, mavlink_fence_point_t>();
 
         public List<mavlink_camera_feedback_t> camerapoints = new List<mavlink_camera_feedback_t>();
 
