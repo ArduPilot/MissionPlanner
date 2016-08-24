@@ -37,6 +37,7 @@ using Feature = SharpKml.Dom.Feature;
 using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner.GCSViews
 {
@@ -293,7 +294,7 @@ namespace MissionPlanner.GCSViews
             }
 
             // convert to utm
-            convertToUTM(lat, lng);
+            convertFromGeographic(lat, lng);
 
             // Add more for other params
             if (Commands.Columns[Param1.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][1] /*"Delay"*/))
@@ -307,19 +308,27 @@ namespace MissionPlanner.GCSViews
             Commands.EndEdit();
         }
 
-        void convertToUTM(double lat, double lng)
+        void convertFromGeographic(double lat, double lng)
         {
             if (lat == 0 && lng == 0)
             {
                 return;
             }
 
-            var temp = new PointLatLngAlt(lat, lng);
-            int zone = temp.GetUTMZone();
-            var temp2 = temp.ToUTM();
-            Commands[coordZone.Index, selectedrow].Value = zone;
-            Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
-            Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
+            if (coordZone.Visible)
+            {
+                var temp = new PointLatLngAlt(lat, lng);
+                int zone = temp.GetUTMZone();
+                var temp2 = temp.ToUTM();
+                Commands[coordZone.Index, selectedrow].Value = zone;
+                Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
+                Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
+            }
+
+            if (MGRS.Visible)
+            {
+                Commands[MGRS.Index, selectedrow].Value = ((MGRS)new Geographic(lng, lat)).ToString();
+            }
         }
 
         void convertFromUTM(int rowindex)
@@ -341,6 +350,29 @@ namespace MissionPlanner.GCSViews
 
                 Commands[Lat.Index, rowindex].Value = utm.ToLLA().Lat;
                 Commands[Lon.Index, rowindex].Value = utm.ToLLA().Lng;
+
+            }
+            catch
+            {
+                return;
+            }
+        }
+
+        void convertFromMGRS(int rowindex)
+        {
+            try
+            {
+                var mgrs = Commands[MGRS.Index, rowindex].Value.ToString();
+
+                MGRS temp = new MGRS(mgrs);
+
+                var convert = temp.ConvertTo<Geographic>();
+
+                if (convert.Latitude == 0 || convert.Longitude == 0)
+                    return;
+
+                Commands[Lat.Index, rowindex].Value = convert.Latitude.ToString();
+                Commands[Lon.Index, rowindex].Value = convert.Longitude.ToString();
 
             }
             catch
@@ -2371,7 +2403,7 @@ namespace MissionPlanner.GCSViews
                 cell.Value = temp.p4;
 
                 // convert to utm
-                convertToUTM(temp.lat, temp.lng);
+                convertFromGeographic(temp.lat, temp.lng);
             }
 
             Commands.Enabled = true;
@@ -3832,11 +3864,16 @@ namespace MissionPlanner.GCSViews
                 convertFromUTM(e.RowIndex);
             }
 
+            if(e.ColumnIndex == MGRS.Index)
+            {
+                convertFromMGRS(e.RowIndex);
+            }
+
             // we have modified a ll coord
             if (e.ColumnIndex == Lat.Index ||
                 e.ColumnIndex == Lon.Index)
             {
-                convertToUTM(double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString()),
+                convertFromGeographic(double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString()),
                     double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString()));
             }
 

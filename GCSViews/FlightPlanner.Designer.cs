@@ -191,6 +191,7 @@
             this.coordZone = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.coordEasting = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.coordNorthing = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.MGRS = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
@@ -239,6 +240,7 @@
             this.coordZone,
             this.coordEasting,
             this.coordNorthing,
+            this.MGRS,
             this.Delete,
             this.Up,
             this.Down,
@@ -1253,6 +1255,11 @@
             resources.ApplyResources(this.coordNorthing, "coordNorthing");
             this.coordNorthing.Name = "coordNorthing";
             // 
+            // MGRS
+            // 
+            resources.ApplyResources(this.MGRS, "MGRS");
+            this.MGRS.Name = "MGRS";
+            // 
             // Delete
             // 
             this.Delete.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
@@ -1484,6 +1491,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn coordZone;
         private System.Windows.Forms.DataGridViewTextBoxColumn coordEasting;
         private System.Windows.Forms.DataGridViewTextBoxColumn coordNorthing;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MGRS;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
