@@ -317,6 +317,11 @@ public partial class MAVLink
             this.length = length;
             this.type = type;
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0} - {1}",name,msgid);
+        }
     }   
 
     public enum MAVLINK_MSG_ID 
