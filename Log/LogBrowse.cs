@@ -305,12 +305,12 @@ namespace MissionPlanner.Log
                 Name = "ekf VEL tune",
                 items = new displayitem[]
                 {
-                    new displayitem() {type = "EKF3", field = "IVN"},
-                    new displayitem() {type = "EKF3", field = "IPN"},
-                    new displayitem() {type = "EKF3", field = "IVE"},
-                    new displayitem() {type = "EKF3", field = "IPE"},
-                    new displayitem() {type = "EKF3", field = "IVD"},
-                    new displayitem() {type = "EKF3", field = "IPD"},
+                    new displayitem() {type = "NKF3", field = "IVN"},
+                    new displayitem() {type = "NKF3", field = "IPN"},
+                    new displayitem() {type = "NKF3", field = "IVE"},
+                    new displayitem() {type = "NKF3", field = "IPE"},
+                    new displayitem() {type = "NKF3", field = "IVD"},
+                    new displayitem() {type = "NKF3", field = "IPD"},
                 }
             },
         };
