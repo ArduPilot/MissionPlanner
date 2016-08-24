@@ -1410,6 +1410,7 @@ namespace MissionPlanner.Log
                 int i = 0;
                 int firstpoint = 0;
                 int firstpointpos = 0;
+                int firstpointgps2 = 0;
 
                 foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2"}))
                 {
@@ -1466,7 +1467,7 @@ namespace MissionPlanner.Log
                                 route_part.Stroke = new Pen(Color.FromArgb(127, Color.Green), 2);
 
                                 LogRouteInfo lri = new LogRouteInfo();
-                                lri.firstpoint = firstpoint;
+                                lri.firstpoint = firstpointgps2;
                                 lri.lastpoint = i;
                                 lri.samples.AddRange(samplelistgps2);
 
@@ -1478,8 +1479,8 @@ namespace MissionPlanner.Log
                                 //clear the list and set the last point as first point for the next route
                                 routelistgps2.Clear();
                                 samplelistgps2.Clear();
-                                firstpoint = i;
-                                samplelistgps2.Add(firstpoint);
+                                firstpointgps2 = i;
+                                samplelistgps2.Add(firstpointgps2);
                                 routelistgps2.Add(ans.Value);
                             }
                         }
@@ -1514,7 +1515,7 @@ namespace MissionPlanner.Log
                                 routelistpos.Clear();
                                 samplelistpos.Clear();
                                 firstpointpos = i;
-                                samplelistpos.Add(firstpoint);
+                                samplelistpos.Add(firstpointpos);
                                 routelistpos.Add(ans.Value);
                             }
                         }
@@ -1542,7 +1543,7 @@ namespace MissionPlanner.Log
                 route2.IsHitTestVisible = false;
 
                 LogRouteInfo lri3 = new LogRouteInfo();
-                lri3.firstpoint = firstpoint;
+                lri3.firstpoint = firstpointgps2;
                 lri3.lastpoint = i;
                 lri3.samples.AddRange(samplelistgps2);
                 route2.Tag = lri3;
@@ -1550,12 +1551,12 @@ namespace MissionPlanner.Log
                 mapoverlay.Routes.Add(route2);
 
                 // pos
-                GMapRoute route3 = new GMapRoute(routelist, "route2_" + rtcnt);
+                GMapRoute route3 = new GMapRoute(routelistpos, "route2_" + rtcnt);
                 route3.Stroke = new Pen(Color.FromArgb(127, Color.Red), 2);
                 route3.IsHitTestVisible = false;
 
                 LogRouteInfo lri4 = new LogRouteInfo();
-                lri4.firstpoint = firstpoint;
+                lri4.firstpoint = firstpointpos;
                 lri4.lastpoint = i;
                 lri4.samples.AddRange(samplelistpos);
                 route3.Tag = lri4;
