@@ -2451,11 +2451,11 @@ namespace MissionPlanner
 
             MyView.AddScreen(new MainSwitcher.Screen("FlightData", FlightData, true));
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
-            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof (GCSViews.InitialSetup), false));
-            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof (GCSViews.SoftwareConfig), false));
+            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof(GCSViews.InitialSetup), false));
+            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof(GCSViews.SoftwareConfig), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof (GCSViews.Terminal), false));
-            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof (GCSViews.Help), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
             try
             {
@@ -2546,7 +2546,7 @@ namespace MissionPlanner
             ThreadPool.QueueUserWorkItem(BGNoFly);
 
 
-                    ThreadPool.QueueUserWorkItem(BGGetKIndex);
+            ThreadPool.QueueUserWorkItem(BGGetKIndex);
 
 
             // update firmware version list - only once per day
@@ -2585,7 +2585,7 @@ namespace MissionPlanner
                 {
                     FlightData.LoadLogFile(Program.args[0]);
                     FlightData.BUT_playlog_Click(null, null);
-                } 
+                }
                 else if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".bin"))
                 {
                     LogBrowse logbrowse = new LogBrowse();
@@ -2594,6 +2594,21 @@ namespace MissionPlanner
                     logbrowse.Show(this);
                     logbrowse.TopMost = true;
                 }
+            }
+
+            // show wizard on first use
+            if (Settings.Instance["newuser"] == null)
+            {
+                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Wizard.Wizard wiz = new Wizard.Wizard();
+
+                    wiz.ShowDialog(this);
+                }
+
+                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
+
+                Settings.Instance["newuser"] = DateTime.Now.ToShortDateString();
             }
         }
 
