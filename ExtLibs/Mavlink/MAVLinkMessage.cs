@@ -35,7 +35,7 @@ public partial class MAVLink
                 //_data the object specified by the packet type
                 lock (_locker)
                 {
-                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[msgid]);
+                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
                 }
 
                 // fill in the data of the object

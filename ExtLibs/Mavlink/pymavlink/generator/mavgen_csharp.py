@@ -129,79 +129,14 @@ ${message_infos_array}
 	public const byte MAVLINK_IFLAG_SIGNED=  0x01;
 	public const byte MAVLINK_IFLAG_MASK   = 0x01;
 
-    static Dictionary<uint,string> names;
-    static Dictionary<uint,Type> infos;
-    static Dictionary<uint,byte> crcs;
-    static Dictionary<uint,byte> lens;
-
-    public static Dictionary<uint,byte> MAVLINK_MESSAGE_LENGTHS 
-    {
-        get
-        {
-            if (lens != null)
-                return lens;
-            lens = new Dictionary<uint, byte>();
-            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-            {
-                lens[messageInfo.msgid] = (byte)messageInfo.length;
-            }
-            return lens;
-        }
-    }
-
-    public static Dictionary<uint, byte> MAVLINK_MESSAGE_CRCS
-    {
-        get
-        {
-            if (crcs != null)
-                return crcs;
-            crcs = new Dictionary<uint, byte>();
-            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-            {
-                crcs[messageInfo.msgid] = (byte)messageInfo.crc;
-            }
-            return crcs;
-        }
-    }
-
-    public static Dictionary<uint,Type> MAVLINK_MESSAGE_INFO
-    {
-        get
-        {
-            if (infos != null)
-                return infos;
-            infos = new Dictionary<uint, Type>();
-            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-            {
-                infos[messageInfo.msgid] = messageInfo.type;
-            }
-            return infos;
-        }
-    }
-
-    public static Dictionary<uint, string> MAVLINK_NAMES
-    {
-        get
-        {
-            if (names != null)
-                return names;
-            names = new Dictionary<uint, string>();
-            foreach (var messageInfo in MAVLINK_MESSAGE_INFOS)
-            {
-                names[messageInfo.msgid] = messageInfo.name;
-            }
-            return names;
-        }
-    }
-
     public struct message_info
     {
-        public uint msgid;
-        public string name;
-        public byte crc;
-		public uint minlength;
-        public uint length;
-        public Type type;
+        public uint msgid { get; internal set; }
+        public string name { get; internal set; }
+        public byte crc { get; internal set; }
+        public uint minlength { get; internal set; }
+        public uint length { get; internal set; }
+        public Type type { get; internal set; }
 
         public message_info(uint msgid, string name, byte crc, uint minlength, uint length, Type type)
         {

@@ -604,12 +604,12 @@ Please check the following
         public void sendPacket(object indata, int sysid, int compid)
         {
             bool validPacket = false;
-            foreach (var ty in MAVLINK_MESSAGE_INFO)
+            foreach (var ty in MAVLINK_MESSAGE_INFOS)
             {
-                if (ty.Value == indata.GetType())
+                if (ty.type == indata.GetType())
                 {
                     validPacket = true;
-                    generatePacket((int)ty.Key, indata, sysid, compid);
+                    generatePacket((int)ty.msgid, indata, sysid, compid);
                     return;
                 }
             }
@@ -693,7 +693,7 @@ Please check the following
 
                     ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + 6);
 
-                    checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[(uint)messageType], checksum);
+                    checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint)messageType).crc, checksum);
 
 
                     byte ck_a = (byte) (checksum & 0xFF); ///< High byte
@@ -736,7 +736,7 @@ Please check the following
 
                     ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + MAVLINK_NUM_HEADER_BYTES);
 
-                    checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[(uint)messageType], checksum);
+                    checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint)messageType).crc, checksum);
 
                     byte ck_a = (byte)(checksum & 0xFF); ///< High byte
                     byte ck_b = (byte)(checksum >> 8); ///< Low byte
