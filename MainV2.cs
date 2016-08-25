@@ -19,6 +19,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
+using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
@@ -271,7 +272,7 @@ namespace MissionPlanner
         /// </summary>
         internal object adsblock = new object();
 
-        public Dictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new Dictionary<string, adsb.PointLatLngAltHdg>();
+        public ConcurrentDictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 
         string titlebar;
 
