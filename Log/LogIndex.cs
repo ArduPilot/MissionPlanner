@@ -182,7 +182,7 @@ namespace MissionPlanner.Log
                             end = mine.lastlogread;
                     }
 
-                    loginfo.Home = mine.MAV.cs.HomeLocation;
+                    loginfo.Home = mine.MAV.cs.Location;
 
                     loginfo.TimeInAir = mine.MAV.cs.timeInAir;
 
