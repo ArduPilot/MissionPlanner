@@ -32,11 +32,15 @@
             this.olvColumnImage = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnDate = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumndir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnFrame = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnSysid = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnduration = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             this.olvColumnSize = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnHome = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.olvColumnTimeInAir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
+            this.olvColumnDistTraveled = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -45,10 +49,14 @@
             this.objectListView1.AllColumns.Add(this.olvColumnImage);
             this.objectListView1.AllColumns.Add(this.olvColumnDate);
             this.objectListView1.AllColumns.Add(this.olvColumndir);
+            this.objectListView1.AllColumns.Add(this.olvColumnFrame);
             this.objectListView1.AllColumns.Add(this.olvColumnSysid);
             this.objectListView1.AllColumns.Add(this.olvColumnduration);
             this.objectListView1.AllColumns.Add(this.olvColumnName);
             this.objectListView1.AllColumns.Add(this.olvColumnSize);
+            this.objectListView1.AllColumns.Add(this.olvColumnHome);
+            this.objectListView1.AllColumns.Add(this.olvColumnTimeInAir);
+            this.objectListView1.AllColumns.Add(this.olvColumnDistTraveled);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -56,14 +64,18 @@
             this.olvColumnImage,
             this.olvColumnDate,
             this.olvColumndir,
+            this.olvColumnFrame,
             this.olvColumnSysid,
             this.olvColumnduration,
             this.olvColumnName,
-            this.olvColumnSize});
+            this.olvColumnSize,
+            this.olvColumnHome,
+            this.olvColumnTimeInAir,
+            this.olvColumnDistTraveled});
             this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.RowHeight = 150;
-            this.objectListView1.Size = new System.Drawing.Size(982, 460);
+            this.objectListView1.Size = new System.Drawing.Size(1153, 460);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCellFormatEvents = true;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
@@ -92,6 +104,12 @@
             this.olvColumndir.Text = "Directory";
             this.olvColumndir.Width = 258;
             // 
+            // olvColumnFrame
+            // 
+            this.olvColumnFrame.AspectName = "Frame";
+            this.olvColumnFrame.CellPadding = null;
+            this.olvColumnFrame.Text = "Frame";
+            // 
             // olvColumnSysid
             // 
             this.olvColumnSysid.AspectName = "Aircraft";
@@ -113,6 +131,24 @@
             this.olvColumnName.Text = "FileName";
             this.olvColumnName.Width = 178;
             // 
+            // olvColumnSize
+            // 
+            this.olvColumnSize.AspectName = "Size";
+            this.olvColumnSize.CellPadding = null;
+            this.olvColumnSize.Text = "Size";
+            // 
+            // olvColumnHome
+            // 
+            this.olvColumnHome.AspectName = "Home";
+            this.olvColumnHome.CellPadding = null;
+            this.olvColumnHome.Text = "Home";
+            // 
+            // olvColumnTimeInAir
+            // 
+            this.olvColumnTimeInAir.AspectName = "TimeInAir";
+            this.olvColumnTimeInAir.CellPadding = null;
+            this.olvColumnTimeInAir.Text = "TimeInAir";
+            // 
             // BUT_changedir
             // 
             this.BUT_changedir.AutoSize = true;
@@ -124,17 +160,17 @@
             this.BUT_changedir.UseVisualStyleBackColor = true;
             this.BUT_changedir.Click += new System.EventHandler(this.BUT_changedir_Click);
             // 
-            // olvColumnSize
+            // olvColumnDistTraveled
             // 
-            this.olvColumnSize.AspectName = "Size";
-            this.olvColumnSize.CellPadding = null;
-            this.olvColumnSize.Text = "Size";
+            this.olvColumnDistTraveled.AspectName = "DistTraveled";
+            this.olvColumnDistTraveled.CellPadding = null;
+            this.olvColumnDistTraveled.Text = "DistTraveled";
             // 
             // LogIndex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1006, 514);
+            this.ClientSize = new System.Drawing.Size(1177, 514);
             this.Controls.Add(this.BUT_changedir);
             this.Controls.Add(this.objectListView1);
             this.Name = "LogIndex";
@@ -157,6 +193,9 @@
         private BrightIdeasSoftware.OLVColumn olvColumnDate;
         private BrightIdeasSoftware.OLVColumn olvColumnSysid;
         private BrightIdeasSoftware.OLVColumn olvColumnSize;
-
+        private BrightIdeasSoftware.OLVColumn olvColumnHome;
+        private BrightIdeasSoftware.OLVColumn olvColumnTimeInAir;
+        private BrightIdeasSoftware.OLVColumn olvColumnFrame;
+        private BrightIdeasSoftware.OLVColumn olvColumnDistTraveled;
     }
 }

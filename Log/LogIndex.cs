@@ -19,7 +19,7 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        const int MaxPlaybackLogSize = 100000;
+
 
 
         public LogIndex()
@@ -97,6 +97,8 @@ namespace MissionPlanner.Log
             {
                 threads[1].Join();
                 threads.RemoveAt(1);
+                System.Threading.Thread.Sleep(1000);
+                Loading.ShowLoading("Waiting for threads to finish", this);
             }
 
             Loading.ShowLoading("Populating Data", this);
@@ -149,18 +151,13 @@ namespace MissionPlanner.Log
                     loginfo.Date = mine.lastlogread;
                     loginfo.Aircraft = mine.sysidcurrent;
 
+                    loginfo.Frame = mine.MAV.aptype.ToString();
+
                     var start = mine.lastlogread;
 
                     try
                     {
-                        if (mine.logplaybackfile.BaseStream.Length > MaxPlaybackLogSize)
-                        {
-                            mine.logplaybackfile.BaseStream.Seek(-100000, SeekOrigin.End);
-                        }
-                        else
-                        {
-                            mine.logplaybackfile.BaseStream.Seek(0, SeekOrigin.Begin);
-                        }
+                        mine.logplaybackfile.BaseStream.Seek(0, SeekOrigin.Begin);
                     }
                     catch
                     {
@@ -168,13 +165,28 @@ namespace MissionPlanner.Log
 
                     var end = mine.lastlogread;
 
-                    while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                    var length = mine.logplaybackfile.BaseStream.Length;
+
+                    var a = 0;
+
+                    while (mine.logplaybackfile.BaseStream.Position < length)
                     {
-                        mine.readPacket();
+                        var packet = mine.readPacket();
+
+                        if(a % 5 == 0)
+                            mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
+
+                        a++;
 
                         if (mine.lastlogread > end)
                             end = mine.lastlogread;
                     }
+
+                    loginfo.Home = mine.MAV.cs.HomeLocation;
+
+                    loginfo.TimeInAir = mine.MAV.cs.timeInAir;
+
+                    loginfo.DistTraveled = mine.MAV.cs.distTraveled;
 
                     loginfo.Duration = (end - start).ToString();
                 }
@@ -204,6 +216,13 @@ namespace MissionPlanner.Log
             public DateTime Date { get; set; }
             public int Aircraft { get; set; }
             public long Size { get; set; }
+            public PointLatLngAlt Home {get;set;}
+
+            public string Frame { get; set; }
+
+            public float TimeInAir { get; set; }
+
+            public float DistTraveled { get; set; }
 
             public loginfo()
             {
