@@ -16,7 +16,7 @@
     <SERIAL1_PROTOCOL>
       <DisplayName>Telem1 protocol selection</DisplayName>
       <Description>Control what protocol to use on the Telem1 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar</Values>
+      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:Frsky SPort Passthrough</Values>
       <User>Standard</User>
     </SERIAL1_PROTOCOL>
     <SERIAL1_BAUD>
@@ -28,7 +28,7 @@
     <SERIAL2_PROTOCOL>
       <DisplayName>Telemetry 2 protocol selection</DisplayName>
       <Description>Control what protocol to use on the Telem2 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar</Values>
+      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:Frsky SPort Passthrough</Values>
       <User>Standard</User>
     </SERIAL2_PROTOCOL>
     <SERIAL2_BAUD>
@@ -40,7 +40,7 @@
     <SERIAL3_PROTOCOL>
       <DisplayName>Serial 3 (GPS) protocol selection</DisplayName>
       <Description>Control what protocol Serial 3 (GPS) should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar</Values>
+      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:Frsky SPort Passthrough</Values>
       <User>Standard</User>
     </SERIAL3_PROTOCOL>
     <SERIAL3_BAUD>
@@ -52,7 +52,7 @@
     <SERIAL4_PROTOCOL>
       <DisplayName>Serial4 protocol selection</DisplayName>
       <Description>Control what protocol Serial4 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar</Values>
+      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:Frsky SPort Passthrough</Values>
       <User>Standard</User>
     </SERIAL4_PROTOCOL>
     <SERIAL4_BAUD>
@@ -64,7 +64,7 @@
     <SERIAL5_PROTOCOL>
       <DisplayName>Serial5 protocol selection</DisplayName>
       <Description>Control what protocol Serial5 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar</Values>
+      <Values>-1:None, 1:MAVlink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:Frsky SPort Passthrough</Values>
       <User>Standard</User>
     </SERIAL5_PROTOCOL>
     <SERIAL5_BAUD>
