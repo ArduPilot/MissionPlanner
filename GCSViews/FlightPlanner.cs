@@ -4430,7 +4430,7 @@ namespace MissionPlanner.GCSViews
         {
             polygongridmode = false;
             //FENCE_TOTAL
-            if (MainV2.comPort.MAV.param["FENCE_ACTION"] == null)
+            if (MainV2.comPort.MAV.param["FENCE_ENABLE"] == null)
             {
                 CustomMessageBox.Show("Not Supported");
                 return;
