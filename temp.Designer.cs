@@ -93,6 +93,8 @@
             this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.but_signkey = new MissionPlanner.Controls.MyButton();
             this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
+            this.myButton2 = new MissionPlanner.Controls.MyButton();
+            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -809,11 +811,33 @@
             this.but_optflowcalib.UseVisualStyleBackColor = true;
             this.but_optflowcalib.Click += new System.EventHandler(this.but_optflowcalib_Click);
             // 
+            // myButton2
+            // 
+            this.myButton2.Location = new System.Drawing.Point(467, 414);
+            this.myButton2.Name = "myButton2";
+            this.myButton2.Size = new System.Drawing.Size(75, 23);
+            this.myButton2.TabIndex = 78;
+            this.myButton2.Text = "sphere";
+            this.myButton2.UseVisualStyleBackColor = true;
+            this.myButton2.Click += new System.EventHandler(this.myButton2_Click);
+            // 
+            // BUT_magfit2
+            // 
+            this.BUT_magfit2.Location = new System.Drawing.Point(467, 443);
+            this.BUT_magfit2.Name = "BUT_magfit2";
+            this.BUT_magfit2.Size = new System.Drawing.Size(75, 23);
+            this.BUT_magfit2.TabIndex = 79;
+            this.BUT_magfit2.Text = "mag calb log";
+            this.BUT_magfit2.UseVisualStyleBackColor = true;
+            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.BUT_magfit2);
+            this.Controls.Add(this.myButton2);
             this.Controls.Add(this.but_optflowcalib);
             this.Controls.Add(this.but_signkey);
             this.Controls.Add(this.myButton1);
@@ -903,5 +927,7 @@
         private Controls.MyButton myButton1;
         private Controls.MyButton but_signkey;
         private Controls.MyButton but_optflowcalib;
+        private Controls.MyButton myButton2;
+        private Controls.MyButton BUT_magfit2;
     }
 }

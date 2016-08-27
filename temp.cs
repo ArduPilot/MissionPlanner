@@ -1692,5 +1692,18 @@ namespace MissionPlanner
             // setup bitmap to screen
             flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
         }
+
+        private void myButton2_Click(object sender, EventArgs e)
+        {
+            Sphere sp = new Sphere();
+
+            sp.Dock = DockStyle.Fill;
+
+            Form frm = new Form();
+
+            frm.Controls.Add(sp);
+
+            frm.Show();
+        }
     }
 }
