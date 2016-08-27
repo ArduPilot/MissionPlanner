@@ -212,6 +212,16 @@ namespace MissionPlanner.Log
             get { return true; }
         }
 
+        public IEnumerable<DFLog.DFItem> GetEnumeratorTypeAll()
+        {
+            int position = 0; // state
+            while (position < Count)
+            {
+                position++;
+                yield return dflog.GetDFItemFromLine(this[position - 1], position - 1);
+            }
+        }
+
         public IEnumerable<DFLog.DFItem> GetEnumeratorType(string type)
         {
             return GetEnumeratorType(new string[] {type});
