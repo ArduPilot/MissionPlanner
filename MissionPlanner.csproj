@@ -257,6 +257,12 @@
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
     <Compile Include="Arduino\IArduinoComms.cs" />
+    <Compile Include="Controls\ControlSensorsStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
       <SubType>Component</SubType>
@@ -972,6 +978,9 @@
     </Compile>
     <EmbeddedResource Include="Controls\AuthKeys.resx">
       <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlTest.resx">
       <DependentUpon>ControlTest.cs</DependentUpon>
@@ -3526,7 +3535,6 @@
     <None Include="Resources\redsinglecopter2.png" />
     <None Include="Resources\FW icons 2013+logos-011.png" />
     <None Include="Resources\FW icons 2013+logos-012.png" />
-    <None Include="pixhawk2cube.jpg" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

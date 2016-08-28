@@ -95,6 +95,7 @@
             this.but_optflowcalib = new MissionPlanner.Controls.MyButton();
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
+            this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -831,11 +832,19 @@
             this.BUT_magfit2.UseVisualStyleBackColor = true;
             this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
             // 
+            // controlSensorsStatus1
+            // 
+            this.controlSensorsStatus1.Location = new System.Drawing.Point(548, 12);
+            this.controlSensorsStatus1.Name = "controlSensorsStatus1";
+            this.controlSensorsStatus1.Size = new System.Drawing.Size(272, 586);
+            this.controlSensorsStatus1.TabIndex = 80;
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(598, 572);
+            this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.controlSensorsStatus1);
             this.Controls.Add(this.BUT_magfit2);
             this.Controls.Add(this.myButton2);
             this.Controls.Add(this.but_optflowcalib);
@@ -929,5 +938,6 @@
         private Controls.MyButton but_optflowcalib;
         private Controls.MyButton myButton2;
         private Controls.MyButton BUT_magfit2;
+        private Controls.ControlSensorsStatus controlSensorsStatus1;
     }
 }
