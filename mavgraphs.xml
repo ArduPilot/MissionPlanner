@@ -1,5 +1,23 @@
 ﻿<graphs>
 
+  <graph name="Velocity vs Innovation Velocity E">
+    <expression>NKF1.VE NKF3.IVE:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Velocity vs Innovation Velocity N">
+    <expression>NKF1.VN NKF3.IVN:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="Velocity vs Innovation Velocity D">
+    <expression>NKF1.VD NKF3.IVD:2</expression>
+    <description>
+    </description>
+  </graph>
+
   <graph name="attitude deltas">
     <expression>ATT.DesRoll-ATT.Roll ATT.DesPitch-ATT.Pitch ATT.DesYaw-ATT.Yaw:2</expression>
     <description>
