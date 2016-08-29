@@ -1635,7 +1635,7 @@ namespace MissionPlanner
                                 if (plla.Tag != "SM" && plla.Tag != "ME")
                                 {
                                     if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
-                                        plla.Alt != lastplla.Alt)
+                                        plla.Alt != lastplla.Alt || plla.Tag == "E")
                                         AddWP(plla.Lng, plla.Lat, plla.Alt);
                                 }
 
