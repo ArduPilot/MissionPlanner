@@ -107,8 +107,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var param2 = ParamFile.loadParamFile(fn);
 
+            var loaded = 0;
+            var missed = 0;
+            List<string> missing = new List<string>();
+
             foreach (string name in param2.Keys)
             {
+                var set = false;
                 var value = param2[name].ToString();
                 // set param table as well
                 foreach (DataGridViewRow row in Params.Rows)
@@ -137,11 +142,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         continue;
                     if (row.Cells[0].Value.ToString() == name)
                     {
+                        set = true;
                         if (row.Cells[1].Value.ToString() != value)
                             row.Cells[1].Value = value;
                         break;
                     }
                 }
+
+                if (set)
+                {
+                    loaded++;
+                }
+                else
+                {
+                    missed++;
+                    missing.Add(name);
+                }
+            }
+
+            if (missed > 0)
+            {
+                string list = "";
+                foreach (var item in missing)
+                {
+                    list += item + " ";
+                }
+                CustomMessageBox.Show("Missing " + missed + " params\n"+ list, "No matching Params", MessageBoxButtons.OK);
             }
         }
 
