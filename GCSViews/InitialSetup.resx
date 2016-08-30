@@ -463,7 +463,7 @@
     <value>18</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>Sonar</value>
+    <value>Range Finder</value>
   </data>
   <data name="backstageViewPageairspeed.TrayLocation" type="System.Drawing.Point, System.Drawing">
     <value>611, 95</value>
