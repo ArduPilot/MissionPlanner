@@ -623,4 +623,7 @@ Please contact your hardware vendor about signing your hardware.</value>
   <data name="No_valid_heartbeats_read_from_port" xml:space="preserve">
     <value>No valid heartbeats read from port</value>
   </data>
+  <data name="Bad_Vision_Position" xml:space="preserve">
+    <value>Bad Vision Position</value>
+  </data>
 </root>

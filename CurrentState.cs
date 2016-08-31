@@ -1555,6 +1555,12 @@ namespace MissionPlanner
                             messageHigh = Strings.BadOptFlowHealth;
                             messageHighTime = DateTime.Now;
                         }
+                        else if (sensors_health.VISION_POSITION != sensors_enabled.VISION_POSITION &&
+                                 sensors_present.VISION_POSITION)
+                        {
+                            messageHigh = Strings.Bad_Vision_Position;
+                            messageHighTime = DateTime.Now;
+                        }
                         else if (sensors_health.terrain != sensors_enabled.terrain && sensors_present.terrain)
                         {
                             messageHigh = Strings.BadorNoTerrainData;

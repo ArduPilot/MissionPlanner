@@ -97,6 +97,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad Vision Position.
+        /// </summary>
+        public static string Bad_Vision_Position {
+            get {
+                return ResourceManager.GetString("Bad_Vision_Position", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Accel Health.
         /// </summary>
         public static string BadAccelHealth {
