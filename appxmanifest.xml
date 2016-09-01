@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="MissionPlanner"             Version="1.3.39.0"             Publisher="CN=Michael Oborne" />
+  <Properties>
+    <DisplayName>Mission Planner</DisplayName>
+    <PublisherDisplayName>Michael Oborne</PublisherDisplayName>
+    <Logo>splashdark.jpg</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+  <Applications>
+    <Application Id="MPApp" StartPage="MissionPlanner.exe">
+      <VisualElements DisplayName="Mission Planner" Description="ground control station"
+           Logo="splashdark.jpg" SmallLogo="splashdark.jpg"  
+           ForegroundText="dark" BackgroundColor="#FFFFFF">
+         <SplashScreen Image="splashdark.jpg" />
+      </VisualElements>
+    </Application>
+  </Applications>
+</Package>
