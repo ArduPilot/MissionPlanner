@@ -19,6 +19,8 @@ namespace MissionPlanner.Controls
             set { CMB_coordsystem.Text = value; }
         }
 
+        public event EventHandler SystemChanged;
+
         public double Lat
         {
             get { return point.Latitude; }
@@ -156,6 +158,11 @@ namespace MissionPlanner.Controls
         private void CMB_coordsystem_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.Invalidate();
+
+            if (SystemChanged != null)
+            {
+                SystemChanged(this, null);
+            }
         }
     }
 }
