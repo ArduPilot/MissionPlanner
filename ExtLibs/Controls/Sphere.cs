@@ -121,7 +121,9 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-           // radians += 5 * deg2rad;
+            GL.Viewport(0, 0, this.Width, this.Height);
+
+            // radians += 5 * deg2rad;
 
             if (rotatewithdata)
                 yaw += 5 * deg2rad;
