@@ -4,10 +4,11 @@ namespace GMap.NET
    using System;
    using System.Globalization;
 
-   /// <summary>
-   /// the rect of coordinates
-   /// </summary>
-   public struct RectLatLng
+    /// <summary>
+    /// the rect of coordinates
+    /// </summary>
+    [Serializable]
+    public struct RectLatLng
    {
       public static readonly RectLatLng Empty;
       private double lng;
