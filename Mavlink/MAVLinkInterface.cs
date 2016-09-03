@@ -3160,14 +3160,27 @@ Please check the following
                 crc = MavlinkCRC.crc_accumulate(msginfo.crc, crc);
             }
 
-            if (buffer.Length == 11 && message.header == 'U' && message.msgid == 0) // check for 0.9 hb packet
+            // check message length size vs table (mavlink1 explicit size check | mavlink2 oversize check, no undersize because of 0 trimming)
+            if ((!message.ismavlink2 && message.payloadlength != msginfo.minlength) || (message.ismavlink2 && message.payloadlength > msginfo.length))
             {
-                string messagehb =
-                    "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
-                Console.WriteLine(messagehb);
-                if (logreadmode)
-                    logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
-                throw new Exception(messagehb);
+                if (msginfo.length == 0) // pass for unknown packets
+                {
+                    log.InfoFormat("unknown packet type {0}", message.msgid);
+                }
+                else
+                {
+                    log.InfoFormat("Mavlink Bad Packet (Len Fail) len {0} pkno {1}", buffer.Length, message.msgid);
+                    if (buffer.Length == 11 && message.header == 'U' && message.msgid == 0) // check for 0.9 hb packet
+                    {
+                        string messagehb =
+                            "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
+                        Console.WriteLine(messagehb);
+                        if (logreadmode)
+                            logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
+                        throw new Exception(messagehb);
+                    }
+                    return MAVLinkMessage.Invalid;
+                }
             }
 
             // check crc
