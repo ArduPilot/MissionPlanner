@@ -24,6 +24,17 @@ public partial class MAVLink
         public byte compid { get; internal set; }
 
         public uint msgid { get; internal set; }
+
+        public bool ismavlink2 {
+            get
+            {
+                if (buffer != null && buffer.Length > 0)
+                    return (buffer[0] == MAVLINK_STX);
+
+                return false;
+            }
+        }
+
         object _data;
         public object data
         {
