@@ -1555,8 +1555,8 @@ namespace MissionPlanner
 
                 for (int splitno = 0; splitno < NUM_split.Value; splitno++)
                 {
-                    int wpstart = wpsplit * splitno;
-                    int wpend = wpsplit * (splitno + 1);
+                    int wpstart = wpsplit*splitno;
+                    int wpend = wpsplit*(splitno + 1);
 
                     while (wpstart != 0 && wpstart < grid.Count && grid[wpstart].Tag != "E")
                     {
@@ -1573,14 +1573,14 @@ namespace MissionPlanner
                         if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                         {
                             var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
-                                (int)(30 * CurrentState.multiplierdist), gridobject);
+                                (int) (30*CurrentState.multiplierdist), gridobject);
 
                             wpsplitstart.Add(wpno);
                         }
                         else
                         {
                             var wpno = plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0,
-                                (int)(30 * CurrentState.multiplierdist), gridobject);
+                                (int) (30*CurrentState.multiplierdist), gridobject);
 
                             wpsplitstart.Add(wpno);
                         }
@@ -1589,7 +1589,8 @@ namespace MissionPlanner
                     if (CHK_usespeed.Checked)
                     {
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0,
-                            (int)((float)NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed), 0, 0, 0, 0, 0, gridobject);
+                            (int) ((float) NUM_UpDownFlySpeed.Value/CurrentState.multiplierspeed), 0, 0, 0, 0, 0,
+                            gridobject);
                     }
 
                     int i = 0;
@@ -1632,10 +1633,10 @@ namespace MissionPlanner
                             else
                             {
                                 // only add points that are ends
-                                if (plla.Tag != "SM" && plla.Tag != "ME")
+                                if (plla.Tag == "S" || plla.Tag == "E")
                                 {
                                     if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
-                                        plla.Alt != lastplla.Alt || plla.Tag == "E")
+                                        plla.Alt != lastplla.Alt)
                                         AddWP(plla.Lng, plla.Lat, plla.Alt);
                                 }
 
@@ -1647,7 +1648,10 @@ namespace MissionPlanner
                                     {
                                         if (plla.Tag == "SM")
                                         {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            //  s > sm, need to dup check
+                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
+                                                plla.Alt != lastplla.Alt)
+                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST,
                                                 (float) NUM_spacing.Value,
@@ -1671,6 +1675,10 @@ namespace MissionPlanner
                                                 0, 0, 0, 0, 0, 0, gridobject);
                                             startedtrigdist = true;
                                         }
+                                        else if (plla.Tag == "ME")
+                                        {
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        }
                                     }
                                 }
                                 else if (rad_repeatservo.Checked)
@@ -1679,7 +1687,9 @@ namespace MissionPlanner
                                     {
                                         if (plla.Tag == "SM")
                                         {
-                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                            if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
+                                                plla.Alt != lastplla.Alt)
+                                                AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO,
                                                 (float) NUM_reptservo.Value,
@@ -1701,7 +1711,9 @@ namespace MissionPlanner
                                 {
                                     if (plla.Tag == "SM")
                                     {
-                                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                        if (plla.Lat != lastplla.Lat || plla.Lng != lastplla.Lng ||
+                                            plla.Alt != lastplla.Alt)
+                                            AddWP(plla.Lng, plla.Lat, plla.Alt);
 
                                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_SERVO,
                                             (float) num_setservono.Value,
