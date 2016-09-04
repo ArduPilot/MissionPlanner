@@ -315,7 +315,8 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            if (coordZone.Visible)
+            // always update other systems, incase user switchs while planning
+            //if (coordZone.Visible)
             {
                 var temp = new PointLatLngAlt(lat, lng);
                 int zone = temp.GetUTMZone();
@@ -325,7 +326,7 @@ namespace MissionPlanner.GCSViews
                 Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
             }
 
-            if (MGRS.Visible)
+            //if (MGRS.Visible)
             {
                 Commands[MGRS.Index, selectedrow].Value = ((MGRS)new Geographic(lng, lat)).ToString();
             }
@@ -608,9 +609,12 @@ namespace MissionPlanner.GCSViews
             Up.Image = Resources.up;
             Down.Image = Resources.down;
 
+            updateMapType(null, null);
+
             // hide the map to prevent redraws when its loaded
             panelMap.Visible = false;
 
+            /*
             var timer = new System.Timers.Timer();
 
             // 2 second
@@ -618,11 +622,12 @@ namespace MissionPlanner.GCSViews
             timer.Elapsed += updateMapType;
 
             timer.Start();
+            */
         }
 
         void updateMapType(object sender, System.Timers.ElapsedEventArgs e)
         {
-            log.Info("updateMapType");
+            log.Info("updateMapType invoke req? " + comboBoxMapType.InvokeRequired);
 
             if (sender is System.Timers.Timer)
                 ((System.Timers.Timer)sender).Stop();
@@ -6664,6 +6669,40 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             TXT_homealt.Text = srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt.ToString("0");
             TXT_homelat.Text = MouseDownStart.Lat.ToString();
             TXT_homelng.Text = MouseDownStart.Lng.ToString();
+        }
+
+        private void coords1_SystemChanged(object sender, EventArgs e)
+        {
+            if (coords1.System == Coords.CoordsSystems.GEO.ToString())
+            {
+                Lat.Visible = true;
+                Lon.Visible = true;
+
+                coordZone.Visible = false;
+                coordEasting.Visible = false;
+                coordNorthing.Visible = false;
+                MGRS.Visible = false;
+            }
+            else if (coords1.System == Coords.CoordsSystems.MGRS.ToString())
+            {
+                Lat.Visible = false;
+                Lon.Visible = false;
+
+                coordZone.Visible = false;
+                coordEasting.Visible = false;
+                coordNorthing.Visible = false;
+                MGRS.Visible = true;
+            }
+            else if (coords1.System == Coords.CoordsSystems.UTM.ToString())
+            {
+                Lat.Visible = false;
+                Lon.Visible = false;
+
+                coordZone.Visible = true;
+                coordEasting.Visible = true;
+                coordNorthing.Visible = true;
+                MGRS.Visible = false;
+            }
         }
     }
 }

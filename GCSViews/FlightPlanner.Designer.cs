@@ -419,6 +419,7 @@
             resources.ApplyResources(this.coords1, "coords1");
             this.coords1.Name = "coords1";
             this.coords1.Vertical = true;
+            this.coords1.SystemChanged += new System.EventHandler(this.coords1_SystemChanged);
             // 
             // lbl_status
             // 
@@ -668,6 +669,7 @@
             this.MainMap.RetryLoadTile = 0;
             this.MainMap.RoutesEnabled = false;
             this.MainMap.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
+            this.MainMap.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("MainMap.SelectedArea")));
             this.MainMap.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.MainMap.ShowTileGridLines = false;
             this.MainMap.Zoom = 0D;
