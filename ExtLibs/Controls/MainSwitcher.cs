@@ -212,8 +212,10 @@ namespace MissionPlanner.Controls
             {
                 this.Name = Name;
                 this.Control = Control;
-                this.Type = Control.GetType();
                 this.Persistent = Persistent;
+                if (Control == null)
+                    return;
+                this.Type = Control.GetType();
             }
 
             public Screen(string Name, Type Type, bool Persistent = false)
