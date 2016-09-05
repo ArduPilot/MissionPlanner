@@ -178,6 +178,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad Logging.
+        /// </summary>
+        public static string BadLogging {
+            get {
+                return ResourceManager.GetString("BadLogging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad OptFlow Health.
         /// </summary>
         public static string BadOptFlowHealth {

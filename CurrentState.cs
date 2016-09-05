@@ -1588,6 +1588,10 @@ namespace MissionPlanner
                                 messageHigh = Strings.NORCReceiver;
                                 messageHighTime = DateTime.Now;
                             }
+                        } else if (sensors_health.logging != sensors_enabled.logging && sensors_present.logging)
+                        {
+                            messageHigh = Strings.BadLogging;
+                            messageHighTime = DateTime.Now;
                         }
 
 
@@ -2292,6 +2296,12 @@ namespace MissionPlanner
             {
                 get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_REVERSE_MOTOR)]; }
                 set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_REVERSE_MOTOR)] = value; }
+            }
+
+            public bool logging
+            {
+                get { return bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_LOGGING)]; }
+                set { bitArray[ConvertValuetoBitmaskOffset((int)MAVLink.MAV_SYS_STATUS_SENSOR.MAV_SYS_STATUS_LOGGING)] = value; }
             }
 
             int ConvertValuetoBitmaskOffset(int input)

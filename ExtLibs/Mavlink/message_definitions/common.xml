@@ -396,81 +396,84 @@
                     <description/>
                </entry>
           </enum>
-          <enum name="MAV_SYS_STATUS_SENSOR">
-               <description>These encode the sensors whose status is sent as part of the SYS_STATUS message.</description>
-               <entry value="1" name="MAV_SYS_STATUS_SENSOR_3D_GYRO">
-                    <description>0x01 3D gyro</description>
-               </entry>
-               <entry value="2" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL">
-                    <description>0x02 3D accelerometer</description>
-               </entry>
-               <entry value="4" name="MAV_SYS_STATUS_SENSOR_3D_MAG">
-                    <description>0x04 3D magnetometer</description>
-               </entry>
-               <entry value="8" name="MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE">
-                    <description>0x08 absolute pressure</description>
-               </entry>
-               <entry value="16" name="MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE">
-                    <description>0x10 differential pressure</description>
-               </entry>
-               <entry value="32" name="MAV_SYS_STATUS_SENSOR_GPS">
-                    <description>0x20 GPS</description>
-               </entry>
-               <entry value="64" name="MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW">
-                    <description>0x40 optical flow</description>
-               </entry>
-               <entry value="128" name="MAV_SYS_STATUS_SENSOR_VISION_POSITION">
-                    <description>0x80 computer vision position</description>
-               </entry>
-               <entry value="256" name="MAV_SYS_STATUS_SENSOR_LASER_POSITION">
-                    <description>0x100 laser based position</description>
-               </entry>
-               <entry value="512" name="MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH">
-                    <description>0x200 external ground truth (Vicon or Leica)</description>
-               </entry>
-               <entry value="1024" name="MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL">
-                    <description>0x400 3D angular rate control</description>
-               </entry>
-               <entry value="2048" name="MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION">
-                    <description>0x800 attitude stabilization</description>
-               </entry>
-               <entry value="4096" name="MAV_SYS_STATUS_SENSOR_YAW_POSITION">
-                    <description>0x1000 yaw position</description>
-               </entry>
-               <entry value="8192" name="MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL">
-                    <description>0x2000 z/altitude control</description>
-               </entry>
-               <entry value="16384" name="MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL">
-                    <description>0x4000 x/y position control</description>
-               </entry>
-               <entry value="32768" name="MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS">
-                    <description>0x8000 motor outputs / control</description>
-               </entry>
-               <entry value="65536" name="MAV_SYS_STATUS_SENSOR_RC_RECEIVER">
-                    <description>0x10000 rc receiver</description>
-               </entry>
-               <entry value="131072" name="MAV_SYS_STATUS_SENSOR_3D_GYRO2">
-                    <description>0x20000 2nd 3D gyro</description>
-               </entry>
-               <entry value="262144" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL2">
-                    <description>0x40000 2nd 3D accelerometer</description>
-               </entry>
-               <entry value="524288" name="MAV_SYS_STATUS_SENSOR_3D_MAG2">
-                    <description>0x80000 2nd 3D magnetometer</description>
-               </entry>
-               <entry value="1048576" name="MAV_SYS_STATUS_GEOFENCE">
-                    <description>0x100000 geofence</description>
-               </entry>
-               <entry value="2097152" name="MAV_SYS_STATUS_AHRS">
-                    <description>0x200000 AHRS subsystem health</description>
-               </entry>
-               <entry value="4194304" name="MAV_SYS_STATUS_TERRAIN">
-                    <description>0x400000 Terrain subsystem health</description>
-               </entry>
-               <entry value="8388608" name="MAV_SYS_STATUS_REVERSE_MOTOR">
-                    <description>0x800000 Motors are reversed</description>
-               </entry>
-          </enum>
+       <enum name="MAV_SYS_STATUS_SENSOR">
+         <description>These encode the sensors whose status is sent as part of the SYS_STATUS message.</description>
+         <entry value="1" name="MAV_SYS_STATUS_SENSOR_3D_GYRO">
+           <description>0x01 3D gyro</description>
+         </entry>
+         <entry value="2" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL">
+           <description>0x02 3D accelerometer</description>
+         </entry>
+         <entry value="4" name="MAV_SYS_STATUS_SENSOR_3D_MAG">
+           <description>0x04 3D magnetometer</description>
+         </entry>
+         <entry value="8" name="MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE">
+           <description>0x08 absolute pressure</description>
+         </entry>
+         <entry value="16" name="MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE">
+           <description>0x10 differential pressure</description>
+         </entry>
+         <entry value="32" name="MAV_SYS_STATUS_SENSOR_GPS">
+           <description>0x20 GPS</description>
+         </entry>
+         <entry value="64" name="MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW">
+           <description>0x40 optical flow</description>
+         </entry>
+         <entry value="128" name="MAV_SYS_STATUS_SENSOR_VISION_POSITION">
+           <description>0x80 computer vision position</description>
+         </entry>
+         <entry value="256" name="MAV_SYS_STATUS_SENSOR_LASER_POSITION">
+           <description>0x100 laser based position</description>
+         </entry>
+         <entry value="512" name="MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH">
+           <description>0x200 external ground truth (Vicon or Leica)</description>
+         </entry>
+         <entry value="1024" name="MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL">
+           <description>0x400 3D angular rate control</description>
+         </entry>
+         <entry value="2048" name="MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION">
+           <description>0x800 attitude stabilization</description>
+         </entry>
+         <entry value="4096" name="MAV_SYS_STATUS_SENSOR_YAW_POSITION">
+           <description>0x1000 yaw position</description>
+         </entry>
+         <entry value="8192" name="MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL">
+           <description>0x2000 z/altitude control</description>
+         </entry>
+         <entry value="16384" name="MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL">
+           <description>0x4000 x/y position control</description>
+         </entry>
+         <entry value="32768" name="MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS">
+           <description>0x8000 motor outputs / control</description>
+         </entry>
+         <entry value="65536" name="MAV_SYS_STATUS_SENSOR_RC_RECEIVER">
+           <description>0x10000 rc receiver</description>
+         </entry>
+         <entry value="131072" name="MAV_SYS_STATUS_SENSOR_3D_GYRO2">
+           <description>0x20000 2nd 3D gyro</description>
+         </entry>
+         <entry value="262144" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL2">
+           <description>0x40000 2nd 3D accelerometer</description>
+         </entry>
+         <entry value="524288" name="MAV_SYS_STATUS_SENSOR_3D_MAG2">
+           <description>0x80000 2nd 3D magnetometer</description>
+         </entry>
+         <entry value="1048576" name="MAV_SYS_STATUS_GEOFENCE">
+           <description>0x100000 geofence</description>
+         </entry>
+         <entry value="2097152" name="MAV_SYS_STATUS_AHRS">
+           <description>0x200000 AHRS subsystem health</description>
+         </entry>
+         <entry value="4194304" name="MAV_SYS_STATUS_TERRAIN">
+           <description>0x400000 Terrain subsystem health</description>
+         </entry>
+         <entry value="8388608" name="MAV_SYS_STATUS_REVERSE_MOTOR">
+           <description>0x800000 Motors are reversed</description>
+         </entry>
+         <entry value="16777216" name="MAV_SYS_STATUS_LOGGING">
+           <description>0x1000000 Logging</description>
+         </entry>
+       </enum>
           <enum name="MAV_FRAME">
                <entry value="0" name="MAV_FRAME_GLOBAL">
                     <description>Global coordinate frame, WGS84 coordinate system. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL)</description>

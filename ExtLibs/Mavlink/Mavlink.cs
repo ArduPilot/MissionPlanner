@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Aug 25 2016";
+    public const string MAVLINK_BUILD_DATE = "Mon Sep 05 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -1726,8 +1726,10 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         MAV_SYS_STATUS_TERRAIN=4194304, 
     	///<summary> 0x800000 Motors are reversed | </summary>
         MAV_SYS_STATUS_REVERSE_MOTOR=8388608, 
+    	///<summary> 0x1000000 Logging | </summary>
+        MAV_SYS_STATUS_LOGGING=16777216, 
     	///<summary>  | </summary>
-        ENUM_END=8388609, 
+        ENUM_END=16777217, 
     
     };
     
