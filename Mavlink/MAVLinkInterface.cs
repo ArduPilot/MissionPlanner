@@ -211,7 +211,12 @@ namespace MissionPlanner
         public BinaryReader logplaybackfile
         {
             get { return _logplaybackfile; }
-            set { _logplaybackfile = value; MAVlist.Clear(); }
+            set {
+                _logplaybackfile = value;
+                if (_logplaybackfile != null && _logplaybackfile.BaseStream is FileStream)
+                    log.Info("Logplaybackfile set " + ((FileStream)_logplaybackfile.BaseStream).Name);
+                MAVlist.Clear();
+            }
         }
         public BufferedStream logfile { get; set; }
         public BufferedStream rawlogfile { get; set; }
@@ -240,7 +245,7 @@ namespace MissionPlanner
             this.debugmavlink = false;
             this.logreadmode = false;
             this.lastlogread = DateTime.MinValue;
-            this.logplaybackfile = null;
+            this._logplaybackfile = null;
             this.logfile = null;
             this.rawlogfile = null;
             this._bps1 = 0;
@@ -3205,6 +3210,8 @@ Please check the following
             {
                 // create an item - hidden
                 MAVlist.AddHiddenList(sysid, compid);
+                // prevent packetloss counter on connect
+                MAVlist[sysid, compid].recvpacketcount = unchecked(packetSeqNo - (byte)1);
             }
 
             // once set it cannot be reverted
@@ -3268,7 +3275,7 @@ Please check the following
 
             // packet is now verified
 
-            // extract wp's from stream
+            // extract wp's/rally/fence/camera feedback/params from stream, including gcs packets on playback
             if (buffer.Length >= 5)
             {
                 getWPsfromstream(ref message, sysid, compid);
@@ -3302,7 +3309,7 @@ Please check the following
                     int expectedPacketSeqNo = ((MAVlist[sysid, compid].recvpacketcount + 1)%0x100);
 
                     {
-                        // the seconds part is to work around a 3dr radio bug sending dup seqno's
+                        // the second part is to work around a 3dr radio bug sending dup seqno's
                         if (packetSeqNo != expectedPacketSeqNo && packetSeqNo != MAVlist[sysid, compid].recvpacketcount)
                         {
                             MAVlist[sysid, compid].synclost++; // actualy sync loss's
@@ -3512,8 +3519,6 @@ Please check the following
                             doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0, false);
                         }
                     }
-
-                    getWPsfromstream(ref message, sysid, compid);
 
                     try
                     {
