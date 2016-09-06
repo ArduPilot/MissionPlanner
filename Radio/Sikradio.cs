@@ -24,9 +24,7 @@ namespace MissionPlanner
 
         private bool beta;
 
-        private readonly string firmwarefile = Path.GetDirectoryName(Application.ExecutablePath) +
-                                               Path.DirectorySeparatorChar +
-                                               "radio.hex";
+        private readonly string firmwarefile = Path.GetTempFileName();
 
         /*
 ATI5

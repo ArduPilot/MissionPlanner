@@ -1796,8 +1796,7 @@ namespace MissionPlanner.GeoRef
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
-                                             Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar +
+            System.Diagnostics.Process.Start(Settings.GetRunningDirectory() + "m3u" + Path.DirectorySeparatorChar +
                                              "GeoRefnetworklink.kml");
         }
 

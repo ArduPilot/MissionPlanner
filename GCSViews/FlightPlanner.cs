@@ -513,7 +513,7 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
 
             // config map             
-            MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            MainMap.CacheLocation = Settings.GetDataDirectory() +
                                     "gmapcache" + Path.DirectorySeparatorChar;
 
             // map events
@@ -705,7 +705,7 @@ namespace MissionPlanner.GCSViews
 
             // do lang stuff here
 
-            string file = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "mavcmd.xml";
+            string file = Settings.GetRunningDirectory() + "mavcmd.xml";
 
             if (!File.Exists(file))
             {

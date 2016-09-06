@@ -4,6 +4,7 @@ using System.Collections;
 using log4net;
 using System.Reflection;
 using System.IO;
+using MissionPlanner.Utilities;
 using SharpDX.DirectInput;
 
 namespace MissionPlanner.Joystick
@@ -330,8 +331,8 @@ namespace MissionPlanner.Joystick
             log.Info("Loading joystick config files " + joystickconfigbutton + " " + joystickconfigaxis);
 
             // save for later
-            this.joystickconfigbutton = Application11.StartupPath + Path.DirectorySeparatorChar + joystickconfigbutton;
-            this.joystickconfigaxis = Application11.StartupPath + Path.DirectorySeparatorChar + joystickconfigaxis;
+            this.joystickconfigbutton = Settings.GetUserDataDirectory() + joystickconfigbutton;
+            this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxis;
 
             // load config
             if (File.Exists(joystickconfigbutton) && File.Exists(joystickconfigaxis))

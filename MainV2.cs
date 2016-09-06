@@ -468,7 +468,7 @@ namespace MissionPlanner
             _connectionControl.cmb_sysid.Click += cmb_sysid_Click;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
-            srtm.datadirectory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            srtm.datadirectory = Settings.GetDataDirectory() +
                                  "srtm";
 
             var t = Type.GetType("Mono.Runtime");
@@ -896,7 +896,7 @@ namespace MissionPlanner
             // read airport list
             try
             {
-                Utilities.Airports.ReadOurairports(Application.StartupPath + Path.DirectorySeparatorChar +
+                Utilities.Airports.ReadOurairports(Settings.GetRunningDirectory() +
                                                    "airports.csv");
 
                 Utilities.Airports.checkdups = true;
@@ -2661,6 +2661,7 @@ namespace MissionPlanner
         {
             try
             {
+                tfr.tfrcache = Settings.GetUserDataDirectory() + "tfr.xml";
                 tfr.GetTFRs();
             }
             catch (Exception ex)
@@ -2681,22 +2682,6 @@ namespace MissionPlanner
             }
         }
 
-        private void BGGetAlmanac(object state)
-        {
-            // prep for future
-            try
-            {
-                if (Settings.Instance["almanac_date"] != DateTime.Now.ToShortDateString())
-                {
-                    Common.getFilefromNet("http://alp.u-blox.com/current_1d.alp",
-                        Application.StartupPath + Path.DirectorySeparatorChar + "current_d1.alp");
-                    Settings.Instance["almanac_date"] = DateTime.Now.ToShortDateString();
-                }
-            }
-            catch
-            {
-            }
-        }
 
         void KIndex_KIndex(object sender, EventArgs e)
         {

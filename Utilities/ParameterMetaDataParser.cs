@@ -38,11 +38,11 @@ namespace MissionPlanner.Utilities
             if (urls != null)
                 parameterLocationsString = urls;
 
-            string XMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar,
+            string XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(),
                 ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
 
             if (file != null)
-                XMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, file);
+                XMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), file);
 
             if (!String.IsNullOrEmpty(parameterLocationsString))
             {

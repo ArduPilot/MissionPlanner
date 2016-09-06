@@ -25,10 +25,9 @@ namespace MissionPlanner.Utilities
 
         public static void Reload()
         {
-            string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath,
-                Path.DirectorySeparatorChar, "ParameterFactMetaData.xml");
+            string paramMetaDataXMLFileName = String.Format("{0}{1}", Settings.GetUserDataDirectory(), "ParameterFactMetaData.xml");
 
-            string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath,
+            string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Settings.GetRunningDirectory(),
                 Path.DirectorySeparatorChar, "ParameterFactMetaData.xml");
 
             try

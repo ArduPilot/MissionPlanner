@@ -18,7 +18,7 @@ namespace MissionPlanner.Utilities
 
         public static event EventHandler GotTFRs;
 
-        static string tfrurl = "http://www.jepptech.com/tfr/Query.asp?UserID=Public";
+        public static string tfrurl = "http://www.jepptech.com/tfr/Query.asp?UserID=Public";
 
         public static List<tfritem> tfrs = new List<tfritem>();
 
@@ -35,7 +35,7 @@ namespace MissionPlanner.Utilities
 
         // R is inclusive, B is exclusive
 
-        static string tfrcache = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "tfr.xml";
+        public static string tfrcache = "tfr.xml";
 
         public static void GetTFRs()
         {

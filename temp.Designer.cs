@@ -44,7 +44,7 @@
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
@@ -265,8 +265,8 @@
             // 
             // timer1
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            
+    
             // 
             // BUT_movingbase
             // 
@@ -862,7 +862,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Text = "temp";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.temp_FormClosing);
+            
             this.Load += new System.EventHandler(this.temp_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -887,7 +887,7 @@
         private Controls.MyButton BUT_followleader;
         private Controls.MyButton BUT_driverclean;
         private Controls.MyButton BUT_sorttlogs;
-        private System.Windows.Forms.Timer timer1;
+        
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
         private Controls.MyButton but_mavserialport;

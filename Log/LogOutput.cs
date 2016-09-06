@@ -334,7 +334,7 @@ namespace MissionPlanner.Log
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            filename = Settings.GetRunningDirectory() +
                        "block_plane_0.dae";
 
             // entry 2
@@ -1010,7 +1010,7 @@ gnssId GNSS Type
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            filename = Settings.GetRunningDirectory() +
                        "block_plane_0.dae";
 
             // entry 2

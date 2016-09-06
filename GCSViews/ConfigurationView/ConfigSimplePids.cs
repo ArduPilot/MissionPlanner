@@ -34,7 +34,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             y = 10;
 
-            LoadXML(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "acsimplepids.xml");
+            LoadXML(Settings.GetRunningDirectory() + "acsimplepids.xml");
         }
 
         private void ConfigSimplePids_Load(object sender, EventArgs e)

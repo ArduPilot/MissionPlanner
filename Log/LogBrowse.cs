@@ -396,7 +396,7 @@ namespace MissionPlanner.Log
 
             using (
                 XmlReader reader =
-                    XmlReader.Create(Application.StartupPath + Path.DirectorySeparatorChar + "mavgraphs.xml"))
+                    XmlReader.Create(Settings.GetRunningDirectory() + "mavgraphs.xml"))
             {
                 while (reader.Read())
                 {
@@ -800,7 +800,7 @@ namespace MissionPlanner.Log
 
                 using (
                     XmlReader reader =
-                        XmlReader.Create(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                        XmlReader.Create(Settings.GetRunningDirectory() +
                                          "dataflashlog.xml"))
                 {
                     reader.Read();

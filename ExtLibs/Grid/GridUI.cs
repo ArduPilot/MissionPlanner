@@ -179,9 +179,9 @@ namespace MissionPlanner
                 kmlpolygonsoverlay.Routes.Add(new GMapRoute(temp.Points,""));
             }
 
-            xmlcamera(false, "camerasBuiltin.xml");
+            xmlcamera(false, Settings.GetRunningDirectory() + "camerasBuiltin.xml");
 
-            xmlcamera(false);
+            xmlcamera(false, Settings.GetUserDataDirectory() + "cameras.xml");
 
             loading = false;
         }
@@ -479,15 +479,15 @@ namespace MissionPlanner
             plugin.Host.config["grid_min_lane_separation"] = NUM_Lane_Dist.Value.ToString();
         }
 
-        private void xmlcamera(bool write, string filename = "cameras.xml")
+        private void xmlcamera(bool write, string filename)
         {
-            bool exists = File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename);
+            bool exists = File.Exists(filename);
 
             if (write || !exists)
             {
                 try
                 {
-                    XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename, Encoding.ASCII);
+                    XmlTextWriter xmlwriter = new XmlTextWriter(filename, Encoding.ASCII);
                     xmlwriter.Formatting = Formatting.Indented;
 
                     xmlwriter.WriteStartDocument();
@@ -524,7 +524,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename))
+                    using (XmlTextReader xmlreader = new XmlTextReader(Settings.GetDataDirectory() + filename))
                     {
                         while (xmlreader.Read())
                         {
@@ -1532,7 +1532,7 @@ namespace MissionPlanner
 
             cameras[CMB_camera.Text] = camera;
 
-            xmlcamera(true);
+            xmlcamera(true, Settings.GetUserDataDirectory() + "cameras.xml");
         }
 
         private void BUT_Accept_Click(object sender, EventArgs e)

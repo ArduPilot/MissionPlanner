@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls.PreFlight
 {
@@ -15,9 +16,9 @@ namespace MissionPlanner.Controls.PreFlight
     {
         public List<CheckListItem> CheckListItems = new List<CheckListItem>();
 
-        public string configfile = "checklist.xml";
+        public string configfile = Settings.GetUserDataDirectory() + "checklist.xml";
 
-        public string configfiledefault = "checklistDefault.xml";
+        public string configfiledefault = Settings.GetRunningDirectory() + "checklistDefault.xml";
 
         int rowcount = 0;
 

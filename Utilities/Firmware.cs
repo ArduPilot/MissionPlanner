@@ -375,7 +375,7 @@ namespace MissionPlanner.Utilities
 
             using (
                 StreamWriter sw =
-                    new StreamWriter(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
+                    new StreamWriter(Settings.GetUserDataDirectory() + "fwversions.xml"))
             {
                 writer.Serialize(sw, list);
             }
@@ -390,7 +390,7 @@ namespace MissionPlanner.Utilities
 
                 using (
                     StreamReader sr =
-                        new StreamReader(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
+                        new StreamReader(Settings.GetUserDataDirectory() + "fwversions.xml"))
                 {
                     return (List<software>) reader.Deserialize(sr);
                 }
@@ -606,7 +606,7 @@ namespace MissionPlanner.Utilities
                         byte[] buf1 = new byte[1024];
 
                         using (FileStream fs = new FileStream(
-                                Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                                Settings.GetUserDataDirectory() +
                                 @"firmware.hex", FileMode.Create))
                         {
                             updateProgress(0, Strings.DownloadingFromInternet);
@@ -652,7 +652,7 @@ namespace MissionPlanner.Utilities
             MissionPlanner.Utilities.Tracking.AddFW(temp.name, board.ToString());
 
             return UploadFlash(comport,
-                Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
+                Settings.GetUserDataDirectory() + @"firmware.hex", board);
         }
 
         /// <summary>

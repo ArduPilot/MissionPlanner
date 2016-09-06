@@ -14,6 +14,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
@@ -24,7 +25,7 @@ namespace MissionPlanner.Controls
 
         Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
-        string sitldirectory = Application.StartupPath + Path.DirectorySeparatorChar + "sitl" +
+        string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;
 
         GMapOverlay markeroverlay;

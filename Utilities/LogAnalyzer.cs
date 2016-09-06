@@ -22,7 +22,7 @@ namespace MissionPlanner.Utilities
 
         public static string CheckLogFile(string FileName)
         {
-            var dir = Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" +
+            var dir = Settings.GetDataDirectory() + "LogAnalyzer" +
                       Path.DirectorySeparatorChar;
 
             var runner = dir + "runner.exe";
