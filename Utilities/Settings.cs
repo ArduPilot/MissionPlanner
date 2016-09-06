@@ -216,8 +216,6 @@ namespace MissionPlanner.Utilities
 
             var path = Path.Combine(directory, FileName);
 
-            return path;
-
             // get new path details
             var newdir = GetUserDataDirectory();
 
