@@ -21,6 +21,10 @@ obj/
 /sitl
 /cov-int
 *.pyc
+*.ncrunchproject
+*.crunchsolution.cache
+*.ncrunchsolution
+/Plugins/AltitudeAngelWings/AltitudeAngelWings/Keys.config
 /ExtLibs/Mavlink/Mavlink.cs
 /ExtLibs/Mavlink/mavlink
 /LogAnalyzer/LogAnalyzer.zip
@@ -29,3 +33,6 @@ obj/
 /LogAnalyzer/LogAnalyzer64.zip
 /gstream
 /MissionPlanner.appx
+/Plugins
+/AltitudeAngelWings.sln
+/appxkey.cer
