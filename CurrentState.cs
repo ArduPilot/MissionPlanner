@@ -1517,67 +1517,67 @@ namespace MissionPlanner
 
                         terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
 
-                        if (sensors_health.gps != sensors_enabled.gps && sensors_present.gps)
+                        if (!sensors_health.gps && sensors_enabled.gps && sensors_present.gps)
                         {
                             messageHigh = Strings.BadGPSHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.gyro != sensors_enabled.gyro && sensors_present.gyro)
+                        else if (!sensors_health.gyro && sensors_enabled.gyro && sensors_present.gyro)
                         {
                             messageHigh = Strings.BadGyroHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.accelerometer != sensors_enabled.accelerometer &&
+                        else if (!sensors_health.accelerometer && sensors_enabled.accelerometer &&
                                  sensors_present.accelerometer)
                         {
                             messageHigh = Strings.BadAccelHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.compass != sensors_enabled.compass && sensors_present.compass)
+                        else if (!sensors_health.compass && sensors_enabled.compass && sensors_present.compass)
                         {
                             messageHigh = Strings.BadCompassHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.barometer != sensors_enabled.barometer && sensors_present.barometer)
+                        else if (!sensors_health.barometer && sensors_enabled.barometer && sensors_present.barometer)
                         {
                             messageHigh = Strings.BadBaroHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.LASER_POSITION != sensors_enabled.LASER_POSITION &&
+                        else if (!sensors_health.LASER_POSITION && sensors_enabled.LASER_POSITION &&
                                  sensors_present.LASER_POSITION)
                         {
                             messageHigh = Strings.BadLiDARHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.optical_flow != sensors_enabled.optical_flow &&
+                        else if (!sensors_health.optical_flow && sensors_enabled.optical_flow &&
                                  sensors_present.optical_flow)
                         {
                             messageHigh = Strings.BadOptFlowHealth;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.VISION_POSITION != sensors_enabled.VISION_POSITION &&
+                        else if (!sensors_health.VISION_POSITION && sensors_enabled.VISION_POSITION &&
                                  sensors_present.VISION_POSITION)
                         {
                             messageHigh = Strings.Bad_Vision_Position;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.terrain != sensors_enabled.terrain && sensors_present.terrain)
+                        else if (!sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain)
                         {
                             messageHigh = Strings.BadorNoTerrainData;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.geofence != sensors_enabled.geofence &&
+                        else if (!sensors_health.geofence && sensors_enabled.geofence &&
                                  sensors_present.geofence)
                         {
                             messageHigh = Strings.GeofenceBreach;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.ahrs != sensors_enabled.ahrs && sensors_present.ahrs)
+                        else if (!sensors_health.ahrs && sensors_enabled.ahrs && sensors_present.ahrs)
                         {
                             messageHigh = Strings.BadAHRS;
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.rc_receiver != sensors_enabled.rc_receiver &&
+                        else if (!sensors_health.rc_receiver && sensors_enabled.rc_receiver &&
                                  sensors_present.rc_receiver)
                         {
                             bool reporterror = true;
@@ -1588,14 +1588,15 @@ namespace MissionPlanner
                                 messageHigh = Strings.NORCReceiver;
                                 messageHighTime = DateTime.Now;
                             }
-                        } else if (sensors_health.logging != sensors_enabled.logging && sensors_present.logging)
+                        }
+                        else if (!sensors_health.logging && sensors_enabled.logging && sensors_present.logging)
                         {
                             messageHigh = Strings.BadLogging;
                             messageHighTime = DateTime.Now;
                         }
 
 
-                        MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
+                        MAV.clearPacket((uint) MAVLink.MAVLINK_MSG_ID.SYS_STATUS);
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.BATTERY2);
