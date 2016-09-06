@@ -83,7 +83,7 @@ public partial class MAVLink
             }
         }
 
-        public void Add(MAVLinkParam item)
+        public new void Add(MAVLinkParam item)
         {
             lock (locker)
             {
