@@ -104,7 +104,7 @@ namespace MissionPlanner.Utilities
 
         public static string GetDefaultLogDir()
         {
-            string directory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"logs";
+            string directory = GetUserDataDirectory() + @"logs";
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
@@ -168,19 +168,87 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public static string GetFullPath()
+        /// <summary>
+        /// Install directory path
+        /// </summary>
+        /// <returns></returns>
+        public static string GetRunningDirectory()
         {
-            string directory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar;
+            return Application.StartupPath + Path.DirectorySeparatorChar;
+        }
+
+        /// <summary>
+        /// Shared data directory
+        /// </summary>
+        /// <returns></returns>
+        public static string GetDataDirectory()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + "Mission Planner" +
+                          Path.DirectorySeparatorChar;
+
+            return path;
+        }
+
+        /// <summary>
+        /// User specific data
+        /// </summary>
+        /// <returns></returns>
+        public static string GetUserDataDirectory()
+        {
+            var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + Path.DirectorySeparatorChar + "Mission Planner" +
+                          Path.DirectorySeparatorChar;
+
+            return path;
+        }
+
+        /// <summary>
+        /// full path to the config file
+        /// </summary>
+        /// <returns></returns>
+        static string GetConfigFullPath()
+        {
+            // old path details
+            string directory = GetRunningDirectory();
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
-            return Path.Combine(directory, FileName);
+
+            var path = Path.Combine(directory, FileName);
+
+            return path;
+
+            // get new path details
+            var newdir = GetUserDataDirectory();
+
+            if (!Directory.Exists(newdir))
+            {
+                Directory.CreateDirectory(newdir);
+            }
+
+            var newpath = Path.Combine(newdir, FileName);
+
+            // check if oldpath config exists
+            if (File.Exists(path))
+            {
+                // move to new path
+                File.Move(path,newpath);
+
+                // copy other xmls as this will be first run
+                var files = Directory.GetFiles(directory, "*.xml", SearchOption.TopDirectoryOnly);
+
+                foreach (var file in files)
+                {
+                    File.Copy(file, newdir + Path.GetFileName(file));
+                }
+            }
+
+            return newpath;
         }
         
         public void Load()
         {
-            using (XmlTextReader xmlreader = new XmlTextReader(GetFullPath()))
+            using (XmlTextReader xmlreader = new XmlTextReader(GetConfigFullPath()))
             {
                 while (xmlreader.Read())
                 {
@@ -210,7 +278,7 @@ namespace MissionPlanner.Utilities
 
         public void Save()
         {
-            string filename = GetFullPath();
+            string filename = GetConfigFullPath();
 
             using (XmlTextWriter xmlwriter = new XmlTextWriter(filename, Encoding.UTF8))
             {
