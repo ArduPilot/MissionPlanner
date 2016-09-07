@@ -82,129 +82,116 @@ namespace MissionPlanner.Log
 
         public static void ProcessLog(string fn)
         {
-            StreamReader sr;
-
-            if (fn.ToLower().EndsWith(".bin"))
+            using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(fn)))
             {
-                string tmpfile = Path.GetTempFileName();
-                BinaryLog.ConvertBin(fn, tmpfile);
-                sr = new StreamReader(tmpfile);
-            }
-            else
-            {
-                sr = new StreamReader(fn);
-            }
 
-            // store all the arrays
-            List<MLArray> mlList = new List<MLArray>();
-            // store data to putinto the arrays
-            Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
-            // store line item lengths
-            Hashtable len = new Hashtable();
-            // store whats we have seen in the log
-            Hashtable seen = new Hashtable();
-            // store the params seen
-            SortedDictionary<string, double> param = new SortedDictionary<string, double>();
+                // store all the arrays
+                List<MLArray> mlList = new List<MLArray>();
+                // store data to putinto the arrays
+                Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
+                // store line item lengths
+                Hashtable len = new Hashtable();
+                // store whats we have seen in the log
+                Hashtable seen = new Hashtable();
+                // store the params seen
+                SortedDictionary<string, double> param = new SortedDictionary<string, double>();
 
-            // keep track of line no
-            int a = 0;
+                // keep track of line no
+                int a = 0;
 
-            log.Info("ProcessLog start " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("ProcessLog start " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-            while (!sr.EndOfStream)
-            {
-                var line = sr.ReadLine();
-
-                a++;
-                if (a%100 == 0)
-                    Console.Write(a + "\r");
-
-                string strLine = line.Replace(", ", ",");
-                strLine = strLine.Replace(": ", ":");
-
-                string[] items = strLine.Split(',', ':');
-
-                // process the fmt messages
-                if (line.StartsWith("FMT"))
+                foreach (var line in colbuf)
                 {
-                    // +1 for line no
-                    string[] names = new string[items.Length - 5 + 1];
-                    names[0] = "LineNo";
-                    Array.ConstrainedCopy(items, 5, names, 1, names.Length - 1);
+                    a++;
+                    if (a%100 == 0)
+                        Console.Write(a + "\r");
 
-                    MLArray format = CreateCellArray(items[3] + "_label", names);
+                    string strLine = line.Replace(", ", ",");
+                    strLine = strLine.Replace(": ", ":");
 
-                    if (items[3] == "PARM")
+                    string[] items = strLine.Split(',', ':');
+
+                    // process the fmt messages
+                    if (line.StartsWith("FMT"))
                     {
-                    }
+                        // +1 for line no
+                        string[] names = new string[items.Length - 5 + 1];
+                        names[0] = "LineNo";
+                        Array.ConstrainedCopy(items, 5, names, 1, names.Length - 1);
+
+                        MLArray format = CreateCellArray(items[3] + "_label", names);
+
+                        if (items[3] == "PARM")
+                        {
+                        }
+                        else
+                        {
+                            mlList.Add(format);
+                        }
+
+                        len[items[3]] = names.Length;
+                    } // process param messages
+                    else if (line.StartsWith("PARM"))
+                    {
+                        try
+                        {
+                            param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
+                        }
+                        catch
+                        {
+                        }
+                    } // everyting else is generic
                     else
                     {
-                        mlList.Add(format);
+                        // make sure the line is long enough
+                        if (items.Length < 2)
+                            continue;
+                        // check we have a valid fmt message for this message type
+                        if (!len.ContainsKey(items[0]))
+                            continue;
+                        // check the fmt length matchs what the log has
+                        if (items.Length != (int) len[items[0]])
+                            continue;
+
+                        // make it as being seen
+                        seen[items[0]] = 1;
+
+                        double[] dbarray = new double[items.Length];
+
+                        // set line no
+                        dbarray[0] = a;
+
+                        for (int n = 1; n < items.Length; n++)
+                        {
+                            double dbl = 0;
+
+                            double.TryParse(items[n], NumberStyles.Any, CultureInfo.InvariantCulture, out dbl);
+
+                            dbarray[n] = dbl;
+                        }
+
+                        if (!data.ContainsKey(items[0]))
+                            data[items[0]] = new DoubleList();
+
+                        data[items[0]].Add(dbarray);
                     }
 
-                    len[items[3]] = names.Length;
-                } // process param messages
-                else if (line.StartsWith("PARM"))
-                {
-                    try
+                    // split at x records
+                    if (a%2000000 == 0 && !Environment.Is64BitProcess)
                     {
-                        param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
+                        GC.Collect();
+                        DoWrite(fn + "-" + a, data, param, mlList, seen);
+                        mlList.Clear();
+                        data.Clear();
+                        param.Clear();
+                        seen.Clear();
+                        GC.Collect();
                     }
-                    catch
-                    {
-                    }
-                } // everyting else is generic
-                else
-                {
-                    // make sure the line is long enough
-                    if (items.Length < 2)
-                        continue;
-                    // check we have a valid fmt message for this message type
-                    if (!len.ContainsKey(items[0]))
-                        continue;
-                    // check the fmt length matchs what the log has
-                    if (items.Length != (int) len[items[0]])
-                        continue;
-
-                    // make it as being seen
-                    seen[items[0]] = 1;
-
-                    double[] dbarray = new double[items.Length];
-
-                    // set line no
-                    dbarray[0] = a;
-
-                    for (int n = 1; n < items.Length; n++)
-                    {
-                        double dbl = 0;
-
-                        double.TryParse(items[n], NumberStyles.Any, CultureInfo.InvariantCulture, out dbl);
-
-                        dbarray[n] = dbl;
-                    }
-
-                    if (!data.ContainsKey(items[0]))
-                        data[items[0]] = new DoubleList();
-
-                    data[items[0]].Add(dbarray);
                 }
 
-                // split at x records
-                if (a%2000000 == 0)
-                {
-                    GC.Collect();
-                    DoWrite(fn + "-" + a, data, param, mlList, seen);
-                    mlList.Clear();
-                    data.Clear();
-                    param.Clear();
-                    seen.Clear();
-                    GC.Collect();
-                }
+                DoWrite(fn + "-" + a, data, param, mlList, seen);
             }
-
-            DoWrite(fn + "-" + a, data, param, mlList, seen);
-
-            sr.Close();
         }
 
         static void DoWrite(string fn, Dictionary<string, DoubleList> data, SortedDictionary<string, double> param,
