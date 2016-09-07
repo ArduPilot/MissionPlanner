@@ -92,8 +92,9 @@ namespace MissionPlanner.Plugin
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
