@@ -23,8 +23,7 @@ namespace MissionPlanner.Utilities
 
         ushort crcpacket = 0;
 
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct piksimsg
+        public class piksimsg
         {
             public byte preamble; // 0x55
             public UInt16 msg_type;
@@ -33,6 +32,8 @@ namespace MissionPlanner.Utilities
             [MarshalAs(UnmanagedType.ByValArray)]
             public byte[] payload;
             public UInt16 crc; // - preamble
+
+            public byte[] buffer = new byte[4096];
         }
 
         public int read(byte data)
@@ -45,34 +46,41 @@ namespace MissionPlanner.Utilities
                         state++;
                         msg = new piksimsg();
                         msg.preamble = data;
+                        msg.buffer[0] = data;
                         crc = new Crc16Ccitt(InitialCrcValue.Zeros);
                         crcpacket = (ushort)InitialCrcValue.Zeros;
                     }
                     break;
                 case 1:
                     msg.msg_type = (u16)(data);
+                    msg.buffer[1] = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     state++;
                     break;
                 case 2:
                     msg.msg_type = (u16)(msg.msg_type + (data << 8));
+                    msg.buffer[2] = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     state++;
                     break;
                 case 3:
                     msg.sender = (u16)(data);
+                    msg.buffer[3] = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     state++;
                     break;
                 case 4:
                     msg.sender = (u16)(msg.sender + (data << 8));
+                    msg.buffer[4] = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     state++;
                     break;
                 case 5:
                     msg.length = data;
+                    msg.buffer[5] = data;
                     crcpacket = crc.Accumulate(data, crcpacket);
                     msg.payload = new u8[msg.length];
+                    Array.Resize(ref msg.buffer, 8 + data);
                     lengthcount = 0;
                     state++;
                     break;
@@ -85,16 +93,19 @@ namespace MissionPlanner.Utilities
                     else
                     {
                         msg.payload[lengthcount] = data;
+                        msg.buffer[6 + lengthcount] = data;
                         crcpacket = crc.Accumulate(data, crcpacket);
                         lengthcount++;
                     }
                     break;
                 case 7:
                     msg.crc = (u16)(data);
+                    msg.buffer[6 + lengthcount] = data;
                     state++;
                     break;
                 case 8:
                     msg.crc = (u16)(msg.crc + (data << 8));
+                    msg.buffer[7 + lengthcount] = data;
                     state = 0;
 
                     if (msg.crc == crcpacket)
@@ -169,14 +180,14 @@ namespace MissionPlanner.Utilities
 
         public s32 length
         {
-            get { return Marshal.SizeOf(msg); }
+            get { return msg.length + 8; }
         }
 
         public u8[] packet
         {
             get
             {
-                return MavlinkUtil.StructureToByteArray(msg);
+                return msg.buffer;
             }
         }
     }

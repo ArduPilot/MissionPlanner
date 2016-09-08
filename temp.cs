@@ -900,5 +900,38 @@ namespace MissionPlanner
 
             frm.Show();
         }
+
+        private void but_gpsinj_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "tlog|*.tlog";
+            ofd.ShowDialog();
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "output.dat";
+            sfd.ShowDialog();
+
+            if (ofd.CheckFileExists)
+            {
+                using (var st = sfd.OpenFile())
+                {
+                    using (MAVLinkInterface mine = new MAVLinkInterface(ofd.OpenFile()))
+                    {
+                        mine.logreadmode = true;
+
+                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                        {
+                            MAVLink.MAVLinkMessage packet = mine.readPacket();
+
+                            if (packet.msgid == (uint) MAVLink.MAVLINK_MSG_ID.GPS_INJECT_DATA)
+                            {
+                                var item = packet.ToStructure<MAVLink.mavlink_gps_inject_data_t>();
+                                st.Write(item.data, 0, item.len);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.BUT_xplane = new MissionPlanner.Controls.MyButton();
             this.but_osdvideo = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
@@ -44,7 +43,6 @@
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
-            
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
@@ -96,6 +94,7 @@
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
+            this.but_gpsinj = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -262,11 +261,6 @@
             this.BUT_sorttlogs.Text = "Sort TLogs";
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
             this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
-            // 
-            // timer1
-            // 
-            
-    
             // 
             // BUT_movingbase
             // 
@@ -839,11 +833,22 @@
             this.controlSensorsStatus1.Size = new System.Drawing.Size(272, 586);
             this.controlSensorsStatus1.TabIndex = 80;
             // 
+            // but_gpsinj
+            // 
+            this.but_gpsinj.Location = new System.Drawing.Point(467, 472);
+            this.but_gpsinj.Name = "but_gpsinj";
+            this.but_gpsinj.Size = new System.Drawing.Size(75, 23);
+            this.but_gpsinj.TabIndex = 81;
+            this.but_gpsinj.Text = "extract gps_inject";
+            this.but_gpsinj.UseVisualStyleBackColor = true;
+            this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_gpsinj);
             this.Controls.Add(this.controlSensorsStatus1);
             this.Controls.Add(this.BUT_magfit2);
             this.Controls.Add(this.myButton2);
@@ -862,7 +867,6 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Text = "temp";
-            
             this.Load += new System.EventHandler(this.temp_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -939,5 +943,6 @@
         private Controls.MyButton myButton2;
         private Controls.MyButton BUT_magfit2;
         private Controls.ControlSensorsStatus controlSensorsStatus1;
+        private Controls.MyButton but_gpsinj;
     }
 }
