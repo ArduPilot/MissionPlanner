@@ -16,7 +16,7 @@
     <Resource Language="en-us" />
   </Resources>
   <Applications>
-    <Application Id="MPApp" Executable="MissionPlanner.exe" EntryPoint="MissionPlanner.Program.Main">
+    <Application Id="MPApp" Executable="MissionPlanner.exe" EntryPoint="MissionPlanner.Program">
       <VisualElements DisplayName="Mission Planner" Description="ArduPilot ground control station"
            Logo="splashdark.jpg" SmallLogo="splashdark.jpg"  
            ForegroundText="dark" BackgroundColor="#FFFFFF">
