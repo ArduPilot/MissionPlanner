@@ -32,7 +32,7 @@ namespace MissionPlanner.Utilities
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
-            if (!File.Exists(runner))
+            //if (!File.Exists(runner))
             {
                 Loading.ShowLoading("Downloading LogAnalyzer");
                 bool gotit = false;

@@ -1,4 +1,6 @@
-C:\Python27x86\python -m pip install numpy -I
+rmdir /s dist
+
+C:\Python27x86\python -m pip install numpy
 
 C:\Python27x86\python setup.py py2exe
 
@@ -8,7 +10,9 @@ cd dist
 
 cd ..
 
-C:\Python27\python -m pip install numpy -I
+rmdir /s dist
+
+C:\Python27\python -m pip install numpy
 
 C:\Python27\python setup.py py2exe
 
