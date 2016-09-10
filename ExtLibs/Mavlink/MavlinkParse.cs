@@ -90,10 +90,10 @@ public partial class MAVLink
             //read rest of packet
             ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - (headerlengthstx-2));
 
-            MAVLinkMessage message = new MAVLinkMessage(buffer);
-
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);
+
+            MAVLinkMessage message = new MAVLinkMessage(buffer);
 
             // calc crc
             ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
