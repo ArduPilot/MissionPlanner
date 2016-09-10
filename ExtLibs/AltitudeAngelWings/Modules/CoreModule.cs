@@ -10,6 +10,7 @@ using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.FlightData.Providers;
 using AltitudeAngelWings.Service.Logging;
 using AltitudeAngelWings.Service.Messaging;
+using AltitudeAngelWings.Views;
 using Autofac;
 using Module = Autofac.Module;
 
@@ -43,21 +44,6 @@ namespace AltitudeAngelWings.Modules
                 .RegisterType<MessagesService>()
                 .As<IMessagesService>()
                 .SingleInstance();
-
-            builder
-                .Register(ctx => PluginMain.Instance.MissionPlannerInterfaces.MissionPlanner)
-                .As<IMissionPlanner>()
-                .ExternallyOwned();
-
-            builder
-                .Register(ctx => PluginMain.Instance.MissionPlannerInterfaces.CurrentState)
-                .As<IMissionPlannerState>()
-                .ExternallyOwned();
-
-            builder
-                .Register(ctx => PluginMain.Instance.MissionPlannerInterfaces.FlightComms)
-                .As<IFlightComms>()
-                .ExternallyOwned();
 
             HookupViewBuildup(builder);
         }
@@ -104,7 +90,7 @@ namespace AltitudeAngelWings.Modules
 
 
                 object viewModel = context.Resolve(viewModelType);
-                viewModelProperty.SetValue(instance, viewModel);
+                viewModelProperty.SetValue(instance, viewModel, null);
 
                 viewInterfaceType.GetMethod("ViewInitialized").Invoke(instance, null);
             }

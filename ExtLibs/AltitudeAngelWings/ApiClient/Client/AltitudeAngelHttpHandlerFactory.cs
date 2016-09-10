@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.Net.Http;
+using AltitudeAngelWings.ApiClient.CodeProvider;
 using DotNetOpenAuth.OAuth2;
 using Flurl.Http.Configuration;
 
@@ -36,12 +37,11 @@ namespace AltitudeAngelWings.ApiClient.Client
         /// <returns></returns>
         public override HttpMessageHandler CreateMessageHandler()
         {
-            /*
             _handlerInfo = ApiOAuthClientHandler.Create(
                 _authUrl, ConfigurationManager.AppSettings["ClientId"], ConfigurationManager.AppSettings["ClientSecret"],
                 new[] {"query_mapdata", "query_mapairdata", "talk_tower", "query_userinfo"}, _existingState, true, "https://aawings.com/",
-                PluginMain.Instance.InterfaceMain.WPFAuthorizeDisplay);
-                */
+                new WpfAuthorizeDisplay());
+                
             return _handlerInfo.ClientHandler;
         }
         

@@ -20,7 +20,7 @@ namespace AltitudeAngelWings
 
         public override bool Initialize()
         {
-            MissionPlannerInterfaces.MissionPlanner.LoopRateHz = 1;
+            //MissionPlannerInterfaces.MissionPlanner.LoopRateHz = 1;
 
             ConfigureContainer();
             ConfigureUI();
@@ -82,8 +82,6 @@ namespace AltitudeAngelWings
             InterfaceMain = _container.Resolve<UserInterfaceMain>();
             InterfaceMain.Run();
 
-            MissionPlannerInterfaces.MissionPlanner.AddFlightMapMenuItem("Show Altitude Angel Wings",
-                new PluginCommand(i => InterfaceMain.ShowMainWindow()));
         }
 
         private readonly ISubject<long> _pollSubject = new Subject<long>();

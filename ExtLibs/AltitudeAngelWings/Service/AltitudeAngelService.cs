@@ -58,12 +58,6 @@ namespace AltitudeAngelWings.Service
                     i => IsSignedIn.Where(s => !IsSignedIn),
                     (flight, signedIn) => flight);
 
-            _disposer.Add(
-                armedAndSignedIn.SubscribeAsync(ArmedAndSignedIn));
-
-            _disposer.Add(
-                disarmedAndSignedIn.Subscribe(DisarmedAndSignedIn));
-
             _disposer.Add(_missionPlanner.FlightDataMap
                                          .MapChanged
                                          .Throttle(TimeSpan.FromSeconds(1))
@@ -225,19 +219,6 @@ namespace AltitudeAngelWings.Service
         private async Task LoadUserProfile()
         {
             CurrentUser = await _aaClient.GetUserProfile();
-        }
-
-        private Task ArmedAndSignedIn(Models.FlightData flightData)
-        {
-            _messagesService.AddMessageAsync("Armed");
-
-            //return Task.FromResult(0);
-            return null;
-        }
-
-        private void DisarmedAndSignedIn(Models.FlightData flightData)
-        {
-            _messagesService.AddMessageAsync("Disarmed.");
         }
 
         private void SignedIn(bool isSignedIn)
