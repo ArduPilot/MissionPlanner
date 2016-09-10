@@ -54,6 +54,10 @@ namespace MissionPlanner.Utilities
                 Name = "stream combiner"
             };
             th.Start();
+
+            MainV2.comPort.BaseStream = new TcpSerial() {client = new TcpClient("127.0.0.1", 5750) };
+
+            MainV2.instance.doConnect(MainV2.comPort, "preset", "5750");
         }
 
         public static void Stop()
@@ -108,7 +112,7 @@ namespace MissionPlanner.Utilities
                 }
 
                 // read from all clients
-                foreach (var client in clients)
+                foreach (var client in clients.ToArray())
                 {
                     try
                     {
@@ -145,33 +149,57 @@ namespace MissionPlanner.Utilities
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
         }
 
+        static object locker = new object();
+
         private static void RequestCallback(IAsyncResult ar)
         {
             TcpClient client = (TcpClient) ar.AsyncState;
 
-            byte localsysid = newsysid++;
-
-            if (client.Connected)
+            lock (locker)
             {
-                MAVLinkInterface mav = new MAVLinkInterface();
+                byte localsysid = newsysid++;
 
-                mav.BaseStream = new TcpSerial() {client = client};
-
-                try
+                if (client.Connected)
                 {
-                    mav.GetParam("SYSID_THISMAV");
+                    MAVLinkInterface mav = new MAVLinkInterface();
+
+                    mav.BaseStream = new TcpSerial() {client = client};
+
+                    try
+                    {
+                        mav.GetParam("SYSID_THISMAV");
+                    }
+                    catch
+                    {
+                    }
+                    try
+                    {
+                        mav.GetParam("SYSID_THISMAV");
+                    }
+                    catch
+                    {
+                    }
+                    try
+                    {
+                        mav.GetParam("SYSID_THISMAV");
+                    }
+                    catch
+                    {
+                    }
+
+                    try
+                    {
+                        var ans = mav.setParam("SYSID_THISMAV", localsysid);
+                        Console.WriteLine("this mav set " + ans);
+                    }
+                    catch
+                    {
+                    }
+
+                    mav = null;
+
+                    clients.Add(client);
                 }
-                catch
-                {
-                }
-
-                var ans = mav.setParam("SYSID_THISMAV", localsysid);
-
-                Console.WriteLine("this mav set " + ans);
-
-                mav = null;
-
-                clients.Add(client);
             }
         }
     }
