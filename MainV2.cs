@@ -1175,6 +1175,17 @@ namespace MissionPlanner
             {
                 case "preset":
                     skipconnectcheck = true;
+                    if (comPort.BaseStream is TcpSerial)
+                        _connectionControl.CMB_serialport.Text = "TCP";
+                    if (comPort.BaseStream is UdpSerial)
+                        _connectionControl.CMB_serialport.Text = "UDP";
+                    if (comPort.BaseStream is UdpSerialConnect)
+                        _connectionControl.CMB_serialport.Text = "UDPCl";
+                    if (comPort.BaseStream is SerialPort)
+                    {
+                        _connectionControl.CMB_serialport.Text = comPort.BaseStream.PortName;
+                        _connectionControl.CMB_baudrate.Text = comPort.BaseStream.BaudRate.ToString();
+                    }
                     break;
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
