@@ -68,7 +68,7 @@ namespace MissionPlanner.Mavlink
 
         public bool Contains(byte sysid, byte compid, bool includehidden = true)
         {
-            foreach (var item in masterlist)
+            foreach (var item in masterlist.ToArray())
             {
                 if (item.Value.sysid == sysid && item.Value.compid == compid)
                     return true;
@@ -76,7 +76,7 @@ namespace MissionPlanner.Mavlink
 
             if (includehidden)
             {
-                foreach (var item in hiddenlist)
+                foreach (var item in hiddenlist.ToArray())
                 {
                     if (item.Value.sysid == sysid && item.Value.compid == compid)
                         return true;
@@ -103,7 +103,7 @@ namespace MissionPlanner.Mavlink
 
         public IEnumerator<MAVState> GetEnumerator()
         {
-            foreach (var key in masterlist.Values)
+            foreach (var key in masterlist.Values.ToArray())
             {
                 yield return key;
             }
