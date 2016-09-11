@@ -524,7 +524,8 @@ namespace MissionPlanner
 
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + name))
             {
-                if (new FileInfo(datadirectory + Path.DirectorySeparatorChar + name).Length > 0)
+                var fi = new FileInfo(datadirectory + Path.DirectorySeparatorChar + name);
+                if (fi.Length > 0 && fi.LastWriteTime.AddDays(2) > DateTime.Now)
                 {
                     using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
                     {
