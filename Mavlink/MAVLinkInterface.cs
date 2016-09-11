@@ -1041,7 +1041,8 @@ Please check the following
                         {
                             MainV2.instance.BeginInvoke((Action) delegate
                             {
-                                Loading.ShowLoading(String.Format("A Param refresh is required - Please press F5\nold #{0}  new #{1}",currentparamcount,par.param_count));
+                                Loading.ShowLoading(String.Format(Strings.ParamRefreshRequired, currentparamcount,
+                                    par.param_count));
                             });
                         }
 

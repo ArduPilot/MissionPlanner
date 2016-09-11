@@ -1076,6 +1076,16 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A Param refresh is required - Please press F5
+        ///old #{0}  new #{1}.
+        /// </summary>
+        public static string ParamRefreshRequired {
+            get {
+                return ResourceManager.GetString("ParamRefreshRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please connect first.
         /// </summary>
         public static string PleaseConnect {
