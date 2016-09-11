@@ -2294,6 +2294,19 @@ namespace MissionPlanner
                         // enumerate each link
                         foreach (var port in Comports)
                         {
+                            // poll for params at heartbeat interval
+                            if (!port.giveComport)
+                            {
+                                try
+                                {
+                                    port.getParamPoll();
+                                    port.getParamPoll();
+                                }
+                                catch
+                                {
+                                }
+                            }
+
                             // there are 3 hb types we can send, mavlink1, mavlink2 signed and unsigned
                             bool sentsigned = false;
                             bool sentmavlink1 = false;
