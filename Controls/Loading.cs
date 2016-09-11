@@ -76,21 +76,37 @@ namespace MissionPlanner.Controls
                 Loading frm = new Loading();
                 frm.TopMost = true;
                 frm.StartPosition = FormStartPosition.CenterParent;
+                frm.Closing += Frm_Closing;
+
+                // set instance
+                Instance = frm;
+                // set text
+                Instance.label1.Text = Text;
 
                 ThemeManager.ApplyThemeTo(frm);
 
-                MainV2.instance.Invoke((MethodInvoker) delegate
+                // display on ui thread
+                if (MainV2.instance.InvokeRequired)
+                {
+                    MainV2.instance.Invoke((MethodInvoker) delegate
+                    {
+                        frm.Show(owner);
+                        Application.DoEvents();
+                    });
+                }
+                else
                 {
                     frm.Show(owner);
                     Application.DoEvents();
-                });
-
-                frm.Text = Text;
-
-                Instance = frm;
+                }
 
                 return frm;
             }
+        }
+
+        private static void Frm_Closing(object sender, CancelEventArgs e)
+        {
+            Instance = null;
         }
     }
 }
