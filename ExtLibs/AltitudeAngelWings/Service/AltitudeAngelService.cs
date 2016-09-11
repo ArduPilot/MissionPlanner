@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
@@ -58,11 +59,11 @@ namespace AltitudeAngelWings.Service
                     i => IsSignedIn.Where(s => !IsSignedIn),
                     (flight, signedIn) => flight);
 
-            _disposer.Add(_missionPlanner.FlightDataMap
+         /*   _disposer.Add(_missionPlanner.FlightDataMap
                                          .MapChanged
                                          .Throttle(TimeSpan.FromSeconds(1))
                                          .SubscribeAsync(i => UpdateMapData(_missionPlanner.FlightDataMap)));
-
+                                         */
             TryConnect();
         }
 
@@ -205,7 +206,8 @@ namespace AltitudeAngelWings.Service
                 existingState = JsonConvert.DeserializeObject<AuthorizationState>(stateString);
             }
 
-            _aaClient = aaClientFactory("https://auth.aa.local", "https://api.aa.local", existingState);
+            _aaClient = aaClientFactory(ConfigurationManager.AppSettings["AuthURL"],
+                ConfigurationManager.AppSettings["APIURL"], existingState);
         }
 
         private async void TryConnect()
