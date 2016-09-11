@@ -1199,6 +1199,7 @@ Please check the following
 
                         // set new target
                         param_total = (par.param_count);
+                        newparamlist.TotalReported = param_total;
 
                         string paramID = System.Text.ASCIIEncoding.ASCII.GetString(par.param_id);
 
@@ -1305,8 +1306,27 @@ Please check the following
             giveComport = false;
 
             MAV.param.Clear();
+            MAV.param.TotalReported = param_total;
             MAV.param.AddRange(newparamlist);
             return MAV.param;
+        }
+
+        private int _parampoll = 0;
+
+        public void getParamPoll()
+        {
+            // check if we have all
+            if (MAV.param.TotalReceived == MAV.param.TotalReported)
+            {
+                return;
+            }
+
+            // if we are connected as primary to a vechile where we dont have all the params, poll for them
+            short i = (short)(_parampoll % MAV.param.TotalReported);
+
+            GetParam("", i, false);
+
+            _parampoll++;
         }
 
         public float GetParam(string name)
@@ -1325,14 +1345,13 @@ Please check the following
         /// <param name="index"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal float GetParam(string name = "", short index = -1)
+        internal float GetParam(string name = "", short index = -1, bool requireresponce = true)
         {
             if (name == "" && index == -1)
                 return 0;
 
             log.Info("GetParam name: '" + name + "' or index: " + index);
 
-            giveComport = true;
             MAVLinkMessage buffer;
 
             mavlink_param_request_read_t req = new mavlink_param_request_read_t();
@@ -1348,6 +1367,13 @@ Please check the following
             Array.Resize(ref req.param_id, 16);
 
             generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req);
+
+            if (!requireresponce)
+            {
+                return 0f;
+            }
+
+            giveComport = true;
 
             DateTime start = DateTime.Now;
             int retrys = 3;
@@ -3772,6 +3798,8 @@ Please check the following
                     MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, value.param_value,
                         (MAV_PARAM_TYPE) value.param_type);
                 }
+
+                MAVlist[sysid,compid].param.TotalReported = value.param_count;
             }
         }
 
