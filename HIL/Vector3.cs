@@ -13,6 +13,9 @@ namespace MissionPlanner.HIL
         public double y;
         public double z;
 
+        public static readonly Vector3 Zero = new Vector3(0, 0, 0);
+        public static readonly Vector3 One = new Vector3(1.0, 1.0, 1.0);
+
         public Vector3(double x = 0, double y = 0, double z = 0)
         {
             this.x = x;
@@ -47,6 +50,26 @@ namespace MissionPlanner.HIL
         public static implicit operator PointLatLng(Vector3 a)
         {
             return new PointLatLng(a.x, a.y);
+        }
+
+        public static implicit operator double[](Vector3 a)
+        {
+            return new double[] {a.x, a.y, a.z};
+        }
+
+        public double this[int index]
+        {
+            get
+            {
+                if (index == 0)
+                    return x;
+                if (index == 1)
+                    return y;
+                if (index == 2)
+                    return z;
+
+                throw new Exception("Bad index");
+            }
         }
 
         public static Vector3 operator +(Vector3 self, Vector3 v)

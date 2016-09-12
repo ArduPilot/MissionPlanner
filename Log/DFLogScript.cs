@@ -12,7 +12,7 @@ namespace MissionPlanner.Log
 {
     public class DFLogScript : HIL.Utils
     {
-        public static Vector3 earth_accel_df(IMU IMU, ATT ATT)
+        public static Vector3 earth_accel_df(IMU_t IMU, ATT_t ATT)
         {
             //return earth frame acceleration vector from df log
             var r = rotation_df(ATT);
@@ -20,7 +20,7 @@ namespace MissionPlanner.Log
             return r*accel;
         }
 
-        public static Matrix3 rotation_df(ATT ATT)
+        public static Matrix3 rotation_df(ATT_t ATT)
         {
             //return the current DCM rotation matrix''' 
             var r = new Matrix3();
@@ -28,7 +28,7 @@ namespace MissionPlanner.Log
             return r;
         }
 
-        public static Vector3 gps_velocity_df(GPS GPS)
+        public static Vector3 gps_velocity_df(GPS_t GPS)
         {
             //return GPS velocity vector
             var vx = GPS.Spd*cos(radians(GPS.GCrs));
@@ -36,8 +36,41 @@ namespace MissionPlanner.Log
             return new Vector3(vx, vy, GPS.VZ);
         }
 
-        static double last_v = 0;
-        static double last_t = 0;
+        public static double mag_heading_df(MAG_t MAG, ATT_t ATT, double declination = 0, Vector3 ofs = null,
+            Vector3 diagonals = null, Vector3 offdiagonals = null)
+        {
+            if (diagonals == null)
+                diagonals = Vector3.One;
+            if (offdiagonals == null)
+                offdiagonals = Vector3.Zero;
+            //'''calculate heading from raw magnetometer'''
+            //if (declination == 0)
+            //declination = degrees(mavutil.mavfile_global.param('COMPASS_DEC', 0));
+            var mag = new Vector3(MAG.MagX, MAG.MagY, MAG.MagZ);
+            if (ofs != null)
+            {
+                mag += new Vector3(ofs[0], ofs[1], ofs[2]) - new Vector3(MAG.OfsX, MAG.OfsY, MAG.OfsZ);
+                diagonals = new Vector3(diagonals[0], diagonals[1], diagonals[2]);
+                offdiagonals = new Vector3(offdiagonals[0], offdiagonals[1], offdiagonals[2]);
+                var rot = new Matrix3(new Vector3(diagonals.x, offdiagonals.x, offdiagonals.y),
+                    new Vector3(offdiagonals.x, diagonals.y, offdiagonals.z),
+                    new Vector3(offdiagonals.y, offdiagonals.z, diagonals.z));
+                mag = rot*mag;
+            }
+//# go via a DCM matrix to match the APM calculation
+            var dcm_matrix = rotation_df(ATT);
+            var cos_pitch_sq = 1.0 - (dcm_matrix.c.x*dcm_matrix.c.x);
+            var headY = mag.y*dcm_matrix.c.z - mag.z*dcm_matrix.c.y;
+            var headX = mag.x*cos_pitch_sq - dcm_matrix.c.x*(mag.y*dcm_matrix.c.y + mag.z*dcm_matrix.c.z);
+
+            var heading = degrees(atan2(-headY, headX)) + declination;
+            if (heading < 0)
+                heading += 360;
+            return heading;
+        }
+
+        private static double last_v = 0;
+        private static double last_t = 0;
 
         public static double delta(double vari, string key, double tusec)
         {
@@ -84,8 +117,8 @@ namespace MissionPlanner.Log
 
                 foreach (var item in logdata.GetEnumeratorType(msglist.ToArray()))
                 {
-                    IMU imu = new IMU();
-                    ATT att = new ATT();
+                    IMU_t IMU = new IMU_t();
+                    ATT_t ATT = new ATT_t();
 
                     if (item.msgtype == "ATT")
                     {
@@ -108,15 +141,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(imu, att).x);
+                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).x);
                     }
                     if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(imu, att).y);
+                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).y);
                     }
                     if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, earth_accel_df(imu, att).z);
+                        answer.Add(item.lineno, earth_accel_df(IMU, ATT).z);
                     }
                 }
             } // delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS)
@@ -124,7 +157,7 @@ namespace MissionPlanner.Log
             {
                 foreach (var item in logdata.GetEnumeratorType("GPS"))
                 {
-                    var gps = new GPS();
+                    var GPS = new GPS_t();
 
                     if (item.msgtype == "GPS")
                     {
@@ -135,15 +168,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).z, "z", item.timems * 1000) - 9.8);
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -151,7 +184,7 @@ namespace MissionPlanner.Log
             {
                 foreach (var item in logdata.GetEnumeratorType("GPS2"))
                 {
-                    var gps = new GPS();
+                    var GPS = new GPS_t();
 
                     if (item.msgtype == "GPS2")
                     {
@@ -162,15 +195,15 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).x, "x", item.timems*1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).y, "y", item.timems*1000));
                     }
                     else if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno, delta(gps_velocity_df(gps).z, "z", item.timems * 1000) - 9.8);
+                        answer.Add(item.lineno, delta(gps_velocity_df(GPS).z, "z", item.timems*1000) - 9.8);
                     }
                 }
             }
@@ -245,11 +278,51 @@ namespace MissionPlanner.Log
                     var type2 = matchs[0].Groups[3].Value.ToString();
                     var field2 = matchs[0].Groups[4].Value.ToString();
 
-                    foreach (var item in logdata.GetEnumeratorType(new[]{ type, type2 }))
+                    foreach (var item in logdata.GetEnumeratorType(new[] {type, type2}))
                     {
                         if (type == type2)
-                            answer.Add(item.lineno, double.Parse(item.items[dflog.FindMessageOffset(type, field)]) - double.Parse(item.items[dflog.FindMessageOffset(type2, field2)]));
+                            answer.Add(item.lineno,
+                                double.Parse(item.items[dflog.FindMessageOffset(type, field)]) -
+                                double.Parse(item.items[dflog.FindMessageOffset(type2, field2)]));
                     }
+                }
+            }
+            else if (expression.Contains("mag_heading_df"))
+            {
+                var matchs = Regex.Matches(expression, @"([A-z0-9_]+),([A-z0-9_]+)");
+
+                List<string> msglist = new List<string>();
+
+                foreach (Match match in matchs)
+                {
+                    foreach (var item in match.Groups)
+                    {
+                        msglist.Add(item.ToString());
+                    }
+                }
+
+                var MAG = new MAG_t();
+                var ATT = new ATT_t();
+
+                foreach (var item in logdata.GetEnumeratorType(msglist.ToArray()))
+                {
+                    if (item.msgtype.StartsWith("MAG"))
+                    {
+                        MAG.MagX = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "MagX")]);
+                        MAG.MagY = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "MagY")]);
+                        MAG.MagZ = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "MagZ")]);
+                        MAG.OfsX = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "OfsX")]);
+                        MAG.OfsY = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "OfsY")]);
+                        MAG.OfsZ = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "OfsZ")]);
+                    }
+                    else if (item.msgtype == "ATT")
+                    {
+                        ATT.Roll = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Roll")]);
+                        ATT.Pitch = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Pitch")]);
+                        ATT.Yaw = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Yaw")]);
+                    }
+
+                    answer.Add(item.lineno, mag_heading_df(MAG, ATT));
                 }
             }
 
@@ -258,24 +331,34 @@ namespace MissionPlanner.Log
         }
     }
 
-    public class ATT
+    public class ATT_t
     {
-        public static double Roll;
-        public static double Pitch;
-        public static double Yaw;
+        public double Roll;
+        public double Pitch;
+        public double Yaw;
     }
 
-    public class IMU
+    public class MAG_t
     {
-        public static double AccX;
-        public static double AccY;
-        public static double AccZ;
+        public double MagX;
+        public double MagY;
+        public double MagZ;
+        public double OfsX;
+        public double OfsY;
+        public double OfsZ;
     }
 
-    public class GPS
+    public class IMU_t
     {
-        public static double Spd;
-        public static double GCrs;
-        public static double VZ;
+        public double AccX;
+        public double AccY;
+        public double AccZ;
+    }
+
+    public class GPS_t
+    {
+        public double Spd;
+        public double GCrs;
+        public double VZ;
     }
 }

@@ -232,6 +232,12 @@ Velocity comparison x
     <expression>mag_heading_df(MAG,ATT) ATT.Yaw</expression>
   </graph>
 
+  <graph name='Sensors/Compass/Compass vs Yaw all'>
+    <description>Primary Compass vs Yaw</description>
+    <expression>mag_heading(RAW_IMU,ATTITUDE) degrees(ATTITUDE.yaw)</expression>
+    <expression>mag_heading_df(MAG,ATT) mag_heading_df(MAG2,ATT) mag_heading_df(MAG3,ATT) ATT.Yaw</expression>
+  </graph>
+
   <graph name='Servos/Servos 1-4'>
     <description>First 4 servo outputs</description>
     <expression>
