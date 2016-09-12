@@ -130,7 +130,7 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.sysidcurrent = temp.sysid;
                     MainV2.comPort.compidcurrent = temp.compid;
 
-                    if (MainV2.comPort.MAV.param.Count == 0)
+                    if (MainV2.comPort.MAV.param.Count == 0 && !(Control.ModifierKeys == Keys.Control))
                         MainV2.comPort.getParamList();
                 }
             }

@@ -77,29 +77,29 @@ namespace MissionPlanner
 
             try
             {
-                if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt"))
-                    name = File.ReadAllLines(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt",
+                if (File.Exists(Settings.GetRunningDirectory() + "logo.txt"))
+                    name = File.ReadAllLines(Settings.GetRunningDirectory() + "logo.txt",
                         Encoding.UTF8)[0];
             }
             catch
             {
             }
 
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png"))
-                Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
+            if (File.Exists(Settings.GetRunningDirectory() + "logo.png"))
+                Logo = new Bitmap(Settings.GetRunningDirectory() + "logo.png");
 
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png"))
+            if (File.Exists(Settings.GetRunningDirectory() + "icon.png"))
             {
                 // 128*128
-                IconFile = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "icon.png");
+                IconFile = new Bitmap(Settings.GetRunningDirectory() + "icon.png");
             }
             else
             {
                 IconFile = MissionPlanner.Properties.Resources.mpdesktop.ToBitmap();
             }
 
-            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png")) // 600*375
-                SplashBG = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "splashbg.png");
+            if (File.Exists(Settings.GetRunningDirectory() + "splashbg.png")) // 600*375
+                SplashBG = new Bitmap(Settings.GetRunningDirectory() + "splashbg.png");
 
 
             Splash = new MissionPlanner.Splash();
@@ -160,6 +160,9 @@ namespace MissionPlanner
 
             Utilities.NGEN.doNGEN();
 
+            log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
+                System.Environment.Is64BitProcess);
+
             try
             {
                 //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
@@ -189,7 +192,7 @@ namespace MissionPlanner
         static void CleanupFiles()
         {
             //cleanup bad file
-            string file = Application.StartupPath + Path.DirectorySeparatorChar +
+            string file = Settings.GetRunningDirectory() +
                           @"LogAnalyzer\tests\TestUnderpowered.py";
             if (File.Exists(file))
             {
@@ -204,7 +207,7 @@ namespace MissionPlanner
 
             try
             {
-                foreach (string newupdater in Directory.GetFiles(Application.StartupPath, "Updater.exe*.new"))
+                foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(), "Updater.exe*.new"))
                 {
                     File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
                     File.Delete(newupdater);
@@ -217,7 +220,7 @@ namespace MissionPlanner
 
             try
             {
-                foreach (string newupdater in Directory.GetFiles(Application.StartupPath, "tlogThumbnailHandler.dll.new"))
+                foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(), "tlogThumbnailHandler.dll.new"))
                 {
                     File.Copy(newupdater, newupdater.Remove(newupdater.Length - 4), true);
                     File.Delete(newupdater);

@@ -365,66 +365,73 @@ namespace LibVLC.NET
     private static LibraryHandle m_DefaultLibraryHandle = null;
 
     //==========================================================================
-    private static LibraryHandle GetOrLoadLibrary(string libVLCDirectory)
-    {
-      LibraryHandle library_handle = null;
-
-      lock(m_LibraryHandles)
+      private static LibraryHandle GetOrLoadLibrary(string libVLCDirectory)
       {
-        if(libVLCDirectory != null)
-        {
-          if(!m_LibraryHandles.TryGetValue(libVLCDirectory, out library_handle))
-            m_LibraryHandles.Add(libVLCDirectory, library_handle = new LibraryHandle(libVLCDirectory));
-          ++library_handle.ReferenceCounter;
-          return library_handle;
-        }
+          LibraryHandle library_handle = null;
 
-        if(m_DefaultLibraryHandle != null)
-        {
-          library_handle = m_DefaultLibraryHandle;
-          ++library_handle.ReferenceCounter;
-          return library_handle;
-        }
+          lock(m_LibraryHandles)
+          {
+              if(libVLCDirectory != null)
+              {
+                  if(!m_LibraryHandles.TryGetValue(libVLCDirectory, out library_handle))
+                      m_LibraryHandles.Add(libVLCDirectory, library_handle = new LibraryHandle(libVLCDirectory));
+                  ++library_handle.ReferenceCounter;
+                  return library_handle;
+              }
 
-        Debug.WriteLine("Searching for libvlc.dll...", "LibVLC");
+              if(m_DefaultLibraryHandle != null)
+              {
+                  library_handle = m_DefaultLibraryHandle;
+                  ++library_handle.ReferenceCounter;
+                  return library_handle;
+              }
 
-        string executing_assembly_path = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location)), "VLC");
-        string entry_assembly_path = null;
-        if(Assembly.GetEntryAssembly() != null)
-          entry_assembly_path = Path.Combine(Path.GetDirectoryName(Path.GetFullPath(Assembly.GetEntryAssembly().Location)), "VLC");
-        string current_directory_path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "VLC");
-        string program_files_path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "VideoLAN", "VLC");
+              Console.WriteLine("Searching for libvlc.dll...", "LibVLC");
 
-        foreach(string directory in
-                  new string[] 
-                  { 
-                    executing_assembly_path,
-                    entry_assembly_path,
-                    current_directory_path,
-                    program_files_path
+              string executing_assembly_path =
+                  Path.Combine(Path.GetDirectoryName(Path.GetFullPath(Assembly.GetExecutingAssembly().Location)), "VLC");
+              string entry_assembly_path = null;
+              if(Assembly.GetEntryAssembly() != null)
+                  entry_assembly_path =
+                      Path.Combine(Path.GetDirectoryName(Path.GetFullPath(Assembly.GetEntryAssembly().Location)), "VLC");
+              string current_directory_path = Path.Combine(System.IO.Directory.GetCurrentDirectory(), "VLC");
+              string program_files_path =
+                  Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "VideoLAN", "VLC");
+              string program_files_path1 =
+                  Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "VideoLAN", "VLC");
+
+              foreach(string directory in
+                  new string[]
+                  {
+                      executing_assembly_path,
+                      entry_assembly_path,
+                      current_directory_path,
+                      program_files_path1,
+                      program_files_path
                   })
-          if(System.IO.Directory.Exists(directory))
-            try
-            {
-              m_DefaultLibraryHandle = GetOrLoadLibrary(directory);
-              Debug.WriteLine(String.Format("Found libvlc.dll in directory {0}.", directory), "LibVLC");
-              return m_DefaultLibraryHandle;
-            }
-            catch(Exception e)
-            {
-              Debug.WriteLine(String.Format("Caught exception of type {0} while loading libvlc.dll from {1}: {2}",
-                                            e.GetType().Name,
-                                            directory,
-                                            e.Message),
+                  if(System.IO.Directory.Exists(directory))
+                      try
+                      {
+                          m_DefaultLibraryHandle = GetOrLoadLibrary(directory);
+                          Console.WriteLine(String.Format("Found libvlc.dll in directory {0}.", directory), "LibVLC");
+                          return m_DefaultLibraryHandle;
+                      }
+                      catch(Exception e)
+                      {
+                          Console.WriteLine(
+                              String.Format("Caught exception of type {0} while loading libvlc.dll from {1}: {2}",
+                                  e.GetType().Name,
+                                  directory,
+                                  e.Message),
                               "LibVLC");
-            }
+                      }
 
-        throw new DllNotFoundException("No valid libvlc.dll could be found; VLC is probably not installed!");
+              throw new DllNotFoundException("No valid libvlc.dll could be found; VLC is probably not installed!");
 
-      } // lock(m_LibraryHandles)
-    }
+          } // lock(m_LibraryHandles)
+      }
 
-    //==========================================================================
+      //==========================================================================
     /// <summary>
     ///   Loads the library from the specified directory.
     /// </summary>

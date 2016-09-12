@@ -30,6 +30,9 @@ namespace MissionPlanner.Controls
         MemoryStream _streamjpg = new MemoryStream();
         //[System.ComponentModel.Browsable(false)]
         public MemoryStream streamjpg { get { lock (streamlock) { return _streamjpg; } } set { lock (streamlock) { _streamjpg = value; } } }
+
+        DateTime textureResetDateTime = DateTime.Now;
+
         /// <summary>
         /// this is to reduce cpu usage
         /// </summary>
@@ -132,6 +135,8 @@ namespace MissionPlanner.Controls
         float _batteryremaining = 0;
         float _gpsfix = 0;
         float _gpshdop = 0;
+        float _gpsfix2 = 0;
+        float _gpshdop2 = 0;
         float _disttowp = 0;
         float _groundcourse = 0;
         float _xtrack_error = 0;
@@ -178,6 +183,10 @@ namespace MissionPlanner.Controls
         public float gpsfix { get { return _gpsfix; } set { if (_gpsfix != value) { _gpsfix = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float gpshdop { get { return _gpshdop; } set { if (_gpshdop != value) { _gpshdop = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float gpsfix2 { get { return _gpsfix2; } set { if (_gpsfix2 != value) { _gpsfix2 = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float gpshdop2 { get { return _gpshdop2; } set { if (_gpshdop2 != value) { _gpshdop2 = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float disttowp { get { return _disttowp; } set { if (_disttowp != value) { _disttowp = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -459,6 +468,9 @@ namespace MissionPlanner.Controls
             {
                 e.Graphics.Clear(this.BackColor);
                 e.Graphics.Flush();
+                opengl = false;
+                doPaint(e);
+                return;
             }
 
             if ((DateTime.Now - starttime).TotalMilliseconds < 30 && (_bgimage == null))
@@ -466,6 +478,13 @@ namespace MissionPlanner.Controls
                 //Console.WriteLine("ms "+(DateTime.Now - starttime).TotalMilliseconds);
                 //e.Graphics.DrawImageUnscaled(objBitmap, 0, 0);          
                 return;
+            }
+
+            // force texture reset
+            if (textureResetDateTime.Hour != DateTime.Now.Hour)
+            {
+                textureResetDateTime = DateTime.Now;
+                doResize();
             }
 
             lock (this)
@@ -1645,30 +1664,31 @@ namespace MissionPlanner.Controls
                 {
                     string gps = "";
                     SolidBrush col = _whiteBrush;
+                    var _fix = Math.Max(_gpsfix, _gpsfix2);
 
-                    if (_gpsfix == 0)
+                    if (_fix == 0)
                     {
                         gps = (HUDT.GPS0);
                         col = (SolidBrush)Brushes.Red;
                     }
-                    else if (_gpsfix == 1)
+                    else if (_fix == 1)
                     {
                         gps = (HUDT.GPS1);
                         col = (SolidBrush)Brushes.Red;
                     }
-                    else if (_gpsfix == 2)
+                    else if (_fix == 2)
                     {
                         gps = (HUDT.GPS2);
                     }
-                    else if (_gpsfix == 3)
+                    else if (_fix == 3)
                     {
                         gps = (HUDT.GPS3);
                     }
-                    else if (_gpsfix == 4)
+                    else if (_fix == 4)
                     {
                         gps = (HUDT.GPS4);
                     }
-                    else if (_gpsfix == 5)
+                    else if (_fix == 5)
                     {
                         gps = (HUDT.GPS5);
                     }

@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Maps
 {
@@ -24,7 +25,7 @@ namespace MissionPlanner.Maps
         {
             Instance = this;
 
-            CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            CacheLocation = Settings.GetDataDirectory() +
                             "gmapcache" + Path.DirectorySeparatorChar;
         }
 

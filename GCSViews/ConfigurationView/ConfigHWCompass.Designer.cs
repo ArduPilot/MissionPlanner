@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWCompass));
-            this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.linkLabelmagdec = new System.Windows.Forms.LinkLabel();
             this.TXT_declination_deg = new System.Windows.Forms.TextBox();
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
@@ -38,31 +37,36 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
-            this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
-            this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
-            this.CMB_compass1_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.TXT_declination_min = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.horizontalProgressBar3 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar2 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar1 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.lbl_obmagresult = new System.Windows.Forms.TextBox();
             this.BUT_OBmagcalaccept = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalcancel = new MissionPlanner.Controls.MyButton();
             this.BUT_OBmagcalstart = new MissionPlanner.Controls.MyButton();
-            this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.CMB_primary_compass = new MissionPlanner.Controls.MavlinkComboBox();
             this.LBL_primary_compass = new System.Windows.Forms.Label();
             this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
             this.groupBoxCompass1 = new System.Windows.Forms.GroupBox();
             this.LBL_compass1_mot = new System.Windows.Forms.Label();
             this.LBL_compass1_offset = new System.Windows.Forms.Label();
             this.CHK_compass1_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass1_use = new MissionPlanner.Controls.MavlinkCheckBox();
+            this.CMB_compass1_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBoxCompass2 = new System.Windows.Forms.GroupBox();
             this.LBL_compass2_mot = new System.Windows.Forms.Label();
             this.LBL_compass2_offset = new System.Windows.Forms.Label();
@@ -75,7 +79,9 @@
             this.CHK_compass3_external = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_compass3_use = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CMB_compass3_orient = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label6 = new System.Windows.Forms.Label();
+            this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
+            this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
+            this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -83,13 +89,6 @@
             this.groupBoxCompass2.SuspendLayout();
             this.groupBoxCompass3.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // BUT_MagCalibrationLive
-            // 
-            resources.ApplyResources(this.BUT_MagCalibrationLive, "BUT_MagCalibrationLive");
-            this.BUT_MagCalibrationLive.Name = "BUT_MagCalibrationLive";
-            this.BUT_MagCalibrationLive.UseVisualStyleBackColor = true;
-            this.BUT_MagCalibrationLive.Click += new System.EventHandler(this.BUT_MagCalibration_Click);
             // 
             // linkLabelmagdec
             // 
@@ -134,36 +133,6 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // buttonAPMExternal
-            // 
-            resources.ApplyResources(this.buttonAPMExternal, "buttonAPMExternal");
-            this.buttonAPMExternal.Name = "buttonAPMExternal";
-            this.buttonAPMExternal.UseVisualStyleBackColor = true;
-            this.buttonAPMExternal.Click += new System.EventHandler(this.buttonAPMExternal_Click);
-            // 
-            // QuickAPM25
-            // 
-            resources.ApplyResources(this.QuickAPM25, "QuickAPM25");
-            this.QuickAPM25.Name = "QuickAPM25";
-            this.QuickAPM25.UseVisualStyleBackColor = true;
-            this.QuickAPM25.Click += new System.EventHandler(this.QuickAPM25_Click);
-            // 
-            // buttonQuickPixhawk
-            // 
-            resources.ApplyResources(this.buttonQuickPixhawk, "buttonQuickPixhawk");
-            this.buttonQuickPixhawk.Name = "buttonQuickPixhawk";
-            this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
-            this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
-            // 
-            // CMB_compass1_orient
-            // 
-            this.CMB_compass1_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.CMB_compass1_orient, "CMB_compass1_orient");
-            this.CMB_compass1_orient.FormattingEnabled = true;
-            this.CMB_compass1_orient.Name = "CMB_compass1_orient";
-            this.CMB_compass1_orient.ParamName = null;
-            this.CMB_compass1_orient.SubControl = null;
-            // 
             // TXT_declination_min
             // 
             resources.ApplyResources(this.TXT_declination_min, "TXT_declination_min");
@@ -182,6 +151,12 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.horizontalProgressBar3);
+            this.groupBox4.Controls.Add(this.horizontalProgressBar2);
+            this.groupBox4.Controls.Add(this.horizontalProgressBar1);
             this.groupBox4.Controls.Add(this.lbl_obmagresult);
             this.groupBox4.Controls.Add(this.BUT_OBmagcalaccept);
             this.groupBox4.Controls.Add(this.BUT_OBmagcalcancel);
@@ -189,6 +164,48 @@
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // horizontalProgressBar3
+            // 
+            this.horizontalProgressBar3.DrawLabel = true;
+            resources.ApplyResources(this.horizontalProgressBar3, "horizontalProgressBar3");
+            this.horizontalProgressBar3.Label = null;
+            this.horizontalProgressBar3.maxline = 0;
+            this.horizontalProgressBar3.minline = 0;
+            this.horizontalProgressBar3.Name = "horizontalProgressBar3";
+            // 
+            // horizontalProgressBar2
+            // 
+            this.horizontalProgressBar2.DrawLabel = true;
+            resources.ApplyResources(this.horizontalProgressBar2, "horizontalProgressBar2");
+            this.horizontalProgressBar2.Label = null;
+            this.horizontalProgressBar2.maxline = 0;
+            this.horizontalProgressBar2.minline = 0;
+            this.horizontalProgressBar2.Name = "horizontalProgressBar2";
+            // 
+            // horizontalProgressBar1
+            // 
+            this.horizontalProgressBar1.DrawLabel = true;
+            resources.ApplyResources(this.horizontalProgressBar1, "horizontalProgressBar1");
+            this.horizontalProgressBar1.Label = null;
+            this.horizontalProgressBar1.maxline = 0;
+            this.horizontalProgressBar1.minline = 0;
+            this.horizontalProgressBar1.Name = "horizontalProgressBar1";
             // 
             // lbl_obmagresult
             // 
@@ -217,16 +234,6 @@
             this.BUT_OBmagcalstart.UseVisualStyleBackColor = true;
             this.BUT_OBmagcalstart.Click += new System.EventHandler(this.BUT_OBmagcalstart_Click);
             // 
-            // CHK_enablecompass
-            // 
-            resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
-            this.CHK_enablecompass.Name = "CHK_enablecompass";
-            this.CHK_enablecompass.OffValue = 0D;
-            this.CHK_enablecompass.OnValue = 1D;
-            this.CHK_enablecompass.ParamName = null;
-            this.CHK_enablecompass.UseVisualStyleBackColor = true;
-            this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -238,6 +245,13 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // BUT_MagCalibrationLive
+            // 
+            resources.ApplyResources(this.BUT_MagCalibrationLive, "BUT_MagCalibrationLive");
+            this.BUT_MagCalibrationLive.Name = "BUT_MagCalibrationLive";
+            this.BUT_MagCalibrationLive.UseVisualStyleBackColor = true;
+            this.BUT_MagCalibrationLive.Click += new System.EventHandler(this.BUT_MagCalibration_Click);
             // 
             // label4
             // 
@@ -260,6 +274,11 @@
             resources.ApplyResources(this.groupBoxGeneralSettings, "groupBoxGeneralSettings");
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
             this.groupBoxGeneralSettings.TabStop = false;
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
             // 
             // CMB_primary_compass
             // 
@@ -284,6 +303,16 @@
             this.CHK_compass_learn.ParamName = null;
             this.CHK_compass_learn.UseVisualStyleBackColor = true;
             this.CHK_compass_learn.CheckedChanged += new System.EventHandler(this.CHK_compasslearn_CheckedChanged);
+            // 
+            // CHK_enablecompass
+            // 
+            resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
+            this.CHK_enablecompass.Name = "CHK_enablecompass";
+            this.CHK_enablecompass.OffValue = 0D;
+            this.CHK_enablecompass.OnValue = 1D;
+            this.CHK_enablecompass.ParamName = null;
+            this.CHK_enablecompass.UseVisualStyleBackColor = true;
+            this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
             // 
             // groupBoxCompass1
             // 
@@ -325,6 +354,15 @@
             this.CHK_compass1_use.ParamName = null;
             this.CHK_compass1_use.UseVisualStyleBackColor = true;
             this.CHK_compass1_use.CheckedChanged += new System.EventHandler(this.CHK_compass);
+            // 
+            // CMB_compass1_orient
+            // 
+            this.CMB_compass1_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass1_orient, "CMB_compass1_orient");
+            this.CMB_compass1_orient.FormattingEnabled = true;
+            this.CMB_compass1_orient.Name = "CMB_compass1_orient";
+            this.CMB_compass1_orient.ParamName = null;
+            this.CMB_compass1_orient.SubControl = null;
             // 
             // groupBoxCompass2
             // 
@@ -426,10 +464,26 @@
             this.CMB_compass3_orient.ParamName = null;
             this.CMB_compass3_orient.SubControl = null;
             // 
-            // label6
+            // buttonAPMExternal
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            resources.ApplyResources(this.buttonAPMExternal, "buttonAPMExternal");
+            this.buttonAPMExternal.Name = "buttonAPMExternal";
+            this.buttonAPMExternal.UseVisualStyleBackColor = true;
+            this.buttonAPMExternal.Click += new System.EventHandler(this.buttonAPMExternal_Click);
+            // 
+            // QuickAPM25
+            // 
+            resources.ApplyResources(this.QuickAPM25, "QuickAPM25");
+            this.QuickAPM25.Name = "QuickAPM25";
+            this.QuickAPM25.UseVisualStyleBackColor = true;
+            this.QuickAPM25.Click += new System.EventHandler(this.QuickAPM25_Click);
+            // 
+            // buttonQuickPixhawk
+            // 
+            resources.ApplyResources(this.buttonQuickPixhawk, "buttonQuickPixhawk");
+            this.buttonQuickPixhawk.Name = "buttonQuickPixhawk";
+            this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
+            this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
             // ConfigHWCompass
             // 
@@ -514,5 +568,11 @@
         private System.Windows.Forms.Label LBL_compass3_mot;
         private System.Windows.Forms.Label LBL_compass3_offset;
         private System.Windows.Forms.Label label6;
+        private Controls.HorizontalProgressBar horizontalProgressBar3;
+        private Controls.HorizontalProgressBar horizontalProgressBar2;
+        private Controls.HorizontalProgressBar horizontalProgressBar1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
     }
 }

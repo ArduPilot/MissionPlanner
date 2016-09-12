@@ -199,6 +199,8 @@ namespace MissionPlanner.Controls.BackstageView
 
             _items.Add(page);
 
+            DrawMenu(_activePage, false);
+
             return page;
         }
 
@@ -252,6 +254,7 @@ namespace MissionPlanner.Controls.BackstageView
             lnkButton.DoubleClick += lnkButton_DoubleClick;
 
             ButtonTopPos += lnkButton.Height;
+            pnlMenu.Invalidate();
         }
 
         public void DrawMenu(BackstageViewPage CurrentPage, bool force = false)
@@ -467,11 +470,8 @@ namespace MissionPlanner.Controls.BackstageView
             // deactivate the old page - obsolete way of notifying activation
             //_activePage.Page.Close();
 
-            foreach (BackstageViewPage p in Pages)
-            {
-                if (p.Page.Visible != false)
-                    p.Page.Visible = false;
-            }
+            if (_activePage != null && _activePage.Page != null)
+                _activePage.Page.Visible = false;
 
             try
             { // if the button was on an expanded tab. when we leave it no longer exits
@@ -514,6 +514,11 @@ namespace MissionPlanner.Controls.BackstageView
             _activePage = associatedPage;
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+        }
+
         public void Close()
         {
             foreach (var page in _items)
@@ -521,7 +526,7 @@ namespace MissionPlanner.Controls.BackstageView
                 if (popoutPage != null && popoutPage == page)
                     continue;
 
-                if (((BackstageViewPage)page).Page == null)
+                if (!((BackstageViewPage)page).isPageCreated)
                     continue;
 
                 if (((BackstageViewPage)page).Page is IDeactivate)

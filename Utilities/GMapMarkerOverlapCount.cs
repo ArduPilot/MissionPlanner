@@ -237,6 +237,7 @@ namespace MissionPlanner.Utilities
         public void Clear()
         {
             footprintpolys.Clear();
+            overlapCount.Clear();
         }
     }
 }

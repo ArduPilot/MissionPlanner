@@ -177,11 +177,59 @@
     <senw>4.8</senw>
   </Camera>
   <Camera>
-    <name>FLIR Vue</name>
+    <name>FLIR Vue 336 6,8mm</name>
+    <flen>6.8</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 336 9mm</name>
+    <flen>9</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 336 13mm</name>
+    <flen>13</flen>
+    <imgh>256</imgh>
+    <imgw>336</imgw>
+    <senh>4.352</senh>
+    <senw>5.712</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 9mm</name>
+    <flen>9</flen>
+    <imgh>512</imgh>
+    <imgw>640</imgw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 13mm</name>
     <flen>13</flen>
     <imgh>512</imgh>
     <imgw>640</imgw>
-    <senh>6.8</senh>
-    <senw>9</senw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>FLIR Vue 640 19mm</name>
+    <flen>19</flen>
+    <imgh>512</imgh>
+    <imgw>640</imgw>
+    <senh>8.704</senh>
+    <senw>10.88</senw>
+  </Camera>
+  <Camera>
+    <name>GoPro Hero 4 Black Wide</name>
+    <flen>2.46</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.56</senh>
+    <senw>6.17</senw>
   </Camera>
 </Cameras>

@@ -92,7 +92,7 @@ namespace MissionPlanner.Log
                         ATT.Roll = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Roll")]);
                         ATT.Pitch = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Pitch")]);
                         ATT.Yaw = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Yaw")]);
-                    } 
+                    }
                     else if (item.msgtype == "IMU")
                     {
                         IMU.AccX = double.Parse(item.items[dflog.FindMessageOffset("IMU", "AccX")]);
@@ -112,11 +112,11 @@ namespace MissionPlanner.Log
                     }
                     if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno,earth_accel_df(imu, att).y);
+                        answer.Add(item.lineno, earth_accel_df(imu, att).y);
                     }
                     if (expression.Contains(".z"))
                     {
-                        answer.Add(item.lineno,earth_accel_df(imu, att).z);
+                        answer.Add(item.lineno, earth_accel_df(imu, att).z);
                     }
                 }
             } // delta(gps_velocity_df(GPS).x,'x',GPS.TimeUS)
@@ -135,11 +135,38 @@ namespace MissionPlanner.Log
 
                     if (expression.Contains(".x"))
                     {
-                        answer.Add(item.lineno,delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
                     }
                     else if (expression.Contains(".y"))
                     {
-                        answer.Add(item.lineno,delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
+                    }
+                    else if (expression.Contains(".z"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).z, "z", item.timems * 1000) - 9.8);
+                    }
+                }
+            }
+            else if (expression.Contains("delta(gps_velocity_df(GPS2)"))
+            {
+                foreach (var item in logdata.GetEnumeratorType("GPS2"))
+                {
+                    var gps = new GPS();
+
+                    if (item.msgtype == "GPS2")
+                    {
+                        GPS.Spd = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "Spd")]);
+                        GPS.GCrs = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "GCrs")]);
+                        GPS.VZ = double.Parse(item.items[dflog.FindMessageOffset("GPS2", "VZ")]);
+                    }
+
+                    if (expression.Contains(".x"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).x, "x", item.timems * 1000));
+                    }
+                    else if (expression.Contains(".y"))
+                    {
+                        answer.Add(item.lineno, delta(gps_velocity_df(gps).y, "y", item.timems * 1000));
                     }
                     else if (expression.Contains(".z"))
                     {
@@ -165,7 +192,7 @@ namespace MissionPlanner.Log
             else if (expression.StartsWith("sqrt"))
             {
                 // there are alot of assumptions made in this code
-                Dictionary<int,double> work = new Dictionary<int, double>();
+                Dictionary<int, double> work = new Dictionary<int, double>();
                 List<KeyValuePair<string, string>> types = new EventList<KeyValuePair<string, string>>();
 
                 var matchs = Regex.Matches(expression, @"(([A-z0-9_]+)\.([A-z0-9_]+)\*\*2)");
@@ -177,12 +204,12 @@ namespace MissionPlanner.Log
                         var type = match.Groups[2].Value.ToString();
                         var field = match.Groups[3].Value.ToString();
 
-                        types.Add(new KeyValuePair<string, string>(type,field));
+                        types.Add(new KeyValuePair<string, string>(type, field));
                     }
 
                     List<string> keyarray = new List<string>();
                     types.ForEach(g => { keyarray.Add(g.Key); });
-                    List<string> valuearray= new List<string>();
+                    List<string> valuearray = new List<string>();
                     types.ForEach(g => { valuearray.Add(g.Value); });
 
                     foreach (var item in logdata.GetEnumeratorType(keyarray.ToArray()))
@@ -206,6 +233,26 @@ namespace MissionPlanner.Log
                     }
                 }
             }
+            else if (expression.Contains("-")) // ATT.DesRoll-ATT.Roll
+            {
+                var matchs = Regex.Matches(expression, @"([A-z0-9_]+)\.([A-z0-9_]+)-([A-z0-9_]+)\.([A-z0-9_]+)");
+
+                if (matchs.Count > 0)
+                {
+                    var type = matchs[0].Groups[1].Value.ToString();
+                    var field = matchs[0].Groups[2].Value.ToString();
+
+                    var type2 = matchs[0].Groups[3].Value.ToString();
+                    var field2 = matchs[0].Groups[4].Value.ToString();
+
+                    foreach (var item in logdata.GetEnumeratorType(new[]{ type, type2 }))
+                    {
+                        if (type == type2)
+                            answer.Add(item.lineno, double.Parse(item.items[dflog.FindMessageOffset(type, field)]) - double.Parse(item.items[dflog.FindMessageOffset(type2, field2)]));
+                    }
+                }
+            }
+
 
             return answer;
         }

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Ionic.Zip;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.NoFly
 {
@@ -15,7 +16,7 @@ namespace MissionPlanner.NoFly
     {
         static GMapOverlay kmlpolygonsoverlay = new GMapOverlay();
 
-        private static string directory = Application.StartupPath + Path.DirectorySeparatorChar + "NoFly";
+        private static string directory = Settings.GetRunningDirectory() + "NoFly";
 
         public static event EventHandler<NoFlyEventArgs> NoFlyEvent;
 

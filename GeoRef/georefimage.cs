@@ -26,7 +26,8 @@ namespace MissionPlanner.GeoRef
         private enum PROCESSING_MODE
         {
             TIME_OFFSET,
-            CAM_MSG
+            CAM_MSG,
+            TRIG
         }
 
         private const string PHOTO_FILES_FILTER = "*.jpg;*.tif";
@@ -224,7 +225,6 @@ namespace MissionPlanner.GeoRef
                     float currentRoll = 0f;
                     float currentPitch = 0f;
                     float currentSAlt = 0f;
-                    int a = 0;
 
                     foreach (var item in sr.GetEnumeratorType(new string[] { "GPS", "GPS2", "ATT", "CTUN", "RFND" }))
                     {
@@ -296,7 +296,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                         else if (item.msgtype == "RFND")
@@ -305,7 +305,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                     }
@@ -417,7 +417,7 @@ namespace MissionPlanner.GeoRef
 
                             if (SAltindex != -1)
                             {
-                                currentSAlt = float.Parse(item.items[SAltindex]);
+                                currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
                             }
                         }
                     }
@@ -425,6 +425,65 @@ namespace MissionPlanner.GeoRef
             }
             return list;
         }
+
+        private Dictionary<long, VehicleLocation> readTRIGMsgInLog(string fn)
+        {
+            Dictionary<long, VehicleLocation> list = new Dictionary<long, VehicleLocation>();
+
+
+            float currentSAlt = 0;
+            using (var sr = new CollectionBuffer(File.OpenRead(fn)))
+            {
+                foreach (var item in sr.GetEnumeratorType(new string[] { "TRIG", "RFND" }))
+                {
+                    if (item.msgtype == "TRIG")
+                    {
+                        int latindex = sr.dflog.FindMessageOffset("TRIG", "Lat");
+                        int lngindex = sr.dflog.FindMessageOffset("TRIG", "Lng");
+                        int altindex = sr.dflog.FindMessageOffset("TRIG", "Alt");
+                        int raltindex = sr.dflog.FindMessageOffset("TRIG", "RelAlt");
+
+                        int rindex = sr.dflog.FindMessageOffset("TRIG", "Roll");
+                        int pindex = sr.dflog.FindMessageOffset("TRIG", "Pitch");
+                        int yindex = sr.dflog.FindMessageOffset("TRIG", "Yaw");
+
+                        int gtimeindex = sr.dflog.FindMessageOffset("TRIG", "GPSTime");
+                        int gweekindex = sr.dflog.FindMessageOffset("TRIG", "GPSWeek");
+
+                        VehicleLocation p = new VehicleLocation();
+
+                        p.Time = GetTimeFromGps(int.Parse(item.items[gweekindex], CultureInfo.InvariantCulture),
+                            int.Parse(item.items[gtimeindex], CultureInfo.InvariantCulture));
+
+                        p.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
+                        p.Lon = double.Parse(item.items[lngindex], CultureInfo.InvariantCulture);
+                        p.AltAMSL = double.Parse(item.items[altindex], CultureInfo.InvariantCulture);
+                        if (raltindex != -1)
+                            p.RelAlt = double.Parse(item.items[raltindex], CultureInfo.InvariantCulture);
+
+                        p.Pitch = float.Parse(item.items[pindex], CultureInfo.InvariantCulture);
+                        p.Roll = float.Parse(item.items[rindex], CultureInfo.InvariantCulture);
+                        p.Yaw = float.Parse(item.items[yindex], CultureInfo.InvariantCulture);
+
+                        p.SAlt = currentSAlt;
+
+                        list[ToMilliseconds(p.Time)] = p;
+                    }
+                    else if (item.msgtype == "RFND")
+                    {
+                        int SAltindex = sr.dflog.FindMessageOffset("RFND", "Dist1");
+
+                        if (SAltindex != -1)
+                        {
+                            currentSAlt = float.Parse(item.items[SAltindex], CultureInfo.InvariantCulture);
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
+
 
         public DateTime FromUTCTimeMilliseconds(long milliseconds)
         {
@@ -956,9 +1015,10 @@ namespace MissionPlanner.GeoRef
 
         private int compareFileByPhotoTime(string x, string y)
         {
-            if (getPhotoTime(x) < getPhotoTime(y)) return -1;
-            if (getPhotoTime(x) > getPhotoTime(y)) return 1;
-            return 0;
+            // compare times
+            var ans1 = getPhotoTime(x).CompareTo(getPhotoTime(y));
+            // if times are the same, compare filenames
+            return ans1 != 0 ? ans1 : x.CompareTo(y);
         }
 
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
@@ -1472,12 +1532,15 @@ namespace MissionPlanner.GeoRef
                             CreateReportFiles(picturesInfo, dirPictures, seconds);
                         break;
                     case PROCESSING_MODE.CAM_MSG:
-                    {
                         picturesInfo = doworkCAM(logFilePath, dirPictures);
                         if (picturesInfo != null)
                             CreateReportFiles(picturesInfo, dirPictures, seconds);
                         break;
-                    }
+                    case PROCESSING_MODE.TRIG:
+                        picturesInfo = doworkTRIG(logFilePath, dirPictures);
+                        if (picturesInfo != null)
+                            CreateReportFiles(picturesInfo, dirPictures, seconds);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -1487,6 +1550,84 @@ namespace MissionPlanner.GeoRef
 
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
+        }
+
+        private Dictionary<string, PictureInformation> doworkTRIG(string logFile, string dirWithImages)
+        {
+            // Lets start over 
+            Dictionary<string, PictureInformation> picturesInformationTemp =
+                new Dictionary<string, PictureInformation>();
+
+            TXT_outputlog.AppendText("Using AMSL Altitude " + useAMSLAlt + "\n");
+
+            TXT_outputlog.AppendText("Reading log for TRIG Messages\n");
+
+            vehicleLocations = readTRIGMsgInLog(logFile);
+
+            if (vehicleLocations == null)
+            {
+                TXT_outputlog.AppendText("Log file problem. No TRIG messages. Aborting....\n");
+                return null;
+            }
+
+            TXT_outputlog.AppendText("Log Read with - " + vehicleLocations.Count + " - TRIG Messages found\n");
+
+            TXT_outputlog.AppendText("Read images\n");
+
+            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+
+            TXT_outputlog.AppendText("Images read : " + files.Length + "\n");
+
+            // Check that we have same number of CAMs than files
+            if (files.Length != vehicleLocations.Count)
+            {
+                TXT_outputlog.AppendText(string.Format("TRIG Msgs and Files discrepancy. Check it! files: {0} vs TRIG msg: {1}\n", files.Length, vehicleLocations.Count));
+                return null;
+            }
+
+            Array.Sort(files, compareFileByPhotoTime);
+
+            // Each file corresponds to one CAM message
+            // We assume that picture names are in ascending order in time
+            int i = -1;
+            foreach (var currentTRIG in vehicleLocations.Values)
+            {
+                i++;
+                PictureInformation p = new PictureInformation();
+
+                // Fill shot time in Picture
+                p.ShotTimeReportedByCamera = getPhotoTime(files[i]);
+
+                DateTime dCAMMsgTime = currentTRIG.Time;
+
+                // Lets puts GPS time
+                p.Time = dCAMMsgTime;
+
+                p.Lat = currentTRIG.Lat;
+                p.Lon = currentTRIG.Lon;
+                p.AltAMSL = currentTRIG.AltAMSL;
+                p.RelAlt = currentTRIG.RelAlt;
+
+
+                p.Pitch = currentTRIG.Pitch;
+                p.Roll = currentTRIG.Roll;
+                p.Yaw = currentTRIG.Yaw;
+
+                p.SAlt = currentTRIG.SAlt;
+
+                p.Path = files[i];
+
+                string picturePath = files[i];
+
+                picturesInformationTemp.Add(picturePath, p);
+
+                TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) +
+                                         " processed from CAM Msg with " + millisShutterLag + " ms shutter lag. " +
+                                         "\n");
+
+            }
+
+            return picturesInformationTemp;
         }
 
         private void BUT_estoffset_Click(object sender, EventArgs e)
@@ -1566,26 +1707,26 @@ namespace MissionPlanner.GeoRef
             return output;
         }
 
-        private void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
+        public void WriteCoordinatesToImage(string Filename, double dLat, double dLong, double alt)
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
                 TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
                 Application.DoEvents();
-
+                
                 using (Image Pic = Image.FromStream(ms))
                 {
                     PropertyItem[] pi = Pic.PropertyItems;
 
                     pi[0].Id = 0x0004;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof (ulong)*3;
+                    pi[0].Len = sizeof(ulong) * 3;
                     pi[0].Value = coordtobytearray(dLong);
                     Pic.SetPropertyItem(pi[0]);
 
                     pi[0].Id = 0x0002;
                     pi[0].Type = 5;
-                    pi[0].Len = sizeof (ulong)*3;
+                    pi[0].Len = sizeof(ulong) * 3;
                     pi[0].Value = coordtobytearray(dLat);
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1601,11 +1742,11 @@ namespace MissionPlanner.GeoRef
 
                     if (dLat < 0)
                     {
-                        pi[0].Value = new byte[] {(byte) 'S', 0};
+                        pi[0].Value = new byte[] { (byte)'S', 0 };
                     }
                     else
                     {
-                        pi[0].Value = new byte[] {(byte) 'N', 0};
+                        pi[0].Value = new byte[] { (byte)'N', 0 };
                     }
 
                     Pic.SetPropertyItem(pi[0]);
@@ -1615,11 +1756,11 @@ namespace MissionPlanner.GeoRef
                     pi[0].Type = 2;
                     if (dLong < 0)
                     {
-                        pi[0].Value = new byte[] {(byte) 'W', 0};
+                        pi[0].Value = new byte[] { (byte)'W', 0 };
                     }
                     else
                     {
-                        pi[0].Value = new byte[] {(byte) 'E', 0};
+                        pi[0].Value = new byte[] { (byte)'E', 0 };
                     }
                     Pic.SetPropertyItem(pi[0]);
 
@@ -1632,17 +1773,30 @@ namespace MissionPlanner.GeoRef
                                             Path.GetExtension(Filename);
 
                     // Just in case
-                    File.Delete(outputfilename);
+                    if (File.Exists(outputfilename))
+                        File.Delete(outputfilename);
+
+                    ImageCodecInfo ici = GetImageCodec("image/jpeg");
+                    EncoderParameters eps = new EncoderParameters(1);
+                    eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
 
                     Pic.Save(outputfilename);
                 }
             }
         }
 
+        static ImageCodecInfo GetImageCodec(string mimetype)
+        {
+            foreach (ImageCodecInfo ici in ImageCodecInfo.GetImageEncoders())
+            {
+                if (ici.MimeType == mimetype) return ici;
+            }
+            return null;
+        }
+
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) +
-                                             Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar +
+            System.Diagnostics.Process.Start(Settings.GetRunningDirectory() + "m3u" + Path.DirectorySeparatorChar +
                                              "GeoRefnetworklink.kml");
         }
 
@@ -1663,6 +1817,12 @@ namespace MissionPlanner.GeoRef
                 selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
                 PANEL_TIME_OFFSET.Enabled = false;
                 PANEL_SHUTTER_LAG.Enabled = true;
+            }
+            else if (RDIO_trigmsg.Checked)
+            {
+                selectedProcessingMode = PROCESSING_MODE.TRIG;
+                PANEL_TIME_OFFSET.Enabled = false;
+                PANEL_SHUTTER_LAG.Enabled = false;
             }
             else
             {

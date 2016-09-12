@@ -884,7 +884,7 @@ union px4_custom_mode {
 
                 float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
 
-                if (radius < -1)
+                if (radius < -1 && alpha > 1)
                 {
                     // fixme 
 
@@ -895,7 +895,7 @@ union px4_custom_mode {
                     g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
                 }
 
-                else if (radius > 1)
+                else if (radius > 1 && alpha > 1)
                 {
                     // correct
 

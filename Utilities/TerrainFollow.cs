@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace MissionPlanner.Utilities
 {
@@ -17,6 +18,8 @@ namespace MissionPlanner.Utilities
         MAVLink.mavlink_terrain_request_t lastrequest;
 
         KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<MAVLink.MAVLinkMessage, bool>> subscription;
+
+        private static ManualResetEvent mre = new ManualResetEvent(false);
 
         private MAVLinkInterface _interface;
 
@@ -34,7 +37,7 @@ namespace MissionPlanner.Utilities
             _interface.UnSubscribeToPacketType(subscription);
         }
 
-        bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
+        private bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
             {
@@ -50,7 +53,12 @@ namespace MissionPlanner.Utilities
                 log.Info("received TERRAIN_REQUEST " + packet.lat/1e7 + " " + packet.lon/1e7 + " space " +
                          packet.grid_spacing + " " + Convert.ToString((long) packet.mask, 2));
 
+                // reset state to block
+                mre.Reset();
+
                 System.Threading.ThreadPool.QueueUserWorkItem(QueueSendGrid);
+                // wait for thread to start
+                mre.WaitOne();
             }
             else if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
@@ -62,9 +70,11 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
-        void QueueSendGrid(object nothing)
+        private void QueueSendGrid(object nothing)
         {
             issending = true;
+            // trigger start
+            mre.Set();
             try
             {
                 // 8 across - 7 down

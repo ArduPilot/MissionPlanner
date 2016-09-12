@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using log4net;
 using MissionPlanner.HIL;
@@ -320,6 +321,7 @@ namespace MissionPlanner.HIL
         }
     }
 
+
     public class MultiCopter : Aircraft
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -368,7 +370,7 @@ namespace MissionPlanner.HIL
         }
 
 
-        public void update(ref double[] servos, Simulation.FGNetFDM fdm)
+        public void update(ref double[] servos, FGNetFDM fdm)
         {
             for (int i = 0; i < servos.Length; i++)
             {
@@ -493,6 +495,133 @@ namespace MissionPlanner.HIL
 
             // update lat/lon/altitude
             self.update_position();
+        }
+
+        private const int FG_MAX_ENGINES = 4;
+        private const int FG_MAX_WHEELS = 3;
+        private const int FG_MAX_TANKS = 4;
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct FGNetFDM
+        {
+            public uint version; // increment when data values change
+            public uint padding; // padding
+
+            // Positions
+            public double longitude; // geodetic (radians)
+            public double latitude; // geodetic (radians)
+            public double altitude; // above sea level (meters)
+            public float agl; // above ground level (meters)
+            public float phi; // roll (radians)
+            public float theta; // pitch (radians)
+            public float psi; // yaw or true heading (radians)
+            public float alpha; // angle of attack (radians)
+            public float beta; // side slip angle (radians)
+
+            // Velocities
+            public float phidot; // roll rate (radians/sec)
+            public float thetadot; // pitch rate (radians/sec)
+            public float psidot; // yaw rate (radians/sec)
+            public float vcas; // calibrated airspeed
+            public float climb_rate; // feet per second
+            public float v_north; // north velocity in local/body frame, fps
+            public float v_east; // east velocity in local/body frame, fps
+            public float v_down; // down/vertical velocity in local/body frame, fps
+            public float v_wind_body_north; // north velocity in local/body frame
+            // relative to local airmass, fps
+            public float v_wind_body_east; // east velocity in local/body frame
+            // relative to local airmass, fps
+            public float v_wind_body_down; // down/vertical velocity in local/body
+            // frame relative to local airmass, fps
+
+            // Accelerations
+            public float A_X_pilot; // X accel in body frame ft/sec^2
+            public float A_Y_pilot; // Y accel in body frame ft/sec^2
+            public float A_Z_pilot; // Z accel in body frame ft/sec^2
+
+            // Stall
+            public float stall_warning; // 0.0 - 1.0 indicating the amount of stall
+            public float slip_deg; // slip ball deflection
+
+
+            // Pressure
+
+            // Engine status
+            private readonly uint num_engines; // Number of valid engines
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly uint[] eng_state;
+            // Engine state (off, cranking, running)
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] rpm;
+            // Engine RPM rev/min
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] fuel_flow;
+            // Fuel flow gallons/hr
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] fuel_px;
+            // Fuel pressure psi
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] egt;
+            // Exhuast gas temp deg F
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] cht;
+            // Cylinder head temp deg F
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] mp_osi;
+            // Manifold pressure
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] tit;
+            // Turbine Inlet Temperature
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] oil_temp;
+            // Oil temp deg F
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_ENGINES)]
+            private readonly float[] oil_px;
+            // Oil pressure psi
+
+            // Consumables
+            private readonly uint num_tanks; // Max number of fuel tanks
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_TANKS)]
+            private readonly float[] fuel_quantity;
+
+            // Gear status
+            private readonly uint num_wheels;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_WHEELS)]
+            private readonly uint[] wow;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_WHEELS)]
+            private readonly float[] gear_pos;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_WHEELS)]
+            private readonly float[] gear_steer;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = FG_MAX_WHEELS)]
+            private readonly float[] gear_compression;
+
+            // Environment
+            private readonly uint cur_time; // current unix time
+            // FIXME: make this uint64_t before 2038
+            private readonly int warp; // offset in seconds to unix time
+            private readonly float visibility; // visibility in meters (for env. effects)
+
+            // Control surface positions (normalized values)
+            private readonly float elevator;
+            private readonly float elevator_trim_tab;
+            private readonly float left_flap;
+            private readonly float right_flap;
+            private readonly float left_aileron;
+            private readonly float right_aileron;
+            private readonly float rudder;
+            private readonly float nose_wheel;
+            private readonly float speedbrake;
+            private readonly float spoilers;
         }
     }
 }

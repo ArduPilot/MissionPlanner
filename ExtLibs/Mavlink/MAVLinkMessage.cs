@@ -8,6 +8,9 @@ public partial class MAVLink
 {
     public class MAVLinkMessage
     {
+        public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
+        static object _locker = new object();
+
         public byte[] buffer { get; internal set; }
 
         public byte header { get; internal set; }
@@ -21,13 +24,30 @@ public partial class MAVLink
         public byte compid { get; internal set; }
 
         public uint msgid { get; internal set; }
+
+        public bool ismavlink2 {
+            get
+            {
+                if (buffer != null && buffer.Length > 0)
+                    return (buffer[0] == MAVLINK_STX);
+
+                return false;
+            }
+        }
+
         object _data;
         public object data
         {
             get
             {
+                if (_data != null)
+                    return _data;
+
                 //_data the object specified by the packet type
-                _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[msgid]);
+                lock (_locker)
+                {
+                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
+                }
 
                 // fill in the data of the object
                 if (buffer[0] == MAVLINK_STX)

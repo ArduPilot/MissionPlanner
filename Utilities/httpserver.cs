@@ -34,7 +34,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static string georefkml = "";
 
-        public static string mavelous_web = Application.StartupPath + Path.DirectorySeparatorChar + @"mavelous_web\";
+        public static string mavelous_web = Settings.GetRunningDirectory() + @"mavelous_web\";
         public static string georefimagepath = "";
 
         public static bool run = true;

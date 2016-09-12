@@ -40,6 +40,7 @@ namespace MissionPlanner.GeoRef
             this.TXT_shutterLag = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
             this.chk_cammsg = new System.Windows.Forms.CheckBox();
+            this.RDIO_trigmsg = new System.Windows.Forms.RadioButton();
             this.PANEL_TIME_OFFSET.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
@@ -289,9 +290,17 @@ namespace MissionPlanner.GeoRef
             this.chk_cammsg.UseVisualStyleBackColor = true;
             this.chk_cammsg.CheckedChanged += new System.EventHandler(this.chk_cammsg_CheckedChanged);
             // 
+            // RDIO_trigmsg
+            // 
+            resources.ApplyResources(this.RDIO_trigmsg, "RDIO_trigmsg");
+            this.RDIO_trigmsg.Name = "RDIO_trigmsg";
+            this.RDIO_trigmsg.UseVisualStyleBackColor = true;
+            this.RDIO_trigmsg.CheckedChanged += new System.EventHandler(this.ProcessType_CheckedChanged);
+            // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.RDIO_trigmsg);
             this.Controls.Add(this.chk_cammsg);
             this.Controls.Add(this.PANEL_SHUTTER_LAG);
             this.Controls.Add(this.panel3);
@@ -353,5 +362,6 @@ namespace MissionPlanner.GeoRef
         private Controls.MyButton BUT_Geotagimages;
         private PROCESSING_MODE selectedProcessingMode;
         private CheckBox chk_usegps2;
+        private RadioButton RDIO_trigmsg;
     }
 }

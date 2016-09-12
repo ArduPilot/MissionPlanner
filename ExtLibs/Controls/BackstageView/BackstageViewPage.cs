@@ -40,6 +40,10 @@ namespace MissionPlanner.Controls.BackstageView
 
         private UserControl _page = null;
 
+        public bool isPageCreated {
+            get { return _page != null; }
+        }
+
         /// <summary>
         /// The user content of the tab
         /// </summary>

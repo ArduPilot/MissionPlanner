@@ -96,21 +96,21 @@ namespace px4uploader
             {
                 decompressionStream.Read(fw.imagebyte, 0, fw.image_size);
             }
-            catch { Console.WriteLine("Possible bad file - usualy safe to ignore"); }
+            catch { Console.WriteLine("Possible bad file - usually safe to ignore"); }
 
             Console.WriteLine("image_size {0} size {1}",fw.image_size,size);
 
-            
-            BinaryWriter sw = new BinaryWriter(File.Open("px4fw.bin", FileMode.Create));
-
-            foreach (byte by in fw.imagebyte)
+            using (BinaryWriter sw = new BinaryWriter(File.Open("px4fw.bin", FileMode.Create)))
             {
-                sw.Write(by);
-                //   Console.Write("{0:x2}", by);
+                foreach (byte by in fw.imagebyte)
+                {
+                    sw.Write(by);
+                    //   Console.Write("{0:x2}", by);
+                }
+
+                sw.Close();
             }
 
-            sw.Close();
-            
             // pad image to 4-byte length
             //while ((fw.imagebyte.Length % 4) != 0) {
             //fw.imagebyte. += b'\x00'

@@ -26,6 +26,8 @@ namespace MissionPlanner.Log
                 double miny = 99999;
                 double maxy = -99999;
 
+                bool sitl = false;
+
                 Dictionary<int,List<PointLatLngAlt>> loc_list = new Dictionary<int, List<PointLatLngAlt>>();
 
                 try
@@ -39,6 +41,7 @@ namespace MissionPlanner.Log
                             )
                         {
                             mine.logreadmode = true;
+                            mine.speechenabled = false;
 
                             while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
@@ -47,13 +50,9 @@ namespace MissionPlanner.Log
                                 if (packet.Length < 5)
                                     continue;
 
-                                try
+                                if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIM_STATE || packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.SIMSTATE)
                                 {
-                                    if (MainV2.speechEngine != null)
-                                        MainV2.speechEngine.SpeakAsyncCancelAll();
-                                }
-                                catch
-                                {
+                                    sitl = true;
                                 }
 
                                 if (packet.msgid == (byte) MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
@@ -112,10 +111,11 @@ namespace MissionPlanner.Log
                                     {
                                         var item = dflog.GetDFItemFromLine(line, 0);
 
+                                        var status = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Status")]);
                                         var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
                                         var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
 
-                                        if (lat == 0 || lon == 0)
+                                        if (lat == 0 || lon == 0 || status < 3)
                                             continue;                                            
 
                                         loc_list[0].Add(new PointLatLngAlt(lat, lon));
@@ -138,6 +138,11 @@ namespace MissionPlanner.Log
                         var map = GetMap(area);
 
                         var grap = Graphics.FromImage(map);
+
+                        if (sitl)
+                        {
+                            AddTextToMap(grap, "SITL");
+                        }
 
                         Color[] colours =
                         {
@@ -191,13 +196,18 @@ namespace MissionPlanner.Log
 
             var grap = Graphics.FromImage(map);
 
-            grap.DrawString(text, SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
+            AddTextToMap(grap, text);
 
             map.Save(jpgname, System.Drawing.Imaging.ImageFormat.Jpeg);
 
             map.Dispose();
 
             map = null;
+        }
+
+        static void AddTextToMap(Graphics grap, string text)
+        {
+            grap.DrawString(text, SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
         }
 
         static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size)

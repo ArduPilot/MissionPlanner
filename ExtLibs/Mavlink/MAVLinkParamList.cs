@@ -10,6 +10,13 @@ public partial class MAVLink
     {
         static object locker = new object();
 
+        public int TotalReported { get; set; }
+
+        public int TotalReceived
+        {
+            get { return this.Count; }
+        }
+
         public MAVLinkParam this[string name]
         { 
             get
@@ -79,11 +86,12 @@ public partial class MAVLink
         {
             lock (locker)
             {
+                TotalReported = 0;
                 base.Clear();
             }
         }
 
-        public void Add(MAVLinkParam item)
+        public new void Add(MAVLinkParam item)
         {
             lock (locker)
             {

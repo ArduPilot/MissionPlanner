@@ -90,10 +90,10 @@ public partial class MAVLink
             //read rest of packet
             ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - (headerlengthstx-2));
 
-            MAVLinkMessage message = new MAVLinkMessage(buffer);
-
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);
+
+            MAVLinkMessage message = new MAVLinkMessage(buffer);
 
             // calc crc
             ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
@@ -101,7 +101,7 @@ public partial class MAVLink
             // calc extra bit of crc for mavlink 1.0+
             if (message.header == MAVLINK_STX || message.header == MAVLINK_STX_MAVLINK1)
             {
-                crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[message.msgid], crc);
+                crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_INFOS.GetMessageInfo(message.msgid).crc, crc);
             }
 
             // check crc
@@ -144,7 +144,7 @@ public partial class MAVLink
 
             ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + 6);
 
-            checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[(byte)messageType], checksum);
+            checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint)messageType).crc, checksum);
 
             byte ck_a = (byte)(checksum & 0xFF); ///< High byte
             byte ck_b = (byte)(checksum >> 8); ///< Low byte

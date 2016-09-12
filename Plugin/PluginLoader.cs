@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using log4net;
 using Microsoft.Scripting.Utils;
 using MissionPlanner.Properties;
+using MissionPlanner.Utilities;
 using OpenTK.Graphics.ES20;
 
 namespace MissionPlanner.Plugin
@@ -91,14 +92,15 @@ namespace MissionPlanner.Plugin
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
         public static void LoadAll()
         {
-            string path = Application.StartupPath + Path.DirectorySeparatorChar + "plugins" +
+            string path = Settings.GetRunningDirectory() + "plugins" +
                           Path.DirectorySeparatorChar;
 
             if (!Directory.Exists(path))

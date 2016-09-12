@@ -153,12 +153,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxAPM.Text = temp.name;
                 pictureBoxAPM.Tag = temp;
             }
-            else if (temp.url2560.ToLower().Contains("APHIL-".ToLower()) ||
-                     temp.url2560.ToLower().Contains("apm1-hilsensors/ArduPlane".ToLower()))
-            {
-                pictureBoxAPHil.Text = temp.name;
-                pictureBoxAPHil.Tag = temp;
-            }
             else if (temp.url2560.ToLower().Contains("ac2-quad-".ToLower()) ||
                      temp.url2560.ToLower().Contains("1-quad/ArduCopter".ToLower()))
             {
@@ -188,18 +182,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 pictureBoxHeli.Text = temp.name += " heli";
                 pictureBoxHeli.Tag = temp;
-            }
-            else if (temp.url2560.ToLower().Contains("ac2-helhil".ToLower()) ||
-                     temp.url2560.ToLower().Contains("-heli-hil/ArduCopter".ToLower()))
-            {
-                pictureBoxACHHil.Text = temp.name += " heli hil";
-                pictureBoxACHHil.Tag = temp;
-            }
-            else if (temp.url2560.ToLower().Contains("ac2-quadhil".ToLower()) ||
-                     temp.url2560.ToLower().Contains("-quad-hil/ArduCopter".ToLower()))
-            {
-                pictureBoxACHil.Text = temp.name += " hil";
-                pictureBoxACHil.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-octaquad-".ToLower()) ||
                      temp.url2560.ToLower()
@@ -321,7 +303,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx"})
+            using (var fd = new OpenFileDialog {Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx|All files (*.*)|*.*" })
             {
                 if (Directory.Exists(custom_fw_dir))
                     fd.InitialDirectory = custom_fw_dir;
@@ -360,99 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             UpdateFWList();
             CMB_history.Visible = false;
         }
-
-        private void lbl_px4io_Click(object sender, EventArgs e)
-        {
-            CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.", "IO");
-
-            var baseurl = "http://firmware.ardupilot.org/PX4IO/latest/PX4IO/px4io.bin";
-
-            try
-            {
-                // Create a request using a URL that can receive a post. 
-                var request = WebRequest.Create(baseurl);
-                request.Timeout = 10000;
-                // Set the Method property of the request to POST.
-                request.Method = "GET";
-                // Get the request stream.
-                Stream dataStream; //= request.GetRequestStream();
-                // Get the response.
-                var response = request.GetResponse();
-                // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
-                // Get the stream containing content returned by the server.
-                dataStream = response.GetResponseStream();
-
-                var bytes = response.ContentLength;
-                var contlen = bytes;
-
-                var buf1 = new byte[1024];
-
-                var fs =
-                    new FileStream(
-                        Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin",
-                        FileMode.Create);
-
-                lbl_status.Text = Strings.DownloadingFromInternet;
-
-                Refresh();
-                Application.DoEvents();
-
-                dataStream.ReadTimeout = 30000;
-
-                while (dataStream.CanRead)
-                {
-                    try
-                    {
-                        progress.Value = 50;
-                        // (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
-                        progress.Refresh();
-                    }
-                    catch
-                    {
-                    }
-                    var len = dataStream.Read(buf1, 0, 1024);
-                    if (len == 0)
-                        break;
-                    bytes -= len;
-                    fs.Write(buf1, 0, len);
-                }
-
-                fs.Close();
-                dataStream.Close();
-                response.Close();
-
-                lbl_status.Text = "Done";
-                Application.DoEvents();
-            }
-            catch
-            {
-                CustomMessageBox.Show("Error receiving firmware", Strings.ERROR);
-                return;
-            }
-
-            using (var sfd = new SaveFileDialog())
-            {
-                sfd.FileName = "px4io.bin";
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    if (sfd.FileName != "")
-                    {
-                        if (File.Exists(sfd.FileName))
-                            File.Delete(sfd.FileName);
-
-                        File.Copy(
-                            Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-                            @"px4io.bin", sfd.FileName);
-                    }
-                }
-            }
-
-            progress.Value = 100;
-
-            CustomMessageBox.Show(
-                "Please eject the microsd card, place into the px4, hold down the ioboard safety button, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
-        }
+        
 
         private void lbl_dlfw_Click(object sender, EventArgs e)
         {
@@ -497,6 +387,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch
             {
                 CustomMessageBox.Show("http://copter.ardupilot.com/wiki/connect-escs-and-motors/#motor_order_diagrams", Strings.ERROR);
+            }
+        }
+
+        private void picturebox_ph2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start(@"http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission");
+            }
+            catch
+            {
+                CustomMessageBox.Show("http://www.proficnc.com/?utm_source=missionplanner&utm_medium=click&utm_campaign=mission", Strings.ERROR);
             }
         }
     }

@@ -186,9 +186,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (Common.MessageShowAgain("Write Raw Params Tree", "Are you Sure?") != DialogResult.OK)
                 return;
 
-            var temp = (Hashtable) _changes.Clone();
+            // sort with enable at the bottom - this ensures params are set before the function is disabled
+            var temp = new List<string>();
+            foreach (var item in _changes.Keys)
+            {
+                temp.Add((string)item);
+            }
 
-            foreach (string value in temp.Keys)
+            temp.Sort((a, b) =>
+            {
+                if (a == null || b == null) return 0;
+                if (a.EndsWith("ENABLE")) return 1; return -1;
+            });
+
+            foreach (string value in temp)
             {
                 try
                 {
@@ -425,7 +436,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
-            var filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
+            var filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;
 
             try
             {

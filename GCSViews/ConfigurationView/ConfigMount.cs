@@ -362,7 +362,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC8 = 1,
             RC9 = 1,
             RC10 = 1,
-            RC11 = 1
+            RC11 = 1,
+            RC12 = 1,
+            RC13 = 1,
+            RC14 = 1
         }
 
         // 0 = disabled 1 = enabled
@@ -375,7 +378,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC8 = 1,
             RC9 = 1,
             RC10 = 1,
-            RC11 = 1
+            RC11 = 1,
+            RC12 = 1,
+            RC13 = 1,
+            RC14 = 1
         }
 
         private enum ChannelCameraShutter
@@ -388,6 +394,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC9 = 1,
             RC10 = 10,
             RC11 = 11,
+            RC12 = 1,
+            RC13 = 1,
+            RC14 = 1,
             Relay = 1,
             Transistor = 4
         }

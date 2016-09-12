@@ -90,7 +90,7 @@ public static class MavlinkUtil
     public static byte[] trim_payload(ref byte[] payload)
     {
         var length = payload.Length;
-        while (length > 0 && payload[length - 1] == 0)
+        while (length > 1 && payload[length - 1] == 0)
         {
             length--;
         }
@@ -308,4 +308,15 @@ public static class MavlinkUtil
 
         return data;
     } // Swap
+
+    public static MAVLink.message_info GetMessageInfo(this MAVLink.message_info[] source, uint msgid)
+    {
+        foreach (var item in source)
+        {
+            if (item.msgid == msgid)
+                return item;
+        }
+
+        return source[0];
+    }
 }

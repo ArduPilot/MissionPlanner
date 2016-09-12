@@ -12,15 +12,20 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Controls
 {
-    public partial class SITL : Form
+    public partial class SITL : MyUserControl, IActivate
     {
+        //https://regex101.com/r/cH3kV3/2
+        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\}]+""default_params_filename""\s*:\s*""([^""]+)""\s*[^\}]*\}");
+
         Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
-        string sitldirectory = Application.StartupPath + Path.DirectorySeparatorChar + "sitl" +
+        string sitldirectory = Settings.GetUserDataDirectory() + "sitl" +
                                Path.DirectorySeparatorChar;
 
         GMapOverlay markeroverlay;
@@ -86,6 +91,10 @@ namespace MissionPlanner.Controls
             if (!Directory.Exists(sitldirectory))
                 Directory.CreateDirectory(sitldirectory);
 
+        }
+
+        public void Activate()
+        {
             homemarker.Position = MainV2.comPort.MAV.cs.HomeLocation;
 
             myGMAP1.Position = homemarker.Position;
@@ -101,15 +110,6 @@ namespace MissionPlanner.Controls
             markeroverlay.Markers.Add(homemarker);
 
             myGMAP1.Invalidate();
-
-            try
-            {
-                if (simulator != null)
-                    simulator.Kill();
-            }
-            catch
-            {
-            }
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
@@ -212,6 +212,29 @@ namespace MissionPlanner.Controls
             return sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe";
         }
 
+        private string GetDefaultConfig(string model)
+        {
+            if (Common.getFilefromNet(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
+                sitldirectory + "sim_vehicle.py"))
+            {
+                var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "sim_vehicle.py"));
+
+                foreach (Match match in matches)
+                {
+                    if (match.Groups[1].Value.ToLower().Equals(model))
+                    {
+                        if (Common.getFilefromNet(
+                            "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                            match.Groups[2].Value.ToString(),
+                            sitldirectory + match.Groups[2].Value.ToString()))
+                            return sitldirectory + match.Groups[2].Value.ToString();
+                    }
+                }
+            }
+            return "";
+        }
+
         private void StartSITL(string exepath, string model, string homelocation, string extraargs = "", int speedup = 1)
         {
             if (String.IsNullOrEmpty(homelocation))
@@ -220,9 +243,24 @@ namespace MissionPlanner.Controls
                 return;
             }
 
+            // kill old session
+            try
+            {
+                if (simulator != null)
+                    simulator.Kill();
+            }
+            catch
+            {
+            }
+
             // override default model
             if (cmb_model.Text != "")
                 model = cmb_model.Text;
+
+            var config = GetDefaultConfig(model);
+
+            if (!string.IsNullOrEmpty(config))
+                extraargs += @" --defaults """ + config+@"""";
 
             string simdir = sitldirectory + model + Path.DirectorySeparatorChar;
 
@@ -236,7 +274,7 @@ namespace MissionPlanner.Controls
 
             ProcessStartInfo exestart = new ProcessStartInfo();
             exestart.FileName = exepath;
-            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} {3}", model, homelocation, speedup, extraargs);
+            exestart.Arguments = String.Format("-M{0} -O{1} -s{2} --uartA tcp:0 {3}", model, homelocation, speedup, extraargs);
             exestart.WorkingDirectory = simdir;
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             exestart.UseShellExecute = true;
@@ -263,8 +301,6 @@ namespace MissionPlanner.Controls
             {
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
             }
-
-            this.Close();
         }
 
         static internal void rcinput()

@@ -60,9 +60,7 @@ namespace MissionPlanner.Log
             {
                 if (line.Length == 0)
                     return;
-
-
-
+                
                 string[] items = line.Split(',', ':');
 
                 if (items[0].Contains("FMT"))
@@ -102,13 +100,22 @@ namespace MissionPlanner.Log
                     while (modelist.Count < positionindex + 1)
                         modelist.Add("");
 
-                    if (items.Length == 4)
+                    int nameindex = dflog.FindMessageOffset("MODE", "Mode");
+
+                    if (nameindex > 0)
                     {
-                        modelist[positionindex] = (items[2]);
+                        modelist[positionindex] = items[nameindex];
                     }
                     else
                     {
-                        modelist[positionindex] = (items[1]);
+                        if (items.Length == 4)
+                        {
+                            modelist[positionindex] = (items[2]);
+                        }
+                        else
+                        {
+                            modelist[positionindex] = (items[1]);
+                        }
                     }
                 }
                 else if (items[0].Contains("GPS") && dflog.logformat.ContainsKey("GPS"))
@@ -327,7 +334,7 @@ namespace MissionPlanner.Log
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            filename = Settings.GetRunningDirectory() +
                        "block_plane_0.dae";
 
             // entry 2
@@ -1003,7 +1010,7 @@ gnssId GNSS Type
 
             File.Delete(filename);
 
-            filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            filename = Settings.GetRunningDirectory() +
                        "block_plane_0.dae";
 
             // entry 2

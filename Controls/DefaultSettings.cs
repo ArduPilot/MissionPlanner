@@ -60,7 +60,7 @@ namespace MissionPlanner.Controls
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
-            string filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
+            string filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;
 
             if (CMB_paramfiles.SelectedValue == null)
             {

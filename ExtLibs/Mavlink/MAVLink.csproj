@@ -35,10 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mavlink.cs">
@@ -57,6 +53,7 @@
   <ItemGroup>
     <Content Include="message_definitions\ardupilotmega.xml" />
     <Content Include="message_definitions\common.xml" />
+    <Content Include="message_definitions\uAvionix.xml" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlif4Dom.py" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlifApi.py" />
     <Content Include="pymavlink\generator\lib\genxmlif\xmlifBase.py" />

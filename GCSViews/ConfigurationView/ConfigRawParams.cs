@@ -107,8 +107,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var param2 = ParamFile.loadParamFile(fn);
 
+            var loaded = 0;
+            var missed = 0;
+            List<string> missing = new List<string>();
+
             foreach (string name in param2.Keys)
             {
+                var set = false;
                 var value = param2[name].ToString();
                 // set param table as well
                 foreach (DataGridViewRow row in Params.Rows)
@@ -137,11 +142,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         continue;
                     if (row.Cells[0].Value.ToString() == name)
                     {
+                        set = true;
                         if (row.Cells[1].Value.ToString() != value)
                             row.Cells[1].Value = value;
                         break;
                     }
                 }
+
+                if (set)
+                {
+                    loaded++;
+                }
+                else
+                {
+                    missed++;
+                    missing.Add(name);
+                }
+            }
+
+            if (missed > 0)
+            {
+                string list = "";
+                foreach (var item in missing)
+                {
+                    list += item + " ";
+                }
+                CustomMessageBox.Show("Missing " + missed + " params\n"+ list, "No matching Params", MessageBoxButtons.OK);
             }
         }
 
@@ -183,9 +209,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (Common.MessageShowAgain("Write Raw Params", "Are you Sure?") != DialogResult.OK)
                 return;
 
-            var temp = (Hashtable) _changes.Clone();
+            // sort with enable at the bottom - this ensures params are set before the function is disabled
+            var temp = new List<string>();
+            foreach (var item in _changes.Keys)
+            {
+                temp.Add((string)item);
+            }
 
-            foreach (string value in temp.Keys)
+            temp.Sort((a,b)=>
+            {
+                if (a == null || b == null) return 0;
+                if (a.EndsWith("ENABLE")) return 1; return -1;
+            });
+
+            foreach (string value in temp)
             {
                 try
                 {
@@ -479,7 +516,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
-            var filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
+            var filepath = Settings.GetUserDataDirectory() + CMB_paramfiles.Text;
 
             try
             {

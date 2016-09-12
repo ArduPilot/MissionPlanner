@@ -24,9 +24,7 @@ namespace MissionPlanner
 
         private bool beta;
 
-        private readonly string firmwarefile = Path.GetDirectoryName(Application.ExecutablePath) +
-                                               Path.DirectorySeparatorChar +
-                                               "radio.hex";
+        private readonly string firmwarefile = Path.GetTempFileName();
 
         /*
 ATI5
@@ -1286,7 +1284,6 @@ red LED solid - in firmware update mode");
         private void txt_aeskey_TextChanged(object sender, EventArgs e)
         {
             string item = txt_aeskey.Text;
-            UInt64 n = 0;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
                 txt_aeskey.Text = item.Remove(item.Length - 1, 1);

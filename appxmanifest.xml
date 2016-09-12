@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="36541MichaelOborne.MissionPlanner"
+            Version="1.3.39.0"
+            Publisher="CN=3B1842DF-8664-4A02-B840-61F61DA8A94E" />
+  <Properties>
+    <DisplayName>Mission Planner</DisplayName>
+    <PublisherDisplayName>Michael Oborne</PublisherDisplayName>
+    <Logo>splashdark.jpg</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="en-us" />
+  </Resources>
+  <Applications>
+    <Application Id="MPApp" Executable="MissionPlanner.exe" EntryPoint="MissionPlanner.Program">
+      <VisualElements DisplayName="Mission Planner" Description="ArduPilot ground control station"
+           Logo="splashdark.jpg" SmallLogo="splashdark.jpg"  
+           ForegroundText="dark" BackgroundColor="#FFFFFF">
+         <SplashScreen Image="splashdark.jpg" />
+      </VisualElements>
+    </Application>
+  </Applications>
+</Package>

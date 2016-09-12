@@ -139,7 +139,7 @@ namespace MissionPlanner.Controls
                     e.Graphics.DrawImageUnscaled(buffer, 0, 0);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
             }
         }

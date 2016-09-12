@@ -73,7 +73,7 @@
             this.BUT_run.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.BUT_run.Location = new System.Drawing.Point(722, 507);
             this.BUT_run.Name = "BUT_run";
-            this.BUT_run.Size = new System.Drawing.Size(75, 23);
+            this.BUT_run.Size = new System.Drawing.Size(75, 33);
             this.BUT_run.TabIndex = 1;
             this.BUT_run.Text = "Run Wav";
             this.BUT_run.UseVisualStyleBackColor = true;
@@ -82,11 +82,11 @@
             // myButton1
             // 
             this.myButton1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.myButton1.Location = new System.Drawing.Point(641, 507);
+            this.myButton1.Location = new System.Drawing.Point(617, 507);
             this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(75, 23);
+            this.myButton1.Size = new System.Drawing.Size(99, 33);
             this.myButton1.TabIndex = 2;
-            this.myButton1.Text = "Run Log - imu1";
+            this.myButton1.Text = "Run Log - imu1 ACC1 GYR1 MSG";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -257,22 +257,22 @@
             // BUT_log2
             // 
             this.BUT_log2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.BUT_log2.Location = new System.Drawing.Point(560, 508);
+            this.BUT_log2.Location = new System.Drawing.Point(524, 508);
             this.BUT_log2.Name = "BUT_log2";
-            this.BUT_log2.Size = new System.Drawing.Size(75, 23);
+            this.BUT_log2.Size = new System.Drawing.Size(87, 32);
             this.BUT_log2.TabIndex = 8;
-            this.BUT_log2.Text = "Run all imus";
+            this.BUT_log2.Text = "Run all imus - ACC GYR MSG";
             this.BUT_log2.UseVisualStyleBackColor = true;
             this.BUT_log2.Click += new System.EventHandler(this.BUT_log2_Click);
             // 
             // but_fftimu
             // 
             this.but_fftimu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.but_fftimu.Location = new System.Drawing.Point(479, 508);
+            this.but_fftimu.Location = new System.Drawing.Point(443, 508);
             this.but_fftimu.Name = "but_fftimu";
-            this.but_fftimu.Size = new System.Drawing.Size(75, 23);
+            this.but_fftimu.Size = new System.Drawing.Size(75, 32);
             this.but_fftimu.TabIndex = 9;
-            this.but_fftimu.Text = "Run all imus - imu";
+            this.but_fftimu.Text = "Run all imus - IMU1-3 MSG";
             this.but_fftimu.UseVisualStyleBackColor = true;
             this.but_fftimu.Click += new System.EventHandler(this.but_fftimu_Click);
             // 

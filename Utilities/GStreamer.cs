@@ -14,8 +14,14 @@ namespace MissionPlanner.Utilities
     public class GStreamer
     {
 
+        //gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+        //gst-launch-1.0 udpsrc port=5600 caps='application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264' ! rtph264depay ! avdec_h264 ! autovideosink fps-update-interval=1000 sync=false
+
         //gst-launch-1.0.exe videotestsrc ! video/x-raw, width=1280, height=720, framerate=25/1 ! x264enc ! rtph264pay ! udpsink port=1234 host=192.168.0.1
         //gst-launch-1.0.exe -v udpsrc port=1234 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
+
+        // list plugins
+        // gst-inspect-1.0
 
         public static string gstlaunch
         {
@@ -55,7 +61,7 @@ namespace MissionPlanner.Utilities
             if (File.Exists(gstlaunch))
             {
                 System.Diagnostics.Process.Start(gstlaunch,
-                    "-v udpsrc port=1234 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false");
+                    "-v udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false");
 
                 System.Threading.ThreadPool.QueueUserWorkItem(_Start);
             }
@@ -76,8 +82,6 @@ namespace MissionPlanner.Utilities
 
                     using (var stream = client.GetStream())
                     {
-                        bool lastvalid = false;
-
                         while (client.Client.Connected)
                         {
                             while (client.Available > 0)

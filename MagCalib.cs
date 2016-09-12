@@ -13,6 +13,7 @@ using System.Reflection;
 using log4net;
 using MissionPlanner.HIL;
 using MissionPlanner.Controls;
+using MissionPlanner.Log;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner
@@ -101,7 +102,7 @@ namespace MissionPlanner
         {
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "Log Files|*.tlog;*.log";
+                openFileDialog1.Filter = "Log Files|*.tlog;*.log;*.bin";
                 openFileDialog1.FilterIndex = 2;
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
@@ -661,7 +662,7 @@ namespace MissionPlanner
 
             bool ellipsoid = false;
 
-            if (MainV2.comPort.MAV.param.ContainsKey("MAG_DIA"))
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
             {
                 ellipsoid = true;
             }
@@ -712,13 +713,19 @@ namespace MissionPlanner
 
             List<Tuple<float, float, float>> data2 = new List<Tuple<float, float, float>>();
 
-            Log.DFLog dflog = new Log.DFLog();
+            List<Tuple<float, float, float>> data3 = new List<Tuple<float, float, float>>();
 
-            var logfile = dflog.ReadLog(fn);
+            double[] ofsDoubles = new double[3];
+            double[] ofsDoubles2 = new double[3];
+            double[] ofsDoubles3 = new double[3];
 
-            foreach (var line in logfile)
+            CollectionBuffer logdata = new CollectionBuffer(File.OpenRead(fn));
+
+            var dflog = logdata.dflog;
+            
+            foreach (var line in logdata.GetEnumeratorType(new[]{"MAG","MAG2","MAG3"}))
             {
-                if (line.msgtype == "MAG" || line.msgtype == "MAG2")
+                if (line.msgtype == "MAG" || line.msgtype == "MAG2" || line.msgtype == "MAG3")
                 {
                     int indexmagx = dflog.FindMessageOffset(line.msgtype, "MagX");
                     int indexmagy = dflog.FindMessageOffset(line.msgtype, "MagY");
@@ -747,6 +754,10 @@ namespace MissionPlanner
                                 magy - offsety,
                                 magz - offsetz));
 
+                            ofsDoubles[0] = offsetx;
+                            ofsDoubles[1] = offsety;
+                            ofsDoubles[2] = offsetz;
+
                             // fox dxf
                             vertex = new Polyline3dVertex(new Vector3f(magx - offsetx,
                                 magy - offsety,
@@ -760,17 +771,50 @@ namespace MissionPlanner
                                 magx - offsetx,
                                 magy - offsety,
                                 magz - offsetz));
+
+                            ofsDoubles2[0] = offsetx;
+                            ofsDoubles2[1] = offsety;
+                            ofsDoubles2[2] = offsetz;
+                        }
+                        else if (line.msgtype == "MAG3")
+                        {
+                            data3.Add(new Tuple<float, float, float>(
+                                magx - offsetx,
+                                magy - offsety,
+                                magz - offsetz));
+
+                            ofsDoubles3[0] = offsetx;
+                            ofsDoubles3[1] = offsety;
+                            ofsDoubles3[2] = offsetz;
                         }
                     }
                 }
             }
 
-            double[] x = LeastSq(data);
+            double[] x = LeastSq(data, false);
+
+            log.InfoFormat("magcal 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
+            
+            x = LeastSq(data,true);
+
+            log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
 
             if (data2.Count > 0)
             {
-                double[] x2 = LeastSq(data2);
+                double[] x2 = LeastSq(data2, false);
+                log.InfoFormat("magcal 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
+                x2 = LeastSq(data2, true);
+                log.InfoFormat("magcalel 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
             }
+
+            if (data3.Count > 0)
+            {
+                double[] x3 = LeastSq(data3, false);
+                log.InfoFormat("magcal 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
+                x3 = LeastSq(data3, true);
+                log.InfoFormat("magcalel 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
+            }
+
 
             log.Info("Least Sq Done " + DateTime.Now);
 
@@ -993,11 +1037,11 @@ namespace MissionPlanner
             double[] x;
 
             //
-            x = new double[] {0, 0, 0, 0};
+            x = new double[] {0, 0, 0, avg_samples};
 
             x = doLSQ(data, sphere_error, x);
 
-            rad = x[3];
+            rad = avg_samples;//x[3];
 
             log.Info("lsq rad " + rad);
 
@@ -1020,15 +1064,15 @@ namespace MissionPlanner
         static double[] doLSQ(List<Tuple<float, float, float>> data, Action<double[], double[], object> fitalgo,
             double[] x)
         {
-            double epsg = 0.00000001;
+            double epsg = 0.001;
             double epsf = 0;
             double epsx = 0;
-            int maxits = 0;
+            int maxits = 100;
 
             alglib.minlmstate state;
             alglib.minlmreport rep;
 
-            alglib.minlmcreatev(data.Count, x, 100, out state);
+            alglib.minlmcreatev(data.Count, x, 1, out state);
             alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
 
             var t1 = new alglib.ndimensional_fvec(fitalgo);
@@ -1068,6 +1112,18 @@ namespace MissionPlanner
                 }
 
                 error2 = Math.Round(Math.Sqrt(Math.Abs(error2)), 2);
+            }
+
+            if (data == datacompass3)
+            {
+                error3 = 0;
+
+                foreach (var item in state.fi)
+                {
+                    error3 += item;
+                }
+
+                error3 = Math.Round(Math.Sqrt(Math.Abs(error3)), 2);
             }
 
             return x;
@@ -1235,8 +1291,6 @@ namespace MissionPlanner
                 diagonals = new Vector3(p1[3], p1[4], p1[5]);
             if (p1.Length >= 8)
                 offdiagonals = new Vector3(p1[6], p1[7], p1[8]);
-
-            diagonals.x = 1.0;
 
             int a = 0;
             foreach (var d in (List<Tuple<float, float, float>>) obj)

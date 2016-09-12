@@ -14,11 +14,6 @@ namespace MissionPlanner.Utilities
         // since its not listed in the docs
         // https://github.com/PX4/Flow/blob/4a314cfdb099aed9795b825e7518203771207fbb/src/modules/flow/dcmi.c#L292
 
-        // of status
-        MAVLink.mavlink_optical_flow_t msg;
-        // of status
-        MAVLink.mavlink_optical_flow_rad_t msg2;
-
         // size of incomming data
         MAVLink.mavlink_data_transmission_handshake_t msgDataTransmissionHandshake;
 

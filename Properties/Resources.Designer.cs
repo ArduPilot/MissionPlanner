@@ -1111,7 +1111,7 @@ namespace MissionPlanner.Properties {
         ///
         ///It includes both fixed wing (APM) and rotary wing (!ArduCopter) parameters. Some may only be relevant for one platform or another.
         ///
-        ///|| *EEPROM variable name* || *Min* || *Max* || *Default* || *Multiplier* || *Enabled (0 = no, 1 = [rest of string was truncated]&quot;;.
+        ///|| *EEPROM variable name* || *Min* || *Max* || *Default* || *Multiplier* || *Enabled (0 = no, 1 = yes)* [rest of string was truncated]&quot;;.
         /// </summary>
         public static string MAVParam {
             get {
@@ -1225,6 +1225,16 @@ namespace MissionPlanner.Properties {
         public static System.Drawing.Bitmap pixhawk {
             get {
                 object obj = ResourceManager.GetObject("pixhawk", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap pixhawk2cube {
+            get {
+                object obj = ResourceManager.GetObject("pixhawk2cube", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

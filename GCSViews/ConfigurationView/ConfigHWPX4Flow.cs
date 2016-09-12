@@ -10,7 +10,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         private const float rad2deg = (float) (180/Math.PI);
         private const float deg2rad = (float) (1.0/rad2deg);
-        private bool startup;
         bool focusmode = false;
 
         OpticalFlow flow = null;
@@ -27,16 +26,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
                 return;
             }
-            Enabled = true;
 
-            startup = true;
+            Enabled = true;
 
             flow = new OpticalFlow(MainV2.comPort);
 
             // setup bitmap to screen
             flow.newImage += (s, eh) => imagebox.Image = (Image)eh.Image.Clone();
-
-            startup = false;
         }
 
         private void but_focusmode_Click(object sender, EventArgs e)

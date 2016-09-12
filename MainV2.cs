@@ -19,6 +19,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
+using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
@@ -271,7 +272,7 @@ namespace MissionPlanner
         /// </summary>
         internal object adsblock = new object();
 
-        public Hashtable adsbPlanes = new Hashtable();
+        public ConcurrentDictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 
         string titlebar;
 
@@ -381,7 +382,7 @@ namespace MissionPlanner
         public GCSViews.FlightData FlightData;
 
         public GCSViews.FlightPlanner FlightPlanner;
-        GCSViews.Simulation Simulation;
+        Controls.SITL Simulation;
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -467,7 +468,7 @@ namespace MissionPlanner
             _connectionControl.cmb_sysid.Click += cmb_sysid_Click;
 
             _connectionControl.ShowLinkStats += (sender, e) => ShowConnectionStatsForm();
-            srtm.datadirectory = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+            srtm.datadirectory = Settings.GetDataDirectory() +
                                  "srtm";
 
             var t = Type.GetType("Mono.Runtime");
@@ -653,7 +654,7 @@ namespace MissionPlanner
                 FlightPlanner = new GCSViews.FlightPlanner();
                 //Configuration = new GCSViews.ConfigurationView.Setup();
                 log.Info("Create SIM");
-                Simulation = new GCSViews.Simulation();
+                Simulation = new SITL();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
 
@@ -777,10 +778,12 @@ namespace MissionPlanner
             }
             
             // create log dir if it doesnt exist
-            if (!Directory.Exists(Settings.Instance.LogDir))
-                Directory.CreateDirectory(Settings.Instance.LogDir);
-
-            //System.Threading.Thread.Sleep(2000);
+            try
+            {
+                if (!Directory.Exists(Settings.Instance.LogDir))
+                    Directory.CreateDirectory(Settings.Instance.LogDir);
+            }
+            catch (Exception ex) { log.Error(ex); }
 
             Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
 
@@ -893,7 +896,7 @@ namespace MissionPlanner
             // read airport list
             try
             {
-                Utilities.Airports.ReadOurairports(Application.StartupPath + Path.DirectorySeparatorChar +
+                Utilities.Airports.ReadOurairports(Settings.GetRunningDirectory() +
                                                    "airports.csv");
 
                 Utilities.Airports.checkdups = true;
@@ -970,12 +973,28 @@ namespace MissionPlanner
         {
             lock (adsblock)
             {
-                var llah = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                var tag = llah.Tag;
+                var adsb = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
 
-                adsbPlanes[tag] =
-                    ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg) sender);
-                ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)adsbPlanes[tag]).Time = DateTime.Now;
+                var id = adsb.Tag;
+
+                if (MainV2.instance.adsbPlanes.ContainsKey(id))
+                {
+                    // update existing
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lat = adsb.Lat;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Lng = adsb.Lng;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Alt = adsb.Alt;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Heading = adsb.Heading;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).Time = DateTime.Now;
+                    ((adsb.PointLatLngAltHdg) instance.adsbPlanes[id]).CallSign = adsb.CallSign;
+                }
+                else
+                {
+                    // create new plane
+                    MainV2.instance.adsbPlanes[id] =
+                        new adsb.PointLatLngAltHdg(adsb.Lat, adsb.Lng,
+                            adsb.Alt, adsb.Heading, id,
+                            DateTime.Now) {CallSign = adsb.CallSign};
+                }
             }
         }
 
@@ -1156,6 +1175,17 @@ namespace MissionPlanner
             {
                 case "preset":
                     skipconnectcheck = true;
+                    if (comPort.BaseStream is TcpSerial)
+                        _connectionControl.CMB_serialport.Text = "TCP";
+                    if (comPort.BaseStream is UdpSerial)
+                        _connectionControl.CMB_serialport.Text = "UDP";
+                    if (comPort.BaseStream is UdpSerialConnect)
+                        _connectionControl.CMB_serialport.Text = "UDPCl";
+                    if (comPort.BaseStream is SerialPort)
+                    {
+                        _connectionControl.CMB_serialport.Text = comPort.BaseStream.PortName;
+                        _connectionControl.CMB_baudrate.Text = comPort.BaseStream.BaudRate.ToString();
+                    }
                     break;
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
@@ -2133,7 +2163,6 @@ namespace MissionPlanner
                         }
                         try
                         {
-                            int todo; // need a reset method
                             altwarningmax = (int) Math.Max(MainV2.comPort.MAV.cs.alt, altwarningmax);
 
                             if (Settings.Instance.GetBoolean("speechaltenabled") == true && MainV2.comPort.MAV.cs.alt != 0.00 &&
@@ -2168,6 +2197,12 @@ namespace MissionPlanner
                         catch
                         {
                         }
+                    }
+
+                    // not doing anything
+                    if (!MainV2.comPort.logreadmode && !comPort.BaseStream.IsOpen)
+                    {
+                        altwarningmax = 0;
                     }
 
                     // attenuate the link qualty over time
@@ -2212,6 +2247,7 @@ namespace MissionPlanner
                         {
                             try
                             {
+                                //MainV2.comPort.getHomePosition();
                                 MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
                                 if (MyView.current != null && MyView.current.Name == "FlightPlanner")
                                 {
@@ -2258,6 +2294,19 @@ namespace MissionPlanner
                         // enumerate each link
                         foreach (var port in Comports)
                         {
+                            // poll for params at heartbeat interval
+                            if (!port.giveComport)
+                            {
+                                try
+                                {
+                                    port.getParamPoll();
+                                    port.getParamPoll();
+                                }
+                                catch
+                                {
+                                }
+                            }
+
                             // there are 3 hb types we can send, mavlink1, mavlink2 signed and unsigned
                             bool sentsigned = false;
                             bool sentmavlink1 = false;
@@ -2427,11 +2476,11 @@ namespace MissionPlanner
 
             MyView.AddScreen(new MainSwitcher.Screen("FlightData", FlightData, true));
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
-            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof (GCSViews.InitialSetup), false));
-            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof (GCSViews.SoftwareConfig), false));
+            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", typeof(GCSViews.InitialSetup), false));
+            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", typeof(GCSViews.SoftwareConfig), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof (GCSViews.Terminal), false));
-            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof (GCSViews.Help), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Terminal", typeof(GCSViews.Terminal), false));
+            MyView.AddScreen(new MainSwitcher.Screen("Help", typeof(GCSViews.Help), false));
 
             try
             {
@@ -2522,7 +2571,7 @@ namespace MissionPlanner
             ThreadPool.QueueUserWorkItem(BGNoFly);
 
 
-                    ThreadPool.QueueUserWorkItem(BGGetKIndex);
+            ThreadPool.QueueUserWorkItem(BGGetKIndex);
 
 
             // update firmware version list - only once per day
@@ -2561,7 +2610,7 @@ namespace MissionPlanner
                 {
                     FlightData.LoadLogFile(Program.args[0]);
                     FlightData.BUT_playlog_Click(null, null);
-                } 
+                }
                 else if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".bin"))
                 {
                     LogBrowse logbrowse = new LogBrowse();
@@ -2570,6 +2619,21 @@ namespace MissionPlanner
                     logbrowse.Show(this);
                     logbrowse.TopMost = true;
                 }
+            }
+
+            // show wizard on first use
+            if (Settings.Instance["newuser"] == null)
+            {
+                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Wizard.Wizard wiz = new Wizard.Wizard();
+
+                    wiz.ShowDialog(this);
+                }
+
+                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
+
+                Settings.Instance["newuser"] = DateTime.Now.ToShortDateString();
             }
         }
 
@@ -2621,6 +2685,7 @@ namespace MissionPlanner
         {
             try
             {
+                tfr.tfrcache = Settings.GetUserDataDirectory() + "tfr.xml";
                 tfr.GetTFRs();
             }
             catch (Exception ex)
@@ -2641,22 +2706,6 @@ namespace MissionPlanner
             }
         }
 
-        private void BGGetAlmanac(object state)
-        {
-            // prep for future
-            try
-            {
-                if (Settings.Instance["almanac_date"] != DateTime.Now.ToShortDateString())
-                {
-                    Common.getFilefromNet("http://alp.u-blox.com/current_1d.alp",
-                        Application.StartupPath + Path.DirectorySeparatorChar + "current_d1.alp");
-                    Settings.Instance["almanac_date"] = DateTime.Now.ToShortDateString();
-                }
-            }
-            catch
-            {
-            }
-        }
 
         void KIndex_KIndex(object sender, EventArgs e)
         {
@@ -3130,7 +3179,7 @@ namespace MissionPlanner
                 case WM_DEVICECHANGE:
                     // The WParam value identifies what is occurring.
                     WM_DEVICECHANGE_enum n = (WM_DEVICECHANGE_enum) m.WParam;
-                    int l = (int) m.LParam;
+                    var l = m.LParam;
                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEREMOVEPENDING)
                     {
                         Console.WriteLine("DBT_DEVICEREMOVEPENDING");

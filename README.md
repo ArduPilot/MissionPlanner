@@ -5,9 +5,9 @@ MissionPlanner
 
 Website : http://planner.ardupilot.com/  
   
-Forum : http://ardupilot.com/forum/viewforum.php?f=12  
+Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
   
-Download latest stable version : http://ardupilot.com/wp-content/plugins/download-monitor/download.php?id=82  
+Download latest stable version : http://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.msi
   
 Changelog : https://github.com/ArduPilot/MissionPlanner/blob/master/ChangeLog.txt  
   
@@ -20,16 +20,14 @@ How to compile
 1. Install software
 
 - Git
-  http://code.google.com/p/msysgit/downloads/list
+  https://git-for-windows.github.io/
   Select a file summarized as "Full installer for official Git for Windows"
    with the highest version
-- TortuiseGit
-  http://code.google.com/p/tortoisegit/wiki/Download
+- TortoiseGit
+  https://tortoisegit.org/
 - Visual Studio
   http://www.visualstudio.com/downloads/download-visual-studio-vs
   Select "Visual Studio Express 2013 for Windows Desktop"
-- DirectX Redist
-  http://www.microsoft.com/en-us/download/details.aspx?id=35
 - Microsoft .NET 4.0
 
 2. Check out

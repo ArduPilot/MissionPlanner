@@ -14,6 +14,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Xml;
+using MissionPlanner.Utilities;
 
 namespace resedit
 {
@@ -321,7 +322,7 @@ namespace resedit
 
             try
             {
-                string fn = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci +
+                string fn = Settings.GetRunningDirectory() + ci +
                             Path.DirectorySeparatorChar + "MissionPlanner.resources.dll";
                 if (File.Exists(fn))
                     thisAssembly = Assembly.LoadFile(fn);
