@@ -1010,7 +1010,7 @@ namespace MissionPlanner
             pnt.Layer.Color.Index = 21;
             dxf.AddEntity(pnt);
 
-            dxf.Save("magoffset.dxf", DxfVersion.AutoCad2000);
+            dxf.Save(Settings.GetUserDataDirectory() + "magoffset.dxf", DxfVersion.AutoCad2000);
 
             log.Info("dxf Done " + DateTime.Now);
         }
