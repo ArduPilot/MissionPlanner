@@ -3202,15 +3202,6 @@ Please check the following
                 else
                 {
                     log.InfoFormat("Mavlink Bad Packet (Len Fail) len {0} pkno {1}", buffer.Length, message.msgid);
-                    if (buffer.Length == 11 && message.header == 'U' && message.msgid == 0) // check for 0.9 hb packet
-                    {
-                        string messagehb =
-                            "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
-                        Console.WriteLine(messagehb);
-                        if (logreadmode)
-                            logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
-                        throw new Exception(messagehb);
-                    }
                     return MAVLinkMessage.Invalid;
                 }
             }
@@ -4355,34 +4346,45 @@ Please check the following
         {
             byte[] datearray = new byte[8];
 
-            int tem = logplaybackfile.BaseStream.Read(datearray, 0, datearray.Length);
+            bool missingtimestamp = false;
 
-            Array.Reverse(datearray);
-
-            DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-            UInt64 dateint = BitConverter.ToUInt64(datearray, 0);
-
-            try
+            if (logplaybackfile.BaseStream is FileStream)
             {
-                // array is reversed above
-                if (datearray[7] == 254 || datearray[7] == 253)
-                {
-                    //rewind 8bytes
-                    logplaybackfile.BaseStream.Seek(-8, SeekOrigin.Current);
-                }
-                else
-                {
-                    if ((dateint/1000/1000/60/60) < 9999999)
-                    {
-                        date1 = date1.AddMilliseconds(dateint/1000);
+                if (((FileStream) _logplaybackfile.BaseStream).Name.ToLower().EndsWith(".rlog"))
+                    missingtimestamp = true;
+            }
 
-                        lastlogread = date1.ToLocalTime();
+            if (!missingtimestamp)
+            {
+                int tem = logplaybackfile.BaseStream.Read(datearray, 0, datearray.Length);
+
+                Array.Reverse(datearray);
+
+                DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+                UInt64 dateint = BitConverter.ToUInt64(datearray, 0);
+
+                try
+                {
+                    // array is reversed above
+                    if (datearray[7] == 254 || datearray[7] == 253)
+                    {
+                        //rewind 8bytes
+                        logplaybackfile.BaseStream.Seek(-8, SeekOrigin.Current);
+                    }
+                    else
+                    {
+                        if ((dateint/1000/1000/60/60) < 9999999)
+                        {
+                            date1 = date1.AddMilliseconds(dateint/1000);
+
+                            lastlogread = date1.ToLocalTime();
+                        }
                     }
                 }
-            }
-            catch
-            {
+                catch
+                {
+                }
             }
 
             byte[] temp = new byte[0];
