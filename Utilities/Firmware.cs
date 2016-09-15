@@ -554,6 +554,8 @@ namespace MissionPlanner.Utilities
 
                 log.Info("Using " + baseurl);
 
+                var starttime = DateTime.Now;
+
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(baseurl);
                 request.Timeout = 10000;
@@ -607,6 +609,10 @@ namespace MissionPlanner.Utilities
                     }
                     response.Close();
                 }
+
+                var timetook = (DateTime.Now - starttime).TotalMilliseconds;
+
+                Tracking.AddTiming("Firmware Download", temp.name, timetook, board.ToString());
 
                 updateProgress(100, Strings.DownloadedFromInternet);
                 log.Info("Downloaded");
