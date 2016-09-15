@@ -15,6 +15,7 @@ namespace AltitudeAngelWings.Service.Messaging
 
         public Task AddMessageAsync(Message message)
         {
+            Console.WriteLine(message.Content);
             return Task.Factory.StartNew(() => Messages.Value = message);
         }
     }

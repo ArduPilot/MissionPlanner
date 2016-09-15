@@ -59,11 +59,7 @@ namespace AltitudeAngelWings.Service
                     i => IsSignedIn.Where(s => !IsSignedIn),
                     (flight, signedIn) => flight);
 
-         /*   _disposer.Add(_missionPlanner.FlightDataMap
-                                         .MapChanged
-                                         .Throttle(TimeSpan.FromSeconds(1))
-                                         .SubscribeAsync(i => UpdateMapData(_missionPlanner.FlightDataMap)));
-                                         */
+
             TryConnect();
         }
 
@@ -97,7 +93,6 @@ namespace AltitudeAngelWings.Service
             _aaClient.Disconnect();
             SignedOut();
 
-            //return Task.FromResult(0);
             return null;
         }
 
@@ -244,6 +239,7 @@ namespace AltitudeAngelWings.Service
                                 {
                                     await UpdateWeatherData(_missionPlanner.FlightDataMap.GetCenter());
                                     await _messagesService.AddMessageAsync("Weather loaded");
+                                    await _messagesService.AddMessageAsync(WeatherReport.Value.Summary);
                                 });
             }
         }
@@ -267,5 +263,10 @@ namespace AltitudeAngelWings.Service
         private readonly IMissionPlanner _missionPlanner;
         private AltitudeAngelClient _aaClient;
         private CompositeDisposable _disposer = new CompositeDisposable();
+
+        public AltitudeAngelClient Client
+        {
+            get { return _aaClient; }
+        }
     }
 }
