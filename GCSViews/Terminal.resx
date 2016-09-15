@@ -138,7 +138,8 @@
   <data name="TXT_terminal.Text" xml:space="preserve">
     <value>*NOTE* Please click connect above
 CLI Works only on first connect of power, log download only over USB
-Newer versions only support log download via mavlink, please see the flightdata &gt; dataflahs logs</value>
+Newer versions only support log download via mavlink, please see the flightdata &gt; dataflahs logs
+</value>
   </data>
   <data name="&gt;&gt;TXT_terminal.Name" xml:space="preserve">
     <value>TXT_terminal</value>
