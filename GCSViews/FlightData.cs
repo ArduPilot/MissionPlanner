@@ -1504,6 +1504,10 @@ namespace MissionPlanner.GCSViews
                     return ans;
                 }
             }
+            if (input is Enum)
+            {
+                return Convert.ToInt32(input);
+            }
 
             if (input == null)
                 throw new Exception("Bad Type Null");
