@@ -6646,17 +6646,25 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 utmpos basepos = new utmpos(MouseDownStart);
 
-                foreach (var pathPoint in gp.PathPoints)
+                try
                 {
-                    utmpos newpos = new utmpos(basepos);
 
-                    newpos.x += pathPoint.X;
-                    newpos.y += -pathPoint.Y;
+                    foreach (var pathPoint in gp.PathPoints)
+                    {
+                        utmpos newpos = new utmpos(basepos);
 
-                    var newlla = newpos.ToLLA();
-                    quickadd = true;
-                    AddWPToMap(newlla.Lat, newlla.Lng, int.Parse(TXT_DefaultAlt.Text));
-                    
+                        newpos.x += pathPoint.X;
+                        newpos.y += -pathPoint.Y;
+
+                        var newlla = newpos.ToLLA();
+                        quickadd = true;
+                        AddWPToMap(newlla.Lat, newlla.Lng, int.Parse(TXT_DefaultAlt.Text));
+
+                    }
+                }
+                catch (ArgumentException ex)
+                {
+                    CustomMessageBox.Show("Bad input options, please try again\n" + ex.ToString(), Strings.ERROR);
                 }
 
                 quickadd = false;

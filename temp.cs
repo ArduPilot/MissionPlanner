@@ -696,17 +696,24 @@ namespace MissionPlanner
         
         private void but_armandtakeoff_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setMode("Stabilize");
-
-            if (MainV2.comPort.doARM(true))
+            try
             {
-                MainV2.comPort.setMode("GUIDED");
 
-                Thread.Sleep(300);
+                MainV2.comPort.setMode("Stabilize");
 
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+                if (MainV2.comPort.doARM(true))
+                {
+                    MainV2.comPort.setMode("GUIDED");
+
+                    Thread.Sleep(300);
+
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+                }
             }
-        }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString());
+            }
 
         private void but_sitl_comb_Click(object sender, EventArgs e)
         {
