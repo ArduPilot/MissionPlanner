@@ -605,7 +605,7 @@ namespace MissionPlanner
             {
                 try
                 {
-                    using (XmlTextReader xmlreader = new XmlTextReader(Settings.GetDataDirectory() + filename))
+                    using (XmlTextReader xmlreader = new XmlTextReader(filename))
                     {
                         while (xmlreader.Read())
                         {
@@ -683,7 +683,7 @@ namespace MissionPlanner
         {
             try
             {
-                using (XmlTextReader xmlreader = new XmlTextReader(Settings.GetDataDirectory() + filename))
+                using (XmlTextReader xmlreader = new XmlTextReader(filename))
                 {
                     while (xmlreader.Read())
                     {
