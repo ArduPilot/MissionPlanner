@@ -111,6 +111,9 @@ namespace MissionPlanner.Log
                                     {
                                         var item = dflog.GetDFItemFromLine(line, 0);
 
+                                        if (!dflog.logformat.ContainsKey("GPS"))
+                                            continue;
+
                                         var status = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Status")]);
                                         var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
                                         var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
