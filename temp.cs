@@ -693,7 +693,7 @@ namespace MissionPlanner
             end = DateTime.Now;
             Console.WriteLine("ByteArrayToStructureGC " + (end - start).TotalMilliseconds);
         }
-        
+
         private void but_armandtakeoff_Click(object sender, EventArgs e)
         {
             try
@@ -714,6 +714,7 @@ namespace MissionPlanner
             {
                 CustomMessageBox.Show(ex.ToString());
             }
+        }
 
         private void but_sitl_comb_Click(object sender, EventArgs e)
         {
