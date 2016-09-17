@@ -668,6 +668,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to download the SITL image..
+        /// </summary>
+        public static string Failed_to_download_the_SITL_image {
+            get {
+                return ResourceManager.GetString("Failed_to_download_the_SITL_image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed download.
         /// </summary>
         public static string FailedDownload {

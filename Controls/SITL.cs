@@ -243,6 +243,12 @@ namespace MissionPlanner.Controls
                 return;
             }
 
+            if (!File.Exists(exepath))
+            {
+                CustomMessageBox.Show(Strings.Failed_to_download_the_SITL_image, Strings.ERROR);
+                return;
+            }
+
             // kill old session
             try
             {
