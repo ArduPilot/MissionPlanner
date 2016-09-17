@@ -6,7 +6,7 @@
   <Properties>
     <DisplayName>Mission Planner</DisplayName>
     <PublisherDisplayName>Michael Oborne</PublisherDisplayName>
-    <Logo>splashdark.jpg</Logo>
+    <Logo>mpdesktop150.png</Logo>
   </Properties>
   <Resources>
     <Resource Language="en-us" />
@@ -14,13 +14,13 @@
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.14393.0" MaxVersionTested="10.0.14393.0" />
   </Dependencies>
-    <Capabilities>
+  <Capabilities>
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
   <Applications>
 		<Application Id="MissionPlanner" Executable="MissionPlanner.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements DisplayName="Mission Planner" Description="ArduPilot ground control station"
-           Square150x150Logo="splashdark.jpg" Square44x44Logo="splashdark.jpg"  
+           Square150x150Logo="mpdesktop150.png" Square44x44Logo="mpdesktop44.png"  
            BackgroundColor="#FFFFFF" />
       <Extensions />
     </Application>

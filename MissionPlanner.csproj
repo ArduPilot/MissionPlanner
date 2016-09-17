@@ -74,21 +74,21 @@
     <StartupObject>MissionPlanner.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>B6B1638E5EFC0DA254F575DF248AD0D1D227924B</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>6DC36D951ED074FB9F9133D7127A2732E1A5C23E</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <TargetZone>Custom</TargetZone>
+    <TargetZone>Internet</TargetZone>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -3598,6 +3598,12 @@
     <Content Include="LogAnalyzer\py2exe\UnitTest.py" />
     <Content Include="LogAnalyzer\py2exe\VehicleType.py" />
     <Content Include="mavgraphs.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpdesktop150.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="mpdesktop44.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ParameterFactMetaData.xml">

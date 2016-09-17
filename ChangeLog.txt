@@ -1,4 +1,182 @@
-﻿* Mission Planner 1.3.39 - 13-7-2016
+﻿* Mission Planner 1.3.40 - 17-9-2016
+NOTE: the default config directory is now in MyDocuments\Mission Planner.
+this includes all log files, excluding existing installs, where the log path has been changed.
+This means any precached maps will need to be refreshed.
+New Paths are
+Map cache: C:\ProgramData\Mission Planner
+srtm cache: C:\ProgramData\Mission Planner
+logs: MyDocuments\Mission Planner
+config: MyDocuments\Mission Planner
+
+Terminal: add missing linefeed
+Firmware: add firmware upload time stat
+FlightData: handle enum convert
+appxmanifest: update
+Firmware: add download fw time stat
+Firmware: remove old google code hashs
+MAVLinkInterface: handle rlogs
+MagCalib: update dxf path
+DFLogScript: add mag_heading_df support
+MAVLinkInterface: string conversion
+Loading: fix first update delay
+MainV2: add background parameter poll
+MAVLinkInterface: add getParamPoll
+srtm: age cached listings
+TerrainFollow: thread saftey
+ConnectionControl: add param bypass on sysid change (hold control while changing)#1353
+MainV2: update connectioncontrol on connect with actual underlying transport type
+Common: GMapMarkerPlane prevent out of memory exception on small sweeps
+StreamCombiner: make threadsafe and autoconnect
+MAVList: make enumeration threadsafe
+MavlinkParse: fix resize order
+LogAnalyzer: ensure latest version is downloaded
+LogAnalyzer: update
+AltitudeAngelWings: add library
+sbp: fix parser buffer return
+PluginLoader: add exception logging on init
+MatLab: change file limit on 64bit system
+MAVlinkParamList: add new Add
+Update projects to anycpu
+Settings: move config to user data folder
+Multiple: update to use new paths
+Settings: add new datapaths and change default log location to MyDocuments\Mission Planner
+CurrentState: change sensor health check to prevent false positive
+MainSwitch: add screen control null check
+README.md: update urls #1351
+Mavlink: support MAV_SYS_STATUS_LOGGING
+MAVLinkInterface: increase comments/verbose
+GridUI: fix missing wp's with different configs
+FlightPlanner: support alternate coord systems
+FlightData: use gps2 on hud
+Coords: add SystemChanged event
+HUD: add gps2 support (report highest fix level)
+MAVLinkMessage: add ismavlink2
+GMap.Net: make objects Serializable
+Sphere: support size change
+MAVLinkInterface: add length check back
+Currentstate: add vision status #1349
+InitialSetup: rename sonar to range finder
+ConfigRawParams: add missing display when loading param file
+GridUI: fix missing end point when no overshoot
+mavgraphs: add velocity vs innovation velocity graphs
+FlightData & FlightPlanner: delay mapchange on startup
+ControlSensorStatus: add
+FlightPlanner: fix fence avalability check #1346
+temp: add back magcal and sphere view
+MagCalib: update dflog magcal
+CollectionBuffer: add new enumerator to return DFItem
+MAVLink: remove calculated values
+LogIndex: fix location
+DFLogScript: add delta graphs
+MainV2: change adsb to concurrent dictionary
+LogIndex: add more fields
+MAVLinkMessage: create lock on instance create
+FlightPlanner: add mgrs (1m accuracy)
+LogBrowse: fix pos end route
+LogBrowse: update ekf vel tune
+MAVLinkInterface: decrease memory allocations for tlog playback
+Mavlink: update message_info ToString()
+MainV2: Display wizard for new MP users
+BoardDetect: move file
+ConfigFirmware: add pixhawk2 link
+MAVState: use ConcurrentDictionary
+LogBrowse: add gps2 to map gps1(blue) gps2(green) pos(red)
+CheckListControl: add groupbox to each item
+Add Bebop2 detection and upload
+Add SharpAdbClient external lib
+Add ManagedNativeWifi Simple external library
+MissionPlanner: update solution file to vs 2015
+LogMap: filter fix by status
+LibVLC: print debug to console
+mavcmd: add roi for rover #1340
+MAVLinkInterface: add ability to disable all speech from this class
+MAVLinkInterface: performance tune tlog read.
+LogMap and LogSort: add sitl detection
+Loading: change assign order
+fftui: modify button labels
+DFLogScript: add GPS2 delta
+GeoRef: add TRIG message support
+FlightPlanner: add utm on wp file load
+ConfigRawParamTree: Remove null check
+LogOutput: fix mode in kml
+ConfigRawParam*: check for null compare
+DFLog: add missing events #1331
+ConfigHWCompass: enable autoretry on internal compass cal
+MagCalib: fix compass3 error display, and limit loop count to 20 in LSQ
+MainV2: fix posible exception
+ConfigHWCompass: fix mag calibrate dialog
+Config*Params: sort and put ENABLE at end on write
+ConfigAntennaTracker: add pitch min and max #1324
+mavcmd: add nav_delay #1325
+GridUI: fix missing points
+georefimage: revert quality settings #1327
+GridUI: exclude stopstart wp if not turned on #1326
+FlightPanner: UTM
+TrackerHomeGPS: change to anycpu
+DTED: change scan order dt2 first, dt1, dt0
+Settings: make members public
+ConfigHWUAVCANESC: add initial support
+MAVLinkInterface: add param refresh screen
+FlightData: add servos 12-14 #1317
+ConfigMount: add rc12-14 #1317
+ThemeManger: fix removed view
+InitialSetup: correct gimbal screen #1322
+MAVLinkinterface: fix gpsinject msg size calc, and prep
+LibVLC: look for 64bit vlc as well
+Generic: fix warnings
+Generic: warning fixs
+Joystick: move from directinput to sharpdx
+FlightPlanner: fix VTOL_TAKEOFF flightplan item
+ConfigHWCompass: tweak onboard calib display
+HorizontalProgressBar: remember min and max in design view
+BackstageView: prevent object creation on activatepage
+ConfigHWCompass: change result display
+Update README.md
+updated camerasBuiltin.xml to add gopro hero 4
+MavlinkMessage: add static invalid
+MavlinkInterface: add child statustext support
+MavlinkUtil: limit trim_packet to atleast 1 byte
+ImageProjection: add quick R=0 P=0 case
+GMapMarkerOverlapCount: cleanup grid
+MissionFile: prep for grid
+GridUI: fix loading from file
+MAVLink: update
+GeoRefImage: fix localisation issues
+LogAnalyzer: update build scripts
+DTED: add support
+Firmware: add more status updates
+Coord: add alt source
+ParameterMetaDataBackup: update
+ParameterMetaDataParser: reduce complexity
+ParameterMetaData: update backup data
+camerasbuiltin: update FLIR camera #1311
+GridUI: exclude angle change from autozoom #1314
+GeoTiff: add support for 32bit tiffs
+MAVLink: add uavonix packets
+srtm: filter bad input coords
+GStreamer: change default port to 5600
+HUD: fix texture reset time
+FlightPlanner: accept invalid seq on set home
+HUD: force texture reset every hour
+WMSProvider: update max zoom to 22
+Custom: fix custom image max zoom
+Driver: update
+MainV2: log directory creation exception check
+InitialSetup: prevent creation of unused controls
+BackstageView: invalidate menu on control add
+MAVLinkMessage: prevent duplicate create
+GeoRef: add 2 field sort, time and filename
+adsb: make plane info selectable
+SITL: close old session on new session
+Simulation: and adsb update
+srtm: speed tweaks
+mavcmd: fix naming
+sitl: add param defaults
+Mavlink: add MAV_CMD_DO_SET_REVERSE
+FlightData: add ability to display ICAO all the time
+GeoRef: workaround tif exif issue
+
+* Mission Planner 1.3.39 - 13-7-2016
 SITL: add nowait to tcp
 SITL: add xplane-heli
 CurrentState: current 0 fix
