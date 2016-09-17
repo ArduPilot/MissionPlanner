@@ -81,7 +81,7 @@ namespace MissionPlanner.GCSViews
 
         private void poieditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentPOIMarker == null)
+            if (CurrentGMapMarker == null || !(CurrentGMapMarker is GMapMarkerPOI))
                 return;
 
             POI.POIEdit(CurrentPOIMarker);

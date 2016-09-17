@@ -121,7 +121,7 @@ namespace MissionPlanner.GCSViews
 
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (CurrentGMapMarker == null)
+            if (CurrentGMapMarker == null || !(CurrentGMapMarker is GMapMarkerPOI))
                 return;
 
             POI.POIDelete((GMapMarkerPOI)CurrentGMapMarker);
