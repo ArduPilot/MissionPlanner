@@ -82,6 +82,8 @@
             this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
             this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
             this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
+            this.mavlinkComboBoxfitness = new MissionPlanner.Controls.MavlinkComboBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -151,6 +153,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label10);
+            this.groupBox4.Controls.Add(this.mavlinkComboBoxfitness);
             this.groupBox4.Controls.Add(this.label9);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.label7);
@@ -485,6 +489,20 @@
             this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
             this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
+            // mavlinkComboBoxfitness
+            // 
+            this.mavlinkComboBoxfitness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxfitness, "mavlinkComboBoxfitness");
+            this.mavlinkComboBoxfitness.FormattingEnabled = true;
+            this.mavlinkComboBoxfitness.Name = "mavlinkComboBoxfitness";
+            this.mavlinkComboBoxfitness.ParamName = null;
+            this.mavlinkComboBoxfitness.SubControl = null;
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
             // ConfigHWCompass
             // 
             resources.ApplyResources(this, "$this");
@@ -574,5 +592,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label10;
+        private Controls.MavlinkComboBox mavlinkComboBoxfitness;
     }
 }

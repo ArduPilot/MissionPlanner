@@ -173,6 +173,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 groupBoxCompass3.Hide();
             }
 
+            mavlinkComboBoxfitness.setup(
+                new List<KeyValuePair<int, string>>()
+                {
+                    new KeyValuePair<int, string>(4, "Precise"),
+                    new KeyValuePair<int, string>(8, "Default"),
+                    new KeyValuePair<int, string>(16, "Lose"),
+                    new KeyValuePair<int, string>(25, "Very Lose"),
+                }, "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
+
             ShowRelevantFields();
 
             startup = false;
