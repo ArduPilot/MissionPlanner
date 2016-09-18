@@ -219,7 +219,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             temp.Sort((a,b)=>
             {
                 if (a == null || b == null) return 0;
-                if (a.EndsWith("ENABLE")) return 1; return -1;
+                if (a.EndsWith("ENABLE")) return 1;
+                if (a.EndsWith("ENABLE") && b.EndsWith("ENABLE")) return 0;
+                return -1;
             });
 
             foreach (string value in temp)
