@@ -158,8 +158,6 @@ namespace MissionPlanner
 
             CleanupFiles();
 
-            Utilities.NGEN.doNGEN();
-
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
 
@@ -191,20 +189,30 @@ namespace MissionPlanner
 
         static void CleanupFiles()
         {
-            //cleanup bad file
-            string file = Settings.GetRunningDirectory() +
-                          @"LogAnalyzer\tests\TestUnderpowered.py";
-            if (File.Exists(file))
+            try
             {
-                File.Delete(file);
+                //cleanup bad file
+                string file = Settings.GetRunningDirectory() +
+                              @"LogAnalyzer\tests\TestUnderpowered.py";
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
             }
+            catch { }
 
-            file = "NumpyDotNet.dll";
-            if (File.Exists(file))
+            try
             {
-                File.Delete(file);
+                var file = "NumpyDotNet.dll";
+                if (File.Exists(file))
+                {
+                    File.Delete(file);
+                }
             }
-
+            catch
+            {
+                
+            }
             try
             {
                 foreach (string newupdater in Directory.GetFiles(Settings.GetRunningDirectory(), "Updater.exe*.new"))
