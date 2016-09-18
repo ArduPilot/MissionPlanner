@@ -150,8 +150,6 @@ namespace MissionPlanner.Utilities
 
                 var matches = all.Matches(BOUND);
 
-                Console.WriteLine(BOUND);
-
                 bool isarcterminate = false;
                 bool iscircleterminate = false;
                 int arcdir = 0;
