@@ -3188,8 +3188,15 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
-                (float) MouseDownStart.Lng, intalt/CurrentState.multiplierdist);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float) MouseDownStart.Lat,
+                    (float) MouseDownStart.Lng, intalt/CurrentState.multiplierdist);
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
         }
 
         private void CHK_autopan_CheckedChanged(object sender, EventArgs e)
