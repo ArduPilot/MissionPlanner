@@ -161,8 +161,17 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            // add history
-            history.Add(GetCommandList());
+            try
+            {
+                // get current command list
+                var currentlist = GetCommandList();
+                // add history
+                history.Add(currentlist);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("A invalid entry has been detected\n" + ex.Message, Strings.ERROR);
+            }
 
             // remove more than 20 revisions
             if (history.Count > 20)
