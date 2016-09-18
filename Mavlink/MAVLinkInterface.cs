@@ -995,7 +995,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - setParam " + paramname);
+                    throw new TimeoutException("Timeout on read - setParam " + paramname);
                 }
 
                 MAVLinkMessage buffer = readPacket();
@@ -1392,7 +1392,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - GetParam");
+                    throw new TimeoutException("Timeout on read - GetParam");
                 }
 
                 buffer = readPacket();
@@ -1548,7 +1548,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - setWPCurrent");
+                    throw new TimeoutException("Timeout on read - setWPCurrent");
                 }
 
                 buffer = readPacket();
@@ -1730,7 +1730,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - doCommand");
+                    throw new TimeoutException("Timeout on read - doCommand");
                 }
 
                 buffer = readPacket();
@@ -2393,7 +2393,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - setWPTotal");
+                    throw new TimeoutException("Timeout on read - setWPTotal");
                 }
                 MAVLinkMessage buffer = readPacket();
                 if (buffer.Length > 9)
@@ -3069,7 +3069,7 @@ Please check the following
                                 {
                                     log.InfoFormat("MAVLINK: 2 wait time out btr {0} len {1}", BaseStream.BytesToRead,
                                         length);
-                                    throw new Exception("Timeout");
+                                    throw new TimeoutException("Timeout");
                                 }
                                 System.Threading.Thread.Sleep(1);
                             }
@@ -3869,7 +3869,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - getFencePoint");
+                    throw new TimeoutException("Timeout on read - getFencePoint");
                 }
 
                 buffer = readPacket();
@@ -3939,7 +3939,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - GetLog");
+                    throw new TimeoutException("Timeout on read - GetLog");
                 }
 
                 buffer = readPacket();
@@ -4143,7 +4143,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - GetLogEntry");
+                    throw new TimeoutException("Timeout on read - GetLogEntry");
                 }
 
                 buffer = readPacket();
@@ -4232,7 +4232,7 @@ Please check the following
                         continue;
                     }
                     giveComport = false;
-                    throw new Exception("Timeout on read - getRallyPoint");
+                    throw new TimeoutException("Timeout on read - getRallyPoint");
                 }
 
                 buffer = readPacket();
