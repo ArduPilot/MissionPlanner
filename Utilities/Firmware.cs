@@ -394,7 +394,7 @@ namespace MissionPlanner.Utilities
 
                 string baseurl = temp.urlpx4v2;
 
-                if (baseurl == "") return;
+                if (baseurl == "" || !baseurl.ToLower().StartsWith("http")) return;
 
                 L10N.ReplaceMirrorUrl(ref baseurl);
 
