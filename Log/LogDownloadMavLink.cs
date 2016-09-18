@@ -149,7 +149,7 @@ namespace MissionPlanner.Log
 
         void RunOnUIThread(Action a)
         {
-            if (closed)
+            if (closed || this.IsDisposed)
             {
                 return;
             }
