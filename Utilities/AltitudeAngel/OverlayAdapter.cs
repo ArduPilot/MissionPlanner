@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using GeoJSON.Net.Feature;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 
@@ -42,14 +44,16 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             }
         }
 
-        public void AddPolygon(string name, List<PointLatLng> points, ColorInfo colorInfo)
+        public void AddPolygon(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
         {
             _context.Send(_ =>
             {
                 _overlay.Polygons.Add(new GMapPolygon(points, name)
                 {
                     Fill = new SolidBrush(Color.FromArgb((int) colorInfo.FillColor)),
-                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth)
+                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth),
+                    IsHitTestVisible = true,
+                    Tag = featureInfo
                 });
 
             }, null);
@@ -64,13 +68,15 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             return polygonExists;
         }
 
-        public void AddLine(string name, List<PointLatLng> points, ColorInfo colorInfo)
+        public void AddLine(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
         {
             _context.Send(_ =>
             {
                 _overlay.Routes.Add(new GMapRoute(points, name)
                 {
                     Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor)),
+                    IsHitTestVisible = true,
+                    Tag = featureInfo
                 });
             }, null);
         }

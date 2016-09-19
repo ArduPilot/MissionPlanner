@@ -1,15 +1,18 @@
 using System;
 using System.Linq;
-using System.Reactive;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using SharpKml.Dom;
+using Feature = GeoJSON.Net.Feature.Feature;
 using Timer = System.Windows.Forms.Timer;
+using Unit = System.Reactive.Unit;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
@@ -39,7 +42,25 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             MapChanged = positionChanged
                 .Merge(mapZoom)
                 .ObserveOn(ThreadPoolScheduler.Instance);
+
+            mapControl.OnPolygonClick += Control_OnPolygonClick;
         }
+
+        private void Control_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
+        {
+            if (_mapControl.Overlays.First(x => x.Polygons.Any(i => i.Name == item.Name)) != null)
+            {
+                if (item.Tag is Feature)
+                {
+                    var prop = ((Feature) item.Tag).Properties;
+
+                    var st = String.Format("{0} is categorised as {1}", prop["name"], prop["detailedCategory"]);
+
+                    CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
+                }
+            }
+        }
+    
 
         public void Dispose()
         {

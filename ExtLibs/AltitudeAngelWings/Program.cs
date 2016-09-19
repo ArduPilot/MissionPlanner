@@ -11,6 +11,7 @@ using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.FlightData.Providers;
 using AltitudeAngelWings.Service.Messaging;
 using DotNetOpenAuth.OAuth2;
+using GeoJSON.Net.Feature;
 using GMap.NET;
 
 namespace AltitudeAngelWings
@@ -89,12 +90,14 @@ namespace AltitudeAngelWings
 
     public class overlay : IOverlay
     {
-        public void AddPolygon(string name, List<PointLatLng> points, ColorInfo colorInfo)
+
+
+        public void AddPolygon(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
         {
             
         }
 
-        public void AddLine(string name, List<PointLatLng> points, ColorInfo colorInfo)
+        public void AddLine(string name, List<PointLatLng> points, ColorInfo colorInfo, Feature featureInfo)
         {
             
         }

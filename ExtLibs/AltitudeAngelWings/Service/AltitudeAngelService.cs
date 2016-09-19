@@ -135,7 +135,7 @@ namespace AltitudeAngelWings.Service
                                 List<PointLatLng> coordinates = line.Coordinates.OfType<GeographicPosition>()
                                                                     .Select(c => new PointLatLng(c.Latitude, c.Longitude))
                                                                     .ToList();
-                                overlay.AddLine(feature.Id, coordinates, new ColorInfo { StrokeColor = 0xFFFF0000 });
+                                overlay.AddLine(feature.Id, coordinates, new ColorInfo { StrokeColor = 0xFFFF0000 }, feature);
                             }
                         }
                         break;
@@ -154,7 +154,7 @@ namespace AltitudeAngelWings.Service
 
                                 ColorInfo colorInfo = feature.ToColorInfo();
                                 colorInfo.StrokeColor = 0xFFFF0000;
-                                overlay.AddPolygon(feature.Id, coordinates, colorInfo);
+                                overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
                             }
                         }
                         break;
