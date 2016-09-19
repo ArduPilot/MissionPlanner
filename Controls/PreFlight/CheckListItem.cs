@@ -123,7 +123,7 @@ namespace MissionPlanner.Controls.PreFlight
                 }
 
                 if (Item == null)
-                    throw new ArgumentNullException("Item");
+                    return 0;
 
                 if (Item.PropertyType.Name == "String")
                     return 0;
