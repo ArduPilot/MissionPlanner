@@ -95,7 +95,7 @@ namespace MissionPlanner.GCSViews
         const float deg2rad = (float) (1.0/rad2deg);
 
         public static HUD myhud;
-        public static GMapControl mymap;
+        public static myGMAP mymap;
 
         bool playingLog;
         double LogPlayBackSpeed = 1.0;

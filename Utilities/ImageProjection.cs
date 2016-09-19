@@ -8,6 +8,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using MissionPlanner.Controls;
 using MissionPlanner.HIL;
 
 namespace MissionPlanner.Utilities
@@ -307,7 +308,7 @@ namespace MissionPlanner.Utilities
         }
 
         static GMapOverlay polygons = new GMapOverlay("polygons");
-        static GMapControl map = null;
+        static myGMAP map = null;
 
         static void DoDebug()
         {
@@ -323,7 +324,7 @@ namespace MissionPlanner.Utilities
             }
 
             polygons = new GMapOverlay("polygons");
-            map = new GMapControl();
+            map = new myGMAP();
             var form = new Form() { Size = new Size(1024, 768), WindowState = FormWindowState.Maximized };
             map.Dock = DockStyle.Fill;
             map.MapProvider = GMapProviders.GoogleSatelliteMap;
