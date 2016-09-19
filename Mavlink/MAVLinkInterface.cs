@@ -4159,6 +4159,11 @@ Please check the following
                             return ans;
                         }
                     }
+
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.LOG_DATA)
+                    {
+                        throw new Exception("Existing log download already in progress.");
+                    }
                 }
             }
         }
