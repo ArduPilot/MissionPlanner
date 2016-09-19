@@ -2252,10 +2252,13 @@ namespace MissionPlanner.Log
 
                     if (index_status < 0)
                         ret = false;
-
-                    int status = int.Parse(item.items[index_status], System.Globalization.CultureInfo.InvariantCulture);
-                    if (status < 3)
-                        ret = false;
+                    if (index_status > 0)
+                    {
+                        int status = int.Parse(item.items[index_status],
+                            System.Globalization.CultureInfo.InvariantCulture);
+                        if (status < 3)
+                            ret = false;
+                    }
                 }
                 else if (gpsline.StartsWith("POS"))
                 {
