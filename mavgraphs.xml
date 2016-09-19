@@ -54,6 +54,12 @@ Velocity comparison x
       Velocity comparison z
     </description>
   </graph>
+
+  <graph name='Position Innovations'>
+    <description>Position Innovations</description>
+    <expression>sqrt(NKF3.IPN**2+NKF3.IPE**2) sqrt(NKF8.IPN**2+NKF8.IPE**2)</expression>
+  </graph>
+
   <graph name="Speed/Ground vs Air Speed">
     <expression>VFR_HUD.groundspeed VFR_HUD.airspeed</expression>
     <expression>GPS.Spd ARSP.Airspeed</expression>
