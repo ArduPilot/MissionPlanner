@@ -5091,58 +5091,72 @@ namespace MissionPlanner.GCSViews
             DialogResult res = CustomMessageBox.Show("Ready ripp WP Path at Zoom = " + (int) MainMap.Zoom + " ?",
                 "GMap.NET", MessageBoxButtons.YesNo);
 
+            if (res != DialogResult.Yes)
+                return;
+
             fetchpathrip = true;
 
-            foreach (var pnt in pointlist)
+            // zoom
+            for (int i = 1; i <= MainMap.MaxZoom; i++)
             {
-                if (pnt == null)
-                    continue;
-
                 // exit if reqested
                 if (!fetchpathrip)
                     break;
 
-                // setup initial enviroment
-                if (lastpnt == null)
+                lastpnt = null;
+                // location
+                foreach (var pnt in pointlist)
                 {
-                    lastpnt = pnt;
-                    continue;
-                }
+                    if (pnt == null)
+                        continue;
 
-                RectLatLng area = new RectLatLng();
-                double top = Math.Max(lastpnt.Lat, pnt.Lat);
-                double left = Math.Min(lastpnt.Lng, pnt.Lng);
-                double bottom = Math.Min(lastpnt.Lat, pnt.Lat);
-                double right = Math.Max(lastpnt.Lng, pnt.Lng);
+                    // exit if reqested
+                    if (!fetchpathrip)
+                        break;
 
-                area.LocationTopLeft = new PointLatLng(top, left);
-                area.HeightLat = top - bottom;
-                area.WidthLng = right - left;
+                    // setup initial enviroment
+                    if (lastpnt == null)
+                    {
+                        lastpnt = pnt;
+                        continue;
+                    }
 
-                for (int i = 1; i <= MainMap.MaxZoom; i++)
-                {
+                    RectLatLng area = new RectLatLng();
+                    double top = Math.Max(lastpnt.Lat, pnt.Lat);
+                    double left = Math.Min(lastpnt.Lng, pnt.Lng);
+                    double bottom = Math.Min(lastpnt.Lat, pnt.Lat);
+                    double right = Math.Max(lastpnt.Lng, pnt.Lng);
+
+                    area.LocationTopLeft = new PointLatLng(top, left);
+                    area.HeightLat = top - bottom;
+                    area.WidthLng = right - left;
+
                     if (res == DialogResult.Yes)
                     {
                         TilePrefetcher obj = new TilePrefetcher();
                         obj.KeyDown += obj_KeyDown;
                         obj.ShowCompleteMessage = false;
                         obj.Start(area, i, MainMap.MapProvider, 100, 0);
-                    }
-                    else if (res == DialogResult.No)
-                    {
+
+                        if (obj.UserAborted)
+                        {
+                            fetchpathrip = false;
+                            break;
+                        }
                     }
                     else
                     {
                         break;
                     }
-                }
 
-                if (res == DialogResult.Cancel || res == DialogResult.None)
-                {
-                    break;
-                }
 
-                lastpnt = pnt;
+                    if (res == DialogResult.Cancel || res == DialogResult.None)
+                    {
+                        break;
+                    }
+
+                    lastpnt = pnt;
+                }
             }
         }
 
