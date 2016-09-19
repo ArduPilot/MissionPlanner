@@ -32,8 +32,7 @@ namespace AltitudeAngelWings.Service
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
-            FlightDataService flightDataService,
-            AltitudeAngelClient.Create aaClientFactory
+            FlightDataService flightDataService
             )
         {
             _messagesService = messagesService;
@@ -43,22 +42,14 @@ namespace AltitudeAngelWings.Service
             WeatherReport = new ObservableProperty<WeatherInfo>();
             SentTelemetry = new ObservableProperty<Unit>();
 
-            CreateClient(aaClientFactory);
+            CreateClient((url, apiUrl, state) =>
+                new AltitudeAngelClient(url, apiUrl, state,
+                    (authUrl, existingState) => new AltitudeAngelHttpHandlerFactory(authUrl, existingState)));
 
-            IObservable<Models.FlightData> armedAndSignedIn = _flightDataService
-                .FlightArmed
-                .Join(IsSignedIn,
-                    i => _flightDataService.FlightDisarmed,
-                    i => IsSignedIn.Where(s => !IsSignedIn),
-                    (flight, signedIn) => flight);
-
-            IObservable<Models.FlightData> disarmedAndSignedIn = _flightDataService
-                .FlightDisarmed
-                .Join(IsSignedIn,
-                    i => _flightDataService.FlightArmed,
-                    i => IsSignedIn.Where(s => !IsSignedIn),
-                    (flight, signedIn) => flight);
-
+            _disposer.Add(_missionPlanner.FlightDataMap
+                .MapChanged
+                .Throttle(TimeSpan.FromSeconds(1))
+                .SubscribeAsync(i => UpdateMapData(_missionPlanner.FlightDataMap)));
 
             TryConnect();
         }

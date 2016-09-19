@@ -941,5 +941,10 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private void but_AA_Click(object sender, EventArgs e)
+        {
+            Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+        }
     }
 }

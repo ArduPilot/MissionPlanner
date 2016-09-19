@@ -2570,12 +2570,12 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGNoFly);
 
-
             ThreadPool.QueueUserWorkItem(BGGetKIndex);
-
 
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
+
+            new Utilities.AltitudeAngel.AltitudeAngel();
 
             this.ResumeLayout();
 

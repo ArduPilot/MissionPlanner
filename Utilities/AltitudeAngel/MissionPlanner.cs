@@ -1,0 +1,45 @@
+using System;
+using AltitudeAngel.IsolatedPlugin.Common;
+using AltitudeAngel.IsolatedPlugin.Common.Maps;
+using AltitudeAngelWings.Models;
+using MissionPlanner.GCSViews;
+using FlightData = MissionPlanner.GCSViews.FlightData;
+
+namespace MissionPlanner.Utilities.AltitudeAngel
+{
+    class MissionPlanner : IMissionPlanner
+    {
+        public float LoopRateHz { get; set; }
+        public IMap FlightPlanningMap { get; set; }
+        public IMap FlightDataMap { get; set; }
+
+        public MissionPlanner()
+        {
+            FlightDataMap = new MapAdapter(FlightData.instance.gMapControl1);
+            FlightPlanningMap = new MapAdapter(FlightPlanner.instance.MainMap);
+        }
+
+        public void AddFlightMapMenuItem(string text, IPluginCommand pluginCommand)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SaveSetting(string key, string data)
+        {
+            Settings.Instance[key] = data;
+        }
+
+        public string LoadSetting(string key)
+        {
+            if (Settings.Instance.ContainsKey(key))
+                return Settings.Instance[key];
+
+            return null;
+        }
+
+        public void ClearSetting(string key)
+        {
+            Settings.Instance.Remove(key);
+        }
+    }
+}

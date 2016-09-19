@@ -336,6 +336,10 @@
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\AltitudeAngel\AltitudeAngel.cs" />
+    <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
+    <Compile Include="Utilities\AltitudeAngel\MissionPlanner.cs" />
+    <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
       <SubType>Component</SubType>

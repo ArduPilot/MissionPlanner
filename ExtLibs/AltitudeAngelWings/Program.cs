@@ -30,7 +30,7 @@ namespace AltitudeAngelWings
             var t2 = new MissionPlanner();
 
             AltitudeAngelService service = new AltitudeAngelService(t1, t2,
-                new FlightDataService(new ObservableProperty<long>(), new MissionPlannerFlightDataProvider(null)), AaClientFactory);
+                new FlightDataService(new ObservableProperty<long>(), new MissionPlannerFlightDataProvider(null)));
 
             //if (!service.IsSignedIn)
                 //service.SignInAsync();
