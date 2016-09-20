@@ -2575,7 +2575,14 @@ namespace MissionPlanner
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
-            new Utilities.AltitudeAngel.AltitudeAngel();
+            try
+            {
+                new Utilities.AltitudeAngel.AltitudeAngel();
+            }
+            catch (Exception ex)
+            {
+                Tracking.AddException(ex);
+            }
 
             this.ResumeLayout();
 

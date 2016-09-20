@@ -217,21 +217,33 @@ namespace AltitudeAngelWings.Service
             if (isSignedIn)
             {
                 _messagesService.AddMessageAsync("Loading map data...")
-                                .ContinueWith(async i =>
-                                {
-                                    await UpdateMapData(_missionPlanner.FlightDataMap);
-                                    await _messagesService.AddMessageAsync("Map data loaded");
-                                });
+                    .ContinueWith(async i =>
+                    {
+                        try
+                        {
+                            await UpdateMapData(_missionPlanner.FlightDataMap);
+                            await _messagesService.AddMessageAsync("Map data loaded");
+                        }
+                        catch
+                        {
+                        }
+                    });
 
                 // Should really move this to a manual trigger or on arm as the map might not be in the correct position
                 // And we only want to do it occasionally
                 _messagesService.AddMessageAsync("Loading weather info...")
-                                .ContinueWith(async i =>
-                                {
-                                    await UpdateWeatherData(_missionPlanner.FlightDataMap.GetCenter());
-                                    await _messagesService.AddMessageAsync("Weather loaded");
-                                    await _messagesService.AddMessageAsync(WeatherReport.Value.Summary);
-                                });
+                    .ContinueWith(async i =>
+                    {
+                        try
+                        {
+                            await UpdateWeatherData(_missionPlanner.FlightDataMap.GetCenter());
+                            await _messagesService.AddMessageAsync("Weather loaded");
+                            await _messagesService.AddMessageAsync(WeatherReport.Value.Summary);
+                        }
+                        catch
+                        {
+                        }
+                    });
             }
         }
 
