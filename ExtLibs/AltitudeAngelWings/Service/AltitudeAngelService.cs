@@ -49,7 +49,7 @@ namespace AltitudeAngelWings.Service
             _disposer.Add(_missionPlanner.FlightDataMap
                 .MapChanged
                 .Throttle(TimeSpan.FromSeconds(1))
-                .SubscribeAsync(i => UpdateMapData(_missionPlanner.FlightDataMap)));
+                .Subscribe(i => UpdateMapData(_missionPlanner.FlightDataMap)));
 
             TryConnect();
         }
