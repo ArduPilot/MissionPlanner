@@ -5693,6 +5693,9 @@ namespace MissionPlanner.GCSViews
                         {
                             string[] items = line.Split(new[] {' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
 
+                            if (items.Length < 2)
+                                continue;
+                            
                             drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
                             addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]),
                                 double.Parse(items[0]), 0);
