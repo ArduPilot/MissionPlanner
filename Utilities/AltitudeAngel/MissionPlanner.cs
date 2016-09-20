@@ -9,7 +9,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 {
     class MissionPlanner : IMissionPlanner
     {
-        public float LoopRateHz { get; set; }
         public IMap FlightPlanningMap { get; set; }
         public IMap FlightDataMap { get; set; }
 
@@ -17,11 +16,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             FlightDataMap = new MapAdapter(FlightData.instance.gMapControl1);
             FlightPlanningMap = new MapAdapter(FlightPlanner.instance.MainMap);
-        }
-
-        public void AddFlightMapMenuItem(string text, IPluginCommand pluginCommand)
-        {
-            throw new NotImplementedException();
         }
 
         public void SaveSetting(string key, string data)

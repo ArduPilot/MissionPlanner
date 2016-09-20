@@ -154,13 +154,10 @@
     <Compile Include="Extra\IMissionPlanner.cs" />
     <Compile Include="Extra\IMissionPlannerState.cs" />
     <Compile Include="Extra\IOverlay.cs" />
-    <Compile Include="Extra\IPluginCommand.cs" />
-    <Compile Include="MissionPlanner.cs" />
     <Compile Include="Models\FlightData.cs" />
     <Compile Include="Models\FlightDataPosition.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="ObservableProperty.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReactiveExtensions.cs" />
     <Compile Include="Service\AltitudeAngelService.cs" />
