@@ -1801,8 +1801,8 @@ namespace MissionPlanner.GCSViews
                         }
                         for (int a = 0; a < Commands.Rows.Count - 0; a++)
                         {
-                            byte mode =
-                                (byte)
+                            ushort mode =
+                                (ushort)
                                     (MAVLink.MAV_CMD)
                                         Enum.Parse(typeof (MAVLink.MAV_CMD), Commands.Rows[a].Cells[0].Value.ToString());
 
