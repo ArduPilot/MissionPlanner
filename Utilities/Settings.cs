@@ -229,15 +229,19 @@ namespace MissionPlanner.Utilities
             // check if oldpath config exists
             if (File.Exists(path))
             {
-                // move to new path
-                File.Move(path,newpath);
-
-                // copy other xmls as this will be first run
-                var files = Directory.GetFiles(directory, "*.xml", SearchOption.TopDirectoryOnly);
-
-                foreach (var file in files)
+                // is new path exists already, then dont do anything
+                if (!File.Exists(newpath))
                 {
-                    File.Copy(file, newdir + Path.GetFileName(file));
+                    // move to new path
+                    File.Move(path, newpath);
+
+                    // copy other xmls as this will be first run
+                    var files = Directory.GetFiles(directory, "*.xml", SearchOption.TopDirectoryOnly);
+
+                    foreach (var file in files)
+                    {
+                        File.Copy(file, newdir + Path.GetFileName(file));
+                    }
                 }
             }
 
