@@ -5088,16 +5088,23 @@ namespace MissionPlanner.GCSViews
         {
             PointLatLngAlt lastpnt = null;
 
-            DialogResult res = CustomMessageBox.Show("Ready ripp WP Path at Zoom = " + (int) MainMap.Zoom + " ?",
-                "GMap.NET", MessageBoxButtons.YesNo);
-
-            if (res != DialogResult.Yes)
+            string maxzoomstring = "20";
+            if(InputBox.Show("max zoom", "Enter the max zoom to prefetch to.", ref maxzoomstring) != DialogResult.OK)
                 return;
+
+            int maxzoom = 20;
+            if (!int.TryParse(maxzoomstring, out maxzoom))
+            {
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                return;
+            }
 
             fetchpathrip = true;
 
+            maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
+
             // zoom
-            for (int i = 1; i <= MainMap.MaxZoom; i++)
+            for (int i = 1; i <= maxzoom; i++)
             {
                 // exit if reqested
                 if (!fetchpathrip)
@@ -5131,27 +5138,15 @@ namespace MissionPlanner.GCSViews
                     area.HeightLat = top - bottom;
                     area.WidthLng = right - left;
 
-                    if (res == DialogResult.Yes)
-                    {
-                        TilePrefetcher obj = new TilePrefetcher();
-                        obj.KeyDown += obj_KeyDown;
-                        obj.ShowCompleteMessage = false;
-                        obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                    TilePrefetcher obj = new TilePrefetcher();
+                    ThemeManager.ApplyThemeTo(obj);
+                    obj.KeyDown += obj_KeyDown;
+                    obj.ShowCompleteMessage = false;
+                    obj.Start(area, i, MainMap.MapProvider, 0, 0);
 
-                        if (obj.UserAborted)
-                        {
-                            fetchpathrip = false;
-                            break;
-                        }
-                    }
-                    else
+                    if (obj.UserAborted)
                     {
-                        break;
-                    }
-
-
-                    if (res == DialogResult.Cancel || res == DialogResult.None)
-                    {
+                        fetchpathrip = false;
                         break;
                     }
 
@@ -5183,20 +5178,28 @@ namespace MissionPlanner.GCSViews
 
             if (!area.IsEmpty)
             {
-                DialogResult res = CustomMessageBox.Show("Ready ripp at Zoom = " + (int) MainMap.Zoom + " ?", "GMap.NET",
-                    MessageBoxButtons.YesNo);
+                string maxzoomstring = "20";
+                if (InputBox.Show("max zoom", "Enter the max zoom to prefetch to.", ref maxzoomstring) != DialogResult.OK)
+                    return;
 
-                if (res == DialogResult.Yes)
+                int maxzoom = 20;
+                if (!int.TryParse(maxzoomstring, out maxzoom))
                 {
-                    for (int i = 1; i <= MainMap.MaxZoom; i++)
-                    {
-                        TilePrefetcher obj = new TilePrefetcher();
-                        obj.ShowCompleteMessage = false;
-                        obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                    CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                    return;
+                }
 
-                        if (obj.UserAborted)
-                            break;
-                    }
+                maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
+
+                for (int i = 1; i <= MainMap.MaxZoom; i++)
+                {
+                    TilePrefetcher obj = new TilePrefetcher();
+                    ThemeManager.ApplyThemeTo(obj);
+                    obj.ShowCompleteMessage = false;
+                    obj.Start(area, i, MainMap.MapProvider, 0, 0);
+
+                    if (obj.UserAborted)
+                        break;
                 }
             }
             else
