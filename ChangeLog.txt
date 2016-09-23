@@ -1,4 +1,42 @@
-﻿* Mission Planner 1.3.40 - 17-9-2016
+﻿* Mission Planner 1.3.41 - 23-9-2016
+NOTE: this is a bug fix build
+FlightData: handle log analyzer xml exception
+CurrentState: add GeoFenceDistance #1361
+SikRadio: prevent exception on bad aes key
+FlightPlanner: prevent exception on UTM conversion for bad input lat/lngs
+FlightData: add larger thread start delay
+AssemblyInfo: use auto Versions #1363
+Settings: fix GetConfigFullPath for multiple installs #1365
+FlightPlanner: ask for max zoom on prefetch #1362
+FlightPlanner: Fix wp file mav_cmd size
+ConfigHWCompass: use param doc for fitness dropdown
+FlightPlanner: check polygon file line is valid
+MainV2: add kb reference for xp users
+mavgraph: add position innovations
+CheckListItem: null returns 0
+LogBrowse: fix gps status check
+CheckListItem: handle non iConvertable items
+AltitudeAngel: add initial support
+FlightPlanner: Improve precache FetchPath #1362
+Camera: add sony a7r2
+MAVLinkInterface: check existing log download
+Firmware: dont try download if not full url
+LogDownloadMavlink: isdisposed check
+solo: add initial library
+ConfigRawParam: add case with both are enabled
+MAVLinkInterface: change exception to TimeoutException where relevant
+FlightData: add pointcamerahere exception check
+MainSwitcher: add null check on dispose
+Program: remove NGEN
+tfr: remove debug
+ParamaterMetaDataBackup: update stable
+LogMap: better handle logs without FMT
+GridUI/2: fix file paths
+ConfigHWCompass: add cal_fit options #1355
+POI: check marker type before delete
+SITL: check if sitl image exists before starting
+
+* Mission Planner 1.3.40 - 17-9-2016
 NOTE: the default config directory is now in MyDocuments\Mission Planner.
 this includes all log files, excluding existing installs, where the log path has been changed.
 This means any precached maps will need to be refreshed.

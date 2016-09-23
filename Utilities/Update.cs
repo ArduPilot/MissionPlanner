@@ -281,6 +281,9 @@ namespace MissionPlanner.Utilities
 
                             string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
+                            subdir = subdir.Replace(""+Path.DirectorySeparatorChar + Path.DirectorySeparatorChar,
+                                ""+Path.DirectorySeparatorChar);
+
                             GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
                                 Path.GetFileName(file));
 
