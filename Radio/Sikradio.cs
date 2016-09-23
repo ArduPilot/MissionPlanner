@@ -1286,7 +1286,8 @@ red LED solid - in firmware update mode");
             string item = txt_aeskey.Text;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
-                txt_aeskey.Text = item.Remove(item.Length - 1, 1);
+                if(item.Length != 0)
+                    txt_aeskey.Text = item.Remove(item.Length - 1, 1);
                 txt_aeskey.SelectionStart = txt_aeskey.Text.Length;
             }
         }
