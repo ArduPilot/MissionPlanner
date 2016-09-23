@@ -857,7 +857,7 @@ namespace MissionPlanner.GCSViews
             double timeerror = 0;
 
             while (!IsHandleCreated)
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
 
             while (threadrun)
             {
