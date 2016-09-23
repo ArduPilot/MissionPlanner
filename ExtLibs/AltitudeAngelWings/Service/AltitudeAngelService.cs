@@ -238,7 +238,6 @@ namespace AltitudeAngelWings.Service
                         {
                             await UpdateWeatherData(_missionPlanner.FlightDataMap.GetCenter());
                             await _messagesService.AddMessageAsync("Weather loaded");
-                            await _messagesService.AddMessageAsync(WeatherReport.Value.Summary);
                         }
                         catch
                         {
