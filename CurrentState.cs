@@ -8,6 +8,7 @@ using log4net;
 using MissionPlanner.Attributes;
 using MissionPlanner;
 using System.Collections;
+using System.Linq;
 using DirectShowLib;
 
 namespace MissionPlanner
@@ -704,6 +705,73 @@ namespace MissionPlanner
         public PointLatLngAlt Location
         {
             get { return new PointLatLngAlt(lat, lng, altasl); }
+        }
+
+        public float GeoFenceDist
+        {
+            get
+            {
+                try
+                {
+                    float disttotal = 99999;
+                    PointLatLngAlt lineStartLatLngAlt = null;
+                    var R = 6371e3;
+                    // close loop
+                    var list = MainV2.comPort.MAV.fencepoints.ToList();
+                    if (list.Count > 0)
+                    {
+                        // remove return location
+                        list.RemoveAt(0);
+                    }
+
+                    // check all segments
+                    foreach (var mavlinkFencePointT in list)
+                    {
+                        if (lineStartLatLngAlt == null)
+                        {
+                            lineStartLatLngAlt = new PointLatLngAlt(mavlinkFencePointT.Value.lat,
+                                mavlinkFencePointT.Value.lng);
+                            continue;
+                        }
+
+                        // crosstrack distance
+                        var lineEndLatLngAlt = new PointLatLngAlt(mavlinkFencePointT.Value.lat, mavlinkFencePointT.Value.lng);
+
+                        var lineDist = lineStartLatLngAlt.GetDistance2(lineEndLatLngAlt);
+
+                        var distToLocation = lineStartLatLngAlt.GetDistance2(Location);
+                        var bearToLocation = lineStartLatLngAlt.GetBearing(Location);
+                        var lineBear = lineStartLatLngAlt.GetBearing(lineEndLatLngAlt);
+
+                        var angle = bearToLocation - lineBear;
+                        if (angle < 0)
+                            angle += 360;
+
+                        var alongline = Math.Cos(angle*deg2rad)*distToLocation;
+
+                        // check to see if our point is still within the line length
+                        if (alongline > lineDist)
+                        {
+                            lineStartLatLngAlt = lineEndLatLngAlt;
+                            continue;
+                        }
+
+                        var dXt2 = Math.Sin(angle*deg2rad)*distToLocation;
+
+                        var dXt = Math.Asin(Math.Sin(distToLocation/R)*Math.Sin(angle*deg2rad))*R;
+
+                        disttotal = (float) Math.Min(disttotal, Math.Abs(dXt2));
+
+                        lineStartLatLngAlt = lineEndLatLngAlt;
+                    }
+
+                    return disttotal;
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
         }
 
         [DisplayText("Distance to Home (dist)")]
