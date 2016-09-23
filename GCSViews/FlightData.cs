@@ -3907,11 +3907,18 @@ namespace MissionPlanner.GCSViews
 
                     if (File.Exists(xmlfile))
                     {
-                        var out1 = LogAnalyzer.Results(xmlfile);
+                        try
+                        {
+                            var out1 = LogAnalyzer.Results(xmlfile);
 
-                        Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+                            Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
 
-                        frm.Show();
+                            frm.Show();
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show("Failed to load analyzer results\n"+ex.ToString());
+                        }
                     }
                     else
                     {
