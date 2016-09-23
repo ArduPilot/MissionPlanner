@@ -317,7 +317,7 @@ namespace MissionPlanner.GCSViews
             Commands.EndEdit();
         }
 
-        void convertFromGeographic(double lat, double lng)
+        private void convertFromGeographic(double lat, double lng)
         {
             if (lat == 0 && lng == 0)
             {
@@ -325,8 +325,9 @@ namespace MissionPlanner.GCSViews
             }
 
             // always update other systems, incase user switchs while planning
-            //if (coordZone.Visible)
+            try
             {
+                //UTM
                 var temp = new PointLatLngAlt(lat, lng);
                 int zone = temp.GetUTMZone();
                 var temp2 = temp.ToUTM();
@@ -334,10 +335,18 @@ namespace MissionPlanner.GCSViews
                 Commands[coordEasting.Index, selectedrow].Value = temp2[0].ToString("0.000");
                 Commands[coordNorthing.Index, selectedrow].Value = temp2[1].ToString("0.000");
             }
-
-            //if (MGRS.Visible)
+            catch (Exception ex)
             {
-                Commands[MGRS.Index, selectedrow].Value = ((MGRS)new Geographic(lng, lat)).ToString();
+                log.Error(ex);
+            }
+            try
+            {
+                //MGRS
+                Commands[MGRS.Index, selectedrow].Value = ((MGRS) new Geographic(lng, lat)).ToString();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
             }
         }
 
