@@ -15,17 +15,20 @@ namespace MissionPlanner.Mavlink
 
         private Dictionary<int, MAVState> hiddenlist = new Dictionary<int, MAVState>();
 
-        public MAVList()
+        public MAVLinkInterface parent;
+
+        public MAVList(MAVLinkInterface mavLinkInterface)
         {
+            parent = mavLinkInterface;
             // add blank item
-            hiddenlist.Add(0,new MAVState());
+            hiddenlist.Add(0,new MAVState(parent));
         }
 
         public void AddHiddenList(byte sysid, byte compid)
         {
             int id = GetID((byte)sysid, (byte)compid);
 
-            hiddenlist[id] = new MAVState() { sysid = sysid, compid = compid };
+            hiddenlist[id] = new MAVState(parent) { sysid = sysid, compid = compid };
         }
 
         public MAVState this[int sysid, int compid]
@@ -39,7 +42,7 @@ namespace MissionPlanner.Mavlink
                     return hiddenlist[id];
 
                 if (!masterlist.ContainsKey(id))
-                    return new MAVState();
+                    return new MAVState(parent);
 
                 return masterlist[id];
             }
@@ -98,7 +101,7 @@ namespace MissionPlanner.Mavlink
             }
 
             if (!masterlist.ContainsKey(id))
-                masterlist[id] = new MAVState();
+                masterlist[id] = new MAVState(parent);
         }
 
         public IEnumerator<MAVState> GetEnumerator()

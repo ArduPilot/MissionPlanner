@@ -121,7 +121,7 @@ namespace MissionPlanner
             }
         }
 
-        public MAVList MAVlist = new MAVList();
+        public MAVList MAVlist;
 
         public MAVState MAV
         {
@@ -232,6 +232,7 @@ namespace MissionPlanner
         public MAVLinkInterface()
         {
             // init fields
+            MAVlist = new MAVList(this);
             this.BaseStream = new SerialPort();
             this.packetcount = 0;
             this._bytesReceivedSubj = new Subject<int>();
@@ -622,6 +623,11 @@ Please check the following
             {
                 log.Info("Mavlink : NOT VALID PACKET sendPacket() " + indata.GetType().ToString());
             }
+        }
+
+        private void generatePacket(MAVLINK_MSG_ID messageType, object indata)
+        {
+            generatePacket((int)messageType, indata);
         }
 
         void generatePacket(int messageType, object indata)
@@ -2845,6 +2851,41 @@ Please check the following
             }
 
             giveComport = false;
+        }
+
+        public void setPositionTargetGlobalInt(bool pos,bool vel, bool acc, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz)
+        {
+            // for mavlink SET_POSITION_TARGET messages
+            const ushort MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE = ((1 << 0) | (1 << 1) | (1 << 2));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE = ((1 << 3) | (1 << 4) | (1 << 5));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE = ((1 << 6) | (1 << 7) | (1 << 8));
+
+            mavlink_set_position_target_global_int_t target = new mavlink_set_position_target_global_int_t()
+            {
+                target_system = (byte)sysidcurrent,
+                target_component = (byte)compidcurrent,
+                alt = (float) alt,
+                lat_int = (int) (lat*1e7),
+                lon_int = (int) (lng*1e7),
+                coordinate_frame = (byte) frame,
+                vx = (float) vx,
+                vy = (float) vy,
+                vz = (float) vz
+            };
+
+            if (pos)
+                target.type_mask += 7;
+            if (vel)
+                target.type_mask += 56;
+            if (acc)
+                target.type_mask += 448;
+
+            generatePacket(MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT, target);
+        }
+
+        public void setAttitudeTarget()
+        {
+            mavlink_set_attitude_target_t target = new mavlink_set_attitude_target_t();
         }
 
         public void setDigicamConfigure()

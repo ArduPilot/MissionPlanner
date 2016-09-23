@@ -15,8 +15,11 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public MAVState()
+        public MAVLinkInterface parent;
+
+        public MAVState(MAVLinkInterface mavLinkInterface)
         {
+            this.parent = mavLinkInterface;
             this.packetspersecond = new double[0x100];
             this.packetspersecondbuild = new DateTime[0x100];
             this.lastvalidpacket = DateTime.MinValue;
