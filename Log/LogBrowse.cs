@@ -973,8 +973,8 @@ namespace MissionPlanner.Log
             foreach (var curve in zg1.GraphPane.CurveList)
             {
                 // its already on the graph, abort
-                if (curve.Label.Text.Equals(nodeName) ||
-                    curve.Label.Text.Equals(nodeName + " R"))
+                if (curve.Label.Text.StartsWith(nodeName+" (") ||
+                    curve.Label.Text.StartsWith(nodeName + " R ("))
                     return;
             }
 
