@@ -641,7 +641,7 @@ Please check the following
         /// </summary>
         /// <param name="messageType">type number = MAVLINK_MSG_ID</param>
         /// <param name="indata">struct of data</param>
-        void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
+        internal void generatePacket(int messageType, object indata, int sysid, int compid, bool forcemavlink2 = false, bool forcesigning = false)
         {
             if (!BaseStream.IsOpen)
             {
@@ -1625,7 +1625,12 @@ Please check the following
 
         public bool doARM(bool armit)
         {
-            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 21196, 0, 0, 0, 0, 0);
+            return doARM(MAV.sysid, MAV.compid, armit);
+        }
+
+        public bool doARM(byte sysid,byte compid,bool armit)
+        {
+            return doCommand(sysid, compid, MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 21196, 0, 0, 0, 0, 0);
         }
 
         public bool doAbortLand()
@@ -1639,15 +1644,21 @@ Please check the following
                 (float) throttle, (float) timeout, (float) motorcount, 0, 0);
         }
 
-        public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true)
+        public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7,
+            bool requireack = true)
+        {
+            return doCommand(MAV.sysid, MAV.compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack);
+        }
+
+        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true)
         {
             giveComport = true;
             MAVLinkMessage buffer;
 
             mavlink_command_long_t req = new mavlink_command_long_t();
 
-                req.target_system = MAV.sysid;
-                req.target_component = MAV.compid;
+                req.target_system = sysid;
+                req.target_component = compid;
 
             req.command = (ushort) actionid;
 
@@ -1662,7 +1673,7 @@ Please check the following
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}", actionid.ToString(), p1, p2, p3, p4, p5, p6,
                 p7);
 
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
+            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
 
             if (!requireack)
             {
@@ -1691,7 +1702,7 @@ Please check the following
             }
             else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
             {
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                 giveComport = false;
                 return true;
             }
@@ -1704,7 +1715,7 @@ Please check the following
             {
                 // compassmot
                 // send again just incase
-                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
+                generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                 giveComport = false;
                 return true;
             }
@@ -1730,7 +1741,7 @@ Please check the following
                     if (retrys > 0)
                     {
                         log.Info("doCommand Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req);
+                        generatePacket((byte) MAVLINK_MSG_ID.COMMAND_LONG, req, sysid, compid);
                         start = DateTime.Now;
                         retrys--;
                         continue;
@@ -1742,7 +1753,7 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
@@ -2853,7 +2864,7 @@ Please check the following
             giveComport = false;
         }
 
-        public void setPositionTargetGlobalInt(bool pos,bool vel, bool acc, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz)
+        public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz)
         {
             // for mavlink SET_POSITION_TARGET messages
             const ushort MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE = ((1 << 0) | (1 << 1) | (1 << 2));
@@ -2862,8 +2873,8 @@ Please check the following
 
             mavlink_set_position_target_global_int_t target = new mavlink_set_position_target_global_int_t()
             {
-                target_system = (byte)sysidcurrent,
-                target_component = (byte)compidcurrent,
+                target_system = sysid,
+                target_component = compid,
                 alt = (float) alt,
                 lat_int = (int) (lat*1e7),
                 lon_int = (int) (lng*1e7),
@@ -2873,19 +2884,30 @@ Please check the following
                 vz = (float) vz
             };
 
-            if (pos)
-                target.type_mask += 7;
-            if (vel)
-                target.type_mask += 56;
-            if (acc)
-                target.type_mask += 448;
+            target.type_mask = 7 + 56 + 448;
 
-            generatePacket(MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT, target);
+            if (pos)
+                target.type_mask -= 7;
+            if (vel)
+                target.type_mask -= 56;
+            if (acc)
+                target.type_mask -= 448;
+
+            bool pos_ignore = (target.type_mask & MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE)>0;
+            bool vel_ignore = (target.type_mask & MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE)>0;
+            bool acc_ignore = (target.type_mask & MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE)>0;
+
+            generatePacket((byte)MAVLINK_MSG_ID.SET_POSITION_TARGET_GLOBAL_INT, target, sysid, compid);
         }
 
         public void setAttitudeTarget()
         {
-            mavlink_set_attitude_target_t target = new mavlink_set_attitude_target_t();
+            mavlink_set_attitude_target_t target = new mavlink_set_attitude_target_t()
+            {
+                target_system = (byte)sysidcurrent,
+                target_component = (byte)compidcurrent
+                
+            };
         }
 
         public void setDigicamConfigure()
@@ -2952,13 +2974,18 @@ Please check the following
 
         public void setMode(string modein)
         {
+            setMode(MAV.sysid, MAV.compid, modein);
+        }
+
+        public void setMode(byte sysid, byte compid, string modein)
+        {
             try
             {
                 MAVLink.mavlink_set_mode_t mode = new MAVLink.mavlink_set_mode_t();
 
-                if (translateMode(modein, ref mode))
+                if (translateMode(sysid, compid, modein, ref mode))
                 {
-                    setMode(mode);
+                    setMode(sysid, compid, mode);
                 }
             }
             catch
@@ -2969,11 +2996,16 @@ Please check the following
 
         public void setMode(mavlink_set_mode_t mode, MAV_MODE_FLAG base_mode = 0)
         {
+            setMode(MAV.sysid, MAV.compid, mode, base_mode);
+        }
+
+        public void setMode(byte sysid, byte compid, mavlink_set_mode_t mode, MAV_MODE_FLAG base_mode = 0)
+        {
             mode.base_mode |= (byte) base_mode;
 
-            generatePacket((byte) (byte) MAVLink.MAVLINK_MSG_ID.SET_MODE, mode);
+            generatePacket((byte) (byte) MAVLink.MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
             System.Threading.Thread.Sleep(10);
-            generatePacket((byte) (byte) MAVLink.MAVLINK_MSG_ID.SET_MODE, mode);
+            generatePacket((byte) (byte) MAVLink.MAVLINK_MSG_ID.SET_MODE, mode, sysid, compid);
         }
 
         /// <summary>
@@ -4499,7 +4531,12 @@ Please check the following
 
         public bool translateMode(string modein, ref MAVLink.mavlink_set_mode_t mode)
         {
-            mode.target_system = MAV.sysid;
+            return translateMode(MAV.sysid, MAV.compid, modein, ref mode);
+        }
+
+        public bool translateMode(byte sysid,byte compid, string modein, ref MAVLink.mavlink_set_mode_t mode)
+        {
+            mode.target_system = sysid;
 
             if (modein == null || modein == "")
                 return false;
