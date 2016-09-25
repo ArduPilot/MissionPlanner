@@ -11,6 +11,7 @@ using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using MissionPlanner.Controls;
@@ -861,13 +862,17 @@ namespace MissionPlanner.Log
             Color.Red,
             Color.Green,
             Color.Blue,
-            Color.Pink,
-            Color.Yellow,
             Color.Orange,
+            Color.Yellow,
             Color.Violet,
-            Color.Wheat,
+            Color.Pink,
             Color.Teal,
-            Color.Silver
+            Color.Wheat,
+            Color.Silver,
+            Color.Purple,
+            Color.Aqua,
+            Color.Brown,
+            Color.WhiteSmoke
         };
 
         public void CreateChart(ZedGraphControl zgc)
@@ -1116,6 +1121,23 @@ namespace MissionPlanner.Log
                 GraphItem_AddCurve(list1, type, fieldname, left);
             });
         }
+
+        Color pickColour()
+        {
+            List<Color> notused = new List<Color>();
+            notused.AddRange(colours);
+
+            foreach (var curve in zg1.GraphPane.CurveList)
+            {
+                notused.Remove(curve.Color);
+            }
+
+            if (notused.Count > 0)
+                return notused.First();
+
+            // failback to old method
+            return colours[zg1.GraphPane.CurveList.Count%colours.Length];
+        }
         
         void GraphItem_AddCurve(PointPairList list1,string type, string header, bool left)
         {
@@ -1128,7 +1150,7 @@ namespace MissionPlanner.Log
             LineItem myCurve;
 
             myCurve = zg1.GraphPane.AddCurve(type + "." + header, list1,
-                colours[zg1.GraphPane.CurveList.Count%colours.Length], SymbolType.None);
+                pickColour(), SymbolType.None);
 
             leftorrightaxis(left, myCurve);
 
@@ -1993,7 +2015,9 @@ namespace MissionPlanner.Log
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
                         if (item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " ") ||
-                            item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " R "))
+                            item.Label.Text.StartsWith(e.Node.Parent.Text + "." + e.Node.Text + " R ") ||
+                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text) ||
+                            item.Label.Text.Equals(e.Node.Parent.Text + "." + e.Node.Text + " R"))
                         {
                             removeitems.Add(item);
                             //break;
