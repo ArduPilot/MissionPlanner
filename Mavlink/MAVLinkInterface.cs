@@ -1941,10 +1941,9 @@ Please check the following
                 return;
             }
 
-
             log.InfoFormat("Request stream {0} at {1} hz for {2}:{3}",
                 Enum.Parse(typeof (MAV_DATA_STREAM), id.ToString()), hzrate, sysid, compid);
-            getDatastream(id, hzrate);
+            getDatastream((byte)sysid, (byte)compid, id, hzrate);
         }
 
         // returns true for ok
@@ -1978,19 +1977,24 @@ Please check the following
             return false;
         }
 
-        void getDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
+        private void getDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
+        {
+            getDatastream(MAV.sysid, MAV.compid, id, hzrate);
+        }
+
+        private void getDatastream(byte sysid, byte compid, MAVLink.MAV_DATA_STREAM id, byte hzrate)
         {
             mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
 
             req.req_message_rate = hzrate;
             req.start_stop = 1; // start
             req.req_stream_id = (byte) id; // id
 
             // send each one twice.
-            generatePacket((byte) MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req);
-            generatePacket((byte) MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req);
+            generatePacket((byte) MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req, sysid, compid);
+            generatePacket((byte) MAVLINK_MSG_ID.REQUEST_DATA_STREAM, req, sysid, compid);
         }
 
         /// <summary>
