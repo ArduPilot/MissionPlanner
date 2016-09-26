@@ -113,8 +113,7 @@
             // 
             // Terminal
             // 
-            resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.CMB_boardtype);
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectAPM);
@@ -125,6 +124,7 @@
             this.Controls.Add(this.BUTsetupshow);
             this.Controls.Add(this.TXT_terminal);
             this.Name = "Terminal";
+            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Terminal_FormClosing);
             this.Load += new System.EventHandler(this.Terminal_Load);
             this.ResumeLayout(false);
