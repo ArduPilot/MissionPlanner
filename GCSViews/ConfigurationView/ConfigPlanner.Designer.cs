@@ -86,7 +86,6 @@
             this.BUT_themecustom = new MissionPlanner.Controls.MyButton();
             this.CHK_speecharmdisarm = new System.Windows.Forms.CheckBox();
             this.BUT_Vario = new MissionPlanner.Controls.MyButton();
-            this.label5 = new System.Windows.Forms.Label();
             this.chk_analytics = new System.Windows.Forms.CheckBox();
             this.CHK_beta = new System.Windows.Forms.CheckBox();
             this.CHK_Password = new System.Windows.Forms.CheckBox();
@@ -97,6 +96,7 @@
             this.chk_tfr = new System.Windows.Forms.CheckBox();
             this.chk_temp = new System.Windows.Forms.CheckBox();
             this.chk_norcreceiver = new System.Windows.Forms.CheckBox();
+            this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -551,11 +551,6 @@
             this.BUT_Vario.UseVisualStyleBackColor = true;
             this.BUT_Vario.Click += new System.EventHandler(this.BUT_Vario_Click);
             // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
             // chk_analytics
             // 
             resources.ApplyResources(this.chk_analytics, "chk_analytics");
@@ -630,10 +625,18 @@
             this.chk_norcreceiver.UseVisualStyleBackColor = true;
             this.chk_norcreceiver.CheckedChanged += new System.EventHandler(this.chk_norcreceiver_CheckedChanged);
             // 
+            // but_AAsignin
+            // 
+            resources.ApplyResources(this.but_AAsignin, "but_AAsignin");
+            this.but_AAsignin.Name = "but_AAsignin";
+            this.but_AAsignin.UseVisualStyleBackColor = true;
+            this.but_AAsignin.Click += new System.EventHandler(this.but_AAsignin_Click);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.but_AAsignin);
             this.Controls.Add(this.chk_norcreceiver);
             this.Controls.Add(this.chk_temp);
             this.Controls.Add(this.chk_tfr);
@@ -644,7 +647,6 @@
             this.Controls.Add(this.CHK_Password);
             this.Controls.Add(this.CHK_beta);
             this.Controls.Add(this.chk_analytics);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.BUT_Vario);
             this.Controls.Add(this.CHK_speecharmdisarm);
             this.Controls.Add(this.BUT_themecustom);
@@ -769,7 +771,6 @@
         private Controls.MyButton BUT_themecustom;
         private System.Windows.Forms.CheckBox CHK_speecharmdisarm;
         private Controls.MyButton BUT_Vario;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chk_analytics;
         private System.Windows.Forms.CheckBox CHK_beta;
         private System.Windows.Forms.CheckBox CHK_Password;
@@ -780,5 +781,6 @@
         private System.Windows.Forms.CheckBox chk_tfr;
         private System.Windows.Forms.CheckBox chk_temp;
         private System.Windows.Forms.CheckBox chk_norcreceiver;
+        private Controls.MyButton but_AAsignin;
     }
 }

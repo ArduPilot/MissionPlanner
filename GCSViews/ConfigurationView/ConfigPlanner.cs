@@ -867,5 +867,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Settings.Instance["norcreceiver"] = chk_norcreceiver.Checked.ToString();
         }
+
+        private void but_AAsignin_Click(object sender, EventArgs e)
+        {
+            Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+        }
     }
 }

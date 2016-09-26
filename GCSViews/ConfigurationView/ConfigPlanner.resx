@@ -1556,7 +1556,7 @@
     <value>BUT_Joystick</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1583,7 +1583,7 @@
     <value>BUT_videostop</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1610,7 +1610,7 @@
     <value>BUT_videostart</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1688,7 +1688,7 @@
     <value>BUT_logdirbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1763,7 +1763,7 @@
     <value>BUT_themecustom</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1823,43 +1823,13 @@
     <value>BUT_Vario</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.ZOrder" xml:space="preserve">
     <value>11</value>
-  </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 421</value>
-  </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
-    <value>101</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Vario</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>10</value>
   </data>
   <data name="chk_analytics.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1889,7 +1859,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_analytics.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="CHK_beta.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1919,7 +1889,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_beta.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CHK_Password.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1949,7 +1919,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_Password.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="CHK_speechlowspeed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1982,7 +1952,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechlowspeed.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CHK_advancedview.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2012,7 +1982,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_advancedview.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CHK_showairports.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2042,7 +2012,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_showairports.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="chk_ADSB.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2072,7 +2042,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_ADSB.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chk_tfr.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2102,7 +2072,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_tfr.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="chk_temp.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -2132,7 +2102,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_temp.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="chk_norcreceiver.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2162,6 +2132,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_norcreceiver.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="but_AAsignin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_AAsignin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>229, 421</value>
+  </data>
+  <data name="but_AAsignin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 20</value>
+  </data>
+  <data name="but_AAsignin.TabIndex" type="System.Int32, mscorlib">
+    <value>112</value>
+  </data>
+  <data name="but_AAsignin.Text" xml:space="preserve">
+    <value>AltitudeAngel Signin</value>
+  </data>
+  <data name="&gt;&gt;but_AAsignin.Name" xml:space="preserve">
+    <value>but_AAsignin</value>
+  </data>
+  <data name="&gt;&gt;but_AAsignin.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_AAsignin.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_AAsignin.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
