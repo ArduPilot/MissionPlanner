@@ -1757,7 +1757,7 @@ Please check the following
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
-                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, ack.result);
+                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
                         {
@@ -2446,11 +2446,16 @@ Please check the following
             }
         }
 
+        public void InjectGpsData(byte[] data, byte length)
+        {
+            InjectGpsData(MAV.sysid, MAV.compid, data, length);
+        }
+
         /// <summary>
         /// used to inject data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
-        public void InjectGpsData(byte[] data, byte length)
+        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length)
         {
             // new message
             if (false)
@@ -2472,7 +2477,7 @@ Please check the following
                     if (a < (len - 1))
                         gps.flags = 1;
 
-                    generatePacket((byte)MAVLINK_MSG_ID.GPS_RTCM_DATA, gps);
+                    generatePacket((byte) MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
                 }
             }
             else
@@ -2490,10 +2495,10 @@ Please check the following
 
                     Array.Copy(data, a*msglen, gps.data, 0, copy);
                     gps.len = (byte) copy;
-                    gps.target_component = MAV.compid;
-                    gps.target_system = MAV.sysid;
+                    gps.target_component = compid;
+                    gps.target_system = sysid;
 
-                    generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+                    generatePacket((byte) MAVLINK_MSG_ID.GPS_INJECT_DATA, gps, sysid, compid);
                 }
             }
         }
@@ -4547,7 +4552,7 @@ Please check the following
 
             try
             {
-                List<KeyValuePair<int, string>> modelist = Common.getModesList(MAV.cs);
+                List<KeyValuePair<int, string>> modelist = Common.getModesList(MAVlist[sysid,compid].cs);
 
                 foreach (KeyValuePair<int, string> pair in modelist)
                 {
