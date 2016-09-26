@@ -41,7 +41,7 @@ namespace MissionPlanner.Plugin
 
         public static void Load(String file)
         {
-            if (!File.Exists(file) || !file.EndsWith(".dll", true, null))
+            if (!File.Exists(file) || !file.EndsWith(".dll", true, null) || file.ToLower().Contains("microsoft."))
                 return;
 
             AppDomain currentDomain = AppDomain.CurrentDomain;
