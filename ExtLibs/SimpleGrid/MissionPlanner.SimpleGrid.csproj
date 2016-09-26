@@ -102,7 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SimpleGrid.cs" />
+    <Compile Include="..\Grid\Grid.cs">
+      <Link>Grid.cs</Link>
+    </Compile>
     <Compile Include="SimpleGridUI.cs">
       <SubType>Form</SubType>
     </Compile>

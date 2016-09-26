@@ -289,6 +289,7 @@ namespace MissionPlanner
             if (grid.Count == 0)
                 return ans;
 
+            // pick start positon based on initial point rectangle
             utmpos startposutm;
 
             switch (startpos)
@@ -313,6 +314,9 @@ namespace MissionPlanner
                     startposutm = new utmpos(StartPointLatLngAlt);
                     break;
             }
+
+            // find the closes polygon point based from our startpos selection
+            startposutm = findClosestPoint(startposutm, utmpositions);
 
             // find closest line point to startpos
             linelatlng closest = findClosestLine(startposutm, grid, 0 /*Lane separation does not apply to starting point*/, angle);

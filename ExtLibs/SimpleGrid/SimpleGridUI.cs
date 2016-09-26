@@ -140,7 +140,12 @@ namespace MissionPlanner.SimpleGrid
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
-            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
+            Grid.Host2 = plugin.Host;
+            
+            grid = Grid.CreateGrid(list, (double) NUM_altitude.Value, (double) NUM_Distance.Value,
+                (double) NUM_spacing.Value, (double) NUM_angle.Value, (double) NUM_overshoot.Value,
+                (double) NUM_overshoot2.Value,
+                (Grid.StartPosition) Enum.Parse(typeof (Grid.StartPosition), CMB_startfrom.Text), false, 0);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -174,11 +179,18 @@ namespace MissionPlanner.SimpleGrid
                 }
                 else
                 {
-                    strips++;
-                    if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                    if (item.Tag == "S" || item.Tag == "E")
+                    {
+                        strips++;
+                        if (chk_markers.Checked)
+                            layerpolygons.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green)
+                            {
+                                ToolTipText = a.ToString(),
+                                ToolTipMode = MarkerTooltipMode.Always
+                            });
 
-                    a++;
+                        a++;
+                    }
                 }
                 prevpoint = item;
             }
