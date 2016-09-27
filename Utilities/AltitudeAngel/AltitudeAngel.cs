@@ -13,7 +13,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 {
     public class AltitudeAngel
     {
-        private static MissionPlanner MP = new MissionPlanner();
+        private static MissionPlannerAdaptor MP = new MissionPlannerAdaptor();
         private static MessagesService Message = new MessagesService();
 
         public static AltitudeAngelService service = null;
@@ -21,7 +21,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         static AltitudeAngel()
         {
             service = new AltitudeAngelService(Message, MP,
-                new FlightDataService(new ObservableProperty<long>(), new MissionPlannerFlightDataProvider(null)));
+                new FlightDataService(new ObservableProperty<long>(3), new MissionPlannerFlightDataProvider(null)));
         }
     }
 }

@@ -870,7 +870,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void but_AAsignin_Click(object sender, EventArgs e)
         {
-            Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+            new Utilities.AltitudeAngel.AASettings().Show(this);
         }
     }
 }

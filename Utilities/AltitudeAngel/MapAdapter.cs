@@ -43,12 +43,23 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                 .Merge(mapZoom)
                 .ObserveOn(ThreadPoolScheduler.Instance);
 
+            mapControl.OnMapDrag += MapControl_OnMapDrag;
             mapControl.OnPolygonClick += Control_OnPolygonClick;
+        }
+
+        DateTime lastmapdrag = DateTime.MinValue;
+
+        private void MapControl_OnMapDrag()
+        {
+            lastmapdrag = DateTime.Now;
         }
 
         private void Control_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
+                return;
+
+            if (item.Overlay.Control.IsDragging)
                 return;
 
             if (_mapControl.Overlays.First(x => x.Polygons.Any(i => i.Name == item.Name)) != null)

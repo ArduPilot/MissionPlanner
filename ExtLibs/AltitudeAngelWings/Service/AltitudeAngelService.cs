@@ -10,6 +10,7 @@ using AltitudeAngel.IsolatedPlugin.Common;
 using AltitudeAngel.IsolatedPlugin.Common.Maps;
 using AltitudeAngelWings.ApiClient.Client;
 using AltitudeAngelWings.ApiClient.Models;
+using AltitudeAngelWings.Properties;
 using AltitudeAngelWings.Service.FlightData;
 using AltitudeAngelWings.Service.Messaging;
 using DotNetOpenAuth.OAuth2;
@@ -28,6 +29,40 @@ namespace AltitudeAngelWings.Service
         public ObservableProperty<WeatherInfo> WeatherReport { get; }
         public ObservableProperty<Unit> SentTelemetry { get; }
         public UserProfileInfo CurrentUser { get; private set; }
+
+        private bool _grounddata = true;
+        public bool GroundDataDisplay
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Ground")))
+                    return _grounddata;
+                _grounddata = bool.Parse(_missionPlanner.LoadSetting("AA.Ground"));
+                return _grounddata;
+            }
+            set
+            {
+                _grounddata = value;
+                _missionPlanner.SaveSetting("AA.Ground", _grounddata.ToString());
+            }
+        }
+
+        private bool _airdata = false;
+        public bool AirDataDisplay
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Air")))
+                    return _airdata;
+                _airdata = bool.Parse(_missionPlanner.LoadSetting("AA.Air"));
+                return _airdata;
+            }
+            set
+            {
+                _grounddata = value;
+                _missionPlanner.SaveSetting("AA.Air", _grounddata.ToString());
+            }
+        }
 
         public AltitudeAngelService(
             IMessagesService messagesService,
@@ -106,13 +141,7 @@ namespace AltitudeAngelWings.Service
             groundOverlay.IsVisible = !groundDataExcluded;
 
             // Only get the features that have no lower alt or start below 152m. Ignoring datum for now...
-            IEnumerable<Feature> features = mapData.Features
-                                                   .Where(feature =>
-                                                   {
-                                                       var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
-                                                       return altitude == null || altitude.Meters <= 152;
-                                                   })
-                                                   .ToList();
+            IEnumerable<Feature> features = mapData.Features.ToList();
 
 
             foreach (Feature feature in features)
@@ -120,6 +149,19 @@ namespace AltitudeAngelWings.Service
                 IOverlay overlay = string.Equals((string)feature.Properties.Get("category"), "airspace")
                     ? airOverlay
                     : groundOverlay;
+
+                var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
+
+                if (altitude == null || altitude.Meters <= 152)
+                {
+                    if(!GroundDataDisplay)
+                        continue;
+                }
+                else
+                {
+                    if (!AirDataDisplay)
+                        continue;
+                }
 
                 switch (feature.Geometry.Type)
                 {

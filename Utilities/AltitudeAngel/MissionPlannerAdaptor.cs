@@ -7,12 +7,12 @@ using FlightData = MissionPlanner.GCSViews.FlightData;
 
 namespace MissionPlanner.Utilities.AltitudeAngel
 {
-    class MissionPlanner : IMissionPlanner
+    class MissionPlannerAdaptor : IMissionPlanner
     {
         public IMap FlightPlanningMap { get; set; }
         public IMap FlightDataMap { get; set; }
 
-        public MissionPlanner()
+        public MissionPlannerAdaptor()
         {
             FlightDataMap = new MapAdapter(FlightData.instance.gMapControl1);
             FlightPlanningMap = new MapAdapter(FlightPlanner.instance.MainMap);
