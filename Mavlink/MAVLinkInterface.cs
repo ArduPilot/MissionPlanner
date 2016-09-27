@@ -1731,9 +1731,16 @@ Please check the following
                 {
                     GUI = DateTime.Now;
 
-                    MainV2.instance.Invalidate();
-                    MainV2.instance.FlightData.Invalidate();
-                    MainV2.instance.Update();
+                    if (!MainV2.instance.InvokeRequired)
+                    {
+                        try
+                        {
+                            MainV2.instance.Invalidate();
+                            MainV2.instance.FlightData.Invalidate();
+                            MainV2.instance.Update();
+                        }
+                        catch { }
+                    }
                 }
 
                 if (!(start.AddMilliseconds(timeout) > DateTime.Now))
