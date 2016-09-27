@@ -48,6 +48,9 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void Control_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right)
+                return;
+
             if (_mapControl.Overlays.First(x => x.Polygons.Any(i => i.Name == item.Name)) != null)
             {
                 if (item.Tag is Feature)
