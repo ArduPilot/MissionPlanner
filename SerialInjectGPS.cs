@@ -213,7 +213,8 @@ namespace MissionPlanner
                         bps += read;
 
                         if (!(isrtcm || issbp))
-                            MainV2.comPort.InjectGpsData(buffer, (byte) read);
+                            sendData(buffer, (byte) read);
+                        
 
                         // check for valid rtcm packets
                         for (int a = 0; a < read; a++)
@@ -223,7 +224,7 @@ namespace MissionPlanner
                             if ((seen = rtcm3.Read(buffer[a])) > 0)
                             {
                                 isrtcm = true;
-                                MainV2.comPort.InjectGpsData(rtcm3.packet, (byte)rtcm3.length);
+                                sendData(rtcm3.packet, (byte)rtcm3.length);
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
@@ -232,7 +233,7 @@ namespace MissionPlanner
                             if ((seen = sbp.read(buffer[a])) > 0)
                             {
                                 issbp = true;
-                                MainV2.comPort.InjectGpsData(sbp.packet, (byte)sbp.length);
+                                sendData(sbp.packet, (byte)sbp.length);
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
@@ -245,6 +246,17 @@ namespace MissionPlanner
                 catch (Exception ex)
                 {
                     log.Error(ex);
+                }
+            }
+        }
+
+        private void sendData(byte[] data, byte length)
+        {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var MAV in port.MAVlist)
+                {
+                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length);
                 }
             }
         }
