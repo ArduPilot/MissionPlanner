@@ -96,7 +96,7 @@ namespace MissionPlanner
                         "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
                         DateTime.Now.ToUniversalTime(), Math.Abs(lat*100).ToString("0.00000"), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N",
                         Math.Abs(lng*100).ToString("0.00000"), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E",
-                        MainV2.comPort.MAV.cs.gpsstatus == 3 ? 1 : 0, MainV2.comPort.MAV.cs.satcount,
+                        MainV2.comPort.MAV.cs.gpsstatus >= 3 ? 1 : 0, MainV2.comPort.MAV.cs.satcount,
                         MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.altasl, "M", 0, "M", "");
 
                     string checksum = GetChecksum(line);
