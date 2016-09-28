@@ -129,6 +129,9 @@ namespace AltitudeAngelWings.Service
         /// <returns></returns>
         public async Task UpdateMapData(IMap map)
         {
+            if (!IsSignedIn)
+                return;
+
             RectLatLng area = map.GetViewArea();
             await _messagesService.AddMessageAsync($"Map area {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
 
