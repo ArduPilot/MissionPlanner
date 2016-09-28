@@ -4484,8 +4484,9 @@ namespace MissionPlanner.GCSViews
         private void GeoFenceuploadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
-            //FENCE_TOTAL
-            if (MainV2.comPort.MAV.param["FENCE_ENABLE"] == null)
+            //FENCE_ENABLE ON COPTER
+            //FENCE_ACTION ON PLANE
+            if (!MainV2.comPort.MAV.param.ContainsKey("FENCE_ENABLE") && !MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION"))
             {
                 CustomMessageBox.Show("Not Supported");
                 return;
