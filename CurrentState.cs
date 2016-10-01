@@ -765,6 +765,14 @@ namespace MissionPlanner
                         lineStartLatLngAlt = lineEndLatLngAlt;
                     }
 
+                    // check also distance from the points - because if we are outside the polygon, we may be on a corner segment
+                    foreach (var mavlinkFencePointT in list)
+                    {
+                        var pathpoint = new PointLatLngAlt(mavlinkFencePointT.Value.lat, mavlinkFencePointT.Value.lng);
+                        var dXt2 = pathpoint.GetDistance(Location);
+                        disttotal = (float)Math.Min(disttotal, Math.Abs(dXt2));
+                    }
+
                     return disttotal;
                 }
                 catch
