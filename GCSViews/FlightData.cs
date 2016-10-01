@@ -1142,7 +1142,7 @@ namespace MissionPlanner.GCSViews
                             route.Points.Add(currentloc);
                         }
 
-                        gMapControl1.UpdateRouteLocalPosition(route);
+                        updateRoutePosition();
 
                         // update programed wp course
                         if (waypoints.AddSeconds(5) < DateTime.Now)
@@ -1262,7 +1262,9 @@ namespace MissionPlanner.GCSViews
                         // add gimbal point center
                         try
                         {
-                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT"))
+                            if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_TILT") 
+                                && MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_ROLL")
+                                && MainV2.comPort.MAV.param.ContainsKey("MNT_TYPE"))
                             {
                                 float temp1 = (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"];
                                 float temp2 = (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"];
@@ -1528,7 +1530,6 @@ namespace MissionPlanner.GCSViews
             Invoke((MethodInvoker) delegate { gMapControl1.Bearing = (int) MainV2.comPort.MAV.cs.yaw; });
         }
 
-
         // to prevent cross thread calls while in a draw and exception
         private void updateClearRoutes()
         {
@@ -1549,6 +1550,15 @@ namespace MissionPlanner.GCSViews
                 polygons.Routes.Clear();
                 polygons.Markers.Clear();
                 routes.Markers.Clear();
+            });
+        }
+
+        private void updateRoutePosition()
+        {
+            // not async
+            Invoke((MethodInvoker) delegate
+            {
+                gMapControl1.UpdateRouteLocalPosition(route);
             });
         }
 
