@@ -36,6 +36,16 @@ namespace MissionPlanner.Swarm
             get { return this.lbl_guided; }
         }
 
+        public Label Location
+        {
+            get { return this.lbl_loc; }
+        }
+
+        public Label Speed
+        {
+            get { return this.lbl_spd; }
+        }
+
         public Status()
         {
             InitializeComponent();

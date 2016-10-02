@@ -37,6 +37,10 @@
             this.lbl_mav = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_guided = new System.Windows.Forms.Label();
+            this.lbl_loc = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lbl_spd = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -119,10 +123,49 @@
             this.lbl_guided.TabIndex = 9;
             this.lbl_guided.Text = "0.00000,0.00000,0.00";
             // 
+            // lbl_loc
+            // 
+            this.lbl_loc.Location = new System.Drawing.Point(47, 82);
+            this.lbl_loc.Name = "lbl_loc";
+            this.lbl_loc.Size = new System.Drawing.Size(67, 30);
+            this.lbl_loc.TabIndex = 11;
+            this.lbl_loc.Text = "0.00000,0.00000,0.00";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 82);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(48, 13);
+            this.label6.TabIndex = 10;
+            this.label6.Text = "Location";
+            // 
+            // lbl_spd
+            // 
+            this.lbl_spd.AutoSize = true;
+            this.lbl_spd.Location = new System.Drawing.Point(46, 112);
+            this.lbl_spd.Name = "lbl_spd";
+            this.lbl_spd.Size = new System.Drawing.Size(13, 13);
+            this.lbl_spd.TabIndex = 13;
+            this.lbl_spd.Text = "0";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(3, 112);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(38, 13);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Speed";
+            // 
             // Status
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_spd);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.lbl_loc);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.lbl_guided);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.lbl_mav);
@@ -133,7 +176,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Status";
-            this.Size = new System.Drawing.Size(113, 82);
+            this.Size = new System.Drawing.Size(113, 128);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,6 +193,9 @@
         private System.Windows.Forms.Label lbl_mav;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lbl_guided;
-
+        private System.Windows.Forms.Label lbl_loc;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lbl_spd;
+        private System.Windows.Forms.Label label8;
     }
 }

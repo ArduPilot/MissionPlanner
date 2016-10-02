@@ -344,9 +344,32 @@
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Swarm\FollowLeader\Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Swarm\FollowLeader\Control.Designer.cs">
+      <DependentUpon>Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\FollowLeader\Drone.cs" />
+    <Compile Include="Swarm\FollowLeader\DroneGroup.cs" />
+    <Compile Include="Swarm\WaypointLeader\WPControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Swarm\WaypointLeader\WPControl.Designer.cs">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\WaypointLeader\Drone.cs" />
+    <Compile Include="Swarm\WaypointLeader\DroneGroup.cs" />
+    <Compile Include="Swarm\WaypointLeader\Path.cs" />
+    <Compile Include="Utilities\AltitudeAngel\AASettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\AltitudeAngel\AASettings.Designer.cs">
+      <DependentUpon>AASettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\AltitudeAngel\AltitudeAngel.cs" />
     <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MissionPlanner.cs" />
+    <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
@@ -2233,6 +2256,15 @@
     <EmbeddedResource Include="Log\LogStrings.resx">
       <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\FollowLeader\Control.resx">
+      <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.resx">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
+      <DependentUpon>AASettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>

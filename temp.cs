@@ -946,5 +946,15 @@ namespace MissionPlanner
         {
             Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
         }
+
+        private void but_followswarm_Click(object sender, EventArgs e)
+        {
+            new Swarm.WaypointLeader.WPControl().Show();
+        }
+
+        private void myButton3_Click(object sender, EventArgs e)
+        {
+            Common.getFilefromNet("http://firm.ardupilot.org/", "./test.txt");
+        }
     }
 }

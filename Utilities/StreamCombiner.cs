@@ -56,6 +56,8 @@ namespace MissionPlanner.Utilities
                 TcpClient cl = new TcpClient();
 
                 cl.BeginConnect(IPAddress.Loopback, portno, RequestCallback, cl);
+
+                System.Threading.Thread.Sleep(100);
             }
 
             th = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
