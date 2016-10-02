@@ -160,9 +160,6 @@
     <Compile Include="GMap.NET.MapProviders\Google\GoogleHybridMapProvider.cs" />
     <Compile Include="GMap.NET.MapProviders\Google\GoogleSatelliteMapProvider.cs" />
     <Compile Include="GMap.NET.MapProviders\Google\GoogleMapProvider.cs" />
-    <Compile Include="GMap.NET.MapProviders\Yahoo\YahooHybridMapProvider.cs" />
-    <Compile Include="GMap.NET.MapProviders\Yahoo\YahooSatelliteMapProvider.cs" />
-    <Compile Include="GMap.NET.MapProviders\Yahoo\YahooMapProvider.cs" />
     <Compile Include="GMap.NET.MapProviders\OpenStreetMap\OpenSeaMapHybridProvider.cs" />
     <Compile Include="GMap.NET.MapProviders\OpenStreetMap\OpenCycleMapProvider.cs" />
     <Compile Include="GMap.NET.MapProviders\OpenStreetMap\OpenStreetMapSurferTerrainProvider.cs" />

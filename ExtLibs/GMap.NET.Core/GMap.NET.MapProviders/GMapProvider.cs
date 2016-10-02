@@ -80,10 +80,6 @@ namespace GMap.NET.MapProviders
         public static readonly AMapProvider AMap = AMapProvider.Instance;
         public static readonly AMapSateliteProvider AMapStatelite = AMapSateliteProvider.Instance;
 
-        public static readonly YahooMapProvider YahooMap = YahooMapProvider.Instance;
-        public static readonly YahooSatelliteMapProvider YahooSatelliteMap = YahooSatelliteMapProvider.Instance;
-        public static readonly YahooHybridMapProvider YahooHybridMap = YahooHybridMapProvider.Instance;
-
         public static readonly GoogleMapProvider GoogleMap = GoogleMapProvider.Instance;
         public static readonly GoogleSatelliteMapProvider GoogleSatelliteMap = GoogleSatelliteMapProvider.Instance;
         public static readonly GoogleHybridMapProvider GoogleHybridMap = GoogleHybridMapProvider.Instance;
