@@ -494,7 +494,7 @@ namespace GMap.NET.WindowsForms
 #endif
 
       // internal stuff
-      internal readonly Core Core = new Core();
+      public readonly Core Core = new Core();
 
       internal readonly Font CopyrightFont = new Font(FontFamily.GenericSansSerif, 7, FontStyle.Regular);
 #if !PocketPC

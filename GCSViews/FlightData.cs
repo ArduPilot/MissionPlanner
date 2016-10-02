@@ -2152,15 +2152,9 @@ namespace MissionPlanner.GCSViews
         {
             if (e.Button == MouseButtons.Left)
             {
-                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
-
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
-
                 try
                 {
-                    gMapControl1.Position = new PointLatLng(gMapControl1.Position.Lat + latdif,
-                        gMapControl1.Position.Lng + lngdif);
+                    gMapControl1.Core.BeginDrag(new GPoint(e.Location.X, e.Location.Y));
                 }
                 catch
                 {

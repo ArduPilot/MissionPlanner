@@ -3657,14 +3657,19 @@ namespace MissionPlanner.GCSViews
                     {
                         lock (thisLock)
                         {
-                            MainMap.Position = new PointLatLng(center.Position.Lat + latdif,
-                                center.Position.Lng + lngdif);
+                            if (!isMouseClickOffMenu)
+                                MainMap.Position = new PointLatLng(center.Position.Lat + latdif,
+                                    center.Position.Lng + lngdif);
                         }
                     }
                     catch
                     {
                     }
                 }
+            }
+            else if (e.Button == MouseButtons.None)
+            {
+                isMouseDown = false;
             }
         }
 
@@ -4380,7 +4385,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                if (isMouseDown)
+                if (isMouseDown || CurentRectMarker != null)
                     return;
 
                 routesoverlay.Markers.Clear();
@@ -5751,7 +5756,7 @@ namespace MissionPlanner.GCSViews
 
         private void contextMenuStrip1_Closed(object sender, ToolStripDropDownClosedEventArgs e)
         {
-            if (e.CloseReason.ToString() == "AppClicked")
+            if (e.CloseReason.ToString() == "AppClicked" || e.CloseReason.ToString() == "AppFocusChange")
                 isMouseClickOffMenu = true;
         }
 
