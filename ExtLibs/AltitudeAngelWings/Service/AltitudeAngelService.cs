@@ -141,7 +141,8 @@ namespace AltitudeAngelWings.Service
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 
             bool groundDataExcluded = mapData.ExcludedData.Any(i => i.SelectToken("detail.name")?.Value<string>() == "Ground Hazards");
-            groundOverlay.IsVisible = !groundDataExcluded;
+            groundOverlay.IsVisible = GroundDataDisplay;
+            airOverlay.IsVisible = AirDataDisplay;
 
             // Only get the features that have no lower alt or start below 152m. Ignoring datum for now...
             IEnumerable<Feature> features = mapData.Features.ToList();
@@ -157,13 +158,19 @@ namespace AltitudeAngelWings.Service
 
                 if (altitude == null || altitude.Meters <= 152)
                 {
-                    if(!GroundDataDisplay)
-                        continue;
+                    if (!GroundDataDisplay)
+                    {
+                        if (overlay.PolygonExists(feature.Id))
+
+                            continue;
+                    }
                 }
                 else
                 {
                     if (!AirDataDisplay)
+                    {
                         continue;
+                    }
                 }
 
                 switch (feature.Geometry.Type)
