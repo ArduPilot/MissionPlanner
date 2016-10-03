@@ -59,7 +59,13 @@ namespace GMap.NET
             {
                label2.Text = "all tiles saved";
             };
-            Invoke(m);
+             try
+             {
+                 Invoke(m);
+             }
+             catch
+             {
+             }
          }
       }
 
@@ -73,7 +79,13 @@ namespace GMap.NET
             {
                label2.Text = "saving tiles...";
             };
-            Invoke(m);
+             try
+             {
+                 Invoke(m);
+             }
+             catch
+             {
+             }
          }
       }
 
@@ -85,7 +97,13 @@ namespace GMap.NET
             {
                label2.Text = left + " tile to save...";
             };
-            Invoke(m);
+             try
+             {
+                 Invoke(m);
+             }
+             catch
+             {
+             }
          }
       }
 
