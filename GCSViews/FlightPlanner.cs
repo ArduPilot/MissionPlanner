@@ -5206,7 +5206,7 @@ namespace MissionPlanner.GCSViews
 
                 maxzoom = Math.Min(maxzoom, MainMap.MaxZoom);
 
-                for (int i = 1; i <= MainMap.MaxZoom; i++)
+                for (int i = 1; i <= maxzoom; i++)
                 {
                     TilePrefetcher obj = new TilePrefetcher();
                     ThemeManager.ApplyThemeTo(obj);
