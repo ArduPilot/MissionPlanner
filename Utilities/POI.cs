@@ -139,10 +139,13 @@ namespace MissionPlanner.Utilities
                     {
                         using (StreamReader sr = new StreamReader(file))
                         {
-                            string[] items = sr.ReadLine().Split('\t');
+                            while (!sr.EndOfStream)
+                            {
+                                string[] items = sr.ReadLine().Split('\t');
 
-                            POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
+                                POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
                                     , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
+                            }
                         }
                     }
                 }
