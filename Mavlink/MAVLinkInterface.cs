@@ -935,20 +935,25 @@ Please check the following
             return false;
         }
 
+        public bool setParam(string paramname, double value, bool force = false)
+        {
+            return setParam((byte)sysidcurrent, (byte)compidcurrent, paramname, value, force);
+        }
+
         /// <summary>
         /// Set parameter on apm
         /// </summary>
         /// <param name="paramname">name as a string</param>
         /// <param name="value"></param>
-        public bool setParam(string paramname, double value, bool force = false)
+        public bool setParam(byte sysid, byte compid, string paramname, double value, bool force = false)
         {
-            if (!MAV.param.ContainsKey(paramname))
+            if (!MAVlist[sysid,compid].param.ContainsKey(paramname))
             {
                 log.Warn("Trying to set Param that doesnt exist " + paramname + "=" + value);
                 return false;
             }
 
-            if (MAV.param[paramname].Value == value && !force)
+            if (MAVlist[sysid, compid].param[paramname].Value == value && !force)
             {
                 log.Warn("setParam " + paramname + " not modified as same");
                 return true;
@@ -959,31 +964,31 @@ Please check the following
             // param type is set here, however it is always sent over the air as a float 100int = 100f.
             var req = new mavlink_param_set_t
             {
-                target_system = MAV.sysid,
-                target_component = MAV.compid,
-                param_type = (byte) MAV.param_types[paramname]
+                target_system = sysid,
+                target_component = compid,
+                param_type = (byte)MAVlist[sysid, compid].param_types[paramname]
             };
 
             byte[] temp = Encoding.ASCII.GetBytes(paramname);
 
             Array.Resize(ref temp, 16);
             req.param_id = temp;
-            if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+            if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
             {
                 req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE.REAL32)).float_value;
             }
             else
             {
                 req.param_value =
-                    new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE) MAV.param_types[paramname]).float_value;
+                    new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE)MAVlist[sysid, compid].param_types[paramname]).float_value;
             }
 
-            int currentparamcount = MAV.param.Count;
+            int currentparamcount = MAVlist[sysid, compid].param.Count;
 
-            generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req);
+            generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
 
-            log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, req.param_value, MAV.sysid,
-                MAV.compid);
+            log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, req.param_value, sysid,
+                compid);
 
             DateTime start = DateTime.Now;
             int retrys = 3;
@@ -995,7 +1000,7 @@ Please check the following
                     if (retrys > 0)
                     {
                         log.Info("setParam Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req);
+                        generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
                         start = DateTime.Now;
                         retrys--;
                         continue;
@@ -1028,13 +1033,13 @@ Please check the following
 
                         log.Info("setParam gotback " + st + " : " + par.param_value);
 
-                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
                         }
 
                         lastparamset = DateTime.Now;
@@ -1346,13 +1351,18 @@ Please check the following
             return GetParam("", index);
         }
 
+        public float GetParam(string name = "", short index = -1, bool requireresponce = true)
+        {
+            return GetParam(MAV.sysid, MAV.compid, name, index, requireresponce);
+        }
+
         /// <summary>
         /// Get param by either index or name
         /// </summary>
         /// <param name="index"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        internal float GetParam(string name = "", short index = -1, bool requireresponce = true)
+        public float GetParam(byte sysid, byte compid, string name = "", short index = -1, bool requireresponce = true)
         {
             if (name == "" && index == -1)
                 return 0;
@@ -1362,8 +1372,8 @@ Please check the following
             MAVLinkMessage buffer;
 
             mavlink_param_request_read_t req = new mavlink_param_request_read_t();
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
             req.param_index = index;
             req.param_id = new byte[] {0x0};
             if (index == -1)
@@ -1373,7 +1383,7 @@ Please check the following
 
             Array.Resize(ref req.param_id, 16);
 
-            generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req);
+            generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req, sysid, compid);
 
             if (!requireresponce)
             {
@@ -1392,7 +1402,7 @@ Please check the following
                     if (retrys > 0)
                     {
                         log.Info("GetParam Retry " + retrys);
-                        generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req);
+                        generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req, sysid, compid);
                         start = DateTime.Now;
                         retrys--;
                         continue;
@@ -1429,16 +1439,16 @@ Please check the following
                         }
 
                         // update table
-                        if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                        if (MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
-                            MAV.param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
                         }
 
-                        MAV.param_types[st] = (MAV_PARAM_TYPE) par.param_type;
+                        MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) par.param_type;
 
                         log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " +
                                  (par.param_count) + " name: " + st);
