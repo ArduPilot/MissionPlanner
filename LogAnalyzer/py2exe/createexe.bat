@@ -1,8 +1,8 @@
 rmdir /s dist
 
-C:\Python27x86\python -m pip install numpy
+C:\Python27\python -m pip install numpy
 
-C:\Python27x86\python setup.py py2exe
+C:\Python27\python setup.py py2exe
 
 cd dist
 
