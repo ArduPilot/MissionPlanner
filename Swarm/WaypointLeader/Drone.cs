@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.HIL;
 using MissionPlanner.Utilities;
+using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader
 {
@@ -18,6 +19,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
         public Vector3 TargetVelocity;
 
         public double Heading { get { return Math.Atan2(Velocity.y, Velocity.x) * (180 / Math.PI); } }
+
+        public int PathIndex = 0;
 
         /// <summary>
         /// Position in 1 second

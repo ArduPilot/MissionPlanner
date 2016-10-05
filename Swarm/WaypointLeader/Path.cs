@@ -17,12 +17,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
             MAVLink.mavlink_mission_item_t? prevwp = null;
 
+            int a = -1;
+
             foreach (var wp in MAV.wps.Values)
             {
+                a++;
                 if (!prevwp.HasValue)
                 {
                     // change firstwp/aka home to valid alt
-                    prevwp = new MAVLink.mavlink_mission_item_t?(new MAVLink.mavlink_mission_item_t() { x=wp.x,y = wp.y, z = 5});
+                    prevwp = new MAVLink.mavlink_mission_item_t?(new MAVLink.mavlink_mission_item_t() { x=wp.x,y = wp.y, z = 0});
                     continue;
                 }
 
@@ -35,6 +38,11 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 var distwps = wp1.GetDistance(wp2);
                 var startalt = wp1.Alt;
                 var endalt = wp2.Alt;
+
+                if (startalt == 0)
+                {
+                    startalt = endalt;
+                }
 
                 if(distwps > 5000)
                     continue;

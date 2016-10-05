@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Flurl.Util;
+using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader
 {
@@ -18,6 +19,11 @@ namespace MissionPlanner.Swarm.WaypointLeader
         public WPControl()
         {
             InitializeComponent();
+
+            zedGraphControl1.GraphPane.AddCurve("Path", DG.path_to_fly, Color.Red, SymbolType.None);
+
+            zedGraphControl1.GraphPane.XAxis.Title.Text = "Distance";
+            zedGraphControl1.GraphPane.YAxis.Title.Text = "Altitude";
         }
 
         private void but_master_Click(object sender, EventArgs e)
@@ -179,7 +185,14 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         if (ctl is Status && ctl.Tag == MAV)
                         {
                             exists = true;
-                            ((Status) ctl).GPS.Text = MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
+                            if (MAV.cs.gpsstatus < 3)
+                            {
+                                ((Status) ctl).GPS.Text = "Bad";
+                            }
+                            else if (MAV.cs.gpsstatus >= 3)
+                            {
+                                ((Status) ctl).GPS.Text = "OK " + Math.Max(MAV.cs.gpsstatus, MAV.cs.gpsstatus2);
+                            }
                             ((Status) ctl).Armed.Text = MAV.cs.armed.ToString();
                             ((Status) ctl).Mode.Text = MAV.cs.mode;
                             ((Status) ctl).MAV.Text = String.Format("MAV {0}-{1}",MAV.sysid,MAV.compid);
@@ -214,7 +227,53 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     }
                 }
             }
+
+            foreach (var drone in DG.Drones)
+            {
+                // check if curve exists
+                if (zedGraphControl1.GraphPane.CurveList["MAV " + drone.MavState.sysid.ToString()] == null)
+                {
+                    if (drone.Location != null)
+                    {
+                        // create the curve
+                        zedGraphControl1.GraphPane.CurveList.Add(
+                            new LineItem("MAV " + drone.MavState.sysid.ToString(),
+                                new PointPairList(new[] {(double) drone.PathIndex}, new[] {drone.Location.Alt}),
+                                colours[zedGraphControl1.GraphPane.CurveList.Count % colours.Length],
+                                SymbolType.Triangle));
+
+                        zedGraphControl1.ZoomOutAll(zedGraphControl1.GraphPane);
+                    }
+                }
+                else
+                {
+                    // update the curve
+                    var curve = zedGraphControl1.GraphPane.CurveList["MAV " + drone.MavState.sysid.ToString()];
+                    curve.Clear();
+                    curve.AddPoint((double)(drone.PathIndex*0.1), drone.Location.Alt);
+                }
+            }
+
+            zedGraphControl1.Invalidate();
         }
+
+       Color[] colours = new Color[]
+       {
+            Color.Red,
+            Color.Green,
+            Color.Blue,
+            Color.Orange,
+            Color.Yellow,
+            Color.Violet,
+            Color.Pink,
+            Color.Teal,
+            Color.Wheat,
+            Color.Silver,
+            Color.Purple,
+            Color.Aqua,
+            Color.Brown,
+            Color.WhiteSmoke
+       };
 
         private void but_resetmode_Click(object sender, EventArgs e)
         {
@@ -234,6 +293,16 @@ namespace MissionPlanner.Swarm.WaypointLeader
         private void chk_V_CheckedChanged(object sender, EventArgs e)
         {
             DG.V = chk_V.Checked;
+        }
+
+        private void num_rtl_alt_ValueChanged(object sender, EventArgs e)
+        {
+            DG.Takeoff_Land_alt_sep = (double)num_rtl_alt.Value;
+        }
+
+        private void chk_alt_interleave_CheckedChanged(object sender, EventArgs e)
+        {
+            DG.AltInterleave = chk_alt_interleave.Checked;
         }
     }
 }

@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Core.ExtendedObjects;
+using log4net;
+using MissionPlanner.Controls;
 using MissionPlanner.HIL;
 using MissionPlanner.Utilities;
+using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader
 {
     public class DroneGroup
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
@@ -24,6 +30,12 @@ namespace MissionPlanner.Swarm.WaypointLeader
         public double Lead { get; set; }
         public double OffPathTrigger { get; set; }
         public bool V { get; set; }
+        public double Takeoff_Land_alt_sep { get; set; }
+        public bool AltInterleave { get; set; }
+
+        public PointPairList path_to_fly = new PointPairList();
+
+        internal int pathcount = 0;
 
         public Mode CurrentMode = Mode.idle;
 
@@ -34,6 +46,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             flytouser,
             followuser,
             RTH,
+            LandAlt,
             Land
         }
 
@@ -42,6 +55,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
             Seperation = 5;
             Lead = 20;
             OffPathTrigger = 10;
+            Takeoff_Land_alt_sep = 2;
+            AltInterleave = false;
         }
 
         public void UpdatePositions()
@@ -65,6 +80,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
                 // set default target as ground reference
                 drone.TargetVelocity = GroundMasterDrone.Velocity;
+
+
             }
 
 
@@ -132,6 +149,28 @@ namespace MissionPlanner.Swarm.WaypointLeader
             if (path.Count == 0)
                 return;
 
+            // update the graph to show location along path
+            if (pathcount != path.Count)
+            {
+                path_to_fly.Clear();
+                double inc = 0;
+                path.ForEach(i =>
+                {
+                    path_to_fly.Add(inc, i.Alt);
+                    inc += 0.1;
+                });
+            }
+            pathcount = path.Count;
+
+            foreach (var drone in Drones)
+            {
+                var locs = GetLocations(path, drone.Location, 0, 0);
+                if (locs.Count == 0)
+                    continue;
+                drone.PathIndex = path.IndexOf(locs[0]);
+            }
+            
+
             switch (CurrentMode)
             {
                 case Mode.idle:
@@ -139,10 +178,25 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     // request positon at 5hz
                     foreach (var drone in Drones)
                     {
-                        drone.MavState.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, drone.MavState.sysid,drone.MavState.compid);
-                        drone.MavState.cs.rateposition = 5;
+                        var MAV = drone.MavState;
+
+                        MAV.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, MAV.sysid, MAV.compid);
+                        MAV.cs.rateposition = 5;
+
+                        if (drone != GroundMasterDrone)
+                        {
+                            try
+                            {
+                                // get param
+                                MAV.parent.GetParam(MAV.sysid, MAV.compid, "RTL_ALT");
+                                // set param
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "RTL_ALT", 0); // cms - rtl at current alt
+                            }
+                            catch
+                            {
+                            }
+                        }
                     }
-                    return;
                     break;
                 case Mode.takeoff:
                     // newposition index
@@ -158,46 +212,97 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     foreach (var drone in newlist)
                     {
                         var MAV = drone.MavState;
-                        // guided mode
-                        if (!MAV.cs.mode.ToLower().Equals("guided"))
-                            MAV.parent.setMode(MAV.sysid, MAV.compid, "GUIDED");
-                        // arm
-                        if (!MAV.cs.armed)
-                            if (!MAV.parent.doARM(MAV.sysid, MAV.compid, true))
-                                return;
-                        // takeoff
-                        if (MAV.cs.alt < 3)
-                            if (MAV.parent.doCommand(MAV.sysid, MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5))
-                                return;
+                        try
+                        {
+                            // guided mode
+                            if (!MAV.cs.mode.ToLower().Equals("guided"))
+                                MAV.parent.setMode(MAV.sysid, MAV.compid, "GUIDED");
+                            // arm
+                            if (!MAV.cs.armed)
+                                if (!MAV.parent.doARM(MAV.sysid, MAV.compid, true))
+                                    return;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            Loading.ShowLoading("Communication with one of the drones is failing\n"+ex.ToString());
+
+                            return;
+                        }
+                        // set drone target position
+                        drone.TargetLocation = newpositions[a];
+                        // setup seperation (0=0,1=1,2=2,3=0)
+                        drone.TargetLocation.Alt += Takeoff_Land_alt_sep * (a % 3);
+
+                        float takeoffalt = (float)drone.TargetLocation.Alt;
+
+                        try
+                        {
+                            // takeoff
+                            if (MAV.cs.alt < (takeoffalt - 0.5))
+                                if (MAV.parent.doCommand(MAV.sysid, MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0,
+                                    0, takeoffalt))
+                                    return;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            Loading.ShowLoading("Communication with one of the drones is failing\n" + ex.ToString());
+
+                            return;
+                        }
+
+                        drone.MavState.GuidedMode.x = 0;
+                        drone.MavState.GuidedMode.y = 0;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // wait for takeoff
-                        while (MAV.cs.alt < 3)
+                        if (MAV.cs.alt < (takeoffalt - 0.5))
                         {
                             System.Threading.Thread.Sleep(100);
                             // check we are still armed
                             if (!MAV.cs.armed)
                                 return;
-                        }
 
-                        // set drone target position
-                        drone.TargetLocation = newpositions[a];
+                            a++;
+                            // move on to next drone
+                            continue;
+                        }
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float) newpositions[a].Lat;
-                        drone.MavState.GuidedMode.y = (float) newpositions[a].Lng;
-                        drone.MavState.GuidedMode.z = (float) newpositions[a].Alt;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // check how far off target we are
                         if (drone.TargetLocation.GetDistance(drone.Location) > Seperation)
                         {
+                            // only return if this is the third drone without seperation
+                            if (a%3 == 2)
+                            {
+                                //if we are off target, we have already sent the command to this drone,
+                                //but skip the one behind it untill this one is within the seperation range 
+                                return;
+                            }
+                        }
+
+                        a++;
+                    }
+                    // wait for all to get within seperation distance
+                    foreach (var drone in newlist)
+                    {
+                        // check how far off target we are
+                        if (drone.TargetLocation.GetDistance(drone.Location) > Seperation)
+                        {
+                            // position control
+                            drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
+
                             //if we are off target, we have already sent the command to this drone,
                             //but skip the one behind it untill this one is within the seperation range 
                             return;
                         }
-
-                        a++;
                     }
                     CurrentMode = Mode.flytouser;
                     break;
@@ -220,12 +325,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         // set drone target position
                         drone.TargetLocation = newpositions2[b];
 
+                        if (AltInterleave)
+                            drone.TargetLocation.Alt += Takeoff_Land_alt_sep * (b % 2);
+
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float) newpositions2[b].Lat;
-                        drone.MavState.GuidedMode.y = (float) newpositions2[b].Lng;
-                        drone.MavState.GuidedMode.z = (float) newpositions2[b].Alt;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         b++;
                     }
@@ -266,34 +374,10 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         CurrentMode = Mode.RTH;
                     }
 
-                    // calc airmaster position
-                    AirMasterDrone.TargetLocation = newpositions3[0];
-
-                    newpositions3.RemoveAt(0);
-
-                    // send new position to airmaster
-                    AirMasterDrone.SendPositionVelocity(AirMasterDrone.TargetLocation, GroundMasterDrone.TargetVelocity / 3);
-
-                    // update for display
-                    AirMasterDrone.MavState.GuidedMode.x = (float)AirMasterDrone.TargetLocation.Lat;
-                    AirMasterDrone.MavState.GuidedMode.y = (float)AirMasterDrone.TargetLocation.Lng;
-                    AirMasterDrone.MavState.GuidedMode.z = (float)AirMasterDrone.TargetLocation.Alt;
-
-                    // check how far off target we are
-                    if (AirMasterDrone.TargetLocation.GetDistance(AirMasterDrone.Location) > Seperation * 2)
-                    {
-                        //if we are off target, we have already sent the command to this drone,
-                        //but skip the one behind it untill this one is within the seperation range 
-
-                        return;
-                    }
-
                     int c = 0;
                     // send position and velocity
                     foreach (var drone in newlist)
                     {
-                        if (drone.MavState == airmaster)
-                            continue;
 
                         if (drone.MavState == groundmaster)
                             continue;
@@ -303,12 +387,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
                         drone.TargetLocation = newpositions3[c];
 
+                        if (AltInterleave)
+                            drone.TargetLocation.Alt += Takeoff_Land_alt_sep * (c % 2);
+
                         // spline control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity / 3);
 
-                        drone.MavState.GuidedMode.x = (float)newpositions3[c].Lat;
-                        drone.MavState.GuidedMode.y = (float)newpositions3[c].Lng;
-                        drone.MavState.GuidedMode.z = (float)newpositions3[c].Alt;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
                         // vel only
                         //drone.SendVelocity(drone.TargetVelocity);
@@ -331,25 +418,75 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     if (newpositions4.Count == 0)
                     {
                         if (AirMasterDrone.Location.GetDistance(path.Last()) < Seperation)
-                            CurrentMode = Mode.Land;
+                            CurrentMode = Mode.LandAlt;
                         return;
                     }
 
                     int d = 0;
                     foreach (var drone in newlist)
                     {
+                        if (d > (newpositions4.Count - 1))
+                            break;
+
                         // set drone target position
                         drone.TargetLocation = newpositions4[d];
+
+                        // used in next step
+                        double prevalt = drone.TargetLocation.Alt;
+
+                        if (AltInterleave)
+                            drone.TargetLocation.Alt += Takeoff_Land_alt_sep * (d % 2);
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
-                        drone.MavState.GuidedMode.x = (float)newpositions4[d].Lat;
-                        drone.MavState.GuidedMode.y = (float)newpositions4[d].Lng;
-                        drone.MavState.GuidedMode.z = (float)newpositions4[d].Alt;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
+
+                        // used for next step
+                        drone.TargetLocation.Alt = prevalt;
 
                         d++;
                     }
+                    break;
+                case Mode.LandAlt:
+                    int e = 0;
+                    foreach (var drone in newlist)
+                    {
+                        drone.TargetLocation.Alt += Takeoff_Land_alt_sep * e;
+
+                        // position control
+                        drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
+
+                        drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
+
+                        System.Threading.Thread.Sleep(200);
+
+                        drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
+
+                        e++;
+                    }
+                    // check status
+                    foreach (var drone in newlist)
+                    {
+                        // wait for alt hit
+                        while (drone.MavState.cs.alt < (drone.TargetLocation.Alt-0.5))
+                        {
+                            if (!drone.MavState.cs.armed)
+                                break;
+                            System.Threading.Thread.Sleep(200);
+                            drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
+                        }
+
+                        System.Threading.Thread.Sleep(200);
+
+                        log.Info(drone.MavState.sysid + " " + drone.MavState.cs.alt + " at alt " + drone.TargetLocation.Alt);
+
+                        // set mode rtl
+                        drone.MavState.parent.setMode(drone.MavState.sysid, drone.MavState.compid, "RTL");
+                    }
+                    CurrentMode = Mode.Land;
                     break;
                 case Mode.Land:
                     Drone closest = new Drone() {Location = PointLatLngAlt.Zero};
@@ -496,6 +633,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     i = start;
 
                     if (result.Count > 20)
+                        break;
+                    if (seperation == 0)
                         break;
                     a++;
                 }
