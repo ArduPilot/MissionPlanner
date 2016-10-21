@@ -31,7 +31,8 @@ namespace MissionPlanner.Utilities
             vrcorev10,
             vrubrainv51,
             vrubrainv52,
-            bebop2
+            bebop2,
+            disco
         }
 
         /// <summary>
@@ -186,6 +187,11 @@ namespace MissionPlanner.Utilities
                 if (DialogResult.Yes == CustomMessageBox.Show("Is this Bebop2?", "Bebop2", MessageBoxButtons.YesNo))
                 {
                     return boards.bebop2;
+                }
+
+                if (DialogResult.Yes == CustomMessageBox.Show("Is this Disco?", "Disco", MessageBoxButtons.YesNo))
+                {
+                    return boards.disco;
                 }
             }
 
