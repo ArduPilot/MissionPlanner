@@ -56,6 +56,7 @@ namespace MissionPlanner.Utilities
             public string urlvrubrainv51;
             public string urlvrubrainv52;
             public string urlbebop2;
+            public string urldisco;
             public string name;
             public string desc;
             public int k_format_version;
@@ -164,6 +165,7 @@ namespace MissionPlanner.Utilities
             string vrubrainv51 = "";
             string vrubrainv52 = "";
             string bebop2 = "";
+            string disco = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -235,6 +237,9 @@ namespace MissionPlanner.Utilities
                             case "urlbebop2":
                                 bebop2 = xmlreader.ReadString();
                                 break;
+                            case "urldisco":
+                                disco = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -264,6 +269,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlvrubrainv51 = vrubrainv51;
                                     temp.urlvrubrainv52 = vrubrainv52;
                                     temp.urlbebop2 = bebop2;
+                                    temp.urldisco = disco;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -310,6 +316,7 @@ namespace MissionPlanner.Utilities
                                 vrubrainv51 = "";
                                 vrubrainv52 = "";
                                 bebop2 = "";
+                                disco = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -531,6 +538,10 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.bebop2)
                 {
                     baseurl = temp.urlbebop2.ToString();
+                }
+                else if (board == BoardDetect.boards.disco)
+                {
+                    baseurl = temp.urldisco.ToString();
                 }
                 else
                 {
@@ -982,12 +993,19 @@ namespace MissionPlanner.Utilities
 
                 if (!response.Contains("connected to 192.168.42.1:9050"))
                 {
-                    CustomMessageBox.Show("Please press " + vehicleName + " Power button four times", vehicleName, MessageBoxButtons.OK);
+                    string ntimes = "four";
+
+                    if (board == BoardDetect.boards.disco)
+                    {
+                        ntimes = "two";
+                    }
+
+                    CustomMessageBox.Show("Please press " + vehicleName + " Power button " + ntimes + " times", vehicleName, MessageBoxButtons.OK);
                     response = adbClient.Connect(new DnsEndPoint("192.168.42.1", 9050));
 
                     while (!response.Contains("connected to 192.168.42.1:9050"))
                     {
-                        if (CustomMessageBox.Show("Couldn't contact " + vehicleName + " server. Press the Power button four times. Do you want to try to connect again?", vehicleName, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                        if (CustomMessageBox.Show("Couldn't contact " + vehicleName + ". Press the Power button " + ntimes + " times. Do you want to try to connect again?", vehicleName, MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                         {
                             return false;
                         }
@@ -1001,99 +1019,171 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
-                    updateProgress(30, "Changing system to writable");
-                    adbClient.ExecuteRemoteCommand("mount -o remount,rw /", device, consoleOut);
-
                     using (SyncService service = new SyncService(device))
                     {
-                        using (Stream stream = File.OpenRead(filename))
+                        using (FileStream stream = File.OpenRead(filename))
                         {
-                            updateProgress(-1, "Uploading software...");
-                            service.Push(stream, "/usr/bin/arducopter", 755, DateTime.Now, CancellationToken.None);
-                            updateProgress(70, "Software uploaded");
+                            updateProgress(10, "Uploading software...");
+                            service.Push(stream, "/data/ftp/internal_000/APM/" + (board == BoardDetect.boards.disco ? "apm-plane-disco" : "arducopter"), 777, DateTime.Now, CancellationToken.None);
+                            updateProgress(50, "Software uploaded");
                         }
 
-                        string rcsFile = Path.Combine(Path.GetTempPath(), "rcS_mode_default");
-
-                        using (Stream stream = File.Open(rcsFile, FileMode.Create))
-                        using (StreamReader sr = new StreamReader(stream))
+                        if (board != BoardDetect.boards.disco)
                         {
-                            updateProgress(-1, "Looking for need to update init script...");
-                            service.Pull("/etc/init.d/rcS_mode_default", stream, CancellationToken.None);
-
-                            List<string> lines = new List<string>();
-                            string startAC = "arducopter -A udp:192.168.42.255:14550:bcast -B /dev/ttyPA1 -C udp:192.168.42.255:14551:bcast -l /data/ftp/internal_000/APM/logs -t /data/ftp/internal_000/APM/terrain &";
-                            bool fileChanged = false;
-                            bool addACLine = true;
-                            int dragonLineIndex = -1;
-
-                            stream.Seek(0, SeekOrigin.Begin);
-
-                            while (!sr.EndOfStream)
+                            using (MemoryStream stream = new MemoryStream())
+                            using (StreamReader sr = new StreamReader(stream))
                             {
-                                string line = sr.ReadLine();
+                                updateProgress(60, "Looking for need to update init scripts...");
+                                service.Pull("/etc/init.d/rcS_mode_default", stream, CancellationToken.None);
 
-                                int dragonIndex = line.IndexOf("DragonStarter.sh");
-                                bool acLine = line.ToLower().Contains("arducopter");
+                                bool initChanged = false;
+                                List<string> initLines = new List<string>();
+                                string[] initAPLines = { "if test -x /data/ftp/internal_000/APM/start_ardupilot.sh && test -x /data/ftp/internal_000/APM/arducopter; then",
+                                                         "  /data/ftp/internal_000/APM/start_ardupilot.sh &",
+                                                         "else" };
+                                int[] initAPLinesIndex = Enumerable.Repeat(-1, initAPLines.Length).ToArray();
+                                int dragonLineIndex = -1;
 
-                                if (dragonIndex != -1)
-                                {
-                                    int dragonCommentIndex = line.IndexOf('#');
-
-                                    if (dragonCommentIndex == -1 || dragonCommentIndex > dragonIndex)
-                                    {
-                                        line = '#' + line;
-                                        fileChanged = true;
-                                    }
-
-                                    dragonLineIndex = lines.Count;
-                                }
-                                else if (acLine)
-                                {
-                                    addACLine = false;
-
-                                    if (!line.Trim().Equals(startAC))
-                                    {
-                                        line = startAC;
-                                        fileChanged = true;
-                                    }
-                                }
-
-                                lines.Add(line);
-                            }
-
-                            if (addACLine)
-                            {
-                                lines.Insert(dragonLineIndex + 1, startAC);
-                                fileChanged = true;
-                            }
-
-                            if (fileChanged)
-                            {
                                 stream.Seek(0, SeekOrigin.Begin);
-                                using (StreamWriter sw = new StreamWriter(stream))
+
+                                while (!sr.EndOfStream)
                                 {
-                                    sw.NewLine = "\n";
-                                    lines.ForEach(line => sw.WriteLine(line));
-                                    sw.Flush();
-                                    stream.Seek(0, SeekOrigin.Begin);
+                                    string line = sr.ReadLine();
 
-                                    adbClient.ExecuteRemoteCommand("cp -f /etc/init.d/rcS_mode_default /etc/init.d/rcS_mode_default.backup", device, consoleOut);
+                                    int dragonIndex = line.IndexOf("DragonStarter.sh");
+                                    bool acLine = line.ToLower().Trim().StartsWith("arducopter");
 
-                                    service.Push(stream, "/etc/init.d/rcS_mode_default", 755, DateTime.Now, CancellationToken.None);
+                                    if (dragonIndex != -1)
+                                    {
+                                        int dragonCommentIndex = line.IndexOf('#');
+
+                                        if (dragonCommentIndex != -1 && dragonCommentIndex < dragonIndex)
+                                        {
+                                            line = line.Remove(dragonCommentIndex, 1);
+                                            initChanged = true;
+                                        }
+
+                                        if (line.Substring(0, 2) != "  ")
+                                        {
+                                            line = line.Insert(0, "  ");
+                                            initChanged = true;
+                                        }
+
+                                        dragonLineIndex = initLines.Count;
+                                    }
+                                    else if (acLine)
+                                    {
+                                        initChanged = true;
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        foreach (int i in Enumerable.Range(0, initAPLines.Length))
+                                        {
+                                            if (line == initAPLines[i])
+                                            {
+                                                initAPLinesIndex[i] = initLines.Count;
+                                                break;
+                                            }
+                                        }
+                                    }
+
+                                    initLines.Add(line);
                                 }
+
+                                if (initAPLinesIndex[0] == -1 ||
+                                    initAPLinesIndex[1] != (initAPLinesIndex[0] + 1) ||
+                                    initAPLinesIndex[2] != (initAPLinesIndex[1] + 1) ||
+                                    dragonLineIndex != (initAPLinesIndex[2] + 1))
+                                {
+                                    foreach(int i in initAPLinesIndex)
+                                    {
+                                        if(i != -1)
+                                        {
+                                            if (i < dragonLineIndex)
+                                                dragonLineIndex--;
+
+                                            initLines.RemoveAt(i);
+                                        }
+                                    }
+
+                                    initLines.InsertRange(dragonLineIndex, initAPLines);
+
+                                    if (initLines[dragonLineIndex + initAPLines.Length + 1] != "fi")
+                                    {
+                                        initLines.Insert(dragonLineIndex + initAPLines.Length + 1, "fi");
+                                    }
+
+                                    initChanged = true;
+                                }
+
+                                string startAPText = "#!/bin/sh\n\n" +
+                                                     "# startup fan\n" +
+                                                     "echo 1 > /sys/devices/platform/user_gpio/FAN/value\n\n" +
+                                                     "while :; do\n" +
+                                                     "  ulogger -t \"rcS_mode_default\" -p I \"Launching ArduPilot\"\n" +
+                                                     "  /data/ftp/internal_000/APM/arducopter -A udp:192.168.42.255:14550:bcast -B /dev/ttyPA1 -C udp:192.168.42.255:14551:bcast -l /data/ftp/internal_000/APM/logs -t /data/ftp/internal_000/APM/terrain\n" +
+                                                     "done\n";
+
+                                // if the above script is changed, change this date to a future date
+                                DateTime startAPDate = new DateTime(2016, 10, 21, 05, 10, 19);
+                                FileStatistics startAPStat = service.Stat("/data/ftp/internal_000/APM/start_ardupilot.sh");
+
+                                if (startAPStat.FileMode == 0 || startAPStat.Time.CompareTo(startAPDate) < 0)
+                                {
+                                    updateProgress(70, "Uploading ArduPilot startup script...");
+                                    using (MemoryStream startScriptStream = new MemoryStream(sr.CurrentEncoding.GetBytes(startAPText)))
+                                    {
+                                        service.Push(startScriptStream, "/data/ftp/internal_000/APM/start_ardupilot.sh", 777, startAPDate, CancellationToken.None);
+                                    }
+                                }
+
+                                FileStatistics binaryStat = service.Stat("/usr/bin/arducopter");
+
+                                if (initChanged || (binaryStat.FileMode.HasFlag(UnixFileMode.Regular)))
+                                {
+                                    adbClient.ExecuteRemoteCommand("mount -o remount,rw /", device, consoleOut);
+
+                                    if (binaryStat.FileMode.HasFlag(UnixFileMode.Regular))
+                                    {
+                                        // remove old binary location
+                                        adbClient.ExecuteRemoteCommand("rm -f /usr/bin/arducopter", device, consoleOut);
+                                    }
+
+                                    if (initChanged)
+                                    {
+                                        // only backup init file if a backup doesn't exist
+                                        adbClient.ExecuteRemoteCommand("mv -n /etc/init.d/rcS_mode_default /etc/init.d/rcS_mode_default.backup", device, consoleOut);
+
+                                        updateProgress(80, "Writing modified init script");
+                                        stream.SetLength(0);
+
+                                        using (StreamWriter sw = new StreamWriter(stream, sr.CurrentEncoding))
+                                        {
+                                            sw.NewLine = "\n";
+                                            initLines.ForEach(line => sw.WriteLine(line));
+                                            sw.Flush();
+                                            stream.Seek(0, SeekOrigin.Begin);
+                                            service.Push(stream, "/etc/init.d/rcS_mode_default", 755, DateTime.Now, CancellationToken.None);
+
+                                            // a bug in 'adb push' sets 'group' and 'other' permissions equal to 'owner' so we run chmod to have the correct original permissions
+                                            adbClient.ExecuteRemoteCommand("chmod 755 /etc/init.d/rcS_mode_default", device, consoleOut);
+                                        }
+                                    }
+                                }
+                                updateProgress(90, "Scripts updated");
                             }
-                            updateProgress(100, "Init script done");
                         }
                     }
                 }
                 finally
                 {
-                    updateProgress(-1, "Rebooting...");
+                    updateProgress(100, "Rebooting...");
                     adbClient.ExecuteRemoteCommand("reboot.sh", device, consoleOut);
                 }
 
                 CustomMessageBox.Show("Firmware installed!");
+                updateProgress(-1, "Firmware installed");
             }
             catch (Exception e)
             {
@@ -1101,6 +1191,10 @@ namespace MissionPlanner.Utilities
                 Console.WriteLine("An error occurred: " + e.ToString());
                 updateProgress(-1, "ERROR: " + e.Message);
                 return false;
+            }
+            finally
+            {
+                AdbClient.Instance.KillAdb();
             }
 
             return true;

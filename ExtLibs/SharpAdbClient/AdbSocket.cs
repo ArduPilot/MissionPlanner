@@ -123,7 +123,7 @@ namespace SharpAdbClient
         /// <inheritdoc/>
         public virtual void SendSyncRequest(SyncCommand command, string path, int permissions)
         {
-            this.SendSyncRequest(command, $"{path},{permissions}");
+            this.SendSyncRequest(command, $"{path},0{permissions}");
         }
 
         /// <inheritdoc/>

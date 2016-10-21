@@ -343,6 +343,9 @@ namespace MissionPlanner
                     if (software.urlbebop2 != "")
                         xmlwriter.WriteElementString("urlbebop2",
                             new Uri(software.urlbebop2).LocalPath.TrimStart('/', '\\'));
+                    if (software.urldisco != "")
+                        xmlwriter.WriteElementString("urldisco",
+                            new Uri(software.urldisco).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
@@ -417,6 +420,11 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlbebop2,
                             basedir + new Uri(software.urlbebop2).LocalPath);
+                    }
+                    if (software.urldisco != "")
+                    {
+                        Common.getFilefromNet(software.urldisco,
+                            basedir + new Uri(software.urldisco).LocalPath);
                     }
                 }
 
