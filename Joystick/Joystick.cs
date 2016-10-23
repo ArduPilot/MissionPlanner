@@ -335,14 +335,14 @@ namespace MissionPlanner.Joystick
             this.joystickconfigaxis = Settings.GetUserDataDirectory() + joystickconfigaxis;
 
             // load config
-            if (File.Exists(joystickconfigbutton) && File.Exists(joystickconfigaxis))
+            if (File.Exists(this.joystickconfigbutton) && File.Exists(this.joystickconfigaxis))
             {
                 try
                 {
                     System.Xml.Serialization.XmlSerializer reader =
                         new System.Xml.Serialization.XmlSerializer(typeof (JoyButton[]), new Type[] {typeof (JoyButton)});
 
-                    using (StreamReader sr = new StreamReader(joystickconfigbutton))
+                    using (StreamReader sr = new StreamReader(this.joystickconfigbutton))
                     {
                         JoyButtons = (JoyButton[]) reader.Deserialize(sr);
                     }
@@ -357,7 +357,7 @@ namespace MissionPlanner.Joystick
                         new System.Xml.Serialization.XmlSerializer(typeof (JoyChannel[]),
                             new Type[] {typeof (JoyChannel)});
 
-                    using (StreamReader sr = new StreamReader(joystickconfigaxis))
+                    using (StreamReader sr = new StreamReader(this.joystickconfigaxis))
                     {
                         JoyChannels = (JoyChannel[]) reader.Deserialize(sr);
                     }
