@@ -1702,7 +1702,10 @@ namespace MissionPlanner.GCSViews
                 {
                     if (lastmapposchange.Second != DateTime.Now.Second)
                     {
-                        gMapControl1.Position = currentloc;
+                        if (Math.Abs(currentloc.Lat - gMapControl1.Position.Lat) > 0.0001 || Math.Abs(currentloc.Lng - gMapControl1.Position.Lng) > 0.0001)
+                        {
+                            gMapControl1.Position = currentloc;
+                        }
                         lastmapposchange = DateTime.Now;
                     }
                     //hud1.Refresh();
