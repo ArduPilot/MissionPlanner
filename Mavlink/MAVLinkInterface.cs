@@ -2468,34 +2468,54 @@ Please check the following
             InjectGpsData(MAV.sysid, MAV.compid, data, length);
         }
 
+        int inject_frag_no = 0;
+
         /// <summary>
         /// used to inject data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
-        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length)
+        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length, bool rtcm_message = true)
         {
             // new message
-            if (false)
+            if (rtcm_message)
             {
                 mavlink_gps_rtcm_data_t gps = new mavlink_gps_rtcm_data_t();
                 var msglen = 180;
 
                 var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
 
+                // flags = isfrag(1)/frag(2)/seq(5)
+
                 for (int a = 0; a < len; a++)
                 {
+                    // check if its a fragment
+                    if (a == (len-1))
+                        gps.flags = 0;
+                    else
+                        gps.flags = 1;
+
+                    // add fragment number
+                    gps.flags += (byte)((inject_frag_no & 0x3) << 1);
+
+                    // add seq number
+                    gps.flags += (byte)((a & 0x1f) << 3);
+
+                    // create the empty buffer
                     gps.data = new byte[msglen];
 
+                    // calc how much data we are copying
                     int copy = Math.Min(length - a * msglen, msglen);
 
+                    // copy the data
                     Array.Copy(data, a * msglen, gps.data, 0, copy);
-                    gps.len = (byte)copy;
 
-                    if (a < (len - 1))
-                        gps.flags = 1;
+                    // set the length
+                    gps.len = (byte)copy;
 
                     generatePacket((byte) MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
                 }
+
+                inject_frag_no++;
             }
             else
             {

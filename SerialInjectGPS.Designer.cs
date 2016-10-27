@@ -35,6 +35,7 @@
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.lbl_status = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.chk_rtcmmsg = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -81,10 +82,20 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // chk_rtcmmsg
+            // 
+            resources.ApplyResources(this.chk_rtcmmsg, "chk_rtcmmsg");
+            this.chk_rtcmmsg.Checked = true;
+            this.chk_rtcmmsg.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_rtcmmsg.Name = "chk_rtcmmsg";
+            this.chk_rtcmmsg.UseVisualStyleBackColor = true;
+            this.chk_rtcmmsg.CheckedChanged += new System.EventHandler(this.chk_rtcmmsg_CheckedChanged);
+            // 
             // SerialInjectGPS
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_rtcmmsg);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
@@ -104,5 +115,6 @@
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.CheckBox chk_rtcmmsg;
     }
 }

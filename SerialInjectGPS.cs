@@ -35,6 +35,8 @@ namespace MissionPlanner
         static int bytes = 0;
         static int bps = 0;
 
+        static bool rtcm_msg = true;
+
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 
@@ -52,6 +54,8 @@ namespace MissionPlanner
             {
                 BUT_connect.Text = Strings.Stop;
             }
+
+            chk_rtcmmsg.Checked = rtcm_msg;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
@@ -256,7 +260,7 @@ namespace MissionPlanner
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length);
+                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length, rtcm_msg);
                 }
             }
         }
@@ -295,6 +299,11 @@ namespace MissionPlanner
         private void SerialInjectGPS_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
+        }
+
+        private void chk_rtcmmsg_CheckedChanged(object sender, EventArgs e)
+        {
+            rtcm_msg = chk_rtcmmsg.Checked;
         }
     }
 }
