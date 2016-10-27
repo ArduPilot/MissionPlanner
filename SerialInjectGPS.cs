@@ -232,6 +232,8 @@ namespace MissionPlanner
                                 if (!msgseen.ContainsKey(seen))
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
+
+                                ExtractBasePos(seen);
                             }
                             // sbp
                             if ((seen = sbp.read(buffer[a])) > 0)
@@ -251,6 +253,42 @@ namespace MissionPlanner
                 {
                     log.Error(ex);
                 }
+            }
+        }
+
+        private void ExtractBasePos(int seen)
+        {
+            try
+            {
+                if (seen == 1005)
+                {
+                    var basepos = new Utilities.rtcm3.type1005();
+                    basepos.Read(rtcm3.buffer);
+
+                    var pos = basepos.ecefposition;
+
+                    double[] baseposllh = new double[3];
+
+                    Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
+
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
+                }
+                else if (seen == 1006)
+                {
+                    var basepos = new Utilities.rtcm3.type1006();
+                    basepos.Read(rtcm3.buffer);
+
+                    var pos = basepos.ecefposition;
+
+                    double[] baseposllh = new double[3];
+
+                    Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
+
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0], baseposllh[1], baseposllh[2]);
+                }
+            } catch
+            {
+
             }
         }
 
