@@ -2482,19 +2482,22 @@ Please check the following
                 mavlink_gps_rtcm_data_t gps = new mavlink_gps_rtcm_data_t();
                 var msglen = 180;
 
+                if (length > msglen * 4)
+                    log.Error("Message too large " + length);
+
                 // number of packets we need, not including a termination packet if needed
                 var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
-
-                // check if its a fragment
-                if (length <= msglen)
-                    gps.flags = 0;
-                else
-                    gps.flags = 1;
 
                 // flags = isfrag(1)/frag(2)/seq(5)
 
                 for (int a = 0; a < len; a++)
                 {
+                    // check if its a fragment
+                    if (len > 1)
+                        gps.flags = 1;
+                    else
+                        gps.flags = 0;
+
                     // add fragment number
                     gps.flags += (byte)((a & 0x3) << 1);
 
