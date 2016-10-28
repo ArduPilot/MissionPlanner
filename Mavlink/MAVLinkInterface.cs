@@ -2468,7 +2468,7 @@ Please check the following
             InjectGpsData(MAV.sysid, MAV.compid, data, length);
         }
 
-        int inject_frag_no = 0;
+        int inject_seq_no = 0;
 
         /// <summary>
         /// used to inject data into the gps ie rtcm/sbp/ubx
@@ -2482,23 +2482,24 @@ Please check the following
                 mavlink_gps_rtcm_data_t gps = new mavlink_gps_rtcm_data_t();
                 var msglen = 180;
 
+                // number of packets we need, not including a termination packet if needed
                 var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
+
+                // check if its a fragment
+                if (length <= msglen)
+                    gps.flags = 0;
+                else
+                    gps.flags = 1;
 
                 // flags = isfrag(1)/frag(2)/seq(5)
 
                 for (int a = 0; a < len; a++)
                 {
-                    // check if its a fragment
-                    if (a == (len-1))
-                        gps.flags = 0;
-                    else
-                        gps.flags = 1;
-
                     // add fragment number
-                    gps.flags += (byte)((inject_frag_no & 0x3) << 1);
+                    gps.flags += (byte)((a & 0x3) << 1);
 
                     // add seq number
-                    gps.flags += (byte)((a & 0x1f) << 3);
+                    gps.flags += (byte)((inject_seq_no & 0x1f) << 3);
 
                     // create the empty buffer
                     gps.data = new byte[msglen];
@@ -2515,7 +2516,15 @@ Please check the following
                     generatePacket((byte) MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
                 }
 
-                inject_frag_no++;
+                // packet is perfectly aligned and larger than one packet, send termination packet
+                if ((length % msglen) == 0 && (length > msglen))
+                {
+                    gps.len = 0;
+                    gps.data = new byte[msglen];
+                    generatePacket((byte)MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
+                }
+
+                inject_seq_no++;
             }
             else
             {
