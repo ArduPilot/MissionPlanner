@@ -36,6 +36,8 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.chk_rtcmmsg = new System.Windows.Forms.CheckBox();
+            this.lbl_svin = new System.Windows.Forms.Label();
+            this.chk_m8pautoconfig = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -91,10 +93,26 @@
             this.chk_rtcmmsg.UseVisualStyleBackColor = true;
             this.chk_rtcmmsg.CheckedChanged += new System.EventHandler(this.chk_rtcmmsg_CheckedChanged);
             // 
+            // lbl_svin
+            // 
+            resources.ApplyResources(this.lbl_svin, "lbl_svin");
+            this.lbl_svin.Name = "lbl_svin";
+            // 
+            // chk_m8pautoconfig
+            // 
+            resources.ApplyResources(this.chk_m8pautoconfig, "chk_m8pautoconfig");
+            this.chk_m8pautoconfig.Checked = true;
+            this.chk_m8pautoconfig.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_m8pautoconfig.Name = "chk_m8pautoconfig";
+            this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
+            this.chk_m8pautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
+            // 
             // SerialInjectGPS
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_m8pautoconfig);
+            this.Controls.Add(this.lbl_svin);
             this.Controls.Add(this.chk_rtcmmsg);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.CMB_baudrate);
@@ -116,5 +134,7 @@
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.CheckBox chk_rtcmmsg;
+        private System.Windows.Forms.Label lbl_svin;
+        private System.Windows.Forms.CheckBox chk_m8pautoconfig;
     }
 }

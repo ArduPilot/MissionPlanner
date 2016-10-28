@@ -17,7 +17,7 @@ namespace MissionPlanner.Utilities
 
         int step = 0;
 
-        public byte[] buffer = new u8[1024 * 4];
+        byte[] buffer = new u8[1024 * 4];
         u32 payloadlen = 0;
         int msglencount = 0;
         rtcmpreamble pre;

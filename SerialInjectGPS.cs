@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Threading;
 using log4net;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 namespace MissionPlanner
 {
@@ -26,6 +27,8 @@ namespace MissionPlanner
         private Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
         // sbp detection
         private Utilities.sbp sbp = new Utilities.sbp();
+        // ubx detection
+        private Utilities.ubx_m8p ubx_m8p = new Utilities.ubx_m8p();
         // background thread 
         private System.Threading.Thread t12;
         private static bool threadrun = false;
@@ -122,24 +125,9 @@ namespace MissionPlanner
                 }
 
                 // inject init strings - m8p
-                if (true)
+                if (chk_m8pautoconfig.Checked)
                 {
-                    var ubloxm8p_timepulse_60s_1m = new byte[]
-                    {
-                        0xB5, 0x62, 0x06, 0x71, 0x28, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3C, 0x00,
-                        0x00, 0x00, 0x20, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x4A, 0x53
-                    };
-                    comPort.Write(ubloxm8p_timepulse_60s_1m, 0, ubloxm8p_timepulse_60s_1m.Length);
-                    var ubloxm8p_msg_f5_05_5s = new byte[]
-                    {0xB5, 0x62, 0x06, 0x01, 0x08, 0x00, 0xF5, 0x05, 0x00, 0x05, 0x00, 0x05, 0x00, 0x00, 0x13, 0x96};
-                    comPort.Write(ubloxm8p_msg_f5_05_5s, 0, ubloxm8p_msg_f5_05_5s.Length);
-                    var ubloxm8p_msg_f5_4d_1s = new byte[]
-                    {0xB5, 0x62, 0x06, 0x01, 0x08, 0x00, 0xF5, 0x4D, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x53, 0x6E};
-                    comPort.Write(ubloxm8p_msg_f5_4d_1s, 0, ubloxm8p_msg_f5_4d_1s.Length);
-                    var ubloxm8p_msg_f5_57_1s = new byte[]
-                    {0xB5, 0x62, 0x06, 0x01, 0x08, 0x00, 0xF5, 0x57, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00, 0x5D, 0xB4};
-                    comPort.Write(ubloxm8p_msg_f5_57_1s, 0, ubloxm8p_msg_f5_57_1s.Length);
+                    ubx_m8p.SetupM8P(comPort);
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -165,6 +153,20 @@ namespace MissionPlanner
                         delegate
                         {
                             this.lbl_status.Text = label;
+                        }
+                    );
+            }
+        }
+
+        private void updateSVINLabel(string label)
+        {
+            if (!this.IsDisposed)
+            {
+                this.BeginInvoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            this.lbl_svin.Text = label;
                         }
                     );
             }
@@ -244,6 +246,14 @@ namespace MissionPlanner
                                     msgseen[seen] = 0;
                                 msgseen[seen] = (int)msgseen[seen] + 1;
                             }
+                            // ubx
+                            if ((seen = ubx_m8p.Read(buffer[a])) > 0)
+                            {
+                                ProcessUBXMessage();
+                                if (!msgseen.ContainsKey(seen))
+                                    msgseen[seen] = 0;
+                                msgseen[seen] = (int)msgseen[seen] + 1;
+                            }
                         }
                     }
 
@@ -256,6 +266,44 @@ namespace MissionPlanner
             }
         }
 
+        private void ProcessUBXMessage()
+        {
+            try
+            {
+                // survey in
+                if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x3b)
+                {
+                    var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
+
+                    var X = svin.meanX / 100.0 + svin.meanXHP * 0.0001;
+                    var Y = svin.meanY / 100.0 + svin.meanYHP * 0.0001;
+                    var Z = svin.meanZ / 100.0 + svin.meanZHP * 0.0001;
+
+                    var pos = new double[] { X, Y, Z };
+
+                    double[] baseposllh = new double[3];
+
+                    Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
+
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
+
+                    updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) + " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc / 10000.0);
+                }
+
+                //pvt
+                if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x7)
+                {
+                    var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
+
+                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.h_msl / 1000.0);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
         private void ExtractBasePos(int seen)
         {
             try
@@ -263,7 +311,7 @@ namespace MissionPlanner
                 if (seen == 1005)
                 {
                     var basepos = new Utilities.rtcm3.type1005();
-                    basepos.Read(rtcm3.buffer);
+                    basepos.Read(rtcm3.packet);
 
                     var pos = basepos.ecefposition;
 
@@ -276,7 +324,7 @@ namespace MissionPlanner
                 else if (seen == 1006)
                 {
                     var basepos = new Utilities.rtcm3.type1006();
-                    basepos.Read(rtcm3.buffer);
+                    basepos.Read(rtcm3.packet);
 
                     var pos = basepos.ecefposition;
 
@@ -342,6 +390,11 @@ namespace MissionPlanner
         private void chk_rtcmmsg_CheckedChanged(object sender, EventArgs e)
         {
             rtcm_msg = chk_rtcmmsg.Checked;
+        }
+
+        private void chk_m8pautoconfig_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
