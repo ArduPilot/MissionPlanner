@@ -208,6 +208,10 @@ namespace MissionPlanner
                     // limit to 110 byte packets
                     byte[] buffer = new byte[110];
 
+                    // limit to 180 byte packet if using new packet
+                    if (rtcm_msg)
+                        buffer = new byte[180];
+
                     while (comPort.BytesToRead > 0)
                     {
                         int read = comPort.Read(buffer, 0, Math.Min(buffer.Length, comPort.BytesToRead));
