@@ -433,7 +433,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 rowlist.Add(row);
                 row.CreateCells(Params);
                 row.Cells[Command.Index].Value = value;
-                row.Cells[Value.Index].Value = ((float) MainV2.comPort.MAV.param[value]).ToString();
+                row.Cells[Value.Index].Value = MainV2.comPort.MAV.param[value].ToString();
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,

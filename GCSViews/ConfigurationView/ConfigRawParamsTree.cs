@@ -352,7 +352,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 data.root = split[0];
 
                 data.paramname = value;
-                data.Value = ((float) MainV2.comPort.MAV.param[value]).ToString();
+                data.Value = MainV2.comPort.MAV.param[value].ToString();
                 try
                 {
                     var metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value,
