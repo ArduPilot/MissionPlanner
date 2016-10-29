@@ -2295,16 +2295,21 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
+                    // handle current wp upload number
+                    int uploadwpno = a;
+                    if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                        uploadwpno--;
+
                     // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a), frame, 0, 1, use_int);
+                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(uploadwpno), frame, 0, 1, use_int);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        port.setWPPartialUpdate((ushort) (a), totalwpcountforupload);
+                        port.setWPPartialUpdate((ushort) (uploadwpno), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort) (a), frame, 0, 1, use_int);
+                        ans = port.setWP(temp, (ushort) (uploadwpno), frame, 0, 1, use_int);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
