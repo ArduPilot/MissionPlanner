@@ -110,7 +110,7 @@
             // SerialInjectGPS
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.chk_m8pautoconfig);
             this.Controls.Add(this.lbl_svin);
             this.Controls.Add(this.chk_rtcmmsg);

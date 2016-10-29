@@ -101,7 +101,7 @@
             // ConnectionControl
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.Controls.Add(this.cmb_sysid);
             this.Controls.Add(this.linkLabel1);

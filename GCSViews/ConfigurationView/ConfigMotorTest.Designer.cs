@@ -84,7 +84,7 @@
             // ConfigMotorTest
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.NUM_duration);
             this.Controls.Add(this.linkLabel1);

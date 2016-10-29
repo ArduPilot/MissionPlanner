@@ -97,7 +97,7 @@
             // ConfigHWUAVCANESC
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.but_factoryreset);
             this.Controls.Add(this.but_saveconfig);

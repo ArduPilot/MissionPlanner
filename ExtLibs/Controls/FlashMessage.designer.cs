@@ -4,7 +4,7 @@ namespace MissionPlanner.Controls
 {
     partial class FlashMessage
     {
-        public AutoScaleMode AutoScaleMode = AutoScaleMode.Font;
+        public AutoScaleMode AutoScaleMode = AutoScaleMode.None;
 
         /// <summary> 
         /// Required designer variable.

@@ -217,7 +217,7 @@
             // LogBrowse
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.splitContainer1);
             this.Name = "LogBrowse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LogBrowse_FormClosed);

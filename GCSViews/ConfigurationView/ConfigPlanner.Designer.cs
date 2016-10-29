@@ -635,7 +635,7 @@
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.but_AAsignin);
             this.Controls.Add(this.chk_norcreceiver);
             this.Controls.Add(this.chk_temp);

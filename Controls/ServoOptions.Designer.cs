@@ -99,7 +99,7 @@
             // ServoOptions
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.TXT_rcchannel);
             this.Controls.Add(this.BUT_Repeat);
             this.Controls.Add(this.TXT_pwm_high);

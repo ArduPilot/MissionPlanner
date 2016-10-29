@@ -68,7 +68,7 @@
             // ConfigESCCalibration
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.labelRC);
             this.Controls.Add(this.label2);

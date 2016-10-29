@@ -119,7 +119,7 @@
             // MavlinkLog
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.BUT_matlab);
             this.Controls.Add(this.BUT_getwpsfromlog);

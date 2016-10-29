@@ -97,7 +97,7 @@
             // ConfigHWAirspeed
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.lbl_airspeed_pin);
             this.Controls.Add(this.mavlinkCheckBoxAirspeed_pin);
             this.Controls.Add(this.CHK_airspeeduse);

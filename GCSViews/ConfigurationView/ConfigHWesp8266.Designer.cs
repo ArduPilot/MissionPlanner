@@ -139,7 +139,7 @@
             // ConfigHWESP8266
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.cmb_channel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);

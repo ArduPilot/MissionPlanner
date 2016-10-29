@@ -75,7 +75,7 @@
             // SerialOutputPass
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.chk_write);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);

@@ -74,7 +74,7 @@
             // ConfigHWPX4Flow
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.but_focusmode);
             this.Controls.Add(this.imagebox);
             this.Controls.Add(this.label3);

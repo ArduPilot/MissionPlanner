@@ -111,7 +111,7 @@
             // 
             this.AcceptButton = this.BUT_save;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(428, 523);
             this.Controls.Add(this.CHK_toggleall);
             this.Controls.Add(this.BUT_save);

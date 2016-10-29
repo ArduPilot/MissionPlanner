@@ -266,7 +266,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // ConfigFirmware
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.picturebox_ph2);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.lbl_licence);

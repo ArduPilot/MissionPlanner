@@ -83,7 +83,7 @@ namespace SikRadio
             // Rssi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.zedGraphControl1);
