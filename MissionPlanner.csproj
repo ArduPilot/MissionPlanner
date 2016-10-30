@@ -641,11 +641,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass.Designer.cs">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.Designer.cs">
-      <DependentUpon>ConfigHWUAVCANESC.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.Designer.cs">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs">
       <SubType>UserControl</SubType>
@@ -1688,8 +1688,8 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-TW.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.resx">
-      <DependentUpon>ConfigHWUAVCANESC.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.resx">
       <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
@@ -3660,6 +3660,7 @@
     <None Include="Resources\redsinglecopter2.png" />
     <None Include="Resources\FW icons 2013+logos-011.png" />
     <None Include="Resources\FW icons 2013+logos-012.png" />
+    <None Include="Resources\uavcanesc.jpg" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -731,6 +731,8 @@ namespace MissionPlanner.GCSViews
                 return cmd;
             }
 
+            log.Info("Reading MAV_CMD for " + MainV2.comPort.MAV.cs.firmware);
+
             using (XmlReader reader = XmlReader.Create(file))
             {
                 reader.Read();
