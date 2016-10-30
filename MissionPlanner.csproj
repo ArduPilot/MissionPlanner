@@ -197,6 +197,10 @@
       <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="netDxf, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\netDXF.0.9.3\lib\netDxf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -303,9 +307,6 @@
     </Reference>
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="netDxf">
-      <HintPath>ExtLibs\netDxf.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
@@ -958,6 +959,7 @@
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\dxf.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />
     <Compile Include="Utilities\GMapMarkerPhoto.cs" />

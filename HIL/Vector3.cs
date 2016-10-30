@@ -70,6 +70,17 @@ namespace MissionPlanner.HIL
 
                 throw new Exception("Bad index");
             }
+            set
+            {
+                if (index == 0)
+                    x = value;
+                if (index == 1)
+                    y = value;
+                if (index == 2)
+                    z = value;
+
+                throw new Exception("Bad index");
+            }
         }
 
         public static Vector3 operator +(Vector3 self, Vector3 v)

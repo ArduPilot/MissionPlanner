@@ -7,7 +7,7 @@ using uint16_t = System.UInt16;
 using uint8_t = System.Byte;
 using int32_t = System.Int32;
 using int8_t = System.SByte;
-using netDxf;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner.Utilities
 {
@@ -39,9 +39,9 @@ namespace MissionPlanner.Utilities
         {
             double gps_heading = ToRad(state.ground_course);
 
-            state.velocity.X = state.ground_speed * (float)Math.Cos(gps_heading);
-            state.velocity.Y = state.ground_speed * (float)Math.Sin(gps_heading);
-            state.velocity.Z = 0;
+            state.velocity.x = state.ground_speed * (float)Math.Cos(gps_heading);
+            state.velocity.y = state.ground_speed * (float)Math.Sin(gps_heading);
+            state.velocity.z = 0;
             state.have_vertical_velocity = false;
         }
 
@@ -122,7 +122,7 @@ namespace MissionPlanner.Utilities
             public uint8_t num_sats;
 
             ///< Number of visible satelites        
-            public Vector3f velocity;
+            public Vector3 velocity;
 
             ///< 3D velocitiy in m/s, in NED format
             public float speed_accuracy;

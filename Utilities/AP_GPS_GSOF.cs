@@ -597,7 +597,7 @@ namespace MissionPlanner.Utilities
                             state.ground_speed = SwapFloat(gsof_msg.data, a + 1);
                             state.ground_course = (float)(ToDeg(SwapFloat(gsof_msg.data, a + 5)));
                             fill_3d_velocity();
-                            state.velocity.Z = -SwapFloat(gsof_msg.data, a + 9);
+                            state.velocity.z = -SwapFloat(gsof_msg.data, a + 9);
                             state.have_vertical_velocity = true;
                         }
                     }

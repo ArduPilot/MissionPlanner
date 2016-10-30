@@ -92,6 +92,7 @@ namespace MissionPlanner.Controls
         {
             if (this.DesignMode)
             {
+                VSync = true;
                 opengl = false;
                 //return;
             }

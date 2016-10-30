@@ -8548,6 +8548,7 @@
       <User>Advanced</User>
     </TECS_TKOFF_IGAIN>
     <TECS_LAND_PDAMP>
+      <DisplayName>Pitch damping gain</DisplayName>
       <Description>This is the damping gain for the pitch demand loop. Increase to add damping  to correct for oscillations in speed and height. If set to 0 then TECS_PTCH_DAMP will be used instead.</Description>
       <Range>0.1 1.0</Range>
       <Increment>0.1</Increment>
@@ -15879,6 +15880,7 @@
       <Increment>1</Increment>
       <ReadOnly>True</ReadOnly>
       <Volatile>True</Volatile>
+      <User>Advanced</User>
     </GND_ABS_PRESS>
     <GND_TEMP>
       <DisplayName>ground temperature</DisplayName>
@@ -15887,17 +15889,20 @@
       <Increment>1</Increment>
       <ReadOnly>True</ReadOnly>
       <Volatile>True</Volatile>
+      <User>Advanced</User>
     </GND_TEMP>
     <GND_ALT_OFFSET>
       <DisplayName>altitude offset</DisplayName>
       <Description>altitude offset in meters added to barometric altitude. This is used to allow for automatic adjustment of the base barometric altitude by a ground station equipped with a barometer. The value is added to the barometric altitude read by the aircraft. It is automatically reset to 0 when the barometer is calibrated on each reboot or when a preflight calibration is performed.</Description>
       <Units>meters</Units>
       <Increment>0.1</Increment>
+      <User>Advanced</User>
     </GND_ALT_OFFSET>
     <GND_PRIMARY>
       <DisplayName>Primary barometer</DisplayName>
       <Description>This selects which barometer will be the primary if multiple barometers are found</Description>
       <Values>0:FirstBaro,1:2ndBaro,2:3rdBaro</Values>
+      <User>Advanced</User>
     </GND_PRIMARY>
     <COMPASS_OFS_X>
       <DisplayName>Compass offsets in milligauss on the X axis</DisplayName>
@@ -15905,6 +15910,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS_X>
     <COMPASS_OFS_Y>
       <DisplayName>Compass offsets in milligauss on the Y axis</DisplayName>
@@ -15912,6 +15918,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS_Y>
     <COMPASS_OFS_Z>
       <DisplayName>Compass offsets in milligauss on the Z axis</DisplayName>
@@ -15919,6 +15926,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS_Z>
     <COMPASS_DEC>
       <DisplayName>Compass declination</DisplayName>
@@ -15958,6 +15966,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT_X>
     <COMPASS_MOT_Y>
       <DisplayName>Motor interference compensation for body frame Y axis</DisplayName>
@@ -15965,6 +15974,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT_Y>
     <COMPASS_MOT_Z>
       <DisplayName>Motor interference compensation for body frame Z axis</DisplayName>
@@ -15972,6 +15982,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT_Z>
     <COMPASS_ORIENT>
       <DisplayName>Compass orientation</DisplayName>
@@ -15991,6 +16002,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS2_X>
     <COMPASS_OFS2_Y>
       <DisplayName>Compass2 offsets in milligauss on the Y axis</DisplayName>
@@ -15998,6 +16010,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS2_Y>
     <COMPASS_OFS2_Z>
       <DisplayName>Compass2 offsets in milligauss on the Z axis</DisplayName>
@@ -16005,6 +16018,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS2_Z>
     <COMPASS_MOT2_X>
       <DisplayName>Motor interference compensation to compass2 for body frame X axis</DisplayName>
@@ -16012,6 +16026,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT2_X>
     <COMPASS_MOT2_Y>
       <DisplayName>Motor interference compensation to compass2 for body frame Y axis</DisplayName>
@@ -16019,6 +16034,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT2_Y>
     <COMPASS_MOT2_Z>
       <DisplayName>Motor interference compensation to compass2 for body frame Z axis</DisplayName>
@@ -16026,6 +16042,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT2_Z>
     <COMPASS_PRIMARY>
       <DisplayName>Choose primary compass</DisplayName>
@@ -16039,6 +16056,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS3_X>
     <COMPASS_OFS3_Y>
       <DisplayName>Compass3 offsets in milligauss on the Y axis</DisplayName>
@@ -16046,6 +16064,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS3_Y>
     <COMPASS_OFS3_Z>
       <DisplayName>Compass3 offsets in milligauss on the Z axis</DisplayName>
@@ -16053,6 +16072,7 @@
       <Range>-400 400</Range>
       <Units>milligauss</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_OFS3_Z>
     <COMPASS_MOT3_X>
       <DisplayName>Motor interference compensation to compass3 for body frame X axis</DisplayName>
@@ -16060,6 +16080,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT3_X>
     <COMPASS_MOT3_Y>
       <DisplayName>Motor interference compensation to compass3 for body frame Y axis</DisplayName>
@@ -16067,6 +16088,7 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT3_Y>
     <COMPASS_MOT3_Z>
       <DisplayName>Motor interference compensation to compass3 for body frame Z axis</DisplayName>
@@ -16074,18 +16096,22 @@
       <Range>-1000 1000</Range>
       <Units>Offset per Amp or at Full Throttle</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </COMPASS_MOT3_Z>
     <COMPASS_DEV_ID>
       <DisplayName>Compass device id</DisplayName>
       <Description>Compass device id.  Automatically detected, do not set manually</Description>
+      <User>Advanced</User>
     </COMPASS_DEV_ID>
     <COMPASS_DEV_ID2>
       <DisplayName>Compass2 device id</DisplayName>
       <Description>Second compass's device id.  Automatically detected, do not set manually</Description>
+      <User>Advanced</User>
     </COMPASS_DEV_ID2>
     <COMPASS_DEV_ID3>
       <DisplayName>Compass3 device id</DisplayName>
       <Description>Third compass's device id.  Automatically detected, do not set manually</Description>
+      <User>Advanced</User>
     </COMPASS_DEV_ID3>
     <COMPASS_USE2>
       <DisplayName>Compass2 used for yaw</DisplayName>
@@ -16126,74 +16152,92 @@
     <COMPASS_DIA_X>
       <DisplayName>Compass soft-iron diagonal X component</DisplayName>
       <Description>DIA_X in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA_X>
     <COMPASS_DIA_Y>
       <DisplayName>Compass soft-iron diagonal Y component</DisplayName>
       <Description>DIA_Y in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA_Y>
     <COMPASS_DIA_Z>
       <DisplayName>Compass soft-iron diagonal Z component</DisplayName>
       <Description>DIA_Z in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA_Z>
     <COMPASS_ODI_X>
       <DisplayName>Compass soft-iron off-diagonal X component</DisplayName>
       <Description>ODI_X in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI_X>
     <COMPASS_ODI_Y>
       <DisplayName>Compass soft-iron off-diagonal Y component</DisplayName>
       <Description>ODI_Y in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI_Y>
     <COMPASS_ODI_Z>
       <DisplayName>Compass soft-iron off-diagonal Z component</DisplayName>
       <Description>ODI_Z in the compass soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI_Z>
     <COMPASS_DIA2_X>
       <DisplayName>Compass2 soft-iron diagonal X component</DisplayName>
       <Description>DIA_X in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA2_X>
     <COMPASS_DIA2_Y>
       <DisplayName>Compass2 soft-iron diagonal Y component</DisplayName>
       <Description>DIA_Y in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA2_Y>
     <COMPASS_DIA2_Z>
       <DisplayName>Compass2 soft-iron diagonal Z component</DisplayName>
       <Description>DIA_Z in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA2_Z>
     <COMPASS_ODI2_X>
       <DisplayName>Compass2 soft-iron off-diagonal X component</DisplayName>
       <Description>ODI_X in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI2_X>
     <COMPASS_ODI2_Y>
       <DisplayName>Compass2 soft-iron off-diagonal Y component</DisplayName>
       <Description>ODI_Y in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI2_Y>
     <COMPASS_ODI2_Z>
       <DisplayName>Compass2 soft-iron off-diagonal Z component</DisplayName>
       <Description>ODI_Z in the compass2 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI2_Z>
     <COMPASS_DIA3_X>
       <DisplayName>Compass3 soft-iron diagonal X component</DisplayName>
       <Description>DIA_X in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA3_X>
     <COMPASS_DIA3_Y>
       <DisplayName>Compass3 soft-iron diagonal Y component</DisplayName>
       <Description>DIA_Y in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA3_Y>
     <COMPASS_DIA3_Z>
       <DisplayName>Compass3 soft-iron diagonal Z component</DisplayName>
       <Description>DIA_Z in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_DIA3_Z>
     <COMPASS_ODI3_X>
       <DisplayName>Compass3 soft-iron off-diagonal X component</DisplayName>
       <Description>ODI_X in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI3_X>
     <COMPASS_ODI3_Y>
       <DisplayName>Compass3 soft-iron off-diagonal Y component</DisplayName>
       <Description>ODI_Y in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI3_Y>
     <COMPASS_ODI3_Z>
       <DisplayName>Compass3 soft-iron off-diagonal Z component</DisplayName>
       <Description>ODI_Z in the compass3 soft-iron calibration matrix: [[DIA_X, ODI_X, ODI_Y], [ODI_X, DIA_Y, ODI_Z], [ODI_Y, ODI_Z, DIA_Z]]</Description>
+      <User>Advanced</User>
     </COMPASS_ODI3_Z>
     <COMPASS_CAL_FIT>
       <DisplayName>Compass calibration fitness</DisplayName>
@@ -16737,11 +16781,66 @@
       <User>Advanced</User>
       <Values>1:IMU 1,2:IMU 2,3:IMU 3</Values>
     </INS_ACC_BODYFIX>
+    <INS_POS1_X>
+      <DisplayName>IMU accelerometer X position</DisplayName>
+      <Description>X position of the first IMU Accelerometer in body frame. Positive X is forward of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS1_X>
+    <INS_POS1_Y>
+      <DisplayName>IMU accelerometer Y position</DisplayName>
+      <Description>Y position of the first IMU accelerometer in body frame. Positive Y is to the right of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS1_Y>
+    <INS_POS1_Z>
+      <DisplayName>IMU accelerometer Z position</DisplayName>
+      <Description>Z position of the first IMU accelerometer in body frame. Positive Z is down from the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS1_Z>
+    <INS_POS2_X>
+      <DisplayName>IMU accelerometer X position</DisplayName>
+      <Description>X position of the second IMU accelerometer in body frame. Positive X is forward of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS2_X>
+    <INS_POS2_Y>
+      <DisplayName>IMU accelerometer Y position</DisplayName>
+      <Description>Y position of the second IMU accelerometer in body frame. Positive Y is to the right of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS2_Y>
+    <INS_POS2_Z>
+      <DisplayName>IMU accelerometer Z position</DisplayName>
+      <Description>Z position of the second IMU accelerometer in body frame. Positive Z is down from the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS2_Z>
+    <INS_POS3_X>
+      <DisplayName>IMU accelerometer X position</DisplayName>
+      <Description>X position of the third IMU accelerometer in body frame. Positive X is forward of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS3_X>
+    <INS_POS3_Y>
+      <DisplayName>IMU accelerometer Y position</DisplayName>
+      <Description>Y position of the third IMU accelerometer in body frame. Positive Y is to the right of the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS3_Y>
+    <INS_POS3_Z>
+      <DisplayName>IMU accelerometer Z position</DisplayName>
+      <Description>Z position of the third IMU accelerometer in body frame. Positive Z is down from the origin. Attention: The IMU should be located as close to the vehicle c.g. as practical so that the value of this parameter is minimised. Failure to do so can result in noisy navigation velocity measurements due to vibration and IMU gyro noise. If the IMU cannot be moved and velocity noise is a problem, a location closer to the IMU can be used as the body frame origin.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </INS_POS3_Z>
     <AHRS_GPS_GAIN>
       <DisplayName>AHRS GPS gain</DisplayName>
       <Description>This controls how how much to use the GPS to correct the attitude. This should never be set to zero for a plane as it would result in the plane losing control in turns. For a plane please use the default value of 1.0.</Description>
       <Range>0.0 1.0</Range>
       <Increment>.01</Increment>
+      <User>Advanced</User>
     </AHRS_GPS_GAIN>
     <AHRS_GPS_USE>
       <DisplayName>AHRS use GPS for navigation</DisplayName>
@@ -16754,12 +16853,14 @@
       <Description>This controls the weight the compass or GPS has on the heading. A higher value means the heading will track the yaw source (GPS or compass) more rapidly.</Description>
       <Range>0.1 0.4</Range>
       <Increment>.01</Increment>
+      <User>Advanced</User>
     </AHRS_YAW_P>
     <AHRS_RP_P>
       <DisplayName>AHRS RP_P</DisplayName>
       <Description>This controls how fast the accelerometers correct the attitude</Description>
       <Range>0.1 0.4</Range>
       <Increment>.01</Increment>
+      <User>Advanced</User>
     </AHRS_RP_P>
     <AHRS_WIND_MAX>
       <DisplayName>Maximum wind</DisplayName>
@@ -16767,6 +16868,7 @@
       <Range>0 127</Range>
       <Units>m/s</Units>
       <Increment>1</Increment>
+      <User>Advanced</User>
     </AHRS_WIND_MAX>
     <AHRS_TRIM_X>
       <DisplayName>AHRS Trim Roll</DisplayName>
@@ -16774,7 +16876,7 @@
       <Units>Radians</Units>
       <Range>-0.1745 +0.1745</Range>
       <Increment>0.01</Increment>
-      <User>User</User>
+      <User>Standard</User>
     </AHRS_TRIM_X>
     <AHRS_TRIM_Y>
       <DisplayName>AHRS Trim Pitch</DisplayName>
@@ -16782,7 +16884,7 @@
       <Units>Radians</Units>
       <Range>-0.1745 +0.1745</Range>
       <Increment>0.01</Increment>
-      <User>User</User>
+      <User>Standard</User>
     </AHRS_TRIM_Y>
     <AHRS_TRIM_Z>
       <DisplayName>AHRS Trim Yaw</DisplayName>
@@ -16823,30 +16925,35 @@
       <Description>Control assigning of FMU pins to PWM output, timer capture and GPIO. All unassigned pins can be used for GPIO</Description>
       <Values>0:No PWMs,2:Two PWMs,4:Four PWMs,6:Six PWMs,7:Three PWMs and One Capture</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_PWM_COUNT>
     <BRD_SER1_RTSCTS>
       <DisplayName>Serial 1 flow control</DisplayName>
       <Description>Enable flow control on serial 1 (telemetry 1) on Pixhawk. You must have the RTS and CTS pins connected to your radio. The standard DF13 6 pin connector for a 3DR radio does have those pins connected. If this is set to 2 then flow control will be auto-detected by checking for the output buffer filling on startup. Note that the PX4v1 does not have hardware flow control pins on this port, so you should leave this disabled.</Description>
       <Values>0:Disabled,1:Enabled,2:Auto</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_SER1_RTSCTS>
     <BRD_SER2_RTSCTS>
       <DisplayName>Serial 2 flow control</DisplayName>
       <Description>Enable flow control on serial 2 (telemetry 2) on Pixhawk and PX4. You must have the RTS and CTS pins connected to your radio. The standard DF13 6 pin connector for a 3DR radio does have those pins connected. If this is set to 2 then flow control will be auto-detected by checking for the output buffer filling on startup.</Description>
       <Values>0:Disabled,1:Enabled,2:Auto</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_SER2_RTSCTS>
     <BRD_SAFETYENABLE>
       <DisplayName>Enable use of safety arming switch</DisplayName>
       <Description>This controls the default state of the safety switch at startup. When set to 1 the safety switch will start in the safe state (flashing) at boot. When set to zero the safety switch will start in the unsafe state (solid) at startup. Note that if a safety switch is fitted the user can still control the safety state after startup using the switch. The safety state can also be controlled in software using a MAVLink message.</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Standard</User>
     </BRD_SAFETYENABLE>
     <BRD_SBUS_OUT>
       <DisplayName>SBUS output rate</DisplayName>
       <Description>This sets the SBUS output frame rate in Hz</Description>
       <Values>0:Disabled,1:50Hz,2:75Hz,3:100Hz,4:150Hz,5:200Hz,6:250Hz,7:300Hz</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_SBUS_OUT>
     <BRD_SERIAL_NUM>
       <DisplayName>User-defined serial number</DisplayName>
@@ -16858,42 +16965,49 @@
       <DisplayName>Enable use of UAVCAN devices</DisplayName>
       <Description>Enabling this option on a Pixhawk enables UAVCAN devices. Note that this uses about 25k of memory</Description>
       <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
     </BRD_CAN_ENABLE>
     <BRD_SAFETY_MASK>
       <DisplayName>Channels to which ignore the safety switch state</DisplayName>
       <Description>A bitmask which controls what channels can move while the safety switch has not been pressed</Description>
       <Values>0:Disabled,1:Enabled</Values>
-      <Bitmask>0:Ch1,1:Ch2,2:Ch3,3:Ch4,4:Ch5,5:Ch6,6:Ch7,7:Ch8</Bitmask>
+      <Bitmask>0:Ch1,1:Ch2,2:Ch3,3:Ch4,4:Ch5,5:Ch6,6:Ch7,7:Ch8,8:Ch9,9:Ch10,10:Ch11,11:Ch12,12:Ch13,13:Ch14</Bitmask>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_SAFETY_MASK>
     <BRD_IMU_TARGTEMP>
       <DisplayName>Target IMU temperature</DisplayName>
       <Description>This sets the target IMU temperature for boards with controllable IMU heating units. A value of -1 disables heating.</Description>
       <Range>-1 80</Range>
       <Units>degreesC</Units>
+      <User>Advanced</User>
     </BRD_IMU_TARGTEMP>
     <BRD_TYPE>
       <DisplayName>Board type</DisplayName>
       <Description>This allows selection of a PX4 or VRBRAIN board type. If set to zero then the board type is auto-detected (PX4)</Description>
       <Values>0:AUTO,1:PX4V1,2:Pixhawk,3:Pixhawk2,4:Pixracer,5:PixhawkMini,6:Pixhawk2Slim,7:VRBrain 5.1,8:VRBrain 5.2,9:VR Micro Brain 5.1,10:VR Micro Brain 5.2,11:VRBrain Core 1.0,12:VRBrain 5.4</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </BRD_TYPE>
     <GPS_TYPE>
       <DisplayName>GPS type</DisplayName>
       <Description>GPS type</Description>
-      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN,10:SBF,11:GSOF</Values>
+      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN,10:SBF,11:GSOF,12:QURT,13:ERB,14:MAV,15:NOVA</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </GPS_TYPE>
     <GPS_TYPE2>
       <DisplayName>2nd GPS type</DisplayName>
       <Description>GPS type of 2nd GPS</Description>
       <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN,10:SBF,11:GSOF</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </GPS_TYPE2>
     <GPS_NAVFILTER>
       <DisplayName>Navigation filter setting</DisplayName>
       <Description>Navigation filter engine setting</Description>
       <Values>0:Portable,2:Stationary,3:Pedestrian,4:Automotive,5:Sea,6:Airborne1G,7:Airborne2G,8:Airborne4G</Values>
+      <User>Advanced</User>
     </GPS_NAVFILTER>
     <GPS_AUTO_SWITCH>
       <DisplayName>Automatic Switchover Setting</DisplayName>
@@ -16925,6 +17039,7 @@
       <DisplayName>Destination for GPS_INJECT_DATA MAVLink packets</DisplayName>
       <Description>The GGS can send raw serial packets to inject data to multiple GPSes.</Description>
       <Values>0:send to first GPS,1:send to 2nd GPS,127:send to all</Values>
+      <User>Advanced</User>
     </GPS_INJECT_TO>
     <GPS_SBP_LOGMASK>
       <DisplayName>Swift Binary Protocol Logging Mask</DisplayName>
@@ -16937,6 +17052,7 @@
       <Description>Enable logging of RXM raw data from uBlox which includes carrier phase and pseudo range information. This allows for post processing of dataflash logs for more precise positioning. Note that this requires a raw capable uBlox such as the 6P or 6T.</Description>
       <Values>0:Disabled,1:log every sample,5:log every 5 samples</Values>
       <RebootRequired>True</RebootRequired>
+      <User>Advanced</User>
     </GPS_RAW_DATA>
     <GPS_GNSS_MODE>
       <DisplayName>GNSS system configuration</DisplayName>
@@ -16964,6 +17080,54 @@
       <Values>0:Disables automatic configuration,1:Enable automatic configuration</Values>
       <User>Advanced</User>
     </GPS_AUTO_CONFIG>
+    <GPS_RATE_MS>
+      <DisplayName>GPS update rate in milliseconds</DisplayName>
+      <Description>Controls how often the GPS should provide a position update. Lowering below 5Hz is not allowed</Description>
+      <Values>100:10Hz,125:8Hz,200:5Hz</Values>
+      <User>Advanced</User>
+    </GPS_RATE_MS>
+    <GPS_RATE_MS2>
+      <DisplayName>GPS 2 update rate in milliseconds</DisplayName>
+      <Description>Controls how often the GPS should provide a position update. Lowering below 5Hz is not allowed</Description>
+      <Values>100:10Hz,125:8Hz,200:5Hz</Values>
+      <User>Advanced</User>
+    </GPS_RATE_MS2>
+    <GPS_POS1_X>
+      <DisplayName>Antenna X position offset</DisplayName>
+      <Description>X position of the first GPS antenna in body frame. Positive X is forward of the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS1_X>
+    <GPS_POS1_Y>
+      <DisplayName>Antenna Y position offset</DisplayName>
+      <Description>Y position of the first GPS antenna in body frame. Positive Y is to the right of the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS1_Y>
+    <GPS_POS1_Z>
+      <DisplayName>Antenna Z position offset</DisplayName>
+      <Description>Z position of the first GPS antenna in body frame. Positive Z is down from the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS1_Z>
+    <GPS_POS2_X>
+      <DisplayName>Antenna X position offset</DisplayName>
+      <Description>X position of the second GPS antenna in body frame. Positive X is forward of the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS2_X>
+    <GPS_POS2_Y>
+      <DisplayName>Antenna Y position offset</DisplayName>
+      <Description>Y position of the second GPS antenna in body frame. Positive Y is to the right of the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS2_Y>
+    <GPS_POS2_Z>
+      <DisplayName>Antenna Z position offset</DisplayName>
+      <Description>Z position of the second GPS antenna in body frame. Positive Z is down from the origin. Use antenna phase centroid location if provided by the manufacturer.</Description>
+      <Units>m</Units>
+      <User>Advanced</User>
+    </GPS_POS2_Z>
     <NTF_LED_BRIGHT>
       <DisplayName>LED Brightness</DisplayName>
       <Description>Select the RGB LED brightness level. When USB is connected brightness will never be higher than low regardless of the setting.</Description>
@@ -17071,7 +17235,7 @@
     <SERIAL1_PROTOCOL>
       <DisplayName>Telem1 protocol selection</DisplayName>
       <Description>Control what protocol to use on the Telem1 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX)</Values>
+      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX), 11:Lidar360</Values>
       <User>Standard</User>
     </SERIAL1_PROTOCOL>
     <SERIAL1_BAUD>
@@ -17083,7 +17247,7 @@
     <SERIAL2_PROTOCOL>
       <DisplayName>Telemetry 2 protocol selection</DisplayName>
       <Description>Control what protocol to use on the Telem2 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX)</Values>
+      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX), 11:Lidar360</Values>
       <User>Standard</User>
     </SERIAL2_PROTOCOL>
     <SERIAL2_BAUD>
@@ -17095,7 +17259,7 @@
     <SERIAL3_PROTOCOL>
       <DisplayName>Serial 3 (GPS) protocol selection</DisplayName>
       <Description>Control what protocol Serial 3 (GPS) should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX)</Values>
+      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX), 11:Lidar360</Values>
       <User>Standard</User>
     </SERIAL3_PROTOCOL>
     <SERIAL3_BAUD>
@@ -17107,7 +17271,7 @@
     <SERIAL4_PROTOCOL>
       <DisplayName>Serial4 protocol selection</DisplayName>
       <Description>Control what protocol Serial4 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX)</Values>
+      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX), 11:Lidar360</Values>
       <User>Standard</User>
     </SERIAL4_PROTOCOL>
     <SERIAL4_BAUD>
@@ -17119,7 +17283,7 @@
     <SERIAL5_PROTOCOL>
       <DisplayName>Serial5 protocol selection</DisplayName>
       <Description>Control what protocol Serial5 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
-      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX)</Values>
+      <Values>-1:None, 1:MAVLink1, 2:MAVLink2, 3:Frsky D, 4:Frsky SPort, 5:GPS, 7:Alexmos Gimbal Serial, 8:SToRM32 Gimbal Serial, 9:Lidar, 10:FrSky SPort Passthrough (OpenTX), 11:Lidar360</Values>
       <User>Standard</User>
     </SERIAL5_PROTOCOL>
     <SERIAL5_BAUD>
