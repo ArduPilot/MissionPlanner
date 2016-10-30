@@ -250,7 +250,10 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     // update the curve
                     var curve = zedGraphControl1.GraphPane.CurveList["MAV " + drone.MavState.sysid.ToString()];
                     curve.Clear();
-                    curve.AddPoint((double)(drone.PathIndex*0.1), drone.Location.Alt);
+                    try
+                    {
+                        curve.AddPoint((double)(drone.PathIndex * 0.1), drone.Location.Alt);
+                    } catch { }
                 }
             }
 
