@@ -137,6 +137,8 @@ namespace AltitudeAngelWings.Service
 
             AAFeatureCollection mapData = await _aaClient.GetMapData(area);
 
+            await _messagesService.AddMessageAsync($"Map area Loaded {area.Top}, {area.Bottom}, {area.Left}, {area.Right}");
+
             IOverlay airOverlay = map.GetOverlay("AAMapData.Air", true);
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 

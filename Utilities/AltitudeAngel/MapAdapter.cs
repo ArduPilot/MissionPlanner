@@ -66,9 +66,30 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 if (item.Tag is Feature)
                 {
-                    var prop = ((Feature) item.Tag).Properties;
+                    var prop = ((Feature)item.Tag).Properties;
 
-                    var st = String.Format("{0} is categorised as {1}", prop["name"], prop["detailedCategory"]);
+                    var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
+
+                    var sections = display["sections"];
+
+                    string title;
+                    string text;
+
+                    if (sections.Count() == 0)
+                    {
+                        title = prop["detailedCategory"].ToString();
+                        text = "";
+                    }
+                    else
+                    {
+                        var section1 = sections[0];
+
+                        var iconURL = section1["iconUrl"].ToString();
+                        title = section1["title"].ToString();
+                        text = section1["text"].ToString();
+                    }
+
+                    var st = String.Format("{0} is categorised as a {1}\n\n{2}", prop["name"], title, text);
 
                     CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
                 }
@@ -96,6 +117,11 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             RectLatLng rectLatLng = default(RectLatLng);
 
             _context.Send(_ => rectLatLng = _mapControl.ViewArea, null);
+
+            if (rectLatLng.WidthLng < 0.03)
+                rectLatLng.Inflate(0, (0.03 - rectLatLng.WidthLng) / 2);
+            if (rectLatLng.HeightLat < 0.03)
+                rectLatLng.Inflate((0.03 - rectLatLng.HeightLat)/2, 0);
 
             return rectLatLng;
         }
