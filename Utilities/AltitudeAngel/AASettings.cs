@@ -16,6 +16,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             InitializeComponent();
 
+            ThemeManager.ApplyThemeTo(this);
+
             // load settings
             chk_grounddata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay;
             chk_airdata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay;
