@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    public partial class ConfigHWUAVCANESC : UserControl, IActivate
+    public partial class ConfigHWUAVCAN : UserControl, IActivate
     {
         private const float rad2deg = (float) (180/Math.PI);
         private const float deg2rad = (float) (1.0/rad2deg);
 
-        public ConfigHWUAVCANESC()
+        public ConfigHWUAVCAN()
         {
             InitializeComponent();
         }
@@ -21,6 +22,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Enabled = false;
             }
             Enabled = true;
+
+            mavlinkComboBox_uavcan.setup(ParameterMetaDataRepository.GetParameterOptionsInt("BRD_CAN_ENABLE",
+                MainV2.comPort.MAV.cs.firmware.ToString()), "BRD_CAN_ENABLE", MainV2.comPort.MAV.param);
         }
 
 
@@ -47,6 +51,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_factoryreset_Click(object sender, EventArgs e)
         {
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 2, 0, 0, 0, 0, 0, 0, false);
+        }
+
+        private void mavlinkComboBox_uavcan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
