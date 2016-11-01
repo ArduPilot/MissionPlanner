@@ -7,6 +7,7 @@ using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner.Utilities;
 using MissionPlanner;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner.Swarm
 {
@@ -72,14 +73,14 @@ namespace MissionPlanner.Swarm
 
                     GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-                    int utmzone = (int) ((masterpos.Lng - -186.0)/6.0);
+                    int utmzone = (int)((masterpos.Lng - -186.0) / 6.0);
 
                     IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
                         masterpos.Lat < 0 ? false : true);
 
                     ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-                    double[] pll1 = {target.Lng, target.Lat};
+                    double[] pll1 = { target.Lng, target.Lat };
 
                     double[] p1 = trans.MathTransform.Transform(pll1);
 
@@ -91,16 +92,16 @@ namespace MissionPlanner.Swarm
                     var y = ((HIL.Vector3)offsets[port]).y;
 
                     // add offsets to utm
-                    p1[0] += x*Math.Cos(heading*deg2rad) - y*Math.Sin(heading*deg2rad);
-                    p1[1] += x*Math.Sin(heading*deg2rad) + y*Math.Cos(heading*deg2rad);
+                    p1[0] += x * Math.Cos(heading * deg2rad) - y * Math.Sin(heading * deg2rad);
+                    p1[1] += x * Math.Sin(heading * deg2rad) + y * Math.Cos(heading * deg2rad);
 
                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
                         // project the point forwards gs*5
                         var gs = port.MAV.cs.groundspeed;
 
-                        p1[1] += gs*5*Math.Cos((-heading)*deg2rad);
-                        p1[0] += gs*5*Math.Sin((-heading)*deg2rad);
+                        p1[1] += gs * 5 * Math.Cos((-heading) * deg2rad);
+                        p1[0] += gs * 5 * Math.Sin((-heading) * deg2rad);
                     }
                     // convert back to wgs84
                     IMathTransform inversedTransform = trans.MathTransform.Inverse();
@@ -108,31 +109,43 @@ namespace MissionPlanner.Swarm
 
                     target.Lat = point[1];
                     target.Lng = point[0];
-                    target.Alt += ((HIL.Vector3) offsets[port]).z;
+                    target.Alt += ((HIL.Vector3)offsets[port]).z;
 
                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
                         var dist = target.GetDistance(new PointLatLngAlt(port.MAV.cs.lat, port.MAV.cs.lng, port.MAV.cs.alt));
 
-                        dist -= port.MAV.cs.groundspeed*5;
+                        dist -= port.MAV.cs.groundspeed * 5;
 
                         var leadergs = Leader.MAV.cs.groundspeed;
 
-                        var newspeed = (leadergs + (float) (dist/10));
+                        var newspeed = (leadergs + (float)(dist / 10));
 
                         if (newspeed < 5)
                             newspeed = 5;
 
-                        port.setParam("TRIM_ARSPD_CM", newspeed*100.0f);
+                        port.setParam("TRIM_ARSPD_CM", newspeed * 100.0f);
                     }
 
-                    port.setGuidedModeWP(new Locationwp()
+
+                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
-                        alt = (float) target.Alt,
-                        lat = target.Lat,
-                        lng = target.Lng,
-                        id = (ushort)MAVLink.MAV_CMD.WAYPOINT
-                    });
+                        port.setGuidedModeWP(new Locationwp()
+                        {
+                            alt = (float)target.Alt,
+                            lat = target.Lat,
+                            lng = target.Lng,
+                            id = (ushort)MAVLink.MAV_CMD.WAYPOINT
+                        });
+                    }
+                    else
+                    {
+                        Vector3 vel = new Vector3(Math.Cos(Leader.MAV.cs.groundcourse * deg2rad) * Leader.MAV.cs.groundspeed,
+                        Math.Sin(Leader.MAV.cs.groundcourse * deg2rad) * Leader.MAV.cs.groundspeed, Leader.MAV.cs.verticalspeed);
+
+                        port.setPositionTargetGlobalInt((byte)port.sysidcurrent, (byte)port.compidcurrent, true, true, false,
+                            MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, target.Lat, target.Lng, target.Alt, vel.x, vel.y, -vel.z);
+                    }
 
                     Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
                 }
