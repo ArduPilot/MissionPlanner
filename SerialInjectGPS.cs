@@ -13,6 +13,9 @@ using System.Threading;
 using log4net;
 using System.Collections;
 using System.Runtime.InteropServices;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System.Globalization;
 
 namespace MissionPlanner
 {
@@ -40,6 +43,8 @@ namespace MissionPlanner
 
         static bool rtcm_msg = true;
 
+        PointLatLngAlt basepos = PointLatLngAlt.Zero;
+
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
 
@@ -59,6 +64,8 @@ namespace MissionPlanner
             }
 
             chk_rtcmmsg.Checked = rtcm_msg;
+
+            loadBasePOS();
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
@@ -127,7 +134,7 @@ namespace MissionPlanner
                 // inject init strings - m8p
                 if (chk_m8pautoconfig.Checked)
                 {
-                    ubx_m8p.SetupM8P(comPort);
+                    ubx_m8p.SetupM8P(comPort, basepos);
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -292,6 +299,8 @@ namespace MissionPlanner
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
 
                     updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) + " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc / 10000.0);
+
+                    ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
                 }
 
                 //pvt
@@ -400,9 +409,29 @@ namespace MissionPlanner
             rtcm_msg = chk_rtcmmsg.Checked;
         }
 
-        private void chk_m8pautoconfig_CheckedChanged(object sender, EventArgs e)
+        void loadBasePOS()
         {
+            try
+            {
+                string[] bspos = Settings.Instance["base_pos"].Split(',');
 
+                basepos = new PointLatLngAlt(double.Parse(bspos[0], CultureInfo.InvariantCulture),
+                    double.Parse(bspos[1], CultureInfo.InvariantCulture),
+                    double.Parse(bspos[2], CultureInfo.InvariantCulture));
+            } catch
+            {
+            }
+        }
+
+        private void but_base_pos_Click(object sender, EventArgs e)
+        {
+            string basepos = Settings.Instance["base_pos"];
+            if (InputBox.Show("Base POS", "Please enter base pos location 'lat,lng,alt'", ref basepos) == DialogResult.OK)
+            {
+                Settings.Instance["base_pos"] = basepos;
+
+                loadBasePOS();
+            }
         }
     }
 }

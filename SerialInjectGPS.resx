@@ -140,30 +140,6 @@
   <data name="&gt;&gt;CMB_serialport.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 13</value>
-  </data>
-  <data name="BUT_connect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="BUT_connect.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="BUT_connect.Text" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Name" xml:space="preserve">
-    <value>BUT_connect</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6144.32382, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="CMB_baudrate.Items" xml:space="preserve">
     <value>2400</value>
   </data>
@@ -218,14 +194,18 @@
   <data name="&gt;&gt;CMB_baudrate.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="lbl_status.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lbl_status.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="lbl_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lbl_status.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 68</value>
   </data>
   <data name="lbl_status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 26</value>
+    <value>451, 30</value>
   </data>
   <data name="lbl_status.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -252,8 +232,11 @@ messages</value>
   <data name="chk_rtcmmsg.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="chk_rtcmmsg.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="chk_rtcmmsg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>221, 17</value>
+    <value>221, 12</value>
   </data>
   <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 17</value>
@@ -276,20 +259,27 @@ messages</value>
   <data name="&gt;&gt;chk_rtcmmsg.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="lbl_svin.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left, Right</value>
+  </data>
   <data name="lbl_svin.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="lbl_svin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="lbl_svin.Location" type="System.Drawing.Point, System.Drawing">
     <value>16, 98</value>
   </data>
   <data name="lbl_svin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>16, 13</value>
+    <value>16, 26</value>
   </data>
   <data name="lbl_svin.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="lbl_svin.Text" xml:space="preserve">
-    <value>...</value>
+    <value>...
+...</value>
   </data>
   <data name="&gt;&gt;lbl_svin.Name" xml:space="preserve">
     <value>lbl_svin</value>
@@ -306,12 +296,11 @@ messages</value>
   <data name="chk_m8pautoconfig.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="chk_m8pautoconfig.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="chk_m8pautoconfig.Location" type="System.Drawing.Point, System.Drawing">
-    <value>329, 17</value>
+    <value>6, 19</value>
   </data>
   <data name="chk_m8pautoconfig.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
@@ -329,19 +318,94 @@ messages</value>
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_m8pautoconfig.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;chk_m8pautoconfig.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="but_base_pos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_base_pos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 36</value>
+  </data>
+  <data name="but_base_pos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_base_pos.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="but_base_pos.Text" xml:space="preserve">
+    <value>Base Position</value>
+  </data>
+  <data name="&gt;&gt;but_base_pos.Name" xml:space="preserve">
+    <value>but_base_pos</value>
+  </data>
+  <data name="&gt;&gt;but_base_pos.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6150.36256, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_base_pos.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;but_base_pos.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 13</value>
+  </data>
+  <data name="BUT_connect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_connect.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Name" xml:space="preserve">
+    <value>BUT_connect</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6150.36256, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>329, 3</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>113, 62</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>M8P</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>476, 124</value>
+    <value>476, 138</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -418,6 +482,9 @@ messages</value>
         AACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAgAAAAIAAAACAAAAAwAAAAcAAAAHgAAAD4AAAA/AA
         AAf4AAAP/AAAH/4AAD//gAD//+AD//////8=
 </value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>GPS Inject</value>

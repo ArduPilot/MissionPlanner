@@ -60,7 +60,7 @@ namespace MissionPlanner.Utilities
                     break;
                 case 2:
                     buffer[2] = data;
-                    step++; 
+                    step++;
                     break;
                 case 3:
                     buffer[3] = data;
@@ -204,7 +204,50 @@ namespace MissionPlanner.Utilities
             public uint8_t[] reserved3;
         }
 
-        public void SetupM8P(ICommsSerial port)
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 40)]
+        public struct ubx_cfg_tmode3
+        {
+            public ubx_cfg_tmode3(double lat, double lng, double alt, double acc = 0.001)
+            {
+                version = 0;
+                reserved1 = 0;
+                flags = 256 + 2; // lla + fixed mode
+                ecefXorLat = (int)(lat * 1e7);
+                ecefYorLon = (int)(lng * 1e7);
+                ecefZorAlt = (int)(alt * 100.0);
+                ecefXOrLatHP = (sbyte)((lat * 1e7 - ecefXorLat) * 100.0);
+                ecefYOrLonHP = (sbyte)((lng * 1e7 - ecefYorLon) * 100.0);
+                ecefZOrAltHP = (sbyte)((alt * 100.0 - ecefZorAlt) * 100.0);
+                reserved2 = 0;
+                fixedPosAcc = (uint)(acc * 1000.0);
+                svinMinDur = 60;
+                svinAccLimit = 2000;
+                reserved3 = new byte[8];
+            }
+
+            public static implicit operator byte[] (ubx_cfg_tmode3 input)
+            {
+                return MavlinkUtil.StructureToByteArray(input);
+            }
+
+            public byte version;
+            public byte reserved1;
+            public ushort flags;
+            public int ecefXorLat; // 1e7
+            public int ecefYorLon;
+            public int ecefZorAlt;
+            public sbyte ecefXOrLatHP;
+            public sbyte ecefYOrLonHP;
+            public sbyte ecefZOrAltHP;
+            public byte reserved2;
+            public uint fixedPosAcc;
+            public uint svinMinDur;
+            public uint svinAccLimit;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+            public byte[] reserved3;
+        }
+
+        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos)
         {
             // port config - 115200 - uart1
             var packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
@@ -230,7 +273,7 @@ namespace MissionPlanner.Utilities
             port.Write(packet, 0, packet.Length);
 
             // 1077 - 1s
-            packet = generate(0x6, 0x1, new byte[] {0xF5, 0x4D, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
+            packet = generate(0x6, 0x1, new byte[] { 0xF5, 0x4D, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
 
             // 1087 - 1s
@@ -240,11 +283,21 @@ namespace MissionPlanner.Utilities
             System.Threading.Thread.Sleep(100);
             System.Threading.Thread.Sleep(100);
 
-            // survey in config - 60s and < 2m
-            packet = generate(0x6, 0x71, new byte[] {0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            if (basepos == PointLatLngAlt.Zero)
+            {
+                // survey in config - 60s and < 2m
+                packet = generate(0x6, 0x71, new byte[] {0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3C, 0x00,
                         0x00, 0x00, 0x20, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+                port.Write(packet, 0, packet.Length);
+            }
+            else
+            {
+                byte[] data = new ubx_cfg_tmode3(basepos.Lat, basepos.Lng, basepos.Alt);
+                packet = generate(0x6, 0x71, data);
+                port.Write(packet, 0, packet.Length);
+            }
+
             System.Threading.Thread.Sleep(100);
         }
 
