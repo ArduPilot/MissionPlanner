@@ -839,8 +839,27 @@ namespace MissionPlanner
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.3.2/ArduCopter/Parameters.cpp"
                 , "ArduCopter3.3.2.xml");
 
+            ParameterMetaDataParser.GetParameterInformation(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.3/ArduCopter/Parameters.cpp"
+                , "ArduCopter3.3.xml");
 
-// plane
+            ParameterMetaDataParser.GetParameterInformation(
+         "https://raw.githubusercontent.com/ArduPilot/ardupilot/Copter-3.4/ArduCopter/Parameters.cpp"
+         , "ArduCopter3.4.xml");
+
+            // plane
+
+            ParameterMetaDataParser.GetParameterInformation(
+          "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.1/ArduPlane/Parameters.cpp"
+          , "ArduPlane3.7.1.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+    "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.7.0/ArduPlane/Parameters.cpp"
+    , "ArduPlane3.7.0.xml");
+
+            ParameterMetaDataParser.GetParameterInformation(
+           "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.6.0/ArduPlane/Parameters.cpp"
+           , "ArduPlane3.6.0.xml");
 
             ParameterMetaDataParser.GetParameterInformation(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/ArduPlane-3.5.2/ArduPlane/Parameters.cpp"
