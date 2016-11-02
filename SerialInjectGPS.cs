@@ -324,6 +324,8 @@ namespace MissionPlanner
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
+
+                    updateSVINLabel(String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
                 }
                 else if (seen == 1006)
                 {
@@ -337,6 +339,8 @@ namespace MissionPlanner
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0], baseposllh[1], baseposllh[2]);
+
+                    updateSVINLabel(String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
                 }
             } catch
             {
