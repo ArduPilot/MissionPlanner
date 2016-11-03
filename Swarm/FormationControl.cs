@@ -109,8 +109,8 @@ namespace MissionPlanner.Swarm
                 // update other mavs
                 SwarmInterface.SendCommand();
 
-                // 5 hz
-                System.Threading.Thread.Sleep(200);
+                // 10 hz
+                System.Threading.Thread.Sleep(100);
             }
         }
 
