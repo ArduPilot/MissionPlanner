@@ -16,6 +16,7 @@ using System.Runtime.InteropServices;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Globalization;
+using System.IO;
 
 namespace MissionPlanner
 {
@@ -44,6 +45,8 @@ namespace MissionPlanner
         static bool rtcm_msg = true;
 
         PointLatLngAlt basepos = PointLatLngAlt.Zero;
+
+        BinaryWriter basedata;
 
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
@@ -77,6 +80,10 @@ namespace MissionPlanner
                 threadrun = false;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
+                try
+                {
+                    basedata.Close();
+                } catch { }
             }
             else
             {
@@ -123,6 +130,19 @@ namespace MissionPlanner
                 try
                 {
                     comPort.Open();
+
+                    try
+                    {
+                        basedata = new BinaryWriter(new BufferedStream(
+                                File.Open(
+                                    Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                    DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".gpsbase", FileMode.CreateNew,
+                                    FileAccess.ReadWrite, FileShare.None)));
+                    }
+                    catch (Exception ex2)
+                    {
+                        CustomMessageBox.Show("Error creating file to save base data into " + ex2.ToString());
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -134,7 +154,7 @@ namespace MissionPlanner
                 // inject init strings - m8p
                 if (chk_m8pautoconfig.Checked)
                 {
-                    ubx_m8p.SetupM8P(comPort, basepos);
+                    ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text), double.Parse(txt_surveyinAcc.Text));
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -229,6 +249,13 @@ namespace MissionPlanner
                         bytes += read;
                         bps += read;
 
+                        try
+                        {
+                            if(basedata != null)
+                                basedata.Write(buffer, 0, read);
+                        }
+                        catch { }
+
                         if (!(isrtcm || issbp))
                             sendData(buffer, (byte) read);
                         
@@ -236,34 +263,37 @@ namespace MissionPlanner
                         // check for valid rtcm packets
                         for (int a = 0; a < read; a++)
                         {
-                            int seen = -1;
+                            int seenmsg = -1;
                             // rtcm
-                            if ((seen = rtcm3.Read(buffer[a])) > 0)
+                            if ((seenmsg = rtcm3.Read(buffer[a])) > 0)
                             {
                                 isrtcm = true;
                                 sendData(rtcm3.packet, (byte)rtcm3.length);
-                                if (!msgseen.ContainsKey(seen))
-                                    msgseen[seen] = 0;
-                                msgseen[seen] = (int)msgseen[seen] + 1;
+                                string msgname = "Rtcm" + seenmsg;
+                                if (!msgseen.ContainsKey(msgname))
+                                    msgseen[msgname] = 0;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
 
-                                ExtractBasePos(seen);
+                                ExtractBasePos(seenmsg);
                             }
                             // sbp
-                            if ((seen = sbp.read(buffer[a])) > 0)
+                            if ((seenmsg = sbp.read(buffer[a])) > 0)
                             {
                                 issbp = true;
                                 sendData(sbp.packet, (byte)sbp.length);
-                                if (!msgseen.ContainsKey(seen))
-                                    msgseen[seen] = 0;
-                                msgseen[seen] = (int)msgseen[seen] + 1;
+                                string msgname = "Sbp" + seenmsg.ToString("X4");
+                                if (!msgseen.ContainsKey(msgname))
+                                    msgseen[msgname] = 0;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                             // ubx
-                            if ((seen = ubx_m8p.Read(buffer[a])) > 0)
+                            if ((seenmsg = ubx_m8p.Read(buffer[a])) > 0)
                             {
                                 ProcessUBXMessage();
-                                if (!msgseen.ContainsKey(seen))
-                                    msgseen[seen] = 0;
-                                msgseen[seen] = (int)msgseen[seen] + 1;
+                                string msgname = "Ubx" + seenmsg.ToString("X4");
+                                if (!msgseen.ContainsKey(msgname))
+                                    msgseen[msgname] = 0;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                         }
                     }
@@ -392,6 +422,13 @@ namespace MissionPlanner
 
             updateLabel("bytes " + bytes + " bps " + bps + "\n" + sb.ToString());
             bps = 0;
+
+            try
+            {
+                if (basedata != null)
+                    basedata.Flush();
+            }
+            catch { }
         }
 
         private void SerialInjectGPS_Load(object sender, EventArgs e)
@@ -420,6 +457,7 @@ namespace MissionPlanner
                     double.Parse(bspos[2], CultureInfo.InvariantCulture));
             } catch
             {
+                basepos = PointLatLngAlt.Zero;
             }
         }
 

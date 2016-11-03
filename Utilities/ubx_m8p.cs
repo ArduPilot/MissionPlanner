@@ -225,6 +225,24 @@ namespace MissionPlanner.Utilities
                 reserved3 = new byte[8];
             }
 
+            public ubx_cfg_tmode3(uint DurationS, double AccLimit)
+            {
+                version = 0;
+                reserved1 = 0;
+                flags = 1; // surveyin mode
+                ecefXorLat = 0;
+                ecefYorLon = 0;
+                ecefZorAlt = 0;
+                ecefXOrLatHP = (sbyte)0;
+                ecefYOrLonHP = (sbyte)0;
+                ecefZOrAltHP = (sbyte)0;
+                reserved2 = 0;
+                fixedPosAcc = 0;
+                svinMinDur = DurationS;
+                svinAccLimit = (uint)(AccLimit * 10000);
+                reserved3 = new byte[8];
+            }
+
             public static implicit operator byte[] (ubx_cfg_tmode3 input)
             {
                 return MavlinkUtil.StructureToByteArray(input);
@@ -247,11 +265,17 @@ namespace MissionPlanner.Utilities
             public byte[] reserved3;
         }
 
-        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos)
+        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0)
         {
             // port config - 115200 - uart1
             var packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
                 0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            port.Write(packet, 0, packet.Length);
+            System.Threading.Thread.Sleep(100);
+
+            // port config - usb
+            packet = generate(0x6, 0x00, new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
             System.Threading.Thread.Sleep(100);
 
@@ -260,25 +284,35 @@ namespace MissionPlanner.Utilities
             port.Write(packet, 0, packet.Length);
             System.Threading.Thread.Sleep(100);
 
+            // turn off all nmea
+            for (int a = 0; a <= 0xf; a++)
+            {
+                turnon_off(port, 0xf0, (byte)a, 0);
+            }
+
             // surveyin msg - for feedback
-            packet = generate(0x6, 0x1, new byte[] { 0x01, 0x3b, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+            turnon_off(port, 0x01, 0x3b, 1);
 
             // pvt msg - for feedback
-            packet = generate(0x6, 0x1, new byte[] { 0x01, 0x7, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+            turnon_off(port, 0x01, 0x07, 1);
 
             // 1005 - 5s
-            packet = generate(0x6, 0x1, new byte[] { 0xF5, 0x05, 0x00, 0x05, 0x00, 0x05, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+            turnon_off(port, 0xf5, 0x05, 5);
 
             // 1077 - 1s
-            packet = generate(0x6, 0x1, new byte[] { 0xF5, 0x4D, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+            turnon_off(port, 0xf5, 0x4d, 1);
 
             // 1087 - 1s
-            packet = generate(0x6, 0x1, new byte[] { 0xF5, 0x57, 0x00, 0x01, 0x00, 0x01, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
+            turnon_off(port, 0xf5, 0x57, 1);
+
+            // rxm-raw/rawx - 1s
+            turnon_off(port, 0x02, 0x15, 1);
+            turnon_off(port, 0x02, 0x10, 1);
+
+            // rxm-sfrb/sfrb - 5s
+            turnon_off(port, 0x02, 0x13, 5);
+            turnon_off(port, 0x02, 0x11, 5);
+
 
             System.Threading.Thread.Sleep(100);
             System.Threading.Thread.Sleep(100);
@@ -286,9 +320,7 @@ namespace MissionPlanner.Utilities
             if (basepos == PointLatLngAlt.Zero)
             {
                 // survey in config - 60s and < 2m
-                packet = generate(0x6, 0x71, new byte[] {0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3C, 0x00,
-                        0x00, 0x00, 0x20, 0x4E, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 });
+                packet = generate(0x6, 0x71, new ubx_cfg_tmode3(60, 2));
                 port.Write(packet, 0, packet.Length);
             }
             else

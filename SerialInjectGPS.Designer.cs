@@ -40,6 +40,10 @@
             this.but_base_pos = new MissionPlanner.Controls.MyButton();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_surveyinDur = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -118,11 +122,35 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.txt_surveyinDur);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.txt_surveyinAcc);
             this.groupBox1.Controls.Add(this.chk_m8pautoconfig);
             this.groupBox1.Controls.Add(this.but_base_pos);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // txt_surveyinDur
+            // 
+            resources.ApplyResources(this.txt_surveyinDur, "txt_surveyinDur");
+            this.txt_surveyinDur.Name = "txt_surveyinDur";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // txt_surveyinAcc
+            // 
+            resources.ApplyResources(this.txt_surveyinAcc, "txt_surveyinAcc");
+            this.txt_surveyinAcc.Name = "txt_surveyinAcc";
             // 
             // SerialInjectGPS
             // 
@@ -157,5 +185,9 @@
         private System.Windows.Forms.CheckBox chk_m8pautoconfig;
         private Controls.MyButton but_base_pos;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txt_surveyinAcc;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txt_surveyinDur;
     }
 }
