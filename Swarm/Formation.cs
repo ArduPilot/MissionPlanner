@@ -125,11 +125,8 @@ namespace MissionPlanner.Swarm
                             newspeed = 5;
 
                         port.setParam("TRIM_ARSPD_CM", newspeed * 100.0f);
-                    }
 
-
-                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                    {
+                        // send position
                         port.setGuidedModeWP(new Locationwp()
                         {
                             alt = (float)target.Alt,
