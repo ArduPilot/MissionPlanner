@@ -226,7 +226,17 @@ namespace MissionPlanner.Swarm
             //getLeader follower utm coords
             double[] mavutm = trans.MathTransform.Transform(mavpll);
 
-            return new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
+            var heading = leader.MAV.cs.yaw-90;
+
+           var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
+
+            float rad2deg = (float)(180 / Math.PI);
+            float deg2rad = (float)(1.0 / rad2deg);
+
+            //norotation.x *= -1;
+            //norotation.y *= -1;
+
+            return new HIL.Vector3( norotation.x * Math.Cos(heading * deg2rad) - norotation.y * Math.Sin(heading * deg2rad), norotation.x * Math.Sin(heading * deg2rad) + norotation.y * Math.Cos(heading * deg2rad), 0);
         }
 
         private void grid1_UpdateOffsets(MAVLinkInterface mav, float x, float y, float z, Grid.icon ico)
@@ -260,8 +270,8 @@ namespace MissionPlanner.Swarm
 
                 if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
                 {
-                    grid1.UpdateIcon(port, (float) offset.x, (float) offset.y, (float) offset.z, true);
-                    //((Formation)SwarmInterface).setOffsets(port, offset.x, offset.y, offset.z);
+                    grid1.UpdateIcon(port, (float) offset.y, (float) offset.x, (float) offset.z, true);
+                    ((Formation)SwarmInterface).setOffsets(port, offset.y, offset.x, offset.z);
                 }
             }
         }
