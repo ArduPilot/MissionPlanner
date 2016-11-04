@@ -13,8 +13,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 {
     public partial class WPControl : Form
     {
-        static DroneGroup DG = new DroneGroup();
-        static bool threadrun;
+        DroneGroup DG = new DroneGroup();
+        bool threadrun;
 
         public WPControl()
         {
@@ -24,6 +24,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
             zedGraphControl1.GraphPane.XAxis.Title.Text = "Distance";
             zedGraphControl1.GraphPane.YAxis.Title.Text = "Altitude";
+
+            DG.Drones.Clear();
         }
 
         private void but_master_Click(object sender, EventArgs e)
@@ -306,6 +308,12 @@ namespace MissionPlanner.Swarm.WaypointLeader
         private void chk_alt_interleave_CheckedChanged(object sender, EventArgs e)
         {
             DG.AltInterleave = chk_alt_interleave.Checked;
+        }
+
+        private void WPControl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            threadrun = false;
+            System.Threading.Thread.Sleep(500);
         }
     }
 }
