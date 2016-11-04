@@ -218,17 +218,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             ThemeManager.ApplyThemeTo(thisctl);
 
-                            thisctl.Validated += null;
-                            if (tooltips[value] != null)
-                            {
-                                try
-                                {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings) tooltips[value]).desc);
-                                }
-                                catch
-                                {
-                                }
-                            }
                             thisctl.Validated += EEPROM_View_float_TextChanged;
                         }
                         else if (ctl.GetType() == typeof (ComboBox))
