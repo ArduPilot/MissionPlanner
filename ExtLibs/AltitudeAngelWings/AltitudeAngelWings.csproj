@@ -134,6 +134,7 @@
     <Compile Include="ApiClient\Client\ApiOAuthClientHandler.cs" />
     <Compile Include="ApiClient\Client\ClientHandlerInfo.cs" />
     <Compile Include="ApiClient\Client\AltitudeAngelHttpHandlerFactory.cs" />
+    <Compile Include="ApiClient\Client\Extensions.cs" />
     <Compile Include="ApiClient\Client\IAuthorizeCodeProvider.cs" />
     <Compile Include="ApiClient\CodeProvider\WpfAuthorizeDisplay.cs" />
     <Compile Include="ApiClient\Models\AAFeatureCollection.cs" />

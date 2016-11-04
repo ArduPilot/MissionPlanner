@@ -147,8 +147,7 @@ namespace AltitudeAngelWings.Service
             airOverlay.IsVisible = AirDataDisplay;
 
             // Only get the features that have no lower alt or start below 152m. Ignoring datum for now...
-            IEnumerable<Feature> features = mapData.Features.ToList();
-
+            IEnumerable<Feature> features = mapData.Features.Where(feature => feature.IsEnabledByDefault()).ToList();
 
             foreach (Feature feature in features)
             {
@@ -163,7 +162,6 @@ namespace AltitudeAngelWings.Service
                     if (!GroundDataDisplay)
                     {
                         if (overlay.PolygonExists(feature.Id))
-
                             continue;
                     }
                 }
