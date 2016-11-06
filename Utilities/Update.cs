@@ -464,6 +464,28 @@ namespace MissionPlanner.Utilities
             #endregion Fetch Parameter Meta Data
 
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Base URL");
+
+            try
+            {
+                File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "writetest.txt", "this is a test");
+            }
+            catch(Exception ex)
+            {
+                log.Info("Write test failed");
+                throw new Exception("Unable to write to the install directory", ex);
+            }
+            finally
+            {
+                try
+                {
+                    File.Delete(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "writetest.txt");
+                }
+                catch
+                {
+                    log.Info("Write test cleanup failed");
+                }
+            }
+
             // check for updates
             //  if (Debugger.IsAttached)
             {
