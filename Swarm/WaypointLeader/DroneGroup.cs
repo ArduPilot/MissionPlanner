@@ -32,6 +32,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
         public bool V { get; set; }
         public double Takeoff_Land_alt_sep { get; set; }
         public bool AltInterleave { get; set; }
+        public decimal WPNAV_ACCEL { get; internal set; }
 
         public PointPairList path_to_fly = new PointPairList();
 
@@ -57,6 +58,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
             OffPathTrigger = 10;
             Takeoff_Land_alt_sep = 2;
             AltInterleave = false;
+            WPNAV_ACCEL = 1;
         }
 
         public void UpdatePositions()
@@ -191,6 +193,16 @@ namespace MissionPlanner.Swarm.WaypointLeader
                                 MAV.parent.GetParam(MAV.sysid, MAV.compid, "RTL_ALT");
                                 // set param
                                 MAV.parent.setParam(MAV.sysid, MAV.compid, "RTL_ALT", 0); // cms - rtl at current alt
+                            }
+                            catch
+                            {
+                            }
+                            try
+                            {
+                                // get param
+                                MAV.parent.GetParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL");
+                                // set param to default 100cm/s
+                                MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
                             }
                             catch
                             {
@@ -343,6 +355,15 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     // check how far off target we are
                     if (newpositionsfollowuser.Count > 0 && AirMasterDrone.Location.GetDistance(newpositionsfollowuser.First()) < Seperation)
                     {
+                        // update speed as we are changing to a high dynamic mode
+                        foreach (var drone in newlist)
+                        {
+                            if (drone == GroundMasterDrone)
+                                continue;
+                            var MAV = drone.MavState;
+                            // update to faster speed
+                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", (float)WPNAV_ACCEL*100.0f);
+                        }
                         //if we are off target, we have already sent the command to this drone,
                         //but skip the one behind it untill this one is within the seperation range 
                         CurrentMode = Mode.followuser;
@@ -428,6 +449,16 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         if (d > (newpositions4.Count - 1))
                             break;
 
+                        try
+                        {
+                            var MAV = drone.MavState;
+                            // set param to default 100cm/s
+                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
+                        }
+                        catch
+                        {
+                        }
+
                         // set drone target position
                         drone.TargetLocation = newpositions4[d];
 
@@ -455,6 +486,16 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     foreach (var drone in newlist)
                     {
                         drone.TargetLocation.Alt += Takeoff_Land_alt_sep * e;
+
+                        try
+                        {
+                            var MAV = drone.MavState;
+                            // set param to default 100cm/s
+                            MAV.parent.setParam(MAV.sysid, MAV.compid, "WPNAV_ACCEL", 100);
+                        }
+                        catch
+                        {
+                        }
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);

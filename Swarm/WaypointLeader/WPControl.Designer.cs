@@ -47,14 +47,18 @@
             this.but_airmaster = new MissionPlanner.Controls.MyButton();
             this.but_start = new MissionPlanner.Controls.MyButton();
             this.but_master = new MissionPlanner.Controls.MyButton();
+            this.but_setmoderltland = new MissionPlanner.Controls.MyButton();
+            this.num_wpnav_accel = new System.Windows.Forms.NumericUpDown();
             this.chk_V = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.chk_alt_interleave = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_useroffline)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_rtl_alt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_wpnav_accel)).BeginInit();
             this.SuspendLayout();
             // 
             // numericUpDown1
@@ -230,7 +234,7 @@
             // 
             // but_start
             // 
-            this.but_start.Location = new System.Drawing.Point(218, 99);
+            this.but_start.Location = new System.Drawing.Point(190, 36);
             this.but_start.Name = "but_start";
             this.but_start.Size = new System.Drawing.Size(75, 23);
             this.but_start.TabIndex = 8;
@@ -250,10 +254,42 @@
             this.but_master.UseVisualStyleBackColor = true;
             this.but_master.Click += new System.EventHandler(this.but_master_Click);
             // 
+            // but_setmoderltland
+            // 
+            this.but_setmoderltland.Location = new System.Drawing.Point(282, 65);
+            this.but_setmoderltland.Name = "but_setmoderltland";
+            this.but_setmoderltland.Size = new System.Drawing.Size(75, 44);
+            this.but_setmoderltland.TabIndex = 26;
+            this.but_setmoderltland.Text = "RTL (abandon mission)";
+            this.toolTip1.SetToolTip(this.but_setmoderltland, "set the mode to return to home");
+            this.but_setmoderltland.UseVisualStyleBackColor = true;
+            this.but_setmoderltland.Click += new System.EventHandler(this.but_setmoderltland_Click);
+            // 
+            // num_wpnav_accel
+            // 
+            this.num_wpnav_accel.DecimalPlaces = 1;
+            this.num_wpnav_accel.Location = new System.Drawing.Point(282, 133);
+            this.num_wpnav_accel.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_wpnav_accel.Name = "num_wpnav_accel";
+            this.num_wpnav_accel.Size = new System.Drawing.Size(75, 20);
+            this.num_wpnav_accel.TabIndex = 27;
+            this.toolTip1.SetToolTip(this.num_wpnav_accel, "the distance the groundmaster can go over to trigger the drones to switch to retu" +
+        "rn to home");
+            this.num_wpnav_accel.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.num_wpnav_accel.ValueChanged += new System.EventHandler(this.num_wpnav_accel_ValueChanged);
+            // 
             // chk_V
             // 
             this.chk_V.AutoSize = true;
-            this.chk_V.Location = new System.Drawing.Point(218, 76);
+            this.chk_V.Location = new System.Drawing.Point(190, 65);
             this.chk_V.Name = "chk_V";
             this.chk_V.Size = new System.Drawing.Size(33, 17);
             this.chk_V.TabIndex = 21;
@@ -290,7 +326,7 @@
             // chk_alt_interleave
             // 
             this.chk_alt_interleave.AutoSize = true;
-            this.chk_alt_interleave.Location = new System.Drawing.Point(190, 136);
+            this.chk_alt_interleave.Location = new System.Drawing.Point(188, 84);
             this.chk_alt_interleave.Name = "chk_alt_interleave";
             this.chk_alt_interleave.Size = new System.Drawing.Size(88, 17);
             this.chk_alt_interleave.TabIndex = 25;
@@ -298,10 +334,22 @@
             this.chk_alt_interleave.UseVisualStyleBackColor = true;
             this.chk_alt_interleave.CheckedChanged += new System.EventHandler(this.chk_alt_interleave_CheckedChanged);
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(190, 135);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(87, 13);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "WPNAV_ACCEL";
+            // 
             // WPControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(783, 509);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.num_wpnav_accel);
+            this.Controls.Add(this.but_setmoderltland);
             this.Controls.Add(this.chk_alt_interleave);
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.label4);
@@ -329,6 +377,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_useroffline)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_rtl_alt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_wpnav_accel)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -356,5 +405,8 @@
         private System.Windows.Forms.NumericUpDown num_rtl_alt;
         private ZedGraph.ZedGraphControl zedGraphControl1;
         private System.Windows.Forms.CheckBox chk_alt_interleave;
+        private Controls.MyButton but_setmoderltland;
+        private System.Windows.Forms.NumericUpDown num_wpnav_accel;
+        private System.Windows.Forms.Label label5;
     }
 }
