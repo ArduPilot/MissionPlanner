@@ -2734,9 +2734,19 @@ namespace MissionPlanner.GCSViews
 
         private void zg1_DoubleClick(object sender, EventArgs e)
         {
-            Form selectform = new Form
+            string formname = "select";
+            Form selectform = Application.OpenForms[formname];
+            if(selectform != null)
             {
-                Name = "select",
+                selectform.WindowState = FormWindowState.Minimized;
+                selectform.Show();
+                selectform.WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            selectform = new Form
+            {
+                Name = formname,
                 Width = 50,
                 Height = 550,
                 Text = "Graph This"
