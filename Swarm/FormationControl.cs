@@ -230,15 +230,15 @@ namespace MissionPlanner.Swarm
             //getLeader follower utm coords
             double[] mavutm = trans.MathTransform.Transform(mavpll);
 
-            var heading = leader.MAV.cs.yaw-90;
+            var heading = -leader.MAV.cs.yaw;
 
            var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
 
             float rad2deg = (float)(180 / Math.PI);
             float deg2rad = (float)(1.0 / rad2deg);
 
-            //norotation.x *= -1;
-            //norotation.y *= -1;
+            norotation.x *= -1;
+            norotation.y *= -1;
 
             return new HIL.Vector3( norotation.x * Math.Cos(heading * deg2rad) - norotation.y * Math.Sin(heading * deg2rad), norotation.x * Math.Sin(heading * deg2rad) + norotation.y * Math.Cos(heading * deg2rad), 0);
         }
