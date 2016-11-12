@@ -989,6 +989,7 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\Proximity.cs" />
     <Compile Include="Utilities\ubx_m8p.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
