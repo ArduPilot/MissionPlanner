@@ -214,6 +214,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         MAV.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, MAV.sysid, MAV.compid);
                         MAV.cs.rateposition = 5;
 
+                        drone.takeoffdone = false;
+
                         if (drone != GroundMasterDrone)
                         {
                             try
@@ -280,10 +282,12 @@ namespace MissionPlanner.Swarm.WaypointLeader
                         try
                         {
                             // takeoff
-                            if (MAV.cs.alt < (takeoffalt - 0.5))
+                            if (MAV.cs.alt < (takeoffalt - 0.5) && !drone.takeoffdone)
                                 if (MAV.parent.doCommand(MAV.sysid, MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0,
                                     0, takeoffalt))
-                                    return;
+                                {
+                                    drone.takeoffdone = true;
+                                }                            
                         }
                         catch (Exception ex)
                         {
