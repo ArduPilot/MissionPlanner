@@ -101,6 +101,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 }
             }
 
+            zedGraphControl1.AxisChange();
+
             //if (SwarmInterface != null)
             {
                 new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
