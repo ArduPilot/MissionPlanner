@@ -24,11 +24,37 @@ namespace AltitudeAngelWings.ApiClient.Client
             }
         }
 
+        public static List<string> FiltersSeen = new List<string>();
+
         public static IEnumerable<string> GetFilters(this AAFeatureCollection mapData)
         {
             var availableFilters = mapData.Features.SelectMany(x => GetFiltersForFeature(x)).Where(x => x != null).Distinct();
 
+            FiltersSeen.AddRange(availableFilters);
+
+            FiltersSeen = FiltersSeen.Distinct().ToList();
+
             return availableFilters;
+        }
+
+        public static bool IsFilterOutItem(this Feature aaFeature, IEnumerable<string> filterout)
+        {
+            var featureFilters = aaFeature.GetFiltersForFeature();
+
+            int matchs = 0;
+
+            foreach (var item in featureFilters)
+            {
+                if (filterout.Contains(item))
+                    matchs++;
+            }
+
+            if (matchs == featureFilters.Count())
+            {
+                return false;
+            }
+
+            return true;
         }
 
         public static bool IsEnabledByDefault(this Feature aaFeature)
