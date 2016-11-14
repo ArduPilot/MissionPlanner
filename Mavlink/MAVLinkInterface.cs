@@ -1779,6 +1779,12 @@ Please check the following
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
+                        if (ack.command != req.command)
+                        {
+                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                            continue;
+                        }
+
                         log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
