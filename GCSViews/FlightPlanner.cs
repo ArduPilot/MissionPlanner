@@ -6858,5 +6858,41 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 MGRS.Visible = false;
             }
         }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //FENCE_ENABLE ON COPTER
+            //FENCE_ACTION ON PLANE
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_ENABLE", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_ENABLE");
+                return;
+            }
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_ACTION", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_ACTION");
+                return;
+            }
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_TOTAL", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_TOTAL");
+                return;
+            }
+        }
     }
 }
