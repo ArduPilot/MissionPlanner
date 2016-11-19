@@ -2586,8 +2586,16 @@ Please check the following
                 req.autocontinue = autocontinue;
 
                 req.frame = (byte) frame;
-                req.y = (int) (loc.lng*1.0e7);
-                req.x = (int) (loc.lat*1.0e7);
+                if (loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONFIGURE)
+                {
+                    req.y = (int)(loc.lng);
+                    req.x = (int)(loc.lat);
+                }
+                else
+                {
+                    req.y = (int)(loc.lng * 1.0e7);
+                    req.x = (int)(loc.lat * 1.0e7);
+                }
                 req.z = (float) (loc.alt);
 
                 req.param1 = loc.p1;
