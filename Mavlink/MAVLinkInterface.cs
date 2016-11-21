@@ -3811,6 +3811,16 @@ Please check the following
             }
         }
 
+        public void UnSubscribeToPacketType(MAVLINK_MSG_ID msgtype, Func<MAVLinkMessage, bool> item)
+        {
+            lock (Subscriptions)
+            {
+                log.Info("UnSubscribeToPacketType " + msgtype + " " + item);
+                var ans = Subscriptions.Where(a => { return a.Key == msgtype && a.Value == item; });
+                Subscriptions.Remove(ans.First());
+            }
+        }
+
         /// <summary>
         /// Used to extract mission from log file - both sent or received
         /// </summary>
