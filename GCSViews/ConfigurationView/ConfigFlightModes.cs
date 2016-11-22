@@ -164,6 +164,50 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                 }
             }
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.PX4) // APM
+            {
+                CB_simple1.Visible = false;
+                CB_simple2.Visible = false;
+                CB_simple3.Visible = false;
+                CB_simple4.Visible = false;
+                CB_simple5.Visible = false;
+                CB_simple6.Visible = false;
+
+                chk_ss1.Visible = false;
+                chk_ss2.Visible = false;
+                chk_ss3.Visible = false;
+                chk_ss4.Visible = false;
+                chk_ss5.Visible = false;
+                chk_ss6.Visible = false;
+
+                linkLabel1_ss.Visible = false;
+
+                try
+                {
+                    updateDropDown(CMB_fmode1, "COM_FLTMODE1");
+                    CMB_fmode1.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE1", "PX4");
+                    updateDropDown(CMB_fmode2, "COM_FLTMODE2");
+                    CMB_fmode2.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE2", "PX4");
+                    updateDropDown(CMB_fmode3, "COM_FLTMODE3");
+                    CMB_fmode3.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE3", "PX4");
+                    updateDropDown(CMB_fmode4, "COM_FLTMODE4");
+                    CMB_fmode4.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE4", "PX4");
+                    updateDropDown(CMB_fmode5, "COM_FLTMODE5");
+                    CMB_fmode5.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE5", "PX4");
+                    updateDropDown(CMB_fmode6, "COM_FLTMODE6");
+                    CMB_fmode6.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("COM_FLTMODE6", "PX4");
+
+                    CMB_fmode1.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE1"].ToString());
+                    CMB_fmode2.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE2"].ToString());
+                    CMB_fmode3.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE3"].ToString());
+                    CMB_fmode4.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE4"].ToString());
+                    CMB_fmode5.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE5"].ToString());
+                    CMB_fmode6.SelectedValue = int.Parse(MainV2.comPort.MAV.param["COM_FLTMODE6"].ToString());
+                }
+                catch
+                {
+                }
+            }
 
             timer.Tick += timer_Tick;
 
@@ -300,6 +344,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("MODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
                     MainV2.comPort.setParam("MODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
+                else if (MainV2.comPort.MAV.param.ContainsKey("COM_FLTMODE1"))
+                {
+                    MainV2.comPort.setParam("COM_FLTMODE1", int.Parse(CMB_fmode1.SelectedValue.ToString()));
+                    MainV2.comPort.setParam("COM_FLTMODE2", int.Parse(CMB_fmode2.SelectedValue.ToString()));
+                    MainV2.comPort.setParam("COM_FLTMODE3", int.Parse(CMB_fmode3.SelectedValue.ToString()));
+                    MainV2.comPort.setParam("COM_FLTMODE4", int.Parse(CMB_fmode4.SelectedValue.ToString()));
+                    MainV2.comPort.setParam("COM_FLTMODE5", int.Parse(CMB_fmode5.SelectedValue.ToString()));
+                    MainV2.comPort.setParam("COM_FLTMODE6", int.Parse(CMB_fmode6.SelectedValue.ToString()));
+                }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
                 {
@@ -342,12 +395,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
-                Process.Start("http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
+                Process.Start("http://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
             }
             catch
             {
                 CustomMessageBox.Show(Strings.ERROR +
-                                      " http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
+                                      " http://ardupilot.org/copter/docs/simpleandsuper-simple-modes.html");
             }
         }
 

@@ -13,8 +13,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 {
     public partial class WPControl : Form
     {
-        static DroneGroup DG = new DroneGroup();
-        static bool threadrun;
+        DroneGroup DG = new DroneGroup();
+        bool threadrun;
 
         public WPControl()
         {
@@ -24,6 +24,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
             zedGraphControl1.GraphPane.XAxis.Title.Text = "Distance";
             zedGraphControl1.GraphPane.YAxis.Title.Text = "Altitude";
+
+            DG.Drones.Clear();
         }
 
         private void but_master_Click(object sender, EventArgs e)
@@ -84,6 +86,22 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 but_start.Text = Strings.Start;
                 return;
             }
+
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var MAV in port.MAVlist)
+                {
+                    if (MAV.cs.armed && MAV.cs.alt > 1)
+                    {
+                        var result = CustomMessageBox.Show("There appears to be a drone in the air at the moment. Are you sure you want to continue?", "continue", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                            break;
+                        return;
+                    }
+                }
+            }
+
+            zedGraphControl1.AxisChange();
 
             //if (SwarmInterface != null)
             {
@@ -250,7 +268,10 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     // update the curve
                     var curve = zedGraphControl1.GraphPane.CurveList["MAV " + drone.MavState.sysid.ToString()];
                     curve.Clear();
-                    curve.AddPoint((double)(drone.PathIndex*0.1), drone.Location.Alt);
+                    try
+                    {
+                        curve.AddPoint((double)(drone.PathIndex * 0.1), drone.Location.Alt);
+                    } catch { }
                 }
             }
 
@@ -277,6 +298,20 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
         private void but_resetmode_Click(object sender, EventArgs e)
         {
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var MAV in port.MAVlist)
+                {
+                    if (MAV.cs.armed && MAV.cs.alt > 1)
+                    {
+                        var result = CustomMessageBox.Show("There appears to be a drone in the air at the moment. Are you sure you want to continue?", "continue", MessageBoxButtons.YesNo);
+                        if (result == DialogResult.Yes)
+                            break;
+                        return;
+                    }
+                }
+            }
+
             DG.CurrentMode = DroneGroup.Mode.idle;
         }
 
@@ -303,6 +338,22 @@ namespace MissionPlanner.Swarm.WaypointLeader
         private void chk_alt_interleave_CheckedChanged(object sender, EventArgs e)
         {
             DG.AltInterleave = chk_alt_interleave.Checked;
+        }
+
+        private void WPControl_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            threadrun = false;
+            System.Threading.Thread.Sleep(500);
+        }
+
+        private void but_setmoderltland_Click(object sender, EventArgs e)
+        {
+            DG.CurrentMode = DroneGroup.Mode.LandAlt;
+        }
+
+        private void num_wpnav_accel_ValueChanged(object sender, EventArgs e)
+        {
+            DG.WPNAV_ACCEL = num_wpnav_accel.Value;
         }
     }
 }

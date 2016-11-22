@@ -979,15 +979,14 @@ Please check the following
             }
             else
             {
-                req.param_value =
-                    new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE)MAVlist[sysid, compid].param_types[paramname]).float_value;
+                req.param_value = new MAVLinkParam(paramname, value, (MAV_PARAM_TYPE)MAVlist[sysid, compid].param_types[paramname]).float_value;
             }
 
             int currentparamcount = MAVlist[sysid, compid].param.Count;
 
             generatePacket((byte) MAVLINK_MSG_ID.PARAM_SET, req, sysid, compid);
 
-            log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, req.param_value, sysid,
+            log.InfoFormat("setParam '{0}' = '{1}' sysid {2} compid {3}", paramname, value, sysid,
                 compid);
 
             DateTime start = DateTime.Now;
@@ -1031,16 +1030,18 @@ Please check the following
                             continue;
                         }
 
-                        log.Info("setParam gotback " + st + " : " + par.param_value);
-
                         if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())), (MAV_PARAM_TYPE)par.param_type, (MAV_PARAM_TYPE)par.param_type);
                         }
+
+                        log.Info("setParam gotback " + st + " : " + MAVlist[sysid, compid].param[st]);
 
                         lastparamset = DateTime.Now;
 
@@ -1240,12 +1241,14 @@ Please check the following
 
                         if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)par.param_type);
                         }
                         else
                         {
-                            newparamlist[paramID] = new MAVLinkParam(paramID, par.param_value,
-                                (MAV_PARAM_TYPE) par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            newparamlist[paramID] = new MAVLinkParam(paramID, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())),
+                                (MAV_PARAM_TYPE)par.param_type, (MAV_PARAM_TYPE)par.param_type);
                         }
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp2b ");
@@ -1328,7 +1331,7 @@ Please check the following
         public void getParamPoll()
         {
             // check if we have all
-            if (MAV.param.TotalReceived == MAV.param.TotalReported)
+            if (MAV.param.TotalReceived >= MAV.param.TotalReported)
             {
                 return;
             }
@@ -1367,7 +1370,7 @@ Please check the following
             if (name == "" && index == -1)
                 return 0;
 
-            log.Info("GetParam name: '" + name + "' or index: " + index);
+            log.Info("GetParam name: '" + name + "' or index: " + index + " " + sysid + ":" + compid);
 
             MAVLinkMessage buffer;
 
@@ -1441,11 +1444,13 @@ Please check the following
                         // update table
                         if (MAVlist[sysid,compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                         {
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) par.param_type);
                         }
                         else
                         {
-                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, par.param_value, (MAV_PARAM_TYPE) par.param_type);
+                            var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                            MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(par, offset.ToInt32())), (MAV_PARAM_TYPE)par.param_type, (MAV_PARAM_TYPE)par.param_type);
                         }
 
                         MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE) par.param_type;
@@ -1773,6 +1778,12 @@ Please check the following
                     if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid && buffer.compid == compid)
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
+
+                        if (ack.command != req.command)
+                        {
+                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                            continue;
+                        }
 
                         log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
 
@@ -2468,34 +2479,66 @@ Please check the following
             InjectGpsData(MAV.sysid, MAV.compid, data, length);
         }
 
+        int inject_seq_no = 0;
+
         /// <summary>
         /// used to inject data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
-        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length)
+        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length, bool rtcm_message = true)
         {
             // new message
-            if (false)
+            if (rtcm_message)
             {
                 mavlink_gps_rtcm_data_t gps = new mavlink_gps_rtcm_data_t();
                 var msglen = 180;
 
+                if (length > msglen * 4)
+                    log.Error("Message too large " + length);
+
+                // number of packets we need, not including a termination packet if needed
                 var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
+
+                // flags = isfrag(1)/frag(2)/seq(5)
 
                 for (int a = 0; a < len; a++)
                 {
+                    // check if its a fragment
+                    if (len > 1)
+                        gps.flags = 1;
+                    else
+                        gps.flags = 0;
+
+                    // add fragment number
+                    gps.flags += (byte)((a & 0x3) << 1);
+
+                    // add seq number
+                    gps.flags += (byte)((inject_seq_no & 0x1f) << 3);
+
+                    // create the empty buffer
                     gps.data = new byte[msglen];
 
+                    // calc how much data we are copying
                     int copy = Math.Min(length - a * msglen, msglen);
 
+                    // copy the data
                     Array.Copy(data, a * msglen, gps.data, 0, copy);
-                    gps.len = (byte)copy;
 
-                    if (a < (len - 1))
-                        gps.flags = 1;
+                    // set the length
+                    gps.len = (byte)copy;
 
                     generatePacket((byte) MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
                 }
+
+                // packet is perfectly aligned and larger than one packet, send termination packet
+                if ((length % msglen) == 0 && (length > msglen))
+                {
+                    gps.len = 0;
+                    gps.data = new byte[msglen];
+                    generatePacket((byte)MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
+                }
+
+                inject_seq_no++;
             }
             else
             {
@@ -2543,8 +2586,16 @@ Please check the following
                 req.autocontinue = autocontinue;
 
                 req.frame = (byte) frame;
-                req.y = (int) (loc.lng*1.0e7);
-                req.x = (int) (loc.lat*1.0e7);
+                if (loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONFIGURE)
+                {
+                    req.y = (int)(loc.lng);
+                    req.x = (int)(loc.lat);
+                }
+                else
+                {
+                    req.y = (int)(loc.lng * 1.0e7);
+                    req.x = (int)(loc.lat * 1.0e7);
+                }
                 req.z = (float) (loc.alt);
 
                 req.param1 = loc.p1;
@@ -3760,6 +3811,16 @@ Please check the following
             }
         }
 
+        public void UnSubscribeToPacketType(MAVLINK_MSG_ID msgtype, Func<MAVLinkMessage, bool> item)
+        {
+            lock (Subscriptions)
+            {
+                log.Info("UnSubscribeToPacketType " + msgtype + " " + item);
+                var ans = Subscriptions.Where(a => { return a.Key == msgtype && a.Value == item; });
+                Subscriptions.Remove(ans.First());
+            }
+        }
+
         /// <summary>
         /// Used to extract mission from log file - both sent or received
         /// </summary>
@@ -3882,12 +3943,14 @@ Please check the following
 
                 if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                 {
-                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, value.param_value, MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)value.param_type);
+                    var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(value, offset.ToInt32())), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)value.param_type);
                 }
                 else
                 {
-                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, value.param_value,
-                        (MAV_PARAM_TYPE) value.param_type);
+                    var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(Marshal.ReadInt32(value, offset.ToInt32())),
+                        (MAV_PARAM_TYPE)value.param_type, (MAV_PARAM_TYPE)value.param_type);
                 }
 
                 MAVlist[sysid,compid].param.TotalReported = value.param_count;

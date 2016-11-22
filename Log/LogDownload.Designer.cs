@@ -112,7 +112,7 @@
             // Log
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.BUT_bintolog);
             this.Controls.Add(this.BUT_dumpdf);
             this.Controls.Add(this.BUT_firstperson);

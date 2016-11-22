@@ -1595,6 +1595,7 @@ namespace MissionPlanner
             Settings.Instance["MainLocX"] = this.Location.X.ToString();
             Settings.Instance["MainLocY"] = this.Location.Y.ToString();
 
+            // close bases connection
             try
             {
                 comPort.logreadmode = false;
@@ -1609,6 +1610,26 @@ namespace MissionPlanner
             }
             catch
             {
+            }
+
+            // close all connections
+            foreach (var port in Comports)
+            {
+                try
+                {
+                    port.logreadmode = false;
+                    if (port.logfile != null)
+                        port.logfile.Close();
+
+                    if (port.rawlogfile != null)
+                        port.rawlogfile.Close();
+
+                    port.logfile = null;
+                    port.rawlogfile = null;
+                }
+                catch
+                {
+                }
             }
 
             Utilities.adsb.Stop();

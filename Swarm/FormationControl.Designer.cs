@@ -32,16 +32,16 @@
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.grid1 = new MissionPlanner.Swarm.Grid();
-            this.BUT_connect = new Controls.MyButton();
-            this.BUT_Start = new Controls.MyButton();
-            this.BUT_leader = new Controls.MyButton();
-            this.BUT_Land = new Controls.MyButton();
-            this.BUT_Takeoff = new Controls.MyButton();
-            this.BUT_Disarm = new Controls.MyButton();
-            this.BUT_Arm = new Controls.MyButton();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
+            this.BUT_Start = new MissionPlanner.Controls.MyButton();
+            this.BUT_leader = new MissionPlanner.Controls.MyButton();
+            this.BUT_Land = new MissionPlanner.Controls.MyButton();
+            this.BUT_Takeoff = new MissionPlanner.Controls.MyButton();
+            this.BUT_Disarm = new MissionPlanner.Controls.MyButton();
+            this.BUT_Arm = new MissionPlanner.Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.BUT_Updatepos = new Controls.MyButton();
+            this.BUT_Updatepos = new MissionPlanner.Controls.MyButton();
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -86,7 +86,7 @@
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
             this.BUT_Start.TabIndex = 6;
-            this.BUT_Start.Text = Strings.Start;
+            this.BUT_Start.Text = global::MissionPlanner.Strings.Start;
             this.BUT_Start.UseVisualStyleBackColor = true;
             this.BUT_Start.Click += new System.EventHandler(this.BUT_Start_Click);
             // 
@@ -176,7 +176,8 @@
             // 
             // PNL_status
             // 
-            this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.PNL_status.Location = new System.Drawing.Point(787, 61);
             this.PNL_status.Name = "PNL_status";
             this.PNL_status.Size = new System.Drawing.Size(143, 398);
@@ -190,8 +191,7 @@
             // 
             // FormationControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(931, 471);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);

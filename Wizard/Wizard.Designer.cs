@@ -68,7 +68,7 @@ namespace MissionPlanner.Wizard
             // Wizard
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.Controls.Add(this.progressStep1);
             this.Controls.Add(this.panel1);

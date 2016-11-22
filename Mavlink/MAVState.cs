@@ -36,6 +36,7 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
+            this.Proximity = new Proximity(this);
 
             camerapoints.Clear();
 
@@ -181,6 +182,8 @@ namespace MissionPlanner
         /// Store the guided mode wp location
         /// </summary>
         public mavlink_mission_item_t GuidedMode = new mavlink_mission_item_t();
+
+        public Proximity Proximity;
 
         internal int recvpacketcount = 0;
     }

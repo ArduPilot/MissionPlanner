@@ -92,6 +92,7 @@ namespace MissionPlanner.Controls
         {
             if (this.DesignMode)
             {
+                VSync = true;
                 opengl = false;
                 //return;
             }
@@ -2206,5 +2207,12 @@ namespace MissionPlanner.Controls
         }
 
         public bool UseOpenGL { get; set; }
+
+        [Browsable(false)]
+        public new bool VSync
+        {
+            get { return base.VSync; }
+            set { base.VSync = value; }
+        }
     }
 }

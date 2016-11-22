@@ -46,12 +46,12 @@ public partial class MAVLink
             }
         }
 
-        public byte uint8_value { get { return data[0]; } }
-        public sbyte int8_value { get { return (sbyte)data[0]; } }
-        public ushort uint16_value { get { return BitConverter.ToUInt16(data, 0); } }
-        public short int16_value { get { return BitConverter.ToInt16(data, 0); } }
-        public UInt32 uint32_value { get { return BitConverter.ToUInt32(data, 0); } }
-        public Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
+        byte uint8_value { get { return data[0]; } }
+        sbyte int8_value { get { return (sbyte)data[0]; } }
+        ushort uint16_value { get { return BitConverter.ToUInt16(data, 0); } }
+        short int16_value { get { return BitConverter.ToInt16(data, 0); } }
+        UInt32 uint32_value { get { return BitConverter.ToUInt32(data, 0); } }
+        Int32 int32_value { get { return BitConverter.ToInt32(data, 0); } }
         public float float_value { get { return BitConverter.ToSingle(data, 0); } }
 
         byte[] _data = new byte[4];
@@ -80,33 +80,18 @@ public partial class MAVLink
         }
 
         /// <summary>
-        /// Used for non ardupilot params that use the defined type
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="inputwire"></param>
-        /// <param name="type"></param>
-        public MAVLinkParam(string name, float inputwire, MAV_PARAM_TYPE type)
-        {
-            Name = name;
-            Type = type;
-            data = BitConverter.GetBytes(inputwire);
-            Array.Resize(ref _data, 4);
-        }
-
-        /// <summary>
         /// Used to set Ardupilot Params
         /// </summary>
         /// <param name="name"></param>
         /// <param name="inputwire"></param>
         /// <param name="type"></param>
         /// <param name="typeap"></param>
-        public MAVLinkParam(string name, float inputwire, MAV_PARAM_TYPE type, MAV_PARAM_TYPE typeap)
+        public MAVLinkParam(string name, byte[] inputwire, MAV_PARAM_TYPE type, MAV_PARAM_TYPE typeap)
         {
             Name = name;
             Type = type;
             TypeAP = typeap;
-            data = BitConverter.GetBytes(inputwire);
-            Array.Resize(ref _data, 4);
+            Array.Copy(inputwire, _data, 4);
         }
 
         public double GetValue()
@@ -206,6 +191,8 @@ public partial class MAVLink
 
         public override string ToString()
         {
+            if (Type == MAV_PARAM_TYPE.REAL32)
+                return ((float)this).ToString();
             return Value.ToString();
         }
     }

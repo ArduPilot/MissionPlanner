@@ -318,7 +318,7 @@ log com_30 headingb onchanged
                 state.ground_speed = (float) bestvel.horspd;
                 state.ground_course = (float) (bestvel.trkgnd);
                 fill_3d_velocity();
-                state.velocity.Z = -(float) bestvel.vertspd;
+                state.velocity.z = -(float) bestvel.vertspd;
                 state.have_vertical_velocity = true;
 
                 _last_vel_time = (uint32_t)nova_msg.header.tow;

@@ -42,7 +42,10 @@ namespace MissionPlanner.Mavlink
                     return hiddenlist[id];
 
                 if (!masterlist.ContainsKey(id))
-                    return new MAVState(parent);
+                {
+                    AddHiddenList((byte)sysid, (byte)compid);
+                    return hiddenlist[id];
+                }
 
                 return masterlist[id];
             }

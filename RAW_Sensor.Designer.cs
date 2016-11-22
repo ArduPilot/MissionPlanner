@@ -1064,7 +1064,7 @@ namespace MissionPlanner
             // RAW_Sensor
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tabControl);
             this.Name = "RAW_Sensor";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ACM_Setup_FormClosed);

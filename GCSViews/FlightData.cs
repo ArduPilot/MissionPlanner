@@ -1702,7 +1702,10 @@ namespace MissionPlanner.GCSViews
                 {
                     if (lastmapposchange.Second != DateTime.Now.Second)
                     {
-                        gMapControl1.Position = currentloc;
+                        if (Math.Abs(currentloc.Lat - gMapControl1.Position.Lat) > 0.0001 || Math.Abs(currentloc.Lng - gMapControl1.Position.Lng) > 0.0001)
+                        {
+                            gMapControl1.Position = currentloc;
+                        }
                         lastmapposchange = DateTime.Now;
                     }
                     //hud1.Refresh();
@@ -2731,9 +2734,19 @@ namespace MissionPlanner.GCSViews
 
         private void zg1_DoubleClick(object sender, EventArgs e)
         {
-            Form selectform = new Form
+            string formname = "select";
+            Form selectform = Application.OpenForms[formname];
+            if(selectform != null)
             {
-                Name = "select",
+                selectform.WindowState = FormWindowState.Minimized;
+                selectform.Show();
+                selectform.WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            selectform = new Form
+            {
+                Name = formname,
                 Width = 50,
                 Height = 550,
                 Text = "Graph This"
@@ -4380,6 +4393,11 @@ namespace MissionPlanner.GCSViews
         private void onOffCameraOverlapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CameraOverlap = onOffCameraOverlapToolStripMenuItem.Checked;
+        }
+
+        private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Utilities.AltitudeAngel.AASettings().Show(this);
         }
     }
 }

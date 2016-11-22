@@ -36,6 +36,8 @@ namespace MissionPlanner.Log
         Model runmodel = new Model();
         List<string> modelist = new List<string>();
 
+        Dictionary<string, string> paramlist = new Dictionary<string, string>();
+
         List<Core.Geometry.Point3D>[] position = new List<Core.Geometry.Point3D>[200];
         int positionindex = 0;
 
@@ -70,6 +72,18 @@ namespace MissionPlanner.Log
                         dflog.FMTLine(line);
                     }
                     catch
+                    {
+                    }
+                }
+                if (items[0].Contains("PARM"))
+                {
+                    try
+                    {
+                        int nameindex = dflog.FindMessageOffset("PARM", "Name");
+                        int valueindex = dflog.FindMessageOffset("PARM", "Value");
+
+                        paramlist[items[nameindex].Trim()] = items[valueindex].Trim();
+                    } catch
                     {
                     }
                 }
@@ -715,14 +729,27 @@ gnssId GNSS Type
             try
             {
                 writeGPX(filename);
-
+            }
+            catch
+            { }
+            try
+            {
                 writeRinex(filename);
-
+            }
+            catch
+            { }
+            try
+            {
                 writeWPFile(filename);
             }
             catch
+            { }
+            try
             {
+                writeParamFile(filename);
             }
+            catch
+            { }
 
             Color[] colours =
             {
@@ -742,7 +769,7 @@ gnssId GNSS Type
             Style style1 = new Style();
             style1.Id = "spray";
             style1.Add(new LineStyle(HexStringToColor("4c0000ff"), 0));
-            style1.Add(new PolyStyle() {Color = HexStringToColor("4c0000ff")});
+            style1.Add(new PolyStyle() { Color = HexStringToColor("4c0000ff") });
 
             PolyStyle pstyle = new PolyStyle();
             pstyle.Color = HexStringToColor("7f00ff00");
@@ -824,7 +851,7 @@ gnssId GNSS Type
                 pm.styleUrl = "#yellowLineGreenPoly";
                 pm.LineString = ls;
 
-                stylecode = colours[g%(colours.Length - 1)].ToArgb();
+                stylecode = colours[g % (colours.Length - 1)].ToArgb();
 
                 Style style2 = new Style();
                 Color color = Color.FromArgb(0xff, (stylecode >> 16) & 0xff, (stylecode >> 8) & 0xff,
@@ -957,8 +984,8 @@ gnssId GNSS Type
 
                 try
                 {
-                    pmplane.Point = new KmlPoint((float) model.Location.longitude, (float) model.Location.latitude,
-                        (float) model.Location.altitude);
+                    pmplane.Point = new KmlPoint((float)model.Location.longitude, (float)model.Location.latitude,
+                        (float)model.Location.altitude);
                     pmplane.Point.AltitudeMode = altmode;
 
                     Link link = new Link();
@@ -993,7 +1020,7 @@ gnssId GNSS Type
 
             // entry 1
             string entryName = ZipEntry.CleanName(Path.GetFileName(filename));
-                // Removes drive from name and fixes slash direction
+            // Removes drive from name and fixes slash direction
             ZipEntry newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -1015,7 +1042,7 @@ gnssId GNSS Type
 
             // entry 2
             entryName = ZipEntry.CleanName(Path.GetFileName(filename));
-                // Removes drive from name and fixes slash direction
+            // Removes drive from name and fixes slash direction
             newEntry = new ZipEntry(entryName);
             newEntry.DateTime = DateTime.Now;
 
@@ -1040,6 +1067,23 @@ gnssId GNSS Type
             position = new List<Core.Geometry.Point3D>[200];
             cmd.Clear();
             cmdraw.Clear();
+        }
+
+        private void writeParamFile(string filename)
+        {
+            if (paramlist.Count == 0)
+                return;
+
+            string file = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar +
+                          Path.GetFileNameWithoutExtension(filename) + ".param";
+
+            using (var paramoutput = new StreamWriter(file))
+            {
+                foreach (var item in paramlist)
+                {
+                    paramoutput.WriteLine("{0}\t{1}", item.Key, item.Value);
+                }
+            }
         }
     }
 }

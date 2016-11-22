@@ -281,7 +281,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // ConfigRadioInput
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxElevons);
             this.Controls.Add(this.CHK_revch3);

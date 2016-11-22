@@ -593,7 +593,7 @@
             // ConfigAntennaTracker
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox6);

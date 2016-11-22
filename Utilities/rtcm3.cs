@@ -250,5 +250,242 @@ namespace MissionPlanner.Utilities
         {
             get { return buffer; }
         }
+
+        public class type1005
+        {
+            public byte galileoind = 0;
+            public byte glonassind = 0;
+            public byte gpsind = 1;
+            public byte itrf;
+            public byte oscind = 1;
+            public byte quatcycind = 0;
+            public byte refstatind = 0;
+            public byte resv = 0;
+            public double rr0;
+            public double rr1;
+            public double rr2;
+            public ushort staid = 1;
+
+            public double[] ecefposition
+            {
+                get
+                {
+                    return new[]
+                    {
+                        rr0*0.0001,
+                        rr1*0.0001,
+                        rr2*0.0001
+                    };
+                }
+                set
+                {
+                    rr0 = value[0] / 0.0001;
+                    rr1 = value[1] / 0.0001;
+                    rr2 = value[2] / 0.0001;
+                }
+            }
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24 + 12;
+
+                staid = (ushort)getbitu(buffer, i, 12);
+                i += 12;
+                itrf = (byte)getbitu(buffer, i, 6);
+                i += 6 + 4;
+                rr0 = getbits_38(buffer, i);
+                i += 38 + 2;
+                rr1 = getbits_38(buffer, i);
+                i += 38 + 2;
+                rr2 = getbits_38(buffer, i);
+                i += 38;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24;
+
+                setbitu(buffer, i, 12, 1005);
+                i += 12; /* message no */
+                setbitu(buffer, i, 12, staid);
+                i += 12; /* ref station id */
+                setbitu(buffer, i, 6, 0);
+                i += 6; /* itrf realization year */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* gps indicator */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* glonass indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* galileo indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* ref station indicator */
+                set38bits(buffer, i, ecefposition[0] / 0.0001);
+                i += 38; /* antenna ref point ecef-x */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* oscillator indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* reserved */
+                set38bits(buffer, i, ecefposition[1] / 0.0001);
+                i += 38; /* antenna ref point ecef-y */
+                setbitu(buffer, i, 2, 0);
+                i += 2; /* quarter cycle indicator */
+                set38bits(buffer, i, ecefposition[2] / 0.0001);
+                i += 38; /* antenna ref point ecef-z */
+
+                return i;
+            }
+        }
+
+        public class type1006
+        {
+            public ushort anth;
+            public byte galileoind = 0;
+            public byte glonassind = 0;
+            public byte gpsind = 1;
+            public byte itrf;
+            public byte oscind = 1;
+            public byte quatcycind = 0;
+            public byte refstatind = 0;
+            public byte resv = 0;
+            public double rr0;
+            public double rr1;
+            public double rr2;
+            public ushort staid = 1;
+
+            public double[] ecefposition
+            {
+                get
+                {
+                    return new[]
+                    {
+                        rr0*0.0001,
+                        rr1*0.0001,
+                        rr2*0.0001
+                    };
+                }
+                set
+                {
+                    rr0 = value[0] / 0.0001;
+                    rr1 = value[1] / 0.0001;
+                    rr2 = value[2] / 0.0001;
+                }
+            }
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24 + 12;
+
+                staid = (ushort)getbitu(buffer, i, 12);
+                i += 12;
+                itrf = (byte)getbitu(buffer, i, 6);
+                i += 6 + 4;
+                rr0 = getbits_38(buffer, i);
+                i += 38 + 2;
+                rr1 = getbits_38(buffer, i);
+                i += 38 + 2;
+                rr2 = getbits_38(buffer, i);
+                i += 38;
+                anth = (ushort)getbitu(buffer, i, 16);
+                i += 16;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24;
+
+                setbitu(buffer, i, 12, 1005);
+                i += 12; /* message no */
+                setbitu(buffer, i, 12, staid);
+                i += 12; /* ref station id */
+                setbitu(buffer, i, 6, 0);
+                i += 6; /* itrf realization year */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* gps indicator */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* glonass indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* galileo indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* ref station indicator */
+                set38bits(buffer, i, ecefposition[0] / 0.0001);
+                i += 38; /* antenna ref point ecef-x */
+                setbitu(buffer, i, 1, 1);
+                i += 1; /* oscillator indicator */
+                setbitu(buffer, i, 1, 0);
+                i += 1; /* reserved */
+                set38bits(buffer, i, ecefposition[1] / 0.0001);
+                i += 38; /* antenna ref point ecef-y */
+                setbitu(buffer, i, 2, 0);
+                i += 2; /* quarter cycle indicator */
+                set38bits(buffer, i, ecefposition[2] / 0.0001);
+                i += 38; /* antenna ref point ecef-z */
+                setbitu(buffer, i, 16, anth);
+                i += 16; /* antenna height */
+
+                return i;
+            }
+        }
+
+        private static double getbits_38(byte[] buff, uint pos)
+        {
+            return getbits(buff, pos, 32) * 64.0 + getbitu(buff, pos + 32, 6);
+        }
+
+        private static int getbits(byte[] buff, uint pos, uint len)
+        {
+            var bits = getbitu(buff, pos, len);
+            if (len <= 0 || 32 <= len || !((bits & (1u << (int)(len - 1))) != 0))
+                return (int)bits;
+            return (int)(bits | (~0u << (int)len)); /* extend sign */
+        }
+
+        private static void set38bits(byte[] buff, uint pos, double value)
+        {
+            var word_h = (int)Math.Floor(value / 64.0);
+            var word_l = (uint)(value - word_h * 64.0);
+            setbits(buff, pos, 32, word_h);
+            setbitu(buff, pos + 32, 6, word_l);
+        }
+
+        private static void setbits(byte[] buff, uint pos, uint len, int data)
+        {
+            if (data < 0)
+                data |= 1 << (int)(len - 1);
+            else
+                data &= ~(1 << (int)(len - 1)); /* set sign bit */
+            setbitu(buff, pos, len, (uint)data);
+        }
+
+        const double RE_WGS84 = 6378137.0; /* earth semimajor axis (WGS84) (m) */
+
+        const double FE_WGS84 = (1.0 / 298.257223563); /* earth flattening (WGS84) */
+
+        const double PI = Math.PI; /* pi */
+        public const double D2R = (PI / 180.0); /* deg to rad */
+        public const double R2D = (180.0 / PI); /* rad to deg */
+
+        public static void ecef2pos(double[] r, ref double[] pos)
+        {
+            double e2 = FE_WGS84 * (2.0 - FE_WGS84), r2 = dot(r, r, 2), z, zk, v = RE_WGS84, sinp;
+
+            for (z = r[2], zk = 0.0; Math.Abs(z - zk) >= 1E-4;)
+            {
+                zk = z;
+                sinp = z / Math.Sqrt(r2 + z * z);
+                v = RE_WGS84 / Math.Sqrt(1.0 - e2 * sinp * sinp);
+                z = r[2] + v * e2 * sinp;
+            }
+            pos[0] = r2 > 1E-12 ? Math.Atan(z / Math.Sqrt(r2)) : (r[2] > 0.0 ? PI / 2.0 : -PI / 2.0);
+            pos[1] = r2 > 1E-12 ? Math.Atan2(r[1], r[0]) : 0.0;
+            pos[2] = Math.Sqrt(r2 + z * z) - v;
+        }
+
+        static double dot(double[] a, double[] b, int n)
+        {
+            double c = 0.0;
+
+            while (--n >= 0) c += a[n] * b[n];
+            return c;
+        }
     }
 }

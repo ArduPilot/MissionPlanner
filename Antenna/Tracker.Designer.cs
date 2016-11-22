@@ -312,7 +312,7 @@
             // Tracker
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.TXT_tiltspeed);

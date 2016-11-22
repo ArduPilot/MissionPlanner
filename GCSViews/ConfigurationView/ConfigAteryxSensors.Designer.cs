@@ -131,7 +131,7 @@
             // ConfigAteryxSensors
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.hud1);
             this.Controls.Add(this.BUT_zero_press);
             this.Controls.Add(this.BUT_zero_att);

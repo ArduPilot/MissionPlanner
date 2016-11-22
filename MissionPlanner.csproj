@@ -197,6 +197,10 @@
       <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="netDxf, Version=0.9.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\netDXF.0.9.3\lib\netDxf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -303,9 +307,6 @@
     </Reference>
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
-    </Reference>
-    <Reference Include="netDxf">
-      <HintPath>ExtLibs\netDxf.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
@@ -641,11 +642,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass.Designer.cs">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.Designer.cs">
-      <DependentUpon>ConfigHWUAVCANESC.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.Designer.cs">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs">
       <SubType>UserControl</SubType>
@@ -958,6 +959,7 @@
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\dxf.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />
     <Compile Include="Utilities\GMapMarkerPhoto.cs" />
@@ -979,6 +981,7 @@
     <Compile Include="Utilities\ICorrections.cs" />
     <Compile Include="Utilities\ImageProjection.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
+    <Compile Include="Utilities\ListExtension.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="NoFly\NoFly.cs" />
     <Compile Include="Utilities\NGEN.cs" />
@@ -986,6 +989,8 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryAPM.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\Proximity.cs" />
+    <Compile Include="Utilities\ubx_m8p.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1687,8 +1692,8 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-TW.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCANESC.resx">
-      <DependentUpon>ConfigHWUAVCANESC.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.resx">
       <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
@@ -3659,6 +3664,7 @@
     <None Include="Resources\redsinglecopter2.png" />
     <None Include="Resources\FW icons 2013+logos-011.png" />
     <None Include="Resources\FW icons 2013+logos-012.png" />
+    <None Include="Resources\uavcanesc.jpg" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

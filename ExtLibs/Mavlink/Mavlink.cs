@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Mon Sep 05 2016";
+    public const string MAVLINK_BUILD_DATE = "Thu Oct 27 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -104,6 +104,7 @@ public partial class MAVLink
 		new message_info(90, "HIL_STATE", 183, 56, 56, typeof( mavlink_hil_state_t )),
 		new message_info(91, "HIL_CONTROLS", 63, 42, 42, typeof( mavlink_hil_controls_t )),
 		new message_info(92, "HIL_RC_INPUTS_RAW", 54, 33, 33, typeof( mavlink_hil_rc_inputs_raw_t )),
+		new message_info(93, "HIL_ACTUATOR_CONTROLS", 47, 81, 81, typeof( mavlink_hil_actuator_controls_t )),
 		new message_info(100, "OPTICAL_FLOW", 175, 26, 26, typeof( mavlink_optical_flow_t )),
 		new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 102, 32, 32, typeof( mavlink_global_vision_position_estimate_t )),
 		new message_info(102, "VISION_POSITION_ESTIMATE", 158, 32, 32, typeof( mavlink_vision_position_estimate_t )),
@@ -328,6 +329,7 @@ LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET = 89,
 HIL_STATE = 90,
 HIL_CONTROLS = 91,
 HIL_RC_INPUTS_RAW = 92,
+HIL_ACTUATOR_CONTROLS = 93,
 OPTICAL_FLOW = 100,
 GLOBAL_VISION_POSITION_ESTIMATE = 101,
 VISION_POSITION_ESTIMATE = 102,
@@ -573,6 +575,8 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         DO_GRIPPER=211, 
     	///<summary> Enable/disable autotune |enable (1: enable, 0:disable)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_AUTOTUNE_ENABLE=212, 
+    	///<summary> Sets a desired vehicle turn angle and speed change |yaw angle to adjust steering by in centidegress| speed - normalized to 0 .. 1| Empty| Empty| Empty| Empty| Empty|  </summary>
+        SET_YAW_SPEED=213, 
     	///<summary> Mission command to control a camera or antenna mount, using a quaternion as reference. |q1 - quaternion param #1, w (1 in null-rotation)| q2 - quaternion param #2, x (0 in null-rotation)| q3 - quaternion param #3, y (0 in null-rotation)| q4 - quaternion param #4, z (0 in null-rotation)| Empty| Empty| Empty|  </summary>
         DO_MOUNT_CONTROL_QUAT=220, 
     	///<summary> set id of master controller |System ID| Component ID| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1436,11 +1440,11 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         HEXAROTOR=13, 
     	///<summary> Octorotor | </summary>
         OCTOROTOR=14, 
-    	///<summary> Octorotor | </summary>
+    	///<summary> Tricopter | </summary>
         TRICOPTER=15, 
     	///<summary> Flapping wing | </summary>
         FLAPPING_WING=16, 
-    	///<summary> Flapping wing | </summary>
+    	///<summary> Kite | </summary>
         KITE=17, 
     	///<summary> Onboard companion controller | </summary>
         ONBOARD_CONTROLLER=18, 
@@ -2200,8 +2204,10 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         FLIGHT_TERMINATION=2048, 
     	///<summary> Autopilot supports onboard compass calibration. | </summary>
         COMPASS_CALIBRATION=4096, 
+    	///<summary> Autopilot supports mavlink version 2. | </summary>
+        MAVLINK2=8192, 
     	///<summary>  | </summary>
-        ENUM_END=4097, 
+        ENUM_END=8193, 
     
     };
     
@@ -2496,6 +2502,30 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         MAVLINK_GPS_GLOBAL_INT=1, 
     	///<summary>  | </summary>
         ENUM_END=2, 
+    
+    };
+    
+    ///<summary> Type of GPS fix </summary>
+    public enum GPS_FIX_TYPE
+    {
+			///<summary> No GPS connected | </summary>
+        NO_GPS=0, 
+    	///<summary> No position information, GPS is connected | </summary>
+        NO_FIX=1, 
+    	///<summary> 2D position | </summary>
+        _2D_FIX=2, 
+    	///<summary> 3D position | </summary>
+        _3D_FIX=3, 
+    	///<summary> DGPS/SBAS aided 3D position | </summary>
+        DGPS=4, 
+    	///<summary> RTK float, 3D position | </summary>
+        RTK_FLOAT=5, 
+    	///<summary> RTK Fixed, 3D position | </summary>
+        RTK_FIXED=6, 
+    	///<summary> Static fixed, typically used for base stations | </summary>
+        STATIC=7, 
+    	///<summary>  | </summary>
+        ENUM_END=8, 
     
     };
     
@@ -3817,7 +3847,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         public  UInt16 vel;
             /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX </summary>
         public  UInt16 cog;
-            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. </summary>
+            /// <summary> See the GPS_FIX_TYPE enum. </summary>
         public  byte fix_type;
             /// <summary> Number of satellites visible. If unknown, set to 255 </summary>
         public  byte satellites_visible;
@@ -5097,6 +5127,22 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=81)]
+    public struct mavlink_hil_actuator_controls_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  UInt64 time_usec;
+            /// <summary> Flags as bitfield, reserved for future use. </summary>
+        public  UInt64 flags;
+            /// <summary> Control outputs -1 .. 1. Channel assignment depends on the simulated hardware. </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public float[] controls;
+            /// <summary> System mode (MAV_MODE), includes arming state. </summary>
+        public  byte mode;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
     public struct mavlink_optical_flow_t
     {
@@ -5666,7 +5712,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         public  UInt16 vel;
             /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX </summary>
         public  UInt16 cog;
-            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS fix, 5: RTK Fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. </summary>
+            /// <summary> See the GPS_FIX_TYPE enum. </summary>
         public  byte fix_type;
             /// <summary> Number of satellites visible. If unknown, set to 255 </summary>
         public  byte satellites_visible;

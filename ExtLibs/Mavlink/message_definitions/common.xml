@@ -107,13 +107,13 @@
                     <description>Octorotor</description>
                </entry>
                <entry value="15" name="MAV_TYPE_TRICOPTER">
-                    <description>Octorotor</description>
+                    <description>Tricopter</description>
                </entry>
                <entry value="16" name="MAV_TYPE_FLAPPING_WING">
                     <description>Flapping wing</description>
                </entry>
                <entry value="17" name="MAV_TYPE_KITE">
-                    <description>Flapping wing</description>
+                    <description>Kite</description>
                </entry>
                <entry value="18" name="MAV_TYPE_ONBOARD_CONTROLLER">
                     <description>Onboard companion controller</description>
@@ -396,84 +396,84 @@
                     <description/>
                </entry>
           </enum>
-       <enum name="MAV_SYS_STATUS_SENSOR">
-         <description>These encode the sensors whose status is sent as part of the SYS_STATUS message.</description>
-         <entry value="1" name="MAV_SYS_STATUS_SENSOR_3D_GYRO">
-           <description>0x01 3D gyro</description>
-         </entry>
-         <entry value="2" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL">
-           <description>0x02 3D accelerometer</description>
-         </entry>
-         <entry value="4" name="MAV_SYS_STATUS_SENSOR_3D_MAG">
-           <description>0x04 3D magnetometer</description>
-         </entry>
-         <entry value="8" name="MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE">
-           <description>0x08 absolute pressure</description>
-         </entry>
-         <entry value="16" name="MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE">
-           <description>0x10 differential pressure</description>
-         </entry>
-         <entry value="32" name="MAV_SYS_STATUS_SENSOR_GPS">
-           <description>0x20 GPS</description>
-         </entry>
-         <entry value="64" name="MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW">
-           <description>0x40 optical flow</description>
-         </entry>
-         <entry value="128" name="MAV_SYS_STATUS_SENSOR_VISION_POSITION">
-           <description>0x80 computer vision position</description>
-         </entry>
-         <entry value="256" name="MAV_SYS_STATUS_SENSOR_LASER_POSITION">
-           <description>0x100 laser based position</description>
-         </entry>
-         <entry value="512" name="MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH">
-           <description>0x200 external ground truth (Vicon or Leica)</description>
-         </entry>
-         <entry value="1024" name="MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL">
-           <description>0x400 3D angular rate control</description>
-         </entry>
-         <entry value="2048" name="MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION">
-           <description>0x800 attitude stabilization</description>
-         </entry>
-         <entry value="4096" name="MAV_SYS_STATUS_SENSOR_YAW_POSITION">
-           <description>0x1000 yaw position</description>
-         </entry>
-         <entry value="8192" name="MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL">
-           <description>0x2000 z/altitude control</description>
-         </entry>
-         <entry value="16384" name="MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL">
-           <description>0x4000 x/y position control</description>
-         </entry>
-         <entry value="32768" name="MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS">
-           <description>0x8000 motor outputs / control</description>
-         </entry>
-         <entry value="65536" name="MAV_SYS_STATUS_SENSOR_RC_RECEIVER">
-           <description>0x10000 rc receiver</description>
-         </entry>
-         <entry value="131072" name="MAV_SYS_STATUS_SENSOR_3D_GYRO2">
-           <description>0x20000 2nd 3D gyro</description>
-         </entry>
-         <entry value="262144" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL2">
-           <description>0x40000 2nd 3D accelerometer</description>
-         </entry>
-         <entry value="524288" name="MAV_SYS_STATUS_SENSOR_3D_MAG2">
-           <description>0x80000 2nd 3D magnetometer</description>
-         </entry>
-         <entry value="1048576" name="MAV_SYS_STATUS_GEOFENCE">
-           <description>0x100000 geofence</description>
-         </entry>
-         <entry value="2097152" name="MAV_SYS_STATUS_AHRS">
-           <description>0x200000 AHRS subsystem health</description>
-         </entry>
-         <entry value="4194304" name="MAV_SYS_STATUS_TERRAIN">
-           <description>0x400000 Terrain subsystem health</description>
-         </entry>
-         <entry value="8388608" name="MAV_SYS_STATUS_REVERSE_MOTOR">
-           <description>0x800000 Motors are reversed</description>
-         </entry>
-         <entry value="16777216" name="MAV_SYS_STATUS_LOGGING">
-           <description>0x1000000 Logging</description>
-         </entry>
-       </enum>
+          <enum name="MAV_SYS_STATUS_SENSOR">
+               <description>These encode the sensors whose status is sent as part of the SYS_STATUS message.</description>
+               <entry value="1" name="MAV_SYS_STATUS_SENSOR_3D_GYRO">
+                    <description>0x01 3D gyro</description>
+               </entry>
+               <entry value="2" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL">
+                    <description>0x02 3D accelerometer</description>
+               </entry>
+               <entry value="4" name="MAV_SYS_STATUS_SENSOR_3D_MAG">
+                    <description>0x04 3D magnetometer</description>
+               </entry>
+               <entry value="8" name="MAV_SYS_STATUS_SENSOR_ABSOLUTE_PRESSURE">
+                    <description>0x08 absolute pressure</description>
+               </entry>
+               <entry value="16" name="MAV_SYS_STATUS_SENSOR_DIFFERENTIAL_PRESSURE">
+                    <description>0x10 differential pressure</description>
+               </entry>
+               <entry value="32" name="MAV_SYS_STATUS_SENSOR_GPS">
+                    <description>0x20 GPS</description>
+               </entry>
+               <entry value="64" name="MAV_SYS_STATUS_SENSOR_OPTICAL_FLOW">
+                    <description>0x40 optical flow</description>
+               </entry>
+               <entry value="128" name="MAV_SYS_STATUS_SENSOR_VISION_POSITION">
+                    <description>0x80 computer vision position</description>
+               </entry>
+               <entry value="256" name="MAV_SYS_STATUS_SENSOR_LASER_POSITION">
+                    <description>0x100 laser based position</description>
+               </entry>
+               <entry value="512" name="MAV_SYS_STATUS_SENSOR_EXTERNAL_GROUND_TRUTH">
+                    <description>0x200 external ground truth (Vicon or Leica)</description>
+               </entry>
+               <entry value="1024" name="MAV_SYS_STATUS_SENSOR_ANGULAR_RATE_CONTROL">
+                    <description>0x400 3D angular rate control</description>
+               </entry>
+               <entry value="2048" name="MAV_SYS_STATUS_SENSOR_ATTITUDE_STABILIZATION">
+                    <description>0x800 attitude stabilization</description>
+               </entry>
+               <entry value="4096" name="MAV_SYS_STATUS_SENSOR_YAW_POSITION">
+                    <description>0x1000 yaw position</description>
+               </entry>
+               <entry value="8192" name="MAV_SYS_STATUS_SENSOR_Z_ALTITUDE_CONTROL">
+                    <description>0x2000 z/altitude control</description>
+               </entry>
+               <entry value="16384" name="MAV_SYS_STATUS_SENSOR_XY_POSITION_CONTROL">
+                    <description>0x4000 x/y position control</description>
+               </entry>
+               <entry value="32768" name="MAV_SYS_STATUS_SENSOR_MOTOR_OUTPUTS">
+                    <description>0x8000 motor outputs / control</description>
+               </entry>
+               <entry value="65536" name="MAV_SYS_STATUS_SENSOR_RC_RECEIVER">
+                    <description>0x10000 rc receiver</description>
+               </entry>
+               <entry value="131072" name="MAV_SYS_STATUS_SENSOR_3D_GYRO2">
+                    <description>0x20000 2nd 3D gyro</description>
+               </entry>
+               <entry value="262144" name="MAV_SYS_STATUS_SENSOR_3D_ACCEL2">
+                    <description>0x40000 2nd 3D accelerometer</description>
+               </entry>
+               <entry value="524288" name="MAV_SYS_STATUS_SENSOR_3D_MAG2">
+                    <description>0x80000 2nd 3D magnetometer</description>
+               </entry>
+               <entry value="1048576" name="MAV_SYS_STATUS_GEOFENCE">
+                    <description>0x100000 geofence</description>
+               </entry>
+               <entry value="2097152" name="MAV_SYS_STATUS_AHRS">
+                    <description>0x200000 AHRS subsystem health</description>
+               </entry>
+               <entry value="4194304" name="MAV_SYS_STATUS_TERRAIN">
+                    <description>0x400000 Terrain subsystem health</description>
+               </entry>
+               <entry value="8388608" name="MAV_SYS_STATUS_REVERSE_MOTOR">
+                    <description>0x800000 Motors are reversed</description>
+               </entry>
+               <entry value="16777216" name="MAV_SYS_STATUS_LOGGING">
+                    <description>0x1000000 Logging</description>
+               </entry>
+          </enum>
           <enum name="MAV_FRAME">
                <entry value="0" name="MAV_FRAME_GLOBAL">
                     <description>Global coordinate frame, WGS84 coordinate system. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL)</description>
@@ -1144,6 +1144,18 @@
                    <param index="6">Empty</param>
                    <param index="7">Empty</param>
                </entry>
+
+               <entry name="MAV_CMD_NAV_SET_YAW_SPEED" value="213">
+                    <description>Sets a desired vehicle turn angle and speed change</description>
+                    <param index="1">yaw angle to adjust steering by in centidegress</param>
+                    <param index="2">speed - normalized to 0 .. 1</param>
+                    <param index="3">Empty</param>
+                    <param index="4">Empty</param>
+                    <param index="5">Empty</param>
+                    <param index="6">Empty</param>
+                    <param index="7">Empty</param>
+               </entry>
+
 
               <entry value="220" name="MAV_CMD_DO_MOUNT_CONTROL_QUAT">
                 <description>Mission command to control a camera or antenna mount, using a quaternion as reference.</description>
@@ -1976,6 +1988,9 @@
               <entry value="4096" name="MAV_PROTOCOL_CAPABILITY_COMPASS_CALIBRATION">
                   <description>Autopilot supports onboard compass calibration.</description>
               </entry>
+              <entry value="8192" name="MAV_PROTOCOL_CAPABILITY_MAVLINK2">
+                  <description>Autopilot supports mavlink version 2.</description>
+              </entry>
           </enum>
           <enum name="MAV_ESTIMATOR_TYPE">
               <description>Enumeration of estimator types</description>
@@ -2244,6 +2259,33 @@
                   <description>ID field references MAVLink SRC ID</description>
               </entry>
           </enum>
+          <enum name="GPS_FIX_TYPE">
+              <description>Type of GPS fix</description>
+              <entry value="0" name="GPS_FIX_TYPE_NO_GPS">
+                  <description>No GPS connected</description>
+              </entry>
+              <entry value="1" name="GPS_FIX_TYPE_NO_FIX">
+                  <description>No position information, GPS is connected</description>
+              </entry>
+              <entry value="2" name="GPS_FIX_TYPE_2D_FIX">
+                  <description>2D position</description>
+              </entry>
+              <entry value="3" name="GPS_FIX_TYPE_3D_FIX">
+                  <description>3D position</description>
+              </entry>
+              <entry value="4" name="GPS_FIX_TYPE_DGPS">
+                  <description>DGPS/SBAS aided 3D position</description>
+              </entry>
+              <entry value="5" name="GPS_FIX_TYPE_RTK_FLOAT">
+                  <description>RTK float, 3D position</description>
+              </entry>
+              <entry value="6" name="GPS_FIX_TYPE_RTK_FIXED">
+                  <description>RTK Fixed, 3D position</description>
+              </entry>
+              <entry value="7" name="GPS_FIX_TYPE_STATIC">
+                  <description>Static fixed, typically used for base stations</description>
+              </entry>
+          </enum>
      </enums>
      <messages>
           <message id="0" name="HEARTBEAT">
@@ -2340,7 +2382,7 @@
                <description>The global position, as returned by the Global Positioning System (GPS). This is
                 NOT the global position estimate of the system, but rather a RAW sensor value. See message GLOBAL_POSITION for the global position estimate. Coordinate frame is right-handed, Z-axis up (GPS frame).</description>
                <field type="uint64_t" name="time_usec">Timestamp (microseconds since UNIX epoch or microseconds since system boot)</field>
-               <field type="uint8_t" name="fix_type">0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS, 5: RTK. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.</field>
+               <field type="uint8_t" name="fix_type" enum="GPS_FIX_TYPE">See the GPS_FIX_TYPE enum.</field>
                <field type="int32_t" name="lat">Latitude (WGS84), in degrees * 1E7</field>
                <field type="int32_t" name="lon">Longitude (WGS84), in degrees * 1E7</field>
                <field type="int32_t" name="alt">Altitude (AMSL, NOT WGS84), in meters * 1000 (positive for up). Note that virtually all GPS modules provide the AMSL altitude in addition to the WGS84 altitude.</field>
@@ -2957,6 +2999,13 @@
                <field type="uint16_t" name="chan12_raw">RC channel 12 value, in microseconds</field>
                <field type="uint8_t" name="rssi">Receive signal strength indicator, 0: 0%, 255: 100%</field>
           </message>
+          <message id="93" name="HIL_ACTUATOR_CONTROLS">
+               <description>Sent from autopilot to simulation. Hardware in the loop control outputs (replacement for HIL_CONTROLS)</description>
+               <field name="time_usec" type="uint64_t">Timestamp (microseconds since UNIX epoch or microseconds since system boot)</field>
+               <field name="controls" type="float[16]">Control outputs -1 .. 1. Channel assignment depends on the simulated hardware.</field>
+               <field name="mode" type="uint8_t">System mode (MAV_MODE), includes arming state.</field>
+               <field name="flags" type="uint64_t">Flags as bitfield, reserved for future use.</field>
+          </message>
           <message id="100" name="OPTICAL_FLOW">
                <description>Optical flow from a flow sensor (e.g. optical mouse sensor)</description>
                <field type="uint64_t" name="time_usec">Timestamp (UNIX)</field>
@@ -3219,7 +3268,7 @@
          <message id="124" name="GPS2_RAW">
            <description>Second GPS data. Coordinate frame is right-handed, Z-axis up (GPS frame).</description>
            <field type="uint64_t" name="time_usec">Timestamp (microseconds since UNIX epoch or microseconds since system boot)</field>
-           <field type="uint8_t" name="fix_type">0-1: no fix, 2: 2D fix, 3: 3D fix, 4: DGPS fix, 5: RTK Fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix.</field>
+           <field type="uint8_t" name="fix_type" enum="GPS_FIX_TYPE">See the GPS_FIX_TYPE enum.</field>
            <field type="int32_t" name="lat">Latitude (WGS84), in degrees * 1E7</field>
            <field type="int32_t" name="lon">Longitude (WGS84), in degrees * 1E7</field>
            <field type="int32_t" name="alt">Altitude (AMSL, not WGS84), in meters * 1000 (positive for up)</field>

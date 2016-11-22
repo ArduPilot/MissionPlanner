@@ -879,7 +879,7 @@
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.but_followswarm);

@@ -731,6 +731,8 @@ namespace MissionPlanner.GCSViews
                 return cmd;
             }
 
+            log.Info("Reading MAV_CMD for " + MainV2.comPort.MAV.cs.firmware);
+
             using (XmlReader reader = XmlReader.Create(file))
             {
                 reader.Read();
@@ -2295,16 +2297,21 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
+                    // handle current wp upload number
+                    int uploadwpno = a;
+                    if (port.MAV.apname == MAVLink.MAV_AUTOPILOT.PX4)
+                        uploadwpno--;
+
                     // try send the wp
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a), frame, 0, 1, use_int);
+                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(uploadwpno), frame, 0, 1, use_int);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        port.setWPPartialUpdate((ushort) (a), totalwpcountforupload);
+                        port.setWPPartialUpdate((ushort) (uploadwpno), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort) (a), frame, 0, 1, use_int);
+                        ans = port.setWP(temp, (ushort) (uploadwpno), frame, 0, 1, use_int);
                     }
 
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
@@ -5228,86 +5235,181 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "Google Earth KML |*.kml;*.kmz";
+                fd.Filter = "Google Earth KML |*.kml;*.kmz|AutoCad DXF|*.dxf";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "")
                 {
-                    try
+                    kmlpolygonsoverlay.Polygons.Clear();
+                    kmlpolygonsoverlay.Routes.Clear();
+
+                    FlightData.kmlpolygons.Routes.Clear();
+                    FlightData.kmlpolygons.Polygons.Clear();
+                    if (file.ToLower().EndsWith("dxf"))
                     {
-                        kmlpolygonsoverlay.Polygons.Clear();
-                        kmlpolygonsoverlay.Routes.Clear();
+                        string zone = "-99";
+                        InputBox.Show("Zone", "Please enter the UTM zone, or cancel to not change", ref zone);
 
-                        FlightData.kmlpolygons.Routes.Clear();
-                        FlightData.kmlpolygons.Polygons.Clear();
+                        dxf dxf = new dxf();
+                        if (zone != "-99")
+                            dxf.Tag = zone;
 
-                        string kml = "";
-                        string tempdir = "";
-                        if (file.ToLower().EndsWith("kmz"))
-                        {
-                            ZipFile input = new ZipFile(file);
-
-                            tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
-                            input.ExtractAll(tempdir, ExtractExistingFileAction.OverwriteSilently);
-
-                            string[] kmls = Directory.GetFiles(tempdir, "*.kml");
-
-                            if (kmls.Length > 0)
-                            {
-                                file = kmls[0];
-
-                                input.Dispose();
-                            }
-                            else
-                            {
-                                input.Dispose();
-                                return;
-                            }
-                        }
-
-                        var sr = new StreamReader(File.OpenRead(file));
-                        kml = sr.ReadToEnd();
-                        sr.Close();
-
-                        // cleanup after out
-                        if (tempdir != "")
-                            Directory.Delete(tempdir, true);
-
-                        kml = kml.Replace("<Snippet/>", "");
-
-                        var parser = new Parser();
-
-                        parser.ElementAdded += parser_ElementAdded;
-                        parser.ParseString(kml, false);
-
-                        if (DialogResult.Yes ==
-                            CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen, Strings.Load_data,
-                                MessageBoxButtons.YesNo))
-                        {
-                            foreach (var temp in kmlpolygonsoverlay.Polygons)
-                            {
-                                FlightData.kmlpolygons.Polygons.Add(temp);
-                            }
-                            foreach (var temp in kmlpolygonsoverlay.Routes)
-                            {
-                                FlightData.kmlpolygons.Routes.Add(temp);
-                            }
-                        }
-
-                        if (
-                            CustomMessageBox.Show(Strings.Zoom_To, Strings.Zoom_to_the_center_or_the_loaded_file, MessageBoxButtons.YesNo) ==
-                            DialogResult.Yes)
-                        {
-                            MainMap.SetZoomToFitRect(GetBoundingLayer(kmlpolygonsoverlay));
-                        }
+                        dxf.newLine += Dxf_newLine;
+                        dxf.newPolyLine += Dxf_newPolyLine;
+                        dxf.newLwPolyline += Dxf_newLwPolyline;
+                        dxf.newMLine += Dxf_newMLine;
+                        dxf.Read(file);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        CustomMessageBox.Show(Strings.Bad_KML_File + ex);
+                        try
+                        {
+                            string kml = "";
+                            string tempdir = "";
+                            if (file.ToLower().EndsWith("kmz"))
+                            {
+                                ZipFile input = new ZipFile(file);
+
+                                tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
+                                input.ExtractAll(tempdir, ExtractExistingFileAction.OverwriteSilently);
+
+                                string[] kmls = Directory.GetFiles(tempdir, "*.kml");
+
+                                if (kmls.Length > 0)
+                                {
+                                    file = kmls[0];
+
+                                    input.Dispose();
+                                }
+                                else
+                                {
+                                    input.Dispose();
+                                    return;
+                                }
+                            }
+
+                            var sr = new StreamReader(File.OpenRead(file));
+                            kml = sr.ReadToEnd();
+                            sr.Close();
+
+                            // cleanup after out
+                            if (tempdir != "")
+                                Directory.Delete(tempdir, true);
+
+                            kml = kml.Replace("<Snippet/>", "");
+
+                            var parser = new Parser();
+
+                            parser.ElementAdded += parser_ElementAdded;
+                            parser.ParseString(kml, false);
+
+                            if (DialogResult.Yes ==
+                                CustomMessageBox.Show(Strings.Do_you_want_to_load_this_into_the_flight_data_screen, Strings.Load_data,
+                                    MessageBoxButtons.YesNo))
+                            {
+                                foreach (var temp in kmlpolygonsoverlay.Polygons)
+                                {
+                                    FlightData.kmlpolygons.Polygons.Add(temp);
+                                }
+                                foreach (var temp in kmlpolygonsoverlay.Routes)
+                                {
+                                    FlightData.kmlpolygons.Routes.Add(temp);
+                                }
+                            }
+
+                            if (
+                                CustomMessageBox.Show(Strings.Zoom_To, Strings.Zoom_to_the_center_or_the_loaded_file, MessageBoxButtons.YesNo) ==
+                                DialogResult.Yes)
+                            {
+                                MainMap.SetZoomToFitRect(GetBoundingLayer(kmlpolygonsoverlay));
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            CustomMessageBox.Show(Strings.Bad_KML_File + ex);
+                        }
                     }
                 }
             }
         }
+
+        private void Dxf_newMLine(dxf sender, netDxf.Entities.MLine pline)
+        {
+            var route = new GMapRoute(pline.Handle);
+            foreach (var item in pline.Vertexes)
+            {
+                route.Points.Add(new PointLatLng(item.Location.Y, item.Location.X));
+            }
+
+            route.Stroke = new Pen(Color.FromArgb(pline.Color.R, pline.Color.G, pline.Color.B));
+
+            if (sender.Tag != null)
+                ConvertUTMCoords(route, int.Parse(sender.Tag.ToString()));
+
+            kmlpolygonsoverlay.Routes.Add(route);
+        }
+
+        private void Dxf_newLwPolyline(dxf sender, netDxf.Entities.LwPolyline pline)
+        {
+            var route = new GMapRoute(pline.Handle);
+            foreach (var item in pline.Vertexes)
+            {
+                route.Points.Add(new PointLatLng(item.Location.Y, item.Location.X));
+            }
+
+            route.Stroke = new Pen(Color.FromArgb(pline.Color.R, pline.Color.G, pline.Color.B));
+
+            if (sender.Tag != null)
+                ConvertUTMCoords(route, int.Parse(sender.Tag.ToString()));
+
+            kmlpolygonsoverlay.Routes.Add(route);
+        }
+
+        private void Dxf_newPolyLine(dxf sender, netDxf.Entities.Polyline pline)
+        {
+            var route = new GMapRoute(pline.Handle);
+            foreach (var item in pline.Vertexes)
+            {
+                route.Points.Add(new PointLatLng(item.Location.Y, item.Location.X));
+            }
+
+            route.Stroke = new Pen(Color.FromArgb(pline.Color.R, pline.Color.G, pline.Color.B));
+
+            if (sender.Tag != null)
+                ConvertUTMCoords(route, int.Parse(sender.Tag.ToString()));
+
+            kmlpolygonsoverlay.Routes.Add(route);
+        }
+
+        private void Dxf_newLine(dxf sender, netDxf.Entities.Line line)
+        {
+            var route = new GMapRoute(line.Handle);
+            route.Points.Add(new PointLatLng(line.StartPoint.Y,line.StartPoint.X));
+            route.Points.Add(new PointLatLng(line.EndPoint.Y, line.EndPoint.X));
+
+            route.Stroke = new Pen(Color.FromArgb(line.Color.R, line.Color.G, line.Color.B));
+
+            if (sender.Tag != null)
+                ConvertUTMCoords(route, int.Parse(sender.Tag.ToString()));
+
+            kmlpolygonsoverlay.Routes.Add(route);
+        }
+
+        void ConvertUTMCoords(GMapRoute route, int zone = -9999)
+        {
+            for (int i =0;i < route.Points.Count;i++)
+            {
+                var pnt = route.Points[i];
+                // load input
+                utmpos pos = new utmpos(pnt.Lng, pnt.Lat, zone);
+                // convert to geo
+                var llh = pos.ToLLA();
+                // save it back
+                route.Points[i] = llh;
+                //route.Points[i].Lng = llh.Lng;
+            }
+        }
+
 
         public static RectLatLng GetBoundingLayer(GMapOverlay o)
         {
@@ -6754,6 +6856,42 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 coordEasting.Visible = true;
                 coordNorthing.Visible = true;
                 MGRS.Visible = false;
+            }
+        }
+
+        private void clearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //FENCE_ENABLE ON COPTER
+            //FENCE_ACTION ON PLANE
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_ENABLE", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_ENABLE");
+                return;
+            }
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_ACTION", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_ACTION");
+                return;
+            }
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_TOTAL", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_TOTAL");
+                return;
             }
         }
     }

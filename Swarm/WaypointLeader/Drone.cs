@@ -22,6 +22,8 @@ namespace MissionPlanner.Swarm.WaypointLeader
 
         public int PathIndex = 0;
 
+        public bool takeoffdone = false;
+
         /// <summary>
         /// Position in 1 second
         /// </summary>

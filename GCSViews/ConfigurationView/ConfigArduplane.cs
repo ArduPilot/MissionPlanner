@@ -42,6 +42,62 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
+            THR_SLEWRATE.setup(0, 0, 1, 0, "THR_SLEWRATE", MainV2.comPort.MAV.param);
+            THR_MAX.setup(0, 0, 1, 0, "THR_MAX", MainV2.comPort.MAV.param);
+            THR_MIN.setup(0, 0, 1, 0, "THR_MIN", MainV2.comPort.MAV.param);
+            TRIM_THROTTLE.setup(0, 0, 1, 0, "TRIM_THROTTLE", MainV2.comPort.MAV.param);
+
+            ARSPD_RATIO.setup(0, 0, 1, 0, "ARSPD_RATIO", MainV2.comPort.MAV.param);
+            ARSPD_FBW_MAX.setup(0, 0, 1, 0, "ARSPD_FBW_MAX", MainV2.comPort.MAV.param);
+            ARSPD_FBW_MIN.setup(0, 0, 1, 0, "ARSPD_FBW_MIN", MainV2.comPort.MAV.param);
+            TRIM_ARSPD_CM.setup(0, 0, 100, 0, "TRIM_ARSPD_CM", MainV2.comPort.MAV.param);
+
+            LIM_PITCH_MIN.setup(0, 0, 100, 0, "LIM_PITCH_MIN", MainV2.comPort.MAV.param);
+            LIM_PITCH_MAX.setup(0, 0, 100, 0, "LIM_PITCH_MAX", MainV2.comPort.MAV.param);
+            LIM_ROLL_CD.setup(0, 0, 100, 0, "LIM_ROLL_CD", MainV2.comPort.MAV.param);
+
+            KFF_PTCH2THR.setup(0, 0, 1, 0, "KFF_PTCH2THR", MainV2.comPort.MAV.param);
+            KFF_RDDRMIX.setup(0, 0, 1, 0, "KFF_RDDRMIX", MainV2.comPort.MAV.param);
+
+            ENRGY2THR_IMAX.setup(0, 0, 100, 0, "ENRGY2THR_IMAX", MainV2.comPort.MAV.param);
+            ENRGY2THR_D.setup(0, 0, 1, 0, "ENRGY2THR_D", MainV2.comPort.MAV.param);
+            ENRGY2THR_I.setup(0, 0, 1, 0, "ENRGY2THR_I", MainV2.comPort.MAV.param);
+            ENRGY2THR_P.setup(0, 0, 1, 0, "ENRGY2THR_P", MainV2.comPort.MAV.param);
+
+            ALT2PTCH_IMAX.setup(0, 0, 100, 0, "ALT2PTCH_IMAX", MainV2.comPort.MAV.param);
+            ALT2PTCH_D.setup(0, 0, 1, 0, "ALT2PTCH_D", MainV2.comPort.MAV.param);
+            ALT2PTCH_I.setup(0, 0, 1, 0, "ALT2PTCH_I", MainV2.comPort.MAV.param);
+            ALT2PTCH_P.setup(0, 0, 1, 0, "ALT2PTCH_P", MainV2.comPort.MAV.param);
+
+            ARSP2PTCH_IMAX.setup(0, 0, 100, 0, "ARSP2PTCH_IMAX", MainV2.comPort.MAV.param);
+            ARSP2PTCH_D.setup(0, 0, 1, 0, "ARSP2PTCH_D", MainV2.comPort.MAV.param);
+            ARSP2PTCH_I.setup(0, 0, 1, 0, "ARSP2PTCH_I", MainV2.comPort.MAV.param);
+            ARSP2PTCH_P.setup(0, 0, 1, 0, "ARSP2PTCH_P", MainV2.comPort.MAV.param);
+
+            YAW2SRV_IMAX.setup(0, 0, 100, 0, "YAW2SRV_IMAX", MainV2.comPort.MAV.param);
+            YAW2SRV_DAMP.setup(0, 0, 1, 0, "YAW2SRV_DAMP", MainV2.comPort.MAV.param);
+            YAW2SRV_INT.setup(0, 0, 1, 0, "YAW2SRV_INT", MainV2.comPort.MAV.param);
+            YAW2SRV_RLL.setup(0, 0, 1, 0, "YAW2SRV_RLL", MainV2.comPort.MAV.param);
+
+            PTCH2SRV_IMAX.setup(0, 0, 100, 0, "PTCH2SRV_IMAX", MainV2.comPort.MAV.param);
+            PTCH2SRV_D.setup(0, 0, 1, 0, "PTCH2SRV_D", MainV2.comPort.MAV.param);
+            PTCH2SRV_I.setup(0, 0, 1, 0, "PTCH2SRV_I", MainV2.comPort.MAV.param);
+            PTCH2SRV_P.setup(0, 0, 1, 0, "PTCH2SRV_P", MainV2.comPort.MAV.param);
+
+            RLL2SRV_IMAX.setup(0, 0, 100, 0, "RLL2SRV_IMAX", MainV2.comPort.MAV.param);
+            RLL2SRV_D.setup(0, 0, 1, 0, "RLL2SRV_D", MainV2.comPort.MAV.param);
+            RLL2SRV_I.setup(0, 0, 1, 0, "RLL2SRV_I", MainV2.comPort.MAV.param);
+            RLL2SRV_P.setup(0, 0, 1, 0, "RLL2SRV_P", MainV2.comPort.MAV.param);
+
+            NAVL1_DAMPING.setup(0, 0, 1, 0, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
+            NAVL1_PERIOD.setup(0, 0, 1, 0, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
+
+            TECS_SINK_MAX.setup(0, 0, 1, 0, "TECS_SINK_MAX", MainV2.comPort.MAV.param);
+            TECS_TIME_CONST.setup(0, 0, 1, 0, "TECS_TIME_CONST", MainV2.comPort.MAV.param);
+            TECS_PTCH_DAMP.setup(0, 0, 1, 0, "TECS_PTCH_DAMP", MainV2.comPort.MAV.param);
+            TECS_SINK_MIN.setup(0, 0, 1, 0, "TECS_SINK_MIN", MainV2.comPort.MAV.param);
+            TECS_CLMB_MAX.setup(0, 0, 1, 0, "TECS_CLMB_MAX", MainV2.comPort.MAV.param);
+
             changes.Clear();
 
             processToScreen();
@@ -162,17 +218,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             ThemeManager.ApplyThemeTo(thisctl);
 
-                            thisctl.Validated += null;
-                            if (tooltips[value] != null)
-                            {
-                                try
-                                {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings) tooltips[value]).desc);
-                                }
-                                catch
-                                {
-                                }
-                            }
                             thisctl.Validated += EEPROM_View_float_TextChanged;
                         }
                         else if (ctl.GetType() == typeof (ComboBox))
@@ -210,27 +255,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
         {
             float value = 0;
-            var name = ((Control) sender).Name;
+            var name = ((Control)sender).Name;
 
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof (NumericUpDown))
+                if (sender.GetType() == typeof(MavlinkNumericUpDown))
                 {
-                    value = (float) ((NumericUpDown) sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
+                    value = ((MAVLinkParamChanged)e).value;
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof (ComboBox))
+                else if (sender.GetType() == typeof(MavlinkComboBox))
                 {
-                    value = ((ComboBox) sender).SelectedIndex;
+                    value = ((MAVLinkParamChanged)e).value;
                     changes[name] = value;
                 }
-                ((Control) sender).BackColor = Color.Green;
+                ((Control)sender).BackColor = Color.Green;
             }
             catch (Exception)
             {
-                ((Control) sender).BackColor = Color.Red;
+                ((Control)sender).BackColor = Color.Red;
             }
         }
 
@@ -242,13 +286,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    if ((float) changes[value] > (float) MainV2.comPort.MAV.param[value]*2.0f)
+                    if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
                         if (
                             CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
                                 "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                        {
+                            try
+                            {
+                                // set control as well
+                                var textControls = Controls.Find(value, true);
+                                if (textControls.Length > 0)
+                                {
+                                    // restore old value
+                                    textControls[0].Text = MainV2.comPort.MAV.param[value].Value.ToString();
+                                    textControls[0].BackColor = Color.FromArgb(0x43, 0x44, 0x45);
+                                }
+                            }
+                            catch
+                            {
+                            }
                             return;
+                        }
 
-                    MainV2.comPort.setParam(value, (float) changes[value]);
+                    MainV2.comPort.setParam(value, (float)changes[value]);
+
+                    changes.Remove(value);
 
                     try
                     {
@@ -265,7 +327,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set " + value + " Failed", Strings.ERROR);
+                    CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, value), Strings.ERROR);
                 }
             }
         }
@@ -335,14 +397,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        public struct paramsettings // hk's
+        private void numeric_ValueUpdated(object sender, EventArgs e)
         {
-            public string desc;
-            public float maxvalue;
-            public float minvalue;
-            public string name;
-            public float normalvalue;
-            public float scale;
+            EEPROM_View_float_TextChanged(sender, e);
         }
     }
 }

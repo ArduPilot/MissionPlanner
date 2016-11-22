@@ -254,7 +254,7 @@
             // ConfigAP_Limits
             // 
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.LIM_ENABLED);
             this.Controls.Add(this.LNK_wiki);
