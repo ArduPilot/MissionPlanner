@@ -83,6 +83,8 @@ namespace MissionPlanner
                 try
                 {
                     basedata.Close();
+
+                    basedata = null;
                 } catch { }
             }
             else
@@ -129,8 +131,10 @@ namespace MissionPlanner
                 }
                 try
                 {
-                    comPort.Open();
+                    comPort.ReadBufferSize = 1024 * 64;
 
+                    comPort.Open();
+                    
                     try
                     {
                         basedata = new BinaryWriter(new BufferedStream(
@@ -330,7 +334,8 @@ namespace MissionPlanner
 
                     updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) + " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc / 10000.0);
 
-                    ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
+                    if (svin.valid == 1)
+                        ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
                 }
 
                 //pvt
@@ -339,6 +344,26 @@ namespace MissionPlanner
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.h_msl / 1000.0);
+
+
+                }
+
+                if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
+                {
+                    log.InfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+
+                }
+
+                if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x0)
+                {
+                    log.InfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+
+                }
+
+                if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
+                {
+                    log.InfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+
                 }
             }
             catch
@@ -428,7 +453,7 @@ namespace MissionPlanner
                 if (basedata != null)
                     basedata.Flush();
             }
-            catch { }
+            catch { basedata = null; }
         }
 
         private void SerialInjectGPS_Load(object sender, EventArgs e)
@@ -469,6 +494,10 @@ namespace MissionPlanner
                 Settings.Instance["base_pos"] = basepos;
 
                 loadBasePOS();
+            }
+            else
+            {
+                this.basepos = PointLatLngAlt.Zero;
             }
         }
     }
