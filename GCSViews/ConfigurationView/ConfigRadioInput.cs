@@ -23,7 +23,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigRadioInput()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             // setup rc calib extents
             for (var a = 0; a < rcmin.Length; a++)
             {

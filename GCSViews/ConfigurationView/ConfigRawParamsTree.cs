@@ -32,6 +32,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigRawParamsTree()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

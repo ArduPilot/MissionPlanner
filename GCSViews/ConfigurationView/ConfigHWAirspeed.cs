@@ -14,6 +14,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWAirspeed()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

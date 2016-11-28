@@ -20,6 +20,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAntennaTracker()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

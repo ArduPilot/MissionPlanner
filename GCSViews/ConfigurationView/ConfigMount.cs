@@ -22,7 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigMount()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
 
             var delay = new Transition(new TransitionType_Linear(2000));
             var fadeIn = new Transition(new TransitionType_Linear(800));

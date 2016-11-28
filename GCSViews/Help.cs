@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews
         public Help()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

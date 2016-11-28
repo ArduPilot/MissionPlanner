@@ -57,7 +57,7 @@ namespace MissionPlanner.GeoRef
         public Georefimage()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
 
             CHECK_AMSLAlt_Use.Checked = true;
             PANEL_TIME_OFFSET.Enabled = false;

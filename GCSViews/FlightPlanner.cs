@@ -529,7 +529,7 @@ namespace MissionPlanner.GCSViews
             instance = this;
 
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             // config map             
             MainMap.CacheLocation = Settings.GetDataDirectory() +
                                     "gmapcache" + Path.DirectorySeparatorChar;

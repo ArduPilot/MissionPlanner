@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigCompassMot()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
             setupgraph();
         }
 

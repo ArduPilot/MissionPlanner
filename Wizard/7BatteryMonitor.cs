@@ -54,7 +54,7 @@ namespace MissionPlanner.Wizard
         public _7BatteryMonitor()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             sensorlist.Add(new sensor()
             {
                 Name = "None",

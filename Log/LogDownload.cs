@@ -53,7 +53,7 @@ namespace MissionPlanner.Log
         public LogDownload()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 

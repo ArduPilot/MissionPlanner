@@ -22,6 +22,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigPlanner()
         {
             InitializeComponent();
+            CMB_Layout.Items.Add(DisplayNames.Basic);
+            CMB_Layout.Items.Add(DisplayNames.Advanced);
+
+            Utilities.ThemeManager.ApplyThemeTo(this);
             txt_log_dir.TextChanged += OnLogDirTextChanged;
 
         }
@@ -31,7 +35,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true; // flag to ignore changes while we programatically populate controls
-
+            if (MainV2.DisplayConfiguration.displayName == DisplayNames.Advanced)
+            {
+                CMB_Layout.SelectedIndex = 1;
+            }
+            else if (MainV2.DisplayConfiguration.displayName == DisplayNames.Basic)
+            {
+                CMB_Layout.SelectedIndex = 0;
+            }
+            else
+            {
+                CMB_Layout.SelectedIndex = 0;
+            }
 
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
@@ -93,7 +108,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
             SetCheckboxFromConfig("password_protect", CHK_Password);
-            SetCheckboxFromConfig("advancedview", CHK_advancedview);
             SetCheckboxFromConfig("showairports", CHK_showairports);
             SetCheckboxFromConfig("enableadsb", chk_ADSB);
             SetCheckboxFromConfig("norcreceiver", chk_norcreceiver);
@@ -681,7 +695,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ThemeManager.SetTheme((ThemeManager.Themes) Enum.Parse(typeof (ThemeManager.Themes), CMB_theme.Text));
             ThemeManager.ApplyThemeTo(MainV2.instance);
 
-            CustomMessageBox.Show("You may need to restart to see the full effect.");
+            CustomMessageBox.Show("You may need to select another tab or restart to see the full effect.");
         }
 
         private void BUT_themecustom_Click(object sender, EventArgs e)
@@ -790,12 +804,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void CHK_advancedview_CheckedChanged(object sender, EventArgs e)
-        {
-            Settings.Instance["advancedview"] = CHK_advancedview.Checked.ToString();
-            MainV2.Advanced = CHK_advancedview.Checked;
-        }
-
         private void CHK_showairports_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["showairports"] = CHK_showairports.Checked.ToString();
@@ -871,6 +879,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void but_AAsignin_Click(object sender, EventArgs e)
         {
             new Utilities.AltitudeAngel.AASettings().Show(this);
+        }
+
+        private void CMB_Layout_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((DisplayNames)CMB_Layout.SelectedItem == DisplayNames.Advanced)
+            {
+                MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Advanced();
+            }
+            else if ((DisplayNames)CMB_Layout.SelectedItem == DisplayNames.Basic)
+            {
+                MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Basic();
+            }
+            Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
         }
     }
 }

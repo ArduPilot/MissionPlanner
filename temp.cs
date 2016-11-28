@@ -54,7 +54,7 @@ namespace MissionPlanner
         public temp()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             //if (System.Diagnostics.Debugger.IsAttached) 
             {
                 try

@@ -26,6 +26,7 @@ namespace MissionPlanner.Wizard
         public _12FailSafe()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

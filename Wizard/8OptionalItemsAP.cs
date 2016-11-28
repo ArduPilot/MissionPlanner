@@ -16,6 +16,7 @@ namespace MissionPlanner.Wizard
         public _8OptionalItemsAP()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         void updateosd()

@@ -16,7 +16,7 @@ namespace MissionPlanner.Controls
         public ControlTest(Control ctl)
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             _ctl = ctl;
             _ctl.Dock = DockStyle.Fill;
             Controls.Add(_ctl);

@@ -9,6 +9,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigWizard()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

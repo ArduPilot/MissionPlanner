@@ -30,7 +30,7 @@ namespace MissionPlanner
             Instance = this;
 
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             CMB_updaterate.SelectedItem = updaterate;

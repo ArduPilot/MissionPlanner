@@ -18,6 +18,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWParachute()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

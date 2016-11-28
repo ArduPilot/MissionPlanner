@@ -15,7 +15,7 @@ namespace MissionPlanner.Wizard
         public _1Intro()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             if (Program.Logo != null)
                 radialGradientBG1.Image.Image = Program.Logo;
         }

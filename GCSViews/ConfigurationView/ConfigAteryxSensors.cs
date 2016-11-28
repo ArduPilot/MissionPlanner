@@ -9,6 +9,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAteryxSensors()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -15,7 +15,7 @@ namespace MissionPlanner.Warnings
         public WarningsManager()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             reload();
         }
 

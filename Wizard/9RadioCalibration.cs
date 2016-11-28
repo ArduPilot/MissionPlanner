@@ -16,6 +16,7 @@ namespace MissionPlanner.Wizard
         public _9RadioCalibration()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

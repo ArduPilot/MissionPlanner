@@ -16,6 +16,7 @@ namespace MissionPlanner.Wizard
         public _98DontForget()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

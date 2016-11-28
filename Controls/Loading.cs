@@ -21,6 +21,7 @@ namespace MissionPlanner.Controls
         public Loading()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public new string Text 

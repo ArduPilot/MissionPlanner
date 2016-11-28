@@ -173,6 +173,7 @@ namespace MissionPlanner.GCSViews
             log.Info("Ctor Start");
 
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
 
             log.Info("Components Done");
 
@@ -328,10 +329,6 @@ namespace MissionPlanner.GCSViews
 
             MainV2.comPort.ParamListChanged += FlightData_ParentChanged;
 
-            MainV2.AdvancedChanged += MainV2_AdvancedChanged;
-
-            // first run
-            MainV2_AdvancedChanged(null, null);
         }
 
         protected override void OnInvalidated(InvalidateEventArgs e)
@@ -471,35 +468,6 @@ namespace MissionPlanner.GCSViews
             tabStatus.Width = x;
 
             ThemeManager.ApplyThemeTo(tabStatus);
-        }
-
-        private void MainV2_AdvancedChanged(object sender, EventArgs e)
-        {
-            if (!MainV2.Advanced)
-            {
-                if (!tabControlactions.TabPages.Contains(tabActionsSimple))
-                    tabControlactions.TabPages.Add(tabActionsSimple);
-                //tabControlactions.TabPages.Remove(tabGauges);
-                tabControlactions.TabPages.Remove(tabActions);
-                tabControlactions.TabPages.Remove(tabStatus);
-                tabControlactions.TabPages.Remove(tabServo);
-                tabControlactions.TabPages.Remove(tabScripts);
-
-                tabControlactions.Invalidate();
-            }
-            else
-            {
-                //tabControlactions.TabPages.Remove(tabGauges);
-                tabControlactions.TabPages.Remove(tabActionsSimple);
-                if (!tabControlactions.TabPages.Contains(tabActions))
-                    tabControlactions.TabPages.Add(tabActions);
-                if (!tabControlactions.TabPages.Contains(tabStatus))
-                    tabControlactions.TabPages.Add(tabStatus);
-                if (!tabControlactions.TabPages.Contains(tabServo))
-                    tabControlactions.TabPages.Add(tabServo);
-                if (!tabControlactions.TabPages.Contains(tabScripts))
-                    tabControlactions.TabPages.Add(tabScripts);
-            }
         }
 
         public void Activate()
@@ -3419,7 +3387,7 @@ namespace MissionPlanner.GCSViews
                     splitContainer1.Panel2.Controls.Add(but);
                     splitContainer1.Panel2.Controls.Add(sc.Control);
                     ThemeManager.ApplyThemeTo(sc.Control);
-
+                    ThemeManager.ApplyThemeTo(this);
                     sc.Control.Dock = DockStyle.Fill;
                     sc.Control.Visible = true;
 

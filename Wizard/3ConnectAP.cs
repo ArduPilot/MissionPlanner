@@ -65,7 +65,7 @@ namespace MissionPlanner.Wizard
 
 
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             CMB_port.Items.AddRange(SerialPort.GetPortNames());
         }
 

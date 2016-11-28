@@ -21,7 +21,7 @@ namespace MissionPlanner
         public SerialOutputPass()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             chk_write.Checked = MainV2.comPort.MirrorStreamWrite;
 
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());

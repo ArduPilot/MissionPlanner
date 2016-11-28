@@ -17,6 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWPX4Flow()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -21,6 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigArdurover()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

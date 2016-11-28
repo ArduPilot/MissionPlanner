@@ -20,6 +20,7 @@ namespace MissionPlanner
         public GenOTP()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private void BUT_makeotp_Click(object sender, EventArgs e)

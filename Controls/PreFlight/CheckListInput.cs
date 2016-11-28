@@ -19,6 +19,7 @@ namespace MissionPlanner.Controls.PreFlight
             _parent = parent;
 
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public CheckListInput(CheckListControl parent, CheckListItem item)
@@ -27,6 +28,7 @@ namespace MissionPlanner.Controls.PreFlight
 
             InitializeComponent();
 
+            Utilities.ThemeManager.ApplyThemeTo(this);
             CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
             item.SetField(item.Name);
 

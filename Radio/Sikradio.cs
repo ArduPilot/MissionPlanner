@@ -49,7 +49,7 @@ S15: MAX_WINDOW=131
         public Sikradio()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             // hide advanced view
             //SPLIT_local.Panel2Collapsed = true;
             //SPLIT_remote.Panel2Collapsed = true;

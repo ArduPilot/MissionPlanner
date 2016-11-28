@@ -18,6 +18,7 @@ namespace MissionPlanner.Wizard
         public _4FrameType()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public int WizardValidate()

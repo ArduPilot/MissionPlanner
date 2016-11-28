@@ -29,6 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 InitializeComponent();
+                Utilities.ThemeManager.ApplyThemeTo(this);
             }
             catch (Exception ex)
             {

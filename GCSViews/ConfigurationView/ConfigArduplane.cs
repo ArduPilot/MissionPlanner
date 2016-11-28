@@ -21,6 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigArduplane()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

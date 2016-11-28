@@ -26,6 +26,9 @@ namespace MissionPlanner.Controls
         internal Color _BGGradBot;
         internal Color _TextColor;
         internal Color _Outline;
+        internal Color _ColorNotEnabled;
+        internal Color _ColorMouseOver;
+        internal Color _ColorMouseDown;
 
        bool inOnPaint = false;
 
@@ -35,6 +38,16 @@ namespace MissionPlanner.Controls
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
          [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
+        public Color ColorNotEnabled { get { return _ColorNotEnabled; } set { _ColorNotEnabled = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
+        public Color ColorMouseOver { get { return _ColorMouseOver; } set { _ColorMouseOver = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "150, 0x2b, 0x3a, 0x03")]
+        public Color ColorMouseDown { get { return _ColorMouseDown; } set { _ColorMouseDown = value; this.Invalidate(); } }
 
         // i want to ignore forecolor
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]

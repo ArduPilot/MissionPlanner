@@ -20,7 +20,7 @@ namespace MissionPlanner.Swarm
         public FollowPathControl()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             SwarmInterface = new FollowPath();
 
             bindingSource1.DataSource = MainV2.Comports;

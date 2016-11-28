@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWOptFlow()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

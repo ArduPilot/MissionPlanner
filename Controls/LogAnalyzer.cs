@@ -14,7 +14,7 @@ namespace MissionPlanner.Controls
         public LogAnalyzer(MissionPlanner.Utilities.LogAnalyzer.analysis analysis)
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             textBox1.Text = String.Format(@"Log File {0}
 Size (kb) {1}
 No of lines {2}

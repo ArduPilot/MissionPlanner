@@ -2105,10 +2105,10 @@
         private System.Windows.Forms.CheckBox CHK_autopan;
         public Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
-        private System.Windows.Forms.TabControl tabControlactions;
+        public System.Windows.Forms.TabControl tabControlactions;
         private System.Windows.Forms.TabPage tabGauges;
-        private System.Windows.Forms.TabPage tabStatus;
-        private System.Windows.Forms.TabPage tabActions;
+        public System.Windows.Forms.TabPage tabStatus;
+        public System.Windows.Forms.TabPage tabActions;
         private System.Windows.Forms.TabPage tabTLogs;
         private System.Windows.Forms.ComboBox CMB_modes;
         private Controls.MyButton BUT_setmode;
@@ -2145,7 +2145,7 @@
         private System.Windows.Forms.ToolStripMenuItem triggerCameraToolStripMenuItem;
         private Controls.MyTrackBar TRK_zoom;
         private Controls.MyLabel LBL_logfn;
-        private System.Windows.Forms.TabPage tabServo;
+        public System.Windows.Forms.TabPage tabServo;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelServos;
         private Controls.ServoOptions servoOptions1;
         private Controls.ServoOptions servoOptions2;
@@ -2175,7 +2175,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TabPage tabScripts;
+        public System.Windows.Forms.TabPage tabScripts;
         private Controls.MyButton BUT_edit_selected;
         private System.Windows.Forms.Label labelSelectedScript;
         private Controls.MyButton BUT_run_script;
@@ -2196,14 +2196,14 @@
         private Controls.MyButton BUT_matlab;
         private System.Windows.Forms.ComboBox CMB_mountmode;
         private Controls.MyButton BUT_mountmode;
-        private Controls.WindDir windDir1;
+        public Controls.WindDir windDir1;
         private Controls.MyButton but_bintolog;
         private Controls.MyButton but_dflogtokml;
         private Controls.MyButton BUT_DFMavlink;
         private System.Windows.Forms.TabPage tabPagemessages;
         private System.Windows.Forms.TextBox txt_messagebox;
         private System.Windows.Forms.Timer Messagetabtimer;
-        private System.Windows.Forms.TabPage tabActionsSimple;
+        public System.Windows.Forms.TabPage tabActionsSimple;
         private Controls.MyButton myButton1;
         private Controls.MyButton myButton2;
         private Controls.MyButton myButton3;

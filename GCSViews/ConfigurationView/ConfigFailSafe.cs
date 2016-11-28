@@ -15,7 +15,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFailSafe()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             // setup rc update
             timer.Tick += timer_Tick;
         }

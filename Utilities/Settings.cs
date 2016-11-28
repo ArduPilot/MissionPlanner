@@ -123,6 +123,16 @@ namespace MissionPlanner.Utilities
             }
             return result;
         }
+        public DisplayView GetDisplayView(string key)
+        {
+            DisplayView result = new DisplayView();
+            string value = null;
+            if (config.TryGetValue(key, out value))
+            {
+                DisplayViewExtensions.TryParse(value, out result);
+            }
+            return result;
+        }
 
         public bool GetBoolean(string key)
         {

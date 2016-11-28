@@ -25,7 +25,7 @@ namespace MissionPlanner.Log
         public LogIndex()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             this.olvColumnImage.Renderer = new NonSelectableRenderer();
         }
 

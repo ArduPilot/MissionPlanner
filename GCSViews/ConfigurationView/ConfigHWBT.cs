@@ -30,6 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWBT()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -18,6 +18,7 @@ namespace MissionPlanner
         public ScriptConsole()
         {
             InitializeComponent();
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private void ScriptConsole_Load(object sender, EventArgs e)

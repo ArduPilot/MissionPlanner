@@ -50,7 +50,7 @@ namespace MissionPlanner.Log
         public MavlinkLog()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             zg1.GraphPane.YAxis.Title.IsVisible = false;
             zg1.GraphPane.Title.IsVisible = true;
             zg1.GraphPane.Title.Text = "Mavlink Log Graph";

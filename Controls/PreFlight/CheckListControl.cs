@@ -34,7 +34,7 @@ namespace MissionPlanner.Controls.PreFlight
         public CheckListControl()
         {
             InitializeComponent();
-
+            Utilities.ThemeManager.ApplyThemeTo(this);
             MissionPlanner.Controls.PreFlight.CheckListItem.defaultsrc = MainV2.comPort.MAV.cs;
 
             try
