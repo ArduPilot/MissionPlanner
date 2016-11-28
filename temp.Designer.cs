@@ -872,13 +872,12 @@
             this.myButton3.Name = "myButton3";
             this.myButton3.Size = new System.Drawing.Size(75, 23);
             this.myButton3.TabIndex = 84;
-            this.myButton3.Text = "test redirect";
+            this.myButton3.Text = "Custom DTED";
             this.myButton3.UseVisualStyleBackColor = true;
             this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
             // 
             // temp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
             this.Controls.Add(this.myButton3);

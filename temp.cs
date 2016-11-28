@@ -981,7 +981,14 @@ namespace MissionPlanner
 
         private void myButton3_Click(object sender, EventArgs e)
         {
-            Common.getFilefromNet("http://firm.ardupilot.org/", "./test.txt");
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == DialogResult.OK) {
+                if (Directory.Exists(fbd.SelectedPath))
+                {
+                    DTED.AddCustomDirectory(fbd.SelectedPath);
+                }
+            }
         }
 
         protected override void WndProc(ref Message m)
