@@ -117,10 +117,9 @@ namespace MissionPlanner.GCSViews
             // dragging a WP
             if (pointno == "H")
             {
-                if (isonline && CHK_verifyheight.Checked)
-                {
-                    TXT_homealt.Text = getGEAlt(lat, lng).ToString();
-                }
+                // auto update home alt
+                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplierdist).ToString();
+
                 TXT_homelat.Text = lat.ToString();
                 TXT_homelng.Text = lng.ToString();
                 return;
