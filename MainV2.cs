@@ -20,7 +20,6 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
-using System.Windows.Interop;
 
 namespace MissionPlanner
 {

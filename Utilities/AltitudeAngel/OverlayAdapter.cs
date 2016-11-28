@@ -74,7 +74,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 _overlay.Routes.Add(new GMapRoute(points, name)
                 {
-                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor)),
+                    Stroke = new Pen(Color.FromArgb((int) colorInfo.StrokeColor), colorInfo.StrokeWidth +2),
                     IsHitTestVisible = true,
                     Tag = featureInfo
                 });

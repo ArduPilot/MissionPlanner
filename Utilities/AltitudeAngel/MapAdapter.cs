@@ -45,6 +45,43 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
             mapControl.OnMapDrag += MapControl_OnMapDrag;
             mapControl.OnPolygonClick += Control_OnPolygonClick;
+
+            mapControl.OnRouteClick += MapControl_OnRouteClick;
+            mapControl.OnRouteEnter += (a) => { Cursor.Current = Cursors.Hand; };
+            mapControl.OnRouteLeave += (a) => { Cursor.Current = Cursors.Arrow; };
+        }
+
+        private void MapControl_OnRouteClick(GMapRoute item, MouseEventArgs e)
+        {
+            if (item.Tag is Feature)
+            {
+                var prop = ((Feature)item.Tag).Properties;
+
+                var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
+
+                var sections = display["sections"];
+
+                string title;
+                string text;
+
+                if (sections.Count() == 0)
+                {
+                    title = prop["detailedCategory"].ToString();
+                    text = "";
+                }
+                else
+                {
+                    var section1 = sections.Last();
+
+                    var iconURL = section1["iconUrl"].ToString();
+                    title = display["category"].ToString();
+                    text = section1["text"].ToString();
+                }
+
+                var st = String.Format("{0} is categorised as a {1}\n\n{2}", display["title"], title, text);
+
+                CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
+            }
         }
 
         DateTime lastmapdrag = DateTime.MinValue;
@@ -82,14 +119,14 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                     }
                     else
                     {
-                        var section1 = sections[0];
+                        var section1 = sections.Last();
 
                         var iconURL = section1["iconUrl"].ToString();
-                        title = section1["title"].ToString();
+                        title = display["category"].ToString();
                         text = section1["text"].ToString();
                     }
 
-                    var st = String.Format("{0} is categorised as a {1}\n\n{2}", prop["name"], title, text);
+                    var st = String.Format("{0} is categorised as a {1}\n\n{2}", display["title"], title, text);
 
                     CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
                 }
