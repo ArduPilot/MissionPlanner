@@ -90,13 +90,14 @@
             this.CHK_beta = new System.Windows.Forms.CheckBox();
             this.CHK_Password = new System.Windows.Forms.CheckBox();
             this.CHK_speechlowspeed = new System.Windows.Forms.CheckBox();
-            this.CHK_advancedview = new System.Windows.Forms.CheckBox();
             this.CHK_showairports = new System.Windows.Forms.CheckBox();
             this.chk_ADSB = new System.Windows.Forms.CheckBox();
             this.chk_tfr = new System.Windows.Forms.CheckBox();
             this.chk_temp = new System.Windows.Forms.CheckBox();
             this.chk_norcreceiver = new System.Windows.Forms.CheckBox();
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
+            this.CMB_Layout = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -579,13 +580,6 @@
             this.CHK_speechlowspeed.UseVisualStyleBackColor = true;
             this.CHK_speechlowspeed.CheckedChanged += new System.EventHandler(this.CHK_speechlowspeed_CheckedChanged);
             // 
-            // CHK_advancedview
-            // 
-            resources.ApplyResources(this.CHK_advancedview, "CHK_advancedview");
-            this.CHK_advancedview.Name = "CHK_advancedview";
-            this.CHK_advancedview.UseVisualStyleBackColor = true;
-            this.CHK_advancedview.CheckedChanged += new System.EventHandler(this.CHK_advancedview_CheckedChanged);
-            // 
             // CHK_showairports
             // 
             resources.ApplyResources(this.CHK_showairports, "CHK_showairports");
@@ -632,17 +626,30 @@
             this.but_AAsignin.UseVisualStyleBackColor = true;
             this.but_AAsignin.Click += new System.EventHandler(this.but_AAsignin_Click);
             // 
+            // CMB_Layout
+            // 
+            this.CMB_Layout.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_Layout.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_Layout, "CMB_Layout");
+            this.CMB_Layout.Name = "CMB_Layout";
+            this.CMB_Layout.SelectedIndexChanged += new System.EventHandler(this.CMB_Layout_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
             // ConfigPlanner
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.CMB_Layout);
             this.Controls.Add(this.but_AAsignin);
             this.Controls.Add(this.chk_norcreceiver);
             this.Controls.Add(this.chk_temp);
             this.Controls.Add(this.chk_tfr);
             this.Controls.Add(this.chk_ADSB);
             this.Controls.Add(this.CHK_showairports);
-            this.Controls.Add(this.CHK_advancedview);
             this.Controls.Add(this.CHK_speechlowspeed);
             this.Controls.Add(this.CHK_Password);
             this.Controls.Add(this.CHK_beta);
@@ -705,6 +712,7 @@
             this.Controls.Add(this.BUT_videostop);
             this.Controls.Add(this.BUT_videostart);
             this.Name = "ConfigPlanner";
+            resources.ApplyResources(this, "$this");
             this.Load += new System.EventHandler(this.ConfigPlanner_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).EndInit();
             this.ResumeLayout(false);
@@ -775,12 +783,13 @@
         private System.Windows.Forms.CheckBox CHK_beta;
         private System.Windows.Forms.CheckBox CHK_Password;
         private System.Windows.Forms.CheckBox CHK_speechlowspeed;
-        private System.Windows.Forms.CheckBox CHK_advancedview;
         private System.Windows.Forms.CheckBox CHK_showairports;
         private System.Windows.Forms.CheckBox chk_ADSB;
         private System.Windows.Forms.CheckBox chk_tfr;
         private System.Windows.Forms.CheckBox chk_temp;
         private System.Windows.Forms.CheckBox chk_norcreceiver;
         private Controls.MyButton but_AAsignin;
+        public System.Windows.Forms.ComboBox CMB_Layout;
+        private System.Windows.Forms.Label label5;
     }
 }
