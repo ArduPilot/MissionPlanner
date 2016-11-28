@@ -20,6 +20,7 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
+using System.Windows.Interop;
 
 namespace MissionPlanner
 {
@@ -3312,8 +3313,18 @@ namespace MissionPlanner
                     }
 
                     break;
-                default:
+                case 0x86: // WM_NCACTIVATE
+                    //var thing = Control.FromHandle(m.HWnd);
 
+                    var child = Control.FromHandle(m.LParam);
+
+                    if (child is Form)
+                    {
+                        ThemeManager.ApplyThemeTo(child);
+                    }
+                    break;
+                default:
+                    //Console.WriteLine(m.ToString());
                     break;
             }
             base.WndProc(ref m);
