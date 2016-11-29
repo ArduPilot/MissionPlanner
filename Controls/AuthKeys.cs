@@ -16,7 +16,7 @@ namespace MissionPlanner.Controls
         public AuthKeys()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             ThemeManager.ApplyThemeTo(this);
 
             LoadKeys();

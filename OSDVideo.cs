@@ -79,7 +79,7 @@ namespace MissionPlanner
         public OSDVideo()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             Control.CheckForIllegalCrossThreadCalls = false;
 
             hud1.SixteenXNine = true;

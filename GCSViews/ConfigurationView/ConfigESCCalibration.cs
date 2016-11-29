@@ -16,7 +16,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigESCCalibration()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

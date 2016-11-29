@@ -26,7 +26,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAteryx()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

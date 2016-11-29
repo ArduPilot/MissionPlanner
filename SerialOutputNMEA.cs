@@ -21,7 +21,7 @@ namespace MissionPlanner
         public SerialOutputNMEA()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             if (threadrun)

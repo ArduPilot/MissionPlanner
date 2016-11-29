@@ -202,7 +202,6 @@ namespace MissionPlanner
             set
             {
                 _displayConfiguration = value;
-                //MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
                 if (LayoutChanged != null)
                     LayoutChanged(null, EventArgs.Empty);
             }
@@ -399,8 +398,10 @@ namespace MissionPlanner
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
-            MenuDonate.Visible = DisplayConfiguration.displayDonate;
+            //MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
+            MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
+
             if (MainV2.instance.FlightData != null)
             {
                 
@@ -497,8 +498,6 @@ namespace MissionPlanner
             MyView = new MainSwitcher(this);
 
             View = MyView;
-
-            LayoutChanged += updateLayout;
 
             //startup console
             TCPConsole.Write((byte) 'S');
@@ -3313,8 +3312,18 @@ namespace MissionPlanner
                     }
 
                     break;
-                default:
+                case 0x86: // WM_NCACTIVATE
+                    //var thing = Control.FromHandle(m.HWnd);
 
+                    var child = Control.FromHandle(m.LParam);
+
+                    if (child is Form)
+                    {
+                        ThemeManager.ApplyThemeTo(child);
+                    }
+                    break;
+                default:
+                    //Console.WriteLine(m.ToString());
                     break;
             }
             base.WndProc(ref m);

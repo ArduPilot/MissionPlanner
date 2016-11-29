@@ -13,7 +13,7 @@ namespace MissionPlanner
         public Splash()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             TXT_version.Text = "Version: " + Application.ProductVersion; // +" Build " + strVersion;

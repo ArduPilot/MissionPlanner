@@ -16,7 +16,6 @@ namespace MissionPlanner.Wizard
         public _8OptionalItemsAC()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -56,7 +56,7 @@ namespace MissionPlanner.Controls
             instance = this;
 
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             core.OnMapOpen();
         }
 

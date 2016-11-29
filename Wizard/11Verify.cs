@@ -16,7 +16,6 @@ namespace MissionPlanner.Wizard
         public _11Verify()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

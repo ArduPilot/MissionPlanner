@@ -27,7 +27,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFrameType()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             configDefaultSettings1.OnChange += configDefaultSettings1_OnChange;
         }
 

@@ -17,7 +17,7 @@ namespace MissionPlanner.Joystick
         public JoystickSetup()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 

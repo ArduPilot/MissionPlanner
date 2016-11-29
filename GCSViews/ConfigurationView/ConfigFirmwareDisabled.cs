@@ -8,7 +8,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFirmwareDisabled()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

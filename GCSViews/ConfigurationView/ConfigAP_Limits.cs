@@ -11,7 +11,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAP_Limits()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

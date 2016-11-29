@@ -28,7 +28,7 @@ namespace MissionPlanner
         public RAW_Sensor()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             CreateChart(zg1, "Raw Sensors", "Time", "Raw Data");
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);

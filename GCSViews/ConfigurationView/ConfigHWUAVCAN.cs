@@ -13,7 +13,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWUAVCAN()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

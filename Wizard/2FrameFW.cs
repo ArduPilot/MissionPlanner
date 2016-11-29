@@ -15,7 +15,6 @@ namespace MissionPlanner.Wizard
         public _2FrameFW()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public int WizardValidate()

@@ -20,7 +20,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigArducopter()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -17,7 +17,6 @@ namespace MissionPlanner.GCSViews
         public SoftwareConfig()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

@@ -12,7 +12,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigBatteryMonitoring2()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

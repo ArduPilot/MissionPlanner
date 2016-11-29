@@ -12,7 +12,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWOSD()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

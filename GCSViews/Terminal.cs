@@ -32,7 +32,6 @@ namespace MissionPlanner.GCSViews
             threadrun = false;
 
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

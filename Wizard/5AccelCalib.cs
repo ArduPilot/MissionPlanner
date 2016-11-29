@@ -19,7 +19,6 @@ namespace MissionPlanner.Wizard
         public _5AccelCalib()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public int WizardValidate()

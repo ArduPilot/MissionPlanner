@@ -812,7 +812,7 @@ mc:Ignorable=""d""
             {
                 if (ctl.GetType() == typeof (Label))
                 {
-                    if (!(ctl.Name == "labelWithPseudoOpacity1" || ctl.Name == "labelWithPseudoOpacity2" || ctl.Text == "Current Heading" || ctl.Text == "Direct to current WP" || ctl.Text == "Target Heading" || ctl.Text == "GPS Track (Black)"))
+                    if (!(ctl.Tag is string && (string)ctl.Tag == "custom"))
                     {
                         ctl.ForeColor = TextColor;
                     }
@@ -881,14 +881,8 @@ mc:Ignorable=""d""
                     zg1.GraphPane.Chart.Fill = new ZedGraph.Fill(ZedGraphChartFill);
                     zg1.GraphPane.Fill = new ZedGraph.Fill(ZedGraphPaneFill);
 
-                    try
-                    {
-                        foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
-                            li.Line.Width = 2;
-                    }
-                    catch
-                    {
-                    }
+                    foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
+                        li.Line.Width = 2;
 
                     zg1.GraphPane.Title.FontSpec.FontColor = TextColor;
 
@@ -919,18 +913,18 @@ mc:Ignorable=""d""
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor;
                 }
-                //else if (ctl.GetType() == typeof(RadialGradientBG)) //not included in original burntkermit theme
-                //{
+                else if (ctl.GetType() == typeof(RadialGradientBG)) //not included in original burntkermit theme
+                {
                 //    var rbg = ctl as RadialGradientBG;
                 //    rbg.CenterColor = ControlBGColor;
                 //    rbg.OutsideColor = ButBG;
-                //}
-                //else if (ctl.GetType() == typeof(GradientBG))
-                //{
+                }
+                else if (ctl.GetType() == typeof(GradientBG))
+                {
                 //    var rbg = ctl as GradientBG;
                 //    rbg.CenterColor = ControlBGColor;
                 //    rbg.OutsideColor = ButBG;
-                //}
+                }
                 else if (ctl.GetType() == typeof (Form))
                 {
                     ctl.BackColor = BGColor;
@@ -999,10 +993,6 @@ mc:Ignorable=""d""
                     ctl.ForeColor = TextColor;
                     ComboBox CMB = (ComboBox) ctl;
                     CMB.FlatStyle = FlatStyle.Flat;
-                    if (CMB.Name.Equals("cmb_Connection") || CMB.Name.Equals("cmb_Baud")) //Allows other skins to hide these two combo boxes
-                    {
-                        CMB.Visible = true;
-                    }
                 }
                 else if (ctl.GetType() == typeof (NumericUpDown) || ctl.GetType() == typeof (MavlinkNumericUpDown))
                 {
@@ -1046,9 +1036,7 @@ mc:Ignorable=""d""
                     ((MyProgressBar)ctl).BGGradTop = ProgressBarColorTop;
                     ((MyProgressBar)ctl).BGGradBot = ProgressBarColorBot;
                     ((MyProgressBar)ctl).Outline = ProgressBarOutlineColor;        //sets the colour of the progress bar box                    
-                }
-
-                if (ctl.GetType() == typeof (QuickView))
+                } else if (ctl.GetType() == typeof (QuickView))
                 {
                     Controls.QuickView but = (QuickView) ctl;
                     if (but.desc == "DistToMAV")
@@ -1075,6 +1063,7 @@ mc:Ignorable=""d""
                     {
                         but.numberColor = Color.FromArgb(209, 151, 248);
                     }
+                    return;
                 }
                 if (ctl.Controls.Count > 0)
                     ApplyTheme(ctl, 1);

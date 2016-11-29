@@ -17,7 +17,6 @@ namespace MissionPlanner.Swarm.FollowLeader
         public Control()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private void but_master_Click(object sender, EventArgs e)

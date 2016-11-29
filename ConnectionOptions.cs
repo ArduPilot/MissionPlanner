@@ -21,7 +21,7 @@ namespace MissionPlanner
         public ConnectionOptions()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("TCP");
             CMB_serialport.Items.Add("UDP");

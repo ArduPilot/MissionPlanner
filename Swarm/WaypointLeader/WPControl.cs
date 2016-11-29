@@ -19,7 +19,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
         public WPControl()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             zedGraphControl1.GraphPane.AddCurve("Path", DG.path_to_fly, Color.Red, SymbolType.None);
 
             zedGraphControl1.GraphPane.XAxis.Title.Text = "Distance";

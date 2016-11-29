@@ -173,7 +173,6 @@ namespace MissionPlanner.GCSViews
             log.Info("Ctor Start");
 
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
 
             log.Info("Components Done");
 
@@ -3073,7 +3072,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show("Max 10 at a time.");
                     ((CheckBox) sender).Checked = false;
                 }
-                ThemeManager.ApplyThemeTo(this);
+                ThemeManager.ApplyThemeTo((Control)sender);
 
                 string selected = "";
                 try
@@ -3388,6 +3387,7 @@ namespace MissionPlanner.GCSViews
                     splitContainer1.Panel2.Controls.Add(sc.Control);
                     ThemeManager.ApplyThemeTo(sc.Control);
                     ThemeManager.ApplyThemeTo(this);
+
                     sc.Control.Dock = DockStyle.Fill;
                     sc.Control.Visible = true;
 

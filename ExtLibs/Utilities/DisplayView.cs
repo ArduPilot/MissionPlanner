@@ -33,6 +33,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayAdvancedParams { get; set; }
         public Boolean displayFullParamList { get; set; }
         public Boolean displayFullParamTree { get; set; }
+        public bool isAdvancedMode { get; set; }
     }
     public static class DisplayViewExtensions
     {
@@ -81,7 +82,8 @@ namespace MissionPlanner.Utilities
                 displayScriptsTab = false,
                 displayAdvancedParams = false,
                 displayFullParamList = false,
-                displayFullParamTree = false
+                displayFullParamTree = false,
+                isAdvancedMode = false
             };
         }
         public static DisplayView Advanced(this DisplayView v)
@@ -101,7 +103,8 @@ namespace MissionPlanner.Utilities
                 displayScriptsTab = true,
                 displayAdvancedParams = true,
                 displayFullParamList = true,
-                displayFullParamTree = true
+                displayFullParamTree = true,
+                isAdvancedMode = true
             };
         }
     }

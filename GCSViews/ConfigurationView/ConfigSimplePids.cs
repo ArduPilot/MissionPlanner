@@ -22,7 +22,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigSimplePids()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

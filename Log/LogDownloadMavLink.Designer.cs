@@ -61,9 +61,6 @@
             // BUT_DLall
             // 
             resources.ApplyResources(this.BUT_DLall, "BUT_DLall");
-            this.BUT_DLall.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_DLall.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_DLall.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_DLall.Name = "BUT_DLall";
             this.BUT_DLall.UseVisualStyleBackColor = true;
             this.BUT_DLall.Click += new System.EventHandler(this.BUT_DLall_Click);
@@ -71,9 +68,6 @@
             // BUT_DLthese
             // 
             resources.ApplyResources(this.BUT_DLthese, "BUT_DLthese");
-            this.BUT_DLthese.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_DLthese.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_DLthese.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_DLthese.Name = "BUT_DLthese";
             this.toolTip1.SetToolTip(this.BUT_DLthese, resources.GetString("BUT_DLthese.ToolTip"));
             this.BUT_DLthese.UseVisualStyleBackColor = true;
@@ -82,9 +76,6 @@
             // BUT_clearlogs
             // 
             resources.ApplyResources(this.BUT_clearlogs, "BUT_clearlogs");
-            this.BUT_clearlogs.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_clearlogs.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_clearlogs.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_clearlogs.Name = "BUT_clearlogs";
             this.toolTip1.SetToolTip(this.BUT_clearlogs, resources.GetString("BUT_clearlogs.ToolTip"));
             this.BUT_clearlogs.UseVisualStyleBackColor = true;
@@ -100,9 +91,6 @@
             // BUT_redokml
             // 
             resources.ApplyResources(this.BUT_redokml, "BUT_redokml");
-            this.BUT_redokml.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_redokml.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_redokml.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_redokml.Name = "BUT_redokml";
             this.toolTip1.SetToolTip(this.BUT_redokml, resources.GetString("BUT_redokml.ToolTip"));
             this.BUT_redokml.UseVisualStyleBackColor = true;
@@ -111,9 +99,6 @@
             // BUT_firstperson
             // 
             resources.ApplyResources(this.BUT_firstperson, "BUT_firstperson");
-            this.BUT_firstperson.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_firstperson.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_firstperson.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_firstperson.Name = "BUT_firstperson";
             this.toolTip1.SetToolTip(this.BUT_firstperson, resources.GetString("BUT_firstperson.ToolTip"));
             this.BUT_firstperson.UseVisualStyleBackColor = true;
@@ -122,9 +107,6 @@
             // BUT_bintolog
             // 
             resources.ApplyResources(this.BUT_bintolog, "BUT_bintolog");
-            this.BUT_bintolog.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_bintolog.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_bintolog.ColorNotEnabled = System.Drawing.Color.Empty;
             this.BUT_bintolog.Name = "BUT_bintolog";
             this.toolTip1.SetToolTip(this.BUT_bintolog, resources.GetString("BUT_bintolog.ToolTip"));
             this.BUT_bintolog.UseVisualStyleBackColor = true;

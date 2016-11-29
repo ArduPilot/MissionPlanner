@@ -17,7 +17,6 @@ namespace MissionPlanner.Utilities
         public fftui()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private void BUT_run_Click(object sender, EventArgs e)

@@ -123,6 +123,7 @@ namespace MissionPlanner.Utilities
             }
             return result;
         }
+
         public DisplayView GetDisplayView(string key)
         {
             DisplayView result = new DisplayView();

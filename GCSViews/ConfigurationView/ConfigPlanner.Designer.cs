@@ -482,9 +482,6 @@
             // 
             // BUT_Joystick
             // 
-            this.BUT_Joystick.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_Joystick.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_Joystick.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_Joystick, "BUT_Joystick");
             this.BUT_Joystick.Name = "BUT_Joystick";
             this.BUT_Joystick.UseVisualStyleBackColor = true;
@@ -492,9 +489,6 @@
             // 
             // BUT_videostop
             // 
-            this.BUT_videostop.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_videostop.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_videostop.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_videostop, "BUT_videostop");
             this.BUT_videostop.Name = "BUT_videostop";
             this.BUT_videostop.UseVisualStyleBackColor = true;
@@ -502,9 +496,6 @@
             // 
             // BUT_videostart
             // 
-            this.BUT_videostart.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_videostart.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_videostart.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_videostart, "BUT_videostart");
             this.BUT_videostart.Name = "BUT_videostart";
             this.BUT_videostart.UseVisualStyleBackColor = true;
@@ -522,9 +513,6 @@
             // 
             // BUT_logdirbrowse
             // 
-            this.BUT_logdirbrowse.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_logdirbrowse.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_logdirbrowse.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_logdirbrowse, "BUT_logdirbrowse");
             this.BUT_logdirbrowse.Name = "BUT_logdirbrowse";
             this.BUT_logdirbrowse.UseVisualStyleBackColor = true;
@@ -545,9 +533,6 @@
             // 
             // BUT_themecustom
             // 
-            this.BUT_themecustom.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_themecustom.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_themecustom.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_themecustom, "BUT_themecustom");
             this.BUT_themecustom.Name = "BUT_themecustom";
             this.BUT_themecustom.UseVisualStyleBackColor = true;
@@ -562,9 +547,6 @@
             // 
             // BUT_Vario
             // 
-            this.BUT_Vario.ColorMouseDown = System.Drawing.Color.Empty;
-            this.BUT_Vario.ColorMouseOver = System.Drawing.Color.Empty;
-            this.BUT_Vario.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.BUT_Vario, "BUT_Vario");
             this.BUT_Vario.Name = "BUT_Vario";
             this.BUT_Vario.UseVisualStyleBackColor = true;
@@ -639,9 +621,6 @@
             // 
             // but_AAsignin
             // 
-            this.but_AAsignin.ColorMouseDown = System.Drawing.Color.Empty;
-            this.but_AAsignin.ColorMouseOver = System.Drawing.Color.Empty;
-            this.but_AAsignin.ColorNotEnabled = System.Drawing.Color.Empty;
             resources.ApplyResources(this.but_AAsignin, "but_AAsignin");
             this.but_AAsignin.Name = "but_AAsignin";
             this.but_AAsignin.UseVisualStyleBackColor = true;

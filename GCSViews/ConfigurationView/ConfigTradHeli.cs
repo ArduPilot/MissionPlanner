@@ -19,7 +19,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigTradHeli()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

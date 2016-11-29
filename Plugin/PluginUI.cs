@@ -14,7 +14,6 @@ namespace MissionPlanner.Plugin
         public PluginUI()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private void PluginUI_Load(object sender, EventArgs e)

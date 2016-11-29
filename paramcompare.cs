@@ -23,7 +23,6 @@ namespace MissionPlanner
         public ParamCompare(DataGridView dgv, Hashtable param, Hashtable param2)
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
             this.param = param;
             this.param2 = param2;
             this.dgv = dgv;

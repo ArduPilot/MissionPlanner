@@ -29,7 +29,7 @@ namespace MissionPlanner
         public ElevationProfile(List<PointLatLngAlt> locs, double homealt, GCSViews.FlightPlanner.altmode altmode)
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             this.altmode = altmode;
 
             planlocs = locs;

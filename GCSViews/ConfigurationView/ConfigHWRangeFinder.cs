@@ -14,7 +14,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWRangeFinder()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

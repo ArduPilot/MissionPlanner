@@ -27,7 +27,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWCompass()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

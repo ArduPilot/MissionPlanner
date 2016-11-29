@@ -14,7 +14,6 @@ namespace MissionPlanner.Warnings
         public WarningControl()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public WarningControl(CustomWarning item)

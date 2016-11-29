@@ -25,7 +25,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFirmware()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()
@@ -36,19 +35,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 firstrun = false;
             }
 
-            if (MainV2.DisplayConfiguration.displayName == DisplayNames.Advanced)
+            if (MainV2.DisplayConfiguration.isAdvancedMode)
             {
                 lbl_devfw.Visible = true;
                 lbl_Custom_firmware_label.Visible = true;
                 lbl_dlfw.Visible = true;
                 CMB_history_label.Visible = true;
-            }
-            else if (MainV2.DisplayConfiguration.displayName == DisplayNames.Basic)
-            {
-                lbl_devfw.Visible = false;
-                lbl_Custom_firmware_label.Visible = false;
-                lbl_dlfw.Visible = false;
-                CMB_history_label.Visible = false;
             }
             else
             {

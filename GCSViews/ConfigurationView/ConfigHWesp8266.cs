@@ -17,7 +17,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigHWESP8266()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public void Activate()

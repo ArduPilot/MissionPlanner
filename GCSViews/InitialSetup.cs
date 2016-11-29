@@ -18,7 +18,6 @@ namespace MissionPlanner.GCSViews
         public InitialSetup()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         public bool isConnected

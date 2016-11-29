@@ -21,7 +21,7 @@ namespace MissionPlanner.Swarm
         public FormationControl()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             SwarmInterface = new Formation();
 
             bindingSource1.DataSource = MainV2.Comports;

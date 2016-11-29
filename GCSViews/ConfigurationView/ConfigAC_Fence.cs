@@ -9,7 +9,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigAC_Fence()
         {
             InitializeComponent();
-            Utilities.ThemeManager.ApplyThemeTo(this);
+
             label6maxalt.Text += "[" + CurrentState.DistanceUnit + "]";
             label7maxrad.Text += "[" + CurrentState.DistanceUnit + "]";
             label2rtlalt.Text += "[" + CurrentState.DistanceUnit + "]";

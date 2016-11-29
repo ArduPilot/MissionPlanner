@@ -87,6 +87,11 @@ namespace AltitudeAngelWings.Service
                 .Throttle(TimeSpan.FromSeconds(1))
                 .Subscribe(i => UpdateMapData(_missionPlanner.FlightDataMap)));
 
+            _disposer.Add(_missionPlanner.FlightPlanningMap
+              .MapChanged
+              .Throttle(TimeSpan.FromSeconds(1))
+              .Subscribe(i => UpdateMapData(_missionPlanner.FlightPlanningMap)));
+
             try
             {
                 var list = JsonConvert.DeserializeObject<List<string>>(_missionPlanner.LoadSetting("AAWings.Filters"));
@@ -137,6 +142,9 @@ namespace AltitudeAngelWings.Service
         {
             _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Air");
             _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Ground");
+
+            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Air");
+            _missionPlanner.FlightPlanningMap.DeleteOverlay("AAMapData.Ground");
         }
 
         /// <summary>
