@@ -701,6 +701,18 @@ namespace MissionPlanner
                 CustomMessageBox.Show("A Major error has occured : " + e.ToString());
                 Application.Exit();
             }
+
+            // load old config
+            if (Settings.Instance["advancedview"] != null)
+            {
+                if (Settings.Instance.GetBoolean("advancedview") == true)
+                {
+                    DisplayConfiguration = new DisplayView().Advanced();
+                }
+                // remove old config
+                Settings.Instance.Remove("advancedview");
+            }
+
             //// load this before the other screens get loaded
             if (Settings.Instance["displayview"] != null)
             {
