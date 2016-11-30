@@ -30,17 +30,26 @@ namespace GDAL
             GdalConfiguration.ConfigureGdal();
         }
 
+        public delegate void Progress(double percent, string message);
+
+        public static event Progress OnProgress;
+
         public static void ScanDirectory(string path)
         {
             var files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
 
+            int i = 0;
             foreach (var file in files)
             {
+                i++;
                 try
                 {
                     // 5kb file check
                     if (new FileInfo(file).Length < 1024 * 5)
                         continue;
+
+                    if (OnProgress != null)
+                        OnProgress((i-1) / (double)files.Length, file);
 
                     var info = GDAL.LoadImageInfo(file);
 
@@ -175,17 +184,20 @@ namespace GDAL
 
         public static Bitmap GetBitmap(double lng1, double lat1, double lng2, double lat2, long width, long height)
         {
-            Bitmap output = new Bitmap((int)width, (int)height);
+            if (_cache.Count == 0)
+                return null;                
+
+            Bitmap output = new Bitmap((int)width, (int)height, PixelFormat.Format32bppArgb);
 
             int a = 0;
 
             using (Graphics g = Graphics.FromImage(output))
             {
-                g.Clear(Color.Aqua);
+                g.Clear(Color.Transparent);
 
                 RectLatLng request = new RectLatLng(lat1, lng1, lng2 - lng1, lat2 - lat1);
 
-                g.DrawString(request.ToString(), Control.DefaultFont, Brushes.Wheat, 0, 0);
+                //g.DrawString(request.ToString(), Control.DefaultFont, Brushes.Wheat, 0, 0);
 
                 bool cleared = false;
 
@@ -207,7 +219,7 @@ namespace GDAL
                     {
                         if (!cleared)
                         {
-                            g.Clear(Color.Red);
+                            //g.Clear(Color.Red);
                             cleared = true;
                         }
 

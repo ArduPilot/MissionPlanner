@@ -164,6 +164,10 @@ etc
             AddCustomDirectory(srtm.datadirectory);
         }
 
+        public delegate void Progress(double percent, string message);
+
+        public static event Progress OnProgress;
+
         public static void AddCustomDirectory(string dir)
         {
             if(!_customDirectorys.Contains(dir))
@@ -185,10 +189,15 @@ etc
                 files.AddRange(Directory.GetFiles(dir, "*.dt0", SearchOption.AllDirectories));
             }
 
+            int i = 0;
             foreach (var file in files)
             {
+                i++;
                 try
                 {
+                    if (OnProgress != null)
+                        OnProgress((i - 1) / (double)files.Count, file);
+
                     DTEDdata dtedfile = new DTEDdata();
 
                     dtedfile.LoadFile(file);

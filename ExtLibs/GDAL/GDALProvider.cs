@@ -61,7 +61,7 @@ namespace GDAL
             {
                 if (overlays == null)
                 {
-                    overlays = new GMapProvider[] {this};
+                    overlays = new GMapProvider[] { GoogleSatelliteMapProvider.Instance, this };
                 }
                 return overlays;
             }
@@ -87,7 +87,7 @@ namespace GDAL
 
             if (bmp == null)
             {
-                return GoogleSatelliteMapProvider.Instance.GetTileImage(pos, zoom);
+                return null;
             }
 
             var ms = new MemoryStream();
