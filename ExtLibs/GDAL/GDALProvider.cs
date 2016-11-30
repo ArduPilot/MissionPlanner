@@ -35,6 +35,8 @@ namespace GDAL
             Dictionary<int, GMapProvider> list = (Dictionary<int, GMapProvider>) field.GetValue(Instance);
 
             list.Add(Instance.DbId, Instance);
+
+            //GMap.NET.MapProviders.GMapProviders.List.Add(Instance);
         }
 
         readonly Guid id = new Guid("4574218D-B552-4CAF-89AE-F20941BBDB2B");

@@ -38,6 +38,10 @@ namespace GDAL
             {
                 try
                 {
+                    // 5kb file check
+                    if (new FileInfo(file).Length < 1024 * 5)
+                        continue;
+
                     var info = GDAL.LoadImageInfo(file);
 
                     _cache.Add(info);
@@ -196,6 +200,9 @@ namespace GDAL
 
                     RectangleF rect = new RectangleF(ImageLeft, ImageTop, ImageRight - ImageLeft, ImageBottom - ImageTop);
 
+                    var res = (request.Right - request.Left) / width;
+
+
                     if (rect.Left <= image.RasterXSize && rect.Top <= image.RasterYSize && rect.Right >= 0 && rect.Bottom >= 0)
                     {
                         if (!cleared)
@@ -203,6 +210,9 @@ namespace GDAL
                             g.Clear(Color.Red);
                             cleared = true;
                         }
+
+                        if (image.Resolution < (res/3))
+                            continue;
 
                         //Console.WriteLine("{0} <= {1} && {2} <= {3} || {4} >= {5} && {6} >= {7} ", rect.Left, image.RasterXSize, rect.Top, image.RasterYSize, rect.Right, 0, rect.Bottom, 0);
 
@@ -247,6 +257,8 @@ namespace GDAL
             {
                 // Get the GDAL Band objects from the Dataset
                 Band band = ds.GetRasterBand(1);
+                if (band == null)
+                    return null;
                 ColorTable ct = band.GetRasterColorTable();
                 // Create a Bitmap to store the GDAL image in
                 Bitmap bitmap = new Bitmap(ds.RasterXSize, ds.RasterYSize, PixelFormat.Format8bppIndexed);

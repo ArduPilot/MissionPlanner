@@ -1006,5 +1006,18 @@ namespace MissionPlanner
             }
             base.WndProc(ref m);
         }
+
+        private void but_GDAL_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (Directory.Exists(fbd.SelectedPath))
+                {
+                    GDAL.GDAL.ScanDirectory(fbd.SelectedPath);
+                }
+            }
+        }
     }
 }
