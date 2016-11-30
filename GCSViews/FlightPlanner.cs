@@ -3461,7 +3461,7 @@ namespace MissionPlanner.GCSViews
                         CurentRectMarker = null;
                     }
 
-                    if (CurentRectMarker != null)
+                    if (CurentRectMarker != null && CurentRectMarker.InnerMarker != null)
                     {
                         if (CurentRectMarker.InnerMarker.Tag.ToString().Contains("grid"))
                         {
