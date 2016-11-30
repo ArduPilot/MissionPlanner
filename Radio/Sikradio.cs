@@ -513,15 +513,6 @@ S15: MAX_WINDOW=131
 
                 lbl_status.Text = "Doing Command";
 
-                // set encryption keys at the same time, so if we are enabled we dont lose comms.
-                if (RENCRYPTION_LEVEL.Checked)
-                {
-                    doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
-                }
-                if (ENCRYPTION_LEVEL.Checked)
-                {
-                    doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
-                }
 
                 if (RTI.Text != "")
                 {
@@ -685,6 +676,16 @@ S15: MAX_WINDOW=131
                                 }
                             }
                         }
+                    }
+
+                    // set encryption keys at the same time, so if we are enabled we dont lose comms.
+                    if (RENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                    }
+                    if (ENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
                     }
 
                     if (RTI.Text != "")
@@ -1283,12 +1284,14 @@ red LED solid - in firmware update mode");
 
         private void txt_aeskey_TextChanged(object sender, EventArgs e)
         {
-            string item = txt_aeskey.Text;
+            var txt = (TextBox)sender;
+
+            string item = txt.Text;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
                 if(item.Length != 0)
-                    txt_aeskey.Text = item.Remove(item.Length - 1, 1);
-                txt_aeskey.SelectionStart = txt_aeskey.Text.Length;
+                    txt.Text = item.Remove(item.Length - 1, 1);
+                txt.SelectionStart = txt.Text.Length;
             }
         }
     }
