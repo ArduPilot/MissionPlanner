@@ -953,6 +953,10 @@ namespace MissionPlanner
 
         public void switchicons(menuicons icons)
         {
+            // dont update if no change
+            if (displayicons.GetType() == icons.GetType())
+                return;
+
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
@@ -3331,6 +3335,7 @@ namespace MissionPlanner
 
                     if (child is Form)
                     {
+                        log.Debug("ApplyThemeTo " + child.Name);
                         ThemeManager.ApplyThemeTo(child);
                     }
                     break;
