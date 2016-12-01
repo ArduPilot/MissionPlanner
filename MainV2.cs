@@ -727,26 +727,35 @@ namespace MissionPlanner
                 CustomMessageBox.Show("A Major error has occured : " + e.ToString());
                 Application.Exit();
             }
-
-            //set first instance display configuration
-            if (DisplayConfiguration == null)
+            // Select display configuration (layout).
+            if (Settings.Instance["advancedview"] != null)
             {
-                DisplayConfiguration = DisplayConfiguration.Basic();
+                // Transition from old boolean 'advanced view' setting gracefully.
+                if (Settings.Instance.GetBoolean("advancedview") == true)
+                {
+                    DisplayConfiguration = new DisplayView().Advanced();
+                }
+                // remove old config
+                Settings.Instance.Remove("advancedview");
             }
-
-            //// load this before the other screens get loaded
-            if (Settings.Instance["displayview"] != null)
+            else if (Settings.Instance["displayview"] != null)
             {
+                // Try loading a specified layout.
                 try
                 {
                     DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
                 }
                 catch
                 {
-                    DisplayConfiguration = DisplayConfiguration.Basic();
-                    Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+                    DisplayConfiguration = DisplayConfiguration.Basic();   
                 }
             }
+            else
+            {
+                // Else just default to the basic configuration.
+                DisplayConfiguration = DisplayConfiguration.Basic();
+            }
+            Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
 
             LayoutChanged += updateLayout;
             LayoutChanged(null, EventArgs.Empty);
@@ -982,6 +991,10 @@ namespace MissionPlanner
 
         public void switchicons(menuicons icons)
         {
+            // dont update if no change
+            if (displayicons.GetType() == icons.GetType())
+                return;
+
             displayicons = icons;
 
             MainMenu.BackColor = SystemColors.MenuBar;
@@ -3360,6 +3373,7 @@ namespace MissionPlanner
 
                     if (child is Form)
                     {
+                        log.Debug("ApplyThemeTo " + child.Name);
                         ThemeManager.ApplyThemeTo(child);
                     }
                     break;

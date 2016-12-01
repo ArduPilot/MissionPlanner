@@ -66,7 +66,7 @@ namespace MissionPlanner
 
             this.homealt = homealt/CurrentState.multiplierdist;
 
-            Form frm = Common.LoadingBox("Loading", "using srtm data"); //Downloading Google Earth Data
+            Form frm = Common.LoadingBox("Loading", "using alt data");
 
             gelocs = getGEAltPath(planlocs);
 
@@ -281,7 +281,7 @@ namespace MissionPlanner
 
             myCurve = myPane.AddCurve("Planner", list1, Color.Red, SymbolType.None);
             myCurve = myPane.AddCurve("GE", list2, Color.Green, SymbolType.None);
-            myCurve = myPane.AddCurve("SRTM", list3, Color.Blue, SymbolType.None);
+            myCurve = myPane.AddCurve("ALT", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
             {

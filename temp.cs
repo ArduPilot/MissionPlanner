@@ -981,14 +981,7 @@ namespace MissionPlanner
 
         private void myButton3_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-
-            if (fbd.ShowDialog() == DialogResult.OK) {
-                if (Directory.Exists(fbd.SelectedPath))
-                {
-                    DTED.AddCustomDirectory(fbd.SelectedPath);
-                }
-            }
+            but_GDAL_Click(sender, e);
         }
 
         protected override void WndProc(ref Message m)
@@ -1005,6 +998,29 @@ namespace MissionPlanner
                     break;
             }
             base.WndProc(ref m);
+        }
+
+        private void but_GDAL_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                if (Directory.Exists(fbd.SelectedPath))
+                {
+                    GDAL.GDAL.OnProgress += GDAL_OnProgress;
+                    GDAL.GDAL.ScanDirectory(fbd.SelectedPath);
+                    DTED.OnProgress += GDAL_OnProgress;
+                    DTED.AddCustomDirectory(fbd.SelectedPath);
+
+                    Loading.Close();
+                }
+            }
+        }
+
+        private void GDAL_OnProgress(double percent, string message)
+        {
+            Loading.ShowLoading((percent).ToString("0.0%") + " " +message, this);
         }
     }
 }

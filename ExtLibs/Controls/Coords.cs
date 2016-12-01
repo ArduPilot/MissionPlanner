@@ -124,6 +124,8 @@ namespace MissionPlanner.Controls
                     if (Vertical)
                     {
                         e.Graphics.DrawString(parts[0] + "\n" + parts[1] + "\n" + parts[2] + "\n" + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(AltSource, this.Font, new SolidBrush(this.ForeColor),
+                        new PointF(CMB_coordsystem.Left, CMB_coordsystem.Bottom + 4), StringFormat.GenericDefault);
                     }
                     else
                     {
@@ -145,6 +147,8 @@ namespace MissionPlanner.Controls
                     if (Vertical)
                     {
                         e.Graphics.DrawString(mgrs.ToString() + "\n" + Alt.ToString("0.00") + AltUnit, this.Font, new SolidBrush(this.ForeColor), new Point(5, CMB_coordsystem.Bottom + 2), StringFormat.GenericDefault);
+                        e.Graphics.DrawString(AltSource, this.Font, new SolidBrush(this.ForeColor),
+                        new PointF(CMB_coordsystem.Right + 4, CMB_coordsystem.Top), StringFormat.GenericDefault);
                     }
                     else
                     {

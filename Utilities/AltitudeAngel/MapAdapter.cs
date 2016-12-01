@@ -44,18 +44,64 @@ namespace MissionPlanner.Utilities.AltitudeAngel
                 .ObserveOn(ThreadPoolScheduler.Instance);
 
             mapControl.OnMapDrag += MapControl_OnMapDrag;
-            mapControl.OnPolygonClick += Control_OnPolygonClick;
+            //mapControl.OnPolygonClick += Control_OnPolygonClick;
 
-            mapControl.OnRouteClick += MapControl_OnRouteClick;
-            mapControl.OnRouteEnter += (a) => { Cursor.Current = Cursors.Hand; };
-            mapControl.OnRouteLeave += (a) => { Cursor.Current = Cursors.Arrow; };
+            mapControl.OnPolygonEnter += MapControl_OnPolygonEnter;
+            mapControl.OnPolygonLeave += MapControl_OnPolygonLeave;
+
+            //mapControl.OnRouteClick += MapControl_OnRouteClick;
+            mapControl.OnRouteEnter += MapControl_OnRouteEnter;
+            mapControl.OnRouteLeave += MapControl_OnRouteLeave;
+        }
+
+        private void MapControl_OnPolygonLeave(GMapPolygon item)
+        {
+            item.Overlay.Markers.Remove(marker);
+            marker = null;
+        }
+
+        private void MapControl_OnPolygonEnter(GMapPolygon item)
+        {
+            if (marker != null)
+                item.Overlay.Markers.Remove(marker);
+
+            var point = item.Overlay.Control.PointToClient(Control.MousePosition);
+            var pos = item.Overlay.Control.FromLocalToLatLng(point.X, point.Y);
+
+            marker = new GMapMarkerRect(pos) { ToolTipMode = MarkerTooltipMode.Always, ToolTipText = createMessage(item.Tag), IsHitTestVisible = false };
+            item.Overlay.Markers.Add(marker);
+        }
+
+        GMapMarkerRect marker = null;
+
+        private void MapControl_OnRouteLeave(GMapRoute item)
+        {
+            item.Overlay.Markers.Remove(marker);
+            marker = null;
+        }
+
+        private void MapControl_OnRouteEnter(GMapRoute item)
+        {
+            if (marker != null)
+                item.Overlay.Markers.Remove(marker);
+
+            var point = item.Overlay.Control.PointToClient(Control.MousePosition);
+            var pos = item.Overlay.Control.FromLocalToLatLng(point.X, point.Y);
+
+            marker = new GMapMarkerRect(pos) { ToolTipMode = MarkerTooltipMode.Always, ToolTipText = createMessage(item.Tag), IsHitTestVisible = false };
+            item.Overlay.Markers.Add(marker);
         }
 
         private void MapControl_OnRouteClick(GMapRoute item, MouseEventArgs e)
         {
-            if (item.Tag is Feature)
+            CustomMessageBox.Show(createMessage(item.Tag), "Info", MessageBoxButtons.OK);
+        }
+
+        string createMessage(object item)
+        {
+            if (item is Feature)
             {
-                var prop = ((Feature)item.Tag).Properties;
+                var prop = ((Feature)item).Properties;
 
                 var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
 
@@ -80,8 +126,10 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
                 var st = String.Format("{0} is categorised as a {1}\n\n{2}", display["title"], title, text);
 
-                CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
+                return st;
             }
+
+            return "";
         }
 
         DateTime lastmapdrag = DateTime.MinValue;
@@ -103,36 +151,12 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 if (item.Tag is Feature)
                 {
-                    var prop = ((Feature)item.Tag).Properties;
-
-                    var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
-
-                    var sections = display["sections"];
-
-                    string title;
-                    string text;
-
-                    if (sections.Count() == 0)
-                    {
-                        title = prop["detailedCategory"].ToString();
-                        text = "";
-                    }
-                    else
-                    {
-                        var section1 = sections.Last();
-
-                        var iconURL = section1["iconUrl"].ToString();
-                        title = display["category"].ToString();
-                        text = section1["text"].ToString();
-                    }
-
-                    var st = String.Format("{0} is categorised as a {1}\n\n{2}", display["title"], title, text);
+                    var st = createMessage(item.Tag); ;
 
                     CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
                 }
             }
         }
-    
 
         public void Dispose()
         {
@@ -158,7 +182,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             if (rectLatLng.WidthLng < 0.03)
                 rectLatLng.Inflate(0, (0.03 - rectLatLng.WidthLng) / 2);
             if (rectLatLng.HeightLat < 0.03)
-                rectLatLng.Inflate((0.03 - rectLatLng.HeightLat)/2, 0);
+                rectLatLng.Inflate((0.03 - rectLatLng.HeightLat) / 2, 0);
 
             return rectLatLng;
         }

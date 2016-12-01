@@ -3985,6 +3985,10 @@
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\GDAL\GDAL.csproj">
+      <Project>{766fcf85-4809-44db-b316-6c4902c65245}</Project>
+      <Name>GDAL</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
       <Name>GeoUtility</Name>
