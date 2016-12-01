@@ -98,6 +98,7 @@
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.CHK_TerminalTheming = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -639,9 +640,19 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // CHK_TerminalTheming
+            // 
+            resources.ApplyResources(this.CHK_TerminalTheming, "CHK_TerminalTheming");
+            this.CHK_TerminalTheming.Checked = true;
+            this.CHK_TerminalTheming.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_TerminalTheming.Name = "CHK_TerminalTheming";
+            this.CHK_TerminalTheming.UseVisualStyleBackColor = true;
+            this.CHK_TerminalTheming.CheckedChanged += new System.EventHandler(this.CHK_TerminalTheming_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.CHK_TerminalTheming);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
             this.Controls.Add(this.but_AAsignin);
@@ -791,5 +802,6 @@
         private Controls.MyButton but_AAsignin;
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
+        public System.Windows.Forms.CheckBox CHK_TerminalTheming;
     }
 }

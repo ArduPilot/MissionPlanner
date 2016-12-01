@@ -394,6 +394,8 @@ namespace MissionPlanner
         /// </summary>
         static internal ConnectionControl _connectionControl;
 
+        public static bool TerminalTheming = true;
+
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
@@ -401,6 +403,20 @@ namespace MissionPlanner
             //MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
+
+            if (_connectionControl.CMB_baudrate != null && _connectionControl.CMB_serialport != null)
+            {
+                _connectionControl.CMB_baudrate.Visible = DisplayConfiguration.displayBaudCMB;
+                if (!_connectionControl.CMB_baudrate.Visible)
+                {
+                    _connectionControl.CMB_serialport.SelectedIndex = 2;
+                }
+                _connectionControl.CMB_serialport.Visible = DisplayConfiguration.displaySerialPortCMB;
+                if (!_connectionControl.CMB_serialport.Visible)
+                {
+                    _connectionControl.CMB_serialport.SelectedText = "115200";
+                }
+            }
 
             if (MainV2.instance.FlightData != null)
             {
@@ -449,7 +465,7 @@ namespace MissionPlanner
                 }
             }
         }
-        
+
 
         public MainV2()
         {
@@ -498,6 +514,16 @@ namespace MissionPlanner
             MyView = new MainSwitcher(this);
 
             View = MyView;
+
+            if (Settings.Instance["terminaltheming"] != null)
+            {
+                TerminalTheming = (Settings.Instance["terminaltheming"] == true.ToString());
+            }
+            else
+            {
+                Settings.Instance["terminaltheming"] = true.ToString();
+                TerminalTheming = true;
+            }
 
             //startup console
             TCPConsole.Write((byte) 'S');
@@ -701,10 +727,25 @@ namespace MissionPlanner
                 CustomMessageBox.Show("A Major error has occured : " + e.ToString());
                 Application.Exit();
             }
+
+            //set first instance display configuration
+            if (DisplayConfiguration == null)
+            {
+                DisplayConfiguration = DisplayConfiguration.Basic();
+            }
+
             //// load this before the other screens get loaded
             if (Settings.Instance["displayview"] != null)
             {
-                DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+                try
+                {
+                    DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+                }
+                catch
+                {
+                    DisplayConfiguration = DisplayConfiguration.Basic();
+                    Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+                }
             }
 
             LayoutChanged += updateLayout;

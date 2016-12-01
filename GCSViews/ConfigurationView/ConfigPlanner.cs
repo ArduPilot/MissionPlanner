@@ -47,6 +47,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Layout.SelectedIndex = 0;
             }
 
+            if (Settings.Instance["terminaltheming"] != null)
+            {
+                CHK_TerminalTheming.Checked = (Settings.Instance["terminaltheming"] == true.ToString());
+                MainV2.TerminalTheming = (Settings.Instance["terminaltheming"] == true.ToString());
+            }
+            else
+            {
+                CHK_TerminalTheming.Checked = true;
+                MainV2.TerminalTheming = true;
+            }
+
+
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states
@@ -891,6 +903,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.DisplayConfiguration = MainV2.DisplayConfiguration.Basic();
             }
             Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+        }
+
+        private void CHK_TerminalTheming_CheckedChanged(object sender, EventArgs e)
+        {
+            if(CHK_TerminalTheming.Checked)
+            {
+                MainV2.TerminalTheming = true;
+            }
+            else
+            {
+                MainV2.TerminalTheming = false;
+            }
+            Settings.Instance["terminaltheming"] = MainV2.TerminalTheming.ToString();
         }
     }
 }
