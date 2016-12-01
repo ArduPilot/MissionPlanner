@@ -1,6 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -8,6 +10,8 @@ public partial class MAVLink
 {
     public class MAVLinkMessage
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
         static object _locker = new object();
 
@@ -49,14 +53,21 @@ public partial class MAVLink
                     _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
                 }
 
-                // fill in the data of the object
-                if (buffer[0] == MAVLINK_STX)
+                try
                 {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
+                    // fill in the data of the object
+                    if (buffer[0] == MAVLINK_STX)
+                    {
+                        MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
+                    }
+                    else
+                    {
+                        MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
+                    log.Error(ex);
                 }
 
                 return _data;
