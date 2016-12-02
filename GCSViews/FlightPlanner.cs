@@ -1811,10 +1811,19 @@ namespace MissionPlanner.GCSViews
                         }
                         for (int a = 0; a < Commands.Rows.Count - 0; a++)
                         {
-                            ushort mode =
+                            ushort mode = 0;
+
+                            if (Commands.Rows[a].Cells[0].Value.ToString() == "UNKNOWN")
+                            {
+                                mode = (ushort)Commands.Rows[a].Cells[Command.Index].Tag;
+                            }
+                            else
+                            {
+                                mode =
                                 (ushort)
                                     (MAVLink.MAV_CMD)
-                                        Enum.Parse(typeof (MAVLink.MAV_CMD), Commands.Rows[a].Cells[0].Value.ToString());
+                                        Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                            }
 
                             sw.Write((a + 1)); // seq
                             sw.Write("\t" + 0); // current
@@ -3839,6 +3848,18 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[selectedrow].Cells[Lat.Index].Value != null &&
                         Commands.Rows[selectedrow].Cells[Lat.Index].Value.ToString() == "0")
                         Commands.Rows[selectedrow].Cells[Lat.Index].Value = (1).ToString();
+                }
+
+                if (((ComboBox)sender).Text == "UNKNOWN")
+                {
+                    string cmdid = "-1";
+                    if (InputBox.Show("Mavlink ID", "Please enter the command ID", ref cmdid) == DialogResult.OK)
+                    {
+                        if (cmdid != "-1")
+                        {
+                            Commands.Rows[selectedrow].Cells[Command.Index].Tag = ushort.Parse(cmdid);
+                        }
+                    }
                 }
 
                 for (int i = 0; i < Commands.ColumnCount; i++)
