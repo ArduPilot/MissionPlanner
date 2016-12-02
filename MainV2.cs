@@ -2644,6 +2644,7 @@ namespace MissionPlanner
             {
                 new Utilities.AltitudeAngel.AltitudeAngel();
 
+                /*
                 // setup as a prompt once dialog
                 if (!Settings.Instance.GetBoolean("AACheck"))
                 {
@@ -2656,6 +2657,7 @@ namespace MissionPlanner
 
                     Settings.Instance["AACheck"] = true.ToString();
                 }
+                */
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
