@@ -80,36 +80,38 @@ namespace MissionPlanner.Radio
 
         public static void Upload(string firmwarebin, ICommsSerial comPort)
         {
-            var fs = new FileStream(firmwarebin, FileMode.Open);
-            var len = (int)fs.Length;
-            len = (len % 128) == 0 ? len / 128 : (len / 128) + 1;
-            var startlen = len;
-
-            int a = 1;
-            while (len > 0)
+            using (var fs = new FileStream(firmwarebin, FileMode.Open))
             {
-                if (LogEvent != null)
-                    LogEvent("Uploading block " + a + "/" + startlen);
+                var len = (int)fs.Length;
+                len = (len % 128) == 0 ? len / 128 : (len / 128) + 1;
+                var startlen = len;
 
-                XModem.SendBlock(fs, comPort, a);
-                // responce ACK
-                var ack = comPort.ReadByte();
-                while (ack == 'C')
-                    ack = comPort.ReadByte();
-
-                if (ack==ACK)
+                int a = 1;
+                while (len > 0)
                 {
-                    len--;
-                    a++;
+                    if (LogEvent != null)
+                        LogEvent("Uploading block " + a + "/" + startlen);
 
-                    if (ProgressEvent != null)
-                        ProgressEvent(len / startlen);
-                }
-                else if (ack==NAK)
-                {
-                    CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    len = 0;
+                    SendBlock(fs, comPort, a);
+                    // responce ACK
+                    var ack = comPort.ReadByte();
+                    while (ack == 'C')
+                        ack = comPort.ReadByte();
+
+                    if (ack == ACK)
+                    {
+                        len--;
+                        a++;
+
+                        if (ProgressEvent != null)
+                            ProgressEvent(len / startlen);
+                    }
+                    else if (ack == NAK)
+                    {
+                        CustomMessageBox.Show("Corrupted packet. Please power cycle and try again.\r\n", "Warning",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        len = 0;
+                    }
                 }
             }
 
