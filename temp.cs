@@ -294,8 +294,13 @@ namespace MissionPlanner
 
                 xmlwriter.WriteStartElement("options");
 
+                int a = 0;
+
                 foreach (var software in list)
                 {
+                    a++;
+                    Loading.ShowLoading(((a-1)/(float)list.Count)*100.0+"% "+software.name, this);
+
                     //if (!software.name.Contains("Copter"))
                     //  continue;
 
@@ -431,6 +436,8 @@ namespace MissionPlanner
                 xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndDocument();
             }
+
+            Loading.Close();
         }
 
 
