@@ -409,12 +409,15 @@ namespace MissionPlanner
                 _connectionControl.CMB_baudrate.Visible = DisplayConfiguration.displayBaudCMB;
                 if (!_connectionControl.CMB_baudrate.Visible)
                 {
-                    _connectionControl.CMB_serialport.SelectedIndex = 2;
+                    int index = _connectionControl.CMB_baudrate.FindStringExact ("115200");      //115200 Baud
+                    _connectionControl.CMB_baudrate.SelectedIndex = index;
                 }
                 _connectionControl.CMB_serialport.Visible = DisplayConfiguration.displaySerialPortCMB;
                 if (!_connectionControl.CMB_serialport.Visible)
                 {
-                    _connectionControl.CMB_serialport.SelectedText = "115200";
+                    int index = _connectionControl.CMB_serialport.FindStringExact("UDP");
+                    _connectionControl.CMB_serialport.SelectedIndex = index;
+
                 }
             }
 
