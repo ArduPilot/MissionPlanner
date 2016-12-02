@@ -10,7 +10,7 @@ using static MAVLink;
 
 namespace MissionPlanner.Utilities
 {
-    public class Proximity
+    public class Proximity : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -136,6 +136,12 @@ namespace MissionPlanner.Utilities
             }
 
             return true;
+        }
+
+        public void Dispose()
+        {
+            if (_parent != null)
+                _parent.parent.UnSubscribeToPacketType(sub);
         }
 
         public class directionState

@@ -9,7 +9,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Mavlink
 {
-    public class MAVList : IEnumerable<MAVState>
+    public class MAVList : IEnumerable<MAVState>, IDisposable
     {
         private Dictionary<int, MAVState> masterlist = new Dictionary<int, MAVState>();
 
@@ -123,6 +123,19 @@ namespace MissionPlanner.Mavlink
         public static int GetID(byte sysid, byte compid)
         {
            return  sysid*256 + compid;
+        }
+
+        public void Dispose()
+        {
+            foreach (var MAV in hiddenlist)
+            {
+                MAV.Value.Dispose();
+            }
+
+            foreach (var MAV in masterlist)
+            {
+                MAV.Value.Dispose();
+            }
         }
     }
 }

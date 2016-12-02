@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
-    public class MAVState : MAVLink
+    public class MAVState : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -148,6 +148,11 @@ namespace MissionPlanner
                     packets[mavlinkid] = null;
                 }
             }
+        }
+
+        public void Dispose()
+        {
+             Proximity.Dispose();
         }
 
         /// <summary>

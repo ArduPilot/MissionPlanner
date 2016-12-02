@@ -4744,6 +4744,9 @@ Please check the following
                 _bytesReceivedSubj.Dispose();
             if (_bytesSentSubj != null)
                 _bytesSentSubj.Dispose();
+            if (MAVlist != null)
+                MAVlist.Dispose();
+
             this.Close();
 
             Terrain = null;

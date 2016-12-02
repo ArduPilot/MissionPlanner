@@ -2474,6 +2474,7 @@ namespace MissionPlanner
 
                             // modify array and drop out
                             Comports.Remove(port);
+                            port.Dispose();
                             break;
                         }
 
