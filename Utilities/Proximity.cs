@@ -2,6 +2,7 @@
 using MissionPlanner.HIL;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -49,47 +50,51 @@ namespace MissionPlanner.Utilities
                 var doublelength = location.length() * 2.0f;
                 var length = location.length();
 
+                Pen redpen = new Pen(Color.Red, 3);
+                float move = 5;
+                var font = new Font(Control.DefaultFont.FontFamily, Control.DefaultFont.Size, FontStyle.Bold);
+
                 switch (temp.Orientation)
                 {
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_NONE:
                         location.rotate(Common.Rotation.ROTATION_NONE);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, -22.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y + move);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, -22.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_45:
                         location.rotate(Common.Rotation.ROTATION_YAW_45);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 22.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x+ move, midy - (float)location.y- move);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 22.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_90:
                         location.rotate(Common.Rotation.ROTATION_YAW_90);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 67.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x+ move, midy - (float)location.y);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 67.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_135:
                         location.rotate(Common.Rotation.ROTATION_YAW_135);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 112.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x+ move, midy - (float)location.y- move);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 112.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_180:
                         location.rotate(Common.Rotation.ROTATION_YAW_180);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 157.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 157.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_225:
                         location.rotate(Common.Rotation.ROTATION_YAW_225);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 202.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x+ move, midy - (float)location.y- move);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 202.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_270:
                         location.rotate(Common.Rotation.ROTATION_YAW_270);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 247.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 247.5f - 90f, 45f);
                         break;
                     case MAV_SENSOR_ORIENTATION.MAV_SENSOR_ROTATION_YAW_315:
                         location.rotate(Common.Rotation.ROTATION_YAW_315);
-                        e.Graphics.DrawString(temp.Distance.ToString(), Control.DefaultFont, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
-                        e.Graphics.DrawArc(System.Drawing.Pens.Red, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 292.5f - 90f, 45f);
+                        e.Graphics.DrawString(temp.Distance.ToString(), font, System.Drawing.Brushes.Green, midx - (float)location.x, midy - (float)location.y);
+                        e.Graphics.DrawArc(redpen, (float)(midx - length), (float)(midy - length), (float)doublelength, (float)doublelength, 292.5f - 90f, 45f);
                         break;
                 }
             }
