@@ -55,7 +55,7 @@ namespace MissionPlanner
             static public int SW_HIDE = 0;
         }
 
-        static menuicons displayicons = new burntkermitmenuicons();
+        public static menuicons displayicons = new burntkermitmenuicons();
 
         public abstract class menuicons
         {
@@ -70,6 +70,7 @@ namespace MissionPlanner
             public abstract Image connect { get; }
             public abstract Image disconnect { get; }
             public abstract Image bg { get; }
+            public abstract Image wizard { get; }
         }
 
         public class burntkermitmenuicons : menuicons
@@ -127,6 +128,10 @@ namespace MissionPlanner
             public override Image bg
             {
                 get { return global::MissionPlanner.Properties.Resources.bgdark; }
+            }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
             }
         }
 
@@ -186,9 +191,11 @@ namespace MissionPlanner
             {
                 get { return null; }
             }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+            }
         }
-
-
 
         Controls.MainSwitcher MyView;
 
@@ -513,20 +520,18 @@ namespace MissionPlanner
             }
 
             InitializeComponent();
+            try
+            {
+                ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), Settings.Instance["theme"]));
+            }
+            catch
+            {
+                ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit);
+            }
             Utilities.ThemeManager.ApplyThemeTo(this);
             MyView = new MainSwitcher(this);
 
             View = MyView;
-
-            if (Settings.Instance["terminaltheming"] != null)
-            {
-                TerminalTheming = (Settings.Instance["terminaltheming"] == true.ToString());
-            }
-            else
-            {
-                Settings.Instance["terminaltheming"] = true.ToString();
-                TerminalTheming = true;
-            }
 
             //startup console
             TCPConsole.Write((byte) 'S');

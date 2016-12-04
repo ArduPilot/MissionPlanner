@@ -795,6 +795,9 @@ mc:Ignorable=""d""
             {
                 MainV2.instance.switchicons(new MainV2.burntkermitmenuicons());
             }
+
+            MainV2.TerminalTheming = true;
+            Settings.Instance["terminaltheming"] = true.ToString();
         }
 
         private static void SetHighContrastColours()
@@ -846,6 +849,9 @@ mc:Ignorable=""d""
             {
                 MainV2.instance.switchicons(new MainV2.highcontrastmenuicons());
             }
+
+            MainV2.TerminalTheming = true;
+            Settings.Instance["terminaltheming"] = true.ToString();
         }
 
         private static void ApplyTheme(Control temp, int level)
