@@ -393,7 +393,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalstart_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_START_MAG_CAL, 0, 1, 1, 0, 0, 0, 0);
+            }
+            catch (Exception ex)
+            {
+                this.Error(ex);
+                CustomMessageBox.Show("Failed to start MAG CAL, check the autopilot is still responding.\n"+ex.ToString(),Strings.ERROR);
+                return;
+            }
 
             mprog.Clear();
             mrep.Clear();
