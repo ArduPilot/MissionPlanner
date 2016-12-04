@@ -3960,8 +3960,16 @@ namespace MissionPlanner.GCSViews
             if (e.ColumnIndex == Lat.Index ||
                 e.ColumnIndex == Lon.Index)
             {
-                convertFromGeographic(double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString()),
-                    double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString()));
+                try
+                {
+                    var lat = double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString());
+                    var lng = double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString());
+                    convertFromGeographic(lat, lng);
+                } catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Invalid Lat/Lng, please fix",Strings.ERROR);
+                }
             }
 
             Commands_RowEnter(null,
