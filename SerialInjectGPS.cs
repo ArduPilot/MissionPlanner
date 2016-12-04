@@ -22,9 +22,6 @@ namespace MissionPlanner
 {
     public partial class SerialInjectGPS : Form
     {
-        private static readonly ILog log =
-            LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-
         // serialport
         internal static ICommsSerial comPort = new SerialPort();
         // rtcm detection
@@ -44,16 +41,23 @@ namespace MissionPlanner
 
         static bool rtcm_msg = true;
 
+        static SerialInjectGPS Instance;
+
         PointLatLngAlt basepos = PointLatLngAlt.Zero;
 
         BinaryWriter basedata;
 
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
+        private static string status_line3;
 
         public SerialInjectGPS()
         {
             InitializeComponent();
+
+            Instance = this;
+
+            status_line3 = null;
 
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("UDP Host");
@@ -64,6 +68,16 @@ namespace MissionPlanner
             if (threadrun)
             {
                 BUT_connect.Text = Strings.Stop;
+            }
+
+            // restore last port and baud - its the simple things that make life better
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_port"))
+            {
+                CMB_serialport.Text = Settings.Instance["SerialInjectGPS_port"];
+            }
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_baud"))
+            {
+                CMB_baudrate.Text = Settings.Instance["SerialInjectGPS_baud"];
             }
 
             chk_rtcmmsg.Checked = rtcm_msg;
@@ -85,10 +99,13 @@ namespace MissionPlanner
                     basedata.Close();
 
                     basedata = null;
-                } catch { }
+                }
+                catch { }
             }
             else
             {
+                status_line3 = null;
+
                 try
                 {
                     switch (CMB_serialport.Text)
@@ -114,6 +131,9 @@ namespace MissionPlanner
                             comPort.PortName = CMB_serialport.Text;
                             break;
                     }
+
+                    Settings.Instance["SerialInjectGPS_port"] = CMB_serialport.Text;
+                    Settings.Instance["SerialInjectGPS_baud"] = CMB_baudrate.Text;
                 }
                 catch
                 {
@@ -134,7 +154,7 @@ namespace MissionPlanner
                     comPort.ReadBufferSize = 1024 * 64;
 
                     comPort.Open();
-                    
+
                     try
                     {
                         basedata = new BinaryWriter(new BufferedStream(
@@ -158,6 +178,7 @@ namespace MissionPlanner
                 // inject init strings - m8p
                 if (chk_m8pautoconfig.Checked)
                 {
+                    this.LogInfo("Setup M8P");
                     ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text), double.Parse(txt_surveyinAcc.Text));
                 }
 
@@ -175,7 +196,7 @@ namespace MissionPlanner
             }
         }
 
-        private void updateLabel(string label)
+        private void updateLabel(string line1, string line2, string line3)
         {
             if (!this.IsDisposed)
             {
@@ -183,13 +204,13 @@ namespace MissionPlanner
                     (MethodInvoker)
                         delegate
                         {
-                            this.lbl_status.Text = label;
+                            this.lbl_status.Text = line1 + '\n' + line2 + '\n' + line3;
                         }
                     );
             }
         }
 
-        private void updateSVINLabel(string label)
+        private void updateSVINLabel(string label, string line2 = "")
         {
             if (!this.IsDisposed)
             {
@@ -197,7 +218,7 @@ namespace MissionPlanner
                     (MethodInvoker)
                         delegate
                         {
-                            this.lbl_svin.Text = label;
+                            this.lbl_svin.Text = label + '\n' + line2;
                         }
                     );
             }
@@ -220,7 +241,7 @@ namespace MissionPlanner
                     {
                         if ((DateTime.Now - lastrecv).TotalSeconds > 10 || !comPort.IsOpen)
                         {
-                            log.Info("Reconnecting");
+                            this.LogInfo("Reconnecting");
                             // close existing
                             comPort.Close();
                             // reopen
@@ -231,7 +252,7 @@ namespace MissionPlanner
                     }
                     catch
                     {
-                        log.Error("Failed to reconnect");
+                        this.LogError("Failed to reconnect");
                         // sleep for 10 seconds on error
                         System.Threading.Thread.Sleep(10000);
                     }
@@ -255,14 +276,14 @@ namespace MissionPlanner
 
                         try
                         {
-                            if(basedata != null)
+                            if (basedata != null)
                                 basedata.Write(buffer, 0, read);
                         }
                         catch { }
 
                         if (!(isrtcm || issbp))
-                            sendData(buffer, (byte) read);
-                        
+                            sendData(buffer, (byte)read);
+
 
                         // check for valid rtcm packets
                         for (int a = 0; a < read; a++)
@@ -306,7 +327,7 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex);
+                    this.LogError(ex);
                 }
             }
         }
@@ -343,26 +364,26 @@ namespace MissionPlanner
                 {
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.h_msl / 1000.0);
+                    //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
 
 
                 }
 
                 if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
                 {
-                    log.InfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+                    this.LogInfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
 
                 }
 
                 if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x0)
                 {
-                    log.InfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+                    this.LogInfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
 
                 }
 
                 if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
                 {
-                    log.InfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+                    this.LogInfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
 
                 }
             }
@@ -389,7 +410,10 @@ namespace MissionPlanner
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]);
 
-                    updateSVINLabel(String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
+                    status_line3 = (String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
+
+                    if (!Instance.IsDisposed && but_save_basepos.Enabled == false)
+                        but_save_basepos.Enabled = true;
                 }
                 else if (seen == 1006)
                 {
@@ -404,9 +428,13 @@ namespace MissionPlanner
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0], baseposllh[1], baseposllh[2]);
 
-                    updateSVINLabel(String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
+                    status_line3 = (String.Format("RTCM Base {0} {1} {2}", baseposllh[0] * Utilities.rtcm3.R2D, baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2]));
+
+                    if (!Instance.IsDisposed && but_save_basepos.Enabled == false)
+                        but_save_basepos.Enabled = true;
                 }
-            } catch
+            }
+            catch
             {
 
             }
@@ -418,7 +446,7 @@ namespace MissionPlanner
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length, rtcm_msg);
+                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte)length, rtcm_msg);
                 }
             }
         }
@@ -445,7 +473,7 @@ namespace MissionPlanner
             {
             }
 
-            updateLabel("bytes " + bytes + " bps " + bps + "\n" + sb.ToString());
+            updateLabel("bytes " + bytes + " bps " + bps, sb.ToString(), status_line3);
             bps = 0;
 
             try
@@ -480,7 +508,8 @@ namespace MissionPlanner
                 basepos = new PointLatLngAlt(double.Parse(bspos[0], CultureInfo.InvariantCulture),
                     double.Parse(bspos[1], CultureInfo.InvariantCulture),
                     double.Parse(bspos[2], CultureInfo.InvariantCulture));
-            } catch
+            }
+            catch
             {
                 basepos = PointLatLngAlt.Zero;
             }
@@ -489,7 +518,7 @@ namespace MissionPlanner
         private void but_base_pos_Click(object sender, EventArgs e)
         {
             string basepos = Settings.Instance["base_pos"];
-            if (InputBox.Show("Base POS", "Please enter base pos location 'lat,lng,alt'", ref basepos) == DialogResult.OK)
+            if (InputBox.Show("Base POS", "Please enter base pos location 'lat,lng,alt,name'", ref basepos) == DialogResult.OK)
             {
                 Settings.Instance["base_pos"] = basepos;
 
@@ -498,6 +527,22 @@ namespace MissionPlanner
             else
             {
                 this.basepos = PointLatLngAlt.Zero;
+            }
+        }
+
+        private void but_save_basepos_Click(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.MAV.cs.MovingBase == null)
+            {
+                CustomMessageBox.Show("No valid base position determined by gps yet", Strings.ERROR);
+                return;
+            }
+
+            string location = "";
+            if (InputBox.Show("Enter Location", "Enter a friendly name for this location.", ref location) == DialogResult.OK)
+            {
+                var basepos = MainV2.comPort.MAV.cs.MovingBase;
+                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat, basepos.Lng, basepos.Alt, location);
             }
         }
     }

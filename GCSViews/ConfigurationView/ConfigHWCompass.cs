@@ -399,7 +399,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                this.Error(ex);
+                this.LogError(ex);
                 CustomMessageBox.Show("Failed to start MAG CAL, check the autopilot is still responding.\n"+ex.ToString(),Strings.ERROR);
                 return;
             }

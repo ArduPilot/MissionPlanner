@@ -10,28 +10,28 @@ namespace MissionPlanner.Utilities
 {
     public static class Extensions
     {
-        public static void InfoFormat(this Control ctl, string format, params object[] args)
+        public static void LogInfoFormat(this Control ctl, string format, params object[] args)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);
 
             log.InfoFormat(format, args);
         }
 
-        public static void ErrorFormat(this Control ctl, string format, params object[] args)
+        public static void LogErrorFormat(this Control ctl, string format, params object[] args)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);
 
             log.ErrorFormat(format, args);
         }
 
-        public static void Info(this Control ctl, object ex)
+        public static void LogInfo(this Control ctl, object ex)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);
 
             log.Info(ex);
         }
 
-        public static void Error(this Control ctl, object ex)
+        public static void LogError(this Control ctl, object ex)
         {
             ILog log = LogManager.GetLogger(ctl.GetType().FullName);
 

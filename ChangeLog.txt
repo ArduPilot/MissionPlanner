@@ -1,4 +1,140 @@
-﻿* Mission Planner 1.3.41 - 23-9-2016
+﻿* Mission Planner 1.3.42 - 5-12-2016
+Wizard: ConnectAP add param exists check - exception check
+Extensions: add loging extension to Control class
+FlightPlanner: add exception check on bad input coords
+ConfigHWCompass: add exception check on start mag cal
+SITL: add exception check on process start
+Proximity: add zoom and Id
+Proximity: thinken lines
+LogBrowse: modify bad data filter
+temp: add rip fw status
+MainV2: temp disable AA prompt
+Sikradio: custom upload for rfd900x, better handle setting aes
+FlightPlanner: add custom command id support using UNKNOWN
+MAVState: add dispose chain
+Mavlink: update from upstream
+MAVLinkMessage: prevent return of unfilled packet. #1418
+ConfigArduRover: update to use mavlink controls
+MAVLink: fix posible buffer overflow/clear
+MainV2: prevent icon refresh is not needed #1419
+MAVLinkInterface: packets add locking to ensure threadsafe
+AA: change from click to mouseovers
+GDAL: add progress and base overlay
+ElevationProfile: change srtm label to be generic
+Temp: add GDAL scanning button
+GDAL: new map source
+Sikradio: change aes key save order
+Coords: add altsource to all projections
+Proximity: add test interface
+MainV2: maintain advanced view
+FlightPlanner: use srtm alt on drag home pny
+DTED: add custom directory scanning.
+AA: add flightplanner
+ThemeManger: auto apply theme to child windows
+MainV2: prevent donate disable
+Improved theming functionality. (#1)
+SerialInjectGPS: design changes
+SerialInjectGPS: add ubx ack/nack logging
+ConfigAccelCalib: use message subscription for statustext
+MAVLinkInterface: add new unsubscribe interface
+Proximity: add logging
+MAVLinkInterface: dont scale x,y for digicam mission items
+FlightPlanner: add geofence clear
+MAVLinkInterface: verify command response is what we requested
+flightdata: bring form to front insted of creating new form every time
+AltitudeAngel: add filter interface and per session cache
+FlightData: add AA settings to right click menu
+HUD: make VSync non browsable
+app.manifest: report as non dpiaware
+Proximity: Initial class
+WayPointLeader: add takeoff check
+ConfigFlightModes: fix wiki link
+WPControl: add autozoom out on graph at start
+DroneGroup: better collision avoidance. higher drone will climb to avoid collision.
+MainV2: close all comports and cleanup on exit
+FormationControl: fix update pos
+WPControl: add max wpnav_accel and rtlland
+wix: update servername
+Update: write check
+InitialSetup: add back maestro based antenna tracker
+WPControl: remove statics, and terminate functions on dialog close
+AltitudeAngel: prep filters
+FormationControl: account for leader yaw during UpdatePos
+ConfigArduplane: remove paramsettings
+ArduPlane: update plane basic tuning
+Formation: switch to velocity control for copter
+FormationControl: update to 10hz
+SerialInjectGPS: add logging and m8p options
+SerialInjectGPS: add m8p base station fixed pos.
+SerialInjectGPS: add rctm base location extraction display
+temp: add extra metadata file extraction
+FirmwareHistory: AP 3.7.1 AT 1.0
+Formation: change to velocity/position control
+srtm: change default dir cache expire from 2 to 7 days
+ListExtension: add custom sort
+LogDownloadMavlink: fix bad log file reference #1406
+AASettings: apply theme
+AltitudeAngel: update displayed data on element click
+dxf: add dxf overlay with utm conversion. (line work only)
+WPControl: prevent exception
+FlightPlanner: add logging for current mav_cmd's displayed
+ConfigHWUAVCAN: add image and on/off option
+LogOutput: output param file from df log
+Speech: fix posible baud speech issue
+AutoScaleMode: change all to None
+MAVLinkInterface: convert all MAVLinkParams to byte[] and display correct values in logs
+FlightPlanner: fix px4 wp upload
+ConfigRawParams: fix display of non float px4 params
+ConfigFlightModes: support px4 modes
+MAVLinkParam: accept only byte[] as wireinput
+MAVLinkInterface: fix frag flag
+SerialInjectGPS: add larger buffer on new rtcm_data message
+MavLinkInterface: fix new rtcm_data inject
+SerialInjectGPS: add more m8p support
+SerialInjectGPS: add rtcm 1005/1006 display
+SerialInjectGPS: add new rtcm_data msg support and default
+Mavlink: update from upstream
+Improve Parrot firmware install process
+Fixes joystick setup file load issue (no. 1388)
+FlightData: update map pan logic, prevent update on small movements
+LogAnalyzer: update create scripts
+WPLeader: update
+MAVLinkInterface: add get/set param sysid/compid support
+TilePrefetch: fix posible disposed exception
+POI: fix poi load #1375
+FlightPlanner: fix max precache zoom #1378
+GMap.Net: remove yahoo map
+Swarm WPLeader: initial commit
+AltitudeAngel: obey display filters
+FlightPlanner: fix longstanding drag wp bug
+FlightData: change to invoke on route local position update
+CurrentState: add outside corner check for geofence distance
+AA: fix polling when not signed in
+FlightPlanner: fix geofence for plane
+AltitudeAngel: add disable and layer options
+MAVLinkInterface: prevent cross thread exception
+SerialOutputNMEA: report rtk as ok
+SerialInjectGPS: send message to all connected mavs
+MapAdapter: prevent rightclick trigger polygon info for AA data
+SerialOutputNMEA: shorten lines for OBC
+MAVLinkInterface: add ability to injectgps to any sysid/compid
+Updater: fix file exclusion
+MAVLinkInterface: make sure getDatastream goes to correct sysid/compid
+ConfigPlanner: add AltitudeAngel signin button
+ConfigRawParams: fix sort order check
+PluginLoader: add filter to exclude load
+Grid: update to how the start point/line is selected.
+Multiple: update autoscalemode
+AltitudeAngelWings: remove keys.config from project
+MainV2: add AA enable prompt
+MAVLinkInterface: add new functions to direct target sysid/compid's
+LogBrowse: add more colours
+LogBrowse: prevent duplicates #1367
+StreamCombiner: add 10 instance support
+AltitudeAngelService: remove weather summary
+MAVLinkInterface: add parent
+
+* Mission Planner 1.3.41 - 23-9-2016
 NOTE: this is a bug fix build
 FlightData: handle log analyzer xml exception
 CurrentState: add GeoFenceDistance #1361
