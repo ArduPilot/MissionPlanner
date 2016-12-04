@@ -134,9 +134,12 @@ namespace MissionPlanner.Wizard
 
             if (string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
             {
-                if (Wizard.config["fwtype"].ToString() == "copter" && Wizard.config["fwframe"].ToString() == "tri")
-                    // check if its a tri, and skip the frame type screen
-                    return 2;
+                if (Wizard.config.ContainsKey("fwtype") && Wizard.config.ContainsKey("fwframe"))
+                {
+                    if (Wizard.config["fwtype"].ToString() == "copter" && Wizard.config["fwframe"].ToString() == "tri")
+                        // check if its a tri, and skip the frame type screen
+                        return 2;
+                }
                 if (Wizard.config["fwtype"].ToString() == "copter")
                     // check if its a quad, and show the frame type screen
                     return 1;
