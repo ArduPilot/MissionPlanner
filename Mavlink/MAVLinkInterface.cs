@@ -3755,7 +3755,7 @@ Please check the following
 
             lock (Subscriptions)
             {
-                foreach (var item in Subscriptions)
+                foreach (var item in Subscriptions.ToArray())
                 {
                     if (item.Key == type)
                     {
