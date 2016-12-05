@@ -992,6 +992,7 @@
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\Proximity.cs" />
     <Compile Include="Utilities\ubx_m8p.cs" />
+    <Compile Include="Utilities\UDPVideoShim.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
     </Compile>

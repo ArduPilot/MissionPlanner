@@ -502,6 +502,9 @@ namespace MissionPlanner
             //startup console
             TCPConsole.Write((byte) 'S');
 
+            // start listener
+            UDPVideoShim.Start();
+
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
