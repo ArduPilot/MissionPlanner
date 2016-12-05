@@ -2417,6 +2417,8 @@ namespace MissionPlanner.GCSViews
                     break;
                 if (temp.id == 255 && i != 0) // bad record - never loaded any WP's - but have started the board up.
                     break;
+                if (i == 0 && append) // we dont want to add home again.
+                    continue;
                 if (i + 1 >= Commands.Rows.Count)
                 {
                     selectedrow = Commands.Rows.Add();
