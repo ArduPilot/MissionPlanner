@@ -11,7 +11,7 @@ using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
-    public class MAVState : MAVLink
+    public class MAVState : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -113,25 +113,46 @@ namespace MissionPlanner
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
-        public Dictionary<uint, MAVLinkMessage> packets { get; set; }
+        Dictionary<uint, MAVLinkMessage> packets { get; set; }
+
+        object packetslock = new object();
 
         public MAVLinkMessage getPacket(uint mavlinkid)
         {
             //log.InfoFormat("getPacket {0}", (MAVLINK_MSG_ID)mavlinkid);
-            if (packets.ContainsKey(mavlinkid))
+            lock (packetslock)
             {
-                return packets[mavlinkid];
+                if (packets.ContainsKey(mavlinkid))
+                {
+                    return packets[mavlinkid];
+                }
             }
 
             return null;
         }
 
+        public void addPacket(MAVLinkMessage msg)
+        {
+            lock (packetslock)
+            {
+                packets[msg.msgid] = msg;
+            }
+        }
+
         public void clearPacket(uint mavlinkid)
         {
-            if (packets.ContainsKey(mavlinkid))
+            lock (packetslock)
             {
-                packets[mavlinkid] = null;
+                if (packets.ContainsKey(mavlinkid))
+                {
+                    packets[mavlinkid] = null;
+                }
             }
+        }
+
+        public void Dispose()
+        {
+             Proximity.Dispose();
         }
 
         /// <summary>

@@ -117,10 +117,9 @@ namespace MissionPlanner.GCSViews
             // dragging a WP
             if (pointno == "H")
             {
-                if (isonline && CHK_verifyheight.Checked)
-                {
-                    TXT_homealt.Text = getGEAlt(lat, lng).ToString();
-                }
+                // auto update home alt
+                TXT_homealt.Text = (srtm.getAltitude(lat, lng).alt * CurrentState.multiplierdist).ToString();
+
                 TXT_homelat.Text = lat.ToString();
                 TXT_homelng.Text = lng.ToString();
                 return;
@@ -1812,10 +1811,19 @@ namespace MissionPlanner.GCSViews
                         }
                         for (int a = 0; a < Commands.Rows.Count - 0; a++)
                         {
-                            ushort mode =
+                            ushort mode = 0;
+
+                            if (Commands.Rows[a].Cells[0].Value.ToString() == "UNKNOWN")
+                            {
+                                mode = (ushort)Commands.Rows[a].Cells[Command.Index].Tag;
+                            }
+                            else
+                            {
+                                mode =
                                 (ushort)
                                     (MAVLink.MAV_CMD)
-                                        Enum.Parse(typeof (MAVLink.MAV_CMD), Commands.Rows[a].Cells[0].Value.ToString());
+                                        Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString());
+                            }
 
                             sw.Write((a + 1)); // seq
                             sw.Write("\t" + 0); // current
@@ -2409,6 +2417,8 @@ namespace MissionPlanner.GCSViews
                     break;
                 if (temp.id == 255 && i != 0) // bad record - never loaded any WP's - but have started the board up.
                     break;
+                if (i == 0 && append) // we dont want to add home again.
+                    continue;
                 if (i + 1 >= Commands.Rows.Count)
                 {
                     selectedrow = Commands.Rows.Add();
@@ -3462,7 +3472,7 @@ namespace MissionPlanner.GCSViews
                         CurentRectMarker = null;
                     }
 
-                    if (CurentRectMarker != null)
+                    if (CurentRectMarker != null && CurentRectMarker.InnerMarker != null)
                     {
                         if (CurentRectMarker.InnerMarker.Tag.ToString().Contains("grid"))
                         {
@@ -3842,6 +3852,18 @@ namespace MissionPlanner.GCSViews
                         Commands.Rows[selectedrow].Cells[Lat.Index].Value = (1).ToString();
                 }
 
+                if (((ComboBox)sender).Text == "UNKNOWN")
+                {
+                    string cmdid = "-1";
+                    if (InputBox.Show("Mavlink ID", "Please enter the command ID", ref cmdid) == DialogResult.OK)
+                    {
+                        if (cmdid != "-1")
+                        {
+                            Commands.Rows[selectedrow].Cells[Command.Index].Tag = ushort.Parse(cmdid);
+                        }
+                    }
+                }
+
                 for (int i = 0; i < Commands.ColumnCount; i++)
                 {
                     DataGridViewCell tcell = Commands.Rows[selectedrow].Cells[i];
@@ -3940,8 +3962,16 @@ namespace MissionPlanner.GCSViews
             if (e.ColumnIndex == Lat.Index ||
                 e.ColumnIndex == Lon.Index)
             {
-                convertFromGeographic(double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString()),
-                    double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString()));
+                try
+                {
+                    var lat = double.Parse(Commands.Rows[e.RowIndex].Cells[Lat.Index].Value.ToString());
+                    var lng = double.Parse(Commands.Rows[e.RowIndex].Cells[Lon.Index].Value.ToString());
+                    convertFromGeographic(lat, lng);
+                } catch (Exception ex)
+                {
+                    log.Error(ex);
+                    CustomMessageBox.Show("Invalid Lat/Lng, please fix",Strings.ERROR);
+                }
             }
 
             Commands_RowEnter(null,

@@ -3526,13 +3526,13 @@ Please check the following
                     // store packet history
                     lock (objlock)
                     {
-                        MAVlist[sysid, compid].packets[msgid] = message;
+                        MAVlist[sysid, compid].addPacket(message);
 
                         // 3dr radio status packet are injected into the current mav
                         if (msgid == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS ||
                             msgid == (byte)MAVLink.MAVLINK_MSG_ID.RADIO)
                         {
-                            MAVlist[sysidcurrent, compidcurrent].packets[msgid] = message;
+                            MAVlist[sysidcurrent, compidcurrent].addPacket(message);
                         }
 
                         // adsb packets are forwarded and can be from any sysid/compid
@@ -3755,7 +3755,7 @@ Please check the following
 
             lock (Subscriptions)
             {
-                foreach (var item in Subscriptions)
+                foreach (var item in Subscriptions.ToArray())
                 {
                     if (item.Key == type)
                     {
@@ -4744,6 +4744,9 @@ Please check the following
                 _bytesReceivedSubj.Dispose();
             if (_bytesSentSubj != null)
                 _bytesSentSubj.Dispose();
+            if (MAVlist != null)
+                MAVlist.Dispose();
+
             this.Close();
 
             Terrain = null;

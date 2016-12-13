@@ -41,7 +41,9 @@ etc
 
         private static List<DTEDdata> index = new List<DTEDdata>();
 
-        public class DTEDdata
+        static List<String> _customDirectorys = new List<string>();
+
+        public class DTEDdata: IComparer<DTEDdata>, IComparable
         {
             // 80 bytes
             static Regex user_header_label = new Regex("^(UHL)(.)(.{8})(.{8})(.{4})(.{4})(.{4})(.{3})(.{12})(.{4})(.{4})(.{1})(.{24})");
@@ -54,12 +56,26 @@ etc
             {
                 log.InfoFormat("DTED {0}", filename);
 
+                var exists = index.Where(a => { return a.FileName.ToLower() == filename.ToLower(); });
+
+                if (exists.Count() > 0)
+                {
+                    log.InfoFormat("DTED already loaded {0}", filename);
+                    return;
+                }
+
                 using (var stream = File.OpenRead(filename))
                 {
                     byte[] buffer = new byte[80];
                     stream.Read(buffer, 0, buffer.Length);
 
                     var UHL = user_header_label.Match(ASCIIEncoding.ASCII.GetString(buffer));
+
+                    if (!UHL.Success)
+                    {
+                        log.ErrorFormat("DTED invalid header {0} - {1}", filename, ASCIIEncoding.ASCII.GetString(buffer).TrimUnPrintable());
+                        return;
+                    }
 
                     buffer = new byte[648];
                     stream.Read(buffer, 0, buffer.Length);
@@ -131,26 +147,57 @@ etc
 
                 return S;
             }
+
+            public int Compare(DTEDdata x, DTEDdata y)
+            {
+                return Path.GetExtension(y.FileName).CompareTo(Path.GetExtension(x.FileName));
+            }
+
+            public int CompareTo(object obj)
+            {
+                return Compare(this, obj as DTEDdata);
+            }
         }
 
         static DTED()
         {
+            AddCustomDirectory(srtm.datadirectory);
+        }
+
+        public delegate void Progress(double percent, string message);
+
+        public static event Progress OnProgress;
+
+        public static void AddCustomDirectory(string dir)
+        {
+            if(!_customDirectorys.Contains(dir))
+                _customDirectorys.Add(dir);
             generateIndex();
         }
 
         private static void generateIndex()
         {
-            if (!Directory.Exists(srtm.datadirectory))
-                return;
+            List<string> files = new List<string>();
 
-            var files = Directory.GetFiles(srtm.datadirectory, "*.dt2").ToList();
-            files.AddRange(Directory.GetFiles(srtm.datadirectory, "*.dt1"));
-            files.AddRange(Directory.GetFiles(srtm.datadirectory, "*.dt0"));
+            foreach (var dir in _customDirectorys)
+            {
+                if (!Directory.Exists(dir))
+                    continue;
 
+                files.AddRange(Directory.GetFiles(dir, "*.dt2",SearchOption.AllDirectories));
+                files.AddRange(Directory.GetFiles(dir, "*.dt1", SearchOption.AllDirectories));
+                files.AddRange(Directory.GetFiles(dir, "*.dt0", SearchOption.AllDirectories));
+            }
+
+            int i = 0;
             foreach (var file in files)
             {
+                i++;
                 try
                 {
+                    if (OnProgress != null)
+                        OnProgress((i - 1) / (double)files.Count, file);
+
                     DTEDdata dtedfile = new DTEDdata();
 
                     dtedfile.LoadFile(file);
@@ -160,6 +207,8 @@ etc
                     log.Error(ex);
                 }
             }
+
+            index.Sort();
         }
 
         public static srtm.altresponce getAltitude(double lat, double lng, double zoom = 16)

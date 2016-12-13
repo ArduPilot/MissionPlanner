@@ -285,7 +285,15 @@ namespace MissionPlanner.Controls
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             exestart.UseShellExecute = true;
 
-            simulator = System.Diagnostics.Process.Start(exestart);
+            try
+            {
+                simulator = System.Diagnostics.Process.Start(exestart);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to start the simulator\n"+ ex.ToString(), Strings.ERROR);
+                return;
+            }
 
             System.Threading.Thread.Sleep(2000);
 
@@ -306,6 +314,7 @@ namespace MissionPlanner.Controls
             catch
             {
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
+                return;
             }
         }
 

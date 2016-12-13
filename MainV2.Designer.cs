@@ -242,12 +242,12 @@ namespace MissionPlanner
 
         #endregion
 
-        private System.Windows.Forms.ToolStripButton MenuFlightData;
-        private System.Windows.Forms.ToolStripButton MenuFlightPlanner;
-        private System.Windows.Forms.ToolStripButton MenuInitConfig;
-        private System.Windows.Forms.ToolStripButton MenuSimulation;
-        private System.Windows.Forms.ToolStripButton MenuConfigTune;
-        private System.Windows.Forms.ToolStripButton MenuTerminal;
+        public System.Windows.Forms.ToolStripButton MenuFlightData;
+        public System.Windows.Forms.ToolStripButton MenuFlightPlanner;
+        public System.Windows.Forms.ToolStripButton MenuInitConfig;
+        public System.Windows.Forms.ToolStripButton MenuSimulation;
+        public System.Windows.Forms.ToolStripButton MenuConfigTune;
+        public System.Windows.Forms.ToolStripButton MenuTerminal;
         public System.Windows.Forms.ToolStripButton MenuConnect;
 
         private System.Windows.Forms.ToolStripButton MenuHelp;

@@ -80,12 +80,14 @@
     <Compile Include="BigInteger.cs" />
     <Compile Include="Capture.cs" />
     <Compile Include="CaptureMJPEG.cs" />
+    <Compile Include="DisplayView.cs" />
     <Compile Include="CircularBuffer.cs" />
     <Compile Include="CircularStream.cs" />
     <Compile Include="CleanDrivers.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="DTED.cs" />
     <Compile Include="EnumTranslator.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="GeoTiff.cs" />
     <Compile Include="hires.cs" />
     <Compile Include="KIndex.cs" />

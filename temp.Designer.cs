@@ -98,6 +98,7 @@
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
+            this.but_GDAL = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -872,15 +873,25 @@
             this.myButton3.Name = "myButton3";
             this.myButton3.Size = new System.Drawing.Size(75, 23);
             this.myButton3.TabIndex = 84;
-            this.myButton3.Text = "test redirect";
+            this.myButton3.Text = "Custom DTED";
             this.myButton3.UseVisualStyleBackColor = true;
             this.myButton3.Click += new System.EventHandler(this.myButton3_Click);
             // 
+            // but_GDAL
+            // 
+            this.but_GDAL.Location = new System.Drawing.Point(386, 566);
+            this.but_GDAL.Name = "but_GDAL";
+            this.but_GDAL.Size = new System.Drawing.Size(75, 23);
+            this.but_GDAL.TabIndex = 85;
+            this.but_GDAL.Text = "Custom GDAL";
+            this.but_GDAL.UseVisualStyleBackColor = true;
+            this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
+            // 
             // temp
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_GDAL);
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.but_followswarm);
             this.Controls.Add(this.but_AA);
@@ -983,5 +994,6 @@
         private Controls.MyButton but_AA;
         private Controls.MyButton but_followswarm;
         private Controls.MyButton myButton3;
+        private Controls.MyButton but_GDAL;
     }
 }

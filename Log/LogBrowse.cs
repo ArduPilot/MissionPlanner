@@ -1061,7 +1061,7 @@ namespace MissionPlanner.Log
                             System.Globalization.CultureInfo.InvariantCulture);
 
                         // abandon realy bad data
-                        if (Math.Abs(value) > 3.15e8)
+                        if (Math.Abs(value) > 9.15e8)
                         {
                             a++;
                             continue;

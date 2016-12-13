@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Oct 27 2016";
+    public const string MAVLINK_BUILD_DATE = "Fri Dec 02 2016";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -79,10 +79,10 @@ public partial class MAVLink
 		new message_info(51, "MISSION_REQUEST_INT", 196, 4, 4, typeof( mavlink_mission_request_int_t )),
 		new message_info(54, "SAFETY_SET_ALLOWED_AREA", 15, 27, 27, typeof( mavlink_safety_set_allowed_area_t )),
 		new message_info(55, "SAFETY_ALLOWED_AREA", 3, 25, 25, typeof( mavlink_safety_allowed_area_t )),
-		new message_info(61, "ATTITUDE_QUATERNION_COV", 153, 68, 68, typeof( mavlink_attitude_quaternion_cov_t )),
+		new message_info(61, "ATTITUDE_QUATERNION_COV", 167, 72, 72, typeof( mavlink_attitude_quaternion_cov_t )),
 		new message_info(62, "NAV_CONTROLLER_OUTPUT", 183, 26, 26, typeof( mavlink_nav_controller_output_t )),
-		new message_info(63, "GLOBAL_POSITION_INT_COV", 51, 185, 185, typeof( mavlink_global_position_int_cov_t )),
-		new message_info(64, "LOCAL_POSITION_NED_COV", 59, 229, 229, typeof( mavlink_local_position_ned_cov_t )),
+		new message_info(63, "GLOBAL_POSITION_INT_COV", 119, 181, 181, typeof( mavlink_global_position_int_cov_t )),
+		new message_info(64, "LOCAL_POSITION_NED_COV", 191, 225, 225, typeof( mavlink_local_position_ned_cov_t )),
 		new message_info(65, "RC_CHANNELS", 118, 42, 42, typeof( mavlink_rc_channels_t )),
 		new message_info(66, "REQUEST_DATA_STREAM", 148, 6, 6, typeof( mavlink_request_data_stream_t )),
 		new message_info(67, "DATA_STREAM", 21, 4, 4, typeof( mavlink_data_stream_t )),
@@ -105,7 +105,7 @@ public partial class MAVLink
 		new message_info(91, "HIL_CONTROLS", 63, 42, 42, typeof( mavlink_hil_controls_t )),
 		new message_info(92, "HIL_RC_INPUTS_RAW", 54, 33, 33, typeof( mavlink_hil_rc_inputs_raw_t )),
 		new message_info(93, "HIL_ACTUATOR_CONTROLS", 47, 81, 81, typeof( mavlink_hil_actuator_controls_t )),
-		new message_info(100, "OPTICAL_FLOW", 175, 26, 26, typeof( mavlink_optical_flow_t )),
+		new message_info(100, "OPTICAL_FLOW", 175, 26, 34, typeof( mavlink_optical_flow_t )),
 		new message_info(101, "GLOBAL_VISION_POSITION_ESTIMATE", 102, 32, 32, typeof( mavlink_global_vision_position_estimate_t )),
 		new message_info(102, "VISION_POSITION_ESTIMATE", 158, 32, 32, typeof( mavlink_vision_position_estimate_t )),
 		new message_info(103, "VISION_SPEED_ESTIMATE", 208, 20, 20, typeof( mavlink_vision_speed_estimate_t )),
@@ -207,6 +207,7 @@ public partial class MAVLink
 		new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
 		new message_info(232, "GPS_INPUT", 151, 63, 63, typeof( mavlink_gps_input_t )),
 		new message_info(233, "GPS_RTCM_DATA", 35, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
+		new message_info(234, "HIGH_LATENCY", 150, 40, 40, typeof( mavlink_high_latency_t )),
 		new message_info(241, "VIBRATION", 90, 32, 32, typeof( mavlink_vibration_t )),
 		new message_info(242, "HOME_POSITION", 104, 52, 52, typeof( mavlink_home_position_t )),
 		new message_info(243, "SET_HOME_POSITION", 85, 53, 53, typeof( mavlink_set_home_position_t )),
@@ -224,9 +225,24 @@ public partial class MAVLink
 		new message_info(256, "SETUP_SIGNING", 71, 42, 42, typeof( mavlink_setup_signing_t )),
 		new message_info(257, "BUTTON_CHANGE", 131, 9, 9, typeof( mavlink_button_change_t )),
 		new message_info(258, "PLAY_TUNE", 187, 32, 32, typeof( mavlink_play_tune_t )),
+		new message_info(259, "CAMERA_INFORMATION", 122, 86, 86, typeof( mavlink_camera_information_t )),
+		new message_info(260, "CAMERA_SETTINGS", 8, 28, 28, typeof( mavlink_camera_settings_t )),
+		new message_info(261, "STORAGE_INFORMATION", 244, 26, 26, typeof( mavlink_storage_information_t )),
+		new message_info(262, "CAMERA_CAPTURE_STATUS", 141, 23, 23, typeof( mavlink_camera_capture_status_t )),
+		new message_info(263, "CAMERA_IMAGE_CAPTURED", 43, 255, 255, typeof( mavlink_camera_image_captured_t )),
+		new message_info(264, "FLIGHT_INFORMATION", 49, 28, 28, typeof( mavlink_flight_information_t )),
+		new message_info(265, "MOUNT_STATUS2", 229, 29, 29, typeof( mavlink_mount_status2_t )),
+		new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
+		new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
+		new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
+		new message_info(11000, "DEVICE_OP_READ", 134, 51, 51, typeof( mavlink_device_op_read_t )),
+		new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 135, typeof( mavlink_device_op_read_reply_t )),
+		new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 179, typeof( mavlink_device_op_write_t )),
+		new message_info(11003, "DEVICE_OP_WRITE_REPLY", 64, 5, 5, typeof( mavlink_device_op_write_reply_t )),
+		new message_info(11010, "ADAP_TUNING", 46, 49, 49, typeof( mavlink_adap_tuning_t )),
 
 	};
 
@@ -432,6 +448,7 @@ ESTIMATOR_STATUS = 230,
 WIND_COV = 231,
 GPS_INPUT = 232,
 GPS_RTCM_DATA = 233,
+HIGH_LATENCY = 234,
 VIBRATION = 241,
 HOME_POSITION = 242,
 SET_HOME_POSITION = 243,
@@ -449,12 +466,47 @@ DEBUG = 254,
 SETUP_SIGNING = 256,
 BUTTON_CHANGE = 257,
 PLAY_TUNE = 258,
+CAMERA_INFORMATION = 259,
+CAMERA_SETTINGS = 260,
+STORAGE_INFORMATION = 261,
+CAMERA_CAPTURE_STATUS = 262,
+CAMERA_IMAGE_CAPTURED = 263,
+FLIGHT_INFORMATION = 264,
+MOUNT_STATUS2 = 265,
+LOGGING_DATA = 266,
+LOGGING_DATA_ACKED = 267,
+LOGGING_ACK = 268,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
+DEVICE_OP_READ = 11000,
+DEVICE_OP_READ_REPLY = 11001,
+DEVICE_OP_WRITE = 11002,
+DEVICE_OP_WRITE_REPLY = 11003,
+ADAP_TUNING = 11010,
 
     }  
 	    
+    
+    ///<summary>  </summary>
+    public enum ACCELCAL_VEHICLE_POS
+    {
+			///<summary>  | </summary>
+        LEVEL=1, 
+    	///<summary>  | </summary>
+        LEFT=2, 
+    	///<summary>  | </summary>
+        RIGHT=3, 
+    	///<summary>  | </summary>
+        NOSEDOWN=4, 
+    	///<summary>  | </summary>
+        NOSEUP=5, 
+    	///<summary>  | </summary>
+        BACK=6, 
+    	///<summary>  | </summary>
+        ENUM_END=7, 
+    
+    };
     
     ///<summary> Commands to be executed by the MAV. They can be executed on user request, or as part of a mission script. If the action is used in a mission, the parameter mapping to the waypoint/mission message is as follows: Param 1, Param 2, Param 3, Param 4, X: Param 5, Y:Param 6, Z:Param 7. This command list is similar what ARINC 424 is for commercial aircraft: A data format how to interpret waypoint/mission data. </summary>
     public enum MAV_CMD
@@ -503,6 +555,8 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         GUIDED_ENABLE=92, 
     	///<summary> Delay the next navigation command a number of seconds or until a specified time |Delay in seconds (decimal, -1 to enable time-of-day fields)| hour (24h format, UTC, -1 to ignore)| minute (24h format, UTC, -1 to ignore)| second (24h format, UTC)| Empty| Empty| Empty|  </summary>
         DELAY=93, 
+    	///<summary> Descend and place payload.  Vehicle descends until it detects a hanging payload has reached the ground, the gripper is opened to release the payload |Maximum distance to descend (meters)| Empty| Empty| Empty| Latitude (deg * 1E7)| Longitude (deg * 1E7)| Altitude (meters)|  </summary>
+        PAYLOAD_PLACE=94, 
     	///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         LAST=95, 
     	///<summary> Delay mission state machine. |Delay in seconds (decimal)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -559,7 +613,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         DO_DIGICAM_CONTROL=203, 
     	///<summary> Mission command to configure a camera or antenna mount |Mount operation mode (see MAV_MOUNT_MODE enum)| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
         DO_MOUNT_CONFIGURE=204, 
-    	///<summary> Mission command to control a camera or antenna mount |pitch or lat in degrees, depending on mount mode.| roll or lon in degrees depending on mount mode| yaw or alt (in meters) depending on mount mode| reserved| reserved| reserved| MAV_MOUNT_MODE enum value|  </summary>
+    	///<summary> Mission command to control a camera or antenna mount |pitch (WIP: DEPRECATED: or lat in degrees) depending on mount mode.| roll (WIP: DEPRECATED: or lon in degrees) depending on mount mode.| yaw (WIP: DEPRECATED: or alt in meters) depending on mount mode.| WIP: alt in meters depending on mount mode.| WIP: latitude in degrees * 1E7, set if appropriate mount mode.| WIP: longitude in degrees * 1E7, set if appropriate mount mode.| MAV_MOUNT_MODE enum value|  </summary>
         DO_MOUNT_CONTROL=205, 
     	///<summary> Mission command to set CAM_TRIGG_DIST for this flight |Camera trigger distance (meters)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_SET_CAM_TRIGG_DIST=206, 
@@ -595,7 +649,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         PREFLIGHT_UAVCAN=243, 
     	///<summary> Request storage of different parameter values and logs. This command will be only accepted if in pre-flight mode. |Parameter storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Mission storage: 0: READ FROM FLASH/EEPROM, 1: WRITE CURRENT TO FLASH/EEPROM, 2: Reset to defaults| Onboard logging: 0: Ignore, 1: Start default rate logging, -1: Stop logging, > 1: start logging with rate of param 3 in Hz (e.g. set to 1000 for 1000 Hz logging)| Reserved| Empty| Empty| Empty|  </summary>
         PREFLIGHT_STORAGE=245, 
-    	///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| Reserved, send 0| Reserved, send 0| Reserved, send 0| Reserved, send 0| Reserved, send 0|  </summary>
+    	///<summary> Request the reboot or shutdown of system components. |0: Do nothing for autopilot, 1: Reboot autopilot, 2: Shutdown autopilot, 3: Reboot autopilot and keep it in the bootloader until upgraded.| 0: Do nothing for onboard computer, 1: Reboot onboard computer, 2: Shutdown onboard computer, 3: Reboot onboard computer and keep it in the bootloader until upgraded.| WIP: 0: Do nothing for camera, 1: Reboot onboard camera, 2: Shutdown onboard camera, 3: Reboot onboard camera and keep it in the bootloader until upgraded| WIP: 0: Do nothing for mount (e.g. gimbal), 1: Reboot mount, 2: Shutdown mount, 3: Reboot mount and keep it in the bootloader until upgraded| Reserved, send 0| Reserved, send 0| WIP: ID (e.g. camera ID -1 for all IDs)|  </summary>
         PREFLIGHT_REBOOT_SHUTDOWN=246, 
     	///<summary> Hold / continue the current action |MAV_GOTO_DO_HOLD: hold MAV_GOTO_DO_CONTINUE: continue with next item in mission plan| MAV_GOTO_HOLD_AT_CURRENT_POSITION: Hold at current position MAV_GOTO_HOLD_AT_SPECIFIED_POSITION: hold at specified position| MAV_FRAME coordinate frame of hold point| Desired yaw angle in degrees| Latitude / X position| Longitude / Y position| Altitude / Z position|  </summary>
         OVERRIDE_GOTO=252, 
@@ -613,16 +667,38 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         SET_MESSAGE_INTERVAL=511, 
     	///<summary> Request autopilot capabilities |1: Request autopilot version| Reserved (all remaining params)|  </summary>
         REQUEST_AUTOPILOT_CAPABILITIES=520, 
-    	///<summary> Start image capture sequence |Duration between two consecutive pictures (in seconds)| Number of images to capture total - 0 for unlimited capture| Resolution in megapixels (0.3 for 640x480, 1.3 for 1280x720, etc)|  </summary>
+    	///<summary> WIP: Request camera information (CAMERA_INFORMATION) |1: Request camera capabilities| Camera ID| Reserved (all remaining params)|  </summary>
+        REQUEST_CAMERA_INFORMATION=521, 
+    	///<summary> WIP: Request camera settings (CAMERA_SETTINGS) |1: Request camera settings| Camera ID| Reserved (all remaining params)|  </summary>
+        REQUEST_CAMERA_SETTINGS=522, 
+    	///<summary> WIP: Set the camera settings part 1 (CAMERA_SETTINGS) |Camera ID| Aperture (1/value)| Aperture locked (0: auto, 1: locked)| Shutter speed in s| Shutter speed locked (0: auto, 1: locked)| ISO sensitivity| ISO sensitivity locked (0: auto, 1: locked)|  </summary>
+        SET_CAMERA_SETTINGS_1=523, 
+    	///<summary> WIP: Set the camera settings part 2 (CAMERA_SETTINGS) |Camera ID| White balance locked (0: auto, 1: locked)| White balance (color temperature in K)| Reserved for camera mode ID| Reserved for color mode ID| Reserved for image format ID| Reserved|  </summary>
+        SET_CAMERA_SETTINGS_2=524, 
+    	///<summary> WIP: Request storage information (STORAGE_INFORMATION) |1: Request storage information| Storage ID| Reserved (all remaining params)|  </summary>
+        REQUEST_STORAGE_INFORMATION=525, 
+    	///<summary> WIP: Format a storage medium |1: Format storage| Storage ID| Reserved (all remaining params)|  </summary>
+        STORAGE_FORMAT=526, 
+    	///<summary> WIP: Request camera capture status (CAMERA_CAPTURE_STATUS) |1: Request camera capture status| Camera ID| Reserved (all remaining params)|  </summary>
+        REQUEST_CAMERA_CAPTURE_STATUS=527, 
+    	///<summary> WIP: Request flight information (FLIGHT_INFORMATION) |1: Request flight information| Reserved (all remaining params)|  </summary>
+        REQUEST_FLIGHT_INFORMATION=528, 
+    	///<summary> Start image capture sequence |Duration between two consecutive pictures (in seconds)| Number of images to capture total - 0 for unlimited capture| Resolution in megapixels (0.3 for 640x480, 1.3 for 1280x720, etc), set to 0 if param 4/5 are used| WIP: Resolution horizontal in pixels| WIP: Resolution horizontal in pixels| WIP: Camera ID|  </summary>
         IMAGE_START_CAPTURE=2000, 
-    	///<summary> Stop image capture sequence |Reserved| Reserved|  </summary>
+    	///<summary> Stop image capture sequence |Camera ID| Reserved|  </summary>
         IMAGE_STOP_CAPTURE=2001, 
     	///<summary> Enable or disable on-board camera triggering system. |Trigger enable/disable (0 for disable, 1 for start)| Shutter integration time (in ms)| Reserved|  </summary>
         DO_TRIGGER_CONTROL=2003, 
-    	///<summary> Starts video capture |Camera ID (0 for all cameras), 1 for first, 2 for second, etc.| Frames per second| Resolution in megapixels (0.3 for 640x480, 1.3 for 1280x720, etc)|  </summary>
+    	///<summary> Starts video capture |Camera ID (0 for all cameras), 1 for first, 2 for second, etc.| Frames per second| Resolution in megapixels (0.3 for 640x480, 1.3 for 1280x720, etc), set to 0 if param 4/5 are used| WIP: Resolution horizontal in pixels| WIP: Resolution horizontal in pixels|  </summary>
         VIDEO_START_CAPTURE=2500, 
-    	///<summary> Stop the current video capture |Reserved| Reserved|  </summary>
+    	///<summary> Stop the current video capture |WIP: Camera ID| Reserved|  </summary>
         VIDEO_STOP_CAPTURE=2501, 
+    	///<summary> Request to start streaming logging data over MAVLink (see also LOGGING_DATA message) |Format: 0: ULog| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        LOGGING_START=2510, 
+    	///<summary> Request to stop streaming log data over MAVLink |Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)| Reserved (set to 0)|  </summary>
+        LOGGING_STOP=2511, 
+    	///<summary>  |Landing gear ID (default: 0, -1 for all)| Landing gear position (Down: 0, Up: 1, NAN for no change)| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN| Reserved, set to NAN|  </summary>
+        AIRFRAME_CONFIGURATION=2520, 
     	///<summary> Create a panorama at the current position |Viewing angle horizontal of the panorama (in degrees, +- 0.5 the total angle)| Viewing angle vertical of panorama (in degrees)| Speed of the horizontal rotation (in degrees per second)| Speed of the vertical rotation (in degrees per second)|  </summary>
         PANORAMA_CREATE=2800, 
     	///<summary> Request VTOL transition |The target VTOL state, as defined by ENUM MAV_VTOL_STATE. Only MAV_VTOL_STATE_MC and MAV_VTOL_STATE_FW can be used.|  </summary>
@@ -683,6 +759,8 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         SET_FACTORY_TEST_MODE=42427, 
     	///<summary> Reply with the version banner |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_SEND_BANNER=42428, 
+    	///<summary> Used when doing accelerometer calibration. When sent to the GCS tells it what position to put the vehicle in. When sent to the vehicle says what position the vehicle is in. |Position, one of the ACCELCAL_VEHICLE_POS enum values| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        ACCELCAL_VEHICLE_POS=42429, 
     	///<summary> Causes the gimbal to reset and boot as if it was just powered on |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         GIMBAL_RESET=42501, 
     	///<summary> Reports progress and success or failure of gimbal axis calibration procedure |Gimbal axis we're reporting calibration progress for| Current calibration progress for this axis, 0x64=100%| Status of the calibration| Empty| Empty| Empty| Empty|  </summary>
@@ -1362,6 +1440,18 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     
     };
     
+    ///<summary> Bus types for device operations </summary>
+    public enum DEVICE_OP_BUSTYPE
+    {
+			///<summary> I2C Device operation | </summary>
+        I2C=0, 
+    	///<summary> SPI Device operation | </summary>
+        SPI=1, 
+    	///<summary>  | </summary>
+        ENUM_END=2, 
+    
+    };
+    
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT
@@ -1506,7 +1596,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         HIL_ENABLED=32, 
     	///<summary> 0b01000000 remote control input is enabled. | </summary>
         MANUAL_INPUT_ENABLED=64, 
-    	///<summary> 0b10000000 MAV safety set to armed. Motors are enabled / running / can start. Ready to fly. | </summary>
+    	///<summary> 0b10000000 MAV safety set to armed. Motors are enabled / running / can start. Ready to fly. Additional note: this flag is to be ignore when sent in the command MAV_CMD_DO_SET_MODE and MAV_CMD_COMPONENT_ARM_DISARM shall be used instead. The flag can still be used to report the armed state. | </summary>
         SAFETY_ARMED=128, 
     	///<summary>  | </summary>
         ENUM_END=129, 
@@ -2464,9 +2554,9 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         NONE=0, 
     	///<summary> Report potential collision | </summary>
         REPORT=1, 
-    	///<summary> Ascend or Descend to avoid thread | </summary>
+    	///<summary> Ascend or Descend to avoid threat | </summary>
         ASCEND_OR_DESCEND=2, 
-    	///<summary> Ascend or Descend to avoid thread | </summary>
+    	///<summary> Move horizontally to avoid threat | </summary>
         MOVE_HORIZONTALLY=3, 
     	///<summary> Aircraft to move perpendicular to the collision's velocity vector | </summary>
         MOVE_PERPENDICULAR=4, 
@@ -3635,6 +3725,123 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
+    public struct mavlink_device_op_read_t
+    {
+        /// <summary> request ID - copied to reply </summary>
+        public  UInt32 request_id;
+            /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> The bus type </summary>
+        public  byte bustype;
+            /// <summary> Bus number </summary>
+        public  byte bus;
+            /// <summary> Bus address </summary>
+        public  byte address;
+            /// <summary> Name of device on bus (for SPI) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
+		public byte[] busname;
+            /// <summary> First register to read </summary>
+        public  byte regstart;
+            /// <summary> count of registers to read </summary>
+        public  byte count;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=135)]
+    public struct mavlink_device_op_read_reply_t
+    {
+        /// <summary> request ID - copied from request </summary>
+        public  UInt32 request_id;
+            /// <summary> 0 for success, anything else is failure code </summary>
+        public  byte result;
+            /// <summary> starting register </summary>
+        public  byte regstart;
+            /// <summary> count of bytes read </summary>
+        public  byte count;
+            /// <summary> reply data </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=179)]
+    public struct mavlink_device_op_write_t
+    {
+        /// <summary> request ID - copied to reply </summary>
+        public  UInt32 request_id;
+            /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> The bus type </summary>
+        public  byte bustype;
+            /// <summary> Bus number </summary>
+        public  byte bus;
+            /// <summary> Bus address </summary>
+        public  byte address;
+            /// <summary> Name of device on bus (for SPI) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=40)]
+		public byte[] busname;
+            /// <summary> First register to write </summary>
+        public  byte regstart;
+            /// <summary> count of registers to write </summary>
+        public  byte count;
+            /// <summary> write data </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=5)]
+    public struct mavlink_device_op_write_reply_t
+    {
+        /// <summary> request ID - copied from request </summary>
+        public  UInt32 request_id;
+            /// <summary> 0 for success, anything else is failure code </summary>
+        public  byte result;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=49)]
+    public struct mavlink_adap_tuning_t
+    {
+        /// <summary> desired rate (degrees/s) </summary>
+        public  Single desired;
+            /// <summary> achieved rate (degrees/s) </summary>
+        public  Single achieved;
+            /// <summary> error between model and vehicle </summary>
+        public  Single error;
+            /// <summary> theta estimated state predictor </summary>
+        public  Single theta;
+            /// <summary> omega estimated state predictor </summary>
+        public  Single omega;
+            /// <summary> sigma estimated state predictor </summary>
+        public  Single sigma;
+            /// <summary> theta derivative </summary>
+        public  Single theta_dot;
+            /// <summary> omega derivative </summary>
+        public  Single omega_dot;
+            /// <summary> sigma derivative </summary>
+        public  Single sigma_dot;
+            /// <summary> projection operator value </summary>
+        public  Single f;
+            /// <summary> projection operator derivative </summary>
+        public  Single f_dot;
+            /// <summary> u adaptive controlled output command </summary>
+        public  Single u;
+            /// <summary> axis </summary>
+        public  byte axis;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=9)]
     public struct mavlink_heartbeat_t
     {
@@ -4426,11 +4633,11 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=68)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=72)]
     public struct mavlink_attitude_quaternion_cov_t
     {
-        /// <summary> Timestamp (milliseconds since system boot) </summary>
-        public  UInt32 time_boot_ms;
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch) </summary>
+        public  UInt64 time_usec;
             /// <summary> Quaternion components, w, x, y, z (1 0 0 0 is the null-rotation) </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
 		public float[] q;
@@ -4470,13 +4677,11 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=185)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=181)]
     public struct mavlink_global_position_int_cov_t
     {
-        /// <summary> Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown. Commonly filled by the precision time source of a GPS receiver. </summary>
-        public  UInt64 time_utc;
-            /// <summary> Timestamp (milliseconds since system boot) </summary>
-        public  UInt32 time_boot_ms;
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch) </summary>
+        public  UInt64 time_usec;
             /// <summary> Latitude, expressed as degrees * 1E7 </summary>
         public  Int32 lat;
             /// <summary> Longitude, expressed as degrees * 1E7 </summary>
@@ -4500,13 +4705,11 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=229)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=225)]
     public struct mavlink_local_position_ned_cov_t
     {
-        /// <summary> Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown. Commonly filled by the precision time source of a GPS receiver. </summary>
-        public  UInt64 time_utc;
-            /// <summary> Timestamp (milliseconds since system boot). 0 for system without monotonic timestamp </summary>
-        public  UInt32 time_boot_ms;
+        /// <summary> Timestamp (microseconds since system boot or since UNIX epoch) </summary>
+        public  UInt64 time_usec;
             /// <summary> X Position </summary>
         public  Single x;
             /// <summary> Y Position </summary>
@@ -5143,7 +5346,7 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=34)]
     public struct mavlink_optical_flow_t
     {
         /// <summary> Timestamp (UNIX) </summary>
@@ -5162,6 +5365,10 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
         public  byte sensor_id;
             /// <summary> Optical flow quality / confidence. 0: bad, 255: maximum quality </summary>
         public  byte quality;
+            /// <summary> Flow rate in radians/second about X axis </summary>
+        public  Single flow_rate_x;
+            /// <summary> Flow rate in radians/second about Y axis </summary>
+        public  Single flow_rate_y;
     
     };
 
@@ -6357,6 +6564,61 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
     };
 
 
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=40)]
+    public struct mavlink_high_latency_t
+    {
+        /// <summary> A bitfield for use for autopilot-specific flags. </summary>
+        public  UInt32 custom_mode;
+            /// <summary> Latitude, expressed as degrees * 1E7 </summary>
+        public  Int32 latitude;
+            /// <summary> Longitude, expressed as degrees * 1E7 </summary>
+        public  Int32 longitude;
+            /// <summary> roll (centidegrees) </summary>
+        public  Int16 roll;
+            /// <summary> pitch (centidegrees) </summary>
+        public  Int16 pitch;
+            /// <summary> heading (centidegrees) </summary>
+        public  UInt16 heading;
+            /// <summary> heading setpoint (centidegrees) </summary>
+        public  Int16 heading_sp;
+            /// <summary> Altitude above mean sea level (meters) </summary>
+        public  Int16 altitude_amsl;
+            /// <summary> Altitude setpoint relative to the home position (meters) </summary>
+        public  Int16 altitude_sp;
+            /// <summary> distance to target (meters) </summary>
+        public  UInt16 wp_distance;
+            /// <summary> System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h </summary>
+        public  byte base_mode;
+            /// <summary> The landed state. Is set to MAV_LANDED_STATE_UNDEFINED if landed state is unknown. </summary>
+        public  byte landed_state;
+            /// <summary> throttle (percentage) </summary>
+        public  byte throttle;
+            /// <summary> airspeed (m/s) </summary>
+        public  byte airspeed;
+            /// <summary> airspeed setpoint (m/s) </summary>
+        public  byte airspeed_sp;
+            /// <summary> groundspeed (m/s) </summary>
+        public  byte groundspeed;
+            /// <summary> climb rate (m/s) </summary>
+        public  byte climb_rate;
+            /// <summary> Number of satellites visible. If unknown, set to 255 </summary>
+        public  byte gps_nsat;
+            /// <summary> See the GPS_FIX_TYPE enum. </summary>
+        public  byte gps_fix_type;
+            /// <summary> Remaining battery (percentage) </summary>
+        public  byte battery_remaining;
+            /// <summary> Autopilot temperature (degrees C) </summary>
+        public  byte temperature;
+            /// <summary> Air temperature (degrees C) from airspeed sensor </summary>
+        public  byte temperature_air;
+            /// <summary> failsafe (each bit represents a failsafe where 0=ok, 1=failsafe active (bit0:RC, bit1:batt, bit2:GPS, bit3:GCS, bit4:fence) </summary>
+        public  byte failsafe;
+            /// <summary> current waypoint number </summary>
+        public  byte wp_num;
+    
+    };
+
+
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=32)]
     public struct mavlink_vibration_t
     {
@@ -6657,6 +6919,236 @@ UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
             /// <summary> tune in board specific format </summary>
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=30)]
 		public byte[] tune;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=86)]
+    public struct mavlink_camera_information_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Focal length in mm </summary>
+        public  Single focal_length;
+            /// <summary> Image sensor size horizontal in mm </summary>
+        public  Single sensor_size_h;
+            /// <summary> Image sensor size vertical in mm </summary>
+        public  Single sensor_size_v;
+            /// <summary> Image resolution in pixels horizontal </summary>
+        public  UInt16 resolution_h;
+            /// <summary> Image resolution in pixels vertical </summary>
+        public  UInt16 resolution_v;
+            /// <summary> Camera ID if there are multiple </summary>
+        public  byte camera_id;
+            /// <summary> Name of the camera vendor </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] vendor_name;
+            /// <summary> Name of the camera model </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=32)]
+		public byte[] model_name;
+            /// <summary> Reserved for a lense ID </summary>
+        public  byte lense_id;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
+    public struct mavlink_camera_settings_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Aperture is 1/value </summary>
+        public  Single aperture;
+            /// <summary> Shutter speed in s </summary>
+        public  Single shutter_speed;
+            /// <summary> ISO sensitivity </summary>
+        public  Single iso_sensitivity;
+            /// <summary> Color temperature in K </summary>
+        public  Single white_balance;
+            /// <summary> Camera ID if there are multiple </summary>
+        public  byte camera_id;
+            /// <summary> Aperture locked (0: auto, 1: locked) </summary>
+        public  byte aperture_locked;
+            /// <summary> Shutter speed locked (0: auto, 1: locked) </summary>
+        public  byte shutter_speed_locked;
+            /// <summary> ISO sensitivity locked (0: auto, 1: locked) </summary>
+        public  byte iso_sensitivity_locked;
+            /// <summary> Color temperature locked (0: auto, 1: locked) </summary>
+        public  byte white_balance_locked;
+            /// <summary> Reserved for a camera mode ID </summary>
+        public  byte mode_id;
+            /// <summary> Reserved for a color mode ID </summary>
+        public  byte color_mode_id;
+            /// <summary> Reserved for image format ID </summary>
+        public  byte image_format_id;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=26)]
+    public struct mavlink_storage_information_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Total capacity in MiB </summary>
+        public  Single total_capacity;
+            /// <summary> Used capacity in MiB </summary>
+        public  Single used_capacity;
+            /// <summary> Available capacity in MiB </summary>
+        public  Single available_capacity;
+            /// <summary> Read speed in MiB/s </summary>
+        public  Single read_speed;
+            /// <summary> Write speed in MiB/s </summary>
+        public  Single write_speed;
+            /// <summary> Storage ID if there are multiple </summary>
+        public  byte storage_id;
+            /// <summary> Status of storage (0 not available, 1 unformatted, 2 formatted) </summary>
+        public  byte status;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=23)]
+    public struct mavlink_camera_capture_status_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Image capture interval in seconds </summary>
+        public  Single image_interval;
+            /// <summary> Video frame rate in Hz </summary>
+        public  Single video_framerate;
+            /// <summary> Image resolution in pixels horizontal </summary>
+        public  UInt16 image_resolution_h;
+            /// <summary> Image resolution in pixels vertical </summary>
+        public  UInt16 image_resolution_v;
+            /// <summary> Video resolution in pixels horizontal </summary>
+        public  UInt16 video_resolution_h;
+            /// <summary> Video resolution in pixels vertical </summary>
+        public  UInt16 video_resolution_v;
+            /// <summary> Camera ID if there are multiple </summary>
+        public  byte camera_id;
+            /// <summary> Current status of image capturing (0: not running, 1: interval capture in progress) </summary>
+        public  byte image_status;
+            /// <summary> Current status of video capturing (0: not running, 1: capture in progress) </summary>
+        public  byte video_status;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
+    public struct mavlink_camera_image_captured_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch) in UTC. 0 for unknown. </summary>
+        public  UInt64 time_utc;
+            /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Latitude, expressed as degrees * 1E7 where image was taken </summary>
+        public  Int32 lat;
+            /// <summary> Longitude, expressed as degrees * 1E7 where capture was taken </summary>
+        public  Int32 lon;
+            /// <summary> Altitude in meters, expressed as * 1E3 (AMSL, not WGS84) where image was taken </summary>
+        public  Int32 alt;
+            /// <summary> Altitude above ground in meters, expressed as * 1E3 where image was taken </summary>
+        public  Int32 relative_alt;
+            /// <summary> Quaternion of camera orientation (w, x, y, z order, zero-rotation is 0, 0, 0, 0) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=4)]
+		public float[] q;
+            /// <summary> Camera ID if there are multiple </summary>
+        public  byte camera_id;
+            /// <summary> File path of image taken. </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=210)]
+		public byte[] file_path;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=28)]
+    public struct mavlink_flight_information_t
+    {
+        /// <summary> Timestamp at arming (microseconds since UNIX epoch) in UTC, 0 for unknown </summary>
+        public  UInt64 arming_time_utc;
+            /// <summary> Timestamp at takeoff (microseconds since UNIX epoch) in UTC, 0 for unknown </summary>
+        public  UInt64 takeoff_time_utc;
+            /// <summary> Universally unique identifier (UUID) of flight, should correspond to name of logfiles </summary>
+        public  UInt64 flight_uuid;
+            /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=29)]
+    public struct mavlink_mount_status2_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> Roll in degrees, set if appropriate mount mode. </summary>
+        public  Single roll;
+            /// <summary> Pitch in degrees, set if appropriate mount mode. </summary>
+        public  Single pitch;
+            /// <summary> Yaw in degrees, set if appropriate mount mode. </summary>
+        public  Single yaw;
+            /// <summary> Latitude, in degrees * 1E7, set if appropriate mount mode. </summary>
+        public  Int32 lat;
+            /// <summary> Longitude, in degrees * 1E7, set if appropriate mount mode. </summary>
+        public  Int32 lon;
+            /// <summary> Altitude in meters, set if appropriate mount mode. </summary>
+        public  Single alt;
+            /// <summary> Mount operation mode (see MAV_MOUNT_MODE enum) </summary>
+        public  byte mode;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
+    public struct mavlink_logging_data_t
+    {
+        /// <summary> sequence number (can wrap) </summary>
+        public  UInt16 sequence;
+            /// <summary> system ID of the target </summary>
+        public  byte target_system;
+            /// <summary> component ID of the target </summary>
+        public  byte target_component;
+            /// <summary> data length </summary>
+        public  byte length;
+            /// <summary> offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists). </summary>
+        public  byte first_message_offset;
+            /// <summary> logged data </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=249)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
+    public struct mavlink_logging_data_acked_t
+    {
+        /// <summary> sequence number (can wrap) </summary>
+        public  UInt16 sequence;
+            /// <summary> system ID of the target </summary>
+        public  byte target_system;
+            /// <summary> component ID of the target </summary>
+        public  byte target_component;
+            /// <summary> data length </summary>
+        public  byte length;
+            /// <summary> offset into data where first message starts. This can be used for recovery, when a previous message got lost (set to 255 if no start exists). </summary>
+        public  byte first_message_offset;
+            /// <summary> logged data </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=249)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=4)]
+    public struct mavlink_logging_ack_t
+    {
+        /// <summary> sequence number (must match the one in LOGGING_DATA_ACKED) </summary>
+        public  UInt16 sequence;
+            /// <summary> system ID of the target </summary>
+        public  byte target_system;
+            /// <summary> component ID of the target </summary>
+        public  byte target_component;
     
     };
 

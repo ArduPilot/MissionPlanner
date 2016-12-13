@@ -960,6 +960,7 @@
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\dxf.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />
     <Compile Include="Utilities\GMapMarkerPhoto.cs" />
@@ -991,6 +992,7 @@
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\Proximity.cs" />
     <Compile Include="Utilities\ubx_m8p.cs" />
+    <Compile Include="Utilities\UDPVideoShim.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -3665,6 +3667,7 @@
     <None Include="Resources\FW icons 2013+logos-011.png" />
     <None Include="Resources\FW icons 2013+logos-012.png" />
     <None Include="Resources\uavcanesc.jpg" />
+    <None Include="Resources\boat.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3984,6 +3987,10 @@
     <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GDAL\GDAL.csproj">
+      <Project>{766fcf85-4809-44db-b316-6c4902c65245}</Project>
+      <Name>GDAL</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>

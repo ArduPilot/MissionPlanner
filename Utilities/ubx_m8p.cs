@@ -267,28 +267,42 @@ namespace MissionPlanner.Utilities
 
         public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0)
         {
+            port.BaseStream.Flush();
+
             // port config - 115200 - uart1
             var packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
                 0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(300);
 
             // port config - usb
             packet = generate(0x6, 0x00, new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                 0x00, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(300);
 
             // set rate to 1hz
             packet = generate(0x6, 0x8, new byte[] { 0xE8, 0x03, 0x01, 0x00, 0x01, 0x00 });
             port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(200);
+
+            // set navmode to stationary
+            packet = generate(0x6, 0x24, new byte[] { 0xFF ,0xFF ,0x02 ,0x03 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x05 ,0x00
+                ,0xFA ,0x00 ,0xFA ,0x00 ,0x64 ,0x00 ,0x2C ,0x01 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
+                ,0x00 ,0x00 });
+            port.Write(packet, 0, packet.Length);
+            System.Threading.Thread.Sleep(200);
 
             // turn off all nmea
             for (int a = 0; a <= 0xf; a++)
             {
+                if (a == 0xb || a == 0xc || a == 0xe)
+                    continue;
                 turnon_off(port, 0xf0, (byte)a, 0);
             }
+
+            // mon-ver
+            poll_msg(port, 0xa, 0x4);
 
             // surveyin msg - for feedback
             turnon_off(port, 0x01, 0x3b, 1);
@@ -320,7 +334,7 @@ namespace MissionPlanner.Utilities
             if (basepos == PointLatLngAlt.Zero)
             {
                 // survey in config - 60s and < 2m
-                packet = generate(0x6, 0x71, new ubx_cfg_tmode3(60, 2));
+                packet = generate(0x6, 0x71, new ubx_cfg_tmode3((uint)surveyindur, surveyinacc));
                 port.Write(packet, 0, packet.Length);
             }
             else
@@ -340,6 +354,19 @@ namespace MissionPlanner.Utilities
             var packet = generate(0x6, 0x1, datastruct1);
 
             port.Write(packet, 0, packet.Length);
+
+            System.Threading.Thread.Sleep(10);
+        }
+
+        public void poll_msg(ICommsSerial port, byte clas, byte subclass)
+        {
+            byte[] datastruct1 = { };
+
+            var packet = generate(clas, subclass, datastruct1);
+
+            port.Write(packet, 0, packet.Length);
+
+            System.Threading.Thread.Sleep(10);
         }
     }
 }

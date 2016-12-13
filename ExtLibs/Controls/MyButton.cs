@@ -17,15 +17,13 @@ namespace MissionPlanner.Controls
         bool _mouseover = false;
         bool _mousedown = false;
 
-        //internal Color _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
-        //internal Color _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
-        //internal Color _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
-        //internal Color _Outline = Color.FromArgb(0x79, 0x94, 0x29);
-
         internal Color _BGGradTop;
         internal Color _BGGradBot;
         internal Color _TextColor;
         internal Color _Outline;
+        internal Color _ColorNotEnabled;
+        internal Color _ColorMouseOver;
+        internal Color _ColorMouseDown;
 
        bool inOnPaint = false;
 
@@ -35,6 +33,15 @@ namespace MissionPlanner.Controls
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
          [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
+        public Color ColorNotEnabled { get { return _ColorNotEnabled; } set { _ColorNotEnabled = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "73, 0x2b, 0x3a, 0x03")]
+        public Color ColorMouseOver { get { return _ColorMouseOver; } set { _ColorMouseOver = value; this.Invalidate(); } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+        [DefaultValue(typeof(Color), "150, 0x2b, 0x3a, 0x03")]
+        public Color ColorMouseDown { get { return _ColorMouseDown; } set { _ColorMouseDown = value; this.Invalidate(); } }
 
         // i want to ignore forecolor
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
@@ -44,13 +51,16 @@ namespace MissionPlanner.Controls
          [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
          public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
 
-         public MyButton()
-         {
-             _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
-             _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
-             _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
-             _Outline = Color.FromArgb(0x79, 0x94, 0x29);
-         }
+        public MyButton()
+        {
+            _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
+            _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+            _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
+            _Outline = Color.FromArgb(0x79, 0x94, 0x29);
+            _ColorNotEnabled = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
+            _ColorMouseOver = Color.FromArgb(73, 0x2b, 0x3a, 0x03);
+            _ColorMouseDown = Color.FromArgb(150, 0x2b, 0x3a, 0x03);
+        }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
@@ -108,20 +118,20 @@ namespace MissionPlanner.Controls
 
                 if (_mouseover)
                 {
-                    SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
+                    SolidBrush brush = new SolidBrush(ColorMouseOver);
 
                     gr.FillPath(brush, outline);
                 }
                 if (_mousedown)
                 {
-                    SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
+                    SolidBrush brush = new SolidBrush(ColorMouseDown);
 
                     gr.FillPath(brush, outline);
                 }
 
                 if (!this.Enabled)
                 {
-                    SolidBrush brush = new SolidBrush(Color.FromArgb(150, 0x2b, 0x3a, 0x03));
+                    SolidBrush brush = new SolidBrush(_ColorNotEnabled);
 
                     gr.FillPath(brush, outline);
                 }

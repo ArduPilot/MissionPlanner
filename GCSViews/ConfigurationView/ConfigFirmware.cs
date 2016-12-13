@@ -35,7 +35,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 firstrun = false;
             }
 
-            if (MainV2.Advanced)
+            if (MainV2.DisplayConfiguration.isAdvancedMode)
             {
                 lbl_devfw.Visible = true;
                 lbl_Custom_firmware_label.Visible = true;

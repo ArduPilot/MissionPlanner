@@ -44,6 +44,7 @@
             this.txt_surveyinDur = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
+            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,10 +153,18 @@
             resources.ApplyResources(this.txt_surveyinAcc, "txt_surveyinAcc");
             this.txt_surveyinAcc.Name = "txt_surveyinAcc";
             // 
+            // but_save_basepos
+            // 
+            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
+            this.but_save_basepos.Name = "but_save_basepos";
+            this.but_save_basepos.UseVisualStyleBackColor = true;
+            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
+            // 
             // SerialInjectGPS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.but_save_basepos);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbl_svin);
             this.Controls.Add(this.chk_rtcmmsg);
@@ -189,5 +198,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_surveyinDur;
+        private Controls.MyButton but_save_basepos;
     }
 }
