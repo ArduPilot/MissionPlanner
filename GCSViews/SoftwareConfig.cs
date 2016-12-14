@@ -98,6 +98,7 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     start = AddBackstageViewPage(typeof( ConfigPlanner), "Planner");
+                    AddBackstageViewPage(typeof(ConfigEnergyProfile), "Energyprofile");
                 }
 
                 // apply theme before trying to display it

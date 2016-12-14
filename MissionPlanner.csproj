@@ -345,6 +345,12 @@
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigEnergyProfile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigEnergyProfile.Designer.cs">
+      <DependentUpon>ConfigEnergyProfile.cs</DependentUpon>
+    </Compile>
     <Compile Include="Swarm\FollowLeader\Control.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1412,6 +1418,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
       <DependentUpon>ConfigCompassMot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigEnergyProfile.resx">
+      <DependentUpon>ConfigEnergyProfile.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.id-ID.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
