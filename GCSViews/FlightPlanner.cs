@@ -2030,6 +2030,21 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            // check home
+            Locationwp home = new Locationwp();
+            try
+            {
+                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.lat = (double.Parse(TXT_homelat.Text));
+                home.lng = (double.Parse(TXT_homelng.Text));
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+            }
+            catch
+            {
+                CustomMessageBox.Show("Your home location is invalid", Strings.ERROR);
+                return;
+            }
+
             // check for invalid grid data
             for (int a = 0; a < Commands.Rows.Count - 0; a++)
             {
