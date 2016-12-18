@@ -2474,6 +2474,13 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
 
+                //Add energy profile random value  --  parameters from the energyprofilemenu not included yet
+                Random r = new Random((int)DateTime.Now.TimeOfDay.Ticks + Environment.TickCount);
+
+                //EC Cell
+                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+                cell.Value = r.Next(100, 1800);
+
                 // convert to utm
                 convertFromGeographic(temp.lat, temp.lng);
             }
