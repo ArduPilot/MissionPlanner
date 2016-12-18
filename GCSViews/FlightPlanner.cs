@@ -2391,6 +2391,7 @@ namespace MissionPlanner.GCSViews
         void processToScreen(List<Locationwp> cmds, bool append = false)
         {
             quickadd = true;
+            LBL_TotalEC.Text = "0";
 
 
             // mono fix
@@ -2476,10 +2477,12 @@ namespace MissionPlanner.GCSViews
 
                 //Add energy profile random value  --  parameters from the energyprofilemenu not included yet
                 Random r = new Random((int)DateTime.Now.TimeOfDay.Ticks + Environment.TickCount);
+                int iRandomNumber = r.Next(100, 1800);  //Maximum pseudoconsumption of 1800 mAh
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
-                cell.Value = r.Next(100, 1800);
+                cell.Value = iRandomNumber;
+                LBL_TotalEC.Text = (Int32.Parse(LBL_TotalEC.Text) + iRandomNumber).ToString();  //Display the total energy consumption
 
                 // convert to utm
                 convertFromGeographic(temp.lat, temp.lng);
