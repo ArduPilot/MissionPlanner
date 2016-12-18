@@ -147,7 +147,7 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// Actualy Sets the values into the datagrid and verifys height if turned on
+        /// Actually Sets the values into the datagrid and verifys height if turned on
         /// </summary>
         /// <param name="lat"></param>
         /// <param name="lng"></param>
