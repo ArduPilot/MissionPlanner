@@ -2393,7 +2393,6 @@ namespace MissionPlanner.GCSViews
             quickadd = true;
             LBL_TotalEC.Text = "0";
 
-
             // mono fix
             Commands.CurrentCell = null;
 
@@ -2474,15 +2473,6 @@ namespace MissionPlanner.GCSViews
                 cell.Value = temp.p3;
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
-
-                //Add energy profile random value  --  parameters from the energyprofilemenu not included yet
-                Random r = new Random((int)DateTime.Now.TimeOfDay.Ticks + Environment.TickCount);
-                int iRandomNumber = r.Next(100, 1800);  //Maximum pseudoconsumption of 1800 mAh
-
-                //EC Cell
-                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
-                cell.Value = iRandomNumber;
-                LBL_TotalEC.Text = (Int32.Parse(LBL_TotalEC.Text) + iRandomNumber).ToString();  //Display the total energy consumption
 
                 // convert to utm
                 convertFromGeographic(temp.lat, temp.lng);
@@ -2904,11 +2894,50 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
+                writeEnergyConsumption(cmds);
+
                 MainMap.ZoomAndCenterMarkers("objects");
             }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Can't open file! " + ex);
+            }
+        }
+
+        private void writeEnergyConsumption(List<Locationwp> cmds)
+        {
+            for (int i = 0; i < Commands.Rows.Count; i++)
+            {
+                DataGridViewTextBoxCell cell;
+                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;
+                float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
+
+                float v, EnergyVal, t;
+                string EP_Current = Settings.Instance["EP_Current"];
+                float CurrentA = float.Parse(EP_Current.Split('|')[0]);
+                float CurrentB = float.Parse(EP_Current.Split('|')[1]);
+                float angle = 0;
+                EnergyVal = v = t = 0;
+               
+                cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
+                angle = float.Parse(cell.Value.ToString());
+
+                if (angle < 0) { angle *= -1; }
+
+                EnergyVal = CurrentA * angle + CurrentB;
+
+                //Debugvalue
+                v = 15;
+
+                t = distance / v;
+
+                //Settings.Instance["energyprofile_velocityfunction"];
+                EnergyVal *= t;
+
+                //EC Cell
+                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+                cell.Value = EnergyVal;
+                LBL_TotalEC.Text = (float.Parse(LBL_TotalEC.Text) + EnergyVal).ToString();  //Display the total energy consumption
             }
         }
 

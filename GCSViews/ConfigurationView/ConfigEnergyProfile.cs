@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using System.Windows.Forms;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
@@ -20,6 +21,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             //throw new NotImplementedException();
+        }
+
+        private void TXT_ParamA_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Btn_SaveChanges_Click(object sender, EventArgs e)
+        {
+            Settings.Instance["EP_Current"] = TXT_ParamA.Text + "|" + TXT_ParamB.Text;
+            Settings.Instance["EP_Velocity"] = TXT_ParamC.Text + "|" + TXT_ParamD.Text;
         }
     }
 }
