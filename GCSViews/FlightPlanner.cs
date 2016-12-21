@@ -2917,8 +2917,9 @@ namespace MissionPlanner.GCSViews
 
                 float v, EnergyVal, t;
                 string EP_Current = Settings.Instance["EP_Current"];
-                float fEnergyGrad = float.Parse(EP_Current.Split('|')[0]);
+                float fGradCurNeg = float.Parse(EP_Current.Split('|')[0]);      //Energy consumption from 90° to 0°
                 float fBaseEnergy = float.Parse(EP_Current.Split('|')[1]);      //Energy consumption while not moving (=> 0°)
+                float fGradCurPos = float.Parse(EP_Current.Split('|')[2]);      //Energy consumption from 0° to 90°
 
                 string EP_Velocity = Settings.Instance["EP_Velocity"];
                 float fVelGradient = float.Parse(EP_Velocity.Split('|')[0]);
@@ -2932,9 +2933,16 @@ namespace MissionPlanner.GCSViews
                
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
-                angle = Math.Abs(float.Parse(cell.Value.ToString()));
+                angle = float.Parse(cell.Value.ToString());
 
-                EnergyVal = fEnergyGrad/22.5f + fBaseEnergy;
+                if (angle < 0)
+                {
+                    EnergyVal = -fGradCurNeg * angle / 22.5f + fBaseEnergy;
+                }
+                else if (angle > 0)
+                {
+                    EnergyVal = fGradCurPos * angle / 22.5f + fBaseEnergy;
+                }
 
                 //t == velocityvalue at 0 degree
                 //22.5° diagram has an interval of 22.5° (-90 to 90)
@@ -2942,7 +2950,7 @@ namespace MissionPlanner.GCSViews
 
                 t = distance / v;
 
-                EnergyVal *= t;
+                //EnergyVal *= t;
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
