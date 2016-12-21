@@ -30,8 +30,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Btn_SaveChanges_Click(object sender, EventArgs e)
         {
-            Settings.Instance["EP_Current"] = TXT_ParamA.Text + "|" + TXT_ParamB.Text;
-            Settings.Instance["EP_Velocity"] = TXT_ParamC.Text + "|" + TXT_ParamD.Text;
+            Settings.Instance["EP_Current"] = TXT_EnergyUsage.Text + "|" + TXT_BaseHoverCons.Text;
+            Settings.Instance["EP_Velocity"] = TXT_SpeedLoss.Text + "|" + TXT_SpeedZeroDeg.Text;
         }
     }
 }
