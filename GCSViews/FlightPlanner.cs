@@ -2915,42 +2915,57 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;
                 float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
 
-                float v, EnergyVal, t;
+                float v, EnergyVal, t, fCurrent;
                 string EP_Current = Settings.Instance["EP_Current"];
                 float fGradCurNeg = float.Parse(EP_Current.Split('|')[0]);      //Energy consumption from 90° to 0°
                 float fBaseEnergy = float.Parse(EP_Current.Split('|')[1]);      //Energy consumption while not moving (=> 0°)
                 float fGradCurPos = float.Parse(EP_Current.Split('|')[2]);      //Energy consumption from 0° to 90°
 
                 string EP_Velocity = Settings.Instance["EP_Velocity"];
-                float fVelGradient = float.Parse(EP_Velocity.Split('|')[0]);
-                float fVelSpeedZero = float.Parse(EP_Velocity.Split('|')[1]);
+                float fVelNeg = float.Parse(EP_Velocity.Split('|')[0]);
+                float fVelPos = float.Parse(EP_Velocity.Split('|')[2]);
+                float fVelZero = float.Parse(EP_Velocity.Split('|')[1]);
 
-                //Convert velocity to meter/seconds
-                fVelSpeedZero *= 1000 / 3600;
 
                 float angle = 0;
-                EnergyVal = v = t = 0;
+
+                EnergyVal = v = t  = fCurrent = 0.0f;
                
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
                 angle = float.Parse(cell.Value.ToString());
 
+                
                 if (angle < 0)
                 {
-                    EnergyVal = -fGradCurNeg * angle / 22.5f + fBaseEnergy;
+                    v = -fVelNeg * angle / 22.5f + fVelZero;
                 }
                 else if (angle > 0)
                 {
-                    EnergyVal = fGradCurPos * angle / 22.5f + fBaseEnergy;
+                    v = -fVelNeg * angle / 22.5f + fVelZero;
+                }
+                else if ( angle == 0 )
+                {
+                    v = fVelZero;
                 }
 
-                //t == velocityvalue at 0 degree
-                //22.5° diagram has an interval of 22.5° (-90 to 90)
-                v = -1*fVelGradient * angle/22.5f + fVelSpeedZero;
+                //Determine Current
+                if (angle < 0)
+                {
+                    fCurrent = -fGradCurNeg * angle / 22.5f + fBaseEnergy;
+                }
+                else if (angle > 0)
+                {
+                    fCurrent = fGradCurPos * angle / 22.5f + fBaseEnergy;
+                }
+                else if (angle == 0)
+                {
+                    fCurrent = fBaseEnergy;
+                }
 
                 t = distance / v;
 
-                //EnergyVal *= t;
+                EnergyVal = fCurrent * t;
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;

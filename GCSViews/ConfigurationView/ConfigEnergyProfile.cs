@@ -31,7 +31,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Btn_SaveChanges_Click(object sender, EventArgs e)
         {
             Settings.Instance["EP_Current"] = TXT_GradCurNeg.Text + "|" + TXT_BaseHoverCons.Text + "|" + TXT_GradCurPos.Text;
-            Settings.Instance["EP_Velocity"] = TXT_SpeedLoss.Text + "|" + TXT_SpeedZeroDeg.Text;
+            Settings.Instance["EP_Velocity"] = TXT_GradSpeedNeg.Text + "|" + TXT_SpeedZero.Text + "|" + TXT_GradSpeedPos.Text;
         }
     }
 }

@@ -34,14 +34,16 @@
             this.label6 = new System.Windows.Forms.Label();
             this.TXT_GradCurNeg = new System.Windows.Forms.TextBox();
             this.TXT_BaseHoverCons = new System.Windows.Forms.TextBox();
-            this.TXT_SpeedLoss = new System.Windows.Forms.TextBox();
+            this.TXT_GradSpeedNeg = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.TXT_SpeedZeroDeg = new System.Windows.Forms.TextBox();
+            this.TXT_GradSpeedPos = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.Btn_SaveChanges = new MissionPlanner.Controls.MyButton();
             this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.TXT_GradCurPos = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.TXT_SpeedZero = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -95,33 +97,33 @@
             this.TXT_BaseHoverCons.Size = new System.Drawing.Size(100, 20);
             this.TXT_BaseHoverCons.TabIndex = 9;
             // 
-            // TXT_SpeedLoss
+            // TXT_GradSpeedNeg
             // 
-            this.TXT_SpeedLoss.Location = new System.Drawing.Point(384, 64);
-            this.TXT_SpeedLoss.Name = "TXT_SpeedLoss";
-            this.TXT_SpeedLoss.Size = new System.Drawing.Size(100, 20);
-            this.TXT_SpeedLoss.TabIndex = 11;
+            this.TXT_GradSpeedNeg.Location = new System.Drawing.Point(358, 64);
+            this.TXT_GradSpeedNeg.Name = "TXT_GradSpeedNeg";
+            this.TXT_GradSpeedNeg.Size = new System.Drawing.Size(100, 20);
+            this.TXT_GradSpeedNeg.TabIndex = 11;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(259, 58);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(119, 26);
+            this.label7.Size = new System.Drawing.Size(84, 26);
             this.label7.TabIndex = 10;
-            this.label7.Text = "Gradient:\r\nLoss of speed per 22.5°";
+            this.label7.Text = "Gradient: Speed\r\n-90° to 0°";
             // 
-            // TXT_SpeedZeroDeg
+            // TXT_GradSpeedPos
             // 
-            this.TXT_SpeedZeroDeg.Location = new System.Drawing.Point(384, 93);
-            this.TXT_SpeedZeroDeg.Name = "TXT_SpeedZeroDeg";
-            this.TXT_SpeedZeroDeg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_SpeedZeroDeg.TabIndex = 13;
+            this.TXT_GradSpeedPos.Location = new System.Drawing.Point(358, 93);
+            this.TXT_GradSpeedPos.Name = "TXT_GradSpeedPos";
+            this.TXT_GradSpeedPos.Size = new System.Drawing.Size(100, 20);
+            this.TXT_GradSpeedPos.TabIndex = 13;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(259, 96);
+            this.label8.Location = new System.Drawing.Point(259, 130);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(84, 13);
             this.label8.TabIndex = 12;
@@ -162,17 +164,35 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Gradient: Energy usage\r\n0° to 90°";
             // 
+            // TXT_SpeedZero
+            // 
+            this.TXT_SpeedZero.Location = new System.Drawing.Point(358, 127);
+            this.TXT_SpeedZero.Name = "TXT_SpeedZero";
+            this.TXT_SpeedZero.Size = new System.Drawing.Size(100, 20);
+            this.TXT_SpeedZero.TabIndex = 18;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(259, 90);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 26);
+            this.label4.TabIndex = 19;
+            this.label4.Text = "Gradient: Speed\r\n0° to 90°\r\n";
+            // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.TXT_SpeedZero);
             this.Controls.Add(this.TXT_GradCurPos);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.myLabel1);
             this.Controls.Add(this.Btn_SaveChanges);
-            this.Controls.Add(this.TXT_SpeedZeroDeg);
+            this.Controls.Add(this.TXT_GradSpeedPos);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.TXT_SpeedLoss);
+            this.Controls.Add(this.TXT_GradSpeedNeg);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.TXT_BaseHoverCons);
             this.Controls.Add(this.TXT_GradCurNeg);
@@ -195,13 +215,15 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox TXT_GradCurNeg;
         private System.Windows.Forms.TextBox TXT_BaseHoverCons;
-        private System.Windows.Forms.TextBox TXT_SpeedLoss;
+        private System.Windows.Forms.TextBox TXT_GradSpeedNeg;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox TXT_SpeedZeroDeg;
+        private System.Windows.Forms.TextBox TXT_GradSpeedPos;
         private System.Windows.Forms.Label label8;
         private Controls.MyButton Btn_SaveChanges;
         private Controls.MyLabel myLabel1;
         private System.Windows.Forms.TextBox TXT_GradCurPos;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox TXT_SpeedZero;
+        private System.Windows.Forms.Label label4;
     }
 }
