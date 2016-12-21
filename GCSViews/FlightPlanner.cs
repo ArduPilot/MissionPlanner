@@ -2909,6 +2909,9 @@ namespace MissionPlanner.GCSViews
             for (int i = 0; i < Commands.Rows.Count; i++)
             {
                 DataGridViewTextBoxCell cell;
+
+                //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
+
                 cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;
                 float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
 
@@ -2920,7 +2923,10 @@ namespace MissionPlanner.GCSViews
                 string EP_Velocity = Settings.Instance["EP_Velocity"];
                 float fVelGradient = float.Parse(EP_Velocity.Split('|')[0]);
                 float fVelSpeedZero = float.Parse(EP_Velocity.Split('|')[1]);
-                
+
+                //Convert velocity to meter/seconds
+                fVelSpeedZero *= 1000 / 3600;
+
                 float angle = 0;
                 EnergyVal = v = t = 0;
                
