@@ -306,7 +306,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             var no = readSwitch(pwm);
 
-            fmodelist[no].BackColor = Color.Green;
+            fmodelist[no].BackColor = ThemeManager.CurrentPPMBackground;
         }
 
         // from arducopter code

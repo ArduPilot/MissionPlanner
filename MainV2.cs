@@ -55,7 +55,7 @@ namespace MissionPlanner
             static public int SW_HIDE = 0;
         }
 
-        static menuicons displayicons = new burntkermitmenuicons();
+        public static menuicons displayicons = new burntkermitmenuicons();
 
         public abstract class menuicons
         {
@@ -70,6 +70,7 @@ namespace MissionPlanner
             public abstract Image connect { get; }
             public abstract Image disconnect { get; }
             public abstract Image bg { get; }
+            public abstract Image wizard { get; }
         }
 
         public class burntkermitmenuicons : menuicons
@@ -127,6 +128,10 @@ namespace MissionPlanner
             public override Image bg
             {
                 get { return global::MissionPlanner.Properties.Resources.bgdark; }
+            }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
             }
         }
 
@@ -186,9 +191,11 @@ namespace MissionPlanner
             {
                 get { return null; }
             }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+            }
         }
-
-
 
         Controls.MainSwitcher MyView;
 
@@ -394,6 +401,8 @@ namespace MissionPlanner
         /// </summary>
         static internal ConnectionControl _connectionControl;
 
+        public static bool TerminalTheming = true;
+
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
@@ -401,6 +410,23 @@ namespace MissionPlanner
             //MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
+
+            if (_connectionControl.CMB_baudrate != null && _connectionControl.CMB_serialport != null)
+            {
+                _connectionControl.CMB_baudrate.Visible = DisplayConfiguration.displayBaudCMB;
+                if (!_connectionControl.CMB_baudrate.Visible)
+                {
+                    int index = _connectionControl.CMB_baudrate.FindStringExact ("115200");      //115200 Baud
+                    _connectionControl.CMB_baudrate.SelectedIndex = index;
+                }
+                _connectionControl.CMB_serialport.Visible = DisplayConfiguration.displaySerialPortCMB;
+                if (!_connectionControl.CMB_serialport.Visible)
+                {
+                    int index = _connectionControl.CMB_serialport.FindStringExact("UDP");
+                    _connectionControl.CMB_serialport.SelectedIndex = index;
+
+                }
+            }
 
             if (MainV2.instance.FlightData != null)
             {
@@ -494,6 +520,14 @@ namespace MissionPlanner
             }
 
             InitializeComponent();
+            try
+            {
+                ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), Settings.Instance["theme"]));
+            }
+            catch
+            {
+                ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit);
+            }
             Utilities.ThemeManager.ApplyThemeTo(this);
             MyView = new MainSwitcher(this);
 
@@ -705,6 +739,12 @@ namespace MissionPlanner
                 Application.Exit();
             }
 
+            //set first instance display configuration
+            if (DisplayConfiguration == null)
+            {
+                DisplayConfiguration = DisplayConfiguration.Basic();
+            }
+
             // load old config
             if (Settings.Instance["advancedview"] != null)
             {
@@ -714,12 +754,18 @@ namespace MissionPlanner
                 }
                 // remove old config
                 Settings.Instance.Remove("advancedview");
-            }
-
-            //// load this before the other screens get loaded
+            }            //// load this before the other screens get loaded
             if (Settings.Instance["displayview"] != null)
             {
+                try
+                {
                 DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+            }
+                catch
+                {
+                    DisplayConfiguration = DisplayConfiguration.Basic();
+                    Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+                }
             }
 
             LayoutChanged += updateLayout;

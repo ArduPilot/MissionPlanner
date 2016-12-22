@@ -47,6 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Layout.SelectedIndex = 0;
             }
 
+
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states

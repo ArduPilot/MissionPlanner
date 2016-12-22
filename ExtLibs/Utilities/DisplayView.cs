@@ -33,6 +33,8 @@ namespace MissionPlanner.Utilities
         public Boolean displayAdvancedParams { get; set; }
         public Boolean displayFullParamList { get; set; }
         public Boolean displayFullParamTree { get; set; }
+        public Boolean displayBaudCMB { get; set; }
+        public Boolean displaySerialPortCMB { get; set; }
         public bool isAdvancedMode { get; set; }
     }
     public static class DisplayViewExtensions
@@ -83,6 +85,8 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = false,
                 displayFullParamList = false,
                 displayFullParamTree = false,
+                displayBaudCMB = true,
+                displaySerialPortCMB = true,
                 isAdvancedMode = false
             };
         }
@@ -104,6 +108,8 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = true,
                 displayFullParamList = true,
                 displayFullParamTree = true,
+                displayBaudCMB = true,
+                displaySerialPortCMB = true,
                 isAdvancedMode = true
             };
         }
