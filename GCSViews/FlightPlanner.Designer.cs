@@ -1389,8 +1389,8 @@
         private System.Windows.Forms.Label LBL_WPRad;
         private System.Windows.Forms.Label LBL_defalutalt;
         private System.Windows.Forms.Label label5;
-        private BSE.Windows.Forms.Panel panelWaypoints;
-        private BSE.Windows.Forms.Panel panelAction;
+        public BSE.Windows.Forms.Panel panelWaypoints;
+        public BSE.Windows.Forms.Panel panelAction;
         private System.Windows.Forms.Panel panelMap;
         public Controls.myGMAP MainMap;
         private Controls.MyTrackBar trackBar1;
