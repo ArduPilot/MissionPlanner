@@ -85,61 +85,39 @@ namespace MissionPlanner.Log
                 }
                 else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
                 {
-                    bool bin = logfile.ToLower().EndsWith(".bin");
-
-                    BinaryLog binlog = new BinaryLog();
-                    DFLog dflog = new DFLog();
-
-                    using (var st = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                    using (
+                        CollectionBuffer colbuf =
+                            new CollectionBuffer(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        )
                     {
-                        using (StreamReader sr = new StreamReader(st))
+                        loc_list[0] = new List<PointLatLngAlt>();
+
+                        foreach (var item in colbuf.GetEnumeratorType("GPS"))
                         {
-                            loc_list[0] = new List<PointLatLngAlt>();
-
-                            while (sr.BaseStream.Position < sr.BaseStream.Length)
+                            if (item.msgtype.StartsWith("GPS"))
                             {
-                                string line = "";
+                                if (!colbuf.dflog.logformat.ContainsKey("GPS"))
+                                    continue;
 
-                                if (bin)
-                                {
-                                    line = binlog.ReadMessage(sr.BaseStream);
-                                }
-                                else
-                                {
-                                    line = sr.ReadLine();
-                                }
+                                var status =
+                                    double.Parse(item.items[colbuf.dflog.FindMessageOffset(item.msgtype, "Status")]);
+                                var lat = double.Parse(item.items[colbuf.dflog.FindMessageOffset(item.msgtype, "Lat")]);
+                                var lon = double.Parse(item.items[colbuf.dflog.FindMessageOffset(item.msgtype, "Lng")]);
 
-                                if (line.StartsWith("FMT"))
-                                {
-                                    dflog.FMTLine(line);
-                                }
-                                else if (line.StartsWith("GPS"))
-                                {
-                                    var item = dflog.GetDFItemFromLine(line, 0);
+                                if (lat == 0 || lon == 0 || status < 3)
+                                    continue;
 
-                                    if (!dflog.logformat.ContainsKey("GPS"))
-                                        continue;
+                                loc_list[0].Add(new PointLatLngAlt(lat, lon));
 
-                                    var status =
-                                        double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Status")]);
-                                    var lat = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lat")]);
-                                    var lon = double.Parse(item.items[dflog.FindMessageOffset(item.msgtype, "Lng")]);
-
-                                    if (lat == 0 || lon == 0 || status < 3)
-                                        continue;
-
-                                    loc_list[0].Add(new PointLatLngAlt(lat, lon));
-
-                                    minx = Math.Min(minx, lon);
-                                    maxx = Math.Max(maxx, lon);
-                                    miny = Math.Min(miny, lat);
-                                    maxy = Math.Max(maxy, lat);
-                                }
+                                minx = Math.Min(minx, lon);
+                                maxx = Math.Max(maxx, lon);
+                                miny = Math.Min(miny, lat);
+                                maxy = Math.Max(maxy, lat);
                             }
+
                         }
                     }
                 }
-
 
                 if (loc_list.Count > 0 && loc_list.First().Value.Count > 10)
                 {
