@@ -120,7 +120,7 @@ namespace MissionPlanner.Log
                         names[0] = "LineNo";
                         Array.ConstrainedCopy(items, 5, names, 1, names.Length - 1);
 
-                        MLArray format = CreateCellArray(items[3] + "_label", names);
+                        MLArray format = CreateCellArray(items[3].Trim() + "_label", names);
 
                         if (items[3] == "PARM")
                         {

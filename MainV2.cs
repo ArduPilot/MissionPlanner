@@ -2326,7 +2326,7 @@ namespace MissionPlanner
                             MainV2.comPort.MAV.cs.linkqualitygcs = (ushort) (MainV2.comPort.MAV.cs.linkqualitygcs*0.8f);
                             linkqualitytime = DateTime.Now;
 
-                            // force redraw is no other packets are being read
+                            // force redraw if there are no other packets are being read
                             GCSViews.FlightData.myhud.Invalidate();
                         }
                     }
