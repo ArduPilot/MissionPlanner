@@ -105,7 +105,10 @@ namespace MissionPlanner.Log
                 {
                     a++;
                     if (a%100 == 0)
-                        Console.Write(a + "\r");
+                    {
+                        Console.Write(a + "/" + colbuf.Count + "\r");
+                        MissionPlanner.Controls.Loading.ShowLoading("Processing "+a + "/" + colbuf.Count);
+                    }
 
                     string strLine = line.Replace(", ", ",");
                     strLine = strLine.Replace(": ", ":");
@@ -136,7 +139,7 @@ namespace MissionPlanner.Log
                     {
                         try
                         {
-                            param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
+                            param[items[colbuf.dflog.FindMessageOffset("PARM", "Name")]] = double.Parse(items[colbuf.dflog.FindMessageOffset("PARM", "Value")], CultureInfo.InvariantCulture);
                         }
                         catch
                         {
@@ -154,7 +157,7 @@ namespace MissionPlanner.Log
                         if (items.Length != (int) len[items[0]])
                             continue;
 
-                        // make it as being seen
+                        // mark it as being seen
                         seen[items[0]] = 1;
 
                         double[] dbarray = new double[items.Length];
@@ -190,6 +193,7 @@ namespace MissionPlanner.Log
                     }
                 }
 
+                MissionPlanner.Controls.Loading.Close();
                 DoWrite(fn + "-" + a, data, param, mlList, seen);
             }
         }
@@ -394,6 +398,11 @@ namespace MissionPlanner.Log
             return answer;
         }
 
+        /// <summary>
+        /// File backed list
+        /// One file for data (double)
+        /// One file for offsets (long)
+        /// </summary>
         public class DoubleList : IDisposable
         {
             Stream file;
