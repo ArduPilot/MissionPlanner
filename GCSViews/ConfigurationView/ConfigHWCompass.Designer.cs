@@ -41,6 +41,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxfitness = new MissionPlanner.Controls.MavlinkComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -56,7 +58,6 @@
             this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBoxGeneralSettings = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.CMB_primary_compass = new MissionPlanner.Controls.MavlinkComboBox();
             this.LBL_primary_compass = new System.Windows.Forms.Label();
             this.CHK_compass_learn = new MissionPlanner.Controls.MavlinkCheckBox();
@@ -82,8 +83,6 @@
             this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
             this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
             this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
-            this.mavlinkComboBoxfitness = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -168,6 +167,20 @@
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // mavlinkComboBoxfitness
+            // 
+            this.mavlinkComboBoxfitness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxfitness, "mavlinkComboBoxfitness");
+            this.mavlinkComboBoxfitness.FormattingEnabled = true;
+            this.mavlinkComboBoxfitness.Name = "mavlinkComboBoxfitness";
+            this.mavlinkComboBoxfitness.ParamName = null;
+            this.mavlinkComboBoxfitness.SubControl = null;
             // 
             // label9
             // 
@@ -264,7 +277,6 @@
             // 
             // groupBoxGeneralSettings
             // 
-            this.groupBoxGeneralSettings.Controls.Add(this.label6);
             this.groupBoxGeneralSettings.Controls.Add(this.CMB_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.LBL_primary_compass);
             this.groupBoxGeneralSettings.Controls.Add(this.CHK_compass_learn);
@@ -278,11 +290,6 @@
             resources.ApplyResources(this.groupBoxGeneralSettings, "groupBoxGeneralSettings");
             this.groupBoxGeneralSettings.Name = "groupBoxGeneralSettings";
             this.groupBoxGeneralSettings.TabStop = false;
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
             // 
             // CMB_primary_compass
             // 
@@ -489,23 +496,8 @@
             this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
             this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
-            // mavlinkComboBoxfitness
-            // 
-            this.mavlinkComboBoxfitness.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBoxfitness, "mavlinkComboBoxfitness");
-            this.mavlinkComboBoxfitness.FormattingEnabled = true;
-            this.mavlinkComboBoxfitness.Name = "mavlinkComboBoxfitness";
-            this.mavlinkComboBoxfitness.ParamName = null;
-            this.mavlinkComboBoxfitness.SubControl = null;
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
             // ConfigHWCompass
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.buttonAPMExternal);
             this.Controls.Add(this.QuickAPM25);
@@ -521,6 +513,7 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Name = "ConfigHWCompass";
+            resources.ApplyResources(this, "$this");
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -585,7 +578,6 @@
         private System.Windows.Forms.Label LBL_compass2_offset;
         private System.Windows.Forms.Label LBL_compass3_mot;
         private System.Windows.Forms.Label LBL_compass3_offset;
-        private System.Windows.Forms.Label label6;
         private Controls.HorizontalProgressBar horizontalProgressBar3;
         private Controls.HorizontalProgressBar horizontalProgressBar2;
         private Controls.HorizontalProgressBar horizontalProgressBar1;
