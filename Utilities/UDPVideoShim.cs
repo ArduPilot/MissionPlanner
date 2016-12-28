@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
@@ -50,6 +52,11 @@ namespace MissionPlanner.Utilities
         }
 
         public static void Start()
+        {
+            ThreadPool.QueueUserWorkItem(tcpsolo);
+        }
+
+        private static void tcpsolo(object state)
         {
             try
             {
