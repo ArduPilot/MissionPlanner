@@ -80,6 +80,27 @@ namespace MissionPlanner.Log
             return cell;
         }
 
+        private static MLCell CreateCellArrayCustom(string name, string[] items)
+        {
+            var cell = new MLCell(name, new int[] { items.Length, 1 });
+            int i = 0;
+            foreach (var item in items)
+            {
+                double ans = 0;
+                if (double.TryParse(items[i], out ans))
+                {
+                    cell[i] = new MLDouble(null, new double[] { ans }, 1);
+                    i++;
+                    continue;
+                }
+
+                cell[i] = new MLChar(null, (string)items[i].Trim());
+
+                i++;
+            }
+            return cell;
+        }
+
         public static void ProcessLog(string fn)
         {
             using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(fn)))
@@ -89,6 +110,8 @@ namespace MissionPlanner.Log
                 List<MLArray> mlList = new List<MLArray>();
                 // store data to putinto the arrays
                 Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
+
+                Dictionary<string, List<MLCell>> dataCell = new Dictionary<string, List<MLCell>>();
                 // store line item lengths
                 Hashtable len = new Hashtable();
                 // store whats we have seen in the log
@@ -104,7 +127,7 @@ namespace MissionPlanner.Log
                 foreach (var line in colbuf)
                 {
                     a++;
-                    if (a%100 == 0)
+                    if (a%1000 == 0)
                     {
                         Console.Write(a + "/" + colbuf.Count + "\r");
                         MissionPlanner.Controls.Loading.ShowLoading("Processing "+a + "/" + colbuf.Count);
@@ -159,7 +182,16 @@ namespace MissionPlanner.Log
 
                         // mark it as being seen
                         seen[items[0]] = 1;
+                        /*
+                        var cells = CreateCellArrayCustom(items[0], items);
 
+                        if (!dataCell.ContainsKey(items[0]))
+                            dataCell[items[0]] = new List<MLCell>();
+
+                        dataCell[items[0]].Add(cells);
+
+                        continue;
+                        */
                         double[] dbarray = new double[items.Length];
 
                         // set line no
