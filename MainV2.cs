@@ -407,30 +407,11 @@ namespace MissionPlanner
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
-            //MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
-            if (_connectionControl.CMB_baudrate != null && _connectionControl.CMB_serialport != null)
-            {
-                _connectionControl.CMB_baudrate.Visible = DisplayConfiguration.displayBaudCMB;
-                if (!_connectionControl.CMB_baudrate.Visible)
-                {
-                    int index = _connectionControl.CMB_baudrate.FindStringExact ("115200");      //115200 Baud
-                    _connectionControl.CMB_baudrate.SelectedIndex = index;
-                }
-                _connectionControl.CMB_serialport.Visible = DisplayConfiguration.displaySerialPortCMB;
-                if (!_connectionControl.CMB_serialport.Visible)
-                {
-                    int index = _connectionControl.CMB_serialport.FindStringExact("UDP");
-                    _connectionControl.CMB_serialport.SelectedIndex = index;
-
-                }
-            }
-
             if (MainV2.instance.FlightData != null)
             {
-                
                 TabControl t = MainV2.instance.FlightData.tabControlactions;
 
                 if (DisplayConfiguration.displayAdvActionsTab && !t.TabPages.Contains(FlightData.tabActions))
@@ -581,6 +562,7 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
+            // load last saved connection settings
             string temp = Settings.Instance.ComPort;
             if (!string.IsNullOrEmpty(temp))
             {
