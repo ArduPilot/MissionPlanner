@@ -9,11 +9,17 @@ namespace MissionPlanner.Utilities
 {
     public class UDPVideoShim
     {
-        static UdpClient client = new UdpClient(5600, AddressFamily.InterNetwork);
+        private static UdpClient client;
+        private static TcpClient tcpclient;
 
         static UDPVideoShim()
         {
-            client.BeginReceive(clientdata, client);
+            try
+            {
+                client = new UdpClient(5600, AddressFamily.InterNetwork);
+                client.BeginReceive(clientdata, client);
+            }
+            catch { }
         }
 
         private static void clientdata(IAsyncResult ar)
@@ -45,7 +51,14 @@ namespace MissionPlanner.Utilities
 
         public static void Start()
         {
-
+            try
+            {
+                // solo video
+                tcpclient = new TcpClient("10.1.1.1", 5502);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }
