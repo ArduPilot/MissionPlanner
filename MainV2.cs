@@ -503,11 +503,11 @@ namespace MissionPlanner
             InitializeComponent();
             try
             {
-                ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), Settings.Instance["theme"]));
+                if(Settings.Instance["theme"] != null)
+                    ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), Settings.Instance["theme"]));
             }
             catch
             {
-                ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit);
             }
             Utilities.ThemeManager.ApplyThemeTo(this);
             MyView = new MainSwitcher(this);
