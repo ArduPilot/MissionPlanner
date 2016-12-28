@@ -16,8 +16,13 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Threading.Tasks;
+using GMap.NET;
+using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Log;
 using MissionPlanner.Utilities;
+using Placemark = SharpKml.Dom.Placemark;
 
 namespace MissionPlanner.GeoRef
 {
@@ -69,6 +74,29 @@ namespace MissionPlanner.GeoRef
             selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+
+            myGMAP1.MapProvider = MainV2.instance.FlightData.gMapControl1.MapProvider;
+            myGMAP1.MinZoom = MainV2.instance.FlightData.gMapControl1.MinZoom;
+            myGMAP1.MaxZoom = MainV2.instance.FlightData.gMapControl1.MaxZoom;
+
+            GMapOverlay overlay = new GMapOverlay();
+            myGMAP1.Overlays.Add(overlay);
+
+            myGMAP1.OnMarkerClick += MyGMAP1_OnMarkerClick;
+        }
+
+        private void MyGMAP1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
+        {
+            foreach (var pictureInformation in picturesInfo)
+            {
+                if (item.ToolTipText == Path.GetFileName(pictureInformation.Value.Path))
+                {
+                    //pictureBox1.Image = new Bitmap(pictureInformation.Value.Path);
+                    pictureBox1.ImageLocation = pictureInformation.Value.Path;
+                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    return;
+                }
+            }
         }
 
         /// <summary>
@@ -194,6 +222,10 @@ namespace MissionPlanner.GeoRef
 
                         cs.UpdateCurrentSettings(null, true, mine);
 
+                        // check for valid lock
+                        if (!(cs.gpsstatus >=3 || cs.gpsstatus2 >= 3))
+                            continue;
+
                         VehicleLocation location = new VehicleLocation();
                         location.Time = cs.datetime;
                         location.Lat = cs.lat;
@@ -241,6 +273,7 @@ namespace MissionPlanner.GeoRef
                             int latindex = sr.dflog.FindMessageOffset(gpstouse, "Lat");
                             int lngindex = sr.dflog.FindMessageOffset(gpstouse, "Lng");
                             int altindex = sr.dflog.FindMessageOffset(gpstouse, "Alt");
+                            int statusindex = sr.dflog.FindMessageOffset(gpstouse, "Status");
                             int raltindex = sr.dflog.FindMessageOffset(gpstouse, "RAlt");
                             if (raltindex == -1)
                                 raltindex = sr.dflog.FindMessageOffset(gpstouse, "RelAlt");
@@ -250,6 +283,13 @@ namespace MissionPlanner.GeoRef
                             try
                             {
                                 location.Time = item.time;
+
+                                if (statusindex != -1)
+                                {
+                                    // check for valid lock
+                                    if (double.Parse(item.items[statusindex], CultureInfo.InvariantCulture) < 3)
+                                        continue;
+                                }
                                 if (latindex != -1)
                                     location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
                                 if (lngindex != -1)
@@ -961,14 +1001,16 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
+            // load all image info
+            Parallel.ForEach(files, filename => { getPhotoTime(filename); });
+
+            // sort
             Array.Sort(files, compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
-            for (int i = 0; i < files.Length; i++)
+            Parallel.ForEach(files, filename =>
             {
-                string filename = files[i];
-
                 PictureInformation p = new PictureInformation();
 
                 // Fill shot time in Picture
@@ -980,7 +1022,7 @@ namespace MissionPlanner.GeoRef
 
                 if (shotLocation == null)
                 {
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                    AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
                                              " NOT PROCESSED. No GPS match in the log file. Please take care\n");
                 }
                 else
@@ -1001,16 +1043,23 @@ namespace MissionPlanner.GeoRef
 
                     p.Path = filename;
 
+                    lock(this)
+                        picturesInformationTemp.Add(filename, p);
 
-                    picturesInformationTemp.Add(filename, p);
-
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                    AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
                                              " PROCESSED with GPS position found " +
                                              (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
                 }
-            }
+            });
 
             return picturesInformationTemp;
+        }
+
+        private void AppendText(string text)
+        {
+            var inv = new MethodInvoker(delegate { TXT_outputlog.AppendText(text); });
+
+            this.BeginInvoke(inv);
         }
 
         private int compareFileByPhotoTime(string x, string y)
@@ -1547,6 +1596,32 @@ namespace MissionPlanner.GeoRef
             {
                 TXT_outputlog.AppendText("Error " + ex.ToString());
             }
+
+
+            GMapRoute route = new GMapRoute("vehicle");
+            foreach (var vehicleLocation in vehicleLocations)
+            {
+                route.Points.Add(new PointLatLngAlt(vehicleLocation.Value.Lat, vehicleLocation.Value.Lon,
+                    vehicleLocation.Value.AltAMSL));
+            }
+
+            myGMAP1.Overlays[0].Markers.Clear();
+            foreach (var pictureLocation in picturesInfo)
+            {
+                myGMAP1.Overlays[0].Markers.Add(
+                    new GMarkerGoogle(new PointLatLngAlt(pictureLocation.Value.Lat, pictureLocation.Value.Lon,
+                        pictureLocation.Value.AltAMSL), GMarkerGoogleType.green)
+                    {
+                        IsHitTestVisible = true,
+                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                        ToolTipText = Path.GetFileName(pictureLocation.Value.Path)
+                    });
+            }
+
+            myGMAP1.Overlays[0].Routes.Clear();
+            myGMAP1.Overlays[0].Routes.Add(route);
+
+            myGMAP1.ZoomAndCenterRoutes(myGMAP1.Overlays[0].Id);
 
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
