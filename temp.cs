@@ -1029,5 +1029,11 @@ namespace MissionPlanner
         {
             Loading.ShowLoading((percent).ToString("0.0%") + " " +message, this);
         }
+
+        private void but_sortlogs_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog",
+                SearchOption.AllDirectories), Settings.Instance.LogDir);
+        }
     }
 }

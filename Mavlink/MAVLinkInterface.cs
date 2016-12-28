@@ -4561,18 +4561,18 @@ Please check the following
             byte byte1 = 0;
             byte byte2 = 0;
 
-            //var filelength = logplaybackfile.BaseStream.Length;
+            var filelength = logplaybackfile.BaseStream.Length;
             var filepos = logplaybackfile.BaseStream.Position;
 
-            //if(filelength == filepos)
-                //return MAVLinkMessage.Invalid;
+            if(filelength == filepos)
+                return MAVLinkMessage.Invalid;
 
             int length = 5;
             int a = 0;
             while (a < length)
             {
-                //if (filelength == filepos)
-                    //return MAVLinkMessage.Invalid;
+                if (filelength == filepos)
+                    return MAVLinkMessage.Invalid;
 
                 var tempb = (byte) logplaybackfile.ReadByte();
                 filepos++;

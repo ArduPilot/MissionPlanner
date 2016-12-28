@@ -99,6 +99,7 @@
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.but_GDAL = new MissionPlanner.Controls.MyButton();
+            this.but_sortlogs = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -852,6 +853,7 @@
             // 
             // controlSensorsStatus1
             // 
+            this.controlSensorsStatus1.BackColor = System.Drawing.Color.Transparent;
             this.controlSensorsStatus1.Location = new System.Drawing.Point(548, 12);
             this.controlSensorsStatus1.Name = "controlSensorsStatus1";
             this.controlSensorsStatus1.Size = new System.Drawing.Size(272, 586);
@@ -887,10 +889,21 @@
             this.but_GDAL.UseVisualStyleBackColor = true;
             this.but_GDAL.Click += new System.EventHandler(this.but_GDAL_Click);
             // 
+            // but_sortlogs
+            // 
+            this.but_sortlogs.Location = new System.Drawing.Point(305, 566);
+            this.but_sortlogs.Name = "but_sortlogs";
+            this.but_sortlogs.Size = new System.Drawing.Size(75, 23);
+            this.but_sortlogs.TabIndex = 86;
+            this.but_sortlogs.Text = "ReSort All logs";
+            this.but_sortlogs.UseVisualStyleBackColor = true;
+            this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_sortlogs);
             this.Controls.Add(this.but_GDAL);
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.but_followswarm);
@@ -995,5 +1008,6 @@
         private Controls.MyButton but_followswarm;
         private Controls.MyButton myButton3;
         private Controls.MyButton but_GDAL;
+        private Controls.MyButton but_sortlogs;
     }
 }
