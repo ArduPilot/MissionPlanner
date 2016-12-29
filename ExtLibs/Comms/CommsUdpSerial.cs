@@ -99,6 +99,8 @@ namespace MissionPlanner.Comms
                 Text = "Connecting UDP"
             };
 
+            ApplyThemeTo(frmProgressReporter);           
+
             frmProgressReporter.DoWork += frmProgressReporter_DoWork;
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting UDP");

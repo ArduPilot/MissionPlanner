@@ -84,6 +84,12 @@ namespace MissionPlanner.Utilities
             new ThemeColors().ShowDialog();
         }
 
+        public static void ApplyThemeTo(object control)
+        {
+            if (control is Control)
+                ApplyThemeTo(control as Control);
+        }
+
         /// <summary>
         /// Will recursively apply the current theme to 'control'
         /// </summary>
