@@ -182,16 +182,16 @@ namespace MissionPlanner.Log
 
                         // mark it as being seen
                         seen[items[0]] = 1;
-                        /*
+                        
                         var cells = CreateCellArrayCustom(items[0], items);
 
                         if (!dataCell.ContainsKey(items[0]))
                             dataCell[items[0]] = new List<MLCell>();
 
                         dataCell[items[0]].Add(cells);
-
+                        /*
                         continue;
-                        */
+                        
                         double[] dbarray = new double[items.Length];
 
                         // set line no
@@ -210,15 +210,17 @@ namespace MissionPlanner.Log
                             data[items[0]] = new DoubleList();
 
                         data[items[0]].Add(dbarray);
+                        */
                     }
 
                     // split at x records
                     if (a%2000000 == 0 && !Environment.Is64BitProcess)
                     {
                         GC.Collect();
-                        DoWrite(fn + "-" + a, data, param, mlList, seen);
+                        DoWrite(fn + "-" + a, data, dataCell, param, mlList, seen);
                         mlList.Clear();
                         data.Clear();
+                        dataCell.Clear();
                         param.Clear();
                         seen.Clear();
                         GC.Collect();
@@ -226,11 +228,11 @@ namespace MissionPlanner.Log
                 }
 
                 MissionPlanner.Controls.Loading.Close();
-                DoWrite(fn + "-" + a, data, param, mlList, seen);
+                DoWrite(fn + "-" + a, data, dataCell, param, mlList, seen);
             }
         }
 
-        static void DoWrite(string fn, Dictionary<string, DoubleList> data, SortedDictionary<string, double> param,
+        static void DoWrite(string fn, Dictionary<string, DoubleList> data, Dictionary<string, List<MLCell>> dataCell, SortedDictionary<string, double> param,
             List<MLArray> mlList, Hashtable seen)
         {
             log.Info("DoWrite start " + (GC.GetTotalMemory(false)/1024.0/1024.0));
@@ -240,7 +242,13 @@ namespace MissionPlanner.Log
                 double[][] temp = item.Value.ToArray();
                 MLArray dbarray = new MLDouble(item.Key, temp);
                 mlList.Add(dbarray);
-                log.Info("DoWrite " + item.Key + " " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+                log.Info("DoWrite Double " + item.Key + " " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+            }
+
+            foreach (var item in dataCell)
+            {
+                mlList.AddRange(item.Value);
+                log.Info("DoWrite Cell " + item.Key + " " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
             }
 
             log.Info("DoWrite mllist " + (GC.GetTotalMemory(false)/1024.0/1024.0));
