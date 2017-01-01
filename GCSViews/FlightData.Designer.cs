@@ -306,7 +306,7 @@
             this.hud1.Name = "hud1";
             this.hud1.navpitch = 0F;
             this.hud1.navroll = 0F;
-            this.hud1.opengl = false;
+            this.hud1.opengl = true;
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
             this.hud1.Russian = false;
@@ -316,7 +316,7 @@
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;
             this.hud1.turnrate = 0F;
-            this.hud1.UseOpenGL = false;
+            this.hud1.UseOpenGL = true;
             this.hud1.verticalspeed = 0F;
             this.hud1.vibex = 0F;
             this.hud1.vibey = 0F;
