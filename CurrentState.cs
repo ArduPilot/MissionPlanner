@@ -1215,7 +1215,7 @@ namespace MissionPlanner
                         }
 
                         // throttle is up, or groundspeed is > 3 m/s
-                        if (ch3percent > 12 || _groundspeed > 3.0)
+                        if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
                             timeInAir++;
 
                         if (!gotwind)
