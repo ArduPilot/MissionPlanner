@@ -838,6 +838,12 @@ namespace MissionPlanner.GCSViews
                 if (!MainV2.comPort.logreadmode)
                     Thread.Sleep(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
 
+                if (this.IsDisposed)
+                {
+                    threadrun = false;
+                    break;
+                }
+
                 try
                 {
                     if (aviwriter != null && vidrec.AddMilliseconds(100) <= DateTime.Now)
@@ -1201,13 +1207,20 @@ namespace MissionPlanner.GCSViews
                             if (MainV2.ShowAirports)
                             {
                                 // airports
-                                foreach (var item in Airports.getAirports(gMapControl1.Position))
+                                foreach (var item in Airports.getAirports(gMapControl1.Position).ToArray())
                                 {
-                                    rallypointoverlay.Markers.Add(new GMapMarkerAirport(item)
+                                    try
                                     {
-                                        ToolTipText = item.Tag,
-                                        ToolTipMode = MarkerTooltipMode.OnMouseOver
-                                    });
+                                        rallypointoverlay.Markers.Add(new GMapMarkerAirport(item)
+                                        {
+                                            ToolTipText = item.Tag,
+                                            ToolTipMode = MarkerTooltipMode.OnMouseOver
+                                        });
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        log.Error(e);
+                                    }
                                 }
                             }
                             waypoints = DateTime.Now;
