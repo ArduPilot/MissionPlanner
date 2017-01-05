@@ -38,7 +38,7 @@ using System.Resources;
 // [assembly: AssemblyVersion("1.0.*")]
 
 [assembly: AssemblyVersion("1.1.*")]
-[assembly: AssemblyFileVersion("1.3.43.1")]
+[assembly: AssemblyFileVersion("1.3.43.2")]
 [assembly: NeutralResourcesLanguageAttribute("")]
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
