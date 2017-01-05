@@ -229,7 +229,7 @@ namespace resedit
                                 new ResXResourceWriter(dir + Path.DirectorySeparatorChar + strings[strings.Length - 2] + "." + ci + ".resx");
                     }
 
-                    if (row.Cells[colEnglish.Index].Value != row.Cells[colOtherLang.Index].Value)
+                    if (row.Cells[colEnglish.Index].Value.ToString() != row.Cells[colOtherLang.Index].Value.ToString())
                         writer.AddResource(row.Cells[colInternal.Index].Value.ToString(),
                             row.Cells[colOtherLang.Index].Value.ToString());
 
