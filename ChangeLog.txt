@@ -1,4 +1,8 @@
-﻿* Mission Planner 1.3.42 - 20-12-2016
+﻿* Mission Planner 1.3.43 - 24-12-2016
+DisplayView: fix missing options
+Theming now correctly affects elements on Flight Planning tab.  Theming added to terminal window.  Check to see if current theme and layout exsist at startup.
+ParameterMetaDataBackup: update base
+* Mission Planner 1.3.42 - 20-12-2016
 NoFly: add new kmz
 FlightPlanner: add home check and message on upload
 FlightPlanner: fix load and append of home

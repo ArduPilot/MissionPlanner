@@ -113,6 +113,9 @@ namespace MissionPlanner
                         case "NTRIP":
                             comPort = new CommsNTRIP();
                             CMB_baudrate.SelectedIndex = 0;
+                            ((CommsNTRIP)comPort).lat = MainV2.comPort.MAV.cs.lat;
+                            ((CommsNTRIP)comPort).lng = MainV2.comPort.MAV.cs.lng;
+                            ((CommsNTRIP)comPort).alt = MainV2.comPort.MAV.cs.altasl;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
