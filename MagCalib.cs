@@ -420,7 +420,6 @@ namespace MissionPlanner
                 // run lsq every second when more than 100 datapoints
                 if (datacompass1.Count > 100 && lastlsq.Second != DateTime.Now.Second)
                 {
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
 
                     lastlsq = DateTime.Now;
@@ -1158,6 +1157,13 @@ namespace MissionPlanner
                     if (ofs.Length > 3)
                     {
                         // ellipsoid
+                        MainV2.comPort.setParam("COMPASS_DIA_X", (float)ofs[3]);
+                        MainV2.comPort.setParam("COMPASS_DIA_Y", (float)ofs[4]);
+                        MainV2.comPort.setParam("COMPASS_DIA_Z", (float)ofs[5]);
+
+                        MainV2.comPort.setParam("COMPASS_ODI_X", (float)ofs[6]);
+                        MainV2.comPort.setParam("COMPASS_ODI_Y", (float)ofs[7]);
+                        MainV2.comPort.setParam("COMPASS_ODI_Z", (float)ofs[8]);
                     }
                 }
                 catch
