@@ -253,7 +253,7 @@
     <value>pictureBoxPlus</value>
   </data>
   <data name="&gt;&gt;pictureBoxPlus.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxPlus.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -280,7 +280,7 @@
     <value>pictureBoxX</value>
   </data>
   <data name="&gt;&gt;pictureBoxX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxX.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -364,7 +364,7 @@
     <value>pictureBoxV</value>
   </data>
   <data name="&gt;&gt;pictureBoxV.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxV.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -448,7 +448,7 @@
     <value>pictureBoxH</value>
   </data>
   <data name="&gt;&gt;pictureBoxH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxH.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -556,7 +556,7 @@
     <value>pictureBoxY</value>
   </data>
   <data name="&gt;&gt;pictureBoxY.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxY.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -590,51 +590,6 @@
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 18</value>
-  </data>
-  <data name="configDefaultSettings1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 89</value>
-  </data>
-  <data name="configDefaultSettings1.TabIndex" type="System.Int32, mscorlib">
-    <value>95</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.Name" xml:space="preserve">
-    <value>configDefaultSettings1</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.DefaultSettings, MissionPlanner, Version=1.1.6210.29924, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>513, 109</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 112</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>96</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Default Settings</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -712,7 +667,7 @@
     <value>pictureBoxVTail</value>
   </data>
   <data name="&gt;&gt;pictureBoxVTail.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxVTail.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -749,6 +704,9 @@
   </data>
   <data name="radioButtonOctaQuad.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
+  </data>
+  <data name="radioButtonOctaQuad.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="radioButtonOctaQuad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -789,6 +747,9 @@
   <data name="radioButtonTri.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
   </data>
+  <data name="radioButtonTri.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButtonTri.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -827,6 +788,9 @@
   </data>
   <data name="radioButtonHeli.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
+  </data>
+  <data name="radioButtonHeli.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="radioButtonHeli.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -867,6 +831,9 @@
   <data name="radioButtonY6.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
   </data>
+  <data name="radioButtonY6.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButtonY6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -905,6 +872,9 @@
   </data>
   <data name="radioButtonOcta.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
+  </data>
+  <data name="radioButtonOcta.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="radioButtonOcta.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -945,6 +915,9 @@
   <data name="radioButtonHexa.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
   </data>
+  <data name="radioButtonHexa.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButtonHexa.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -984,6 +957,9 @@
   <data name="radioButtonQuad.CheckAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>BottomLeft</value>
   </data>
+  <data name="radioButtonQuad.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
+  </data>
   <data name="radioButtonQuad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -1019,6 +995,9 @@
   </data>
   <data name="radioButtonUndef.Appearance" type="System.Windows.Forms.Appearance, System.Windows.Forms">
     <value>Button</value>
+  </data>
+  <data name="radioButtonUndef.FlatStyle" type="System.Windows.Forms.FlatStyle, System.Windows.Forms">
+    <value>Flat</value>
   </data>
   <data name="radioButtonUndef.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1087,6 +1066,6 @@
     <value>ConfigFrameClassType</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6210.28935, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6215.11320, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

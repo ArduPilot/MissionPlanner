@@ -107,8 +107,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             InitializeComponent();
 
-            configDefaultSettings1.OnChange += configDefaultSettings1_OnChange;
-
             //radioButton1.Image = new Bitmap(radioButton1.Image, 60, 60);
             radioButtonQuad.Image = new Bitmap(radioButtonQuad.Image, 60, 60);
             radioButtonHexa.Image = new Bitmap(radioButtonHexa.Image, 60, 60);
@@ -144,13 +142,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         }
 
-        private void configDefaultSettings1_OnChange(object sender, EventArgs e)
-        {
-            Activate();
-        }
-
         private void DoClass(motor_frame_class frame_class)
         {
+            if (inDoType)
+                return;
+
+            // prevent recursive calls because we modify radiobuttons
+            inDoType = true;
+
             work_frame_class = frame_class;
 
             // get list of valid types
@@ -164,6 +163,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 groupBox2.Enabled = true;
+            }
+
+            switch (frame_class)
+            {
+                case motor_frame_class.MOTOR_FRAME_UNDEFINED:
+                    radioButtonUndef.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_QUAD:
+                    radioButtonQuad.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_HEXA:
+                    radioButtonHexa.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_OCTA:
+                    radioButtonOcta.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_OCTAQUAD:
+                    radioButtonOctaQuad.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_Y6:
+                    radioButtonY6.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_HELI:
+                    radioButtonHeli.Checked = true;
+                    break;
+                case motor_frame_class.MOTOR_FRAME_TRI:
+                    radioButtonTri.Checked = true;
+                    break;
             }
 
             // disable all options
@@ -219,6 +246,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // set our new class
             SetFrameParam(work_frame_class, work_frame_type);
+
+            inDoType = false;
         }
 
         private void DoType(motor_frame_type frame_type)
