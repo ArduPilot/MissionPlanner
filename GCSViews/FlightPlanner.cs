@@ -6938,6 +6938,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 CustomMessageBox.Show("Failed to set FENCE_TOTAL");
                 return;
             }
+
+            // clear all
+            drawnpolygonsoverlay.Polygons.Clear();
+            drawnpolygonsoverlay.Markers.Clear();
+            geofenceoverlay.Polygons.Clear();
+            geofencepolygon.Points.Clear();
         }
     }
 }
