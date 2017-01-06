@@ -76,7 +76,7 @@ namespace MissionPlanner.Log
         {
             MLCell cell = new MLCell(name, new int[] {names.Length, 1});
             for (int i = 0; i < names.Length; i++)
-                cell[i] = new MLChar(null, names[i]);
+                cell[i] = new MLChar(null, names[i].Trim());
             return cell;
         }
 
@@ -182,16 +182,16 @@ namespace MissionPlanner.Log
 
                         // mark it as being seen
                         seen[items[0]] = 1;
-                        
-                        var cells = CreateCellArrayCustom(items[0], items);
+                        if (items[0].ToLower().Equals("msg"))
+                        {
+                            var cells = CreateCellArrayCustom(items[0], items);
 
-                        if (!dataCell.ContainsKey(items[0]))
-                            dataCell[items[0]] = new List<MLCell>();
+                            if (!dataCell.ContainsKey(items[0]))
+                                dataCell[items[0]] = new List<MLCell>();
 
-                        dataCell[items[0]].Add(cells);
-                        /*
-                        continue;
-                        
+                            dataCell[items[0]].Add(cells);
+                        }
+
                         double[] dbarray = new double[items.Length];
 
                         // set line no
@@ -210,7 +210,6 @@ namespace MissionPlanner.Log
                             data[items[0]] = new DoubleList();
 
                         data[items[0]].Add(dbarray);
-                        */
                     }
 
                     // split at x records
@@ -245,10 +244,21 @@ namespace MissionPlanner.Log
                 log.Info("DoWrite Double " + item.Key + " " + (GC.GetTotalMemory(false)/1024.0/1024.0));
             }
 
+            // datacell contains rows
             foreach (var item in dataCell)
             {
-                mlList.AddRange(item.Value);
-                log.Info("DoWrite Cell " + item.Key + " " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                // create msg table
+                MLCell temp1 = new MLCell("",new int[] {1 , item.Value.Count});
+                int a = 0;
+                // add rows to msg table
+                foreach (var mlCell in item.Value)
+                {
+                    temp1[a] = item.Value[a];
+                    a++;
+                }
+                // add table to masterlist
+                mlList.Add(temp1);
+                log.Info("DoWrite Cell " + item.Key + " " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));            
             }
 
             log.Info("DoWrite mllist " + (GC.GetTotalMemory(false)/1024.0/1024.0));
