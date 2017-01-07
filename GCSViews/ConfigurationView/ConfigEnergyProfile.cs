@@ -30,8 +30,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void Btn_SaveChanges_Click(object sender, EventArgs e)
         {
-            Settings.Instance["EP_Current"] = TXT_GradCurNeg.Text + "|" + TXT_BaseHoverCons.Text + "|" + TXT_GradCurPos.Text;
-            Settings.Instance["EP_Velocity"] = TXT_GradSpeedNeg.Text + "|" + TXT_SpeedZero.Text + "|" + TXT_GradSpeedPos.Text;
+            Settings.Instance["EP_Current"] = TXT_IM90Deg.Text + "|" + TXT_IM45Deg.Text + "|" + TXT_I0Deg.Text + "|" + TXT_IP45Deg.Text + "|" + TXT_IP90Deg.Text;   //Settings for I-function
+            Settings.Instance["EP_Velocity"] = TXT_VM90Deg.Text + "|" + TXT_VM45Deg.Text + "|" + TXT_V0Deg.Text + "|" + TXT_VP45Deg.Text + "|" + TXT_VP90Deg.Text;  //Settings for V-function
         }
     }
 }

@@ -2906,6 +2906,31 @@ namespace MissionPlanner.GCSViews
 
         private void writeEnergyConsumption(List<Locationwp> cmds)
         {
+            string EP_Current = Settings.Instance["EP_Current"];
+            string EP_Velocity = Settings.Instance["EP_Velocity"];
+
+            //Parse values from energyprofile first
+            /*
+                    EP_Current/EP_Velocity format: 
+                    Index :  0 | 1 |2| 3 | 4
+                    Degree: -90|-45|0|-45|90
+            */
+
+            SortedDictionary<float, float> EP_IValues = new SortedDictionary<float, float>();
+            SortedDictionary<float, float> EP_VValues = new SortedDictionary<float, float>();
+
+            //Current
+            for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
+            {
+                EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index]));
+            }
+
+            //Velocity
+            for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
+            {
+                EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index]));
+            }
+
             for (int i = 0; i < Commands.Rows.Count; i++)
             {
                 DataGridViewTextBoxCell cell;
@@ -2913,57 +2938,20 @@ namespace MissionPlanner.GCSViews
                 //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
 
                 cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;
+
                 float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
+                float fCurrent = 0.0f;
+                float EnergyVal = 0.0f;
+                
+                float angle = 0.0f;
 
-                float v, EnergyVal, t, fCurrent;
-                string EP_Current = Settings.Instance["EP_Current"];
-                float fGradCurNeg = float.Parse(EP_Current.Split('|')[0]);      //Energy consumption from 90° to 0°
-                float fBaseEnergy = float.Parse(EP_Current.Split('|')[1]);      //Energy consumption while not moving (=> 0°)
-                float fGradCurPos = float.Parse(EP_Current.Split('|')[2]);      //Energy consumption from 0° to 90°
-
-                string EP_Velocity = Settings.Instance["EP_Velocity"];
-                float fVelNeg = float.Parse(EP_Velocity.Split('|')[0]);
-                float fVelPos = float.Parse(EP_Velocity.Split('|')[2]);
-                float fVelZero = float.Parse(EP_Velocity.Split('|')[1]);
-
-
-                float angle = 0;
-
-                EnergyVal = v = t  = fCurrent = 0.0f;
-               
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
                 angle = float.Parse(cell.Value.ToString());
 
+
                 
-                if (angle < 0)
-                {
-                    v = -fVelNeg * angle / 22.5f + fVelZero;
-                }
-                else if (angle > 0)
-                {
-                    v = -fVelNeg * angle / 22.5f + fVelZero;
-                }
-                else if ( angle == 0 )
-                {
-                    v = fVelZero;
-                }
 
-                //Determine Current
-                if (angle < 0)
-                {
-                    fCurrent = -fGradCurNeg * angle / 22.5f + fBaseEnergy;
-                }
-                else if (angle > 0)
-                {
-                    fCurrent = fGradCurPos * angle / 22.5f + fBaseEnergy;
-                }
-                else if (angle == 0)
-                {
-                    fCurrent = fBaseEnergy;
-                }
-
-                t = distance / v;
 
                 EnergyVal = fCurrent * t;
 

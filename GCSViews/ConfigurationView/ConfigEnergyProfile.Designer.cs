@@ -28,110 +28,104 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.label6 = new System.Windows.Forms.Label();
+            this.TXT_IM90Deg = new System.Windows.Forms.TextBox();
+            this.TXT_I0Deg = new System.Windows.Forms.TextBox();
+            this.TXT_IM45Deg = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.TXT_IP90Deg = new System.Windows.Forms.TextBox();
+            this.TXT_IP45Deg = new System.Windows.Forms.TextBox();
+            this.Btn_SaveChanges = new MissionPlanner.Controls.MyButton();
+            this.myLabel2 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel3 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel4 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel5 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel6 = new MissionPlanner.Controls.MyLabel();
+            this.TXT_VP90Deg = new System.Windows.Forms.TextBox();
+            this.TXT_V0Deg = new System.Windows.Forms.TextBox();
+            this.TXT_VP45Deg = new System.Windows.Forms.TextBox();
+            this.TXT_VM45Deg = new System.Windows.Forms.TextBox();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel8 = new MissionPlanner.Controls.MyLabel();
+            this.TXT_VM90Deg = new System.Windows.Forms.TextBox();
+            this.myLabel9 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel10 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel11 = new MissionPlanner.Controls.MyLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.TXT_GradCurNeg = new System.Windows.Forms.TextBox();
-            this.TXT_BaseHoverCons = new System.Windows.Forms.TextBox();
-            this.TXT_GradSpeedNeg = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.TXT_GradSpeedPos = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.Btn_SaveChanges = new MissionPlanner.Controls.MyButton();
-            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
-            this.TXT_GradCurPos = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.TXT_SpeedZero = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 26);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Gradient: Energy usage\r\n-90° to 0°";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 127);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 26);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Base energy consumption\r\nat hover (0°)";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 35);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(52, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "I(degree):";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(259, 35);
+            this.label6.Location = new System.Drawing.Point(10, 88);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.Size = new System.Drawing.Size(92, 26);
             this.label6.TabIndex = 6;
-            this.label6.Text = "v(degree):\r\n";
+            this.label6.Text = "Velocity (km/h) in \r\nrelation to angle";
             // 
-            // TXT_GradCurNeg
+            // TXT_IM90Deg
             // 
-            this.TXT_GradCurNeg.Location = new System.Drawing.Point(139, 64);
-            this.TXT_GradCurNeg.Name = "TXT_GradCurNeg";
-            this.TXT_GradCurNeg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_GradCurNeg.TabIndex = 8;
-            this.TXT_GradCurNeg.TextChanged += new System.EventHandler(this.TXT_ParamA_TextChanged);
+            this.TXT_IM90Deg.Location = new System.Drawing.Point(102, 53);
+            this.TXT_IM90Deg.Name = "TXT_IM90Deg";
+            this.TXT_IM90Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_IM90Deg.TabIndex = 8;
+            this.TXT_IM90Deg.TextChanged += new System.EventHandler(this.TXT_ParamA_TextChanged);
             // 
-            // TXT_BaseHoverCons
+            // TXT_I0Deg
             // 
-            this.TXT_BaseHoverCons.Location = new System.Drawing.Point(139, 127);
-            this.TXT_BaseHoverCons.Name = "TXT_BaseHoverCons";
-            this.TXT_BaseHoverCons.Size = new System.Drawing.Size(100, 20);
-            this.TXT_BaseHoverCons.TabIndex = 9;
+            this.TXT_I0Deg.Location = new System.Drawing.Point(172, 53);
+            this.TXT_I0Deg.Name = "TXT_I0Deg";
+            this.TXT_I0Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_I0Deg.TabIndex = 9;
             // 
-            // TXT_GradSpeedNeg
+            // TXT_IM45Deg
             // 
-            this.TXT_GradSpeedNeg.Location = new System.Drawing.Point(358, 64);
-            this.TXT_GradSpeedNeg.Name = "TXT_GradSpeedNeg";
-            this.TXT_GradSpeedNeg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_GradSpeedNeg.TabIndex = 11;
+            this.TXT_IM45Deg.Location = new System.Drawing.Point(137, 53);
+            this.TXT_IM45Deg.Name = "TXT_IM45Deg";
+            this.TXT_IM45Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_IM45Deg.TabIndex = 17;
             // 
-            // label7
+            // tableLayoutPanel1
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(259, 58);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(84, 26);
-            this.label7.TabIndex = 10;
-            this.label7.Text = "Gradient: Speed\r\n-90° to 0°";
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.tableLayoutPanel1.ColumnCount = 6;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.79365F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.20635F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(13, 62);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(90, 0);
+            this.tableLayoutPanel1.TabIndex = 20;
             // 
-            // TXT_GradSpeedPos
+            // TXT_IP90Deg
             // 
-            this.TXT_GradSpeedPos.Location = new System.Drawing.Point(358, 93);
-            this.TXT_GradSpeedPos.Name = "TXT_GradSpeedPos";
-            this.TXT_GradSpeedPos.Size = new System.Drawing.Size(100, 20);
-            this.TXT_GradSpeedPos.TabIndex = 13;
+            this.TXT_IP90Deg.Location = new System.Drawing.Point(242, 53);
+            this.TXT_IP90Deg.Name = "TXT_IP90Deg";
+            this.TXT_IP90Deg.Size = new System.Drawing.Size(30, 20);
+            this.TXT_IP90Deg.TabIndex = 21;
             // 
-            // label8
+            // TXT_IP45Deg
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(259, 130);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(84, 13);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Est. Speed at 0°";
+            this.TXT_IP45Deg.Location = new System.Drawing.Point(207, 53);
+            this.TXT_IP45Deg.Name = "TXT_IP45Deg";
+            this.TXT_IP45Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_IP45Deg.TabIndex = 19;
             // 
             // Btn_SaveChanges
             // 
-            this.Btn_SaveChanges.Location = new System.Drawing.Point(3, 167);
+            this.Btn_SaveChanges.Location = new System.Drawing.Point(13, 128);
             this.Btn_SaveChanges.Name = "Btn_SaveChanges";
             this.Btn_SaveChanges.Size = new System.Drawing.Size(68, 32);
             this.Btn_SaveChanges.TabIndex = 14;
@@ -139,91 +133,210 @@
             this.Btn_SaveChanges.UseVisualStyleBackColor = true;
             this.Btn_SaveChanges.Click += new System.EventHandler(this.Btn_SaveChanges_Click);
             // 
+            // myLabel2
+            // 
+            this.myLabel2.Location = new System.Drawing.Point(213, 36);
+            this.myLabel2.Name = "myLabel2";
+            this.myLabel2.resize = false;
+            this.myLabel2.Size = new System.Drawing.Size(18, 19);
+            this.myLabel2.TabIndex = 21;
+            this.myLabel2.Text = "45";
+            // 
+            // myLabel3
+            // 
+            this.myLabel3.Location = new System.Drawing.Point(181, 36);
+            this.myLabel3.Name = "myLabel3";
+            this.myLabel3.resize = false;
+            this.myLabel3.Size = new System.Drawing.Size(14, 19);
+            this.myLabel3.TabIndex = 22;
+            this.myLabel3.Text = "0";
+            // 
+            // myLabel4
+            // 
+            this.myLabel4.Location = new System.Drawing.Point(142, 36);
+            this.myLabel4.Name = "myLabel4";
+            this.myLabel4.resize = false;
+            this.myLabel4.Size = new System.Drawing.Size(20, 19);
+            this.myLabel4.TabIndex = 23;
+            this.myLabel4.Text = "-45";
+            // 
+            // myLabel5
+            // 
+            this.myLabel5.Location = new System.Drawing.Point(105, 36);
+            this.myLabel5.Name = "myLabel5";
+            this.myLabel5.resize = false;
+            this.myLabel5.Size = new System.Drawing.Size(20, 19);
+            this.myLabel5.TabIndex = 24;
+            this.myLabel5.Text = "-90";
+            // 
+            // myLabel6
+            // 
+            this.myLabel6.Location = new System.Drawing.Point(248, 36);
+            this.myLabel6.Name = "myLabel6";
+            this.myLabel6.resize = false;
+            this.myLabel6.Size = new System.Drawing.Size(18, 19);
+            this.myLabel6.TabIndex = 22;
+            this.myLabel6.Text = "90";
+            // 
+            // TXT_VP90Deg
+            // 
+            this.TXT_VP90Deg.Location = new System.Drawing.Point(242, 96);
+            this.TXT_VP90Deg.Name = "TXT_VP90Deg";
+            this.TXT_VP90Deg.Size = new System.Drawing.Size(30, 20);
+            this.TXT_VP90Deg.TabIndex = 30;
+            // 
+            // TXT_V0Deg
+            // 
+            this.TXT_V0Deg.Location = new System.Drawing.Point(172, 96);
+            this.TXT_V0Deg.Name = "TXT_V0Deg";
+            this.TXT_V0Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_V0Deg.TabIndex = 27;
+            // 
+            // TXT_VP45Deg
+            // 
+            this.TXT_VP45Deg.Location = new System.Drawing.Point(207, 96);
+            this.TXT_VP45Deg.Name = "TXT_VP45Deg";
+            this.TXT_VP45Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_VP45Deg.TabIndex = 29;
+            // 
+            // TXT_VM45Deg
+            // 
+            this.TXT_VM45Deg.Location = new System.Drawing.Point(137, 96);
+            this.TXT_VM45Deg.Name = "TXT_VM45Deg";
+            this.TXT_VM45Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_VM45Deg.TabIndex = 28;
+            // 
             // myLabel1
             // 
-            this.myLabel1.Location = new System.Drawing.Point(7, 3);
+            this.myLabel1.Location = new System.Drawing.Point(248, 78);
             this.myLabel1.Name = "myLabel1";
             this.myLabel1.resize = false;
-            this.myLabel1.Size = new System.Drawing.Size(75, 23);
-            this.myLabel1.TabIndex = 15;
-            this.myLabel1.Text = "Parameter";
+            this.myLabel1.Size = new System.Drawing.Size(18, 19);
+            this.myLabel1.TabIndex = 32;
+            this.myLabel1.Text = "90";
             // 
-            // TXT_GradCurPos
+            // myLabel8
             // 
-            this.TXT_GradCurPos.Location = new System.Drawing.Point(139, 96);
-            this.TXT_GradCurPos.Name = "TXT_GradCurPos";
-            this.TXT_GradCurPos.Size = new System.Drawing.Size(100, 20);
-            this.TXT_GradCurPos.TabIndex = 17;
+            this.myLabel8.Location = new System.Drawing.Point(181, 78);
+            this.myLabel8.Name = "myLabel8";
+            this.myLabel8.resize = false;
+            this.myLabel8.Size = new System.Drawing.Size(14, 19);
+            this.myLabel8.TabIndex = 33;
+            this.myLabel8.Text = "0";
             // 
-            // label3
+            // TXT_VM90Deg
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 96);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 26);
-            this.label3.TabIndex = 16;
-            this.label3.Text = "Gradient: Energy usage\r\n0° to 90°";
+            this.TXT_VM90Deg.Location = new System.Drawing.Point(102, 96);
+            this.TXT_VM90Deg.Name = "TXT_VM90Deg";
+            this.TXT_VM90Deg.Size = new System.Drawing.Size(29, 20);
+            this.TXT_VM90Deg.TabIndex = 26;
             // 
-            // TXT_SpeedZero
+            // myLabel9
             // 
-            this.TXT_SpeedZero.Location = new System.Drawing.Point(358, 127);
-            this.TXT_SpeedZero.Name = "TXT_SpeedZero";
-            this.TXT_SpeedZero.Size = new System.Drawing.Size(100, 20);
-            this.TXT_SpeedZero.TabIndex = 18;
+            this.myLabel9.Location = new System.Drawing.Point(213, 78);
+            this.myLabel9.Name = "myLabel9";
+            this.myLabel9.resize = false;
+            this.myLabel9.Size = new System.Drawing.Size(18, 19);
+            this.myLabel9.TabIndex = 31;
+            this.myLabel9.Text = "45";
             // 
-            // label4
+            // myLabel10
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(259, 90);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 26);
-            this.label4.TabIndex = 19;
-            this.label4.Text = "Gradient: Speed\r\n0° to 90°\r\n";
+            this.myLabel10.Location = new System.Drawing.Point(142, 78);
+            this.myLabel10.Name = "myLabel10";
+            this.myLabel10.resize = false;
+            this.myLabel10.Size = new System.Drawing.Size(20, 19);
+            this.myLabel10.TabIndex = 34;
+            this.myLabel10.Text = "-45";
+            // 
+            // myLabel11
+            // 
+            this.myLabel11.Location = new System.Drawing.Point(105, 78);
+            this.myLabel11.Name = "myLabel11";
+            this.myLabel11.resize = false;
+            this.myLabel11.Size = new System.Drawing.Size(20, 19);
+            this.myLabel11.TabIndex = 35;
+            this.myLabel11.Text = "-90";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(10, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 26);
+            this.label1.TabIndex = 36;
+            this.label1.Text = "Current (mA) in \r\nrelation to angle";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(10, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(224, 13);
+            this.label2.TabIndex = 37;
+            this.label2.Text = "Approximation of energyconsumption function:";
             // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.TXT_SpeedZero);
-            this.Controls.Add(this.TXT_GradCurPos);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.myLabel1);
-            this.Controls.Add(this.Btn_SaveChanges);
-            this.Controls.Add(this.TXT_GradSpeedPos);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.TXT_GradSpeedNeg);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.TXT_BaseHoverCons);
-            this.Controls.Add(this.TXT_GradCurNeg);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.TXT_VP90Deg);
+            this.Controls.Add(this.TXT_V0Deg);
+            this.Controls.Add(this.TXT_VP45Deg);
+            this.Controls.Add(this.TXT_VM45Deg);
+            this.Controls.Add(this.myLabel1);
+            this.Controls.Add(this.myLabel8);
+            this.Controls.Add(this.TXT_VM90Deg);
+            this.Controls.Add(this.myLabel9);
+            this.Controls.Add(this.myLabel10);
+            this.Controls.Add(this.myLabel11);
+            this.Controls.Add(this.TXT_IP90Deg);
+            this.Controls.Add(this.TXT_I0Deg);
+            this.Controls.Add(this.TXT_IP45Deg);
+            this.Controls.Add(this.TXT_IM45Deg);
+            this.Controls.Add(this.myLabel6);
+            this.Controls.Add(this.myLabel3);
+            this.Controls.Add(this.TXT_IM90Deg);
+            this.Controls.Add(this.myLabel2);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.myLabel4);
+            this.Controls.Add(this.Btn_SaveChanges);
+            this.Controls.Add(this.myLabel5);
+            this.Controls.Add(this.label6);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(1076, 556);
+            this.Size = new System.Drawing.Size(304, 171);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox TXT_IM90Deg;
+        private System.Windows.Forms.TextBox TXT_I0Deg;
+        private Controls.MyButton Btn_SaveChanges;
+        private System.Windows.Forms.TextBox TXT_IM45Deg;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.TextBox TXT_IP90Deg;
+        private System.Windows.Forms.TextBox TXT_IP45Deg;
+        private Controls.MyLabel myLabel6;
+        private Controls.MyLabel myLabel3;
+        private Controls.MyLabel myLabel2;
+        private Controls.MyLabel myLabel4;
+        private Controls.MyLabel myLabel5;
+        private System.Windows.Forms.TextBox TXT_VP90Deg;
+        private System.Windows.Forms.TextBox TXT_V0Deg;
+        private System.Windows.Forms.TextBox TXT_VP45Deg;
+        private System.Windows.Forms.TextBox TXT_VM45Deg;
+        private Controls.MyLabel myLabel1;
+        private Controls.MyLabel myLabel8;
+        private System.Windows.Forms.TextBox TXT_VM90Deg;
+        private Controls.MyLabel myLabel9;
+        private Controls.MyLabel myLabel10;
+        private Controls.MyLabel myLabel11;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox TXT_GradCurNeg;
-        private System.Windows.Forms.TextBox TXT_BaseHoverCons;
-        private System.Windows.Forms.TextBox TXT_GradSpeedNeg;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox TXT_GradSpeedPos;
-        private System.Windows.Forms.Label label8;
-        private Controls.MyButton Btn_SaveChanges;
-        private Controls.MyLabel myLabel1;
-        private System.Windows.Forms.TextBox TXT_GradCurPos;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox TXT_SpeedZero;
-        private System.Windows.Forms.Label label4;
     }
 }
