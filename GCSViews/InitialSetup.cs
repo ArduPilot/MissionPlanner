@@ -115,6 +115,7 @@ namespace MissionPlanner.GCSViews
             AddBackstageViewPage(typeof(ConfigFailSafe), rm.GetString("backstageViewPagefs.Text"), isConnected, mand);
 
             var opt = AddBackstageViewPage(typeof(ConfigOptional), rm.GetString("backstageViewPageopt.Text"));
+            AddBackstageViewPage(typeof(ConfigGPSInject), "GPS Inject", true, opt);
             AddBackstageViewPage(typeof(Sikradio), rm.GetString("backstageViewPageSikradio.Text"), true, opt);
             AddBackstageViewPage(typeof(ConfigBatteryMonitoring), rm.GetString("backstageViewPagebatmon.Text"), isConnected, opt);
             AddBackstageViewPage(typeof(ConfigBatteryMonitoring2), rm.GetString("backstageViewPageBatt2.Text"), isConnected, opt);
@@ -132,6 +133,7 @@ namespace MissionPlanner.GCSViews
             AddBackstageViewPage(typeof(ConfigHWParachute), rm.GetString("backstageViewPageParachute.Text"), isConnected, opt);
             AddBackstageViewPage(typeof(ConfigHWESP8266), rm.GetString("backstageViewPageESP.Text"), isConnected, opt);
             AddBackstageViewPage(typeof(Antenna.Tracker), "Antenna Tracker", true, opt);
+            
 
             // remeber last page accessed
             foreach (BackstageViewPage page in backstageView.Pages)

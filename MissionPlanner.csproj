@@ -351,6 +351,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFrameClassType.Designer.cs">
       <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </Compile>
     <Compile Include="Swarm\FollowLeader\Control.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -917,7 +923,7 @@
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="SerialInjectGPS.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SerialInjectGPS.Designer.cs">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
@@ -1728,6 +1734,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.zh-Hans.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigGPSInject.resx">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.ar.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
