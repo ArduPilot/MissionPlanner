@@ -184,8 +184,8 @@ namespace MissionPlanner
                 if (chk_m8pautoconfig.Checked)
                 {
                     this.LogInfo("Setup M8P");
-                    ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text),
-                        double.Parse(txt_surveyinAcc.Text));
+                    ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -563,7 +563,7 @@ namespace MissionPlanner
                 DialogResult.OK)
             {
                 var basepos = MainV2.comPort.MAV.cs.MovingBase;
-                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat, basepos.Lng, basepos.Alt,
+                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
                     location);
             }
         }
