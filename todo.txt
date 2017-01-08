@@ -2,9 +2,9 @@
 - try to avoid LINQ (...ToList<...>())
 - find more efficient way to determine upper and lower limits
 - check, if user enabled energyprofile!
-
+- check for valid input in textboxes
 
 - future:
-  - (evtl.) user should be able to set certain values (I and V) for approximated polynom
+  - (evtl.) user should be able to set certain amount of values (I and V) for approximated polynom
   - spline interpolation would allow a nice approximated polynom
 
