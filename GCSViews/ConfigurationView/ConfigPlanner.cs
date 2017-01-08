@@ -144,6 +144,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
+
                 }
             }
 

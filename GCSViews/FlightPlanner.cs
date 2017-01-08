@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.IO;
+using System.Linq;  //Energyprofile
 using System.Net;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -2909,6 +2910,10 @@ namespace MissionPlanner.GCSViews
             string EP_Current = Settings.Instance["EP_Current"];
             string EP_Velocity = Settings.Instance["EP_Velocity"];
 
+            float fCurrent, fVelocity, fTime;
+            fCurrent = fVelocity = fTime = 0.0f;
+
+
             //Parse values from energyprofile first
             /*
                     EP_Current/EP_Velocity format: 
@@ -2919,10 +2924,11 @@ namespace MissionPlanner.GCSViews
             SortedDictionary<float, float> EP_IValues = new SortedDictionary<float, float>();
             SortedDictionary<float, float> EP_VValues = new SortedDictionary<float, float>();
 
+
             //Current
             for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
             {
-                EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index]));
+                EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
             }
 
             //Velocity
@@ -2931,29 +2937,62 @@ namespace MissionPlanner.GCSViews
                 EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index]));
             }
 
+
             for (int i = 0; i < Commands.Rows.Count; i++)
             {
                 DataGridViewTextBoxCell cell;
 
                 //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
 
-                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;
+                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
 
                 float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
-                float fCurrent = 0.0f;
+
                 float EnergyVal = 0.0f;
                 
-                float angle = 0.0f;
+                float angle = 0.0f; //read value in waypoint list
 
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
                 angle = float.Parse(cell.Value.ToString());
 
+                //Begin of linear interpolation
+                foreach (float iI in EP_IValues.Keys) //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
+                {
+                    if (angle > iI) { continue; }
+                    else
+                    {
+                        int index = 0;
+                        var keys = EP_IValues.Keys.ToList<float>();
 
-                
+                        index = keys.IndexOf(iI);
+
+                        //upper and lower limits of angle
+                        int upper = index;      //x1
+                        int lower = index - 1;  //x0
+
+                        float x1 = EP_IValues.Keys.ToList<float>()[upper];
+                        float x0 = EP_IValues.Keys.ToList<float>()[lower];
+
+                        float y1 = EP_IValues[x1];
+                        float y0 = EP_IValues[x0];
+
+                        fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
+
+                        break;
+                    }
+                }
+
+                //calculate velocity
+                //TODO
 
 
-                EnergyVal = fCurrent * t;
+
+                //fVelocity = distance / fTime;
+
+                fTime = distance / fVelocity;
+
+                EnergyVal = fCurrent * fTime;
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;

@@ -1,10 +1,10 @@
-Complete implementation of linear interpolation for I(alpha) and V(alpha) will follow
-=> Energyprofilemenu allows user to configure estimated current at -90,45,0,45,90 ("base current usage per sec.")
-   also est. speeds at a specific angle
+- implementation of velocity missing
+- try to avoid LINQ (...ToList<...>())
+- find more efficient way to determine upper and lower limits
+- check, if user enabled energyprofile!
 
-   combined with the distance, the energyconsumption will be calculated out of those parameters
 
-----
+- future:
+  - (evtl.) user should be able to set certain values (I and V) for approximated polynom
+  - spline interpolation would allow a nice approximated polynom
 
-notes:
-use of dictionary and key binary search to determine upper and lower bounds of a specific angle
