@@ -2910,10 +2910,11 @@ namespace MissionPlanner.GCSViews
             string EP_Current = Settings.Instance["EP_Current"];
             string EP_Velocity = Settings.Instance["EP_Velocity"];
 
+            LBL_TotalEC.Text = "0"; //Set total energy consumption to 0
+
             float fCurrent, fVelocity, fTime;
             fCurrent = fVelocity = fTime = 0.0f;
-
-
+            
             //Parse values from energyprofile first
             /*
                     EP_Current/EP_Velocity format: 
@@ -2921,6 +2922,8 @@ namespace MissionPlanner.GCSViews
                     Degree: -90|-45|0|-45|90
             */
 
+
+            //SortedDictionary: Important to iterate through ascending values
             SortedDictionary<float, float> EP_IValues = new SortedDictionary<float, float>();
             SortedDictionary<float, float> EP_VValues = new SortedDictionary<float, float>();
 
@@ -2934,9 +2937,8 @@ namespace MissionPlanner.GCSViews
             //Velocity
             for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
             {
-                EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index]));
+                EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
             }
-
 
             for (int i = 0; i < Commands.Rows.Count; i++)
             {
@@ -2952,14 +2954,28 @@ namespace MissionPlanner.GCSViews
                 
                 float angle = 0.0f; //read value in waypoint list
 
+                int upper, lower;   //upper and lower limit of angle
+                upper = lower = 0;
+
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
                 angle = float.Parse(cell.Value.ToString());
 
                 //Begin of linear interpolation
-                foreach (float iI in EP_IValues.Keys) //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
+                float x1, x0, y1, y0;
+                x1 = x0 = y1 = y0 = 0;
+
+                //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
+                //It is independent atm. whether the function of I is used or the function of V to determine the power consumption (fixed values => -90°, -45° and so on)
+
+                foreach (float iI in EP_IValues.Keys) 
                 {
                     if (angle > iI) { continue; }
+                    else if (angle == -90)  //There is no direction > |90|°
+                    {
+                        upper = 1;
+                        lower = 0;
+                    }
                     else
                     {
                         int index = 0;
@@ -2968,30 +2984,38 @@ namespace MissionPlanner.GCSViews
                         index = keys.IndexOf(iI);
 
                         //upper and lower limits of angle
-                        int upper = index;      //x1
-                        int lower = index - 1;  //x0
-
-                        float x1 = EP_IValues.Keys.ToList<float>()[upper];
-                        float x0 = EP_IValues.Keys.ToList<float>()[lower];
-
-                        float y1 = EP_IValues[x1];
-                        float y0 = EP_IValues[x0];
-
-                        fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
+                        upper = index;      //x1
+                        lower = index - 1;  //x0
 
                         break;
                     }
                 }
 
-                //calculate velocity
-                //TODO
+                //I-function
+                x1 = EP_IValues.Keys.ToList<float>()[upper];
+                x0 = EP_IValues.Keys.ToList<float>()[lower];
+
+                y1 = EP_IValues[x1];    //f(x1)
+                y0 = EP_IValues[x0];    //f(x0)
+
+                fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
+
+                //V-function
+                x1 = EP_VValues.Keys.ToList<float>()[upper];
+                x0 = EP_VValues.Keys.ToList<float>()[lower];
+
+                y1 = EP_VValues[x1];
+                y0 = EP_VValues[x0];
+
+                fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
 
+                
+
+                //End of linear interpolation
 
                 //fVelocity = distance / fTime;
-
                 fTime = distance / fVelocity;
-
                 EnergyVal = fCurrent * fTime;
 
                 //EC Cell

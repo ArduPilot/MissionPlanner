@@ -70,6 +70,7 @@
             this.TXT_IM90Deg.Name = "TXT_IM90Deg";
             this.TXT_IM90Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_IM90Deg.TabIndex = 8;
+            this.TXT_IM90Deg.Text = "10";
             this.TXT_IM90Deg.TextChanged += new System.EventHandler(this.TXT_ParamA_TextChanged);
             // 
             // TXT_I0Deg
@@ -78,6 +79,7 @@
             this.TXT_I0Deg.Name = "TXT_I0Deg";
             this.TXT_I0Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_I0Deg.TabIndex = 9;
+            this.TXT_I0Deg.Text = "10";
             // 
             // TXT_IM45Deg
             // 
@@ -85,6 +87,7 @@
             this.TXT_IM45Deg.Name = "TXT_IM45Deg";
             this.TXT_IM45Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_IM45Deg.TabIndex = 17;
+            this.TXT_IM45Deg.Text = "10";
             // 
             // tableLayoutPanel1
             // 
@@ -115,6 +118,7 @@
             this.TXT_IP90Deg.Name = "TXT_IP90Deg";
             this.TXT_IP90Deg.Size = new System.Drawing.Size(30, 20);
             this.TXT_IP90Deg.TabIndex = 21;
+            this.TXT_IP90Deg.Text = "10";
             // 
             // TXT_IP45Deg
             // 
@@ -122,6 +126,7 @@
             this.TXT_IP45Deg.Name = "TXT_IP45Deg";
             this.TXT_IP45Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_IP45Deg.TabIndex = 19;
+            this.TXT_IP45Deg.Text = "10";
             // 
             // Btn_SaveChanges
             // 
@@ -184,6 +189,7 @@
             this.TXT_VP90Deg.Name = "TXT_VP90Deg";
             this.TXT_VP90Deg.Size = new System.Drawing.Size(30, 20);
             this.TXT_VP90Deg.TabIndex = 30;
+            this.TXT_VP90Deg.Text = "10";
             // 
             // TXT_V0Deg
             // 
@@ -191,6 +197,7 @@
             this.TXT_V0Deg.Name = "TXT_V0Deg";
             this.TXT_V0Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_V0Deg.TabIndex = 27;
+            this.TXT_V0Deg.Text = "10";
             // 
             // TXT_VP45Deg
             // 
@@ -198,6 +205,7 @@
             this.TXT_VP45Deg.Name = "TXT_VP45Deg";
             this.TXT_VP45Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_VP45Deg.TabIndex = 29;
+            this.TXT_VP45Deg.Text = "10";
             // 
             // TXT_VM45Deg
             // 
@@ -205,6 +213,7 @@
             this.TXT_VM45Deg.Name = "TXT_VM45Deg";
             this.TXT_VM45Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_VM45Deg.TabIndex = 28;
+            this.TXT_VM45Deg.Text = "10";
             // 
             // myLabel1
             // 
@@ -230,6 +239,7 @@
             this.TXT_VM90Deg.Name = "TXT_VM90Deg";
             this.TXT_VM90Deg.Size = new System.Drawing.Size(29, 20);
             this.TXT_VM90Deg.TabIndex = 26;
+            this.TXT_VM90Deg.Text = "10";
             // 
             // myLabel9
             // 
