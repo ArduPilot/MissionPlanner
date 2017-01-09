@@ -3009,7 +3009,8 @@ namespace MissionPlanner.GCSViews
 
                 fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
-
+                //Velocity in meter per second
+                fVelocity *= 1000f / 3600f;
                 
 
                 //End of linear interpolation
