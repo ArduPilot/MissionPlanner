@@ -3614,7 +3614,8 @@ Please check the following
                             // attach to the only remote device. / default to first device seen
                             if (MAVlist.Count == 1)
                             {
-                                sysidcurrent = sysid;
+                                // set it private as compidset will trigger new mavstate
+                                _sysidcurrent = sysid;
                                 compidcurrent = compid;
                             }
                         }
