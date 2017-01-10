@@ -407,7 +407,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC5 = 5,
             RC6 = 6,
             RC7 = 7,
-            RC8 = 8
+            RC8 = 8,
+            RC9 = 9,
+            RC10 = 10,
+            RC11 = 11,
+            RC12 = 12,
+            RC13 = 13,
+            RC14 = 14,
+            RC15 = 15,
+            RC16 = 16,
         }
     }
 }
