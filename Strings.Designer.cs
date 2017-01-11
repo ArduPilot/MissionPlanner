@@ -1038,6 +1038,15 @@ namespace MissionPlanner {
             }
         }
         
+/        /// <summary>
+        ///   Looks up a localized string similar to Not available when used as a windows store app.
+        /// </summary>
+        public static string Not_available_when_used_as_a_windows_store_app {
+            get {
+                return ResourceManager.GetString("Not_available_when_used_as_a_windows_store_app", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>

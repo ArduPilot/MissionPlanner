@@ -25,6 +25,8 @@ namespace MissionPlanner
 
         public static string name { get; internal set; }
 
+        public static bool WindowsStoreApp { get { return Application.ExecutablePath.Contains("WindowsApps"); } }
+
         public static Image Logo = null;
         public static Image IconFile = null;
 

@@ -636,4 +636,7 @@ old #{0}  new #{1}</value>
   <data name="Failed_to_download_the_SITL_image" xml:space="preserve">
     <value>Failed to download the SITL image.</value>
   </data>
+  <data name="Not_available_when_used_as_a_windows_store_app" xml:space="preserve">
+    <value>Not available when used as a windows store app</value>
+  </data>
 </root>

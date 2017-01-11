@@ -2885,6 +2885,9 @@ namespace MissionPlanner
 
         private void checkupdate(object stuff)
         {
+            if (Program.WindowsStoreApp)
+                return;
+
             try
             {
                 MissionPlanner.Utilities.Update.CheckForUpdate();
