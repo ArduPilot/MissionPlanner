@@ -1038,7 +1038,7 @@ namespace MissionPlanner {
             }
         }
         
-/        /// <summary>
+        /// <summary>
         ///   Looks up a localized string similar to Not available when used as a windows store app.
         /// </summary>
         public static string Not_available_when_used_as_a_windows_store_app {
