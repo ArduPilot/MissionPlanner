@@ -2949,7 +2949,9 @@
     </None>
     <None Include="LogAnalyzer\py2exe\createexe.bat" />
     <None Include="LogAnalyzer\upload.bat" />
-    <None Include="NoFly\Mapa-Voa-na-Boa.kmz" />
+    <None Include="NoFly\Mapa-Voa-na-Boa.kmz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Utilities\ImageOverFilter.cs" />
     <EmbeddedResource Include="Antenna\Tracker.id-ID.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
