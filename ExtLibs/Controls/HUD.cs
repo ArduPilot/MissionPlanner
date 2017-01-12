@@ -1695,6 +1695,14 @@ namespace MissionPlanner.Controls
                     {
                         gps = (HUDT.GPS5);
                     }
+                    else if (_fix == 6)
+                    {
+                        gps = (HUDT.GPS6);
+                    }
+                    else
+                    {
+                        gps = _fix.ToString();
+                    }
                     drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
                 }
 
