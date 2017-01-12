@@ -39,14 +39,14 @@ public static class MavlinkUtil
         IntPtr iptr = Marshal.AllocHGlobal(len);
 
         //clear memory
-        for (int i = 0; i < (len / 8); i += 8)
+        for (int i = 0; i < len; i += 8)
         {
             Marshal.WriteInt64(iptr, i, 0x00);
         }
 
-        for (int i = len % 8; i < -1; i--)
+        for (int i = len - (len % 8); i < len; i++)
         {
-            Marshal.WriteByte(iptr, len - i, 0x00);
+            Marshal.WriteByte(iptr, i, 0x00);
         }
 
         // copy byte array to ptr

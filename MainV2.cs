@@ -55,7 +55,7 @@ namespace MissionPlanner
             static public int SW_HIDE = 0;
         }
 
-        static menuicons displayicons = new burntkermitmenuicons();
+        public static menuicons displayicons = new burntkermitmenuicons();
 
         public abstract class menuicons
         {
@@ -70,6 +70,7 @@ namespace MissionPlanner
             public abstract Image connect { get; }
             public abstract Image disconnect { get; }
             public abstract Image bg { get; }
+            public abstract Image wizard { get; }
         }
 
         public class burntkermitmenuicons : menuicons
@@ -127,6 +128,10 @@ namespace MissionPlanner
             public override Image bg
             {
                 get { return global::MissionPlanner.Properties.Resources.bgdark; }
+            }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
             }
         }
 
@@ -186,9 +191,11 @@ namespace MissionPlanner
             {
                 get { return null; }
             }
+            public override Image wizard
+            {
+                get { return global::MissionPlanner.Properties.Resources.wizardicon; }
+            }
         }
-
-
 
         Controls.MainSwitcher MyView;
 
@@ -394,17 +401,17 @@ namespace MissionPlanner
         /// </summary>
         static internal ConnectionControl _connectionControl;
 
+        public static bool TerminalTheming = true;
+
         public void updateLayout(object sender, EventArgs e)
         {
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
-            //MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
             if (MainV2.instance.FlightData != null)
             {
-                
                 TabControl t = MainV2.instance.FlightData.tabControlactions;
 
                 if (DisplayConfiguration.displayAdvActionsTab && !t.TabPages.Contains(FlightData.tabActions))
@@ -494,6 +501,14 @@ namespace MissionPlanner
             }
 
             InitializeComponent();
+            try
+            {
+                if(Settings.Instance["theme"] != null)
+                    ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), Settings.Instance["theme"]));
+            }
+            catch
+            {
+            }
             Utilities.ThemeManager.ApplyThemeTo(this);
             MyView = new MainSwitcher(this);
 
@@ -547,6 +562,7 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
+            // load last saved connection settings
             string temp = Settings.Instance.ComPort;
             if (!string.IsNullOrEmpty(temp))
             {
@@ -705,6 +721,12 @@ namespace MissionPlanner
                 Application.Exit();
             }
 
+            //set first instance display configuration
+            if (DisplayConfiguration == null)
+            {
+                DisplayConfiguration = DisplayConfiguration.Basic();
+            }
+
             // load old config
             if (Settings.Instance["advancedview"] != null)
             {
@@ -714,12 +736,18 @@ namespace MissionPlanner
                 }
                 // remove old config
                 Settings.Instance.Remove("advancedview");
-            }
-
-            //// load this before the other screens get loaded
+            }            //// load this before the other screens get loaded
             if (Settings.Instance["displayview"] != null)
             {
+                try
+                {
                 DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+            }
+                catch
+                {
+                    DisplayConfiguration = DisplayConfiguration.Basic();
+                    Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
+                }
             }
 
             LayoutChanged += updateLayout;
@@ -2280,7 +2308,7 @@ namespace MissionPlanner
                             MainV2.comPort.MAV.cs.linkqualitygcs = (ushort) (MainV2.comPort.MAV.cs.linkqualitygcs*0.8f);
                             linkqualitytime = DateTime.Now;
 
-                            // force redraw is no other packets are being read
+                            // force redraw if there are no other packets are being read
                             GCSViews.FlightData.myhud.Invalidate();
                         }
                     }
@@ -2813,6 +2841,8 @@ namespace MissionPlanner
             try
             {
                 MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog"));
+
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.rlog"));
             }
             catch (Exception ex)
             {
@@ -2855,6 +2885,9 @@ namespace MissionPlanner
 
         private void checkupdate(object stuff)
         {
+            if (Program.WindowsStoreApp)
+                return;
+
             try
             {
                 MissionPlanner.Utilities.Update.CheckForUpdate();

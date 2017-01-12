@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews
         public Help()
         {
             InitializeComponent();
+            PIC_wizard.Image = MainV2.displayicons.wizard;
         }
 
         public void Activate()

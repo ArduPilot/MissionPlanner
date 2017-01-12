@@ -645,7 +645,7 @@ union px4_custom_mode {
             GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth*wprad*2)), LocalPosition.Y);
                 // MainMap.FromLatLngToLocal(wpradposition);
 
-            if (m2pixelheight > 0.5)
+            if (m2pixelheight > 0.5 && !double.IsInfinity(m2pixelheight))
                 g.DrawArc(Pen,
                     new System.Drawing.Rectangle(
                         LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X)/2),

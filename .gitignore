@@ -38,3 +38,4 @@ obj/
 /ExtLibs/Portable/Portable
 /ExtLibs/AltitudeAngelWings/Keys.config
 /MissionPlannerBeta.zip
+*.vspx

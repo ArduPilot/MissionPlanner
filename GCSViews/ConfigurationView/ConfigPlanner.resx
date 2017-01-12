@@ -1556,7 +1556,7 @@
     <value>BUT_Joystick</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1583,7 +1583,7 @@
     <value>BUT_videostop</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1610,7 +1610,7 @@
     <value>BUT_videostart</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1688,7 +1688,7 @@
     <value>BUT_logdirbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1747,6 +1747,9 @@
   <data name="&gt;&gt;CMB_theme.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
+  <data name="BUT_themecustom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="BUT_themecustom.Location" type="System.Drawing.Point, System.Drawing">
     <value>266, 394</value>
   </data>
@@ -1763,7 +1766,7 @@
     <value>BUT_themecustom</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1823,7 +1826,7 @@
     <value>BUT_Vario</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Vario.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2123,7 +2126,7 @@
     <value>but_AAsignin</value>
   </data>
   <data name="&gt;&gt;but_AAsignin.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6172.31750, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6183.20011, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_AAsignin.Parent" xml:space="preserve">
     <value>$this</value>

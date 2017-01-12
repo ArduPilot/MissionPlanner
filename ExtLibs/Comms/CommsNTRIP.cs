@@ -23,6 +23,10 @@ namespace MissionPlanner.Comms
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private Uri remoteUri;
 
+        public double lat = 0;
+        public double lng = 0;
+        public double alt = 0;
+
         int retrys = 3;
 
         private string host;
@@ -150,6 +154,22 @@ namespace MissionPlanner.Comms
 
             sw.Flush();
 
+            // vrs may take up to 60+ seconds to respond
+
+            if (lat != 0 || lng != 0)
+            {
+                line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                 "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
+                 DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
+                 Math.Abs(lng * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
+                 1, alt, "M", 0, "M", "");
+
+                string checksum = GetChecksum(line);
+                sw.WriteLine(line + "*" + checksum);
+
+                sw.Flush();
+            }
+
             line = sr.ReadLine();
 
             if (!line.Contains("200"))
@@ -159,8 +179,42 @@ namespace MissionPlanner.Comms
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
 
-
             VerifyConnected();
+        }
+
+
+        // Calculates the checksum for a sentence
+        string GetChecksum(string sentence)
+        {
+            // Loop through all chars to get a checksum
+            int Checksum = 0;
+            foreach (char Character in sentence.ToCharArray())
+            {
+                switch (Character)
+                {
+                    case '$':
+                        // Ignore the dollar sign
+                        break;
+                    case '*':
+                        // Stop processing before the asterisk
+                        continue;
+                    default:
+                        // Is this the first value for the checksum?
+                        if (Checksum == 0)
+                        {
+                            // Yes. Set the checksum to the value
+                            Checksum = Convert.ToByte(Character);
+                        }
+                        else
+                        {
+                            // No. XOR the checksum with this character's value
+                            Checksum = Checksum ^ Convert.ToByte(Character);
+                        }
+                        break;
+                }
+            }
+            // Return the checksum formatted as a two-character hexadecimal
+            return Checksum.ToString("X2");
         }
 
         void VerifyConnected()

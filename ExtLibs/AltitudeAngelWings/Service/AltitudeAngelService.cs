@@ -330,6 +330,7 @@ namespace AltitudeAngelWings.Service
 
                 // Should really move this to a manual trigger or on arm as the map might not be in the correct position
                 // And we only want to do it occasionally
+                /*
                 _messagesService.AddMessageAsync("Loading weather info...")
                     .ContinueWith(async i =>
                     {
@@ -341,7 +342,7 @@ namespace AltitudeAngelWings.Service
                         catch
                         {
                         }
-                    });
+                    });*/
             }
         }
 

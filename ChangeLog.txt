@@ -1,4 +1,18 @@
-﻿* Mission Planner 1.3.42 - 5-12-2016
+﻿* Mission Planner 1.3.43 - 24-12-2016
+DisplayView: fix missing options
+Theming now correctly affects elements on Flight Planning tab.  Theming added to terminal window.  Check to see if current theme and layout exsist at startup.
+ParameterMetaDataBackup: update base
+* Mission Planner 1.3.42 - 20-12-2016
+NoFly: add new kmz
+FlightPlanner: add home check and message on upload
+FlightPlanner: fix load and append of home
+Wizard: accelcalib update to use subscription
+UDPVideoShim: add initial
+MAVLinkInterface: prevent enumeration change exception
+LogAnalyzer: upstream update
+GDAL: add vector to raster
+GMapMarkerBoat: add
+SerialInjectGPS: remember settings, make icon use elipsoid height
 Wizard: ConnectAP add param exists check - exception check
 Extensions: add loging extension to Control class
 FlightPlanner: add exception check on bad input coords

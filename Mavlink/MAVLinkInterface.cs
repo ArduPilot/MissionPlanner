@@ -2250,6 +2250,11 @@ Please check the following
                         loc.lat = ((wp.x / 1.0e7));
                         loc.lng = ((wp.y / 1.0e7));
 
+                        if (loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONTROL || loc.id == (ushort)MAV_CMD.DO_DIGICAM_CONFIGURE)
+                        {
+                            loc.lat = wp.x;
+                        }
+
                         log.InfoFormat("getWPint {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat, loc.lng,
                             loc.options);
 
@@ -3129,7 +3134,7 @@ Please check the following
                         {
                             message = readlogPacketMavlink();
                             buffer = message.buffer;
-                            if (buffer.Length == 0)
+                            if (buffer == null || buffer.Length == 0)
                                 return MAVLinkMessage.Invalid;
                         }
                         else
@@ -3496,8 +3501,9 @@ Please check the following
                             MAVlist[sysid, compid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
-                            log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo, numLost, sysid,
-                                expectedPacketSeqNo,compid);
+                            if(!logreadmode)
+                                log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo, numLost, sysid,
+                                    expectedPacketSeqNo,compid);
                         }
 
                         MAVlist[sysid, compid].packetsnotlost++;
@@ -3608,7 +3614,8 @@ Please check the following
                             // attach to the only remote device. / default to first device seen
                             if (MAVlist.Count == 1)
                             {
-                                sysidcurrent = sysid;
+                                // set it private as compidset will trigger new mavstate
+                                _sysidcurrent = sysid;
                                 compidcurrent = compid;
                             }
                         }
@@ -4560,11 +4567,21 @@ Please check the following
             byte byte1 = 0;
             byte byte2 = 0;
 
+            var filelength = logplaybackfile.BaseStream.Length;
+            var filepos = logplaybackfile.BaseStream.Position;
+
+            if(filelength == filepos)
+                return MAVLinkMessage.Invalid;
+
             int length = 5;
             int a = 0;
             while (a < length)
             {
+                if (filelength == filepos)
+                    return MAVLinkMessage.Invalid;
+
                 var tempb = (byte) logplaybackfile.ReadByte();
+                filepos++;
 
                 switch (a)
                 {
@@ -4572,9 +4589,15 @@ Please check the following
                         byte0 = tempb;
                         if (byte0 != 'U' && byte0 != 254 && byte0 != 253)
                         {
-                            log.InfoFormat("logread - lost sync byte {0} pos {1}", byte0,
+                            log.DebugFormat("logread - lost sync byte {0} pos {1}", byte0,
                                 logplaybackfile.BaseStream.Position);
-                            a = 0;
+                            // seek to next valid
+                            do
+                            {
+                                byte0 = logplaybackfile.ReadByte();
+                            }
+                            while (byte0 != 'U' && byte0 != 254 && byte0 != 253);
+                            a = 1;
                             continue;
                         }
                         break;
@@ -4602,7 +4625,10 @@ Please check the following
                             temp[0] = byte0;
                             temp[1] = byte1;
                             temp[2] = byte2;
-                            logplaybackfile.Read(temp, a + 1, length - (a + 1));
+
+                            var readto = a + 1;
+                            var readlength = length - (a + 1);
+                            logplaybackfile.Read(temp, readto, readlength);
                             a = length;
                         }
                         break;

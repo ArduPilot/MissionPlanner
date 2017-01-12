@@ -17,18 +17,20 @@ namespace MissionPlanner.Mavlink
 
         public MAVLinkInterface parent;
 
+        object locker = new object();
+
         public MAVList(MAVLinkInterface mavLinkInterface)
         {
             parent = mavLinkInterface;
             // add blank item
-            hiddenlist.Add(0,new MAVState(parent));
+            hiddenlist.Add(0, new MAVState(parent, 0, 0));
         }
 
         public void AddHiddenList(byte sysid, byte compid)
         {
             int id = GetID((byte)sysid, (byte)compid);
 
-            hiddenlist[id] = new MAVState(parent) { sysid = sysid, compid = compid };
+            hiddenlist[id] = new MAVState(parent, sysid, compid);
         }
 
         public MAVState this[int sysid, int compid]
@@ -37,23 +39,28 @@ namespace MissionPlanner.Mavlink
             {
                 int id = GetID((byte)sysid, (byte)compid);
 
-                // 3dr radio special case
-                if (hiddenlist.ContainsKey(id))
-                    return hiddenlist[id];
-
-                if (!masterlist.ContainsKey(id))
+                lock (locker)
                 {
-                    AddHiddenList((byte)sysid, (byte)compid);
-                    return hiddenlist[id];
-                }
+                    // 3dr radio special case
+                    if (hiddenlist.ContainsKey(id))
+                        return hiddenlist[id];
 
-                return masterlist[id];
+                    if (!masterlist.ContainsKey(id))
+                    {
+                        AddHiddenList((byte) sysid, (byte) compid);
+                        return hiddenlist[id];
+                    }
+
+                    return masterlist[id];
+                }
             }
             set
             {
                 int id = GetID((byte)sysid, (byte)compid);
-
-                masterlist[id] = value;
+                lock (locker)
+                {
+                    masterlist[id] = value;
+                }
             }
         }
 
@@ -74,18 +81,21 @@ namespace MissionPlanner.Mavlink
 
         public bool Contains(byte sysid, byte compid, bool includehidden = true)
         {
-            foreach (var item in masterlist.ToArray())
+            lock (locker)
             {
-                if (item.Value.sysid == sysid && item.Value.compid == compid)
-                    return true;
-            }
-
-            if (includehidden)
-            {
-                foreach (var item in hiddenlist.ToArray())
+                foreach (var item in masterlist.ToArray())
                 {
                     if (item.Value.sysid == sysid && item.Value.compid == compid)
                         return true;
+                }
+
+                if (includehidden)
+                {
+                    foreach (var item in hiddenlist.ToArray())
+                    {
+                        if (item.Value.sysid == sysid && item.Value.compid == compid)
+                            return true;
+                    }
                 }
             }
 
@@ -104,7 +114,7 @@ namespace MissionPlanner.Mavlink
             }
 
             if (!masterlist.ContainsKey(id))
-                masterlist[id] = new MAVState(parent);
+                masterlist[id] = new MAVState(parent, sysid, compid);
         }
 
         public IEnumerator<MAVState> GetEnumerator()

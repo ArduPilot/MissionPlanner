@@ -8,11 +8,23 @@ namespace MissionPlanner.Comms
 {
     public delegate string SettingsOption(string name, string value, bool set = false);
 
+    public delegate void ApplyThemeTo(object control);
+
     public abstract class CommsBase
     {
         public static event SettingsOption Settings;
 
+        public static event ApplyThemeTo ApplyTheme;        
+
         private Hashtable cache = new Hashtable();
+
+        protected virtual void ApplyThemeTo(object control)
+        {
+            if (ApplyTheme != null)
+            {
+                    ApplyTheme(control);
+            }
+        }
 
         protected virtual string OnSettings(string name, string value, bool set = false)
         {

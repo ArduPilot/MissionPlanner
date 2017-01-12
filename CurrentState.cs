@@ -1215,7 +1215,7 @@ namespace MissionPlanner
                         }
 
                         // throttle is up, or groundspeed is > 3 m/s
-                        if (ch3percent > 12 || _groundspeed > 3.0)
+                        if ((ch3percent > 12  || _groundspeed > 3.0) && armed)
                             timeInAir++;
 
                         if (!gotwind)
@@ -1955,6 +1955,16 @@ namespace MissionPlanner
                         ch6out = servoout.servo6_raw;
                         ch7out = servoout.servo7_raw;
                         ch8out = servoout.servo8_raw;
+
+                        // mavlink2 extension
+                        ch9out = servoout.servo9_raw;
+                        ch10out = servoout.servo10_raw;
+                        ch11out = servoout.servo11_raw;
+                        ch12out = servoout.servo12_raw;
+                        ch13out = servoout.servo13_raw;
+                        ch14out = servoout.servo14_raw;
+                        ch15out = servoout.servo15_raw;
+                        ch16out = servoout.servo16_raw;
 
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW);
                     }

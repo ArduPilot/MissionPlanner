@@ -84,6 +84,12 @@ namespace MissionPlanner.Utilities
             new ThemeColors().ShowDialog();
         }
 
+        public static void ApplyThemeTo(object control)
+        {
+            if (control is Control)
+                ApplyThemeTo(control as Control);
+        }
+
         /// <summary>
         /// Will recursively apply the current theme to 'control'
         /// </summary>
@@ -241,16 +247,16 @@ namespace MissionPlanner.Utilities
                                     @""" d:DesignWidth=""" + control.Width + @"""
 xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
 xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
-xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006"" 
-xmlns:d=""http://schemas.microsoft.com/expression/blend/2008"" 
-xmlns:xctk=""http://schemas.xceed.com/wpf/xaml/toolkit"" 
+xmlns:mc=""http://schemas.openxmlformats.org/markup-compatibility/2006""
+xmlns:d=""http://schemas.microsoft.com/expression/blend/2008""
+xmlns:xctk=""http://schemas.xceed.com/wpf/xaml/toolkit""
 xmlns:Custom=""http://schemas.microsoft.com/wpf/2008/toolkit""
 xmlns:BackstageView=""clr-namespace:MissionPlanner.Controls.BackstageView""
 xmlns:Controls=""clr-namespace:MissionPlanner.Controls""
 xmlns:GCSViews=""clr-namespace:MissionPlanner.GCSViews""
 xmlns:Wizard=""clr-namespace:MissionPlanner.Wizard""
 xmlns:ConfigurationView=""clr-namespace:MissionPlanner.GCSViews.ConfigurationView""
-mc:Ignorable=""d"" 
+mc:Ignorable=""d""
 > <Grid>";
 
                     st.Write(header);
@@ -611,11 +617,23 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
-                    ctl.BackColor = ControlBGColor;
-                    ctl.ForeColor = TextColor;
-                    RichTextBox txtr = (RichTextBox) ctl;
+
+                    if ((ctl.Name == "TXT_terminal") && !MainV2.TerminalTheming)
+                    {
+                        RichTextBox txtr = (RichTextBox)ctl;
+                        txtr.BorderStyle = BorderStyle.None;
+                        txtr.ForeColor = Color.White;
+                        txtr.BackColor = Color.Black;
+                    }
+                    else
+                    {
+
+                        ctl.BackColor = ControlBGColor;
+                        ctl.ForeColor = TextColor;
+                        RichTextBox txtr = (RichTextBox)ctl;
                     txtr.BorderStyle = BorderStyle.None;
                 }
+            }
                 else if (ctl.GetType() == typeof (CheckedListBox))
                 {
                     ctl.BackColor = ControlBGColor;
@@ -749,7 +767,7 @@ mc:Ignorable=""d""
             ProgressBarOutlineColor = Color.FromArgb(150, 174, 112);
             BannerColor1 = Color.FromArgb(0x40, 0x57, 0x04);                // These two variables change the colours of banners such as "planner" umder configuration
             BannerColor2 = Color.FromArgb(0x94, 0xC1, 0x1F);
-            ColorNotEnabled = Color.FromArgb(73, 43, 58, 3);                // This changes the background color of buttons when not enabled
+            ColorNotEnabled = Color.FromArgb(150, 43, 58, 3);               // This changes the background color of buttons when not enabled
             ColorMouseOver = Color.FromArgb(73, 43, 58, 3);                 // This changes the background color of buttons when the mouse is hovering over a button
             ColorMouseDown = Color.FromArgb(73, 43, 58, 3);                 // This changes the background color of buttons when the mouse is clicked down on a button
             CurrentPPMBackground = Color.Green;                             // This changes the background colour of the current PPM setting in the flight modes tab
@@ -761,10 +779,31 @@ mc:Ignorable=""d""
             UnselectedTextColour = Color.WhiteSmoke;                        // This changes the colour of unselected text in a BSV button
             HorizontalPBValueColor = Color.FromArgb(148, 193, 31);          // This changes the colour of the horizontal progressbar
 
+            if (MainV2.instance.FlightPlanner != null)
+            {
+                BSE.Windows.Forms.Panel actionPanel = MainV2.instance.FlightPlanner.panelAction;
+                BSE.Windows.Forms.Panel waypointsPanel = MainV2.instance.FlightPlanner.panelWaypoints;
+
+                actionPanel.CustomColors.BorderColor = Color.Black;       //these statements control the colours of the actions panel in the flight planner window
+                actionPanel.CustomColors.CaptionGradientBegin = ButBG;
+                actionPanel.CustomColors.CaptionGradientEnd = ButBGBot;
+                actionPanel.CustomColors.CaptionText = ButtonTextColor;
+                actionPanel.CustomColors.CollapsedCaptionText = ButtonTextColor;
+
+                waypointsPanel.CustomColors.BorderColor = Color.Black;    //these statements control the colours of the Waypoints panel in the flight planner window
+                waypointsPanel.CustomColors.CaptionGradientBegin = ButBG;
+                waypointsPanel.CustomColors.CaptionGradientEnd = ButBGBot;
+                waypointsPanel.CustomColors.CaptionText = ButtonTextColor;
+                waypointsPanel.CustomColors.CollapsedCaptionText = ButtonTextColor;
+            }
+
             if (MainV2.instance != null)
             {
                 MainV2.instance.switchicons(new MainV2.burntkermitmenuicons());
             }
+
+            MainV2.TerminalTheming = true;
+            Settings.Instance["terminaltheming"] = true.ToString();
         }
 
         private static void SetHighContrastColours()
@@ -782,7 +821,7 @@ mc:Ignorable=""d""
             ProgressBarOutlineColor = Color.FromArgb(150, 174, 112);
             BannerColor1 = Color.FromArgb(0x40, 0x57, 0x04);                // These two variables change the colours of banners such as "planner" umder configuration
             BannerColor2 = Color.FromArgb(0x94, 0xC1, 0x1F);
-            ColorNotEnabled = Color.FromArgb(73, 43, 58, 3);                // This changes the background color of buttons when not enabled
+            ColorNotEnabled = Color.FromArgb(150, 43, 58, 3);               // This changes the background color of buttons when not enabled
             ColorMouseOver = Color.FromArgb(73, 43, 58, 3);                 // This changes the background color of buttons when the mouse is hovering over a button
             ColorMouseDown = Color.FromArgb(73, 43, 58, 3);                 // This changes the background color of buttons when the mouse is clicked down on a button
             CurrentPPMBackground = Color.Green;                             // This changes the background colour of the current PPM setting in the flight modes tab
@@ -794,10 +833,31 @@ mc:Ignorable=""d""
             UnselectedTextColour = Color.Gray;                              // This changes the colour of unselected text in a BSV button
             HorizontalPBValueColor = Color.FromArgb(148, 193, 31);          // This changes the colour of the horizontal progressbar
 
+            if (MainV2.instance.FlightPlanner != null)
+            {
+                BSE.Windows.Forms.Panel actionPanel = MainV2.instance.FlightPlanner.panelAction;
+                BSE.Windows.Forms.Panel waypointsPanel = MainV2.instance.FlightPlanner.panelWaypoints;
+
+                actionPanel.CustomColors.BorderColor = Color.Black;       //these statements control the colours of the actions panel in the flight planner window
+                actionPanel.CustomColors.CaptionGradientBegin = ButBG;
+                actionPanel.CustomColors.CaptionGradientEnd = ButBGBot;
+                actionPanel.CustomColors.CaptionText = ButtonTextColor;
+                actionPanel.CustomColors.CollapsedCaptionText = ButtonTextColor;
+
+                waypointsPanel.CustomColors.BorderColor = Color.Black;    //these statements control the colours of the Waypoints panel in the flight planner window
+                waypointsPanel.CustomColors.CaptionGradientBegin = ButBG;
+                waypointsPanel.CustomColors.CaptionGradientEnd = ButBGBot;
+                waypointsPanel.CustomColors.CaptionText = ButtonTextColor;
+                waypointsPanel.CustomColors.CollapsedCaptionText = ButtonTextColor;
+            }
+
             if (MainV2.instance != null)
             {
                 MainV2.instance.switchicons(new MainV2.highcontrastmenuicons());
             }
+
+            MainV2.TerminalTheming = true;
+            Settings.Instance["terminaltheming"] = true.ToString();
         }
 
         private static void ApplyTheme(Control temp, int level)
@@ -857,7 +917,7 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof (TextBox))
                 {
-                    ctl.BackColor = BGColorTextBox;             //sets the BG colour of text boxes to specified colour     
+                    ctl.BackColor = BGColorTextBox;             //sets the BG colour of text boxes to specified colour
                     ctl.ForeColor = TextColor;
                     TextBox txt = (TextBox) ctl;
                     txt.BorderStyle = BorderStyle.None;
@@ -934,10 +994,20 @@ mc:Ignorable=""d""
                 }
                 else if (ctl.GetType() == typeof (RichTextBox))
                 {
-                    RichTextBox txtr = (RichTextBox) ctl;
-                    txtr.BorderStyle = BorderStyle.None;
-                    txtr.ForeColor = RTBForeColor;
-                    txtr.BackColor = ControlBGColor;
+                    if ((ctl.Name == "TXT_terminal") && !MainV2.TerminalTheming)
+                    {
+                        RichTextBox txtr = (RichTextBox)ctl;
+                        txtr.BorderStyle = BorderStyle.None;
+                        txtr.ForeColor = Color.White;
+                        txtr.BackColor = Color.Black;
+                    }
+                    else
+                    {
+                        RichTextBox txtr = (RichTextBox)ctl;
+                        txtr.BorderStyle = BorderStyle.None;
+                        txtr.ForeColor = RTBForeColor;
+                        txtr.BackColor = ControlBGColor;
+                    }
                 }
                 else if (ctl.GetType() == typeof (CheckedListBox))
                 {
@@ -1035,7 +1105,7 @@ mc:Ignorable=""d""
                 {
                     ((MyProgressBar)ctl).BGGradTop = ProgressBarColorTop;
                     ((MyProgressBar)ctl).BGGradBot = ProgressBarColorBot;
-                    ((MyProgressBar)ctl).Outline = ProgressBarOutlineColor;        //sets the colour of the progress bar box                    
+                    ((MyProgressBar)ctl).Outline = ProgressBarOutlineColor;        //sets the colour of the progress bar box
                 } else if (ctl.GetType() == typeof (QuickView))
                 {
                     Controls.QuickView but = (QuickView) ctl;

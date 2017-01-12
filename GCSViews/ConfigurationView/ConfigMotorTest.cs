@@ -78,6 +78,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Size = new Size(75, 37);
             but.Click += but_TestAllSeq;
             Controls.Add(but);
+
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         private int get_motormax()

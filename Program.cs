@@ -25,6 +25,8 @@ namespace MissionPlanner
 
         public static string name { get; internal set; }
 
+        public static bool WindowsStoreApp { get { return Application.ExecutablePath.Contains("WindowsApps"); } }
+
         public static Image Logo = null;
         public static Image IconFile = null;
 
@@ -127,6 +129,7 @@ namespace MissionPlanner
 
             // setup settings provider
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
+            MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
@@ -161,6 +164,30 @@ namespace MissionPlanner
 
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
+
+
+            Device.DeviceStructure test1 = new Device.DeviceStructure(73225);
+            Device.DeviceStructure test2 = new Device.DeviceStructure(262434);
+            Device.DeviceStructure test3 = new Device.DeviceStructure(131874);
+
+            MAVLink.MavlinkParse tmp = new MAVLink.MavlinkParse();
+            MAVLink.mavlink_heartbeat_t hb = new MAVLink.mavlink_heartbeat_t()
+            {
+                autopilot = 1,
+                base_mode = 2,
+                custom_mode = 3,
+                mavlink_version = 2,
+                system_status = 6,
+                type = 7
+            };
+            var t1 = tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            var t2 = tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
+
 
             try
             {

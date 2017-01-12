@@ -105,6 +105,8 @@ namespace MissionPlanner.Controls
                                 displayconninfo =
                                     displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
 
+            UseOpenGL = true;
+
             this.Name = "Hud";
 
             eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L); // or whatever other quality value you want
@@ -1692,6 +1694,14 @@ namespace MissionPlanner.Controls
                     else if (_fix == 5)
                     {
                         gps = (HUDT.GPS5);
+                    }
+                    else if (_fix == 6)
+                    {
+                        gps = (HUDT.GPS6);
+                    }
+                    else
+                    {
+                        gps = _fix.ToString();
                     }
                     drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
                 }

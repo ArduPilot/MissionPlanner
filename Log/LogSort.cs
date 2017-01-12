@@ -14,10 +14,13 @@ namespace MissionPlanner.Log
 
         static bool issitl = false;
 
-        public static void SortLogs(string[] logs)
+        public static void SortLogs(string[] logs, string masterdestdir = "")
         {
             foreach (var logfile in logs)
             {
+                if(masterdestdir == "")
+                    masterdestdir = Path.GetDirectoryName(logfile);
+
                 issitl = false;
 
                 FileInfo info = new FileInfo(logfile);
@@ -40,7 +43,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
+                        string destdir = masterdestdir + Path.DirectorySeparatorChar
                                          + "SMALL" + Path.DirectorySeparatorChar;
 
                         if (!Directory.Exists(destdir))
@@ -84,16 +87,16 @@ namespace MissionPlanner.Log
                             mine.logreadmode = false;
                             mine.logplaybackfile.Close();
 
-                            if (!Directory.Exists(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD"))
-                                Directory.CreateDirectory(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar +
+                            if (!Directory.Exists(masterdestdir + Path.DirectorySeparatorChar + "BAD"))
+                                Directory.CreateDirectory(masterdestdir + Path.DirectorySeparatorChar +
                                                           "BAD");
 
-                            log.Info("Move log bad " + logfile + " to " + Path.GetDirectoryName(logfile) +
+                            log.Info("Move log bad " + logfile + " to " + masterdestdir +
                                      Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar +
                                      Path.GetFileName(logfile));
 
                             movefileusingmask(logfile,
-                                Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" +
+                                masterdestdir + Path.DirectorySeparatorChar + "BAD" +
                                 Path.DirectorySeparatorChar);
                             continue;
                         }
@@ -136,13 +139,13 @@ namespace MissionPlanner.Log
                         mine.logreadmode = false;
                         mine.logplaybackfile.Close();
 
-                        string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
+                        string destdir = masterdestdir + Path.DirectorySeparatorChar
                                          + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar
                                          + mine.MAV.sysid + Path.DirectorySeparatorChar;
 
                         if (issitl)
                         {
-                            destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar 
+                            destdir = masterdestdir + Path.DirectorySeparatorChar 
                                 + "SITL" + Path.DirectorySeparatorChar 
                                 + mine.MAV.aptype.ToString() + Path.DirectorySeparatorChar 
                                 + mine.MAV.sysid + Path.DirectorySeparatorChar;
@@ -177,6 +180,9 @@ namespace MissionPlanner.Log
             foreach (var file in files)
             {
                 log.Info("Move log " + file + " to " + destdir + Path.GetFileName(file));
+
+                if (file == destdir + Path.GetFileName(file))
+                    continue;
 
                 File.Move(file, destdir + Path.GetFileName(file));
             }

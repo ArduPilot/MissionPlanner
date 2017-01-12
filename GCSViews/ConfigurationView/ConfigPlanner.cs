@@ -47,6 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Layout.SelectedIndex = 0;
             }
 
+
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states
@@ -59,7 +60,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // setup language selection
             var cultureCodes = new[]
-            {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR"};
+            {
+                "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
+                "ar"
+            };
 
             _languages = cultureCodes
                 .Select(CultureInfoEx.GetCultureInfo)

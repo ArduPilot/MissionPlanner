@@ -738,7 +738,7 @@ namespace MissionPlanner
 
         private void but_injectgps_Click(object sender, EventArgs e)
         {
-            new SerialInjectGPS().Show();
+            new SerialInjectGPS().ShowUserControl();
         }
 
         private void BUT_fft_Click(object sender, EventArgs e)
@@ -1028,6 +1028,12 @@ namespace MissionPlanner
         private void GDAL_OnProgress(double percent, string message)
         {
             Loading.ShowLoading((percent).ToString("0.0%") + " " +message, this);
+        }
+
+        private void but_sortlogs_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(Settings.Instance.LogDir, "*.tlog",
+                SearchOption.AllDirectories), Settings.Instance.LogDir);
         }
     }
 }

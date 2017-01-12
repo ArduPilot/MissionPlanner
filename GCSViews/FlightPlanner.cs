@@ -937,6 +937,7 @@ namespace MissionPlanner.GCSViews
             Folder folder = Element as Folder;
             Polygon polygon = Element as Polygon;
             LineString ls = Element as LineString;
+            MultipleGeometry geom = Element as MultipleGeometry;
 
             if (doc != null)
             {
@@ -983,6 +984,13 @@ namespace MissionPlanner.GCSViews
                 }
 
                 kmlpolygonsoverlay.Routes.Add(kmlroute);
+            }
+            else if (geom != null)
+            {
+                foreach (var geometry in geom.Geometry)
+                {
+                    processKML(geometry);
+                }
             }
         }
 
@@ -2029,6 +2037,21 @@ namespace MissionPlanner.GCSViews
                 {
                     CMB_altmode.SelectedValue = (int) altmode.Relative;
                 }
+            }
+
+            // check home
+            Locationwp home = new Locationwp();
+            try
+            {
+                home.id = (ushort)MAVLink.MAV_CMD.WAYPOINT;
+                home.lat = (double.Parse(TXT_homelat.Text));
+                home.lng = (double.Parse(TXT_homelng.Text));
+                home.alt = (float.Parse(TXT_homealt.Text) / CurrentState.multiplierdist); // use saved home
+            }
+            catch
+            {
+                CustomMessageBox.Show("Your home location is invalid", Strings.ERROR);
+                return;
             }
 
             // check for invalid grid data
@@ -7046,6 +7069,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 CustomMessageBox.Show("Failed to set FENCE_TOTAL");
                 return;
             }
+
+            // clear all
+            drawnpolygonsoverlay.Polygons.Clear();
+            drawnpolygonsoverlay.Markers.Clear();
+            geofenceoverlay.Polygons.Clear();
+            geofencepolygon.Points.Clear();
         }
     }
 }
