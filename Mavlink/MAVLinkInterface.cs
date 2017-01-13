@@ -3185,6 +3185,7 @@ Please check the following
                                 if (buildplaintxtline.Length > 3)
                                     plaintxtline = buildplaintxtline;
 
+                                log.Info(plaintxtline);
                                 // reset for next line
                                 buildplaintxtline = "";
                             }
@@ -3205,14 +3206,14 @@ Please check the following
 
                     //Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream.BytesToRead);
 
-                    var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
-
-                    int headerlength = mavlinkv2 ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
-                    int headerlengthstx = headerlength + 1;
-
                     // check for a header
                     if (buffer[0] == 0xfe || buffer[0] == 0xfd || buffer[0] == 'U')
                     {
+                        var mavlinkv2 = buffer[0] == MAVLINK_STX ? true : false;
+    
+                        int headerlength = mavlinkv2 ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
+                        int headerlengthstx = headerlength + 1;
+
                         // if we have the header, and no other chars, get the length and packet identifiers
                         if (count == 0 && !logreadmode)
                         {
@@ -3235,9 +3236,9 @@ Please check the following
                         }
 
                         // packet length
-                        if (buffer[0] == 0xfd)
+                        if (buffer[0] == MAVLINK_STX)
                         {
-                            length = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - magic - length
+                            length = buffer[1] + headerlengthstx + MAVLINK_NUM_CHECKSUM_BYTES; // data + header + checksum - magic - length
                             if ((buffer[2] & MAVLINK_IFLAG_SIGNED) > 0)
                             {
                                 length += MAVLINK_SIGNATURE_BLOCK_LEN;
@@ -3245,7 +3246,7 @@ Please check the following
                         }
                         else
                         {
-                            length = buffer[1] + headerlengthstx + 2 - 2; // data + header + checksum - U - length    
+                            length = buffer[1] + headerlengthstx + MAVLINK_NUM_CHECKSUM_BYTES; // data + header + checksum - U - length    
                         }
 
                         if (count >= headerlength || logreadmode)
@@ -3259,7 +3260,7 @@ Please check the following
                                 {
                                     DateTime to = DateTime.Now.AddMilliseconds(BaseStream.ReadTimeout);
 
-                                    while (BaseStream.IsOpen && BaseStream.BytesToRead < (length - count))
+                                    while (BaseStream.IsOpen && BaseStream.BytesToRead < (length - (headerlengthstx)))
                                     {
                                         if (DateTime.Now > to)
                                         {
@@ -3271,7 +3272,10 @@ Please check the following
                                     }
                                     if (BaseStream.IsOpen)
                                     {
-                                        int read = BaseStream.Read(buffer, headerlengthstx, length - (headerlengthstx-2));
+                                        int read = BaseStream.Read(buffer, headerlengthstx, length - (headerlengthstx));
+                                        if (read != (length - headerlengthstx))
+                                            log.InfoFormat("MAVLINK: bad read {0}, {1}, {2}", headerlengthstx, length,
+                                                count);
                                         if (rawlogfile != null && rawlogfile.CanWrite)
                                         {
                                             // write only what we read, temp is the whole packet, so 6-end
@@ -3279,7 +3283,7 @@ Please check the following
                                         }
                                     }
                                 }
-                                count = length + 2;
+                                count = length;
                             }
                             catch
                             {
@@ -3501,7 +3505,7 @@ Please check the following
                             MAVlist[sysid, compid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
-                            if(!logreadmode)
+                           if(!logreadmode)
                                 log.InfoFormat("mav {2}-{4} seqno {0} exp {3} pkts lost {1}", packetSeqNo, numLost, sysid,
                                     expectedPacketSeqNo,compid);
                         }
@@ -4587,7 +4591,7 @@ Please check the following
                 {
                     case 0:
                         byte0 = tempb;
-                        if (byte0 != 'U' && byte0 != 254 && byte0 != 253)
+                        if (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX)
                         {
                             log.DebugFormat("logread - lost sync byte {0} pos {1}", byte0,
                                 logplaybackfile.BaseStream.Position);
@@ -4596,7 +4600,7 @@ Please check the following
                             {
                                 byte0 = logplaybackfile.ReadByte();
                             }
-                            while (byte0 != 'U' && byte0 != 254 && byte0 != 253);
+                            while (byte0 != 'U' && byte0 != MAVLINK_STX_MAVLINK1 && byte0 != MAVLINK_STX);
                             a = 1;
                             continue;
                         }
