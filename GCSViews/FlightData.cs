@@ -488,7 +488,12 @@ namespace MissionPlanner.GCSViews
                 hud1.Dock = DockStyle.Fill;
             }
 
-            for (int f = 1; f < 10; f++)
+            if (Settings.Instance.ContainsKey("quickViewRows"))
+            {
+                setQuickViewRowsCols(Settings.Instance["quickViewCols"], Settings.Instance["quickViewRows"]);
+            }
+
+            for (int f = 1; f < 30; f++)
             {
                 // load settings
                 if (Settings.Instance["quickView" + f] != null)
@@ -4380,5 +4385,99 @@ namespace MissionPlanner.GCSViews
         {
             new Utilities.AltitudeAngel.AASettings().Show(this);
         }
+
+        private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string cols = "2", rows = "3";
+
+            if (Settings.Instance["quickViewRows"]!= null)
+            {
+                rows = Settings.Instance["quickViewRows"];
+                cols = Settings.Instance["quickViewCols"]; 
+            }
+
+            if (InputBox.Show("Columns", "Enter number of columns to have.", ref cols) == DialogResult.OK)
+            {
+                if (InputBox.Show("Rows", "Enter number of rows to have.", ref rows) == DialogResult.OK)
+                {
+                    setQuickViewRowsCols(cols, rows);
+
+                    Activate();
+                }
+            }
+        }
+
+        private void setQuickViewRowsCols(string cols, string rows)
+        {
+            tableLayoutPanelQuick.ColumnCount = int.Parse(cols);
+            tableLayoutPanelQuick.RowCount = int.Parse(rows);
+
+            Settings.Instance["quickViewRows"] = tableLayoutPanelQuick.RowCount.ToString();
+            Settings.Instance["quickViewCols"] = tableLayoutPanelQuick.ColumnCount.ToString();
+
+            int total = tableLayoutPanelQuick.ColumnCount * tableLayoutPanelQuick.RowCount;
+
+            // clean up extra
+            while (tableLayoutPanelQuick.Controls.Count > total)
+                tableLayoutPanelQuick.Controls.RemoveAt(tableLayoutPanelQuick.Controls.Count - 1);
+
+            // add extra
+            while (total != tableLayoutPanelQuick.Controls.Count)
+            {
+                var QV = new QuickView()
+                {
+                    Name = "quickView" + (tableLayoutPanelQuick.Controls.Count + 1)
+                };
+                QV.DoubleClick += quickView_DoubleClick;
+                QV.ContextMenuStrip = contextMenuStripQuickView;
+                QV.Dock = DockStyle.Fill;
+                QV.numberColor = GetColor();
+                QV.number = 0;
+
+                tableLayoutPanelQuick.Controls.Add(QV);
+                QV.GetFontSize();
+            }
+
+            for (int i = 0; i < tableLayoutPanelQuick.ColumnCount; i++)
+            {
+                if (tableLayoutPanelQuick.ColumnStyles.Count <= i)
+                    tableLayoutPanelQuick.ColumnStyles.Add(new ColumnStyle());
+                tableLayoutPanelQuick.ColumnStyles[i].SizeType = SizeType.Percent;
+                tableLayoutPanelQuick.ColumnStyles[i].Width = 100.0f / tableLayoutPanelQuick.ColumnCount;
+            }
+            for (int j = 0; j < tableLayoutPanelQuick.RowCount; j++)
+            {
+                if (tableLayoutPanelQuick.RowStyles.Count <= j)
+                    tableLayoutPanelQuick.RowStyles.Add(new RowStyle());
+                tableLayoutPanelQuick.RowStyles[j].SizeType = SizeType.Percent;
+                tableLayoutPanelQuick.RowStyles[j].Height = 100.0f / tableLayoutPanelQuick.RowCount;
+            }
+        }
+
+        Random random = new Random();
+
+        Color GetColor()
+        {
+            Color mix = Color.White;
+            
+            int red = random.Next(256);
+            int green = random.Next(256);
+            int blue = random.Next(256);
+
+            // mix the color
+            if (mix != null)
+            {
+                red = (red + mix.R) / 2;
+                green = (green + mix.G) / 2;
+                blue = (blue + mix.B) / 2;
+            }
+
+            var col = Color.FromArgb(red, green, blue);
+
+            this.LogInfo(col);
+
+            return col;
+        }
     }
 }
+ 
