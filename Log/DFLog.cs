@@ -32,6 +32,19 @@ namespace MissionPlanner.Log
             public string[] items;
             public int timems;
             public int lineno;
+
+            internal DFLog parent;
+
+            public string this[string item]
+            {
+                get
+                {
+                    var index = parent.FindMessageOffset(msgtype, item);
+                    if (index == -1)
+                        return null;
+                    return items[index];
+                }
+            }
         }
 
         public enum error_subsystem
@@ -357,7 +370,7 @@ namespace MissionPlanner.Log
             {
             }
 
-            DFItem item = new DFItem();
+            DFItem item = new DFItem() {parent = this};
             try
             {
                 item.lineno = lineno;
