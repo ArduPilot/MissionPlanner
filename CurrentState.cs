@@ -1544,24 +1544,28 @@ namespace MissionPlanner
                                 {
                                     List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
 
-                                    bool found = false;
-
-                                    foreach (KeyValuePair<int, string> pair in modelist)
+                                    if (modelist != null)
                                     {
-                                        if (pair.Key == hb.custom_mode)
+                                        bool found = false;
+
+                                        foreach (KeyValuePair<int, string> pair in modelist)
                                         {
-                                            mode = pair.Value.ToString();
-                                            _mode = hb.custom_mode;
-                                            found = true;
-                                            break;
+                                            if (pair.Key == hb.custom_mode)
+                                            {
+                                                mode = pair.Value.ToString();
+                                                _mode = hb.custom_mode;
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!found)
+                                        {
+                                            log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
                                         }
                                     }
 
-                                    if (!found)
-                                    {
-                                        log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
-                                        _mode = hb.custom_mode;
-                                    }
+                                    _mode = hb.custom_mode;
                                 }
                             }
 
