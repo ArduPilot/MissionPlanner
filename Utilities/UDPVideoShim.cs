@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -60,11 +61,38 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                // solo video
-                tcpclient = new TcpClient("10.1.1.1", 5502);
+
+                if (Ping("10.1.1.1"))
+                {
+                    // solo video
+                    tcpclient = new TcpClient("10.1.1.1", 5502);
+                }
             }
             catch (Exception)
             {
+            }
+        }
+
+        public static bool Ping(string ip)
+        {
+            try
+            {
+                using (var p = new Ping())
+                {
+                    var options = new PingOptions();
+                    options.DontFragment = true;
+                    var data = "MissionPlanner";
+                    var buffer = Encoding.ASCII.GetBytes(data);
+                    var timeout = 2000;
+                    var reply = p.Send(ip, timeout, buffer, options);
+                    if (reply.Status == IPStatus.Success)
+                        return true;
+                    return false;
+                }
+            }
+            catch
+            {
+                return false;
             }
         }
     }
