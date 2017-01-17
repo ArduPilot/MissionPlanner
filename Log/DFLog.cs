@@ -68,37 +68,11 @@ namespace MissionPlanner.Log
             FAILSAFE_EKF = 17,
             BARO = 18,
             CPU = 19,
-        }
-
-        public enum error_code
-        {
-            ERROR_RESOLVED = 0,
-            FAILED_TO_INITIALISE = 1,
-            // subsystem specific error codes -- radio
-            RADIO_LATE_FRAME = 2,
-            // subsystem specific error codes -- failsafe_thr, batt, gps
-            FAILSAFE_RESOLVED = 0,
-            FAILSAFE_OCCURRED = 1,
-            // subsystem specific error codes -- compass
-            COMPASS_FAILED_TO_READ = 2,
-            // subsystem specific error codes -- gps
-            GPS_GLITCH = 2,
-            // subsystem specific error codes -- main
-            MAIN_INS_DELAY = 1,
-            // subsystem specific error codes -- crash checker
-            CRASH_CHECK_CRASH = 1,
-            CRASH_CHECK_LOSS_OF_CONTROL = 2,
-            // subsystem specific error codes -- flip
-            FLIP_ABANDONED = 2,
-            // subsystem specific error codes -- autotune
-            AUTOTUNE_BAD_GAINS = 2,
-            // parachute failed to deploy because of low altitude
-            PARACHUTE_TOO_LOW = 2,
-            // EKF check definitions
-            EKF_CHECK_BAD_VARIANCE = 2,
-            EKF_CHECK_BAD_VARIANCE_CLEARED = 0,
-            // Baro specific error codes
-            BARO_GLITCH = 2,
+            ADSB = 20,
+            TERRAIN = 21,
+            NAVIGATION = 22,
+            FAILSAFE_TERRAIN = 23,
+            EKF_PRIMARY = 24,
         }
 
         public enum events
