@@ -1120,6 +1120,9 @@ namespace MissionPlanner.GCSViews
                             route.Points.Add(currentloc);
                         }
 
+                        if (!this.IsHandleCreated)
+                            continue;
+
                         updateRoutePosition();
 
                         // update programed wp course
