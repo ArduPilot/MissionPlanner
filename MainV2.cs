@@ -2389,6 +2389,9 @@ namespace MissionPlanner
                         // enumerate each link
                         foreach (var port in Comports)
                         {
+                            if (!port.BaseStream.IsOpen)
+                                continue;
+
                             // poll for params at heartbeat interval
                             if (!port.giveComport)
                             {
