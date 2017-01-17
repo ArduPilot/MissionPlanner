@@ -34,7 +34,7 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+        public Stream BaseStream { get { return client.GetStream(); } }
 
         public CommsNTRIP()
         {
@@ -152,25 +152,34 @@ namespace MissionPlanner.Comms
 
             sw.Write(line);
 
+            log.Info(line);
+
             sw.Flush();
 
             // vrs may take up to 60+ seconds to respond
 
             if (lat != 0 || lng != 0)
             {
+                double latdms = (int) lat + ((lat - (int) lat)*.6f);
+                double lngdms = (int) lng + ((lng - (int) lng)*.6f);
+
                 line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
                  "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
-                 DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
-                 Math.Abs(lng * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
+                 DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
+                 Math.Abs(lngdms * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
                  1, alt, "M", 0, "M", "");
 
                 string checksum = GetChecksum(line);
                 sw.WriteLine(line + "*" + checksum);
 
+                log.Info(line + "*" + checksum);
+
                 sw.Flush();
             }
 
             line = sr.ReadLine();
+
+            log.Info(line);
 
             if (!line.Contains("200"))
             {

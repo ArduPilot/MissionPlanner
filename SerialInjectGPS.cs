@@ -89,6 +89,7 @@ namespace MissionPlanner
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
+            threadrun = false;
             if (comPort.IsOpen)
             {
                 threadrun = false;
@@ -115,9 +116,10 @@ namespace MissionPlanner
                         case "NTRIP":
                             comPort = new CommsNTRIP();
                             CMB_baudrate.SelectedIndex = 0;
-                            ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.lat;
-                            ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.lng;
-                            ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.altasl;
+                            ((CommsNTRIP) comPort).lat = MainV2.comPort.MAV.cs.HomeLocation.Lat;
+                            ((CommsNTRIP) comPort).lng = MainV2.comPort.MAV.cs.HomeLocation.Lng;
+                            ((CommsNTRIP) comPort).alt = MainV2.comPort.MAV.cs.HomeLocation.Alt;
+                            chk_m8pautoconfig.Checked = false;
                             break;
                         case "TCP Client":
                             comPort = new TcpSerial();
@@ -238,6 +240,8 @@ namespace MissionPlanner
             bool isrtcm = false;
             bool issbp = false;
 
+            int reconnecttimeout = 10;
+
             while (threadrun)
             {
                 try
@@ -245,13 +249,20 @@ namespace MissionPlanner
                     // reconnect logic - 10 seconds with no data, or comport is closed
                     try
                     {
-                        if ((DateTime.Now - lastrecv).TotalSeconds > 10 || !comPort.IsOpen)
+                        if ((DateTime.Now - lastrecv).TotalSeconds > reconnecttimeout || !comPort.IsOpen)
                         {
-                            this.LogInfo("Reconnecting");
-                            // close existing
-                            comPort.Close();
-                            // reopen
-                            comPort.Open();
+                            if (comPort is CommsNTRIP)
+                            {
+
+                            }
+                            else
+                            {
+                                this.LogInfo("Reconnecting");
+                                // close existing
+                                comPort.Close();
+                                // reopen
+                                comPort.Open();
+                            }
                             // reset timer
                             lastrecv = DateTime.Now;
                         }
