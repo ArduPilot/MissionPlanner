@@ -45,16 +45,22 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         private void but_disable_Click(object sender, EventArgs e)
         {
             Utilities.AltitudeAngel.AltitudeAngel.service.DisconnectAsync();
+
+            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private void chk_airdata_CheckedChanged(object sender, EventArgs e)
         {
             Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay = chk_airdata.Checked;
+
+            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private void chk_grounddata_CheckedChanged(object sender, EventArgs e)
         {
             Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay = chk_grounddata.Checked;
+
+            AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
         private async void chklb_layers_SelectedIndexChanged(object sender, EventArgs e)

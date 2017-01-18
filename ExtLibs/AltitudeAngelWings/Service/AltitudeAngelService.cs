@@ -48,7 +48,7 @@ namespace AltitudeAngelWings.Service
             }
         }
 
-        private bool _airdata = false;
+        private bool _airdata = true;
         public bool AirDataDisplay
         {
             get
@@ -60,8 +60,8 @@ namespace AltitudeAngelWings.Service
             }
             set
             {
-                _grounddata = value;
-                _missionPlanner.SaveSetting("AA.Air", _grounddata.ToString());
+                _airdata = value;
+                _missionPlanner.SaveSetting("AA.Air", _airdata.ToString());
             }
         }
 
@@ -186,6 +186,7 @@ namespace AltitudeAngelWings.Service
             map.DeleteOverlay("AAMapData.Air");
             map.DeleteOverlay("AAMapData.Ground");
             ProcessFeatures(map, cache.Values.Where(feature => feature.IsEnabledByDefault() && feature.IsFilterOutItem(FilteredOut)).ToList());
+            map.Invalidate();
         }
 
         public void ProcessFeatures(IMap map, IEnumerable<Feature> features)
