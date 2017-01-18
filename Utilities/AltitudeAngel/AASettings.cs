@@ -22,6 +22,9 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             chk_grounddata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay;
             chk_airdata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay;
 
+            but_enable.Enabled = !Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn;
+            but_disable.Enabled = Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn;
+
             foreach (var item in AltitudeAngelWings.ApiClient.Client.Extensions.FiltersSeen)
             {
                 if (AltitudeAngel.service.FilteredOut.Contains(item))

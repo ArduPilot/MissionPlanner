@@ -62,6 +62,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void MapControl_OnPolygonEnter(GMapPolygon item)
         {
+            item.Overlay.Markers.Clear();
+
             if (marker != null)
                 item.Overlay.Markers.Remove(marker);
 

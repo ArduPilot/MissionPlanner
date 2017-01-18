@@ -199,11 +199,11 @@ namespace AltitudeAngelWings.Service
 
             foreach (Feature feature in features)
             {
-                IOverlay overlay = string.Equals((string)feature.Properties.Get("category"), "airspace")
+                IOverlay overlay = string.Equals((string) feature.Properties.Get("category"), "airspace")
                     ? airOverlay
                     : groundOverlay;
 
-                var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
+                var altitude = ((JObject) feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
 
                 if (altitude == null || altitude.Meters <= 152)
                 {
@@ -224,39 +224,63 @@ namespace AltitudeAngelWings.Service
                 switch (feature.Geometry.Type)
                 {
                     case GeoJSONObjectType.Point:
+                    {
+                        if (!overlay.PolygonExists(feature.Id))
+                        {
+                            var pnt = (Point) feature.Geometry;
+
+                            List<PointLatLng> coordinates = new List<PointLatLng>();
+
+                            if (feature.Properties.ContainsKey("radius"))
+                            {
+                                var rad = double.Parse(feature.Properties["radius"].ToString());
+
+                                for (int i = 0; i <= 360; i+=10)
+                                {
+                                    coordinates.Add(
+                                        newpos(new PointLatLng(((GeographicPosition) pnt.Coordinates).Latitude,
+                                            ((GeographicPosition) pnt.Coordinates).Longitude), i, rad));
+                                }
+                            }
+
+                            ColorInfo colorInfo = feature.ToColorInfo();
+                            colorInfo.StrokeColor = 0xFFFF0000;
+                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
+                        }
+                    }
                         break;
                     case GeoJSONObjectType.MultiPoint:
                         break;
                     case GeoJSONObjectType.LineString:
+                    {
+                        if (!overlay.LineExists(feature.Id))
                         {
-                            if (!overlay.LineExists(feature.Id))
-                            {
-                                var line = (LineString)feature.Geometry;
-                                List<PointLatLng> coordinates = line.Coordinates.OfType<GeographicPosition>()
-                                                                    .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                                                    .ToList();
-                                overlay.AddLine(feature.Id, coordinates, new ColorInfo { StrokeColor = 0xFFFF0000 }, feature);
-                            }
+                            var line = (LineString) feature.Geometry;
+                            List<PointLatLng> coordinates = line.Coordinates.OfType<GeographicPosition>()
+                                .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                .ToList();
+                            overlay.AddLine(feature.Id, coordinates, new ColorInfo {StrokeColor = 0xFFFF0000}, feature);
                         }
+                    }
                         break;
 
                     case GeoJSONObjectType.MultiLineString:
                         break;
                     case GeoJSONObjectType.Polygon:
+                    {
+                        if (!overlay.PolygonExists(feature.Id))
                         {
-                            if (!overlay.PolygonExists(feature.Id))
-                            {
-                                var poly = (Polygon)feature.Geometry;
-                                List<PointLatLng> coordinates =
-                                    poly.Coordinates[0].Coordinates.OfType<GeographicPosition>()
-                                                       .Select(c => new PointLatLng(c.Latitude, c.Longitude))
-                                                       .ToList();
+                            var poly = (Polygon) feature.Geometry;
+                            List<PointLatLng> coordinates =
+                                poly.Coordinates[0].Coordinates.OfType<GeographicPosition>()
+                                    .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                    .ToList();
 
-                                ColorInfo colorInfo = feature.ToColorInfo();
-                                colorInfo.StrokeColor = 0xFFFF0000;
-                                overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
-                            }
+                            ColorInfo colorInfo = feature.ToColorInfo();
+                            colorInfo.StrokeColor = 0xFFFF0000;
+                            overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
                         }
+                    }
                         break;
                     case GeoJSONObjectType.MultiPolygon:
                         break;
@@ -270,6 +294,34 @@ namespace AltitudeAngelWings.Service
                         throw new ArgumentOutOfRangeException();
                 }
             }
+        }
+
+
+        public PointLatLng newpos(PointLatLng input, double bearing, double distance)
+        {
+            const float rad2deg = (float)(180 / Math.PI);
+            const float deg2rad = (float)(1.0 / rad2deg);
+
+            // '''extrapolate latitude/longitude given a heading and distance 
+            //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
+            //  '''
+            // from math import sin, asin, cos, atan2, radians, degrees
+            double radius_of_earth = 6378100.0;//# in meters
+
+            double lat1 = deg2rad * (input.Lat);
+            double lon1 = deg2rad * (input.Lng);
+            double brng = deg2rad * (bearing);
+            double dr = distance / radius_of_earth;
+
+            double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
+                        Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
+            double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
+                                Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
+
+            double latout = rad2deg * (lat2);
+            double lngout = rad2deg * (lon2);
+
+            return new PointLatLng(latout, lngout);
         }
 
 
