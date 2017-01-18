@@ -357,6 +357,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
       <DependentUpon>ConfigGPSInject.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log\test\MotorFailure.cs" />
     <Compile Include="Swarm\FollowLeader\Control.cs">
       <SubType>Form</SubType>
     </Compile>
