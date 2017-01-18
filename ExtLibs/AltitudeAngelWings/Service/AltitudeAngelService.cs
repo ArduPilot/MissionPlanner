@@ -31,40 +31,6 @@ namespace AltitudeAngelWings.Service
         public UserProfileInfo CurrentUser { get; private set; }
         public readonly List<string> FilteredOut = new List<string>();
 
-        private bool _grounddata = true;
-        public bool GroundDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Ground")))
-                    return _grounddata;
-                _grounddata = bool.Parse(_missionPlanner.LoadSetting("AA.Ground"));
-                return _grounddata;
-            }
-            set
-            {
-                _grounddata = value;
-                _missionPlanner.SaveSetting("AA.Ground", _grounddata.ToString());
-            }
-        }
-
-        private bool _airdata = false;
-        public bool AirDataDisplay
-        {
-            get
-            {
-                if (String.IsNullOrEmpty(_missionPlanner.LoadSetting("AA.Air")))
-                    return _airdata;
-                _airdata = bool.Parse(_missionPlanner.LoadSetting("AA.Air"));
-                return _airdata;
-            }
-            set
-            {
-                _grounddata = value;
-                _missionPlanner.SaveSetting("AA.Air", _grounddata.ToString());
-            }
-        }
-
         public AltitudeAngelService(
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
@@ -190,11 +156,16 @@ namespace AltitudeAngelWings.Service
 
         public void ProcessFeatures(IMap map, IEnumerable<Feature> features)
         {
+            map.DeleteOverlay("AAMapData.Air");
+            map.DeleteOverlay("AAMapData.Ground");
+
             IOverlay airOverlay = map.GetOverlay("AAMapData.Air", true);
             IOverlay groundOverlay = map.GetOverlay("AAMapData.Ground", true);
 
-            groundOverlay.IsVisible = GroundDataDisplay;
-            airOverlay.IsVisible = AirDataDisplay;
+            
+
+            groundOverlay.IsVisible = true;
+            airOverlay.IsVisible = true;
 
             foreach (Feature feature in features)
             {
@@ -203,22 +174,6 @@ namespace AltitudeAngelWings.Service
                     : groundOverlay;
 
                 var altitude = ((JObject)feature.Properties.Get("altitudeFloor"))?.ToObject<Altitude>();
-
-                if (altitude == null || altitude.Meters <= 152)
-                {
-                    if (!GroundDataDisplay)
-                    {
-                        if (overlay.PolygonExists(feature.Id))
-                            continue;
-                    }
-                }
-                else
-                {
-                    if (!AirDataDisplay)
-                    {
-                        continue;
-                    }
-                }
 
                 switch (feature.Geometry.Type)
                 {
