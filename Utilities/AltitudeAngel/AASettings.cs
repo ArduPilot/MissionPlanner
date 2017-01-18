@@ -18,10 +18,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
             ThemeManager.ApplyThemeTo(this);
 
-            //// load settings
-            //chk_grounddata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay;
-            //chk_airdata.Checked = Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay;
-
             foreach (var item in AltitudeAngelWings.ApiClient.Client.Extensions.FiltersSeen)
             {
                 if (AltitudeAngel.service.FilteredOut.Contains(item))
@@ -46,16 +42,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             Utilities.AltitudeAngel.AltitudeAngel.service.DisconnectAsync();
         }
-
-        //private void chk_airdata_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    Utilities.AltitudeAngel.AltitudeAngel.service.AirDataDisplay = chk_airdata.Checked;
-        //}
-
-        //private void chk_grounddata_CheckedChanged(object sender, EventArgs e)
-        //{
-        //    Utilities.AltitudeAngel.AltitudeAngel.service.GroundDataDisplay = chk_grounddata.Checked;
-        //}
 
         private async void chklb_layers_SelectedIndexChanged(object sender, EventArgs e)
         {
