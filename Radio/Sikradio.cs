@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -528,7 +529,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -621,7 +622,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -822,14 +823,31 @@ S15: MAX_WINDOW=131
 
                     ATI.Text = doCommand(comPort, "ATI");
 
+                    NumberStyles style = NumberStyles.Any;
+
+                    var freqstring = doCommand(comPort, "ATI3").Trim();
+
+                    if(freqstring.ToLower().Contains('x'))
+                        style = NumberStyles.AllowHexSpecifier;
+
                     var freq =
                         (Uploader.Frequency)
-                            Enum.Parse(typeof (Uploader.Frequency), doCommand(comPort, "ATI3"));
-                    var board =
-                        (Uploader.Board)
-                            Enum.Parse(typeof (Uploader.Board), doCommand(comPort, "ATI2"));
+                            Enum.Parse(typeof (Uploader.Frequency),
+                                int.Parse(freqstring, style).ToString());
 
                     ATI3.Text = freq.ToString();
+
+                    style = NumberStyles.Any;
+
+                    var boardstring = doCommand(comPort, "ATI2").Trim();
+
+                    if (boardstring.ToLower().Contains('x'))
+                        style = NumberStyles.AllowHexSpecifier;
+
+                    var board =
+                        (Uploader.Board)
+                            Enum.Parse(typeof (Uploader.Board),
+                                int.Parse(boardstring, style).ToString());
 
                     ATI2.Text = board.ToString();
 
@@ -881,9 +899,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
@@ -949,9 +967,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+                            var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
