@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
@@ -64,6 +65,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 softwares.Clear();
                 UpdateFWList();
                 CMB_history.Visible = false;
+            }
+            else if (keyData == (Keys.Control | Keys.P))
+            {
+                findfirmware(softwares.First(a => { return a.name.ToLower().Contains("px4"); }));
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
