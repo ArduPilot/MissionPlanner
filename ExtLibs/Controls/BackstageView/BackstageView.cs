@@ -539,11 +539,26 @@ namespace MissionPlanner.Controls.BackstageView
                     {
                         log.Error(ex);
                     }
-                    ((BackstageViewPage)page).Page.Dispose();
+
+                    try
+                    {
+                        ((BackstageViewPage)page).Page.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
                 else
                 {
-                    ((BackstageViewPage)page).Page.Dispose();
+                    try
+                    {
+                        ((BackstageViewPage)page).Page.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
             }
         }
