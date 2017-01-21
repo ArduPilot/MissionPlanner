@@ -429,6 +429,8 @@ namespace MissionPlanner.Utilities
                         var index = softwares.IndexOf(temp);
                         // get item to modify
                         var item = softwares[index];
+                        // move existing name
+                        item.desc = item.name;
                         // change name
                         item.name = line.Substring(line.IndexOf(':') + 2);
                         // save back to list
