@@ -17,7 +17,7 @@ namespace MissionPlanner.Mavlink
         private static readonly ILog log =
     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static string keyfile = "authkeys.xml";
+        static string keyfile = Settings.GetUserDataDirectory() + "authkeys.xml";
 
         static Crypto Rij = new Crypto();
 
