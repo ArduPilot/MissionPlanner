@@ -87,6 +87,11 @@ namespace MissionPlanner
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
+        public new void Show()
+        {
+            this.ShowUserControl();
+        }
+
         private void BUT_connect_Click(object sender, EventArgs e)
         {
             threadrun = false;

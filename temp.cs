@@ -738,7 +738,7 @@ namespace MissionPlanner
 
         private void but_injectgps_Click(object sender, EventArgs e)
         {
-            new SerialInjectGPS().ShowUserControl();
+            new SerialInjectGPS().Show();
         }
 
         private void BUT_fft_Click(object sender, EventArgs e)
