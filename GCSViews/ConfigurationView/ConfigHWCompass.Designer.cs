@@ -83,6 +83,7 @@
             this.buttonAPMExternal = new MissionPlanner.Controls.MyButton();
             this.QuickAPM25 = new MissionPlanner.Controls.MyButton();
             this.buttonQuickPixhawk = new MissionPlanner.Controls.MyButton();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBoxGeneralSettings.SuspendLayout();
@@ -152,6 +153,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label6);
             this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.mavlinkComboBoxfitness);
             this.groupBox4.Controls.Add(this.label9);
@@ -496,6 +498,12 @@
             this.buttonQuickPixhawk.UseVisualStyleBackColor = true;
             this.buttonQuickPixhawk.Click += new System.EventHandler(this.buttonQuickPixhawk_Click);
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.Name = "label6";
+            // 
             // ConfigHWCompass
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -586,5 +594,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label10;
         private Controls.MavlinkComboBox mavlinkComboBoxfitness;
+        private System.Windows.Forms.Label label6;
     }
 }
