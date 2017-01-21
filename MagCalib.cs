@@ -1212,6 +1212,13 @@ namespace MissionPlanner
                     if (ofs.Length > 3)
                     {
                         // ellipsoid
+                        MainV2.comPort.setParam("COMPASS_DIA2_X", (float)ofs[3]);
+                        MainV2.comPort.setParam("COMPASS_DIA2_Y", (float)ofs[4]);
+                        MainV2.comPort.setParam("COMPASS_DIA2_Z", (float)ofs[5]);
+
+                        MainV2.comPort.setParam("COMPASS_ODI2_X", (float)ofs[6]);
+                        MainV2.comPort.setParam("COMPASS_ODI2_Y", (float)ofs[7]);
+                        MainV2.comPort.setParam("COMPASS_ODI2_Z", (float)ofs[8]);
                     }
                 }
                 catch
@@ -1248,6 +1255,13 @@ namespace MissionPlanner
                     if (ofs.Length > 3)
                     {
                         // ellipsoid
+                        MainV2.comPort.setParam("COMPASS_DIA3_X", (float)ofs[3]);
+                        MainV2.comPort.setParam("COMPASS_DIA3_Y", (float)ofs[4]);
+                        MainV2.comPort.setParam("COMPASS_DIA3_Z", (float)ofs[5]);
+
+                        MainV2.comPort.setParam("COMPASS_ODI3_X", (float)ofs[6]);
+                        MainV2.comPort.setParam("COMPASS_ODI3_Y", (float)ofs[7]);
+                        MainV2.comPort.setParam("COMPASS_ODI3_Z", (float)ofs[8]);
                     }
                 }
                 catch
