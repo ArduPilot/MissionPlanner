@@ -1106,6 +1106,7 @@ namespace MissionPlanner
                 timeInAir = 0;
                 version = new Version();
                 voltageflag = MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
+                capabilities = MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FLOAT;
             }
         }
 
