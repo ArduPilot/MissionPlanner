@@ -31,8 +31,8 @@ namespace MissionPlanner.GeoRef
         private enum PROCESSING_MODE
         {
             TIME_OFFSET,
-            CAM_MSG,
-            TRIG
+            CAM_MSG, // via digital feedback
+            TRIG // camera was triggered
         }
 
         private const string PHOTO_FILES_FILTER = "*.jpg;*.tif";

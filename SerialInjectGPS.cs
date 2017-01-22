@@ -305,11 +305,11 @@ namespace MissionPlanner
                         {
                         }
 
+                        // if this is raw data transport of unknown packet types
                         if (!(isrtcm || issbp))
                             sendData(buffer, (byte) read);
 
-
-                        // check for valid rtcm packets
+                        // check for valid rtcm/sbp/ubx packets
                         for (int a = 0; a < read; a++)
                         {
                             int seenmsg = -1;
