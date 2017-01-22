@@ -522,6 +522,8 @@ namespace MissionPlanner.Log
                         int a = 0;
                         foreach (var fileName in openFileDialog1.FileNames)
                         {
+                            Loading.ShowLoading(fileName, this);
+
                             if (a == 0)
                             {
                                 // load first file
@@ -618,13 +620,41 @@ namespace MissionPlanner.Log
 
                 if (MainV2.MONO)
                 {
-                        dataGridView1.RowPrePaint += (sender, args) => { populateRowData(args.RowIndex); };
+                    int rowstartoffset = 0;
 
-                        dataGridView1.ColumnCount = colcount;
+                    dataGridView1.ScrollBars = ScrollBars.Horizontal;
 
-                        int a = 0;
-                        while (a++ < logdata.Count)
-                            dataGridView1.Rows.Add();
+                    var VBar = new VScrollBar();
+                    VBar.Visible = true;
+                    VBar.Top = 0;
+                    VBar.Height = dataGridView1.Height;
+                    VBar.Dock = DockStyle.Right;
+                    VBar.Maximum = logdata.Count;
+
+                    dataGridView1.Controls.Add(VBar);
+
+                    dataGridView1.PerformLayout();
+
+                    dataGridView1.RowPrePaint += (sender, args) =>
+                    {
+                        VBar.Maximum = logdata.Count;
+                        populateRowData(rowstartoffset + args.RowIndex, args.RowIndex);
+                    };
+
+                    dataGridView1.ColumnCount = colcount;
+
+                    int a = 0;
+                    while (a++ < 1000)
+                        dataGridView1.Rows.Add();
+
+                    // populate first row
+                    populateRowData(0, 0);
+
+                    VBar.ValueChanged += (sender, args) =>
+                    {
+                        rowstartoffset = VBar.Value;
+                        dataGridView1.Invalidate();
+                    };
                 }
                 else
                 {
@@ -651,11 +681,7 @@ namespace MissionPlanner.Log
 
             log.Info("Done timetable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-            Loading.ShowLoading("Generating Map/Time", this);
-
-            DrawMap();
-
-            log.Info("Done map " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+            Loading.ShowLoading("Generating Time", this);
 
             try
             {
@@ -671,6 +697,12 @@ namespace MissionPlanner.Log
             CreateChart(zg1);
 
             ResetTreeView(seenmessagetypes);
+
+            Loading.ShowLoading("Generating Map", this);
+
+            DrawMap();
+
+            log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
             Loading.Close();
 
@@ -689,16 +721,21 @@ namespace MissionPlanner.Log
             CMB_preselect.DataSource = graphs;
         }
 
-        private void populateRowData(int rowIndex)
+        private void populateRowData(int rowIndex, int destDGV = -1)
         {
-            var cellcount = dataGridView1.Rows[rowIndex].Cells.Count;
+            var DGVrow = (destDGV == -1) ? rowIndex : destDGV;
+
+            if (DGVrow > dataGridView1.Rows.Count)
+                return;
+
+            var cellcount = dataGridView1.Rows[DGVrow].Cells.Count;
             for (int i = 0; i < cellcount; i++)
             {
                 var data = new DataGridViewCellValueEventArgs(i, rowIndex);
 
                 dataGridView1_CellValueNeeded(dataGridView1, data);
 
-                dataGridView1.Rows[rowIndex].Cells[i].Value = data.Value;
+                dataGridView1.Rows[DGVrow].Cells[i].Value = data.Value;
             }
         }
 
@@ -760,9 +797,6 @@ namespace MissionPlanner.Log
             }
             try
             {
-                // ensure its populated
-                populateRowData(e.RowIndex);
-
                 // process the line type
                 string option = dataGridView1[typecoloum, e.RowIndex].EditedFormattedValue.ToString();
 
@@ -800,6 +834,9 @@ namespace MissionPlanner.Log
 
                     return;
                 }
+
+                if (option == "")
+                    return;
 
                 if (option.StartsWith("PID-"))
                     option = "PID-1";
@@ -1550,6 +1587,8 @@ namespace MissionPlanner.Log
                     i++;
                 }
 
+                log.Info("done reading map points");
+
                 // add last part of each
                 // gps1
                 GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
@@ -2104,6 +2143,9 @@ namespace MissionPlanner.Log
         {
             try
             {
+                if (e.RowIndex >= logdata.Count)
+                    return;
+
                 var item2 = logdata[e.RowIndex];
 
                 var item = dflog.GetDFItemFromLine(item2, e.RowIndex);

@@ -30,11 +30,19 @@ namespace MissionPlanner.Controls
             {
                 if (this.IsHandleCreated && !IsDisposed)
                 {
-                    this.Invoke((MethodInvoker)delegate
+                    if (this.InvokeRequired)
+                    {
+                        this.Invoke((MethodInvoker) delegate
+                        {
+                            label1.Text = value;
+                            this.Refresh();
+                        });
+                    }
+                    else
                     {
                         label1.Text = value;
-                        Application.DoEvents();
-                    });
+                        this.Refresh();
+                    }
                 }
             }
         }

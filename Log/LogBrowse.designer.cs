@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.Log
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.Log
 {
     partial class LogBrowse
     {
@@ -30,7 +32,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView1 = new MyDataGridView();
             this.BUT_Graphit = new MissionPlanner.Controls.MyButton();
             this.BUT_cleargraph = new MissionPlanner.Controls.MyButton();
             this.BUT_loadlog = new MissionPlanner.Controls.MyButton();
@@ -240,7 +242,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private Controls.MyDataGridView dataGridView1;
         private Controls.MyButton BUT_Graphit;
         private Controls.MyButton BUT_cleargraph;
         private Controls.MyButton BUT_loadlog;
