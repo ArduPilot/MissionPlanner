@@ -18,8 +18,14 @@
     </description>
   </graph>
 
-  <graph name="attitude deltas">
+  <graph name="attitude deltas ATT">
     <expression>ATT.DesRoll-ATT.Roll ATT.DesPitch-ATT.Pitch ATT.DesYaw-ATT.Yaw:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="attitude deltas CTUN">
+    <expression>CTUN.NavRoll-CTUN.Roll CTUN.NavPitch-CTUN.Pitch</expression>
     <description>
     </description>
   </graph>
@@ -52,6 +58,30 @@ Velocity comparison x
     <expression>earth_accel_df(IMU2,ATT).z earth_accel_df(IMU,ATT).z delta(gps_velocity_df(GPS).z,'z',GPS.TimeUS)-9.8 delta(gps_velocity_df(GPS2).z,'z',GPS2.TimeUS)-9.8</expression>
     <description>
       Velocity comparison z
+    </description>
+  </graph>
+
+  <graph name="TECS deltas">
+    <expression>TECS.h-TECS.hdem TECS.h-TECS.hdem TECS.sp-TECS.spdem</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="TECS Alt delta">
+    <expression>TECS.h-TECS.hdem</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="TECS Climbrate delta">
+    <expression>TECS.dh-TECS.dhdem:2</expression>
+    <description>
+    </description>
+  </graph>
+
+  <graph name="TECS Speed delta">
+    <expression>TECS.sp-TECS.spdem</expression>
+    <description>
     </description>
   </graph>
 
