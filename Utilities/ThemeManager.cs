@@ -654,7 +654,7 @@ mc:Ignorable=""d""
                     ctl.ForeColor = TextColor;
                     TabControl txtr = (TabControl) ctl;
                 }
-                else if (ctl.GetType() == typeof (DataGridView))
+                else if (ctl.GetType() == typeof (DataGridView) || ctl.GetType() == typeof(MyDataGridView))
                 {
                     ctl.ForeColor = TextColor;
                     DataGridView dgv = (DataGridView) ctl;
@@ -1029,7 +1029,7 @@ mc:Ignorable=""d""
                     ctl.ForeColor = TextColor;
                     TabControl txtr = (TabControl) ctl;
                 }
-                else if (ctl.GetType() == typeof (DataGridView))
+                else if (ctl.GetType() == typeof (DataGridView) || ctl.GetType() == typeof(MyDataGridView))
                 {
                     ctl.ForeColor = TextColor;
                     DataGridView dgv = (DataGridView) ctl;

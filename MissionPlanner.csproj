@@ -345,6 +345,9 @@
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MyDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFrameClassType.cs">
       <SubType>UserControl</SubType>
     </Compile>
