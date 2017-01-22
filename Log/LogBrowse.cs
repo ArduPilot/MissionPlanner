@@ -25,7 +25,6 @@ namespace MissionPlanner.Log
     public partial class LogBrowse : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        DataTable m_dtCSV = new DataTable();
 
         CollectionBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
@@ -496,8 +495,6 @@ namespace MissionPlanner.Log
 
             logdatafilter.Clear();
 
-            m_dtCSV.Clear();
-
             if (logdata != null)
                 logdata.Clear();
 
@@ -573,14 +570,13 @@ namespace MissionPlanner.Log
 
                 log.Info("got log lines " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-                log.Info("about to create DataTable " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                m_dtCSV = new DataTable();
-
                 log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
                 Loading.ShowLoading("Scanning coloum widths", this);
 
                 int b = 0;
+
+                int colcount = 0;
 
                 foreach (var item2 in logdata)
                 {
@@ -589,10 +585,7 @@ namespace MissionPlanner.Log
 
                     if (item.items != null)
                     {
-                        while (m_dtCSV.Columns.Count < (item.items.Length + typecoloum))
-                        {
-                            m_dtCSV.Columns.Add();
-                        }
+                        colcount = Math.Max(colcount, (item.items.Length + typecoloum));
 
                         seenmessagetypes[item.msgtype] = "";
 
@@ -605,7 +598,7 @@ namespace MissionPlanner.Log
                 log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
                 this.Invoke((Action) delegate {
-                                                  LoadLog2(FileName, logdata);
+                    LoadLog2(FileName, logdata, colcount);
                 });
             }
             catch (Exception ex)
@@ -615,7 +608,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        void LoadLog2(String FileName, CollectionBuffer logdata)
+        void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
         {
             try
             {
@@ -625,24 +618,20 @@ namespace MissionPlanner.Log
 
                 if (MainV2.MONO)
                 {
-                    //if (m_dtCSV.Rows.Count > 5000)
-                    // {
-                    //     CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
-                    //     dataGridView1.Visible = false;
-                    // }
-                    // else
-                    {
-                        BindingSource bs = new BindingSource();
-                        bs.DataSource = m_dtCSV;
-                        dataGridView1.DataSource = bs;
-                    }
+                        dataGridView1.RowPrePaint += (sender, args) => { populateRowData(args.RowIndex); };
+
+                        dataGridView1.ColumnCount = colcount;
+
+                        int a = 0;
+                        while (a++ < logdata.Count)
+                            dataGridView1.Rows.Add();
                 }
                 else
                 {
                     dataGridView1.VirtualMode = true;
                     dataGridView1.RowCount = 0;
                     dataGridView1.RowCount = logdata.Count;
-                    dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
+                    dataGridView1.ColumnCount = colcount;
 
                     log.Info("datagrid size set " + (GC.GetTotalMemory(false)/1024.0/1024.0));
                 }
@@ -698,6 +687,19 @@ namespace MissionPlanner.Log
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = null;
             CMB_preselect.DataSource = graphs;
+        }
+
+        private void populateRowData(int rowIndex)
+        {
+            var cellcount = dataGridView1.Rows[rowIndex].Cells.Count;
+            for (int i = 0; i < cellcount; i++)
+            {
+                var data = new DataGridViewCellValueEventArgs(i, rowIndex);
+
+                dataGridView1_CellValueNeeded(dataGridView1, data);
+
+                dataGridView1.Rows[rowIndex].Cells[i].Value = data.Value;
+            }
         }
 
         private void UntickTreeView()
@@ -758,6 +760,9 @@ namespace MissionPlanner.Log
             }
             try
             {
+                // ensure its populated
+                populateRowData(e.RowIndex);
+
                 // process the line type
                 string option = dataGridView1[typecoloum, e.RowIndex].EditedFormattedValue.ToString();
 
@@ -2090,7 +2095,6 @@ namespace MissionPlanner.Log
             if (logdata != null)
                 logdata.Clear();
             logdata = null;
-            m_dtCSV = null;
             dataGridView1.DataSource = null;
             mapoverlay = null;
             GC.Collect();
@@ -2167,53 +2171,7 @@ namespace MissionPlanner.Log
                 }
             }
         }
-
-        bool GetTimeFromRow(int lineNumber, out int millis)
-        {
-            bool ret = false;
-            millis = 0;
-
-            if (!dflog.logformat.ContainsKey("IMU"))
-                return ret;
-
-            int index = dflog.FindMessageOffset("IMU", "TimeMS");
-            if (index < 0)
-                return ret;
-
-            const int maxSearch = 100;
-
-
-            for (int i = 0; i < maxSearch; i++)
-            {
-                for (int s = -1; s < 2; s = s + 2)
-                {
-                    int r = lineNumber + s*i;
-                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
-                    {
-                        DataRow datarow = m_dtCSV.Rows[r];
-
-                        if (datarow[1].ToString() == "IMU")
-                        {
-                            try
-                            {
-                                string mil = datarow[index + 2].ToString();
-                                millis = int.Parse(mil);
-                                ret = true;
-                                break;
-                            }
-                            catch
-                            {
-                            }
-                        }
-                    }
-                }
-                if (ret)
-                    break;
-            }
-
-            return ret;
-        }
-
+        
         bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
         {
             bool ret = false;
