@@ -62,7 +62,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // Compass 1 settings
             CHK_compass1_use.setup(1, 0, "COMPASS_USE", MainV2.comPort.MAV.param);
             CHK_compass1_external.setup(1, 0, "COMPASS_EXTERNAL", MainV2.comPort.MAV.param);
-            CMB_compass1_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
+            CMB_compass1_orient.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
 
             if (!MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X"))
             {
@@ -102,7 +103,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CHK_compass2_use.setup(1, 0, "COMPASS_USE2", MainV2.comPort.MAV.param);
                 CHK_compass2_external.setup(1, 0, "COMPASS_EXTERN2", MainV2.comPort.MAV.param);
-                CMB_compass2_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
+                CMB_compass2_orient.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT2",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_ORIENT2", MainV2.comPort.MAV.param);
 
                 CMB_primary_compass.setup(typeof (CompassNumber), "COMPASS_PRIMARY", MainV2.comPort.MAV.param);
 
@@ -141,7 +143,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CHK_compass3_external.setup(1, 0, "COMPASS_EXTERN3", MainV2.comPort.MAV.param);
                 CHK_compass3_use.setup(1, 0, "COMPASS_USE3", MainV2.comPort.MAV.param);
-                CMB_compass3_orient.setup(typeof (Common.Rotation), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
+                CMB_compass3_orient.setup(ParameterMetaDataRepository.GetParameterOptionsInt("COMPASS_ORIENT3",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_ORIENT3", MainV2.comPort.MAV.param);
 
                 int offset3_x = (int) MainV2.comPort.MAV.param["COMPASS_OFS3_X"];
                 int offset3_y = (int) MainV2.comPort.MAV.param["COMPASS_OFS3_Y"];
