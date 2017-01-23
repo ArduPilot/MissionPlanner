@@ -385,14 +385,6 @@ namespace wix
                 }
             }
 
-            // put placeholder into dir
-            if (files.Length == 0)
-            {
-                File.WriteAllText(basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt", "");
-                sw.WriteLine(tabs2 + "<File Id=\"_placeholder_" + no + "\" Source=\"" + basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt" + "\" />");
-                no++;
-            }
-
             sw.WriteLine(tabs2 + "</Component>");
 
             foreach (string dir in dirs)

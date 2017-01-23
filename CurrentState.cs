@@ -1286,7 +1286,14 @@ namespace MissionPlanner
 
                         this.version = new Version(main, sub, (int) type, rev);
 
-                        capabilities = (MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
+                        try
+                        {
+                            capabilities = (MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
+                        }
+                        catch
+                        {
+                            
+                        }
 
                         MAV.clearPacket((uint)MAVLink.MAVLINK_MSG_ID.AUTOPILOT_VERSION);
                     }
@@ -1493,7 +1500,14 @@ namespace MissionPlanner
                         boardvoltage = power.Vcc;
                         servovoltage = power.Vservo;
 
-                        voltageflag = (MAVLink.MAV_POWER_STATUS) power.flags;
+                        try
+                        {
+                            voltageflag = (MAVLink.MAV_POWER_STATUS) power.flags;
+                        }
+                        catch
+                        {
+                            
+                        }
                     }
 
 
