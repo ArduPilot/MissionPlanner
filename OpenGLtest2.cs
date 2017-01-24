@@ -326,7 +326,7 @@ namespace MissionPlanner.Controls
 
             otherzoomlevel = zoom - 4;
 
-            Console.WriteLine("zoom {0}", zoom);
+            //Console.WriteLine("zoom {0}", zoom);
 
             // update once per seconds - we only read from disk, so need to let cahce settle
             if (lastrefresh.AddSeconds(0.5) < DateTime.Now)
