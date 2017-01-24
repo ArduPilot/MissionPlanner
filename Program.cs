@@ -141,7 +141,7 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
             // optionally add gdal support
-            if (Directory.Exists(Application.ExecutablePath + Path.DirectorySeparatorChar + "gdal"))
+            if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
                 GMap.NET.MapProviders.GMapProviders.List.Add(GDAL.GDALProvider.Instance);
 
             // add proxy settings
