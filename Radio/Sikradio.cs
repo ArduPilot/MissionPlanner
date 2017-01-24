@@ -833,7 +833,7 @@ S15: MAX_WINDOW=131
                     var freq =
                         (Uploader.Frequency)
                             Enum.Parse(typeof (Uploader.Frequency),
-                                int.Parse(freqstring, style).ToString());
+                                int.Parse(freqstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI3.Text = freq.ToString();
 
@@ -847,7 +847,7 @@ S15: MAX_WINDOW=131
                     var board =
                         (Uploader.Board)
                             Enum.Parse(typeof (Uploader.Board),
-                                int.Parse(boardstring, style).ToString());
+                                int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI2.Text = board.ToString();
 
