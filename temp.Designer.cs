@@ -100,6 +100,7 @@
             this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.but_GDAL = new MissionPlanner.Controls.MyButton();
             this.but_sortlogs = new MissionPlanner.Controls.MyButton();
+            this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -899,10 +900,21 @@
             this.but_sortlogs.UseVisualStyleBackColor = true;
             this.but_sortlogs.Click += new System.EventHandler(this.but_sortlogs_Click);
             // 
+            // but_logdlscp
+            // 
+            this.but_logdlscp.Location = new System.Drawing.Point(224, 566);
+            this.but_logdlscp.Name = "but_logdlscp";
+            this.but_logdlscp.Size = new System.Drawing.Size(75, 23);
+            this.but_logdlscp.TabIndex = 87;
+            this.but_logdlscp.Text = "logdownload scp";
+            this.but_logdlscp.UseVisualStyleBackColor = true;
+            this.but_logdlscp.Click += new System.EventHandler(this.but_logdlscp_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_logdlscp);
             this.Controls.Add(this.but_sortlogs);
             this.Controls.Add(this.but_GDAL);
             this.Controls.Add(this.myButton3);
@@ -1009,5 +1021,6 @@
         private Controls.MyButton myButton3;
         private Controls.MyButton but_GDAL;
         private Controls.MyButton but_sortlogs;
+        private Controls.MyButton but_logdlscp;
     }
 }
