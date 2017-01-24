@@ -5,5 +5,5 @@ for i in /usr/lib/mono/gac/*/*/*.dll; do sudo mono --aot $i; done
 
 for i in *.dll; do sudo mono --aot $i; done
 
-sudo mono --aot 'Mission Planner.exe'
+sudo mono --aot 'MissionPlanner.exe'
 

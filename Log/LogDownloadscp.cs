@@ -469,7 +469,17 @@ namespace MissionPlanner.Log
             {
                 try
                 {
-                    MainV2.comPort.EraseLog();
+
+                    SftpClient sshclient = new SftpClient(_connectionInfo);
+                    sshclient.Connect();
+
+                    foreach (var logEntry in logEntries)
+                    {
+                        sshclient.DeleteFile(logEntry.FullName);
+                    }
+
+                    sshclient.Disconnect();
+
                     AppendSerialLog(LogStrings.EraseComplete);
                     status = SerialStatus.Done;
                     CHK_logs.Items.Clear();
