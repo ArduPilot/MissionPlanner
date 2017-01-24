@@ -211,6 +211,9 @@
     <Reference Include="protobuf-net">
       <HintPath>packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
+    <Reference Include="Renci.SshNet">
+      <HintPath>packages\SSH.NET.2016.0.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX">
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.dll</HintPath>
     </Reference>
@@ -359,6 +362,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
       <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\LogDownloadscp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Log\LogDownloadscp.Designer.cs">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\test\MotorFailure.cs" />
     <Compile Include="Swarm\FollowLeader\Control.cs">
@@ -975,6 +984,7 @@
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\CircleSurveyMission.cs" />
     <Compile Include="Utilities\Device.cs" />
     <Compile Include="Utilities\dxf.cs" />
     <Compile Include="Utilities\Extensions.cs" />
@@ -2490,12 +2500,17 @@
     <EmbeddedResource Include="Log\LogDownload.ar.resx">
       <DependentUpon>LogDownload.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownloadscp.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.ar.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogStrings.resx">
       <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\MavlinkLog.ar.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>

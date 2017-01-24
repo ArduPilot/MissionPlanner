@@ -6953,5 +6953,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             geofenceoverlay.Polygons.Clear();
             geofencepolygon.Points.Clear();
         }
+
+        private void createCircleSurveyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Utilities.CircleSurveyMission.createGrid(MouseDownEnd);
+        }
     }
 }
