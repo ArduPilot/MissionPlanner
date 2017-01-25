@@ -209,6 +209,7 @@ namespace MissionPlanner
             set
             {
                 _displayConfiguration = value;
+                Settings.Instance["displayview"] = _displayConfiguration.ConvertToString();
                 if (LayoutChanged != null)
                     LayoutChanged(null, EventArgs.Empty);
             }
@@ -741,12 +742,11 @@ namespace MissionPlanner
             {
                 try
                 {
-                DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
-            }
+                    DisplayConfiguration = Settings.Instance.GetDisplayView("displayview");
+                }
                 catch
                 {
                     DisplayConfiguration = DisplayConfiguration.Basic();
-                    Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
                 }
             }
 
