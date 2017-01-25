@@ -836,7 +836,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             Settings.Instance["enableadsb"] = chk_ADSB.Checked.ToString();
-            MainV2.instance.EnableADSB = CHK_showairports.Checked;
+            MainV2.instance.EnableADSB = chk_ADSB.Checked;
         }
 
         private void chk_tfr_CheckedChanged(object sender, EventArgs e)
