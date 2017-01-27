@@ -748,6 +748,17 @@ namespace MissionPlanner.Log
 
         // Form selectform;
 
+        private static string ReplaceLastOccurrence(string Source, string Find, string Replace)
+        {
+            int place = Source.LastIndexOf(Find);
+
+            if (place == -1)
+                return Source;
+
+            string result = Source.Remove(place, Find.Length).Insert(place, Replace);
+            return result;
+        }
+
         private List<string> GetLogFileValidFields(string logfile)
         {
             // if (selectform != null && !selectform.IsDisposed)
@@ -827,7 +838,8 @@ namespace MissionPlanner.Log
 
                     if (true)
                     {
-                        string packetname = test.Name.Replace("mavlink_", "").Replace("_t", "").ToUpper();
+                        string packetname = ReplaceLastOccurrence(test.Name, "_t", "");
+                        packetname = packetname.Replace("mavlink_", "").ToUpper();
 
                         if (!packetdata.ContainsKey(packetname))
                         {
@@ -1206,7 +1218,8 @@ namespace MissionPlanner.Log
             {
                 var items = item.Split('.');
 
-                var item1text = items[0].Replace("mavlink_", "").Replace("_t", "").ToUpper();
+                var item1text = ReplaceLastOccurrence(items[0], "_t", "");
+                item1text = item1text.Replace("mavlink_", "").ToUpper();
                 var item2text = items[1];
 
                 if (!addedrootnodes.ContainsKey(item1text))
