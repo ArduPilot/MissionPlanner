@@ -34,6 +34,7 @@
             this.Key = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.but_save = new MissionPlanner.Controls.MyButton();
             this.but_add = new MissionPlanner.Controls.MyButton();
+            this.but_disablesigning = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,11 +96,21 @@
             this.but_add.UseVisualStyleBackColor = true;
             this.but_add.Click += new System.EventHandler(this.but_add_Click);
             // 
+            // but_disablesigning
+            // 
+            this.but_disablesigning.Location = new System.Drawing.Point(93, 185);
+            this.but_disablesigning.Name = "but_disablesigning";
+            this.but_disablesigning.Size = new System.Drawing.Size(75, 23);
+            this.but_disablesigning.TabIndex = 3;
+            this.but_disablesigning.Text = "Disable Signing";
+            this.but_disablesigning.UseVisualStyleBackColor = true;
+            this.but_disablesigning.Click += new System.EventHandler(this.but_disablesigning_Click);
+            // 
             // AuthKeys
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(622, 227);
+            this.Controls.Add(this.but_disablesigning);
             this.Controls.Add(this.but_add);
             this.Controls.Add(this.but_save);
             this.Controls.Add(this.dataGridView1);
@@ -118,5 +129,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FName;
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.DataGridViewTextBoxColumn Key;
+        private MyButton but_disablesigning;
     }
 }
