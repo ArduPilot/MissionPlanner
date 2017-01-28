@@ -779,7 +779,7 @@ mc:Ignorable=""d""
             UnselectedTextColour = Color.WhiteSmoke;                        // This changes the colour of unselected text in a BSV button
             HorizontalPBValueColor = Color.FromArgb(148, 193, 31);          // This changes the colour of the horizontal progressbar
 
-            if (MainV2.instance.FlightPlanner != null)
+            if (MainV2.instance != null && MainV2.instance.FlightPlanner != null)
             {
                 BSE.Windows.Forms.Panel actionPanel = MainV2.instance.FlightPlanner.panelAction;
                 BSE.Windows.Forms.Panel waypointsPanel = MainV2.instance.FlightPlanner.panelWaypoints;
@@ -833,7 +833,7 @@ mc:Ignorable=""d""
             UnselectedTextColour = Color.Gray;                              // This changes the colour of unselected text in a BSV button
             HorizontalPBValueColor = Color.FromArgb(148, 193, 31);          // This changes the colour of the horizontal progressbar
 
-            if (MainV2.instance.FlightPlanner != null)
+            if (MainV2.instance != null && MainV2.instance.FlightPlanner != null)
             {
                 BSE.Windows.Forms.Panel actionPanel = MainV2.instance.FlightPlanner.panelAction;
                 BSE.Windows.Forms.Panel waypointsPanel = MainV2.instance.FlightPlanner.panelWaypoints;
