@@ -2266,6 +2266,9 @@ namespace MissionPlanner.Log
 
             if (ret == true)
             {
+                if (lineNumber >= logdata.Count || lineNumber < 0)
+                    return false;
+
                 string gpsline = logdata[lineNumber];
                 var item = dflog.GetDFItemFromLine(gpsline, lineNumber);
                 if (gpsline.StartsWith("GPS"))
