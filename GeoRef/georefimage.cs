@@ -1788,74 +1788,81 @@ namespace MissionPlanner.GeoRef
             {
                 TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
                 Application.DoEvents();
-                
-                using (Image Pic = Image.FromStream(ms))
+                try
                 {
-                    PropertyItem[] pi = Pic.PropertyItems;
-
-                    pi[0].Id = 0x0004;
-                    pi[0].Type = 5;
-                    pi[0].Len = sizeof(ulong) * 3;
-                    pi[0].Value = coordtobytearray(dLong);
-                    Pic.SetPropertyItem(pi[0]);
-
-                    pi[0].Id = 0x0002;
-                    pi[0].Type = 5;
-                    pi[0].Len = sizeof(ulong) * 3;
-                    pi[0].Value = coordtobytearray(dLat);
-                    Pic.SetPropertyItem(pi[0]);
-
-                    pi[0].Id = 0x0006;
-                    pi[0].Type = 5;
-                    pi[0].Len = 8;
-                    pi[0].Value = new Rational(alt).GetBytes();
-                    Pic.SetPropertyItem(pi[0]);
-
-                    pi[0].Id = 1;
-                    pi[0].Len = 2;
-                    pi[0].Type = 2;
-
-                    if (dLat < 0)
+                    using (Image Pic = Image.FromStream(ms))
                     {
-                        pi[0].Value = new byte[] { (byte)'S', 0 };
+                        PropertyItem[] pi = Pic.PropertyItems;
+
+                        pi[0].Id = 0x0004;
+                        pi[0].Type = 5;
+                        pi[0].Len = sizeof (ulong)*3;
+                        pi[0].Value = coordtobytearray(dLong);
+                        Pic.SetPropertyItem(pi[0]);
+
+                        pi[0].Id = 0x0002;
+                        pi[0].Type = 5;
+                        pi[0].Len = sizeof (ulong)*3;
+                        pi[0].Value = coordtobytearray(dLat);
+                        Pic.SetPropertyItem(pi[0]);
+
+                        pi[0].Id = 0x0006;
+                        pi[0].Type = 5;
+                        pi[0].Len = 8;
+                        pi[0].Value = new Rational(alt).GetBytes();
+                        Pic.SetPropertyItem(pi[0]);
+
+                        pi[0].Id = 1;
+                        pi[0].Len = 2;
+                        pi[0].Type = 2;
+
+                        if (dLat < 0)
+                        {
+                            pi[0].Value = new byte[] {(byte) 'S', 0};
+                        }
+                        else
+                        {
+                            pi[0].Value = new byte[] {(byte) 'N', 0};
+                        }
+
+                        Pic.SetPropertyItem(pi[0]);
+
+                        pi[0].Id = 3;
+                        pi[0].Len = 2;
+                        pi[0].Type = 2;
+                        if (dLong < 0)
+                        {
+                            pi[0].Value = new byte[] {(byte) 'W', 0};
+                        }
+                        else
+                        {
+                            pi[0].Value = new byte[] {(byte) 'E', 0};
+                        }
+                        Pic.SetPropertyItem(pi[0]);
+
+                        // Save file into Geotag folder
+                        string rootFolder = TXT_jpgdir.Text;
+                        string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
+
+                        string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
+                                                Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
+                                                Path.GetExtension(Filename);
+
+                        // Just in case
+                        if (File.Exists(outputfilename))
+                            File.Delete(outputfilename);
+
+                        ImageCodecInfo ici = GetImageCodec("image/jpeg");
+                        EncoderParameters eps = new EncoderParameters(1);
+                        eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+
+                        Pic.Save(outputfilename);
                     }
-                    else
-                    {
-                        pi[0].Value = new byte[] { (byte)'N', 0 };
-                    }
-
-                    Pic.SetPropertyItem(pi[0]);
-
-                    pi[0].Id = 3;
-                    pi[0].Len = 2;
-                    pi[0].Type = 2;
-                    if (dLong < 0)
-                    {
-                        pi[0].Value = new byte[] { (byte)'W', 0 };
-                    }
-                    else
-                    {
-                        pi[0].Value = new byte[] { (byte)'E', 0 };
-                    }
-                    Pic.SetPropertyItem(pi[0]);
-
-                    // Save file into Geotag folder
-                    string rootFolder = TXT_jpgdir.Text;
-                    string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
-
-                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
-                                            Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
-                                            Path.GetExtension(Filename);
-
-                    // Just in case
-                    if (File.Exists(outputfilename))
-                        File.Delete(outputfilename);
-
-                    ImageCodecInfo ici = GetImageCodec("image/jpeg");
-                    EncoderParameters eps = new EncoderParameters(1);
-                    eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
-
-                    Pic.Save(outputfilename);
+                }
+                catch (Exception ex)
+                {
+                    TXT_outputlog.AppendText("There was a problem with image " + Filename);
+                    this.LogError(ex);
                 }
             }
         }
