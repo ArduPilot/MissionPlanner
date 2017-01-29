@@ -36,13 +36,20 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void but_enable_Click(object sender, EventArgs e)
         {
-            if (Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn)
+            try
             {
-                CustomMessageBox.Show("You are already signed in", "AltitudeAngel");
-                return;
-            }
+                if (Utilities.AltitudeAngel.AltitudeAngel.service.IsSignedIn)
+                {
+                    CustomMessageBox.Show("You are already signed in", "AltitudeAngel");
+                    return;
+                }
 
-            Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+                Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
+            }
+            catch (TypeInitializationException ex)
+            {
+                CustomMessageBox.Show("Please update your dotnet version, you cannot use the feature without this.", Strings.ERROR);
+            }
         }
 
         private void but_disable_Click(object sender, EventArgs e)
