@@ -4170,7 +4170,7 @@ Please check the following
             log.Info("totallength " + totallength);
             log.Info("current length " + ms.Length);
 
-            while (true)
+            while (true && (BaseStream.IsOpen || logreadmode))
             {
                 if (totallength == ms.Length && set.Count >= ((totallength) / 90 + 1))
                 {
@@ -4195,7 +4195,8 @@ Please check the following
 
                             req.ofs = (uint) (a*90);
                             req.count = bytereq;
-                            log.Info("req missing " + req.ofs + " " + req.count);
+                            log.Info("req missing " + req.ofs + " bytes " + req.count + " got " + set.Count + "/" +
+                                     ((totallength)/90 + 1));
                             generatePacket((byte) MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
                             start = DateTime.Now;
                             break;
