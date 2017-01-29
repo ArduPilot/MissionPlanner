@@ -352,6 +352,9 @@ namespace MissionPlanner.Utilities
 
                         double time = double.Parse(item.items[offsetTime])/1000.0;
 
+                        if (time < alldata[sensorno].lasttime)
+                            continue;
+
                         if (time != alldata[sensorno].lasttime)
                             alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
                                                           (time - alldata[sensorno].lasttime)*0.01;
@@ -373,6 +376,9 @@ namespace MissionPlanner.Utilities
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime])/1000.0;
+
+                        if(time < alldata[sensorno].lasttime)
+                            continue;
 
                         if (time != alldata[sensorno].lasttime)
                             alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
