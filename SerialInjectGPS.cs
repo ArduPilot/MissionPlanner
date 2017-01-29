@@ -22,22 +22,25 @@ namespace MissionPlanner
 {
     public partial class SerialInjectGPS : UserControl, IActivate, IDeactivate
     {
+        private static ILog log = LogManager.GetLogger(typeof (SerialInjectGPS).FullName);
+
         // serialport
         internal static ICommsSerial comPort = new SerialPort();
         // rtcm detection
-        private Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
+        private static Utilities.rtcm3 rtcm3 = new Utilities.rtcm3();
         // sbp detection
-        private Utilities.sbp sbp = new Utilities.sbp();
+        private static Utilities.sbp sbp = new Utilities.sbp();
         // ubx detection
-        private Utilities.ubx_m8p ubx_m8p = new Utilities.ubx_m8p();
+        private static Utilities.ubx_m8p ubx_m8p = new Utilities.ubx_m8p();
         // background thread 
-        private System.Threading.Thread t12;
+        private static System.Threading.Thread t12;
         private static bool threadrun = false;
         // track rtcm msg's seen
         private static Hashtable msgseen = new Hashtable();
         // track bytes seen
         private static int bytes = 0;
         private static int bps = 0;
+        private static int bpsusefull = 0;
 
         private static bool rtcm_msg = true;
 
@@ -85,6 +88,11 @@ namespace MissionPlanner
             loadBasePOS();
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+        }
+
+        ~SerialInjectGPS()
+        {
+            log.Info("destroy");
         }
 
         public new void Show()
@@ -223,21 +231,21 @@ namespace MissionPlanner
             }
         }
 
-        private void updateSVINLabel(string label, string line2 = "")
+        private static void updateSVINLabel(string label, string line2 = "")
         {
-            if (!this.IsDisposed)
+            if (!Instance.IsDisposed)
             {
-                this.BeginInvoke(
+                Instance.BeginInvoke(
                     (MethodInvoker)
                         delegate
                         {
-                            this.lbl_svin.Text = label + '\n' + line2;
+                            Instance.lbl_svin.Text = label + '\n' + line2;
                         }
                     );
             }
         }
 
-        private void mainloop()
+        private static void mainloop()
         {
             DateTime lastrecv = DateTime.MinValue;
             threadrun = true;
@@ -256,13 +264,13 @@ namespace MissionPlanner
                     {
                         if ((DateTime.Now - lastrecv).TotalSeconds > reconnecttimeout || !comPort.IsOpen)
                         {
-                            if (comPort is CommsNTRIP)
+                            if (comPort is CommsNTRIP || comPort is UdpSerialConnect || comPort is UdpSerial)
                             {
 
                             }
                             else
                             {
-                                this.LogInfo("Reconnecting");
+                                log.Warn("Reconnecting");
                                 // close existing
                                 comPort.Close();
                                 // reopen
@@ -274,7 +282,7 @@ namespace MissionPlanner
                     }
                     catch
                     {
-                        this.LogError("Failed to reconnect");
+                        log.Error("Failed to reconnect");
                         // sleep for 10 seconds on error
                         System.Threading.Thread.Sleep(10000);
                     }
@@ -318,6 +326,7 @@ namespace MissionPlanner
                             {
                                 isrtcm = true;
                                 sendData(rtcm3.packet, (byte) rtcm3.length);
+                                bpsusefull += rtcm3.length;
                                 string msgname = "Rtcm" + seenmsg;
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
@@ -330,6 +339,7 @@ namespace MissionPlanner
                             {
                                 issbp = true;
                                 sendData(sbp.packet, (byte) sbp.length);
+                                bpsusefull += sbp.length;
                                 string msgname = "Sbp" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
@@ -351,12 +361,12 @@ namespace MissionPlanner
                 }
                 catch (Exception ex)
                 {
-                    this.LogError(ex);
+                    log.Error(ex);
                 }
             }
         }
 
-        private void ProcessUBXMessage()
+        private static void ProcessUBXMessage()
         {
             try
             {
@@ -365,9 +375,15 @@ namespace MissionPlanner
                 {
                     var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
 
+                    updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) +
+                                    " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc / 10000.0);
+
                     var X = svin.meanX/100.0 + svin.meanXHP*0.0001;
                     var Y = svin.meanY/100.0 + svin.meanYHP*0.0001;
                     var Z = svin.meanZ/100.0 + svin.meanZHP*0.0001;
+
+                    if (X == 0 || Y == 0 || Z == 0)
+                        return;
 
                     var pos = new double[] {X, Y, Z};
 
@@ -377,9 +393,6 @@ namespace MissionPlanner
 
                     MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
                         baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
-
-                    updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) +
-                                    " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc/10000.0);
 
                     if (svin.valid == 1)
                         ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
@@ -397,29 +410,26 @@ namespace MissionPlanner
 
                 if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
                 {
-                    this.LogInfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
-
+                    log.InfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
                 }
 
                 if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x0)
                 {
-                    this.LogInfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
-
+                    log.InfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
                 }
 
                 if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
                 {
-                    this.LogInfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
-
+                    log.InfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                log.Error(ex);
             }
         }
 
-        private void ExtractBasePos(int seen)
+        private static void ExtractBasePos(int seen)
         {
             try
             {
@@ -441,8 +451,8 @@ namespace MissionPlanner
                         (String.Format("RTCM Base {0} {1} {2}", baseposllh[0]*Utilities.rtcm3.R2D,
                             baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]));
 
-                    if (!Instance.IsDisposed && but_save_basepos.Enabled == false)
-                        but_save_basepos.Enabled = true;
+                    if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
+                        Instance.but_save_basepos.Enabled = true;
                 }
                 else if (seen == 1006)
                 {
@@ -462,17 +472,17 @@ namespace MissionPlanner
                         (String.Format("RTCM Base {0} {1} {2}", baseposllh[0]*Utilities.rtcm3.R2D,
                             baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]));
 
-                    if (!Instance.IsDisposed && but_save_basepos.Enabled == false)
-                        but_save_basepos.Enabled = true;
+                    if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
+                        Instance.but_save_basepos.Enabled = true;
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                log.Error(ex);
             }
         }
 
-        private void sendData(byte[] data, byte length)
+        private static void sendData(byte[] data, byte length)
         {
             foreach (var port in MainV2.Comports)
             {
@@ -505,8 +515,9 @@ namespace MissionPlanner
             {
             }
 
-            updateLabel("bytes " + bytes + " bps " + bps, sb.ToString(), status_line3);
+            updateLabel(String.Format("{0,10} bytes {1,10} bps {2,10} bps sent", bytes, bps, bpsusefull), sb.ToString(), status_line3);
             bps = 0;
+            bpsusefull = 0;
 
             try
             {
