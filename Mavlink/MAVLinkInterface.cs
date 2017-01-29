@@ -4255,6 +4255,8 @@ Please check the following
                     }
                 }
             }
+
+            throw new Exception("Failed to get log");
         }
 
         public List<mavlink_log_entry_t> GetLogList()
