@@ -3406,7 +3406,7 @@ Please check the following
             {
                 _mavlink2signed++;
 
-                bool valid = false;
+                bool valid = true;
 
                 foreach (var AuthKey in MAVAuthKeys.Keys.Values)
                 {
@@ -3425,13 +3425,15 @@ Please check the following
                             if (ctx[i] != message.sig[7 + i])
                             {
                                 // not this key, check next
-                                continue;
+                                valid = false;
+                                break;
                             }
                         }
 
-                        // got valid key
-                        valid = true;
+                        if(!valid)
+                            continue;
 
+                        // got valid key
                         MAVlist[sysid, compid].linkid = message.sig[0];
 
                         MAVlist[sysid, compid].signingKey = AuthKey.Key;
