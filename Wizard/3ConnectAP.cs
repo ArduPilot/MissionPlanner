@@ -95,6 +95,10 @@ namespace MissionPlanner.Wizard
                 return 0;
             }
 
+            // ensure we are using a comport
+            if (!(MainV2.comPort.BaseStream is SerialPort))
+                MainV2.comPort.BaseStream = new SerialPort();
+
             if (!fwdone)
             {
                 pdr = new ProgressReporterDialogue();
@@ -112,7 +116,9 @@ namespace MissionPlanner.Wizard
             }
 
             if (MainV2.comPort.BaseStream.IsOpen)
+            {
                 MainV2.comPort.BaseStream.Close();
+            }
 
             // setup for over usb
             MainV2.comPort.BaseStream.BaudRate = 115200;
