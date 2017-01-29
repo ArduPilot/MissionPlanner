@@ -25,6 +25,36 @@ namespace MissionPlanner.Utilities
             catch { }
         }
 
+        ~UDPVideoShim()
+        {
+            Stop();
+        }
+
+        public static void Stop()
+        {
+            try
+            {
+                if(client != null)
+                    client.Close();
+                client = null;
+            }
+            catch { }
+
+            try
+            {
+                if (tcpclient != null)
+                    tcpclient.Close();
+                tcpclient = null;
+            }
+            catch { }
+
+            try
+            {
+                GStreamer.Stop();
+            }
+            catch { }
+        }
+
         private static void clientdata(IAsyncResult ar)
         {
             if(client != null)

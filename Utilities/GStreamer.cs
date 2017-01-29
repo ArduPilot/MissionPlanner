@@ -18,13 +18,13 @@ namespace MissionPlanner.Utilities
 
         ~GStreamer()
         {
-            try
-            {
-                if (process != null)
-                    process.Close();
-            }
-            catch { }
+            Stop();
         }
+
+        //gst-launch-1.0.exe  videotestsrc pattern=ball ! video/x-raw,width=640,height=480 ! clockoverlay ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
+        //gst-launch-1.0.exe -v udpsrc port=5600 buffer-size=60000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! tcpserversink host=127.0.0.1 port=1235 sync=false
+
+        //gst-launch-1.0.exe -v videotestsrc !  video/x-raw,format=BGRA,framerate=25/1 ! videoconvert ! autovideosink
 
         //gst-launch-1.0 videotestsrc pattern=ball ! x264enc ! rtph264pay ! udpsink host=127.0.0.1 port=5600
         //gst-launch-1.0 udpsrc port=5600 caps='application/x-rtp, media=(string)video, clock-rate=(int)90000, encoding-name=(string)H264' ! rtph264depay ! avdec_h264 ! autovideosink fps-update-interval=1000 sync=false
@@ -192,6 +192,16 @@ namespace MissionPlanner.Utilities
             {
                 
             }
+        }
+
+        public static void Stop()
+        {
+            try
+            {
+                if (process != null)
+                    process.Close();
+            }
+            catch { }
         }
     }
 }

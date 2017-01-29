@@ -1710,6 +1710,10 @@ namespace MissionPlanner
 
             Warnings.WarningEngine.Stop();
 
+            UDPVideoShim.Stop();
+
+            GStreamer.Stop();
+
             log.Info("closing vlcrender");
             try
             {
