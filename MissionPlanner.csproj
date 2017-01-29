@@ -357,6 +357,9 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
       <DependentUpon>ConfigGPSInject.cs</DependentUpon>
     </Compile>
+	<Compile Include="GCSViews\ConfigurationView\ConfigEnergyProfile.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigEnergyProfile.Designer.cs">
       <DependentUpon>ConfigEnergyProfile.cs</DependentUpon>
     </Compile>
@@ -1491,6 +1494,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigEnergyProfile.resx">
       <DependentUpon>ConfigEnergyProfile.cs</DependentUpon>
+	</EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.ar.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
