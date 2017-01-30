@@ -2918,7 +2918,10 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                writeEnergyConsumption(cmds);
+                if (Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]))
+                {
+                    writeEnergyConsumption(cmds);
+                }
 
                 MainMap.ZoomAndCenterMarkers("objects");
             }
@@ -2930,8 +2933,8 @@ namespace MissionPlanner.GCSViews
 
         private void writeEnergyConsumption(List<Locationwp> cmds)
         {
-            string EP_Current = Settings.Instance["EP_Current"];
-            string EP_Velocity = Settings.Instance["EP_Velocity"];
+            //string EP_Current = Settings.Instance["EP_Current"];
+            //string EP_Velocity = Settings.Instance["EP_Velocity"];
 
             LBL_TotalEC.Text = "0"; //Set total energy consumption to 0
 
@@ -2951,101 +2954,129 @@ namespace MissionPlanner.GCSViews
             SortedDictionary<float, float> EP_VValues = new SortedDictionary<float, float>();
 
 
-            //Current
-            for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
-            {
-                EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
-            }
+            //Approximate I with values from user through Lagrange-Interpolation
+            /*
+             * p_n(x) = [n SUM j=0](y_j*L_j(x))
+             * L_j is the lagrange-polynom and is calculated as follows
+             * 
+             * L_j(x) = [n MULTIPLY (s=0 AND s!= j)]((x-x_s)/(x_j-x_s))
+             * 
+            */
 
-            //Velocity
-            for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
-            {
-                EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
-            }
+  //          int n = 30;
+  //          int x = 0;//value searched
 
-            for (int i = 0; i < Commands.Rows.Count; i++)
-            {
-                DataGridViewTextBoxCell cell;
+  //          double zaehler = 0;
+  //          double nenner = 0;
+  //          for (int j = 0; j < n; j++)
+  //          {
+  //              for (int s = 0; s < n; s++)
+  //              {
+  //                  if (s != j)
+  //                  {
+  //                      //zaehler = s * (x - x[s]);
+  //                    //  takeoffToolStripMenuItem
+  //                  }
+  //              }
+  //          }
 
-                //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
 
-                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
 
-                float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
+  //          //Current
+  //          for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
+  //          {
+  //              //EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
+  //          }
 
-                float EnergyVal = 0.0f;
+  //          //Velocity
+  //          for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
+  //          {
+  ////              EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
+  //          }
+
+            //for (int i = 0; i < Commands.Rows.Count; i++)
+            //{
+            //    DataGridViewTextBoxCell cell;
+
+            //    //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
+
+            //    cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
+
+            //    float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
+
+            //    float EnergyVal = 0.0f;
                 
-                float angle = 0.0f; //read value in waypoint list
+            //    float angle = 0.0f; //read value in waypoint list
 
-                int upper, lower;   //upper and lower limit of angle
-                upper = lower = 0;
+            //    int upper, lower;   //upper and lower limit of angle
+            //    upper = lower = 0;
 
-                //get angle from waypoint
-                cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
-                angle = float.Parse(cell.Value.ToString());
+            //    //get angle from waypoint
+            //    cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
+            //    angle = float.Parse(cell.Value.ToString());
 
-                //Begin of linear interpolation
-                float x1, x0, y1, y0;
-                x1 = x0 = y1 = y0 = 0;
+            //    //Begin of linear interpolation
+            //    float x1, x0, y1, y0;
+            //    x1 = x0 = y1 = y0 = 0;
 
-                //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
-                //It is independent atm. whether the function of I is used or the function of V to determine the power consumption (fixed values => -90°, -45° and so on)
+            //    //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
+            //    //It is independent atm. whether the function of I is used or the function of V to determine the power consumption (fixed values => -90°, -45° and so on)
 
-                foreach (float iI in EP_IValues.Keys) 
-                {
-                    if (angle > iI) { continue; }
-                    else if (angle == -90)  //There is no direction > |90|°
-                    {
-                        upper = 1;
-                        lower = 0;
-                    }
-                    else
-                    {
-                        int index = 0;
-                        var keys = EP_IValues.Keys.ToList<float>();
+            //    foreach (float iI in EP_IValues.Keys) 
+            //    {
+            //        if (angle > iI) { continue; }
+            //        else if (angle == -90)  //There is no direction > |90|°
+            //        {
+            //            upper = 1;
+            //            lower = 0;
+            //        }
+            //        else
+            //        {
+            //            int index = 0;
+            //            var keys = EP_IValues.Keys.ToList<float>();
 
-                        index = keys.IndexOf(iI);
+            //            index = keys.IndexOf(iI);
 
-                        //upper and lower limits of angle
-                        upper = index;      //x1
-                        lower = index - 1;  //x0
+            //            //upper and lower limits of angle
+            //            upper = index;      //x1
+            //            lower = index - 1;  //x0
 
-                        break;
-                    }
-                }
+            //            break;
+            //        }
+            //    }
 
-                //I-function
-                x1 = EP_IValues.Keys.ToList<float>()[upper];
-                x0 = EP_IValues.Keys.ToList<float>()[lower];
+            //    //I-function
+            //    x1 = EP_IValues.Keys.ToList<float>()[upper];
+            //    x0 = EP_IValues.Keys.ToList<float>()[lower];
 
-                y1 = EP_IValues[x1];    //f(x1)
-                y0 = EP_IValues[x0];    //f(x0)
+            //    y1 = EP_IValues[x1];    //f(x1)
+            //    y0 = EP_IValues[x0];    //f(x0)
 
-                fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
+            //    fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
-                //V-function
-                x1 = EP_VValues.Keys.ToList<float>()[upper];
-                x0 = EP_VValues.Keys.ToList<float>()[lower];
+            //    //V-function
+            //    x1 = EP_VValues.Keys.ToList<float>()[upper];
+            //    x0 = EP_VValues.Keys.ToList<float>()[lower];
 
-                y1 = EP_VValues[x1];
-                y0 = EP_VValues[x0];
+            //    y1 = EP_VValues[x1];
+            //    y0 = EP_VValues[x0];
 
-                fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
+            //    fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
-                //Velocity has to be in m/h
-                fVelocity *= 1000f;
+            //    //Velocity has to be in m/h
+            //    fVelocity *= 1000f;
 
-                //End of linear interpolation
+            //    //End of linear interpolation
 
-                //fVelocity = distance / fTime;
-                fTime = distance / fVelocity;   //m/(m/h)
-                EnergyVal = fCurrent * fTime;
+            //    //fVelocity = distance / fTime;
+            //    fTime = distance / fVelocity;   //m/(m/h)
+            //    EnergyVal = fCurrent * fTime;
 
-                //EC Cell
-                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
-                cell.Value = EnergyVal;
-                LBL_TotalEC.Text = (float.Parse(LBL_TotalEC.Text) + EnergyVal).ToString();  //Display the total energy consumption
-            }
+            //    //EC Cell
+            //    cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+            //    cell.Value = EnergyVal;
+            //    LBL_TotalEC.Text = (float.Parse(LBL_TotalEC.Text) + EnergyVal).ToString();  //Display the total energy consumption
+            //}
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)
@@ -5199,6 +5230,10 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Please fix your default alt value");
                 TXT_DefaultAlt.Text = (50*CurrentState.multiplierdist).ToString("0");
             }
+
+            //Enable energyprofile, if enabled
+            Commands.Columns[EC.Index].Visible = Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]);
+            Panel_EnergyConsumption.Visible = Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]);
         }
 
         public void updateHome()
