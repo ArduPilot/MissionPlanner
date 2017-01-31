@@ -86,7 +86,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var motormax = 8;
 
-            var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE");
+            var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE") || MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE");
 
             if (!enable)
             {
@@ -118,10 +118,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 frame_type = (int)MainV2.comPort.MAV.param["Q_FRAME_TYPE"].Value;
             }
-            else
+            else if (MainV2.comPort.MAV.param.ContainsKey("FRAME"))
             {
                 type = MainV2.comPort.MAV.aptype;
                 frame_type = (int)MainV2.comPort.MAV.param["FRAME"].Value;
+            }
+            else if (MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE"))
+            {
+                type = MainV2.comPort.MAV.aptype;
+                frame_type = (int)MainV2.comPort.MAV.param["FRAME_TYPE"].Value;
             }
 
             var motors = new Motor[0];
