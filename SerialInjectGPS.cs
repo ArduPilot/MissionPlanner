@@ -199,6 +199,17 @@ namespace MissionPlanner
                 if (chk_m8pautoconfig.Checked)
                 {
                     this.LogInfo("Setup M8P");
+
+                    if (comPort is SerialPort)
+                    {
+                        comPort.BaudRate = 9600;
+
+                        ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                      double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+
+                        comPort.BaudRate = 115200;
+                    }
+
                     ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                         double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
                 }
