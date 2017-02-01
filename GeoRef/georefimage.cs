@@ -1599,23 +1599,29 @@ namespace MissionPlanner.GeoRef
 
 
             GMapRoute route = new GMapRoute("vehicle");
-            foreach (var vehicleLocation in vehicleLocations)
+            if (vehicleLocations != null)
             {
-                route.Points.Add(new PointLatLngAlt(vehicleLocation.Value.Lat, vehicleLocation.Value.Lon,
-                    vehicleLocation.Value.AltAMSL));
+                foreach (var vehicleLocation in vehicleLocations)
+                {
+                    route.Points.Add(new PointLatLngAlt(vehicleLocation.Value.Lat, vehicleLocation.Value.Lon,
+                        vehicleLocation.Value.AltAMSL));
+                }
             }
 
             myGMAP1.Overlays[0].Markers.Clear();
-            foreach (var pictureLocation in picturesInfo)
+            if (picturesInfo != null)
             {
-                myGMAP1.Overlays[0].Markers.Add(
-                    new GMarkerGoogle(new PointLatLngAlt(pictureLocation.Value.Lat, pictureLocation.Value.Lon,
-                        pictureLocation.Value.AltAMSL), GMarkerGoogleType.green)
-                    {
-                        IsHitTestVisible = true,
-                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                        ToolTipText = Path.GetFileName(pictureLocation.Value.Path)
-                    });
+                foreach (var pictureLocation in picturesInfo)
+                {
+                    myGMAP1.Overlays[0].Markers.Add(
+                        new GMarkerGoogle(new PointLatLngAlt(pictureLocation.Value.Lat, pictureLocation.Value.Lon,
+                            pictureLocation.Value.AltAMSL), GMarkerGoogleType.green)
+                        {
+                            IsHitTestVisible = true,
+                            ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                            ToolTipText = Path.GetFileName(pictureLocation.Value.Path)
+                        });
+                }
             }
 
             myGMAP1.Overlays[0].Routes.Clear();
