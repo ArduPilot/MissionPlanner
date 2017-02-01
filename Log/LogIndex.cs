@@ -312,8 +312,9 @@ namespace MissionPlanner.Log
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                processbg(fbd.SelectedPath);
-                //System.Threading.ThreadPool.QueueUserWorkItem(processbg, fbd.SelectedPath);
+                files.Clear();
+                createFileList(fbd.SelectedPath);
+                System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
             }
         }
     }
