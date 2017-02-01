@@ -45,7 +45,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.but_save_basepos = new MissionPlanner.Controls.MyButton();
+            this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -106,6 +113,7 @@
             this.chk_m8pautoconfig.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_m8pautoconfig.Name = "chk_m8pautoconfig";
             this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
+            this.chk_m8pautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
             // 
             // but_base_pos
             // 
@@ -160,9 +168,51 @@
             this.but_save_basepos.UseVisualStyleBackColor = true;
             this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
             // 
+            // dg_basepos
+            // 
+            this.dg_basepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dg_basepos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Lat,
+            this.Long,
+            this.Alt,
+            this.BaseName1,
+            this.Use});
+            resources.ApplyResources(this.dg_basepos, "dg_basepos");
+            this.dg_basepos.Name = "dg_basepos";
+            this.dg_basepos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellContentClick);
+            this.dg_basepos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellEndEdit);
+            this.dg_basepos.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dg_basepos_RowsRemoved);
+            // 
+            // Lat
+            // 
+            resources.ApplyResources(this.Lat, "Lat");
+            this.Lat.Name = "Lat";
+            // 
+            // Long
+            // 
+            resources.ApplyResources(this.Long, "Long");
+            this.Long.Name = "Long";
+            // 
+            // Alt
+            // 
+            resources.ApplyResources(this.Alt, "Alt");
+            this.Alt.Name = "Alt";
+            // 
+            // BaseName1
+            // 
+            resources.ApplyResources(this.BaseName1, "BaseName1");
+            this.BaseName1.Name = "BaseName1";
+            // 
+            // Use
+            // 
+            resources.ApplyResources(this.Use, "Use");
+            this.Use.Name = "Use";
+            this.Use.Text = "Use";
+            // 
             // SerialInjectGPS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.dg_basepos);
             this.Controls.Add(this.but_save_basepos);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.lbl_svin);
@@ -175,6 +225,7 @@
             resources.ApplyResources(this, "$this");
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,5 +248,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txt_surveyinDur;
         private Controls.MyButton but_save_basepos;
+        private Controls.MyDataGridView dg_basepos;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lat;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Long;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Alt;
+        private System.Windows.Forms.DataGridViewTextBoxColumn BaseName1;
+        private System.Windows.Forms.DataGridViewButtonColumn Use;
     }
 }

@@ -17,6 +17,8 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Globalization;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace MissionPlanner
 {
@@ -48,11 +50,17 @@ namespace MissionPlanner
 
         private PointLatLngAlt basepos = PointLatLngAlt.Zero;
 
+        [XmlElement(ElementName = "baseposList")]
+        List<PointLatLngAlt> baseposList = new List<PointLatLngAlt>();
+
         static private BinaryWriter basedata;
 
         // Thread signal. 
         public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
         private static string status_line3;
+
+        private string basepostlistfile = Settings.GetUserDataDirectory() + Path.DirectorySeparatorChar +
+                                          "baseposlist.xml";
 
         public SerialInjectGPS()
         {
@@ -83,7 +91,14 @@ namespace MissionPlanner
                 CMB_baudrate.Text = Settings.Instance["SerialInjectGPS_baud"];
             }
 
+            // restore current static state
             chk_rtcmmsg.Checked = rtcm_msg;
+
+            // restore setting
+            if(Settings.Instance.ContainsKey("SerialInjectGPS_m8pautoconfig"))
+                chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
+
+            loadBasePosList();
 
             loadBasePOS();
 
@@ -93,6 +108,35 @@ namespace MissionPlanner
         ~SerialInjectGPS()
         {
             log.Info("destroy");
+        }
+
+        void loadBasePosList()
+        {
+            if (File.Exists(basepostlistfile))
+            {
+                //load config
+                System.Xml.Serialization.XmlSerializer reader =
+                    new System.Xml.Serialization.XmlSerializer(typeof (List<PointLatLngAlt>), new Type[] {});
+
+                using (StreamReader sr = new StreamReader(basepostlistfile))
+                {
+                    baseposList = (List<PointLatLngAlt>) reader.Deserialize(sr);
+                }
+            }
+
+            updateBasePosDG();
+        }
+
+        void saveBasePosList()
+        {
+            // save config
+            System.Xml.Serialization.XmlSerializer writer =
+                new System.Xml.Serialization.XmlSerializer(typeof(List<PointLatLngAlt>), new Type[] { });
+
+            using (StreamWriter sw = new StreamWriter(basepostlistfile))
+            {
+                writer.Serialize(sw, baseposList);
+            }
         }
 
         public new void Show()
@@ -562,9 +606,12 @@ namespace MissionPlanner
             {
                 string[] bspos = Settings.Instance["base_pos"].Split(',');
 
+                log.Info("basepos: "+ Settings.Instance["base_pos"].ToString());
+
                 basepos = new PointLatLngAlt(double.Parse(bspos[0], CultureInfo.InvariantCulture),
                     double.Parse(bspos[1], CultureInfo.InvariantCulture),
-                    double.Parse(bspos[2], CultureInfo.InvariantCulture));
+                    double.Parse(bspos[2], CultureInfo.InvariantCulture), 
+                    bspos[3]);
             }
             catch
             {
@@ -581,6 +628,10 @@ namespace MissionPlanner
                 Settings.Instance["base_pos"] = basepos;
 
                 loadBasePOS();
+
+                baseposList.Add(new PointLatLngAlt(this.basepos));
+
+                updateBasePosDG();
             }
             else
             {
@@ -603,7 +654,83 @@ namespace MissionPlanner
                 var basepos = MainV2.comPort.MAV.cs.MovingBase;
                 Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
                     location);
+
+                baseposList.Add(new PointLatLngAlt(basepos));
             }
+        }
+
+        private void chk_m8pautoconfig_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["SerialInjectGPS_m8pautoconfig"] = chk_m8pautoconfig.Checked.ToString();
+
+            if(chk_m8pautoconfig.Checked)
+                dg_basepos.Enabled = true;
+            else
+                dg_basepos.Enabled = false;
+        }
+
+        void updateBasePosDG()
+        {
+            if (baseposList.Count == 0)
+                return;
+
+            //dont trigger on clear
+            dg_basepos.RowsRemoved -= dg_basepos_RowsRemoved;
+            dg_basepos.Rows.Clear();
+            dg_basepos.RowsRemoved += dg_basepos_RowsRemoved;
+
+            foreach (var pointLatLngAlt in baseposList)
+            {
+                dg_basepos.Rows.Add(pointLatLngAlt.Lat, pointLatLngAlt.Lng, pointLatLngAlt.Alt, pointLatLngAlt.Tag);
+            }
+
+            saveBasePosList();
+        }
+
+        private void dg_basepos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == Use.Index)
+            {
+                Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}",
+                    dg_basepos[Lat.Index, e.RowIndex].Value,
+                    dg_basepos[Long.Index, e.RowIndex].Value,
+                    dg_basepos[Alt.Index, e.RowIndex].Value,
+                    dg_basepos[BaseName1.Index, e.RowIndex].Value);
+
+                loadBasePOS();
+            }
+        }
+
+        private void dg_basepos_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            while (baseposList.Count <= e.RowIndex)
+                baseposList.Add(new PointLatLngAlt());
+
+            if (e.ColumnIndex == Lat.Index)
+            {
+                baseposList[e.RowIndex].Lat = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+            }
+            if (e.ColumnIndex == Long.Index)
+            {
+                baseposList[e.RowIndex].Lng = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+            }
+            if (e.ColumnIndex == Alt.Index)
+            {
+                baseposList[e.RowIndex].Alt = double.Parse(dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString());
+            }
+            if (e.ColumnIndex == BaseName1.Index)
+            {
+                baseposList[e.RowIndex].Tag = dg_basepos[e.ColumnIndex, e.RowIndex].Value.ToString();
+            }
+
+            saveBasePosList();
+        }
+
+        private void dg_basepos_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            baseposList.RemoveAt(e.RowIndex);
+
+            saveBasePosList();
         }
     }
 }
