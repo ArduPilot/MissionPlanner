@@ -61,7 +61,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Returns value of set polynom for I
         private double PolyValI(double _angle)
         {
-            return 0.2 * _angle * _angle + 0.3 * _angle + 15;
+            //Coefficients for I: -0.000000124085386  -0.000003451062258   0.001242329399311   0.048771354900547  16.876403038851002
+            double polynomialValue = 0.0f;
+            polynomialValue = -0.000000124085386 * _angle * _angle * _angle * _angle;
+            polynomialValue += -0.000003451062258*_angle*_angle*_angle;
+            polynomialValue += 0.001242329399311 * _angle * _angle;
+            polynomialValue += 0.048771354900547 * _angle;
+            polynomialValue += 16.876403038851002;
+
+            return polynomialValue;
         }
 
         //Returns value of set polynom for V
