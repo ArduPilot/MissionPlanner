@@ -48,11 +48,11 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.DGV_VValues = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DGV_IValues = new System.Windows.Forms.DataGridView();
-            this.IAngle = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ICurrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAngleI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCurrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colAngleV = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colVelocity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.P_EnergyProfileConfiguration.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -140,6 +140,7 @@
             this.BtnAddVValue.TabIndex = 53;
             this.BtnAddVValue.Text = "Add Value (V)";
             this.BtnAddVValue.UseVisualStyleBackColor = true;
+            this.BtnAddVValue.Click += new System.EventHandler(this.BtnAddVValue_Click);
             // 
             // TB_AngleV
             // 
@@ -181,6 +182,7 @@
             this.BtnAddIValue.TabIndex = 46;
             this.BtnAddIValue.Text = "Add Value (I)";
             this.BtnAddIValue.UseVisualStyleBackColor = true;
+            this.BtnAddIValue.Click += new System.EventHandler(this.BtnAddIValue_Click);
             // 
             // TB_AngleI
             // 
@@ -249,8 +251,8 @@
             // 
             this.DGV_VValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_VValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn2});
+            this.colAngleV,
+            this.colVelocity});
             this.DGV_VValues.Location = new System.Drawing.Point(0, 151);
             this.DGV_VValues.Name = "DGV_VValues";
             this.DGV_VValues.ReadOnly = true;
@@ -260,24 +262,12 @@
             this.DGV_VValues.Size = new System.Drawing.Size(203, 139);
             this.DGV_VValues.TabIndex = 40;
             // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.HeaderText = "Angle";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.HeaderText = "Velocity in m/s";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.ReadOnly = true;
-            // 
             // DGV_IValues
             // 
             this.DGV_IValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_IValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IAngle,
-            this.ICurrent});
+            this.colAngleI,
+            this.colCurrent});
             this.DGV_IValues.Location = new System.Drawing.Point(0, 0);
             this.DGV_IValues.Name = "DGV_IValues";
             this.DGV_IValues.ReadOnly = true;
@@ -287,17 +277,30 @@
             this.DGV_IValues.Size = new System.Drawing.Size(203, 139);
             this.DGV_IValues.TabIndex = 38;
             // 
-            // IAngle
+            // colAngleI
             // 
-            this.IAngle.HeaderText = "Angle";
-            this.IAngle.Name = "IAngle";
-            this.IAngle.ReadOnly = true;
+            this.colAngleI.HeaderText = "Angle";
+            this.colAngleI.Name = "colAngleI";
+            this.colAngleI.ReadOnly = true;
             // 
-            // ICurrent
+            // colCurrent
             // 
-            this.ICurrent.HeaderText = "Current in A";
-            this.ICurrent.Name = "ICurrent";
-            this.ICurrent.ReadOnly = true;
+            this.colCurrent.HeaderText = "Current in A";
+            this.colCurrent.Name = "colCurrent";
+            this.colCurrent.ReadOnly = true;
+            // 
+            // colAngleV
+            // 
+            this.colAngleV.HeaderText = "Angle";
+            this.colAngleV.Name = "colAngleV";
+            this.colAngleV.ReadOnly = true;
+            this.colAngleV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
+            // 
+            // colVelocity
+            // 
+            this.colVelocity.HeaderText = "Velocity in m/s";
+            this.colVelocity.Name = "colVelocity";
+            this.colVelocity.ReadOnly = true;
             // 
             // ConfigEnergyProfile
             // 
@@ -330,8 +333,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridView DGV_VValues;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox TB_Current;
@@ -344,7 +345,9 @@
         private System.Windows.Forms.TextBox TB_Velocity;
         private Controls.MyButton BtnAddVValue;
         private System.Windows.Forms.TextBox TB_AngleV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IAngle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ICurrent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAngleI;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colCurrent;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colAngleV;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colVelocity;
     }
 }

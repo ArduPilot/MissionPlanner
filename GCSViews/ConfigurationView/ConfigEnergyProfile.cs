@@ -8,6 +8,7 @@ using System.Text;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -39,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 //Samplepolynom (measured one will follow very soon): 0.2*x^2 + 0.3*x + 15
                 //measured I-Polynom is of grade 4
                 m_IValues[angle] = PolyValI(angle);
-                DGV_IValues.Rows.Add(angle.ToString(), m_IValues[angle]);
+                DGV_IValues.Rows.Add(angle.ToString(), m_IValues[angle].ToString());
             }
 
             for (double angle = -90; angle <= 90; angle = angle + 5)
@@ -121,6 +122,68 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void P_EnergyProfileConfiguration_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void BtnAddIValue_Click(object sender, EventArgs e)
+        {
+            double val = 0;
+            //User input validation:
+            if (TB_AngleI.Text == string.Empty || TB_Current.Text == string.Empty)
+            {
+                MessageBox.Show("Field is empty!", "Missing field");
+            }
+            else if (!double.TryParse(TB_AngleI.Text, out val) || !double.TryParse(TB_Current.Text, out val)
+                || TB_AngleI.Text.Contains(",") || TB_Current.Text.Contains(","))
+            {
+                MessageBox.Show("Invalid value in field!");
+            }
+            else if (double.Parse(TB_AngleI.Text) <= -90 || double.Parse(TB_AngleI.Text) >= 90)
+            {
+                MessageBox.Show("Angle is out of Range.", "Out of range");
+            }
+            else
+            {
+                m_IValues[double.Parse(TB_AngleI.Text)] = double.Parse(TB_Current.Text);
+                DGV_IValues.Rows.Add(double.Parse(TB_AngleI.Text), double.Parse(TB_Current.Text));
+            }
+        }
+
+        private void BtnAddVValue_Click(object sender, EventArgs e)
+        {
+            double val = 0;
+
+            //User input validation:
+            if (TB_AngleV.Text == string.Empty || TB_Velocity.Text == string.Empty)
+            {
+                MessageBox.Show("Field is empty!", "Missing field");
+            }
+            else if (!double.TryParse(TB_AngleV.Text, out val) || !double.TryParse(TB_Velocity.Text, out val)
+                || TB_AngleV.Text.Contains(",") || TB_Velocity.Text.Contains(","))
+            {
+                MessageBox.Show("Invalid value in field!");
+            }
+            else if (double.Parse(TB_AngleV.Text, new CultureInfo("en-US")) <= -90 || double.Parse(TB_AngleV.Text, new CultureInfo("en-US")) >= 90)
+            {
+                MessageBox.Show("Angle is out of Range.", "Out of range");
+            }
+            else
+            {
+                m_VValues[double.Parse(TB_AngleV.Text,new CultureInfo("en-US"))] = double.Parse(TB_Velocity.Text, new CultureInfo("en-US"));
+
+                /*bool bValueInList = false;
+                foreach(DataGridViewRow row in DGV_VValues.Rows)
+                {
+                    if(row.Cells[colAngleV.Index].Value.ToString().Contains(TB_AngleV.Text.Replace('.', ',')))
+                    {
+                        row.Cells[colVelocity.Index].Value = TB_Velocity.Text;
+                        bValueInList = true;
+                    }
+                }
+                if (bValueInList == false)
+                {*/
+                    DGV_VValues.Rows.Add(double.Parse(TB_AngleV.Text, new CultureInfo("en-US")), double.Parse(TB_Velocity.Text, new CultureInfo("en-US")));
+                //}
+            }
         }
     }
 }
