@@ -199,7 +199,10 @@ namespace MissionPlanner.Utilities
             try
             {
                 if (process != null)
+                {
+                    process.Kill();
                     process.Close();
+                }
             }
             catch { }
         }
