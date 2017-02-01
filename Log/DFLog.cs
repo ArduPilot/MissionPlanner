@@ -503,7 +503,7 @@ namespace MissionPlanner.Log
 
         public int FindMessageOffset(string linetype, string find)
         {
-            if (logformat.ContainsKey(linetype))
+            if (logformat.ContainsKey(linetype.ToUpper()))
                 return Log.DFLog.FindInArray(logformat[linetype].FieldNames, find);
 
             return -1;
@@ -514,7 +514,7 @@ namespace MissionPlanner.Log
             int a = 1;
             foreach (string item in array)
             {
-                if (item == find)
+                if (item.ToUpper() == find.ToUpper())
                 {
                     return a;
                 }
