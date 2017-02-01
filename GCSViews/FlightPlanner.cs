@@ -2918,7 +2918,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                if (Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]))
+                if (Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]))   //Only if energyprofile is active
                 {
                     writeEnergyConsumption(cmds);
                 }
@@ -2933,150 +2933,112 @@ namespace MissionPlanner.GCSViews
 
         private void writeEnergyConsumption(List<Locationwp> cmds)
         {
-            //string EP_Current = Settings.Instance["EP_Current"];
-            //string EP_Velocity = Settings.Instance["EP_Velocity"];
+            string EP_Current = Settings.Instance["EP_Current"];
+            string EP_Velocity = Settings.Instance["EP_Velocity"];
 
             LBL_TotalEC.Text = "0"; //Set total energy consumption to 0
 
-            float fCurrent, fVelocity, fTime;
+            double fCurrent, fVelocity, fTime;
             fCurrent = fVelocity = fTime = 0.0f;
             
-            //Parse values from energyprofile first
-            /*
-                    EP_Current/EP_Velocity format: 
-                    Index :  0 | 1 |2| 3 | 4
-                    Degree: -90|-45|0|-45|90
-            */
-
-
             //SortedDictionary: Important to iterate through ascending values
-            SortedDictionary<float, float> EP_IValues = new SortedDictionary<float, float>();
-            SortedDictionary<float, float> EP_VValues = new SortedDictionary<float, float>();
+            SortedDictionary<double, double> EP_IValues = new SortedDictionary<double, double>();
+            SortedDictionary<double, double> EP_VValues = new SortedDictionary<double, double>();
 
+            //Parse values
+            foreach (string s in EP_Current.Split('#')) //Format of string: {[angle|value]#[angle|value]#...}, CultureInfo: en-US for points instead of comma
+            {
+                EP_IValues[double.Parse(s.Split('|')[0])] = double.Parse(s.Split('|')[1]);
+            }
+            foreach (string s in EP_Velocity.Split('#')) //Format of string: {[angle|value]#[angle|value]#...}, CultureInfo: en-US for points instead of comma
+            {
+                EP_VValues[double.Parse(s.Split('|')[0])] = double.Parse(s.Split('|')[1]);
+            }
+            
+            for (int i = 0; i < Commands.Rows.Count; i++)
+            {
+                DataGridViewTextBoxCell cell;
 
-            //Approximate I with values from user through Lagrange-Interpolation
-            /*
-             * p_n(x) = [n SUM j=0](y_j*L_j(x))
-             * L_j is the lagrange-polynom and is calculated as follows
-             * 
-             * L_j(x) = [n MULTIPLY (s=0 AND s!= j)]((x-x_s)/(x_j-x_s))
-             * 
-            */
+                //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
 
-  //          int n = 30;
-  //          int x = 0;//value searched
+                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
 
-  //          double zaehler = 0;
-  //          double nenner = 0;
-  //          for (int j = 0; j < n; j++)
-  //          {
-  //              for (int s = 0; s < n; s++)
-  //              {
-  //                  if (s != j)
-  //                  {
-  //                      //zaehler = s * (x - x[s]);
-  //                    //  takeoffToolStripMenuItem
-  //                  }
-  //              }
-  //          }
+                double distance = double.Parse(cell.Value.ToString()); //distance --> found in waypoint list
 
+                double EnergyVal = 0.0f;
 
+                double angle = 0.0f; //read value in waypoint list
 
-  //          //Current
-  //          for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
-  //          {
-  //              //EP_IValues.Add(iDeg, float.Parse(EP_Current.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
-  //          }
+                int upper, lower;   //upper and lower limit of angle
+                upper = lower = 0;
 
-  //          //Velocity
-  //          for (int index = 0, iDeg = -90; iDeg <= 90; iDeg += 45, index++)
-  //          {
-  ////              EP_VValues.Add(iDeg, float.Parse(EP_Velocity.Split('|')[index], System.Globalization.CultureInfo.InvariantCulture));
-  //          }
+                //get angle from waypoint
+                cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
+                angle = float.Parse(cell.Value.ToString());
 
-            //for (int i = 0; i < Commands.Rows.Count; i++)
-            //{
-            //    DataGridViewTextBoxCell cell;
+                //Begin of linear interpolation
+                double x1, x0, y1, y0;
+                x1 = x0 = y1 = y0 = 0;
 
-            //    //if(cell.Selected == command != (byte) MAVLink.MAV_CMD.TAKEOFF
+                //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
+                //It is independent atm. whether the function of I is used or the function of V to determine the power consumption (fixed values => -90°, -45° and so on)
 
-            //    cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
+                foreach (float iI in EP_IValues.Keys)
+                {
+                    if (angle > iI) { continue; }
+                    else if (angle == -90)  //There is no direction > |90|°
+                    {
+                        upper = 1;
+                        lower = 0;
+                    }
+                    else
+                    {
+                        int index = 0;
+                        var keys = EP_IValues.Keys.ToList<double>();
 
-            //    float distance = float.Parse(cell.Value.ToString()); //distance --> found in waypoint list
+                        index = keys.IndexOf(iI);
 
-            //    float EnergyVal = 0.0f;
-                
-            //    float angle = 0.0f; //read value in waypoint list
+                        //upper and lower limits of angle
+                        upper = index;      //x1
+                        lower = index - 1;  //x0
 
-            //    int upper, lower;   //upper and lower limit of angle
-            //    upper = lower = 0;
+                        break;
+                    }
+                }
 
-            //    //get angle from waypoint
-            //    cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
-            //    angle = float.Parse(cell.Value.ToString());
+                //I-function
+                x1 = EP_IValues.Keys.ToList<double>()[upper];   //find key in collection with index
+                x0 = EP_IValues.Keys.ToList<double>()[lower];
 
-            //    //Begin of linear interpolation
-            //    float x1, x0, y1, y0;
-            //    x1 = x0 = y1 = y0 = 0;
+                y1 = EP_IValues[x1];    //f(x1)
+                y0 = EP_IValues[x0];    //f(x0)
 
-            //    //Iterate through angles to find upper and lower limit of angle (e.g.: lookup -33.5° ==> lower limit: -45°, upper limit: 0°)
-            //    //It is independent atm. whether the function of I is used or the function of V to determine the power consumption (fixed values => -90°, -45° and so on)
+                fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
-            //    foreach (float iI in EP_IValues.Keys) 
-            //    {
-            //        if (angle > iI) { continue; }
-            //        else if (angle == -90)  //There is no direction > |90|°
-            //        {
-            //            upper = 1;
-            //            lower = 0;
-            //        }
-            //        else
-            //        {
-            //            int index = 0;
-            //            var keys = EP_IValues.Keys.ToList<float>();
+                //V-function
+                x1 = EP_VValues.Keys.ToList<double>()[upper];
+                x0 = EP_VValues.Keys.ToList<double>()[lower];
 
-            //            index = keys.IndexOf(iI);
+                y1 = EP_VValues[x1];
+                y0 = EP_VValues[x0];
 
-            //            //upper and lower limits of angle
-            //            upper = index;      //x1
-            //            lower = index - 1;  //x0
+                fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
 
-            //            break;
-            //        }
-            //    }
+                //End of linear interpolation
 
-            //    //I-function
-            //    x1 = EP_IValues.Keys.ToList<float>()[upper];
-            //    x0 = EP_IValues.Keys.ToList<float>()[lower];
+                //fVelocity = distance / fTime;
+                //convert Velocity = m/s to m/h
+                fVelocity *= 3600;
+                fTime = distance / fVelocity;   //m/(m/h)
 
-            //    y1 = EP_IValues[x1];    //f(x1)
-            //    y0 = EP_IValues[x0];    //f(x0)
+                fCurrent *= 1000;
+                EnergyVal = Math.Round(fCurrent * fTime, 2,MidpointRounding.AwayFromZero);
 
-            //    fCurrent = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
-
-            //    //V-function
-            //    x1 = EP_VValues.Keys.ToList<float>()[upper];
-            //    x0 = EP_VValues.Keys.ToList<float>()[lower];
-
-            //    y1 = EP_VValues[x1];
-            //    y0 = EP_VValues[x0];
-
-            //    fVelocity = y0 + (y1 - y0) * (angle - x0) / (x1 - x0);   //approximated value
-
-            //    //Velocity has to be in m/h
-            //    fVelocity *= 1000f;
-
-            //    //End of linear interpolation
-
-            //    //fVelocity = distance / fTime;
-            //    fTime = distance / fVelocity;   //m/(m/h)
-            //    EnergyVal = fCurrent * fTime;
-
-            //    //EC Cell
-            //    cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
-            //    cell.Value = EnergyVal;
-            //    LBL_TotalEC.Text = (float.Parse(LBL_TotalEC.Text) + EnergyVal).ToString();  //Display the total energy consumption
-            //}
+                //EC Cell
+                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+                cell.Value = EnergyVal;
+                LBL_TotalEC.Text = (Math.Round(float.Parse(LBL_TotalEC.Text) + EnergyVal, 2, MidpointRounding.AwayFromZero)).ToString();  //Display the total energy consumption
+            }
         }
 
         private void trackBar1_ValueChanged(object sender, EventArgs e)

@@ -79,16 +79,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             string I_ValueData = string.Empty;
             string V_ValueData = string.Empty;
 
+            var asdf = m_IValues.Keys.ToArray();
+
             for (int i = 0; i < m_IValues.Count;i++)
             {
+                double key = m_IValues.Keys.ToArray()[i];
+
                 if (I_ValueData != string.Empty) { I_ValueData += "#"; }    //Split entries (angle,value) by #
-                I_ValueData += m_IValues.Keys.ToArray()[i] + "|" + m_IValues[i];
+                I_ValueData += key + "|" + m_IValues[key].ToString();
             }
 
             for (int i = 0; i < m_VValues.Count; i++)
             {
+                double key = m_VValues.Keys.ToArray()[i];
                 if (V_ValueData != string.Empty) { V_ValueData += "#"; }    //Split entries (angle,value) by #
-                V_ValueData += m_VValues.Keys.ToArray()[i] + "|" + m_VValues[i];
+                V_ValueData += key + "|" + m_VValues[key].ToString();
             }
 
             //Todo: WriteUserData into string
