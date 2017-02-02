@@ -120,7 +120,15 @@ namespace MissionPlanner
 
                 using (StreamReader sr = new StreamReader(basepostlistfile))
                 {
-                    baseposList = (List<PointLatLngAlt>) reader.Deserialize(sr);
+                    try
+                    {
+                        baseposList = (List<PointLatLngAlt>) reader.Deserialize(sr);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("Failed to load Base Position List\n" + ex.ToString(), Strings.ERROR);
+                    }
                 }
             }
 
