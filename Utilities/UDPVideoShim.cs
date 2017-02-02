@@ -62,6 +62,7 @@ namespace MissionPlanner.Utilities
 
             if (!File.Exists(GStreamer.gstlaunch))
             {
+                return;
                 if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to config it now","GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
                     if (GStreamer.getGstLaunchExe())
