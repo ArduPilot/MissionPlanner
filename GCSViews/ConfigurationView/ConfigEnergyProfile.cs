@@ -75,7 +75,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Returns value of set polynom for V
         private double PolyValV(double _angle)
         {
-            return 0.12 * _angle * _angle + 0.0573 * _angle + 5;
+            /*
+             We can expect a gaussian curve for v, therefore it is gaussian fitted:
+             f(x) =  a1*exp(-((x-b1)/c1)^2) + a2*exp(-((x-b2)/c2)^2)
+     Coefficients (with 95% confidence bounds):
+       a1 =       5.738  (5.601, 5.875)
+       b1 =       4.181  (3.879, 4.483)
+       c1 =       14.47  (13.92, 15.02)
+       a2 =        3.01  (2.924, 3.096)
+       b2 =       36.46  (29.02, 43.9)
+       c2 =       164.8  (148.7, 181)
+             */
+
+            double vGaussFit = 5.738 * Math.Exp(-(Math.Pow((_angle - 4.181) / 14.47, 2))) + 3.01 * Math.Exp(-(Math.Pow((_angle - 36.46) / 164.8, 2)));
+            return vGaussFit;
         }
 
         public void Activate()
