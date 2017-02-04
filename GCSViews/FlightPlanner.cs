@@ -1741,6 +1741,8 @@ namespace MissionPlanner.GCSViews
                     {
                         double height = lla.Alt - last.Alt;
                         double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
+                        double distancexyz = Math.Sqrt(Math.Pow(distance, 2) + Math.Pow(height, 2));
+                        
                         double grad = height / distance;
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value =
@@ -1751,6 +1753,9 @@ namespace MissionPlanner.GCSViews
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
                             (lla.GetDistance(last)*CurrentState.multiplierdist).ToString("0.0");
+
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[XYZDist.Index].Value =
+                            (distancexyz * CurrentState.multiplierdist).ToString();
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[AZ.Index].Value =
                             ((lla.GetBearing(last) + 180)%360).ToString("0");
