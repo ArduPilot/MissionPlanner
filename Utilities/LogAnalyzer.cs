@@ -65,8 +65,11 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    CustomMessageBox.Show("Failed to download LogAnalyzer");
-                    return "";
+                    if (!File.Exists(runner))
+                    {
+                        CustomMessageBox.Show("Failed to download LogAnalyzer");
+                        return "";
+                    }
                 }
 
             }
