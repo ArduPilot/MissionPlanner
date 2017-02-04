@@ -268,6 +268,39 @@ namespace MissionPlanner.Utilities
             return (6371 * num8) * 1000.0; // M
         }
 
+        /// <summary>
+        /// Calculate the distance with consideration of the altitude
+        /// </summary>
+        /// <param name="p2"></param>
+        /// <returns></returns>
+
+        public double Get3DDistance(PointLatLngAlt p2)
+        {
+            //calculate the 3ddistance by using the formula for sphericalcoordinates
+            double R1 = 6371000 + Alt;
+            double R2 = 6371000 + p2.Alt;
+
+            double LatRad = Lat * 0.017453292519943295;
+            double LngRad = Lng * 0.017453292519943295;
+
+            double p2LatRad = p2.Lat * 0.017453292519943295;
+            double p2LngRad = p2.Lng * 0.017453292519943295;
+
+            double LngDiff = p2LngRad - LngRad;
+            double LatDiff = p2LatRad - LatRad;
+
+            double x1 = R1 * Math.Cos(LatRad) * Math.Cos(LngRad);
+            double y1 = R1 * Math.Cos(LatRad) * Math.Sin(LngRad);
+            double z1 = R1 * Math.Sin(LatRad);
+
+            double x2 = R2 * Math.Cos(p2LatRad) * Math.Cos(p2LngRad);
+            double y2 = R2 * Math.Cos(p2LatRad) * Math.Sin(p2LngRad);
+            double z2 = R2 * Math.Sin(p2LatRad);
+
+            //Return length of the 3D vector, which is the difference between p1 and p2
+            return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2) + Math.Pow(z2 - z1, 2));
+        }
+
         public double GetDistance2(PointLatLngAlt p2)
         {
             //http://www.movable-type.co.uk/scripts/latlong.html
