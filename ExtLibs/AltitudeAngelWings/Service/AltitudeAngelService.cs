@@ -283,6 +283,20 @@ namespace AltitudeAngelWings.Service
                     }
                         break;
                     case GeoJSONObjectType.MultiPolygon:
+                        if (!overlay.PolygonExists(feature.Id))
+                        {
+                            foreach (var poly in ((MultiPolygon) feature.Geometry).Coordinates)
+                            {
+                                List<PointLatLng> coordinates =
+                                    poly.Coordinates[0].Coordinates.OfType<GeographicPosition>()
+                                        .Select(c => new PointLatLng(c.Latitude, c.Longitude))
+                                        .ToList();
+
+                                ColorInfo colorInfo = feature.ToColorInfo();
+                                colorInfo.StrokeColor = 0xFFFF0000;
+                                overlay.AddPolygon(feature.Id, coordinates, colorInfo, feature);
+                            }
+                        }
                         break;
                     case GeoJSONObjectType.GeometryCollection:
                         break;
