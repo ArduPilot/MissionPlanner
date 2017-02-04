@@ -57,6 +57,9 @@ namespace MissionPlanner.Utilities
 
         private static void clientdata(IAsyncResult ar)
         {
+            if (((UdpClient) ar.AsyncState).Client == null)
+                return;
+
             if(client != null)
                 client.Close();
 
