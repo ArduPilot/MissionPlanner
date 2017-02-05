@@ -993,7 +993,15 @@ namespace MissionPlanner.Controls
                     bgon = false;
                     lock (this._bgimagelock)
                     {
-                        graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                        try
+                        {
+                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            _bgimage = null;
+                        }
                     }
 
                     if (hudon == false)
