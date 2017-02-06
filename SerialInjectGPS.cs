@@ -155,7 +155,7 @@ namespace MissionPlanner
                     vpb.Width = width;
                     vpb.Height = panel1.Height-30;
                     vpb.Minimum = 25;
-                    vpb.Maximum = 60;
+                    vpb.Maximum = 55;
                     vpb.minline = 30;
                     vpb.maxline = 99;
                     cnt++;
@@ -313,18 +313,10 @@ namespace MissionPlanner
                 {
                     this.LogInfo("Setup M8P");
 
-                    if (comPort is SerialPort)
-                    {
-                        comPort.BaudRate = 9600;
-
-                        ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                      double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
-
-                        comPort.BaudRate = 115200;
-                    }
-
                     ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                         double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+
+                    this.LogInfo("Setup M8P done");
                 }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
