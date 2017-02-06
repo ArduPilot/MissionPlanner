@@ -37,20 +37,21 @@
             this.chk_rtcmmsg = new System.Windows.Forms.CheckBox();
             this.lbl_svin = new System.Windows.Forms.Label();
             this.chk_m8pautoconfig = new System.Windows.Forms.CheckBox();
-            this.but_base_pos = new MissionPlanner.Controls.MyButton();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_surveyinDur = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
-            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
+            this.but_base_pos = new MissionPlanner.Controls.MyButton();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
             this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.SuspendLayout();
@@ -115,20 +116,6 @@
             this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
             this.chk_m8pautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
             // 
-            // but_base_pos
-            // 
-            resources.ApplyResources(this.but_base_pos, "but_base_pos");
-            this.but_base_pos.Name = "but_base_pos";
-            this.but_base_pos.UseVisualStyleBackColor = true;
-            this.but_base_pos.Click += new System.EventHandler(this.but_base_pos_Click);
-            // 
-            // BUT_connect
-            // 
-            resources.ApplyResources(this.BUT_connect, "BUT_connect");
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label2);
@@ -161,15 +148,21 @@
             resources.ApplyResources(this.txt_surveyinAcc, "txt_surveyinAcc");
             this.txt_surveyinAcc.Name = "txt_surveyinAcc";
             // 
-            // but_save_basepos
+            // but_base_pos
             // 
-            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
-            this.but_save_basepos.Name = "but_save_basepos";
-            this.but_save_basepos.UseVisualStyleBackColor = true;
-            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
+            resources.ApplyResources(this.but_base_pos, "but_base_pos");
+            this.but_base_pos.Name = "but_base_pos";
+            this.but_base_pos.UseVisualStyleBackColor = true;
+            this.but_base_pos.Click += new System.EventHandler(this.but_base_pos_Click);
+            // 
+            // panel1
+            // 
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
             // 
             // dg_basepos
             // 
+            resources.ApplyResources(this.dg_basepos, "dg_basepos");
             this.dg_basepos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dg_basepos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Lat,
@@ -177,7 +170,6 @@
             this.Alt,
             this.BaseName1,
             this.Use});
-            resources.ApplyResources(this.dg_basepos, "dg_basepos");
             this.dg_basepos.Name = "dg_basepos";
             this.dg_basepos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellContentClick);
             this.dg_basepos.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dg_basepos_CellEndEdit);
@@ -209,9 +201,24 @@
             this.Use.Name = "Use";
             this.Use.Text = "Use";
             // 
+            // but_save_basepos
+            // 
+            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
+            this.but_save_basepos.Name = "but_save_basepos";
+            this.but_save_basepos.UseVisualStyleBackColor = true;
+            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
+            // 
+            // BUT_connect
+            // 
+            resources.ApplyResources(this.BUT_connect, "BUT_connect");
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
+            // 
             // SerialInjectGPS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.dg_basepos);
             this.Controls.Add(this.but_save_basepos);
             this.Controls.Add(this.groupBox1);
@@ -254,5 +261,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Alt;
         private System.Windows.Forms.DataGridViewTextBoxColumn BaseName1;
         private System.Windows.Forms.DataGridViewButtonColumn Use;
+        private System.Windows.Forms.Panel panel1;
     }
 }

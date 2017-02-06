@@ -102,7 +102,68 @@ namespace MissionPlanner
 
             loadBasePOS();
 
+            rtcm3.ObsMessage += Rtcm3_ObsMessage;
+
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+        }
+
+        private void Rtcm3_ObsMessage(object sender, EventArgs e)
+        {
+            MainV2.instance.BeginInvoke((MethodInvoker) delegate
+            {
+                List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
+
+                // get system controls
+                Func<char,List<VerticalProgressBar2>> ctls = delegate (char sys)
+                {
+                    return panel1.Controls.OfType<VerticalProgressBar2>()
+                        .Where(ctl => { return ctl.Label.StartsWith(sys + ""); }).ToList();
+                };
+
+                // we need more ctls for this system
+                while (ctls.Invoke(obs[0].sys).Count() < obs.Count)
+                    panel1.Controls.Add(new VerticalProgressBar2()
+                    {
+                        Height = panel1.Height - 30,
+                        Label = obs[0].sys + ""
+                    });
+
+                // we need to remove ctls for this system
+                while (ctls.Invoke(obs[0].sys).Count() > obs.Count)
+                {
+                    panel1.Controls.Remove(ctls.Invoke(obs[0].sys).First());
+                }
+
+                int width = panel1.Width/panel1.Controls.OfType<VerticalProgressBar2>().Count();
+
+                var tmp = ctls('G');
+                var tmp2 = ctls('R');
+
+                // if G 0, if R = G.count (2 system support)
+                var a = obs[0].sys == 'G' ? 0 : ctls.Invoke('G').Count;
+
+                var sysctls = ctls.Invoke(obs[0].sys);
+                var cnt = 0;
+                foreach (var ob in obs)
+                {
+                    var vpb = sysctls[cnt];
+                    vpb.Value = (int) ob.snr;
+                    //vpb.Text = ob.snr.ToString();
+                    vpb.Label = ob.sys + ob.prn.ToString();
+                    vpb.Location = new Point(width*(a + cnt), 0);
+                    vpb.DrawLabel = true;
+                    vpb.Width = width;
+                    vpb.Height = panel1.Height-30;
+                    vpb.Minimum = 25;
+                    vpb.Maximum = 60;
+                    vpb.minline = 30;
+                    vpb.maxline = 99;
+                    cnt++;
+                }
+
+                ThemeManager.ApplyThemeTo(panel1);
+            }
+            );
         }
 
         ~SerialInjectGPS()
