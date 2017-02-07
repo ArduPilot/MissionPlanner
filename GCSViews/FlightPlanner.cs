@@ -1741,7 +1741,7 @@ namespace MissionPlanner.GCSViews
                     {
                         double height = lla.Alt - last.Alt;
                         double distance = lla.GetDistance(last) * CurrentState.multiplierdist;
-                        double distancexyz = lla.Get3DDistance(last);
+                        double distancexyz = SharpKml.Base.MathHelpers.Distance(last.Lat, last.Lng, last.Alt, lla.Lat, lla.Lng, lla.Alt);
 
                         double grad = height / distance;
 
