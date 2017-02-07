@@ -38,20 +38,21 @@
             this.lbl_svin = new System.Windows.Forms.Label();
             this.chk_m8pautoconfig = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chk_m8p_130p = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_surveyinDur = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.but_base_pos = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
+            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
             this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.but_save_basepos = new MissionPlanner.Controls.MyButton();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.SuspendLayout();
@@ -118,6 +119,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chk_m8p_130p);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txt_surveyinDur);
             this.groupBox1.Controls.Add(this.label1);
@@ -127,6 +129,13 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // chk_m8p_130p
+            // 
+            resources.ApplyResources(this.chk_m8p_130p, "chk_m8p_130p");
+            this.chk_m8p_130p.Name = "chk_m8p_130p";
+            this.chk_m8p_130p.UseVisualStyleBackColor = true;
+            this.chk_m8p_130p.CheckedChanged += new System.EventHandler(this.chk_m8p_130p_CheckedChanged);
             // 
             // label2
             // 
@@ -159,6 +168,20 @@
             // 
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
+            // 
+            // but_save_basepos
+            // 
+            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
+            this.but_save_basepos.Name = "but_save_basepos";
+            this.but_save_basepos.UseVisualStyleBackColor = true;
+            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
+            // 
+            // BUT_connect
+            // 
+            resources.ApplyResources(this.BUT_connect, "BUT_connect");
+            this.BUT_connect.Name = "BUT_connect";
+            this.BUT_connect.UseVisualStyleBackColor = true;
+            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // dg_basepos
             // 
@@ -200,20 +223,6 @@
             resources.ApplyResources(this.Use, "Use");
             this.Use.Name = "Use";
             this.Use.Text = "Use";
-            // 
-            // but_save_basepos
-            // 
-            resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
-            this.but_save_basepos.Name = "but_save_basepos";
-            this.but_save_basepos.UseVisualStyleBackColor = true;
-            this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
-            // 
-            // BUT_connect
-            // 
-            resources.ApplyResources(this.BUT_connect, "BUT_connect");
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // SerialInjectGPS
             // 
@@ -262,5 +271,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BaseName1;
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.CheckBox chk_m8p_130p;
     }
 }

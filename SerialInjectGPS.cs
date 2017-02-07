@@ -98,6 +98,9 @@ namespace MissionPlanner
             if(Settings.Instance.ContainsKey("SerialInjectGPS_m8pautoconfig"))
                 chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
 
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_m8p_130p"))
+                chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8p_130p"]);
+
             loadBasePosList();
 
             loadBasePOS();
@@ -314,7 +317,7 @@ namespace MissionPlanner
                     this.LogInfo("Setup M8P");
 
                     ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), chk_m8p_130p.Checked);
 
                     this.LogInfo("Setup M8P done");
                 }
@@ -792,6 +795,11 @@ namespace MissionPlanner
             baseposList.RemoveAt(e.RowIndex);
 
             saveBasePosList();
+        }
+
+        private void chk_m8p_130p_CheckedChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["SerialInjectGPS_m8p_130p"] = chk_m8p_130p.Checked.ToString();
         }
     }
 }

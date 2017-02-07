@@ -265,7 +265,7 @@ namespace MissionPlanner.Utilities
             public byte[] reserved3;
         }
 
-        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0)
+        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool m8p_130plus = false)
         {
             port.BaseStream.Flush();
 
@@ -334,8 +334,13 @@ namespace MissionPlanner.Utilities
             turnon_off(port, 0xf5, 0x05, 5);
 
             byte rate1 = 1;
-            // m8p 130 - wip
             byte rate2 = 0;
+
+            if (m8p_130plus)
+            {
+                rate1 = 0;
+                rate2 = 1;
+            }
 
             // 1074 - 1s
             turnon_off(port, 0xf5, 0x4a, rate2);
@@ -359,9 +364,9 @@ namespace MissionPlanner.Utilities
             turnon_off(port, 0x02, 0x15, 1);
             turnon_off(port, 0x02, 0x10, 1);
 
-            // rxm-sfrb/sfrb - 5s
-            turnon_off(port, 0x02, 0x13, 1);
-            turnon_off(port, 0x02, 0x11, 1);
+            // rxm-sfrb/sfrb - 2s
+            turnon_off(port, 0x02, 0x13, 2);
+            turnon_off(port, 0x02, 0x11, 2);
 
 
             System.Threading.Thread.Sleep(100);
