@@ -4482,7 +4482,7 @@ namespace MissionPlanner.GCSViews
 
             var col = Color.FromArgb(red, green, blue);
 
-            this.LogInfo(col);
+            this.LogInfo("GetColor() " + col);
 
             return col;
         }

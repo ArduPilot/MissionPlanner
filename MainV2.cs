@@ -2618,7 +2618,7 @@ namespace MissionPlanner
                 {
                     log.Info("Load Pluggins");
                     Plugin.PluginLoader.LoadAll();
-                    log.Info("Load Pluggins Done");
+                    log.Info("Load Pluggins... Done");
                 }
             }
             catch (Exception ex)
@@ -2635,7 +2635,9 @@ namespace MissionPlanner
             else
             {
                 this.PerformLayout();
+                log.Info("show FlightData");
                 MenuFlightData_Click(this, e);
+                log.Info("show FlightData... Done");
                 MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));
             }
 
@@ -2647,6 +2649,7 @@ namespace MissionPlanner
             // setup http server
             try
             {
+                log.Info("start http");
                 httpthread = new Thread(new httpserver().listernforclients)
                 {
                     Name = "motion jpg stream-network kml",
@@ -2660,6 +2663,7 @@ namespace MissionPlanner
                 CustomMessageBox.Show(ex.ToString());
             }
 
+            log.Info("start joystick");
             // setup joystick packet sender
             joystickthread = new Thread(new ThreadStart(joysticksend))
             {
@@ -2669,6 +2673,7 @@ namespace MissionPlanner
             };
             joystickthread.Start();
 
+            log.Info("start serialreader");
             // setup main serial reader
             serialreaderthread = new Thread(SerialReader)
             {
@@ -2678,6 +2683,7 @@ namespace MissionPlanner
             };
             serialreaderthread.Start();
 
+            log.Info("start plugin thread");
             // setup main plugin thread
             pluginthread = new Thread(PluginThread)
             {
@@ -2702,11 +2708,13 @@ namespace MissionPlanner
             // update firmware version list - only once per day
             ThreadPool.QueueUserWorkItem(BGFirmwareCheck);
 
+            log.Info("start udpvideoshim");
             // start listener
             UDPVideoShim.Start();
 
             try
             {
+                log.Info("Load AltitudeAngel");
                 new Utilities.AltitudeAngel.AltitudeAngel();
 
                 /*
@@ -2723,6 +2731,7 @@ namespace MissionPlanner
                     Settings.Instance["AACheck"] = true.ToString();
                 }
                 */
+                log.Info("Load AltitudeAngel... Done");
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
@@ -2737,6 +2746,7 @@ namespace MissionPlanner
 
             Program.Splash.Close();
 
+            log.Info("appload time");
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time",
                 (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
@@ -2764,16 +2774,19 @@ namespace MissionPlanner
             {
                 if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".tlog"))
                 {
-                    FlightData.LoadLogFile(Program.args[0]);
-                    FlightData.BUT_playlog_Click(null, null);
+                    if (File.Exists(Program.args[0]))
+                    {
+                        FlightData.LoadLogFile(Program.args[0]);
+                        FlightData.BUT_playlog_Click(null, null);
+                    }
                 }
-                else if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".bin"))
+                else if (File.Exists(Program.args[0]) && (Program.args[0].ToLower().EndsWith(".bin") || Program.args[0].ToLower().EndsWith(".log")))
                 {
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);
                     logbrowse.logfilename = Program.args[0];
                     logbrowse.Show(this);
-                    logbrowse.TopMost = true;
+                    logbrowse.BringToFront();
                 }
             }
 
