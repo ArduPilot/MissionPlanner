@@ -99,7 +99,7 @@ namespace MissionPlanner
                 chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8pautoconfig"]);
 
             if (Settings.Instance.ContainsKey("SerialInjectGPS_m8p_130p"))
-                chk_m8pautoconfig.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8p_130p"]);
+                chk_m8p_130p.Checked = bool.Parse(Settings.Instance["SerialInjectGPS_m8p_130p"]);
 
             loadBasePosList();
 
