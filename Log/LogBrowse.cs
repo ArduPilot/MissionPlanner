@@ -589,6 +589,21 @@ namespace MissionPlanner.Log
                     {
                         colcount = Math.Max(colcount, (item.items.Length + typecoloum));
 
+                        if (MainV2.MONO)
+                        {
+                            DataRow dr = m_dtCSV.NewRow();
+
+                            dr[0] = item.lineno;
+                            dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                            for (int a = 0; a < item.items.Length; a++)
+                            {
+                                dr[a + typecoloum] = item.items[a];
+                            }
+
+                            m_dtCSV.Rows.Add(dr);
+                        }
+
                         seenmessagetypes[item.msgtype] = "";
 
                         // check first 1000000 lines for max coloums needed
