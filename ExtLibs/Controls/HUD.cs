@@ -519,7 +519,7 @@ namespace MissionPlanner.Controls
                     this.SwapBuffers();
 
                     // free from this thread
-                    Context.MakeCurrent(null);
+                    //Context.MakeCurrent(null);
                 }
 
             }
@@ -642,10 +642,12 @@ namespace MissionPlanner.Controls
             return destImage;
         }
 
-        int _texture = 0;
+        int[] _texture = new int[2];
+        bool[] _texture_created = new bool[2];
+
         Bitmap bitmap = new Bitmap(512, 512);
 
-        public void DrawImage(Image img, int x, int y, int width, int height)
+        public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
             if (opengl)
             {
@@ -663,12 +665,12 @@ namespace MissionPlanner.Controls
                     bitmap = ResizeImage(img, bitmap.Width, bitmap.Height);
                 }
 
-                if (this._texture == 0)
+                if (_texture[textureno] == 0)
                 {
-                    GL.GenTextures(1, out this._texture);
+                    GL.GenTextures(_texture.Length, this._texture);
                 }
 
-                GL.BindTexture(TextureTarget.Texture2D, this._texture);
+                GL.BindTexture(TextureTarget.Texture2D, this._texture[textureno]);
 
                 BitmapData data = bitmap.LockBits(
                     new Rectangle(0, 0, bitmap.Width, bitmap.Height),
@@ -677,8 +679,20 @@ namespace MissionPlanner.Controls
 
                 //Console.WriteLine("w {0} h {1}",data.Width, data.Height);
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                bool created = _texture_created[textureno];
+
+                //if (!created)
+                {
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+
+                    _texture_created[textureno] = true;
+                }
+                //else
+                {
+                  //  GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
+                   //     OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                }
 
                 bitmap.UnlockBits(data);
 
@@ -688,7 +702,7 @@ namespace MissionPlanner.Controls
 
                 GL.Enable(EnableCap.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, this._texture);
+                GL.BindTexture(TextureTarget.Texture2D, this._texture[textureno]);
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -992,10 +1006,11 @@ namespace MissionPlanner.Controls
                 {
                     bgon = false;
                     lock (this._bgimagelock)
+                    lock(_bgimage)
                     {
                         try
                         {
-                            graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                                graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height, 1);
                         }
                         catch (Exception ex)
                         {
@@ -2015,9 +2030,7 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
-                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
-
-                    
+                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);                    
 
                     GL.Begin(PrimitiveType.Quads);
                     GL.TexCoord2(0, 0);
@@ -2100,7 +2113,7 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
+                    DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height, charDict[charid].gltextureid);
                 }
                 else
                 {
@@ -2183,8 +2196,8 @@ namespace MissionPlanner.Controls
 
                 if (opengl)
                 {
-                    GL.DeleteTexture(this._texture);
-                    this._texture = 0;
+                    GL.DeleteTextures(_texture.Length, this._texture);
+                    this._texture = new int[_texture.Length];
 
                     foreach (character texid in charDict.Values)
                     {

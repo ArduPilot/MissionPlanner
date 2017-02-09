@@ -187,22 +187,24 @@ namespace MissionPlanner.Utilities
 
                 using (TcpClient client = new TcpClient("127.0.0.1", OutputPort))
                 {
-                    client.ReceiveBufferSize = 1024*1024*1;
+                    client.ReceiveBufferSize = 1024*1024*5; // 5mb
 
                     using (MemoryStream ms = new MemoryStream())
                     {
-                        using (var stream = client.GetStream())
+                        using (var stream = new BufferedStream(client.GetStream(), 1024*1024*5))
                         {
                             while (client.Client.Connected)
                             {
-                                while (client.Available > 0)
+                                int bytestoread = client.Available;
+
+                                while (bytestoread > 0)
                                 {
-                                    readRTPData(stream, ms);
+                                    bytestoread -= readRTPData(stream, ms);
                                     //readJPGData(stream, ms);
                                 }
-                                System.Threading.Thread.Sleep(1);
+                                // up to 100 fps or 50 with 10ms process time
+                                System.Threading.Thread.Sleep(10);
                             }
-
                             //cleanup on disconnect
                             FlightData.myhud.bgimage = null;
                         }
@@ -307,17 +309,25 @@ namespace MissionPlanner.Utilities
         // image width
         static int width = 0;
 
-        public static void readRTPData(Stream stream, MemoryStream ms)
+        private static byte[] buffer;
+        private static Bitmap img;
+
+        public static int readRTPData(Stream stream, MemoryStream ms)
         {
+            int readamount = 0;
+
             var ch1 = stream.ReadByte();
+            readamount++;
             if (ch1 == rtpbyte1)
             {
                 var ch2 = stream.ReadByte();
+                readamount++;
                 // handle 2 rtpbyte1's in a row
                 if (ch2 == rtpbyte1)
                 {
                     ch1 = ch2;
                     ch2 = stream.ReadByte();
+                    readamount++;
                 }
 
                 if (ch2 == rtpbyte2 || ch2 == rtpbyte2_2)
@@ -326,7 +336,7 @@ namespace MissionPlanner.Utilities
                     headerBytes[0] = (byte) ch1;
                     headerBytes[1] = (byte) ch2;
 
-                    stream.Read(headerBytes, 2, headerBytes.Length - 2);
+                    readamount += stream.Read(headerBytes, 2, headerBytes.Length - 2);
 
                     GStreamer.rtpheader header = new rtpheader(headerBytes);
 
@@ -338,7 +348,7 @@ namespace MissionPlanner.Utilities
                         {
                             var oldsize = headerBytes.Length;
                             Array.Resize(ref headerBytes, headerBytes.Length + 6);
-                            stream.Read(headerBytes, oldsize, 6);
+                            readamount += stream.Read(headerBytes, oldsize, 6);
 
                             header = new rtpheader(headerBytes);
                         }
@@ -356,25 +366,34 @@ namespace MissionPlanner.Utilities
                         }
                         ms.Seek(fileoffset, SeekOrigin.Begin);
 
-                        var buffer = new byte[header.length + header.length2];
-                        var read = stream.Read(buffer, 0, buffer.Length);
+                        int neededbytes = header.length + header.length2;
+
+                        if (buffer == null || buffer.Length < (neededbytes))
+                            buffer = new byte[neededbytes];
+
+                        var read = stream.Read(buffer, 0, neededbytes);
                         ms.Write(buffer, 0, read);
+                        readamount += read;
 
                         if (header.marker > 0 && width != 0)
                         {
                             ms.Seek(0, SeekOrigin.Begin);
                             try
                             {
-                                Bitmap img = new Bitmap(width, header.lineno + 1, PixelFormat.Format32bppArgb);
+                                if (img == null || img.Width < width || img.Height < header.lineno + 1)
+                                    img = new Bitmap(width, header.lineno + 1, PixelFormat.Format32bppArgb);
 
-                                BitmapData bmpData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height),
-                                    ImageLockMode.WriteOnly, img.PixelFormat);
+                                lock (img)
+                                {
+                                    BitmapData bmpData = img.LockBits(new Rectangle(0, 0, img.Width, img.Height),
+                                        ImageLockMode.WriteOnly, img.PixelFormat);
 
-                                IntPtr ptr = bmpData.Scan0;
+                                    IntPtr ptr = bmpData.Scan0;
 
-                                Marshal.Copy(ms.ToArray(), 0, ptr, (int) img.Width*img.Height*4);
+                                    Marshal.Copy(ms.ToArray(), 0, ptr, (int) img.Width*img.Height*4);
 
-                                img.UnlockBits(bmpData);
+                                    img.UnlockBits(bmpData);
+                                }
 
                                 //img.Save("test.bmp");
 
@@ -415,6 +434,8 @@ namespace MissionPlanner.Utilities
             {
                 Console.WriteLine("out of sync1 {0:X}", ch1);
             }
+
+            return readamount;
         }
 
         static int tempno = 0;
