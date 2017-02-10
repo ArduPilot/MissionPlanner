@@ -117,13 +117,22 @@ namespace MissionPlanner.Utilities
 
         public static int OutputPort { get; set; }
 
+        static bool isrunning
+        {
+            get { return process != null && !process.HasExited; }
+        }
+
         public static void Start()
         {
+            if (isrunning)
+                return;
+
             if (File.Exists(gstlaunch))
             {
                 ProcessStartInfo psi = new ProcessStartInfo(gstlaunch,
                     String.Format(
                         "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! queue leaky=2 ! rtpvrawpay ! tcpserversink host=127.0.0.1 port={1} sync=false",
+                        //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! glimagesink",
                         UdpPort, OutputPort));
                 
                 //"-v udpsrc port=5600 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! queue ! rtpvrawpay ! giosink location=\\\\\\\\.\\\\pipe\\\\gstreamer");
@@ -422,16 +431,19 @@ namespace MissionPlanner.Utilities
                     }
                     else
                     {
+                        miss++;
                         Console.WriteLine("packet failed header check ");
                     }
                 }
                 else
                 {
+                    miss++;
                     Console.WriteLine("out of sync2 {0:X}", ch1);
                 }
             }
             else
             {
+                miss++;
                 Console.WriteLine("out of sync1 {0:X}", ch1);
             }
 
