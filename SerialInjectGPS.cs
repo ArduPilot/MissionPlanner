@@ -180,7 +180,7 @@ namespace MissionPlanner
             {
                 //load config
                 System.Xml.Serialization.XmlSerializer reader =
-                    new System.Xml.Serialization.XmlSerializer(typeof (List<PointLatLngAlt>), new Type[] {});
+                    new System.Xml.Serialization.XmlSerializer(typeof (List<PointLatLngAlt>), new Type[] { typeof(Color) });
 
                 using (StreamReader sr = new StreamReader(basepostlistfile))
                 {
@@ -203,7 +203,7 @@ namespace MissionPlanner
         {
             // save config
             System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof(List<PointLatLngAlt>), new Type[] { });
+                new System.Xml.Serialization.XmlSerializer(typeof(List<PointLatLngAlt>), new Type[] { typeof(Color) });
 
             using (StreamWriter sw = new StreamWriter(basepostlistfile))
             {
@@ -222,6 +222,7 @@ namespace MissionPlanner
             if (comPort.IsOpen)
             {
                 threadrun = false;
+                groupBox1.Enabled = true;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
                 try
@@ -237,6 +238,7 @@ namespace MissionPlanner
             else
             {
                 status_line3 = null;
+                groupBox1.Enabled = false;
 
                 try
                 {
@@ -358,7 +360,7 @@ namespace MissionPlanner
                     (MethodInvoker)
                         delegate
                         {
-                            Instance.lbl_svin.Text = label + '\n' + line2;
+                            Instance.lbl_svin.Text = label + DateTime.Now.ToString(" - HH:mm:ss") + '\n' + line2;
                         }
                     );
             }
@@ -495,7 +497,7 @@ namespace MissionPlanner
                     var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
 
                     updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) +
-                                    " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc / 10000.0);
+                                    " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc/10000.0);
 
                     var X = svin.meanX/100.0 + svin.meanXHP*0.0001;
                     var Y = svin.meanY/100.0 + svin.meanYHP*0.0001;
@@ -510,15 +512,13 @@ namespace MissionPlanner
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
-                        baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
+                    //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
+                    //baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
 
-                    if (svin.valid == 1)
-                        ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
+                    //if (svin.valid == 1)
+                    //ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
                 }
-
-                //pvt
-                if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x7)
+                else if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x7)
                 {
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
 
@@ -526,20 +526,29 @@ namespace MissionPlanner
 
 
                 }
-
-                if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
+                else if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
                 {
                     log.InfoFormat("ubx ack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
                 }
-
-                if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x0)
+                else if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x0)
                 {
                     log.InfoFormat("ubx Nack {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
                 }
-
-                if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
+                else if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
                 {
                     log.InfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+                }
+                else if (ubx_m8p.@class == 0xf5)
+                {
+                    // rtcm
+                }
+                else if (ubx_m8p.@class == 0x02)
+                {
+                    // rxm-raw
+                }
+                else
+                {
+                    ubx_m8p.turnon_off(comPort, ubx_m8p.@class, ubx_m8p.subclass, 0);
                 }
             }
             catch (Exception ex)
@@ -567,8 +576,8 @@ namespace MissionPlanner
                         baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
 
                     status_line3 =
-                        (String.Format("RTCM Base {0} {1} {2}", baseposllh[0]*Utilities.rtcm3.R2D,
-                            baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]));
+                        (String.Format("RTCM Base {0} {1} {2} - {3}", baseposllh[0]*Utilities.rtcm3.R2D,
+                            baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
 
                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
                         Instance.but_save_basepos.Enabled = true;
@@ -588,8 +597,8 @@ namespace MissionPlanner
                         baseposllh[2]);
 
                     status_line3 =
-                        (String.Format("RTCM Base {0} {1} {2}", baseposllh[0]*Utilities.rtcm3.R2D,
-                            baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]));
+                       (String.Format("RTCM Base {0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
+                           baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
 
                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
                         Instance.but_save_basepos.Enabled = true;
@@ -719,7 +728,9 @@ namespace MissionPlanner
                 Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}", basepos.Lat.ToString(CultureInfo.InvariantCulture), basepos.Lng.ToString(CultureInfo.InvariantCulture), basepos.Alt.ToString(CultureInfo.InvariantCulture),
                     location);
 
-                baseposList.Add(new PointLatLngAlt(basepos));
+                baseposList.Add(new PointLatLngAlt(basepos) {Tag = location});
+
+                updateBasePosDG();
             }
         }
 

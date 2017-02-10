@@ -327,7 +327,7 @@ RTCM Base</value>
     <value>NoControl</value>
   </data>
   <data name="chk_m8p_130p.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 14</value>
+    <value>113, 14</value>
   </data>
   <data name="chk_m8p_130p.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 17</value>
@@ -462,7 +462,7 @@ RTCM Base</value>
     <value>NoControl</value>
   </data>
   <data name="but_base_pos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>149, 8</value>
+    <value>230, 14</value>
   </data>
   <data name="but_base_pos.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -471,13 +471,13 @@ RTCM Base</value>
     <value>7</value>
   </data>
   <data name="but_base_pos.Text" xml:space="preserve">
-    <value>Base Position</value>
+    <value>Enter Base Position</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Name" xml:space="preserve">
     <value>but_base_pos</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6247.11872, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6250.30788, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -489,7 +489,7 @@ RTCM Base</value>
     <value>248, 3</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 62</value>
+    <value>319, 62</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -533,60 +533,6 @@ RTCM Base</value>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="but_save_basepos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="but_save_basepos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>409, 141</value>
-  </data>
-  <data name="but_save_basepos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="but_save_basepos.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
-  </data>
-  <data name="but_save_basepos.Text" xml:space="preserve">
-    <value>Save Base Position</value>
-  </data>
-  <data name="&gt;&gt;but_save_basepos.Name" xml:space="preserve">
-    <value>but_save_basepos</value>
-  </data>
-  <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6247.11872, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;but_save_basepos.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="BUT_connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 13</value>
-  </data>
-  <data name="BUT_connect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="BUT_connect.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="BUT_connect.Text" xml:space="preserve">
-    <value>Connect</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Name" xml:space="preserve">
-    <value>BUT_connect</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6247.11872, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <metadata name="Lat.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -615,7 +561,7 @@ RTCM Base</value>
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6247.34503, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6250.30796, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>$this</value>
@@ -655,6 +601,60 @@ RTCM Base</value>
   </data>
   <data name="Use.Width" type="System.Int32, mscorlib">
     <value>40</value>
+  </data>
+  <data name="but_save_basepos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_save_basepos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>573, 17</value>
+  </data>
+  <data name="but_save_basepos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_save_basepos.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="but_save_basepos.Text" xml:space="preserve">
+    <value>Save Current Position</value>
+  </data>
+  <data name="&gt;&gt;but_save_basepos.Name" xml:space="preserve">
+    <value>but_save_basepos</value>
+  </data>
+  <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6250.30788, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;but_save_basepos.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 13</value>
+  </data>
+  <data name="BUT_connect.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="BUT_connect.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="BUT_connect.Text" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Name" xml:space="preserve">
+    <value>BUT_connect</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6250.30788, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
