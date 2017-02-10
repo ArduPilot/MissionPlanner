@@ -11,13 +11,19 @@ using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using log4net;
 using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Utilities
 {
     public class GStreamer
     {
+        private static readonly ILog log =
+    LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private static Process process;
+
+        static object _lock = new object();
 
         //static NamedPipeServerStream pipeServer = new NamedPipeServerStream("gstreamer", PipeDirection.In);
 
@@ -83,6 +89,7 @@ namespace MissionPlanner.Utilities
 
                     if (ans.Length > 0)
                     {
+                        log.Info("Found gstreamer "+ans.First());
                         return ans.First();
                     }
                 }
@@ -124,30 +131,40 @@ namespace MissionPlanner.Utilities
 
         public static void Start()
         {
-            if (isrunning)
-                return;
-
-            if (File.Exists(gstlaunch))
+            // prevent starting 2 process's
+            lock (_lock)
             {
-                ProcessStartInfo psi = new ProcessStartInfo(gstlaunch,
-                    String.Format(
-                        "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! queue leaky=2 ! rtpvrawpay ! tcpserversink host=127.0.0.1 port={1} sync=false",
-                        //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! glimagesink",
-                        UdpPort, OutputPort));
-                
-                //"-v udpsrc port=5600 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! queue ! rtpvrawpay ! giosink location=\\\\\\\\.\\\\pipe\\\\gstreamer");
-                
-                //avenc_mjpeg
+                if (isrunning)
+                {
+                    log.Info("already running");
+                    return;
+                }
 
-                psi.UseShellExecute = false;
+                if (File.Exists(gstlaunch))
+                {
+                    ProcessStartInfo psi = new ProcessStartInfo(gstlaunch,
+                        String.Format(
+                            //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! videoconvert ! video/x-raw,format=BGRA ! queue leaky=2 ! rtpvrawpay ! tcpserversink host=127.0.0.1 port={1} sync=false",
+                            "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={1} sync=false",
+                            //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! glimagesink",
+                            UdpPort, OutputPort));
 
-                process = Process.Start(psi);
+                    //"-v udpsrc port=5600 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! queue ! rtpvrawpay ! giosink location=\\\\\\\\.\\\\pipe\\\\gstreamer");
 
-                //pipeServer.WaitForConnection();
+                    //avenc_mjpeg
 
-                //NamedPipeConnect(pipeServer);
+                    psi.UseShellExecute = false;
 
-                System.Threading.ThreadPool.QueueUserWorkItem(_Start);
+                    log.Info("Starting " + psi.FileName + " " + psi.Arguments);
+
+                    process = Process.Start(psi);
+
+                    //pipeServer.WaitForConnection();
+
+                    //NamedPipeConnect(pipeServer);
+
+                    System.Threading.ThreadPool.QueueUserWorkItem(_Start);
+                }
             }
         }
 
@@ -179,6 +196,8 @@ namespace MissionPlanner.Utilities
             {
                 var deadline = DateTime.Now.AddSeconds(20);
 
+                log.Info("_Start");
+
                 while (DateTime.Now < deadline)
                 {
                     try
@@ -202,17 +221,24 @@ namespace MissionPlanner.Utilities
                     {
                         using (var stream = new BufferedStream(client.GetStream(), 1024*1024*5))
                         {
+                            DateTime lastdata = DateTime.Now;
                             while (client.Client.Connected)
                             {
                                 int bytestoread = client.Available;
 
                                 while (bytestoread > 0)
                                 {
-                                    bytestoread -= readRTPData(stream, ms);
-                                    //readJPGData(stream, ms);
+                                    //bytestoread -= readRTPData(stream, ms);
+                                    bytestoread -= readJPGData(stream, ms);
+                                    lastdata = DateTime.Now;
                                 }
                                 // up to 100 fps or 50 with 10ms process time
                                 System.Threading.Thread.Sleep(10);
+
+                                if (lastdata.AddSeconds(5) < DateTime.Now)
+                                {
+                                    client.Client.Send(new byte[0]);
+                                }
                             }
                             //cleanup on disconnect
                             FlightData.myhud.bgimage = null;
@@ -220,9 +246,10 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                
+                FlightData.myhud.bgimage = null;
+                log.Error(ex);
             }
         }
 
@@ -455,13 +482,17 @@ namespace MissionPlanner.Utilities
         static int persecond = 0;
         static DateTime lastsecond = DateTime.Now;
 
-        private static void readJPGData(Stream stream, MemoryStream ms)
+        private static int readJPGData(Stream stream, MemoryStream ms)
         {
+            var bytesread = 0;
+
             // start header
             byte ch3 = (byte) stream.ReadByte();
+            bytesread++;
             if (ch3 == 0xff)
             {
                 byte ch4 = (byte) stream.ReadByte();
+                bytesread++;
                 if (ch4 == 0xd8)
                 {
                     ms.Seek(0, SeekOrigin.Begin);
@@ -471,6 +502,7 @@ namespace MissionPlanner.Utilities
                     do
                     {
                         int datach = stream.ReadByte();
+                        bytesread++;
                         if (datach < 0)
                             break;
 
@@ -519,6 +551,8 @@ namespace MissionPlanner.Utilities
             {
                 miss++;
             }
+
+            return bytesread;
         }
 
         public static void Stop()
