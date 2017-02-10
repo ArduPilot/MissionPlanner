@@ -337,9 +337,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     try
                     {
                         if (fd.FileName.ToLower().EndsWith(".px4"))
-                            boardtype = BoardDetect.boards.px4v2;
-                        else 
+                        {
+                            if (solo.Solo.is_solo_alive)
+                            {
+                                boardtype = BoardDetect.boards.solo;
+                            }
+                            else
+                            {
+                                boardtype = BoardDetect.boards.px4v2;
+                            }
+                        }
+                        else
+                        {
                             boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                        }
                     }
                     catch
                     {

@@ -15,6 +15,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
+using solo;
 
 namespace MissionPlanner.Utilities
 {
@@ -1281,7 +1282,19 @@ namespace MissionPlanner.Utilities
                 return UploadParrot(filename, board);
             }
 
+            if (board == BoardDetect.boards.solo)
+            {
+                return UploadSolo(filename, board);
+            }
+
             return UploadArduino(comport, filename, board);
+        }
+
+        private bool UploadSolo(string filename, BoardDetect.boards board)
+        {
+            Solo.flash_px4(filename);
+
+            return true;
         }
 
         public bool UploadArduino(string comport, string filename, BoardDetect.boards board)
