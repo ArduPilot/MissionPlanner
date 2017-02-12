@@ -20,6 +20,8 @@ using MissionPlanner.Log;
 using Transitions;
 using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
+using MissionPlanner.GCSViews.ConfigurationView;
+using WebCamService;
 
 namespace MissionPlanner
 {
@@ -2772,21 +2774,71 @@ namespace MissionPlanner
             // play a tlog that was passed to the program/ load a bin log passed
             if (Program.args.Length > 0)
             {
-                if (File.Exists(Program.args[0]) && Program.args[0].ToLower().EndsWith(".tlog"))
+                var cmds = ProcessCommandLine(Program.args);
+
+                if (cmds.ContainsKey("file") && File.Exists(cmds["file"]) && cmds["file"].ToLower().EndsWith(".tlog"))
                 {
-                    if (File.Exists(Program.args[0]))
-                    {
-                        FlightData.LoadLogFile(Program.args[0]);
-                        FlightData.BUT_playlog_Click(null, null);
-                    }
+                    FlightData.LoadLogFile(Program.args[0]);
+                    FlightData.BUT_playlog_Click(null, null);
                 }
-                else if (File.Exists(Program.args[0]) && (Program.args[0].ToLower().EndsWith(".bin") || Program.args[0].ToLower().EndsWith(".log")))
+                else if (cmds.ContainsKey("file") && File.Exists(cmds["file"]) &&
+                         (cmds["file"].ToLower().EndsWith(".log") || cmds["file"].ToLower().EndsWith(".bin")))
                 {
                     LogBrowse logbrowse = new LogBrowse();
                     ThemeManager.ApplyThemeTo(logbrowse);
                     logbrowse.logfilename = Program.args[0];
                     logbrowse.Show(this);
                     logbrowse.BringToFront();
+                }
+
+                if (cmds.ContainsKey("joy") && cmds.ContainsKey("type"))
+                {
+                    if (cmds["type"].ToLower() == "plane")
+                    {
+                        MainV2.comPort.MAV.cs.firmware = Firmwares.ArduPlane;
+                    }
+                    if (cmds["type"].ToLower() == "copter")
+                    {
+                        MainV2.comPort.MAV.cs.firmware = Firmwares.ArduCopter2;
+                    }
+                    if (cmds["type"].ToLower() == "rover")
+                    {
+                        MainV2.comPort.MAV.cs.firmware = Firmwares.ArduRover;
+                    }
+
+                    var joy = new Joystick.Joystick();
+
+                    if (joy.start(cmds["joy"]))
+                    {
+                        MainV2.joystick = joy;
+                        MainV2.joystick.enabled = true;
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Failed to start joystick");
+                    }
+                }
+
+                if (cmds.ContainsKey("cam"))
+                {
+                    try
+                    {
+                        MainV2.cam = new Capture(int.Parse(cmds["cam"]), null);
+
+                        MainV2.cam.Start();
+                    }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(ex.ToString());
+                    }
+                }
+
+                if (cmds.ContainsKey("port") && cmds.ContainsKey("baud"))
+                {
+                    _connectionControl.CMB_serialport.Text = cmds["port"];
+                    _connectionControl.CMB_baudrate.Text = cmds["baud"];
+
+                    doConnect(MainV2.comPort, cmds["port"], cmds["baud"]);
                 }
             }
 
@@ -2804,6 +2856,38 @@ namespace MissionPlanner
 
                 Settings.Instance["newuser"] = DateTime.Now.ToShortDateString();
             }
+        }
+
+        private Dictionary<string, string> ProcessCommandLine(string[] args)
+        {
+            Dictionary<string, string> cmdargs = new Dictionary<string, string>();
+            string cmd = "";
+            foreach (var s in args)
+            {
+                if (s.StartsWith("-") || s.StartsWith("/") || s.StartsWith("--"))
+                {
+                    cmd = s.TrimStart(new char[] {'-', '/', '-'}).TrimStart(new char[] { '-', '/', '-' });
+                    continue;
+                }
+                if (cmd != "")
+                {
+                    cmdargs[cmd] = s;
+                    log.Info("ProcessCommandLine: "+ cmd + " = " + s);
+                    cmd = "";
+                    continue;
+                }
+                if (File.Exists(s))
+                {
+                    // we are not a command, and the file exists.
+                    cmdargs["file"] = s;
+                    log.Info("ProcessCommandLine: " + "file" + " = " + s);
+                    continue;
+                }
+
+                log.Info("ProcessCommandLine: UnKnown = " + s);
+            }
+
+            return cmdargs;
         }
 
         private void BGFirmwareCheck(object state)
@@ -3408,7 +3492,7 @@ namespace MissionPlanner
                         }
                     }
 
-                    foreach (Plugin.Plugin item in MissionPlanner.Plugin.PluginLoader.Plugins)
+                    foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins)
                     {
                         item.Host.ProcessDeviceChanged((WM_DEVICECHANGE_enum) m.WParam);
                     }

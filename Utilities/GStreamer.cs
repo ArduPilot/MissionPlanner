@@ -34,6 +34,7 @@ namespace MissionPlanner.Utilities
 
         static GStreamer()
         {
+            log.Info(".cctor");
             UdpPort = 5600;
             OutputPort = 1235;
         }
@@ -559,6 +560,8 @@ namespace MissionPlanner.Utilities
         {
             try
             {
+                log.Info("Stop");
+
                 if (process != null)
                 {
                     process.Kill();

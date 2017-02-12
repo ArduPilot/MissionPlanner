@@ -670,11 +670,13 @@ namespace MissionPlanner.Joystick
         /// </summary>
         void mainloop()
         {
-            while (enabled)
+            while (enabled && joystick != null && !joystick.IsDisposed)
             {
                 try
                 {
                     System.Threading.Thread.Sleep(50);
+                    if (joystick.IsDisposed)
+                        return;
                     //joystick stuff
                     joystick.Poll();
                     state = joystick.CurrentJoystickState();

@@ -62,7 +62,8 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
+                if(Settings.Instance.ContainsKey("joy_elevons"))
+                    CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
             }
             catch
             {
