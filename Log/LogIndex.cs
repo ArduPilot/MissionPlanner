@@ -87,7 +87,15 @@ namespace MissionPlanner.Log
 
             loginfo.fullname = file;
 
-            loginfo.Size = new FileInfo(file).Length;
+            try
+            {
+                // file not found exception even though it passes the exists check above.
+                loginfo.Size = new FileInfo(file).Length;
+            }
+            catch
+            {
+                
+            }
 
             if (File.Exists(file + ".jpg"))
             {
