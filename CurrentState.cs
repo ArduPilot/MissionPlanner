@@ -1038,14 +1038,14 @@ namespace MissionPlanner
         public int hilch8;
 
         // rc override
-        public ushort rcoverridech1 { get; set; }
-        public ushort rcoverridech2 { get; set; }
-        public ushort rcoverridech3 { get; set; }
-        public ushort rcoverridech4 { get; set; }
-        public ushort rcoverridech5 { get; set; }
-        public ushort rcoverridech6 { get; set; }
-        public ushort rcoverridech7 { get; set; }
-        public ushort rcoverridech8 { get; set; }
+        public short rcoverridech1 { get; set; }
+        public short rcoverridech2 { get; set; }
+        public short rcoverridech3 { get; set; }
+        public short rcoverridech4 { get; set; }
+        public short rcoverridech5 { get; set; }
+        public short rcoverridech6 { get; set; }
+        public short rcoverridech7 { get; set; }
+        public short rcoverridech8 { get; set; }
 
         public bool connected
         {
