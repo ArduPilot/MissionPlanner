@@ -86,6 +86,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         private double dAmplitudeNegI, dAngleNegI, dDeviationNegI, dAmplitudePosI, dAnglePosI, dDeviationPosI, dLowerLimitI;
+        private double dAmplitudeV, dLowerAmpV, dAngleV, dDeviationV, dCurvatureV, dGradientV;
+
+        private void btnPlotV_Click(object sender, EventArgs e)
+        {
+            double.TryParse(tbAmpV.Text, out dAmplitudeV);
+            double.TryParse(tbLowerAmp.Text, out dLowerAmpV);
+            double.TryParse(tbAngV.Text, out dAngleV);
+            double.TryParse(tbDevV.Text, out dDeviationV);
+            double.TryParse(tbCurvatureV.Text, out dCurvatureV);
+            double.TryParse(tbGradientV.Text, out dGradientV);
+
+            ChartV.Series[0].Points.Clear();
+            DGV_VValues.Rows.Clear();
+
+            double value = 0;
+
+            for (double i = -90; i <= 90; i+=5)
+            {
+                DataGridViewRow dgvr = new DataGridViewRow();
+                dgvr.CreateCells(DGV_VValues);
+
+                value = PolyValV(i);
+
+                ChartV.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, value));
+                
+                dgvr.Cells[colAngleV.Index].Value = i.ToString();
+                dgvr.Cells[colVelocity.Index].Value = value.ToString("0.00");
+                DGV_VValues.Rows.Add(dgvr);
+            }
+        }
+
+
+        private double PolyValV(double _dAngle)
+        {
+            //(a1 - a2) ℯ^(-((x - b1) / c1)²) + a2 ℯ^(-(x / c2)²) + t x / 1000
+            //Scaling factors for curvature and gradient
+            double gauss = (dAmplitudeV - dLowerAmpV) * Math.Exp(-Math.Pow(((_dAngle - dAngleV) / dDeviationV), 2));
+            gauss += dLowerAmpV * Math.Exp(-Math.Pow((_dAngle / (dCurvatureV * 100)), 2) + dGradientV*_dAngle / 1000);
+
+            return gauss;
+        }
 
         private double PolyValI(double _dAngle)
         {
