@@ -213,6 +213,9 @@ namespace GMap.NET.WindowsForms.Markers
 
       public override void OnRender(Graphics g)
       {
+          if (Math.Abs(LocalPosition.X) > 100000 || Math.Abs(LocalPosition.Y) > 100000)
+                return;
+
 #if !PocketPC
          //if(!Bearing.HasValue)
          {
