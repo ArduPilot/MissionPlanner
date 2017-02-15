@@ -38,6 +38,8 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using netDxf;
+using netDxf.Entities;
 
 namespace MissionPlanner.GCSViews
 {
@@ -5288,7 +5290,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "Google Earth KML |*.kml;*.kmz|AutoCad DXF|*.dxf";
+                fd.Filter = "All Supported|*.kml;*.kmz;*.dxf|Google Earth KML|*.kml;*.kmz|AutoCad DXF|*.dxf";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
                 if (file != "")
