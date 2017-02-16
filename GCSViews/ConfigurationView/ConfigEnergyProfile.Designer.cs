@@ -28,19 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint43 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint44 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint45 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint46 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint47 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint48 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
+            this.tbHoverI = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.btnPlotI = new MissionPlanner.Controls.MyButton();
             this.ChartI = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tbLimitI = new System.Windows.Forms.TextBox();
@@ -54,10 +56,6 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblTitleCurrent = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.DGV_IValues = new System.Windows.Forms.DataGridView();
-            this.colAngleI = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCurrent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tbDevINeg = new System.Windows.Forms.TextBox();
             this.tbAmpINeg = new System.Windows.Forms.TextBox();
@@ -66,11 +64,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.DGV_VValues = new System.Windows.Forms.DataGridView();
-            this.colAngleV = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colVelocity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.panelVelocityConfiguration = new System.Windows.Forms.Panel();
+            this.label14 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.tbLowerAmp = new System.Windows.Forms.TextBox();
@@ -81,7 +77,6 @@
             this.label17 = new System.Windows.Forms.Label();
             this.btnPlotV = new MissionPlanner.Controls.MyButton();
             this.ChartV = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label15 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
@@ -91,18 +86,18 @@
             this.label20 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.btnSaveCopterSettings = new MissionPlanner.Controls.MyButton();
             this.panelCurrentConfiguration.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
             this.panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_IValues)).BeginInit();
             this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_VValues)).BeginInit();
             this.panelVelocityConfiguration.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
             this.panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -119,20 +114,36 @@
             // panelCurrentConfiguration
             // 
             this.panelCurrentConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelCurrentConfiguration.Controls.Add(this.tbHoverI);
+            this.panelCurrentConfiguration.Controls.Add(this.label5);
             this.panelCurrentConfiguration.Controls.Add(this.btnPlotI);
             this.panelCurrentConfiguration.Controls.Add(this.ChartI);
             this.panelCurrentConfiguration.Controls.Add(this.tbLimitI);
             this.panelCurrentConfiguration.Controls.Add(this.label8);
             this.panelCurrentConfiguration.Controls.Add(this.panel5);
             this.panelCurrentConfiguration.Controls.Add(this.lblTitleCurrent);
-            this.panelCurrentConfiguration.Controls.Add(this.label5);
-            this.panelCurrentConfiguration.Controls.Add(this.DGV_IValues);
             this.panelCurrentConfiguration.Controls.Add(this.panel4);
             this.panelCurrentConfiguration.Enabled = false;
-            this.panelCurrentConfiguration.Location = new System.Drawing.Point(16, 113);
+            this.panelCurrentConfiguration.Location = new System.Drawing.Point(16, 75);
             this.panelCurrentConfiguration.Name = "panelCurrentConfiguration";
-            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 175);
+            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 256);
             this.panelCurrentConfiguration.TabIndex = 40;
+            // 
+            // tbHoverI
+            // 
+            this.tbHoverI.Location = new System.Drawing.Point(122, 170);
+            this.tbHoverI.Name = "tbHoverI";
+            this.tbHoverI.Size = new System.Drawing.Size(74, 20);
+            this.tbHoverI.TabIndex = 56;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 173);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(86, 13);
+            this.label5.TabIndex = 57;
+            this.label5.Text = "Current at hover:";
             // 
             // btnPlotI
             // 
@@ -149,39 +160,39 @@
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.Color.Black;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea15.AxisX.Interval = 22.5D;
-            chartArea15.AxisX.IsLabelAutoFit = false;
-            chartArea15.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea15.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea15.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea15.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea15.AxisX.Maximum = 90D;
-            chartArea15.AxisX.Minimum = -90D;
-            chartArea15.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea15.AxisX.Title = "Angle [Degree]";
-            chartArea15.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea15.AxisY.IsLabelAutoFit = false;
-            chartArea15.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea15.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea15.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea15.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea15.AxisY.Title = "Current [A]";
-            chartArea15.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea15.BackColor = System.Drawing.Color.Transparent;
-            chartArea15.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea15);
+            chartArea3.AxisX.Interval = 22.5D;
+            chartArea3.AxisX.IsLabelAutoFit = false;
+            chartArea3.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea3.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea3.AxisX.Maximum = 90D;
+            chartArea3.AxisX.Minimum = -90D;
+            chartArea3.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea3.AxisX.Title = "Angle [Degree]";
+            chartArea3.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea3.AxisY.IsLabelAutoFit = false;
+            chartArea3.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea3.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea3.AxisY.Title = "Current [A]";
+            chartArea3.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea3.BackColor = System.Drawing.Color.Transparent;
+            chartArea3.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea3);
             this.ChartI.Location = new System.Drawing.Point(322, 21);
             this.ChartI.Name = "ChartI";
-            series15.BorderWidth = 2;
-            series15.ChartArea = "ChartArea1";
-            series15.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series15.Color = System.Drawing.Color.Orange;
-            series15.Name = "Series1";
-            series15.Points.Add(dataPoint43);
-            series15.Points.Add(dataPoint44);
-            series15.Points.Add(dataPoint45);
-            this.ChartI.Series.Add(series15);
-            this.ChartI.Size = new System.Drawing.Size(278, 144);
+            series3.BorderWidth = 2;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = System.Drawing.Color.Orange;
+            series3.Name = "Series1";
+            series3.Points.Add(dataPoint7);
+            series3.Points.Add(dataPoint8);
+            series3.Points.Add(dataPoint9);
+            this.ChartI.Series.Add(series3);
+            this.ChartI.Size = new System.Drawing.Size(491, 231);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
             // 
@@ -260,9 +271,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(3, 88);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(52, 13);
+            this.label12.Size = new System.Drawing.Size(49, 13);
             this.label12.TabIndex = 48;
-            this.label12.Text = "Deviation";
+            this.label12.Text = "Variance";
             // 
             // label13
             // 
@@ -282,43 +293,6 @@
             this.lblTitleCurrent.Size = new System.Drawing.Size(166, 13);
             this.lblTitleCurrent.TabIndex = 47;
             this.lblTitleCurrent.Text = "Settings for current (I in [A])";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(607, 3);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(112, 13);
-            this.label5.TabIndex = 46;
-            this.label5.Text = "Estimated Values for I:";
-            // 
-            // DGV_IValues
-            // 
-            this.DGV_IValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_IValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colAngleI,
-            this.colCurrent});
-            this.DGV_IValues.Location = new System.Drawing.Point(606, 21);
-            this.DGV_IValues.MultiSelect = false;
-            this.DGV_IValues.Name = "DGV_IValues";
-            this.DGV_IValues.ReadOnly = true;
-            this.DGV_IValues.RowHeadersVisible = false;
-            this.DGV_IValues.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DGV_IValues.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DGV_IValues.Size = new System.Drawing.Size(203, 144);
-            this.DGV_IValues.TabIndex = 38;
-            // 
-            // colAngleI
-            // 
-            this.colAngleI.HeaderText = "Angle";
-            this.colAngleI.Name = "colAngleI";
-            this.colAngleI.ReadOnly = true;
-            // 
-            // colCurrent
-            // 
-            this.colCurrent.HeaderText = "Current [A]";
-            this.colCurrent.Name = "colCurrent";
-            this.colCurrent.ReadOnly = true;
             // 
             // panel4
             // 
@@ -379,9 +353,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(3, 88);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(52, 13);
+            this.label9.Size = new System.Drawing.Size(49, 13);
             this.label9.TabIndex = 48;
-            this.label9.Text = "Deviation";
+            this.label9.Text = "Variance";
             // 
             // label7
             // 
@@ -391,34 +365,6 @@
             this.label7.Size = new System.Drawing.Size(56, 13);
             this.label7.TabIndex = 45;
             this.label7.Text = "Amplitude:";
-            // 
-            // DGV_VValues
-            // 
-            this.DGV_VValues.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_VValues.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colAngleV,
-            this.colVelocity});
-            this.DGV_VValues.Location = new System.Drawing.Point(606, 20);
-            this.DGV_VValues.Name = "DGV_VValues";
-            this.DGV_VValues.ReadOnly = true;
-            this.DGV_VValues.RowHeadersVisible = false;
-            this.DGV_VValues.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.DGV_VValues.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.DGV_VValues.Size = new System.Drawing.Size(203, 147);
-            this.DGV_VValues.TabIndex = 40;
-            // 
-            // colAngleV
-            // 
-            this.colAngleV.HeaderText = "Angle";
-            this.colAngleV.Name = "colAngleV";
-            this.colAngleV.ReadOnly = true;
-            this.colAngleV.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Programmatic;
-            // 
-            // colVelocity
-            // 
-            this.colVelocity.HeaderText = "Velocity [m/s]";
-            this.colVelocity.Name = "colVelocity";
-            this.colVelocity.ReadOnly = true;
             // 
             // label1
             // 
@@ -432,17 +378,24 @@
             // panelVelocityConfiguration
             // 
             this.panelVelocityConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelVelocityConfiguration.Controls.Add(this.label14);
             this.panelVelocityConfiguration.Controls.Add(this.panel1);
             this.panelVelocityConfiguration.Controls.Add(this.btnPlotV);
             this.panelVelocityConfiguration.Controls.Add(this.ChartV);
-            this.panelVelocityConfiguration.Controls.Add(this.label15);
             this.panelVelocityConfiguration.Controls.Add(this.label19);
             this.panelVelocityConfiguration.Controls.Add(this.panel7);
-            this.panelVelocityConfiguration.Controls.Add(this.DGV_VValues);
-            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 300);
+            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 383);
             this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
-            this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 177);
+            this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 256);
             this.panelVelocityConfiguration.TabIndex = 43;
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(4, 176);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(0, 13);
+            this.label14.TabIndex = 53;
             // 
             // panel1
             // 
@@ -518,7 +471,7 @@
             // 
             // btnPlotV
             // 
-            this.btnPlotV.Location = new System.Drawing.Point(232, 144);
+            this.btnPlotV.Location = new System.Drawing.Point(232, 145);
             this.btnPlotV.Name = "btnPlotV";
             this.btnPlotV.Size = new System.Drawing.Size(84, 23);
             this.btnPlotV.TabIndex = 56;
@@ -531,50 +484,41 @@
             this.ChartV.BackColor = System.Drawing.Color.Transparent;
             this.ChartV.BorderlineColor = System.Drawing.Color.Black;
             this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea16.AxisX.Interval = 22.5D;
-            chartArea16.AxisX.IsLabelAutoFit = false;
-            chartArea16.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea16.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea16.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea16.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea16.AxisX.Maximum = 90D;
-            chartArea16.AxisX.Minimum = -90D;
-            chartArea16.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea16.AxisX.Title = "Angle [Degree]";
-            chartArea16.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea16.AxisY.IsLabelAutoFit = false;
-            chartArea16.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea16.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea16.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea16.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea16.AxisY.Title = "Velocity [m/s]";
-            chartArea16.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea16.BackColor = System.Drawing.Color.Transparent;
-            chartArea16.Name = "ChartArea1";
-            this.ChartV.ChartAreas.Add(chartArea16);
+            chartArea4.AxisX.Interval = 22.5D;
+            chartArea4.AxisX.IsLabelAutoFit = false;
+            chartArea4.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea4.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea4.AxisX.Maximum = 90D;
+            chartArea4.AxisX.Minimum = -90D;
+            chartArea4.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea4.AxisX.Title = "Angle [Degree]";
+            chartArea4.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea4.AxisY.IsLabelAutoFit = false;
+            chartArea4.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea4.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea4.AxisY.Title = "Velocity [m/s]";
+            chartArea4.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea4.BackColor = System.Drawing.Color.Transparent;
+            chartArea4.Name = "ChartArea1";
+            this.ChartV.ChartAreas.Add(chartArea4);
             this.ChartV.Location = new System.Drawing.Point(322, 20);
             this.ChartV.Name = "ChartV";
-            series16.BorderWidth = 2;
-            series16.ChartArea = "ChartArea1";
-            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series16.Color = System.Drawing.Color.Orange;
-            series16.Name = "Series1";
-            series16.Points.Add(dataPoint46);
-            series16.Points.Add(dataPoint47);
-            series16.Points.Add(dataPoint48);
-            this.ChartV.Series.Add(series16);
-            this.ChartV.Size = new System.Drawing.Size(278, 147);
+            series4.BorderWidth = 2;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.Orange;
+            series4.Name = "Series1";
+            series4.Points.Add(dataPoint10);
+            series4.Points.Add(dataPoint11);
+            series4.Points.Add(dataPoint12);
+            this.ChartV.Series.Add(series4);
+            this.ChartV.Size = new System.Drawing.Size(491, 231);
             this.ChartV.TabIndex = 58;
             this.ChartV.Text = "chart3";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(603, 4);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(116, 13);
-            this.label15.TabIndex = 54;
-            this.label15.Text = "Estimated Values for V:";
             // 
             // label19
             // 
@@ -645,9 +589,9 @@
             this.label21.AutoSize = true;
             this.label21.Location = new System.Drawing.Point(3, 85);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(52, 13);
+            this.label21.Size = new System.Drawing.Size(49, 13);
             this.label21.TabIndex = 48;
-            this.label21.Text = "Deviation";
+            this.label21.Text = "Variance";
             // 
             // label22
             // 
@@ -658,37 +602,67 @@
             this.label22.TabIndex = 45;
             this.label22.Text = "Amplitude:";
             // 
-            // pictureBox1
+            // label15
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(615, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(219, 104);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 44;
-            this.pictureBox1.TabStop = false;
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(14, 642);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(332, 52);
+            this.label15.TabIndex = 44;
+            this.label15.Text = resources.GetString("label15.Text");
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(378, 642);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(389, 39);
+            this.label23.TabIndex = 45;
+            this.label23.Text = "Lower Limits:\r\nThe lower bound determines the lowest possbile speed per angle. Cu" +
+    "rvature sets \r\nthe bending of the of this lower bound and can be rotated with th" +
+    "e gradient.";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(14, 334);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(723, 26);
+            this.label25.TabIndex = 47;
+            this.label25.Text = resources.GetString("label25.Text");
+            // 
+            // btnSaveCopterSettings
+            // 
+            this.btnSaveCopterSettings.Location = new System.Drawing.Point(17, 706);
+            this.btnSaveCopterSettings.Name = "btnSaveCopterSettings";
+            this.btnSaveCopterSettings.Size = new System.Drawing.Size(84, 30);
+            this.btnSaveCopterSettings.TabIndex = 60;
+            this.btnSaveCopterSettings.Text = "Save Settings to File";
+            this.btnSaveCopterSettings.UseVisualStyleBackColor = true;
+            this.btnSaveCopterSettings.Click += new System.EventHandler(this.btnSaveCopterSettings_Click);
             // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.btnSaveCopterSettings);
+            this.Controls.Add(this.label25);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.panelVelocityConfiguration);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panelCurrentConfiguration);
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(842, 487);
+            this.Size = new System.Drawing.Size(842, 752);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).EndInit();
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_IValues)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_VValues)).EndInit();
             this.panelVelocityConfiguration.ResumeLayout(false);
             this.panelVelocityConfiguration.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -696,7 +670,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -705,19 +678,12 @@
         #endregion
         private System.Windows.Forms.CheckBox CB_EnableEnergyProfile;
         private System.Windows.Forms.Panel panelCurrentConfiguration;
-        private System.Windows.Forms.DataGridView DGV_IValues;
-        private System.Windows.Forms.DataGridView DGV_VValues;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAngleV;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colVelocity;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colAngleI;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colCurrent;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panelVelocityConfiguration;
         private System.Windows.Forms.Label lblTitleCurrent;
-        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tbAngINeg;
         private System.Windows.Forms.TextBox tbAmpINeg;
@@ -747,7 +713,6 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label22;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChartI;
         private Controls.MyButton btnPlotI;
         private Controls.MyButton btnPlotV;
@@ -755,6 +720,12 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.TextBox tbHoverI;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label25;
+        private Controls.MyButton btnSaveCopterSettings;
     }
 }

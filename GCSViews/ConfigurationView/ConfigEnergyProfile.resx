@@ -117,124 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="colAngleI.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colCurrent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colAngleI.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colCurrent.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colAngleV.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colVelocity.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colAngleV.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="colVelocity.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <data name="label1.Text" xml:space="preserve">
     <value>The energyprofile allows to set parameters for two polynoms which approximate the current and velocity 
 depending on the angle. This allows to estimate the energyconsumption when a flight plan is loaded.</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="pictureBox1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        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
-        WS67/P8uCvBPBWRTOAAAAABJRU5ErkJggg==
-</value>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Upper Limits: 
+The amplitude defines the maximum velocity, whereas the position of 
+the amplitude defines an angle in degree, where the max. velocity is 
+reached. Variance describes the width of the amplitude</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>The amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
+is reached. Variance describes the width of the amplitude. The lower limit of current defines the lowest possible flowing current. </value>
   </data>
 </root>

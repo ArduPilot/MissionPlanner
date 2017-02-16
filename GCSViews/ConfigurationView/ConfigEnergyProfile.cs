@@ -51,8 +51,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void btnPlotI_Click(object sender, EventArgs e)
         {
-            //dAmplitudeNeg = dAngleNeg = dDeviationNeg = dAmplitudePos = dAnglePos = dDeviationPos = dLowerLimit = 0.0f;
-
             double.TryParse(tbAmpINeg.Text, out dAmplitudeNegI);
             double.TryParse(tbAngINeg.Text, out dAngleNegI);
             double.TryParse(tbDevINeg.Text, out dDeviationNegI);
@@ -62,30 +60,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             double.TryParse(tbLimitI.Text, out dLowerLimitI);
 
             ChartI.Series[0].Points.Clear();
-            DGV_IValues.Rows.Clear();
 
             for (double i = -90; i <= 90; i+=5)
             {
-                double Value = PolyValI(i);
-                DataGridViewRow dgvr = new DataGridViewRow();
-
-                dgvr.CreateCells(DGV_IValues);
-                ChartI.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, Value));
-
-                dgvr.Cells[colAngleI.Index].Value = i.ToString();
-                dgvr.Cells[colCurrent.Index].Value = Value.ToString("0.00");
-
-                DGV_IValues.Rows.Add(dgvr);
-
+                ChartI.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, PolyValI(i)));
             }
             ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[0].Points.FindMinByValue().YValues[0] - 1;
             ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[0].Points.FindMaxByValue().YValues[0] + 1;
             ChartI.ChartAreas[0].AxisY.LabelStyle.Format = "{0}";
 
-            //(a1 - t) ℯ^((-(x - b1)²) / (2c1²)) + (a2 - t) ℯ^((-(x - b2)²) / (2c2²)) + t
+            //(a1 - t) ℯ^((-0.5(x - b1)²) / (2c1²)) + (a2 - t) ℯ^((-0.5(x - b2)²) / (2c2²)) + t
         }
 
         private double dAmplitudeNegI, dAngleNegI, dDeviationNegI, dAmplitudePosI, dAnglePosI, dDeviationPosI, dLowerLimitI;
+
+        private void btnSaveCopterSettings_Click(object sender, EventArgs e)
+        {
+        }
+
         private double dAmplitudeV, dLowerAmpV, dAngleV, dDeviationV, dCurvatureV, dGradientV;
 
         private void btnPlotV_Click(object sender, EventArgs e)
@@ -98,32 +90,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             double.TryParse(tbGradientV.Text, out dGradientV);
 
             ChartV.Series[0].Points.Clear();
-            DGV_VValues.Rows.Clear();
-
-            double value = 0;
 
             for (double i = -90; i <= 90; i+=5)
             {
-                DataGridViewRow dgvr = new DataGridViewRow();
-                dgvr.CreateCells(DGV_VValues);
-
-                value = PolyValV(i);
-
-                ChartV.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, value));
-                
-                dgvr.Cells[colAngleV.Index].Value = i.ToString();
-                dgvr.Cells[colVelocity.Index].Value = value.ToString("0.00");
-                DGV_VValues.Rows.Add(dgvr);
+                ChartV.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, PolyValV(i)));
             }
         }
 
 
         private double PolyValV(double _dAngle)
         {
-            //(a1 - a2) ℯ^(-((x - b1) / c1)²) + a2 ℯ^(-(x / c2)²) + t x / 1000
+            //(a1 - a2) ℯ^(-0.5*((x - b1) / c1)²) + a2 ℯ^(-0.5*((x - b2) / c2)²) + t x / 1000
             //Scaling factors for curvature and gradient
-            double gauss = (dAmplitudeV - dLowerAmpV) * Math.Exp(-Math.Pow(((_dAngle - dAngleV) / dDeviationV), 2));
-            gauss += dLowerAmpV * Math.Exp(-Math.Pow((_dAngle / (dCurvatureV * 100)), 2) + dGradientV*_dAngle / 1000);
+            double gauss = (dAmplitudeV - dLowerAmpV) * Math.Exp(-0.5*Math.Pow(((_dAngle - dAngleV) / dDeviationV), 2));
+            gauss += dLowerAmpV * Math.Exp(-Math.Pow(0.5*(_dAngle / (dCurvatureV)), 2) + dGradientV*_dAngle / 1000);
 
             return gauss;
         }
