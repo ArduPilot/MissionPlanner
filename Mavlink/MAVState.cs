@@ -36,7 +36,7 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
-            if(sysid != 255 && !(compid == 0 && sysid == 0) && !parent.logreadmode)
+            if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
                 this.Proximity = new Proximity(this);
 
             camerapoints.Clear();

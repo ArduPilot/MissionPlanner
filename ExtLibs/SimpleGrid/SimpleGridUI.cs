@@ -272,7 +272,9 @@ namespace MissionPlanner.SimpleGrid
         {
             if (grid != null && grid.Count > 0)
             {
-              
+                MainV2.instance.FlightPlanner.quickadd = true;
+
+                PointLatLngAlt lastpnt = PointLatLngAlt.Zero;
 
                 grid.ForEach(plla =>
                 {
@@ -283,9 +285,16 @@ namespace MissionPlanner.SimpleGrid
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        if (!(plla.Lat == lastpnt.Lat && plla.Lng == lastpnt.Lng && plla.Alt == lastpnt.Alt))
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+
+                        lastpnt = plla;
                     }
                 });
+
+                MainV2.instance.FlightPlanner.quickadd = false;
+
+                MainV2.instance.FlightPlanner.writeKML();
 
                 savesettings();
 

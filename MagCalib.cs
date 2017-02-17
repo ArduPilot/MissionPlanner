@@ -1154,7 +1154,7 @@ namespace MissionPlanner
                         MainV2.comPort.GetParam("COMPASS_OFS_Z");
                     }
 
-                    if (ofs.Length > 3)
+                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA_X", (float)ofs[3]);
@@ -1209,7 +1209,7 @@ namespace MissionPlanner
                         MainV2.comPort.GetParam("COMPASS_OFS2_Y");
                         MainV2.comPort.GetParam("COMPASS_OFS2_Z");
                     }
-                    if (ofs.Length > 3)
+                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA2_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA2_X", (float)ofs[3]);
@@ -1252,7 +1252,7 @@ namespace MissionPlanner
                         MainV2.comPort.setParam("COMPASS_OFS3_Y", (float)ofs[1]);
                         MainV2.comPort.setParam("COMPASS_OFS3_Z", (float)ofs[2]);
                     }
-                    if (ofs.Length > 3)
+                    if (ofs.Length > 3 && MainV2.comPort.MAV.param.ContainsKey("COMPASS_DIA3_X"))
                     {
                         // ellipsoid
                         MainV2.comPort.setParam("COMPASS_DIA3_X", (float)ofs[3]);

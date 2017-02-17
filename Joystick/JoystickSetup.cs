@@ -62,7 +62,8 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
+                if(Settings.Instance.ContainsKey("joy_elevons"))
+                    CHK_elevons.Checked = bool.Parse(Settings.Instance["joy_elevons"].ToString());
             }
             catch
             {
@@ -643,6 +644,12 @@ namespace MissionPlanner.Joystick
         {
             if (MainV2.joystick != null)
                 MainV2.joystick.setReverse(8, ((CheckBox) sender).Checked);
+        }
+
+        private void chk_manualcontrol_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.joystick.manual_control = chk_manualcontrol.Checked;
+
         }
     }
 }

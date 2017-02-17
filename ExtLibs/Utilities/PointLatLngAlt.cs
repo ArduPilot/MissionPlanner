@@ -109,7 +109,7 @@ namespace MissionPlanner.Utilities
 
         public override bool Equals(Object pllaobj)
         {
-            PointLatLngAlt plla = (PointLatLngAlt)pllaobj;
+            PointLatLngAlt plla = pllaobj as PointLatLngAlt;
 
             if (plla == null)
                 return false;

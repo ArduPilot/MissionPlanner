@@ -1410,6 +1410,9 @@ namespace MissionPlanner.GCSViews
                                 {
                                     var marker = Common.getMAVMarker(MAV);
 
+                                    if(marker.Position.Lat == 0 && marker.Position.Lng == 0)
+                                        continue;
+
                                     addMissionRouteMarker(marker);
                                 }
                             }
@@ -3919,6 +3922,8 @@ namespace MissionPlanner.GCSViews
 
                             Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
 
+                            ThemeManager.ApplyThemeTo(frm);
+
                             frm.Show();
                         }
                         catch (Exception ex)
@@ -4477,7 +4482,7 @@ namespace MissionPlanner.GCSViews
 
             var col = Color.FromArgb(red, green, blue);
 
-            this.LogInfo(col);
+            this.LogInfo("GetColor() " + col);
 
             return col;
         }

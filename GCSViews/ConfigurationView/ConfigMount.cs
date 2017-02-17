@@ -23,7 +23,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             InitializeComponent();
 
-
             var delay = new Transition(new TransitionType_Linear(2000));
             var fadeIn = new Transition(new TransitionType_Linear(800));
 
@@ -40,19 +39,67 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             SetErrorMessageOpacity();
 
-            CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
-
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelap)));
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelap)));
                 mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelap)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
             }
             else
             {
                 mavlinkComboBoxTilt.Items.AddRange(Enum.GetNames(typeof (Channelac)));
                 mavlinkComboBoxRoll.Items.AddRange(Enum.GetNames(typeof (Channelac)));
                 mavlinkComboBoxPan.Items.AddRange(Enum.GetNames(typeof (Channelac)));
+                CMB_shuttertype.Items.AddRange(Enum.GetNames(typeof (ChannelCameraShutter)));
+            }
+
+            string remove = "SERVO";
+            //cleanup list based on version
+            if (MainV2.comPort.MAV.param.ContainsKey("SERVO1_MIN"))
+            {
+                remove = "RC";
+            }
+
+            for (int i = 0; i < mavlinkComboBoxTilt.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxTilt.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxTilt.Items.Remove(mavlinkComboBoxTilt.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < mavlinkComboBoxRoll.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxRoll.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxRoll.Items.Remove(mavlinkComboBoxRoll.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < mavlinkComboBoxPan.Items.Count; i++)
+            {
+                var item = mavlinkComboBoxPan.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    mavlinkComboBoxPan.Items.Remove(mavlinkComboBoxPan.Items[i]);
+                    i--;
+                    continue;
+                }
+            }
+            for (int i = 0; i < CMB_shuttertype.Items.Count; i++)
+            {
+                var item = CMB_shuttertype.Items[i] as string;
+                if (item.StartsWith(remove))
+                {
+                    CMB_shuttertype.Items.Remove(CMB_shuttertype.Items[i]);
+                    i--;
+                    continue;
+                }
             }
 
             CMB_mnt_type.setup(ParameterMetaDataRepository.GetParameterOptionsInt("MNT_TYPE",
@@ -69,8 +116,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            CMB_shuttertype.SelectedItem = Enum.GetName(typeof (ChannelCameraShutter),
-                (Int32) MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
+            CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter),
+                (Int32)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
             foreach (string item in copy.Keys)
             {
@@ -130,8 +177,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void ensureDisabled(ComboBox cmb, int number, string exclude = "")
         {
-            foreach (string item in cmb.Items)
+            foreach (var itemobj in cmb.Items)
             {
+                string item = itemobj.ToString();
                 if (MainV2.comPort.MAV.param.ContainsKey(item + "_FUNCTION"))
                 {
                     var ans = (float) MainV2.comPort.MAV.param[item + "_FUNCTION"];
@@ -211,7 +259,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownTSMX.setup(800, 2200, 1, 1, mavlinkComboBoxTilt.Text + "_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_TIL", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownTAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_TIL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxTR.setup(-1, 1, mavlinkComboBoxTilt.Text + "_REV", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxTR.setup(new double[] {-1, 1}, new double[] {1, 0},
+                new string[] {mavlinkComboBoxTilt.Text + "_REV", mavlinkComboBoxTilt.Text + "_REVERSED"},
+                MainV2.comPort.MAV.param);
             CMB_inputch_tilt.setup(typeof (Channelinput), ParamHead + "RC_IN_TILT", MainV2.comPort.MAV.param);
         }
 
@@ -236,7 +286,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownRSMX.setup(800, 2200, 1, 1, mavlinkComboBoxRoll.Text + "_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownRAM.setup(-90, 0, 100, 1, ParamHead + "ANGMIN_ROL", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownRAMX.setup(0, 90, 100, 1, ParamHead + "ANGMAX_ROL", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxRR.setup(-1, 1, mavlinkComboBoxRoll.Text + "_REV", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxRR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxRoll.Text + "_REV", mavlinkComboBoxRoll.Text + "_REVERSED" },
+                MainV2.comPort.MAV.param);
             CMB_inputch_roll.setup(typeof (Channelinput), ParamHead + "RC_IN_ROLL", MainV2.comPort.MAV.param);
         }
 
@@ -261,7 +313,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownPSMX.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownPAM.setup(-180, 0, 100, 1, ParamHead + "ANGMIN_PAN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownPAMX.setup(0, 180, 100, 1, ParamHead + "ANGMAX_PAN", MainV2.comPort.MAV.param);
-            mavlinkCheckBoxPR.setup(-1, 1, mavlinkComboBoxPan.Text + "_REV", MainV2.comPort.MAV.param);
+            mavlinkCheckBoxPR.setup(new double[] { -1, 1 }, new double[] { 1, 0 },
+                new string[] { mavlinkComboBoxPan.Text + "_REV", mavlinkComboBoxPan.Text + "_REVERSED" },
+                MainV2.comPort.MAV.param);
             CMB_inputch_pan.setup(typeof (Channelinput), ParamHead + "RC_IN_PAN", MainV2.comPort.MAV.param);
         }
 
@@ -365,7 +419,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC11 = 1,
             RC12 = 1,
             RC13 = 1,
-            RC14 = 1
+            RC14 = 1,
+            SERVO5 = 1,
+            SERVO6 = 1,
+            SERVO7 = 1,
+            SERVO8 = 1,
+            SERVO9 = 1,
+            SERVO10 = 1,
+            SERVO11 = 1,
+            SERVO12 = 1,
+            SERVO13 = 1,
+            SERVO14 = 1
         }
 
         // 0 = disabled 1 = enabled
@@ -381,7 +445,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC11 = 1,
             RC12 = 1,
             RC13 = 1,
-            RC14 = 1
+            RC14 = 1,
+            SERVO5 = 1,
+            SERVO6 = 1,
+            SERVO7 = 1,
+            SERVO8 = 1,
+            SERVO9 = 1,
+            SERVO10 = 1,
+            SERVO11 = 1,
+            SERVO12 = 1,
+            SERVO13 = 1,
+            SERVO14 = 1
         }
 
         private enum ChannelCameraShutter
@@ -391,12 +465,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             RC6 = 6,
             RC7 = 7,
             RC8 = 8,
-            RC9 = 1,
+            RC9 = 9,
             RC10 = 10,
             RC11 = 11,
-            RC12 = 1,
-            RC13 = 1,
-            RC14 = 1,
+            RC12 = 12,
+            RC13 = 13,
+            RC14 = 14,
+            SERVO5 = 5,
+            SERVO6 = 6,
+            SERVO7 = 7,
+            SERVO8 = 8,
+            SERVO9 = 9,
+            SERVO10 = 10,
+            SERVO11 = 11,
+            SERVO12 = 12,
+            SERVO13 = 13,
+            SERVO14 = 14,
             Relay = 1,
             Transistor = 4
         }

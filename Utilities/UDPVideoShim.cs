@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Pipes;
 using System.Linq;
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
@@ -13,6 +15,8 @@ namespace MissionPlanner.Utilities
     public class UDPVideoShim
     {
         private static UdpClient client;
+        private static UdpClient client2;
+        private static UdpClient client3;
         private static TcpClient tcpclient;
 
         static UDPVideoShim()
@@ -21,6 +25,18 @@ namespace MissionPlanner.Utilities
             {
                 client = new UdpClient(5600, AddressFamily.InterNetwork);
                 client.BeginReceive(clientdata, client);
+            }
+            catch { }
+            try
+            {
+                client2 = new UdpClient(5000, AddressFamily.InterNetwork);
+                client2.BeginReceive(clientdata, client2);
+            }
+            catch { }
+            try
+            {
+                client3 = new UdpClient(5100, AddressFamily.InterNetwork);
+                client3.BeginReceive(clientdata, client3);
             }
             catch { }
         }
@@ -57,28 +73,48 @@ namespace MissionPlanner.Utilities
 
         private static void clientdata(IAsyncResult ar)
         {
-            if(client != null)
+            var client = ((UdpClient) ar.AsyncState);
+
+            if (client == null || client.Client == null)
+                return;
+
+            var port = ((IPEndPoint)client.Client.LocalEndPoint).Port;
+
+            if (client != null)
                 client.Close();
+
+            //removeme
+            GStreamer.LookForGstreamer();
 
             if (!File.Exists(GStreamer.gstlaunch))
             {
-                if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to config it now","GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    if (GStreamer.getGstLaunchExe())
-                    {
+                var gstpath = GStreamer.LookForGstreamer();
 
+                if (File.Exists(gstpath))
+                {
+                    GStreamer.gstlaunch = gstpath;
+                }
+                else
+                {
+                    if (CustomMessageBox.Show("A video stream has been detected, but gstreamer has not been configured/installed.\nDo you want to config it now?", "GStreamer", System.Windows.Forms.MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                    {
+                        if (GStreamer.getGstLaunchExe())
+                        {
+
+                        }
+                        else
+                        {
+                            return;
+                        }
                     }
                     else
                     {
                         return;
                     }
                 }
-                else
-                {
-                    return;
-                }
             }
 
+            GStreamer.UdpPort = port;
             GStreamer.Start();
         }
 

@@ -352,7 +352,8 @@ namespace MissionPlanner.Controls
 
             float screenscale = this.Width/(float) this.Height;
 
-            MakeCurrent();
+            if(!Context.IsCurrent)
+                MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
 
@@ -585,7 +586,7 @@ namespace MissionPlanner.Controls
                 this.SwapBuffers();
 
 
-                Context.MakeCurrent(null);
+                //Context.MakeCurrent(null);
             }
             catch
             {
