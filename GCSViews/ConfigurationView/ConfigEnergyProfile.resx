@@ -118,8 +118,9 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>The energyprofile allows to set parameters for two polynoms which approximate the current and velocity 
-depending on the angle. This allows to estimate the energyconsumption when a flight plan is loaded.</value>
+    <value>The energyprofile allows to set parameters for two polynoms which approximate the current and velocity depending on the angle. This 
+allows to estimate the energyconsumption when a flight plan is loaded. The editable copter ID allows to save parameter settings for each 
+individual copter and are being loaded automatically, if values have been defined.</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>Upper Limits: 

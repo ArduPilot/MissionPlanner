@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using MissionPlanner.Controls;
@@ -17,17 +18,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigEnergyProfile()
         {
             InitializeComponent();
+            EnergyProfilePath = MissionPlanner.Utilities.Settings.GetUserDataDirectory() + "EnergyProfile" + Path.DirectorySeparatorChar;
         }
-
-        //Key: angle, Value: Current in A per angle
-        private SortedDictionary<double, double> m_IValues = new SortedDictionary<double, double>();
-
-        //Key: angle, Value, Velocity in m/s per angle
-        private SortedDictionary<double, double> m_VValues = new SortedDictionary<double, double>();
-
+        
         public void Activate()
         {
             CB_EnableEnergyProfile.Checked = Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]);
+            if(MainV2.comPort.BaseStream.IsOpen)
+            {
+                if (MainV2.comPort.MAV.param.ContainsKey("BRD_SERIAL_NUM"))
+                {
+                    tbCopterID.Text = MainV2.comPort.GetParam("BRD_SERIAL_NUM").ToString();
+
+                    //Find copter settings
+                    if (File.Exists(EnergyProfilePath + tbCopterID.Text + ".xml"))
+                    {
+                        using (System.Xml.XmlReader xr = System.Xml.XmlReader.Create(EnergyProfilePath + tbCopterID.Text + ".xml"))
+                        {
+                            xr.ReadToFollowing("Current");
+                            tbAmpINeg.Text = xr.GetAttribute("NegAmp");
+                            tbAngINeg.Text = xr.GetAttribute("NegAmpPosition");
+                            tbVarINeg.Text = xr.GetAttribute("NegVariance");
+                            tbAmpIPos.Text = xr.GetAttribute("PosAmp");
+                            tbAngIPos.Text = xr.GetAttribute("PosAmpPosition");
+                            tbVarIPos.Text = xr.GetAttribute("PosVariance");
+                            tbDeviationMax.Text = xr.GetAttribute("MaxDeviation");
+                            tbDeviationMin.Text = xr.GetAttribute("MinDeviation");
+                            tbLimitI.Text = xr.GetAttribute("LowerLimit");
+                            tbHoverI.Text = xr.GetAttribute("CurrentHover");
+                            
+                            //xw.WriteStartElement("Velocity");
+                            //xw.WriteAttributeString("Amplitude", tbAmpV.Text);
+                            //xw.WriteAttributeString("AmpPosition", tbAngV.Text);
+                            //xw.WriteAttributeString("Variance", tbVarV.Text);
+                            //xw.WriteAttributeString("LowerBound", tbLowerAmp.Text);
+                            //xw.WriteAttributeString("Curvature", tbCurvatureV.Text);
+                            //xw.WriteAttributeString("Gradient", tbGradientV.Text);
+                        }
+                    }
+                        
+                }
+            }
         }
         
         private void Btn_SaveChanges_Click(object sender, EventArgs e)
@@ -53,20 +84,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             double.TryParse(tbAmpINeg.Text, out dAmplitudeNegI);
             double.TryParse(tbAngINeg.Text, out dAngleNegI);
-            double.TryParse(tbDevINeg.Text, out dDeviationNegI);
+            double.TryParse(tbVarINeg.Text, out dDeviationNegI);
             double.TryParse(tbAmpIPos.Text, out dAmplitudePosI);
             double.TryParse(tbAngIPos.Text, out dAnglePosI);
-            double.TryParse(tbDevIPos.Text, out dDeviationPosI);
+            double.TryParse(tbVarIPos.Text, out dDeviationPosI);
             double.TryParse(tbLimitI.Text, out dLowerLimitI);
 
             ChartI.Series[0].Points.Clear();
+            ChartI.Series[1].Points.Clear();
+            ChartI.Series[2].Points.Clear();
 
             for (double i = -90; i <= 90; i+=5)
             {
                 ChartI.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, PolyValI(i)));
+                ChartI.Series[1].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, PolyValI(i, double.Parse(tbDeviationMax.Text))));
+                ChartI.Series[2].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, PolyValI(i, -double.Parse(tbDeviationMin.Text))));
             }
-            ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[0].Points.FindMinByValue().YValues[0] - 1;
-            ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[0].Points.FindMaxByValue().YValues[0] + 1;
+
+            ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[2].Points.FindMinByValue().YValues[0] - 0.5;
+            ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[1].Points.FindMaxByValue().YValues[0] + 0.5;
             ChartI.ChartAreas[0].AxisY.LabelStyle.Format = "{0}";
 
             //(a1 - t) ℯ^((-0.5(x - b1)²) / (2c1²)) + (a2 - t) ℯ^((-0.5(x - b2)²) / (2c2²)) + t
@@ -76,6 +112,43 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void btnSaveCopterSettings_Click(object sender, EventArgs e)
         {
+            if (MainV2.comPort.GetParam("BRD_SERIAL_NUM") != 0 && tbCopterID.Text != string.Empty)
+            {
+                MainV2.comPort.setParam("BRD_SERIAL_NUM", double.Parse(tbCopterID.Text));
+
+                //Save parameters to xml file
+
+                if (!(Directory.Exists(EnergyProfilePath)))
+                {
+                    Directory.CreateDirectory(EnergyProfilePath);
+                }
+
+                using (System.Xml.XmlWriter xw = System.Xml.XmlWriter.Create(EnergyProfilePath + tbCopterID.Text + ".xml"))
+                {
+                    xw.WriteStartElement("Current");
+                        xw.WriteAttributeString("NegAmp", tbAmpINeg.Text);
+                        xw.WriteAttributeString("NegAmpPosition", tbAmpIPos.Text);
+                        xw.WriteAttributeString("NegVariance", tbVarINeg.Text);
+                        xw.WriteAttributeString("PosAmp", tbAmpIPos.Text);
+                        xw.WriteAttributeString("PosAmpPosition", tbAngIPos.Text);
+                        xw.WriteAttributeString("PosVariance", tbVarIPos.Text);
+                        xw.WriteAttributeString("MaxDeviation", tbDeviationMax.Text);
+                        xw.WriteAttributeString("MinDeviation", tbDeviationMin.Text);
+                        xw.WriteAttributeString("LowerLimit", tbLimitI.Text);
+                        xw.WriteAttributeString("CurrentHover", tbHoverI.Text);
+                    xw.WriteEndElement();
+
+                    /*xw.WriteStartElement("Velocity");
+                        xw.WriteAttributeString("Amplitude", tbAmpV.Text);
+                        xw.WriteAttributeString("AmpPosition", tbAngV.Text);
+                        xw.WriteAttributeString("Variance", tbVarV.Text);
+                        xw.WriteAttributeString("LowerBound", tbLowerAmp.Text);
+                        xw.WriteAttributeString("Curvature", tbCurvatureV.Text);
+                        xw.WriteAttributeString("Gradient", tbGradientV.Text);
+                    xw.WriteEndElement();*/
+                    xw.Close();
+                }
+            }
         }
 
         private double dAmplitudeV, dLowerAmpV, dAngleV, dDeviationV, dCurvatureV, dGradientV;
@@ -85,7 +158,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             double.TryParse(tbAmpV.Text, out dAmplitudeV);
             double.TryParse(tbLowerAmp.Text, out dLowerAmpV);
             double.TryParse(tbAngV.Text, out dAngleV);
-            double.TryParse(tbDevV.Text, out dDeviationV);
+            double.TryParse(tbVarV.Text, out dDeviationV);
             double.TryParse(tbCurvatureV.Text, out dCurvatureV);
             double.TryParse(tbGradientV.Text, out dGradientV);
 
@@ -108,13 +181,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return gauss;
         }
 
-        private double PolyValI(double _dAngle)
+        private double PolyValI(double _dAngle, double _dDeviation = 0)
         {
             double gauss = (dAmplitudeNegI - dLowerLimitI) * Math.Exp((-0.5 * Math.Pow((_dAngle - dAngleNegI), 2)) / Math.Pow(dDeviationNegI, 2));
             gauss += (dAmplitudePosI - dLowerLimitI) * Math.Exp((-0.5 * Math.Pow((_dAngle - dAnglePosI), 2)) / Math.Pow(dDeviationPosI, 2));
             gauss += dLowerLimitI;
 
-            return gauss;
+            return gauss + _dDeviation;
+        }
+
+        private string EnergyProfilePath
+        {
+            get;
+            set;
         }
     }
 }
