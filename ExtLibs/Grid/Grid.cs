@@ -48,7 +48,7 @@ namespace MissionPlanner
 
             polygons.Routes.Add(new GMapRoute(list, "test") { Stroke = new System.Drawing.Pen(System.Drawing.Color.Yellow,4) });
 
-            map.ZoomAndCenterRoutes("polygons");
+            timer.Start();
         }
 
 
@@ -64,25 +64,44 @@ namespace MissionPlanner
 
             polygons.Markers.Add(new GMapMarkerWP(pos.ToLLA(), tag));
 
+            timer.Stop();
+            timer.Start();
+        }
+
+        static void zoomandcentermap()
+        {
             map.ZoomAndCenterMarkers("polygons");
 
             map.Invalidate();
+
+            timer.Stop();
         }
 
         static GMapOverlay polygons = new GMapOverlay("polygons");
         static myGMAP map = new myGMAP();
+        static Timer timer = new Timer();
 
         static void DoDebug()
         {
+            polygons.Clear();
+
+            timer.Interval = 2000;
+            timer.Tick += (sender, args) => { zoomandcentermap(); };
+            timer.Start();
+
+            if (map.IsHandleCreated)
+                return;
+
             polygons = new GMapOverlay("polygons");
             map = new myGMAP();
-            var form = new Form() {Size = new Size(1024, 768), WindowState = FormWindowState.Maximized};
-            map.Dock = DockStyle.Fill;
+            
             map.MapProvider = GMapProviders.GoogleSatelliteMap;
             map.MaxZoom = 20;
             map.Overlays.Add(polygons);
-            form.Controls.Add(map);
-            form.Show();
+            map.Size = new Size(1024, 768);
+            map.Dock = DockStyle.Fill;
+    
+            map.ShowUserControl();
         }
 
         public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation, float leadin = 0)

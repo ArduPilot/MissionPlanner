@@ -144,7 +144,7 @@
     <value>map</value>
   </data>
   <data name="&gt;&gt;map.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.6214.38765, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.6255.33831, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;map.Parent" xml:space="preserve">
     <value>$this</value>
@@ -432,7 +432,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_spacing.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;NUM_spacing.Name" xml:space="preserve">
     <value>NUM_spacing</value>
@@ -513,7 +513,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_overshoot2.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;NUM_overshoot2.Name" xml:space="preserve">
     <value>NUM_overshoot2</value>
@@ -534,7 +534,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_angle.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;NUM_angle.Name" xml:space="preserve">
     <value>NUM_angle</value>
@@ -555,7 +555,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_altitude.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;NUM_altitude.Name" xml:space="preserve">
     <value>NUM_altitude</value>
@@ -609,7 +609,7 @@
     <value>75, 23</value>
   </data>
   <data name="BUT_Accept.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
+    <value>8</value>
   </data>
   <data name="BUT_Accept.Text" xml:space="preserve">
     <value>Accept</value>
@@ -618,7 +618,7 @@
     <value>BUT_Accept</value>
   </data>
   <data name="&gt;&gt;BUT_Accept.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6214.38765, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6255.33831, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Accept.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -663,7 +663,7 @@
     <value>92, 21</value>
   </data>
   <data name="CMB_startfrom.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;CMB_startfrom.Name" xml:space="preserve">
     <value>CMB_startfrom</value>
@@ -687,13 +687,13 @@
     <value>10, 73</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 13</value>
+    <value>84, 13</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Distance between lines [m]</value>
+    <value>Line spacing [m]</value>
   </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
@@ -714,7 +714,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_Distance.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;NUM_Distance.Name" xml:space="preserve">
     <value>NUM_Distance</value>
@@ -735,7 +735,7 @@
     <value>51, 20</value>
   </data>
   <data name="NUM_overshoot.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;NUM_overshoot.Name" xml:space="preserve">
     <value>NUM_overshoot</value>
@@ -816,7 +816,7 @@
     <value>66, 17</value>
   </data>
   <data name="CHK_internals.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
+    <value>10</value>
   </data>
   <data name="CHK_internals.Text" xml:space="preserve">
     <value>Internals</value>
@@ -846,7 +846,7 @@
     <value>45, 17</value>
   </data>
   <data name="chk_grid.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
+    <value>12</value>
   </data>
   <data name="chk_grid.Text" xml:space="preserve">
     <value>Grid</value>
@@ -876,7 +876,7 @@
     <value>64, 17</value>
   </data>
   <data name="chk_markers.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+    <value>11</value>
   </data>
   <data name="chk_markers.Text" xml:space="preserve">
     <value>Markers</value>
@@ -906,7 +906,7 @@
     <value>71, 17</value>
   </data>
   <data name="chk_boundary.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+    <value>9</value>
   </data>
   <data name="chk_boundary.Text" xml:space="preserve">
     <value>Boundary</value>
