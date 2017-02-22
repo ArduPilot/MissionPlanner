@@ -390,7 +390,10 @@ namespace MissionPlanner
                     BaseStream.DiscardInBuffer();
 
                     // other boards seem to have issues if there is no delay? posible bootloader timeout issue
-                    Thread.Sleep(1000);
+                    if (BaseStream is SerialPort)
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                    }
                 }
 
                 MAVLinkMessage buffer = MAVLinkMessage.Invalid;
@@ -2973,6 +2976,13 @@ Please check the following
                 target.type_mask -= 56;
             if (acc)
                 target.type_mask -= 448;
+
+            if (pos)
+            {
+                MAVlist[sysid, compid].GuidedMode.x = (float)lat;
+                MAVlist[sysid, compid].GuidedMode.y = (float)lng;
+                MAVlist[sysid, compid].GuidedMode.z = (float)alt;
+            }
 
             bool pos_ignore = (target.type_mask & MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE)>0;
             bool vel_ignore = (target.type_mask & MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE)>0;
