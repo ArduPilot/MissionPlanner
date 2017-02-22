@@ -11,8 +11,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWBT : UserControl, IActivate
     {
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
+        private const double rad2deg = (float) (180/Math.PI);
+        private const double deg2rad = (float) (1.0/rad2deg);
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly Dictionary<int, int> baudmap = new Dictionary<int, int>

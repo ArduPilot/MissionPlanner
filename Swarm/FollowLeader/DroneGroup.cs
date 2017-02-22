@@ -9,8 +9,8 @@ namespace MissionPlanner.Swarm.FollowLeader
 {
     public class DroneGroup
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (float)(180 / Math.PI);
+        const double deg2rad = (float)(1.0 / rad2deg);
 
         List<PointLatLngAlt> trail = new List<PointLatLngAlt>();
 

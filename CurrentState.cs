@@ -834,7 +834,7 @@ namespace MissionPlanner
 
                 float altdiff = (float) (_altasl - TrackerLocation.Alt);
 
-                float angle = (float) Math.Atan(altdiff/dist)*rad2deg;
+                float angle = (float) (Math.Atan(altdiff/dist)*rad2deg);
 
                 return angle;
             }
@@ -1110,8 +1110,8 @@ namespace MissionPlanner
             }
         }
 
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         private DateTime lastupdate = DateTime.Now;
 
@@ -1749,9 +1749,9 @@ namespace MissionPlanner
                     {
                         var att = mavLinkMessage.ToStructure<MAVLink.mavlink_attitude_t>();
 
-                        roll = att.roll*rad2deg;
-                        pitch = att.pitch*rad2deg;
-                        yaw = att.yaw*rad2deg;
+                        roll = (float)(att.roll*rad2deg);
+                        pitch = (float)(att.pitch*rad2deg);
+                        yaw = (float)(att.yaw*rad2deg);
 
                         //Console.WriteLine(MAV.sysid + " " +roll + " " + pitch + " " + yaw);
 

@@ -293,12 +293,12 @@ namespace MissionPlanner.HIL
 
             //   Console.WriteLine(hilstate.alt);
 
-            hilstate.pitch = (float) sitldata.pitchDeg*deg2rad; // (rad)
-            hilstate.pitchspeed = (float) sitldata.pitchRate*deg2rad; // (rad/s)
-            hilstate.roll = (float) sitldata.rollDeg*deg2rad; // (rad)
-            hilstate.rollspeed = (float) sitldata.rollRate*deg2rad; // (rad/s)
-            hilstate.yaw = (float) sitldata.yawDeg*deg2rad; // (rad)
-            hilstate.yawspeed = (float) sitldata.yawRate*deg2rad; // (rad/s)
+            hilstate.pitch = (float)( sitldata.pitchDeg*deg2rad); // (rad)
+            hilstate.pitchspeed = (float)(sitldata.pitchRate*deg2rad); // (rad/s)
+            hilstate.roll = (float)(sitldata.rollDeg*deg2rad); // (rad)
+            hilstate.rollspeed = (float)(sitldata.rollRate*deg2rad); // (rad/s)
+            hilstate.yaw = (float)(sitldata.yawDeg*deg2rad); // (rad)
+            hilstate.yawspeed = (float)(sitldata.yawRate*deg2rad); // (rad/s)
 
             hilstate.vx = (short) (sitldata.speedN*100); // m/s * 100
             hilstate.vy = (short) (sitldata.speedE*100); // m/s * 100

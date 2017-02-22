@@ -234,8 +234,8 @@ namespace MissionPlanner.Swarm
 
            var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
 
-            float rad2deg = (float)(180 / Math.PI);
-            float deg2rad = (float)(1.0 / rad2deg);
+            double rad2deg = (float)(180 / Math.PI);
+            double deg2rad = (float)(1.0 / rad2deg);
 
             norotation.x *= -1;
             norotation.y *= -1;

@@ -18,8 +18,8 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         static double error = 99;
         static double error2 = 99;

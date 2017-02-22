@@ -20,8 +20,8 @@ namespace MissionPlanner.Swarm
 
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (float)(180 / Math.PI);
+        const double deg2rad = (float)(1.0 / rad2deg);
 
         public void setOffsets(MAVLinkInterface mav, double x, double y, double z)
         {

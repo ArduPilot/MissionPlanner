@@ -41,8 +41,8 @@ namespace MissionPlanner.GeoRef
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         // CONSTS
-        private const float rad2deg = (float) (180/Math.PI);
-        private const float deg2rad = (float) (1.0/rad2deg);
+        private const double rad2deg = (180/Math.PI);
+        private const double deg2rad = (1.0/rad2deg);
 
         // Key = path of file, Value = object with picture information
         private Dictionary<string, PictureInformation> picturesInfo;

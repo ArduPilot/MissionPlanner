@@ -205,8 +205,8 @@ namespace MissionPlanner.Controls
             }
         }
 
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
@@ -266,7 +266,7 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100*deg2rad, 1f, 0.00001f,
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(100 *deg2rad), 1f, 0.00001f,
                 (float) step*50);
             GL.LoadMatrix(ref projection);
 
@@ -275,9 +275,9 @@ namespace MissionPlanner.Controls
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X*deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X*deg2rad)));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX(rpy.Y*-deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)(rpy.Y*-deg2rad)));
 
             GL.LoadMatrix(ref modelview);
 

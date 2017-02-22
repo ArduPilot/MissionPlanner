@@ -657,8 +657,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerADSBPlane : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         private static readonly Bitmap icong = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01, new Size(40, 40));
         private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_011, new Size(40, 40));
@@ -767,8 +767,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerRover : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width,
@@ -832,8 +832,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerBoat : GMapMarker
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (float)(180 / Math.PI);
+        const double deg2rad = (float)(1.0 / rad2deg);
 
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.boat.Width,
@@ -898,8 +898,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerPlane : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
 
@@ -953,7 +953,7 @@ union px4_custom_mode {
                         Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
                 double m2pixelwidth = Overlay.Control.Width/width;
 
-                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
+                float alpha = (float)(((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg);
 
                 if (radius < -1 && alpha > 1)
                 {
@@ -997,8 +997,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerQuad : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
 
@@ -1087,8 +1087,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerSingle : GMapMarker
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (float)(180 / Math.PI);
+        const double deg2rad = (float)(1.0 / rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.redsinglecopter2;
 
@@ -1149,8 +1149,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerHeli : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.heli;
 
@@ -1204,8 +1204,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerAntennaTracker : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (float) (180/Math.PI);
+        const double deg2rad = (float) (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
 
