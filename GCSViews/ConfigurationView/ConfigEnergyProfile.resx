@@ -129,7 +129,8 @@ the amplitude defines an angle in degree, where the max. velocity is
 reached. Variance describes the width of the amplitude</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
-    <value>The amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
-is reached. Variance describes the width of the amplitude. The lower limit of current defines the lowest possible flowing current. </value>
+    <value>Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
+is reached. Variance describes the width of amplitude. The lower limit of current sets the lowest possible flowing current. Max. and min define the
+possible deviation of the current, as the current of a vehicle can vary due to different air conditions.</value>
   </data>
 </root>

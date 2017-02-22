@@ -106,6 +106,7 @@
             this.tbCopterID = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.btnSaveCopterSettings = new MissionPlanner.Controls.MyButton();
+            this.btnSaveSettings = new MissionPlanner.Controls.MyButton();
             this.panelCurrentConfiguration.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -235,7 +236,7 @@
             this.tbHoverI.Name = "tbHoverI";
             this.tbHoverI.Size = new System.Drawing.Size(34, 20);
             this.tbHoverI.TabIndex = 56;
-            this.tbHoverI.Text = "8,09";
+            this.tbHoverI.Text = "18,09";
             // 
             // ChartI
             // 
@@ -487,7 +488,7 @@
             this.panelVelocityConfiguration.Controls.Add(this.ChartV);
             this.panelVelocityConfiguration.Controls.Add(this.label19);
             this.panelVelocityConfiguration.Controls.Add(this.panel7);
-            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 393);
+            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 419);
             this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
             this.panelVelocityConfiguration.Size = new System.Drawing.Size(814, 256);
             this.panelVelocityConfiguration.TabIndex = 43;
@@ -708,7 +709,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 652);
+            this.label15.Location = new System.Drawing.Point(14, 678);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(332, 52);
             this.label15.TabIndex = 44;
@@ -717,7 +718,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(378, 652);
+            this.label23.Location = new System.Drawing.Point(378, 678);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(389, 39);
             this.label23.TabIndex = 45;
@@ -730,13 +731,13 @@
             this.label25.AutoSize = true;
             this.label25.Location = new System.Drawing.Point(14, 344);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(723, 26);
+            this.label25.Size = new System.Drawing.Size(702, 39);
             this.label25.TabIndex = 47;
             this.label25.Text = resources.GetString("label25.Text");
             // 
             // tbCopterID
             // 
-            this.tbCopterID.Location = new System.Drawing.Point(745, 49);
+            this.tbCopterID.Location = new System.Drawing.Point(745, 52);
             this.tbCopterID.Name = "tbCopterID";
             this.tbCopterID.Size = new System.Drawing.Size(89, 20);
             this.tbCopterID.TabIndex = 52;
@@ -752,7 +753,7 @@
             // 
             // btnSaveCopterSettings
             // 
-            this.btnSaveCopterSettings.Location = new System.Drawing.Point(17, 716);
+            this.btnSaveCopterSettings.Location = new System.Drawing.Point(106, 742);
             this.btnSaveCopterSettings.Name = "btnSaveCopterSettings";
             this.btnSaveCopterSettings.Size = new System.Drawing.Size(84, 30);
             this.btnSaveCopterSettings.TabIndex = 60;
@@ -760,11 +761,22 @@
             this.btnSaveCopterSettings.UseVisualStyleBackColor = true;
             this.btnSaveCopterSettings.Click += new System.EventHandler(this.btnSaveCopterSettings_Click);
             // 
+            // btnSaveSettings
+            // 
+            this.btnSaveSettings.Location = new System.Drawing.Point(16, 742);
+            this.btnSaveSettings.Name = "btnSaveSettings";
+            this.btnSaveSettings.Size = new System.Drawing.Size(84, 30);
+            this.btnSaveSettings.TabIndex = 62;
+            this.btnSaveSettings.Text = "Save Settings";
+            this.btnSaveSettings.UseVisualStyleBackColor = true;
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.btnSaveSettings);
             this.Controls.Add(this.label24);
             this.Controls.Add(this.tbCopterID);
             this.Controls.Add(this.btnSaveCopterSettings);
@@ -776,7 +788,7 @@
             this.Controls.Add(this.panelCurrentConfiguration);
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(862, 765);
+            this.Size = new System.Drawing.Size(862, 789);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -858,5 +870,6 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox tbDeviationMax;
+        private Controls.MyButton btnSaveSettings;
     }
 }
