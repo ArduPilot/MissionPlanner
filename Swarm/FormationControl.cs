@@ -306,6 +306,8 @@ namespace MissionPlanner.Swarm
                         ((Status) ctl).MAV.Text = port.ToString();
                         ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
                                                      port.MAV.GuidedMode.z;
+                        ((Status)ctl).Location1.Text = port.MAV.cs.lat + "," + port.MAV.cs.lng + "," +
+                                                     port.MAV.cs.alt;
 
                         if (port == SwarmInterface.Leader)
                         {

@@ -55,8 +55,8 @@ namespace MissionPlanner.Swarm
             if (masterpos.Lat == 0 || masterpos.Lng == 0)
                 return;
 
-            Console.WriteLine(DateTime.Now);
-            Console.WriteLine("Leader {0} {1} {2}", masterpos.Lat, masterpos.Lng, masterpos.Alt);
+            //Console.WriteLine(DateTime.Now);
+            //Console.WriteLine("Leader {0} {1} {2}", masterpos.Lat, masterpos.Lng, masterpos.Alt);
 
             int a = 0;
             foreach (var port in MainV2.Comports)
@@ -144,7 +144,7 @@ namespace MissionPlanner.Swarm
                             MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, target.Lat, target.Lng, target.Alt, vel.x, vel.y, -vel.z);
                     }
 
-                    Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
+                    //Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
                 }
                 catch (Exception ex)
                 {
