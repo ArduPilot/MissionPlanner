@@ -1752,7 +1752,7 @@ namespace MissionPlanner.GCSViews
                             ((180.0 / Math.PI) * Math.Atan(grad)).ToString("0.0");
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value =
-                            (lla.GetDistance(last)*CurrentState.multiplierdist).ToString("0.0");
+                            (Math.Sqrt(Math.Pow(distance,2) + Math.Pow(height,2))).ToString("0.0");
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[AZ.Index].Value =
                             ((lla.GetBearing(last) + 180)%360).ToString("0");
