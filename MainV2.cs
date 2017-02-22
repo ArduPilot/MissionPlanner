@@ -1243,7 +1243,7 @@ namespace MissionPlanner
         public void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
             bool skipconnectcheck = false;
-            log.Info("We are connecting");
+            log.Info("We are connecting to " + portname + " " + baud ); 
             switch (portname)
             {
                 case "preset":
@@ -1325,7 +1325,8 @@ namespace MissionPlanner
                 log.Info("Set Baudrate");
                 try
                 {
-                    comPort.BaseStream.BaudRate = int.Parse(baud);
+                    if(baud != "")
+                        comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
                 {
@@ -1611,13 +1612,13 @@ namespace MissionPlanner
                 foreach (var serial in serials)
                 {
                     if (serial.Contains(comPort.MAV.SerialString.Substring(comPort.MAV.SerialString.Length - 26, 26)) &&
-                        !Settings.Instance.ContainsKey(comPort.MAV.SerialString))
+                        !Settings.Instance.ContainsKey(comPort.MAV.SerialString.Replace(" ", "")))
                     {
                         CustomMessageBox.Show(
                             "Your board has a Critical service bulletin please see [link;http://discuss.ardupilot.org/t/sb-0000001-critical-service-bulletin-for-beta-cube-2-1/14711;Click here]",
                             Strings.ERROR);
 
-                        Settings.Instance[comPort.MAV.SerialString] = true.ToString();
+                        Settings.Instance[comPort.MAV.SerialString.Replace(" ","")] = true.ToString();
                     }
                 }
             }
@@ -1633,31 +1634,14 @@ namespace MissionPlanner
             if (comPortName == "UDP" || comPortName == "UDPCl" || comPortName == "TCP" || comPortName == "AUTO")
             {
                 _connectionControl.CMB_baudrate.Enabled = false;
-                if (comPortName == "TCP")
-                    MainV2.comPort.BaseStream = new TcpSerial();
-                if (comPortName == "UDP")
-                    MainV2.comPort.BaseStream = new UdpSerial();
-                if (comPortName == "UDPCl")
-                    MainV2.comPort.BaseStream = new UdpSerialConnect();
-                if (comPortName == "AUTO")
-                {
-                    MainV2.comPort.BaseStream = new SerialPort();
-                    return;
-                }
             }
             else
             {
                 _connectionControl.CMB_baudrate.Enabled = true;
-                MainV2.comPort.BaseStream = new SerialPort();
             }
 
             try
             {
-                if (!String.IsNullOrEmpty(_connectionControl.CMB_serialport.Text))
-                    comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
-
-                MainV2.comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
-
                 // check for saved baud rate and restore
                 if (Settings.Instance[_connectionControl.CMB_serialport.Text + "_BAUD"] != null)
                 {
@@ -2751,6 +2735,9 @@ namespace MissionPlanner
             log.Info("start udpvideoshim");
             // start listener
             UDPVideoShim.Start();
+
+            log.Info("start udpmavlinkshim");
+            UDPMavlinkShim.Start();
 
             try
             {
