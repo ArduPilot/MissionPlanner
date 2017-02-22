@@ -14,14 +14,14 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public UdpClient client = new UdpClient();
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+        public Stream BaseStream { get { return Stream.Null; } }
 
         public UdpSerial()
         {
@@ -29,6 +29,12 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             Port = "14550";
+        }
+
+        public UdpSerial(UdpClient client)
+        {
+            this.client = client;
+            _isopen = true;
         }
 
         public void toggleDTR()
@@ -63,7 +69,7 @@ namespace MissionPlanner.Comms
         public int BytesToWrite { get {return 0;} }
 
         private bool _isopen = false;
-        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } }
+        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } set { _isopen = value; } }
 
         public bool DtrEnable
         {
