@@ -650,6 +650,20 @@ namespace MissionPlanner.Joystick
         {
             MainV2.joystick.manual_control = chk_manualcontrol.Checked;
 
+            if (chk_manualcontrol.Checked)
+            {
+                CMB_CH5.Enabled = false;
+                CMB_CH6.Enabled = false;
+                CMB_CH7.Enabled = false;
+                CMB_CH8.Enabled = false;
+            }
+            else
+            {
+                CMB_CH5.Enabled = true;
+                CMB_CH6.Enabled = true;
+                CMB_CH7.Enabled = true;
+                CMB_CH8.Enabled = true;
+            }
         }
     }
 }
