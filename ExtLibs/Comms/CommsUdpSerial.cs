@@ -13,7 +13,7 @@ namespace MissionPlanner.Comms
     public class UdpSerial : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        UdpClient client = new UdpClient();
+        public UdpClient client = new UdpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
