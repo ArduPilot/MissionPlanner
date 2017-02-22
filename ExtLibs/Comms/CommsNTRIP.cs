@@ -38,6 +38,7 @@ namespace MissionPlanner.Comms
 
         public CommsNTRIP()
         {
+            ReadTimeout = 500;
         }
 
         public void toggleDTR()

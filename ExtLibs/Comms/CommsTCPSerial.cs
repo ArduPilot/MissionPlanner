@@ -34,6 +34,7 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             Port = "5760";
+            ReadTimeout = 500;
         }
 
         public void toggleDTR()

@@ -31,6 +31,7 @@ namespace MissionPlanner.Comms
         public UdpSerialConnect()
         {
             Port = "14550";
+            ReadTimeout = 500;
         }
 
         public void toggleDTR()

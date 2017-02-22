@@ -29,12 +29,14 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             Port = "14550";
+            ReadTimeout = 500;
         }
 
         public UdpSerial(UdpClient client)
         {
             this.client = client;
             _isopen = true;
+            ReadTimeout = 500;
         }
 
         public void toggleDTR()
@@ -79,7 +81,7 @@ namespace MissionPlanner.Comms
 
         public void Open()
         {
-            if (client.Client.Connected)
+            if (client.Client.Connected || IsOpen)
             {
                 log.Info("udpserial socket already open");
                 return;
