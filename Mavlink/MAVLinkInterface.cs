@@ -2570,6 +2570,12 @@ Please check the following
             }
         }
 
+        public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
+            byte autocontinue = 1, bool use_int = false)
+        {
+            return setWP(MAV.sysid, MAV.compid, loc, index, frame, current, autocontinue, use_int);
+        }
+
         /// <summary>
         /// Save wp to eeprom
         /// </summary>
@@ -2577,15 +2583,15 @@ Please check the following
         /// <param name="index">wp no</param>
         /// <param name="frame">global or relative</param>
         /// <param name="current">0 = no , 2 = guided mode</param>
-        public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
+        public MAV_MISSION_RESULT setWP(byte sysid, byte compid, Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0,
             byte autocontinue = 1, bool use_int = false)
         {
             if (use_int)
             {
                 mavlink_mission_item_int_t req = new mavlink_mission_item_int_t();
 
-                req.target_system = MAV.sysid;
-                req.target_component = MAV.compid;
+                req.target_system = sysid;
+                req.target_component = compid;
 
                 req.command = loc.id;
 
@@ -2618,8 +2624,8 @@ Please check the following
             {
                 mavlink_mission_item_t req = new mavlink_mission_item_t();
 
-                req.target_system = MAV.sysid;
-                req.target_component = MAV.compid;
+                req.target_system = sysid;
+                req.target_component = compid;
 
                 req.command = loc.id;
 
@@ -2648,8 +2654,8 @@ Please check the following
 
             ushort index = req.seq;
 
-            log.InfoFormat("setWP {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
-                req.x, req.y, req.z, index);
+            log.InfoFormat("setWP {7}:{8} {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
+                req.x, req.y, req.z, index, req.target_system,req.target_component);
 
             // request
             generatePacket((byte) MAVLINK_MSG_ID.MISSION_ITEM, req);
@@ -2682,21 +2688,25 @@ Please check the following
                         var ans = buffer.ToStructure<mavlink_mission_ack_t>();
                         log.Info("set wp " + index + " ACK 47 : " + buffer.msgid + " ans " +
                                  Enum.Parse(typeof (MAV_MISSION_RESULT), ans.type.ToString()));
-                        giveComport = false;
+
 
                         if (req.current == 2)
                         {
-                            MAV.GuidedMode = req;
+                            MAVlist[req.target_system, req.target_component].GuidedMode = req;
                         }
                         else if (req.current == 3)
                         {
                         }
                         else
                         {
-                            MAV.wps[req.seq] = req;
+                            MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
                         }
 
-                        return (MAV_MISSION_RESULT) ans.type;
+                        if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                        {
+                            giveComport = false;
+                            return (MAV_MISSION_RESULT) ans.type;
+                        }
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_REQUEST)
                     {
@@ -2708,17 +2718,21 @@ Please check the following
 
                             if (req.current == 2)
                             {
-                                MAV.GuidedMode = req;
+                                MAVlist[req.target_system, req.target_component].GuidedMode = req;
                             }
                             else if (req.current == 3)
                             {
                             }
                             else
                             {
-                                MAV.wps[req.seq] = req;
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
                             }
 
-                            return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+                            if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                            {
+                                giveComport = false;
+                                return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+                            }
                         }
                         else
                         {
@@ -2745,8 +2759,8 @@ Please check the following
 
             ushort index = req.seq;
 
-            log.InfoFormat("setWPint {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
-                req.x / 1.0e7, req.y /1.0e7 , req.z, index);
+            log.InfoFormat("setWPint {7}:{8} {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1,
+                req.x / 1.0e7, req.y /1.0e7 , req.z, index, req.target_system, req.target_component);
 
             // request
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_ITEM_INT, req);
@@ -2782,17 +2796,21 @@ Please check the following
 
                         if (req.current == 2)
                         {
-                            MAV.GuidedMode = (Locationwp)req;
+                            MAVlist[req.target_system,req.target_component].GuidedMode = (Locationwp)req;
                         }
                         else if (req.current == 3)
                         {
                         }
                         else
                         {
-                            MAV.wps[req.seq] = (Locationwp)req;
+                            MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                         }
 
-                        return (MAV_MISSION_RESULT)ans.type;
+                        if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                        {
+                            giveComport = false;
+                            return (MAV_MISSION_RESULT) ans.type;
+                        }
                     }
                     else if (buffer.msgid == (byte)MAVLINK_MSG_ID.MISSION_REQUEST)
                     {
@@ -2804,7 +2822,7 @@ Please check the following
 
                             if (req.current == 2)
                             {
-                                MAV.GuidedMode = (Locationwp)req;
+                                MAVlist[req.target_system, req.target_component].GuidedMode = (Locationwp)req;
                             }
                             else if (req.current == 3)
                             {
@@ -2812,10 +2830,14 @@ Please check the following
                             }
                             else
                             {
-                                MAV.wps[req.seq] = (Locationwp)req;
+                                MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                             }
 
-                            return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+                            if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                            {
+                                giveComport = false;
+                                return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
+                            }
                         }
                         else
                         {
@@ -2896,6 +2918,11 @@ Please check the following
 
         public void setGuidedModeWP(Locationwp gotohere, bool setguidedmode = true)
         {
+            setGuidedModeWP(MAV.sysid, MAV.compid, gotohere, setguidedmode);
+        }
+
+        public void setGuidedModeWP(byte sysid, byte compid, Locationwp gotohere, bool setguidedmode = true)
+        {
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
@@ -2908,11 +2935,12 @@ Please check the following
                 if (setguidedmode)
                 {
                     // fix for followme change
-                    if (MAV.cs.mode.ToUpper() != "GUIDED")
-                        setMode("GUIDED");
+                    if (MAVlist[sysid,compid].cs.mode.ToUpper() != "GUIDED")
+                        setMode(sysid, compid, "GUIDED");
                 }
 
-                MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte) 2);
+                MAV_MISSION_RESULT ans = setWP(sysid, compid, gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
+                    (byte) 2);
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     throw new Exception("Guided Mode Failed");
@@ -3041,10 +3069,15 @@ Please check the following
 
         public void setMountControl(double pa, double pb, double pc, bool islatlng)
         {
+            setMountControl(MAV.sysid, MAV.compid, pa, pb, pc, islatlng);
+        }
+
+        public void setMountControl(byte sysid, byte compid, double pa, double pb, double pc, bool islatlng)
+        {
             mavlink_mount_control_t req = new mavlink_mount_control_t();
 
-            req.target_system = MAV.sysid;
-            req.target_component = MAV.compid;
+            req.target_system = sysid;
+            req.target_component = compid;
             if (!islatlng)
             {
                 req.input_a = (int) pa;
