@@ -23,9 +23,21 @@ namespace MissionPlanner.Swarm
 
             SwarmInterface = new FollowPath();
 
-            bindingSource1.DataSource = MainV2.Comports;
+            Dictionary<String, MAVState> mavStates = new Dictionary<string, MAVState>();
+
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
+                }
+            }
+
+            bindingSource1.DataSource = mavStates;
 
             CMB_mavs.DataSource = bindingSource1;
+            CMB_mavs.ValueMember = "Value";
+            CMB_mavs.DisplayMember = "Key";
 
             MessageBox.Show("this is beta, use at own risk");
 
@@ -112,7 +124,7 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.setLeader(MainV2.comPort);
+                SwarmInterface.setLeader(MainV2.comPort.MAV);
                 BUT_Start.Enabled = true;
             }
         }

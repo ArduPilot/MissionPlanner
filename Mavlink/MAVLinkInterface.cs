@@ -2702,7 +2702,7 @@ Please check the following
                             MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
                         }
 
-                        if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                        //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
                         {
                             giveComport = false;
                             return (MAV_MISSION_RESULT) ans.type;
@@ -2728,7 +2728,7 @@ Please check the following
                                 MAVlist[req.target_system, req.target_component].wps[req.seq] = req;
                             }
 
-                            if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                            //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
                             {
                                 giveComport = false;
                                 return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
@@ -2806,7 +2806,7 @@ Please check the following
                             MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                         }
 
-                        if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                        //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
                         {
                             giveComport = false;
                             return (MAV_MISSION_RESULT) ans.type;
@@ -2833,7 +2833,7 @@ Please check the following
                                 MAVlist[req.target_system, req.target_component].wps[req.seq] = (Locationwp)req;
                             }
 
-                            if (ans.target_system == req.target_system && ans.target_component == req.target_component)
+                            //if (ans.target_system == req.target_system && ans.target_component == req.target_component)
                             {
                                 giveComport = false;
                                 return MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED;
