@@ -124,6 +124,10 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
             DisplayScale = 1;
+
+            // disable the mouse wheel
+            trackBar1.MouseWheel +=
+                delegate(object sender, MouseEventArgs args) { ((HandledMouseEventArgs) args).Handled = true; };
         }
 
 
