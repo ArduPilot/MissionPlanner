@@ -2432,16 +2432,22 @@ namespace MissionPlanner.GCSViews
             Commands.Enabled = false;
 
             int i = Commands.Rows.Count - 1;
+            int cmdidx = -1;
             foreach (Locationwp temp in cmds)
             {
                 i++;
+                cmdidx++;
                 //Console.WriteLine("FP processToScreen " + i);
                 if (temp.id == 0 && i != 0) // 0 and not home
                     break;
                 if (temp.id == 255 && i != 0) // bad record - never loaded any WP's - but have started the board up.
                     break;
-                if (i == 0 && append) // we dont want to add home again.
+                if (cmdidx == 0 && append)
+                {
+                    // we dont want to add home again.
+                    i--;
                     continue;
+                }
                 if (i + 1 >= Commands.Rows.Count)
                 {
                     selectedrow = Commands.Rows.Add();
@@ -2506,38 +2512,41 @@ namespace MissionPlanner.GCSViews
 
             setWPParams();
 
-            try
+            if (!append)
             {
-                DataGridViewTextBoxCell cellhome;
-                cellhome = Commands.Rows[0].Cells[Lat.Index] as DataGridViewTextBoxCell;
-                if (cellhome.Value != null)
+                try
                 {
-                    if (cellhome.Value.ToString() != TXT_homelat.Text && cellhome.Value.ToString() != "0")
+                    DataGridViewTextBoxCell cellhome;
+                    cellhome = Commands.Rows[0].Cells[Lat.Index] as DataGridViewTextBoxCell;
+                    if (cellhome.Value != null)
                     {
-                        DialogResult dr = CustomMessageBox.Show("Reset Home to loaded coords", "Reset Home Coords",
-                            MessageBoxButtons.YesNo);
-
-                        if (dr == DialogResult.Yes)
+                        if (cellhome.Value.ToString() != TXT_homelat.Text && cellhome.Value.ToString() != "0")
                         {
-                            TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
-                            cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
-                            TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
-                            cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                            TXT_homealt.Text =
-                                (double.Parse(cellhome.Value.ToString())*CurrentState.multiplierdist).ToString();
+                            DialogResult dr = CustomMessageBox.Show("Reset Home to loaded coords", "Reset Home Coords",
+                                MessageBoxButtons.YesNo);
+
+                            if (dr == DialogResult.Yes)
+                            {
+                                TXT_homelat.Text = (double.Parse(cellhome.Value.ToString())).ToString();
+                                cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
+                                TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
+                                cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
+                                TXT_homealt.Text =
+                                    (double.Parse(cellhome.Value.ToString())*CurrentState.multiplierdist).ToString();
+                            }
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.ToString());
-            } // if there is no valid home
+                catch (Exception ex)
+                {
+                    log.Error(ex.ToString());
+                } // if there is no valid home
 
-            if (Commands.RowCount > 0)
-            {
-                log.Info("remove home from list");
-                Commands.Rows.Remove(Commands.Rows[0]); // remove home row
+                if (Commands.RowCount > 0)
+                {
+                    log.Info("remove home from list");
+                    Commands.Rows.Remove(Commands.Rows[0]); // remove home row
+                }
             }
 
             quickadd = false;
