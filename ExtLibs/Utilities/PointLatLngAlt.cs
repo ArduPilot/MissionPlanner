@@ -22,8 +22,8 @@ namespace MissionPlanner.Utilities
         public string Tag2 = "";
         public Color color = Color.White;
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
         static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;

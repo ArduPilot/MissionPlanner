@@ -767,8 +767,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerRover : GMapMarker
     {
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width,
@@ -832,8 +832,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerBoat : GMapMarker
     {
-        const double rad2deg = (float)(180 / Math.PI);
-        const double deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.boat.Width,
@@ -898,8 +898,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerPlane : GMapMarker
     {
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
 
@@ -997,8 +997,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerQuad : GMapMarker
     {
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
 
@@ -1087,8 +1087,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerSingle : GMapMarker
     {
-        const double rad2deg = (float)(180 / Math.PI);
-        const double deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.redsinglecopter2;
 
@@ -1149,8 +1149,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerHeli : GMapMarker
     {
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.heli;
 
@@ -1204,8 +1204,8 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerAntennaTracker : GMapMarker
     {
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
 

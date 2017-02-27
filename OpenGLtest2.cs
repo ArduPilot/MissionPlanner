@@ -194,8 +194,8 @@ namespace MissionPlanner.Controls
             }
         }
         */
-        const double rad2deg = (float) (180/Math.PI);
-        const double deg2rad = (float) (1.0/rad2deg);
+        const double rad2deg = (180/Math.PI);
+        const double deg2rad = (1.0/rad2deg);
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
