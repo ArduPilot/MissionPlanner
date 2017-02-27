@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 using System.Net.Sockets;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
@@ -114,9 +115,9 @@ namespace MissionPlanner.HIL
                         sitldata.pitchDeg = (DATA[18][0]);
                         sitldata.rollDeg = (DATA[18][1]);
                         sitldata.yawDeg = (DATA[18][2]);
-                        sitldata.pitchRate = (DATA[17][0]*rad2deg);
-                        sitldata.rollRate = (DATA[17][1]*rad2deg);
-                        sitldata.yawRate = (DATA[17][2]*rad2deg);
+                        sitldata.pitchRate = (DATA[17][0]*MathHelper.rad2deg);
+                        sitldata.rollRate = (DATA[17][1]*MathHelper.rad2deg);
+                        sitldata.yawRate = (DATA[17][2]*MathHelper.rad2deg);
 
                         sitldata.heading = ((float) DATA[19][2]);
                     }
@@ -125,9 +126,9 @@ namespace MissionPlanner.HIL
                         sitldata.pitchDeg = (DATA[17][0]);
                         sitldata.rollDeg = (DATA[17][1]);
                         sitldata.yawDeg = (DATA[17][2]);
-                        sitldata.pitchRate = (DATA[16][0]*rad2deg);
-                        sitldata.rollRate = (DATA[16][1]*rad2deg);
-                        sitldata.yawRate = (DATA[16][2]*rad2deg);
+                        sitldata.pitchRate = (DATA[16][0]*MathHelper.rad2deg);
+                        sitldata.rollRate = (DATA[16][1]*MathHelper.rad2deg);
+                        sitldata.yawRate = (DATA[16][2]*MathHelper.rad2deg);
 
                         sitldata.heading = (DATA[18][2]);
                     }
@@ -138,27 +139,27 @@ namespace MissionPlanner.HIL
                     sitldata.longitude = (DATA[20][1]);
                     sitldata.altitude = (DATA[20][2]*ft2m);
 
-                    sitldata.speedN = DATA[21][3]; // (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
-                    sitldata.speedE = -DATA[21][5]; // (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                    sitldata.speedN = DATA[21][3]; // (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * MathHelper.deg2rad));
+                    sitldata.speedE = -DATA[21][5]; // (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * MathHelper.deg2rad));
 
                     Matrix3 dcm = new Matrix3();
-                    dcm.from_euler(sitldata.rollDeg*deg2rad, sitldata.pitchDeg*deg2rad, sitldata.yawDeg*deg2rad);
+                    dcm.from_euler(sitldata.rollDeg*MathHelper.deg2rad, sitldata.pitchDeg*MathHelper.deg2rad, sitldata.yawDeg*MathHelper.deg2rad);
 
                     // rad = tas^2 / (tan(angle) * G)
                     float turnrad =
                         (float)
                             (((DATA[3][7]*0.44704)*(DATA[3][7]*0.44704))/
-                             (float) (9.8f*Math.Tan(sitldata.rollDeg*deg2rad)));
+                             (float) (9.8f*Math.Tan(sitldata.rollDeg*MathHelper.deg2rad)));
 
-                    float gload = (float) (1/Math.Cos(sitldata.rollDeg*deg2rad)); // calculated Gs
+                    float gload = (float) (1/Math.Cos(sitldata.rollDeg*MathHelper.deg2rad)); // calculated Gs
 
                     // a = v^2/r
                     float centripaccel = (float) ((DATA[3][7]*0.44704)*(DATA[3][7]*0.44704))/turnrad;
 
                     Vector3 accel_body = dcm.transposed()*(new Vector3(0, 0, -9.8));
 
-                    Vector3 centrip_accel = new Vector3(0, centripaccel*Math.Cos(sitldata.rollDeg*deg2rad),
-                        centripaccel*Math.Sin(sitldata.rollDeg*deg2rad));
+                    Vector3 centrip_accel = new Vector3(0, centripaccel*Math.Cos(sitldata.rollDeg*MathHelper.deg2rad),
+                        centripaccel*Math.Sin(sitldata.rollDeg*MathHelper.deg2rad));
 
                     accel_body -= centrip_accel;
 
@@ -293,12 +294,12 @@ namespace MissionPlanner.HIL
 
             //   Console.WriteLine(hilstate.alt);
 
-            hilstate.pitch = (float)( sitldata.pitchDeg*deg2rad); // (rad)
-            hilstate.pitchspeed = (float)(sitldata.pitchRate*deg2rad); // (rad/s)
-            hilstate.roll = (float)(sitldata.rollDeg*deg2rad); // (rad)
-            hilstate.rollspeed = (float)(sitldata.rollRate*deg2rad); // (rad/s)
-            hilstate.yaw = (float)(sitldata.yawDeg*deg2rad); // (rad)
-            hilstate.yawspeed = (float)(sitldata.yawRate*deg2rad); // (rad/s)
+            hilstate.pitch = (float)( sitldata.pitchDeg*MathHelper.deg2rad); // (rad)
+            hilstate.pitchspeed = (float)(sitldata.pitchRate*MathHelper.deg2rad); // (rad/s)
+            hilstate.roll = (float)(sitldata.rollDeg*MathHelper.deg2rad); // (rad)
+            hilstate.rollspeed = (float)(sitldata.rollRate*MathHelper.deg2rad); // (rad/s)
+            hilstate.yaw = (float)(sitldata.yawDeg*MathHelper.deg2rad); // (rad)
+            hilstate.yawspeed = (float)(sitldata.yawRate*MathHelper.deg2rad); // (rad/s)
 
             hilstate.vx = (short) (sitldata.speedN*100); // m/s * 100
             hilstate.vy = (short) (sitldata.speedE*100); // m/s * 100

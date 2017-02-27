@@ -7,8 +7,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWAirspeed : UserControl, IActivate
     {
-        private const double rad2deg = (180/Math.PI);
-        private const double deg2rad = (1.0/rad2deg);
         private bool startup;
 
         public ConfigHWAirspeed()

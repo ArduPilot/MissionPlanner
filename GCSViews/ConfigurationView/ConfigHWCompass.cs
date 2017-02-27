@@ -11,8 +11,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass : UserControl, IActivate
     {
-        private const double rad2deg = (180/Math.PI);
-        private const double deg2rad = (1.0/rad2deg);
         private const int THRESHOLD_OFS_RED = 600;
         private const int THRESHOLD_OFS_YELLOW = 400;
         private bool startup;
@@ -45,7 +43,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
             {
-                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value*rad2deg;
+                var dec = MainV2.comPort.MAV.param["COMPASS_DEC"].Value*MathHelper.rad2deg;
 
                 var min = (dec - (int) dec)*60;
 
@@ -255,7 +253,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         return;
                     }
 
-                    MainV2.comPort.setParam("COMPASS_DEC", dec*deg2rad);
+                    MainV2.comPort.setParam("COMPASS_DEC", dec*MathHelper.deg2rad);
                 }
             }
             catch

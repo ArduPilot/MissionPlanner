@@ -11,6 +11,7 @@ using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
 using GMap.NET.Projections;
+using MathHelper = MissionPlanner.Utilities.MathHelper;
 
 namespace MissionPlanner.Controls
 {
@@ -194,8 +195,6 @@ namespace MissionPlanner.Controls
             }
         }
         */
-        const double rad2deg = (180/Math.PI);
-        const double deg2rad = (1.0/rad2deg);
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
@@ -357,7 +356,7 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(120*deg2rad), screenscale, 0.00001f,
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(120*MathHelper.deg2rad), screenscale, 0.00001f,
                 (float) step*20000);
             GL.LoadMatrix(ref projection);
 
@@ -366,9 +365,9 @@ namespace MissionPlanner.Controls
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X*deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X*MathHelper.deg2rad)));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)((rpy.Y - 15)*-deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)((rpy.Y - 15)*-MathHelper.deg2rad)));
 
             GL.LoadMatrix(ref modelview);
 

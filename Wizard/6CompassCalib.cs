@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Wizard
 {
@@ -138,9 +139,6 @@ namespace MissionPlanner.Wizard
             step++;
         }
 
-        const double rad2deg = (180/Math.PI);
-        const double deg2rad = (1.0/rad2deg);
-
         float calcheading(HIL.Vector3 mag)
         {
             HIL.Matrix3 dcm_matrix = new HIL.Matrix3();
@@ -156,7 +154,7 @@ namespace MissionPlanner.Wizard
             // 6/4/11 - added constrain to keep bad values from ruining DCM Yaw - Jason S.
             double heading = constrain_float((float) Math.Atan2(-headY, headX), -3.15f, 3.15f);
 
-            return (float) ((heading*rad2deg) + 360)%360f;
+            return (float) ((heading*MathHelper.rad2deg) + 360)%360f;
         }
 
         float constrain_float(float input, float min, float max)

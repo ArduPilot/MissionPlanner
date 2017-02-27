@@ -6,9 +6,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWOSD : UserControl, IActivate
     {
-        private const double rad2deg = (180/Math.PI);
-        private const double deg2rad = (1.0/rad2deg);
-
         public ConfigHWOSD()
         {
             InitializeComponent();

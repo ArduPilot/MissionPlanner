@@ -90,10 +90,6 @@ namespace MissionPlanner.GCSViews
 
         List<PointLatLng> trackPoints = new List<PointLatLng>();
 
-        const double rad2deg = (180/Math.PI);
-
-        const double deg2rad = (1.0/rad2deg);
-
         public static HUD myhud;
         public static myGMAP mymap;
 

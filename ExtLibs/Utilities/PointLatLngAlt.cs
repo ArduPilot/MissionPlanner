@@ -22,9 +22,6 @@ namespace MissionPlanner.Utilities
         public string Tag2 = "";
         public Color color = Color.White;
 
-        const double rad2deg = (180 / Math.PI);
-        const double deg2rad = (1.0 / rad2deg);
-
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
         static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
@@ -209,9 +206,9 @@ namespace MissionPlanner.Utilities
             // from math import sin, asin, cos, atan2, radians, degrees
             double radius_of_earth = 6378100.0;//# in meters
 
-            double lat1 = deg2rad * (this.Lat);
-            double lon1 = deg2rad * (this.Lng);
-            double brng = deg2rad * (bearing);
+            double lat1 = MathHelper.deg2rad * (this.Lat);
+            double lon1 = MathHelper.deg2rad * (this.Lng);
+            double brng = MathHelper.deg2rad * (bearing);
             double dr = distance / radius_of_earth;
 
             double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
@@ -219,8 +216,8 @@ namespace MissionPlanner.Utilities
             double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
                                 Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
 
-            double latout = rad2deg * (lat2);
-            double lngout = rad2deg * (lon2);
+            double latout = MathHelper.rad2deg * (lat2);
+            double lngout = MathHelper.rad2deg * (lon2);
 
             return new PointLatLngAlt(latout, lngout, this.Alt, this.Tag);
         }
@@ -233,21 +230,21 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public PointLatLngAlt gps_offset(double east, double north)
         {
-            double bearing = Math.Atan2(east, north) * rad2deg;
+            double bearing = Math.Atan2(east, north) * MathHelper.rad2deg;
             double distance = Math.Sqrt(Math.Pow(east, 2) + Math.Pow(north, 2));
             return newpos(bearing, distance);
         }
 
         public double GetBearing(PointLatLngAlt p2)
         {
-            var latitude1 = deg2rad * (this.Lat);
-            var latitude2 = deg2rad * (p2.Lat);
-            var longitudeDifference = deg2rad * (p2.Lng - this.Lng);
+            var latitude1 = MathHelper.deg2rad * (this.Lat);
+            var latitude2 = MathHelper.deg2rad * (p2.Lat);
+            var longitudeDifference = MathHelper.deg2rad * (p2.Lng - this.Lng);
 
             var y = Math.Sin(longitudeDifference) * Math.Cos(latitude2);
             var x = Math.Cos(latitude1) * Math.Sin(latitude2) - Math.Sin(latitude1) * Math.Cos(latitude2) * Math.Cos(longitudeDifference);
 
-            return (rad2deg * (Math.Atan2(y, x)) + 360) % 360;
+            return (MathHelper.rad2deg * (Math.Atan2(y, x)) + 360) % 360;
         }
 
         /// <summary>
@@ -272,10 +269,10 @@ namespace MissionPlanner.Utilities
         {
             //http://www.movable-type.co.uk/scripts/latlong.html
             var R = 6371.0; // 6371 km
-            var dLat = (p2.Lat - Lat) * deg2rad;
-            var dLon = (p2.Lng - Lng) * deg2rad;
-            var lat1 = Lat * deg2rad;
-            var lat2 = p2.Lat * deg2rad;
+            var dLat = (p2.Lat - Lat) * MathHelper.deg2rad;
+            var dLon = (p2.Lng - Lng) * MathHelper.deg2rad;
+            var lat1 = Lat * MathHelper.deg2rad;
+            var lat2 = p2.Lat * MathHelper.deg2rad;
 
             var a = Math.Sin(dLat / 2.0) * Math.Sin(dLat / 2.0) +
                     Math.Sin(dLon / 2.0) * Math.Sin(dLon / 2.0) * Math.Cos(lat1) * Math.Cos(lat2);

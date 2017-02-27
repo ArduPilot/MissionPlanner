@@ -38,8 +38,6 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
-using netDxf;
-using netDxf.Entities;
 
 namespace MissionPlanner.GCSViews
 {
@@ -4083,9 +4081,6 @@ namespace MissionPlanner.GCSViews
             return new RectLatLng(maxy, minx, Math.Abs(maxx - minx), Math.Abs(miny - maxy));
         }
 
-        const double rad2deg = (180/Math.PI);
-        const double deg2rad = (1.0/rad2deg);
-
         private void BUT_grid_Click(object sender, EventArgs e)
         {
         }
@@ -5032,13 +5027,13 @@ namespace MissionPlanner.GCSViews
                 float d = Radius;
                 float R = 6371000;
 
-                var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat*deg2rad)*Math.Cos(d/R) +
-                                     Math.Cos(MouseDownEnd.Lat*deg2rad)*Math.Sin(d/R)*Math.Cos(a*deg2rad));
-                var lon2 = MouseDownEnd.Lng*deg2rad +
-                           Math.Atan2(Math.Sin(a*deg2rad)*Math.Sin(d/R)*Math.Cos(MouseDownEnd.Lat*deg2rad),
-                               Math.Cos(d/R) - Math.Sin(MouseDownEnd.Lat*deg2rad)*Math.Sin(lat2));
+                var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Cos(d/R) +
+                                     Math.Cos(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Sin(d/R)*Math.Cos(a*MathHelper.deg2rad));
+                var lon2 = MouseDownEnd.Lng*MathHelper.deg2rad +
+                           Math.Atan2(Math.Sin(a*MathHelper.deg2rad)*Math.Sin(d/R)*Math.Cos(MouseDownEnd.Lat*MathHelper.deg2rad),
+                               Math.Cos(d/R) - Math.Sin(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Sin(lat2));
 
-                PointLatLng pll = new PointLatLng(lat2*rad2deg, lon2*rad2deg);
+                PointLatLng pll = new PointLatLng(lat2*MathHelper.rad2deg, lon2*MathHelper.rad2deg);
 
                 setfromMap(pll.Lat, pll.Lng, (int) float.Parse(TXT_DefaultAlt.Text));
             }
@@ -6711,13 +6706,13 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                     float d = Radius;
                     float R = 6371000;
 
-                    var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat*deg2rad)*Math.Cos(d/R) +
-                                         Math.Cos(MouseDownEnd.Lat*deg2rad)*Math.Sin(d/R)*Math.Cos(a*deg2rad));
-                    var lon2 = MouseDownEnd.Lng*deg2rad +
-                               Math.Atan2(Math.Sin(a*deg2rad)*Math.Sin(d/R)*Math.Cos(MouseDownEnd.Lat*deg2rad),
-                                   Math.Cos(d/R) - Math.Sin(MouseDownEnd.Lat*deg2rad)*Math.Sin(lat2));
+                    var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Cos(d/R) +
+                                         Math.Cos(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Sin(d/R)*Math.Cos(a*MathHelper.deg2rad));
+                    var lon2 = MouseDownEnd.Lng*MathHelper.deg2rad +
+                               Math.Atan2(Math.Sin(a*MathHelper.deg2rad)*Math.Sin(d/R)*Math.Cos(MouseDownEnd.Lat*MathHelper.deg2rad),
+                                   Math.Cos(d/R) - Math.Sin(MouseDownEnd.Lat*MathHelper.deg2rad)*Math.Sin(lat2));
 
-                    PointLatLng pll = new PointLatLng(lat2*rad2deg, lon2*rad2deg);
+                    PointLatLng pll = new PointLatLng(lat2*MathHelper.rad2deg, lon2*MathHelper.rad2deg);
 
                     setfromMap(pll.Lat, pll.Lng, stepalt);
 

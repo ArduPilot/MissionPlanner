@@ -40,10 +40,6 @@ namespace MissionPlanner.GeoRef
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        // CONSTS
-        private const double rad2deg = (180/Math.PI);
-        private const double deg2rad = (1.0/rad2deg);
-
         // Key = path of file, Value = object with picture information
         private Dictionary<string, PictureInformation> picturesInfo;
 
@@ -1305,7 +1301,7 @@ namespace MissionPlanner.GeoRef
             JXL_StationIDs.Add(photoStationID);
 
             // conver tto rads
-            yaw = -yaw*deg2rad;
+            yaw = -yaw*MathHelper.deg2rad;
 
             swloctrim.WriteStartElement("PhotoStationRecord");
             swloctrim.WriteAttributeString("ID", (photoStationID).ToString("0000000"));
@@ -1424,12 +1420,12 @@ namespace MissionPlanner.GeoRef
 
         public static double radians(double val)
         {
-            return val*deg2rad;
+            return val*MathHelper.deg2rad;
         }
 
         public static double degrees(double val)
         {
-            return val*rad2deg;
+            return val*MathHelper.rad2deg;
         }
 
         private void newpos(ref double lat, ref double lon, double bearing, double distance)

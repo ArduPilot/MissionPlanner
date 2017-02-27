@@ -6,8 +6,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWOptFlow : UserControl, IActivate
     {
-        private const double rad2deg = (float) (180/Math.PI);
-        private const double deg2rad = (float) (1.0/rad2deg);
         private bool startup;
 
         public ConfigHWOptFlow()

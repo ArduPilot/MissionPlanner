@@ -540,7 +540,7 @@ namespace MissionPlanner
             get
             {
                 if (groundspeed <= 1) return 0;
-                return ((groundspeed*groundspeed)/(float) (9.8f*Math.Tan(roll*deg2rad)));
+                return ((groundspeed*groundspeed)/(float) (9.8f*Math.Tan(roll*MathHelper.deg2rad)));
             }
         }
 
@@ -747,7 +747,7 @@ namespace MissionPlanner
                         if (angle < 0)
                             angle += 360;
 
-                        var alongline = Math.Cos(angle*deg2rad)*distToLocation;
+                        var alongline = Math.Cos(angle*MathHelper.deg2rad)*distToLocation;
 
                         // check to see if our point is still within the line length
                         if (alongline > lineDist)
@@ -756,9 +756,9 @@ namespace MissionPlanner
                             continue;
                         }
 
-                        var dXt2 = Math.Sin(angle*deg2rad)*distToLocation;
+                        var dXt2 = Math.Sin(angle*MathHelper.deg2rad)*distToLocation;
 
-                        var dXt = Math.Asin(Math.Sin(distToLocation/R)*Math.Sin(angle*deg2rad))*R;
+                        var dXt = Math.Asin(Math.Sin(distToLocation/R)*Math.Sin(angle*MathHelper.deg2rad))*R;
 
                         disttotal = (float) Math.Min(disttotal, Math.Abs(dXt2));
 
@@ -834,7 +834,7 @@ namespace MissionPlanner
 
                 float altdiff = (float) (_altasl - TrackerLocation.Alt);
 
-                float angle = (float) (Math.Atan(altdiff/dist)*rad2deg);
+                float angle = (float) (Math.Atan(altdiff/dist)*MathHelper.rad2deg);
 
                 return angle;
             }
@@ -1109,9 +1109,6 @@ namespace MissionPlanner
                 capabilities = MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FLOAT;
             }
         }
-
-        const double rad2deg = (180/Math.PI);
-        const double deg2rad = (1.0/rad2deg);
 
         private DateTime lastupdate = DateTime.Now;
 
@@ -1749,9 +1746,9 @@ namespace MissionPlanner
                     {
                         var att = mavLinkMessage.ToStructure<MAVLink.mavlink_attitude_t>();
 
-                        roll = (float)(att.roll*rad2deg);
-                        pitch = (float)(att.pitch*rad2deg);
-                        yaw = (float)(att.yaw*rad2deg);
+                        roll = (float)(att.roll*MathHelper.rad2deg);
+                        pitch = (float)(att.pitch*MathHelper.rad2deg);
+                        yaw = (float)(att.yaw*MathHelper.rad2deg);
 
                         //Console.WriteLine(MAV.sysid + " " +roll + " " + pitch + " " + yaw);
 
@@ -2217,10 +2214,10 @@ namespace MissionPlanner
             if (airspeed < 1 || groundspeed < 1)
                 return;
 
-            double Wn_error = airspeed*Math.Cos((yaw)*deg2rad)*Math.Cos(pitch*deg2rad) -
-                              groundspeed*Math.Cos((groundcourse)*deg2rad) - Wn_fgo;
-            double We_error = airspeed*Math.Sin((yaw)*deg2rad)*Math.Cos(pitch*deg2rad) -
-                              groundspeed*Math.Sin((groundcourse)*deg2rad) - We_fgo;
+            double Wn_error = airspeed*Math.Cos((yaw)*MathHelper.deg2rad)*Math.Cos(pitch*MathHelper.deg2rad) -
+                              groundspeed*Math.Cos((groundcourse)*MathHelper.deg2rad) - Wn_fgo;
+            double We_error = airspeed*Math.Sin((yaw)*MathHelper.deg2rad)*Math.Cos(pitch*MathHelper.deg2rad) -
+                              groundspeed*Math.Sin((groundcourse)*MathHelper.deg2rad) - We_fgo;
 
             Wn_fgo = Wn_fgo + Kw*Wn_error;
             We_fgo = We_fgo + Kw*We_error;

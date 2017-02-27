@@ -20,9 +20,6 @@ namespace MissionPlanner.Swarm
 
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
-        const double rad2deg = (180 / Math.PI);
-        const double deg2rad = (1.0 / rad2deg);
-
         public void setOffsets(MAVState mav, double x, double y, double z)
         {
             offsets[mav] = new HIL.Vector3(x, y, z);
@@ -94,16 +91,16 @@ namespace MissionPlanner.Swarm
                         var y = ((HIL.Vector3) offsets[mav]).y;
 
                         // add offsets to utm
-                        p1[0] += x*Math.Cos(heading*deg2rad) - y*Math.Sin(heading*deg2rad);
-                        p1[1] += x*Math.Sin(heading*deg2rad) + y*Math.Cos(heading*deg2rad);
+                        p1[0] += x*Math.Cos(heading*MathHelper.deg2rad) - y*Math.Sin(heading*MathHelper.deg2rad);
+                        p1[1] += x*Math.Sin(heading*MathHelper.deg2rad) + y*Math.Cos(heading*MathHelper.deg2rad);
 
                         if (mav.cs.firmware == MainV2.Firmwares.ArduPlane)
                         {
                             // project the point forwards gs*5
                             var gs = mav.cs.groundspeed*5;
 
-                            p1[1] += gs*Math.Cos((-heading)*deg2rad);
-                            p1[0] += gs*Math.Sin((-heading)*deg2rad);
+                            p1[1] += gs*Math.Cos((-heading)*MathHelper.deg2rad);
+                            p1[0] += gs*Math.Sin((-heading)*MathHelper.deg2rad);
                         }
                         // convert back to wgs84
                         IMathTransform inversedTransform = trans.MathTransform.Inverse();
@@ -141,8 +138,8 @@ namespace MissionPlanner.Swarm
                         else
                         {
                             Vector3 vel =
-                                new Vector3(Math.Cos(Leader.cs.groundcourse*deg2rad)*Leader.cs.groundspeed,
-                                    Math.Sin(Leader.cs.groundcourse*deg2rad)*Leader.cs.groundspeed,
+                                new Vector3(Math.Cos(Leader.cs.groundcourse*MathHelper.deg2rad)*Leader.cs.groundspeed,
+                                    Math.Sin(Leader.cs.groundcourse*MathHelper.deg2rad)*Leader.cs.groundspeed,
                                     Leader.cs.verticalspeed);
 
                             // do pos/vel

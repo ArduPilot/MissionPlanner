@@ -8,8 +8,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWPX4Flow : UserControl, IActivate, IDeactivate
     {
-        private const double rad2deg = (180/Math.PI);
-        private const double deg2rad = (1.0/rad2deg);
         bool focusmode = false;
 
         OpticalFlow flow = null;

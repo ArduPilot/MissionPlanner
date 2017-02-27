@@ -10,6 +10,7 @@ using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm
 {
@@ -258,13 +259,10 @@ namespace MissionPlanner.Swarm
 
            var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
 
-            double rad2deg = (180 / Math.PI);
-            double deg2rad = (1.0 / rad2deg);
-
             norotation.x *= -1;
             norotation.y *= -1;
 
-            return new HIL.Vector3( norotation.x * Math.Cos(heading * deg2rad) - norotation.y * Math.Sin(heading * deg2rad), norotation.x * Math.Sin(heading * deg2rad) + norotation.y * Math.Cos(heading * deg2rad), 0);
+            return new HIL.Vector3( norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
         }
 
         private void grid1_UpdateOffsets(MAVState mav, float x, float y, float z, Grid.icon ico)

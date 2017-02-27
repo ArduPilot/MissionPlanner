@@ -18,9 +18,6 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        const double rad2deg = (180/Math.PI);
-        const double deg2rad = (1.0/rad2deg);
-
         static double error = 99;
         static double error2 = 99;
         static double error3 = 99;
@@ -542,7 +539,7 @@ namespace MissionPlanner
                             (float) (Math.Sin(theta)*Math.Sin(phi)*radius),
                             (float) (Math.Cos(theta)*radius)) - centre;
 
-                        //log.InfoFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
+                        //log.InfoFormat("magcalib check - {0} {1} dist {2}", theta * MathHelper.rad2deg, phi * MathHelper.rad2deg, max_distance);
 
                         bool found = false;
                         for (int k = 0; k < datacompass1.Count; k++)
@@ -561,7 +558,7 @@ namespace MissionPlanner
                         if (!found)
                         {
                             displayresult = "more data needed Aim For " +
-                                            GetColour((int) (theta*rad2deg), (int) (phi*rad2deg));
+                                            GetColour((int) (theta*MathHelper.rad2deg), (int) (phi*MathHelper.rad2deg));
                             ((ProgressReporterSphere) sender).sphere1.AimFor(new OpenTK.Vector3((float) point_sphere.x,
                                 (float) point_sphere.y, (float) point_sphere.z));
                             //j = factor;

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
     public class Utils
     {
-        public const double rad2deg = (180/System.Math.PI);
-        public const double deg2rad = (1.0/rad2deg);
         public const double ft2m = (1.0/3.2808399);
         public const double kts2fps = 1.68780986;
         public const float PI = (float) Math.PI;
@@ -104,12 +103,12 @@ namespace MissionPlanner.HIL
 
         public static double radians(double val)
         {
-            return val*deg2rad;
+            return val*MathHelper.deg2rad;
         }
 
         public static double degrees(double val)
         {
-            return val*rad2deg;
+            return val*MathHelper.rad2deg;
         }
 
         public static double sqrt(double val)
