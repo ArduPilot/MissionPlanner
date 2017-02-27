@@ -26,8 +26,8 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        const float rad2deg = (180 / Math.PI);
-        const float deg2rad = (1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
