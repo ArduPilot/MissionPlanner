@@ -33,7 +33,10 @@ namespace MissionPlanner.Utilities
             string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
 
             if (MissionPlanner.Utilities.Update.dobeta)
+            {
                 parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
+                log.Info("Using Bleeding param gen urls");
+            }
 
             if (urls != null)
                 parameterLocationsString = urls;
@@ -192,7 +195,7 @@ namespace MissionPlanner.Utilities
                 {
                     parameterPrefix = parameterPrefix.Replace('(', '_');
                     parameterPrefix = parameterPrefix.Replace(')', '_');
-                    objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix, node.Key));
+                    objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix.Replace(" ", "_"), node.Key.Replace(" ","_")));
                     if (node.Value != null && node.Value.Count > 0)
                     {
                         node.Value.ForEach(meta =>
