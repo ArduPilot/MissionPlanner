@@ -38,6 +38,7 @@ namespace MissionPlanner
 
             var all = System.Reflection.Assembly.GetExecutingAssembly();
             engine.Runtime.LoadAssembly(all);
+            scope.SetVariable("Ports", MainV2.Comports);
             scope.SetVariable("MAV", MainV2.comPort);
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
             scope.SetVariable("Script", this);
