@@ -132,7 +132,7 @@ namespace MissionPlanner.Utilities
                     var newPath = parameterLocation.Replace(currentfn, newfn);
                     var dataFromAddress = ReadDataFromAddress(newPath);
                     log.Info("Nested Group " + NestedGroups.Groups[1]);
-                    ParseParameterInformation(dataFromAddress, objXmlTextWriter, newPath);
+                    ParseParameterInformation(dataFromAddress, objXmlTextWriter, parameterPrefix);
                     ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix);
                 }
             }
