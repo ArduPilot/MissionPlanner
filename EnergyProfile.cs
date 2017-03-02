@@ -10,6 +10,7 @@ namespace MissionPlanner.Utilities
         public static double PolyValV(double _dAngle)
         {
             //(a1 - a2) ℯ^(-0.5*((x - b1) / c1)²) + a2 ℯ^(-0.5*((x - b2) / c2)²) + t x / 1000
+
             //Scaling factors for curvature and gradient
             double gauss = (EnergyProfile.Velocity["Amplitude"] - EnergyProfile.Velocity["LowerAmplitude"]) * Math.Exp(-0.5 * Math.Pow(((_dAngle - EnergyProfile.Velocity["Angle"]) / EnergyProfile.Velocity["Variance"]), 2));
             gauss += EnergyProfile.Velocity["LowerAmplitude"] * Math.Exp(-Math.Pow(0.5 * (_dAngle / (EnergyProfile.Velocity["Curvature"])), 2) + EnergyProfile.Velocity["Gradient"] * _dAngle / 1000);
@@ -25,12 +26,27 @@ namespace MissionPlanner.Utilities
 
             return gauss + _dDeviation;
         }
-
-        public static string EnergyProfilePath
+        /// <summary>
+        /// Calculates the energyconsumption in [mAh].
+        /// Given: Current in [A], Velocity in [m/s]
+        /// </summary>
+        /// <param name="_dCurrent"></param>
+        /// <param name="_dVelocity"></param>
+        /// <param name="_dDistance"></param>
+        /// <returns></returns>
+        public static double CalculateEnergyConsumption(double _dCurrent, double _dVelocity, double _dDistance)
         {
-            get;
-            set;
+            double dTime = 0.0f;
+            //dVelocity = _dDistance / _dTime;
+            //convert Velocity => m/s to m/h
+            _dVelocity *= 3600;
+            _dCurrent *= 1000;
+            dTime = _dDistance / _dVelocity;   //m/(m/h) = h
+
+            return Math.Round(_dCurrent * dTime, 2, MidpointRounding.AwayFromZero);
         }
+
+        public static string EnergyProfilePath { get; set; }
 
         public static Dictionary<string, double> Current
         {
@@ -41,6 +57,9 @@ namespace MissionPlanner.Utilities
         {
             get { return m_VelocityDict; }
         }
+
+        public static int CopterID { get; set; }
+        public static bool Enabled { get; set; }
 
         private static Dictionary<string, double> m_CurrentDict = new Dictionary<string, double>();
         private static Dictionary<string, double> m_VelocityDict = new Dictionary<string, double>();

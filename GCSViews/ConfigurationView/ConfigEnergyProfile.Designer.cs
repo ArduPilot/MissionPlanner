@@ -28,38 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 26D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-67.5D, 20D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 23D);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "19,0,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, "12,0,0");
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, "16,0,0");
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 26D);
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "19,0,0");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-70D, 15D);
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-50D, 20D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label26 = new System.Windows.Forms.Label();
             this.tbDeviationMin = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
-            this.tbLimitI = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.tbDeviationMax = new System.Windows.Forms.TextBox();
-            this.tbHoverI = new System.Windows.Forms.TextBox();
             this.ChartI = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
             this.tbVarIPos = new System.Windows.Forms.TextBox();
             this.tbAmpIPos = new System.Windows.Forms.TextBox();
@@ -69,6 +58,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.lblTitleCurrent = new System.Windows.Forms.Label();
+            this.tbLimitI = new System.Windows.Forms.TextBox();
             this.btnPlotI = new MissionPlanner.Controls.MyButton();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tbVarINeg = new System.Windows.Forms.TextBox();
@@ -78,6 +68,8 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbHoverI = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panelVelocityConfiguration = new System.Windows.Forms.Panel();
             this.label14 = new System.Windows.Forms.Label();
@@ -105,8 +97,11 @@
             this.label25 = new System.Windows.Forms.Label();
             this.tbCopterID = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.btnSaveCopterSettings = new MissionPlanner.Controls.MyButton();
+            this.btnSaveCopterSettingsToFile = new MissionPlanner.Controls.MyButton();
             this.btnSaveSettings = new MissionPlanner.Controls.MyButton();
+            this.panelIDHover = new System.Windows.Forms.Panel();
+            this.label29 = new System.Windows.Forms.Label();
+            this.btnLoadCopterSettings = new MissionPlanner.Controls.MyButton();
             this.panelCurrentConfiguration.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -116,6 +111,7 @@
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
             this.panel7.SuspendLayout();
+            this.panelIDHover.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -134,12 +130,14 @@
             this.panelCurrentConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelCurrentConfiguration.Controls.Add(this.panel2);
             this.panelCurrentConfiguration.Controls.Add(this.ChartI);
+            this.panelCurrentConfiguration.Controls.Add(this.label8);
             this.panelCurrentConfiguration.Controls.Add(this.panel5);
             this.panelCurrentConfiguration.Controls.Add(this.lblTitleCurrent);
+            this.panelCurrentConfiguration.Controls.Add(this.tbLimitI);
             this.panelCurrentConfiguration.Controls.Add(this.btnPlotI);
             this.panelCurrentConfiguration.Controls.Add(this.panel4);
             this.panelCurrentConfiguration.Enabled = false;
-            this.panelCurrentConfiguration.Location = new System.Drawing.Point(16, 81);
+            this.panelCurrentConfiguration.Location = new System.Drawing.Point(16, 143);
             this.panelCurrentConfiguration.Name = "panelCurrentConfiguration";
             this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 260);
             this.panelCurrentConfiguration.TabIndex = 40;
@@ -149,16 +147,12 @@
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.Controls.Add(this.label26);
             this.panel2.Controls.Add(this.tbDeviationMin);
-            this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label28);
-            this.panel2.Controls.Add(this.tbLimitI);
             this.panel2.Controls.Add(this.label27);
-            this.panel2.Controls.Add(this.label5);
             this.panel2.Controls.Add(this.tbDeviationMax);
-            this.panel2.Controls.Add(this.tbHoverI);
             this.panel2.Location = new System.Drawing.Point(7, 141);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(263, 78);
+            this.panel2.Size = new System.Drawing.Size(116, 78);
             this.panel2.TabIndex = 63;
             // 
             // label26
@@ -172,133 +166,102 @@
             // 
             // tbDeviationMin
             // 
-            this.tbDeviationMin.Location = new System.Drawing.Point(42, 51);
+            this.tbDeviationMin.Location = new System.Drawing.Point(54, 51);
             this.tbDeviationMin.Name = "tbDeviationMin";
             this.tbDeviationMin.Size = new System.Drawing.Size(34, 20);
             this.tbDeviationMin.TabIndex = 62;
             this.tbDeviationMin.Text = "0";
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(145, 23);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(59, 13);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "Lower limit:";
-            // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(5, 51);
+            this.label28.Location = new System.Drawing.Point(17, 51);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(27, 13);
             this.label28.TabIndex = 61;
             this.label28.Text = "Min:";
             // 
-            // tbLimitI
-            // 
-            this.tbLimitI.Location = new System.Drawing.Point(210, 24);
-            this.tbLimitI.Name = "tbLimitI";
-            this.tbLimitI.Size = new System.Drawing.Size(34, 20);
-            this.tbLimitI.TabIndex = 52;
-            this.tbLimitI.Text = "16";
-            // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(2, 24);
+            this.label27.Location = new System.Drawing.Point(14, 24);
             this.label27.Name = "label27";
             this.label27.Size = new System.Drawing.Size(30, 13);
             this.label27.TabIndex = 60;
             this.label27.Text = "Max:";
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(118, 50);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(86, 13);
-            this.label5.TabIndex = 57;
-            this.label5.Text = "Current at hover:";
-            // 
             // tbDeviationMax
             // 
-            this.tbDeviationMax.Location = new System.Drawing.Point(42, 25);
+            this.tbDeviationMax.Location = new System.Drawing.Point(54, 25);
             this.tbDeviationMax.Name = "tbDeviationMax";
             this.tbDeviationMax.Size = new System.Drawing.Size(34, 20);
             this.tbDeviationMax.TabIndex = 58;
             this.tbDeviationMax.Text = "0";
-            // 
-            // tbHoverI
-            // 
-            this.tbHoverI.Location = new System.Drawing.Point(210, 50);
-            this.tbHoverI.Name = "tbHoverI";
-            this.tbHoverI.Size = new System.Drawing.Size(34, 20);
-            this.tbHoverI.TabIndex = 56;
-            this.tbHoverI.Text = "18,09";
             // 
             // ChartI
             // 
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.Color.Black;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.AxisX.Interval = 22.5D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisX.Maximum = 90D;
-            chartArea1.AxisX.Minimum = -90D;
-            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisX.Title = "Angle [Degree]";
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.Title = "Current [A]";
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.BackColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Interval = 22.5D;
+            chartArea5.AxisX.IsLabelAutoFit = false;
+            chartArea5.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea5.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea5.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea5.AxisX.Maximum = 90D;
+            chartArea5.AxisX.Minimum = -90D;
+            chartArea5.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea5.AxisX.Title = "Angle [Degree]";
+            chartArea5.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea5.AxisY.IsLabelAutoFit = false;
+            chartArea5.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea5.AxisY.Title = "Current [A]";
+            chartArea5.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea5.BackColor = System.Drawing.Color.Transparent;
+            chartArea5.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea5);
             this.ChartI.Location = new System.Drawing.Point(276, 21);
             this.ChartI.Name = "ChartI";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = System.Drawing.Color.Orange;
-            series1.Name = "Current";
-            series1.Points.Add(dataPoint1);
-            series1.Points.Add(dataPoint2);
-            series1.Points.Add(dataPoint3);
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series2.MarkerColor = System.Drawing.Color.White;
-            series2.Name = "Max.  current";
-            dataPoint4.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series2.Points.Add(dataPoint4);
-            series2.Points.Add(dataPoint5);
-            series2.Points.Add(dataPoint6);
-            series3.BorderWidth = 2;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Color = System.Drawing.Color.RoyalBlue;
-            series3.Name = "Min. current";
-            series3.Points.Add(dataPoint7);
-            series3.Points.Add(dataPoint8);
-            series3.Points.Add(dataPoint9);
-            series3.YValuesPerPoint = 3;
-            this.ChartI.Series.Add(series1);
-            this.ChartI.Series.Add(series2);
-            this.ChartI.Series.Add(series3);
+            series9.BorderWidth = 3;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series9.Color = System.Drawing.Color.Orange;
+            series9.Name = "Current";
+            series9.Points.Add(dataPoint9);
+            series10.BorderWidth = 2;
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            series10.MarkerColor = System.Drawing.Color.White;
+            series10.Name = "Max.  current";
+            dataPoint10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            series10.Points.Add(dataPoint10);
+            series11.BorderWidth = 2;
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series11.Color = System.Drawing.Color.RoyalBlue;
+            series11.Name = "Min. current";
+            series11.Points.Add(dataPoint11);
+            series11.YValuesPerPoint = 3;
+            this.ChartI.Series.Add(series9);
+            this.ChartI.Series.Add(series10);
+            this.ChartI.Series.Add(series11);
             this.ChartI.Size = new System.Drawing.Size(537, 231);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(150, 144);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(59, 13);
+            this.label8.TabIndex = 52;
+            this.label8.Text = "Lower limit:";
             // 
             // panel5
             // 
@@ -321,7 +284,7 @@
             this.tbVarIPos.Name = "tbVarIPos";
             this.tbVarIPos.Size = new System.Drawing.Size(34, 20);
             this.tbVarIPos.TabIndex = 51;
-            this.tbVarIPos.Text = "30,5";
+            this.tbVarIPos.Text = "30.5";
             // 
             // tbAmpIPos
             // 
@@ -385,9 +348,17 @@
             this.lblTitleCurrent.TabIndex = 47;
             this.lblTitleCurrent.Text = "Settings for current (I in [A])";
             // 
+            // tbLimitI
+            // 
+            this.tbLimitI.Location = new System.Drawing.Point(215, 145);
+            this.tbLimitI.Name = "tbLimitI";
+            this.tbLimitI.Size = new System.Drawing.Size(34, 20);
+            this.tbLimitI.TabIndex = 52;
+            this.tbLimitI.Text = "16";
+            // 
             // btnPlotI
             // 
-            this.btnPlotI.Location = new System.Drawing.Point(186, 225);
+            this.btnPlotI.Location = new System.Drawing.Point(186, 229);
             this.btnPlotI.Name = "btnPlotI";
             this.btnPlotI.Size = new System.Drawing.Size(84, 23);
             this.btnPlotI.TabIndex = 55;
@@ -424,7 +395,7 @@
             this.tbAmpINeg.Name = "tbAmpINeg";
             this.tbAmpINeg.Size = new System.Drawing.Size(34, 20);
             this.tbAmpINeg.TabIndex = 49;
-            this.tbAmpINeg.Text = "18,1";
+            this.tbAmpINeg.Text = "18.1";
             // 
             // tbAngINeg
             // 
@@ -432,7 +403,7 @@
             this.tbAngINeg.Name = "tbAngINeg";
             this.tbAngINeg.Size = new System.Drawing.Size(34, 20);
             this.tbAngINeg.TabIndex = 50;
-            this.tbAngINeg.Text = "-68,1";
+            this.tbAngINeg.Text = "-68.1";
             // 
             // label2
             // 
@@ -470,6 +441,23 @@
             this.label7.TabIndex = 45;
             this.label7.Text = "Amplitude:";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(4, 26);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(102, 13);
+            this.label5.TabIndex = 57;
+            this.label5.Text = "Current [A] at hover:";
+            // 
+            // tbHoverI
+            // 
+            this.tbHoverI.Location = new System.Drawing.Point(112, 26);
+            this.tbHoverI.Name = "tbHoverI";
+            this.tbHoverI.Size = new System.Drawing.Size(34, 20);
+            this.tbHoverI.TabIndex = 56;
+            this.tbHoverI.Text = "18.09";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -488,7 +476,7 @@
             this.panelVelocityConfiguration.Controls.Add(this.ChartV);
             this.panelVelocityConfiguration.Controls.Add(this.label19);
             this.panelVelocityConfiguration.Controls.Add(this.panel7);
-            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 419);
+            this.panelVelocityConfiguration.Location = new System.Drawing.Point(15, 475);
             this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
             this.panelVelocityConfiguration.Size = new System.Drawing.Size(814, 256);
             this.panelVelocityConfiguration.TabIndex = 43;
@@ -531,6 +519,7 @@
             this.tbLowerAmp.Name = "tbLowerAmp";
             this.tbLowerAmp.Size = new System.Drawing.Size(34, 20);
             this.tbLowerAmp.TabIndex = 49;
+            this.tbLowerAmp.Text = "5";
             // 
             // label18
             // 
@@ -547,11 +536,12 @@
             this.tbGradientV.Name = "tbGradientV";
             this.tbGradientV.Size = new System.Drawing.Size(34, 20);
             this.tbGradientV.TabIndex = 50;
+            this.tbGradientV.Text = "2.1";
             // 
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(4, 86);
+            this.label16.Location = new System.Drawing.Point(4, 85);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(50, 13);
             this.label16.TabIndex = 44;
@@ -563,6 +553,7 @@
             this.tbCurvatureV.Name = "tbCurvatureV";
             this.tbCurvatureV.Size = new System.Drawing.Size(34, 20);
             this.tbCurvatureV.TabIndex = 51;
+            this.tbCurvatureV.Text = "70";
             // 
             // label17
             // 
@@ -588,38 +579,36 @@
             this.ChartV.BackColor = System.Drawing.Color.Transparent;
             this.ChartV.BorderlineColor = System.Drawing.Color.Black;
             this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.AxisX.Interval = 22.5D;
-            chartArea2.AxisX.IsLabelAutoFit = false;
-            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea2.AxisX.Maximum = 90D;
-            chartArea2.AxisX.Minimum = -90D;
-            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea2.AxisX.Title = "Angle [Degree]";
-            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea2.AxisY.Title = "Velocity [m/s]";
-            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.ChartV.ChartAreas.Add(chartArea2);
+            chartArea6.AxisX.Interval = 22.5D;
+            chartArea6.AxisX.IsLabelAutoFit = false;
+            chartArea6.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea6.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea6.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea6.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea6.AxisX.Maximum = 90D;
+            chartArea6.AxisX.Minimum = -90D;
+            chartArea6.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea6.AxisX.Title = "Angle [Degree]";
+            chartArea6.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea6.AxisY.IsLabelAutoFit = false;
+            chartArea6.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea6.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea6.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea6.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea6.AxisY.Title = "Velocity [m/s]";
+            chartArea6.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea6.BackColor = System.Drawing.Color.Transparent;
+            chartArea6.Name = "ChartArea1";
+            this.ChartV.ChartAreas.Add(chartArea6);
             this.ChartV.Location = new System.Drawing.Point(276, 20);
             this.ChartV.Name = "ChartV";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Color = System.Drawing.Color.Orange;
-            series4.Name = "Series1";
-            series4.Points.Add(dataPoint10);
-            series4.Points.Add(dataPoint11);
-            series4.Points.Add(dataPoint12);
-            this.ChartV.Series.Add(series4);
+            series12.BorderWidth = 2;
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series12.Color = System.Drawing.Color.Orange;
+            series12.Name = "Series1";
+            series12.Points.Add(dataPoint12);
+            this.ChartV.Series.Add(series12);
             this.ChartV.Size = new System.Drawing.Size(533, 231);
             this.ChartV.TabIndex = 58;
             this.ChartV.Text = "chart3";
@@ -660,24 +649,27 @@
             // 
             // tbVarV
             // 
-            this.tbVarV.Location = new System.Drawing.Point(78, 86);
+            this.tbVarV.Location = new System.Drawing.Point(78, 85);
             this.tbVarV.Name = "tbVarV";
             this.tbVarV.Size = new System.Drawing.Size(34, 20);
             this.tbVarV.TabIndex = 51;
+            this.tbVarV.Text = "10";
             // 
             // tbAmpV
             // 
-            this.tbAmpV.Location = new System.Drawing.Point(78, 26);
+            this.tbAmpV.Location = new System.Drawing.Point(78, 27);
             this.tbAmpV.Name = "tbAmpV";
             this.tbAmpV.Size = new System.Drawing.Size(34, 20);
             this.tbAmpV.TabIndex = 49;
+            this.tbAmpV.Text = "8";
             // 
             // tbAngV
             // 
-            this.tbAngV.Location = new System.Drawing.Point(78, 58);
+            this.tbAngV.Location = new System.Drawing.Point(78, 55);
             this.tbAngV.Name = "tbAngV";
             this.tbAngV.Size = new System.Drawing.Size(34, 20);
             this.tbAngV.TabIndex = 50;
+            this.tbAngV.Text = "5";
             // 
             // label20
             // 
@@ -709,7 +701,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(14, 678);
+            this.label15.Location = new System.Drawing.Point(12, 736);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(332, 52);
             this.label15.TabIndex = 44;
@@ -718,7 +710,7 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(378, 678);
+            this.label23.Location = new System.Drawing.Point(370, 738);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(389, 39);
             this.label23.TabIndex = 45;
@@ -729,7 +721,7 @@
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(14, 344);
+            this.label25.Location = new System.Drawing.Point(15, 411);
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(702, 39);
             this.label25.TabIndex = 47;
@@ -737,58 +729,94 @@
             // 
             // tbCopterID
             // 
-            this.tbCopterID.Location = new System.Drawing.Point(745, 52);
+            this.tbCopterID.Location = new System.Drawing.Point(234, 26);
             this.tbCopterID.Name = "tbCopterID";
             this.tbCopterID.Size = new System.Drawing.Size(89, 20);
             this.tbCopterID.TabIndex = 52;
+            this.tbCopterID.Text = "0";
             // 
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(684, 52);
+            this.label24.Location = new System.Drawing.Point(169, 26);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(55, 13);
+            this.label24.Size = new System.Drawing.Size(59, 13);
             this.label24.TabIndex = 61;
-            this.label24.Text = "Copter ID:";
+            this.label24.Text = "Vehicle ID:";
             // 
-            // btnSaveCopterSettings
+            // btnSaveCopterSettingsToFile
             // 
-            this.btnSaveCopterSettings.Location = new System.Drawing.Point(106, 742);
-            this.btnSaveCopterSettings.Name = "btnSaveCopterSettings";
-            this.btnSaveCopterSettings.Size = new System.Drawing.Size(84, 30);
-            this.btnSaveCopterSettings.TabIndex = 60;
-            this.btnSaveCopterSettings.Text = "Save Settings to File";
-            this.btnSaveCopterSettings.UseVisualStyleBackColor = true;
-            this.btnSaveCopterSettings.Click += new System.EventHandler(this.btnSaveCopterSettings_Click);
+            this.btnSaveCopterSettingsToFile.Location = new System.Drawing.Point(653, 82);
+            this.btnSaveCopterSettingsToFile.Name = "btnSaveCopterSettingsToFile";
+            this.btnSaveCopterSettingsToFile.Size = new System.Drawing.Size(84, 26);
+            this.btnSaveCopterSettingsToFile.TabIndex = 60;
+            this.btnSaveCopterSettingsToFile.Text = "Save settings to file";
+            this.btnSaveCopterSettingsToFile.UseVisualStyleBackColor = true;
+            this.btnSaveCopterSettingsToFile.Click += new System.EventHandler(this.btnSaveCopterSettingsToFile_Click);
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(16, 742);
+            this.btnSaveSettings.Location = new System.Drawing.Point(563, 82);
             this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(84, 30);
+            this.btnSaveSettings.Size = new System.Drawing.Size(84, 26);
             this.btnSaveSettings.TabIndex = 62;
-            this.btnSaveSettings.Text = "Save Settings";
+            this.btnSaveSettings.Text = "Apply Settings";
             this.btnSaveSettings.UseVisualStyleBackColor = true;
             this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
+            // panelIDHover
+            // 
+            this.panelIDHover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelIDHover.Controls.Add(this.label29);
+            this.panelIDHover.Controls.Add(this.tbCopterID);
+            this.panelIDHover.Controls.Add(this.tbHoverI);
+            this.panelIDHover.Controls.Add(this.label24);
+            this.panelIDHover.Controls.Add(this.label5);
+            this.panelIDHover.Enabled = false;
+            this.panelIDHover.Location = new System.Drawing.Point(16, 82);
+            this.panelIDHover.Name = "panelIDHover";
+            this.panelIDHover.Size = new System.Drawing.Size(338, 55);
+            this.panelIDHover.TabIndex = 63;
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(3, 2);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(83, 13);
+            this.label29.TabIndex = 64;
+            this.label29.Text = "Hover and ID";
+            // 
+            // btnLoadCopterSettings
+            // 
+            this.btnLoadCopterSettings.Location = new System.Drawing.Point(746, 82);
+            this.btnLoadCopterSettings.Name = "btnLoadCopterSettings";
+            this.btnLoadCopterSettings.Size = new System.Drawing.Size(84, 26);
+            this.btnLoadCopterSettings.TabIndex = 64;
+            this.btnLoadCopterSettings.Text = "Load from file";
+            this.btnLoadCopterSettings.UseVisualStyleBackColor = true;
+            this.btnLoadCopterSettings.Click += new System.EventHandler(this.btnLoadCopterSettings_Click);
             // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.btnSaveSettings);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.tbCopterID);
-            this.Controls.Add(this.btnSaveCopterSettings);
+            this.Controls.Add(this.btnLoadCopterSettings);
+            this.Controls.Add(this.panelIDHover);
             this.Controls.Add(this.label25);
-            this.Controls.Add(this.label23);
-            this.Controls.Add(this.label15);
-            this.Controls.Add(this.panelVelocityConfiguration);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.panelCurrentConfiguration);
             this.Controls.Add(this.CB_EnableEnergyProfile);
+            this.Controls.Add(this.btnSaveSettings);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.btnSaveCopterSettingsToFile);
+            this.Controls.Add(this.label23);
+            this.Controls.Add(this.panelVelocityConfiguration);
+            this.Controls.Add(this.label15);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(862, 789);
+            this.Size = new System.Drawing.Size(862, 796);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
             this.panel2.ResumeLayout(false);
@@ -805,6 +833,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();
+            this.panelIDHover.ResumeLayout(false);
+            this.panelIDHover.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -861,7 +891,7 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label25;
-        private Controls.MyButton btnSaveCopterSettings;
+        private Controls.MyButton btnSaveCopterSettingsToFile;
         private System.Windows.Forms.TextBox tbCopterID;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Panel panel2;
@@ -871,5 +901,8 @@
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.TextBox tbDeviationMax;
         private Controls.MyButton btnSaveSettings;
+        private System.Windows.Forms.Panel panelIDHover;
+        private System.Windows.Forms.Label label29;
+        private Controls.MyButton btnLoadCopterSettings;
     }
 }

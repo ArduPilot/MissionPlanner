@@ -2415,7 +2415,7 @@ namespace MissionPlanner.GCSViews
         void processToScreen(List<Locationwp> cmds, bool append = false)
         {
             quickadd = true;
-            LBL_TotalEC.Text = "0";
+            LBL_AvgEC.Text = "0";
 
             // mono fix
             Commands.CurrentCell = null;
@@ -2918,10 +2918,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                if (Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]))   //Only if energyprofile is active
-                {
-                    writeEnergyConsumption(cmds);
-                }
+                writeEnergyConsumption(cmds);
 
                 MainMap.ZoomAndCenterMarkers("objects");
             }
@@ -2933,11 +2930,18 @@ namespace MissionPlanner.GCSViews
 
         private void writeEnergyConsumption(List<Locationwp> cmds)
         {
-            LBL_TotalEC.Text = "0"; //Set total energy consumption to 0
-            double SumEC = 0.0f;
+            if(!EnergyProfile.Enabled || !MainV2.comPort.BaseStream.IsOpen) { return; }
 
-            double fCurrent, fVelocity, fTime;
-            fCurrent = fVelocity = fTime = 0.0f;
+            LBL_AvgEC.Text = "0"; //Set total energy consumption to 0
+            LBL_MaxEC.Text = "0";
+            LBL_MinEC.Text = "0";
+
+            double SumEC = 0.0f;
+            double SumECMax = 0.0f;
+            double SumECMin = 0.0f;
+
+            double dCurrent, dVelocity;
+            dCurrent = dVelocity = 0.0f;
             
             for (int i = 1; i < Commands.Rows.Count; i++)
             {
@@ -2955,22 +2959,28 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
                 angle = float.Parse(cell.Value.ToString());
 
-                fCurrent = EnergyProfile.PolyValI(angle);
-                fVelocity = EnergyProfile.PolyValV(angle);
+                //Average values:
+                dCurrent = EnergyProfile.PolyValI(angle);
+                dVelocity = EnergyProfile.PolyValV(angle);
+                EnergyVal = EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
 
-                //fVelocity = distance / fTime;
-                //convert Velocity = m/s to m/h
-                fVelocity *= 3600;
-                fTime = distance / fVelocity;   //m/(m/h)
+                //Maximum values
+                dCurrent = EnergyProfile.PolyValI(angle, EnergyProfile.Current["MaxDeviation"]);
+                SumECMax += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
 
-                fCurrent *= 1000;
-                EnergyVal = Math.Round(fCurrent * fTime, 2,MidpointRounding.AwayFromZero);
+                //Minimum values
+                dCurrent = EnergyProfile.PolyValI(angle, -EnergyProfile.Current["MinDeviation"]);
+                SumECMin += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
                 cell.Value = EnergyVal;
                 SumEC += EnergyVal;
-                LBL_TotalEC.Text = SumEC.ToString("0.0") + " mAh";  //Display the total energy consumption
+
+                //Display the total energy consumption
+                LBL_AvgEC.Text = SumEC.ToString("0.0") + " mAh";  
+                LBL_MaxEC.Text = SumECMax.ToString("0.0") + " mAh";
+                LBL_MinEC.Text = SumECMin.ToString("0.0") + " mAh";
             }
         }
 
@@ -5126,9 +5136,9 @@ namespace MissionPlanner.GCSViews
                 TXT_DefaultAlt.Text = (50*CurrentState.multiplierdist).ToString("0");
             }
 
-            //Enable energyprofile, if enabled
-            Commands.Columns[EC.Index].Visible = Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]);
-            Panel_EnergyConsumption.Visible = Convert.ToBoolean(Settings.Instance["EnergyProfileEnabled"]);
+            //Enable energyprofile
+            Commands.Columns[EC.Index].Visible = Convert.ToBoolean(EnergyProfile.Enabled);
+            Panel_EnergyConsumption.Visible = Convert.ToBoolean(EnergyProfile.Enabled);
         }
 
         public void updateHome()
