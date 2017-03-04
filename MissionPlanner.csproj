@@ -910,7 +910,6 @@
     <Compile Include="Log\LogSort.cs" />
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Magfitrotation.cs" />
-    <Compile Include="Models\BattMonitor.cs" />
     <Compile Include="OpenGLtest2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -922,7 +921,6 @@
     <Compile Include="Plugin\PluginUI.Designer.cs">
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ConfigCameraStabModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
