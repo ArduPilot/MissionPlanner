@@ -320,7 +320,7 @@ Velocity comparison x
 
   <graph name='Sensors/Lidar/Rangefinder vs Baro'>
     <description>Rangefinders vs Barometric Altitude</description>
-    <expression>BARO.Alt RFND.Dist1 RFND.Dist2</expression>
+    <expression>BARO.Alt RFND.Dist1 RFND.Dist2 CTUN.Salt</expression>
   </graph>
 
   <graph name='Plane/PID Tuning/Pitch Controller'>
