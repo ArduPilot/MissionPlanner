@@ -1867,6 +1867,41 @@ Please check the following
             }
         }
 
+        public void SendRCOverride(byte sysid, byte compid, UInt16 rc1, UInt16 rc2, UInt16 rc3, UInt16 rc4, UInt16 rc5, UInt16 rc6, UInt16 rc7, UInt16 rc8)
+        {
+            MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+
+            rc.target_component = compid;
+            rc.target_system = sysid;
+
+            rc.chan1_raw = rc1;
+            rc.chan2_raw = rc2;
+            rc.chan3_raw = rc3;
+            rc.chan4_raw = rc4;
+            rc.chan5_raw = rc5;
+            rc.chan6_raw = rc6;
+            rc.chan7_raw = rc7;
+            rc.chan8_raw = rc8;
+
+            sendPacket(rc, rc.target_system, rc.target_component);
+        }
+
+        public void SendManualControl(byte sysid, byte compid, Int16 x, Int16 y, Int16 z, Int16 r, UInt16 buttons)
+        {
+            MAVLink.mavlink_manual_control_t mc = new mavlink_manual_control_t();
+
+            mc.target = sysid;
+
+            mc.x = x;
+            mc.y = y;
+            mc.z = z;
+            mc.r = r;
+
+            mc.buttons = buttons;
+
+            sendPacket(mc, sysid, compid);
+        }
+
         public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate, int sysid = -1, int compid = -1)
         {
             if (sysid == -1)
