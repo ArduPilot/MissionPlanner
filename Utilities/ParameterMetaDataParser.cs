@@ -75,6 +75,10 @@ namespace MissionPlanner.Utilities
                         {
                             element = MainV2.Firmwares.ArduRover.ToString();
                         }
+                        else if (parameterLocation.ToLower().Contains("ardusub"))
+                        {
+                            element = MainV2.Firmwares.ArduSub.ToString();
+                        }
                         else if (parameterLocation.ToLower().Contains("tracker"))
                         {
                             element = MainV2.Firmwares.ArduTracker.ToString();

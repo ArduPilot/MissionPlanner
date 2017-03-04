@@ -377,6 +377,7 @@ namespace MissionPlanner
             ArduPlane,
             ArduCopter2,
             ArduRover,
+            ArduSub,
             Ateryx,
             ArduTracker,
             Gymbal,
@@ -1425,6 +1426,11 @@ namespace MissionPlanner
                 {
                     _connectionControl.TOOL_APMFirmware.SelectedIndex =
                         _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
+                }
+                else if (comPort.MAV.cs.firmware == Firmwares.ArduSub)
+                {
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex =
+                        _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduSub);
                 }
                 else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                 {
@@ -2822,13 +2828,17 @@ namespace MissionPlanner
                     {
                         MainV2.comPort.MAV.cs.firmware = Firmwares.ArduPlane;
                     }
-                    if (cmds["type"].ToLower() == "copter")
+                    else if (cmds["type"].ToLower() == "copter")
                     {
                         MainV2.comPort.MAV.cs.firmware = Firmwares.ArduCopter2;
                     }
-                    if (cmds["type"].ToLower() == "rover")
+                    else if (cmds["type"].ToLower() == "rover")
                     {
                         MainV2.comPort.MAV.cs.firmware = Firmwares.ArduRover;
+                    }
+                    else if (cmds["type"].ToLower() == "sub")
+                    {
+                        MainV2.comPort.MAV.cs.firmware = Firmwares.ArduSub;
                     }
 
                     var joy = new Joystick.Joystick();

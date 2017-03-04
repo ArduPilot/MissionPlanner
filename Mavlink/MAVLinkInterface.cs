@@ -4801,10 +4801,14 @@ Please check the following
                         case MAVLink.MAV_TYPE.GROUND_ROVER:
                             MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduRover;
                             break;
+                        case MAVLink.MAV_TYPE.SUBMARINE:
+                            MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduSub;
+                            break;
                         case MAV_TYPE.ANTENNA_TRACKER:
                             MAVlist[sysid, compid].cs.firmware = MainV2.Firmwares.ArduTracker;
                             break;
                         default:
+                            log.Error(MAVlist[sysid, compid].aptype + " not registered as valid type");
                             break;
                     }
                     break;
