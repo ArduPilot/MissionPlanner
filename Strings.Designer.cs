@@ -1359,7 +1359,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This board has been retired, Mission Planner this will upload the last available version to your board.
+        ///   Looks up a localized string similar to This board has been retired, Mission Planner this will upload the last available version to your board (AC 3.2.1/AP 3.4.0).
         /// </summary>
         public static string ThisBoardHasBeenRetired {
             get {

@@ -554,10 +554,7 @@ namespace MissionPlanner.Utilities
 
                 if (board < BoardDetect.boards.px4)
                 {
-                    if (temp.name.ToLower().Contains("arducopter"))
-                    {
-                        CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired, Strings.Note);
-                    }
+                    CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired, Strings.Note);
                 }
 
                 if (historyhash != "")

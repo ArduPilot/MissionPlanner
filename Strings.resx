@@ -551,7 +551,7 @@ Please use Standard/Advanced Params for the safe settings</value>
 Mission Planner will look for 30 seconds to find the board</value>
   </data>
   <data name="ThisBoardHasBeenRetired" xml:space="preserve">
-    <value>This board has been retired, Mission Planner this will upload the last available version to your board</value>
+    <value>This board has been retired, Mission Planner this will upload the last available version to your board (AC 3.2.1/AP 3.4.0)</value>
   </data>
   <data name="YouAreUsingUnsupportedHardware" xml:space="preserve">
     <value>You are using unsupported hardware.
