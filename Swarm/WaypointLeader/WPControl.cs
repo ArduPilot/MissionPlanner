@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Flurl.Util;
 using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader

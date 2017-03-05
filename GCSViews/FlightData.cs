@@ -24,7 +24,6 @@ using MissionPlanner.Log;
 using MissionPlanner.Utilities;
 using MissionPlanner.Warnings;
 using OpenTK;
-using Org.BouncyCastle.Asn1.X509.Qualified;
 using WebCamService;
 using ZedGraph;
 using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
