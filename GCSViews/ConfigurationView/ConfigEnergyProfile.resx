@@ -126,7 +126,7 @@ individual copter and can be loaded from the energyprofile path.</value>
     <value>Upper Limits: 
 The amplitude defines the maximum velocity, whereas the position of 
 the amplitude defines an angle in degree, where the max. velocity is 
-reached. Variance describes the width of the amplitude</value>
+reached. Variance describes the width of the amplitude.</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
     <value>Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 

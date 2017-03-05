@@ -59,7 +59,6 @@
             this.label13 = new System.Windows.Forms.Label();
             this.lblTitleCurrent = new System.Windows.Forms.Label();
             this.tbLimitI = new System.Windows.Forms.TextBox();
-            this.btnPlotI = new MissionPlanner.Controls.MyButton();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tbVarINeg = new System.Windows.Forms.TextBox();
             this.tbAmpINeg = new System.Windows.Forms.TextBox();
@@ -79,9 +78,6 @@
             this.label18 = new System.Windows.Forms.Label();
             this.tbGradientV = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.tbCurvatureV = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.btnPlotV = new MissionPlanner.Controls.MyButton();
             this.ChartV = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.label19 = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
@@ -97,11 +93,13 @@
             this.label25 = new System.Windows.Forms.Label();
             this.tbCopterID = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.btnSaveCopterSettingsToFile = new MissionPlanner.Controls.MyButton();
-            this.btnSaveSettings = new MissionPlanner.Controls.MyButton();
             this.panelIDHover = new System.Windows.Forms.Panel();
             this.label29 = new System.Windows.Forms.Label();
             this.btnLoadCopterSettings = new MissionPlanner.Controls.MyButton();
+            this.btnPlotI = new MissionPlanner.Controls.MyButton();
+            this.btnSaveSettings = new MissionPlanner.Controls.MyButton();
+            this.btnSaveCopterSettingsToFile = new MissionPlanner.Controls.MyButton();
+            this.btnPlotV = new MissionPlanner.Controls.MyButton();
             this.panelCurrentConfiguration.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -356,16 +354,6 @@
             this.tbLimitI.TabIndex = 52;
             this.tbLimitI.Text = "16";
             // 
-            // btnPlotI
-            // 
-            this.btnPlotI.Location = new System.Drawing.Point(186, 229);
-            this.btnPlotI.Name = "btnPlotI";
-            this.btnPlotI.Size = new System.Drawing.Size(84, 23);
-            this.btnPlotI.TabIndex = 55;
-            this.btnPlotI.Text = "Plot Graph";
-            this.btnPlotI.UseVisualStyleBackColor = true;
-            this.btnPlotI.Click += new System.EventHandler(this.btnPlotI_Click);
-            // 
             // panel4
             // 
             this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -477,9 +465,9 @@
             this.panelVelocityConfiguration.Controls.Add(this.label19);
             this.panelVelocityConfiguration.Controls.Add(this.panel7);
             this.panelVelocityConfiguration.Enabled = false;
-            this.panelVelocityConfiguration.Location = new System.Drawing.Point(15, 475);
+            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 477);
             this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
-            this.panelVelocityConfiguration.Size = new System.Drawing.Size(814, 256);
+            this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 256);
             this.panelVelocityConfiguration.TabIndex = 43;
             // 
             // label14
@@ -498,8 +486,6 @@
             this.panel1.Controls.Add(this.label18);
             this.panel1.Controls.Add(this.tbGradientV);
             this.panel1.Controls.Add(this.label16);
-            this.panel1.Controls.Add(this.tbCurvatureV);
-            this.panel1.Controls.Add(this.label17);
             this.panel1.Location = new System.Drawing.Point(141, 20);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(129, 114);
@@ -516,7 +502,7 @@
             // 
             // tbLowerAmp
             // 
-            this.tbLowerAmp.Location = new System.Drawing.Point(80, 27);
+            this.tbLowerAmp.Location = new System.Drawing.Point(81, 53);
             this.tbLowerAmp.Name = "tbLowerAmp";
             this.tbLowerAmp.Size = new System.Drawing.Size(34, 20);
             this.tbLowerAmp.TabIndex = 49;
@@ -525,7 +511,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(4, 21);
+            this.label18.Location = new System.Drawing.Point(5, 47);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(40, 26);
             this.label18.TabIndex = 45;
@@ -533,7 +519,7 @@
             // 
             // tbGradientV
             // 
-            this.tbGradientV.Location = new System.Drawing.Point(80, 86);
+            this.tbGradientV.Location = new System.Drawing.Point(80, 27);
             this.tbGradientV.Name = "tbGradientV";
             this.tbGradientV.Size = new System.Drawing.Size(34, 20);
             this.tbGradientV.TabIndex = 50;
@@ -542,38 +528,11 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(4, 85);
+            this.label16.Location = new System.Drawing.Point(4, 26);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(50, 13);
             this.label16.TabIndex = 44;
             this.label16.Text = "Gradient:";
-            // 
-            // tbCurvatureV
-            // 
-            this.tbCurvatureV.Location = new System.Drawing.Point(80, 60);
-            this.tbCurvatureV.Name = "tbCurvatureV";
-            this.tbCurvatureV.Size = new System.Drawing.Size(34, 20);
-            this.tbCurvatureV.TabIndex = 51;
-            this.tbCurvatureV.Text = "70";
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(4, 58);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(56, 13);
-            this.label17.TabIndex = 48;
-            this.label17.Text = "Curvature:";
-            // 
-            // btnPlotV
-            // 
-            this.btnPlotV.Location = new System.Drawing.Point(186, 140);
-            this.btnPlotV.Name = "btnPlotV";
-            this.btnPlotV.Size = new System.Drawing.Size(84, 23);
-            this.btnPlotV.TabIndex = 56;
-            this.btnPlotV.Text = "Plot Graph";
-            this.btnPlotV.UseVisualStyleBackColor = true;
-            this.btnPlotV.Click += new System.EventHandler(this.btnPlotV_Click);
             // 
             // ChartV
             // 
@@ -610,7 +569,7 @@
             series4.Name = "Series1";
             series4.Points.Add(dataPoint4);
             this.ChartV.Series.Add(series4);
-            this.ChartV.Size = new System.Drawing.Size(533, 231);
+            this.ChartV.Size = new System.Drawing.Size(537, 231);
             this.ChartV.TabIndex = 58;
             this.ChartV.Text = "chart3";
             // 
@@ -713,11 +672,10 @@
             this.label23.AutoSize = true;
             this.label23.Location = new System.Drawing.Point(370, 738);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(389, 39);
+            this.label23.Size = new System.Drawing.Size(315, 39);
             this.label23.TabIndex = 45;
-            this.label23.Text = "Lower Limits:\r\nThe lower bound determines the lowest possbile speed per angle. Cu" +
-    "rvature sets \r\nthe bending of the of this lower bound and can be rotated with th" +
-    "e gradient.";
+            this.label23.Text = "Lower Limits:\r\nThe lower bound determines the lowest possible speed per angle.\r\nT" +
+    "he gradient allows to rotate the lower bound.";
             // 
             // label25
             // 
@@ -744,26 +702,6 @@
             this.label24.Size = new System.Drawing.Size(59, 13);
             this.label24.TabIndex = 61;
             this.label24.Text = "Vehicle ID:";
-            // 
-            // btnSaveCopterSettingsToFile
-            // 
-            this.btnSaveCopterSettingsToFile.Location = new System.Drawing.Point(653, 82);
-            this.btnSaveCopterSettingsToFile.Name = "btnSaveCopterSettingsToFile";
-            this.btnSaveCopterSettingsToFile.Size = new System.Drawing.Size(84, 26);
-            this.btnSaveCopterSettingsToFile.TabIndex = 60;
-            this.btnSaveCopterSettingsToFile.Text = "Save settings to file";
-            this.btnSaveCopterSettingsToFile.UseVisualStyleBackColor = true;
-            this.btnSaveCopterSettingsToFile.Click += new System.EventHandler(this.btnSaveCopterSettingsToFile_Click);
-            // 
-            // btnSaveSettings
-            // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(563, 82);
-            this.btnSaveSettings.Name = "btnSaveSettings";
-            this.btnSaveSettings.Size = new System.Drawing.Size(84, 26);
-            this.btnSaveSettings.TabIndex = 62;
-            this.btnSaveSettings.Text = "Apply Settings";
-            this.btnSaveSettings.UseVisualStyleBackColor = true;
-            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
             // 
             // panelIDHover
             // 
@@ -798,6 +736,46 @@
             this.btnLoadCopterSettings.Text = "Load from file";
             this.btnLoadCopterSettings.UseVisualStyleBackColor = true;
             this.btnLoadCopterSettings.Click += new System.EventHandler(this.btnLoadCopterSettings_Click);
+            // 
+            // btnPlotI
+            // 
+            this.btnPlotI.Location = new System.Drawing.Point(186, 229);
+            this.btnPlotI.Name = "btnPlotI";
+            this.btnPlotI.Size = new System.Drawing.Size(84, 23);
+            this.btnPlotI.TabIndex = 55;
+            this.btnPlotI.Text = "Plot Graph";
+            this.btnPlotI.UseVisualStyleBackColor = true;
+            this.btnPlotI.Click += new System.EventHandler(this.btnPlotI_Click);
+            // 
+            // btnSaveSettings
+            // 
+            this.btnSaveSettings.Location = new System.Drawing.Point(563, 82);
+            this.btnSaveSettings.Name = "btnSaveSettings";
+            this.btnSaveSettings.Size = new System.Drawing.Size(84, 26);
+            this.btnSaveSettings.TabIndex = 62;
+            this.btnSaveSettings.Text = "Apply Settings";
+            this.btnSaveSettings.UseVisualStyleBackColor = true;
+            this.btnSaveSettings.Click += new System.EventHandler(this.btnSaveSettings_Click);
+            // 
+            // btnSaveCopterSettingsToFile
+            // 
+            this.btnSaveCopterSettingsToFile.Location = new System.Drawing.Point(653, 82);
+            this.btnSaveCopterSettingsToFile.Name = "btnSaveCopterSettingsToFile";
+            this.btnSaveCopterSettingsToFile.Size = new System.Drawing.Size(84, 26);
+            this.btnSaveCopterSettingsToFile.TabIndex = 60;
+            this.btnSaveCopterSettingsToFile.Text = "Save settings to file";
+            this.btnSaveCopterSettingsToFile.UseVisualStyleBackColor = true;
+            this.btnSaveCopterSettingsToFile.Click += new System.EventHandler(this.btnSaveCopterSettingsToFile_Click);
+            // 
+            // btnPlotV
+            // 
+            this.btnPlotV.Location = new System.Drawing.Point(186, 140);
+            this.btnPlotV.Name = "btnPlotV";
+            this.btnPlotV.Size = new System.Drawing.Size(84, 23);
+            this.btnPlotV.TabIndex = 56;
+            this.btnPlotV.Text = "Plot Graph";
+            this.btnPlotV.UseVisualStyleBackColor = true;
+            this.btnPlotV.Click += new System.EventHandler(this.btnPlotV_Click);
             // 
             // ConfigEnergyProfile
             // 
@@ -866,11 +844,9 @@
         private System.Windows.Forms.TextBox tbLimitI;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox tbCurvatureV;
         private System.Windows.Forms.TextBox tbLowerAmp;
         private System.Windows.Forms.TextBox tbGradientV;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.TextBox tbVarV;

@@ -54,7 +54,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             tbAngV.Text = EnergyProfile.Velocity["AmpPosition"].ToString(CultureInfo.GetCultureInfo("en-US"));
             tbVarV.Text = EnergyProfile.Velocity["Variance"].ToString(CultureInfo.GetCultureInfo("en-US"));
             tbLowerAmp.Text = EnergyProfile.Velocity["LowerBound"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbCurvatureV.Text = EnergyProfile.Velocity["Curvature"].ToString(CultureInfo.GetCultureInfo("en-US"));
             tbGradientV.Text = EnergyProfile.Velocity["Gradient"].ToString(CultureInfo.GetCultureInfo("en-US"));
         }
 
@@ -123,7 +122,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             tbAngV.Text = xr.GetAttribute("AmpPosition");
                             tbVarV.Text = xr.GetAttribute("Variance");
                             tbLowerAmp.Text = xr.GetAttribute("LowerBound");
-                            tbCurvatureV.Text = xr.GetAttribute("Curvature");
                             tbGradientV.Text = xr.GetAttribute("Gradient");
                             xr.Close();
 
@@ -236,7 +234,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 xw.WriteAttributeString("AmpPosition", tbAngV.Text);
                 xw.WriteAttributeString("Variance", tbVarV.Text);
                 xw.WriteAttributeString("LowerBound", tbLowerAmp.Text);
-                xw.WriteAttributeString("Curvature", tbCurvatureV.Text);
                 xw.WriteAttributeString("Gradient", tbGradientV.Text);
                 xw.WriteEndElement();
 
@@ -251,14 +248,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //ensure textboxes contain values
         private bool ParseVelocityValues()
         {
-            double dAmplitudeV, dLowerAmpV, dAngleV, dVarianceV, dCurvatureV, dGradientV;
-            dAmplitudeV = dLowerAmpV = dAngleV = dVarianceV = dCurvatureV = dGradientV = 0.0f;
+            double dAmplitudeV, dLowerAmpV, dAngleV, dVarianceV, dGradientV;
+            dAmplitudeV = dLowerAmpV = dAngleV = dVarianceV = dGradientV = 0.0f;
 
             if (!double.TryParse(tbAmpV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dAmplitudeV) ||
                 !double.TryParse(tbLowerAmp.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dLowerAmpV)||
                 !double.TryParse(tbAngV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dAngleV) ||
                 !double.TryParse(tbVarV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dVarianceV) ||
-                !double.TryParse(tbCurvatureV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dCurvatureV) ||
                 !double.TryParse(tbGradientV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dGradientV))
             {
                 CustomMessageBox.Show("Velocity: Invalid format or textbox empty!");
@@ -269,7 +265,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             EnergyProfile.Velocity["LowerBound"] = dLowerAmpV;
             EnergyProfile.Velocity["AmpPosition"] = dAngleV;
             EnergyProfile.Velocity["Variance"] = dVarianceV;
-            EnergyProfile.Velocity["Curvature"] = dCurvatureV;
             EnergyProfile.Velocity["Gradient"] = dGradientV;
 
             return true;
@@ -345,25 +340,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 ChartV.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValV(i)));
             }
+
+            //scale graph
+            ChartV.ChartAreas[0].AxisY.Minimum = ChartV.Series[0].Points.FindMinByValue().YValues[0] - 0.5;
+            ChartV.ChartAreas[0].AxisY.Maximum = ChartV.Series[0].Points.FindMaxByValue().YValues[0] + 0.5;
+            ChartV.ChartAreas[0].AxisY.LabelStyle.Format = "{0}";
         }
 
         private void PlotCurrent()
         {
+            bool bDrawMaxDeviation = true;
+            bool bDrawMinDeviation = true;
+
             if (!ParseCurrentValues()) { return; }
+            if (EnergyProfile.Current["MaxDeviation"] == 0) { bDrawMaxDeviation = false; }
+            if (EnergyProfile.Current["MinDeviation"] == 0) { bDrawMinDeviation = false; }
+
+            /*
+             * Series 0: Average Current
+             * Series 1: Max Current (Current + MaxDeviation)
+             * Series 2: Min Current (Current - MinDeviation)
+             */
 
             ChartI.Series[0].Points.Clear();
             ChartI.Series[1].Points.Clear();
             ChartI.Series[2].Points.Clear();
 
+
             for (double i = -90; i <= 90; i += 5)
             {
                 ChartI.Series[0].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValI(i)));
-                ChartI.Series[1].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValI(i, double.Parse(tbDeviationMax.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US")))));
-                ChartI.Series[2].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValI(i, -double.Parse(tbDeviationMin.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US")))));
+
+                if (bDrawMaxDeviation) { ChartI.Series[1].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValI(i, double.Parse(tbDeviationMax.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"))))); }
+                if (bDrawMinDeviation) { ChartI.Series[2].Points.Add(new System.Windows.Forms.DataVisualization.Charting.DataPoint(i, EnergyProfile.PolyValI(i, -double.Parse(tbDeviationMin.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"))))); }
             }
 
-            ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[2].Points.FindMinByValue().YValues[0] - 0.5;
-            ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[1].Points.FindMaxByValue().YValues[0] + 0.5;
+            //scale graph
+            ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[0].Points.FindMinByValue().YValues[0] - 0.5;
+            ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[0].Points.FindMaxByValue().YValues[0] + 0.5;
+
+            if (bDrawMinDeviation) { ChartI.ChartAreas[0].AxisY.Minimum = ChartI.Series[2].Points.FindMinByValue().YValues[0] - 0.5; }
+            if (bDrawMaxDeviation) { ChartI.ChartAreas[0].AxisY.Maximum = ChartI.Series[1].Points.FindMaxByValue().YValues[0] + 0.5; }
             ChartI.ChartAreas[0].AxisY.LabelStyle.Format = "{0}";
 
             //(a1 - t) ℯ^((-0.5(x - b1)²) / (2c1²)) + (a2 - t) ℯ^((-0.5(x - b2)²) / (2c2²)) + t

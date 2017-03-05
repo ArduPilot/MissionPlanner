@@ -9,11 +9,11 @@ namespace MissionPlanner.Utilities
     {
         public static double PolyValV(double _dAngle)
         {
-            //(a1 - a2) e^(-0.5*((x - b1) / c1)²) + a2 e^(-0.5*((x - b2) / c2)²) + t x / 1000
+            //(a1 - t)*e^(-0.5*((x - b1) / c1)²) + kx / 100 + t
 
             //Scaling factors for curvature and gradient
             double gauss = (EnergyProfile.Velocity["Amplitude"] - EnergyProfile.Velocity["LowerBound"]) * Math.Exp(-0.5 * Math.Pow(((_dAngle - EnergyProfile.Velocity["AmpPosition"]) / EnergyProfile.Velocity["Variance"]), 2));
-            gauss += EnergyProfile.Velocity["LowerBound"] * Math.Exp(-Math.Pow(0.5 * (_dAngle / (EnergyProfile.Velocity["Curvature"])), 2) + EnergyProfile.Velocity["Gradient"] * _dAngle / 1000);
+            gauss += (EnergyProfile.Velocity["Gradient"] / 100) * _dAngle + EnergyProfile.Velocity["LowerBound"];
             
             return gauss;
         }
