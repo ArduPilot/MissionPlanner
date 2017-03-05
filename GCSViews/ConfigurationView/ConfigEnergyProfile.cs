@@ -36,26 +36,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void LoadEnergyProfileValues()
         {
             //Current
-            tbAmpINeg.Text = EnergyProfile.Current["NegAmp"].ToString();
-            tbAngINeg.Text = EnergyProfile.Current["NegAmpPosition"].ToString();
-            tbVarINeg.Text = EnergyProfile.Current["NegVariance"].ToString();
+            tbAmpINeg.Text = EnergyProfile.Current["NegativeAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbAngINeg.Text = EnergyProfile.Current["NegativeAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbVarINeg.Text = EnergyProfile.Current["NegativeVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
-            tbAmpIPos.Text = EnergyProfile.Current["PosAmp"].ToString();
-            tbAngIPos.Text = EnergyProfile.Current["PosAmpPosition"].ToString();
-            tbVarINeg.Text = EnergyProfile.Current["PosVariance"].ToString();
+            tbAmpIPos.Text = EnergyProfile.Current["PositiveAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbAngIPos.Text = EnergyProfile.Current["PositiveAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbVarINeg.Text = EnergyProfile.Current["PositiveVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
-            tbDeviationMax.Text = EnergyProfile.Current["MaxDeviation"].ToString();
-            tbDeviationMin.Text = EnergyProfile.Current["MinDeviation"].ToString();
-            tbLimitI.Text = EnergyProfile.Current["LowerLimit"].ToString();
-            tbHoverI.Text = EnergyProfile.Current["CurrentHover"].ToString();
+            tbDeviationMax.Text = EnergyProfile.Current["MaxDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbDeviationMin.Text = EnergyProfile.Current["MinDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbLimitI.Text = EnergyProfile.Current["LowerLimit"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbHoverI.Text = EnergyProfile.Current["Hover"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
             //velocity
-            tbAmpV.Text = EnergyProfile.Velocity["Amplitude"].ToString();
-            tbAngV.Text = EnergyProfile.Velocity["AmpPosition"].ToString();
-            tbVarV.Text = EnergyProfile.Velocity["Variance"].ToString();
-            tbLowerAmp.Text = EnergyProfile.Velocity["LowerBound"].ToString();
-            tbCurvatureV.Text = EnergyProfile.Velocity["Curvature"].ToString();
-            tbGradientV.Text = EnergyProfile.Velocity["Gradient"].ToString();
+            tbAmpV.Text = EnergyProfile.Velocity["Amplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbAngV.Text = EnergyProfile.Velocity["AmpPosition"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbVarV.Text = EnergyProfile.Velocity["Variance"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbLowerAmp.Text = EnergyProfile.Velocity["LowerBound"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbCurvatureV.Text = EnergyProfile.Velocity["Curvature"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            tbGradientV.Text = EnergyProfile.Velocity["Gradient"].ToString(CultureInfo.GetCultureInfo("en-US"));
         }
 
         private void LoadCopterFileSettings(bool _bLoadAutomatically = false)   //Energyprofile for copter
@@ -77,6 +77,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else //!_bLoadAutomatically
             {
+                if (MainV2.comPort.MAV.param.ContainsKey("BRD_SERIAL_NUM"))
+                {
+                    tbCopterID.Text = MainV2.comPort.GetParam("BRD_SERIAL_NUM").ToString();
+                }
+
                 OpenFileDialog ofd = new OpenFileDialog();
                 ofd.InitialDirectory = EnergyProfile.EnergyProfilePath;
                 ofd.Multiselect = false;
@@ -102,16 +107,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             xr.ReadToFollowing("EnergyProfile");
                             xr.ReadToFollowing("Current");
 
-                            tbAmpINeg.Text = xr.GetAttribute("NegAmp");
-                            tbAngINeg.Text = xr.GetAttribute("NegAmpPosition");
-                            tbVarINeg.Text = xr.GetAttribute("NegVariance");
-                            tbAmpIPos.Text = xr.GetAttribute("PosAmp");
-                            tbAngIPos.Text = xr.GetAttribute("PosAmpPosition");
-                            tbVarIPos.Text = xr.GetAttribute("PosVariance");
+                            tbAmpINeg.Text = xr.GetAttribute("NegativeAmplitude");
+                            tbAngINeg.Text = xr.GetAttribute("NegativeAmpAngle");
+                            tbVarINeg.Text = xr.GetAttribute("NegativeVariance");
+                            tbAmpIPos.Text = xr.GetAttribute("PositiveAmplitude");
+                            tbAngIPos.Text = xr.GetAttribute("PositiveAmpAngle");
+                            tbVarIPos.Text = xr.GetAttribute("PositiveVariance");
                             tbDeviationMax.Text = xr.GetAttribute("MaxDeviation");
                             tbDeviationMin.Text = xr.GetAttribute("MinDeviation");
                             tbLimitI.Text = xr.GetAttribute("LowerLimit");
-                            tbHoverI.Text = xr.GetAttribute("CurrentHover");
+                            tbHoverI.Text = xr.GetAttribute("Hover");
 
                             xr.ReadToFollowing("Velocity");
                             tbAmpV.Text = xr.GetAttribute("Amplitude");
@@ -164,17 +169,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void btnSaveCopterSettingsToFile_Click(object sender, EventArgs e)
         {
             string sFile = string.Empty;
+            double dSerialNum = 0.0f;
+            bool bValidSerialNumber = false;
+
             if (MainV2.comPort.GetParam("BRD_SERIAL_NUM") != 0 && tbCopterID.Text != string.Empty)
             {
-                double dSerialNum = 0.0f;
-
-                if (double.TryParse(tbCopterID.Text, NumberStyles.AllowDecimalPoint, CultureInfo.GetCultureInfo("en-US"), out dSerialNum))
+                if (double.TryParse(tbCopterID.Text, NumberStyles.Integer, CultureInfo.GetCultureInfo("en-US"), out dSerialNum))
                 {
-                    MainV2.comPort.setParam("BRD_SERIAL_NUM", dSerialNum);
+                    if(dSerialNum >= -32767 && dSerialNum <= 32768) //according to http://ardupilot.org/copter/docs/parameters.html#brd-serial-num-user-defined-serial-number
+                    { bValidSerialNumber = true; }
                 }
-                else
+
+                if(!bValidSerialNumber)
                 {
-                    CustomMessageBox.Show("CopterID has not been saved: error in copterID");
+                    CustomMessageBox.Show("Error in copterID!");
                 }
             }
 
@@ -184,15 +192,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Directory.CreateDirectory(EnergyProfile.EnergyProfilePath);
             }
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.InitialDirectory = EnergyProfile.EnergyProfilePath;
-            ofd.Multiselect = false;
-            ofd.Filter = "Energyprofile settings (*.xml)|*.xml";
-            ofd.DefaultExt = ".xml";
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.InitialDirectory = EnergyProfile.EnergyProfilePath;
+            sfd.FileName = dSerialNum.ToString();
+            sfd.AddExtension = true;
+            sfd.Filter = "Energyprofile settings (*.xml)|*.xml";
+            sfd.DefaultExt = ".xml";
 
-            if (DialogResult.OK == ofd.ShowDialog())
+            if (DialogResult.OK == sfd.ShowDialog())
             {
-                sFile = ofd.FileName;
+                sFile = sfd.FileName;
+                if (bValidSerialNumber)
+                {
+                    MainV2.comPort.setParam("BRD_SERIAL_NUM", dSerialNum);
+                }
             }
             else
             {
@@ -206,16 +219,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 xw.WriteStartElement("EnergyProfile");
 
                 xw.WriteStartElement("Current");
-                xw.WriteAttributeString("NegAmp", tbAmpINeg.Text);
-                xw.WriteAttributeString("NegAmpPosition", tbAngINeg.Text);
-                xw.WriteAttributeString("NegVariance", tbVarINeg.Text);
-                xw.WriteAttributeString("PosAmp", tbAmpIPos.Text);
-                xw.WriteAttributeString("PosAmpPosition", tbAngIPos.Text);
-                xw.WriteAttributeString("PosVariance", tbVarIPos.Text);
+                xw.WriteAttributeString("NegativeAmplitude", tbAmpINeg.Text);
+                xw.WriteAttributeString("NegativeAmpAngle", tbAngINeg.Text);
+                xw.WriteAttributeString("NegativeVariance", tbVarINeg.Text);
+                xw.WriteAttributeString("PositiveAmplitude", tbAmpIPos.Text);
+                xw.WriteAttributeString("PositiveAmpAngle", tbAngIPos.Text);
+                xw.WriteAttributeString("PositiveVariance", tbVarIPos.Text);
                 xw.WriteAttributeString("MaxDeviation", tbDeviationMax.Text);
                 xw.WriteAttributeString("MinDeviation", tbDeviationMin.Text);
                 xw.WriteAttributeString("LowerLimit", tbLimitI.Text);
-                xw.WriteAttributeString("CurrentHover", tbHoverI.Text);
+                xw.WriteAttributeString("Hover", tbHoverI.Text);
                 xw.WriteEndElement();
 
                 xw.WriteStartElement("Velocity");
@@ -235,6 +248,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CustomMessageBox.Show("Saved settings to " + sFile);
         }
 
+        //ensure textboxes contain values
         private bool ParseVelocityValues()
         {
             double dAmplitudeV, dLowerAmpV, dAngleV, dVarianceV, dCurvatureV, dGradientV;
@@ -252,8 +266,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             EnergyProfile.Velocity["Amplitude"] = dAmplitudeV;
-            EnergyProfile.Velocity["LowerAmplitude"] = dLowerAmpV;
-            EnergyProfile.Velocity["Angle"] = dAngleV;
+            EnergyProfile.Velocity["LowerBound"] = dLowerAmpV;
+            EnergyProfile.Velocity["AmpPosition"] = dAngleV;
             EnergyProfile.Velocity["Variance"] = dVarianceV;
             EnergyProfile.Velocity["Curvature"] = dCurvatureV;
             EnergyProfile.Velocity["Gradient"] = dGradientV;
@@ -261,8 +275,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return true;
         }
 
+        //ensure textboxes contain values
         private bool ParseCurrentValues()
-    {
+        {
             //try parsing the values from textboxes before they are written into the EP-class
             double dAmplitudeNegI, dAngleNegI, dVarianceNegI, dAmplitudePosI, dAnglePosI, dVariancePosI, dLowerLimitI, dHover, dDevMax, dDevMin;
             dAmplitudeNegI = dAngleNegI = dVarianceNegI = dAmplitudePosI = dAnglePosI = dVariancePosI = dLowerLimitI = dHover = dDevMax = dDevMin = 0.0f;
