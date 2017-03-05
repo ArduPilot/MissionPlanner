@@ -34,18 +34,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BitMiracle.LibTiff.NET">
-      <HintPath>..\..\packages\BitMiracle.LibTiff.NET.2.4.518.0\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
+    <Reference Include="BitMiracle.LibTiff.NET, Version=2.4.571.0, Culture=neutral, PublicKeyToken=53879b3e20e7a7d6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\BitMiracle.LibTiff.NET.2.4.571\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>..\..\ExtLibs\DirectShowLib-2005.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\ExtLibs\log4net.dll</HintPath>
