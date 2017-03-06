@@ -51,6 +51,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Utilities\MeasureString.cs">
+      <Link>MeasureString.cs</Link>
+    </Compile>
     <Compile Include="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -324,10 +327,6 @@
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
-      <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
