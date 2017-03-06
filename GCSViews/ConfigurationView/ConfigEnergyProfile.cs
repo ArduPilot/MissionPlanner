@@ -25,7 +25,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Activate()
         {
             CB_EnableEnergyProfile.Checked = EnergyProfile.Enabled;
-
+            if (!EnergyProfile.Initialized) { EnergyProfile.Initialize(); }
             if (EnergyProfile.Enabled == true)
             {
                 //Write back values to settingspage
@@ -36,25 +36,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void LoadEnergyProfileValues()
         {
             //Current
-            tbAmpINeg.Text = EnergyProfile.Current["NegativeAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbAngINeg.Text = EnergyProfile.Current["NegativeAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbVarINeg.Text = EnergyProfile.Current["NegativeVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
+            try
+            {
+                tbAmpINeg.Text = EnergyProfile.Current["NegativeAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbAngINeg.Text = EnergyProfile.Current["NegativeAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbVarINeg.Text = EnergyProfile.Current["NegativeVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
-            tbAmpIPos.Text = EnergyProfile.Current["PositiveAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbAngIPos.Text = EnergyProfile.Current["PositiveAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbVarINeg.Text = EnergyProfile.Current["PositiveVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbAmpIPos.Text = EnergyProfile.Current["PositiveAmplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbAngIPos.Text = EnergyProfile.Current["PositiveAmpAngle"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbVarIPos.Text = EnergyProfile.Current["PositiveVariance"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
-            tbDeviationMax.Text = EnergyProfile.Current["MaxDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbDeviationMin.Text = EnergyProfile.Current["MinDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbLimitI.Text = EnergyProfile.Current["LowerLimit"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbHoverI.Text = EnergyProfile.Current["Hover"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbDeviationMax.Text = EnergyProfile.Current["MaxDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbDeviationMin.Text = EnergyProfile.Current["MinDeviation"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbLimitI.Text = EnergyProfile.Current["LowerLimit"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbHoverI.Text = EnergyProfile.Current["Hover"].ToString(CultureInfo.GetCultureInfo("en-US"));
 
-            //velocity
-            tbAmpV.Text = EnergyProfile.Velocity["Amplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbAngV.Text = EnergyProfile.Velocity["AmpPosition"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbVarV.Text = EnergyProfile.Velocity["Variance"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbLowerAmp.Text = EnergyProfile.Velocity["LowerBound"].ToString(CultureInfo.GetCultureInfo("en-US"));
-            tbGradientV.Text = EnergyProfile.Velocity["Gradient"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                //velocity
+                tbAmpV.Text = EnergyProfile.Velocity["Amplitude"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbAngV.Text = EnergyProfile.Velocity["AmpPosition"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbVarV.Text = EnergyProfile.Velocity["Variance"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbLowerAmp.Text = EnergyProfile.Velocity["LowerBound"].ToString(CultureInfo.GetCultureInfo("en-US"));
+                tbGradientV.Text = EnergyProfile.Velocity["Gradient"].ToString(CultureInfo.GetCultureInfo("en-US"));
+
+                tbCopterID.Text = EnergyProfile.CopterID.ToString();
+            }
+            catch (KeyNotFoundException e)    //No values were saved in energyprofile
+            {
+                MessageBox.Show("Error while parsing key from Energyprofile" + e.Message);
+            }
         }
 
         private void LoadCopterFileSettings(bool _bLoadAutomatically = false)   //Energyprofile for copter
@@ -70,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    CustomMessageBox.Show("Parameter BRD_SERIAL_NUM not available!");
+                    MessageBox.Show("Parameter BRD_SERIAL_NUM not available!");
                     return;
                 }
             }
@@ -134,7 +143,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         catch (System.Xml.XmlException)
                         {
-                            CustomMessageBox.Show("Error reading XmlFile");
+                        MessageBox.Show("Error reading XmlFile");
                         }
                     }
                 }
@@ -144,14 +153,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (CB_EnableEnergyProfile.Checked)
             {
+                if (!EnergyProfile.Initialized)
+                {
+                    EnergyProfile.Initialize();
+                }
+
                 panelIDHover.Enabled = true;
                 panelCurrentConfiguration.Enabled = true;
                 panelVelocityConfiguration.Enabled = true;
-                EnergyProfile.Enabled = true;
 
-                if (DialogResult.Yes == CustomMessageBox.Show("Try to load coptersettings automatically?", "Load settings", MessageBoxButtons.YesNo))
+                if (!EnergyProfile.Enabled) //only the form was recreated and the settings reloaded
                 {
-                    LoadCopterFileSettings(true);
+                    EnergyProfile.Enabled = true;
+                    if (DialogResult.Yes == MessageBox.Show("Try to load coptersettings automatically?", "Load settings", MessageBoxButtons.YesNo))
+                    {
+                        LoadCopterFileSettings(true);
+                    }
                 }
             }
             if (!CB_EnableEnergyProfile.Checked)
@@ -180,7 +197,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if(!bValidSerialNumber)
                 {
-                    CustomMessageBox.Show("Error in copterID!");
+                    MessageBox.Show("Error in copterID!");
                 }
             }
 
@@ -242,7 +259,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 xw.Close();
             }
 
-            CustomMessageBox.Show("Saved settings to " + sFile);
+            MessageBox.Show("Saved settings to " + sFile);
         }
 
         //ensure textboxes contain values
@@ -257,7 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 !double.TryParse(tbVarV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dVarianceV) ||
                 !double.TryParse(tbGradientV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dGradientV))
             {
-                CustomMessageBox.Show("Velocity: Invalid format or textbox empty!");
+                MessageBox.Show("Velocity: Invalid format or textbox empty!");
                 return false;
             }
 
@@ -289,7 +306,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 !double.TryParse(tbDeviationMin.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dDevMin)
                 )
             {
-                CustomMessageBox.Show("Current: Invalid format or textbox empty!");
+                MessageBox.Show("Current: Invalid format or textbox empty!");
                 return false;
             }
 
@@ -313,6 +330,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             ParseCurrentValues();
             ParseVelocityValues();
+
+            int iCopterID = 0;
+            if (!int.TryParse(tbCopterID.Text, NumberStyles.Integer, CultureInfo.GetCultureInfo("en-US"), out iCopterID))
+            { MessageBox.Show("CopterID: Invalid format"); }
+            else { EnergyProfile.CopterID = iCopterID; }
         }
 
         private void btnLoadCopterSettings_Click(object sender, EventArgs e)
@@ -386,4 +408,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             //(a1 - t) ℯ^((-0.5(x - b1)²) / (2c1²)) + (a2 - t) ℯ^((-0.5(x - b2)²) / (2c2²)) + t
         }
     }
+
+
 }

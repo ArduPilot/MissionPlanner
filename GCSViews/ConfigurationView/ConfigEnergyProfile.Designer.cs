@@ -28,17 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 26D);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "19,0,0");
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint9 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint10 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 26D);
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint11 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "19,0,0");
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint12 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -201,53 +201,53 @@
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.Color.Black;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.AxisX.Interval = 22.5D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisX.Maximum = 90D;
-            chartArea1.AxisX.Minimum = -90D;
-            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisX.Title = "Angle [Degree]";
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.Title = "Current [A]";
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.BackColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Interval = 22.5D;
+            chartArea5.AxisX.IsLabelAutoFit = false;
+            chartArea5.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea5.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea5.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea5.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea5.AxisX.Maximum = 90D;
+            chartArea5.AxisX.Minimum = -90D;
+            chartArea5.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea5.AxisX.Title = "Angle [Degree]";
+            chartArea5.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea5.AxisY.IsLabelAutoFit = false;
+            chartArea5.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea5.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea5.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea5.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea5.AxisY.Title = "Current [A]";
+            chartArea5.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea5.BackColor = System.Drawing.Color.Transparent;
+            chartArea5.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea5);
             this.ChartI.Location = new System.Drawing.Point(276, 21);
             this.ChartI.Name = "ChartI";
-            series1.BorderWidth = 3;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Color = System.Drawing.Color.Orange;
-            series1.Name = "Current";
-            series1.Points.Add(dataPoint1);
-            series2.BorderWidth = 2;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series2.MarkerColor = System.Drawing.Color.White;
-            series2.Name = "Max.  current";
-            dataPoint2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series2.Points.Add(dataPoint2);
-            series3.BorderWidth = 2;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Color = System.Drawing.Color.RoyalBlue;
-            series3.Name = "Min. current";
-            series3.Points.Add(dataPoint3);
-            series3.YValuesPerPoint = 3;
-            this.ChartI.Series.Add(series1);
-            this.ChartI.Series.Add(series2);
-            this.ChartI.Series.Add(series3);
+            series9.BorderWidth = 3;
+            series9.ChartArea = "ChartArea1";
+            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series9.Color = System.Drawing.Color.Orange;
+            series9.Name = "Current";
+            series9.Points.Add(dataPoint9);
+            series10.BorderWidth = 2;
+            series10.ChartArea = "ChartArea1";
+            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            series10.MarkerColor = System.Drawing.Color.White;
+            series10.Name = "Max.  current";
+            dataPoint10.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            series10.Points.Add(dataPoint10);
+            series11.BorderWidth = 2;
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series11.Color = System.Drawing.Color.RoyalBlue;
+            series11.Name = "Min. current";
+            series11.Points.Add(dataPoint11);
+            series11.YValuesPerPoint = 3;
+            this.ChartI.Series.Add(series9);
+            this.ChartI.Series.Add(series10);
+            this.ChartI.Series.Add(series11);
             this.ChartI.Size = new System.Drawing.Size(537, 231);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
@@ -282,7 +282,7 @@
             this.tbVarIPos.Name = "tbVarIPos";
             this.tbVarIPos.Size = new System.Drawing.Size(34, 20);
             this.tbVarIPos.TabIndex = 51;
-            this.tbVarIPos.Text = "30.5";
+            this.tbVarIPos.Text = "0";
             // 
             // tbAmpIPos
             // 
@@ -290,7 +290,7 @@
             this.tbAmpIPos.Name = "tbAmpIPos";
             this.tbAmpIPos.Size = new System.Drawing.Size(34, 20);
             this.tbAmpIPos.TabIndex = 49;
-            this.tbAmpIPos.Text = "22";
+            this.tbAmpIPos.Text = "0";
             // 
             // tbAngIPos
             // 
@@ -298,7 +298,7 @@
             this.tbAngIPos.Name = "tbAngIPos";
             this.tbAngIPos.Size = new System.Drawing.Size(34, 20);
             this.tbAngIPos.TabIndex = 50;
-            this.tbAngIPos.Text = "62";
+            this.tbAngIPos.Text = "0";
             // 
             // label10
             // 
@@ -352,7 +352,7 @@
             this.tbLimitI.Name = "tbLimitI";
             this.tbLimitI.Size = new System.Drawing.Size(34, 20);
             this.tbLimitI.TabIndex = 52;
-            this.tbLimitI.Text = "16";
+            this.tbLimitI.Text = "0";
             // 
             // panel4
             // 
@@ -375,7 +375,7 @@
             this.tbVarINeg.Name = "tbVarINeg";
             this.tbVarINeg.Size = new System.Drawing.Size(34, 20);
             this.tbVarINeg.TabIndex = 51;
-            this.tbVarINeg.Text = "18";
+            this.tbVarINeg.Text = "0";
             // 
             // tbAmpINeg
             // 
@@ -383,7 +383,7 @@
             this.tbAmpINeg.Name = "tbAmpINeg";
             this.tbAmpINeg.Size = new System.Drawing.Size(34, 20);
             this.tbAmpINeg.TabIndex = 49;
-            this.tbAmpINeg.Text = "18.1";
+            this.tbAmpINeg.Text = "0";
             // 
             // tbAngINeg
             // 
@@ -391,7 +391,7 @@
             this.tbAngINeg.Name = "tbAngINeg";
             this.tbAngINeg.Size = new System.Drawing.Size(34, 20);
             this.tbAngINeg.TabIndex = 50;
-            this.tbAngINeg.Text = "-68.1";
+            this.tbAngINeg.Text = "0";
             // 
             // label2
             // 
@@ -444,7 +444,7 @@
             this.tbHoverI.Name = "tbHoverI";
             this.tbHoverI.Size = new System.Drawing.Size(34, 20);
             this.tbHoverI.TabIndex = 56;
-            this.tbHoverI.Text = "18.09";
+            this.tbHoverI.Text = "0";
             // 
             // label1
             // 
@@ -506,7 +506,7 @@
             this.tbLowerAmp.Name = "tbLowerAmp";
             this.tbLowerAmp.Size = new System.Drawing.Size(34, 20);
             this.tbLowerAmp.TabIndex = 49;
-            this.tbLowerAmp.Text = "5";
+            this.tbLowerAmp.Text = "0";
             // 
             // label18
             // 
@@ -523,7 +523,7 @@
             this.tbGradientV.Name = "tbGradientV";
             this.tbGradientV.Size = new System.Drawing.Size(34, 20);
             this.tbGradientV.TabIndex = 50;
-            this.tbGradientV.Text = "2.1";
+            this.tbGradientV.Text = "0";
             // 
             // label16
             // 
@@ -539,36 +539,36 @@
             this.ChartV.BackColor = System.Drawing.Color.Transparent;
             this.ChartV.BorderlineColor = System.Drawing.Color.Black;
             this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.AxisX.Interval = 22.5D;
-            chartArea2.AxisX.IsLabelAutoFit = false;
-            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea2.AxisX.Maximum = 90D;
-            chartArea2.AxisX.Minimum = -90D;
-            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea2.AxisX.Title = "Angle [Degree]";
-            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea2.AxisY.Title = "Velocity [m/s]";
-            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.ChartV.ChartAreas.Add(chartArea2);
+            chartArea6.AxisX.Interval = 22.5D;
+            chartArea6.AxisX.IsLabelAutoFit = false;
+            chartArea6.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea6.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea6.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea6.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea6.AxisX.Maximum = 90D;
+            chartArea6.AxisX.Minimum = -90D;
+            chartArea6.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea6.AxisX.Title = "Angle [Degree]";
+            chartArea6.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea6.AxisY.IsLabelAutoFit = false;
+            chartArea6.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea6.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea6.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea6.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea6.AxisY.Title = "Velocity [m/s]";
+            chartArea6.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea6.BackColor = System.Drawing.Color.Transparent;
+            chartArea6.Name = "ChartArea1";
+            this.ChartV.ChartAreas.Add(chartArea6);
             this.ChartV.Location = new System.Drawing.Point(276, 20);
             this.ChartV.Name = "ChartV";
-            series4.BorderWidth = 2;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Color = System.Drawing.Color.Orange;
-            series4.Name = "Series1";
-            series4.Points.Add(dataPoint4);
-            this.ChartV.Series.Add(series4);
+            series12.BorderWidth = 2;
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series12.Color = System.Drawing.Color.Orange;
+            series12.Name = "Series1";
+            series12.Points.Add(dataPoint12);
+            this.ChartV.Series.Add(series12);
             this.ChartV.Size = new System.Drawing.Size(537, 231);
             this.ChartV.TabIndex = 58;
             this.ChartV.Text = "chart3";
@@ -613,7 +613,7 @@
             this.tbVarV.Name = "tbVarV";
             this.tbVarV.Size = new System.Drawing.Size(34, 20);
             this.tbVarV.TabIndex = 51;
-            this.tbVarV.Text = "10";
+            this.tbVarV.Text = "0";
             // 
             // tbAmpV
             // 
@@ -621,7 +621,7 @@
             this.tbAmpV.Name = "tbAmpV";
             this.tbAmpV.Size = new System.Drawing.Size(34, 20);
             this.tbAmpV.TabIndex = 49;
-            this.tbAmpV.Text = "8";
+            this.tbAmpV.Text = "0";
             // 
             // tbAngV
             // 
@@ -629,7 +629,7 @@
             this.tbAngV.Name = "tbAngV";
             this.tbAngV.Size = new System.Drawing.Size(34, 20);
             this.tbAngV.TabIndex = 50;
-            this.tbAngV.Text = "5";
+            this.tbAngV.Text = "0";
             // 
             // label20
             // 
@@ -699,9 +699,9 @@
             this.label24.AutoSize = true;
             this.label24.Location = new System.Drawing.Point(169, 26);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(59, 13);
+            this.label24.Size = new System.Drawing.Size(55, 13);
             this.label24.TabIndex = 61;
-            this.label24.Text = "Vehicle ID:";
+            this.label24.Text = "Copter ID:";
             // 
             // panelIDHover
             // 
@@ -729,7 +729,7 @@
             // 
             // btnLoadCopterSettings
             // 
-            this.btnLoadCopterSettings.Location = new System.Drawing.Point(746, 82);
+            this.btnLoadCopterSettings.Location = new System.Drawing.Point(743, 82);
             this.btnLoadCopterSettings.Name = "btnLoadCopterSettings";
             this.btnLoadCopterSettings.Size = new System.Drawing.Size(84, 26);
             this.btnLoadCopterSettings.TabIndex = 64;

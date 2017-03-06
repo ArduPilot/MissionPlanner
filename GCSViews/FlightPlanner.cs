@@ -2932,6 +2932,7 @@ namespace MissionPlanner.GCSViews
         private void writeEnergyConsumption(List<Locationwp> cmds)
         {
             if(!EnergyProfile.Enabled || !MainV2.comPort.BaseStream.IsOpen) { return; }
+            if (!EnergyProfile.Initialized) { EnergyProfile.Initialize(); }
 
             LBL_AvgEC.Text = "0"; //Set total energy consumption to 0
             LBL_MaxEC.Text = "0";
@@ -2979,7 +2980,7 @@ namespace MissionPlanner.GCSViews
                 SumEC += EnergyVal;
 
                 //Display the total energy consumption
-                LBL_AvgEC.Text = SumEC.ToString("0.0") + " mAh";  
+                LBL_AvgEC.Text = SumEC.ToString("0.0") + " mAh";
                 LBL_MaxEC.Text = SumECMax.ToString("0.0") + " mAh";
                 LBL_MinEC.Text = SumECMin.ToString("0.0") + " mAh";
             }
@@ -5137,9 +5138,19 @@ namespace MissionPlanner.GCSViews
                 TXT_DefaultAlt.Text = (50*CurrentState.multiplierdist).ToString("0");
             }
 
-            //Enable energyprofile
-            Commands.Columns[EC.Index].Visible = Convert.ToBoolean(EnergyProfile.Enabled);
-            Panel_EnergyConsumption.Visible = Convert.ToBoolean(EnergyProfile.Enabled);
+            //Enable energyprofile only if stream is opened
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                Commands.Columns[EC.Index].Visible = Convert.ToBoolean(EnergyProfile.Enabled);
+                Panel_EnergyConsumption.Visible = Convert.ToBoolean(EnergyProfile.Enabled);
+            }
+            else
+            {
+                Commands.Columns[EC.Index].Visible = false;
+                Panel_EnergyConsumption.Visible = false;
+                EnergyProfile.Enabled = false;
+                EnergyProfile.Initialized = false;  //force reinitialization
+            }
         }
 
         public void updateHome()
