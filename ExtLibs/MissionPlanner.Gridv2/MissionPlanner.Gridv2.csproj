@@ -167,6 +167,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GridUIv2.pt-BR.resx">
+      <DependentUpon>GridUIv2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GridUIv2.resx">
       <DependentUpon>GridUIv2.cs</DependentUpon>
     </EmbeddedResource>
