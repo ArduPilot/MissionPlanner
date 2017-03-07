@@ -95,10 +95,10 @@ namespace MissionPlanner
         private float _groundcourse = 0;
 
         // position
-        [DisplayText("Latitude (dd)")]
+        [DisplayText("Latitude")]
         public double lat { get; set; }
 
-        [DisplayText("Longitude (dd)")]
+        [DisplayText("Longitude")]
         public double lng { get; set; }
 
         [DisplayText("Altitude (dist)")]
@@ -157,16 +157,22 @@ namespace MissionPlanner
         [DisplayText("Altitude2 (dist)")]
         public float altasl2 { get; set; }
 
+        [DisplayText("Gps Status2")]
         public float gpsstatus2 { get; set; }
 
+        [DisplayText("Gps HDOP2")]
         public float gpshdop2 { get; set; }
 
+        [DisplayText("Sat Count2")]
         public float satcount2 { get; set; }
 
         public float groundspeed2 { get; set; }
 
         [DisplayText("GroundCourse2 (deg)")]
         public float groundcourse2 { get; set; }
+
+        [DisplayText("Sat Count Blend")]
+        public float satcountB { get { return satcount + satcount2; } }
 
         public float altd1000
         {
@@ -240,16 +246,52 @@ namespace MissionPlanner
             get { return (float) Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); }
         }
 
+        [DisplayText("Mag Field2")]
+        public float magfield2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2)); }
+        }
+
+        [DisplayText("Mag Field3")]
+        public float magfield3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2)); }
+        }
+
         [DisplayText("Accel Strength")]
         public float accelsq
         {
             get { return (float) Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2))/1000.0f /*980.665f*/; }
         }
 
+        [DisplayText("Accel Strength2")]
+        public float accelsq2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f /*980.665f*/; }
+        }
+
+        [DisplayText("Accel Strength3")]
+        public float accelsq3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f /*980.665f*/; }
+        }
+
         [DisplayText("Gyro Strength")]
         public float gyrosq
         {
             get { return (float) Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); }
+        }
+
+        [DisplayText("Gyro Strength2")]
+        public float gyrosq2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2)); }
+        }
+
+        [DisplayText("Gyro Strength3")]
+        public float gyrosq3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2)); }
         }
 
         // accel2
