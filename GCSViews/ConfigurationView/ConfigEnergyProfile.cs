@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (KeyNotFoundException e)    //No values were saved in energyprofile
             {
-                MessageBox.Show("Error while parsing key from Energyprofile" + e.Message);
+                CustomMessageBox.Show("Error while parsing key from Energyprofile" + e.Message);
             }
         }
 
@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    MessageBox.Show("Parameter BRD_SERIAL_NUM not available!");
+                    CustomMessageBox.Show("Parameter BRD_SERIAL_NUM not available!");
                     return;
                 }
             }
@@ -143,7 +143,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                         catch (System.Xml.XmlException)
                         {
-                        MessageBox.Show("Error reading XmlFile");
+                        CustomMessageBox.Show("Error reading XmlFile");
                         }
                     }
                 }
@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (!EnergyProfile.Enabled) //only the form was recreated and the settings reloaded
                 {
                     EnergyProfile.Enabled = true;
-                    if (DialogResult.Yes == MessageBox.Show("Try to load coptersettings automatically?", "Load settings", MessageBoxButtons.YesNo))
+                    if (DialogResult.Yes == CustomMessageBox.Show("Try to load coptersettings automatically?", "Load settings", MessageBoxButtons.YesNo))
                     {
                         LoadCopterFileSettings(true);
                     }
@@ -197,7 +197,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 if(!bValidSerialNumber)
                 {
-                    MessageBox.Show("Error in copterID!");
+                    CustomMessageBox.Show("Error in copterID!");
                 }
             }
 
@@ -259,7 +259,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 xw.Close();
             }
 
-            MessageBox.Show("Saved settings to " + sFile);
+            CustomMessageBox.Show("Saved settings to " + sFile);
         }
 
         //ensure textboxes contain values
@@ -274,7 +274,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 !double.TryParse(tbVarV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dVarianceV) ||
                 !double.TryParse(tbGradientV.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dGradientV))
             {
-                MessageBox.Show("Velocity: Invalid format or textbox empty!");
+                CustomMessageBox.Show("Velocity: Invalid format or textbox empty!");
                 return false;
             }
 
@@ -306,7 +306,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 !double.TryParse(tbDeviationMin.Text, NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out dDevMin)
                 )
             {
-                MessageBox.Show("Current: Invalid format or textbox empty!");
+                CustomMessageBox.Show("Current: Invalid format or textbox empty!");
                 return false;
             }
 
@@ -328,12 +328,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Save settings to energyprofile class
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
-            ParseCurrentValues();
-            ParseVelocityValues();
+            if (!ParseCurrentValues() || !ParseVelocityValues())
+            {
+                CustomMessageBox.Show("Error while parsing values. Please check your inputvalues and save again.");
+            }
 
             int iCopterID = 0;
             if (!int.TryParse(tbCopterID.Text, NumberStyles.Integer, CultureInfo.GetCultureInfo("en-US"), out iCopterID))
-            { MessageBox.Show("CopterID: Invalid format"); }
+            { CustomMessageBox.Show("CopterID: Invalid format. Please check CopterID and save again."); }
             else { EnergyProfile.CopterID = iCopterID; }
         }
 

@@ -131,6 +131,6 @@ reached. Variance describes the width of the amplitude.</value>
   <data name="label25.Text" xml:space="preserve">
     <value>Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
 is reached. Variance describes the width of amplitude. The lower limit of current sets the lowest possible flowing current. Max. and min define the
-possible deviation of the current, as the current of a vehicle can vary due to different air conditions.</value>
+possible deviation of the current, as the current of a copter can vary due to different air conditions.</value>
   </data>
 </root>
