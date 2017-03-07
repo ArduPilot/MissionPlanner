@@ -19,6 +19,8 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
+using System.Device;
+using System.Device.Location;
 
 namespace MissionPlanner
 {
@@ -90,6 +92,15 @@ namespace MissionPlanner
             {
                 CMB_baudrate.Text = Settings.Instance["SerialInjectGPS_baud"];
             }
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_SIAcc"))
+            {
+                txt_surveyinAcc.Text = Settings.Instance["SerialInjectGPS_SIAcc"];
+            }
+            if (Settings.Instance.ContainsKey("SerialInjectGPS_SITime"))
+            {
+                txt_surveyinDur.Text = Settings.Instance["SerialInjectGPS_SITime"];
+            }
+
 
             // restore current static state
             chk_rtcmmsg.Checked = rtcm_msg;
@@ -661,6 +672,19 @@ namespace MissionPlanner
         public void Activate()
         {
             timer1.Start();
+
+            try
+            {
+                GeoCoordinateWatcher watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
+                watcher.PositionChanged += Watcher_PositionChanged;
+                watcher.Start();
+            }
+            catch { }
+        }
+
+        private void Watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
+        {
+            Console.WriteLine(e.Position.Location.ToString());
         }
 
         public void Deactivate()
@@ -811,6 +835,16 @@ namespace MissionPlanner
         private void chk_m8p_130p_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["SerialInjectGPS_m8p_130p"] = chk_m8p_130p.Checked.ToString();
+        }
+
+        private void txt_surveyinAcc_TextChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["SerialInjectGPS_SIAcc"] = txt_surveyinAcc.ToString();
+        }
+
+        private void txt_surveyinDur_TextChanged(object sender, EventArgs e)
+        {
+            Settings.Instance["SerialInjectGPS_SITime"] = txt_surveyinDur.ToString();
         }
     }
 }

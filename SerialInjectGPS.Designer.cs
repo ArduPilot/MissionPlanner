@@ -43,6 +43,7 @@
             this.txt_surveyinDur = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
+            this.but_base_pos = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
             this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,7 +52,6 @@
             this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
             this.but_save_basepos = new MissionPlanner.Controls.MyButton();
-            this.but_base_pos = new MissionPlanner.Controls.MyButton();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
@@ -146,6 +146,7 @@
             // 
             resources.ApplyResources(this.txt_surveyinDur, "txt_surveyinDur");
             this.txt_surveyinDur.Name = "txt_surveyinDur";
+            this.txt_surveyinDur.TextChanged += new System.EventHandler(this.txt_surveyinDur_TextChanged);
             // 
             // label1
             // 
@@ -156,6 +157,14 @@
             // 
             resources.ApplyResources(this.txt_surveyinAcc, "txt_surveyinAcc");
             this.txt_surveyinAcc.Name = "txt_surveyinAcc";
+            this.txt_surveyinAcc.TextChanged += new System.EventHandler(this.txt_surveyinAcc_TextChanged);
+            // 
+            // but_base_pos
+            // 
+            resources.ApplyResources(this.but_base_pos, "but_base_pos");
+            this.but_base_pos.Name = "but_base_pos";
+            this.but_base_pos.UseVisualStyleBackColor = true;
+            this.but_base_pos.Click += new System.EventHandler(this.but_base_pos_Click);
             // 
             // panel1
             // 
@@ -209,13 +218,6 @@
             this.but_save_basepos.Name = "but_save_basepos";
             this.but_save_basepos.UseVisualStyleBackColor = true;
             this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
-            // 
-            // but_base_pos
-            // 
-            resources.ApplyResources(this.but_base_pos, "but_base_pos");
-            this.but_base_pos.Name = "but_base_pos";
-            this.but_base_pos.UseVisualStyleBackColor = true;
-            this.but_base_pos.Click += new System.EventHandler(this.but_base_pos_Click);
             // 
             // BUT_connect
             // 
