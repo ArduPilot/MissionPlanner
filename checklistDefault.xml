@@ -75,7 +75,7 @@
   <CheckListItem>
     <TrueColor>White</TrueColor>
     <FalseColor>White</FalseColor>
-    <Description>All seros respond to pitch and roll?</Description>
+    <Description>All servos respond to pitch and roll?</Description>
     <Text />
     <TriggerValue>0</TriggerValue>
     <Name>roll</Name>
