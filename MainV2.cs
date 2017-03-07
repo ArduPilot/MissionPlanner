@@ -3527,10 +3527,14 @@ namespace MissionPlanner
                         }
                     }
 
+                    // Make program crash when plugin is loaded
+
+                    /*
                     foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins)
                     {
                         item.Host.ProcessDeviceChanged((WM_DEVICECHANGE_enum) m.WParam);
                     }
+                    */
 
                     break;
                 case 0x86: // WM_NCACTIVATE
@@ -3622,6 +3626,40 @@ namespace MissionPlanner
         private void connectionOptionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ConnectionOptions().Show(this);
+        }
+        
+
+        private void MenuServer_Click(object sender, EventArgs e)
+        {
+            Boolean pluginLoaded = false;
+            foreach (Plugin.Plugin obj in Plugin.PluginLoader.Plugins)
+            {
+                if (obj is Plugin.TcpStream)
+                {
+                    pluginLoaded = true;
+                }
+            }
+            if (!pluginLoaded)
+            {
+                Plugin.PluginLoader.Plugins.Add(new Plugin.TcpStream());
+            }
+
+            FormCollection fc = Application.OpenForms;
+            Boolean formExist = false;
+
+            foreach (Form frm in fc)
+            {
+                if (frm is ServerView)
+                {
+                    formExist = true;
+                }
+            }
+
+            if (!formExist)
+            {
+                ServerView form = new ServerView();
+                form.Show();
+            }
         }
     }
 }

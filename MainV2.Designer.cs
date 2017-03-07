@@ -52,6 +52,7 @@ namespace MissionPlanner
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.MenuServer = new System.Windows.Forms.ToolStripButton();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -72,9 +73,10 @@ namespace MissionPlanner
             this.MenuSimulation,
             this.MenuTerminal,
             this.MenuHelp,
-            this.MenuDonate,
             this.MenuConnect,
-            this.toolStripConnectionControl});
+            this.toolStripConnectionControl,
+            this.MenuDonate,
+            this.MenuServer});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.Stretch = false;
@@ -226,6 +228,15 @@ namespace MissionPlanner
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
+            // MenuServer
+            // 
+            resources.ApplyResources(this.MenuServer, "MenuServer");
+            this.MenuServer.ForeColor = System.Drawing.Color.White;
+            this.MenuServer.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuServer.Name = "MenuServer";
+            this.MenuServer.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.MenuServer.Click += new System.EventHandler(this.MenuServer_Click);
+            // 
             // MainV2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -267,5 +278,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
+        public System.Windows.Forms.ToolStripButton MenuServer;
     }
 }

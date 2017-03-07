@@ -591,27 +591,6 @@
   <data name="MenuHelp.ToolTipText" xml:space="preserve">
     <value>Help</value>
   </data>
-  <data name="MenuDonate.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 6pt</value>
-  </data>
-  <data name="MenuDonate.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="MenuDonate.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 60</value>
-  </data>
-  <data name="MenuDonate.Text" xml:space="preserve">
-    <value>DONATE</value>
-  </data>
-  <data name="MenuDonate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>BottomCenter</value>
-  </data>
-  <data name="MenuDonate.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
-    <value>ImageAboveText</value>
-  </data>
-  <data name="MenuDonate.ToolTipText" xml:space="preserve">
-    <value>Donate</value>
-  </data>
   <data name="MenuConnect.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 6pt</value>
   </data>
@@ -671,6 +650,97 @@
   <data name="toolStripConnectionControl.Size" type="System.Drawing.Size, System.Drawing">
     <value>230, 60</value>
   </data>
+  <data name="MenuDonate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 6pt</value>
+  </data>
+  <data name="MenuDonate.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuDonate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 60</value>
+  </data>
+  <data name="MenuDonate.Text" xml:space="preserve">
+    <value>DONATE</value>
+  </data>
+  <data name="MenuDonate.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="MenuDonate.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="MenuDonate.ToolTipText" xml:space="preserve">
+    <value>Donate</value>
+  </data>
+  <data name="MenuServer.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 6pt</value>
+  </data>
+  <data name="MenuServer.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        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
+        YII=
+</value>
+  </data>
+  <data name="MenuServer.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuServer.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>White</value>
+  </data>
+  <data name="MenuServer.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 60</value>
+  </data>
+  <data name="MenuServer.Text" xml:space="preserve">
+    <value>SERVER</value>
+  </data>
+  <data name="MenuServer.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="MenuServer.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>ImageAboveText</value>
+  </data>
+  <data name="MenuServer.ToolTipText" xml:space="preserve">
+    <value>Server</value>
+  </data>
   <data name="MainMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -721,7 +791,7 @@
     <value>menu</value>
   </data>
   <data name="&gt;&gt;menu.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6271.32286, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6274.20782, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;menu.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2509,7 +2579,13 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.1.6271.32592, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.1.6274.20822, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;MenuServer.Name" xml:space="preserve">
+    <value>MenuServer</value>
+  </data>
+  <data name="&gt;&gt;MenuServer.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>MainV2</value>
