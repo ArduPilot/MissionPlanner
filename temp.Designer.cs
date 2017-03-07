@@ -46,7 +46,7 @@
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
-            this.button3 = new System.Windows.Forms.Button();
+            this.button3 = new MissionPlanner.Controls.MyButton();
             this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
             this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
             this.but_maplogs = new MissionPlanner.Controls.MyButton();
@@ -967,7 +967,7 @@
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
         private Controls.MyButton but_mavserialport;
-        System.Windows.Forms.Button button3;
+        MissionPlanner.Controls.MyButton button3;
         private Controls.MyButton BUT_shptopoly;
         private Controls.MyButton but_gimbaltest;
         private Controls.MyButton but_maplogs;
