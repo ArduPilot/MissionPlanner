@@ -85,12 +85,12 @@ namespace AltitudeAngelWings.Service
             _disposer.Add(_missionPlanner.FlightDataMap
                 .MapChanged
                 .Throttle(TimeSpan.FromSeconds(1))
-                .Subscribe(i => UpdateMapData(_missionPlanner.FlightDataMap)));
+                .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
 
             _disposer.Add(_missionPlanner.FlightPlanningMap
               .MapChanged
               .Throttle(TimeSpan.FromSeconds(1))
-              .Subscribe(i => UpdateMapData(_missionPlanner.FlightPlanningMap)));
+              .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightPlanningMap)));
 
             try
             {

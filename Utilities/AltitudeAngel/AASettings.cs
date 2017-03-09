@@ -46,7 +46,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
                 Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
             }
-            catch (TypeInitializationException ex)
+            catch (TypeInitializationException)
             {
                 CustomMessageBox.Show("Please update your dotnet version, you cannot use the feature without this.", Strings.ERROR);
             }
@@ -73,7 +73,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             AltitudeAngel.service.ProcessAllFromCache(AltitudeAngel.MP.FlightDataMap);
         }
 
-        private async void chklb_layers_SelectedIndexChanged(object sender, EventArgs e)
+        private void chklb_layers_SelectedIndexChanged(object sender, EventArgs e)
         {
             AltitudeAngel.service.FilteredOut.Clear();
 

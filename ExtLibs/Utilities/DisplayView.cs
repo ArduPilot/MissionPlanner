@@ -75,7 +75,7 @@ namespace MissionPlanner.Utilities
                     result = (DisplayView)serializer.Deserialize(reader);
                     return true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     return false;
                 }

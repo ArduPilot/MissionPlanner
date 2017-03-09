@@ -2812,6 +2812,9 @@
     <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
       <DependentUpon>AASettings.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\10FlightModes.ar.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
@@ -2835,6 +2838,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.zh-TW.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\11Verify.ar.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\11Verify.id-ID.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
@@ -2860,6 +2866,9 @@
     <EmbeddedResource Include="Wizard\11Verify.zh-TW.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\12FailSafe.ar.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.id-ID.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
@@ -2883,6 +2892,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.zh-TW.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\13GeoFence.ar.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\13GeoFence.id-ID.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
