@@ -240,13 +240,13 @@ RTCM Base</value>
     <value>140, 42</value>
   </data>
   <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
-    <value>102, 17</value>
+    <value>106, 17</value>
   </data>
   <data name="chk_rtcmmsg.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
   <data name="chk_rtcmmsg.Text" xml:space="preserve">
-    <value>new RTCM msg</value>
+    <value>Inject MSG Type</value>
   </data>
   <data name="&gt;&gt;chk_rtcmmsg.Name" xml:space="preserve">
     <value>chk_rtcmmsg</value>
@@ -477,7 +477,7 @@ RTCM Base</value>
     <value>but_base_pos</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6274.22601, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -533,41 +533,8 @@ RTCM Base</value>
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="Lat.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Long.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Alt.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="Use.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <data name="dg_basepos.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
-  </data>
-  <data name="dg_basepos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 170</value>
-  </data>
-  <data name="dg_basepos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>676, 100</value>
-  </data>
-  <data name="dg_basepos.TabIndex" type="System.Int32, mscorlib">
-    <value>13</value>
-  </data>
-  <data name="&gt;&gt;dg_basepos.Name" xml:space="preserve">
-    <value>dg_basepos</value>
-  </data>
-  <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6274.12155, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;dg_basepos.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <metadata name="Lat.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -602,6 +569,27 @@ RTCM Base</value>
   <data name="Use.Width" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
+  <data name="dg_basepos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 170</value>
+  </data>
+  <data name="dg_basepos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>676, 100</value>
+  </data>
+  <data name="dg_basepos.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;dg_basepos.Name" xml:space="preserve">
+    <value>dg_basepos</value>
+  </data>
+  <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;dg_basepos.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="but_save_basepos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -621,7 +609,7 @@ RTCM Base</value>
     <value>but_save_basepos</value>
   </data>
   <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6274.22601, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
     <value>$this</value>
@@ -648,7 +636,7 @@ RTCM Base</value>
     <value>BUT_connect</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6274.22601, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
     <value>$this</value>

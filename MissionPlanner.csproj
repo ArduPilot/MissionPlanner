@@ -585,12 +585,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.Designer.cs">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.Designer.cs">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigArducopter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1307,36 +1301,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.ar.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.de-DE.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.fr.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.id-ID.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.ja-JP.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.ko-KR.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.pt-BR.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.ar.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
