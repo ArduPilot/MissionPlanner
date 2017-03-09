@@ -174,6 +174,8 @@ namespace MissionPlanner
         [DisplayText("Sat Count Blend")]
         public float satcountB { get { return satcount + satcount2; } }
 
+        public DateTime gpstime { get; set; }
+
         public float altd1000
         {
             get { return (alt/1000)%10; }
@@ -220,6 +222,12 @@ namespace MissionPlanner
         [DisplayText("Accel Z")]
         public float az { get; set; }
 
+        [DisplayText("Accel Strength")]
+        public float accelsq
+        {
+            get { return (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f /*980.665f*/; }
+        }
+
         // gyro
         [DisplayText("Gyro X")]
         public float gx { get; set; }
@@ -229,6 +237,12 @@ namespace MissionPlanner
 
         [DisplayText("Gyro Z")]
         public float gz { get; set; }
+
+        [DisplayText("Gyro Strength")]
+        public float gyrosq
+        {
+            get { return (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); }
+        }
 
         // mag
         [DisplayText("Mag X")]
@@ -246,54 +260,6 @@ namespace MissionPlanner
             get { return (float) Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); }
         }
 
-        [DisplayText("Mag Field2")]
-        public float magfield2
-        {
-            get { return (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2)); }
-        }
-
-        [DisplayText("Mag Field3")]
-        public float magfield3
-        {
-            get { return (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2)); }
-        }
-
-        [DisplayText("Accel Strength")]
-        public float accelsq
-        {
-            get { return (float) Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2))/1000.0f /*980.665f*/; }
-        }
-
-        [DisplayText("Accel Strength2")]
-        public float accelsq2
-        {
-            get { return (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f /*980.665f*/; }
-        }
-
-        [DisplayText("Accel Strength3")]
-        public float accelsq3
-        {
-            get { return (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f /*980.665f*/; }
-        }
-
-        [DisplayText("Gyro Strength")]
-        public float gyrosq
-        {
-            get { return (float) Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); }
-        }
-
-        [DisplayText("Gyro Strength2")]
-        public float gyrosq2
-        {
-            get { return (float)Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2)); }
-        }
-
-        [DisplayText("Gyro Strength3")]
-        public float gyrosq3
-        {
-            get { return (float)Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2)); }
-        }
-
         // accel2
         [DisplayText("Accel2 X")]
         public float ax2 { get; set; }
@@ -303,6 +269,12 @@ namespace MissionPlanner
 
         [DisplayText("Accel2 Z")]
         public float az2 { get; set; }
+
+        [DisplayText("Accel Strength2")]
+        public float accelsq2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(ax2, 2) + Math.Pow(ay2, 2) + Math.Pow(az2, 2)) / 1000.0f /*980.665f*/; }
+        }
 
         // gyro2
         [DisplayText("Gyro2 X")]
@@ -314,6 +286,12 @@ namespace MissionPlanner
         [DisplayText("Gyro2 Z")]
         public float gz2 { get; set; }
 
+        [DisplayText("Gyro Strength2")]
+        public float gyrosq2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(gx2, 2) + Math.Pow(gy2, 2) + Math.Pow(gz2, 2)); }
+        }
+
         // mag2
         [DisplayText("Mag2 X")]
         public float mx2 { get; set; }
@@ -323,6 +301,12 @@ namespace MissionPlanner
 
         [DisplayText("Mag2 Z")]
         public float mz2 { get; set; }
+
+        [DisplayText("Mag Field2")]
+        public float magfield2
+        {
+            get { return (float)Math.Sqrt(Math.Pow(mx2, 2) + Math.Pow(my2, 2) + Math.Pow(mz2, 2)); }
+        }
 
         // accel3
         [DisplayText("Accel3 X")]
@@ -334,6 +318,12 @@ namespace MissionPlanner
         [DisplayText("Accel3 Z")]
         public float az3 { get; set; }
 
+        [DisplayText("Accel Strength3")]
+        public float accelsq3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(ax3, 2) + Math.Pow(ay3, 2) + Math.Pow(az3, 2)) / 1000.0f /*980.665f*/; }
+        }
+
         // gyro3
         [DisplayText("Gyro3 X")]
         public float gx3 { get; set; }
@@ -343,6 +333,12 @@ namespace MissionPlanner
 
         [DisplayText("Gyro3 Z")]
         public float gz3 { get; set; }
+
+        [DisplayText("Gyro Strength3")]
+        public float gyrosq3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(gx3, 2) + Math.Pow(gy3, 2) + Math.Pow(gz3, 2)); }
+        }
 
         // mag3
         [DisplayText("Mag3 X")]
@@ -354,11 +350,11 @@ namespace MissionPlanner
         [DisplayText("Mag3 Z")]
         public float mz3 { get; set; }
 
-        [DisplayText("Failsafe")]
-        public bool failsafe { get; set; }
-
-        [DisplayText("RX Rssi")]
-        public int rxrssi { get; set; }
+        [DisplayText("Mag Field3")]
+        public float magfield3
+        {
+            get { return (float)Math.Sqrt(Math.Pow(mx3, 2) + Math.Pow(my3, 2) + Math.Pow(mz3, 2)); }
+        }
 
         //radio
         public float ch1in { get; set; }
@@ -431,6 +427,12 @@ namespace MissionPlanner
             set { _ch3percent = value; }
         }
 
+        [DisplayText("Failsafe")]
+        public bool failsafe { get; set; }
+
+        [DisplayText("RX Rssi")]
+        public int rxrssi { get; set; }
+
         float _ch3percent = -1;
 
         public bool lowgroundspeed { get; set; }
@@ -449,21 +451,6 @@ namespace MissionPlanner
             set { _verticalspeed = _verticalspeed*0.4f + value*0.6f; }
         }
 
-        [DisplayText("Wind Direction (Deg)")]
-        public float wind_dir { get; set; }
-
-        [DisplayText("Wind Velocity (speed)")]
-        public float wind_vel { get; set; }
-
-        /// <summary>
-        /// used in wind calc
-        /// </summary>
-        double Wn_fgo;
-
-        /// <summary>
-        /// used for wind calc
-        /// </summary>
-        double We_fgo;
 
         //nav state
         [DisplayText("Roll Target (deg)")]
@@ -592,6 +579,22 @@ namespace MissionPlanner
         float _targetalt;
         float _targetairspeed;
         float _climbrate;
+
+        [DisplayText("Wind Direction (Deg)")]
+        public float wind_dir { get; set; }
+
+        [DisplayText("Wind Velocity (speed)")]
+        public float wind_vel { get; set; }
+
+        /// <summary>
+        /// used in wind calc
+        /// </summary>
+        double Wn_fgo;
+
+        /// <summary>
+        /// used for wind calc
+        /// </summary>
+        double We_fgo;
 
         public float targetaltd100
         {
@@ -824,7 +827,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("Distance to Home (dist)")]
+        [DisplayText("Dist to Home (dist)")]
         public float DistToHome
         {
             get
@@ -844,7 +847,7 @@ namespace MissionPlanner
             }
         }
 
-        [DisplayText("Distance From Moving Base (dist)")]
+        [DisplayText("Dist to Moving Base (dist)")]
         public float DistFromMovingBase
         {
             get
@@ -908,25 +911,6 @@ namespace MissionPlanner
                 return (float) bearing;
             }
         }
-
-
-        // pressure
-        public float press_abs { get; set; }
-        public int press_temp { get; set; }
-
-        // sensor offsets
-        public int mag_ofs_x { get; set; }
-        public int mag_ofs_y { get; set; }
-        public int mag_ofs_z { get; set; }
-        public float mag_declination { get; set; }
-        public int raw_press { get; set; }
-        public int raw_temp { get; set; }
-        public float gyro_cal_x { get; set; }
-        public float gyro_cal_y { get; set; }
-        public float gyro_cal_z { get; set; }
-        public float accel_cal_x { get; set; }
-        public float accel_cal_y { get; set; }
-        public float accel_cal_z { get; set; }
 
         [DisplayText("Sonar Range (meters)")]
         public float sonarrange
@@ -1052,6 +1036,24 @@ namespace MissionPlanner
 
         public double timesincelastshot { get; set; }
 
+        // pressure
+        public float press_abs { get; set; }
+        public int press_temp { get; set; }
+
+        // sensor offsets
+        public int mag_ofs_x { get; set; }
+        public int mag_ofs_y { get; set; }
+        public int mag_ofs_z { get; set; }
+        public float mag_declination { get; set; }
+        public int raw_press { get; set; }
+        public int raw_temp { get; set; }
+        public float gyro_cal_x { get; set; }
+        public float gyro_cal_y { get; set; }
+        public float gyro_cal_z { get; set; }
+        public float accel_cal_x { get; set; }
+        public float accel_cal_y { get; set; }
+        public float accel_cal_z { get; set; }
+
         // requested stream rates
         public byte rateattitude { get; set; }
         public byte rateposition { get; set; }
@@ -1067,32 +1069,163 @@ namespace MissionPlanner
 
         // reference
         public DateTime datetime { get; set; }
-        public DateTime gpstime { get; set; }
+
+        public bool connected
+        {
+            get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); }
+        }
+
+
+        public float campointa { get; set; }
+
+        public float campointb { get; set; }
+
+        public float campointc { get; set; }
+
+        public PointLatLngAlt GimbalPoint { get; set; }
+
+        public float gimballat
+        {
+            get
+            {
+                if (GimbalPoint == null) return 0;
+                return (float)GimbalPoint.Lat;
+            }
+        }
+
+        public float gimballng
+        {
+            get
+            {
+                if (GimbalPoint == null) return 0;
+                return (float)GimbalPoint.Lng;
+            }
+        }
+
+
+        public bool landed { get; set; }
+
+        public bool terrainactive { get; set; }
+
+        float _ter_curalt;
+
+        [DisplayText("Terrain AGL")]
+        public float ter_curalt
+        {
+            get { return _ter_curalt * multiplierdist; }
+            set { _ter_curalt = value; }
+        }
+
+        float _ter_alt;
+
+        [DisplayText("Terrain GL")]
+        public float ter_alt
+        {
+            get { return _ter_alt * multiplierdist; }
+            set { _ter_alt = value; }
+        }
+
+        public float ter_load { get; set; }
+
+        public float ter_pend { get; set; }
+
+        public float ter_space { get; set; }
+
+        public static int KIndexstatic = -1;
+
+        public int KIndex
+        {
+            get { return (int)CurrentState.KIndexstatic; }
+        }
+
+        [DisplayText("flow_comp_m_x")]
+        public float opt_m_x { get; set; }
+
+        [DisplayText("flow_comp_m_y")]
+        public float opt_m_y { get; set; }
+
+        [DisplayText("flow_x")]
+        public short opt_x { get; set; }
+
+        [DisplayText("flow_y")]
+        public short opt_y { get; set; }
+
+        [DisplayText("flow quality")]
+        public byte opt_qua { get; set; }
+
+        public float ekfstatus { get; set; }
+
+        public int ekfflags { get; set; }
+
+        public float ekfvelv { get; set; }
+
+        public float ekfcompv { get; set; }
+
+        public float ekfposhor { get; set; }
+
+        public float ekfposvert { get; set; }
+
+        public float ekfteralt { get; set; }
+
+        public float pidff { get; set; }
+
+        public float pidP { get; set; }
+
+        public float pidI { get; set; }
+
+        public float pidD { get; set; }
+
+        public byte pidaxis { get; set; }
+
+        public float piddesired { get; set; }
+
+        public float pidachieved { get; set; }
+
+        public uint vibeclip0 { get; set; }
+
+        public uint vibeclip1 { get; set; }
+
+        public uint vibeclip2 { get; set; }
+
+        public float vibex { get; set; }
+
+        public float vibey { get; set; }
+
+        public float vibez { get; set; }
+
+        public Version version { get; set; }
+
+        public float rpm1 { get; set; }
+
+        public float rpm2 { get; set; }
+
+        public MAVLink.MAV_PROTOCOL_CAPABILITY capabilities { get; set; }
+
+        public float speedup { get; set; }
 
         // HIL
-        public int hilch1 { get; set; }
-        public int hilch2 { get; set; }
-        public int hilch3 { get; set; }
-        public int hilch4 { get; set; }
+        public int hilch1;// { get; set; }
+        public int hilch2;// { get; set; }
+        public int hilch3;// { get; set; }
+        public int hilch4;// { get; set; }
         public int hilch5;
         public int hilch6;
         public int hilch7;
         public int hilch8;
 
         // rc override
-        public short rcoverridech1 { get; set; }
-        public short rcoverridech2 { get; set; }
-        public short rcoverridech3 { get; set; }
-        public short rcoverridech4 { get; set; }
-        public short rcoverridech5 { get; set; }
-        public short rcoverridech6 { get; set; }
-        public short rcoverridech7 { get; set; }
-        public short rcoverridech8 { get; set; }
+        public short rcoverridech1;//{ get; set; }
+        public short rcoverridech2;// { get; set; }
+        public short rcoverridech3;//{ get; set; }
+        public short rcoverridech4;//{ get; set; }
+        public short rcoverridech5;// { get; set; }
+        public short rcoverridech6;// { get; set; }
+        public short rcoverridech7;// { get; set; }
+        public short rcoverridech8;// { get; set; }
 
-        public bool connected
-        {
-            get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); }
-        }
+        internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
+        internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
         bool useLocation = false;
         bool gotwind = false;
@@ -1101,12 +1234,6 @@ namespace MissionPlanner
         // for calc of sitl speedup
         internal DateTime lastimutime = DateTime.MinValue;
         internal double imutime = 0;
-
-        public float speedup { get; set; }
-
-        internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
-        internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
-        internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
 
         internal bool MONO = false;
 
@@ -1150,6 +1277,43 @@ namespace MissionPlanner
                 voltageflag = MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
                 capabilities = MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FLOAT;
             }
+        }
+
+        public List<string> GetItemList()
+        {
+            List<string> ans = new List<string>();
+
+            object thisBoxed = this;
+            Type test = thisBoxed.GetType();
+
+            // public instance props
+            PropertyInfo[] props = test.GetProperties();
+
+            //props
+
+            foreach (var field in props)
+            {
+                // field.Name has the field's name.
+                object fieldValue;
+                TypeCode typeCode;
+                try
+                {
+                    fieldValue = field.GetValue(thisBoxed, null); // Get value
+
+                    if (fieldValue == null)
+                        continue;
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    typeCode = Type.GetTypeCode(fieldValue.GetType());
+                }
+                catch
+                {
+                    continue;
+                }
+
+                ans.Add(field.Name);
+            }
+
+            return ans;
         }
 
         private DateTime lastupdate = DateTime.Now;
@@ -2481,130 +2645,5 @@ namespace MissionPlanner
                 return Convert.ToString(Value,2);
             }
         }
-
-        public float campointa { get; set; }
-
-        public float campointb { get; set; }
-
-        public float campointc { get; set; }
-
-        public PointLatLngAlt GimbalPoint { get; set; }
-
-        public float gimballat
-        {
-            get
-            {
-                if (GimbalPoint == null) return 0;
-                return (float) GimbalPoint.Lat;
-            }
-        }
-
-        public float gimballng
-        {
-            get
-            {
-                if (GimbalPoint == null) return 0;
-                return (float) GimbalPoint.Lng;
-            }
-        }
-
-
-        public bool landed { get; set; }
-
-        public bool terrainactive { get; set; }
-
-        float _ter_curalt;
-
-        [DisplayText("Terrain AGL")]
-        public float ter_curalt
-        {
-            get { return _ter_curalt*multiplierdist; }
-            set { _ter_curalt = value; }
-        }
-
-        float _ter_alt;
-
-        [DisplayText("Terrain GL")]
-        public float ter_alt
-        {
-            get { return _ter_alt*multiplierdist; }
-            set { _ter_alt = value; }
-        }
-
-        public float ter_load { get; set; }
-
-        public float ter_pend { get; set; }
-
-        public float ter_space { get; set; }
-
-        public static int KIndexstatic = -1;
-
-        public int KIndex
-        {
-            get { return (int) CurrentState.KIndexstatic; }
-        }
-
-        [DisplayText("flow_comp_m_x")]
-        public float opt_m_x { get; set; }
-
-        [DisplayText("flow_comp_m_y")]
-        public float opt_m_y { get; set; }
-
-        [DisplayText("flow_x")]
-        public short opt_x { get; set; }
-
-        [DisplayText("flow_y")]
-        public short opt_y { get; set; }
-
-        [DisplayText("flow quality")]
-        public byte opt_qua { get; set; }
-
-        public float ekfstatus { get; set; }
-
-        public int ekfflags { get; set; }
-
-        public float ekfvelv { get; set; }
-
-        public float ekfcompv { get; set; }
-
-        public float ekfposhor { get; set; }
-
-        public float ekfposvert { get; set; }
-
-        public float ekfteralt { get; set; }
-
-        public float pidff { get; set; }
-
-        public float pidP { get; set; }
-
-        public float pidI { get; set; }
-
-        public float pidD { get; set; }
-
-        public byte pidaxis { get; set; }
-
-        public float piddesired { get; set; }
-
-        public float pidachieved { get; set; }
-
-        public uint vibeclip0 { get; set; }
-
-        public uint vibeclip1 { get; set; }
-
-        public uint vibeclip2 { get; set; }
-
-        public float vibex { get; set; }
-
-        public float vibey { get; set; }
-
-        public float vibez { get; set; }
-
-        public Version version { get; set; }
-
-        public float rpm1 { get; set; }
-
-        public float rpm2 { get; set; }
-
-        public MAVLink.MAV_PROTOCOL_CAPABILITY capabilities { get; set; }
     }
 }
