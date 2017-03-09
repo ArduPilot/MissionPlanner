@@ -2398,27 +2398,31 @@ namespace MissionPlanner
                         // status just changed to armed
                         if (MainV2.comPort.MAV.cs.armed == true && MainV2.comPort.MAV.aptype != MAVLink.MAV_TYPE.GIMBAL)
                         {
-                            try
+                            System.Threading.ThreadPool.QueueUserWorkItem(state =>
                             {
-                                //MainV2.comPort.getHomePosition();
-                                MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
-                                if (MyView.current != null && MyView.current.Name == "FlightPlanner")
+                                try
                                 {
-                                    // update home if we are on flight data tab
-                                    FlightPlanner.updateHome();
+                                    //MainV2.comPort.getHomePosition();
+                                    MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
+                                    if (MyView.current != null && MyView.current.Name == "FlightPlanner")
+                                    {
+                                        // update home if we are on flight data tab
+                                        FlightPlanner.updateHome();
+                                    }
+
                                 }
-                            }
-                            catch
-                            {
-                                // dont hang this loop
-                                this.BeginInvoke(
-                                    (MethodInvoker)
-                                        delegate
-                                        {
-                                            CustomMessageBox.Show("Failed to update home location (" +
-                                                                  MainV2.comPort.MAV.sysid + ")");
-                                        });
-                            }
+                                catch
+                                {
+                                    // dont hang this loop
+                                    this.BeginInvoke(
+                                        (MethodInvoker)
+                                            delegate
+                                            {
+                                                CustomMessageBox.Show("Failed to update home location (" +
+                                                                      MainV2.comPort.MAV.sysid + ")");
+                                            });
+                                }
+                            });
                         }
 
                         if (speechEnable && speechEngine != null)
@@ -2450,7 +2454,7 @@ namespace MissionPlanner
                             if (!port.BaseStream.IsOpen)
                                 continue;
 
-                            // poll for params at heartbeat interval
+                            // poll for params at heartbeat interval - primary mav on this port only
                             if (!port.giveComport)
                             {
                                 try
@@ -2519,7 +2523,7 @@ namespace MissionPlanner
                                         // refresh config window if needed
                                         if (MyView.current != null)
                                         {
-                                            this.Invoke((MethodInvoker) delegate()
+                                            this.BeginInvoke((MethodInvoker) delegate()
                                             {
                                                 if (MyView.current.Name == "HWConfig")
                                                     MyView.ShowScreen("HWConfig");
