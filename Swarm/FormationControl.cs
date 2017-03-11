@@ -367,5 +367,13 @@ namespace MissionPlanner.Swarm
                 }
             }
         }
+
+        private void but_guided_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                SwarmInterface.GuidedMode();
+            }
+        }
     }
 }

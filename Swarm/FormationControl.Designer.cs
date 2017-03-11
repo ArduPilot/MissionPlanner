@@ -43,6 +43,7 @@
             this.BUT_Updatepos = new MissionPlanner.Controls.MyButton();
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
+            this.but_guided = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -81,7 +82,7 @@
             // 
             // BUT_leader
             // 
-            this.BUT_leader.Location = new System.Drawing.Point(544, 12);
+            this.BUT_leader.Location = new System.Drawing.Point(463, 12);
             this.BUT_leader.Name = "BUT_leader";
             this.BUT_leader.Size = new System.Drawing.Size(75, 23);
             this.BUT_leader.TabIndex = 5;
@@ -178,10 +179,21 @@
             this.timer_status.Interval = 200;
             this.timer_status.Tick += new System.EventHandler(this.timer_status_Tick);
             // 
+            // but_guided
+            // 
+            this.but_guided.Location = new System.Drawing.Point(544, 12);
+            this.but_guided.Name = "but_guided";
+            this.but_guided.Size = new System.Drawing.Size(75, 23);
+            this.but_guided.TabIndex = 12;
+            this.but_guided.Text = "Guided Mode";
+            this.but_guided.UseVisualStyleBackColor = true;
+            this.but_guided.Click += new System.EventHandler(this.but_guided_Click);
+            // 
             // FormationControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(931, 471);
+            this.Controls.Add(this.but_guided);
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);
             this.Controls.Add(this.tabControl1);
@@ -218,5 +230,6 @@
         private Controls.MyButton BUT_Updatepos;
         private System.Windows.Forms.FlowLayoutPanel PNL_status;
         private System.Windows.Forms.Timer timer_status;
+        private Controls.MyButton but_guided;
     }
 }
