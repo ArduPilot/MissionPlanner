@@ -27,9 +27,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDown1.setup(0, 1500, 1, 1, "MOT_PWM_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown2.setup(0, 2200, 1, 1, "MOT_PWM_MAX", MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDown3.setup(0,1,1,1,"MOT_SPIN_ARM", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown4.setup(0, 1, 1, 1, "MOT_SPIN_MIN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown5.setup(0, 1, 1, 1, "MOT_SPIN_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown3.setup(0, 1, 1, 0.01f, "MOT_SPIN_ARM", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown4.setup(0, 1, 1, 0.01f, "MOT_SPIN_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown5.setup(0, 1, 1, 0.01f, "MOT_SPIN_MAX", MainV2.comPort.MAV.param);
         }
 
         private void buttonStart_Click(object sender, EventArgs e)
