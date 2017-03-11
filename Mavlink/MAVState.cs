@@ -214,5 +214,6 @@ namespace MissionPlanner
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
+        public Int64 time_offset_ns { get; set; }
     }
 }

@@ -3534,7 +3534,7 @@ Please check the following
             // extract wp's/rally/fence/camera feedback/params from stream, including gcs packets on playback
             if (buffer.Length >= 5)
             {
-                getWPsfromstream(ref message, sysid, compid);
+                getInfoFromStream(ref message, sysid, compid);
             }
 
             // if its a gcs packet - dont process further
@@ -3915,7 +3915,7 @@ Please check the following
         /// Used to extract mission from log file - both sent or received
         /// </summary>
         /// <param name="buffer">packet</param>
-        void getWPsfromstream(ref MAVLinkMessage buffer, byte sysid, byte compid)
+        private void getInfoFromStream(ref MAVLinkMessage buffer, byte sysid, byte compid)
         {
             if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_COUNT)
             {
@@ -3930,8 +3930,7 @@ Please check the following
 
                 MAVlist[wp.target_system, wp.target_component].wps.Clear();
             }
-
-            if (buffer.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
+            else if (buffer.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
             {
                 mavlink_mission_item_t wp = buffer.ToStructure<mavlink_mission_item_t>();
 
@@ -3954,8 +3953,7 @@ Please check the following
                 Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2,
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
-
-            if (buffer.msgid == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT)
+            else if (buffer.msgid == (byte) MAVLink.MAVLINK_MSG_ID.MISSION_ITEM_INT)
             {
                 mavlink_mission_item_int_t wp = buffer.ToStructure<mavlink_mission_item_int_t>();
 
@@ -3968,18 +3966,19 @@ Please check the following
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (mavlink_mission_item_t)(Locationwp)wp;
+                    MAVlist[wp.target_system, wp.target_component].GuidedMode = (mavlink_mission_item_t) (Locationwp) wp;
                 }
                 else
                 {
-                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] = (mavlink_mission_item_t)(Locationwp)wp;
+                    MAVlist[wp.target_system, wp.target_component].wps[wp.seq] =
+                        (mavlink_mission_item_t) (Locationwp) wp;
                 }
 
-                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2,
+                Console.WriteLine("WP INT # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1,
+                    wp.param2,
                     wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
             }
-
-            if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.RALLY_POINT)
             {
                 mavlink_rally_point_t rallypt = buffer.ToStructure<mavlink_rally_point_t>();
 
@@ -3994,18 +3993,17 @@ Please check the following
                 Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat, rallypt.lng, rallypt.alt,
                     rallypt.break_alt);
             }
-
-            if (buffer.msgid == (byte)MAVLINK_MSG_ID.CAMERA_FEEDBACK)
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.CAMERA_FEEDBACK)
             {
                 mavlink_camera_feedback_t camerapt = buffer.ToStructure<mavlink_camera_feedback_t>();
 
-                if (MAVlist[sysid, compid].camerapoints.Count == 0 || MAVlist[sysid, compid].camerapoints.Last().time_usec != camerapt.time_usec)
+                if (MAVlist[sysid, compid].camerapoints.Count == 0 ||
+                    MAVlist[sysid, compid].camerapoints.Last().time_usec != camerapt.time_usec)
                 {
                     MAVlist[sysid, compid].camerapoints.Add(camerapt);
                 }
             }
-
-            if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.FENCE_POINT)
             {
                 mavlink_fence_point_t fencept = buffer.ToStructure<mavlink_fence_point_t>();
 
@@ -4017,8 +4015,7 @@ Please check the following
 
                 MAVlist[fencept.target_system, fencept.target_component].fencepoints[fencept.idx] = fencept;
             }
-
-            if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.PARAM_VALUE)
             {
                 mavlink_param_value_t value = buffer.ToStructure<mavlink_param_value_t>();
 
@@ -4033,17 +4030,52 @@ Please check the following
 
                 if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
                 {
-                    var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
-                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value), MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE)value.param_type);
+                    var offset = Marshal.OffsetOf(typeof (mavlink_param_value_t), "param_value");
+                    MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value),
+                        MAV_PARAM_TYPE.REAL32, (MAV_PARAM_TYPE) value.param_type);
                 }
                 else
                 {
-                    var offset = Marshal.OffsetOf(typeof(mavlink_param_value_t), "param_value");
+                    var offset = Marshal.OffsetOf(typeof (mavlink_param_value_t), "param_value");
                     MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value),
-                        (MAV_PARAM_TYPE)value.param_type, (MAV_PARAM_TYPE)value.param_type);
+                        (MAV_PARAM_TYPE) value.param_type, (MAV_PARAM_TYPE) value.param_type);
                 }
 
-                MAVlist[sysid,compid].param.TotalReported = value.param_count;
+                MAVlist[sysid, compid].param.TotalReported = value.param_count;
+            }
+            else if (buffer.msgid == (byte) MAVLINK_MSG_ID.TIMESYNC)
+            {
+                Int64 now_ns =
+                    (Int64) ((DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)).TotalMilliseconds*
+                             1000000);
+
+                mavlink_timesync_t tsync = buffer.ToStructure<mavlink_timesync_t>();
+                // tc1 - client
+                // ts1 - server
+
+                // system does not know the time
+                if (tsync.tc1 == 0)
+                {
+                    tsync.tc1 = now_ns;
+                    sendPacket(tsync, buffer.sysid, buffer.compid);
+                } // system knows the time 
+                else if (tsync.tc1 > 0)
+                {
+                    Int64 offset_ns = (tsync.ts1 + now_ns - tsync.tc1*2)/2;
+                    Int64 dt = MAVlist[buffer.sysid, buffer.compid].time_offset_ns - offset_ns;
+
+                    if (Math.Abs(dt) > 10000000) // 10 millisecond skew
+                    {
+                        MAVlist[buffer.sysid, buffer.compid].time_offset_ns = offset_ns; // hard-set it.
+                    }
+                    else
+                    {
+                        var offset_avg_alpha = 0.6;
+                        var avg = (offset_avg_alpha*offset_ns) +
+                                  (1.0 - offset_avg_alpha)*MAVlist[buffer.sysid, buffer.compid].time_offset_ns;
+                        MAVlist[buffer.sysid, buffer.compid].time_offset_ns = (long) avg;
+                    }
+                }
             }
         }
 
