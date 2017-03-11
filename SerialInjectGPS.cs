@@ -235,6 +235,7 @@ namespace MissionPlanner
             {
                 threadrun = false;
                 groupBox1.Enabled = true;
+                dg_basepos.Enabled = true;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
                 try
@@ -251,6 +252,7 @@ namespace MissionPlanner
             {
                 status_line3 = null;
                 groupBox1.Enabled = false;
+                dg_basepos.Enabled = false;
 
                 try
                 {

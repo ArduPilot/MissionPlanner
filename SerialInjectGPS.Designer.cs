@@ -53,6 +53,7 @@
             this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
             this.but_save_basepos = new MissionPlanner.Controls.MyButton();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
             this.SuspendLayout();
@@ -100,6 +101,7 @@
             this.chk_rtcmmsg.Checked = true;
             this.chk_rtcmmsg.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_rtcmmsg.Name = "chk_rtcmmsg";
+            this.toolTip1.SetToolTip(this.chk_rtcmmsg, resources.GetString("chk_rtcmmsg.ToolTip"));
             this.chk_rtcmmsg.UseVisualStyleBackColor = true;
             this.chk_rtcmmsg.CheckedChanged += new System.EventHandler(this.chk_rtcmmsg_CheckedChanged);
             // 
@@ -107,6 +109,7 @@
             // 
             resources.ApplyResources(this.lbl_svin, "lbl_svin");
             this.lbl_svin.Name = "lbl_svin";
+            this.toolTip1.SetToolTip(this.lbl_svin, resources.GetString("lbl_svin.ToolTip"));
             // 
             // chk_m8pautoconfig
             // 
@@ -114,6 +117,7 @@
             this.chk_m8pautoconfig.Checked = true;
             this.chk_m8pautoconfig.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_m8pautoconfig.Name = "chk_m8pautoconfig";
+            this.toolTip1.SetToolTip(this.chk_m8pautoconfig, resources.GetString("chk_m8pautoconfig.ToolTip"));
             this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
             this.chk_m8pautoconfig.CheckedChanged += new System.EventHandler(this.chk_m8pautoconfig_CheckedChanged);
             // 
@@ -134,6 +138,7 @@
             // 
             resources.ApplyResources(this.chk_m8p_130p, "chk_m8p_130p");
             this.chk_m8p_130p.Name = "chk_m8p_130p";
+            this.toolTip1.SetToolTip(this.chk_m8p_130p, resources.GetString("chk_m8p_130p.ToolTip"));
             this.chk_m8p_130p.UseVisualStyleBackColor = true;
             this.chk_m8p_130p.CheckedChanged += new System.EventHandler(this.chk_m8p_130p_CheckedChanged);
             // 
@@ -146,23 +151,27 @@
             // 
             resources.ApplyResources(this.txt_surveyinDur, "txt_surveyinDur");
             this.txt_surveyinDur.Name = "txt_surveyinDur";
+            this.toolTip1.SetToolTip(this.txt_surveyinDur, resources.GetString("txt_surveyinDur.ToolTip"));
             this.txt_surveyinDur.TextChanged += new System.EventHandler(this.txt_surveyinDur_TextChanged);
             // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
+            this.toolTip1.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
             // 
             // txt_surveyinAcc
             // 
             resources.ApplyResources(this.txt_surveyinAcc, "txt_surveyinAcc");
             this.txt_surveyinAcc.Name = "txt_surveyinAcc";
+            this.toolTip1.SetToolTip(this.txt_surveyinAcc, resources.GetString("txt_surveyinAcc.ToolTip"));
             this.txt_surveyinAcc.TextChanged += new System.EventHandler(this.txt_surveyinAcc_TextChanged);
             // 
             // but_base_pos
             // 
             resources.ApplyResources(this.but_base_pos, "but_base_pos");
             this.but_base_pos.Name = "but_base_pos";
+            this.toolTip1.SetToolTip(this.but_base_pos, resources.GetString("but_base_pos.ToolTip"));
             this.but_base_pos.UseVisualStyleBackColor = true;
             this.but_base_pos.Click += new System.EventHandler(this.but_base_pos_Click);
             // 
@@ -216,6 +225,7 @@
             // 
             resources.ApplyResources(this.but_save_basepos, "but_save_basepos");
             this.but_save_basepos.Name = "but_save_basepos";
+            this.toolTip1.SetToolTip(this.but_save_basepos, resources.GetString("but_save_basepos.ToolTip"));
             this.but_save_basepos.UseVisualStyleBackColor = true;
             this.but_save_basepos.Click += new System.EventHandler(this.but_save_basepos_Click);
             // 
@@ -225,6 +235,12 @@
             this.BUT_connect.Name = "BUT_connect";
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 10000;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.ReshowDelay = 100;
             // 
             // SerialInjectGPS
             // 
@@ -274,5 +290,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.CheckBox chk_m8p_130p;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

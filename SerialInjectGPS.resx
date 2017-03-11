@@ -248,6 +248,12 @@ RTCM Base</value>
   <data name="chk_rtcmmsg.Text" xml:space="preserve">
     <value>Inject MSG Type</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>104, 17</value>
+  </metadata>
+  <data name="chk_rtcmmsg.ToolTip" xml:space="preserve">
+    <value>This depends on the version of Firmware that is on your autopilot, if posible leave it enabled, as the newer message handles data curruption alot better</value>
+  </data>
   <data name="&gt;&gt;chk_rtcmmsg.Name" xml:space="preserve">
     <value>chk_rtcmmsg</value>
   </data>
@@ -277,6 +283,15 @@ RTCM Base</value>
   </data>
   <data name="lbl_svin.Text" xml:space="preserve">
     <value>SVIN</value>
+  </data>
+  <data name="lbl_svin.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
   </data>
   <data name="&gt;&gt;lbl_svin.Name" xml:space="preserve">
     <value>lbl_svin</value>
@@ -308,6 +323,9 @@ RTCM Base</value>
   <data name="chk_m8pautoconfig.Text" xml:space="preserve">
     <value>M8P autoconfig</value>
   </data>
+  <data name="chk_m8pautoconfig.ToolTip" xml:space="preserve">
+    <value>Automaticlly config a ublox m8p</value>
+  </data>
   <data name="&gt;&gt;chk_m8pautoconfig.Name" xml:space="preserve">
     <value>chk_m8pautoconfig</value>
   </data>
@@ -337,6 +355,9 @@ RTCM Base</value>
   </data>
   <data name="chk_m8p_130p.Text" xml:space="preserve">
     <value>M8P fw 130+</value>
+  </data>
+  <data name="chk_m8p_130p.ToolTip" xml:space="preserve">
+    <value>If you base and rover both have ublox firmware 1.30 or above, tick this box</value>
   </data>
   <data name="&gt;&gt;chk_m8p_130p.Name" xml:space="preserve">
     <value>chk_m8p_130p</value>
@@ -392,6 +413,9 @@ RTCM Base</value>
   <data name="txt_surveyinDur.Text" xml:space="preserve">
     <value>60</value>
   </data>
+  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
+    <value>Survey in minimum time. Must be larger than this number</value>
+  </data>
   <data name="&gt;&gt;txt_surveyinDur.Name" xml:space="preserve">
     <value>txt_surveyinDur</value>
   </data>
@@ -422,6 +446,10 @@ RTCM Base</value>
   <data name="label1.Text" xml:space="preserve">
     <value>SurveyIn Acc(m)</value>
   </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Both accuracy and duration must be meet in order for the survey in to complete
+ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
+  </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
   </data>
@@ -445,6 +473,9 @@ RTCM Base</value>
   </data>
   <data name="txt_surveyinAcc.Text" xml:space="preserve">
     <value>2.00</value>
+  </data>
+  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
+    <value>Survey in accuracy trigger. must get bellow this</value>
   </data>
   <data name="&gt;&gt;txt_surveyinAcc.Name" xml:space="preserve">
     <value>txt_surveyinAcc</value>
@@ -473,11 +504,14 @@ RTCM Base</value>
   <data name="but_base_pos.Text" xml:space="preserve">
     <value>Enter Base Position</value>
   </data>
+  <data name="but_base_pos.ToolTip" xml:space="preserve">
+    <value>Manualy enter base station coords. if you click USE bellow, the coords will all ready be in here</value>
+  </data>
   <data name="&gt;&gt;but_base_pos.Name" xml:space="preserve">
     <value>but_base_pos</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;but_base_pos.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -582,7 +616,7 @@ RTCM Base</value>
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6279.26617, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>$this</value>
@@ -605,11 +639,14 @@ RTCM Base</value>
   <data name="but_save_basepos.Text" xml:space="preserve">
     <value>Save Current Position</value>
   </data>
+  <data name="but_save_basepos.ToolTip" xml:space="preserve">
+    <value>Used to save the current base station positon as surveyed</value>
+  </data>
   <data name="&gt;&gt;but_save_basepos.Name" xml:space="preserve">
     <value>but_save_basepos</value>
   </data>
   <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
     <value>$this</value>
@@ -636,7 +673,7 @@ RTCM Base</value>
     <value>BUT_connect</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
     <value>$this</value>
@@ -685,6 +722,12 @@ RTCM Base</value>
   </data>
   <data name="&gt;&gt;Use.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
+    <value>toolTip1</value>
+  </data>
+  <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>SerialInjectGPS</value>
