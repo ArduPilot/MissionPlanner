@@ -1468,6 +1468,9 @@ namespace MissionPlanner.Log
                 List<PointLatLng> routelistgps2 = new List<PointLatLng>();
                 List<int> samplelistgps2 = new List<int>();
 
+                List<PointLatLng> routelistgpsb = new List<PointLatLng>();
+                List<int> samplelistgpsb = new List<int>();
+
                 List<PointLatLng> routelistpos = new List<PointLatLng>();
                 List<int> samplelistpos = new List<int>();
 
@@ -1475,8 +1478,9 @@ namespace MissionPlanner.Log
                 int firstpoint = 0;
                 int firstpointpos = 0;
                 int firstpointgps2 = 0;
+                int firstpointgpsb = 0;
 
-                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2"}))
+                foreach (var item in logdata.GetEnumeratorType(new string[] {"GPS", "POS", "GPS2", "GPSB"}))
                 {
                     i = item.lineno;
 
@@ -1550,6 +1554,41 @@ namespace MissionPlanner.Log
                         }
                     }
 
+                    if (item.msgtype == "GPSB")
+                    {
+                        var ans = getPointLatLng(item);
+
+                        if (ans.HasValue)
+                        {
+                            routelistgpsb.Add(ans.Value);
+                            samplelistgpsb.Add(i);
+
+                            if (routelistgpsb.Count > 1000)
+                            {
+                                //split the route in several small parts (due to memory errors)
+                                GMapRoute route_part = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+
+                                LogRouteInfo lri = new LogRouteInfo();
+                                lri.firstpoint = firstpointgpsb;
+                                lri.lastpoint = i;
+                                lri.samples.AddRange(samplelistgpsb);
+
+                                route_part.Tag = lri;
+                                route_part.IsHitTestVisible = false;
+                                mapoverlay.Routes.Add(route_part);
+                                rtcnt++;
+
+                                //clear the list and set the last point as first point for the next route
+                                routelistgpsb.Clear();
+                                samplelistgpsb.Clear();
+                                firstpointgpsb = i;
+                                samplelistgpsb.Add(firstpointgpsb);
+                                routelistgpsb.Add(ans.Value);
+                            }
+                        }
+                    }
+
                     if (item.msgtype == "POS")
                     {
                         var ans = getPointLatLng(item);
@@ -1615,6 +1654,19 @@ namespace MissionPlanner.Log
                 route2.Tag = lri3;
                 route2.IsHitTestVisible = false;
                 mapoverlay.Routes.Add(route2);
+
+                // gpsb
+                GMapRoute routeb = new GMapRoute(routelistgpsb, "routegpsb_" + rtcnt);
+                routeb.Stroke = new Pen(Color.FromArgb(127, Color.Yellow), 2);
+                routeb.IsHitTestVisible = false;
+
+                LogRouteInfo lrib = new LogRouteInfo();
+                lrib.firstpoint = firstpointgpsb;
+                lrib.lastpoint = i;
+                lrib.samples.AddRange(samplelistgpsb);
+                routeb.Tag = lrib;
+                routeb.IsHitTestVisible = false;
+                mapoverlay.Routes.Add(routeb);
 
                 // pos
                 GMapRoute route3 = new GMapRoute(routelistpos, "route2_" + rtcnt);
@@ -1705,6 +1757,51 @@ namespace MissionPlanner.Log
                 }
 
                 int index3 = dflog.FindMessageOffset("GPS2", "Status");
+                if (index3 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    if (double.Parse(item.items[index3].ToString(), System.Globalization.CultureInfo.InvariantCulture) <
+                        3)
+                    {
+                        return null;
+                    }
+
+                    string lat = item.items[index].ToString();
+                    string lng = item.items[index2].ToString();
+
+                    PointLatLng pnt = new PointLatLng() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+
+                    return pnt;
+                }
+                catch
+                {
+                }
+            }
+
+            if (item.msgtype == "GPSB")
+            {
+                if (!dflog.logformat.ContainsKey("GPSB"))
+                    return null;
+
+                int index = dflog.FindMessageOffset("GPSB", "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = dflog.FindMessageOffset("GPSB", "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                int index3 = dflog.FindMessageOffset("GPSB", "Status");
                 if (index3 == -1)
                 {
                     return null;

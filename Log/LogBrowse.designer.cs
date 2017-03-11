@@ -49,6 +49,7 @@ namespace MissionPlanner.Log
             this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -129,11 +130,11 @@ namespace MissionPlanner.Log
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.label4);
             this.splitContainer2.Panel2.Controls.Add(this.label3);
             this.splitContainer2.Panel2.Controls.Add(this.label2);
             this.splitContainer2.Panel2.Controls.Add(this.label1);
             this.splitContainer2.Panel2.Controls.Add(this.myGMAP1);
-            this.splitContainer2.Panel2Collapsed = true;
             // 
             // zg1
             // 
@@ -245,6 +246,13 @@ namespace MissionPlanner.Log
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
             // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.Yellow;
+            this.label4.Name = "label4";
+            this.label4.Tag = "custom";
+            // 
             // LogBrowse
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -287,6 +295,7 @@ namespace MissionPlanner.Log
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
     }
 }
 
