@@ -21,6 +21,7 @@ using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using System.Device;
 using System.Device.Location;
+using Flurl.Util;
 
 namespace MissionPlanner
 {
@@ -780,7 +781,7 @@ namespace MissionPlanner
 
             foreach (var pointLatLngAlt in baseposList)
             {
-                dg_basepos.Rows.Add(pointLatLngAlt.Lat, pointLatLngAlt.Lng, pointLatLngAlt.Alt, pointLatLngAlt.Tag);
+                dg_basepos.Rows.Add(pointLatLngAlt.Lat.ToInvariantString(), pointLatLngAlt.Lng.ToInvariantString(), pointLatLngAlt.Alt.ToInvariantString(), pointLatLngAlt.Tag);
             }
 
             saveBasePosList();
@@ -791,9 +792,9 @@ namespace MissionPlanner
             if (e.ColumnIndex == Use.Index)
             {
                 Settings.Instance["base_pos"] = String.Format("{0},{1},{2},{3}",
-                    dg_basepos[Lat.Index, e.RowIndex].Value,
-                    dg_basepos[Long.Index, e.RowIndex].Value,
-                    dg_basepos[Alt.Index, e.RowIndex].Value,
+                    dg_basepos[Lat.Index, e.RowIndex].Value.ToInvariantString(),
+                    dg_basepos[Long.Index, e.RowIndex].Value.ToInvariantString(),
+                    dg_basepos[Alt.Index, e.RowIndex].Value.ToInvariantString(),
                     dg_basepos[BaseName1.Index, e.RowIndex].Value);
 
                 loadBasePOS();
