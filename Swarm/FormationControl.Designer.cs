@@ -32,7 +32,6 @@
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.grid1 = new MissionPlanner.Swarm.Grid();
-            this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.BUT_Start = new MissionPlanner.Controls.MyButton();
             this.BUT_leader = new MissionPlanner.Controls.MyButton();
             this.BUT_Land = new MissionPlanner.Controls.MyButton();
@@ -68,16 +67,6 @@
             this.grid1.TabIndex = 8;
             this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new MissionPlanner.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
-            // 
-            // BUT_connect
-            // 
-            this.BUT_connect.Location = new System.Drawing.Point(463, 12);
-            this.BUT_connect.Name = "BUT_connect";
-            this.BUT_connect.Size = new System.Drawing.Size(75, 23);
-            this.BUT_connect.TabIndex = 7;
-            this.BUT_connect.Text = "Connect MAVs";
-            this.BUT_connect.UseVisualStyleBackColor = true;
-            this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
             // BUT_Start
             // 
@@ -196,7 +185,6 @@
             this.Controls.Add(this.PNL_status);
             this.Controls.Add(this.BUT_Updatepos);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.BUT_Start);
             this.Controls.Add(this.BUT_leader);
             this.Controls.Add(this.CMB_mavs);
@@ -223,7 +211,6 @@
         private System.Windows.Forms.ComboBox CMB_mavs;
         private Controls.MyButton BUT_leader;
         private Controls.MyButton BUT_Start;
-        private Controls.MyButton BUT_connect;
         private Grid grid1;
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.TabControl tabControl1;
