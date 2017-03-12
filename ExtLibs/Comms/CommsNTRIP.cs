@@ -11,7 +11,6 @@ using System.Net.Sockets; // tcplistner
 using log4net;
 using System.IO;
 using System.Runtime.InteropServices;
-using MissionPlanner.Controls;
 using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Comms
@@ -89,8 +88,7 @@ namespace MissionPlanner.Comms
 
             string url = OnSettings("NTRIP_url", "");
 
-            if (System.Windows.Forms.DialogResult.Cancel ==
-                InputBox.Show("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url))
+            if (OnInputBoxShow("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url) == inputboxreturn.Cancel)
             {
                 throw new Exception("Canceled by request");
             }

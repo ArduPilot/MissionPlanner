@@ -6,7 +6,6 @@ using log4net;
 using System.IO.Ports;
 using System.IO;
 using System;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
@@ -79,11 +78,13 @@ namespace MissionPlanner.Comms
             set;
         }
 
+        public bool CancelConnect = false;
+
         public void Open()
         {
             if (client.Client.Connected || IsOpen)
             {
-                log.Info("udpserial socket already open");
+                log.Info("UDPSerial socket already open");
                 return;
             }
 
@@ -93,7 +94,7 @@ namespace MissionPlanner.Comms
 
             dest = OnSettings("UDP_port", dest);
 
-            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
             {
                 return;
             }
@@ -101,25 +102,8 @@ namespace MissionPlanner.Comms
 
             OnSettings("UDP_port", Port, true);
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
-            {
-                StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = "Connecting UDP"
-            };
+            //######################################
 
-            ApplyThemeTo(frmProgressReporter);           
-
-            frmProgressReporter.DoWork += frmProgressReporter_DoWork;
-
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting UDP");
-
-            frmProgressReporter.RunBackgroundOperationAsync();
-
-            frmProgressReporter.Dispose();
-        }
-
-        void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
-        {
             try
             {
                 if (client != null)
@@ -133,12 +117,10 @@ namespace MissionPlanner.Comms
 
             while (true)
             {
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Waiting for UDP");
                 System.Threading.Thread.Sleep(500);
 
-                if (((ProgressReporterDialogue)sender).doWorkArgs.CancelRequested)
+                if (CancelConnect)
                 {
-                    ((ProgressReporterDialogue)sender).doWorkArgs.CancelAcknowledged = true;
                     try
                     {
                         client.Close();
@@ -157,7 +139,7 @@ namespace MissionPlanner.Comms
             try
             {
                 client.Receive(ref RemoteIpEndPoint);
-                log.InfoFormat("NetSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                log.InfoFormat("UDPSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
                 _isopen = true;
             }
             catch (Exception ex)
@@ -168,7 +150,7 @@ namespace MissionPlanner.Comms
                 }
                 log.Info(ex.ToString());
                 //CustomMessageBox.Show("Please check your Firewall settings\nPlease try running this command\n1.    Run the following command in an elevated command prompt to disable Windows Firewall temporarily:\n    \nNetsh advfirewall set allprofiles state off\n    \nNote: This is just for test; please turn it back on with the command 'Netsh advfirewall set allprofiles state on'.\n", "Error");
-                throw new Exception("The socket/serialproxy is closed " + e);
+                throw new Exception("The socket/UDPSerial is closed " + ex);
             }
         }
 
