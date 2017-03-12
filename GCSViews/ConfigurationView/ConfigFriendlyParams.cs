@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Timers;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
@@ -18,26 +19,48 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_Find_Click(object sender, EventArgs e)
         {
-            y = 10;
             InputBox.TextChanged += InputBox_TextChanged;
-            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
-
-            filterList(searchfor);
+            if (InputBox.Show("Search For", "Enter a single word to search for", ref searchfor) == DialogResult.OK)
+            {
+                filterList(searchfor);
+            }
+            else
+            {
+                filterList("");
+            }
         }
 
         private void InputBox_TextChanged(object sender, EventArgs e)
         {
             var textbox = sender as TextBox;
 
-            var searchfor = textbox.Text;
+            searchfor = textbox.Text;
 
-            filterList(searchfor);
+            filterTimer.Elapsed -= FilterTimerOnElapsed;
+            filterTimer.Stop();
+            filterTimer.Interval = 500;
+            filterTimer.Elapsed += FilterTimerOnElapsed;
+            filterTimer.Start();
+        }
+
+        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+
+        private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            filterTimer.Stop();
+            Invoke((Action)delegate
+            {
+                filterList(searchfor);
+            });
         }
 
         void filterList(string searchfor)
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
+                y = 10;
+                tableLayoutPanel1.Enabled = false;
+
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
                     if (ctl.GetType() == typeof (RangeControl))
@@ -86,6 +109,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                     }
                 }
+
+                tableLayoutPanel1.Enabled = true;
             }
         }
 
