@@ -331,7 +331,20 @@ namespace MissionPlanner.Controls
     public class ProgressWorkerEventArgs : EventArgs
     {
         public string ErrorMessage;
-        public volatile bool CancelRequested;
+        volatile bool _CancelRequested = false;
+        public bool CancelRequested
+        {
+            get
+            {
+                return _CancelRequested;
+            }
+            set
+            {
+                _CancelRequested = value; if (CancelRequestChanged != null) CancelRequestChanged(this, new PropertyChangedEventArgs("CancelRequested"));
+            }
+        }
         public volatile bool CancelAcknowledged;
+
+        public event PropertyChangedEventHandler CancelRequestChanged;
     }
 }
