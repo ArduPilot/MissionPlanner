@@ -14,6 +14,8 @@ using MissionPlanner;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner
 {
@@ -132,6 +134,7 @@ namespace MissionPlanner
 
             // setup settings provider
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
+            MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
             MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
 
             // set the cache provider to my custom version
@@ -218,6 +221,18 @@ namespace MissionPlanner
             catch
             {
             }
+        }
+
+        private static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
+        {
+            var ans = InputBox.Show(title, prompttext, ref text);
+
+            if (ans == DialogResult.Cancel || ans == DialogResult.Abort)
+                return inputboxreturn.Cancel;
+            if (ans == DialogResult.OK)
+                return inputboxreturn.OK;
+
+            return inputboxreturn.NotSet;
         }
 
         static void CleanupFiles()

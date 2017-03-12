@@ -385,6 +385,14 @@ namespace MissionPlanner
                 {
                     log.Info("Open port with " + BaseStream.PortName + " " + BaseStream.BaudRate);
 
+                    if (BaseStream is UdpSerial)
+                    {
+                        progressWorkerEventArgs.CancelRequestChanged += (o,e) => { ((UdpSerial)BaseStream).CancelConnect = true;
+                                                                                     ((ProgressWorkerEventArgs) o)
+                                                                                         .CancelAcknowledged = true;
+                        };
+                    }
+
                     BaseStream.Open();
 
                     BaseStream.DiscardInBuffer();
@@ -557,6 +565,11 @@ Please check the following
             log.Info("Done open " + MAV.sysid + " " + MAV.compid);
             MAV.packetslost = 0;
             MAV.synclost = 0;
+        }
+
+        private void ProgressWorkerEventArgs_CancelRequestChanged(object sender, PropertyChangedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
