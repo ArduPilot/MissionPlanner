@@ -58,6 +58,7 @@ namespace MissionPlanner.Controls.BackstageView
                     _page.Visible = false;
                     _page.Location = new Point(0, 0);
                     _page.Dock = DockStyle.Fill;
+                    _page.AutoScroll = true;
                     if (ApplyTheme != null)
                         ApplyTheme(_page);
                     _page.Enabled = true;
