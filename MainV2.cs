@@ -1539,6 +1539,14 @@ namespace MissionPlanner
                     }
                 }
 
+                // get any fences
+                if (MainV2.comPort.MAV.param.ContainsKey("FENCE_TOTAL") &&
+                    int.Parse(MainV2.comPort.MAV.param["FENCE_TOTAL"].ToString()) > 1 &&
+                    MainV2.comPort.MAV.param.ContainsKey("FENCE_ACTION") )
+                {
+                    FlightPlanner.GeoFencedownloadToolStripMenuItem_Click(null, null);
+                }
+
                 // set connected icon
                 this.MenuConnect.Image = displayicons.disconnect;
             }

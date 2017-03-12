@@ -631,6 +631,19 @@ namespace MissionPlanner.GCSViews
             // hide the map to prevent redraws when its loaded
             panelMap.Visible = false;
 
+
+            // setup geofence
+            List<PointLatLng> polygonPoints = new List<PointLatLng>();
+            geofencepolygon = new GMapPolygon(polygonPoints, "geofence");
+            geofencepolygon.Stroke = new Pen(Color.Pink, 5);
+            geofencepolygon.Fill = Brushes.Transparent;
+
+            //setup drawnpolgon
+            List<PointLatLng> polygonPoints2 = new List<PointLatLng>();
+            drawnpolygon = new GMapPolygon(polygonPoints2, "drawnpoly");
+            drawnpolygon.Stroke = new Pen(Color.Red, 2);
+            drawnpolygon.Fill = Brushes.Transparent;
+
             /*
             var timer = new System.Timers.Timer();
 
@@ -859,18 +872,6 @@ namespace MissionPlanner.GCSViews
                 // here if dns failed
                 isonline = false;
             }
-
-            // setup geofence
-            List<PointLatLng> polygonPoints = new List<PointLatLng>();
-            geofencepolygon = new GMapPolygon(polygonPoints, "geofence");
-            geofencepolygon.Stroke = new Pen(Color.Pink, 5);
-            geofencepolygon.Fill = Brushes.Transparent;
-
-            //setup drawnpolgon
-            List<PointLatLng> polygonPoints2 = new List<PointLatLng>();
-            drawnpolygon = new GMapPolygon(polygonPoints2, "drawnpoly");
-            drawnpolygon.Stroke = new Pen(Color.Red, 2);
-            drawnpolygon.Fill = Brushes.Transparent;
 
             updateCMDParams();
 
@@ -4732,7 +4733,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
+        public void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
             int count = 1;
