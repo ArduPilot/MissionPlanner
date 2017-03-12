@@ -39,8 +39,9 @@
             this.olvColumnSize = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnHome = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnTimeInAir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
-            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             this.olvColumnDistTraveled = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
+            this.olvColumnCamMSG = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,6 +58,7 @@
             this.objectListView1.AllColumns.Add(this.olvColumnHome);
             this.objectListView1.AllColumns.Add(this.olvColumnTimeInAir);
             this.objectListView1.AllColumns.Add(this.olvColumnDistTraveled);
+            this.objectListView1.AllColumns.Add(this.olvColumnCamMSG);
             this.objectListView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -71,7 +73,8 @@
             this.olvColumnSize,
             this.olvColumnHome,
             this.olvColumnTimeInAir,
-            this.olvColumnDistTraveled});
+            this.olvColumnDistTraveled,
+            this.olvColumnCamMSG});
             this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.RowHeight = 150;
@@ -149,6 +152,12 @@
             this.olvColumnTimeInAir.CellPadding = null;
             this.olvColumnTimeInAir.Text = "TimeInAir";
             // 
+            // olvColumnDistTraveled
+            // 
+            this.olvColumnDistTraveled.AspectName = "DistTraveled";
+            this.olvColumnDistTraveled.CellPadding = null;
+            this.olvColumnDistTraveled.Text = "DistTraveled";
+            // 
             // BUT_changedir
             // 
             this.BUT_changedir.AutoSize = true;
@@ -160,15 +169,14 @@
             this.BUT_changedir.UseVisualStyleBackColor = true;
             this.BUT_changedir.Click += new System.EventHandler(this.BUT_changedir_Click);
             // 
-            // olvColumnDistTraveled
+            // olvColumnCamMSG
             // 
-            this.olvColumnDistTraveled.AspectName = "DistTraveled";
-            this.olvColumnDistTraveled.CellPadding = null;
-            this.olvColumnDistTraveled.Text = "DistTraveled";
+            this.olvColumnCamMSG.AspectName = "CamMSG";
+            this.olvColumnCamMSG.CellPadding = null;
+            this.olvColumnCamMSG.Text = "CamMSG";
             // 
             // LogIndex
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(1177, 514);
             this.Controls.Add(this.BUT_changedir);
@@ -197,5 +205,6 @@
         private BrightIdeasSoftware.OLVColumn olvColumnTimeInAir;
         private BrightIdeasSoftware.OLVColumn olvColumnFrame;
         private BrightIdeasSoftware.OLVColumn olvColumnDistTraveled;
+        private BrightIdeasSoftware.OLVColumn olvColumnCamMSG;
     }
 }

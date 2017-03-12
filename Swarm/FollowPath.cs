@@ -21,7 +21,7 @@ namespace MissionPlanner.Swarm
                 return;
 
             if (Leader == null)
-                Leader = MainV2.comPort;
+                Leader = MainV2.comPort.MAV;
 
             trail.Add(new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt,
                 ""));
@@ -38,23 +38,26 @@ namespace MissionPlanner.Swarm
 
             foreach (var port in MainV2.Comports)
             {
-                if (port == Leader)
-                    continue;
-
-                // check we have a valid point for this mav
-                if (a < newpositions.Count)
+                foreach (var mav in port.MAVlist)
                 {
-                    // get the point for this sepecific mav
-                    PointLatLngAlt target = newpositions[a];
+                    if (mav == Leader)
+                        continue;
 
-                    // send it
-                    port.setGuidedModeWP(new Locationwp()
+                    // check we have a valid point for this mav
+                    if (a < newpositions.Count)
                     {
-                        alt = (float) target.Alt,
-                        lat = target.Lat,
-                        lng = target.Lng,
-                        id = (ushort)MAVLink.MAV_CMD.WAYPOINT
-                    });
+                        // get the point for this sepecific mav
+                        PointLatLngAlt target = newpositions[a];
+
+                        // send it
+                        port.setGuidedModeWP(mav.sysid,mav.compid,new Locationwp()
+                        {
+                            alt = (float) target.Alt,
+                            lat = target.Lat,
+                            lng = target.Lng,
+                            id = (ushort) MAVLink.MAV_CMD.WAYPOINT
+                        });
+                    }
                 }
             }
         }
@@ -66,7 +69,10 @@ namespace MissionPlanner.Swarm
             // get current pos
             foreach (var port in MainV2.Comports)
             {
-                currentpos.Add(new PointLatLngAlt(port.MAV.cs.lat, port.MAV.cs.lng, port.MAV.cs.alt, ""));
+                foreach (var mav in port.MAVlist)
+                {
+                    currentpos.Add(new PointLatLngAlt(mav.cs.lat, mav.cs.lng, mav.cs.alt, ""));
+                }
             }
 
             // check they are not to close already

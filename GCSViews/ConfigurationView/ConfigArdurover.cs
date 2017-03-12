@@ -42,9 +42,52 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
+            FS_THR_VALUE.setup(0, 0, 1, 1, "FS_THR_VALUE", MainV2.comPort.MAV.param);
+            THR_MAX.setup(0, 0, 1, 1, "THR_MAX", MainV2.comPort.MAV.param);
+            THR_MIN.setup(0, 0, 1, 1, "THR_MIN", MainV2.comPort.MAV.param);
+            CRUISE_THROTTLE.setup(0, 0, 1, 1, "CRUISE_THROTTLE", MainV2.comPort.MAV.param);
+            SPEED2THR_IMAX.setup(0, 0, 1, 1, "SPEED2THR_IMAX", MainV2.comPort.MAV.param);
+            SPEED2THR_D.setup(0, 0, 1, 1, "SPEED2THR_D", MainV2.comPort.MAV.param);
+            SPEED2THR_I.setup(0, 0, 1, 1, "SPEED2THR_I", MainV2.comPort.MAV.param);
+            SPEED2THR_P.setup(0, 0, 1, 1, "SPEED2THR_P", MainV2.comPort.MAV.param);
+            SPEED_TURN_DIST.setup(0, 0, 1, 1, "SPEED_TURN_DIST", MainV2.comPort.MAV.param);
+            SPEED_TURN_GAIN.setup(0, 0, 1, 1, "SPEED_TURN_GAIN", MainV2.comPort.MAV.param);
+            CRUISE_SPEED.setup(0, 0, 1, 1, "CRUISE_SPEED", MainV2.comPort.MAV.param);
+            STEER2SRV_IMAX.setup(0, 0, 1, 1, "STEER2SRV_IMAX", MainV2.comPort.MAV.param);
+            STEER2SRV_D.setup(0, 0, 1, 1, "STEER2SRV_D", MainV2.comPort.MAV.param);
+            STEER2SRV_I.setup(0, 0, 1, 1, "STEER2SRV_I", MainV2.comPort.MAV.param);
+            STEER2SRV_P.setup(0, 0, 1, 1, "STEER2SRV_P", MainV2.comPort.MAV.param);
+            SONAR_DEBOUNCE.setup(0, 0, 1, 1, "SONAR_DEBOUNCE", MainV2.comPort.MAV.param);
+            SONAR_TURN_TIME.setup(0, 0, 1, 1, "SONAR_TURN_TIME", MainV2.comPort.MAV.param);
+            SONAR_TURN_ANGLE.setup(0, 0, 1, 1, "SONAR_TURN_ANGLE", MainV2.comPort.MAV.param);
+            SONAR_TRIGGER_CM.setup(0, 0, 1, 1, "SONAR_TRIGGER_CM", MainV2.comPort.MAV.param);
+            WP_RADIUS.setup(0, 0, 1, 1, "WP_RADIUS", MainV2.comPort.MAV.param);
+            NAVL1_DAMPING.setup(0, 0, 1, 1, "NAVL1_DAMPING", MainV2.comPort.MAV.param);
+            NAVL1_PERIOD.setup(0, 0, 1, 1, "NAVL1_PERIOD", MainV2.comPort.MAV.param);
+
             changes.Clear();
 
-            processToScreen();
+            // add tooltips to all controls
+            foreach (Control control1 in Controls)
+            {
+                foreach (Control control2 in control1.Controls)
+                {
+                    if (control2 is MavlinkNumericUpDown)
+                    {
+                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                    if (control2 is MavlinkComboBox)
+                    {
+                        var ParamName = ((MavlinkComboBox)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                }
+            }
 
             startup = false;
         }
@@ -86,108 +129,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 currentLinePosition++;
             }
             return sb.ToString();
-        }
-
-        private void disableNumericUpDownControls(Control inctl)
-        {
-            foreach (Control ctl in inctl.Controls)
-            {
-                if (ctl.Controls.Count > 0)
-                {
-                    disableNumericUpDownControls(ctl);
-                }
-                if (ctl.GetType() == typeof (NumericUpDown))
-                {
-                    ctl.Enabled = false;
-                }
-            }
-        }
-
-        internal void processToScreen()
-        {
-            toolTip1.RemoveAll();
-
-            disableNumericUpDownControls(this);
-
-            // process hashdefines and update display
-            foreach (string value in MainV2.comPort.MAV.param.Keys)
-            {
-                if (value == null || value == "")
-                    continue;
-
-                var name = value;
-                var text = Controls.Find(name, true);
-                foreach (var ctl in text)
-                {
-                    try
-                    {
-                        if (ctl.GetType() == typeof (NumericUpDown))
-                        {
-                            var numbervalue = (float) MainV2.comPort.MAV.param[value];
-
-                            MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
-
-                            var thisctl = ((NumericUpDown) ctl);
-                            thisctl.Maximum = 9000;
-                            thisctl.Minimum = -9000;
-                            thisctl.Value = (decimal) numbervalue;
-                            thisctl.Increment = (decimal) 0.001;
-                            if (thisctl.Name.EndsWith("_P") || thisctl.Name.EndsWith("_I") ||
-                                thisctl.Name.EndsWith("_D")
-                                || thisctl.Name.EndsWith("_LOW") || thisctl.Name.EndsWith("_HIGH") || thisctl.Value == 0
-                                || thisctl.Value.ToString("0.###", new CultureInfo("en-US")).Contains("."))
-                            {
-                                thisctl.DecimalPlaces = 3;
-                            }
-                            else
-                            {
-                                thisctl.Increment = 1;
-                                thisctl.DecimalPlaces = 1;
-                            }
-
-                            if (thisctl.Name.EndsWith("_IMAX"))
-                            {
-                                thisctl.Maximum = 180;
-                                thisctl.Minimum = -180;
-                            }
-
-                            thisctl.Enabled = true;
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-
-                            thisctl.Validated += null;
-                            if (tooltips[value] != null)
-                            {
-                                try
-                                {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings) tooltips[value]).desc);
-                                }
-                                catch
-                                {
-                                }
-                            }
-                            thisctl.Validated += EEPROM_View_float_TextChanged;
-                        }
-                        else if (ctl.GetType() == typeof (ComboBox))
-                        {
-                            var thisctl = ((ComboBox) ctl);
-
-                            thisctl.SelectedIndex = (int) (float) MainV2.comPort.MAV.param[value];
-
-                            thisctl.Validated += ComboBox_Validated;
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-                if (text.Length == 0)
-                {
-                    //Console.WriteLine(name + " not found");
-                }
-            }
         }
 
         private void ComboBox_Validated(object sender, EventArgs e)

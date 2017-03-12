@@ -1,6 +1,8 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -8,8 +10,10 @@ public partial class MAVLink
 {
     public class MAVLinkMessage
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
-        static object _locker = new object();
+        object _locker = new object();
 
         public byte[] buffer { get; internal set; }
 
@@ -40,23 +44,30 @@ public partial class MAVLink
         {
             get
             {
-                if (_data != null)
-                    return _data;
-
-                //_data the object specified by the packet type
+                // lock the entire creation of the packet. to prevent returning a incomplete packet.
                 lock (_locker)
                 {
-                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
-                }
+                    if (_data != null)
+                        return _data;
 
-                // fill in the data of the object
-                if (buffer[0] == MAVLINK_STX)
-                {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
-                }
-                else
-                {
-                    MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
+                    _data = Activator.CreateInstance(MAVLINK_MESSAGE_INFOS.GetMessageInfo(msgid).type);
+
+                    try
+                    {
+                        // fill in the data of the object
+                        if (buffer[0] == MAVLINK_STX)
+                        {
+                            MavlinkUtil.ByteArrayToStructure(buffer, ref _data, MAVLINK_NUM_HEADER_BYTES, payloadlength);
+                        }
+                        else
+                        {
+                            MavlinkUtil.ByteArrayToStructure(buffer, ref _data, 6, payloadlength);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                    }
                 }
 
                 return _data;

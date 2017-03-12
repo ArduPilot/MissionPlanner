@@ -13,6 +13,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
 
@@ -186,6 +187,12 @@ namespace MissionPlanner.Controls
 
         private string CheckandGetSITLImage(string filename)
         {
+            if (Program.WindowsStoreApp)
+            {
+                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
+                return "";
+            }
+
             Uri fullurl = new Uri(sitlurl, filename);
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
@@ -285,7 +292,15 @@ namespace MissionPlanner.Controls
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             exestart.UseShellExecute = true;
 
-            simulator = System.Diagnostics.Process.Start(exestart);
+            try
+            {
+                simulator = System.Diagnostics.Process.Start(exestart);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to start the simulator\n"+ ex.ToString(), Strings.ERROR);
+                return;
+            }
 
             System.Threading.Thread.Sleep(2000);
 
@@ -301,11 +316,14 @@ namespace MissionPlanner.Controls
 
                 SITLSEND = new UdpClient("127.0.0.1", 5501);
 
+                Thread.Sleep(200);
+
                 MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
             }
             catch
             {
                 CustomMessageBox.Show(Strings.Failed_to_connect_to_SITL_instance, Strings.ERROR);
+                return;
             }
         }
 

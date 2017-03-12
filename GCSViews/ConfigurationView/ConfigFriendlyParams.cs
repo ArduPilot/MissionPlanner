@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Timers;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Controls;
@@ -18,26 +19,48 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_Find_Click(object sender, EventArgs e)
         {
-            y = 10;
             InputBox.TextChanged += InputBox_TextChanged;
-            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
-
-            filterList(searchfor);
+            if (InputBox.Show("Search For", "Enter a single word to search for", ref searchfor) == DialogResult.OK)
+            {
+                filterList(searchfor);
+            }
+            else
+            {
+                filterList("");
+            }
         }
 
         private void InputBox_TextChanged(object sender, EventArgs e)
         {
             var textbox = sender as TextBox;
 
-            var searchfor = textbox.Text;
+            searchfor = textbox.Text;
 
-            filterList(searchfor);
+            filterTimer.Elapsed -= FilterTimerOnElapsed;
+            filterTimer.Stop();
+            filterTimer.Interval = 500;
+            filterTimer.Elapsed += FilterTimerOnElapsed;
+            filterTimer.Start();
+        }
+
+        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+
+        private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            filterTimer.Stop();
+            Invoke((Action)delegate
+            {
+                filterList(searchfor);
+            });
         }
 
         void filterList(string searchfor)
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
+                y = 10;
+                tableLayoutPanel1.Enabled = false;
+
                 foreach (Control ctl in tableLayoutPanel1.Controls)
                 {
                     if (ctl.GetType() == typeof (RangeControl))
@@ -86,18 +109,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                     }
                 }
-            }
-        }
 
-        private void chk_advview_CheckedChanged(object sender, EventArgs e)
-        {
-            // check for change
-            if (MainV2.Advanced != chk_advview.Checked)
-            {
-                Settings.Instance["advancedview"] = chk_advview.Checked.ToString();
-                MainV2.Advanced = chk_advview.Checked;
-
-                MainV2.View.Reload();
+                tableLayoutPanel1.Enabled = true;
             }
         }
 
@@ -167,7 +180,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var list = _params_changed.Keys.ToList();
 
             // set enable last
-            list.Sort((a, b) => { if (a.EndsWith("ENABLE")) return 1; return -1; });
+            list.SortENABLE();
 
             list.ForEach(x =>
             {
@@ -237,10 +250,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         public void Activate()
         {
-            // update status
-            if (MainV2.Advanced)
-                chk_advview.Checked = MainV2.Advanced;
-
             y = 10;
 
             Console.WriteLine("Activate " + DateTime.Now.ToString("ss.fff"));

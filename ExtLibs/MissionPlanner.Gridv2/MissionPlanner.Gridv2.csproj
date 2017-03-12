@@ -39,10 +39,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AStar">
-      <HintPath>..\..\ExtLibs\AStar.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
@@ -125,11 +121,6 @@
       <Name>MissionPlanner</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
-      <Name>MissionPlanner.Comms</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj">
       <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
@@ -155,11 +146,6 @@
       <Name>MAVLink</Name>
       <Private>False</Private>
     </ProjectReference>
-    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
-      <Project>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</Project>
-      <Name>MetaDataExtractor</Name>
-      <Private>False</Private>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
@@ -167,6 +153,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GridUIv2.pt-BR.resx">
+      <DependentUpon>GridUIv2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GridUIv2.resx">
       <DependentUpon>GridUIv2.cs</DependentUpon>
     </EmbeddedResource>

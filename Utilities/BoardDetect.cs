@@ -32,7 +32,8 @@ namespace MissionPlanner.Utilities
             vrubrainv51,
             vrubrainv52,
             bebop2,
-            disco
+            disco,
+            solo
         }
 
         /// <summary>

@@ -10,14 +10,27 @@ namespace solo
         [STAThread]
         public static void Main(string[] args)
         {
-            Solo.getFirmwareUrl();
+            var alive = Solo.is_solo_alive;
 
-            Solo.flash_px4(@"C:\temp\ArduCopter-v2.px4");
+            var logs = Solo.GetLogNames();
 
-            //while (true)
+            foreach (var log in logs)
+            {
+                Console.WriteLine(log);
+
+                //Solo.DownloadDFLog(log, log);
+            }
+
+            var file = Solo.getFirmwareUrl();
+
+            //Solo.flash_px4(@"C:\temp\ArduCopter-v2.px4");
+
+            while (!file.IsCompleted)
             {
                 System.Threading.Thread.Sleep(1000);
             }
+
+
         }
     }
 }

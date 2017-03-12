@@ -21,6 +21,9 @@ namespace MissionPlanner.Wizard
         {
             if (Wizard.config.ContainsKey("fwframe"))
             {
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    return 2;
+
                 return 1;
             }
             return 0;

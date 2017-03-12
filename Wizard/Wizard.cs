@@ -62,7 +62,7 @@ namespace MissionPlanner.Wizard
                          MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR ||
                          MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
                 {
-                    wiz_main.ShowScreen("FrameType");
+                    wiz_main.ShowScreen("FrameFW");
                 }
                 else
                 {

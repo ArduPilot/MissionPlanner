@@ -1039,6 +1039,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not available when used as a windows store app.
+        /// </summary>
+        public static string Not_available_when_used_as_a_windows_store_app {
+            get {
+                return ResourceManager.GetString("Not_available_when_used_as_a_windows_store_app", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Note.
         /// </summary>
         public static string Note {
@@ -1350,7 +1359,7 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This board has been retired, Mission Planner this will upload the last available version to your board.
+        ///   Looks up a localized string similar to This board has been retired, Mission Planner this will upload the last available version to your board (AC 3.2.1/AP 3.4.0).
         /// </summary>
         public static string ThisBoardHasBeenRetired {
             get {

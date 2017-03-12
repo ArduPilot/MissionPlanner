@@ -25,6 +25,8 @@ namespace MissionPlanner
 
         public static string name { get; internal set; }
 
+        public static bool WindowsStoreApp { get { return Application.ExecutablePath.Contains("WindowsApps"); } }
+
         public static Image Logo = null;
         public static Image IconFile = null;
 
@@ -125,8 +127,12 @@ namespace MissionPlanner
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.BackstageView.BackstageViewPage.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
 
+            Controls.MainSwitcher.Tracking += MissionPlanner.Utilities.Tracking.AddPage;
+            Controls.BackstageView.BackstageView.Tracking += MissionPlanner.Utilities.Tracking.AddPage;
+
             // setup settings provider
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
+            MissionPlanner.Comms.CommsBase.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
@@ -137,6 +143,9 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Statkart_Topo2.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
+            // optionally add gdal support
+            if (Directory.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "gdal"))
+                GMap.NET.MapProviders.GMapProviders.List.Add(GDAL.GDALProvider.Instance);
 
             // add proxy settings
             GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
@@ -160,6 +169,30 @@ namespace MissionPlanner
 
             log.InfoFormat("64bit os {0}, 64bit process {1}", System.Environment.Is64BitOperatingSystem,
                 System.Environment.Is64BitProcess);
+
+
+            Device.DeviceStructure test1 = new Device.DeviceStructure(73225);
+            Device.DeviceStructure test2 = new Device.DeviceStructure(262434);
+            Device.DeviceStructure test3 = new Device.DeviceStructure(131874);
+
+            MAVLink.MavlinkParse tmp = new MAVLink.MavlinkParse();
+            MAVLink.mavlink_heartbeat_t hb = new MAVLink.mavlink_heartbeat_t()
+            {
+                autopilot = 1,
+                base_mode = 2,
+                custom_mode = 3,
+                mavlink_version = 2,
+                system_status = 6,
+                type = 7
+            };
+            var t1 = tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            var t2 = tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            tmp.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb);
+
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
+            tmp.GenerateMAVLinkPacket20(MAVLink.MAVLINK_MSG_ID.HEARTBEAT, hb, true);
+
 
             try
             {
@@ -290,6 +323,9 @@ namespace MissionPlanner
             {
                 return;
             }
+
+            if (MainV2.instance != null && MainV2.instance.IsDisposed)
+                return;
 
             MissionPlanner.Utilities.Tracking.AddException(ex);
 

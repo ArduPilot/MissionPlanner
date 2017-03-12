@@ -93,6 +93,15 @@
       <Y></Y>
       <Z></Z>
     </GUIDED_ENABLE>
+    <PAYLOAD_PLACE>
+      <P1>max descent</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </PAYLOAD_PLACE>
     <DO_GUIDED_LIMITS>
       <P1>timeout S</P1>
       <P2>min alt</P2>
@@ -261,8 +270,8 @@
   <APM>
     <WAYPOINT>
       <P1></P1>
-      <P2></P2>
-      <P3></P3>
+      <P2>Acc radius</P2>
+      <P3>Pass by dist</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -279,7 +288,7 @@
     </LOITER_UNLIM>
     <LOITER_TURNS>
       <P1>Turns</P1>
-      <P2>Heading req</P2>
+      <P2></P2>
       <P3>Radius</P3>
       <P4>1=Exit Tangent</P4>
       <X>Lat</X>
@@ -288,7 +297,7 @@
     </LOITER_TURNS>
     <LOITER_TIME>
       <P1>Time s</P1>
-      <P2>Heading req</P2>
+      <P2></P2>
       <P3>Dir 1=CW</P3>
       <P4>1=Exit Tangent</P4>
       <X>Lat</X>
@@ -296,7 +305,7 @@
       <Z>Alt</Z>
     </LOITER_TIME>
     <LOITER_TO_ALT>
-      <P1>Heading req</P1>
+      <P1></P1>
       <P2>Radius</P2>
       <P3></P3>
       <P4>1=Exit Tangent</P4>
@@ -358,6 +367,15 @@
       <Y></Y>
       <Z></Z>
     </DO_VTOL_TRANSITION>
+    <ALTITUDE_WAIT>
+      <P1>Alt</P1>
+      <P2>Descent rate</P2>
+      <P3>Wiggle time</P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </ALTITUDE_WAIT>
     <CONTINUE_AND_CHANGE_ALT>
       <P1></P1>
       <P2></P2>
@@ -376,15 +394,6 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_DELAY>
-    <CONDITION_CHANGE_ALT>
-      <P1>Rate (cm/sec)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z>Alt</Z>
-    </CONDITION_CHANGE_ALT>
     <CONDITION_DISTANCE>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -431,7 +440,7 @@
       <Z></Z>
     </DO_INVERTED_FLIGHT>
     <DO_SET_MODE>
-      <P1></P1>
+      <P1>mode #</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>
@@ -695,7 +704,7 @@
       <Z></Z>
     </DO_SET_REVERSE>
     <DO_SET_MODE>
-      <P1></P1>
+      <P1>mode#</P1>
       <P2></P2>
       <P3></P3>
       <P4></P4>

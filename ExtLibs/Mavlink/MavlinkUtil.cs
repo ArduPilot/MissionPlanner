@@ -32,7 +32,7 @@ public static class MavlinkUtil
         return (TMavlinkPacket) newPacket;
     }
 
-    public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset,int payloadlength = 0)
+    public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset, int payloadlength = 0)
     {
         int len = Marshal.SizeOf(obj);
 
@@ -41,23 +41,16 @@ public static class MavlinkUtil
         //clear memory
         for (int i = 0; i < len; i += 8)
         {
-            Marshal.WriteInt64(iptr,i, 0x00);
+            Marshal.WriteInt64(iptr, i, 0x00);
         }
 
-        for (int i = len % 8; i < -1; i--)
+        for (int i = len - (len % 8); i < len; i++)
         {
-            Marshal.WriteByte(iptr, len - i, 0x00);
+            Marshal.WriteByte(iptr, i, 0x00);
         }
 
-        try
-        {
-            // copy byte array to ptr
-            Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("ByteArrayToStructure FAIL " + ex.Message);
-        }
+        // copy byte array to ptr
+        Marshal.Copy(bytearray, startoffset, iptr, payloadlength);
 
         obj = Marshal.PtrToStructure(iptr, obj.GetType());
 

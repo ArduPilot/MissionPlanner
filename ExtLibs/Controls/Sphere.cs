@@ -10,8 +10,8 @@ namespace MissionPlanner.Controls
 {
     public class Sphere: OpenTK.GLControl
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         List<Vector3> points = new List<Vector3>();
 
@@ -147,7 +147,7 @@ namespace MissionPlanner.Controls
             }
 
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(45 * deg2rad, 1f, 0.00001f, 5000.0f);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(45 * deg2rad), 1f, 0.00001f, 5000.0f);
             GL.LoadMatrix(ref projection);
 
             float eyedist = (float)max * 3;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -77,7 +78,7 @@ S15: MAX_WINDOW=131
         {
             if (custom)
             {
-                return getFirmwareLocal(device);
+                return getFirmwareLocal();
             }
 
             if (device == Uploader.Board.DEVICE_ID_HM_TRP)
@@ -125,11 +126,11 @@ S15: MAX_WINDOW=131
             return false;
         }
 
-        private bool getFirmwareLocal(Uploader.Board device)
+        private bool getFirmwareLocal()
         {
             using (var openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
+                openFileDialog1.Filter = "Firmware|*.hex;*.ihx;*.bin";
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = false;
 
@@ -209,14 +210,19 @@ S15: MAX_WINDOW=131
                         var temp = comPort.ReadExisting();
                         if (isC == 'C')
                         {
-                            XModem.LogEvent += uploader_LogEvent;
-                            XModem.ProgressEvent += uploader_ProgressEvent;
-                            // start file send
-                            XModem.Upload(@"SiK900x.bin",
-                                comPort);
-                            XModem.LogEvent -= uploader_LogEvent;
-                            XModem.ProgressEvent -= uploader_ProgressEvent;
-                            return true;
+                            if (getFirmwareLocal())
+                            {
+
+                                XModem.LogEvent += uploader_LogEvent;
+                                XModem.ProgressEvent += uploader_ProgressEvent;
+                                // start file send
+                                XModem.Upload(firmwarefile,
+                                    comPort);
+                                XModem.LogEvent -= uploader_LogEvent;
+                                XModem.ProgressEvent -= uploader_ProgressEvent;
+                                return true;
+                            }
+                            return false;
                         }
                     }
                 }
@@ -513,15 +519,6 @@ S15: MAX_WINDOW=131
 
                 lbl_status.Text = "Doing Command";
 
-                // set encryption keys at the same time, so if we are enabled we dont lose comms.
-                if (RENCRYPTION_LEVEL.Checked)
-                {
-                    doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
-                }
-                if (ENCRYPTION_LEVEL.Checked)
-                {
-                    doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
-                }
 
                 if (RTI.Text != "")
                 {
@@ -532,7 +529,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -551,14 +548,23 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RT" + values[0].Trim() + "=" + value + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
                                             }
                                             else
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                if (values[1] == "ENCRYPTION_LEVEL")
+                                                {
+                                                    // set this on the local radio as well.
+                                                    doCommand(comPort, "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                    // both radios should now be using the default key
+                                                }
+                                                else
+                                                {
+                                                    CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                         }
                                     }
@@ -570,7 +576,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -587,7 +593,7 @@ S15: MAX_WINDOW=131
                                         if (controls[0].Text != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -616,7 +622,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -635,7 +641,7 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "AT" + values[0].Trim() + "=" + value + "\r");
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -654,7 +660,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "AT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -671,7 +677,7 @@ S15: MAX_WINDOW=131
                                         if (controls[0].Text != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -686,6 +692,18 @@ S15: MAX_WINDOW=131
                             }
                         }
                     }
+
+                    // set encryption keys at the same time, so if we are enabled we dont lose comms.
+                    // we have set encryption to on for both radios, they will be using the default key atm
+                    if (RENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                    }
+                    if (ENCRYPTION_LEVEL.Checked)
+                    {
+                        doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                    }
+
 
                     if (RTI.Text != "")
                     {
@@ -805,14 +823,31 @@ S15: MAX_WINDOW=131
 
                     ATI.Text = doCommand(comPort, "ATI");
 
+                    NumberStyles style = NumberStyles.Any;
+
+                    var freqstring = doCommand(comPort, "ATI3").Trim();
+
+                    if(freqstring.ToLower().Contains('x'))
+                        style = NumberStyles.AllowHexSpecifier;
+
                     var freq =
                         (Uploader.Frequency)
-                            Enum.Parse(typeof (Uploader.Frequency), doCommand(comPort, "ATI3"));
-                    var board =
-                        (Uploader.Board)
-                            Enum.Parse(typeof (Uploader.Board), doCommand(comPort, "ATI2"));
+                            Enum.Parse(typeof (Uploader.Frequency),
+                                int.Parse(freqstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI3.Text = freq.ToString();
+
+                    style = NumberStyles.Any;
+
+                    var boardstring = doCommand(comPort, "ATI2").Trim();
+
+                    if (boardstring.ToLower().Contains('x'))
+                        style = NumberStyles.AllowHexSpecifier;
+
+                    var board =
+                        (Uploader.Board)
+                            Enum.Parse(typeof (Uploader.Board),
+                                int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
                     ATI2.Text = board.ToString();
 
@@ -864,9 +899,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
@@ -932,9 +967,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        if (item.StartsWith("S"))
+                        //if (item.StartsWith("S"))
                         {
-                            var values = item.Split(':', '=');
+                            var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
 
                             if (values.Length == 3)
                             {
@@ -1283,12 +1318,14 @@ red LED solid - in firmware update mode");
 
         private void txt_aeskey_TextChanged(object sender, EventArgs e)
         {
-            string item = txt_aeskey.Text;
+            var txt = (TextBox)sender;
+
+            string item = txt.Text;
             if (!(Regex.IsMatch(item, "^[0-9a-fA-F]+$")))
             {
                 if(item.Length != 0)
-                    txt_aeskey.Text = item.Remove(item.Length - 1, 1);
-                txt_aeskey.SelectionStart = txt_aeskey.Text.Length;
+                    txt.Text = item.Remove(item.Length - 1, 1);
+                txt.SelectionStart = txt.Text.Length;
             }
         }
     }

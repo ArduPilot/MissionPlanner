@@ -11,12 +11,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     {
         public enum Frame
         {
-            Plus = 0,
-            X = 1,
-            V = 2,
-            H = 3,
-            VTail = 4,
-            Y = 10
+            Plus = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_PLUS,
+            X = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_X,
+            V = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_V,
+            H = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_H,
+            VTail = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_VTAIL,
+            Y = ConfigFrameClassType.motor_frame_type.MOTOR_FRAME_TYPE_Y6B
         }
 
         private const float DisabledOpacity = 0.2F;

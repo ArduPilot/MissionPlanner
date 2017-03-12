@@ -79,8 +79,18 @@ namespace MissionPlanner.Utilities
 
         public string BaudRate
         {
-            get { return this["baudrate"]; }
-            set { this["baudrate"] = value; }
+            get
+            {
+                try
+                {
+                    return this[ComPort + "_BAUD"];
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            set { this[ComPort + "_BAUD"] = value; }
         }
 
         public string LogDir
@@ -120,6 +130,17 @@ namespace MissionPlanner.Utilities
             if (config.TryGetValue(key, out value))
             {
                 int.TryParse(value, out result);
+            }
+            return result;
+        }
+
+        public DisplayView GetDisplayView(string key)
+        {
+            DisplayView result = new DisplayView();
+            string value = null;
+            if (config.TryGetValue(key, out value))
+            {
+                DisplayViewExtensions.TryParse(value, out result);
             }
             return result;
         }

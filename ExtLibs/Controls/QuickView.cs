@@ -48,7 +48,10 @@ namespace MissionPlanner.Controls
 
                 // only run when needed
                 if (before.Length < ans.Length)
+                {
                     GetFontSize();
+                    this.Invalidate();
+                }
             }
         }
 
@@ -113,7 +116,7 @@ namespace MissionPlanner.Controls
                 base.OnPaint(e);
         }
 
-        void GetFontSize()
+        public void GetFontSize()
         {
             Size extent = TextRenderer.MeasureText(labelWithPseudoOpacity2.Text, this.Font);
 

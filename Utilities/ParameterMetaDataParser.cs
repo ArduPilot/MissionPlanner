@@ -33,7 +33,10 @@ namespace MissionPlanner.Utilities
             string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
 
             if (MissionPlanner.Utilities.Update.dobeta)
+            {
                 parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
+                log.Info("Using Bleeding param gen urls");
+            }
 
             if (urls != null)
                 parameterLocationsString = urls;
@@ -72,6 +75,10 @@ namespace MissionPlanner.Utilities
                         {
                             element = MainV2.Firmwares.ArduRover.ToString();
                         }
+                        else if (parameterLocation.ToLower().Contains("ardusub"))
+                        {
+                            element = MainV2.Firmwares.ArduSub.ToString();
+                        }
                         else if (parameterLocation.ToLower().Contains("tracker"))
                         {
                             element = MainV2.Firmwares.ArduTracker.ToString();
@@ -88,8 +95,8 @@ namespace MissionPlanner.Utilities
 
                         // Write the start element for this parameter location
                         objXmlTextWriter.WriteStartElement(element);
+                        ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty);
                         ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim());
-                        ParseParameterInformation(dataFromAddress, objXmlTextWriter);
 
                         // Write the end element for this parameter location
                         objXmlTextWriter.WriteEndElement();
@@ -112,8 +119,28 @@ namespace MissionPlanner.Utilities
         /// <param name="objXmlTextWriter">The obj XML text writer.</param>
         /// <param name="parameterLocation">The parameter location.</param>
         private static void ParseGroupInformation(string fileContents, XmlTextWriter objXmlTextWriter,
-            string parameterLocation)
+            string parameterLocation, string parameterPrefix ="")
         {
+            var NestedGroups = Regex.Match(fileContents, ParameterMetaDataConstants.NestedGroup);
+
+            if (NestedGroups != null && NestedGroups.Success)
+            {
+                Uri uri = new Uri(parameterLocation);
+
+                var currentfn = uri.Segments[uri.Segments.Length - 1];
+
+                var newfn = NestedGroups.Groups[1].ToString() + Path.GetExtension(currentfn);
+
+                if (currentfn != newfn)
+                {
+                    var newPath = parameterLocation.Replace(currentfn, newfn);
+                    var dataFromAddress = ReadDataFromAddress(newPath);
+                    log.Info("Nested Group " + NestedGroups.Groups[1]);
+                    ParseParameterInformation(dataFromAddress, objXmlTextWriter, parameterPrefix);
+                    ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix);
+                }
+            }
+
             var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Group);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
@@ -134,15 +161,24 @@ namespace MissionPlanner.Utilities
                                         StringSplitOptions.None)
                                         .ForEach(separatedPath =>
                                         {
-                                            log.Info("Process " + node.Key + " : " + separatedPath);
+                                            log.Info("Process " + parameterPrefix + node.Key + " : " + separatedPath);
                                             Uri newUri = new Uri(new Uri(parameterLocation), separatedPath.Trim());
 
                                             var newPath = newUri.AbsoluteUri;
 
-                                            // Parse the param info from the newly constructed URL
-                                            ParseParameterInformation(ReadDataFromAddress(newPath),
-                                                objXmlTextWriter, node.Key, newPath);
+                                            if (newPath == parameterLocation)
+                                                return;
 
+                                            var dataFromAddress = ReadDataFromAddress(newPath);
+
+                                            if (dataFromAddress == "")
+                                                return;
+
+                                            // Parse the param info from the newly constructed URL
+                                            ParseParameterInformation(dataFromAddress,
+                                                objXmlTextWriter, parameterPrefix+node.Key, newPath);
+
+                                            ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix + node.Key);
                                         }));
                     }
                 });
@@ -154,37 +190,10 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <param name="fileContents">The file contents.</param>
         /// <param name="objXmlTextWriter">The obj XML text writer.</param>
-        private static void ParseParameterInformation(string fileContents, XmlTextWriter objXmlTextWriter)
-        {
-            ParseParameterInformation(fileContents, objXmlTextWriter, string.Empty);
-        }
-
-        /// <summary>
-        /// Parses the parameter information.
-        /// </summary>
-        /// <param name="fileContents">The file contents.</param>
-        /// <param name="objXmlTextWriter">The obj XML text writer.</param>
         /// <param name="parameterPrefix">The parameter prefix.</param>
         private static void ParseParameterInformation(string fileContents, XmlTextWriter objXmlTextWriter,
             string parameterPrefix, string url = "")
         {
-            var NestedGroups = Regex.Match(fileContents, ParameterMetaDataConstants.NestedGroup);
-
-            if (NestedGroups != null && NestedGroups.Success)
-            {
-                Uri uri = new Uri(url);
-
-                var currentfn = uri.Segments[uri.Segments.Length - 1];
-
-                var newfn = NestedGroups.Groups[1].ToString() + Path.GetExtension(currentfn);
-
-                if (currentfn != newfn)
-                {
-                    log.Info("Nested Group " + NestedGroups.Groups[1]);
-                    ParseParameterInformation(ReadDataFromAddress(url.Replace(currentfn, newfn)), objXmlTextWriter, parameterPrefix);
-                }
-            }
-
             var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Param);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
@@ -192,7 +201,7 @@ namespace MissionPlanner.Utilities
                 {
                     parameterPrefix = parameterPrefix.Replace('(', '_');
                     parameterPrefix = parameterPrefix.Replace(')', '_');
-                    objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix, node.Key));
+                    objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix.Replace(" ", "_"), node.Key.Replace(" ","_")));
                     if (node.Value != null && node.Value.Count > 0)
                     {
                         node.Value.ForEach(meta =>

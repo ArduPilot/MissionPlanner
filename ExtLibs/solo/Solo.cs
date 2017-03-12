@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Flurl.Util;
@@ -13,9 +15,98 @@ namespace solo
 {
     public class Solo
     {
+        public string soloip = "10.1.1.10";
+        public string controllerip = "10.1.1.1";
+
         public static bool is_solo_alive
         {
             get { return Ping("10.1.1.10"); }
+        }
+
+        public static List<string> GetLogNames()
+        {
+            var ans = new List<string>();
+
+            ///log/dataflash
+
+            if (is_solo_alive)
+            {
+                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                {
+                    client.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                    client.Connect();
+
+                    if (!client.IsConnected)
+                        throw new Exception("Failed to connect ssh");
+
+                    var cmd = client.CreateCommand("ls -al /log/dataflash");
+                    cmd.Execute();
+
+                    Regex lsregex = new Regex(@"^[drwx-]+\s+[0-9]+\s+[^\s]+\s+[^\s]+\s+([0-9]+)\s+[^\s]+\s+[^\s]+\s+[^\s]+\s+([^\*\s]+).*$", RegexOptions.Multiline);
+
+                    var matches = lsregex.Matches(cmd.Result);
+
+                    foreach (Match match in matches)
+                    {
+                        var size = match.Groups[1].Value;
+                        var name = match.Groups[2].Value;
+                        if (name.ToLower().EndsWith(".bin"))
+                            ans.Add(name);
+                    }
+
+                    /*
+                    var files = cmd.Result.Split(new char[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var file in files)
+                    {
+                        if(file.ToLower().EndsWith(".bin"))
+                            ans.Add(file);
+                    }
+                    */
+                }
+            }
+            else
+            {
+                throw new Exception("Solo is not responding to pings");
+            }
+
+            return ans;
+        }
+
+        public static void DownloadDFLog(string source, string destination)
+        {
+            if (is_solo_alive)
+            {
+                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                {
+                    client.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                    client.Connect();
+
+                    if (!client.IsConnected)
+                        throw new Exception("Failed to connect ssh");
+                    
+                    using (ScpClient scpClient = new ScpClient(client.ConnectionInfo))
+                    {
+                        scpClient.Connect();
+
+                        if (!scpClient.IsConnected)
+                            throw new Exception("Failed to connect scp");
+
+                        scpClient.Downloading += ScpClient_Downloading;
+
+                        scpClient.Download("/log/dataflash/" + source, new FileInfo(destination));
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Solo is not responding to pings");
+            }
+        }
+
+        private static void ScpClient_Downloading(object sender, Renci.SshNet.Common.ScpDownloadEventArgs e)
+        {
+            Console.WriteLine("{0} - {1} {2}",e.Filename,e.Downloaded, (e.Downloaded/(double)e.Size)*100);
         }
 
         public static void flash_px4(string firmware_file)

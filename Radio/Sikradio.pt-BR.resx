@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="linkLabel1.ToolTip" xml:space="preserve">
+    <value>O radio 3D tem dois LEDs de Status, vermelhor e verde. Verde piscando – procurando outro rádio Verde sólido - link estabelecido com outro rádio Vermelho piscando – transmitindo dados Vermelho sólido – em modo de atualização de firmware</value>
+  </data>
+  <data name="RTXPOWER.ToolTip" xml:space="preserve">
+    <value>POTENCIATX está em dbm. 20dbm é 100mW. E bom ajustar isso para baixa potencia em curta distância.</value>
+  </data>
+  <data name="RNETID.ToolTip" xml:space="preserve">
+    <value>NETID e 16 bits ‘network ID’. Isso é usado para buscar o salto de frequência e para identificar os pacotes vindo do rádio certo. Certifique-se de usar o NETID diferente dos outros rádios usados na mesma área.</value>
+  </data>
+  <data name="AIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED é a taxa de transferencia interna do radio em kbps. Então a28 significa 128kbps. Max é 192 e min 2. Recomendado é 16 já que o salto de frequencia e tdm sync fica muito longo.</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Versão</value>
+  </data>
+  <data name="RAIR_SPEED.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED é a taxa de transferencia interna do radio em kbps. Então a28 significa 128kbps. Max é 192 e min 2. Recomendado é 16 já que o salto de frequencia e tdm sync fica muito longo.</value>
+  </data>
+  <data name="BUT_Syncoptions.Text" xml:space="preserve">
+    <value>Copia requerida para remoto</value>
+  </data>
+  <data name="NUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>Número de canais para o salto de frequencia</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value># de canais</value>
+  </data>
+  <data name="LBT_RSSI.ToolTip" xml:space="preserve">
+    <value>Ouvir antes de mandar threshold</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Janela máxima (ms)</value>
+  </data>
+  <data name="BUT_savesettings.Text" xml:space="preserve">
+    <value>Salvar ajustes</value>
+  </data>
+  <data name="RMAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED é a taxa de transferencia interna do radio em kbps. Então a28 significa 128kbps. Max é 192 e min 2. Recomendado é 16 já que o salto de frequencia e tdm sync fica muito longo.</value>
+  </data>
+  <data name="NETID.ToolTip" xml:space="preserve">
+    <value>NETID e 16 bits ‘network ID’. Isso é usado para buscar o salto de frequência e para identificar os pacotes vindo do rádio certo. Certifique-se de usar o NETID diferente dos outros rádios usados na mesma área.</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value># de canais</value>
+  </data>
+  <data name="OPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND habilitar/desabilitar “oportunista re-envio”. Quando habilitado o rádio vai mandar pacotes duas vezes se o buffer da serial estiver com menos de 256 bytes nele. O segundo envio esta marcado como re-envio e descarte pelo receptor caso ele receba o primeiro pacote. Isso faz uma grande diferença na qualidade do link, especialmente para envio de comandos.</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Op Re envio</value>
+  </data>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>Ajustes padrão para o Mavlink</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Velocidade no ar</value>
+  </data>
+  <data name="SERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Serial baud rate in kbps inteiros. Então 57 significa 57600.</value>
+  </data>
+  <data name="ROPPRESEND.ToolTip" xml:space="preserve">
+    <value>OPPRESEND habilitar/desabilitar “oportunista re-envio”. Quando habilitado o rádio vai mandar pacotes duas vezes se o buffer da serial estiver com menos de 256 bytes nele. O segundo envio esta marcado como re-envio e descarte pelo receptor caso ele receba o primeiro pacote. Isso faz uma grande diferença na qualidade do link, especialmente para envio de comandos.</value>
+  </data>
+  <data name="BUT_resettodefault.Text" xml:space="preserve">
+    <value>Resetar para o padrão</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Re-enviado Op</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Versão</value>
+  </data>
+  <data name="MIN_FREQ.ToolTip" xml:space="preserve">
+    <value>Frequencia mínima em KHz</value>
+  </data>
+  <data name="RSERIAL_SPEED.ToolTip" xml:space="preserve">
+    <value>Serial baud rate in kbps inteiros. Então 57 significa 57600.</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>NOTA: Sempre clique “Copia requerida para o remote” quando modificar isso significa que o link de rádio não será perdido.</value>
+  </data>
+  <data name="RGPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND habilitar/desabilitar “oportunista re-envio”. Quando habilitado o rádio vai mandar pacotes duas vezes se o buffer da serial estiver com menos de 256 bytes nele. O segundo envio esta marcado como re-envio e descarte pelo receptor caso ele receba o primeiro pacote. Isso faz uma grande diferença na qualidade do link, especialmente para envio de comandos.</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Leds de Estatus</value>
+  </data>
+  <data name="MAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>ID do Nó. ID do nó base é 0. One deve estar como base para o ambiente multi ponto funcionar.</value>
+  </data>
+  <data name="RNUM_CHANNELS.ToolTip" xml:space="preserve">
+    <value>Numeros de canal do salto de frequencia</value>
+  </data>
+  <data name="groupBoxRemote.Text" xml:space="preserve">
+    <value>Remoto</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Velocidade no ar</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>Ajustes para baixa latencia</value>
+  </data>
+  <data name="ECC.ToolTip" xml:space="preserve">
+    <value>ECC esta para habilitar/desabilitar o código de correção de erro golay. O padrão e Off. Caso seja habilitado, os pacotes ocuparão o dobro de bytes enviados, então metade da banda de transmissão é perdida, mas a correção pode ser de 3 bits de erro por 12 transmitidos. Use esse formato para longa distâncias em combinação com baixo baudrate. O decodificador golay usa 20 microsegundo por byte transmitido (40 microsegundos pelo tipo de dado do usuário) o que significa que a CPU também estará ocupada em altas taxas de transmissão. Normalmente use o golay em taxas inferiores a 128 kbps.</value>
+  </data>
+  <data name="label31.Text" xml:space="preserve">
+    <value>Formato</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Janela max (ms)</value>
+  </data>
+  <data name="label36.Text" xml:space="preserve">
+    <value>Emcriptação AES</value>
+  </data>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Emcriptação AES</value>
+  </data>
+  <data name="DUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>Percentual de tempo para permitir a transmissão.</value>
+  </data>
+  <data name="RMIN_FREQ.ToolTip" xml:space="preserve">
+    <value>Frequencia mínima em KHz</value>
+  </data>
+  <data name="GPI1_1R_CIN.ToolTip" xml:space="preserve">
+    <value>OPPRESEND habilitar/desabilitar “oportunista re-envio”. Quando habilitado o rádio vai mandar pacotes duas vezes se o buffer da serial estiver com menos de 256 bytes nele. O segundo envio esta marcado como re-envio e descarte pelo receptor caso ele receba o primeiro pacote. Isso faz uma grande diferença na qualidade do link, especialmente para envio de comandos.</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>Carregar firmware customizado</value>
+  </data>
+  <data name="BUT_upload.Text" xml:space="preserve">
+    <value>Carregar firmware (Local)</value>
+  </data>
+  <data name="RDUTY_CYCLE.ToolTip" xml:space="preserve">
+    <value>Percentual de tempo para permitir a transmissão.</value>
+  </data>
+  <data name="RMAX_WINDOW.ToolTip" xml:space="preserve">
+    <value>ID do Nó. ID do nó base é 0. One deve estar como base para o ambiente multi ponto funcionar.</value>
+  </data>
+  <data name="RMAX_FREQ.ToolTip" xml:space="preserve">
+    <value>Frequencia máxima em KHz</value>
+  </data>
+  <data name="BUT_getcurrent.Text" xml:space="preserve">
+    <value>Carregar ajustes</value>
+  </data>
+  <data name="GPO1_1R_COUT.ToolTip" xml:space="preserve">
+    <value>OPPRESEND habilitar/desabilitar “oportunista re-envio”. Quando habilitado o rádio vai mandar pacotes duas vezes se o buffer da serial estiver com menos de 256 bytes nele. O segundo envio esta marcado como re-envio e descarte pelo receptor caso ele receba o primeiro pacote. Isso faz uma grande diferença na qualidade do link, especialmente para envio de comandos.</value>
+  </data>
+  <data name="RRTSCTS.ToolTip" xml:space="preserve">
+    <value>Habilitae ou desabilitar controle de fluxo do hardware</value>
+  </data>
+  <data name="MAVLINK.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED é o inteiro da transmissão do rádio em kbps. Então 128 significa 128kbps. Max é 192, min é 2. Recomendo valor abaixo de 16 já que o salto de frequencia e sincronizador de tempo tdm fica muito longo.</value>
+  </data>
+  <data name="TXPOWER.ToolTip" xml:space="preserve">
+    <value>TXPOWER é a potencia de transmissão em dbm. 20dbm é 100mW. E bom ajustar esse valor baixo para distâncias curtas.</value>
+  </data>
+  <data name="RTSCTS.ToolTip" xml:space="preserve">
+    <value>Habilitar ou desabilitar o controle de fluxo do hardware</value>
+  </data>
+</root>

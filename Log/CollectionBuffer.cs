@@ -95,7 +95,8 @@ namespace MissionPlanner.Log
                 // build fmt line database using type
                 foreach (var item in GetEnumeratorType("FMT"))
                 {
-                    Console.WriteLine("Found FMT");
+                    //Console.WriteLine("Found FMT");
+                    bool t = true;
                 }
             }
             else

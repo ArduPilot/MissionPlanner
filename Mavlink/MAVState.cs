@@ -11,20 +11,20 @@ using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
-    public class MAVState : MAVLink
+    public class MAVState : MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public MAVLinkInterface parent;
 
-        public MAVState(MAVLinkInterface mavLinkInterface)
+        public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
         {
             this.parent = mavLinkInterface;
+            this.sysid = sysid;
+            this.compid = compid;
             this.packetspersecond = new double[0x100];
             this.packetspersecondbuild = new DateTime[0x100];
             this.lastvalidpacket = DateTime.MinValue;
-            this.sysid = 0;
-            this.compid = 0;
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
@@ -36,7 +36,8 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
-            this.Proximity = new Proximity(this);
+            if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
+                this.Proximity = new Proximity(this);
 
             camerapoints.Clear();
 
@@ -70,10 +71,15 @@ namespace MissionPlanner
         /// </summary>
         public CurrentState cs = new CurrentState();
 
+        private byte _sysid;
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
-        public byte sysid { get; set; }
+        public byte sysid
+        {
+            get { return _sysid; }
+            set { _sysid = value; }
+        }
 
         /// <summary>
         /// mavlink remove compid
@@ -113,25 +119,47 @@ namespace MissionPlanner
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
-        public Dictionary<uint, MAVLinkMessage> packets { get; set; }
+        Dictionary<uint, MAVLinkMessage> packets { get; set; }
+
+        object packetslock = new object();
 
         public MAVLinkMessage getPacket(uint mavlinkid)
         {
             //log.InfoFormat("getPacket {0}", (MAVLINK_MSG_ID)mavlinkid);
-            if (packets.ContainsKey(mavlinkid))
+            lock (packetslock)
             {
-                return packets[mavlinkid];
+                if (packets.ContainsKey(mavlinkid))
+                {
+                    return packets[mavlinkid];
+                }
             }
 
             return null;
         }
 
+        public void addPacket(MAVLinkMessage msg)
+        {
+            lock (packetslock)
+            {
+                packets[msg.msgid] = msg;
+            }
+        }
+
         public void clearPacket(uint mavlinkid)
         {
-            if (packets.ContainsKey(mavlinkid))
+            lock (packetslock)
             {
-                packets[mavlinkid] = null;
+                if (packets.ContainsKey(mavlinkid))
+                {
+                    packets[mavlinkid] = null;
+                }
             }
+        }
+
+        public void Dispose()
+        {
+            if (Proximity != null)
+                Proximity.Dispose();
         }
 
         /// <summary>
@@ -186,5 +214,6 @@ namespace MissionPlanner
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
+        public Int64 time_offset_ns { get; set; }
     }
 }

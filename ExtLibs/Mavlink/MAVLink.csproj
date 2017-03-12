@@ -32,7 +32,16 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
@@ -85,6 +94,7 @@
     <Content Include="pymavlink\__init__.py" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="mykey.snk" />
     <None Include="pymavlink\generator\lib\minixsv\datatypes.xsd">
       <SubType>Designer</SubType>
     </None>
