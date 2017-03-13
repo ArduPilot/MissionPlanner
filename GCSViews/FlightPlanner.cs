@@ -49,7 +49,6 @@ namespace MissionPlanner.GCSViews
         bool isonline = true;
         bool sethome;
         bool polygongridmode;
-        Hashtable param = new Hashtable();
         bool splinemode;
         altmode currentaltmode = altmode.Relative;
 
@@ -1934,8 +1933,6 @@ namespace MissionPlanner.GCSViews
 
                 MainV2.comPort.giveComport = true;
 
-                param = port.MAV.param;
-
                 log.Info("Getting Home");
 
                 ((ProgressReporterDialogue) sender).UpdateProgressAndStatus(0, "Getting WP count");
@@ -2565,7 +2562,7 @@ namespace MissionPlanner.GCSViews
             {
                 log.Info("Loading wp params");
 
-                Hashtable param = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
+                Dictionary<string, double> param = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
 
                 if (param["WP_RADIUS"] != null)
                 {

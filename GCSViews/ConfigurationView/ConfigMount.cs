@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -108,7 +109,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
+            var copy = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
 
             if (!copy.ContainsKey("CAM_TRIGG_TYPE"))
             {

@@ -216,7 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_compare_Click(object sender, EventArgs e)
         {
-            var param2 = new Hashtable();
+            var param2 = new Dictionary<string, double>();
 
             using (var ofd = new OpenFileDialog
             {

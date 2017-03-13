@@ -1119,7 +1119,7 @@ Please check the following
         /// Get param list from apm
         /// </summary>
         /// <returns></returns>
-        private Hashtable getParamListBG()
+        private Dictionary<string, double> getParamListBG()
         {
             giveComport = true;
             List<int> indexsreceived = new List<int>();
