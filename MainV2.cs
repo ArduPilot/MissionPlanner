@@ -1306,7 +1306,7 @@ namespace MissionPlanner
                     {
                         System.Threading.Thread.Sleep(100);
 
-                        if (DateTime.Now > deadline)
+                        if (DateTime.Now > deadline || Comms.CommsSerialScan.run == 0)
                         {
                             CustomMessageBox.Show(Strings.Timeout);
                             _connectionControl.IsConnected(false);

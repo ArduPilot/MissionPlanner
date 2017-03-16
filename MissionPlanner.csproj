@@ -382,7 +382,6 @@
     <Compile Include="Antenna\Tracker.Designer.cs">
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Arduino\IArduinoComms.cs" />
     <Compile Include="Controls\ControlSensorsStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -439,15 +438,9 @@
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
-    <Compile Include="Arduino\ArduinoSTK.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Arduino\ArduinoSTKv2.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
-    <Compile Include="Comms\MAVLinkSerialPort.cs" />
+    <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
     <Compile Include="Controls\AuthKeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -5069,6 +5062,10 @@
     <ProjectReference Include="ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj">
       <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
       <Name>AltitudeAngelWings</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj">
+      <Project>{ec0f2b60-cc39-4990-801f-c5db4b570600}</Project>
+      <Name>Arduino</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\AviFile\AviFile.csproj">
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>

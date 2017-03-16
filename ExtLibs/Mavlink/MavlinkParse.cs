@@ -16,10 +16,23 @@ public partial class MAVLink
 
         public static void ReadWithTimeout(Stream BaseStream, byte[] buffer, int offset, int count)
         {
-            int timeout = BaseStream.ReadTimeout;
+            int timeout = 500;
 
-            if (timeout == -1)
-                timeout = 60000;
+            if (BaseStream.CanSeek)
+            {
+                timeout = 0;
+
+                if((BaseStream.Position + count) >= BaseStream.Length)
+                    throw new EndOfStreamException("End of data");
+            }
+
+            if (BaseStream.CanTimeout)
+            {
+                timeout = BaseStream.ReadTimeout;
+
+                if (timeout == -1)
+                    timeout = 60000;
+            }
 
             DateTime to = DateTime.Now.AddMilliseconds(timeout);
 
@@ -52,11 +65,11 @@ public partial class MAVLink
 
         public MAVLinkMessage ReadPacket(Stream BaseStream)
         {
-            byte[] buffer = new byte[270];
+            byte[] buffer = new byte[MAVLink.MAVLINK_MAX_PACKET_LEN];
 
             int readcount = 0;
 
-            while (readcount < 200)
+            while (readcount <= MAVLink.MAVLINK_MAX_PACKET_LEN)
             {
                 // read STX byte
                 ReadWithTimeout(BaseStream, buffer, 0, 1);
@@ -65,6 +78,11 @@ public partial class MAVLink
                     break;
 
                 readcount++;
+            }
+
+            if (readcount >= MAVLink.MAVLINK_MAX_PACKET_LEN)
+            {
+                throw new InvalidDataException("No header found in data");
             }
 
             var headerlength = buffer[0] == MAVLINK_STX ? MAVLINK_CORE_HEADER_LEN : MAVLINK_CORE_HEADER_MAVLINK1_LEN;
@@ -89,7 +107,7 @@ public partial class MAVLink
             }
 
             //read rest of packet
-            ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - (headerlengthstx-2));
+            ReadWithTimeout(BaseStream, buffer, headerlengthstx, lengthtoread - (headerlengthstx-2));
 
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);

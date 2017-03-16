@@ -310,6 +310,6 @@ public static class MavlinkUtil
                 return item;
         }
 
-        return source[0];
+        return new MAVLink.message_info();
     }
 }

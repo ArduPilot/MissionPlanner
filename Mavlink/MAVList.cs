@@ -2,10 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Management.Instrumentation;
-using System.Text;
-using IronPython.Compiler;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Mavlink
 {
