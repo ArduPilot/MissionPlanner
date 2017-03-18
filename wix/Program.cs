@@ -133,6 +133,9 @@ namespace wix
             st.WriteLine("About to upload!!!!!!!!!");
             st.WriteLine("pause");
 
+            st.WriteLine(@"c:\cygwin\bin\chmod.exe 777 " + fn + ".zip");
+            st.WriteLine(@"c:\cygwin\bin\chmod.exe 777 " + fn + ".msi");
+
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi " + outputfilename + "-latest.msi");
 
