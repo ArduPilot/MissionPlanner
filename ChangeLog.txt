@@ -1,4 +1,130 @@
-﻿* Mission Planner 1.3.44 - 31-1-2017
+﻿* Mission Planner 1.3.45 - 18-3-2017
+UDPShims: add exception logging
+FlightPlanner: Exception Logging
+Language: update PT
+MAVLink: fix parse, and improve serial scanner
+Arduino: move to library
+MyProgressBar: guard against overflow exception
+MavlinkLog: add splitcontainer
+MAVLinkParam: convert hashtable to dictionary
+MavlinkInterface: support new comms changes
+MP.Utilities: .net 4.0
+ProgressReporterDialog: add propery change event
+MP.Comms: remove external UI dependancys
+MainV2: download fence on connect if set
+ConfigRawParams: add delaytimer to search
+BackStageViewPage: enable autoscroll
+RangeControl: disable scrollwheel
+MAVLinkInterface: add timestamp support
+SerialInjectGPS: add tooltips
+FormationControl: add guided mode button
+SerialInjectGPS: ensure basepos uses invariant
+FormationControl: remove connect mavs button
+ConfigMotorTest: add to groupbox
+ConfigESCCalibration: fix increment
+LogBrowse: add GPSB to map (yellow)
+github: add issue_template
+Tooltips: add from metadata and ESC Calibration
+CurrentState: change order hide hil/rcoverride
+enable signing
+remove gitattributes: nothing but issues
+MainV2: prevent serialreader delay
+FlightData: fix posible map bearing overflow
+Fixed typo
+SteamCombiner: change to connect as individual ports
+SerialInjectGPS: add rtcm 1012 simple decode
+CurrentState: add strength for all accel/gyro/mag
+Translation: add Portuguese (Brazil) (jader)
+MP.Controls: remove utilities reference
+nuget: update libs
+tidy references
+FirmwareHistory: update
+GMapMarkerSub: add icon
+ParameterMetaData: add ardusub
+Cleanup unused files
+MainV2: make menu font smaller
+MAVLinkInterface: add rcoverride
+mavgraphs: add salt to range vs baro
+Firmware: add apm2 retired warning for all uploads
+ParameterMetaDataParser: fix nested group bug
+ParameterMetaDataParser: better support nested groups
+Script: provide access to all mavlinkinterfaces
+ConfigPlanner: enable beta update as its ticked
+ParameterMetaData: Handle spaces in names
+FlightPlanner: fix load and append
+GridUIV2: fix deg2rad double
+MathHelper: move deg2rad to utilities
+deg2rad: convert all to double
+RangeControl: disable the mouse wheel
+MainV2: trial no text
+Swarm: update to support multiple mavs per connection
+MAVLinkInterface: support targeted guidedmode
+rad2deg and deg2rad: convert to double
+UDPMavlinkShim: autoconnect to mavlink udp 14550
+Comms: add default timeout to 500ms
+Formation: add location display
+MAVLinkInterface: save postarget for display
+CommsUDP: prevent stack overflow
+FlightPlanner: change Dist to 3d distance
+LogOutput: sort params
+Joystick: disable ch5-8 when using manual control
+CommsUdpSerial: make client public
+SimpleGrid: text size and add drag ability
+FlightPlanner: add dxf to default file filter
+MAVState: show proximity on log playback
+GMarkerGoogle: prevent overflow exception
+Joystick: add manual control support
+GDAL: add more locks
+POI: add default load/save
+LogIndex: add size exception check
+LogBrowse: add map line legend
+ConfigMount: support rc/servo split
+ConfigRadioInput: switch reverse state and add more calibration bars
+SikRadio: remove file
+MainV2: add commandline options (connect/joystick/camera)
+gitattributes
+ConfigRadioInput: support new rc/servo split
+UDPVideoShim: prevent running more than one instance
+CustomMessageBox: add fallback
+HUD: change bg texture update method
+ConfigFirmware: add solo upload support #1347
+SerialInjectGPS: add time to surveyin and disable ubx msgs
+PointLatLngAlt: prevent exception on object compare
+GStreamer: add bufferstream and img lock
+MainV2: add startup logging
+MeasureString: add log4net
+mavcmd: add Altitude_Wait
+MainV2: add ph2 service bulletin
+SerialInjectGPS: fix checkbox load
+SerialInjectGPS: support rtcm 1074/1084
+SerialInjectGPS: m8p changes prep for 130
+Sikradio: always use ats/rts
+SerialInjectGPS: add snr's
+ConfigBatteryMonitoring: update name
+FirmwareHistory: update
+MagCalib: fix mag cal on apm2
+SimpleGridUI: fix duplicate points
+GStreamer: convert to raw rtp on loopback and search for gstreamer
+HUD: handle invalid bgimage
+LogAnalyzer: run even if download fails if we have the runner
+TelemetryLogGraph: Fix some messages not being graphed
+ConfigPlanner: change the text value from Vario to Layout
+UDPVideoShim: prevent gstreamer start on socket close
+AltitudeAngel: add multipolygon support
+LogAnalyzer: fix linefeeds in output
+FlightData: dont display mav if lat/lng = 0  #1472
+gstreamer: cleanup on exit
+SerialInjectGPS: friendly error on bad base pos list
+GStreamer: move shim startup
+LogIndex: fix change directory
+SerialInjectGPS: add base coords
+LogIndex: add bin/log support
+GeoRefImage: add null check on bad picture state
+DFLogScript: fix earth_accel_df
+ConfigMotorTest: support new frame param
+SerialInjectGPS: ensure m8p will configure from default
+
+* Mission Planner 1.3.44 - 31-1-2017
 Georefimage: add exception handle around writecoords
 AP_Terrain: add io section
 AASettings: add .net version warning
