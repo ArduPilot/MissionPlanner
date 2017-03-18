@@ -6,14 +6,18 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using log4net;
 
 namespace MissionPlanner.Utilities
 {
     public class UDPVideoShim
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private static UdpClient client;
         private static UdpClient client2;
         private static UdpClient client3;
@@ -26,19 +30,28 @@ namespace MissionPlanner.Utilities
                 client = new UdpClient(5600, AddressFamily.InterNetwork);
                 client.BeginReceive(clientdata, client);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             try
             {
                 client2 = new UdpClient(5000, AddressFamily.InterNetwork);
                 client2.BeginReceive(clientdata, client2);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
             try
             {
                 client3 = new UdpClient(5100, AddressFamily.InterNetwork);
                 client3.BeginReceive(clientdata, client3);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         ~UDPVideoShim()
@@ -54,7 +67,10 @@ namespace MissionPlanner.Utilities
                     client.Close();
                 client = null;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             try
             {
@@ -62,13 +78,19 @@ namespace MissionPlanner.Utilities
                     tcpclient.Close();
                 tcpclient = null;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
 
             try
             {
                 GStreamer.Stop();
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         private static void clientdata(IAsyncResult ar)
@@ -134,8 +156,9 @@ namespace MissionPlanner.Utilities
                     tcpclient = new TcpClient("10.1.1.1", 5502);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -156,8 +179,9 @@ namespace MissionPlanner.Utilities
                     return false;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return false;
             }
         }

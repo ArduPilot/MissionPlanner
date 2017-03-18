@@ -22,8 +22,9 @@ namespace MissionPlanner.Utilities
                 client = new UdpClient(14550, AddressFamily.InterNetwork);
                 client.BeginReceive(clientdata, client);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -77,8 +78,9 @@ namespace MissionPlanner.Utilities
                 if (client!= null)
                 client.Close();
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
     }
