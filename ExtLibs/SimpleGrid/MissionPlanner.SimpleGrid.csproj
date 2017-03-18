@@ -146,6 +146,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GridUI.pt.resx" />
     <EmbeddedResource Include="SimpleGridUI.resx">
       <DependentUpon>SimpleGridUI.cs</DependentUpon>
     </EmbeddedResource>

@@ -410,6 +410,9 @@
       <DependentUpon>LogDownloadscp.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\test\MotorFailure.cs" />
+    <Compile Include="Strings.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Swarm\FollowLeader\Control.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -978,26 +981,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Strings.id-ID.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.id-ID.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ja-JP.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ja-JP.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ko-KR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ko-KR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.zh-Hans.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.zh-Hans.resx</DependentUpon>
-    </Compile>
     <Compile Include="Swarm\FollowPathControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1148,13 +1131,13 @@
     <EmbeddedResource Include="Antenna\Tracker.ar.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Antenna\Tracker.pt-BR.resx">
+    <EmbeddedResource Include="Antenna\Tracker.pt.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnectionOptions.ar.resx">
       <DependentUpon>ConnectionOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConnectionOptions.pt-BR.resx">
+    <EmbeddedResource Include="ConnectionOptions.pt.resx">
       <DependentUpon>ConnectionOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\AuthKeys.resx">
@@ -1163,13 +1146,13 @@
     <EmbeddedResource Include="Controls\ConnectionControl.ar.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ConnectionControl.pt-BR.resx">
+    <EmbeddedResource Include="Controls\ConnectionControl.pt.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionStats.ar.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ConnectionStats.pt-BR.resx">
+    <EmbeddedResource Include="Controls\ConnectionStats.pt.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
@@ -1181,7 +1164,7 @@
     <EmbeddedResource Include="Controls\DefaultSettings.ar.resx">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\DefaultSettings.pt-BR.resx">
+    <EmbeddedResource Include="Controls\DefaultSettings.pt.resx">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Loading.resx">
@@ -1190,25 +1173,25 @@
     <EmbeddedResource Include="Controls\ModifyandSet.ar.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ModifyandSet.pt-BR.resx">
+    <EmbeddedResource Include="Controls\ModifyandSet.pt.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ServoOptions.ar.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ServoOptions.pt-BR.resx">
+    <EmbeddedResource Include="Controls\ServoOptions.pt.resx">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.ar.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ThemeColors.pt-BR.resx">
+    <EmbeddedResource Include="Controls\ThemeColors.pt.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.ar.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FollowMe.pt-BR.resx">
+    <EmbeddedResource Include="FollowMe.pt.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.ar.resx">
@@ -1235,7 +1218,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pl.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pt.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
@@ -1262,7 +1245,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.ko-KR.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.pt.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
@@ -1289,7 +1272,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.ko-KR.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.pt.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
@@ -1317,7 +1300,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.ko-KR.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.pt.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.resx">
@@ -1353,7 +1336,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.ko-KR.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.pt.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.resx">
@@ -1389,7 +1372,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.ko-KR.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.pt.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.resx">
@@ -1419,7 +1402,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.ko-KR.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.pt.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.resx">
@@ -1455,7 +1438,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.pl.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.pt.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.resx">
@@ -1498,7 +1481,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pl.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pt.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.resx">
@@ -1540,7 +1523,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pl.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pt.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.resx">
@@ -1567,7 +1550,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.ko-KR.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.pt.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.resx">
@@ -1603,7 +1586,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.pl.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.pt.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.resx">
@@ -1645,7 +1628,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.pl.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.pt.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.resx">
@@ -1676,7 +1659,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ko-KR.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.pt.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
@@ -1712,7 +1695,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.pl.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.pt.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.resx">
@@ -1754,7 +1737,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.pl.resx">
       <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.pt.resx">
       <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.resx">
@@ -1796,7 +1779,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pl.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pt.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.resx">
@@ -1823,7 +1806,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.ko-KR.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.pt.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.resx">
@@ -1862,7 +1845,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pl.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pt.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.resx">
@@ -1880,19 +1863,19 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.ar.resx">
       <DependentUpon>ConfigHWBT.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.pt.resx">
       <DependentUpon>ConfigHWBT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.ar.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.pt.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWESP8266.ar.resx">
       <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWESP8266.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWESP8266.pt.resx">
       <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWesp8266.resx">
@@ -1953,37 +1936,37 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.ar.resx">
       <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.pt.resx">
       <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.ar.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.pt.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.ar.resx">
       <DependentUpon>ConfigHWParachute.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.pt.resx">
       <DependentUpon>ConfigHWParachute.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.ar.resx">
       <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.pt.resx">
       <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.ar.resx">
       <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.pt.resx">
       <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.ar.resx">
       <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.pt.resx">
       <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx">
@@ -2124,7 +2107,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.ko-KR.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.pt.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx">
@@ -2145,7 +2128,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.ko-KR.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.pt.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.resx">
@@ -2175,7 +2158,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.ko-KR.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.pt.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.resx">
@@ -2202,7 +2185,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.ko-KR.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.pt.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.resx">
@@ -2232,7 +2215,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ko-KR.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.pt.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.resx">
@@ -2274,7 +2257,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.pl.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.pt.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.resx">
@@ -2310,7 +2293,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.ko-KR.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.pt.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.resx">
@@ -2346,7 +2329,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ko-KR.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.pt.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.resx">
@@ -2373,7 +2356,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.ko-KR.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.pt.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
@@ -2409,7 +2392,7 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.pl.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.pt.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.resx">
@@ -2452,7 +2435,7 @@
     <EmbeddedResource Include="GCSViews\FlightData.pl.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\FlightData.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\FlightData.pt.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.resx">
@@ -2500,7 +2483,7 @@
     <EmbeddedResource Include="GCSViews\FlightPlanner.pl.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\FlightPlanner.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\FlightPlanner.pt.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.resx">
@@ -2548,7 +2531,7 @@
     <EmbeddedResource Include="GCSViews\Help.pl.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Help.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\Help.pt.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Help.resx">
@@ -2579,7 +2562,7 @@
     <EmbeddedResource Include="GCSViews\InitialSetup.ko-KR.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\InitialSetup.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\InitialSetup.pt.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
@@ -2624,7 +2607,7 @@
     <EmbeddedResource Include="GCSViews\Terminal.pl.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Terminal.pt-BR.resx">
+    <EmbeddedResource Include="GCSViews\Terminal.pt.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.resx">
@@ -2645,37 +2628,37 @@
     <EmbeddedResource Include="GeoRef\Georefimage.ar.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GeoRef\Georefimage.pt-BR.resx">
+    <EmbeddedResource Include="GeoRef\Georefimage.pt.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.ar.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Joystick\JoystickSetup.pt-BR.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.pt.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_Mount_Mode.ar.resx">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Joystick\Joy_Mount_Mode.pt-BR.resx">
+    <EmbeddedResource Include="Joystick\Joy_Mount_Mode.pt.resx">
       <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogBrowse.ar.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\LogBrowse.pt-BR.resx">
+    <EmbeddedResource Include="Log\LogBrowse.pt.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownload.ar.resx">
       <DependentUpon>LogDownload.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\LogDownload.pt-BR.resx">
+    <EmbeddedResource Include="Log\LogDownload.pt.resx">
       <DependentUpon>LogDownload.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\LogDownloadMavLink.pt-BR.resx">
+    <EmbeddedResource Include="Log\LogDownloadMavLink.pt.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\LogDownloadscp.pt-BR.resx">
+    <EmbeddedResource Include="Log\LogDownloadscp.pt.resx">
       <DependentUpon>LogDownloadscp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadscp.resx">
@@ -2693,25 +2676,22 @@
     <EmbeddedResource Include="Log\MavlinkLog.ar.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log\MavlinkLog.pt-BR.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.pt.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2.ar.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainV2.pt-BR.resx">
+    <EmbeddedResource Include="MainV2.pt.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MovingBase.ar.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MovingBase.pt-BR.resx">
+    <EmbeddedResource Include="MovingBase.pt.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\Sikradio.ar.resx">
-      <DependentUpon>Sikradio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Radio\Sikradio.pt-BR.resx">
       <DependentUpon>Sikradio.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\Sikradio.zh-Hant.resx">
@@ -2723,44 +2703,43 @@
     <EmbeddedResource Include="RAW_Sensor.ar.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RAW_Sensor.pt-BR.resx">
+    <EmbeddedResource Include="RAW_Sensor.pt.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptConsole.ar.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ScriptConsole.pt-BR.resx">
+    <EmbeddedResource Include="ScriptConsole.pt.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialInjectGPS.ar.resx">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SerialInjectGPS.pt-BR.resx">
+    <EmbeddedResource Include="SerialInjectGPS.pt.resx">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputMD.ar.resx">
       <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SerialOutputMD.pt-BR.resx">
+    <EmbeddedResource Include="SerialOutputMD.pt.resx">
       <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputNMEA.ar.resx">
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SerialOutputNMEA.pt-BR.resx">
+    <EmbeddedResource Include="SerialOutputNMEA.pt.resx">
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.ar.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SerialOutputPass.pt-BR.resx">
+    <EmbeddedResource Include="SerialOutputPass.pt.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Strings.pt-BR.resx" />
     <EmbeddedResource Include="Swarm\FollowLeader\Control.resx">
       <DependentUpon>Control.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.pt-BR.resx">
+    <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.pt.resx">
       <DependentUpon>WPControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.resx">
@@ -2781,7 +2760,7 @@
     <EmbeddedResource Include="Wizard\10FlightModes.ko-KR.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\10FlightModes.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\10FlightModes.pt.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.resx">
@@ -2808,7 +2787,7 @@
     <EmbeddedResource Include="Wizard\11Verify.ko-KR.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\11Verify.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\11Verify.pt.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\11Verify.resx">
@@ -2835,7 +2814,7 @@
     <EmbeddedResource Include="Wizard\12FailSafe.ko-KR.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\12FailSafe.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\12FailSafe.pt.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.resx">
@@ -2862,7 +2841,7 @@
     <EmbeddedResource Include="Wizard\13GeoFence.ko-KR.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\13GeoFence.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\13GeoFence.pt.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\13GeoFence.resx">
@@ -2889,7 +2868,7 @@
     <EmbeddedResource Include="Wizard\1Intro.ko-KR.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\1Intro.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\1Intro.pt.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.resx">
@@ -2916,7 +2895,7 @@
     <EmbeddedResource Include="Wizard\2FrameFW.ko-KR.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\2FrameFW.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\2FrameFW.pt.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\2FrameFW.resx">
@@ -2943,7 +2922,7 @@
     <EmbeddedResource Include="Wizard\3ConnectAP.ko-KR.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\3ConnectAP.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\3ConnectAP.pt.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\3ConnectAP.resx">
@@ -2970,7 +2949,7 @@
     <EmbeddedResource Include="Wizard\4FrameType.ko-KR.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\4FrameType.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\4FrameType.pt.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\4FrameType.resx">
@@ -2997,7 +2976,7 @@
     <EmbeddedResource Include="Wizard\5AccelCalib.ko-KR.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\5AccelCalib.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\5AccelCalib.pt.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\5AccelCalib.resx">
@@ -3024,7 +3003,7 @@
     <EmbeddedResource Include="Wizard\6CompassCalib.ko-KR.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\6CompassCalib.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\6CompassCalib.pt.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\6CompassCalib.resx">
@@ -3051,7 +3030,7 @@
     <EmbeddedResource Include="Wizard\7BatteryMonitor.ko-KR.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\7BatteryMonitor.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\7BatteryMonitor.pt.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\7BatteryMonitor.resx">
@@ -3078,7 +3057,7 @@
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.ko-KR.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\8OptionalItemsAC.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\8OptionalItemsAC.pt.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.resx">
@@ -3105,7 +3084,7 @@
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.ko-KR.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\8OptionalItemsAP.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\8OptionalItemsAP.pt.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.resx">
@@ -3132,7 +3111,7 @@
     <EmbeddedResource Include="Wizard\98DontForget.ko-KR.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\98DontForget.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\98DontForget.pt.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\98DontForget.resx">
@@ -3159,7 +3138,7 @@
     <EmbeddedResource Include="Wizard\9RadioCalibration.ko-KR.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\9RadioCalibration.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\9RadioCalibration.pt.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\9RadioCalibration.resx">
@@ -3183,7 +3162,7 @@
     <EmbeddedResource Include="Wizard\Wizard.ko-KR.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\Wizard.pt-BR.resx">
+    <EmbeddedResource Include="Wizard\Wizard.pt.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
