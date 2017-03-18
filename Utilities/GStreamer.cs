@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.GCSViews;
@@ -158,7 +159,25 @@ namespace MissionPlanner.Utilities
 
                     log.Info("Starting " + psi.FileName + " " + psi.Arguments);
 
+                    psi.RedirectStandardOutput = true;
+
                     process = Process.Start(psi);
+
+                    var th = new Thread((() =>
+                    {
+                        using (StreamReader sr = process.StandardOutput)
+                        {
+                            try
+                            {
+                                while (process != null && !process.HasExited)
+                                {
+                                    log.Info(sr.ReadLine());
+                                }
+                            }
+                            catch { }
+                        }
+                    }));
+                    th.Start();
 
                     //pipeServer.WaitForConnection();
 
