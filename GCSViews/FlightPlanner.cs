@@ -369,8 +369,9 @@ namespace MissionPlanner.GCSViews
                 Commands[Lon.Index, rowindex].Value = utm.ToLLA().Lng;
 
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return;
             }
         }
@@ -392,8 +393,9 @@ namespace MissionPlanner.GCSViews
                 Commands[Lon.Index, rowindex].Value = convert.Longitude.ToString();
 
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 return;
             }
         }
@@ -447,8 +449,9 @@ namespace MissionPlanner.GCSViews
                     lbl_homedist.Text = rm.GetString("lbl_homedist.Text") + ": " + FormatDistance(homedist, true);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -671,8 +674,9 @@ namespace MissionPlanner.GCSViews
                     if (index != -1)
                         comboBoxMapType.SelectedIndex = index;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
             else
@@ -690,8 +694,9 @@ namespace MissionPlanner.GCSViews
                         if (index != -1)
                             comboBoxMapType.SelectedIndex = index;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
                 else
@@ -705,8 +710,9 @@ namespace MissionPlanner.GCSViews
                         if (index != -1)
                             comboBoxMapType.SelectedIndex = index;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
             }
@@ -890,8 +896,9 @@ namespace MissionPlanner.GCSViews
                     MainMap.Zoom = 16;
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
 
             panelMap.Refresh();
@@ -923,14 +930,6 @@ namespace MissionPlanner.GCSViews
 
         private void processKML(Element Element)
         {
-            try
-            {
-                //  log.Info(Element.ToString() + " " + Element.Parent);
-            }
-            catch
-            {
-            }
-
             Document doc = Element as Document;
             Placemark pm = Element as Placemark;
             Folder folder = Element as Folder;
@@ -1279,8 +1278,9 @@ namespace MissionPlanner.GCSViews
                     if (!String.IsNullOrEmpty(TXT_homealt.Text))
                         homealt = (int) double.Parse(TXT_homealt.Text);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
                 if ((altmode) CMB_altmode.SelectedValue == altmode.Absolute)
                 {
@@ -1756,8 +1756,9 @@ namespace MissionPlanner.GCSViews
                             ((lla.GetBearing(last) + 180)%360).ToString("0");
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
                 a++;
                 last = lla;
@@ -1813,8 +1814,9 @@ namespace MissionPlanner.GCSViews
                                          double.Parse(TXT_homealt.Text).ToString("0.000000", new CultureInfo("en-US")) +
                                          "\t1");
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            log.Error(ex);
                             sw.WriteLine("0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1");
                         }
                         for (int a = 0; a < Commands.Rows.Count - 0; a++)
@@ -2564,11 +2566,11 @@ namespace MissionPlanner.GCSViews
 
                 Dictionary<string, double> param = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
 
-                if (param["WP_RADIUS"] != null)
+                if (param.ContainsKey("WP_RADIUS"))
                 {
                     TXT_WPRad.Text = (((double) param["WP_RADIUS"]*CurrentState.multiplierdist)).ToString();
                 }
-                if (param["WPNAV_RADIUS"] != null)
+                if (param.ContainsKey("WPNAV_RADIUS") )
                 {
                     TXT_WPRad.Text = (((double) param["WPNAV_RADIUS"]*CurrentState.multiplierdist/100.0)).ToString();
                 }
@@ -2578,12 +2580,12 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     TXT_loiterrad.Enabled = false;
-                    if (param["LOITER_RADIUS"] != null)
+                    if (param.ContainsKey("LOITER_RADIUS"))
                     {
                         TXT_loiterrad.Text = (((double) param["LOITER_RADIUS"]*CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
                     }
-                    else if (param["WP_LOITER_RAD"] != null)
+                    else if (param.ContainsKey("WP_LOITER_RAD"))
                     {
                         TXT_loiterrad.Text = (((double) param["WP_LOITER_RAD"]*CurrentState.multiplierdist)).ToString();
                         TXT_loiterrad.Enabled = true;
@@ -2591,8 +2593,9 @@ namespace MissionPlanner.GCSViews
 
                     log.Info("param LOITER_RADIUS " + TXT_loiterrad.Text);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
             }
             catch (Exception ex)
@@ -2775,8 +2778,9 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.MAV.cs.HomeLocation.Lat = double.Parse(TXT_homelat.Text);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
             writeKML();
         }
@@ -2788,8 +2792,9 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.MAV.cs.HomeLocation.Lng = double.Parse(TXT_homelng.Text);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
             writeKML();
         }
@@ -2801,8 +2806,9 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.MAV.cs.HomeLocation.Alt = double.Parse(TXT_homealt.Text);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
             writeKML();
         }
@@ -2912,8 +2918,9 @@ namespace MissionPlanner.GCSViews
 
                         wp_count++;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("Line invalid\n" + line);
                     }
                 }
@@ -2941,8 +2948,9 @@ namespace MissionPlanner.GCSViews
                     MainMap.Zoom = trackBar1.Value;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -3082,8 +3090,9 @@ namespace MissionPlanner.GCSViews
                             item.ToolTipText = "Alt: " + Commands[Alt.Index, answer - 1].Value;
                             item.ToolTipMode = MarkerTooltipMode.OnMouseOver;
                         }
-                        catch
+                        catch (Exception ex)
                         {
+                            log.Error(ex);
                         }
                     }
 
@@ -3133,8 +3142,9 @@ namespace MissionPlanner.GCSViews
 
                         log.Info("add marker to group");
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
                 if (int.TryParse(item.Tag.ToString(), out answer))
@@ -3142,8 +3152,9 @@ namespace MissionPlanner.GCSViews
                     Commands.CurrentCell = Commands[0, answer - 1];
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -3345,8 +3356,9 @@ namespace MissionPlanner.GCSViews
                 {
                     iUserSelection = Convert.ToInt32(szUserSelection);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                     iUserSelection = 0; //ignore all errors and default to first layer
                 }
 
@@ -3446,8 +3458,9 @@ namespace MissionPlanner.GCSViews
                                     groupmarkeradd(marker);
                                 }
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                log.Error(ex);
                             }
                         }
                     }
@@ -3514,8 +3527,9 @@ namespace MissionPlanner.GCSViews
                                 MainMap.UpdatePolygonLocalPosition(drawnpolygon);
                                 MainMap.Invalidate();
                             }
-                            catch
+                            catch (Exception ex)
                             {
+                                log.Error(ex);
                             }
                         }
                         else
@@ -3633,8 +3647,9 @@ namespace MissionPlanner.GCSViews
                             MainMap.Invalidate();
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
                     PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
@@ -3658,8 +3673,9 @@ namespace MissionPlanner.GCSViews
                             }
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
                     // update rect and marker pos.
@@ -3709,8 +3725,9 @@ namespace MissionPlanner.GCSViews
                                     center.Position.Lng + lngdif);
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                 }
             }
@@ -3729,8 +3746,9 @@ namespace MissionPlanner.GCSViews
                 {
                     trackBar1.Value = (int) (MainMap.Zoom);
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
                 //textBoxZoomCurrent.Text = MainMap.Zoom.ToString();
                 center.Position = MainMap.Position;
@@ -3747,8 +3765,9 @@ namespace MissionPlanner.GCSViews
                 if (IsHandleCreated)
                     BeginInvoke(m);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -3770,8 +3789,9 @@ namespace MissionPlanner.GCSViews
                 if (!IsDisposed && IsHandleCreated)
                     BeginInvoke(m);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -3840,8 +3860,9 @@ namespace MissionPlanner.GCSViews
                 FlightData.mymap.MapProvider = (GMapProvider) comboBoxMapType.SelectedItem;
                 Settings.Instance["MapType"] = comboBoxMapType.Text;
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 CustomMessageBox.Show("Map change failed. try zooming out first.");
             }
         }
@@ -3904,8 +3925,9 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -3942,8 +3964,9 @@ namespace MissionPlanner.GCSViews
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
 
             return alt*CurrentState.multiplierdist;
@@ -4024,8 +4047,9 @@ namespace MissionPlanner.GCSViews
                     MainMap.Zoom = trackBar1.Value;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
         }
 
@@ -4329,8 +4353,9 @@ namespace MissionPlanner.GCSViews
                     {
                         Commands.Rows.RemoveAt(no - 1); // home is 0
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("error selecting wp, please try again.");
                     }
                 }
@@ -4352,8 +4377,9 @@ namespace MissionPlanner.GCSViews
 
                         MainMap.Invalidate();
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("Remove point Failed. Please try again.");
                     }
                 }
@@ -4374,8 +4400,9 @@ namespace MissionPlanner.GCSViews
                         if (groupmarkers.Contains(a))
                             Commands.Rows.RemoveAt(a - 1); // home is 0
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("error selecting wp, please try again.");
                     }
                 }
@@ -4509,8 +4536,9 @@ namespace MissionPlanner.GCSViews
                         lastmapposchange = DateTime.Now;
                     }
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Error(ex);
                 }
             });
         }
@@ -4533,8 +4561,9 @@ namespace MissionPlanner.GCSViews
                         mBorders.wprad =
                             (int) (Settings.Instance.GetFloat("TXT_WPRad")/CurrentState.multiplierdist);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
                     if (color.HasValue)
                     {
@@ -4633,8 +4662,9 @@ namespace MissionPlanner.GCSViews
                 if (MainV2.comPort.MAV.param.ContainsKey("FENCE_MAXALT"))
                     MainV2.comPort.setParam("FENCE_MAXALT", maxalt);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
                 CustomMessageBox.Show("Failed to set min/max fence alt");
                 return;
             }
@@ -6144,8 +6174,9 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.setParam("RALLY_TOTAL", 0);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
             rallypointoverlay.Markers.Clear();
             MainV2.comPort.MAV.rallypoints.Clear();
@@ -6216,8 +6247,9 @@ namespace MissionPlanner.GCSViews
             {
                 //  log.Info(Element.ToString() + " " + Element.Parent);
             }
-            catch
+            catch (Exception ex)
             {
+                log.Error(ex);
             }
 
             Document doc = element as Document;
@@ -6509,8 +6541,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         if (dtOriginal.Columns.Contains("ELEVATION"))
                             z = (float) Convert.ChangeType(dtOriginal.Rows[row]["ELEVATION"], TypeCode.Single);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
                     try
@@ -6518,8 +6551,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         if (z == -1 && dtOriginal.Columns.Contains("alt"))
                             z = (float) Convert.ChangeType(dtOriginal.Rows[row]["alt"], TypeCode.Single);
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
                     try
@@ -6527,8 +6561,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                         if (z == -1)
                             z = fs.Z[row];
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
 
@@ -6540,8 +6575,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                             dosort = true;
                         }
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                     }
 
                     if (reproject)
