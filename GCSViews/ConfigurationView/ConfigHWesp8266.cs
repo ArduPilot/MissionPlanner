@@ -21,7 +21,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.MAV.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_param_request_list_t()
+                {
+                    target_system = (byte) 0,
+                    target_component = (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE
+                }, MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE);
+            }
+
+            if (MainV2.comPort.BaseStream.IsOpen) // && MainV2.comPort.MAV.compid == (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
             {
                 byte sysid = MainV2.comPort.MAV.sysid;
 
@@ -62,24 +71,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_ESPsettings_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setParam("WIFI_CHANNEL", int.Parse(cmb_channel.Text));
-            MainV2.comPort.setParam("UART_BAUDRATE", int.Parse(cmb_baud.Text));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE,"WIFI_CHANNEL", int.Parse(cmb_channel.Text));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "UART_BAUDRATE", int.Parse(cmb_baud.Text));
 
-            MainV2.comPort.setParam("WIFI_SSID1", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 0, 4),0));
-            MainV2.comPort.setParam("WIFI_SSID2",BitConverter.ToUInt32( stringTobytearray(txt_ssid.Text, 4, 4),0));
-            MainV2.comPort.setParam("WIFI_SSID3", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 8, 4),0));
-            MainV2.comPort.setParam("WIFI_SSID4", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 12, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID1", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 0, 4),0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID2",BitConverter.ToUInt32( stringTobytearray(txt_ssid.Text, 4, 4),0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID3", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 8, 4),0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_SSID4", BitConverter.ToUInt32(stringTobytearray(txt_ssid.Text, 12, 4), 0));
 
-            MainV2.comPort.setParam("WIFI_PASSWORD1", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 0, 4), 0));
-            MainV2.comPort.setParam("WIFI_PASSWORD2", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 4, 4), 0));
-            MainV2.comPort.setParam("WIFI_PASSWORD3", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 8, 4), 0));
-            MainV2.comPort.setParam("WIFI_PASSWORD4", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 12, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_PASSWORD1", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 0, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_PASSWORD2", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 4, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_PASSWORD3", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 8, 4), 0));
+            MainV2.comPort.setParam((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, "WIFI_PASSWORD4", BitConverter.ToUInt32(stringTobytearray(txt_password.Text, 12, 4), 0));
             
             // save to eeprom
-            bool pass = MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0);
+            bool pass = MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 1, 0, 0, 0, 0, 0, 0);
 
             // reboot
-            pass =  pass & MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 0, 1, 0, 0, 0, 0, 0);
+            pass =  pass & MainV2.comPort.doCommand((byte)MainV2.comPort.sysidcurrent, (byte)MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE, MAVLink.MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 0, 1, 0, 0, 0, 0, 0);
 
             if (!pass)
                 CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);

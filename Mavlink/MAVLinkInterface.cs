@@ -4039,7 +4039,9 @@ Please check the following
                     st = st.Substring(0, pos);
                 }
 
-                if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA)
+                MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE)value.param_type;
+
+                if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA && buffer.compid != (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
                 {
                     var offset = Marshal.OffsetOf(typeof (mavlink_param_value_t), "param_value");
                     MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value),
