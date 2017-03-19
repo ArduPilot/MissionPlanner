@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
@@ -8,7 +10,7 @@ namespace MissionPlanner.Comms
     public class CommsSerialScan
     {
         static public bool foundport = false;
-        static public ICommsSerial portinterface;
+        public static ConcurrentBag<ICommsSerial> portinterface;
 
         static object runlock = new object();
         public static int run = 0;
@@ -20,7 +22,7 @@ namespace MissionPlanner.Comms
         static public void Scan(bool connect = false)
         {
             foundport = false;
-            portinterface = null;
+            portinterface = new ConcurrentBag<ICommsSerial>();
             lock (runlock)
             {
                 run = 1;
@@ -49,7 +51,7 @@ namespace MissionPlanner.Comms
 
             try
             {
-                using (SerialPort port = new SerialPort())
+                SerialPort port = new SerialPort();
                 {
                     port.PortName = portname;
 
@@ -68,7 +70,10 @@ namespace MissionPlanner.Comms
                         lock (runlock)
                         {
                             if (run == 0)
+                            {
+                                port.Close();
                                 return;
+                            }
                         }
 
                         int available = port.BytesToRead;
@@ -97,13 +102,11 @@ namespace MissionPlanner.Comms
                                             port.BaudRate);
 
                                         foundport = true;
-                                        portinterface = port;
+                                        portinterface.Add(port);
 
                                         if (connect)
                                         {
-                                            MainV2.comPort.BaseStream = port;
-
-                                            doconnect();
+                                            doconnect(port);
                                         }
 
                                         break;
@@ -150,10 +153,11 @@ namespace MissionPlanner.Comms
             Console.WriteLine("Scan port {0} Finished!!", portname);
         }
 
-        static void doconnect()
+        static void doconnect(SerialPort port)
         {
             if (MainV2.instance == null)
             {
+                MainV2.comPort.BaseStream = port;
                 MainV2.comPort.Open(false);
             }
             else
@@ -161,11 +165,20 @@ namespace MissionPlanner.Comms
                 if (MainV2.instance.InvokeRequired)
                 {
                     MainV2.instance.BeginInvoke(
-                        (MethodInvoker) delegate() { MainV2.comPort.Open(true); });
+                        (MethodInvoker) delegate()
+                        {
+                            MAVLinkInterface mav = new MAVLinkInterface();
+                            mav.BaseStream = port;
+                            MainV2.instance.doConnect(mav, "preset", "0");
+                            MainV2.Comports.Add(mav);
+                        });
                 }
                 else
                 {
-                    MainV2.comPort.Open(true);
+                    MAVLinkInterface mav = new MAVLinkInterface();
+                    mav.BaseStream = port;
+                    MainV2.instance.doConnect(mav, "preset", "0");
+                    MainV2.Comports.Add(mav);
                 }
             }
         }

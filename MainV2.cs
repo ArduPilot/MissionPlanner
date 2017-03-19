@@ -1244,7 +1244,7 @@ namespace MissionPlanner
         public void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
             bool skipconnectcheck = false;
-            log.Info("We are connecting to " + portname + " " + baud ); 
+            log.Info("We are connecting to " + portname + " " + baud );
             switch (portname)
             {
                 case "preset":
@@ -1274,6 +1274,21 @@ namespace MissionPlanner
                     _connectionControl.CMB_serialport.Text = "UDPCl";
                     break;
                 case "AUTO":
+                    // do autoscan
+                    Comms.CommsSerialScan.Scan(true);
+                    DateTime deadline = DateTime.Now.AddSeconds(50);
+                    while (Comms.CommsSerialScan.foundport == false)
+                    {
+                        System.Threading.Thread.Sleep(100);
+
+                        if (DateTime.Now > deadline || Comms.CommsSerialScan.run == 0)
+                        {
+                            CustomMessageBox.Show(Strings.Timeout);
+                            _connectionControl.IsConnected(false);
+                            return;
+                        }
+                    }
+                    return;
                 default:
                     comPort.BaseStream = new SerialPort();
                     break;
@@ -1295,38 +1310,15 @@ namespace MissionPlanner
 
             try
             {
-                // do autoscan
-                if (portname == "AUTO")
-                {
-                    Comms.CommsSerialScan.Scan(false);
-
-                    DateTime deadline = DateTime.Now.AddSeconds(50);
-
-                    while (Comms.CommsSerialScan.foundport == false)
-                    {
-                        System.Threading.Thread.Sleep(100);
-
-                        if (DateTime.Now > deadline || Comms.CommsSerialScan.run == 0)
-                        {
-                            CustomMessageBox.Show(Strings.Timeout);
-                            _connectionControl.IsConnected(false);
-                            return;
-                        }
-                    }
-
-                    _connectionControl.CMB_serialport.Text = portname = Comms.CommsSerialScan.portinterface.PortName;
-                    _connectionControl.CMB_baudrate.Text =
-                        baud = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
-                }
-
                 log.Info("Set Portname");
                 // set port, then options
-                comPort.BaseStream.PortName = portname;
+                if(portname.ToLower() != "preset")
+                    comPort.BaseStream.PortName = portname;
 
                 log.Info("Set Baudrate");
                 try
                 {
-                    if(baud != "")
+                    if(baud != "" && baud != "0")
                         comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
@@ -1354,21 +1346,35 @@ namespace MissionPlanner
                 try
                 {
                     Directory.CreateDirectory(Settings.Instance.LogDir);
-                    comPort.logfile =
-                        new BufferedStream(
-                            File.Open(
-                                Settings.Instance.LogDir + Path.DirectorySeparatorChar +
-                                DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog", FileMode.CreateNew,
-                                FileAccess.ReadWrite, FileShare.None));
+                    lock (this)
+                    {
+                        // create log names
+                        var dt = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+                        var tlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                   dt + ".tlog";
+                        var rlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                   dt + ".rlog";
 
-                    comPort.rawlogfile =
-                        new BufferedStream(
-                            File.Open(
-                                Settings.Instance.LogDir + Path.DirectorySeparatorChar +
-                                DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".rlog", FileMode.CreateNew,
-                                FileAccess.ReadWrite, FileShare.None));
+                        // check if this logname already exists
+                        int a = 1;
+                        while (File.Exists(tlog))
+                        {
+                            Thread.Sleep(1000);
+                            // create new names with a as an index
+                            dt = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-" + a.ToString();
+                            tlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                   dt + ".tlog";
+                            rlog = Settings.Instance.LogDir + Path.DirectorySeparatorChar +
+                                   dt + ".rlog";
+                        }
 
-                    log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
+                        //open the logs for writing
+                        comPort.logfile =
+                            new BufferedStream(File.Open(tlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
+                        comPort.rawlogfile =
+                            new BufferedStream(File.Open(rlog, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
+                        log.Info("creating logfile " + dt + ".tlog");
+                    }
                 }
                 catch (Exception exp2)
                 {

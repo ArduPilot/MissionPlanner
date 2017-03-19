@@ -131,7 +131,7 @@ namespace MissionPlanner.Swarm
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(false);
+            Comms.CommsSerialScan.Scan(true);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
@@ -145,15 +145,6 @@ namespace MissionPlanner.Swarm
                     return;
                 }
             }
-
-            MAVLinkInterface com2 = new MAVLinkInterface();
-
-            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
-            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
-
-            com2.Open(true);
-
-            MainV2.Comports.Add(com2);
 
             bindingSource1.ResetBindings(false);
         }
