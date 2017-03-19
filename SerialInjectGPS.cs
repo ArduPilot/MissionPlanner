@@ -19,8 +19,6 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
-using System.Device;
-using System.Device.Location;
 using Flurl.Util;
 
 namespace MissionPlanner
@@ -675,19 +673,6 @@ namespace MissionPlanner
         public void Activate()
         {
             timer1.Start();
-
-            try
-            {
-                GeoCoordinateWatcher watcher = new GeoCoordinateWatcher(GeoPositionAccuracy.High);
-                watcher.PositionChanged += Watcher_PositionChanged;
-                watcher.Start();
-            }
-            catch { }
-        }
-
-        private void Watcher_PositionChanged(object sender, GeoPositionChangedEventArgs<GeoCoordinate> e)
-        {
-            Console.WriteLine(e.Position.Location.ToString());
         }
 
         public void Deactivate()
