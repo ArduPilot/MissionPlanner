@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using u8 = System.Byte;
 using u16 = System.UInt16;
 using s32 = System.Int32;
@@ -13,14 +10,59 @@ namespace MissionPlanner.Utilities
 {
     public class rtcm3 : ICorrections
     {
-        const byte RTCM3PREAMB = 0xD3;
+        private const byte RTCM3PREAMB = 0xD3;
+        private const double PRUNIT_GPS = 299792.458; /* rtcm ver.3 unit of gps pseudorange (m) */
+        private const double PRUNIT_GLO = 599584.916; /* rtcm 3 unit of glo pseudorange (m) */
+        private const double CLIGHT = 299792458.0; /* speed of light (m/s) */
+        private const double SC2RAD = 3.1415926535898; /* semi-circle to radian (IS-GPS) */
+        private const double FREQ1 = 1.57542E9; /* L1/E1  frequency (Hz) */
+        private const double FREQ2 = 1.22760E9; /* L2     frequency (Hz) */
+        private const double RANGE_MS = CLIGHT*0.001; /* range in 1 ms */
+        private const double P2_5 = 0.03125; /* 2^-5 */
+        private const double P2_6 = 0.015625; /* 2^-6 */
+        private const double P2_10 = 0.0009765625; /* 2^-10 */
+        private const double P2_11 = 4.882812500000000E-04; /* 2^-11 */
+        private const double P2_15 = 3.051757812500000E-05; /* 2^-15 */
+        private const double P2_17 = 7.629394531250000E-06; /* 2^-17 */
+        private const double P2_19 = 1.907348632812500E-06; /* 2^-19 */
+        private const double P2_20 = 9.536743164062500E-07; /* 2^-20 */
+        private const double P2_21 = 4.768371582031250E-07; /* 2^-21 */
+        private const double P2_23 = 1.192092895507810E-07; /* 2^-23 */
+        private const double P2_24 = 5.960464477539063E-08; /* 2^-24 */
+        private const double P2_27 = 7.450580596923828E-09; /* 2^-27 */
+        private const double P2_29 = 1.862645149230957E-09; /* 2^-29 */
+        private const double P2_30 = 9.313225746154785E-10; /* 2^-30 */
+        private const double P2_31 = 4.656612873077393E-10; /* 2^-31 */
+        private const double P2_32 = 2.328306436538696E-10; /* 2^-32 */
+        private const double P2_33 = 1.164153218269348E-10; /* 2^-33 */
+        private const double P2_35 = 2.910383045673370E-11; /* 2^-35 */
+        private const double P2_38 = 3.637978807091710E-12; /* 2^-38 */
+        private const double P2_39 = 1.818989403545856E-12; /* 2^-39 */
+        private const double P2_40 = 9.094947017729280E-13; /* 2^-40 */
+        private const double P2_43 = 1.136868377216160E-13; /* 2^-43 */
+        private const double P2_48 = 3.552713678800501E-15; /* 2^-48 */
+        private const double P2_50 = 8.881784197001252E-16; /* 2^-50 */
+        private const double P2_55 = 2.775557561562891E-17; /* 2^-55 */
+        private const double RE_WGS84 = 6378137.0; /* earth semimajor axis (WGS84) (m) */
+        private const double FE_WGS84 = (1.0/298.257223563); /* earth flattening (WGS84) */
+        private const double PI = Math.PI; /* pi */
+        public const double D2R = (PI/180.0); /* deg to rad */
+        public const double R2D = (180.0/PI); /* rad to deg */
+        private int msglencount;
+        private uint payloadlen;
+        private rtcmpreamble pre;
+        private int step;
 
-        int step = 0;
+        public event EventHandler ObsMessage;
+        public event EventHandler BasePosMessage;
+        public event EventHandler EphMessage;
 
-        byte[] buffer = new u8[1024 * 4];
-        u32 payloadlen = 0;
-        int msglencount = 0;
-        rtcmpreamble pre;
+        public int length
+        {
+            get { return (int) (payloadlen + 2 + 1); }
+        }
+
+        public byte[] packet { get; } = new byte[1024*4];
 
         public int Read(byte data)
         {
@@ -31,28 +73,28 @@ namespace MissionPlanner.Utilities
                     if (data == RTCM3PREAMB)
                     {
                         step = 1;
-                        buffer[0] = data;
+                        packet[0] = data;
                     }
                     break;
                 case 1:
-                    buffer[1] = data;
+                    packet[1] = data;
                     step++;
                     break;
                 case 2:
-                    buffer[2] = data;
+                    packet[2] = data;
                     step++;
                     pre = new rtcmpreamble();
-                    pre.Read(buffer);
+                    pre.Read(packet);
                     payloadlen = pre.length;
                     msglencount = 0;
                     // reset on oversize packet
-                    if (payloadlen > buffer.Length)
+                    if (payloadlen > packet.Length)
                         step = 0;
                     break;
                 case 3:
                     if (msglencount < (payloadlen))
                     {
-                        buffer[msglencount + 3] = data;
+                        packet[msglencount + 3] = data;
                         msglencount++;
                     }
                     else
@@ -62,26 +104,118 @@ namespace MissionPlanner.Utilities
                     }
                     break;
                 case 4:
-                    buffer[payloadlen + 3] = data;
+                    packet[payloadlen + 3] = data;
                     step++;
                     break;
                 case 5:
-                    buffer[payloadlen + 3 + 1] = data;
+                    packet[payloadlen + 3 + 1] = data;
                     step++;
                     break;
                 case 6:
-                    buffer[payloadlen + 3 + 2] = data;
+                    packet[payloadlen + 3 + 2] = data;
 
                     payloadlen = payloadlen + 3;
-                    u32 crc = crc24.crc24q(buffer, payloadlen, 0);
-                    u32 crcpacket = getbitu(buffer, payloadlen * 8, 24);
+                    var crc = crc24.crc24q(packet, payloadlen, 0);
+                    var crcpacket = getbitu(packet, payloadlen*8, 24);
 
                     if (crc == crcpacket)
                     {
-                        rtcmheader head = new rtcmheader();
-                        head.Read(buffer);
+                        var head = new rtcmheader();
+                        head.Read(packet);
 
                         step = 0;
+
+                        if (head.messageno == 1002)
+                        {
+                            var tp = new type1002();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1004)
+                        {
+                            var tp = new type1004();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1012)
+                        {
+                            var tp = new type1012();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1074)
+                        {
+                            var tp = new type1074();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1077)
+                        {
+                            var tp = new type1077();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1084)
+                        {
+                            var tp = new type1084();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1087)
+                        {
+                            var tp = new type1087();
+
+                            tp.Read(packet);
+
+                            if (ObsMessage != null)
+                                ObsMessage(tp.obs, null);
+                        }
+                        else if (head.messageno == 1005)
+                        {
+                            var tp = new type1005();
+
+                            tp.Read(packet);
+
+                            if (BasePosMessage != null)
+                                BasePosMessage(tp, null);
+                        }
+                        else if (head.messageno == 1006)
+                        {
+                            var tp = new type1006();
+
+                            tp.Read(packet);
+
+                            if (BasePosMessage != null)
+                                BasePosMessage(tp, null);
+                        }
+                        /*
+                        else if (head.messageno == 1019)
+                        {
+                            var tp = new type1019();
+
+                            tp.Read(packet);
+
+                            if (EphMessage != null)
+                                EphMessage(tp, null);
+                        }*/
 
                         return head.messageno;
                     }
@@ -92,52 +226,128 @@ namespace MissionPlanner.Utilities
             return -1;
         }
 
-        static uint getbitu(u8[] buff, u32 pos, u32 len)
+        private static uint getbitu(byte[] buff, uint pos, uint len)
         {
             uint bits = 0;
-            u32 i;
+            uint i;
             for (i = pos; i < pos + len; i++)
-                bits = (uint)((bits << 1) + ((buff[i / 8] >> (int)(7 - i % 8)) & 1u));
+                bits = (uint) ((bits << 1) + ((buff[i/8] >> (int) (7 - i%8)) & 1u));
             return bits;
         }
 
-        static void setbitu(u8[] buff, u32 pos, u32 len, u32 data)
+        private static void setbitu(byte[] buff, uint pos, uint len, uint data)
         {
-            u32 mask = 1u << (int)(len - 1);
+            var mask = 1u << (int) (len - 1);
 
             if (len <= 0 || 32 < len) return;
 
-            for (u32 i = pos; i < pos + len; i++, mask >>= 1)
+            for (var i = pos; i < pos + len; i++, mask >>= 1)
             {
                 if ((data & mask) > 0)
-                    buff[i / 8] |= (byte)(1u << (int)(7 - i % 8));
+                    buff[i/8] |= (byte) (1u << (int) (7 - i%8));
                 else
-                    buff[i / 8] &= (byte)(~(1u << (int)(7 - i % 8)));
+                    buff[i/8] &= (byte) (~(1u << (int) (7 - i%8)));
             }
+        }
+
+        private static double ROUND(double x)
+        {
+            return (int) Math.Floor(x + 0.5);
+        }
+
+        /* carrier-phase - pseudorange in cycle --------------------------------------*/
+
+        private static double cp_pr(double cp, double pr_cyc)
+        {
+            var x = (cp - pr_cyc + 1500.0)%3000.0;
+            if (x < 0)
+                x += 3000;
+            x -= 1500.0;
+            return x;
+        }
+
+        private static double getbits_38(byte[] buff, uint pos)
+        {
+            return getbits(buff, pos, 32)*64.0 + getbitu(buff, pos + 32, 6);
+        }
+
+        private static int getbits(byte[] buff, uint pos, uint len)
+        {
+            var bits = getbitu(buff, pos, len);
+            if (len <= 0 || 32 <= len || !((bits & (1u << (int) (len - 1))) != 0))
+                return (int) bits;
+            return (int) (bits | (~0u << (int) len)); /* extend sign */
+        }
+
+        private static void set38bits(byte[] buff, uint pos, double value)
+        {
+            var word_h = (int) Math.Floor(value/64.0);
+            var word_l = (uint) (value - word_h*64.0);
+            setbits(buff, pos, 32, word_h);
+            setbitu(buff, pos + 32, 6, word_l);
+        }
+
+        private static void setbits(byte[] buff, uint pos, uint len, int data)
+        {
+            if (data < 0)
+                data |= 1 << (int) (len - 1);
+            else
+                data &= ~(1 << (int) (len - 1)); /* set sign bit */
+            setbitu(buff, pos, len, (uint) data);
+        }
+
+        public static void ecef2pos(double[] r, ref double[] pos)
+        {
+            double e2 = FE_WGS84*(2.0 - FE_WGS84), r2 = dot(r, r, 2), z, zk, v = RE_WGS84, sinp;
+
+            for (z = r[2], zk = 0.0; Math.Abs(z - zk) >= 1E-4;)
+            {
+                zk = z;
+                sinp = z/Math.Sqrt(r2 + z*z);
+                v = RE_WGS84/Math.Sqrt(1.0 - e2*sinp*sinp);
+                z = r[2] + v*e2*sinp;
+            }
+            pos[0] = r2 > 1E-12 ? Math.Atan(z/Math.Sqrt(r2)) : (r[2] > 0.0 ? PI/2.0 : -PI/2.0);
+            pos[1] = r2 > 1E-12 ? Math.Atan2(r[1], r[0]) : 0.0;
+            pos[2] = Math.Sqrt(r2 + z*z) - v;
+        }
+
+        private static double dot(double[] a, double[] b, int n)
+        {
+            var c = 0.0;
+
+            while (--n >= 0) c += a[n]*b[n];
+            return c;
         }
 
         public class rtcmpreamble
         {
-            public u8 preamble = RTCM3PREAMB;
-            public u8 resv1;
-            public u16 length;
+            public ushort length;
+            public byte preamble = RTCM3PREAMB;
+            public byte resv1;
 
             public void Read(byte[] buffer)
             {
                 uint i = 0;
 
-                preamble = (byte)getbitu(buffer, i, 8); i += 8;
-                resv1 = (byte)getbitu(buffer, i, 6); i += 6;
-                length = (u16)getbitu(buffer, i, 10); i += 10;
+                preamble = (byte) getbitu(buffer, i, 8);
+                i += 8;
+                resv1 = (byte) getbitu(buffer, i, 6);
+                i += 6;
+                length = (ushort) getbitu(buffer, i, 10);
+                i += 10;
             }
 
             public byte[] Write(byte[] buffer)
             {
                 uint i = 0;
 
-                setbitu(buffer, i, 8, RTCM3PREAMB); i += 8;
-                setbitu(buffer, i, 6, resv1); i += 6;
-                setbitu(buffer, i, 10, length); i += 10;
+                setbitu(buffer, i, 8, RTCM3PREAMB);
+                i += 8;
+                setbitu(buffer, i, 6, resv1);
+                i += 6;
+                setbitu(buffer, i, 10, length);
+                i += 10;
 
                 return buffer;
             }
@@ -145,45 +355,68 @@ namespace MissionPlanner.Utilities
 
         public class rtcmheader
         {
-            public u16 messageno;
-            public u16 refstationid;
-            public u32 epoch;
-            public u8 sync;
-            public u8 nsat;
-            public u8 smoothind;
-            public u8 smoothint;
+            public uint epoch;
+            public ushort messageno;
+            public byte nsat;
+            public ushort refstationid;
+            public byte smoothind;
+            public byte smoothint;
+            public byte sync;
 
             public void Read(byte[] buffer)
             {
-                u32 i = 24;
+                uint i = 24;
 
-                messageno = (u16)getbitu(buffer, i, 12); i += 12;        /* message no */
-                refstationid = (u16)getbitu(buffer, i, 12); i += 12;        /* ref station id */
-                epoch = (u32)getbitu(buffer, i, 30); i += 30;       /* gps epoch time */
-                sync = (u8)getbitu(buffer, i, 1); i += 1;          /* synchronous gnss flag */
-                nsat = (u8)getbitu(buffer, i, 5); i += 5;          /* no of satellites */
-                smoothind = (u8)getbitu(buffer, i, 1); i += 1;          /* smoothing indicator */
-                smoothint = (u8)getbitu(buffer, i, 3); i += 3;          /* smoothing interval */
+                messageno = (ushort) getbitu(buffer, i, 12);
+                i += 12; /* message no */
+                refstationid = (ushort) getbitu(buffer, i, 12);
+                i += 12; /* ref station id */
+                if (messageno < 1009 || messageno > 1012)
+                {
+                    epoch = getbitu(buffer, i, 30);
+                    i += 30; /* gps epoch time */
+                }
+                else
+                {
+                    epoch = getbitu(buffer, i, 27);
+                    i += 27; /* glonass epoch time */
+                }
+                sync = (byte) getbitu(buffer, i, 1);
+                i += 1; /* synchronous gnss flag */
+                nsat = (byte) getbitu(buffer, i, 5);
+                i += 5; /* no of satellites */
+                smoothind = (byte) getbitu(buffer, i, 1);
+                i += 1; /* smoothing indicator */
+                smoothint = (byte) getbitu(buffer, i, 3);
+                i += 3; /* smoothing interval */
             }
 
             public byte[] Write(byte[] buffer)
             {
-                u32 i = 24;
+                uint i = 24;
 
-                setbitu(buffer, i, 12, messageno); i += 12;        /* message no */
-                setbitu(buffer, i, 12, refstationid); i += 12;        /* ref station id */
-                setbitu(buffer, i, 30, epoch); i += 30;       /* gps epoch time */
-                setbitu(buffer, i, 1, sync); i += 1;          /* synchronous gnss flag */
-                setbitu(buffer, i, 5, nsat); i += 5;          /* no of satellites */
-                setbitu(buffer, i, 1, smoothind); i += 1;          /* smoothing indicator */
-                setbitu(buffer, i, 3, smoothint); i += 3;          /* smoothing interval */
+                setbitu(buffer, i, 12, messageno);
+                i += 12; /* message no */
+                setbitu(buffer, i, 12, refstationid);
+                i += 12; /* ref station id */
+                setbitu(buffer, i, 30, epoch);
+                i += 30; /* gps epoch time */
+                setbitu(buffer, i, 1, sync);
+                i += 1; /* synchronous gnss flag */
+                setbitu(buffer, i, 5, nsat);
+                i += 5; /* no of satellites */
+                setbitu(buffer, i, 1, smoothind);
+                i += 1; /* smoothing indicator */
+                setbitu(buffer, i, 3, smoothint);
+                i += 3; /* smoothing interval */
                 return buffer;
             }
         }
 
         public class crc24
         {
-            static u32[] crc24qtab = new u32[] {
+            private static readonly uint[] crc24qtab =
+            {
                 0x000000, 0x864CFB, 0x8AD50D, 0x0C99F6, 0x93E6E1, 0x15AA1A, 0x1933EC, 0x9F7F17,
                 0xA18139, 0x27CDC2, 0x2B5434, 0xAD18CF, 0x3267D8, 0xB42B23, 0xB8B2D5, 0x3EFE2E,
                 0xC54E89, 0x430272, 0x4F9B84, 0xC9D77F, 0x56A868, 0xD0E493, 0xDC7D65, 0x5A319E,
@@ -233,23 +466,1226 @@ namespace MissionPlanner.Utilities
              *
              * \return CRC-24Q value
              */
-            public static u32 crc24q(u8[] buf, u32 len, u32 crc)
+
+            public static uint crc24q(byte[] buf, uint len, uint crc)
             {
-                for (u32 i = 0; i < len; i++)
+                for (uint i = 0; i < len; i++)
                     crc = ((crc << 8) & 0xFFFFFF) ^ crc24qtab[(crc >> 16) ^ buf[i]];
                 return crc;
             }
         }
 
-        public s32 length
+        public class type1002
         {
-            get { return (s32)(payloadlen + 2 + 1); }
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30)*0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var nsat = getbitu(buffer, i, 5);
+
+                i = 24 + 64;
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+                for (var a = 0; a < nsat; a++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'G';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.raw.prn = (byte) getbitu(buffer, i, 6);
+                    i += 6;
+                    ob.raw.code1 = (byte) getbitu(buffer, i, 1);
+                    i += 1;
+                    ob.raw.pr1 = getbitu(buffer, i, 24);
+                    i += 24;
+                    ob.raw.ppr1 = getbits(buffer, i, 20);
+                    i += 20;
+                    ob.raw.lock1 = (byte) getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.amb = (byte) getbitu(buffer, i, 8);
+                    i += 8;
+                    ob.raw.cnr1 = (byte) getbitu(buffer, i, 8);
+                    i += 8;
+
+                    var pr1 = ob.raw.pr1*0.02 + ob.raw.amb*PRUNIT_GPS;
+
+                    var lam1 = CLIGHT/FREQ1;
+
+                    var cp1 = ob.raw.ppr1*0.0005/lam1;
+
+                    if ((uint) ob.raw.ppr1 != 0xFFF80000)
+                    {
+                        ob.prn = ob.raw.prn;
+                        ob.cp = pr1/lam1 + cp1;
+                        ob.pr = pr1;
+                        ob.snr = (byte) (ob.raw.cnr1*0.25); // *4.0+0.5
+
+                        obs.Add(ob);
+
+                        //Console.WriteLine("G{0,2} {1,13} {2,16} {3,30}", ob.prn, ob.pr.ToString("0.000"),ob.cp.ToString("0.0000"), ob.snr.ToString("0.000"));
+                    }
+                }
+
+                obs.Sort(delegate(ob a, ob b) { return a.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24 + 64;
+
+                foreach (var ob in obs)
+                {
+                    var lam1 = CLIGHT/FREQ1;
+
+                    var amb = (int) Math.Floor(ob.pr/PRUNIT_GPS);
+                    var pr1 = ROUND((ob.pr - amb*PRUNIT_GPS)/0.02);
+                    var pr1c = pr1*0.02 + amb*PRUNIT_GPS;
+
+                    var ppr = cp_pr(ob.cp, pr1c/lam1);
+
+                    var ppr1 = ROUND(ppr*lam1/0.0005);
+
+                    setbitu(buffer, i, 6, ob.prn);
+                    i += 6;
+                    setbitu(buffer, i, 1, 0);
+                    i += 1;
+                    setbitu(buffer, i, 24, (uint) pr1);
+                    i += 24;
+                    setbits(buffer, i, 20, (int) ppr1);
+                    i += 20;
+                    setbitu(buffer, i, 7, ob.raw.lock1);
+                    i += 7;
+                    setbitu(buffer, i, 8, (byte) amb);
+                    i += 8;
+                    setbitu(buffer, i, 8, (byte) (ob.snr*4));
+                    i += 8;
+                }
+
+                nbits = i;
+
+                return i;
+            }
         }
 
-        public u8[] packet
+        internal static class StaticUtils
         {
-            get { return buffer; }
+            public static DateTime GetFromGps(int weeknumber, double seconds)
+            {
+                var datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
+                var week = datum.AddDays(weeknumber*7);
+                var time = week.AddSeconds(seconds);
+                return time;
+            }
+
+            public static void GetFromTime(DateTime time, ref int week, ref double seconds)
+            {
+                var datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
+
+                var dif = time - datum;
+
+                var weeks = (int) (dif.TotalDays/7);
+
+                week = weeks;
+
+                dif = time - datum.AddDays(weeks*7);
+
+                seconds = dif.TotalSeconds;
+            }
         }
+
+        public class type1004
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30)*0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var nsat = getbitu(buffer, i, 5);
+                i += 5;
+
+                i = 24 + 64;
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0} {1} {2} {3,2} {4} {5} {6} {7}", gpstime.Year, gpstime.Month, gpstime.Day,gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+                for (var a = 0; a < nsat; a++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'G';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.raw.prn = (byte) getbitu(buffer, i, 6);
+                    i += 6;
+                    ob.raw.code1 = (byte) getbitu(buffer, i, 1);
+                    i += 1;
+                    ob.raw.pr1 = getbitu(buffer, i, 24);
+                    i += 24;
+                    ob.raw.ppr1 = getbits(buffer, i, 20);
+                    i += 20;
+                    ob.raw.lock1 = (byte) getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.amb = (byte) getbitu(buffer, i, 8);
+                    i += 8;
+                    ob.raw.cnr1 = (byte) getbitu(buffer, i, 8);
+                    i += 8;
+                    ob.raw.code2 = (byte) getbitu(buffer, i, 2);
+                    i += 2;
+                    ob.raw.pr21 = getbits(buffer, i, 14);
+                    i += 14;
+                    ob.raw.ppr2 = getbits(buffer, i, 20);
+                    i += 20;
+                    ob.raw.lock2 = (byte) getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.cnr2 = (byte) getbitu(buffer, i, 8);
+                    i += 8;
+
+                    var pr1 = ob.raw.pr1*0.02 + ob.raw.amb*PRUNIT_GPS;
+
+                    var lam1 = CLIGHT/FREQ1;
+                    var lam2 = CLIGHT/FREQ2;
+
+                    var cp1 = ob.raw.ppr1*0.0005/lam1;
+
+                    if ((uint) ob.raw.ppr1 != 0xFFF80000)
+                    {
+                        ob.prn = ob.raw.prn;
+                        ob.cp = pr1/lam1 + cp1;
+                        ob.pr = pr1;
+                        ob.snr = (byte) (ob.raw.cnr1*0.25); // *4.0+0.5
+
+                        ob.pr2 = pr1 + ob.raw.pr21*0.02;
+                        ob.cp2 = pr1/lam2 + ob.raw.ppr2*0.0005/lam2;
+
+                        obs.Add(ob);
+
+                        //   Console.WriteLine("G{0,2} {1,13} {2,15}0{3,15} {4,15}0{5,15}", ob.prn, ob.pr.ToString("0.000"), ob.cp.ToString("0.000"), ob.snr.ToString("0.000"),
+                        //       ob.pr2.ToString("0.000"), ob.cp2.ToString("0.000"));
+                    }
+                }
+
+                obs.Sort(delegate(ob a, ob b) { return a.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24 + 64;
+
+                foreach (var ob in obs)
+                {
+                    var lam1 = CLIGHT/FREQ1;
+
+                    var amb = (int) Math.Floor(ob.pr/PRUNIT_GPS);
+                    var pr1 = ROUND((ob.pr - amb*PRUNIT_GPS)/0.02);
+                    var pr1c = pr1*0.02 + amb*PRUNIT_GPS;
+
+                    var ppr = cp_pr(ob.cp, pr1c/lam1);
+                    var ppr1 = ROUND(ppr*lam1/0.0005);
+
+                    setbitu(buffer, i, 6, ob.prn);
+                    i += 6;
+                    setbitu(buffer, i, 1, 0);
+                    i += 1;
+                    setbitu(buffer, i, 24, (uint) pr1);
+                    i += 24;
+                    setbits(buffer, i, 20, (int) ppr1);
+                    i += 20;
+                    setbitu(buffer, i, 7, ob.raw.lock1);
+                    i += 7;
+                    setbitu(buffer, i, 8, (byte) amb);
+                    i += 8;
+                    setbitu(buffer, i, 8, (byte) (ob.snr*4));
+                    i += 8;
+                    // l2 - all 0's
+                    setbitu(buffer, i, 2, ob.raw.code2);
+                    i += 2;
+                    setbits(buffer, i, 14, ob.raw.pr21);
+                    i += 14;
+                    setbits(buffer, i, 20, ob.raw.ppr2);
+                    i += 20;
+                    setbitu(buffer, i, 7, ob.raw.lock2);
+                    i += 7;
+                    setbitu(buffer, i, 8, ob.raw.cnr2);
+                    i += 8;
+                }
+
+                nbits = i;
+
+                return i;
+            }
+        }
+
+        public class type1012
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 27) * 0.001;
+                i += 27;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var nsat = getbitu(buffer, i, 5);
+                i += 5;
+                var smoothind = getbitu(buffer, i, 1);
+                i += 1;
+                var smoothint = getbitu(buffer, i, 3);
+                i += 3;
+
+                // WIP
+                int WIP;
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                // 3hrs
+                tow += 10800;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                Console.WriteLine("> {0} {1} {2} {3,2} {4} {5} {6} {7}", gpstime.Year, gpstime.Month, gpstime.Day,gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+                for (var a = 0; a < nsat; a++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'R';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.raw.prn = (byte)getbitu(buffer, i, 6);
+                    i += 6;
+                    ob.raw.code1 = (byte)getbitu(buffer, i, 1);
+                    i += 1;
+                    ob.raw.fcn = (byte)getbitu(buffer, i, 5);
+                    i += 5;
+                    ob.raw.pr1 = getbitu(buffer, i, 25);
+                    i += 25;
+                    ob.raw.ppr1 = getbits(buffer, i, 20);
+                    i += 20;
+                    ob.raw.lock1 = (byte)getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.amb = (byte)getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.cnr1 = (byte)getbitu(buffer, i, 8);
+                    i += 8;
+                    ob.raw.code2 = (byte)getbitu(buffer, i, 2);
+                    i += 2;
+                    ob.raw.pr21 = getbits(buffer, i, 14);
+                    i += 14;
+                    ob.raw.ppr2 = getbits(buffer, i, 20);
+                    i += 20;
+                    ob.raw.lock2 = (byte)getbitu(buffer, i, 7);
+                    i += 7;
+                    ob.raw.cnr2 = (byte)getbitu(buffer, i, 8);
+                    i += 8;
+
+                    var pr1 = ob.raw.pr1 * 0.02 + ob.raw.amb * PRUNIT_GLO;
+
+                    var lam1 = CLIGHT / FREQ1;
+                    var lam2 = CLIGHT / FREQ2;
+
+                    var cp1 = ob.raw.ppr1 * 0.0005 / lam1;
+
+                    if ((uint)ob.raw.ppr1 != 0xFFF80000)
+                    {
+                        ob.prn = ob.raw.prn;
+                        ob.cp = pr1 / lam1 + cp1;
+                        ob.pr = pr1;
+                        ob.snr = (byte)(ob.raw.cnr1 * 0.25); // *4.0+0.5
+
+                        ob.pr2 = pr1 + ob.raw.pr21 * 0.02;
+                        ob.cp2 = pr1 / lam2 + ob.raw.ppr2 * 0.0005 / lam2;
+
+                        obs.Add(ob);
+
+                           Console.WriteLine("R{0,2} {1,13} {2,15}0{3,15} {4,15}0{5,15}", ob.prn, ob.pr.ToString("0.000"), ob.cp.ToString("0.000"), ob.snr.ToString("0.000"),
+                               ob.pr2.ToString("0.000"), ob.cp2.ToString("0.000"));
+                    }
+                }
+
+                obs.Sort(delegate (ob a, ob b) { return a.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public uint Write(byte[] buffer)
+            {
+                uint i = 24 + 64;
+
+                foreach (var ob in obs)
+                {
+                    var lam1 = CLIGHT/FREQ1;
+
+                    var amb = (int) Math.Floor(ob.pr/PRUNIT_GPS);
+                    var pr1 = ROUND((ob.pr - amb*PRUNIT_GPS)/0.02);
+                    var pr1c = pr1*0.02 + amb*PRUNIT_GPS;
+
+                    var ppr = cp_pr(ob.cp, pr1c/lam1);
+                    var ppr1 = ROUND(ppr*lam1/0.0005);
+
+                }
+
+                return i;
+            }
+        }
+
+
+        public class ob
+        {
+            public double cp;
+            public double cp2;
+            public double pr;
+            public double pr2;
+            public byte prn;
+            public rawrtcm raw = new rawrtcm();
+            public byte snr;
+            public double tow;
+            public int week;
+            public char sys;
+
+            public class rawrtcm
+            {
+                public byte amb;
+                public byte cnr1;
+                public byte cnr2;
+                public byte code1;
+                public byte code2;
+                public byte lock1;
+                public byte lock2;
+                public int ppr1;
+                public int ppr2;
+                public uint pr1;
+                public int pr21;
+                public byte prn;
+                public byte fcn;
+            }
+        }
+
+        public class type1074
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30) * 0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var iod = getbitu(buffer, i, 3);
+                i += 3;
+
+                var time_s = getbitu(buffer, i, 7);
+                i += 7;
+                var clk_str = getbitu(buffer, i, 2);
+                i += 2;
+                var clk_ext = getbitu(buffer, i, 2);
+                i += 2;
+                var smooth = getbitu(buffer, i, 1);
+                i += 1;
+                var tint_s = getbitu(buffer, i, 3);
+                i += 3;
+
+                var nsat = 0;
+                var nsig = 0;
+                var ncell = 0;
+                var j = 0;
+
+                var sats = new Dictionary<int, double>();
+                var sigs = new Dictionary<int, double>();
+                var cellmask = new byte[64];
+
+                for (j = 1; j <= 64; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sats[nsat++] = j;
+                }
+                for (j = 1; j <= 32; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sigs[nsig++] = j;
+                }
+
+                for (j = 0; j < nsat * nsig; j++)
+                {
+                    cellmask[j] = (byte)getbitu(buffer, i, 1);
+                    i += 1;
+                    if (cellmask[j] > 0) ncell++;
+                }
+
+                // end of header  i=202
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+
+                var r = new double[64];
+                var rr = new double[64];
+                var pr = new double[64];
+                var cp = new double[64];
+                var rrf = new double[64];
+                var cnr = new double[64];
+                var ex = new uint[64];
+                var half = new uint[64];
+                var @lock = new uint[64];
+
+                for (j = 0; j < nsat; j++)
+                {
+                    r[j] = rr[j] = 0.0;
+                    ex[j] = 15;
+                }
+                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
+
+                /* decode satellite data */
+                for (j = 0; j < nsat; j++)
+                {
+                    /* range */
+                    var rng = getbitu(buffer, i, 8);
+                    i += 8;
+                    if (rng != 255) r[j] = rng * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    var rng_m = getbitu(buffer, i, 10);
+                    i += 10;
+                    if (r[j] != 0.0) r[j] += rng_m * P2_10 * RANGE_MS;
+                }
+                /* decode signal data */
+                for (j = 0; j < ncell; j++)
+                {
+                    /* pseudorange */
+                    var prv = getbits(buffer, i, 15);
+                    i += 15;
+                    if (prv != -16384) pr[j] = prv * P2_24 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserange */
+                    var cpv = getbits(buffer, i, 22);
+                    i += 22;
+                    if (cpv != -2097152) cp[j] = cpv * P2_29 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* lock time */
+                    @lock[j] = getbitu(buffer, i, 4);
+                    i += 4;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* half-cycle amiguity */
+                    half[j] = getbitu(buffer, i, 1);
+                    i += 1;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* cnr */
+                    cnr[j] = getbitu(buffer, i, 6)*1;// * 0.0625;
+                    i += 6;
+                }
+
+                var lam1 = CLIGHT / FREQ1;
+
+                for (j = 0; j < nsat; j++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'G';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.prn = (byte)sats[j];
+
+                    ob.pr = r[j] + pr[j];
+                    ob.cp = (r[j] + cp[j]) / lam1;
+                    ob.snr = (byte)(cnr[j]);
+
+                    if (nsig > 1)
+                    {
+                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
+                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                    }
+
+                    obs.Add(ob);
+                }
+
+                obs.Sort(delegate (ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public
+                uint Write(byte[] buffer)
+            {
+                return 0;
+            }
+        }
+
+
+        public class type1077
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30)*0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var iod = getbitu(buffer, i, 3);
+                i += 3;
+
+                var time_s = getbitu(buffer, i, 7);
+                i += 7;
+                var clk_str = getbitu(buffer, i, 2);
+                i += 2;
+                var clk_ext = getbitu(buffer, i, 2);
+                i += 2;
+                var smooth = getbitu(buffer, i, 1);
+                i += 1;
+                var tint_s = getbitu(buffer, i, 3);
+                i += 3;
+
+                var nsat = 0;
+                var nsig = 0;
+                var ncell = 0;
+                var j = 0;
+
+                var sats = new Dictionary<int, double>();
+                var sigs = new Dictionary<int, double>();
+                var cellmask = new byte[64];
+
+                for (j = 1; j <= 64; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sats[nsat++] = j;
+                }
+                for (j = 1; j <= 32; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sigs[nsig++] = j;
+                }
+
+                for (j = 0; j < nsat*nsig; j++)
+                {
+                    cellmask[j] = (byte) getbitu(buffer, i, 1);
+                    i += 1;
+                    if (cellmask[j] > 0) ncell++;
+                }
+
+                // end of header  i=202
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+
+                var r = new double[64];
+                var rr = new double[64];
+                var pr = new double[64];
+                var cp = new double[64];
+                var rrf = new double[64];
+                var cnr = new double[64];
+                var ex = new uint[64];
+                var half = new uint[64];
+                var @lock = new uint[64];
+
+                for (j = 0; j < nsat; j++)
+                {
+                    r[j] = rr[j] = 0.0;
+                    ex[j] = 15;
+                }
+                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
+
+                /* decode satellite data */
+                for (j = 0; j < nsat; j++)
+                {
+                    /* range */
+                    var rng = getbitu(buffer, i, 8);
+                    i += 8;
+                    if (rng != 255) r[j] = rng*RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* extended info */
+                    ex[j] = getbitu(buffer, i, 4);
+                    i += 4;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    var rng_m = getbitu(buffer, i, 10);
+                    i += 10;
+                    if (r[j] != 0.0) r[j] += rng_m*P2_10*RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* phaserangerate */
+                    var rate = getbits(buffer, i, 14);
+                    i += 14;
+                    if (rate != -8192) rr[j] = rate*1.0;
+                }
+                /* decode signal data */
+                for (j = 0; j < ncell; j++)
+                {
+                    /* pseudorange */
+                    var prv = getbits(buffer, i, 20);
+                    i += 20;
+                    if (prv != -524288) pr[j] = prv*P2_29*RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserange */
+                    var cpv = getbits(buffer, i, 24);
+                    i += 24;
+                    if (cpv != -8388608) cp[j] = cpv*P2_31*RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* lock time */
+                    @lock[j] = getbitu(buffer, i, 10);
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* half-cycle amiguity */
+                    half[j] = getbitu(buffer, i, 1);
+                    i += 1;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* cnr */
+                    cnr[j] = getbitu(buffer, i, 10)*0.0625;
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserangerate */
+                    var rrv = getbits(buffer, i, 15);
+                    i += 15;
+                    if (rrv != -16384) rrf[j] = rrv*0.0001;
+                }
+
+                var lam1 = CLIGHT/FREQ1;
+
+                for (j = 0; j < nsat; j++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'G';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.prn = (byte) sats[j];
+
+                    ob.pr = r[j] + pr[j];
+                    ob.cp = (r[j] + cp[j])/lam1;
+                    ob.snr = (byte) (cnr[j]);
+
+                    if (nsig > 1)
+                    {
+                        ob.pr2 = r[j] + pr[j + sats.Count*1];
+                        ob.cp2 = (r[j] + cp[j + sats.Count*1]); // / lam2;
+                    }
+
+                    obs.Add(ob);
+                }
+
+                obs.Sort(delegate(ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public
+                uint Write(byte[] buffer)
+            {
+                return 0;
+            }
+        }
+
+        public class type1084
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30) * 0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var iod = getbitu(buffer, i, 3);
+                i += 3;
+
+                var time_s = getbitu(buffer, i, 7);
+                i += 7;
+                var clk_str = getbitu(buffer, i, 2);
+                i += 2;
+                var clk_ext = getbitu(buffer, i, 2);
+                i += 2;
+                var smooth = getbitu(buffer, i, 1);
+                i += 1;
+                var tint_s = getbitu(buffer, i, 3);
+                i += 3;
+
+                var nsat = 0;
+                var nsig = 0;
+                var ncell = 0;
+                var j = 0;
+
+                var sats = new Dictionary<int, double>();
+                var sigs = new Dictionary<int, double>();
+                var cellmask = new byte[64];
+
+                for (j = 1; j <= 64; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sats[nsat++] = j;
+                }
+                for (j = 1; j <= 32; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sigs[nsig++] = j;
+                }
+
+                for (j = 0; j < nsat * nsig; j++)
+                {
+                    cellmask[j] = (byte)getbitu(buffer, i, 1);
+                    i += 1;
+                    if (cellmask[j] > 0) ncell++;
+                }
+
+                // end of header  i=202
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+
+                var r = new double[64];
+                var rr = new double[64];
+                var pr = new double[64];
+                var cp = new double[64];
+                var rrf = new double[64];
+                var cnr = new double[64];
+                var ex = new uint[64];
+                var half = new uint[64];
+                var @lock = new uint[64];
+
+                for (j = 0; j < nsat; j++)
+                {
+                    r[j] = rr[j] = 0.0;
+                    ex[j] = 15;
+                }
+                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
+
+                /* decode satellite data */
+                for (j = 0; j < nsat; j++)
+                {
+                    /* range */
+                    var rng = getbitu(buffer, i, 8);
+                    i += 8;
+                    if (rng != 255) r[j] = rng * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    var rng_m = getbitu(buffer, i, 10);
+                    i += 10;
+                    if (r[j] != 0.0) r[j] += rng_m * P2_10 * RANGE_MS;
+                }
+                /* decode signal data */
+                for (j = 0; j < ncell; j++)
+                {
+                    /* pseudorange */
+                    var prv = getbits(buffer, i, 15);
+                    i += 15;
+                    if (prv != -16384) pr[j] = prv * P2_24 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserange */
+                    var cpv = getbits(buffer, i, 22);
+                    i += 22;
+                    if (cpv != -2097152) cp[j] = cpv * P2_29 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* lock time */
+                    @lock[j] = getbitu(buffer, i, 4);
+                    i += 4;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* half-cycle amiguity */
+                    half[j] = getbitu(buffer, i, 1);
+                    i += 1;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* cnr */
+                    cnr[j] = getbitu(buffer, i, 6) * 1;// * 0.0625;
+                    i += 6;
+                }
+
+                var lam1 = CLIGHT / FREQ1;
+
+                for (j = 0; j < nsat; j++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'R';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.prn = (byte)sats[j];
+
+                    ob.pr = r[j] + pr[j];
+                    ob.cp = (r[j] + cp[j]) / lam1;
+                    ob.snr = (byte)(cnr[j]);
+
+                    if (nsig > 1)
+                    {
+                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
+                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                    }
+
+                    obs.Add(ob);
+                }
+
+                obs.Sort(delegate (ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public
+                uint Write(byte[] buffer)
+            {
+                return 0;
+            }
+        }
+
+
+        public class type1087
+        {
+            public uint nbits;
+            public List<ob> obs = new List<ob>();
+
+            public void Read(byte[] buffer)
+            {
+                uint i = 24;
+
+                var type = getbitu(buffer, i, 12);
+                i += 12;
+
+                var staid = getbitu(buffer, i, 12);
+                i += 12;
+                var tow = getbitu(buffer, i, 30) * 0.001;
+                i += 30;
+                var sync = getbitu(buffer, i, 1);
+                i += 1;
+                var iod = getbitu(buffer, i, 3);
+                i += 3;
+
+                var time_s = getbitu(buffer, i, 7);
+                i += 7;
+                var clk_str = getbitu(buffer, i, 2);
+                i += 2;
+                var clk_ext = getbitu(buffer, i, 2);
+                i += 2;
+                var smooth = getbitu(buffer, i, 1);
+                i += 1;
+                var tint_s = getbitu(buffer, i, 3);
+                i += 3;
+
+                var nsat = 0;
+                var nsig = 0;
+                var ncell = 0;
+                var j = 0;
+
+                var sats = new Dictionary<int, double>();
+                var sigs = new Dictionary<int, double>();
+                var cellmask = new byte[64];
+
+                for (j = 1; j <= 64; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sats[nsat++] = j;
+                }
+                for (j = 1; j <= 32; j++)
+                {
+                    var mask = getbitu(buffer, i, 1);
+                    i += 1;
+                    if (mask > 0) sigs[nsig++] = j;
+                }
+
+                for (j = 0; j < nsat * nsig; j++)
+                {
+                    cellmask[j] = (byte)getbitu(buffer, i, 1);
+                    i += 1;
+                    if (cellmask[j] > 0) ncell++;
+                }
+
+                // end of header  i=202
+
+                var week = 0;
+                double seconds = 0;
+
+                // asumes current week
+                StaticUtils.GetFromTime(DateTime.Now, ref week, ref seconds);
+
+                // if tow is larger than the calced curretn time, go back one week
+                if (tow > seconds)
+                    week--;
+
+                var gpstime = StaticUtils.GetFromGps(week, tow);
+
+                //Console.WriteLine("> {0,4} {1,2} {2,2} {3,2} {4,2} {5,10} {6,2} {7,2}", gpstime.Year, gpstime.Month,gpstime.Day, gpstime.Hour, gpstime.Minute, gpstime.Second + gpstime.Millisecond/1000.0, 0, nsat);
+
+
+                var r = new double[64];
+                var rr = new double[64];
+                var pr = new double[64];
+                var cp = new double[64];
+                var rrf = new double[64];
+                var cnr = new double[64];
+                var ex = new uint[64];
+                var half = new uint[64];
+                var @lock = new uint[64];
+
+                for (j = 0; j < nsat; j++)
+                {
+                    r[j] = rr[j] = 0.0;
+                    ex[j] = 15;
+                }
+                for (j = 0; j < ncell; j++) pr[j] = cp[j] = rrf[j] = -1E16;
+
+                /* decode satellite data */
+                for (j = 0; j < nsat; j++)
+                {
+                    /* range */
+                    var rng = getbitu(buffer, i, 8);
+                    i += 8;
+                    if (rng != 255) r[j] = rng * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* extended info */
+                    ex[j] = getbitu(buffer, i, 4);
+                    i += 4;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    var rng_m = getbitu(buffer, i, 10);
+                    i += 10;
+                    if (r[j] != 0.0) r[j] += rng_m * P2_10 * RANGE_MS;
+                }
+                for (j = 0; j < nsat; j++)
+                {
+                    /* phaserangerate */
+                    var rate = getbits(buffer, i, 14);
+                    i += 14;
+                    if (rate != -8192) rr[j] = rate * 1.0;
+                }
+                /* decode signal data */
+                for (j = 0; j < ncell; j++)
+                {
+                    /* pseudorange */
+                    var prv = getbits(buffer, i, 20);
+                    i += 20;
+                    if (prv != -524288) pr[j] = prv * P2_29 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserange */
+                    var cpv = getbits(buffer, i, 24);
+                    i += 24;
+                    if (cpv != -8388608) cp[j] = cpv * P2_31 * RANGE_MS;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* lock time */
+                    @lock[j] = getbitu(buffer, i, 10);
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* half-cycle amiguity */
+                    half[j] = getbitu(buffer, i, 1);
+                    i += 1;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* cnr */
+                    cnr[j] = getbitu(buffer, i, 10) * 0.0625;
+                    i += 10;
+                }
+                for (j = 0; j < ncell; j++)
+                {
+                    /* phaserangerate */
+                    var rrv = getbits(buffer, i, 15);
+                    i += 15;
+                    if (rrv != -16384) rrf[j] = rrv * 0.0001;
+                }
+
+                var lam1 = CLIGHT / FREQ1;
+
+                for (j = 0; j < nsat; j++)
+                {
+                    var ob = new ob();
+                    ob.sys = 'R';
+                    ob.tow = tow;
+                    ob.week = week;
+
+                    ob.prn = (byte)sats[j];
+
+                    ob.pr = r[j] + pr[j];
+                    ob.cp = (r[j] + cp[j]) / lam1;
+                    ob.snr = (byte)(cnr[j]);
+
+                    if (nsig > 1)
+                    {
+                        ob.pr2 = r[j] + pr[j + sats.Count * 1];
+                        ob.cp2 = (r[j] + cp[j + sats.Count * 1]); // / lam2;
+                    }
+
+                    obs.Add(ob);
+                }
+
+                obs.Sort(delegate (ob a1, ob b) { return a1.prn.CompareTo(b.prn); });
+
+                nbits = i;
+            }
+
+            public
+                uint Write(byte[] buffer)
+            {
+                return 0;
+            }
+        }
+
 
         public class type1005
         {
@@ -279,9 +1715,9 @@ namespace MissionPlanner.Utilities
                 }
                 set
                 {
-                    rr0 = value[0] / 0.0001;
-                    rr1 = value[1] / 0.0001;
-                    rr2 = value[2] / 0.0001;
+                    rr0 = value[0]/0.0001;
+                    rr1 = value[1]/0.0001;
+                    rr2 = value[2]/0.0001;
                 }
             }
 
@@ -289,9 +1725,9 @@ namespace MissionPlanner.Utilities
             {
                 uint i = 24 + 12;
 
-                staid = (ushort)getbitu(buffer, i, 12);
+                staid = (ushort) getbitu(buffer, i, 12);
                 i += 12;
-                itrf = (byte)getbitu(buffer, i, 6);
+                itrf = (byte) getbitu(buffer, i, 6);
                 i += 6 + 4;
                 rr0 = getbits_38(buffer, i);
                 i += 38 + 2;
@@ -319,17 +1755,17 @@ namespace MissionPlanner.Utilities
                 i += 1; /* galileo indicator */
                 setbitu(buffer, i, 1, 0);
                 i += 1; /* ref station indicator */
-                set38bits(buffer, i, ecefposition[0] / 0.0001);
+                set38bits(buffer, i, ecefposition[0]/0.0001);
                 i += 38; /* antenna ref point ecef-x */
                 setbitu(buffer, i, 1, 1);
                 i += 1; /* oscillator indicator */
                 setbitu(buffer, i, 1, 0);
                 i += 1; /* reserved */
-                set38bits(buffer, i, ecefposition[1] / 0.0001);
+                set38bits(buffer, i, ecefposition[1]/0.0001);
                 i += 38; /* antenna ref point ecef-y */
                 setbitu(buffer, i, 2, 0);
                 i += 2; /* quarter cycle indicator */
-                set38bits(buffer, i, ecefposition[2] / 0.0001);
+                set38bits(buffer, i, ecefposition[2]/0.0001);
                 i += 38; /* antenna ref point ecef-z */
 
                 return i;
@@ -365,9 +1801,9 @@ namespace MissionPlanner.Utilities
                 }
                 set
                 {
-                    rr0 = value[0] / 0.0001;
-                    rr1 = value[1] / 0.0001;
-                    rr2 = value[2] / 0.0001;
+                    rr0 = value[0]/0.0001;
+                    rr1 = value[1]/0.0001;
+                    rr2 = value[2]/0.0001;
                 }
             }
 
@@ -375,9 +1811,9 @@ namespace MissionPlanner.Utilities
             {
                 uint i = 24 + 12;
 
-                staid = (ushort)getbitu(buffer, i, 12);
+                staid = (ushort) getbitu(buffer, i, 12);
                 i += 12;
-                itrf = (byte)getbitu(buffer, i, 6);
+                itrf = (byte) getbitu(buffer, i, 6);
                 i += 6 + 4;
                 rr0 = getbits_38(buffer, i);
                 i += 38 + 2;
@@ -385,7 +1821,7 @@ namespace MissionPlanner.Utilities
                 i += 38 + 2;
                 rr2 = getbits_38(buffer, i);
                 i += 38;
-                anth = (ushort)getbitu(buffer, i, 16);
+                anth = (ushort) getbitu(buffer, i, 16);
                 i += 16;
             }
 
@@ -407,85 +1843,23 @@ namespace MissionPlanner.Utilities
                 i += 1; /* galileo indicator */
                 setbitu(buffer, i, 1, 0);
                 i += 1; /* ref station indicator */
-                set38bits(buffer, i, ecefposition[0] / 0.0001);
+                set38bits(buffer, i, ecefposition[0]/0.0001);
                 i += 38; /* antenna ref point ecef-x */
                 setbitu(buffer, i, 1, 1);
                 i += 1; /* oscillator indicator */
                 setbitu(buffer, i, 1, 0);
                 i += 1; /* reserved */
-                set38bits(buffer, i, ecefposition[1] / 0.0001);
+                set38bits(buffer, i, ecefposition[1]/0.0001);
                 i += 38; /* antenna ref point ecef-y */
                 setbitu(buffer, i, 2, 0);
                 i += 2; /* quarter cycle indicator */
-                set38bits(buffer, i, ecefposition[2] / 0.0001);
+                set38bits(buffer, i, ecefposition[2]/0.0001);
                 i += 38; /* antenna ref point ecef-z */
                 setbitu(buffer, i, 16, anth);
                 i += 16; /* antenna height */
 
                 return i;
             }
-        }
-
-        private static double getbits_38(byte[] buff, uint pos)
-        {
-            return getbits(buff, pos, 32) * 64.0 + getbitu(buff, pos + 32, 6);
-        }
-
-        private static int getbits(byte[] buff, uint pos, uint len)
-        {
-            var bits = getbitu(buff, pos, len);
-            if (len <= 0 || 32 <= len || !((bits & (1u << (int)(len - 1))) != 0))
-                return (int)bits;
-            return (int)(bits | (~0u << (int)len)); /* extend sign */
-        }
-
-        private static void set38bits(byte[] buff, uint pos, double value)
-        {
-            var word_h = (int)Math.Floor(value / 64.0);
-            var word_l = (uint)(value - word_h * 64.0);
-            setbits(buff, pos, 32, word_h);
-            setbitu(buff, pos + 32, 6, word_l);
-        }
-
-        private static void setbits(byte[] buff, uint pos, uint len, int data)
-        {
-            if (data < 0)
-                data |= 1 << (int)(len - 1);
-            else
-                data &= ~(1 << (int)(len - 1)); /* set sign bit */
-            setbitu(buff, pos, len, (uint)data);
-        }
-
-        const double RE_WGS84 = 6378137.0; /* earth semimajor axis (WGS84) (m) */
-
-        const double FE_WGS84 = (1.0 / 298.257223563); /* earth flattening (WGS84) */
-
-        const double PI = Math.PI; /* pi */
-        public const double D2R = (PI / 180.0); /* deg to rad */
-        public const double R2D = (180.0 / PI); /* rad to deg */
-
-        public static void ecef2pos(double[] r, ref double[] pos)
-        {
-            double e2 = FE_WGS84 * (2.0 - FE_WGS84), r2 = dot(r, r, 2), z, zk, v = RE_WGS84, sinp;
-
-            for (z = r[2], zk = 0.0; Math.Abs(z - zk) >= 1E-4;)
-            {
-                zk = z;
-                sinp = z / Math.Sqrt(r2 + z * z);
-                v = RE_WGS84 / Math.Sqrt(1.0 - e2 * sinp * sinp);
-                z = r[2] + v * e2 * sinp;
-            }
-            pos[0] = r2 > 1E-12 ? Math.Atan(z / Math.Sqrt(r2)) : (r[2] > 0.0 ? PI / 2.0 : -PI / 2.0);
-            pos[1] = r2 > 1E-12 ? Math.Atan2(r[1], r[0]) : 0.0;
-            pos[2] = Math.Sqrt(r2 + z * z) - v;
-        }
-
-        static double dot(double[] a, double[] b, int n)
-        {
-            double c = 0.0;
-
-            while (--n >= 0) c += a[n] * b[n];
-            return c;
         }
     }
 }

@@ -3,7 +3,7 @@ MissionPlanner
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ArduPilot/MissionPlanner?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Website : http://planner.ardupilot.com/  
+Website : http://ardupilot.org/planner/  
   
 Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
   

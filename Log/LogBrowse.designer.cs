@@ -1,4 +1,6 @@
-﻿namespace MissionPlanner.Log
+﻿using MissionPlanner.Controls;
+
+namespace MissionPlanner.Log
 {
     partial class LogBrowse
     {
@@ -30,13 +32,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridView1 = new MissionPlanner.Controls.MyDataGridView();
             this.BUT_Graphit = new MissionPlanner.Controls.MyButton();
             this.BUT_cleargraph = new MissionPlanner.Controls.MyButton();
             this.BUT_loadlog = new MissionPlanner.Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
             this.chk_time = new System.Windows.Forms.CheckBox();
             this.treeView1 = new System.Windows.Forms.TreeView();
@@ -124,6 +130,10 @@
             // 
             // splitContainer2.Panel2
             // 
+            this.splitContainer2.Panel2.Controls.Add(this.label4);
+            this.splitContainer2.Panel2.Controls.Add(this.label3);
+            this.splitContainer2.Panel2.Controls.Add(this.label2);
+            this.splitContainer2.Panel2.Controls.Add(this.label1);
             this.splitContainer2.Panel2.Controls.Add(this.myGMAP1);
             this.splitContainer2.Panel2Collapsed = true;
             // 
@@ -140,7 +150,36 @@
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
+            this.zg1.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zg1_MouseMoveEvent);
             this.zg1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zg1_MouseDoubleClick);
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.Yellow;
+            this.label4.Name = "label4";
+            this.label4.Tag = "custom";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Name = "label3";
+            this.label3.Tag = "custom";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.ForeColor = System.Drawing.Color.Green;
+            this.label2.Name = "label2";
+            this.label2.Tag = "custom";
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.ForeColor = System.Drawing.Color.Blue;
+            this.label1.Name = "label1";
+            this.label1.Tag = "custom";
             // 
             // myGMAP1
             // 
@@ -161,6 +200,7 @@
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("myGMAP1.SelectedArea")));
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
@@ -216,8 +256,8 @@
             // 
             // LogBrowse
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.splitContainer1);
             this.Name = "LogBrowse";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LogBrowse_FormClosed);
@@ -230,6 +270,7 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -238,7 +279,7 @@
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private Controls.MyDataGridView dataGridView1;
         private Controls.MyButton BUT_Graphit;
         private Controls.MyButton BUT_cleargraph;
         private Controls.MyButton BUT_loadlog;
@@ -252,6 +293,10 @@
         private System.Windows.Forms.ComboBox CMB_preselect;
         private System.Windows.Forms.TreeView treeView1;
         private System.Windows.Forms.CheckBox chk_time;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
     }
 }
 

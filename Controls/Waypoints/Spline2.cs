@@ -108,7 +108,7 @@ namespace MissionPlanner.Controls.Waypoints
         float longitude_scale(PointLatLngAlt loc)
         {
             float scale = 1.0f;
-            scale = (float) Math.Cos(loc.Lat*deg2rad);
+            scale = (float) Math.Cos(loc.Lat*MathHelper.deg2rad);
             return scale;
         }
 
@@ -383,7 +383,7 @@ namespace MissionPlanner.Controls.Waypoints
 
         private float RadiansToCentiDegrees(double p)
         {
-            return (float) (p*rad2deg);
+            return (float) (p*MathHelper.rad2deg);
         }
 
 

@@ -100,7 +100,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             changes.Clear();
 
-            processToScreen();
+            // add tooltips to all controls
+            foreach (Control control1 in Controls)
+            {
+                foreach (Control control2 in control1.Controls)
+                {
+                    if (control2 is MavlinkNumericUpDown)
+                    {
+                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                    if (control2 is MavlinkComboBox)
+                    {
+                        var ParamName = ((MavlinkComboBox)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                }
+            }
 
             startup = false;
         }
@@ -142,104 +162,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 currentLinePosition++;
             }
             return sb.ToString();
-        }
-
-        private void disableNumericUpDownControls(Control inctl)
-        {
-            foreach (Control ctl in inctl.Controls)
-            {
-                if (ctl.Controls.Count > 0)
-                {
-                    disableNumericUpDownControls(ctl);
-                }
-                if (ctl.GetType() == typeof (NumericUpDown))
-                {
-                    ctl.Enabled = false;
-                }
-            }
-        }
-
-        internal void processToScreen()
-        {
-            toolTip1.RemoveAll();
-
-            disableNumericUpDownControls(this);
-
-            // process hashdefines and update display
-            foreach (string value in MainV2.comPort.MAV.param.Keys)
-            {
-                if (value == null || value == "")
-                    continue;
-
-                var name = value;
-                var text = Controls.Find(name, true);
-                foreach (var ctl in text)
-                {
-                    try
-                    {
-                        if (ctl.GetType() == typeof (NumericUpDown))
-                        {
-                            var numbervalue = (float) MainV2.comPort.MAV.param[value];
-
-                            MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
-
-                            var thisctl = ((NumericUpDown) ctl);
-                            thisctl.Maximum = 9000;
-                            thisctl.Minimum = -9000;
-                            thisctl.Value = (decimal) numbervalue;
-                            thisctl.Increment = (decimal) 0.001;
-                            if (thisctl.Name.EndsWith("_P") || thisctl.Name.EndsWith("_I") ||
-                                thisctl.Name.EndsWith("_D")
-                                || thisctl.Name.EndsWith("_LOW") || thisctl.Name.EndsWith("_HIGH") || thisctl.Value == 0
-                                || thisctl.Value.ToString("0.###", new CultureInfo("en-US")).Contains("."))
-                            {
-                                thisctl.DecimalPlaces = 3;
-                            }
-                            else
-                            {
-                                thisctl.Increment = 1;
-                                thisctl.DecimalPlaces = 1;
-                            }
-
-                            if (thisctl.Name.EndsWith("_IMAX"))
-                            {
-                                thisctl.Maximum = 180;
-                                thisctl.Minimum = -180;
-                            }
-
-                            thisctl.Enabled = true;
-                            try
-                            {
-                                thisctl.Parent.Visible = true;
-                            }
-                            catch
-                            {
-                            }
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-
-                            thisctl.Validated += EEPROM_View_float_TextChanged;
-                        }
-                        else if (ctl.GetType() == typeof (ComboBox))
-                        {
-                            var thisctl = ((ComboBox) ctl);
-
-                            thisctl.SelectedIndex = (int) (float) MainV2.comPort.MAV.param[value];
-
-                            thisctl.Validated += ComboBox_Validated;
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-                if (text.Length == 0)
-                {
-                    //Console.WriteLine(name + " not found");
-                }
-            }
         }
 
         private void ComboBox_Validated(object sender, EventArgs e)

@@ -32,8 +32,6 @@ namespace MissionPlanner.HIL
         };
 
         public const float ft2m = (float) (1.0/3.2808399);
-        public const float rad2deg = (float) (180/Math.PI);
-        public const float deg2rad = (float) (1.0/rad2deg);
         public const float kts2fps = (float) 1.68780986;
 
         internal DateTime lastgpsupdate = DateTime.Now;

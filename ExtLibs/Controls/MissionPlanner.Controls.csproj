@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MissionPlanner.Controls</RootNamespace>
     <AssemblyName>MissionPlanner.Controls</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -31,6 +31,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\..\ExtLibs\log4net.dll</HintPath>
@@ -51,6 +57,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Utilities\MeasureString.cs">
+      <Link>MeasureString.cs</Link>
+    </Compile>
     <Compile Include="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,6 +312,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="mykey.snk" />
     <None Include="Resources\iconWarning32.png" />
   </ItemGroup>
   <ItemGroup>
@@ -324,10 +334,6 @@
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
-      <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

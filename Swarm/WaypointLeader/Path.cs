@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Community.CsharpSqlite;
 using Core.ExtendedObjects;
 using MissionPlanner.HIL;
 using MissionPlanner.Utilities;

@@ -47,6 +47,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_Layout.SelectedIndex = 0;
             }
 
+
             CMB_osdcolor.DataSource = Enum.GetNames(typeof (KnownColor));
 
             // set distance/speed unit states
@@ -59,7 +60,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             // setup language selection
             var cultureCodes = new[]
-            {"en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR"};
+            {
+                "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES", "de-DE", "ja-JP", "id-ID", "ko-KR",
+                "ar", "pt"
+            };
 
             _languages = cultureCodes
                 .Select(CultureInfoEx.GetCultureInfo)
@@ -748,6 +752,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CHK_beta_CheckedChanged(object sender, EventArgs e)
         {
             Settings.Instance["beta_updates"] = CHK_beta.Checked.ToString();
+
+            MissionPlanner.Utilities.Update.dobeta = CHK_beta.Checked;
         }
 
         private void CHK_Password_CheckedChanged(object sender, EventArgs e)
@@ -832,7 +838,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             Settings.Instance["enableadsb"] = chk_ADSB.Checked.ToString();
-            MainV2.instance.EnableADSB = CHK_showairports.Checked;
+            MainV2.instance.EnableADSB = chk_ADSB.Checked;
         }
 
         private void chk_tfr_CheckedChanged(object sender, EventArgs e)

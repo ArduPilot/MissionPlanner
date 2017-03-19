@@ -13,6 +13,7 @@ using System.Threading;
 using System.Drawing.Drawing2D;
 using log4net;
 using OpenTK;
+using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 //using OpenTK.Graphics;
 
@@ -24,14 +25,32 @@ namespace MissionPlanner.Controls
 {
     public class HUD : GLControl
     {
-        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        object paintlock = new object();
-        object streamlock = new object();
-        MemoryStream _streamjpg = new MemoryStream();
-        //[System.ComponentModel.Browsable(false)]
-        public MemoryStream streamjpg { get { lock (streamlock) { return _streamjpg; } } set { lock (streamlock) { _streamjpg = value; } } }
+        private static readonly ILog log =
+            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        DateTime textureResetDateTime = DateTime.Now;
+        private object paintlock = new object();
+        private object streamlock = new object();
+        private MemoryStream _streamjpg = new MemoryStream();
+        //[System.ComponentModel.Browsable(false)]
+        public MemoryStream streamjpg
+        {
+            get
+            {
+                lock (streamlock)
+                {
+                    return _streamjpg;
+                }
+            }
+            set
+            {
+                lock (streamlock)
+                {
+                    _streamjpg = value;
+                }
+            }
+        }
+
+        private DateTime textureResetDateTime = DateTime.Now;
 
         /// <summary>
         /// this is to reduce cpu usage
@@ -42,7 +61,7 @@ namespace MissionPlanner.Controls
 
         public bool Russian { get; set; }
 
-        class character
+        private class character
         {
             public Bitmap bitmap;
             public int gltextureid;
@@ -50,162 +69,520 @@ namespace MissionPlanner.Controls
             public int size;
         }
 
-        Dictionary<int, character> charDict = new Dictionary<int, character>();
+        private Dictionary<int, character> charDict = new Dictionary<int, character>();
 
         public int huddrawtime = 0;
 
-        public bool opengl { get { return UseOpenGL; } set { UseOpenGL = value; } }
+        [DefaultValue(true)]
+        public bool opengl { get; set; }
+
+        [Browsable(false)]
         public bool npotSupported { get; private set; }
 
         public bool SixteenXNine = false;
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayheading { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayspeed { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayalt { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayconninfo { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayxtrack { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayrollpitch { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displaygps { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool bgon { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool hudon { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool batteryon { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayekf { get; set; }
+
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayvibe { get; set; }
 
-        static ImageCodecInfo ici = GetImageCodec("image/jpeg");
-        static EncoderParameters eps = new EncoderParameters(1);
+        private static ImageCodecInfo ici = GetImageCodec("image/jpeg");
+        private static EncoderParameters eps = new EncoderParameters(1);
 
-        bool started = false;
+        private bool started = false;
 
         public HUD()
         {
-            if (this.DesignMode)
-            {
-                VSync = true;
-                opengl = false;
-                //return;
-            }
-
-            displayvibe =
-                displayekf =
-                    displayheading =
-                        displayspeed =
-                            displayalt =
-                                displayconninfo =
-                                    displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+            opengl =
+                displayvibe =
+                    displayekf =
+                        displayheading =
+                            displayspeed =
+                                displayalt =
+                                    displayconninfo =
+                                        displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
 
             this.Name = "Hud";
 
-            eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L); // or whatever other quality value you want
+            eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L);
+            // or whatever other quality value you want
 
             objBitmap.MakeTransparent();
-
-            //InitializeComponent();
 
             graphicsObject = this;
             graphicsObjectGDIP = Graphics.FromImage(objBitmap);
         }
 
+        private float _roll = 0;
+        private float _navroll = 0;
+        private float _pitch = 0;
+        private float _navpitch = 0;
+        private float _heading = 0;
+        private float _targetheading = 0;
+        private float _alt = 0;
+        private float _targetalt = 0;
+        private float _groundspeed = 0;
+        private float _airspeed = 0;
+        private bool _lowgroundspeed = false;
+        private bool _lowairspeed = false;
+        private float _targetspeed = 0;
+        private float _batterylevel = 0;
+        private float _current = 0;
+        private float _batteryremaining = 0;
+        private float _gpsfix = 0;
+        private float _gpshdop = 0;
+        private float _gpsfix2 = 0;
+        private float _gpshdop2 = 0;
+        private float _disttowp = 0;
+        private float _groundcourse = 0;
+        private float _xtrack_error = 0;
+        private float _turnrate = 0;
+        private float _verticalspeed = 0;
+        private float _linkqualitygcs = 0;
+        private DateTime _datetime;
+        private string _mode = "Manual";
+        private int _wpno = 0;
 
-        float _roll = 0;
-        float _navroll = 0;
-        float _pitch = 0;
-        float _navpitch = 0;
-        float _heading = 0;
-        float _targetheading = 0;
-        float _alt = 0;
-        float _targetalt = 0;
-        float _groundspeed = 0;
-        float _airspeed = 0;
-        bool _lowgroundspeed = false;
-        bool _lowairspeed = false;
-        float _targetspeed = 0;
-        float _batterylevel = 0;
-        float _current = 0;
-        float _batteryremaining = 0;
-        float _gpsfix = 0;
-        float _gpshdop = 0;
-        float _gpsfix2 = 0;
-        float _gpshdop2 = 0;
-        float _disttowp = 0;
-        float _groundcourse = 0;
-        float _xtrack_error = 0;
-        float _turnrate = 0;
-        float _verticalspeed = 0;
-        float _linkqualitygcs = 0;
-        DateTime _datetime;
-        string _mode = "Manual";
-        int _wpno = 0;
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float roll
+        {
+            get { return _roll; }
+            set
+            {
+                if (_roll != value)
+                {
+                    _roll = value;
+                    this.Invalidate();
+                }
+            }
+        }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float roll { get { return _roll; } set { if (_roll != value) { _roll = value; this.Invalidate(); } } }
+        public float navroll
+        {
+            get { return _navroll; }
+            set
+            {
+                if (_navroll != value)
+                {
+                    _navroll = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float navroll { get { return _navroll; } set { if (_navroll != value) { _navroll = value; this.Invalidate(); } } }
+        public float pitch
+        {
+            get { return _pitch; }
+            set
+            {
+                if (_pitch != value)
+                {
+                    _pitch = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float pitch { get { return _pitch; } set { if (_pitch != value) { _pitch = value; this.Invalidate(); } } }
+        public float navpitch
+        {
+            get { return _navpitch; }
+            set
+            {
+                if (_navpitch != value)
+                {
+                    _navpitch = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float navpitch { get { return _navpitch; } set { if (_navpitch != value) { _navpitch = value; this.Invalidate(); } } }
+        public float heading
+        {
+            get { return _heading; }
+            set
+            {
+                if (_heading != value)
+                {
+                    _heading = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float heading { get { return _heading; } set { if (_heading != value) { _heading = value; this.Invalidate(); } } }
+        public float targetheading
+        {
+            get { return _targetheading; }
+            set
+            {
+                if (_targetheading != value)
+                {
+                    _targetheading = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float targetheading { get { return _targetheading; } set { if (_targetheading != value) { _targetheading = value; this.Invalidate(); } } }
+        public float alt
+        {
+            get { return _alt; }
+            set
+            {
+                if (_alt != value)
+                {
+                    _alt = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float alt { get { return _alt; } set { if (_alt != value) { _alt = value; this.Invalidate(); } } }
+        public float targetalt
+        {
+            get { return _targetalt; }
+            set
+            {
+                if (_targetalt != value)
+                {
+                    _targetalt = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float targetalt { get { return _targetalt; } set { if (_targetalt != value) { _targetalt = value; this.Invalidate(); } } }
+        public float groundspeed
+        {
+            get { return _groundspeed; }
+            set
+            {
+                if (_groundspeed != value)
+                {
+                    _groundspeed = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float groundspeed { get { return _groundspeed; } set { if (_groundspeed != value) { _groundspeed = value; this.Invalidate(); } } }
+        public float airspeed
+        {
+            get { return _airspeed; }
+            set
+            {
+                if (_airspeed != value)
+                {
+                    _airspeed = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float airspeed { get { return _airspeed; } set { if (_airspeed != value) { _airspeed = value; this.Invalidate(); } } }
+        public bool lowgroundspeed
+        {
+            get { return _lowgroundspeed; }
+            set
+            {
+                if (_lowgroundspeed != value)
+                {
+                    _lowgroundspeed = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public bool lowgroundspeed { get { return _lowgroundspeed; } set { if (_lowgroundspeed != value) { _lowgroundspeed = value; this.Invalidate(); } } }
+        public bool lowairspeed
+        {
+            get { return _lowairspeed; }
+            set
+            {
+                if (_lowairspeed != value)
+                {
+                    _lowairspeed = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public bool lowairspeed { get { return _lowairspeed; } set { if (_lowairspeed != value) { _lowairspeed = value; this.Invalidate(); } } }
+        public float targetspeed
+        {
+            get { return _targetspeed; }
+            set
+            {
+                if (_targetspeed != value)
+                {
+                    _targetspeed = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float targetspeed { get { return _targetspeed; } set { if (_targetspeed != value) { _targetspeed = value; this.Invalidate(); } } }
+        public float batterylevel
+        {
+            get { return _batterylevel; }
+            set
+            {
+                if (_batterylevel != value)
+                {
+                    _batterylevel = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float batterylevel { get { return _batterylevel; } set { if (_batterylevel != value) { _batterylevel = value; this.Invalidate(); } } }
+        public float batteryremaining
+        {
+            get { return _batteryremaining; }
+            set
+            {
+                if (_batteryremaining != value)
+                {
+                    _batteryremaining = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float batteryremaining { get { return _batteryremaining; } set { if (_batteryremaining != value) { _batteryremaining = value; this.Invalidate(); } } }
+        public float current
+        {
+            get { return _current; }
+            set
+            {
+                if (_current != value)
+                {
+                    _current = value;
+                    this.Invalidate();
+                    if (_current > 0) batteryon = true;
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float current { get { return _current; } set { if (_current != value) { _current = value; this.Invalidate(); if (_current > 0) batteryon = true; } } }
+        public float gpsfix
+        {
+            get { return _gpsfix; }
+            set
+            {
+                if (_gpsfix != value)
+                {
+                    _gpsfix = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float gpsfix { get { return _gpsfix; } set { if (_gpsfix != value) { _gpsfix = value; this.Invalidate(); } } }
+        public float gpshdop
+        {
+            get { return _gpshdop; }
+            set
+            {
+                if (_gpshdop != value)
+                {
+                    _gpshdop = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float gpshdop { get { return _gpshdop; } set { if (_gpshdop != value) { _gpshdop = value; this.Invalidate(); } } }
+        public float gpsfix2
+        {
+            get { return _gpsfix2; }
+            set
+            {
+                if (_gpsfix2 != value)
+                {
+                    _gpsfix2 = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float gpsfix2 { get { return _gpsfix2; } set { if (_gpsfix2 != value) { _gpsfix2 = value; this.Invalidate(); } } }
+        public float gpshdop2
+        {
+            get { return _gpshdop2; }
+            set
+            {
+                if (_gpshdop2 != value)
+                {
+                    _gpshdop2 = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float gpshdop2 { get { return _gpshdop2; } set { if (_gpshdop2 != value) { _gpshdop2 = value; this.Invalidate(); } } }
+        public float disttowp
+        {
+            get { return _disttowp; }
+            set
+            {
+                if (_disttowp != value)
+                {
+                    _disttowp = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float disttowp { get { return _disttowp; } set { if (_disttowp != value) { _disttowp = value; this.Invalidate(); } } }
+        public string mode
+        {
+            get { return _mode; }
+            set
+            {
+                if (_mode != value)
+                {
+                    _mode = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public string mode { get { return _mode; } set { if (_mode != value) { _mode = value; this.Invalidate(); } } }
+        public int wpno
+        {
+            get { return _wpno; }
+            set
+            {
+                if (_wpno != value)
+                {
+                    _wpno = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public int wpno { get { return _wpno; } set { if (_wpno != value) { _wpno = value; this.Invalidate(); } } }
+        public float groundcourse
+        {
+            get { return _groundcourse; }
+            set
+            {
+                if (_groundcourse != value)
+                {
+                    _groundcourse = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float groundcourse { get { return _groundcourse; } set { if (_groundcourse != value) { _groundcourse = value; this.Invalidate(); } } }
+        public float xtrack_error
+        {
+            get { return _xtrack_error; }
+            set
+            {
+                if (_xtrack_error != value)
+                {
+                    _xtrack_error = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float xtrack_error { get { return _xtrack_error; } set { if (_xtrack_error != value) { _xtrack_error = value; this.Invalidate(); } } }
+        public float turnrate
+        {
+            get { return _turnrate; }
+            set
+            {
+                if (_turnrate != value)
+                {
+                    _turnrate = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float turnrate { get { return _turnrate; } set { if (_turnrate != value) { _turnrate = value; this.Invalidate(); } } }
+        public float verticalspeed
+        {
+            get { return _verticalspeed; }
+            set
+            {
+                if (_verticalspeed != Math.Round(value, 1))
+                {
+                    _verticalspeed = (float) Math.Round(value, 1);
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float verticalspeed { get { return _verticalspeed; } set { if (_verticalspeed != Math.Round(value, 1)) { _verticalspeed = (float)Math.Round(value, 1); this.Invalidate(); } } }
+        public float linkqualitygcs
+        {
+            get { return _linkqualitygcs; }
+            set
+            {
+                if (_linkqualitygcs != value)
+                {
+                    _linkqualitygcs = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public float linkqualitygcs { get { return _linkqualitygcs; } set { if (_linkqualitygcs != value) { _linkqualitygcs = value; this.Invalidate(); } } }
-        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public DateTime datetime { get { return _datetime; } set { if (_datetime.Hour == value.Hour && _datetime.Minute == value.Minute && _datetime.Second == value.Second) return; if (_datetime != value) { _datetime = value; this.Invalidate(); } } }
+        public DateTime datetime
+        {
+            get { return _datetime; }
+            set
+            {
+                if (_datetime.Hour == value.Hour && _datetime.Minute == value.Minute && _datetime.Second == value.Second)
+                    return;
+                if (_datetime != value)
+                {
+                    _datetime = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool failsafe { get; set; }
 
@@ -229,16 +606,18 @@ namespace MissionPlanner.Controls
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibex { get; set; }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibey { get; set; }
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float vibez { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float ekfstatus { get; set; }
 
-        bool statuslast = false;
-        DateTime armedtimer = DateTime.MinValue;
+        private bool statuslast = false;
+        private DateTime armedtimer = DateTime.MinValue;
 
         public struct Custom
         {
@@ -246,62 +625,93 @@ namespace MissionPlanner.Controls
             //public float FontSize;
             public string Header;
             public System.Reflection.PropertyInfo Item;
+
             public double GetValue
             {
                 get
                 {
-                    if (Item.PropertyType == typeof(Single))
+                    if (Item.PropertyType == typeof (Single))
                     {
-                        return (double)(float)Item.GetValue(src, null);
+                        return (double) (float) Item.GetValue(src, null);
                     }
-                    if (Item.PropertyType == typeof(Int32))
+                    if (Item.PropertyType == typeof (Int32))
                     {
-                        return (double)(int)Item.GetValue(src, null);
+                        return (double) (int) Item.GetValue(src, null);
                     }
-                    if (Item.PropertyType == typeof(double))
+                    if (Item.PropertyType == typeof (double))
                     {
-                        return (double)Item.GetValue(src, null);
+                        return (double) Item.GetValue(src, null);
                     }
 
                     throw new Exception("Bad data type");
                 }
             }
+
             public static object src { get; set; }
         }
 
         public Hashtable CustomItems = new Hashtable();
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public Color hudcolor { get { return this._whitePen.Color; } set { _hudcolor = value; this._whitePen = new Pen(value, 2); } }
+        public Color hudcolor
+        {
+            get { return this._whitePen.Color; }
+            set
+            {
+                _hudcolor = value;
+                this._whitePen = new Pen(value, 2);
+            }
+        }
 
         private Color _hudcolor = Color.White;
         private Pen _whitePen = new Pen(Color.White, 2);
         private readonly SolidBrush _whiteBrush = new SolidBrush(Color.White);
 
         private static readonly SolidBrush SolidBrush = new SolidBrush(Color.FromArgb(0x55, 0xff, 0xff, 0xff));
-        private static readonly SolidBrush SlightlyTransparentWhiteBrush = new SolidBrush(Color.FromArgb(220, 255, 255, 255));
+
+        private static readonly SolidBrush SlightlyTransparentWhiteBrush =
+            new SolidBrush(Color.FromArgb(220, 255, 255, 255));
+
         private static readonly SolidBrush AltGroundBrush = new SolidBrush(Color.FromArgb(100, Color.BurlyWood));
 
         private readonly object _bgimagelock = new object();
 
         public Image bgimage
         {
-            set { lock (this._bgimagelock) { try { _bgimage = (Image)value; } catch { _bgimage = null; } this.Invalidate(); } }
+            set
+            {
+                lock (this._bgimagelock)
+                {
+                    try
+                    {
+                        _bgimage = (Image) value;
+                    }
+                    catch
+                    {
+                        _bgimage = null;
+                    }
+                    this.Invalidate();
+                }
+            }
             get { return _bgimage; }
         }
-        Image _bgimage;
+
+        private Image _bgimage;
 
         // move these global as they rarely change - reduce GC
-        Font font = new Font(HUDT.Font, 10);
+        private Font font = new Font(HUDT.Font, 10);
         public Bitmap objBitmap = new Bitmap(1024, 1024, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-        int count = 0;
-        DateTime countdate = DateTime.Now;
-        HUD graphicsObject;
-        Graphics graphicsObjectGDIP;
+        private int count = 0;
+        private DateTime countdate = DateTime.Now;
+        private HUD graphicsObject;
+        private Graphics graphicsObjectGDIP;
 
-        DateTime starttime = DateTime.MinValue;
+        private DateTime starttime = DateTime.MinValue;
 
-        System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(HUD));
+        private System.ComponentModel.ComponentResourceManager resources =
+            new System.ComponentModel.ComponentResourceManager(typeof (HUD));
+
+       
 
         public override void Refresh()
         {
@@ -471,6 +881,7 @@ namespace MissionPlanner.Controls
                 e.Graphics.Flush();
                 opengl = false;
                 doPaint(e);
+                opengl = true;
                 return;
             }
 
@@ -511,7 +922,8 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     // make this gl window and thread current
-                    MakeCurrent();
+                    if(!Context.IsCurrent)
+                        MakeCurrent();
 
                     GL.Clear(ClearBufferMask.ColorBufferBit);
 
@@ -524,7 +936,7 @@ namespace MissionPlanner.Controls
                     this.SwapBuffers();
 
                     // free from this thread
-                    Context.MakeCurrent(null);
+                    //Context.MakeCurrent(null);
                 }
 
             }
@@ -564,8 +976,8 @@ namespace MissionPlanner.Controls
             }
         }
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        const double rad2deg = (180 / Math.PI);
+        const double deg2rad = (1.0 / rad2deg);
 
         public void DrawArc(Pen penn, RectangleF rect, float start, float degrees)
         {
@@ -647,45 +1059,57 @@ namespace MissionPlanner.Controls
             return destImage;
         }
 
-        int _texture = 0;
-        Bitmap bitmap = new Bitmap(512, 512);
+        private character[] _texture = new character[2];
 
-        public void DrawImage(Image img, int x, int y, int width, int height)
+        public void DrawImage(Image img, int x, int y, int width, int height, int textureno = 0)
         {
             if (opengl)
             {
                 if (img == null)
                     return;
 
+                if (_texture[textureno] == null)
+                    _texture[textureno] = new character();
+
                 // If the image is already a bitmap and we support NPOT textures then simply use it.
                 if (npotSupported && img is Bitmap)
                 {
-                    bitmap = (Bitmap)img;
+                    _texture[textureno].bitmap = (Bitmap)img;
                 }
                 else
                 {
                     // Otherwise we have to resize img to be POT.
-                    bitmap = ResizeImage(img, bitmap.Width, bitmap.Height);
+                    _texture[textureno].bitmap = ResizeImage(img, _texture[textureno].bitmap.Width, _texture[textureno].bitmap.Height);
                 }
 
-                if (this._texture == 0)
+                // generate the texture
+                if (_texture[textureno].gltextureid == 0)
                 {
-                    GL.GenTextures(1, out this._texture);
+                    GL.GenTextures(1, out _texture[textureno].gltextureid);
                 }
 
-                GL.BindTexture(TextureTarget.Texture2D, this._texture);
+                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
 
-                BitmapData data = bitmap.LockBits(
-                    new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                BitmapData data = _texture[textureno].bitmap.LockBits(
+                    new Rectangle(0, 0, _texture[textureno].bitmap.Width, _texture[textureno].bitmap.Height),
                     ImageLockMode.ReadOnly,
                     System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-                //Console.WriteLine("w {0} h {1}",data.Width, data.Height);
+                // create the texture type/dimensions
+                if (_texture[textureno].width != _texture[textureno].bitmap.Width)
+                {
+                    GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
 
-                GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                    OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                    _texture[textureno].width = data.Width;
+                }
+                else
+                {
+                    GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, data.Width, data.Height,
+                        OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+                }
 
-                bitmap.UnlockBits(data);
+                _texture[textureno].bitmap.UnlockBits(data);
 
                 bool polySmoothEnabled = GL.IsEnabled(EnableCap.PolygonSmooth);
                 if (polySmoothEnabled)
@@ -693,7 +1117,7 @@ namespace MissionPlanner.Controls
 
                 GL.Enable(EnableCap.Texture2D);
 
-                GL.BindTexture(TextureTarget.Texture2D, this._texture);
+                GL.BindTexture(TextureTarget.Texture2D, _texture[textureno].gltextureid);
 
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
                 GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
@@ -997,8 +1421,17 @@ namespace MissionPlanner.Controls
                 {
                     bgon = false;
                     lock (this._bgimagelock)
+                    lock(_bgimage)
                     {
-                        graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height);
+                        try
+                        {
+                                graphicsObject.DrawImage(_bgimage, 0, 0, this.Width, this.Height, 1);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                            _bgimage = null;
+                        }
                     }
 
                     if (hudon == false)
@@ -1693,6 +2126,14 @@ namespace MissionPlanner.Controls
                     {
                         gps = (HUDT.GPS5);
                     }
+                    else if (_fix == 6)
+                    {
+                        gps = (HUDT.GPS6);
+                    }
+                    else
+                    {
+                        gps = _fix.ToString();
+                    }
                     drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
                 }
 
@@ -2004,9 +2445,7 @@ namespace MissionPlanner.Controls
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
 
                     GL.Enable(EnableCap.Texture2D);
-                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);
-
-                    
+                    GL.BindTexture(TextureTarget.Texture2D, charDict[charid].gltextureid);                    
 
                     GL.Begin(PrimitiveType.Quads);
                     GL.TexCoord2(0, 0);
@@ -2089,7 +2528,7 @@ namespace MissionPlanner.Controls
                 // dont draw spaces
                 if (cha != ' ')
                 {
-                    DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height);
+                    DrawImage(charDict[charid].bitmap, (int)x, (int)y, charDict[charid].bitmap.Width, charDict[charid].bitmap.Height, charDict[charid].gltextureid);
                 }
                 else
                 {
@@ -2172,8 +2611,12 @@ namespace MissionPlanner.Controls
 
                 if (opengl)
                 {
-                    GL.DeleteTexture(this._texture);
-                    this._texture = 0;
+                    foreach (character texid in _texture)
+                    {
+                        if (texid != null && texid.gltextureid != 0)
+                            GL.DeleteTexture(texid.gltextureid);
+                    }
+                    this._texture = new character[_texture.Length];
 
                     foreach (character texid in charDict.Values)
                     {
@@ -2205,8 +2648,6 @@ namespace MissionPlanner.Controls
 
             Refresh();
         }
-
-        public bool UseOpenGL { get; set; }
 
         [Browsable(false)]
         public new bool VSync

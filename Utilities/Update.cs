@@ -84,6 +84,11 @@ namespace MissionPlanner.Utilities
 
         public static void CheckForUpdate(bool NotifyNoUpdate = false)
         {
+            if (Program.WindowsStoreApp)
+            {
+                return;
+            }
+
             var baseurl = ConfigurationManager.AppSettings["UpdateLocationVersion"];
 
             if (dobeta)
@@ -197,6 +202,12 @@ namespace MissionPlanner.Utilities
 
         public static void DoUpdate()
         {
+            if (Program.WindowsStoreApp)
+            {
+                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
+                return;
+            }
+
             ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
             {
                 Text = "Check for Updates",

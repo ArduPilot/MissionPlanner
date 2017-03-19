@@ -143,26 +143,60 @@
     <Reference Include="alglibnet2">
       <HintPath>ExtLibs\alglibnet2.dll</HintPath>
     </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
     </Reference>
-    <Reference Include="DotSpatial.Data">
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Data, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c29dbf30e059ca9d, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Data.1.6.0.0\lib\net40-Client\DotSpatial.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotSpatial.Extensions">
+    <Reference Include="DotSpatial.Data.Forms, Version=1.6.0.0, Culture=neutral, PublicKeyToken=53ab5a198378d4c1, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Data.Forms.1.6.0.0\lib\net40-Client\DotSpatial.Data.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Extensions, Version=1.6.0.0, Culture=neutral, PublicKeyToken=4d9e49339a7d240c, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Extensions.1.6.0.0\lib\net40-Client\DotSpatial.Extensions.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotSpatial.Mono">
+    <Reference Include="DotSpatial.Modeling.Forms, Version=1.6.0.0, Culture=neutral, PublicKeyToken=712bef29a31a9354, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Modeling.Forms.1.6.0.0\lib\net40-Client\DotSpatial.Modeling.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Mono, Version=1.6.0.0, Culture=neutral, PublicKeyToken=425ba4de41127026, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Mono.1.6.0.0\lib\net40-Client\DotSpatial.Mono.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotSpatial.Projections">
+    <Reference Include="DotSpatial.Projections, Version=1.6.0.0, Culture=neutral, PublicKeyToken=272632bddd08a38b, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Projections.1.6.0.0\lib\net40-Client\DotSpatial.Projections.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotSpatial.Serialization">
+    <Reference Include="DotSpatial.Projections.Forms, Version=1.6.0.0, Culture=neutral, PublicKeyToken=52099474f11b7ff0, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Projections.Forms.1.6.0.0\lib\net40-Client\DotSpatial.Projections.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Serialization, Version=1.6.0.0, Culture=neutral, PublicKeyToken=441f200f827611e7, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Serialization.1.6.0.0\lib\net40-Client\DotSpatial.Serialization.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="DotSpatial.Topology">
+    <Reference Include="DotSpatial.Symbology, Version=1.6.0.0, Culture=neutral, PublicKeyToken=6178c08da7998387, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Symbology.1.6.0.0\lib\net40-Client\DotSpatial.Symbology.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Symbology.Forms, Version=1.6.0.0, Culture=neutral, PublicKeyToken=0544cdeefb662382, processorArchitecture=MSIL">
+      <HintPath>packages\DotSpatial.Symbology.Forms.1.6.0.0\lib\net40-Client\DotSpatial.Symbology.Forms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DotSpatial.Topology, Version=1.6.0.0, Culture=neutral, PublicKeyToken=a66b5e9434ca3671, processorArchitecture=MSIL">
       <HintPath>packages\DotSpatial.Topology.1.6.0.0\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Flurl, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -179,11 +213,41 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
+    <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    <Reference Include="IronPython.Modules, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.Modules.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IronPython.SQLite, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IronPython.Wpf, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.7.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>packages\log4net.2.0.7\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.AspNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -208,13 +272,19 @@
     <Reference Include="ObjectListView">
       <HintPath>packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
     </Reference>
-    <Reference Include="protobuf-net">
-      <HintPath>packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
+    <Reference Include="protobuf-net, Version=2.1.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>packages\protobuf-net.2.1.0\lib\net40\protobuf-net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="SharpDX">
+    <Reference Include="Renci.SshNet">
+      <HintPath>packages\SSH.NET.2016.0.0\lib\net40\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.DirectInput">
+    <Reference Include="SharpDX.DirectInput, Version=2.6.3.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SharpDXPackageBinDir)\SharpDX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -278,35 +348,8 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="BouncyCastle.Crypto">
-      <HintPath>packages\BouncyCastle.1.7.0\lib\Net20\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="csmatio">
       <HintPath>ExtLibs\csmatio.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython.Modules, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.Modules.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython.SQLite, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="IronPython.Wpf, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Dynamic.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.AspNet, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1">
-      <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
@@ -338,12 +381,36 @@
     <Compile Include="Antenna\Tracker.Designer.cs">
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Arduino\IArduinoComms.cs" />
     <Compile Include="Controls\ControlSensorsStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\ControlSensorsStatus.Designer.cs">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MyDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFrameClassType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFrameClassType.Designer.cs">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\LogDownloadscp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Log\LogDownloadscp.Designer.cs">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Log\test\MotorFailure.cs" />
+    <Compile Include="Strings.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Swarm\FollowLeader\Control.cs">
       <SubType>Form</SubType>
@@ -373,15 +440,9 @@
     <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
     <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
-    <Compile Include="Arduino\ArduinoSTK.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Arduino\ArduinoSTKv2.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
-    <Compile Include="Comms\MAVLinkSerialPort.cs" />
+    <Compile Include="Mavlink\MAVLinkSerialPort.cs" />
     <Compile Include="Controls\AuthKeys.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -518,12 +579,6 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.Designer.cs">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.Designer.cs">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigArducopter.cs">
       <SubType>UserControl</SubType>
@@ -885,7 +940,6 @@
     <Compile Include="Log\LogSort.cs" />
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Magfitrotation.cs" />
-    <Compile Include="Models\BattMonitor.cs" />
     <Compile Include="OpenGLtest2.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -897,7 +951,6 @@
     <Compile Include="Plugin\PluginUI.Designer.cs">
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\ConfigCameraStabModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -911,7 +964,7 @@
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="SerialInjectGPS.cs">
-      <SubType>Form</SubType>
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="SerialInjectGPS.Designer.cs">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
@@ -927,26 +980,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Strings.id-ID.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.id-ID.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ja-JP.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ja-JP.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.ko-KR.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.ko-KR.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Strings.zh-Hans.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Strings.zh-Hans.resx</DependentUpon>
-    </Compile>
     <Compile Include="Swarm\FollowPathControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -959,6 +992,8 @@
     <Compile Include="Utilities\AP_GPS_NOVA.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\AP_Terrain.cs" />
+    <Compile Include="Utilities\CircleSurveyMission.cs" />
+    <Compile Include="Utilities\Device.cs" />
     <Compile Include="Utilities\dxf.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
@@ -991,7 +1026,10 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryPX4.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\Proximity.cs" />
+    <Compile Include="Utilities\Tools.cs" />
     <Compile Include="Utilities\ubx_m8p.cs" />
+    <Compile Include="Utilities\UDPMavlinkShim.cs" />
+    <Compile Include="Utilities\UDPVideoShim.cs" />
     <Compile Include="Wizard\10FlightModes.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1089,8 +1127,32 @@
     <Compile Include="Wizard\Wizard.Designer.cs">
       <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Antenna\Tracker.ar.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Antenna\Tracker.pt.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectionOptions.ar.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectionOptions.pt.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\AuthKeys.resx">
       <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConnectionControl.ar.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConnectionControl.pt.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConnectionStats.ar.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConnectionStats.pt.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ControlSensorsStatus.resx">
       <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
@@ -1098,8 +1160,41 @@
     <EmbeddedResource Include="Controls\ControlTest.resx">
       <DependentUpon>ControlTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DefaultSettings.ar.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DefaultSettings.pt.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Loading.resx">
       <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ModifyandSet.ar.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ModifyandSet.pt.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoOptions.ar.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoOptions.pt.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeColors.ar.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeColors.pt.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FollowMe.ar.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FollowMe.pt.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.ar.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.de-DE.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
@@ -1122,6 +1217,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pl.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pt.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
@@ -1134,6 +1232,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-TW.resx">
       <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.ar.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.id-ID.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
@@ -1141,6 +1242,9 @@
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.ko-KR.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.pt.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
@@ -1155,6 +1259,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.zh-TW.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.ar.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.id-ID.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
@@ -1164,32 +1271,14 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.ko-KR.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.pt.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
       <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.de-DE.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.fr.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.id-ID.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.ja-JP.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.ko-KR.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
-      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.ar.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.de-DE.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
@@ -1210,6 +1299,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.ko-KR.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.pt.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
     </EmbeddedResource>
@@ -1221,6 +1313,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.zh-TW.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.ar.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.de-DE.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
@@ -1240,6 +1335,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.ko-KR.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.pt.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
     </EmbeddedResource>
@@ -1251,6 +1349,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.zh-TW.resx">
       <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.ar.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.de-DE.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
@@ -1270,11 +1371,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.ko-KR.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.pt.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.zh-Hans.resx">
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.ar.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.de-DE.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
@@ -1294,11 +1401,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.ko-KR.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.pt.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.zh-Hans.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.ar.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.de-DE.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
@@ -1324,6 +1437,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.pl.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.pt.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1336,6 +1452,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-TW.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.ar.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.de-DE.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
@@ -1361,6 +1480,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pl.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pt.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
     </EmbeddedResource>
@@ -1372,6 +1494,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring.zh-TW.resx">
       <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.ar.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.de-DE.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
@@ -1397,6 +1522,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pl.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pt.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.resx">
       <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
     </EmbeddedResource>
@@ -1412,10 +1540,16 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
       <DependentUpon>ConfigCompassMot.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.ar.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.id-ID.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.ko-KR.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.pt.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.resx">
@@ -1423,6 +1557,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigESCCalibration.zh-Hans.resx">
       <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.ar.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.de-DE.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
@@ -1448,6 +1585,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.pl.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.pt.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
     </EmbeddedResource>
@@ -1459,6 +1599,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFailSafe.zh-TW.resx">
       <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.ar.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.de-DE.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
@@ -1484,6 +1627,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.pl.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.pt.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1500,6 +1646,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.zh-TW.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ar.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.id-ID.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </EmbeddedResource>
@@ -1509,11 +1658,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ko-KR.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.pt.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.zh-Hans.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.ar.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.de-DE.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
@@ -1539,6 +1694,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.pl.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.pt.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
@@ -1550,6 +1708,51 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.zh-TW.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.ar.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.de-DE.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.es-ES.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.fr.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.id-ID.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.it-IT.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.ja-JP.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.ko-KR.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.pl.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.pt.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.zh-Hans.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.zh-Hant.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameClassType.zh-TW.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.ar.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.de-DE.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
@@ -1575,6 +1778,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pl.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pt.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
@@ -1587,6 +1793,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.zh-TW.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.ar.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.id-ID.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
@@ -1596,11 +1805,20 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.ko-KR.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.pt.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.zh-Hans.resx">
       <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigGPSInject.resx">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.ar.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.de-DE.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
@@ -1626,6 +1844,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pl.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pt.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
@@ -1637,6 +1858,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-TW.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.ar.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.pt.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.ar.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.pt.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWESP8266.ar.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWESP8266.pt.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWesp8266.resx">
       <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
@@ -1692,6 +1931,42 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-TW.resx">
       <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.ar.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.pt.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.ar.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.pt.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.ar.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWParachute.pt.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.ar.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWPX4Flow.pt.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.ar.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.pt.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.ar.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.pt.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx">
       <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
@@ -1819,6 +2094,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-TW.resx">
       <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.ar.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.id-ID.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
@@ -1828,11 +2106,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.ko-KR.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.pt.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.zh-Hans.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.ar.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.id-ID.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
@@ -1843,11 +2127,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.ko-KR.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.pt.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.zh-Hans.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.ar.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.de-DE.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
@@ -1867,6 +2157,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.ko-KR.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.pt.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
@@ -1879,6 +2172,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.zh-TW.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.ar.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.id-ID.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
@@ -1888,11 +2184,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.ko-KR.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.pt.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.zh-Hans.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ar.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.de-DE.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
@@ -1912,6 +2214,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.ko-KR.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.pt.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
     </EmbeddedResource>
@@ -1923,6 +2228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.zh-TW.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.ar.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.de-DE.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
@@ -1948,6 +2256,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.pl.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.pt.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
     </EmbeddedResource>
@@ -1959,6 +2270,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRadioInput.zh-TW.resx">
       <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.ar.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.de-DE.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
@@ -1978,6 +2292,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.ko-KR.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.pt.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
@@ -1989,6 +2306,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-TW.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ar.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.de-DE.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
@@ -2008,6 +2328,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.ko-KR.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.pt.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
@@ -2020,6 +2343,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-TW.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.ar.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.id-ID.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
@@ -2029,11 +2355,17 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.ko-KR.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.pt.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.zh-Hans.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.ar.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.de-DE.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
@@ -2059,6 +2391,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.pl.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.pt.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2071,6 +2406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightData.ar.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.de-DE.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
@@ -2096,6 +2434,9 @@
     <EmbeddedResource Include="GCSViews\FlightData.pl.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightData.pt.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2112,6 +2453,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-TW.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightPlanner.ar.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.de-DE.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
@@ -2138,6 +2482,9 @@
     <EmbeddedResource Include="GCSViews\FlightPlanner.pl.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightPlanner.pt.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -2154,6 +2501,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.zh-TW.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\Help.ar.resx">
+      <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Help.de-DE.resx">
       <DependentUpon>Help.cs</DependentUpon>
@@ -2180,6 +2530,9 @@
     <EmbeddedResource Include="GCSViews\Help.pl.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\Help.pt.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Help.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
@@ -2196,6 +2549,9 @@
     <EmbeddedResource Include="GCSViews\Help.zh-TW.resx">
       <DependentUpon>Help.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\InitialSetup.ar.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.id-ID.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
@@ -2203,6 +2559,9 @@
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.ko-KR.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\InitialSetup.pt.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
@@ -2219,6 +2578,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\Terminal.ar.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
@@ -2244,6 +2606,9 @@
     <EmbeddedResource Include="GCSViews\Terminal.pl.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\Terminal.pt.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
@@ -2259,18 +2624,131 @@
     <EmbeddedResource Include="GCSViews\Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GeoRef\Georefimage.ar.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GeoRef\Georefimage.pt.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\JoystickSetup.ar.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\JoystickSetup.pt.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Mount_Mode.ar.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Mount_Mode.pt.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogBrowse.ar.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogBrowse.pt.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownload.ar.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownload.pt.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownloadMavLink.pt.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownloadscp.pt.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownloadscp.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogDownloadMavLink.ar.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Log\LogStrings.resx">
       <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\MavlinkLog.ar.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\MavlinkLog.pt.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainV2.ar.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainV2.pt.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovingBase.ar.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovingBase.pt.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Radio\Sikradio.ar.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Radio\Sikradio.zh-Hant.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Radio\Sikradio.zh-TW.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAW_Sensor.ar.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RAW_Sensor.pt.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptConsole.ar.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptConsole.pt.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialInjectGPS.ar.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialInjectGPS.pt.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputMD.ar.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputMD.pt.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputNMEA.ar.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputNMEA.pt.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputPass.ar.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputPass.pt.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\FollowLeader\Control.resx">
       <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.pt.resx">
+      <DependentUpon>WPControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.resx">
       <DependentUpon>WPControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
       <DependentUpon>AASettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\10FlightModes.ar.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.id-ID.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
@@ -2279,6 +2757,9 @@
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.ko-KR.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\10FlightModes.pt.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.resx">
@@ -2293,6 +2774,9 @@
     <EmbeddedResource Include="Wizard\10FlightModes.zh-TW.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\11Verify.ar.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\11Verify.id-ID.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
@@ -2300,6 +2784,9 @@
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\11Verify.ko-KR.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\11Verify.pt.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\11Verify.resx">
@@ -2314,6 +2801,9 @@
     <EmbeddedResource Include="Wizard\11Verify.zh-TW.resx">
       <DependentUpon>11Verify.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\12FailSafe.ar.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.id-ID.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
@@ -2321,6 +2811,9 @@
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.ko-KR.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\12FailSafe.pt.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\12FailSafe.resx">
@@ -2335,6 +2828,9 @@
     <EmbeddedResource Include="Wizard\12FailSafe.zh-TW.resx">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\13GeoFence.ar.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\13GeoFence.id-ID.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
@@ -2342,6 +2838,9 @@
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\13GeoFence.ko-KR.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\13GeoFence.pt.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\13GeoFence.resx">
@@ -2356,6 +2855,9 @@
     <EmbeddedResource Include="Wizard\13GeoFence.zh-TW.resx">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\1Intro.ar.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.id-ID.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
@@ -2363,6 +2865,9 @@
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.ko-KR.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\1Intro.pt.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.resx">
@@ -2377,6 +2882,9 @@
     <EmbeddedResource Include="Wizard\1Intro.zh-TW.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\2FrameFW.ar.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\2FrameFW.id-ID.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
@@ -2384,6 +2892,9 @@
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\2FrameFW.ko-KR.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\2FrameFW.pt.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\2FrameFW.resx">
@@ -2398,6 +2909,9 @@
     <EmbeddedResource Include="Wizard\2FrameFW.zh-TW.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\3ConnectAP.ar.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\3ConnectAP.id-ID.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
@@ -2405,6 +2919,9 @@
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\3ConnectAP.ko-KR.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\3ConnectAP.pt.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\3ConnectAP.resx">
@@ -2419,6 +2936,9 @@
     <EmbeddedResource Include="Wizard\3ConnectAP.zh-TW.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\4FrameType.ar.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\4FrameType.id-ID.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
@@ -2426,6 +2946,9 @@
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\4FrameType.ko-KR.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\4FrameType.pt.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\4FrameType.resx">
@@ -2440,6 +2963,9 @@
     <EmbeddedResource Include="Wizard\4FrameType.zh-TW.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\5AccelCalib.ar.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\5AccelCalib.id-ID.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
@@ -2447,6 +2973,9 @@
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\5AccelCalib.ko-KR.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\5AccelCalib.pt.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\5AccelCalib.resx">
@@ -2461,6 +2990,9 @@
     <EmbeddedResource Include="Wizard\5AccelCalib.zh-TW.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\6CompassCalib.ar.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\6CompassCalib.id-ID.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
@@ -2468,6 +3000,9 @@
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\6CompassCalib.ko-KR.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\6CompassCalib.pt.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\6CompassCalib.resx">
@@ -2482,6 +3017,9 @@
     <EmbeddedResource Include="Wizard\6CompassCalib.zh-TW.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\7BatteryMonitor.ar.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\7BatteryMonitor.id-ID.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
@@ -2489,6 +3027,9 @@
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\7BatteryMonitor.ko-KR.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\7BatteryMonitor.pt.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\7BatteryMonitor.resx">
@@ -2503,6 +3044,9 @@
     <EmbeddedResource Include="Wizard\7BatteryMonitor.zh-TW.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAC.ar.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.id-ID.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
@@ -2510,6 +3054,9 @@
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.ko-KR.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAC.pt.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.resx">
@@ -2524,6 +3071,9 @@
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.zh-TW.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAP.ar.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.id-ID.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
@@ -2531,6 +3081,9 @@
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.ko-KR.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAP.pt.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.resx">
@@ -2545,6 +3098,9 @@
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.zh-TW.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\98DontForget.ar.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\98DontForget.id-ID.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
@@ -2552,6 +3108,9 @@
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\98DontForget.ko-KR.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\98DontForget.pt.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\98DontForget.resx">
@@ -2566,6 +3125,9 @@
     <EmbeddedResource Include="Wizard\98DontForget.zh-TW.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\9RadioCalibration.ar.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\9RadioCalibration.id-ID.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
@@ -2573,6 +3135,9 @@
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\9RadioCalibration.ko-KR.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\9RadioCalibration.pt.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\9RadioCalibration.resx">
@@ -2587,10 +3152,16 @@
     <EmbeddedResource Include="Wizard\9RadioCalibration.zh-TW.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\Wizard.ar.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.ja-JP.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.ko-KR.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\Wizard.pt.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
@@ -2605,6 +3176,9 @@
     <EmbeddedResource Include="Wizard\Wizard.zh-TW.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="aot.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Drivers\arduinomega2560.cat" />
     <None Include="Drivers\ArduinoMEGA2560.inf" />
     <None Include="Drivers\mindpx.cat">
@@ -2644,6 +3218,12 @@
     </None>
     <None Include="LogAnalyzer\py2exe\createexe.bat" />
     <None Include="LogAnalyzer\upload.bat" />
+    <None Include="NoFly\Mapa-Voa-na-Boa.kmz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ph2_serial.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Utilities\ImageOverFilter.cs" />
     <EmbeddedResource Include="Antenna\Tracker.id-ID.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
@@ -3535,6 +4115,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Welcome_to_Michael_Oborne.rtf" />
+    <None Include="yuvtorgb_fragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="yuvtorgb_vertex.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="acsimplepids.xml">
@@ -3624,6 +4210,495 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\Parachute.png" />
+    <Content Include="Lib\abc.py" />
+    <Content Include="Lib\aifc.py" />
+    <Content Include="Lib\antigravity.py" />
+    <Content Include="Lib\anydbm.py" />
+    <Content Include="Lib\argparse.py" />
+    <Content Include="Lib\ast.py" />
+    <Content Include="Lib\asynchat.py" />
+    <Content Include="Lib\asyncore.py" />
+    <Content Include="Lib\atexit.py" />
+    <Content Include="Lib\audiodev.py" />
+    <Content Include="Lib\base64.py" />
+    <Content Include="Lib\BaseHTTPServer.py" />
+    <Content Include="Lib\Bastion.py" />
+    <Content Include="Lib\bdb.py" />
+    <Content Include="Lib\binhex.py" />
+    <Content Include="Lib\bisect.py" />
+    <Content Include="Lib\calendar.py" />
+    <Content Include="Lib\cgi.py" />
+    <Content Include="Lib\CGIHTTPServer.py" />
+    <Content Include="Lib\cgitb.py" />
+    <Content Include="Lib\chunk.py" />
+    <Content Include="Lib\cmd.py" />
+    <Content Include="Lib\code.py" />
+    <Content Include="Lib\codecs.py" />
+    <Content Include="Lib\codeop.py" />
+    <Content Include="Lib\collections.py" />
+    <Content Include="Lib\colorsys.py" />
+    <Content Include="Lib\commands.py" />
+    <Content Include="Lib\compileall.py" />
+    <Content Include="Lib\ConfigParser.py" />
+    <Content Include="Lib\contextlib.py" />
+    <Content Include="Lib\Cookie.py" />
+    <Content Include="Lib\cookielib.py" />
+    <Content Include="Lib\copy.py" />
+    <Content Include="Lib\csv.py" />
+    <Content Include="Lib\ctypes\macholib\dyld.py" />
+    <Content Include="Lib\ctypes\macholib\dylib.py" />
+    <Content Include="Lib\ctypes\macholib\framework.py" />
+    <Content Include="Lib\ctypes\macholib\__init__.py" />
+    <Content Include="Lib\ctypes\util.py" />
+    <Content Include="Lib\ctypes\wintypes.py" />
+    <Content Include="Lib\ctypes\_endian.py" />
+    <Content Include="Lib\ctypes\__init__.py" />
+    <Content Include="Lib\decimal.py" />
+    <Content Include="Lib\difflib.py" />
+    <Content Include="Lib\dircache.py" />
+    <Content Include="Lib\dis.py" />
+    <Content Include="Lib\distutils\archive_util.py" />
+    <Content Include="Lib\distutils\bcppcompiler.py" />
+    <Content Include="Lib\distutils\ccompiler.py" />
+    <Content Include="Lib\distutils\cmd.py" />
+    <Content Include="Lib\distutils\command\bdist.py" />
+    <Content Include="Lib\distutils\command\bdist_dumb.py" />
+    <Content Include="Lib\distutils\command\bdist_rpm.py" />
+    <Content Include="Lib\distutils\command\bdist_wininst.py" />
+    <Content Include="Lib\distutils\command\build.py" />
+    <Content Include="Lib\distutils\command\build_clib.py" />
+    <Content Include="Lib\distutils\command\build_ext.py" />
+    <Content Include="Lib\distutils\command\build_py.py" />
+    <Content Include="Lib\distutils\command\build_scripts.py" />
+    <Content Include="Lib\distutils\command\check.py" />
+    <Content Include="Lib\distutils\command\clean.py" />
+    <Content Include="Lib\distutils\command\config.py" />
+    <Content Include="Lib\distutils\command\install.py" />
+    <Content Include="Lib\distutils\command\install_data.py" />
+    <Content Include="Lib\distutils\command\install_egg_info.py" />
+    <Content Include="Lib\distutils\command\install_headers.py" />
+    <Content Include="Lib\distutils\command\install_lib.py" />
+    <Content Include="Lib\distutils\command\install_scripts.py" />
+    <Content Include="Lib\distutils\command\register.py" />
+    <Content Include="Lib\distutils\command\sdist.py" />
+    <Content Include="Lib\distutils\command\upload.py" />
+    <Content Include="Lib\distutils\command\__init__.py" />
+    <Content Include="Lib\distutils\config.py" />
+    <Content Include="Lib\distutils\core.py" />
+    <Content Include="Lib\distutils\cygwinccompiler.py" />
+    <Content Include="Lib\distutils\debug.py" />
+    <Content Include="Lib\distutils\dep_util.py" />
+    <Content Include="Lib\distutils\dir_util.py" />
+    <Content Include="Lib\distutils\dist.py" />
+    <Content Include="Lib\distutils\emxccompiler.py" />
+    <Content Include="Lib\distutils\errors.py" />
+    <Content Include="Lib\distutils\extension.py" />
+    <Content Include="Lib\distutils\fancy_getopt.py" />
+    <Content Include="Lib\distutils\filelist.py" />
+    <Content Include="Lib\distutils\file_util.py" />
+    <Content Include="Lib\distutils\log.py" />
+    <Content Include="Lib\distutils\msvccompiler.py" />
+    <Content Include="Lib\distutils\spawn.py" />
+    <Content Include="Lib\distutils\sysconfig.py" />
+    <Content Include="Lib\distutils\text_file.py" />
+    <Content Include="Lib\distutils\unixccompiler.py" />
+    <Content Include="Lib\distutils\util.py" />
+    <Content Include="Lib\distutils\version.py" />
+    <Content Include="Lib\distutils\versionpredicate.py" />
+    <Content Include="Lib\distutils\__init__.py" />
+    <Content Include="Lib\doctest.py" />
+    <Content Include="Lib\DocXMLRPCServer.py" />
+    <Content Include="Lib\dumbdbm.py" />
+    <Content Include="Lib\dummy_thread.py" />
+    <Content Include="Lib\dummy_threading.py" />
+    <Content Include="Lib\email\base64mime.py" />
+    <Content Include="Lib\email\charset.py" />
+    <Content Include="Lib\email\encoders.py" />
+    <Content Include="Lib\email\errors.py" />
+    <Content Include="Lib\email\feedparser.py" />
+    <Content Include="Lib\email\generator.py" />
+    <Content Include="Lib\email\header.py" />
+    <Content Include="Lib\email\iterators.py" />
+    <Content Include="Lib\email\message.py" />
+    <Content Include="Lib\email\mime\application.py" />
+    <Content Include="Lib\email\mime\audio.py" />
+    <Content Include="Lib\email\mime\base.py" />
+    <Content Include="Lib\email\mime\image.py" />
+    <Content Include="Lib\email\mime\message.py" />
+    <Content Include="Lib\email\mime\multipart.py" />
+    <Content Include="Lib\email\mime\nonmultipart.py" />
+    <Content Include="Lib\email\mime\text.py" />
+    <Content Include="Lib\email\mime\__init__.py" />
+    <Content Include="Lib\email\parser.py" />
+    <Content Include="Lib\email\quoprimime.py" />
+    <Content Include="Lib\email\utils.py" />
+    <Content Include="Lib\email\_parseaddr.py" />
+    <Content Include="Lib\email\__init__.py" />
+    <Content Include="Lib\encodings\aliases.py" />
+    <Content Include="Lib\encodings\ascii.py" />
+    <Content Include="Lib\encodings\base64_codec.py" />
+    <Content Include="Lib\encodings\charmap.py" />
+    <Content Include="Lib\encodings\cp037.py" />
+    <Content Include="Lib\encodings\cp1006.py" />
+    <Content Include="Lib\encodings\cp1026.py" />
+    <Content Include="Lib\encodings\cp1140.py" />
+    <Content Include="Lib\encodings\cp1250.py" />
+    <Content Include="Lib\encodings\cp1251.py" />
+    <Content Include="Lib\encodings\cp1252.py" />
+    <Content Include="Lib\encodings\cp1253.py" />
+    <Content Include="Lib\encodings\cp1254.py" />
+    <Content Include="Lib\encodings\cp1255.py" />
+    <Content Include="Lib\encodings\cp1256.py" />
+    <Content Include="Lib\encodings\cp1257.py" />
+    <Content Include="Lib\encodings\cp1258.py" />
+    <Content Include="Lib\encodings\cp424.py" />
+    <Content Include="Lib\encodings\cp437.py" />
+    <Content Include="Lib\encodings\cp500.py" />
+    <Content Include="Lib\encodings\cp720.py" />
+    <Content Include="Lib\encodings\cp737.py" />
+    <Content Include="Lib\encodings\cp775.py" />
+    <Content Include="Lib\encodings\cp850.py" />
+    <Content Include="Lib\encodings\cp852.py" />
+    <Content Include="Lib\encodings\cp855.py" />
+    <Content Include="Lib\encodings\cp856.py" />
+    <Content Include="Lib\encodings\cp857.py" />
+    <Content Include="Lib\encodings\cp858.py" />
+    <Content Include="Lib\encodings\cp860.py" />
+    <Content Include="Lib\encodings\cp861.py" />
+    <Content Include="Lib\encodings\cp862.py" />
+    <Content Include="Lib\encodings\cp863.py" />
+    <Content Include="Lib\encodings\cp864.py" />
+    <Content Include="Lib\encodings\cp865.py" />
+    <Content Include="Lib\encodings\cp866.py" />
+    <Content Include="Lib\encodings\cp869.py" />
+    <Content Include="Lib\encodings\cp874.py" />
+    <Content Include="Lib\encodings\cp875.py" />
+    <Content Include="Lib\encodings\hex_codec.py" />
+    <Content Include="Lib\encodings\hp_roman8.py" />
+    <Content Include="Lib\encodings\iso8859_1.py" />
+    <Content Include="Lib\encodings\iso8859_10.py" />
+    <Content Include="Lib\encodings\iso8859_11.py" />
+    <Content Include="Lib\encodings\iso8859_13.py" />
+    <Content Include="Lib\encodings\iso8859_14.py" />
+    <Content Include="Lib\encodings\iso8859_15.py" />
+    <Content Include="Lib\encodings\iso8859_16.py" />
+    <Content Include="Lib\encodings\iso8859_2.py" />
+    <Content Include="Lib\encodings\iso8859_3.py" />
+    <Content Include="Lib\encodings\iso8859_4.py" />
+    <Content Include="Lib\encodings\iso8859_5.py" />
+    <Content Include="Lib\encodings\iso8859_6.py" />
+    <Content Include="Lib\encodings\iso8859_7.py" />
+    <Content Include="Lib\encodings\iso8859_8.py" />
+    <Content Include="Lib\encodings\iso8859_9.py" />
+    <Content Include="Lib\encodings\koi8_r.py" />
+    <Content Include="Lib\encodings\koi8_u.py" />
+    <Content Include="Lib\encodings\latin_1.py" />
+    <Content Include="Lib\encodings\mac_arabic.py" />
+    <Content Include="Lib\encodings\mac_centeuro.py" />
+    <Content Include="Lib\encodings\mac_croatian.py" />
+    <Content Include="Lib\encodings\mac_cyrillic.py" />
+    <Content Include="Lib\encodings\mac_farsi.py" />
+    <Content Include="Lib\encodings\mac_greek.py" />
+    <Content Include="Lib\encodings\mac_iceland.py" />
+    <Content Include="Lib\encodings\mac_latin2.py" />
+    <Content Include="Lib\encodings\mac_roman.py" />
+    <Content Include="Lib\encodings\mac_romanian.py" />
+    <Content Include="Lib\encodings\mac_turkish.py" />
+    <Content Include="Lib\encodings\mbcs.py" />
+    <Content Include="Lib\encodings\palmos.py" />
+    <Content Include="Lib\encodings\ptcp154.py" />
+    <Content Include="Lib\encodings\punycode.py" />
+    <Content Include="Lib\encodings\quopri_codec.py" />
+    <Content Include="Lib\encodings\raw_unicode_escape.py" />
+    <Content Include="Lib\encodings\rot_13.py" />
+    <Content Include="Lib\encodings\string_escape.py" />
+    <Content Include="Lib\encodings\tis_620.py" />
+    <Content Include="Lib\encodings\undefined.py" />
+    <Content Include="Lib\encodings\unicode_escape.py" />
+    <Content Include="Lib\encodings\unicode_internal.py" />
+    <Content Include="Lib\encodings\utf_16.py" />
+    <Content Include="Lib\encodings\utf_16_be.py" />
+    <Content Include="Lib\encodings\utf_16_le.py" />
+    <Content Include="Lib\encodings\utf_32.py" />
+    <Content Include="Lib\encodings\utf_32_le.py" />
+    <Content Include="Lib\encodings\utf_7.py" />
+    <Content Include="Lib\encodings\utf_8.py" />
+    <Content Include="Lib\encodings\utf_8_sig.py" />
+    <Content Include="Lib\encodings\uu_codec.py" />
+    <Content Include="Lib\encodings\zlib_codec.py" />
+    <Content Include="Lib\encodings\__init__.py" />
+    <Content Include="Lib\filecmp.py" />
+    <Content Include="Lib\fileinput.py" />
+    <Content Include="Lib\fnmatch.py" />
+    <Content Include="Lib\formatter.py" />
+    <Content Include="Lib\fpformat.py" />
+    <Content Include="Lib\fractions.py" />
+    <Content Include="Lib\ftplib.py" />
+    <Content Include="Lib\functools.py" />
+    <Content Include="Lib\genericpath.py" />
+    <Content Include="Lib\getopt.py" />
+    <Content Include="Lib\getpass.py" />
+    <Content Include="Lib\gettext.py" />
+    <Content Include="Lib\glob.py" />
+    <Content Include="Lib\gzip.py" />
+    <Content Include="Lib\hashlib.py" />
+    <Content Include="Lib\heapq.py" />
+    <Content Include="Lib\hmac.py" />
+    <Content Include="Lib\htmlentitydefs.py" />
+    <Content Include="Lib\htmllib.py" />
+    <Content Include="Lib\HTMLParser.py" />
+    <Content Include="Lib\httplib.py" />
+    <Content Include="Lib\ihooks.py" />
+    <Content Include="Lib\imaplib.py" />
+    <Content Include="Lib\imghdr.py" />
+    <Content Include="Lib\importlib\__init__.py" />
+    <Content Include="Lib\imputil.py" />
+    <Content Include="Lib\inspect.py" />
+    <Content Include="Lib\io.py" />
+    <Content Include="Lib\json\decoder.py" />
+    <Content Include="Lib\json\encoder.py" />
+    <Content Include="Lib\json\scanner.py" />
+    <Content Include="Lib\json\tool.py" />
+    <Content Include="Lib\json\__init__.py" />
+    <Content Include="Lib\keyword.py" />
+    <Content Include="Lib\lib2to3\btm_matcher.py" />
+    <Content Include="Lib\lib2to3\btm_utils.py" />
+    <Content Include="Lib\lib2to3\fixer_base.py" />
+    <Content Include="Lib\lib2to3\fixer_util.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_apply.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_basestring.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_buffer.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_callable.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_dict.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_except.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_exec.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_execfile.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_exitfunc.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_filter.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_funcattrs.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_future.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_getcwdu.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_has_key.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_idioms.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_import.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_imports.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_imports2.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_input.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_intern.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_isinstance.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_itertools.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_itertools_imports.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_long.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_map.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_metaclass.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_methodattrs.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_ne.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_next.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_nonzero.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_numliterals.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_operator.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_paren.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_print.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_raise.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_raw_input.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_reduce.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_renames.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_repr.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_set_literal.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_standarderror.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_sys_exc.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_throw.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_tuple_params.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_types.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_unicode.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_urllib.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_ws_comma.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_xrange.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_xreadlines.py" />
+    <Content Include="Lib\lib2to3\fixes\fix_zip.py" />
+    <Content Include="Lib\lib2to3\fixes\__init__.py" />
+    <Content Include="Lib\lib2to3\main.py" />
+    <Content Include="Lib\lib2to3\patcomp.py" />
+    <Content Include="Lib\lib2to3\pgen2\conv.py" />
+    <Content Include="Lib\lib2to3\pgen2\driver.py" />
+    <Content Include="Lib\lib2to3\pgen2\grammar.py" />
+    <Content Include="Lib\lib2to3\pgen2\literals.py" />
+    <Content Include="Lib\lib2to3\pgen2\parse.py" />
+    <Content Include="Lib\lib2to3\pgen2\pgen.py" />
+    <Content Include="Lib\lib2to3\pgen2\token.py" />
+    <Content Include="Lib\lib2to3\pgen2\tokenize.py" />
+    <Content Include="Lib\lib2to3\pgen2\__init__.py" />
+    <Content Include="Lib\lib2to3\pygram.py" />
+    <Content Include="Lib\lib2to3\pytree.py" />
+    <Content Include="Lib\lib2to3\refactor.py" />
+    <Content Include="Lib\lib2to3\__init__.py" />
+    <Content Include="Lib\lib2to3\__main__.py" />
+    <Content Include="Lib\linecache.py" />
+    <Content Include="Lib\locale.py" />
+    <Content Include="Lib\logging\config.py" />
+    <Content Include="Lib\logging\handlers.py" />
+    <Content Include="Lib\logging\__init__.py" />
+    <Content Include="Lib\macpath.py" />
+    <Content Include="Lib\macurl2path.py" />
+    <Content Include="Lib\mailbox.py" />
+    <Content Include="Lib\mailcap.py" />
+    <Content Include="Lib\markupbase.py" />
+    <Content Include="Lib\md5.py" />
+    <Content Include="Lib\mhlib.py" />
+    <Content Include="Lib\mimetools.py" />
+    <Content Include="Lib\mimetypes.py" />
+    <Content Include="Lib\MimeWriter.py" />
+    <Content Include="Lib\mimify.py" />
+    <Content Include="Lib\modulefinder.py" />
+    <Content Include="Lib\multifile.py" />
+    <Content Include="Lib\mutex.py" />
+    <Content Include="Lib\netrc.py" />
+    <Content Include="Lib\new.py" />
+    <Content Include="Lib\nntplib.py" />
+    <Content Include="Lib\ntpath.py" />
+    <Content Include="Lib\nturl2path.py" />
+    <Content Include="Lib\numbers.py" />
+    <Content Include="Lib\opcode.py" />
+    <Content Include="Lib\optparse.py" />
+    <Content Include="Lib\os.py" />
+    <Content Include="Lib\os2emxpath.py" />
+    <Content Include="Lib\pdb.py" />
+    <Content Include="Lib\pickle.py" />
+    <Content Include="Lib\pickletools.py" />
+    <Content Include="Lib\pipes.py" />
+    <Content Include="Lib\pkgutil.py" />
+    <Content Include="Lib\platform.py" />
+    <Content Include="Lib\plistlib.py" />
+    <Content Include="Lib\popen2.py" />
+    <Content Include="Lib\poplib.py" />
+    <Content Include="Lib\posixfile.py" />
+    <Content Include="Lib\posixpath.py" />
+    <Content Include="Lib\pprint.py" />
+    <Content Include="Lib\profile.py" />
+    <Content Include="Lib\pstats.py" />
+    <Content Include="Lib\pyclbr.py" />
+    <Content Include="Lib\pydoc.py" />
+    <Content Include="Lib\pydoc_data\topics.py" />
+    <Content Include="Lib\pydoc_data\__init__.py" />
+    <Content Include="Lib\py_compile.py" />
+    <Content Include="Lib\Queue.py" />
+    <Content Include="Lib\quopri.py" />
+    <Content Include="Lib\random.py" />
+    <Content Include="Lib\repr.py" />
+    <Content Include="Lib\rexec.py" />
+    <Content Include="Lib\rfc822.py" />
+    <Content Include="Lib\rlcompleter.py" />
+    <Content Include="Lib\robotparser.py" />
+    <Content Include="Lib\runpy.py" />
+    <Content Include="Lib\sched.py" />
+    <Content Include="Lib\sets.py" />
+    <Content Include="Lib\sgmllib.py" />
+    <Content Include="Lib\sha.py" />
+    <Content Include="Lib\shelve.py" />
+    <Content Include="Lib\shlex.py" />
+    <Content Include="Lib\shutil.py" />
+    <Content Include="Lib\SimpleHTTPServer.py" />
+    <Content Include="Lib\SimpleXMLRPCServer.py" />
+    <Content Include="Lib\site-packages\README.txt" />
+    <Content Include="Lib\site.py" />
+    <Content Include="Lib\smtpd.py" />
+    <Content Include="Lib\smtplib.py" />
+    <Content Include="Lib\sndhdr.py" />
+    <Content Include="Lib\SocketServer.py" />
+    <Content Include="Lib\sqlite3\dbapi2.py" />
+    <Content Include="Lib\sqlite3\dump.py" />
+    <Content Include="Lib\sqlite3\__init__.py" />
+    <Content Include="Lib\sre_compile.py" />
+    <Content Include="Lib\sre_constants.py" />
+    <Content Include="Lib\sre_parse.py" />
+    <Content Include="Lib\ssl.py" />
+    <Content Include="Lib\stat.py" />
+    <Content Include="Lib\statvfs.py" />
+    <Content Include="Lib\string.py" />
+    <Content Include="Lib\StringIO.py" />
+    <Content Include="Lib\stringold.py" />
+    <Content Include="Lib\struct.py" />
+    <Content Include="Lib\subprocess.py" />
+    <Content Include="Lib\sunau.py" />
+    <Content Include="Lib\sunaudio.py" />
+    <Content Include="Lib\symbol.py" />
+    <Content Include="Lib\sysconfig.py" />
+    <Content Include="Lib\tabnanny.py" />
+    <Content Include="Lib\tarfile.py" />
+    <Content Include="Lib\telnetlib.py" />
+    <Content Include="Lib\tempfile.py" />
+    <Content Include="Lib\textwrap.py" />
+    <Content Include="Lib\this.py" />
+    <Content Include="Lib\threading.py" />
+    <Content Include="Lib\timeit.py" />
+    <Content Include="Lib\toaiff.py" />
+    <Content Include="Lib\token.py" />
+    <Content Include="Lib\tokenize.py" />
+    <Content Include="Lib\trace.py" />
+    <Content Include="Lib\traceback.py" />
+    <Content Include="Lib\types.py" />
+    <Content Include="Lib\unittest\case.py" />
+    <Content Include="Lib\unittest\loader.py" />
+    <Content Include="Lib\unittest\main.py" />
+    <Content Include="Lib\unittest\result.py" />
+    <Content Include="Lib\unittest\runner.py" />
+    <Content Include="Lib\unittest\signals.py" />
+    <Content Include="Lib\unittest\suite.py" />
+    <Content Include="Lib\unittest\util.py" />
+    <Content Include="Lib\unittest\__init__.py" />
+    <Content Include="Lib\unittest\__main__.py" />
+    <Content Include="Lib\urllib.py" />
+    <Content Include="Lib\urllib2.py" />
+    <Content Include="Lib\urlparse.py" />
+    <Content Include="Lib\user.py" />
+    <Content Include="Lib\UserDict.py" />
+    <Content Include="Lib\UserList.py" />
+    <Content Include="Lib\UserString.py" />
+    <Content Include="Lib\uu.py" />
+    <Content Include="Lib\uuid.py" />
+    <Content Include="Lib\warnings.py" />
+    <Content Include="Lib\wave.py" />
+    <Content Include="Lib\weakref.py" />
+    <Content Include="Lib\webbrowser.py" />
+    <Content Include="Lib\whichdb.py" />
+    <Content Include="Lib\wsgiref\handlers.py" />
+    <Content Include="Lib\wsgiref\headers.py" />
+    <Content Include="Lib\wsgiref\simple_server.py" />
+    <Content Include="Lib\wsgiref\util.py" />
+    <Content Include="Lib\wsgiref\validate.py" />
+    <Content Include="Lib\wsgiref\__init__.py" />
+    <Content Include="Lib\xdrlib.py" />
+    <Content Include="Lib\xmllib.py" />
+    <Content Include="Lib\xmlrpclib.py" />
+    <Content Include="Lib\xml\dom\domreg.py" />
+    <Content Include="Lib\xml\dom\minicompat.py" />
+    <Content Include="Lib\xml\dom\minidom.py" />
+    <Content Include="Lib\xml\dom\NodeFilter.py" />
+    <Content Include="Lib\xml\dom\pulldom.py" />
+    <Content Include="Lib\xml\dom\xmlbuilder.py" />
+    <Content Include="Lib\xml\dom\__init__.py" />
+    <Content Include="Lib\xml\etree\ElementInclude.py" />
+    <Content Include="Lib\xml\etree\ElementPath.py" />
+    <Content Include="Lib\xml\etree\ElementTree.py" />
+    <Content Include="Lib\xml\etree\SimpleXMLTreeBuilder.py" />
+    <Content Include="Lib\xml\etree\__init__.py" />
+    <Content Include="Lib\xml\parsers\__init__.py" />
+    <Content Include="Lib\xml\sax\handler.py" />
+    <Content Include="Lib\xml\sax\saxutils.py" />
+    <Content Include="Lib\xml\sax\xmlreader.py" />
+    <Content Include="Lib\xml\sax\_exceptions.py" />
+    <Content Include="Lib\xml\sax\__init__.py" />
+    <Content Include="Lib\xml\__init__.py" />
+    <Content Include="Lib\zipfile.py" />
+    <Content Include="Lib\_abcoll.py" />
+    <Content Include="Lib\_LWPCookieJar.py" />
+    <Content Include="Lib\_MozillaCookieJar.py" />
+    <Content Include="Lib\_pyio.py" />
+    <Content Include="Lib\_strptime.py" />
+    <Content Include="Lib\_threading_local.py" />
+    <Content Include="Lib\_weakrefset.py" />
+    <Content Include="Lib\__future__.py" />
+    <Content Include="Lib\__phello__.foo.py" />
     <Content Include="LogAnalyzer\py2exe\DataflashLog.py" />
     <Content Include="LogAnalyzer\py2exe\example_output.xml" />
     <Content Include="LogAnalyzer\py2exe\LogAnalyzer.py" />
@@ -3667,6 +4742,7 @@
     <None Include="Resources\FW icons 2013+logos-012.png" />
     <None Include="Resources\uavcanesc.jpg" />
     <None Include="Resources\boat.png" />
+    <None Include="Resources\sub.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -3965,6 +5041,10 @@
       <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
       <Name>AltitudeAngelWings</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj">
+      <Project>{ec0f2b60-cc39-4990-801f-c5db4b570600}</Project>
+      <Name>Arduino</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\AviFile\AviFile.csproj">
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
       <Name>AviFile</Name>
@@ -4035,6 +5115,10 @@
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
       <Name>SharpKml</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\solo\solo.csproj">
+      <Project>{cf402948-a3f4-4962-8a57-e40b46759d25}</Project>
+      <Name>solo</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj">
       <Project>{aba78b2e-77c3-4377-8568-9542ac227971}</Project>
       <Name>tlogThumbnailHandler</Name>
@@ -4067,11 +5151,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpDX.2.6.3\build\SharpDX.targets'))" />
     <Error Condition="!Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SharpDX.2.6.3\build\SharpDX.targets'))" />
   </Target>
-  <Import Project="packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" />
   <Import Project="packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="packages\SharpDX.2.6.3\build\SharpDX.targets" Condition="Exists('packages\SharpDX.2.6.3\build\SharpDX.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

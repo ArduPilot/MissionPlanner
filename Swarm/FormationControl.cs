@@ -10,6 +10,7 @@ using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm
 {
@@ -24,9 +25,21 @@ namespace MissionPlanner.Swarm
 
             SwarmInterface = new Formation();
 
-            bindingSource1.DataSource = MainV2.Comports;
+            Dictionary<String,MAVState> mavStates = new Dictionary<string, MAVState>();
+
+            foreach (var port in MainV2.Comports)
+            {
+                foreach (var mav in port.MAVlist)
+                {
+                    mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
+                }
+            }
+
+            bindingSource1.DataSource = mavStates;
 
             CMB_mavs.DataSource = bindingSource1;
+            CMB_mavs.ValueMember = "Value";
+            CMB_mavs.DisplayMember = "Key";
 
             updateicons();
 
@@ -55,16 +68,19 @@ namespace MissionPlanner.Swarm
 
             foreach (var port in MainV2.Comports)
             {
-                if (port == SwarmInterface.getLeader())
+                foreach (var mav in port.MAVlist)
                 {
-                    ((Formation) SwarmInterface).setOffsets(port, 0, 0, 0);
-                    var vector = SwarmInterface.getOffsets(port);
-                    grid1.UpdateIcon(port, (float) vector.x, (float) vector.y, (float) vector.z, false);
-                }
-                else
-                {
-                    var vector = SwarmInterface.getOffsets(port);
-                    grid1.UpdateIcon(port, (float) vector.x, (float) vector.y, (float) vector.z, true);
+                    if (mav == SwarmInterface.getLeader())
+                    {
+                        ((Formation) SwarmInterface).setOffsets(mav, 0, 0, 0);
+                        var vector = SwarmInterface.getOffsets(mav);
+                        grid1.UpdateIcon(mav, (float) vector.x, (float) vector.y, (float) vector.z, false);
+                    }
+                    else
+                    {
+                        var vector = SwarmInterface.getOffsets(mav);
+                        grid1.UpdateIcon(mav, (float) vector.x, (float) vector.y, (float) vector.z, true);
+                    }
                 }
             }
             grid1.Invalidate();
@@ -74,9 +90,14 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                if (port.ToString() == CMB_mavs.Text)
+                foreach (var mav in port.MAVlist)
                 {
-                    MainV2.comPort = port;
+                    if (mav == CMB_mavs.SelectedValue)
+                    {
+                        MainV2.comPort = port;
+                        port.sysidcurrent = mav.sysid;
+                        port.compidcurrent = mav.compid;
+                    }
                 }
             }
         }
@@ -102,8 +123,8 @@ namespace MissionPlanner.Swarm
             threadrun = true;
 
             // make sure leader is high freq updates
-            SwarmInterface.Leader.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, SwarmInterface.Leader.sysidcurrent, SwarmInterface.Leader.compidcurrent);
-            SwarmInterface.Leader.MAV.cs.rateposition = 5;
+            SwarmInterface.Leader.parent.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, 5, SwarmInterface.Leader.sysid, SwarmInterface.Leader.compid);
+            SwarmInterface.Leader.cs.rateposition = 5;
 
             while (threadrun)
             {
@@ -154,17 +175,21 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                var vectorlead = SwarmInterface.getOffsets(MainV2.comPort);
+                var vectorlead = SwarmInterface.getOffsets(MainV2.comPort.MAV);
 
                 foreach (var port in MainV2.Comports)
                 {
-                    var vector = SwarmInterface.getOffsets(port);
+                    foreach (var mav in port.MAVlist)
+                    {
+                        var vector = SwarmInterface.getOffsets(mav);
 
-                    SwarmInterface.setOffsets(port, (float) (vector.x - vectorlead.x), (float) (vector.y - vectorlead.y),
-                        (float) (vector.z - vectorlead.z));
+                        SwarmInterface.setOffsets(mav, (float) (vector.x - vectorlead.x),
+                            (float) (vector.y - vectorlead.y),
+                            (float) (vector.z - vectorlead.z));
+                    }
                 }
 
-                SwarmInterface.setLeader(MainV2.comPort);
+                SwarmInterface.setLeader(MainV2.comPort.MAV);
                 updateicons();
                 BUT_Start.Enabled = true;
                 BUT_Updatepos.Enabled = true;
@@ -173,7 +198,7 @@ namespace MissionPlanner.Swarm
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(false);
+            Comms.CommsSerialScan.Scan(true);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
@@ -188,62 +213,44 @@ namespace MissionPlanner.Swarm
                 }
             }
 
-            MAVLinkInterface com2 = new MAVLinkInterface();
-
-            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
-            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
-
-            com2.Open(true);
-
-            MainV2.Comports.Add(com2);
-
-            // CMB_mavs.DataSource = MainV2.Comports;
-
-            //CMB_mavs.DataSource
-
-            updateicons();
-
             bindingSource1.ResetBindings(false);
         }
 
-        public HIL.Vector3 getOffsetFromLeader(MAVLinkInterface leader, MAVLinkInterface mav)
+        public HIL.Vector3 getOffsetFromLeader(MAVState leader, MAVState mav)
         {
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
             GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-            int utmzone = (int) ((leader.MAV.cs.lng - -186.0)/6.0);
+            int utmzone = (int) ((leader.cs.lng - -186.0)/6.0);
 
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone,
-                leader.MAV.cs.lat < 0 ? false : true);
+                leader.cs.lat < 0 ? false : true);
 
             ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
 
-            double[] masterpll = {leader.MAV.cs.lng, leader.MAV.cs.lat};
+            double[] masterpll = {leader.cs.lng, leader.cs.lat};
 
             // get leader utm coords
             double[] masterutm = trans.MathTransform.Transform(masterpll);
 
-            double[] mavpll = {mav.MAV.cs.lng, mav.MAV.cs.lat};
+            double[] mavpll = {mav.cs.lng, mav.cs.lat};
 
             //getLeader follower utm coords
             double[] mavutm = trans.MathTransform.Transform(mavpll);
 
-            var heading = -leader.MAV.cs.yaw;
+            var heading = -leader.cs.yaw;
 
            var norotation = new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
-
-            float rad2deg = (float)(180 / Math.PI);
-            float deg2rad = (float)(1.0 / rad2deg);
 
             norotation.x *= -1;
             norotation.y *= -1;
 
-            return new HIL.Vector3( norotation.x * Math.Cos(heading * deg2rad) - norotation.y * Math.Sin(heading * deg2rad), norotation.x * Math.Sin(heading * deg2rad) + norotation.y * Math.Cos(heading * deg2rad), 0);
+            return new HIL.Vector3( norotation.x * Math.Cos(heading * MathHelper.deg2rad) - norotation.y * Math.Sin(heading * MathHelper.deg2rad), norotation.x * Math.Sin(heading * MathHelper.deg2rad) + norotation.y * Math.Cos(heading * MathHelper.deg2rad), 0);
         }
 
-        private void grid1_UpdateOffsets(MAVLinkInterface mav, float x, float y, float z, Grid.icon ico)
+        private void grid1_UpdateOffsets(MAVState mav, float x, float y, float z, Grid.icon ico)
         {
             if (mav == SwarmInterface.Leader)
             {
@@ -265,17 +272,20 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                port.MAV.cs.UpdateCurrentSettings(null, true, port);
-
-                if (port == SwarmInterface.Leader)
-                    continue;
-
-                HIL.Vector3 offset = getOffsetFromLeader(((Formation) SwarmInterface).getLeader(), port);
-
-                if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
+                foreach (var mav in port.MAVlist)
                 {
-                    grid1.UpdateIcon(port, (float) offset.y, (float) offset.x, (float) offset.z, true);
-                    ((Formation)SwarmInterface).setOffsets(port, offset.y, offset.x, offset.z);
+                    mav.cs.UpdateCurrentSettings(null, true, port, mav);
+
+                    if (mav == SwarmInterface.Leader)
+                        continue;
+
+                    HIL.Vector3 offset = getOffsetFromLeader(((Formation) SwarmInterface).getLeader(), mav);
+
+                    if (Math.Abs(offset.x) < 200 && Math.Abs(offset.y) < 200)
+                    {
+                        grid1.UpdateIcon(mav, (float) offset.y, (float) offset.x, (float) offset.z, true);
+                        ((Formation) SwarmInterface).setOffsets(mav, offset.y, offset.x, offset.z);
+                    }
                 }
             }
         }
@@ -285,45 +295,69 @@ namespace MissionPlanner.Swarm
             // clean up old
             foreach (Control ctl in PNL_status.Controls)
             {
-                if (!MainV2.Comports.Contains((MAVLinkInterface) ctl.Tag))
+                bool match = false;
+                foreach (var port in MainV2.Comports)
                 {
-                    ctl.Dispose();
+                    foreach (var mav in port.MAVlist)
+                    {
+                        if (mav == (MAVState) ctl.Tag)
+                        {
+                            match = true;
+                            
+                        }
+                    }
                 }
+
+                if (match == false)
+                    ctl.Dispose();
             }
 
             // setup new
             foreach (var port in MainV2.Comports)
             {
-                bool exists = false;
-                foreach (Control ctl in PNL_status.Controls)
+                foreach (var mav in port.MAVlist)
                 {
-                    if (ctl is Status && ctl.Tag == port)
+                    bool exists = false;
+                    foreach (Control ctl in PNL_status.Controls)
                     {
-                        exists = true;
-                        ((Status) ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
-                        ((Status) ctl).Armed.Text = port.MAV.cs.armed.ToString();
-                        ((Status) ctl).Mode.Text = port.MAV.cs.mode;
-                        ((Status) ctl).MAV.Text = port.ToString();
-                        ((Status) ctl).Guided.Text = port.MAV.GuidedMode.x + "," + port.MAV.GuidedMode.y + "," +
-                                                     port.MAV.GuidedMode.z;
+                        if (ctl is Status && ctl.Tag == mav)
+                        {
+                            exists = true;
+                            ((Status) ctl).GPS.Text = mav.cs.gpsstatus >= 3 ? "OK" : "Bad";
+                            ((Status) ctl).Armed.Text = mav.cs.armed.ToString();
+                            ((Status) ctl).Mode.Text = mav.cs.mode;
+                            ((Status) ctl).MAV.Text = ToString();
+                            ((Status) ctl).Guided.Text = mav.GuidedMode.x + "," + mav.GuidedMode.y + "," +
+                                                         mav.GuidedMode.z;
+                            ((Status) ctl).Location1.Text = mav.cs.lat + "," + mav.cs.lng + "," +
+                                                            mav.cs.alt;
 
-                        if (port == SwarmInterface.Leader)
-                        {
-                            ((Status)ctl).ForeColor = Color.Red;
-                        }
-                        else
-                        {
-                            ((Status)ctl).ForeColor = Color.Black;
+                            if (mav == SwarmInterface.Leader)
+                            {
+                                ((Status) ctl).ForeColor = Color.Red;
+                            }
+                            else
+                            {
+                                ((Status) ctl).ForeColor = Color.Black;
+                            }
                         }
                     }
-                }
 
-                if (!exists)
-                {
-                    Status newstatus = new Status();
-                    newstatus.Tag = port;
-                    PNL_status.Controls.Add(newstatus);
+                    if (!exists)
+                    {
+                        Status newstatus = new Status();
+                        newstatus.Tag = mav;
+                        PNL_status.Controls.Add(newstatus);
+                    }
                 }
+            }
+        }
+
+        private void but_guided_Click(object sender, EventArgs e)
+        {
+            if (SwarmInterface != null)
+            {
+                SwarmInterface.GuidedMode();
             }
         }
     }

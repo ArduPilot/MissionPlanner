@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.SimpleGrid",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Gridv2", "ExtLibs\MissionPlanner.Gridv2\MissionPlanner.Gridv2.csproj", "{A7AA6037-BF11-473E-94F9-717276FE080C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtLibs", "ExtLibs", "{7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AviFile", "ExtLibs\AviFile\AviFile.csproj", "{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}"
 EndProject
@@ -80,10 +80,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solo", "ExtLibs\solo\solo.c
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDAL", "ExtLibs\GDAL\GDAL.csproj", "{766FCF85-4809-44DB-B316-6C4902C65245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arduino", "ExtLibs\Arduino\Arduino.csproj", "{EC0F2B60-CC39-4990-801F-C5DB4B570600}"
+EndProject
 Global
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM
@@ -1695,6 +1694,54 @@ Global
 		{766FCF85-4809-44DB-B316-6C4902C65245}.Release|x64.Build.0 = Release|Any CPU
 		{766FCF85-4809-44DB-B316-6C4902C65245}.Release|x86.ActiveCfg = Release|Any CPU
 		{766FCF85-4809-44DB-B316-6C4902C65245}.Release|x86.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|ARM.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|ARM.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|iPhoneSimulator.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|x64.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|x64.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|x86.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Ad-Hoc|x86.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|Any CPU.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|ARM.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|ARM.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|iPhoneSimulator.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|x64.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|x64.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|x86.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.AppStore|x86.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|ARM.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|ARM.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|ARM.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|iPhone.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|x64.Build.0 = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1729,6 +1776,7 @@ Global
 		{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{CF402948-A3F4-4962-8A57-E40B46759D25} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{766FCF85-4809-44DB-B316-6C4902C65245} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{EC0F2B60-CC39-4990-801F-C5DB4B570600} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MissionPlanner.csproj

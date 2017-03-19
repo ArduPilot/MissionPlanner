@@ -1132,7 +1132,7 @@
     <value>CMB_inputch_pan</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_pan.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_pan.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1156,7 +1156,7 @@
     <value>CMB_inputch_roll</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_roll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_roll.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1180,7 +1180,7 @@
     <value>CMB_inputch_tilt</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_tilt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_inputch_tilt.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1204,7 +1204,7 @@
     <value>mavlinkNumericUpDownTAM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1228,7 +1228,7 @@
     <value>mavlinkNumericUpDownTAMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTAMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1252,7 +1252,7 @@
     <value>mavlinkNumericUpDownTSM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1276,7 +1276,7 @@
     <value>mavlinkNumericUpDownTSMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownTSMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1309,7 +1309,7 @@
     <value>mavlinkCheckBoxTR</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxTR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxTR.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1333,7 +1333,7 @@
     <value>mavlinkNumericUpDownPAM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1357,7 +1357,7 @@
     <value>mavlinkNumericUpDownPAMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPAMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1381,7 +1381,7 @@
     <value>mavlinkNumericUpDownPSM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1405,7 +1405,7 @@
     <value>mavlinkNumericUpDownPSMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownPSMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1438,7 +1438,7 @@
     <value>mavlinkCheckBoxPR</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxPR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxPR.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1462,7 +1462,7 @@
     <value>mavlinkNumericUpDownRAM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1486,7 +1486,7 @@
     <value>mavlinkNumericUpDownRAMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRAMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1510,7 +1510,7 @@
     <value>mavlinkNumericUpDownRSM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1534,7 +1534,7 @@
     <value>mavlinkNumericUpDownRSMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownRSMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1567,7 +1567,7 @@
     <value>mavlinkCheckBoxRR</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxRR.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxRR.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1582,7 +1582,7 @@
     <value>NoControl</value>
   </data>
   <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 84</value>
+    <value>7, 73</value>
   </data>
   <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1609,7 +1609,7 @@
     <value>False</value>
   </data>
   <data name="NUD_RETRACT_z.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 82</value>
+    <value>54, 71</value>
   </data>
   <data name="NUD_RETRACT_z.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1621,7 +1621,7 @@
     <value>NUD_RETRACT_z</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_z.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_z.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1636,7 +1636,7 @@
     <value>NoControl</value>
   </data>
   <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 58</value>
+    <value>7, 47</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1663,7 +1663,7 @@
     <value>False</value>
   </data>
   <data name="NUD_RETRACT_y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 56</value>
+    <value>54, 45</value>
   </data>
   <data name="NUD_RETRACT_y.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1675,7 +1675,7 @@
     <value>NUD_RETRACT_y</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_y.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_y.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1687,7 +1687,7 @@
     <value>True</value>
   </data>
   <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 32</value>
+    <value>7, 21</value>
   </data>
   <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1714,7 +1714,7 @@
     <value>False</value>
   </data>
   <data name="NUD_RETRACT_x.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 30</value>
+    <value>54, 19</value>
   </data>
   <data name="NUD_RETRACT_x.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1726,7 +1726,7 @@
     <value>NUD_RETRACT_x</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_x.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_RETRACT_x.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -1765,7 +1765,7 @@
     <value>NoControl</value>
   </data>
   <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 84</value>
+    <value>7, 73</value>
   </data>
   <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1792,7 +1792,7 @@
     <value>False</value>
   </data>
   <data name="NUD_NEUTRAL_z.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 82</value>
+    <value>54, 71</value>
   </data>
   <data name="NUD_NEUTRAL_z.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1804,7 +1804,7 @@
     <value>NUD_NEUTRAL_z</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_z.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_z.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1819,7 +1819,7 @@
     <value>NoControl</value>
   </data>
   <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 58</value>
+    <value>7, 47</value>
   </data>
   <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1846,7 +1846,7 @@
     <value>False</value>
   </data>
   <data name="NUD_NEUTRAL_y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 56</value>
+    <value>54, 45</value>
   </data>
   <data name="NUD_NEUTRAL_y.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1858,7 +1858,7 @@
     <value>NUD_NEUTRAL_y</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_y.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_y.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1873,7 +1873,7 @@
     <value>NoControl</value>
   </data>
   <data name="label30.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 32</value>
+    <value>7, 21</value>
   </data>
   <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1900,7 +1900,7 @@
     <value>False</value>
   </data>
   <data name="NUD_NEUTRAL_x.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 30</value>
+    <value>54, 19</value>
   </data>
   <data name="NUD_NEUTRAL_x.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1912,7 +1912,7 @@
     <value>NUD_NEUTRAL_x</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_x.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_NEUTRAL_x.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -1951,7 +1951,7 @@
     <value>NoControl</value>
   </data>
   <data name="label31.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 84</value>
+    <value>7, 73</value>
   </data>
   <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -1978,7 +1978,7 @@
     <value>False</value>
   </data>
   <data name="NUD_CONTROL_z.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 82</value>
+    <value>54, 71</value>
   </data>
   <data name="NUD_CONTROL_z.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -1990,7 +1990,7 @@
     <value>NUD_CONTROL_z</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_z.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_z.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2005,7 +2005,7 @@
     <value>NoControl</value>
   </data>
   <data name="label32.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 58</value>
+    <value>7, 47</value>
   </data>
   <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -2032,7 +2032,7 @@
     <value>False</value>
   </data>
   <data name="NUD_CONTROL_y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 56</value>
+    <value>54, 45</value>
   </data>
   <data name="NUD_CONTROL_y.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -2044,7 +2044,7 @@
     <value>NUD_CONTROL_y</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_y.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_y.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2059,7 +2059,7 @@
     <value>NoControl</value>
   </data>
   <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 32</value>
+    <value>7, 21</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -2086,7 +2086,7 @@
     <value>False</value>
   </data>
   <data name="NUD_CONTROL_x.Location" type="System.Drawing.Point, System.Drawing">
-    <value>54, 30</value>
+    <value>54, 19</value>
   </data>
   <data name="NUD_CONTROL_x.Size" type="System.Drawing.Size, System.Drawing">
     <value>59, 20</value>
@@ -2098,7 +2098,7 @@
     <value>NUD_CONTROL_x</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_x.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;NUD_CONTROL_x.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2152,7 +2152,7 @@
     <value>CHK_stab_tilt</value>
   </data>
   <data name="&gt;&gt;CHK_stab_tilt.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_stab_tilt.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2185,7 +2185,7 @@
     <value>CHK_stab_roll</value>
   </data>
   <data name="&gt;&gt;CHK_stab_roll.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_stab_roll.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2218,7 +2218,7 @@
     <value>CHK_stab_pan</value>
   </data>
   <data name="&gt;&gt;CHK_stab_pan.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_stab_pan.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2389,7 +2389,7 @@
     <value>mavlinkNumericUpDownshut_pushed</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_pushed.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2413,7 +2413,7 @@
     <value>mavlinkNumericUpDownshut_notpushed</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_notpushed.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2497,7 +2497,7 @@
     <value>mavlinkNumericUpDownShutM</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownShutM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownShutM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2521,7 +2521,7 @@
     <value>mavlinkNumericUpDownShutMX</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownShutMX.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2653,7 +2653,7 @@
     <value>mavlinkNumericUpDownshut_duration</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownshut_duration.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2710,7 +2710,7 @@
     <value>CMB_mnt_type</value>
   </data>
   <data name="&gt;&gt;CMB_mnt_type.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6034.17494, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6252.20108, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_mnt_type.Parent" xml:space="preserve">
     <value>$this</value>

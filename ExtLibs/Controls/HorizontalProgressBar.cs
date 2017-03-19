@@ -149,6 +149,7 @@ System.ComponentModel.Description("Text under Bar")]
                 if (m_Text != value)
                 {
                     m_Text = value;
+                    drawlbl();
                 }
             }
         }
@@ -206,7 +207,7 @@ System.ComponentModel.Description("Text under Bar")]
         public int minline { get; set; }
         public int maxline { get; set; }
 
-        protected override void OnPaint(PaintEventArgs e)
+        protected new void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
             drawlbl();

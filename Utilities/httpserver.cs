@@ -239,7 +239,7 @@ namespace MissionPlanner.Utilities
                         //stream.Close();
                     }
                     /////////////////////////////////////////////////////////////////
-                    else if (url.Contains("network.kml"))
+                    else if (url.Contains("location.kml"))
                     {
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
@@ -296,6 +296,66 @@ namespace MissionPlanner.Utilities
                             kml.Viewpoint = la;
                             kml.AddFeature(pmplane);
                         }
+
+                        SharpKml.Base.Serializer serializer = new SharpKml.Base.Serializer();
+                        serializer.Serialize(kml);
+
+                        byte[] buffer = Encoding.ASCII.GetBytes(serializer.Xml);
+
+                        string header =
+                            "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " +
+                            buffer.Length + "\r\n\r\n";
+                        byte[] temp = asciiEncoding.GetBytes(header);
+                        stream.Write(temp, 0, temp.Length);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
+                        goto again;
+                    }
+                    else if (url.Contains("network.kml"))
+                    {
+                        byte[] buffer = Encoding.ASCII.GetBytes(@"<?xml version=""1.0"" encoding=""UTF-8""?>
+<kml xmlns=""http://www.opengis.net/kml/2.2"" xmlns:gx=""http://www.google.com/kml/ext/2.2"" xmlns:kml=""http://www.opengis.net/kml/2.2"" xmlns:atom=""http://www.w3.org/2005/Atom"">
+    <Folder>
+        <name> Network Links </name>
+        <open> 1 </open>
+        <NetworkLink>
+            <name> View Centered Placemark</name> 
+            <open> 1 </open>
+            <refreshVisibility> 0 </refreshVisibility>
+            <flyToView> 1 </flyToView>
+            <Link>
+                <href> http://127.0.0.1:56781/location.kml</href>
+                <refreshMode> onInterval </refreshMode>
+                <refreshInterval> 1 </refreshInterval>
+                <viewRefreshTime> 1 </viewRefreshTime>
+            </Link>
+        </NetworkLink>
+        <NetworkLink>
+            <name> View Centered Placemark</name> 
+            <open> 1 </open>
+            <refreshVisibility> 0 </refreshVisibility>
+            <flyToView> 0 </flyToView>
+            <Link>
+                <href> http://127.0.0.1:56781/wps.kml</href>
+            </Link>
+        </NetworkLink>
+    </Folder>
+</kml>");
+
+     string header =
+                            "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " +
+                            buffer.Length + "\r\n\r\n";
+                        byte[] temp = asciiEncoding.GetBytes(header);
+                        stream.Write(temp, 0, temp.Length);
+
+                        stream.Write(buffer, 0, buffer.Length);
+
+                        goto again;
+                    }
+                    else if (url.Contains("wps.kml"))
+                    {
+                        SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
                         SharpKml.Dom.CoordinateCollection coords = new SharpKml.Dom.CoordinateCollection();
 

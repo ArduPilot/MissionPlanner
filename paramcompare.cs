@@ -17,10 +17,10 @@ namespace MissionPlanner
         public event dtlvcallbackHandler dtlvcallback;
 
         DataGridView dgv;
-        Hashtable param = new Hashtable();
-        Hashtable param2 = new Hashtable();
+        Dictionary<string, double> param = new Dictionary<string, double>();
+        Dictionary<string, double> param2 = new Dictionary<string, double>();
 
-        public ParamCompare(DataGridView dgv, Hashtable param, Hashtable param2)
+        public ParamCompare(DataGridView dgv, Dictionary<string, double> param, Dictionary<string, double> param2)
         {
             InitializeComponent();
             this.param = param;

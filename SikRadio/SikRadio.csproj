@@ -54,30 +54,23 @@
       <HintPath>..\extLibs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Management" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="ZedGraph">
       <HintPath>..\extLibs\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Arduino\ArduinoSTK.cs">
+    <Compile Include="..\ExtLibs\Arduino\ArduinoSTK.cs">
       <Link>Linked\ArduinoSTK.cs</Link>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\Arduino\ArduinoSTKv2.cs">
+    <Compile Include="..\ExtLibs\Arduino\ArduinoSTKv2.cs">
       <Link>Linked\ArduinoSTKv2.cs</Link>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="..\Arduino\IArduinoComms.cs">
+    <Compile Include="..\ExtLibs\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
     <Compile Include="..\ExtLibs\Comms\CommsSerialPort.cs">
@@ -121,7 +114,6 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MAVLinkSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>

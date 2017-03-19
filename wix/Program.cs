@@ -133,6 +133,9 @@ namespace wix
             st.WriteLine("About to upload!!!!!!!!!");
             st.WriteLine("pause");
 
+            st.WriteLine(@"c:\cygwin\bin\chmod.exe 777 " + fn + ".zip");
+            st.WriteLine(@"c:\cygwin\bin\chmod.exe 777 " + fn + ".msi");
+
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi " + outputfilename + "-latest.msi");
 
@@ -383,14 +386,6 @@ namespace wix
                 {
                     sw.WriteLine(tabs3 + "<File Id=\"" + fixname(Path.GetFileName(filepath)) + "\" Source=\"" + filepath + "\" />");
                 }
-            }
-
-            // put placeholder into dir
-            if (files.Length == 0)
-            {
-                File.WriteAllText(basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt", "");
-                sw.WriteLine(tabs2 + "<File Id=\"_placeholder_" + no + "\" Source=\"" + basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt" + "\" />");
-                no++;
             }
 
             sw.WriteLine(tabs2 + "</Component>");

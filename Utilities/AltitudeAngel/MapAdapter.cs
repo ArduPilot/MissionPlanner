@@ -62,6 +62,8 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void MapControl_OnPolygonEnter(GMapPolygon item)
         {
+            item.Overlay.Markers.Clear();
+
             if (marker != null)
                 item.Overlay.Markers.Remove(marker);
 
@@ -248,5 +250,10 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
         public IObservable<Unit> MapChanged { get; }
+
+        public void Invalidate()
+        {
+            _mapControl.Invalidate();
+        }
     }
 }

@@ -118,6 +118,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_lockrollpitch.Checked = false;
             }
 
+            // add tooltips to all controls
+            foreach (Control control1 in Controls)
+            {
+                foreach (Control control2 in control1.Controls)
+                {
+                    if (control2 is MavlinkNumericUpDown)
+                    {
+                        var ParamName = ((MavlinkNumericUpDown)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                    if (control2 is MavlinkComboBox)
+                    {
+                        var ParamName = ((MavlinkComboBox)control2).ParamName;
+                        toolTip1.SetToolTip(control2,
+                            ParameterMetaDataRepository.GetParameterMetaData(ParamName,
+                                ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString()));
+                    }
+                }
+            }
+
             startup = false;
         }
 

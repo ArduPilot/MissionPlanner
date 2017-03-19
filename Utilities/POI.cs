@@ -19,7 +19,40 @@ namespace MissionPlanner.Utilities
         /// </summary>
         static ObservableCollection<PointLatLngAlt> POIs = new ObservableCollection<PointLatLngAlt>();
 
-        public static event EventHandler POIModified;
+        private static EventHandler _POIModified;
+
+        public static event EventHandler POIModified
+        {
+            add
+            {
+                _POIModified += value;
+                try
+                {
+                    if (File.Exists(filename))
+                        LoadFile(filename);
+                }
+                catch
+                {
+                }
+            }
+            remove { _POIModified -= value; }
+        }
+
+        private static string filename = Settings.GetUserDataDirectory() + "poi.txt";
+
+        static POI()
+        {
+            POIs.CollectionChanged += POIs_CollectionChanged;
+        }
+
+        private static void POIs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            try
+            {
+                SaveFile(filename);
+            }
+            catch { }
+        }
 
         public static void POIAdd(PointLatLngAlt Point, string tag)
         {
@@ -30,8 +63,8 @@ namespace MissionPlanner.Utilities
 
             POI.POIs.Add(pnt);
 
-            if (POIModified != null)
-                POIModified(null, null);
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POIAdd(PointLatLngAlt Point)
@@ -59,8 +92,8 @@ namespace MissionPlanner.Utilities
                 if (POI.POIs[a].Point() == Point.Position)
                 {
                     POI.POIs.RemoveAt(a);
-                    if (POIModified != null)
-                        POIModified(null, null);
+                    if (_POIModified != null)
+                        _POIModified(null, null);
                     return;
                 }
             }
@@ -81,8 +114,8 @@ namespace MissionPlanner.Utilities
                 if (POI.POIs[a].Point() == Point.Position)
                 {
                     POI.POIs[a].Tag = output + "\n" + Point.Position.ToString();
-                    if (POIModified != null)
-                        POIModified(null, null);
+                    if (_POIModified != null)
+                        _POIModified(null, null);
                     return;
                 }
             }
@@ -101,8 +134,8 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            if (POIModified != null)
-                POIModified(null, null);
+            if (_POIModified != null)
+                _POIModified(null, null);
         }
 
         public static void POISave()
@@ -113,19 +146,25 @@ namespace MissionPlanner.Utilities
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    using (Stream file = sfd.OpenFile())
-                    {
-                        foreach (var item in POI.POIs)
-                        {
-                            string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
-                                          item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag + "\r\n";
-                            byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
-                            file.Write(buffer, 0, buffer.Length);
-                        }
-                    }
+                    SaveFile(sfd.FileName);
                 }
             }
         }
+
+        private static void SaveFile(string fileName)
+        {
+            using (Stream file = File.Open(fileName,FileMode.Create))
+            {
+                foreach (var item in POI.POIs)
+                {
+                    string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" +
+                                  item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag.Substring(0,item.Tag.IndexOf('\n')) + "\r\n";
+                    byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
+                    file.Write(buffer, 0, buffer.Length);
+                }
+            }
+        }
+
 
         public static void POILoad()
         {
@@ -135,18 +174,26 @@ namespace MissionPlanner.Utilities
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    using (Stream file = sfd.OpenFile())
-                    {
-                        using (StreamReader sr = new StreamReader(file))
-                        {
-                            while (!sr.EndOfStream)
-                            {
-                                string[] items = sr.ReadLine().Split('\t');
+                    LoadFile(sfd.FileName);
+                }
+            }
+        }
 
-                                POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
-                                    , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
-                            }
-                        }
+        private static void LoadFile(string fileName)
+        {
+            using (Stream file = File.Open(fileName,FileMode.Open))
+            {
+                using (StreamReader sr = new StreamReader(file))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        string[] items = sr.ReadLine().Split('\t');
+
+                        if(items.Count() < 3)
+                            continue;
+
+                        POIAdd(new PointLatLngAlt(double.Parse(items[0], CultureInfo.InvariantCulture)
+                            , double.Parse(items[1], CultureInfo.InvariantCulture)), items[2]);
                     }
                 }
             }
