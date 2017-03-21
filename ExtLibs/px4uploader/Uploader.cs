@@ -11,7 +11,6 @@ using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Xml;
-using System.Windows.Forms;
 
 namespace px4uploader
 {
@@ -164,7 +163,7 @@ namespace px4uploader
             string vendor = "";
             string publickey = "";
 
-            using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
+            using (XmlTextReader xmlreader = new XmlTextReader(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
             {
                 while (xmlreader.Read())
                 {
