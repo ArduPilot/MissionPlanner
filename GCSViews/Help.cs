@@ -25,6 +25,12 @@ namespace MissionPlanner.GCSViews
             catch
             {
             }
+
+            if (Program.WindowsStoreApp)
+            {
+                BUT_betaupdate.Visible = false;
+                BUT_updatecheck.Visible = false;
+            }
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)
