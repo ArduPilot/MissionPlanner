@@ -3956,5 +3956,11 @@
                <field type="uint8_t" name="target_component">component ID of the target</field>
                <field type="uint16_t" name="sequence">sequence number (must match the one in LOGGING_DATA_ACKED)</field>
           </message>
+          <message id="270" name="AOA_SSA">
+               <description>AOA and SSA</description>
+               <field name="AOA" type="float">AOA</field>
+               <field name="SSA" type="float">SSA</field>
+          </message>
+
     </messages>
 </mavlink>

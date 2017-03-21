@@ -117,6 +117,9 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayvibe { get; set; }
 
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
+         public bool displayAOASSA { get; set; }
+
         private static ImageCodecInfo ici = GetImageCodec("image/jpeg");
         private static EncoderParameters eps = new EncoderParameters(1);
 
@@ -132,6 +135,8 @@ namespace MissionPlanner.Controls
                                 displayalt =
                                     displayconninfo =
                                         displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
+
+            displayAOASSA = false;
 
             this.Name = "Hud";
 
@@ -173,6 +178,14 @@ namespace MissionPlanner.Controls
         private DateTime _datetime;
         private string _mode = "Manual";
         private int _wpno = 0;
+
+        float _AOA = 0;
+        float _SSA = 0;
+        float _critAOA = 25;
+        float _critSSA = 30;
+        float _redSSAp = 90;
+        float _yellowSSAp = 60;
+        float _greenSSAp = 10;
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float roll
@@ -615,6 +628,18 @@ namespace MissionPlanner.Controls
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float ekfstatus { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float AOA { get { return _AOA; } set { if (_AOA != value) { _AOA = value; displayAOASSA = true; this.Invalidate(); } } }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float critAOA { get { return _critAOA; } set { if (_critAOA != value) { _critAOA = value; this.Invalidate(); } } }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float SSA { get { return _SSA; } set { if (_SSA != value) { _SSA = value; displayAOASSA = true; this.Invalidate(); } } }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float critSSA { get { return _critSSA; } set { if (_critSSA != value) { _critSSA = value; this.Invalidate(); } } }
 
         private bool statuslast = false;
         private DateTime armedtimer = DateTime.MinValue;
@@ -2073,6 +2098,35 @@ namespace MissionPlanner.Controls
                         graphicsObject.DrawLine(this._redPen, scrollbg.Left, scrollbg.Top - (int)(fontsize * 2.2) - 2, scrollbg.Left + 50, scrollbg.Top - (int)(fontsize * 2.2) - 2 - 20);
                     }
                     drawstring(graphicsObject, _datetime.ToString("HH:mm:ss"), font, fontsize, _whiteBrush, scrollbg.Left - 30, scrollbg.Top - fontsize - 2 - 20);
+                }
+
+                // AOA
+                if (displayAOASSA)
+                {
+                    scrollbg = new Rectangle((int)(this.Width - (double)this.Width / 3.5), halfheight + halfheight / 10, this.Width / 25, this.Height / 5);
+                    
+                    graphicsObject.ResetTransform();
+                    
+                    graphicsObject.FillRectangle(Brushes.Red, new RectangleF(scrollbg.Left, scrollbg.Top, scrollbg.Width, scrollbg.Height * (100 - _redSSAp) / 100));
+                    graphicsObject.FillRectangle(Brushes.Yellow, new RectangleF(scrollbg.Left, scrollbg.Top + scrollbg.Height * (100 - _redSSAp) / 100, scrollbg.Width, scrollbg.Height * (_redSSAp - _yellowSSAp) / 100));
+                    graphicsObject.FillRectangle(Brushes.Green, new RectangleF(scrollbg.Left, scrollbg.Top + scrollbg.Height * (100 - _yellowSSAp) / 100, scrollbg.Width, scrollbg.Height * (_yellowSSAp - _greenSSAp) / 100));
+                    graphicsObject.FillRectangle(Brushes.Blue, new RectangleF(scrollbg.Left, scrollbg.Top + scrollbg.Height * (100 - _greenSSAp) / 100, scrollbg.Width, scrollbg.Height * _greenSSAp / 100));
+                    
+                    graphicsObject.DrawRectangle(this._whitePen, scrollbg);
+                    
+                    float AOA_ind = scrollbg.Height * (100 - _greenSSAp) / 100 - (_AOA / _critAOA) * (scrollbg.Height * (_redSSAp - _greenSSAp) / 100);
+                    if (AOA_ind < 0)
+                        AOA_ind = 0;
+                    if (AOA_ind > scrollbg.Height)
+                        AOA_ind = scrollbg.Height;
+                    
+                    PointF[] AOA_arrow = new PointF[3];
+                    AOA_arrow[0] = new PointF(scrollbg.Left + scrollbg.Width / 5, scrollbg.Top + AOA_ind);
+                    AOA_arrow[1] = new PointF(scrollbg.Left - scrollbg.Width / 2 + scrollbg.Width / 5, scrollbg.Top + scrollbg.Width / 2 + AOA_ind);
+                    AOA_arrow[2] = new PointF(scrollbg.Left - scrollbg.Width / 2 + scrollbg.Width / 5, scrollbg.Top - scrollbg.Width / 2 + AOA_ind);
+                    
+                    graphicsObject.FillPolygon(Brushes.Black, AOA_arrow);
+                    graphicsObject.DrawPolygon(this._whitePen, AOA_arrow);
                 }
 
                 // battery

@@ -4941,5 +4941,11 @@ Maps the change of airspeed error to the acceleration setpoint</short_desc>
       <min>0</min>
       <max>18</max>
     </parameter>
+    <parameter default="25" name="AOA_CRIT" type="FLOAT">
+      <short_desc>Critical Angel of Atack</short_desc>
+      <long_desc>Angle of attack which produces maximum lift coefficient. This is also called the "stall angle of attack". Above this critical angle of attack, the aircraft is said to be in a stall. A fixed-wing aircraft by definition is stalled at or above the critical angle of attack rather than at or below a particular airspeed.</long_desc>
+      <min>0</min>
+      <max>40</max>
+    </parameter>
   </group>
 </parameters>
