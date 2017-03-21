@@ -389,7 +389,7 @@ union px4_custom_mode {
             chk.Checked = true;
             chk.Location = new Point(9, 80);
 
-            if (Settings.Instance.GetBoolean((string)chk.Tag) == false)
+            if (Settings.Instance.ContainsKey((string)chk.Tag) && Settings.Instance.GetBoolean((string)chk.Tag) == false)
             // skip it
             {
                 form.Dispose();

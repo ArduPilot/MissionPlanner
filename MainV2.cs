@@ -2801,6 +2801,16 @@ namespace MissionPlanner
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time",
                 (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
+            bool winXp = Environment.OSVersion.Version.Major == 5;
+            if (winXp)
+            {
+                Common.MessageShowAgain("Windows XP",
+                    "This is the last version that will support Windows XP, please update your OS");
+
+                // invalidate update url
+                System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
+            }
+
             try
             {
                 // single update check per day - in a seperate thread
