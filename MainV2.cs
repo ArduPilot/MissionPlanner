@@ -2760,8 +2760,8 @@ namespace MissionPlanner
             // start listener
             UDPVideoShim.Start();
 
-            log.Info("start udpmavlinkshim");
-            UDPMavlinkShim.Start();
+            //log.Info("start udpmavlinkshim");
+            //UDPMavlinkShim.Start();
 
             try
             {
