@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -22,7 +23,7 @@ namespace MissionPlanner.Comms
             ReadExisting();
         }
 
-        public unsafe void Open()
+        public void Open()
         {
             // 500ms write timeout - win32 api default
             WriteTimeout = 500;
@@ -114,24 +115,22 @@ namespace MissionPlanner.Comms
                     {
                         var buffer = new byte[4096];
 
-                        fixed (byte* ptr = buffer)
+                        uint read = 0;
+
+                        ReadFile(safeFileHandle, buffer, (uint) buffer.Length, out read, IntPtr.Zero);
+
+                        if (!IsOpen)
+                            continue;
+
+                        lock (locker)
                         {
-                            var read = 0;
+                            var pos = BaseStream.Position;
 
-                            ReadFile(safeFileHandle, ptr, buffer.Length, new IntPtr(&read), null);
+                            BaseStream.Write(buffer, 0, (int) read);
 
-                            if (!IsOpen)
-                                continue;
-
-                            lock (locker)
-                            {
-                                var pos = BaseStream.Position;
-
-                                BaseStream.Write(buffer, 0, read);
-
-                                BaseStream.Seek(pos, SeekOrigin.Begin);
-                            }
+                            BaseStream.Seek(pos, SeekOrigin.Begin);
                         }
+
                     }
 
                     safeFileHandle.Dispose();
@@ -245,12 +244,16 @@ namespace MissionPlanner.Comms
             Write(data, 0, data.Length);
         }
 
-        public unsafe void Write(byte[] buffer, int offset, int count)
+        public void Write(byte[] buffer, int offset, int count)
         {
-            fixed (byte* ptr = buffer)
+            var result = 0;
+            if (offset != 0)
             {
-                var result = 0;
-                WriteFile(safeFileHandle, ptr + offset, count, out result, IntPtr.Zero);
+                WriteFile(safeFileHandle, buffer.Skip(offset).ToArray(), count, out result, IntPtr.Zero);
+            }
+            else
+            {
+                WriteFile(safeFileHandle, buffer, count, out result, IntPtr.Zero);
             }
         }
 
@@ -316,14 +319,14 @@ namespace MissionPlanner.Comms
             IntPtr securityAttrs, int dwCreationDisposition, int dwFlagsAndAttributes, IntPtr hTemplateFile);
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern unsafe bool DeviceIoControl(SafeHandle hDevice, uint dwIoControlCode, IntPtr lpInBuffer,
+        public static extern bool DeviceIoControl(SafeHandle hDevice, uint dwIoControlCode, IntPtr lpInBuffer,
             uint nInBufferSize, IntPtr lpOutBuffer, uint nOutBufferSize, ref uint lpBytesReturned,
-            NativeOverlapped* lpOverlapped);
+           [In] NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern unsafe bool WaitCommEvent(SafeFileHandle hFile, int* lpEvtMask,
-            NativeOverlapped* lpOverlapped);
+        internal static extern bool WaitCommEvent(SafeFileHandle hFile, [In] int lpEvtMask,
+           [In] NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -331,7 +334,7 @@ namespace MissionPlanner.Comms
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern unsafe bool GetOverlappedResult(SafeFileHandle hFile, NativeOverlapped* lpOverlapped,
+        internal static extern  bool GetOverlappedResult(SafeFileHandle hFile, [In] NativeOverlapped lpOverlapped,
             ref int lpNumberOfBytesTransferred, bool bWait);
 
         // Microsoft.Win32.UnsafeNativeMethods
@@ -354,10 +357,13 @@ namespace MissionPlanner.Comms
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern bool ClearCommError(SafeFileHandle hFile, ref int lpErrors, ref COMSTAT lpStat);
 
-        // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern unsafe int ReadFile(SafeFileHandle handle, byte* bytes, int numBytesToRead,
-            IntPtr numBytesRead, NativeOverlapped* overlapped);
+        static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer,uint nNumberOfBytesToRead, 
+            out uint lpNumberOfBytesRead, IntPtr lpOverlapped);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool ReadFile(SafeFileHandle hFile, [Out] byte[] lpBuffer, uint nNumberOfBytesToRead,
+            out uint lpNumberOfBytesRead, [In] ref System.Threading.NativeOverlapped lpOverlapped);
 
         // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
@@ -383,16 +389,9 @@ namespace MissionPlanner.Comms
             dcb.Flags = (dcb.Flags | (uint) setting);
         }
 
-        // Microsoft.Win32.UnsafeNativeMethods
         [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern unsafe int ReadFile(SafeFileHandle handle, byte* bytes, int numBytesToRead,
-            out int numBytesRead, IntPtr overlapped);
-
-
-        // Microsoft.Win32.UnsafeNativeMethods
-        [DllImport("kernel32.dll", SetLastError = true)]
-        internal static extern unsafe int WriteFile(SafeFileHandle handle, byte* bytes, int numBytesToWrite,
-            out int numBytesWritten, IntPtr lpOverlapped);
+        internal static extern int WriteFile(SafeFileHandle handle, byte[] bytes, int numBytesToWrite,
+    out int numBytesWritten, IntPtr lpOverlapped);
 
         internal struct COMMTIMEOUTS
         {
