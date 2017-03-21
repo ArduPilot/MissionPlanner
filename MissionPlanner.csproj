@@ -3233,6 +3233,7 @@
     <None Include="ph2_serial.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="PRIVACY.md" />
     <None Include="Utilities\ImageOverFilter.cs" />
     <EmbeddedResource Include="Antenna\Tracker.id-ID.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
