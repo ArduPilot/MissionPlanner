@@ -2589,11 +2589,8 @@ namespace MissionPlanner.GCSViews
 
             huddropoutresize = true;
 
-            int hudw = hud1.Width;
             int hudh = hud1.Height;
-
             int formh = ((Form) sender).Height - 30;
-            int formw = ((Form) sender).Width;
 
             if (((Form) sender).Height < hudh)
             {
@@ -2603,7 +2600,7 @@ namespace MissionPlanner.GCSViews
                     ((Form) sender).WindowState = FormWindowState.Normal;
                     ((Form) sender).Location = tl;
                 }
-                ((Form) sender).Width = (int) (formh*1.333f);
+                ((Form) sender).Width = (int) (formh*(hud1.SixteenXNine ? 1.777f : 1.333f));
                 ((Form) sender).Height = formh + 20;
             }
             hud1.Refresh();
