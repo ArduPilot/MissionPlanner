@@ -507,7 +507,7 @@ namespace MissionPlanner.Comms
          */
 
         [StructLayout(LayoutKind.Sequential)]
-        private struct Dcb
+        public struct Dcb
         {
             public readonly uint DCBlength;
             public readonly uint BaudRate;

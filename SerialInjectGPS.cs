@@ -122,6 +122,9 @@ namespace MissionPlanner
 
         private void Rtcm3_ObsMessage(object sender, EventArgs e)
         {
+            if (MainV2.instance.IsDisposed)
+                threadrun = false;
+
             MainV2.instance.BeginInvoke((MethodInvoker) delegate
             {
                 List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
@@ -303,7 +306,30 @@ namespace MissionPlanner
                 {
                     comPort.ReadBufferSize = 1024*64;
 
-                    comPort.Open();
+
+                    try
+                    {
+                        comPort.Open();
+                    }
+                    catch (ArgumentException ex)
+                    {
+                        log.Error(ex);
+                        // try pipe method
+                        comPort = new CommsSerialPipe();
+                        comPort.PortName = CMB_serialport.Text;
+                        comPort.BaudRate = int.Parse(CMB_baudrate.Text);
+
+                        try
+                        {
+                            comPort.Open();
+                        }
+                        catch
+                        {
+                            comPort.Close();
+                            throw;
+                        }
+                    }
+
 
                     try
                     {

@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="CommsBase.cs" />
     <Compile Include="CommsFile.cs" />
+    <Compile Include="CommsSerialPipe.cs" />
     <Compile Include="CommsSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
