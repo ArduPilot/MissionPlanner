@@ -243,6 +243,18 @@ namespace MissionPlanner.Utilities
                 reserved3 = new byte[8];
             }
 
+            public static ubx_cfg_tmode3 Disable
+            {
+                get
+                {
+                    return new ubx_cfg_tmode3()
+                    {
+                        flags = 0, // disable
+                        reserved3 = new byte[8]
+                    };
+                }
+            }
+
             public static implicit operator byte[] (ubx_cfg_tmode3 input)
             {
                 return MavlinkUtil.StructureToByteArray(input);
@@ -265,7 +277,7 @@ namespace MissionPlanner.Utilities
             public byte[] reserved3;
         }
 
-        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool m8p_130plus = false)
+        public void SetupM8P(ICommsSerial port, bool m8p_130plus = false)
         {
             port.BaseStream.Flush();
 
@@ -368,24 +380,39 @@ namespace MissionPlanner.Utilities
             turnon_off(port, 0x02, 0x13, 2);
             turnon_off(port, 0x02, 0x11, 2);
 
+            System.Threading.Thread.Sleep(100);
+        }
 
+        public void SetupBasePos(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool disable = false)
+        {
             System.Threading.Thread.Sleep(100);
             System.Threading.Thread.Sleep(100);
+
+            if (surveyindur == 0)
+                surveyindur = 60;
+            if (surveyinacc == 0)
+                surveyinacc = 2;
+
+            if (disable)
+            {
+                var packet = generate(0x6, 0x71, ubx_cfg_tmode3.Disable);
+                port.Write(packet, 0, packet.Length);
+                return;
+            }
 
             if (basepos == PointLatLngAlt.Zero)
             {
-                // survey in config - 60s and < 2m
-                packet = generate(0x6, 0x71, new ubx_cfg_tmode3((uint)surveyindur, surveyinacc));
+                // survey in config
+                var packet = generate(0x6, 0x71, new ubx_cfg_tmode3((uint)surveyindur, surveyinacc));
                 port.Write(packet, 0, packet.Length);
             }
             else
             {
                 byte[] data = new ubx_cfg_tmode3(basepos.Lat, basepos.Lng, basepos.Alt);
-                packet = generate(0x6, 0x71, data);
+                var packet = generate(0x6, 0x71, data);
                 port.Write(packet, 0, packet.Length);
             }
 
-            System.Threading.Thread.Sleep(100);
         }
 
         public void turnon_off(ICommsSerial port, byte clas, byte subclass, byte every_xsamples)

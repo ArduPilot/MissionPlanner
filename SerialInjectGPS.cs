@@ -235,8 +235,6 @@ namespace MissionPlanner
             if (comPort.IsOpen)
             {
                 threadrun = false;
-                groupBox1.Enabled = true;
-                dg_basepos.Enabled = true;
                 comPort.Close();
                 BUT_connect.Text = Strings.Connect;
                 try
@@ -252,8 +250,6 @@ namespace MissionPlanner
             else
             {
                 status_line3 = null;
-                groupBox1.Enabled = false;
-                dg_basepos.Enabled = false;
 
                 try
                 {
@@ -356,8 +352,10 @@ namespace MissionPlanner
                 {
                     this.LogInfo("Setup M8P");
 
-                    ubx_m8p.SetupM8P(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), chk_m8p_130p.Checked);
+                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+
+                    if (basepos != PointLatLngAlt.Zero)
+                        ubx_m8p.SetupBasePos(comPort, basepos);
 
                     this.LogInfo("Setup M8P done");
                 }
@@ -376,7 +374,7 @@ namespace MissionPlanner
             }
         }
 
-        private void updateLabel(string line1, string line2, string line3)
+        private void updateLabel(string line1, string line2, string line3, string line4)
         {
             if (!this.IsDisposed)
             {
@@ -384,21 +382,10 @@ namespace MissionPlanner
                     (MethodInvoker)
                         delegate
                         {
-                            this.lbl_status.Text = line1 + '\n' + line2 + '\n' + line3;
-                        }
-                    );
-            }
-        }
-
-        private static void updateSVINLabel(string label, string line2 = "")
-        {
-            if (!Instance.IsDisposed)
-            {
-                Instance.BeginInvoke(
-                    (MethodInvoker)
-                        delegate
-                        {
-                            Instance.lbl_svin.Text = label + DateTime.Now.ToString(" - HH:mm:ss") + '\n' + line2;
+                            this.lbl_status1.Text = line1;
+                            this.lbl_status2.Text = line2;
+                            this.lbl_status3.Text = line3;
+                            this.labelmsgseen.Text = line4;
                         }
                     );
             }
@@ -534,8 +521,7 @@ namespace MissionPlanner
                 {
                     var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
 
-                    updateSVINLabel("Survey IN Valid: " + (svin.valid == 1) + " InProgress: " + (svin.active == 1) +
-                                    " Duration: " + svin.dur + " Obs: " + svin.obs + " Acc: " + svin.meanAcc/10000.0);
+                    updateSVINLabel((svin.valid == 1), (svin.active == 1), svin.dur, svin.obs, svin.meanAcc/10000.0);
 
                     var X = svin.meanX/100.0 + svin.meanXHP*0.0001;
                     var Y = svin.meanY/100.0 + svin.meanYHP*0.0001;
@@ -595,6 +581,49 @@ namespace MissionPlanner
             }
         }
 
+        private static void updateSVINLabel(bool valid, bool active, uint dur, uint obs, double acc)
+        {
+            if (!Instance.IsDisposed)
+            {
+                Instance.BeginInvoke(
+                    (MethodInvoker)
+                        delegate
+                        {
+                            if (Instance.basepos == PointLatLngAlt.Zero)
+                            {
+                                Instance.lbl_svin.Visible = true;
+                                Instance.label7.Visible = true;
+                                Instance.label8.Visible = true;
+                                Instance.label9.Visible = true;
+                                Instance.label10.Visible = true;
+
+                                Instance.lbl_svin.Text = valid ? "Postion is valid" : "Position is invalid";
+                                if (valid)
+                                    Instance.lbl_svin.BackColor = Color.Green;
+                                else
+                                    Instance.lbl_svin.BackColor = Color.Red;
+                                Instance.label7.Text = active
+                                    ? "In Progress"
+                                    : "Complete";
+                                Instance.label8.Text = "Duration: "+dur;
+                                Instance.label9.Text = "Observations: "+obs;
+                                Instance.label10.Text = "Current Acc: "+acc;
+                            }
+                            else
+                            {
+                                Instance.lbl_svin.Visible = true;
+                                Instance.lbl_svin.Text = "Using existing coords";
+                                Instance.lbl_svin.BackColor = Color.Green;
+                                Instance.label7.Visible = false;
+                                Instance.label8.Visible = false;
+                                Instance.label9.Visible = false;
+                                Instance.label10.Visible = false;
+                            }
+                        }
+                    );
+            }
+        }
+
         private static void ExtractBasePos(int seen)
         {
             try
@@ -614,7 +643,7 @@ namespace MissionPlanner
                         baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
 
                     status_line3 =
-                        (String.Format("RTCM Base {0} {1} {2} - {3}", baseposllh[0]*Utilities.rtcm3.R2D,
+                        (String.Format("{0} {1} {2} - {3}", baseposllh[0]*Utilities.rtcm3.R2D,
                             baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
 
                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
@@ -635,7 +664,7 @@ namespace MissionPlanner
                         baseposllh[2]);
 
                     status_line3 =
-                       (String.Format("RTCM Base {0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
+                       (String.Format("{0} {1} {2} - {3}", baseposllh[0] * Utilities.rtcm3.R2D,
                            baseposllh[1] * Utilities.rtcm3.R2D, baseposllh[2], DateTime.Now.ToString("HH:mm:ss")));
 
                     if (!Instance.IsDisposed && Instance.but_save_basepos.Enabled == false)
@@ -681,7 +710,9 @@ namespace MissionPlanner
             {
             }
 
-            updateLabel(String.Format("{0,10} bytes {1,10} bps {2,10} bps sent", bytes, bps, bpsusefull), sb.ToString(), status_line3);
+            updateLabel(String.Format("{0,10} bps", bps),
+                String.Format("{0,10} bps sent", bpsusefull), status_line3,
+                sb.ToString() );
             bps = 0;
             bpsusefull = 0;
 
@@ -727,26 +758,6 @@ namespace MissionPlanner
             catch
             {
                 basepos = PointLatLngAlt.Zero;
-            }
-        }
-
-        private void but_base_pos_Click(object sender, EventArgs e)
-        {
-            string basepos = Settings.Instance["base_pos"];
-            if (InputBox.Show("Base POS", "Please enter base pos location 'lat,lng,alt,name'", ref basepos) ==
-                DialogResult.OK)
-            {
-                Settings.Instance["base_pos"] = basepos;
-
-                loadBasePOS();
-
-                baseposList.Add(new PointLatLngAlt(this.basepos));
-
-                updateBasePosDG();
-            }
-            else
-            {
-                this.basepos = PointLatLngAlt.Zero;
             }
         }
 
@@ -811,6 +822,14 @@ namespace MissionPlanner
                     dg_basepos[BaseName1.Index, e.RowIndex].Value);
 
                 loadBasePOS();
+
+                if(comPort.IsOpen)
+                    ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+            }
+            if (e.ColumnIndex == Delete.Index)
+            {
+                dg_basepos.Rows.RemoveAt(e.RowIndex);
             }
         }
 
@@ -853,12 +872,31 @@ namespace MissionPlanner
 
         private void txt_surveyinAcc_TextChanged(object sender, EventArgs e)
         {
-            Settings.Instance["SerialInjectGPS_SIAcc"] = txt_surveyinAcc.ToString();
+            Settings.Instance["SerialInjectGPS_SIAcc"] = txt_surveyinAcc.Text.ToString();
         }
 
         private void txt_surveyinDur_TextChanged(object sender, EventArgs e)
         {
-            Settings.Instance["SerialInjectGPS_SITime"] = txt_surveyinDur.ToString();
+            Settings.Instance["SerialInjectGPS_SITime"] = txt_surveyinDur.Text.ToString();
+        }
+
+        private void but_restartsvin_Click(object sender, EventArgs e)
+        {
+            basepos = PointLatLngAlt.Zero;
+
+            if (comPort.IsOpen)
+            {
+                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
+
+                ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+            }
+        }
+
+        private void dg_basepos_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
+        {
+            e.Row.Cells[Use.Index].Value = "Use";
+            e.Row.Cells[Delete.Index].Value = "Delete";
         }
     }
 }

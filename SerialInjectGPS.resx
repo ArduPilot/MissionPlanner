@@ -119,7 +119,7 @@
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CMB_serialport.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 13</value>
+    <value>3, 3</value>
   </data>
   <data name="CMB_serialport.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -138,7 +138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_serialport.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>13</value>
   </data>
   <data name="CMB_baudrate.Items" xml:space="preserve">
     <value>2400</value>
@@ -174,7 +174,7 @@
     <value>1000000</value>
   </data>
   <data name="CMB_baudrate.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 40</value>
+    <value>3, 30</value>
   </data>
   <data name="CMB_baudrate.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -192,40 +192,38 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_baudrate.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>11</value>
+  </data>
+  <data name="lbl_status1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="lbl_status.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="lbl_status.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="lbl_status1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="lbl_status.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 68</value>
+  <data name="lbl_status1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>329, 3</value>
   </data>
-  <data name="lbl_status.Size" type="System.Drawing.Size, System.Drawing">
-    <value>666, 70</value>
+  <data name="lbl_status1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
   </data>
-  <data name="lbl_status.TabIndex" type="System.Int32, mscorlib">
+  <data name="lbl_status1.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="lbl_status.Text" xml:space="preserve">
-    <value>bps
-messages
-RTCM Base</value>
+  <data name="lbl_status1.Text" xml:space="preserve">
+    <value>9999 bps</value>
   </data>
-  <data name="&gt;&gt;lbl_status.Name" xml:space="preserve">
-    <value>lbl_status</value>
+  <data name="&gt;&gt;lbl_status1.Name" xml:space="preserve">
+    <value>lbl_status1</value>
   </data>
-  <data name="&gt;&gt;lbl_status.Type" xml:space="preserve">
+  <data name="&gt;&gt;lbl_status1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;lbl_status.Parent" xml:space="preserve">
+  <data name="&gt;&gt;lbl_status1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
-    <value>6</value>
+  <data name="&gt;&gt;lbl_status1.ZOrder" xml:space="preserve">
+    <value>10</value>
   </data>
   <metadata name="timer1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -237,7 +235,7 @@ RTCM Base</value>
     <value>NoControl</value>
   </data>
   <data name="chk_rtcmmsg.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 42</value>
+    <value>130, 32</value>
   </data>
   <data name="chk_rtcmmsg.Size" type="System.Drawing.Size, System.Drawing">
     <value>106, 17</value>
@@ -264,25 +262,25 @@ RTCM Base</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;chk_rtcmmsg.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>9</value>
   </data>
-  <data name="lbl_svin.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="lbl_svin.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="lbl_svin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="lbl_svin.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 138</value>
+    <value>6, 16</value>
   </data>
   <data name="lbl_svin.Size" type="System.Drawing.Size, System.Drawing">
-    <value>32, 13</value>
+    <value>138, 13</value>
   </data>
   <data name="lbl_svin.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="lbl_svin.Text" xml:space="preserve">
-    <value>SVIN</value>
+    <value>Survey In</value>
   </data>
   <data name="lbl_svin.ToolTip" xml:space="preserve">
     <value>Survey in information
@@ -293,6 +291,9 @@ Obs: number of obsivation used in our survey in
 Acc: current accuracy of our survey in point
 </value>
   </data>
+  <data name="lbl_svin.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;lbl_svin.Name" xml:space="preserve">
     <value>lbl_svin</value>
   </data>
@@ -300,10 +301,10 @@ Acc: current accuracy of our survey in point
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_svin.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;lbl_svin.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>0</value>
   </data>
   <data name="chk_m8pautoconfig.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -312,7 +313,7 @@ Acc: current accuracy of our survey in point
     <value>NoControl</value>
   </data>
   <data name="chk_m8pautoconfig.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 14</value>
+    <value>3, 3</value>
   </data>
   <data name="chk_m8pautoconfig.Size" type="System.Drawing.Size, System.Drawing">
     <value>101, 17</value>
@@ -333,10 +334,241 @@ Acc: current accuracy of our survey in point
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_m8pautoconfig.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>panel2</value>
   </data>
   <data name="&gt;&gt;chk_m8pautoconfig.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>0</value>
+  </data>
+  <data name="groupBoxm8p.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="groupBox1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="label10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 68</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 13</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="label10.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label10.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label10.Name" xml:space="preserve">
+    <value>label10</value>
+  </data>
+  <data name="&gt;&gt;label10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label10.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 29</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="label7.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label7.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label9.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 55</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="label9.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label9.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 42</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="label8.ToolTip" xml:space="preserve">
+    <value>Survey in information
+Valid: is the survey in valid
+InProgress: are we currently surveying in our position
+Duration: the number of seconds we have surveyed in
+Obs: number of obsivation used in our survey in
+Acc: current accuracy of our survey in point
+</value>
+  </data>
+  <data name="label8.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>528, 10</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>150, 174</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Survey In</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>groupBoxm8p</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="but_restartsvin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_restartsvin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>227, 22</value>
+  </data>
+  <data name="but_restartsvin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="but_restartsvin.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="but_restartsvin.Text" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="but_restartsvin.ToolTip" xml:space="preserve">
+    <value>Used to save the current base station positon as surveyed</value>
+  </data>
+  <data name="&gt;&gt;but_restartsvin.Name" xml:space="preserve">
+    <value>but_restartsvin</value>
+  </data>
+  <data name="&gt;&gt;but_restartsvin.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+  </data>
+  <data name="&gt;&gt;but_restartsvin.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;but_restartsvin.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="chk_m8p_130p.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -345,7 +577,7 @@ Acc: current accuracy of our survey in point
     <value>NoControl</value>
   </data>
   <data name="chk_m8p_130p.Location" type="System.Drawing.Point, System.Drawing">
-    <value>113, 14</value>
+    <value>110, 3</value>
   </data>
   <data name="chk_m8p_130p.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 17</value>
@@ -366,206 +598,40 @@ Acc: current accuracy of our survey in point
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;chk_m8p_130p.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+    <value>panel2</value>
   </data>
   <data name="&gt;&gt;chk_m8p_130p.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 40</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>41, 13</value>
-  </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Time(s)</value>
-  </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
-  </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="txt_surveyinDur.Location" type="System.Drawing.Point, System.Drawing">
-    <value>187, 36</value>
-  </data>
-  <data name="txt_surveyinDur.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="txt_surveyinDur.TabIndex" type="System.Int32, mscorlib">
-    <value>10</value>
-  </data>
-  <data name="txt_surveyinDur.Text" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
-    <value>Survey in minimum time. Must be larger than this number</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinDur.Name" xml:space="preserve">
-    <value>txt_surveyinDur</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinDur.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinDur.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinDur.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="but_save_basepos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 40</value>
+  <data name="but_save_basepos.Location" type="System.Drawing.Point, System.Drawing">
+    <value>429, 22</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>85, 13</value>
-  </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>SurveyIn Acc(m)</value>
-  </data>
-  <data name="label1.ToolTip" xml:space="preserve">
-    <value>Both accuracy and duration must be meet in order for the survey in to complete
-ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
-  </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
-  </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="txt_surveyinAcc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 36</value>
-  </data>
-  <data name="txt_surveyinAcc.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="txt_surveyinAcc.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="txt_surveyinAcc.Text" xml:space="preserve">
-    <value>2.00</value>
-  </data>
-  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
-    <value>Survey in accuracy trigger. must get bellow this</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinAcc.Name" xml:space="preserve">
-    <value>txt_surveyinAcc</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinAcc.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinAcc.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;txt_surveyinAcc.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="but_base_pos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="but_base_pos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 14</value>
-  </data>
-  <data name="but_base_pos.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="but_save_basepos.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="but_base_pos.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="but_save_basepos.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
   </data>
-  <data name="but_base_pos.Text" xml:space="preserve">
-    <value>Enter Base Position</value>
+  <data name="but_save_basepos.Text" xml:space="preserve">
+    <value>Save Current Position</value>
   </data>
-  <data name="but_base_pos.ToolTip" xml:space="preserve">
-    <value>Manualy enter base station coords. if you click USE bellow, the coords will all ready be in here</value>
+  <data name="but_save_basepos.ToolTip" xml:space="preserve">
+    <value>Used to save the current base station positon as surveyed</value>
   </data>
-  <data name="&gt;&gt;but_base_pos.Name" xml:space="preserve">
-    <value>but_base_pos</value>
+  <data name="&gt;&gt;but_save_basepos.Name" xml:space="preserve">
+    <value>but_save_basepos</value>
   </data>
-  <data name="&gt;&gt;but_base_pos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+  <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
-  <data name="&gt;&gt;but_base_pos.Parent" xml:space="preserve">
-    <value>groupBox1</value>
+  <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
+    <value>panel2</value>
   </data>
-  <data name="&gt;&gt;but_base_pos.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 3</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>319, 62</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>M8P/Here+</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;but_save_basepos.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 276</value>
-  </data>
-  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>675, 160</value>
-  </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="dg_basepos.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -603,11 +669,20 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
   <data name="Use.Width" type="System.Int32, mscorlib">
     <value>40</value>
   </data>
+  <metadata name="Delete.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Delete.HeaderText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Delete.Width" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
   <data name="dg_basepos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 170</value>
+    <value>3, 51</value>
   </data>
   <data name="dg_basepos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>676, 100</value>
+    <value>508, 117</value>
   </data>
   <data name="dg_basepos.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
@@ -616,49 +691,206 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6279.26617, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6290.35035, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>panel2</value>
   </data>
   <data name="&gt;&gt;dg_basepos.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
-  <data name="but_save_basepos.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="but_save_basepos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>573, 17</value>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>137, 29</value>
   </data>
-  <data name="but_save_basepos.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 13</value>
   </data>
-  <data name="but_save_basepos.TabIndex" type="System.Int32, mscorlib">
-    <value>12</value>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
   </data>
-  <data name="but_save_basepos.Text" xml:space="preserve">
-    <value>Save Current Position</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Time(s)</value>
   </data>
-  <data name="but_save_basepos.ToolTip" xml:space="preserve">
-    <value>Used to save the current base station positon as surveyed</value>
+  <data name="&gt;&gt;label2.Name" xml:space="preserve">
+    <value>label2</value>
   </data>
-  <data name="&gt;&gt;but_save_basepos.Name" xml:space="preserve">
-    <value>but_save_basepos</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;but_save_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
+    <value>panel2</value>
   </data>
-  <data name="&gt;&gt;but_save_basepos.Parent" xml:space="preserve">
+  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="txt_surveyinAcc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>94, 25</value>
+  </data>
+  <data name="txt_surveyinAcc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="txt_surveyinAcc.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="txt_surveyinAcc.Text" xml:space="preserve">
+    <value>2.00</value>
+  </data>
+  <data name="txt_surveyinAcc.ToolTip" xml:space="preserve">
+    <value>Survey in accuracy trigger. must get bellow this</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinAcc.Name" xml:space="preserve">
+    <value>txt_surveyinAcc</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinAcc.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinAcc.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinAcc.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 29</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>SurveyIn Acc(m)</value>
+  </data>
+  <data name="label1.ToolTip" xml:space="preserve">
+    <value>Both accuracy and duration must be meet in order for the survey in to complete
+ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="txt_surveyinDur.Location" type="System.Drawing.Point, System.Drawing">
+    <value>184, 25</value>
+  </data>
+  <data name="txt_surveyinDur.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="txt_surveyinDur.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="txt_surveyinDur.Text" xml:space="preserve">
+    <value>60</value>
+  </data>
+  <data name="txt_surveyinDur.ToolTip" xml:space="preserve">
+    <value>Survey in minimum time. Must be larger than this number</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinDur.Name" xml:space="preserve">
+    <value>txt_surveyinDur</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinDur.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinDur.Parent" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;txt_surveyinDur.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>514, 171</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>groupBoxm8p</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBoxm8p.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 70</value>
+  </data>
+  <data name="groupBoxm8p.Size" type="System.Drawing.Size, System.Drawing">
+    <value>684, 190</value>
+  </data>
+  <data name="groupBoxm8p.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="groupBoxm8p.Text" xml:space="preserve">
+    <value>M8P/Here+</value>
+  </data>
+  <data name="&gt;&gt;groupBoxm8p.Name" xml:space="preserve">
+    <value>groupBoxm8p</value>
+  </data>
+  <data name="&gt;&gt;groupBoxm8p.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBoxm8p.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;but_save_basepos.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;groupBoxm8p.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="panel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 266</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>684, 160</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>7</value>
   </data>
   <data name="BUT_connect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>140, 13</value>
+    <value>130, 3</value>
   </data>
   <data name="BUT_connect.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -673,19 +905,229 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>BUT_connect</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6279.23715, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>12</value>
+  </data>
+  <data name="lbl_status2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl_status2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_status2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>491, 3</value>
+  </data>
+  <data name="lbl_status2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>13, 13</value>
+  </data>
+  <data name="lbl_status2.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lbl_status2.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;lbl_status2.Name" xml:space="preserve">
+    <value>lbl_status2</value>
+  </data>
+  <data name="&gt;&gt;lbl_status2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_status2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_status2.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="lbl_status3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl_status3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_status3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>329, 16</value>
+  </data>
+  <data name="lbl_status3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>241, 13</value>
+  </data>
+  <data name="lbl_status3.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="lbl_status3.Text" xml:space="preserve">
+    <value>-00.000000000 000.000000000 0000.000000000</value>
+  </data>
+  <data name="&gt;&gt;lbl_status3.Name" xml:space="preserve">
+    <value>lbl_status3</value>
+  </data>
+  <data name="&gt;&gt;lbl_status3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_status3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_status3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 3</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Input data rate</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>401, 3</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Output data rate</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 16</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>RTCM Base </value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>242, 29</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Messages Seen</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="labelmsgseen.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="labelmsgseen.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="labelmsgseen.Location" type="System.Drawing.Point, System.Drawing">
+    <value>329, 29</value>
+  </data>
+  <data name="labelmsgseen.Size" type="System.Drawing.Size, System.Drawing">
+    <value>359, 38</value>
+  </data>
+  <data name="labelmsgseen.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="labelmsgseen.Text" xml:space="preserve">
+    <value>rtcm0000</value>
+  </data>
+  <data name="&gt;&gt;labelmsgseen.Name" xml:space="preserve">
+    <value>labelmsgseen</value>
+  </data>
+  <data name="&gt;&gt;labelmsgseen.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelmsgseen.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;labelmsgseen.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>690, 439</value>
+    <value>699, 434</value>
   </data>
   <data name="&gt;&gt;timer1.Name" xml:space="preserve">
     <value>timer1</value>
@@ -721,6 +1163,12 @@ ie less than 2 m accuracy, and Greater than 60 seconds of observations</value>
     <value>Use</value>
   </data>
   <data name="&gt;&gt;Use.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Delete.Name" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="&gt;&gt;Delete.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewButtonColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
