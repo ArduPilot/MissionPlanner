@@ -203,7 +203,8 @@ public partial class MAVLink
 		new message_info(218, "GOPRO_SET_REQUEST", 17, 7, 7, typeof( mavlink_gopro_set_request_t )),
 		new message_info(219, "GOPRO_SET_RESPONSE", 162, 2, 2, typeof( mavlink_gopro_set_response_t )),
 		new message_info(226, "RPM", 207, 8, 8, typeof( mavlink_rpm_t )),
-		new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
+        new message_info(227, "AOA_SSA", 164, 8, 8, typeof( mavlink_aoa_ssa_t )),
+        new message_info(230, "ESTIMATOR_STATUS", 163, 42, 42, typeof( mavlink_estimator_status_t )),
 		new message_info(231, "WIND_COV", 105, 40, 40, typeof( mavlink_wind_cov_t )),
 		new message_info(232, "GPS_INPUT", 151, 63, 63, typeof( mavlink_gps_input_t )),
 		new message_info(233, "GPS_RTCM_DATA", 35, 182, 182, typeof( mavlink_gps_rtcm_data_t )),
@@ -444,6 +445,7 @@ GOPRO_GET_RESPONSE = 217,
 GOPRO_SET_REQUEST = 218,
 GOPRO_SET_RESPONSE = 219,
 RPM = 226,
+AOA_SSA = 227,
 ESTIMATOR_STATUS = 230,
 WIND_COV = 231,
 GPS_INPUT = 232,
@@ -3724,8 +3726,17 @@ ADAP_TUNING = 11010,
     
     };
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 8)]
+    public struct mavlink_aoa_ssa_t
+    {
+        /// <summary> AOA </summary>
+        public Single AOA;
+            /// <summary> SSA </summary>
+        public Single SSA;
+    
+    };
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
+[StructLayout(LayoutKind.Sequential,Pack=1,Size=51)]
     public struct mavlink_device_op_read_t
     {
         /// <summary> request ID - copied to reply </summary>

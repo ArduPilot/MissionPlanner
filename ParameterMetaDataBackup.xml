@@ -19721,5 +19721,11 @@
       <Range>1 255</Range>
       <User>Advanced</User>
     </CMD_TOTAL>
+    <AOA_CRIT>
+      <DisplayName>Critical Angel of Atack</DisplayName>
+      <Description>Angle of attack which produces maximum lift coefficient. This is also called the "stall angle of attack". Above this critical angle of attack, the aircraft is said to be in a stall. A fixed-wing aircraft by definition is stalled at or above the critical angle of attack rather than at or below a particular airspeed.</Description>
+      <Range>0 40</Range>
+      <User>Advanced</User>
+    </AOA_CRIT>
   </ArduTracker>
 </Params>
