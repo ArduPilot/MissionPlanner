@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mykey.snk" />
+    <None Include="packages.config" />
     <None Include="pymavlink\generator\lib\minixsv\datatypes.xsd">
       <SubType>Designer</SubType>
     </None>

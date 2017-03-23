@@ -313,6 +313,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="mykey.snk" />
+    <None Include="packages.config" />
     <None Include="Resources\iconWarning32.png" />
   </ItemGroup>
   <ItemGroup>

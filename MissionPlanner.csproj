@@ -140,14 +140,20 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="alglibnet2">
-      <HintPath>ExtLibs\alglibnet2.dll</HintPath>
+    <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\alglibnet2.0.0.0\lib\alglibnet2.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DirectShowLib-2005">
+    <Reference Include="CSMatIO, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CSMatIO.1.0.2\lib\net40\CSMatIO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DirectShowLib-2005, Version=2.1.0.0, Culture=neutral, PublicKeyToken=67e7b740cdfc2d3f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
     </Reference>
     <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
@@ -348,9 +354,6 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="csmatio">
-      <HintPath>ExtLibs\csmatio.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK">
       <HintPath>ExtLibs\OpenTK.dll</HintPath>
     </Reference>
@@ -366,8 +369,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>ExtLibs\Transitions.dll</HintPath>
     </Reference>
-    <Reference Include="zlib.net">
-      <HintPath>ExtLibs\zlib.net.dll</HintPath>
+    <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
+      <HintPath>packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -5064,9 +5068,8 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
-      <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
+      <Project>{9ca367b8-0b98-49d1-84fb-735e612e3ba9}</Project>
       <Name>BSE.Windows.Forms</Name>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj">
       <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>

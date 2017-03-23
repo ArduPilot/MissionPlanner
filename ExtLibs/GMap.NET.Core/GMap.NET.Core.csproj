@@ -247,6 +247,7 @@
     <EmbeddedResource Include="Resources\Strings.zh-Hans.resx" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="sn.snk" />
   </ItemGroup>
   <ItemGroup>

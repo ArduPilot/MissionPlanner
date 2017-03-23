@@ -107,6 +107,7 @@
     <Compile Include="TimeSpan.cs" />
     <Compile Include="TimeStamp.cs" />
     <None Include="mykey.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

@@ -98,6 +98,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="BaseClassesNET.snk" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseClasses.cs">

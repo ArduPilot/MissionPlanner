@@ -285,6 +285,7 @@
     <Compile Include="com\utils\Utils.cs">
       <SubType>Code</SubType>
     </Compile>
+    <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
   </ItemGroup>
   <ItemGroup>

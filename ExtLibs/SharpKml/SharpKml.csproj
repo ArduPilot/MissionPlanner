@@ -203,6 +203,7 @@
     <Compile Include="Engine\UriExtensions.cs" />
     <Compile Include="Engine\KmzFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="packages.config" />
     <None Include="Tuple.cs" />
   </ItemGroup>
   <ItemGroup>
