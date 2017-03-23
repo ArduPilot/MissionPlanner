@@ -304,12 +304,24 @@ namespace GMap.NET.WindowsForms
 
             if(Control.PolygonsEnabled)
             {
-               foreach(GMapPolygon r in Polygons)
+                var viewarea = Control.ViewArea;
+                viewarea.Inflate(1, 1);
+               foreach (GMapPolygon r in Polygons)
                {
-                  if(r.IsVisible)
-                  {
-                     r.OnRender(g);
-                  }
+                    // inside or within the current view
+                    if (r.IsInside(Control.Position) ||
+                            viewarea.Contains(r.Points[0]) ||
+                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.2)]) ||
+                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.4)]) || 
+                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.6)]) || 
+                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.8)])
+                            )
+                    {
+                        if (r.IsVisible)
+                        {
+                            r.OnRender(g);
+                        }
+                    }
                }
             }
 
