@@ -9,10 +9,10 @@ namespace GMap.NET.Internals
    using System.Security.Cryptography;
     using System.Text;
 
-   /// <summary>
-   /// etc functions...
-   /// </summary>
-   internal class Stuff
+    /// <summary>
+    /// etc functions...
+    /// </summary>
+    public class Stuff
    {
       public static string EnumToString(Enum value)
       {
