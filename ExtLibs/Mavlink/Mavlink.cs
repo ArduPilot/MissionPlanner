@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Dec 02 2016";
+    public const string MAVLINK_BUILD_DATE = "Sat Mar 25 2017";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -231,7 +231,7 @@ public partial class MAVLink
 		new message_info(262, "CAMERA_CAPTURE_STATUS", 141, 23, 23, typeof( mavlink_camera_capture_status_t )),
 		new message_info(263, "CAMERA_IMAGE_CAPTURED", 43, 255, 255, typeof( mavlink_camera_image_captured_t )),
 		new message_info(264, "FLIGHT_INFORMATION", 49, 28, 28, typeof( mavlink_flight_information_t )),
-		new message_info(265, "MOUNT_STATUS2", 229, 29, 29, typeof( mavlink_mount_status2_t )),
+		new message_info(265, "MOUNT_ORIENTATION", 26, 16, 16, typeof( mavlink_mount_orientation_t )),
 		new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
 		new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
 		new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
@@ -472,7 +472,7 @@ STORAGE_INFORMATION = 261,
 CAMERA_CAPTURE_STATUS = 262,
 CAMERA_IMAGE_CAPTURED = 263,
 FLIGHT_INFORMATION = 264,
-MOUNT_STATUS2 = 265,
+MOUNT_ORIENTATION = 265,
 LOGGING_DATA = 266,
 LOGGING_DATA_ACKED = 267,
 LOGGING_ACK = 268,
@@ -1392,7 +1392,9 @@ ADAP_TUNING = 11010,
     	///<summary>  | </summary>
         PID_TUNING_STEER=5, 
     	///<summary>  | </summary>
-        ENUM_END=6, 
+        PID_TUNING_LANDING=6, 
+    	///<summary>  | </summary>
+        ENUM_END=7, 
     
     };
     
@@ -1822,8 +1824,10 @@ ADAP_TUNING = 11010,
         MAV_SYS_STATUS_REVERSE_MOTOR=8388608, 
     	///<summary> 0x1000000 Logging | </summary>
         MAV_SYS_STATUS_LOGGING=16777216, 
+    	///<summary> 0x2000000 Battery | </summary>
+        BATTERY=33554432, 
     	///<summary>  | </summary>
-        ENUM_END=16777217, 
+        ENUM_END=33554433, 
     
     };
     
@@ -7077,25 +7081,17 @@ ADAP_TUNING = 11010,
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=29)]
-    public struct mavlink_mount_status2_t
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
+    public struct mavlink_mount_orientation_t
     {
         /// <summary> Timestamp (milliseconds since system boot) </summary>
         public  UInt32 time_boot_ms;
-            /// <summary> Roll in degrees, set if appropriate mount mode. </summary>
+            /// <summary> Roll in degrees </summary>
         public  Single roll;
-            /// <summary> Pitch in degrees, set if appropriate mount mode. </summary>
+            /// <summary> Pitch in degrees </summary>
         public  Single pitch;
-            /// <summary> Yaw in degrees, set if appropriate mount mode. </summary>
+            /// <summary> Yaw in degrees </summary>
         public  Single yaw;
-            /// <summary> Latitude, in degrees * 1E7, set if appropriate mount mode. </summary>
-        public  Int32 lat;
-            /// <summary> Longitude, in degrees * 1E7, set if appropriate mount mode. </summary>
-        public  Int32 lon;
-            /// <summary> Altitude in meters, set if appropriate mount mode. </summary>
-        public  Single alt;
-            /// <summary> Mount operation mode (see MAV_MOUNT_MODE enum) </summary>
-        public  byte mode;
     
     };
 
