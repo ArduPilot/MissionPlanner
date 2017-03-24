@@ -976,11 +976,6 @@ namespace MissionPlanner
             }
         }
 
-        private void but_AA_Click(object sender, EventArgs e)
-        {
-            Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
-        }
-
         private void but_followswarm_Click(object sender, EventArgs e)
         {
             new Swarm.WaypointLeader.WPControl().Show();

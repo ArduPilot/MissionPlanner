@@ -433,16 +433,6 @@
     <Compile Include="Swarm\WaypointLeader\Drone.cs" />
     <Compile Include="Swarm\WaypointLeader\DroneGroup.cs" />
     <Compile Include="Swarm\WaypointLeader\Path.cs" />
-    <Compile Include="Utilities\AltitudeAngel\AASettings.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Utilities\AltitudeAngel\AASettings.Designer.cs">
-      <DependentUpon>AASettings.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Utilities\AltitudeAngel\AltitudeAngel.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MapAdapter.cs" />
-    <Compile Include="Utilities\AltitudeAngel\MissionPlannerAdaptor.cs" />
-    <Compile Include="Utilities\AltitudeAngel\OverlayAdapter.cs" />
     <Compile Include="Utilities\BoardDetect.cs" />
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
@@ -2748,9 +2738,6 @@
     <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.resx">
       <DependentUpon>WPControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\AltitudeAngel\AASettings.resx">
-      <DependentUpon>AASettings.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\10FlightModes.ar.resx">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </EmbeddedResource>
@@ -5054,10 +5041,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj">
-      <Project>{098f542c-7c70-4b9c-b2e2-ac5dc5e0294b}</Project>
-      <Name>AltitudeAngelWings</Name>
-    </ProjectReference>
     <ProjectReference Include="ExtLibs\Arduino\Arduino.csproj">
       <Project>{ec0f2b60-cc39-4990-801f-c5db4b570600}</Project>
       <Name>Arduino</Name>

@@ -94,7 +94,6 @@
             this.myButton2 = new MissionPlanner.Controls.MyButton();
             this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.but_gpsinj = new MissionPlanner.Controls.MyButton();
-            this.but_AA = new MissionPlanner.Controls.MyButton();
             this.controlSensorsStatus1 = new MissionPlanner.Controls.ControlSensorsStatus();
             this.but_followswarm = new MissionPlanner.Controls.MyButton();
             this.myButton3 = new MissionPlanner.Controls.MyButton();
@@ -842,16 +841,6 @@
             this.but_gpsinj.UseVisualStyleBackColor = true;
             this.but_gpsinj.Click += new System.EventHandler(this.but_gpsinj_Click);
             // 
-            // but_AA
-            // 
-            this.but_AA.Location = new System.Drawing.Point(467, 501);
-            this.but_AA.Name = "but_AA";
-            this.but_AA.Size = new System.Drawing.Size(75, 23);
-            this.but_AA.TabIndex = 82;
-            this.but_AA.Text = "altitudeangel";
-            this.but_AA.UseVisualStyleBackColor = true;
-            this.but_AA.Click += new System.EventHandler(this.but_AA_Click);
-            // 
             // controlSensorsStatus1
             // 
             this.controlSensorsStatus1.BackColor = System.Drawing.Color.Transparent;
@@ -919,7 +908,6 @@
             this.Controls.Add(this.but_GDAL);
             this.Controls.Add(this.myButton3);
             this.Controls.Add(this.but_followswarm);
-            this.Controls.Add(this.but_AA);
             this.Controls.Add(this.but_gpsinj);
             this.Controls.Add(this.controlSensorsStatus1);
             this.Controls.Add(this.BUT_magfit2);
@@ -1016,7 +1004,6 @@
         private Controls.MyButton BUT_magfit2;
         private Controls.ControlSensorsStatus controlSensorsStatus1;
         private Controls.MyButton but_gpsinj;
-        private Controls.MyButton but_AA;
         private Controls.MyButton but_followswarm;
         private Controls.MyButton myButton3;
         private Controls.MyButton but_GDAL;
