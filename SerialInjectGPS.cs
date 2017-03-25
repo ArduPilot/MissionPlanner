@@ -599,16 +599,11 @@ namespace MissionPlanner
                 {
                     var svin = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_svin>(6);
 
-                    updateSVINLabel((svin.valid == 1), (svin.active == 1), svin.dur, svin.obs, svin.meanAcc/10000.0);
+                    ubxsvin = svin;
 
-                    var X = svin.meanX/100.0 + svin.meanXHP*0.0001;
-                    var Y = svin.meanY/100.0 + svin.meanYHP*0.0001;
-                    var Z = svin.meanZ/100.0 + svin.meanZHP*0.0001;
+                    updateSVINLabel((svin.valid == 1), (svin.active == 1), svin.dur, svin.obs, svin.meanAcc / 10000.0);
 
-                    if (X == 0 || Y == 0 || Z == 0)
-                        return;
-
-                    var pos = new double[] {X, Y, Z};
+                    var pos = svin.getECEF();
 
                     double[] baseposllh = new double[3];
 
@@ -625,8 +620,6 @@ namespace MissionPlanner
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
 
                     //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
-
-
                 }
                 else if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
                 {
@@ -648,9 +641,24 @@ namespace MissionPlanner
                 {
                     // rxm-raw
                 }
+                else if (ubx_m8p.@class == 0x06 && ubx_m8p.subclass == 0x71)
+                {
+                    // TMODE3
+                    var tmode = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_cfg_tmode3>(6);
+
+                    ubxmode = tmode;
+
+                    log.InfoFormat("ubx TMODE3 {0} {1}", (ubx_m8p.ubx_cfg_tmode3.modeflags)tmode.flags, "");
+                }
                 else
                 {
                     ubx_m8p.turnon_off(comPort, ubx_m8p.@class, ubx_m8p.subclass, 0);
+                }
+
+                if(pollTMODE < DateTime.Now)
+                {
+                    ubx_m8p.poll_msg(comPort, 0x06, 0x71);
+                    pollTMODE = DateTime.Now.AddSeconds(60);
                 }
             }
             catch (Exception ex)
@@ -658,6 +666,10 @@ namespace MissionPlanner
                 log.Error(ex);
             }
         }
+
+        static DateTime pollTMODE = DateTime.MinValue;
+        static ubx_m8p.ubx_cfg_tmode3 ubxmode;
+        static ubx_m8p.ubx_nav_svin ubxsvin;
 
         private static void updateSVINLabel(bool valid, bool active, uint dur, uint obs, double acc)
         {
@@ -680,21 +692,49 @@ namespace MissionPlanner
                                     Instance.lbl_svin.BackColor = Color.Green;
                                 else
                                     Instance.lbl_svin.BackColor = Color.Red;
-                                Instance.label7.Text = active
-                                    ? "In Progress"
-                                    : "Complete";
-                                Instance.label8.Text = "Duration: "+dur;
-                                Instance.label9.Text = "Observations: "+obs;
+
+                                if (!valid)
+                                {
+                                    Instance.label7.Text = active
+                                        ? "In Progress"
+                                        : "Complete";
+                                    Instance.label8.Text = "Duration: " + dur;
+                                    Instance.label9.Text = "Observations: " + obs;
+                                }
+                                else
+                                {
+                                    double[] posllh = new double[3];
+
+                                    Utilities.rtcm3.ecef2pos(ubxsvin.getECEF(), ref posllh);
+
+                                    Instance.label7.Text = "Lat/X: " + posllh[0] * MathHelper.rad2deg;
+                                    Instance.label8.Text = "Lng/Y: " + posllh[1] * MathHelper.rad2deg;
+                                    Instance.label9.Text = "Alt/Z: " + posllh[2];
+                                    Instance.label7.Visible = true;
+                                    Instance.label8.Visible = true;
+                                    Instance.label9.Visible = true;
+                                }
                                 Instance.label10.Text = "Current Acc: "+acc;
                             }
                             else
                             {
                                 Instance.lbl_svin.Visible = true;
-                                Instance.lbl_svin.Text = "Using existing coords";
+                                Instance.lbl_svin.Text = "Using " + (ubx_m8p.ubx_cfg_tmode3.modeflags)ubxmode.flags;
                                 Instance.lbl_svin.BackColor = Color.Green;
                                 Instance.label7.Visible = false;
                                 Instance.label8.Visible = false;
                                 Instance.label9.Visible = false;
+                                var pnt = ubxmode.getPointLatLngAlt();
+                                if (pnt != null)
+                                {
+                                    Instance.label7.Text = "Lat/X: " + pnt.Lat;
+                                    Instance.label8.Text = "Lng/Y: " + pnt.Lng;
+                                    Instance.label9.Text = "Alt/Z: " + pnt.Alt;
+                                    Instance.label7.Visible = true;
+                                    Instance.label8.Visible = true;
+                                    Instance.label9.Visible = true;
+                                }
+                            
                                 Instance.label10.Visible = false;
                             }
                         }
@@ -901,9 +941,13 @@ namespace MissionPlanner
 
                 loadBasePOS();
 
-                if(comPort.IsOpen)
+                if (comPort.IsOpen)
+                {
                     ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
                         double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+
+                    ubx_m8p.poll_msg(comPort, 0x06, 0x71);
+                }
             }
             if (e.ColumnIndex == Delete.Index)
             {

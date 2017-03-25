@@ -989,6 +989,7 @@
     <Compile Include="Utilities\CircleSurveyMission.cs" />
     <Compile Include="Utilities\Device.cs" />
     <Compile Include="Utilities\dxf.cs" />
+    <Compile Include="Utilities\ExpireType.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />

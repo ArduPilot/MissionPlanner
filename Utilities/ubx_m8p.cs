@@ -202,6 +202,15 @@ namespace MissionPlanner.Utilities
             public uint8_t active;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
             public uint8_t[] reserved3;
+
+            public double[] getECEF()
+            {
+                var X = meanX / 100.0 + meanXHP * 0.0001;
+                var Y = meanY / 100.0 + meanYHP * 0.0001;
+                var Z = meanZ / 100.0 + meanZHP * 0.0001;
+
+                return new double[] { X, Y, Z };
+            }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 40)]
@@ -211,13 +220,24 @@ namespace MissionPlanner.Utilities
             {
                 version = 0;
                 reserved1 = 0;
-                flags = 256 + 2; // lla + fixed mode
-                ecefXorLat = (int)(lat * 1e7);
-                ecefYorLon = (int)(lng * 1e7);
-                ecefZorAlt = (int)(alt * 100.0);
-                ecefXOrLatHP = (sbyte)((lat * 1e7 - ecefXorLat) * 100.0);
-                ecefYOrLonHP = (sbyte)((lng * 1e7 - ecefYorLon) * 100.0);
-                ecefZOrAltHP = (sbyte)((alt * 100.0 - ecefZorAlt) * 100.0);
+                if (Math.Abs(lat) > 90)
+                {
+                    flags = 2; // fixed mode ecef
+                    ecefXorLat = (int)(lat*100);
+                    ecefYorLon = (int)(lng * 100);
+                    ecefZorAlt = (int)(alt * 100);
+                    ecefXOrLatHP = (sbyte)((lat * 100 - ecefXorLat) * 100.0);
+                    ecefYOrLonHP = (sbyte)((lng * 100 - ecefYorLon) * 100.0);
+                    ecefZOrAltHP = (sbyte)((alt * 100 - ecefZorAlt) * 100.0);
+                } else {
+                    flags = 256 + 2; // lla + fixed mode
+                    ecefXorLat = (int)(lat * 1e7);
+                    ecefYorLon = (int)(lng * 1e7);
+                    ecefZorAlt = (int)(alt * 100.0);
+                    ecefXOrLatHP = (sbyte)((lat * 1e7 - ecefXorLat) * 100.0);
+                    ecefYOrLonHP = (sbyte)((lng * 1e7 - ecefYorLon) * 100.0);
+                    ecefZOrAltHP = (sbyte)((alt * 100.0 - ecefZorAlt) * 100.0);
+                }
                 reserved2 = 0;
                 fixedPosAcc = (uint)(acc * 1000.0);
                 svinMinDur = 60;
@@ -260,6 +280,15 @@ namespace MissionPlanner.Utilities
                 return MavlinkUtil.StructureToByteArray(input);
             }
 
+            public enum modeflags
+            {
+                Disabled =0,
+                SurveyIn=1,
+                FixedECEF=2,
+                LLA=256,
+                FixedLLA=258
+            }
+
             public byte version;
             public byte reserved1;
             public ushort flags;
@@ -275,6 +304,36 @@ namespace MissionPlanner.Utilities
             public uint svinAccLimit;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public byte[] reserved3;
+
+            public PointLatLngAlt getPointLatLngAlt()
+            {
+                double lat = 0;
+                double lng = 0;
+                double alt = 0;
+
+                if (flags == 2)
+                {
+                    var X = ecefXorLat / 100.0 + ecefXOrLatHP * 0.0001;
+                    var Y = ecefYorLon / 100.0 + ecefYOrLonHP * 0.0001;
+                    var Z = ecefZorAlt / 100.0 + ecefZOrAltHP * 0.0001;
+
+                    var pos = new double[] { X, Y, Z };
+
+                    return new PointLatLngAlt(pos);
+                }
+                else if (flags == 258)
+                {
+                    var X = ecefXorLat / 1e7 + ecefXOrLatHP / 1e9;
+                    var Y = ecefYorLon / 1e7 + ecefYOrLonHP / 1e9;
+                    var Z = ecefZorAlt / 100.0 + ecefZOrAltHP * 0.0001;
+
+                    var pos = new double[] { X, Y, Z };
+
+                    return new PointLatLngAlt(pos);
+                }
+
+                return null;
+            }
         }
 
         public void SetupM8P(ICommsSerial port, bool m8p_130plus = false)
