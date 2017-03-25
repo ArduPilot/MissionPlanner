@@ -38,6 +38,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
+            if ((MainV2.comPort.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.COMPASS_CALIBRATION) == 0)
+            {
+                groupBoxonboardcalib.Visible = false;
+                label4.Visible = false;
+                groupBoxmpcalib.Visible = true;
+            }
+            else
+            {
+                groupBoxonboardcalib.Visible = true;
+                label4.Visible = false;
+                groupBoxmpcalib.Visible = false;
+            }
+
             // General Compass Settings
             CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param);
             CHK_compass_learn.setup(1, 0, "COMPASS_LEARN", MainV2.comPort.MAV.param);
