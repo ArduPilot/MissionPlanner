@@ -637,19 +637,19 @@ Acc: current accuracy of our survey in point
     <value>True</value>
   </metadata>
   <data name="Lat.HeaderText" xml:space="preserve">
-    <value>Lat/X</value>
+    <value>Lat/ECEFX</value>
   </data>
   <metadata name="Long.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="Long.HeaderText" xml:space="preserve">
-    <value>Long/Y</value>
+    <value>Long/ECEFY</value>
   </data>
   <metadata name="Alt.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="Alt.HeaderText" xml:space="preserve">
-    <value>Alt/Z</value>
+    <value>Alt/ECEFZ</value>
   </data>
   <data name="Alt.Width" type="System.Int32, mscorlib">
     <value>77</value>
@@ -688,7 +688,7 @@ Acc: current accuracy of our survey in point
     <value>dg_basepos</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6293.23409, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6294.13055, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;dg_basepos.Parent" xml:space="preserve">
     <value>panel2</value>

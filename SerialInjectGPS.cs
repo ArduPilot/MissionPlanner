@@ -383,16 +383,20 @@ namespace MissionPlanner
                 msgseen.Clear();
                 bytes = 0;
                 invalidateRTCMStatus();
+                panel1.Controls.Clear();
             }
         }
 
         void invalidateRTCMStatus()
         {
-            labelbase.BackColor = Color.Red;
-            labelgps.BackColor = Color.Red;
-            labelglonass.BackColor = Color.Red;
-            label14BDS.BackColor = Color.Red;
-            panel1.Controls.Clear();
+            if (ExpireType.HasExpired(labelbase))
+                labelbase.BackColor = Color.Red;
+            if (ExpireType.HasExpired(labelgps))
+                labelgps.BackColor = Color.Red;
+            if (ExpireType.HasExpired(labelglonass))
+                labelglonass.BackColor = Color.Red;
+            if (ExpireType.HasExpired(label14BDS))
+                label14BDS.BackColor = Color.Red;
         }
 
         private void updateLabel(string line1, string line2, string line3, string line4)
@@ -556,10 +560,12 @@ namespace MissionPlanner
                     case 1076:
                     case 1077:
                         Instance.labelgps.BackColor = Color.Green;
+                        ExpireType.Set(Instance.labelgps, 5);
                         break;
                     case 1005:
                     case 1006:
                         Instance.labelbase.BackColor = Color.Green;
+                        ExpireType.Set(Instance.labelbase, 20);
                         break;
                     case 1009:
                     case 1010:
@@ -573,6 +579,7 @@ namespace MissionPlanner
                     case 1086:
                     case 1087:
                         Instance.labelglonass.BackColor = Color.Green;
+                        ExpireType.Set(Instance.labelglonass, 5);
                         break;
                     case 1121:
                     case 1122:
@@ -582,10 +589,11 @@ namespace MissionPlanner
                     case 1126:
                     case 1127:
                         Instance.label14BDS.BackColor = Color.Green;
+                        ExpireType.Set(Instance.label14BDS, 5);
                         break;
                     default:
                         break;
-                }                
+                }
             }
             );
         }
@@ -833,6 +841,8 @@ namespace MissionPlanner
                 sb.ToString() );
             bps = 0;
             bpsusefull = 0;
+
+            invalidateRTCMStatus();
 
             try
             {

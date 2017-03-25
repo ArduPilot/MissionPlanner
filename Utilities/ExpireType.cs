@@ -31,7 +31,7 @@ namespace MissionPlanner.Utilities
         static Dictionary<object, DateTime> _setAt = new Dictionary<object, DateTime>();
         static Dictionary<object, DateTime> _expireAt = new Dictionary<object, DateTime>();
 
-        public static void Set(ref object input, double seconds)
+        public static void Set(object input, double seconds)
         {
             _setAt[input] = DateTime.Now;
             _expireAt[input] = DateTime.Now.AddSeconds(seconds);
@@ -39,7 +39,7 @@ namespace MissionPlanner.Utilities
             cleanup();
         }
 
-        public static bool HasExpired(ref object check)
+        public static bool HasExpired(object check)
         {
             // has it been set?
             if (_expireAt.ContainsKey(check))
