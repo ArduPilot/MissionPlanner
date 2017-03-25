@@ -68,10 +68,27 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.labelmsgseen = new System.Windows.Forms.Label();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelglonass = new System.Windows.Forms.Label();
+            this.labelgps = new System.Windows.Forms.Label();
+            this.labelbase = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label14BDS = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -130,8 +147,6 @@
             // chk_m8pautoconfig
             // 
             resources.ApplyResources(this.chk_m8pautoconfig, "chk_m8pautoconfig");
-            this.chk_m8pautoconfig.Checked = true;
-            this.chk_m8pautoconfig.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chk_m8pautoconfig.Name = "chk_m8pautoconfig";
             this.toolTip1.SetToolTip(this.chk_m8pautoconfig, resources.GetString("chk_m8pautoconfig.ToolTip"));
             this.chk_m8pautoconfig.UseVisualStyleBackColor = true;
@@ -139,9 +154,9 @@
             // 
             // groupBoxm8p
             // 
-            resources.ApplyResources(this.groupBoxm8p, "groupBoxm8p");
             this.groupBoxm8p.Controls.Add(this.groupBox1);
             this.groupBoxm8p.Controls.Add(this.panel2);
+            resources.ApplyResources(this.groupBoxm8p, "groupBoxm8p");
             this.groupBoxm8p.Name = "groupBoxm8p";
             this.groupBoxm8p.TabStop = false;
             // 
@@ -183,7 +198,6 @@
             // panel2
             // 
             resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Controls.Add(this.chk_m8pautoconfig);
             this.panel2.Controls.Add(this.but_restartsvin);
             this.panel2.Controls.Add(this.chk_m8p_130p);
             this.panel2.Controls.Add(this.but_save_basepos);
@@ -346,21 +360,101 @@
             // 
             resources.ApplyResources(this.labelmsgseen, "labelmsgseen");
             this.labelmsgseen.Name = "labelmsgseen";
+            this.labelmsgseen.Click += new System.EventHandler(this.labelmsgseen_Click);
+            // 
+            // splitContainer1
+            // 
+            resources.ApplyResources(this.splitContainer1, "splitContainer1");
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBoxm8p);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.panel1);
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label14BDS);
+            this.groupBox2.Controls.Add(this.label15);
+            this.groupBox2.Controls.Add(this.labelglonass);
+            this.groupBox2.Controls.Add(this.labelgps);
+            this.groupBox2.Controls.Add(this.labelbase);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.label12);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.lbl_status3);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
+            // labelglonass
+            // 
+            this.labelglonass.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.labelglonass, "labelglonass");
+            this.labelglonass.Name = "labelglonass";
+            // 
+            // labelgps
+            // 
+            this.labelgps.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.labelgps, "labelgps");
+            this.labelgps.Name = "labelgps";
+            // 
+            // labelbase
+            // 
+            this.labelbase.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.labelbase, "labelbase");
+            this.labelbase.Name = "labelbase";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label3);
+            this.groupBox3.Controls.Add(this.lbl_status1);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.label6);
+            this.groupBox3.Controls.Add(this.lbl_status2);
+            this.groupBox3.Controls.Add(this.labelmsgseen);
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // label14BDS
+            // 
+            this.label14BDS.BackColor = System.Drawing.Color.Red;
+            resources.ApplyResources(this.label14BDS, "label14BDS");
+            this.label14BDS.Name = "label14BDS";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
             // 
             // SerialInjectGPS
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.labelmsgseen);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.lbl_status3);
-            this.Controls.Add(this.lbl_status2);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.groupBoxm8p);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.chk_m8pautoconfig);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.chk_rtcmmsg);
-            this.Controls.Add(this.lbl_status1);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
@@ -371,6 +465,14 @@
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dg_basepos)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -416,5 +518,16 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label labelglonass;
+        private System.Windows.Forms.Label labelgps;
+        private System.Windows.Forms.Label labelbase;
+        private System.Windows.Forms.Label label14BDS;
+        private System.Windows.Forms.Label label15;
     }
 }

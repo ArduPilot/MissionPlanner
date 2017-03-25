@@ -82,6 +82,8 @@ namespace MissionPlanner
                 BUT_connect.Text = Strings.Stop;
             }
 
+            splitContainer1.Panel1Collapsed = true;
+
             // restore last port and baud - its the simple things that make life better
             if (Settings.Instance.ContainsKey("SerialInjectGPS_port"))
             {
@@ -98,8 +100,7 @@ namespace MissionPlanner
             if (Settings.Instance.ContainsKey("SerialInjectGPS_SITime"))
             {
                 txt_surveyinDur.Text = Settings.Instance["SerialInjectGPS_SITime"];
-            }
-
+            }            
 
             // restore current static state
             chk_rtcmmsg.Checked = rtcm_msg;
@@ -154,9 +155,19 @@ namespace MissionPlanner
 
                 var tmp = ctls('G');
                 var tmp2 = ctls('R');
+                var tmp3 = ctls('C');
+
+                var start = 0;
+
+                if (obs[0].sys == 'G')
+                    start = 0;
+                if (obs[0].sys == 'R')
+                    start = tmp.Count;
+                if (obs[0].sys == 'C')
+                    start = tmp.Count + tmp2.Count;
 
                 // if G 0, if R = G.count (2 system support)
-                var a = obs[0].sys == 'G' ? 0 : ctls.Invoke('G').Count;
+                var a = start;
 
                 var sysctls = ctls.Invoke(obs[0].sys);
                 var cnt = 0;
@@ -371,7 +382,17 @@ namespace MissionPlanner
 
                 msgseen.Clear();
                 bytes = 0;
+                invalidateRTCMStatus();
             }
+        }
+
+        void invalidateRTCMStatus()
+        {
+            labelbase.BackColor = Color.Red;
+            labelgps.BackColor = Color.Red;
+            labelglonass.BackColor = Color.Red;
+            label14BDS.BackColor = Color.Red;
+            panel1.Controls.Clear();
         }
 
         private void updateLabel(string line1, string line2, string line3, string line4)
@@ -479,6 +500,8 @@ namespace MissionPlanner
                                 msgseen[msgname] = (int) msgseen[msgname] + 1;
 
                                 ExtractBasePos(seenmsg);
+
+                                seenRTCM(seenmsg);
                             }
                             // sbp
                             if ((seenmsg = sbp.read(buffer[a])) > 0)
@@ -510,6 +533,61 @@ namespace MissionPlanner
                     log.Error(ex);
                 }
             }
+        }
+
+        private static void seenRTCM(int seenmsg)
+        {
+            if (Instance.IsDisposed)
+                return;
+
+            Instance.BeginInvoke((Action) delegate()
+            {
+                switch (seenmsg)
+                {
+                    case 1001:
+                    case 1002:
+                    case 1003:
+                    case 1004:
+                    case 1071:
+                    case 1072:
+                    case 1073:
+                    case 1074:
+                    case 1075:
+                    case 1076:
+                    case 1077:
+                        Instance.labelgps.BackColor = Color.Green;
+                        break;
+                    case 1005:
+                    case 1006:
+                        Instance.labelbase.BackColor = Color.Green;
+                        break;
+                    case 1009:
+                    case 1010:
+                    case 1011:
+                    case 1012:
+                    case 1081:
+                    case 1082:
+                    case 1083:
+                    case 1084:
+                    case 1085:
+                    case 1086:
+                    case 1087:
+                        Instance.labelglonass.BackColor = Color.Green;
+                        break;
+                    case 1121:
+                    case 1122:
+                    case 1123:
+                    case 1124:
+                    case 1125:
+                    case 1126:
+                    case 1127:
+                        Instance.label14BDS.BackColor = Color.Green;
+                        break;
+                    default:
+                        break;
+                }                
+            }
+            );
         }
 
         private static void ProcessUBXMessage()
@@ -787,10 +865,10 @@ namespace MissionPlanner
         {
             Settings.Instance["SerialInjectGPS_m8pautoconfig"] = chk_m8pautoconfig.Checked.ToString();
 
-            if(chk_m8pautoconfig.Checked)
-                dg_basepos.Enabled = true;
+            if (chk_m8pautoconfig.Checked)
+                splitContainer1.Panel1Collapsed = false;
             else
-                dg_basepos.Enabled = false;
+                splitContainer1.Panel1Collapsed = true;
         }
 
         void updateBasePosDG()
@@ -883,6 +961,7 @@ namespace MissionPlanner
         private void but_restartsvin_Click(object sender, EventArgs e)
         {
             basepos = PointLatLngAlt.Zero;
+            invalidateRTCMStatus();
 
             if (comPort.IsOpen)
             {
@@ -897,6 +976,11 @@ namespace MissionPlanner
         {
             e.Row.Cells[Use.Index].Value = "Use";
             e.Row.Cells[Delete.Index].Value = "Delete";
+        }
+
+        private void labelmsgseen_Click(object sender, EventArgs e)
+        {
+            msgseen.Clear();
         }
     }
 }
