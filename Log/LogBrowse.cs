@@ -1924,15 +1924,9 @@ namespace MissionPlanner.Log
 
             int b = 0;
 
-            foreach (var item2 in logdata)
+            foreach (var item2 in logdata.dflog.logformat)
             {
-                b++;
-                var item = dflog.GetDFItemFromLine(item2, b);
-
-                if (item.msgtype == null)
-                    continue;
-
-                string celldata = item.msgtype.Trim();
+                string celldata = item2.Key.Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
@@ -2555,6 +2549,28 @@ namespace MissionPlanner.Log
 
             // not handled
             return false;
+        }
+
+        private void exportVisibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "output.csv";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.OpenFile()))
+                {
+                    foreach (DataGridViewRow row in dataGridView1.Rows)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach (DataGridViewCell cell in row.Cells)
+                        {
+                            sb.Append(cell.FormattedValue);
+                            sb.Append(',');
+                        }
+                        sw.WriteLine(sb.ToString());
+                    }
+                }
+            }
         }
     }
 }
