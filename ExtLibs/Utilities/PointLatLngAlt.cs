@@ -96,6 +96,10 @@ namespace MissionPlanner.Utilities
 
         public static implicit operator PointLatLngAlt(double[] a)
         {
+            if (a.Count() == 3)
+            {
+                return new PointLatLngAlt() { Lng = a[0], Lat = a[1], Alt = a[2]};
+            }
             return new PointLatLngAlt() { Lng =  a[0], Lat = a[1] };
         }
 
