@@ -302,30 +302,33 @@ namespace GMap.NET.WindowsForms
                }
             }
 
-            if(Control.PolygonsEnabled)
-            {
-                var viewarea = Control.ViewArea;
-                viewarea.Inflate(1, 1);
-               foreach (GMapPolygon r in Polygons)
-               {
-                    // inside or within the current view
-                    if (r.IsInside(Control.Position) ||
-                            viewarea.Contains(r.Points[0]) ||
-                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.2)]) ||
-                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.4)]) || 
-                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.6)]) || 
-                            viewarea.Contains(r.Points[(int)(r.Points.Count *0.8)])
-                            )
-                    {
-                        if (r.IsVisible)
-                        {
-                            r.OnRender(g);
-                        }
-                    }
-               }
-            }
+             if (Control.PolygonsEnabled)
+             {
+                 var viewarea = Control.ViewArea;
+                 viewarea.Inflate(1, 1);
+                 foreach (GMapPolygon r in Polygons)
+                 {
+                     if (r.Points.Count <= 1)
+                         continue;
 
-            if(Control.MarkersEnabled)
+                     // inside or within the current view
+                     if (r.IsInside(Control.Position) ||
+                         viewarea.Contains(r.Points[0]) ||
+                         viewarea.Contains(r.Points[(int) (r.Points.Count*0.2)]) ||
+                         viewarea.Contains(r.Points[(int) (r.Points.Count*0.4)]) ||
+                         viewarea.Contains(r.Points[(int) (r.Points.Count*0.6)]) ||
+                         viewarea.Contains(r.Points[(int) (r.Points.Count*0.8)])
+                         )
+                     {
+                         if (r.IsVisible)
+                         {
+                             r.OnRender(g);
+                         }
+                     }
+                 }
+             }
+
+             if(Control.MarkersEnabled)
             {
                // markers
                foreach(GMapMarker m in Markers)
