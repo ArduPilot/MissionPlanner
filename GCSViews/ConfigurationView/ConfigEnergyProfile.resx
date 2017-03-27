@@ -118,9 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label1.Text" xml:space="preserve">
-    <value>The energyprofile allows to set parameters for two polynoms which approximate the current and velocity depending on the angle. This 
-allows to estimate the energyconsumption when a flight plan is loaded. The editable copter ID allows to save parameter settings for each 
-individual copter and can be loaded from the energyprofile path.</value>
+    <value>The Energy Consumption Profile allows to estimate the energy consumption when a flight plan is loaded or a flight plan is being created. 
+Values for the Energy Consumption Profile are loaded automatically, if the BRD_SERIAL_NUM parameter is set and a file with this ID is existent.</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
     <value>Upper Limits: 

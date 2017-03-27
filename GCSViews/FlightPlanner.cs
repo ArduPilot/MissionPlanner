@@ -2830,7 +2830,7 @@ namespace MissionPlanner.GCSViews
 
                             processToScreen(cmds);
 
-                            writeEnergyConsumption(cmds);
+                           // writeEnergyConsumption();
 
                             writeKML();
 
@@ -2919,7 +2919,7 @@ namespace MissionPlanner.GCSViews
 
                 writeKML();
 
-                writeEnergyConsumption(cmds);
+                //writeEnergyConsumption();
 
                 MainMap.ZoomAndCenterMarkers("objects");
             }
@@ -2929,7 +2929,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void writeEnergyConsumption(List<Locationwp> cmds)
+        private void writeEnergyConsumption()
         {
             if(!EnergyProfile.Enabled || !MainV2.comPort.BaseStream.IsOpen) { return; }
             if (!EnergyProfile.Initialized) { EnergyProfile.Initialize(); }
@@ -2938,20 +2938,55 @@ namespace MissionPlanner.GCSViews
             LBL_MaxEC.Text = "0";
             LBL_MinEC.Text = "0";
 
+            //var cmds = GetCommandList();
+            
+            // add history
+            //history.Add(currentlist);
+
             double SumEC = 0.0f;
             double SumECMax = 0.0f;
             double SumECMin = 0.0f;
 
-            double dCurrent, dVelocity;
-            dCurrent = dVelocity = 0.0f;
+            string cmd = string.Empty;
+
+            double dCurrent, dHoverCurrent, dVelocity;
+            dCurrent = dHoverCurrent = dVelocity = 0.0f;
             
             for (int i = 1; i < Commands.Rows.Count; i++)
             {
                 DataGridViewTextBoxCell cell;
+                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+
+                dHoverCurrent = 0.0f;
+
+                //identify command
+                cmd = Commands[Command.Index, i].Value.ToString();
+
+                //energy consumption calculation depends on command
                 
+                switch (cmd)
+                {
+                    case "WAYPOINT": case "SPLINE_WAYPOINT":
+                        dHoverCurrent += (double)Commands.Rows[i].Cells[Param1.Index].Value * EnergyProfile.Current["Hover"];    //  the delay in [SPLINE_]WAYPOINT
+                    break;
+
+                    case "LOITER_TIME":
+                        dHoverCurrent += (double)Commands.Rows[i].Cells[Param1.Index].Value * EnergyProfile.Current["Hover"];    //the delay in [SPLINE_]WAYPOINT
+                    break;
+
+                    default:    //Unsupported commands
+                        cell.Value = 0f;
+                    break;
+                }
+
+                dHoverCurrent *= 1000;      //[mAs]
+                dHoverCurrent *= 1 / 3600;  //[mAh]
+
+                //    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_UNLIM.ToString();
+
                 cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
 
-                double distance = double.Parse(cell.Value.ToString());
+                double distance = (double)cell.Value;
 
                 double EnergyVal = 0.0f;
 
@@ -2959,20 +2994,22 @@ namespace MissionPlanner.GCSViews
                 
                 //get angle from waypoint
                 cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
+                
                 angle = float.Parse(cell.Value.ToString());
 
+                //Calculate energy consumption
                 //Average values:
                 dCurrent = EnergyProfile.PolyValI(angle);
                 dVelocity = EnergyProfile.PolyValV(angle);
-                EnergyVal = EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
+                EnergyVal = EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
 
                 //Maximum values
                 dCurrent = EnergyProfile.PolyValI(angle, EnergyProfile.Current["MaxDeviation"]);
-                SumECMax += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
+                SumECMax += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
 
                 //Minimum values
                 dCurrent = EnergyProfile.PolyValI(angle, -EnergyProfile.Current["MinDeviation"]);
-                SumECMin += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance);
+                SumECMin += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
 
                 //EC Cell
                 cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
@@ -5136,6 +5173,7 @@ namespace MissionPlanner.GCSViews
             {
                 CustomMessageBox.Show("Please fix your default alt value");
                 TXT_DefaultAlt.Text = (50*CurrentState.multiplierdist).ToString("0");
+                
             }
 
             //Enable energyprofile only if stream is opened
@@ -5173,7 +5211,7 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
             {
                 TXT_homelat.Text = MainV2.comPort.MAV.cs.HomeLocation.Lat.ToString();
-
+                
                 TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
 
                 TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
