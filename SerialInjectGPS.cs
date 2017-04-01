@@ -35,6 +35,8 @@ namespace MissionPlanner
         private static Utilities.sbp sbp = new Utilities.sbp();
         // ubx detection
         private static Utilities.ubx_m8p ubx_m8p = new Utilities.ubx_m8p();
+
+        static nmea nmea = new nmea();
         // background thread 
         private static System.Threading.Thread t12;
         private static bool threadrun = false;
@@ -528,6 +530,14 @@ namespace MissionPlanner
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
                                 msgseen[msgname] = (int) msgseen[msgname] + 1;
+                            }
+                            // nmea
+                            if((seenmsg = nmea.Read(buffer[a])) > 0)
+                            {
+                                string msgname = "NMEA";
+                                if (!msgseen.ContainsKey(msgname))
+                                    msgseen[msgname] = 0;
+                                msgseen[msgname] = (int)msgseen[msgname] + 1;
                             }
                         }
                     }
