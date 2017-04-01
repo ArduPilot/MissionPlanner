@@ -25,6 +25,8 @@ namespace MissionPlanner.Swarm
 
             SwarmInterface = new Formation();
 
+            TopMost = true;
+
             Dictionary<String,MAVState> mavStates = new Dictionary<string, MAVState>();
 
             foreach (var port in MainV2.Comports)

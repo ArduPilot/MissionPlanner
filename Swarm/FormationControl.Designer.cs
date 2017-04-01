@@ -168,9 +168,10 @@
             // 
             this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PNL_status.Location = new System.Drawing.Point(787, 61);
+            this.PNL_status.AutoScroll = true;
+            this.PNL_status.Location = new System.Drawing.Point(783, 61);
             this.PNL_status.Name = "PNL_status";
-            this.PNL_status.Size = new System.Drawing.Size(143, 398);
+            this.PNL_status.Size = new System.Drawing.Size(147, 398);
             this.PNL_status.TabIndex = 11;
             // 
             // timer_status
