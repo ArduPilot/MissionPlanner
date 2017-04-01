@@ -48,6 +48,12 @@
             this.chk_m8p_130p = new System.Windows.Forms.CheckBox();
             this.but_save_basepos = new MissionPlanner.Controls.MyButton();
             this.dg_basepos = new MissionPlanner.Controls.MyDataGridView();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label2 = new System.Windows.Forms.Label();
             this.txt_surveyinAcc = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -73,12 +79,6 @@
             this.labelgps = new System.Windows.Forms.Label();
             this.labelbase = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Long = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BaseName1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Use = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.groupBoxm8p.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -249,6 +249,40 @@
             this.dg_basepos.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dg_basepos_DefaultValuesNeeded);
             this.dg_basepos.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dg_basepos_RowsRemoved);
             // 
+            // Lat
+            // 
+            resources.ApplyResources(this.Lat, "Lat");
+            this.Lat.Name = "Lat";
+            // 
+            // Long
+            // 
+            resources.ApplyResources(this.Long, "Long");
+            this.Long.Name = "Long";
+            // 
+            // Alt
+            // 
+            resources.ApplyResources(this.Alt, "Alt");
+            this.Alt.Name = "Alt";
+            // 
+            // BaseName1
+            // 
+            resources.ApplyResources(this.BaseName1, "BaseName1");
+            this.BaseName1.Name = "BaseName1";
+            // 
+            // Use
+            // 
+            resources.ApplyResources(this.Use, "Use");
+            this.Use.Name = "Use";
+            this.Use.ReadOnly = true;
+            this.Use.Text = "Use";
+            // 
+            // Delete
+            // 
+            resources.ApplyResources(this.Delete, "Delete");
+            this.Delete.Name = "Delete";
+            this.Delete.ReadOnly = true;
+            this.Delete.Text = "Delete";
+            // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
@@ -412,40 +446,6 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
-            // 
-            // Lat
-            // 
-            resources.ApplyResources(this.Lat, "Lat");
-            this.Lat.Name = "Lat";
-            // 
-            // Long
-            // 
-            resources.ApplyResources(this.Long, "Long");
-            this.Long.Name = "Long";
-            // 
-            // Alt
-            // 
-            resources.ApplyResources(this.Alt, "Alt");
-            this.Alt.Name = "Alt";
-            // 
-            // BaseName1
-            // 
-            resources.ApplyResources(this.BaseName1, "BaseName1");
-            this.BaseName1.Name = "BaseName1";
-            // 
-            // Use
-            // 
-            resources.ApplyResources(this.Use, "Use");
-            this.Use.Name = "Use";
-            this.Use.ReadOnly = true;
-            this.Use.Text = "Use";
-            // 
-            // Delete
-            // 
-            resources.ApplyResources(this.Delete, "Delete");
-            this.Delete.Name = "Delete";
-            this.Delete.ReadOnly = true;
-            this.Delete.Text = "Delete";
             // 
             // SerialInjectGPS
             // 

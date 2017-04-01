@@ -368,6 +368,8 @@ namespace MissionPlanner
                     if (basepos != PointLatLngAlt.Zero)
                         ubx_m8p.SetupBasePos(comPort, basepos);
 
+                    CMB_baudrate.Text = "115200";
+
                     this.LogInfo("Setup M8P done");
                 }
 
@@ -1016,6 +1018,8 @@ namespace MissionPlanner
         {
             basepos = PointLatLngAlt.Zero;
             invalidateRTCMStatus();
+
+            msgseen.Clear();
 
             if (comPort.IsOpen)
             {
