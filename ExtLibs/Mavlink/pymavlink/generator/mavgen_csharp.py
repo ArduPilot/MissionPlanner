@@ -10,6 +10,8 @@ import sys, textwrap, os, time, re
 from . import mavparse, mavtemplate
 
 t = mavtemplate.MAVTemplate()
+
+enumtypes = {}
     
 def generate_message_header(f, xml):
 
@@ -161,12 +163,47 @@ ${message_infos_array}
 	    
 ''', xml)
 
-def generate_message_enums(f, xml):
+
+def generate_message_enum_types(xml):
+    for m in xml.message:
+        for fld in m.fields:
+            if fld.array_length == 0:
+                if fld.type == 'char':
+                    fld.type = "byte";
+                elif fld.type == 'uint8_t':
+                    fld.type = "byte";
+                elif fld.type == 'int8_t':
+                    fld.type = "byte";
+                elif fld.type == 'int16_t': 
+                    fld.type = "short";
+                elif fld.type == 'uint16_t': 
+                    fld.type = "ushort";
+                elif fld.type == 'uint32_t':
+                    fld.type = "uint";
+                elif fld.type == 'int16_t': 
+                    fld.type = "short";
+                elif fld.type == 'int32_t':
+                    fld.type = "int";
+                elif fld.type == 'uint64_t':
+                    fld.type = "ulong";                  
+                elif fld.type == 'int64_t':     
+                    fld.type = "long";   
+                elif fld.type == 'float':     
+                    fld.type = "float"; 
+            if fld.enum != "":
+                enumtypes[fld.enum] = fld.type
+                print fld.enum + " is type " + fld.type
+
+def generate_message_enums(f, xml):   
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
         m.description = m.description.replace("\n"," ")
         m.description = m.description.replace("\r"," ")
+        m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
+            if fe.name == "ENUM_END":
+                m.entry.remove(fe)
+                continue
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
             fe.name = fe.name.replace(m.name + "_","")
@@ -177,7 +214,7 @@ def generate_message_enums(f, xml):
     t.write(f, '''
     ${{enum:
     ///<summary> ${description} </summary>
-    public enum ${name}
+    public enum ${name}: ${enumtype}
     {
 		${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
         ${name}=${value}, 
@@ -199,9 +236,10 @@ def generate_message_h(f, directory, m):
     t.write(f, '''
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=${wire_length})]
+    ///<summary> ${description} </summary>
     public struct mavlink_${name_lower}_t
     {
-${{ordered_fields:        /// <summary> ${description} </summary>
+${{ordered_fields:        /// <summary> ${description} ${enum}</summary>
         ${array_prefix} ${type} ${name}${array_suffix};
     }}
     };
@@ -229,6 +267,8 @@ def generate_one(fh, basename, xml):
         else:
             m.crc_extra_arg = ""
         m.msg_nameid = "MAVLINK_MSG_ID_${name} = ${id}"
+        m.description = m.description.replace("\n"," ")
+        m.description = m.description.replace("\r","")
         for f in m.fields:
             f.description = f.description.replace("\n"," ")
             f.description = f.description.replace("\r","")
@@ -283,23 +323,25 @@ def generate_one(fh, basename, xml):
                 elif f.type == 'int8_t':
                     f.type = "byte";
                 elif f.type == 'int16_t': 
-                    f.type = "Int16";
+                    f.type = "short";
                 elif f.type == 'uint16_t': 
-                    f.type = "UInt16";
+                    f.type = "ushort";
                 elif f.type == 'uint32_t':
-                    f.type = "UInt32";
+                    f.type = "uint";
                 elif f.type == 'int16_t': 
-                    f.type = "Int16";
+                    f.type = "short";
                 elif f.type == 'int32_t':
-                    f.type = "Int32";
+                    f.type = "int";
                 elif f.type == 'uint64_t':
-                    f.type = "UInt64";                  
+                    f.type = "ulong";                  
                 elif f.type == 'int64_t':     
-                    f.type = "Int64";   
+                    f.type = "long";   
                 elif f.type == 'float':     
-                    f.type = "Single"; 
+                    f.type = "float"; 
                 else:
                     f.c_test_value = f.test_value
+                if f.enum != "":
+                    f.type = "/*" +f.enum + "*/" + f.type;
                 f.array_suffix = ''
                 f.array_prefix = 'public '
                 f.array_tag = 'BitConverter.To%s' % f.type
@@ -354,7 +396,10 @@ def generate(basename, xml_list):
     generate_message_header(f, xml)
 
     for xml1 in xml_list:
-        generate_message_enums(f, xml1);
+        generate_message_enum_types(xml1)
+
+    for xml1 in xml_list:
+        generate_message_enums(f, xml1)
         
     for xml2 in xml_list:
         generate_one(f, basename, xml2)
