@@ -1655,7 +1655,7 @@ namespace MissionPlanner
                             messageHighTime = DateTime.Now;
                         }
 
-                        for (int a = 1; a < (int) MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
+                        for (int a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; a = a << 1)
                         {
                             int currentbit = (ekfstatusm.flags & a);
                             if (currentbit == 0)
