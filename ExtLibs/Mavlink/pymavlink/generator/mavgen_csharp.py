@@ -165,6 +165,7 @@ ${message_infos_array}
 
 
 def generate_message_enum_types(xml):
+    print "generate_message_enum_types: " + xml.filename
     for m in xml.message:
         for fld in m.fields:
             if fld.array_length == 0:
@@ -194,16 +195,14 @@ def generate_message_enum_types(xml):
                 enumtypes[fld.enum] = fld.type
                 print fld.enum + " is type " + fld.type
 
-def generate_message_enums(f, xml):   
+def generate_message_enums(f, xml): 
+    print "generate_message_enums: " + xml.filename
     # add some extra field attributes for convenience with arrays
     for m in xml.enum:
         m.description = m.description.replace("\n"," ")
         m.description = m.description.replace("\r"," ")
         m.enumtype = enumtypes.get(m.name,"int /*default*/")
         for fe in m.entry:
-            if fe.name == "ENUM_END":
-                m.entry.remove(fe)
-                continue
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
             fe.name = fe.name.replace(m.name + "_","")
@@ -383,26 +382,24 @@ def generate_one(fh, basename, xml):
 
 def generate(basename, xml_list):
     '''generate complete MAVLink Csharp implemenation'''
-
-    xml = xml_list[0]
     
-    directory = os.path.join(basename, xml.basename)
+    directory = os.path.join(basename, xml_list[0].basename)
 
     if not os.path.exists(directory): 
         os.makedirs(directory) 
 
     f = open(os.path.join(directory, "mavlink.cs"), mode='w')
 
-    generate_message_header(f, xml)
+    generate_message_header(f, xml_list[0])
 
     for xml1 in xml_list:
         generate_message_enum_types(xml1)
 
-    for xml1 in xml_list:
-        generate_message_enums(f, xml1)
-        
     for xml2 in xml_list:
-        generate_one(f, basename, xml2)
+        generate_message_enums(f, xml2)
+        
+    for xml3 in xml_list:
+        generate_one(f, basename, xml3)
     
-    generate_message_footer(f,xml)
+    generate_message_footer(f,xml_list[0])
     

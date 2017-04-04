@@ -1418,8 +1418,6 @@ ADAP_TUNING = 11010,
         AEROB=16, 
     	///<summary> ASLUAV autopilot -- http://www.asl.ethz.ch | </summary>
         ASLUAV=17, 
-    	///<summary>  | </summary>
-        ENUM_END=18, 
     
     };
     
@@ -1482,8 +1480,6 @@ ADAP_TUNING = 11010,
         GIMBAL=26, 
     	///<summary> Onboard ADSB peripheral | </summary>
         ADSB=27, 
-    	///<summary>  | </summary>
-        ENUM_END=28, 
     
     };
     
@@ -1500,8 +1496,6 @@ ADAP_TUNING = 11010,
         RC=192, 
     	///<summary> official stable release | </summary>
         OFFICIAL=255, 
-    	///<summary>  | </summary>
-        ENUM_END=256, 
     
     };
     
@@ -1524,8 +1518,6 @@ ADAP_TUNING = 11010,
         MANUAL_INPUT_ENABLED=64, 
     	///<summary> 0b10000000 MAV safety set to armed. Motors are enabled / running / can start. Ready to fly. Additional note: this flag is to be ignore when sent in the command MAV_CMD_DO_SET_MODE and MAV_CMD_COMPONENT_ARM_DISARM shall be used instead. The flag can still be used to report the armed state. | </summary>
         SAFETY_ARMED=128, 
-    	///<summary>  | </summary>
-        ENUM_END=129, 
     
     };
     
@@ -1548,8 +1540,6 @@ ADAP_TUNING = 11010,
         MANUAL=64, 
     	///<summary> First bit:  10000000 | </summary>
         SAFETY=128, 
-    	///<summary>  | </summary>
-        ENUM_END=129, 
     
     };
     
@@ -1564,8 +1554,6 @@ ADAP_TUNING = 11010,
         HOLD_AT_CURRENT_POSITION=2, 
     	///<summary> Hold at the position specified in the parameters of the DO_HOLD action | </summary>
         HOLD_AT_SPECIFIED_POSITION=3, 
-    	///<summary>  | </summary>
-        ENUM_END=4, 
     
     };
     
@@ -1594,8 +1582,6 @@ ADAP_TUNING = 11010,
         GUIDED_ARMED=216, 
     	///<summary> System is allowed to be active, under autonomous control and navigation (the trajectory is decided onboard and not pre-programmed by MISSIONs) | </summary>
         AUTO_ARMED=220, 
-    	///<summary>  | </summary>
-        ENUM_END=221, 
     
     };
     
@@ -1618,8 +1604,6 @@ ADAP_TUNING = 11010,
         EMERGENCY=6, 
     	///<summary> System just initialized its power-down sequence, will shut down now. | </summary>
         POWEROFF=7, 
-    	///<summary>  | </summary>
-        ENUM_END=8, 
     
     };
     
@@ -1690,8 +1674,6 @@ ADAP_TUNING = 11010,
         MAV_COMP_ID_UART_BRIDGE=241, 
     	///<summary>  | </summary>
         MAV_COMP_ID_SYSTEM_CONTROL=250, 
-    	///<summary>  | </summary>
-        ENUM_END=251, 
     
     };
     
@@ -1750,8 +1732,6 @@ ADAP_TUNING = 11010,
         MAV_SYS_STATUS_LOGGING=16777216, 
     	///<summary> 0x2000000 Battery | </summary>
         BATTERY=33554432, 
-    	///<summary>  | </summary>
-        ENUM_END=33554433, 
     
     };
     
@@ -1782,8 +1762,6 @@ ADAP_TUNING = 11010,
         GLOBAL_TERRAIN_ALT=10, 
     	///<summary> Global coordinate frame with above terrain level altitude. WGS84 coordinate system, relative altitude over terrain with respect to the waypoint coordinate. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model. | </summary>
         GLOBAL_TERRAIN_ALT_INT=11, 
-    	///<summary>  | </summary>
-        ENUM_END=12, 
     
     };
     
@@ -1802,8 +1780,6 @@ ADAP_TUNING = 11010,
         MAVLINK_DATA_STREAM_IMG_PGM=5, 
     	///<summary>  | </summary>
         MAVLINK_DATA_STREAM_IMG_PNG=6, 
-    	///<summary>  | </summary>
-        ENUM_END=7, 
     
     };
     
@@ -1820,8 +1796,6 @@ ADAP_TUNING = 11010,
         GUIDED_THR_PASS=3, 
     	///<summary> Switch to RTL (return to launch) mode and head for the return point. | </summary>
         RTL=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -1836,8 +1810,6 @@ ADAP_TUNING = 11010,
         MAXALT=2, 
     	///<summary> Breached fence boundary | </summary>
         BOUNDARY=3, 
-    	///<summary>  | </summary>
-        ENUM_END=4, 
     
     };
     
@@ -1854,8 +1826,6 @@ ADAP_TUNING = 11010,
         RC_TARGETING=3, 
     	///<summary> Load neutral position and start to point to Lat,Lon,Alt | </summary>
         GPS_POINT=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -1880,8 +1850,6 @@ ADAP_TUNING = 11010,
         EXTRA2=11, 
     	///<summary> Dependent on the autopilot | </summary>
         EXTRA3=12, 
-    	///<summary>  | </summary>
-        ENUM_END=13, 
     
     };
     
@@ -1898,8 +1866,6 @@ ADAP_TUNING = 11010,
         LOCATION=3, 
     	///<summary> Point toward of given id. | </summary>
         TARGET=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -1924,8 +1890,6 @@ ADAP_TUNING = 11010,
         ERR_Y_LON_OUT_OF_RANGE=8, 
     	///<summary> The Z or altitude value is out of range. | </summary>
         ERR_Z_ALT_OUT_OF_RANGE=9, 
-    	///<summary>  | </summary>
-        ENUM_END=10, 
     
     };
     
@@ -1952,8 +1916,6 @@ ADAP_TUNING = 11010,
         REAL32=9, 
     	///<summary> 64-bit floating-point | </summary>
         REAL64=10, 
-    	///<summary>  | </summary>
-        ENUM_END=11, 
     
     };
     
@@ -1970,8 +1932,6 @@ ADAP_TUNING = 11010,
         UNSUPPORTED=3, 
     	///<summary> Command executed, but failed | </summary>
         FAILED=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -2008,8 +1968,6 @@ ADAP_TUNING = 11010,
         MAV_MISSION_INVALID_SEQUENCE=13, 
     	///<summary> not accepting any mission commands from this communication partner | </summary>
         MAV_MISSION_DENIED=14, 
-    	///<summary>  | </summary>
-        ENUM_END=15, 
     
     };
     
@@ -2032,8 +1990,6 @@ ADAP_TUNING = 11010,
         INFO=6, 
     	///<summary> Useful non-operational messages that can assist in debugging. These should not occur during normal operation. | </summary>
         DEBUG=7, 
-    	///<summary>  | </summary>
-        ENUM_END=8, 
     
     };
     
@@ -2052,8 +2008,6 @@ ADAP_TUNING = 11010,
         PERIPH_HIPOWER_OVERCURRENT=16, 
     	///<summary> Power status has changed since boot | </summary>
         CHANGED=32, 
-    	///<summary>  | </summary>
-        ENUM_END=33, 
     
     };
     
@@ -2070,8 +2024,6 @@ ADAP_TUNING = 11010,
         GPS2=3, 
     	///<summary> system shell | </summary>
         SHELL=10, 
-    	///<summary>  | </summary>
-        ENUM_END=11, 
     
     };
     
@@ -2088,8 +2040,6 @@ ADAP_TUNING = 11010,
         BLOCKING=8, 
     	///<summary> Send multiple replies until port is drained | </summary>
         MULTI=16, 
-    	///<summary>  | </summary>
-        ENUM_END=17, 
     
     };
     
@@ -2102,8 +2052,6 @@ ADAP_TUNING = 11010,
         ULTRASOUND=1, 
     	///<summary> Infrared rangefinder, e.g. Sharp units | </summary>
         INFRARED=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
     
     };
     
@@ -2188,8 +2136,6 @@ ADAP_TUNING = 11010,
         MAV_SENSOR_ROTATION_ROLL_90_YAW_270=37, 
     	///<summary> Roll: 315, Pitch: 315, Yaw: 315 | </summary>
         MAV_SENSOR_ROTATION_ROLL_315_PITCH_315_YAW_315=38, 
-    	///<summary>  | </summary>
-        ENUM_END=39, 
     
     };
     
@@ -2224,8 +2170,6 @@ ADAP_TUNING = 11010,
         COMPASS_CALIBRATION=4096, 
     	///<summary> Autopilot supports mavlink version 2. | </summary>
         MAVLINK2=8192, 
-    	///<summary>  | </summary>
-        ENUM_END=8193, 
     
     };
     
@@ -2242,8 +2186,6 @@ ADAP_TUNING = 11010,
         GPS=4, 
     	///<summary> Estimator integrating GPS and inertial sensing. | </summary>
         GPS_INS=5, 
-    	///<summary>  | </summary>
-        ENUM_END=6, 
     
     };
     
@@ -2260,8 +2202,6 @@ ADAP_TUNING = 11010,
         LION=3, 
     	///<summary> Nickel metal hydride battery | </summary>
         NIMH=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -2278,8 +2218,6 @@ ADAP_TUNING = 11010,
         AVIONICS=3, 
     	///<summary> Payload battery | </summary>
         MAV_BATTERY_TYPE_PAYLOAD=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -2296,8 +2234,6 @@ ADAP_TUNING = 11010,
         MC=3, 
     	///<summary> VTOL is in fixed-wing state | </summary>
         FW=4, 
-    	///<summary>  | </summary>
-        ENUM_END=5, 
     
     };
     
@@ -2310,8 +2246,6 @@ ADAP_TUNING = 11010,
         ON_GROUND=1, 
     	///<summary> MAV is in air | </summary>
         IN_AIR=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
     
     };
     
@@ -2322,8 +2256,6 @@ ADAP_TUNING = 11010,
         PRESSURE_QNH=0, 
     	///<summary> Altitude reported from a GNSS source | </summary>
         GEOMETRIC=1, 
-    	///<summary>  | </summary>
-        ENUM_END=2, 
     
     };
     
@@ -2370,8 +2302,6 @@ ADAP_TUNING = 11010,
         SERVICE_SURFACE=18, 
     	///<summary>  | </summary>
         POINT_OBSTACLE=19, 
-    	///<summary>  | </summary>
-        ENUM_END=20, 
     
     };
     
@@ -2392,8 +2322,6 @@ ADAP_TUNING = 11010,
         VALID_SQUAWK=32, 
     	///<summary>  | </summary>
         SIMULATED=64, 
-    	///<summary>  | </summary>
-        ENUM_END=65, 
     
     };
     
@@ -2402,8 +2330,6 @@ ADAP_TUNING = 11010,
     {
 			///<summary> The aircraft should immediately transition into guided. This should not be set for follow me applications | </summary>
         CHANGE_MODE=1, 
-    	///<summary>  | </summary>
-        ENUM_END=2, 
     
     };
     
@@ -2432,8 +2358,6 @@ ADAP_TUNING = 11010,
         ESTIMATOR_PRED_POS_HORIZ_ABS=512, 
     	///<summary> True if the EKF has detected a GPS glitch | </summary>
         ESTIMATOR_GPS_GLITCH=1024, 
-    	///<summary>  | </summary>
-        ENUM_END=1025, 
     
     };
     
@@ -2446,8 +2370,6 @@ ADAP_TUNING = 11010,
         MOTOR_TEST_THROTTLE_PWM=1, 
     	///<summary> throttle pass-through from pilot's transmitter | </summary>
         MOTOR_TEST_THROTTLE_PILOT=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
     
     };
     
@@ -2470,8 +2392,6 @@ ADAP_TUNING = 11010,
         GPS_INPUT_IGNORE_FLAG_HORIZONTAL_ACCURACY=64, 
     	///<summary> ignore vertical accuracy field | </summary>
         GPS_INPUT_IGNORE_FLAG_VERTICAL_ACCURACY=128, 
-    	///<summary>  | </summary>
-        ENUM_END=129, 
     
     };
     
@@ -2492,8 +2412,6 @@ ADAP_TUNING = 11010,
         RTL=5, 
     	///<summary> Aircraft to stop in place | </summary>
         HOVER=6, 
-    	///<summary>  | </summary>
-        ENUM_END=7, 
     
     };
     
@@ -2506,8 +2424,6 @@ ADAP_TUNING = 11010,
         LOW=1, 
     	///<summary> Craft is panicing, and may take actions to avoid threat | </summary>
         HIGH=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
     
     };
     
@@ -2518,8 +2434,6 @@ ADAP_TUNING = 11010,
         ADSB=0, 
     	///<summary> ID field references MAVLink SRC ID | </summary>
         MAVLINK_GPS_GLOBAL_INT=1, 
-    	///<summary>  | </summary>
-        ENUM_END=2, 
     
     };
     
@@ -2542,8 +2456,6 @@ ADAP_TUNING = 11010,
         RTK_FIXED=6, 
     	///<summary> Static fixed, typically used for base stations | </summary>
         STATIC=7, 
-    	///<summary>  | </summary>
-        ENUM_END=8, 
     
     };
     
@@ -2561,8 +2473,6 @@ ADAP_TUNING = 11010,
         ON_GROUND=8, 
     	///<summary>  | </summary>
         IDENT=16, 
-    	///<summary>  | </summary>
-        ENUM_END=17, 
     
     };
     
@@ -2575,8 +2485,6 @@ ADAP_TUNING = 11010,
         RX_ENABLED=1, 
     	///<summary>  | </summary>
         TX_ENABLED=2, 
-    	///<summary>  | </summary>
-        ENUM_END=3, 
     
     };
     
@@ -2595,8 +2503,6 @@ ADAP_TUNING = 11010,
         DGPS=4, 
     	///<summary>  | </summary>
         RTK=5, 
-    	///<summary>  | </summary>
-        ENUM_END=6, 
     
     };
     
@@ -2611,8 +2517,6 @@ ADAP_TUNING = 11010,
         FAIL_TX=2, 
     	///<summary>  | </summary>
         FAIL_RX=16, 
-    	///<summary>  | </summary>
-        ENUM_END=17, 
     
     };
     
@@ -2651,8 +2555,6 @@ ADAP_TUNING = 11010,
         L85_W80M=14, 
     	///<summary>  | </summary>
         L85_W90M=15, 
-    	///<summary>  | </summary>
-        ENUM_END=16, 
     
     };
     
@@ -2675,8 +2577,6 @@ ADAP_TUNING = 11010,
         RIGHT_4M=6, 
     	///<summary>  | </summary>
         RIGHT_6M=7, 
-    	///<summary>  | </summary>
-        ENUM_END=8, 
     
     };
     
@@ -2687,8 +2587,6 @@ ADAP_TUNING = 11010,
         NO_DATA=0, 
     	///<summary>  | </summary>
         APPLIED_BY_SENSOR=1, 
-    	///<summary>  | </summary>
-        ENUM_END=2, 
     
     };
     
@@ -2711,8 +2609,6 @@ ADAP_TUNING = 11010,
         UAVIONIX_ADSB_OUT_DOWNED_AIRCRAFT_EMERGENCY=6, 
     	///<summary>  | </summary>
         UAVIONIX_ADSB_OUT_RESERVED=7, 
-    	///<summary>  | </summary>
-        ENUM_END=8, 
     
     };
     

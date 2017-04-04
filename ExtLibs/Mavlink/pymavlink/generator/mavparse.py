@@ -422,9 +422,6 @@ def merge_enums(xml):
         emap[e].entry = sorted(emap[e].entry,
                                key=operator.attrgetter('value'),
                                reverse=False)
-        # add a ENUM_END
-        emap[e].entry.append(MAVEnumEntry("%s_ENUM_END" % emap[e].name,
-                                            emap[e].entry[-1].value+1, end_marker=True))
 
 def check_duplicates(xml):
     '''check for duplicate message IDs'''
