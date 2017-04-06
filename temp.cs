@@ -970,6 +970,11 @@ namespace MissionPlanner
                                 var item = packet.ToStructure<MAVLink.mavlink_gps_inject_data_t>();
                                 st.Write(item.data, 0, item.len);
                             }
+                            else if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.GPS_RTCM_DATA)
+                            {
+                                var item = packet.ToStructure<MAVLink.mavlink_gps_rtcm_data_t>();
+                                st.Write(item.data, 0, item.len);
+                            }
                         }
                     }
                 }
