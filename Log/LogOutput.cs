@@ -662,14 +662,26 @@ gnssId GNSS Type
                     sattype = "R";
                 }
 
+                if (sv <= 0)
+                    continue;
+
+                var sn_rnx = Math.Min(Math.Max((int)(cno / 6), 1), 9);
+
                 // a1,i2.2,satcount*(f14.3,i1,i1)
-                rinexoutput.WriteLine("{0}{1,2}{2,14}  {3,14}{4,1} {5,14}  {6,14}  ", sattype, (sv).ToString("00"),
-                    (prMes).ToString("0.000",
-                        System.Globalization.CultureInfo.InvariantCulture),
-                    (cpMes).ToString("0.000", System.Globalization.CultureInfo.InvariantCulture), lli, doMes,
-                    (cno).ToString("0.000",
-                        System.Globalization.CultureInfo.InvariantCulture));
+                rinexoutput.WriteLine("{0}{1,2}{2,14}{3,1}{4,1}{5,14}{6,1}{7,1}{8,14}{9,1}{10,1}{11,14}{12,1}{13,1}", sattype, (sv).ToString("00"),
+                    (prMes).ToString("0.000", System.Globalization.CultureInfo.InvariantCulture),
+                    lli,sn_rnx,
+                    (cpMes).ToString("0.000", System.Globalization.CultureInfo.InvariantCulture),
+                    " ", " ",
+                    doMes,
+                    " ", " ",
+                    (cno).ToString("0.000", System.Globalization.CultureInfo.InvariantCulture),
+                    " ", " "
+                    );
+
             }
+
+            rinexoutput.Close();
         }
 
         /// <summary>
