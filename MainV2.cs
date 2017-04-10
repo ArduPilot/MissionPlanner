@@ -2808,7 +2808,13 @@ namespace MissionPlanner
                     "This is the last version that will support Windows XP, please update your OS");
 
                 // invalidate update url
-                System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
+                System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] =
+                    "http://firmware.ardupilot.org/MissionPlanner/xp/";
+                System.Configuration.ConfigurationManager.AppSettings["UpdateLocation"] =
+                    "http://firmware.ardupilot.org/MissionPlanner/xp/";
+                System.Configuration.ConfigurationManager.AppSettings["UpdateLocationMD5"] =
+                    "http://firmware.ardupilot.org/MissionPlanner/xp/checksums.txt";
+                System.Configuration.ConfigurationManager.AppSettings["BetaUpdateLocationVersion"] = "";
             }
 
             try
