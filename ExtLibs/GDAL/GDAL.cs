@@ -45,8 +45,8 @@ namespace GDAL
                 i++;
                 try
                 {
-                    // 5kb file check
-                    if (new FileInfo(file).Length < 1024 * 5)
+                    // 1kb file check
+                    if (new FileInfo(file).Length < 1024 * 1)
                         continue;
 
                     if (OnProgress != null)
