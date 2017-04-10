@@ -1,4 +1,45 @@
-﻿* Mission Planner 1.3.45 - 18-3-2017
+﻿* Mission Planner 1.3.46 - 11-4-2017
+MainV2: update xp urls
+GDAL: reduce skiped file size
+SerialOuputNMEA: add output rate selection #1516
+LogOutput: tweak rinex generation
+temp: extract gps_rtcm message as well
+Mavlink: remove enum_end
+EKFStatus: update to not use ENUM_END
+Mavlink: add enum types where posible
+SerialInjectGPS: add nmea parsing
+SerialInjectGPS: reset seem on restart
+ElevationProfile: change legend labels
+FormationControl: make topmost
+MAVState: add tostring
+SerialInjectGPS: expire rtcm status
+SeriaqlInjectGPS: add tmode polling and ECEF
+PointLatLngAlt: support lat/lng/alt double input
+SerialInjectGPS: add rtcm status
+LogBrowse: add export visible, and speed up filter
+GMapOverlay: add point count check
+ConfigHWCompass: display best option based on capability bit
+AA: remove reference
+GMap.NET: remove visible internals requirement
+Mavlink: update from xmls
+package.config: globalupdate
+GMapPolygon: dont draw offscreen polygons
+SerialInjectGPS: modify interface
+Fix maximized hud aspect ration when 16:9 is chosen
+Privacy: add privacy policy
+MainV2: disable udp autoconnect
+MainV2: add xp removal notice
+CommsSerialPipe: remove all unsafe options
+Drivers: add ublox drivers
+CommsSerialPipe: add simple pipe support
+Help: remove update buttons in windows store version
+SerialTest: check the reported device type
+ConfigHWesp8266: fix
+CommsSerialScan: support multiple connects at once (ie multiple radios)
+SerialInjectGPS: remove location services
+GStreamer: add more info on gstreamer version
+
+* Mission Planner 1.3.45 - 18-3-2017
 UDPShims: add exception logging
 FlightPlanner: Exception Logging
 Language: update PT
