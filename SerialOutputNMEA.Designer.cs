@@ -32,6 +32,7 @@
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
+            this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -64,10 +65,26 @@
             resources.ApplyResources(this.CMB_baudrate, "CMB_baudrate");
             this.CMB_baudrate.Name = "CMB_baudrate";
             // 
+            // CMB_updaterate
+            // 
+            this.CMB_updaterate.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_updaterate.FormattingEnabled = true;
+            this.CMB_updaterate.Items.AddRange(new object[] {
+            resources.GetString("CMB_updaterate.Items"),
+            resources.GetString("CMB_updaterate.Items1"),
+            resources.GetString("CMB_updaterate.Items2"),
+            resources.GetString("CMB_updaterate.Items3"),
+            resources.GetString("CMB_updaterate.Items4"),
+            resources.GetString("CMB_updaterate.Items5")});
+            resources.ApplyResources(this.CMB_updaterate, "CMB_updaterate");
+            this.CMB_updaterate.Name = "CMB_updaterate";
+            this.CMB_updaterate.SelectedIndexChanged += new System.EventHandler(this.CMB_updaterate_SelectedIndexChanged);
+            // 
             // SerialOutputNMEA
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.CMB_updaterate);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
@@ -82,5 +99,6 @@
         private System.Windows.Forms.ComboBox CMB_serialport;
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
+        private System.Windows.Forms.ComboBox CMB_updaterate;
     }
 }

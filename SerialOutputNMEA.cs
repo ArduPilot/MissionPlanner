@@ -13,6 +13,7 @@ namespace MissionPlanner
 {
     public partial class SerialOutputNMEA : Form
     {
+        static double updaterate = 5;
         System.Threading.Thread t12;
         static bool threadrun = false;
         static internal SerialPort comPort = new SerialPort();
@@ -23,6 +24,8 @@ namespace MissionPlanner
             InitializeComponent();
 
             CMB_serialport.DataSource = SerialPort.GetPortNames();
+
+            CMB_updaterate.Text = updaterate + "hz";
 
             if (threadrun)
             {
@@ -76,6 +79,8 @@ namespace MissionPlanner
                     Name = "Nmea output"
                 };
                 t12.Start();
+
+                BUT_connect.Text = Strings.Stop;
             }
         }
 
@@ -128,8 +133,10 @@ namespace MissionPlanner
 
                     checksum = GetChecksum(line);
                     comPort.WriteLine(line + "*" + checksum);
-
-                    System.Threading.Thread.Sleep(200);
+                    
+                    var nextsend = DateTime.Now.AddMilliseconds(1000 / updaterate);
+                    var sleepfor = Math.Min((int)Math.Abs((nextsend - DateTime.Now).TotalMilliseconds), 4000);
+                    System.Threading.Thread.Sleep(sleepfor);
                     counter++;
                 }
                 catch
@@ -174,6 +181,18 @@ namespace MissionPlanner
             }
             // Return the checksum formatted as a two-character hexadecimal
             return Checksum.ToString("X2");
+        }
+
+        private void CMB_updaterate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR);
+            }
         }
     }
 }
