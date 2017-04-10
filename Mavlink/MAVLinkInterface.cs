@@ -1818,13 +1818,13 @@ Please check the following
         public void SendAck()
         {
             mavlink_command_ack_t ack = new mavlink_command_ack_t();
-            ack.command = (byte) MAV_CMD.PREFLIGHT_CALIBRATION;
+            ack.command = (ushort) MAV_CMD.PREFLIGHT_CALIBRATION;
             ack.result = 0;
 
             // send twice
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_ACK, ack);
+            generatePacket(MAVLINK_MSG_ID.COMMAND_ACK, ack);
             Thread.Sleep(20);
-            generatePacket((byte) MAVLINK_MSG_ID.COMMAND_ACK, ack);
+            generatePacket(MAVLINK_MSG_ID.COMMAND_ACK, ack);
         }
 
         public void SendSerialControl(SERIAL_CONTROL_DEV port, ushort timeoutms, byte[] data, uint baudrate = 0,

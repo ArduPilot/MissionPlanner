@@ -1301,31 +1301,30 @@ namespace MissionPlanner.GCSViews
                         if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                             continue;
 
-                        int command =
-                            (byte)
-                                (int)
+                        ushort command =
+                            (ushort)
                                     Enum.Parse(typeof (MAVLink.MAV_CMD),
                                         Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                        if (command < (byte) MAVLink.MAV_CMD.LAST &&
-                            command != (byte) MAVLink.MAV_CMD.TAKEOFF && // doesnt have a position
-                            command != (byte)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
-                            command != (byte) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
-                            command != (byte) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
-                            command != (byte) MAVLink.MAV_CMD.GUIDED_ENABLE
-                            || command == (byte) MAVLink.MAV_CMD.DO_SET_ROI)
+                        if (command < (ushort) MAVLink.MAV_CMD.LAST &&
+                            command != (ushort) MAVLink.MAV_CMD.TAKEOFF && // doesnt have a position
+                            command != (ushort)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
+                            command != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
+                            command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                            command != (ushort) MAVLink.MAV_CMD.GUIDED_ENABLE
+                            || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
                         {
                             string cell2 = Commands.Rows[a].Cells[Alt.Index].Value.ToString(); // alt
                             string cell3 = Commands.Rows[a].Cells[Lat.Index].Value.ToString(); // lat
                             string cell4 = Commands.Rows[a].Cells[Lon.Index].Value.ToString(); // lng
 
                             // land can be 0,0 or a lat,lng
-                            if (command == (byte) MAVLink.MAV_CMD.LAND && cell3 == "0" && cell4 == "0")
+                            if (command == (ushort) MAVLink.MAV_CMD.LAND && cell3 == "0" && cell4 == "0")
                                 continue;
 
                             if (cell4 == "?" || cell3 == "?")
                                 continue;
 
-                            if (command == (byte) MAVLink.MAV_CMD.DO_SET_ROI)
+                            if (command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
                                     double.Parse(cell2) + homealt, "ROI" + (a + 1)) {color = Color.Red});
@@ -1352,9 +1351,9 @@ namespace MissionPlanner.GCSViews
                                     objectsoverlay.Markers.Add(mBorders);
                                 }
                             }
-                            else if (command == (byte) MAVLink.MAV_CMD.LOITER_TIME ||
-                                     command == (byte) MAVLink.MAV_CMD.LOITER_TURNS ||
-                                     command == (byte) MAVLink.MAV_CMD.LOITER_UNLIM)
+                            else if (command == (ushort) MAVLink.MAV_CMD.LOITER_TIME ||
+                                     command == (ushort) MAVLink.MAV_CMD.LOITER_TURNS ||
+                                     command == (ushort) MAVLink.MAV_CMD.LOITER_UNLIM)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
                                     double.Parse(cell2) + homealt, (a + 1).ToString())
@@ -1365,7 +1364,7 @@ namespace MissionPlanner.GCSViews
                                 addpolygonmarker((a + 1).ToString(), double.Parse(cell4), double.Parse(cell3),
                                     double.Parse(cell2), Color.LightBlue);
                             }
-                            else if (command == (byte) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
+                            else if (command == (ushort) MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4),
                                     double.Parse(cell2) + homealt, (a + 1).ToString()) {Tag2 = "spline"});
@@ -1393,7 +1392,7 @@ namespace MissionPlanner.GCSViews
 
                             Debug.WriteLine(temp - Stopwatch.GetTimestamp());
                         }
-                        else if (command == (byte) MAVLink.MAV_CMD.DO_JUMP) // fix do jumps into the future
+                        else if (command == (ushort) MAVLink.MAV_CMD.DO_JUMP) // fix do jumps into the future
                         {
                             pointlist.Add(null);
 
@@ -2074,18 +2073,17 @@ namespace MissionPlanner.GCSViews
                     if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
                         continue;
 
-                    byte cmd =
-                        (byte)
-                            (int)
+                    ushort cmd =
+                        (ushort)
                                 Enum.Parse(typeof (MAVLink.MAV_CMD),
                                     Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
 
-                    if (cmd < (byte) MAVLink.MAV_CMD.LAST &&
+                    if (cmd < (ushort) MAVLink.MAV_CMD.LAST &&
                         double.Parse(Commands[Alt.Index, a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
                     {
-                        if (cmd != (byte) MAVLink.MAV_CMD.TAKEOFF &&
-                            cmd != (byte) MAVLink.MAV_CMD.LAND &&
-                            cmd != (byte) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                        if (cmd != (ushort) MAVLink.MAV_CMD.TAKEOFF &&
+                            cmd != (ushort) MAVLink.MAV_CMD.LAND &&
+                            cmd != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
                         {
                             CustomMessageBox.Show("Low alt on WP#" + (a + 1) +
                                                   "\nPlease reduce the alt warning, or increase the altitude");
@@ -2126,7 +2124,6 @@ namespace MissionPlanner.GCSViews
                 {
                     temp.id =
                         (ushort) 
-                            (int)
                                 Enum.Parse(typeof (MAVLink.MAV_CMD),
                                     Commands.Rows[a].Cells[Command.Index].Value.ToString(),
                                     false);
@@ -2462,7 +2459,7 @@ namespace MissionPlanner.GCSViews
 
                 foreach (object value in Enum.GetValues(typeof (MAVLink.MAV_CMD)))
                 {
-                    if ((int) value == temp.id)
+                    if ((ushort) value == temp.id)
                     {
                         cellcmd.Value = value.ToString();
                         break;
@@ -2900,7 +2897,7 @@ namespace MissionPlanner.GCSViews
                         {
                             temp.options = 0;
                         }
-                        temp.id = (ushort)(int)Enum.Parse(typeof (MAVLink.MAV_CMD), items[3], false);
+                        temp.id = (ushort)Enum.Parse(typeof (MAVLink.MAV_CMD), items[3], false);
                         temp.p1 = float.Parse(items[4], new CultureInfo("en-US"));
 
                         if (temp.id == 99)

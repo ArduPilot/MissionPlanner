@@ -28,7 +28,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                     continue;
                 }
 
-                if (wp.command != (byte)MAVLink.MAV_CMD.WAYPOINT && wp.command != (byte)MAVLink.MAV_CMD.SPLINE_WAYPOINT)
+                if (wp.command != (ushort)MAVLink.MAV_CMD.WAYPOINT && wp.command != (ushort)MAVLink.MAV_CMD.SPLINE_WAYPOINT)
                     continue;
 
                 var wp1 = new PointLatLngAlt(prevwp.Value);
