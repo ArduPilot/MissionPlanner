@@ -275,6 +275,8 @@ namespace MissionPlanner.Controls
             if (!string.IsNullOrEmpty(config))
                 extraargs += @" --defaults """ + config+@"""";
 
+            extraargs += " " + txt_cmdline.Text + " ";
+
             string simdir = sitldirectory + model + Path.DirectorySeparatorChar;
 
             Directory.CreateDirectory(simdir);

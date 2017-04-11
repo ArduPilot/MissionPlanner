@@ -49,6 +49,8 @@
             this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
+            this.txt_cmdline = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -82,6 +84,7 @@
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("myGMAP1.SelectedArea")));
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Size = new System.Drawing.Size(831, 303);
@@ -242,7 +245,7 @@
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Location = new System.Drawing.Point(13, 341);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(415, 43);
+            this.groupBox3.Size = new System.Drawing.Size(194, 43);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Options";
@@ -267,13 +270,15 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.txt_cmdline);
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.cmb_model);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.num_simspeed);
-            this.groupBox4.Location = new System.Drawing.Point(434, 341);
+            this.groupBox4.Location = new System.Drawing.Point(213, 341);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(416, 43);
+            this.groupBox4.Size = new System.Drawing.Size(637, 43);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Advanced users only";
@@ -350,17 +355,31 @@
             0,
             0});
             // 
+            // txt_cmdline
+            // 
+            this.txt_cmdline.Location = new System.Drawing.Point(401, 17);
+            this.txt_cmdline.Name = "txt_cmdline";
+            this.txt_cmdline.Size = new System.Drawing.Size(230, 20);
+            this.txt_cmdline.TabIndex = 10;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(296, 20);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Extra command line";
+            // 
             // SITL
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(862, 544);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "SITL";
-            this.Text = "SITL";
+            this.Size = new System.Drawing.Size(862, 544);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).EndInit();
@@ -401,5 +420,7 @@
         private System.Windows.Forms.ComboBox cmb_model;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown num_simspeed;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txt_cmdline;
     }
 }
