@@ -18,7 +18,7 @@ namespace MissionPlanner.Utilities
 
         private static Dictionary<string, float[,]> cache = new Dictionary<string, float[,]>();
 
-        private static List<geotiffdata> index = new List<geotiffdata>();
+        public static List<geotiffdata> index = new List<geotiffdata>();
 
         public class geotiffdata
         {
@@ -90,6 +90,8 @@ namespace MissionPlanner.Utilities
                 return true;
             }
 
+            public bool cacheable {get { return (width * height * (bits/8)) < 1024*1024*1700; }}
+
             public string FileName;
             public int width;
             public int height;
@@ -145,7 +147,7 @@ namespace MissionPlanner.Utilities
                 if (geotiffdata.Area.Contains(lat, lng))
                 {
                     // add to cache
-                    if (!cache.ContainsKey(geotiffdata.FileName))
+                    if (!cache.ContainsKey(geotiffdata.FileName) && geotiffdata.cacheable)
                     {
                         float[,] altdata = new float[geotiffdata.height, geotiffdata.width];
 
@@ -186,10 +188,10 @@ namespace MissionPlanner.Utilities
 
                     // y_int = (geotiffdata.height - 2) - y_int;
 
-                    double alt00 = GetAlt(geotiffdata.FileName, x_int, y_int);
-                    double alt10 = GetAlt(geotiffdata.FileName, x_int + 1, y_int);
-                    double alt01 = GetAlt(geotiffdata.FileName, x_int, y_int + 1);
-                    double alt11 = GetAlt(geotiffdata.FileName, x_int + 1, y_int + 1);
+                    double alt00 = GetAlt(geotiffdata, x_int, y_int);
+                    double alt10 = GetAlt(geotiffdata, x_int + 1, y_int);
+                    double alt01 = GetAlt(geotiffdata, x_int, y_int + 1);
+                    double alt11 = GetAlt(geotiffdata, x_int + 1, y_int + 1);
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
@@ -206,9 +208,38 @@ namespace MissionPlanner.Utilities
             return srtm.altresponce.Invalid;
         }
 
-        private static double GetAlt(string filename, int x, int y)
+        private static double GetAltNoCache(geotiffdata geotiffdata, int x, int y)
         {
-            return cache[filename][x, y];
+            using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
+            {
+                byte[] scanline = new byte[tiff.ScanlineSize()];
+
+                for (int row = 0; row < geotiffdata.height; row++)
+                {
+                    tiff.ReadScanline(scanline, x);
+
+                    if (geotiffdata.bits == 16)
+                    {
+                        return (short)((scanline[y * 2 + 1] << 8) + scanline[y * 2]);
+                    }
+                    else if (geotiffdata.bits == 32)
+                    {
+                        return BitConverter.ToSingle(scanline, y * 4);
+                    }
+                }
+            }
+
+            throw new Exception("GetAltNoCache: Invalid geotiff coord");
+        }
+
+        private static double GetAlt(geotiffdata geotiffdata, int x, int y)
+        {
+            // if the image is to large use the direct to file approach
+            if (!geotiffdata.cacheable)
+                return GetAltNoCache(geotiffdata, x, y);
+
+            // use our cache
+            return cache[geotiffdata.FileName][x, y];
         }
 
         private static double avg(double v1, double v2, double weight)
