@@ -39,6 +39,7 @@ namespace MissionPlanner.Utilities
         }
 
         private static string filename = Settings.GetUserDataDirectory() + "poi.txt";
+        private static bool loading;
 
         static POI()
         {
@@ -49,6 +50,8 @@ namespace MissionPlanner.Utilities
         {
             try
             {
+                if (loading)
+                    return;
                 SaveFile(filename);
             }
             catch { }
@@ -181,6 +184,7 @@ namespace MissionPlanner.Utilities
 
         private static void LoadFile(string fileName)
         {
+            loading = true;
             using (Stream file = File.Open(fileName,FileMode.Open))
             {
                 using (StreamReader sr = new StreamReader(file))
@@ -197,6 +201,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
+            loading = false;
         }
 
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
