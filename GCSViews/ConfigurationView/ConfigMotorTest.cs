@@ -103,16 +103,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 switch (value)
                 {
                     case 0:
+                    case 1:
                         type = MAVLink.MAV_TYPE.QUADROTOR;
                         break;
-                    case 1:
+                    case 2:
+                    case 5:
                         type = MAVLink.MAV_TYPE.HEXAROTOR;
                         break;
-                    case 2:
+                    case 3:
+                    case 4:
                         type = MAVLink.MAV_TYPE.OCTOROTOR;
                         break;
-                    case 3:
-                        type = MAVLink.MAV_TYPE.OCTOROTOR;
+                    case 6:
+                        type = MAVLink.MAV_TYPE.HELICOPTER;
+                        break;
+                    case 7:
+                        type = MAVLink.MAV_TYPE.TRICOPTER;
                         break;
                 }
 
