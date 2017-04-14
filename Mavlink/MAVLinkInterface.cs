@@ -2527,7 +2527,7 @@ Please check the following
             }
         }
 
-        public void InjectGpsData(byte[] data, byte length)
+        public void InjectGpsData(byte[] data, ushort length)
         {
             InjectGpsData(MAV.sysid, MAV.compid, data, length);
         }
@@ -2538,7 +2538,7 @@ Please check the following
         /// used to inject data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
-        public void InjectGpsData(byte sysid, byte compid, byte[] data, byte length, bool rtcm_message = true)
+        public void InjectGpsData(byte sysid, byte compid, byte[] data, ushort length, bool rtcm_message = true)
         {
             // new message
             if (rtcm_message)
@@ -2549,15 +2549,18 @@ Please check the following
                 if (length > msglen * 4)
                     log.Error("Message too large " + length);
 
-                // number of packets we need, not including a termination packet if needed
-                var len = (length % msglen) == 0 ? length / msglen : (length / msglen) + 1;
+                // number of packets we need, including a termination packet if needed
+                var nopackets = (length % msglen) == 0 ? length / msglen + 1 : (length / msglen) + 1;
+
+                if (nopackets >= 4)
+                    nopackets = 4;
 
                 // flags = isfrag(1)/frag(2)/seq(5)
 
-                for (int a = 0; a < len; a++)
+                for (int a = 0; a < nopackets; a++)
                 {
                     // check if its a fragment
-                    if (len > 1)
+                    if (nopackets > 1)
                         gps.flags = 1;
                     else
                         gps.flags = 0;
@@ -2581,14 +2584,6 @@ Please check the following
                     gps.len = (byte)copy;
 
                     generatePacket((byte) MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
-                }
-
-                // packet is perfectly aligned and larger than one packet, send termination packet
-                if ((length % msglen) == 0 && (length > msglen))
-                {
-                    gps.len = 0;
-                    gps.data = new byte[msglen];
-                    generatePacket((byte)MAVLINK_MSG_ID.GPS_RTCM_DATA, gps, sysid, compid);
                 }
 
                 inject_seq_no++;
