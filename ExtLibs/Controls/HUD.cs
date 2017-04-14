@@ -759,7 +759,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnLoad(EventArgs e)
         {
-            if (opengl)
+            if (opengl && !DesignMode)
             {
                 try
                 {
@@ -2544,7 +2544,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (opengl)
+                if (opengl && !DesignMode)
                 {
                     base.OnHandleCreated(e);
                 }
@@ -2556,7 +2556,7 @@ namespace MissionPlanner.Controls
         {
             try
             {
-                if (opengl)
+                if (opengl && !DesignMode)
                 {
                     base.OnHandleDestroyed(e);
                 }
