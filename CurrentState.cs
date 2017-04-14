@@ -134,6 +134,13 @@ namespace MissionPlanner
         float _altasl = 0;
         float oldalt = 0;
 
+        [DisplayText("Velocity X (ms)")]
+        public double vx { get; set; }
+        [DisplayText("Velocity Y (ms)")]
+        public double vy { get; set; }
+        [DisplayText("Velocity Z (ms)")]
+        public double vz { get; set; }
+
         [DisplayText("Alt Home Offset (dist)")]
         public float altoffsethome { get; set; }
 
@@ -1981,6 +1988,10 @@ namespace MissionPlanner
                             lng = loc.lon/10000000.0;
 
                             altasl = loc.alt/1000.0f;
+
+                            vx = loc.vx/100.0;
+                            vy = loc.vy/100.0;
+                            vz = loc.vz/100.0;
                         }
                     }
 
