@@ -288,6 +288,8 @@ namespace MissionPlanner.Utilities
 
                     controlindex++;
                 }
+                
+                SetScale(ctls);
             }
         }
 
@@ -463,6 +465,38 @@ namespace MissionPlanner.Utilities
 
                     controlindex++;
                 }
+
+                SetScale(ctls);
+            }
+        }
+
+        private void SetScale(ZedGraphControl[] ctls)
+        {
+            // get the max scale
+            double maxg = 0;
+            double maxa = 0;
+            foreach (var zedGraphControl in ctls)
+            {
+                if (zedGraphControl.GraphPane.Title.Text.Contains("GYR"))
+                {
+                    maxg = Math.Max(maxg, zedGraphControl.GraphPane.YAxis.Scale.Max);
+                }
+                else if (zedGraphControl.GraphPane.Title.Text.Contains("ACC"))
+                {
+                    maxa = Math.Max(maxa, zedGraphControl.GraphPane.YAxis.Scale.Max);
+                }
+            }
+            // set the max scale
+            foreach (var zedGraphControl in ctls)
+            {
+                if (zedGraphControl.GraphPane.Title.Text.Contains("GYR"))
+                {
+                    zedGraphControl.GraphPane.YAxis.Scale.Max = maxg;
+                }
+                else if (zedGraphControl.GraphPane.Title.Text.Contains("ACC"))
+                {
+                    zedGraphControl.GraphPane.YAxis.Scale.Max = maxa;
+                }
             }
         }
 
@@ -519,7 +553,7 @@ namespace MissionPlanner.Utilities
                         if (item.msgtype == "IMU3")
                             sensorno = 2;
 
-                        alldata[sensorno+3].type = item.msgtype +" A";
+                        alldata[sensorno+3].type = item.msgtype +" ACC";
 
                         int offsetAX = file.dflog.FindMessageOffset(item.msgtype, "AccX");
                         int offsetAY = file.dflog.FindMessageOffset(item.msgtype, "AccY");
@@ -539,7 +573,7 @@ namespace MissionPlanner.Utilities
                         alldata[sensorno + 3].dataz.Add(double.Parse(item.items[offsetAZ]));
 
                         //gyro
-                        alldata[sensorno].type = item.msgtype + " G";
+                        alldata[sensorno].type = item.msgtype + " GYR";
 
                         int offsetGX = file.dflog.FindMessageOffset(item.msgtype, "GyrX");
                         int offsetGY = file.dflog.FindMessageOffset(item.msgtype, "GyrY");
@@ -628,6 +662,8 @@ namespace MissionPlanner.Utilities
 
                     controlindex++;
                 }
+
+                SetScale(ctls);
             }
         }
 
