@@ -57,7 +57,12 @@ namespace MissionPlanner.Comms
 
         public string PortName
         {
-            get { return "TCP" + Port; }
+            get
+            {
+                if(client != null && client.Client != null && client.Client.RemoteEndPoint != null)
+                    return "TCP" + ((IPEndPoint)client.Client.RemoteEndPoint).Port;
+                return "TCP" + Port;
+            }
             set { }
         }
 
