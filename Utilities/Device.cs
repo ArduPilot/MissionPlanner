@@ -28,6 +28,22 @@ namespace MissionPlanner.Utilities
             SPEED_LOW,
         }
 
+        //nuttx\include\nuttx\spi.h
+        public enum spi_dev_e
+        {
+            SPIDEV_NONE = 0,    /* Not a valid value */
+            SPIDEV_MMCSD,       /* Select SPI MMC/SD device */
+            SPIDEV_FLASH,       /* Select SPI FLASH device */
+            SPIDEV_ETHERNET,    /* Select SPI ethernet device */
+            SPIDEV_DISPLAY,     /* Select SPI LCD/OLED display device */
+            SPIDEV_WIRELESS,    /* Select SPI Wireless device */
+            SPIDEV_TOUCHSCREEN, /* Select SPI touchscreen device */
+            SPIDEV_EXPANDER,    /* Select SPI I/O expander device */
+            SPIDEV_MUX,         /* Select SPI multiplexer device */
+            SPIDEV_AUDIO_DATA,  /* Select SPI audio codec device data port */
+            SPIDEV_AUDIO_CTRL,  /* Select SPI audio codec device control port */
+        };
+
         // float = 1 sign, 8 exponents, 23 significand
 
         public struct DeviceStructure

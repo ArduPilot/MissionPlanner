@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DirectShow.BaseClasses</RootNamespace>
     <AssemblyName>BaseClassesNET</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SignAssembly>true</SignAssembly>
@@ -101,9 +101,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseClasses.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="BaseClasses.cs" />
     <Compile Include="DirectShow.cs" />
     <Compile Include="DSHelper.cs" />
   </ItemGroup>

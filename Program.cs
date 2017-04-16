@@ -178,6 +178,19 @@ namespace MissionPlanner
             Device.DeviceStructure test2 = new Device.DeviceStructure(262434);
             Device.DeviceStructure test3 = new Device.DeviceStructure(131874);
 
+            //ph2
+            Device.DeviceStructure test5 = new Device.DeviceStructure(131874);
+            Device.DeviceStructure test6 = new Device.DeviceStructure(263178);
+            Device.DeviceStructure test7 = new Device.DeviceStructure(263178);
+            // 
+            Device.DeviceStructure test8 = new Device.DeviceStructure(1442082);
+            Device.DeviceStructure test9 = new Device.DeviceStructure(1114914);
+            Device.DeviceStructure test10 = new Device.DeviceStructure(1442826);
+            //
+            Device.DeviceStructure test11 = new Device.DeviceStructure(2359586);
+            Device.DeviceStructure test12 = new Device.DeviceStructure(2229282);
+            Device.DeviceStructure test13 = new Device.DeviceStructure(2360330);
+
             MAVLink.MavlinkParse tmp = new MAVLink.MavlinkParse();
             MAVLink.mavlink_heartbeat_t hb = new MAVLink.mavlink_heartbeat_t()
             {
