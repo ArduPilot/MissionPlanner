@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Core.ExtendedObjects;
 using MissionPlanner.Comms;
 
 namespace MissionPlanner.Utilities
@@ -11,20 +10,6 @@ namespace MissionPlanner.Utilities
     public class StreamCombiner
     {
         static List<TcpClient> clients = new List<TcpClient>();
-
-        private static List<int> portlist = new EventList<int>()
-        {
-            5760,
-            5770,
-            5780,
-            5790,
-            5800,
-            5810,
-            5820,
-            5830,
-            5840,
-            5850
-        };
 
         static TcpListener listener = new TcpListener(IPAddress.Loopback, 5750);
 
@@ -51,7 +36,7 @@ namespace MissionPlanner.Utilities
 
             listener.BeginAcceptTcpClient(DoAcceptTcpClientCallback, listener);
 
-            foreach (var portno in portlist)
+            foreach (var portno in Range(5760, 10, 100))
             {
                 TcpClient cl = new TcpClient();
 
@@ -70,6 +55,18 @@ namespace MissionPlanner.Utilities
             //MainV2.comPort.BaseStream = new TcpSerial() {client = new TcpClient("127.0.0.1", 5750) };
 
             //MainV2.instance.doConnect(MainV2.comPort, "preset", "5750");
+        }
+
+        private static IEnumerable<int> Range(int start, int inc, int count)
+        {
+            List<int> ans = new List<int>();
+
+            for (int a = 0; a < count; a++)
+            {
+                ans.Add(start + inc * a);
+            }
+
+            return ans;
         }
 
         public static void Stop()
@@ -167,59 +164,62 @@ namespace MissionPlanner.Utilities
         {
             TcpClient client = (TcpClient) ar.AsyncState;
 
+            byte localsysid = 0;
+
             lock (locker)
             {
-                byte localsysid = newsysid++;
-
-                if (client.Connected)
-                {
-                    MAVLinkInterface mav = new MAVLinkInterface();
-
-                    mav.BaseStream = new TcpSerial() {client = client};
-
-                    try
-                    {
-                        mav.GetParam("SYSID_THISMAV");
-                    }
-                    catch
-                    {
-                    }
-                    try
-                    {
-                        mav.GetParam("SYSID_THISMAV");
-                    }
-                    catch
-                    {
-                    }
-                    try
-                    {
-                        mav.GetParam("SYSID_THISMAV");
-                    }
-                    catch
-                    {
-                    }
-
-                    try
-                    {
-                        var ans = mav.setParam("SYSID_THISMAV", localsysid);
-                        Console.WriteLine("this mav set " + ans);
-                    }
-                    catch
-                    {
-                    }
-
-                    //mav = null;
-
-                    MainV2.instance.Invoke((Action) delegate
-                    {
-                        MainV2.instance.doConnect(mav, "preset",
-                            localsysid.ToString());
-
-                        MainV2.Comports.Add(mav);
-                    });
-                    //clients.Add(client);
-                }
+                localsysid = newsysid++;
             }
+
+            if (client.Connected)
+            {
+                MAVLinkInterface mav = new MAVLinkInterface();
+
+                mav.BaseStream = new TcpSerial() {client = client};
+
+                try
+                {
+                    mav.GetParam("SYSID_THISMAV");
+                }
+                catch
+                {
+                }
+                try
+                {
+                    mav.GetParam("SYSID_THISMAV");
+                }
+                catch
+                {
+                }
+                try
+                {
+                    mav.GetParam("SYSID_THISMAV");
+                }
+                catch
+                {
+                }
+
+                try
+                {
+                    var ans = mav.setParam("SYSID_THISMAV", localsysid);
+                    Console.WriteLine("this mav set " + ans);
+                }
+                catch
+                {
+                }
+
+                //mav = null;
+
+                MainV2.instance.BeginInvoke((Action) delegate
+                {
+                    MainV2.instance.doConnect(mav, "preset",
+                        localsysid.ToString());
+
+                    MainV2.Comports.Add(mav);
+                });
+                //clients.Add(client);
+            }
+
         }
     }
 }
