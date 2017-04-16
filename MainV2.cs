@@ -1627,6 +1627,9 @@ namespace MissionPlanner
         {
             try
             {
+                if (comPort.MAV.SerialString == "")
+                    return;
+
                 var serials = File.ReadAllLines("ph2_serial.csv");
 
                 foreach (var serial in serials)
