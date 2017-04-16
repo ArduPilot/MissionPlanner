@@ -257,12 +257,14 @@ public partial class MAVLink
                     signingKey = new byte[32];
                 }
 
-                using (SHA256Managed signit = new SHA256Managed())
+                using (SHA256 signit = SHA256.Create())
                 {
-                    signit.TransformBlock(signingKey, 0, signingKey.Length, null, 0);
-                    signit.TransformBlock(packet, 0, i, null, 0);
-                    signit.TransformFinalBlock(sig, 0, sig.Length);
-                    var ctx = signit.Hash;
+                    MemoryStream ms = new MemoryStream();
+                    ms.Write(signingKey, 0, signingKey.Length);
+                    ms.Write(packet, 0, i);
+                    ms.Write(sig, 0, sig.Length);
+
+                    var ctx = signit.ComputeHash(ms.ToArray());
                     // trim to 48
                     Array.Resize(ref ctx, 6);
 

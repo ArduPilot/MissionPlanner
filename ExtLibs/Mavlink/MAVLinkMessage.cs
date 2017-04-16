@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -10,7 +12,7 @@ public partial class MAVLink
 {
     public class MAVLinkMessage
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(MAVLinkMessage));
 
         public static readonly MAVLinkMessage Invalid = new MAVLinkMessage();
         object _locker = new object();
