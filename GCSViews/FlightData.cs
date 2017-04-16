@@ -1377,7 +1377,7 @@ namespace MissionPlanner.GCSViews
                             }
 
                             // draw all icons for all connected mavs
-                            foreach (var port in MainV2.Comports)
+                            foreach (var port in MainV2.Comports.ToArray())
                             {
                                 // draw the mavs seen on this port
                                 foreach (var MAV in port.MAVlist)
