@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -128,7 +129,7 @@ public static class MavlinkUtil
 
         // do endian swap
         object thisBoxed = obj;
-        Type test = thisBoxed.GetType();
+        var test = thisBoxed.GetType().GetTypeInfo();
 
         int reversestartoffset = startoffset;
 

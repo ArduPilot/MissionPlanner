@@ -5438,7 +5438,7 @@ namespace MissionPlanner.GCSViews
             var route = new GMapRoute(pline.Handle);
             foreach (var item in pline.Vertexes)
             {
-                route.Points.Add(new PointLatLng(item.Location.Y, item.Location.X));
+                route.Points.Add(new PointLatLng(item.Position.Y, item.Position.X));
             }
 
             route.Stroke = new Pen(Color.FromArgb(pline.Color.R, pline.Color.G, pline.Color.B));
@@ -5454,7 +5454,7 @@ namespace MissionPlanner.GCSViews
             var route = new GMapRoute(pline.Handle);
             foreach (var item in pline.Vertexes)
             {
-                route.Points.Add(new PointLatLng(item.Location.Y, item.Location.X));
+                route.Points.Add(new PointLatLng(item.Position.Y, item.Position.X));
             }
 
             route.Stroke = new Pen(Color.FromArgb(pline.Color.R, pline.Color.G, pline.Color.B));
