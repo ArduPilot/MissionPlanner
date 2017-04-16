@@ -17,7 +17,7 @@
     <RootNamespace>AviFile</RootNamespace>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
   </PropertyGroup>
