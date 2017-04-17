@@ -18,7 +18,10 @@ namespace MissionPlanner.Comms
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
-        int retrys = 3;
+        public int retrys = 3;
+        DateTime lastReconnectTime = DateTime.MinValue;
+        public bool autoReconnect = false;
+        private bool inOpen = false;
 
         bool reconnectnoprompt = false;
 
@@ -81,6 +84,10 @@ namespace MissionPlanner.Comms
                 {
                     if (client == null) return false;
                     if (client.Client == null) return false;
+
+                    if (autoReconnect && client.Client.Connected == false && !inOpen)
+                        doAutoReconnect();
+
                     return client.Client.Connected;
                 }
                 catch
@@ -98,48 +105,91 @@ namespace MissionPlanner.Comms
 
         public void Open()
         {
-            if (client.Client.Connected)
+            try
             {
-                log.Warn("tcpserial socket already open");
+                inOpen = true;
+
+                if (client.Client.Connected)
+                {
+                    log.Warn("tcpserial socket already open");
+                    return;
+                }
+
+                string dest = Port;
+                string host = "127.0.0.1";
+
+                dest = OnSettings("TCP_port", dest);
+
+                host = OnSettings("TCP_host", host);
+
+                if (!reconnectnoprompt)
+                {
+                    if (inputboxreturn.Cancel == OnInputBoxShow("remote host",
+                            "Enter host name/ip (ensure remote end is already started)", ref host))
+                    {
+                        throw new Exception("Canceled by request");
+                    }
+                    if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                    {
+                        throw new Exception("Canceled by request");
+                    }
+                }
+
+                Port = dest;
+
+                log.InfoFormat("TCP Open {0} {1}", host, Port);
+
+                OnSettings("TCP_port", Port, true);
+                OnSettings("TCP_host", host, true);
+
+                client = new TcpClient(host, int.Parse(Port));
+
+                client.NoDelay = true;
+                client.Client.NoDelay = true;
+
+                VerifyConnected();
+
+                reconnectnoprompt = true;
+            }
+            catch
+            {
+                // disable if the first connect fails
+                autoReconnect = false;
+                throw;
+            }
+            finally
+            {
+                inOpen = false;
+            }
+        }
+
+        void doAutoReconnect()
+        {
+            if (!autoReconnect)
                 return;
-            }
-
-            log.Info("TCP Open");
-
-            string dest = Port;
-            string host = "127.0.0.1";
-
-            dest = OnSettings("TCP_port", dest);
-
-            host = OnSettings("TCP_host", host);
-
-            if (!reconnectnoprompt)
+            try
             {
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
+                if (DateTime.Now > lastReconnectTime)
                 {
-                    throw new Exception("Canceled by request");
-                }
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
-                {
-                    throw new Exception("Canceled by request");
+                    try
+                    {
+                        client.Close();
+                    }
+                    catch { }
+
+                    client = new TcpClient();
+                    
+                    var host = OnSettings("TCP_host", "");
+                    var port = int.Parse(OnSettings("TCP_port", ""));
+
+                    log.InfoFormat("doAutoReconnect {0} {1}", host,port);
+
+                    var task = client.ConnectAsync(host, port);
+
+                    lastReconnectTime = DateTime.Now.AddSeconds(5);
                 }
             }
-
-            Port = dest;
-
-            OnSettings("TCP_port", Port, true);
-            OnSettings("TCP_host", host, true);
-
-            client = new TcpClient(host, int.Parse(Port));
-
-            client.NoDelay = true;
-            client.Client.NoDelay = true;
-
-            VerifyConnected();
-
-            reconnectnoprompt = true;
-
-            return;
+            catch { }
         }
 
         void VerifyConnected()

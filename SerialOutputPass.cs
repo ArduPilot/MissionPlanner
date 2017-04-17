@@ -54,19 +54,23 @@ namespace MissionPlanner
                         case "TCP Host - 14550":
                         case "TCP Host":
                             MainV2.comPort.MirrorStream = new TcpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             listener = new TcpListener(System.Net.IPAddress.Any, 14550);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = Strings.Stop;
                             return;
                         case "TCP Client":
-                            MainV2.comPort.MirrorStream = new TcpSerial();
+                            MainV2.comPort.MirrorStream = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Host - 14550":
                             MainV2.comPort.MirrorStream = new UdpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         case "UDP Client":
                             MainV2.comPort.MirrorStream = new UdpSerialConnect();
+                            CMB_baudrate.SelectedIndex = 0;
                             break;
                         default:
                             MainV2.comPort.MirrorStream = new SerialPort();
