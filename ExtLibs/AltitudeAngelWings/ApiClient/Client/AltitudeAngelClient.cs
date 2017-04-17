@@ -38,8 +38,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 Settings =
                 {
                     HttpClientFactory = _handlerFactory
-                },
-                AutoDispose = false
+                }
             };
 
             _disposer.Add(_client);

@@ -75,7 +75,7 @@ namespace MissionPlanner.Controls
 
                 File.WriteAllBytes(filepath, data);
 
-                Dictionary<string, double> param2 = Utilities.ParamFile.loadParamFile(filepath);
+                var param2 = Utilities.ParamFile.loadParamFile(filepath);
 
                 Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
 

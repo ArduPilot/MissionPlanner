@@ -15,8 +15,10 @@ namespace solo
 {
     public class Solo
     {
-        public string soloip = "10.1.1.10";
-        public string controllerip = "10.1.1.1";
+        public static string soloip = "10.1.1.10";
+        public static string controllerip = "10.1.1.1";
+        public static string username = "root";
+        public static string password = "TjSDBkAu";
 
         public static bool is_solo_alive
         {
@@ -31,7 +33,7 @@ namespace solo
 
             if (is_solo_alive)
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();
@@ -77,7 +79,7 @@ namespace solo
         {
             if (is_solo_alive)
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();
@@ -113,7 +115,7 @@ namespace solo
         {
             if (is_solo_alive)
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();
@@ -166,7 +168,7 @@ namespace solo
         {
             if (is_solo_alive)
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();

@@ -34,7 +34,7 @@
     <DocumentationFile>bin\Release\SharpKml.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>dont care.snk</AssemblyOriginatorKeyFile>

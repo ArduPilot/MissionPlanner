@@ -14,6 +14,8 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static string FileMask = "Parameter File|*.param;*.parm|All Files|*.*";
+
         public static Dictionary<string, double> loadParamFile(string Filename)
         {
             Dictionary<string, double> param = new Dictionary<string, double>();
