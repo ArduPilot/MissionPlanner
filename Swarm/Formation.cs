@@ -61,7 +61,7 @@ namespace MissionPlanner.Swarm
             //Console.WriteLine("Leader {0} {1} {2}", masterpos.Lat, masterpos.Lng, masterpos.Alt);
 
             int a = 0;
-            foreach (var port in MainV2.Comports)
+            foreach (var port in MainV2.Comports.ToArray())
             {
                 foreach (var mav in port.MAVlist)
                 {
@@ -137,10 +137,7 @@ namespace MissionPlanner.Swarm
                         }
                         else
                         {
-                            Vector3 vel =
-                                new Vector3(Math.Cos(Leader.cs.groundcourse*MathHelper.deg2rad)*Leader.cs.groundspeed,
-                                    Math.Sin(Leader.cs.groundcourse*MathHelper.deg2rad)*Leader.cs.groundspeed,
-                                    Leader.cs.verticalspeed);
+                            Vector3 vel = new Vector3(Leader.cs.vx, Leader.cs.vy, Leader.cs.vz);
 
                             // do pos/vel
                             port.setPositionTargetGlobalInt(mav.sysid, mav.compid, true,
