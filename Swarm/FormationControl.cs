@@ -328,7 +328,7 @@ namespace MissionPlanner.Swarm
                             ((Status) ctl).GPS.Text = mav.cs.gpsstatus >= 3 ? "OK" : "Bad";
                             ((Status) ctl).Armed.Text = mav.cs.armed.ToString();
                             ((Status) ctl).Mode.Text = mav.cs.mode;
-                            ((Status) ctl).MAV.Text = ToString();
+                            ((Status) ctl).MAV.Text = mav.ToString();
                             ((Status) ctl).Guided.Text = mav.GuidedMode.x + "," + mav.GuidedMode.y + "," +
                                                          mav.GuidedMode.z;
                             ((Status) ctl).Location1.Text = mav.cs.lat + "," + mav.cs.lng + "," +

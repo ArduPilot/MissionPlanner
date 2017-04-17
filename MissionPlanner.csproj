@@ -3790,7 +3790,6 @@
       <DependentUpon>Grid.cs</DependentUpon>
     </Compile>
     <Compile Include="Swarm\Swarm.cs" />
-    <Compile Include="Swarm\VerticalWave.cs" />
     <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
     <Compile Include="MagCalib.cs" />
     <Compile Include="Radio\Sikradio.cs">

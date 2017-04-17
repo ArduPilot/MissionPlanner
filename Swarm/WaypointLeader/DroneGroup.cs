@@ -73,9 +73,9 @@ namespace MissionPlanner.Swarm.WaypointLeader
                 drone.Location.Alt = drone.MavState.cs.alt;
                 if (drone.Velocity == null)
                     drone.Velocity = new Vector3();
-                drone.Velocity.x = Math.Cos(drone.MavState.cs.groundcourse*MathHelper.deg2rad)*drone.MavState.cs.groundspeed;
-                drone.Velocity.y = Math.Sin(drone.MavState.cs.groundcourse*MathHelper.deg2rad)*drone.MavState.cs.groundspeed;
-                drone.Velocity.z = drone.MavState.cs.verticalspeed;
+                drone.Velocity.x = drone.MavState.cs.vx;
+                drone.Velocity.y = drone.MavState.cs.vy;
+                drone.Velocity.z = drone.MavState.cs.vz;
 
                 // set default target as ground reference
                 drone.TargetVelocity = GroundMasterDrone.Velocity;
