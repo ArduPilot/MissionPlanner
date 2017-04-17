@@ -138,7 +138,7 @@ namespace AltitudeAngelWings.Service
             return null;
         }
 
-        public async Task RemoveOverlays()
+        public void RemoveOverlays()
         {
             _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Air");
             _missionPlanner.FlightDataMap.DeleteOverlay("AAMapData.Ground");
