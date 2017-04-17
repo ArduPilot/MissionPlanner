@@ -2272,6 +2272,8 @@ Please check the following
                         log.InfoFormat("getWP {0} {1} {2} {3} {4} opt {5}", loc.id, loc.p1, loc.alt, loc.lat, loc.lng,
                             loc.options);
 
+                        MAV.wps[wp.seq] = wp; 
+
                         break;
                     }
                     else if (buffer.msgid == (byte) MAVLINK_MSG_ID.MISSION_ITEM_INT)
