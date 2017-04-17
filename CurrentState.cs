@@ -141,6 +141,11 @@ namespace MissionPlanner
         [DisplayText("Velocity Z (ms)")]
         public double vz { get; set; }
 
+        public double vlen
+        {
+            get { return Math.Sqrt(Math.Pow(vx, 2) + Math.Pow(vy, 2) + Math.Pow(vz, 2)); }
+        }
+
         [DisplayText("Alt Home Offset (dist)")]
         public float altoffsethome { get; set; }
 
@@ -1989,9 +1994,9 @@ namespace MissionPlanner
 
                             altasl = loc.alt/1000.0f;
 
-                            vx = loc.vx/100.0;
-                            vy = loc.vy/100.0;
-                            vz = loc.vz/100.0;
+                            vx = loc.vx * 0.01;
+                            vy = loc.vy * 0.01;
+                            vz = loc.vz * 0.01;
                         }
                     }
 
