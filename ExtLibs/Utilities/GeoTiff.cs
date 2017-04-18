@@ -56,6 +56,8 @@ namespace MissionPlanner.Utilities
 
                     log.InfoFormat("Coverage {0}", Area.ToString());
 
+                    log.InfoFormat("CacheAble {0}", cacheable.ToString());
+
                     // starts from top left so x + y -
                     x += xscale / 2.0;
                     y -= yscale / 2.0;
@@ -90,7 +92,7 @@ namespace MissionPlanner.Utilities
                 return true;
             }
 
-            public bool cacheable {get { return (width * height * (bits/8)) < 1024*1024*1700; }}
+            public bool cacheable {get { return new FileInfo(FileName).Length < 1024*1024*1000; }}
 
             public string FileName;
             public int width;
