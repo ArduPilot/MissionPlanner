@@ -114,6 +114,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("showairports", CHK_showairports);
             SetCheckboxFromConfig("enableadsb", chk_ADSB);
             SetCheckboxFromConfig("norcreceiver", chk_norcreceiver);
+            SetCheckboxFromConfig("showtfr", chk_tfr);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = Settings.Instance.GetInt32("NUM_tracklength");
