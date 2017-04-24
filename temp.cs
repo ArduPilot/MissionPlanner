@@ -64,6 +64,12 @@ namespace MissionPlanner
                     Controls.Add(ogl);
 
                     ogl.Dock = DockStyle.Fill;
+
+                    ogl.Click += delegate(object sender, EventArgs args)
+                    {
+                        tableLayoutPanel1.Visible = !tableLayoutPanel1.Visible;
+                        controlSensorsStatus1.Visible = !controlSensorsStatus1.Visible;
+                    };
                 }
                 catch
                 {
