@@ -14,7 +14,7 @@ namespace MissionPlanner.Comms
 {
     public class UdpSerialConnect : CommsBase,  ICommsSerial, IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(UdpSerialConnect));
         public UdpClient client = new UdpClient();
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         byte[] rbuffer = new byte[0];
@@ -121,7 +121,7 @@ namespace MissionPlanner.Comms
             {
                 try
                 {
-                    client.Close();
+                    client.Dispose();
                 }
                 catch { }
 
@@ -129,6 +129,7 @@ namespace MissionPlanner.Comms
                 if (client != null && retrys > 0)
                 {
                     log.Info("udp reconnect");
+                    client = new UdpClient();
                     client.Connect(OnSettings("UDP_host", ""), int.Parse(OnSettings("UDP_port", "")));
                     retrys--;
                 }
@@ -287,15 +288,15 @@ namespace MissionPlanner.Comms
             {
                 if (client.Client != null && client.Client.Connected)
                 {
-                    client.Client.Close();
-                    client.Close();
+                    client.Client.Dispose();
+                    client.Dispose();
                 }
             }
             catch { }
 
             try
             {
-                client.Close();
+                client.Dispose();
             }
             catch { }
 

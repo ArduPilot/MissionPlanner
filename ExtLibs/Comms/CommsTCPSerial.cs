@@ -14,7 +14,7 @@ namespace MissionPlanner.Comms
 {
     public class TcpSerial : CommsBase,  ICommsSerial, IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(TcpSerial));
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
@@ -173,7 +173,7 @@ namespace MissionPlanner.Comms
                 {
                     try
                     {
-                        client.Close();
+                        client.Dispose();
                     }
                     catch { }
 
@@ -198,7 +198,7 @@ namespace MissionPlanner.Comms
             {
                 try
                 {
-                    client.Close();
+                    client.Dispose();
                 }
                 catch { }
 
@@ -206,6 +206,7 @@ namespace MissionPlanner.Comms
                 if (client != null && retrys > 0)
                 {
                     log.Info("tcp reconnect");
+                    client = new TcpClient();
                     client.Connect(OnSettings("TCP_host", ""), int.Parse(OnSettings("TCP_port", "")));
                     retrys--;
                 }
@@ -340,15 +341,15 @@ namespace MissionPlanner.Comms
             {
                 if (client.Client != null && client.Client.Connected)
                 {
-                    client.Client.Close();
-                    client.Close();
+                    client.Client.Dispose();
+                    client.Dispose();
                 }
             }
             catch { }
 
             try
             {
-                client.Close();
+                client.Dispose();
             }
             catch { }
 

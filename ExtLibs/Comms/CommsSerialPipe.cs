@@ -13,7 +13,7 @@ namespace MissionPlanner.Comms
 {
     public class CommsSerialPipe : ICommsSerial
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(CommsSerialPipe));
         private static readonly object locker = new object();
         private COMMTIMEOUTS commTimeouts = default(COMMTIMEOUTS);
         private SafeFileHandle safeFileHandle;
@@ -261,8 +261,8 @@ namespace MissionPlanner.Comms
         {
             IsOpen = false;
             log.Info("Closing port " + PortName);
-            BaseStream.Close();
-            safeFileHandle.Close();
+            BaseStream.Dispose();
+            safeFileHandle.Dispose();
         }
 
         public void toggleDTR()

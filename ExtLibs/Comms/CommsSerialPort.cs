@@ -16,7 +16,7 @@ namespace MissionPlanner.Comms
 
     public class SerialPort : System.IO.Ports.SerialPort, ICommsSerial
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(SerialPort));
 
         static object locker = new object();
 
@@ -228,6 +228,7 @@ namespace MissionPlanner.Comms
         {
             try
             {
+                /*
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");                // Win32_USBControllerDevice
                 using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
@@ -241,6 +242,7 @@ namespace MissionPlanner.Comms
                         }
                     }
                 }
+                */
             }
             catch { }
 
@@ -272,6 +274,7 @@ namespace MissionPlanner.Comms
         {
             try
             {
+                /*
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");// Win32_USBControllerDevice
                 using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
@@ -286,6 +289,7 @@ namespace MissionPlanner.Comms
                     }
 
                 }
+                */
             }
             catch (Exception ex) { log.Error(ex); }
 
@@ -316,7 +320,7 @@ namespace MissionPlanner.Comms
 
     public sealed class SerialPortFixer : IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(SerialPortFixer));
 
         public static void Execute(string portName)
         {
@@ -330,7 +334,7 @@ namespace MissionPlanner.Comms
         {
             if (m_Handle != null)
             {
-                m_Handle.Close();
+                m_Handle.Dispose();
                 m_Handle = null;
             }
             GC.SuppressFinalize(this);
@@ -369,7 +373,7 @@ namespace MissionPlanner.Comms
             }
             catch
             {
-                hFile.Close();
+                hFile.Dispose();
                 m_Handle = null;
                 throw;
             }

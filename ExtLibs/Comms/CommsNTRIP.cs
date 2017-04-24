@@ -16,7 +16,7 @@ namespace MissionPlanner.Comms
 {
     public class CommsNTRIP : CommsBase,  ICommsSerial, IDisposable
     {
-        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(typeof(CommsNTRIP));
         public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         private Uri remoteUri;
@@ -181,7 +181,9 @@ namespace MissionPlanner.Comms
 
             if (!line.Contains("200"))
             {
-                client.Close();
+                client.Dispose();
+
+                client = new TcpClient();
 
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
@@ -230,7 +232,8 @@ namespace MissionPlanner.Comms
             {
                 try
                 {
-                    client.Close();
+                    client.Dispose();
+                    client = new TcpClient();
                 }
                 catch { }
 
@@ -372,15 +375,15 @@ namespace MissionPlanner.Comms
             {
                 if (client.Client != null && client.Client.Connected)
                 {
-                    client.Client.Close();
-                    client.Close();
+                    client.Client.Dispose();
+                    client.Dispose();
                 }
             }
             catch { }
 
             try
             {
-                client.Close();
+                client.Dispose();
             }
             catch { }
 

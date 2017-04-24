@@ -10,7 +10,7 @@ namespace MissionPlanner.Comms
     public class CommsFile : CommsBase, ICommsSerial
     {
         // Methods
-        public void Close() { BaseStream.Close(); }
+        public void Close() { BaseStream.Dispose(); }
         public void DiscardInBuffer() { }
 
         public int bps { get; set; }

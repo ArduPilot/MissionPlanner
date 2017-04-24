@@ -519,7 +519,7 @@ Please check the following
                 frmProgressReporter.UpdateProgressAndStatus(0,
                     "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
 
-                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + Application.ProductVersion + "\0");
+                byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + getAppVersion() + "\0");
                 Array.Resize(ref temp, 50);
                 // 
                 generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
@@ -563,6 +563,24 @@ Please check the following
             log.Info("Done open " + MAV.sysid + " " + MAV.compid);
             MAV.packetslost = 0;
             MAV.synclost = 0;
+        }
+
+        private string getAppVersion()
+        {
+            Assembly entryAssembly = Assembly.GetEntryAssembly();
+            if (entryAssembly != null)
+            {
+                object[] customAttributes =
+                    entryAssembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
+                if (customAttributes != null && customAttributes.Length != 0)
+                {
+                    return ((AssemblyInformationalVersionAttribute) customAttributes[0])
+                        .InformationalVersion;
+                }
+            }
+
+
+            return "0.0";
         }
 
         private void ProgressWorkerEventArgs_CancelRequestChanged(object sender, PropertyChangedEventArgs e)
@@ -1065,11 +1083,13 @@ Please check the following
                         // check if enabeling this param has added subparams, queue on gui thread
                         if (currentparamcount < par.param_count)
                         {
+                            /*
                             MainV2.instance.BeginInvoke((Action) delegate
                             {
                                 Loading.ShowLoading(String.Format(Strings.ParamRefreshRequired, currentparamcount,
                                     par.param_count));
                             });
+                            */
                         }
 
                         return true;
@@ -1088,6 +1108,8 @@ Please check the following
 
         public void getParamList()
         {
+            log.InfoFormat("getParamList {0} {1}", sysidcurrent, compidcurrent);
+
             frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = FormStartPosition.CenterScreen,
@@ -1675,10 +1697,10 @@ Please check the following
         public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7,
             bool requireack = true)
         {
-            return doCommand(MAV.sysid, MAV.compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack);
+            return doCommand(MAV.sysid, MAV.compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, null);
         }
 
-        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true)
+        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true, MethodInvoker uicallback = null)
         {
             giveComport = true;
             MAVLinkMessage buffer;
@@ -1759,16 +1781,7 @@ Please check the following
                 {
                     GUI = DateTime.Now;
 
-                    if (!MainV2.instance.InvokeRequired)
-                    {
-                        try
-                        {
-                            MainV2.instance.Invalidate();
-                            MainV2.instance.FlightData.Invalidate();
-                            MainV2.instance.Update();
-                        }
-                        catch { }
-                    }
+                    uicallback?.Invoke();
                 }
 
                 if (!(start.AddMilliseconds(timeout) > DateTime.Now))
@@ -3144,18 +3157,11 @@ Please check the following
 
         public void setMode(byte sysid, byte compid, string modein)
         {
-            try
-            {
-                mavlink_set_mode_t mode = new mavlink_set_mode_t();
+            mavlink_set_mode_t mode = new mavlink_set_mode_t();
 
-                if (translateMode(sysid, compid, modein, ref mode))
-                {
-                    setMode(sysid, compid, mode);
-                }
-            }
-            catch
+            if (translateMode(sysid, compid, modein, ref mode))
             {
-                MessageBox.Show("Failed to change Modes");
+                setMode(sysid, compid, mode);
             }
         }
 
@@ -4797,13 +4803,13 @@ Please check the following
 
                 if (mode.base_mode == 0)
                 {
-                    MessageBox.Show("No Mode Changed " + modein);
+                    log.Error("No Mode Changed " + modein);
                     return false;
                 }
             }
             catch
             {
-                MessageBox.Show("Failed to find Mode");
+                log.Error("Failed to find Mode");
                 return false;
             }
 

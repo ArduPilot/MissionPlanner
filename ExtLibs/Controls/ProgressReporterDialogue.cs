@@ -94,7 +94,6 @@ namespace MissionPlanner.Controls
                      if (!this.Focused)
                      {
                          this.Focus();
-                         System.Threading.Thread.Sleep(200);
                          Application.DoEvents();
                      }
                 });
@@ -195,7 +194,7 @@ namespace MissionPlanner.Controls
                     this.btnClose.Visible = false;
                 });
 
-            Thread.Sleep(1000);
+            Thread.Sleep(100);
 
             this.BeginInvoke((MethodInvoker)this.Close);
         }

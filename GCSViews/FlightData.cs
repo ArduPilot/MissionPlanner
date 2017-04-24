@@ -3937,20 +3937,6 @@ namespace MissionPlanner.GCSViews
             //thisthread.Join();
         }
 
-        private void but_autotune_Click(object sender, EventArgs e)
-        {
-            if (MainV2.comPort.BaseStream.IsOpen)
-            {
-                MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t
-                {
-                    base_mode = (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
-                    custom_mode = 15,
-                    // #define AUTOTUNE    15                  // autotune the vehicle's roll and pitch gains
-                    target_system = MainV2.comPort.MAV.sysid
-                });
-            }
-        }
-
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.BaseStream.IsOpen)
