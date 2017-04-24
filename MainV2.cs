@@ -2766,6 +2766,8 @@ namespace MissionPlanner
             //log.Info("start udpmavlinkshim");
             //UDPMavlinkShim.Start();
 
+            ZeroConf.EnumerateAllServicesFromAllHosts();
+
             try
             {
                 /*log.Info("Load AltitudeAngel");
