@@ -1,424 +1,200 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C8B88795-6D01-494D-83AD-6944BD4C5023}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MissionPlanner.Controls</RootNamespace>
-    <AssemblyName>MissionPlanner.Controls</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net462</TargetFramework>
+    <ApplicationIcon />
+    <OutputTypeEx>library</OutputTypeEx>
+    <StartupObject />
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>True</DebugSymbols>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug\net462\</OutputPath>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.AppContext, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.AppContext.4.3.0\lib\net46\System.AppContext.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Console, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Console.4.3.0\lib\net46\System.Console.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core" />
-    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.4.3.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Diagnostics.Tracing, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Compression.4.3.0\lib\net46\System.IO.Compression.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.Compression.ZipFile, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.Compression.ZipFile.4.3.0\lib\net46\System.IO.Compression.ZipFile.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.4.3.0\lib\net46\System.IO.FileSystem.dll</HintPath>
-    </Reference>
-    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Net.Http.4.3.1\lib\net46\System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Sockets, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Extensions, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.Extensions.4.3.0\lib\net462\System.Runtime.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.4.3.0\lib\net462\System.Runtime.InteropServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net461\System.Security.Cryptography.Algorithms.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Data" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj" />
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="OpenTK">
-      <HintPath>..\..\ExtLibs\OpenTK.dll</HintPath>
+      <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="..\Utilities\MeasureString.cs">
-      <Link>MeasureString.cs</Link>
-    </Compile>
-    <Compile Include="AGauge.cs">
+    <Compile Update="AGauge.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageView.cs">
+    <Compile Update="BackstageView\BackstageView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageView.Designer.cs">
-      <DependentUpon>BackstageView.cs</DependentUpon>
+    <Compile Update="BackstageView\BackstageView.Designer.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageViewButton.cs">
+    <Compile Update="BackstageView\BackstageViewButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageViewCollection.cs" />
-    <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
+    <Compile Update="BackstageView\BackStageViewMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackstageViewPage.cs">
+    <Compile Update="BackstageView\BackstageViewPage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ControlExt.cs" />
-    <Compile Include="ControlHelpers.cs" />
-    <Compile Include="Coords.cs">
+    <Compile Update="Coords.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Coords.Designer.cs">
-      <DependentUpon>Coords.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CustomMessageBox.cs" />
-    <Compile Include="FileBrowse.cs">
+    <Compile Update="Coords.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FileBrowse.Designer.cs">
-      <DependentUpon>FileBrowse.cs</DependentUpon>
+    <Compile Update="FileBrowse.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="FlashMessage.cs">
+    <Compile Update="FileBrowse.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FlashMessage.designer.cs">
-      <DependentUpon>FlashMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GradientBG.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GradientBG.Designer.cs">
-      <DependentUpon>GradientBG.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HorizontalProgressBar.cs">
+    <Compile Update="FlashMessage.designer.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HorizontalProgressBar2.cs">
+    <Compile Update="GradientBG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="GradientBG.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="HorizontalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HSI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="HSI.Designer.cs">
-      <DependentUpon>HSI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HUD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="HUDT.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HUDT.resx</DependentUpon>
-    </Compile>
-    <Compile Include="IActivate.cs" />
-    <Compile Include="IDynamicParameterControl.cs" />
-    <Compile Include="ImageLabel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="ImageLabel.Designer.cs">
-      <DependentUpon>ImageLabel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="InputBox.cs" />
-    <Compile Include="LabelWithPseudoOpacity.cs">
+    <Compile Update="HorizontalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="LineSeparator.cs">
+    <Compile Update="HSI.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MainSwitcher.cs" />
-    <Compile Include="MyButton.cs">
+    <Compile Update="HSI.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="HUD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ImageLabel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ImageLabel.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="LabelWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="myGMAP.cs">
+    <Compile Update="LineSeparator.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MyLabel.cs">
+    <Compile Update="MyButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MyProgressBar.cs">
+    <Compile Update="myGMAP.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="MyProgressBar.Designer.cs">
-      <DependentUpon>MyProgressBar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MyTrackBar.cs">
+    <Compile Update="MyLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MyUserControl.cs">
+    <Compile Update="MyProgressBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="OptionForm.cs">
+    <Compile Update="MyProgressBar.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="MyTrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="MyUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionForm.Designer.cs">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PictureBoxMouseOver.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="PictureBoxWithPseudoOpacity.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProgressReporterDialogue.cs">
+    <Compile Update="OptionForm.Designer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProgressReporterDialogue.designer.cs">
-      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    <Compile Update="PictureBoxMouseOver.cs">
+      <SubType>Component</SubType>
     </Compile>
-    <Compile Include="ProgressReporterSphere.cs">
+    <Compile Update="PictureBoxWithPseudoOpacity.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="ProgressReporterDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ProgressStep.cs">
+    <Compile Update="ProgressReporterDialogue.designer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProgressReporterSphere.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ProgressStep.Designer.cs">
-      <DependentUpon>ProgressStep.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="PseudoOpacityHelper.cs" />
-    <Compile Include="QuickView.cs">
+    <Compile Update="ProgressStep.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="QuickView.Designer.cs">
-      <DependentUpon>QuickView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RadialGradientBG.cs">
+    <Compile Update="QuickView.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RadialGradientBG.Designer.cs">
-      <DependentUpon>RadialGradientBG.cs</DependentUpon>
-    </Compile>
-    <Compile Include="RangeControl.cs">
+    <Compile Update="QuickView.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="RangeControl.Designer.cs">
-      <DependentUpon>RangeControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Sphere.cs">
+    <Compile Update="RadialGradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ValuesControl.cs">
+    <Compile Update="RadialGradientBG.Designer.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ValuesControl.Designer.cs">
-      <DependentUpon>ValuesControl.cs</DependentUpon>
+    <Compile Update="RangeControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="VerticalProgressBar.cs">
+    <Compile Update="RangeControl.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Sphere.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ValuesControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="ValuesControl.Designer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="VerticalProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="VerticalProgressBar2.cs">
+    <Compile Update="VerticalProgressBar2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WindDir.cs">
+    <Compile Update="WindDir.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WindDir.Designer.cs">
-      <DependentUpon>WindDir.cs</DependentUpon>
+    <Compile Update="WindDir.Designer.cs">
+      <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="AGauge.resx">
-      <DependentUpon>AGauge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BackstageView\BackstageView.resx">
-      <DependentUpon>BackstageView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Coords.resx">
-      <DependentUpon>Coords.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FileBrowse.resx">
-      <DependentUpon>FileBrowse.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FlashMessage.resx">
-      <DependentUpon>FlashMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GradientBG.resx">
-      <DependentUpon>GradientBG.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HSI.resx">
-      <DependentUpon>HSI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HUDT.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>HUDT.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HUDT.zh-Hans.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ImageLabel.resx">
-      <DependentUpon>ImageLabel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MyProgressBar.resx">
-      <DependentUpon>MyProgressBar.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OptionForm.resx">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressReporterDialogue.resx">
-      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressReporterDialogue.zh-Hans.resx">
-      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressReporterSphere.resx">
-      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressReporterSphere.zh-Hans.resx">
-      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProgressStep.resx">
-      <DependentUpon>ProgressStep.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="QuickView.resx">
-      <DependentUpon>QuickView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RadialGradientBG.resx">
-      <DependentUpon>RadialGradientBG.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="RangeControl.resx">
-      <DependentUpon>RangeControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ValuesControl.resx">
-      <DependentUpon>ValuesControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WindDir.resx">
-      <DependentUpon>WindDir.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="mykey.snk" />
-    <None Include="packages.config" />
-    <None Include="Resources\iconWarning32.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\iconWarning48.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
-      <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
-      <Name>BSE.Windows.Forms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
-      <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
-      <Name>GeoUtility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
-      <Name>GMap.NET.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
-      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
-      <Name>GMap.NET.WindowsForms</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\guagebg.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="readme.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DataGrid\" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
 </Project>

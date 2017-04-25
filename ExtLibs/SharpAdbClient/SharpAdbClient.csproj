@@ -271,7 +271,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <AdditionalFiles Include="stylecop.json" />
     <None Include="SharpAdbClient.ruleset" />

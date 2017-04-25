@@ -280,7 +280,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <None Include="app.config" />
     <None Include="GMap.NET\MapType.cs" />
     <Compile Include="GMap.NET\GPoint.cs" />
     <Compile Include="GMap.NET\PureImageCache.cs" />

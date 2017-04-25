@@ -9,6 +9,7 @@
     <RootNamespace>Updater</RootNamespace>
     <AssemblyName>Updater</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -36,12 +37,15 @@
     <OutputPath>..\bin\Debug\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>..\bin\Release\</OutputPath>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <DebugType>embedded</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -52,6 +56,7 @@
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
@@ -141,7 +146,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="app.config" />
     <None Include="mykey.snk" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

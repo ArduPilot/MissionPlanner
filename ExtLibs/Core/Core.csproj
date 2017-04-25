@@ -181,7 +181,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="mykey.pfx" />
     <None Include="mykey.snk" />
     <None Include="packages.config" />

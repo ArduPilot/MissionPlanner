@@ -173,7 +173,6 @@
     <Compile Include="Feature\Placemark.cs" />
     <Compile Include="Geometry\Polygon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
     <None Include="mykey.pfx" />
     <Compile Include="Region.cs" />
     <Compile Include="Style.cs" />

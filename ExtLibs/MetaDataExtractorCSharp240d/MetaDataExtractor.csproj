@@ -176,7 +176,6 @@
     <Content Include="sampleFile.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="app.config" />
     <None Include="dontcare.snk" />
     <None Include="MetadataExtractor.dtd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

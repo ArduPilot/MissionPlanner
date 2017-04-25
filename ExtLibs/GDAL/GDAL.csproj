@@ -144,7 +144,6 @@
     <Compile Include="GDALProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="mykey.snk" />
     <None Include="packages.config" />
   </ItemGroup>

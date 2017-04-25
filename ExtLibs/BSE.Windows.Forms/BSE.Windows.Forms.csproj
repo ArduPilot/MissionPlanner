@@ -265,7 +265,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ChevronDown.png" />
-    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
