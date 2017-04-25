@@ -41,3 +41,6 @@ obj/
 *.vspx
 /ExtLibs/Android
 /ExtLibs/w3w
+/ExtLibs/java
+/ExtLibs/netcore
+/.vs
