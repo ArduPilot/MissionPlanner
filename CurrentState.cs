@@ -643,7 +643,7 @@ namespace MissionPlanner
 
         //battery
         [DisplayText("Bat Voltage (V)")]
-        public float battery_voltage
+        public double battery_voltage
         {
             get { return _battery_voltage; }
             set
@@ -653,7 +653,7 @@ namespace MissionPlanner
             }
         }
 
-        internal float _battery_voltage;
+        internal double _battery_voltage;
 
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining
@@ -669,7 +669,7 @@ namespace MissionPlanner
         private int _battery_remaining;
 
         [DisplayText("Bat Current (Amps)")]
-        public float current
+        public double current
         {
             get { return _current; }
             set
@@ -681,15 +681,15 @@ namespace MissionPlanner
                     _current = 0;
                     return;
                 }
-                battery_usedmah += (float) ((value*1000.0)*(datetime - _lastcurrent).TotalHours);
+                battery_usedmah += ((value*1000.0)*(datetime - _lastcurrent).TotalHours);
                 _current = value;
                 _lastcurrent = datetime;
             }
         } //current may to be below zero - recuperation in arduplane
-        private float _current;
+        private double _current;
 
         [DisplayText("Bat Watts")]
-        public float watts
+        public double watts
         {
             get { return battery_voltage*current; }
         }
@@ -697,16 +697,25 @@ namespace MissionPlanner
         private DateTime _lastcurrent = DateTime.MinValue;
 
         [DisplayText("Bat efficiency (mah/km)")]
-        public float battery_mahperkm { get {return battery_usedmah / (distTraveled/1000.0f); } }
+        public double battery_mahperkm { get {return battery_usedmah / (distTraveled/1000.0f); } }
 
         [DisplayText("Bat km left EST (km)")]
-        public float battery_kmleft { get { return (((100.0f / (100.0f - battery_remaining)) * battery_usedmah) - battery_usedmah) / battery_mahperkm; } }
+        public double battery_kmleft { get { return (((100.0f / (100.0f - battery_remaining)) * battery_usedmah) - battery_usedmah) / battery_mahperkm; } }
 
         [DisplayText("Bat used EST (mah)")]
-        public float battery_usedmah { get; set; }
+        public double battery_usedmah { get; set; }
+
+        public double battery_cell1 { get; set; }
+        public double battery_cell2 { get; set; }
+        public double battery_cell3 { get; set; }
+        public double battery_cell4 { get; set; }
+        public double battery_cell5 { get; set; }
+        public double battery_cell6 { get; set; }
+
+        public double battery_temp { get; set; }
 
         [DisplayText("Bat2 Voltage (V)")]
-        public float battery_voltage2
+        public double battery_voltage2
         {
             get { return _battery_voltage2; }
             set
@@ -716,10 +725,10 @@ namespace MissionPlanner
             }
         }
 
-        internal float _battery_voltage2;
+        internal double _battery_voltage2;
 
         [DisplayText("Bat2 Current (Amps)")]
-        public float current2
+        public double current2
         {
             get { return _current2; }
             set
@@ -729,11 +738,11 @@ namespace MissionPlanner
             }
         }
 
-        private float _current2;
+        private double _current2;
 
-        public float HomeAlt
+        public double HomeAlt
         {
-            get { return (float) HomeLocation.Alt; }
+            get { return HomeLocation.Alt; }
             set { }
         }
 
@@ -1915,6 +1924,24 @@ namespace MissionPlanner
                         var bat = mavLinkMessage.ToStructure<MAVLink.mavlink_battery2_t>();
                         _battery_voltage2 = bat.voltage / 1000.0f;
                         current2 = bat.current_battery / 100.0f;
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.BATTERY_STATUS);
+                    if (mavLinkMessage != null)
+                    {
+                        var bats = mavLinkMessage.ToStructure<MAVLink.mavlink_battery_status_t>();
+
+                        battery_cell1 = bats.voltages[0] / 1000.0;
+                        battery_cell2 = bats.voltages[1] / 1000.0;
+                        battery_cell3 = bats.voltages[2] / 1000.0;
+                        battery_cell4 = bats.voltages[3] / 1000.0;
+                        battery_cell5 = bats.voltages[4] / 1000.0;
+                        battery_cell6 = bats.voltages[5] / 1000.0;
+
+                        battery_usedmah = bats.current_consumed;
+                        battery_remaining = bats.battery_remaining;
+                        current = bats.current_battery * 10;
+                        battery_temp = bats.temperature / 100.0;
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE);
