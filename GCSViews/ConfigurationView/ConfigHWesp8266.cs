@@ -36,22 +36,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var mav = MainV2.comPort.MAVlist[sysid, (byte) MAVLink.MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE];
 
-                txt_ssid.Text = (ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID1"].data) +
-                                 ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID2"].data) +
-                                 ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID3"].data) +
-                                 ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID4"].data)).TrimEnd('\0');
+                if (mav.param.ContainsKey("WIFI_SSID1"))
+                {
+                    txt_ssid.Text = (ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID1"].data) +
+                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID2"].data) +
+                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID3"].data) +
+                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_SSID4"].data)).TrimEnd('\0');
 
-                cmb_baud.Text = mav.param["UART_BAUDRATE"].ToString();
+                    cmb_baud.Text = mav.param["UART_BAUDRATE"].ToString();
 
-                txt_password.Text = (ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD1"].data) +
-                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD2"].data) +
-                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD3"].data) +
-                                     ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD4"].data)).TrimEnd('\0');
+                    txt_password.Text = (ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD1"].data) +
+                                         ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD2"].data) +
+                                         ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD3"].data) +
+                                         ASCIIEncoding.ASCII.GetString(mav.param["WIFI_PASSWORD4"].data)).TrimEnd('\0');
 
-                cmb_channel.Text = mav.param["WIFI_CHANNEL"].ToString();
+                    cmb_channel.Text = mav.param["WIFI_CHANNEL"].ToString();
 
-                Enabled = true;
-                return;
+                    Enabled = true;
+                    return;
+                }
             }
             Enabled = false;
         }
