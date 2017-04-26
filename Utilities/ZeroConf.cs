@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Zeroconf;
 
 namespace MissionPlanner.Utilities
@@ -11,8 +13,12 @@ namespace MissionPlanner.Utilities
     {
         public static async Task ProbeForRTSP()
         {
-            IReadOnlyList<IZeroconfHost> results = await
-                ZeroconfResolver.ResolveAsync("_rtsp._udp");
+            //IReadOnlyList<IZeroconfHost> results = 
+
+            while (Application.OpenForms.Count > 0)
+            {
+                IZeroconfHost host = await ZeroconfResolver.ResolveContinuous("rtsp._udp");
+            }
         }
 
         public static async Task EnumerateAllServicesFromAllHosts()

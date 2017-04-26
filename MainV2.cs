@@ -2768,6 +2768,8 @@ namespace MissionPlanner
 
             ZeroConf.EnumerateAllServicesFromAllHosts();
 
+            ZeroConf.ProbeForRTSP();
+
             try
             {
                 /*log.Info("Load AltitudeAngel");
