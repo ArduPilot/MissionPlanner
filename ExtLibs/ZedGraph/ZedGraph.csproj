@@ -247,7 +247,6 @@
     <EmbeddedResource Include="ZedGraph\ZedGraphControl.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="ZedGraph\ZedGraphLocale.de.resx">
       <SubType>Designer</SubType>

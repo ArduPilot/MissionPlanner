@@ -171,7 +171,6 @@
     <Compile Include="WeakReference.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="COPYING" />
     <None Include="mykey.snk" />
     <None Include="packages.config" />

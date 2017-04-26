@@ -163,7 +163,6 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="sn.snk" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
