@@ -19,8 +19,8 @@ namespace MissionPlanner
             this.parent = mavLinkInterface;
             this.sysid = sysid;
             this.compid = compid;
-            this.packetspersecond = new double[0x100];
-            this.packetspersecondbuild = new DateTime[0x100];
+            this.packetspersecond = new double[0x10000];
+            this.packetspersecondbuild = new DateTime[0x10000];
             this.lastvalidpacket = DateTime.MinValue;
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
