@@ -221,8 +221,6 @@
     </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Dynamic.dll</HintPath>

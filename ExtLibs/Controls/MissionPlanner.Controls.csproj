@@ -16,10 +16,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.8" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj" />
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj" />
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
