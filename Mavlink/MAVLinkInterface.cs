@@ -3610,8 +3610,10 @@ Please check the following
                     WhenPacketReceived.OnNext(1);
 
                     // packet stats per mav
-                    if (double.IsInfinity(MAVlist[sysid, compid].packetspersecond[msgid]))
+                    if (!MAVlist[sysid, compid].packetspersecond.ContainsKey(msgid) || double.IsInfinity(MAVlist[sysid, compid].packetspersecond[msgid]))
                         MAVlist[sysid, compid].packetspersecond[msgid] = 0;
+                    if (!MAVlist[sysid, compid].packetspersecondbuild.ContainsKey(msgid))
+                        MAVlist[sysid, compid].packetspersecondbuild[msgid] = DateTime.Now;
 
                     MAVlist[sysid, compid].packetspersecond[msgid] = (((1000 /
                                                                             ((DateTime.Now -
