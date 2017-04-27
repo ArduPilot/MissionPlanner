@@ -3268,7 +3268,7 @@
     </None>
     <None Include="LogAnalyzer\py2exe\createexe.bat" />
     <None Include="LogAnalyzer\upload.bat" />
-    <None Include="NoFly\Areas-Lisboa.kmz">
+    <None Include="NoFly\Areas-Lisboa.kmz" />
     <None Include="NoFly\Regulamento-RPA-ver-3.0.kmz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

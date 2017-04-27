@@ -38,7 +38,7 @@ namespace MissionPlanner.Controls
         int zoom = 14;
 
         RectLatLng area = new RectLatLng(-35.04286, 117.84262, 0.1, 0.1);
-        PointLatLngAlt center = new PointLatLngAlt();
+        PointLatLngAlt center = new PointLatLngAlt(-35.04286, 117.84262,40);
 
         public PointLatLngAlt LocationCenter
         {
@@ -93,17 +93,17 @@ namespace MissionPlanner.Controls
 
         void generateTexture(GPoint point, Bitmap image)
         {
+            BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
             int texture = 0;
 
             GL.TexEnv(TextureEnvTarget.TextureEnv, TextureEnvParameter.TextureEnvMode,
-                (float) TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
+                (float)TextureEnvModeCombine.Replace); //Important, or wrong color on some computers
 
             GL.GenTextures(1, out texture);
 
             GL.BindTexture(TextureTarget.Texture2D, texture);
-
-            BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
@@ -124,29 +124,34 @@ namespace MissionPlanner.Controls
 
         void imageLoader()
         {
+            var lastpos = PointLatLngAlt.Zero;
+
             while (!this.IsDisposed)
             {
+                System.Threading.Thread.Sleep(500);
+
                 // update once per seconds - we only read from disk, so need to let cahce settle
-                if (lastrefresh.AddSeconds(0.5) < DateTime.Now)
+                if (lastrefresh.AddSeconds(5) < DateTime.Now || lastpos.GetDistance(LocationCenter) > 50)
                 {
                     // get tiles - bg
-                    core.Provider = type;
-                    core.Position = LocationCenter;
+                    //core.Provider = type;
+                    //core.Position = LocationCenter;
 
                     // preload zooms
-                    for (int z = 5; z <= zoom; z++)
+                    for (int z = 10; z <= zoom; z++)
                     {
-                        core.Zoom = z;
-                        core.OnMapSizeChanged(this.Width, this.Height);
+                        //core.Zoom = z;
+                        //core.OnMapSizeChanged(this.Width, this.Height);
                     }
 
+                    lastpos = new PointLatLngAlt(core.Position);
                     lastrefresh = DateTime.Now;
                 }
                 else
                 {
                     //return;
                 }
-                System.Threading.Thread.Sleep(5000);
+               
             }
         }
 
@@ -321,15 +326,26 @@ namespace MissionPlanner.Controls
             */
             // textureid.Clear();
 
+            core.fillEmptyTiles = true;
+
+            core.LevelsKeepInMemmory = 20;
+
+            core.Provider = type;
+            core.Position = center;
+
+            //core.ReloadMap();
+
             List<tileZoomArea> tileArea = new List<tileZoomArea>();
 
             for (int a = 10; a <= zoom; a++)
             {
+                core.Zoom = a;
+
                 var area2 = new RectLatLng(center.Lat, center.Lng, 0, 0);
 
                 // 200m at max zoom
                 // step at 0 zoom
-                var distm = MathHelper.map(a, 0, zoom, size, 100);
+                var distm = MathHelper.map(a, 0, zoom, size, 50);
 
                 var offset = center.newpos(rpy.Z, distm);
 
@@ -347,6 +363,13 @@ namespace MissionPlanner.Controls
 
             //tileArea.Reverse();
 
+            while (textureid.Count > 250)
+            {
+                var first = textureid.Keys.First();
+                GL.DeleteTexture(textureid[first]);
+                textureid.Remove(first);
+            }
+
             // get tiles & combine into one
             foreach (var tilearea in tileArea)
             {
@@ -362,9 +385,21 @@ namespace MissionPlanner.Controls
                         {
                             foreach (GMapImage img in t.Overlays)
                             {
+                                if (img.IsParent)
+                                {
+                                    
+                                }
+
                                 if (!textureid.ContainsKey(p))
                                 {
-                                    generateTexture(p, (Bitmap) img.Img);
+                                    try
+                                    {
+                                        generateTexture(p, (Bitmap) img.Img);
+                                    }
+                                    catch
+                                    {
+                                        continue;
+                                    }
                                 }
                             }
                         }
@@ -448,7 +483,7 @@ namespace MissionPlanner.Controls
 
                     var dist = LocationCenter.GetDistance(latlng);
 
-                    var pxstep = 64;
+                    var pxstep = 128;
 
                     if (dist < 500)
                         pxstep = 32;
@@ -567,6 +602,8 @@ namespace MissionPlanner.Controls
             MakeCurrent();
 
             GL.Viewport(0, 0, this.Width, this.Height);
+
+            core.OnMapSizeChanged(this.Width, this.Height);
 
             this.Invalidate();
         }
