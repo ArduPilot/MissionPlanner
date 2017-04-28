@@ -75,6 +75,12 @@ namespace MissionPlanner
 
         private float _yaw = 0;
 
+        [DisplayText("SSA (deg)")]
+        public float SSA { get; set; }
+
+        [DisplayText("AOA (deg)")]
+        public float AOA { get; set; }
+
         [DisplayText("GroundCourse (deg)")]
         public float groundcourse
         {
@@ -446,6 +452,33 @@ namespace MissionPlanner
         public int rxrssi { get; set; }
 
         float _ch3percent = -1;
+
+	public float crit_AOA
+        {
+            get
+            {
+                try
+                {
+                    if (MainV2.comPort.MAV.param.ContainsKey("AOA_CRIT"))
+                    {
+                        return
+                            (int)
+                                (MainV2.comPort.MAV.param["AOA_CRIT"].Value);
+                    }
+                    else
+                    {
+                        return 25;
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+            }
+
+            set { _crit_aoa = value; }
+        }
+	float _crit_aoa = 25;
 
         public bool lowgroundspeed { get; set; }
         float _airspeed;
@@ -2373,6 +2406,15 @@ namespace MissionPlanner
                         var mem = mavLinkMessage.ToStructure<MAVLink.mavlink_meminfo_t>();
                         freemem = mem.freemem;
                         brklevel = mem.brkval;
+                    }
+
+                    mavLinkMessage = MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.AOA_SSA);
+                    if (mavLinkMessage != null)
+                    {
+                        var aoa_ssa = mavLinkMessage.ToStructure<MAVLink.mavlink_aoa_ssa_t>();
+
+                        AOA = aoa_ssa.AOA;
+                        SSA = aoa_ssa.SSA;
                     }
                 }
 
