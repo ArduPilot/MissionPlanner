@@ -1,4 +1,53 @@
-﻿* Mission Planner 1.3.46 - 11-4-2017
+﻿* Mission Planner 1.3.47 - 29-4-2017
+MainV2: dont param poll if armed
+ConfigBatteryMonitoring: fix hardware label
+log4net dependancy fix
+OpenGLTest1: tweak
+Updating No-Fly zones in Portugal (#1522)
+Update No-Fly Zones in Portugal, including absolute restrictions in Lisbon
+Update No Fly maps for Portugal
+MAVState: fix mavlink packet stats for mavlink2 thanks @EShamaev
+OpenGLTest: update
+ConfigESP8266: fix exception
+remove all assemblyBindings
+MAVLink: upstream changes
+package: remove netstandard
+nuget: update
+CurrentState: add cell voltages
+Packages: updates
+Updater: remove manifest
+ZeroConf: initial
+temp: remove items on click
+ConfigPlanner: fix tfr checkbox load state
+GeoTiff: change to filesize based cacheable option
+Disable Signing
+ParamFile filter
+ExtLibs: cleanup
+Projects: remove old bcl references
+disable signing
+RollingPointPairList: add lock to item set and get
+CurrentState: add velocity vector length
+Swarm: update to use ekf vx/vy/vz
+CommsTCPSerial: add reconnect logic
+FFTUI: scale similar items together
+Solution: update all nuget packages
+Solution: target .net 4.6.2
+example9: add sitl start example
+Mainv2: prevent exception when no serialno is present
+StreamCombiner: support upto 100 instances
+FlightData: prevent collection change exception
+CommsTCPSerial: use remote port for portname
+HUD: add designtime exclusions
+MAVLinkInterface: fix fragment bit on alignment and array size
+ConfigMotorTest: support more frame types
+POI: add file load flag
+CurrentState: add vx/vy/vz
+GeoTiff: make very large geotiffs none cacheable
+app.config: enable >2gb arrays
+SITL: add extra commandline option
+FlightPlanner: fix mav_cmd length
+
+* Mission Planner 1.3.46 - 11-4-2017
 MainV2: update xp urls
 GDAL: reduce skiped file size
 SerialOuputNMEA: add output rate selection #1516
