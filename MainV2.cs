@@ -2476,8 +2476,12 @@ namespace MissionPlanner
                             {
                                 try
                                 {
-                                    port.getParamPoll();
-                                    port.getParamPoll();
+                                    // poll only when not armed
+                                    if (!port.MAV.cs.armed)
+                                    {
+                                        port.getParamPoll();
+                                        port.getParamPoll();
+                                    }
                                 }
                                 catch
                                 {
