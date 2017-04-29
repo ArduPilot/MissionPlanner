@@ -346,7 +346,7 @@
     <value>3: PX4</value>
   </data>
   <data name="CMB_apmversion.Items4" xml:space="preserve">
-    <value>4: Pixhawk</value>
+    <value>4: The Cube or Pixhawk</value>
   </data>
   <data name="CMB_apmversion.Items5" xml:space="preserve">
     <value>5: VR Brain 4.5 - 5</value>
