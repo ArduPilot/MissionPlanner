@@ -131,7 +131,7 @@ namespace MissionPlanner.Utilities
             get { return process != null && !process.HasExited; }
         }
 
-        public static void Start()
+        public static void Start(string custompipelinesrc = "")
         {
             // prevent starting 2 process's
             lock (_lock)
@@ -150,6 +150,14 @@ namespace MissionPlanner.Utilities
                             "-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! queue leaky=2 ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={1} sync=false",
                             //"-v udpsrc port={0} buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! glimagesink",
                             UdpPort, OutputPort));
+
+                    if (custompipelinesrc != "")
+                    {
+                        psi.Arguments = custompipelinesrc +
+                                        String.Format(
+                                            " ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
+                                            OutputPort);
+                    }
 
                     //"-v udpsrc port=5600 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! queue ! rtpvrawpay ! giosink location=\\\\\\\\.\\\\pipe\\\\gstreamer");
 
