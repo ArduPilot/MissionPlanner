@@ -13,11 +13,9 @@ namespace MissionPlanner.Utilities
     {
         public static async Task ProbeForRTSP()
         {
-            //IReadOnlyList<IZeroconfHost> results = 
-
-            while (Application.OpenForms.Count > 0)
+            //while (Application.OpenForms.Count > 0)
             {
-                IZeroconfHost host = await ZeroconfResolver.ResolveContinuous("rtsp._udp");
+                IReadOnlyList<IZeroconfHost> results = await ZeroconfResolver.ResolveAsync("rtsp._udp");
             }
         }
 
