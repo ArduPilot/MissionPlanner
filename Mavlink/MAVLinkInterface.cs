@@ -1942,88 +1942,119 @@ Please check the following
 
                     break;
                 case MAV_DATA_STREAM.EXTENDED_STATUS:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.SYS_STATUS] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.SYS_STATUS];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.SYS_STATUS))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.SYS_STATUS] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.SYS_STATUS];
+                    }
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.EXTRA1:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.ATTITUDE] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.ATTITUDE];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.ATTITUDE))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.ATTITUDE] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.ATTITUDE];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.EXTRA2:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.VFR_HUD] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.VFR_HUD];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.VFR_HUD))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.VFR_HUD] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.VFR_HUD];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.EXTRA3:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.AHRS] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.AHRS];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.AHRS))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.AHRS] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.AHRS];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.POSITION:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.GLOBAL_POSITION_INT] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
+                    if (MAVlist[sysid, compid]
+                        .packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.GLOBAL_POSITION_INT))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.GLOBAL_POSITION_INT] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.RAW_CONTROLLER:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RC_CHANNELS_SCALED] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
+                    if (MAVlist[sysid, compid]
+                        .packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.RC_CHANNELS_SCALED))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RC_CHANNELS_SCALED] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.RAW_SENSORS:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RAW_IMU] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RAW_IMU];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.RAW_IMU))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RAW_IMU] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RAW_IMU];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
                 case MAV_DATA_STREAM.RC_CHANNELS:
-                    if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RC_CHANNELS_RAW] <
-                        DateTime.Now.AddSeconds(-2))
-                        break;
-                    pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RC_CHANNELS_RAW];
+                    if (MAVlist[sysid, compid].packetspersecondbuild.ContainsKey((byte) MAVLINK_MSG_ID.RC_CHANNELS_RAW))
+                    {
+                        if (MAVlist[sysid, compid].packetspersecondbuild[(byte) MAVLINK_MSG_ID.RC_CHANNELS_RAW] <
+                            DateTime.Now.AddSeconds(-2))
+                            break;
+                        pps = MAVlist[sysid, compid].packetspersecond[(byte) MAVLINK_MSG_ID.RC_CHANNELS_RAW];
+                    }
+
                     if (hzratecheck(pps, hzrate))
                     {
                         return;
                     }
                     break;
             }
-
-            //packetspersecond[temp[5]];
 
             if (pps == 0 && hzrate == 0)
             {
@@ -2031,8 +2062,8 @@ Please check the following
             }
 
             log.InfoFormat("Request stream {0} at {1} hz for {2}:{3}",
-                Enum.Parse(typeof (MAV_DATA_STREAM), id.ToString()), hzrate, sysid, compid);
-            getDatastream((byte)sysid, (byte)compid, id, hzrate);
+                Enum.Parse(typeof(MAV_DATA_STREAM), id.ToString()), hzrate, sysid, compid);
+            getDatastream((byte) sysid, (byte) compid, id, hzrate);
         }
 
         // returns true for ok
