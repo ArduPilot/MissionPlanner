@@ -131,6 +131,7 @@
     <LangVersion>default</LangVersion>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
@@ -140,6 +141,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <LangVersion>default</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -395,7 +397,8 @@
       <HintPath>packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Zeroconf, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Zeroconf.2.8.0\lib\net45\Zeroconf.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExtLibs\Zeroconf.dll</HintPath>
     </Reference>
     <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
       <HintPath>packages\zlib.net.1.0.4.0\lib\zlib.net.dll</HintPath>
@@ -421,6 +424,12 @@
     </Compile>
     <Compile Include="Controls\MyDataGridView.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Video.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Video.Designer.cs">
+      <DependentUpon>Video.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFrameClassType.cs">
       <SubType>UserControl</SubType>
@@ -1209,6 +1218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.pt.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Video.resx">
+      <DependentUpon>Video.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.ar.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>

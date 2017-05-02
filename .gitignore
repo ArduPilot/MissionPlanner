@@ -44,3 +44,4 @@ obj/
 /ExtLibs/java
 /ExtLibs/netcore
 /.vs
+/ExtLibs/Zeroconf

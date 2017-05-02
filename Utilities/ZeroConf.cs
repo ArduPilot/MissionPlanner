@@ -3,24 +3,49 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Core.ExtendedObjects;
+using MissionPlanner.GCSViews;
 using Zeroconf;
 
 namespace MissionPlanner.Utilities
 {
     public class ZeroConf
     {
-        public static async Task ProbeForRTSP()
+        public static List<IZeroconfHost> Hosts = new List<IZeroconfHost>();
+
+        public static void ProbeForRTSP()
         {
-            //while (Application.OpenForms.Count > 0)
+            Thread th = new Thread(resolverAsync);
+            th.IsBackground = true;
+            th.Start();
+        }
+
+        private static async void resolverAsync()
+        {
+            while (true)
             {
-                IReadOnlyList<IZeroconfHost> results = await ZeroconfResolver.ResolveAsync("rtsp._udp");
+                var results = await ZeroconfResolver.ResolveAsync("_rtsp._udp.local.");
+
+                if (results != null)
+                {
+                    foreach (var zeroconfHost in results)
+                    {
+                        Console.WriteLine("Stream " + zeroconfHost);
+                        if (!Hosts.Contains(zeroconfHost))
+                            Hosts.Add(zeroconfHost);
+                    }
+                }
+
+                Thread.Sleep(4000);
             }
         }
 
         public static async Task EnumerateAllServicesFromAllHosts()
         {
+            return;
             ILookup<string, string> domains = await ZeroconfResolver.BrowseDomainsAsync();
             var responses = await ZeroconfResolver.ResolveAsync(domains.Select(g => g.Key));
             foreach (var resp in responses)

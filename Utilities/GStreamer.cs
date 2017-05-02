@@ -22,7 +22,7 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
     LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static Process process;
+        private static List<Process> processList = new List<Process>();
 
         static object _lock = new object();
 
@@ -30,12 +30,11 @@ namespace MissionPlanner.Utilities
 
         ~GStreamer()
         {
-            Stop();
+            StopAll();
         }
 
         static GStreamer()
         {
-            log.Info(".cctor");
             UdpPort = 5600;
             OutputPort = 1235;
         }
@@ -126,20 +125,20 @@ namespace MissionPlanner.Utilities
 
         public static int OutputPort { get; set; }
 
-        static bool isrunning
+        private static bool isrunning
         {
-            get { return process != null && !process.HasExited; }
+            get { return processList != null && processList.Count > 0 && !processList.Any(a => a.HasExited); }
         }
 
-        public static void Start(string custompipelinesrc = "")
+        public static Process Start(string custompipelinesrc = "", bool externalpipeline = false, bool allowmultiple = false)
         {
             // prevent starting 2 process's
             lock (_lock)
             {
-                if (isrunning)
+                if (!allowmultiple && isrunning)
                 {
                     log.Info("already running");
-                    return;
+                    return null;
                 }
 
                 if (File.Exists(gstlaunch))
@@ -153,10 +152,18 @@ namespace MissionPlanner.Utilities
 
                     if (custompipelinesrc != "")
                     {
-                        psi.Arguments = custompipelinesrc +
-                                        String.Format(
-                                            " ! avenc_mjpeg ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
-                                            OutputPort);
+                        psi.Arguments = custompipelinesrc;
+
+                        if (!externalpipeline)
+                        {
+                            psi.Arguments += String.Format(
+                                " ! queue leaky=2 ! tcpserversink host=127.0.0.1 port={0} sync=false",
+                                OutputPort);
+                        }
+                        else
+                        {
+                            psi.Arguments += " ! decodebin ! queue leaky=2 ! autovideosink";
+                        }
                     }
 
                     //"-v udpsrc port=5600 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! queue ! rtpvrawpay ! giosink location=\\\\\\\\.\\\\pipe\\\\gstreamer");
@@ -169,7 +176,8 @@ namespace MissionPlanner.Utilities
 
                     psi.RedirectStandardOutput = true;
 
-                    process = Process.Start(psi);
+                    var process = Process.Start(psi);
+                    GStreamer.processList.Add(process);
 
                     var th = new Thread((() =>
                     {
@@ -185,15 +193,26 @@ namespace MissionPlanner.Utilities
                             catch { }
                         }
                     }));
+                    th.IsBackground = true;
                     th.Start();
+
+                    process.Exited += delegate (object sender, EventArgs args) { Stop(process); };
 
                     //pipeServer.WaitForConnection();
 
                     //NamedPipeConnect(pipeServer);
 
                     System.Threading.ThreadPool.QueueUserWorkItem(_Start);
+
+                    return process;
                 }
             }
+            return null;
+        }
+
+        private static void Process_Exited(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private static void NamedPipeConnect(NamedPipeServerStream pipeServer)
@@ -583,19 +602,29 @@ namespace MissionPlanner.Utilities
             return bytesread;
         }
 
-        public static void Stop()
+        public static void Stop(Process run)
         {
             try
             {
                 log.Info("Stop");
 
-                if (process != null)
+                if (run != null)
                 {
-                    process.Kill();
-                    process.Close();
+                    run.Kill();
+                    run.Close();
                 }
             }
             catch { }
+
+            run = null;
+        }
+
+        public static void StopAll()
+        {
+            foreach (var process in processList)
+            {
+                Stop(process);
+            }
         }
     }
 }

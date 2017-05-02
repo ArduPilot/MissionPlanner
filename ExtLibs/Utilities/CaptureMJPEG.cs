@@ -184,12 +184,6 @@ namespace MissionPlanner.Utilities
             running = false;
         }
 
-        static void getUrlRTSP()
-        {
-
-        
-        }
-
         static Dictionary<string, string> getHeader(BinaryReader stream)
         {
             Dictionary<string, string> answer = new Dictionary<string, string>();

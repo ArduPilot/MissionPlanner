@@ -1745,7 +1745,7 @@ namespace MissionPlanner
 
             UDPVideoShim.Stop();
 
-            GStreamer.Stop();
+            GStreamer.StopAll();
 
             log.Info("closing vlcrender");
             try
@@ -3182,7 +3182,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.X)) 
             {
-
+                Video v = new Video();
+                v.Show();
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {

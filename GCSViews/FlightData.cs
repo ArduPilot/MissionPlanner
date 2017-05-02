@@ -4422,6 +4422,7 @@ namespace MissionPlanner.GCSViews
         }
 
         Random random = new Random();
+        private Process gst;
 
         Color GetColor()
         {
@@ -4444,6 +4445,24 @@ namespace MissionPlanner.GCSViews
             this.LogInfo("GetColor() " + col);
 
             return col;
+        }
+
+        private void setGStreamerSourceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string url = Settings.Instance["gstreamer_url"] != null
+                ? Settings.Instance["gstreamer_url"]
+                : @"rtspsrc location=rtsp://192.168.1.133:8554/video1 ! application/x-rtp ! rtpjpegdepay ";
+
+            if (DialogResult.OK == InputBox.Show("GStreamer url", "Enter the source pipeline\nEnsure the final type is jpeg data (avenc_mjpeg)", ref url))
+            {
+                Settings.Instance["gstreamer_url"] = url;
+
+                gst = GStreamer.Start(url);
+            }
+            else
+            {
+                GStreamer.Stop(gst);
+            }
         }
     }
 }

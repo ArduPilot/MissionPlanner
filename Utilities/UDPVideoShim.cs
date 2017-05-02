@@ -23,6 +23,7 @@ namespace MissionPlanner.Utilities
         private static UdpClient client2;
         private static UdpClient client3;
         private static TcpClient tcpclient;
+        private static Process gst;
 
         static UDPVideoShim()
         {
@@ -86,7 +87,7 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                GStreamer.Stop();
+                GStreamer.Stop(gst);
             }
             catch (Exception ex)
             {
@@ -141,7 +142,7 @@ namespace MissionPlanner.Utilities
             }
 
             GStreamer.UdpPort = port;
-            GStreamer.Start();
+            gst = GStreamer.Start();
         }
 
         public static void Start()
