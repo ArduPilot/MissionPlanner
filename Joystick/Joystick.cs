@@ -405,7 +405,7 @@ namespace MissionPlanner.Joystick
 
             foreach (DeviceInstance device in joysticklist)
             {
-                if (device.ProductName == name)
+                if (device.ProductName.TrimUnPrintable() == name)
                 {
                     return new SharpDX.DirectInput.Joystick(directInput, device.InstanceGuid);
                 }
@@ -421,11 +421,7 @@ namespace MissionPlanner.Joystick
             if (joystick == null)
                 return null;
 
-            //joystick.SetDataFormat(DeviceDataFormat.Joystick);
-
             joystick.Acquire();
-
-            System.Threading.Thread.Sleep(500);
 
             joystick.Poll();
 
@@ -463,8 +459,11 @@ namespace MissionPlanner.Joystick
             if (joystick == null)
                 return joystickaxis.ARx;
 
+            joystick.Poll();
 
-            System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(300);
+
+            joystick.Poll();
 
             var obj = joystick.CurrentJoystickState();
             Hashtable values = new Hashtable();
@@ -1447,7 +1446,7 @@ namespace MissionPlanner.Joystick
                     break;
             }
             // between 0 and 65535 - convert to int -500 to 500
-            working = (int) (working/65.535) - range/2;
+            working = (int)map(working, 0, 65535, -500, 500);
 
             if (rev)
                 working *= -1;
@@ -1456,34 +1455,6 @@ namespace MissionPlanner.Joystick
             int raw = working;
 
             working = (int) Expo(working, expo, min, max, trim);
-
-            /*
-            // calc scale from actualy pwm range
-            float scale = range / 1000.0f;
-
-            
-
-
-            double B = 4 * (expo / 100.0);
-            double A = 1 - 0.25 * B;
-
-            double t_in = working / 1000.0;
-            double t_out = 0;
-            double mid = trim / 1000.0;
-
-            t_out = A * (t_in) + B * Math.Pow((t_in), 3);
-
-            t_out = mid + t_out * scale;
-
-            //            Console.WriteLine("tin {0} tout {1}",t_in,t_out);
-
-            working = (int)(t_out * 1000);
-
-             
-            if (expo == 0)
-            {
-                working = (int)(raw) + trim;
-            }*/
 
             //add limits to movement
             working = Math.Max(min, working);

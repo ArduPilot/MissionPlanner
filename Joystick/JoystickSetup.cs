@@ -29,7 +29,7 @@ namespace MissionPlanner.Joystick
 
                 foreach (DeviceInstance device in joysticklist)
                 {
-                    CMB_joysticks.Items.Add(device.ProductName);
+                    CMB_joysticks.Items.Add(device.ProductName.TrimUnPrintable());
                 }
             }
             catch
@@ -270,6 +270,9 @@ namespace MissionPlanner.Joystick
                 {
                     BUT_enable_Click(null, null);
                 }
+
+                if (ex.Message.Contains("DIERR_NOTACQUIRED"))
+                    MainV2.joystick = null;
             }
             catch
             {
@@ -326,7 +329,7 @@ namespace MissionPlanner.Joystick
 
             foreach (DeviceInstance device in joysticklist)
             {
-                CMB_joysticks.Items.Add(device.ProductName);
+                CMB_joysticks.Items.Add(device.ProductName.TrimUnPrintable());
             }
 
             if (CMB_joysticks.Items.Count > 0 && CMB_joysticks.SelectedIndex == -1)

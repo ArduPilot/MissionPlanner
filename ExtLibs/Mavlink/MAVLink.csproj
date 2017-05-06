@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="mavlink\**" />
+    <EmbeddedResource Remove="mavlink\**" />
+    <None Remove="mavlink\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
   </ItemGroup>
 
