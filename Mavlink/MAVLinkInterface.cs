@@ -514,23 +514,26 @@ Please check the following
 
                 countDown.Stop();
 
-                getVersion();
-
-                frmProgressReporter.UpdateProgressAndStatus(0,
-                    "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
-
                 byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + getAppVersion() + "\0");
                 Array.Resize(ref temp, 50);
                 // 
                 generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
                     new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp });
                 // mavlink2
-                generatePacket((byte) MAVLINK_MSG_ID.STATUSTEXT,
-                    new mavlink_statustext_t() {severity = (byte) MAV_SEVERITY.INFO, text = temp}, sysidcurrent,
+                generatePacket((byte)MAVLINK_MSG_ID.STATUSTEXT,
+                    new mavlink_statustext_t() { severity = (byte)MAV_SEVERITY.INFO, text = temp }, sysidcurrent,
                     compidcurrent, true, true);
+
+                // this ensures a mavlink2 change has been noticed
+                getHeartBeat();
+
+                getVersion();
 
                 if (getparams)
                 {
+                    frmProgressReporter.UpdateProgressAndStatus(0,
+                        "Getting Params.. (sysid " + MAV.sysid + " compid " + MAV.compid + ") ");
+
                     getParamListBG();
                 }
 
@@ -567,18 +570,20 @@ Please check the following
 
         private string getAppVersion()
         {
-            Assembly entryAssembly = Assembly.GetEntryAssembly();
-            if (entryAssembly != null)
+            try
             {
-                object[] customAttributes =
-                    entryAssembly.GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false);
-                if (customAttributes != null && customAttributes.Length != 0)
+                Assembly entryAssembly = Assembly.GetEntryAssembly();
+                if (entryAssembly != null)
                 {
-                    return ((AssemblyInformationalVersionAttribute) customAttributes[0])
-                        .InformationalVersion;
+                    object[] customAttributes =
+                        entryAssembly.GetCustomAttributes(typeof(AssemblyFileVersionAttribute), false);
+                    if (customAttributes != null && customAttributes.Length != 0)
+                    {
+                        return ((AssemblyFileVersionAttribute) customAttributes[0]).Version;
+                        ;
+                    }
                 }
-            }
-
+            } catch { }
 
             return "0.0";
         }
