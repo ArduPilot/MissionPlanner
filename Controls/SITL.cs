@@ -277,6 +277,9 @@ namespace MissionPlanner.Controls
 
             extraargs += " " + txt_cmdline.Text + " ";
 
+            if (chk_wipe.Checked)
+                extraargs += " --wipe ";
+
             string simdir = sitldirectory + model + Path.DirectorySeparatorChar;
 
             Directory.CreateDirectory(simdir);

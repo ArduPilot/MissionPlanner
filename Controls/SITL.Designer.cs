@@ -45,12 +45,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_heading = new System.Windows.Forms.NumericUpDown();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_cmdline = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.cmb_model = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.num_simspeed = new System.Windows.Forms.NumericUpDown();
-            this.txt_cmdline = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
+            this.chk_wipe = new System.Windows.Forms.CheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -84,7 +85,7 @@
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            
+            this.myGMAP1.SelectedArea = ((GMap.NET.RectLatLng)(resources.GetObject("myGMAP1.SelectedArea")));
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Size = new System.Drawing.Size(831, 303);
@@ -245,7 +246,7 @@
             this.groupBox3.Controls.Add(this.NUM_heading);
             this.groupBox3.Location = new System.Drawing.Point(13, 341);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(194, 43);
+            this.groupBox3.Size = new System.Drawing.Size(123, 43);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Options";
@@ -270,18 +271,35 @@
             // 
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.chk_wipe);
             this.groupBox4.Controls.Add(this.label8);
             this.groupBox4.Controls.Add(this.txt_cmdline);
             this.groupBox4.Controls.Add(this.label7);
             this.groupBox4.Controls.Add(this.cmb_model);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.num_simspeed);
-            this.groupBox4.Location = new System.Drawing.Point(213, 341);
+            this.groupBox4.Location = new System.Drawing.Point(152, 341);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(637, 43);
+            this.groupBox4.Size = new System.Drawing.Size(698, 43);
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Advanced users only";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(296, 20);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(99, 13);
+            this.label8.TabIndex = 11;
+            this.label8.Text = "Extra command line";
+            // 
+            // txt_cmdline
+            // 
+            this.txt_cmdline.Location = new System.Drawing.Point(401, 17);
+            this.txt_cmdline.Name = "txt_cmdline";
+            this.txt_cmdline.Size = new System.Drawing.Size(230, 20);
+            this.txt_cmdline.TabIndex = 10;
             // 
             // label7
             // 
@@ -355,21 +373,15 @@
             0,
             0});
             // 
-            // txt_cmdline
+            // chk_wipe
             // 
-            this.txt_cmdline.Location = new System.Drawing.Point(401, 17);
-            this.txt_cmdline.Name = "txt_cmdline";
-            this.txt_cmdline.Size = new System.Drawing.Size(230, 20);
-            this.txt_cmdline.TabIndex = 10;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(296, 20);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(99, 13);
-            this.label8.TabIndex = 11;
-            this.label8.Text = "Extra command line";
+            this.chk_wipe.AutoSize = true;
+            this.chk_wipe.Location = new System.Drawing.Point(638, 17);
+            this.chk_wipe.Name = "chk_wipe";
+            this.chk_wipe.Size = new System.Drawing.Size(51, 17);
+            this.chk_wipe.TabIndex = 12;
+            this.chk_wipe.Text = "Wipe";
+            this.chk_wipe.UseVisualStyleBackColor = true;
             // 
             // SITL
             // 
@@ -422,5 +434,6 @@
         private System.Windows.Forms.NumericUpDown num_simspeed;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txt_cmdline;
+        private System.Windows.Forms.CheckBox chk_wipe;
     }
 }
