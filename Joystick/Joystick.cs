@@ -1447,7 +1447,7 @@ namespace MissionPlanner.Joystick
                     break;
             }
             // between 0 and 65535 - convert to int -500 to 500
-            working = (int) (working/65.535) - range/2;
+            working = (int) (working/65.535) - 500;
 
             if (rev)
                 working *= -1;
