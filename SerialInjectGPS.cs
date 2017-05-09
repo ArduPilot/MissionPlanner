@@ -150,7 +150,10 @@ namespace MissionPlanner
                 // we need to remove ctls for this system
                 while (ctls.Invoke(obs[0].sys).Count() > obs.Count)
                 {
-                    panel1.Controls.Remove(ctls.Invoke(obs[0].sys).First());
+                    var list = ctls.Invoke(obs[0].sys);
+                    panel1.Controls.Remove(list.First());
+                    panel1.Controls.Remove(list.First().lbl);
+                    panel1.Controls.Remove(list.First().lbl1);
                 }
 
                 int width = panel1.Width/panel1.Controls.OfType<VerticalProgressBar2>().Count();
@@ -629,8 +632,11 @@ namespace MissionPlanner
 
                     Utilities.rtcm3.ecef2pos(pos, ref baseposllh);
 
-                    //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
-                    //baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
+                    if(svin.valid == 1)
+                    {
+                        //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(baseposllh[0]*Utilities.rtcm3.R2D,
+                        //baseposllh[1]*Utilities.rtcm3.R2D, baseposllh[2]);
+                    }
 
                     //if (svin.valid == 1)
                     //ubx_m8p.turnon_off(comPort, 0x1, 0x3b, 0);
@@ -945,7 +951,7 @@ namespace MissionPlanner
 
             foreach (var pointLatLngAlt in baseposList)
             {
-                dg_basepos.Rows.Add(pointLatLngAlt.Lat.ToInvariantString(), pointLatLngAlt.Lng.ToInvariantString(), pointLatLngAlt.Alt.ToInvariantString(), pointLatLngAlt.Tag);
+                dg_basepos.Rows.Add(pointLatLngAlt.Lat.ToInvariantString(), pointLatLngAlt.Lng.ToInvariantString(), pointLatLngAlt.Alt.ToInvariantString(), pointLatLngAlt.Tag,"Use","Delete");
             }
 
             saveBasePosList();

@@ -35,8 +35,8 @@ namespace MissionPlanner.Controls
         int _min = 0;
         int _max = 0;
         int _value = 0;
-        System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
-        System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
+        public System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
+        public System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
         public bool reverse = false;
         int displayvalue = 0;
         bool ctladded = false;
