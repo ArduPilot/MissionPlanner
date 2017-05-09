@@ -1167,6 +1167,7 @@ Please check the following
 
             //hires.Stopwatch stopwatch = new hires.Stopwatch();
             int packets = 0;
+            int retry = 0;
             bool onebyone = false;
             DateTime lastonebyone = DateTime.MinValue;
 
@@ -1183,6 +1184,14 @@ Please check the following
                 // 4 seconds between valid packets
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
+                    if (retry < 1)
+                    {
+                        retry++;
+                        generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
+                        start = DateTime.Now;
+                        continue;
+                    }
+
                     onebyone = true;
 
                     if (lastonebyone.AddMilliseconds(600) < DateTime.Now)
