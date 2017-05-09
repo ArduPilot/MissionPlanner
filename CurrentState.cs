@@ -1973,7 +1973,7 @@ namespace MissionPlanner
 
                         battery_usedmah = bats.current_consumed;
                         battery_remaining = bats.battery_remaining;
-                        current = bats.current_battery * 10;
+                        current = bats.current_battery / 10;
                         battery_temp = bats.temperature / 100.0;
                     }
 
