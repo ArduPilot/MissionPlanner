@@ -40,8 +40,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if ((MainV2.comPort.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.COMPASS_CALIBRATION) == 0)
             {
-                groupBoxonboardcalib.Visible = false;
-                label4.Visible = false;
+                groupBoxonboardcalib.Visible = true;
+                label4.Visible = true;
                 groupBoxmpcalib.Visible = true;
             }
             else
