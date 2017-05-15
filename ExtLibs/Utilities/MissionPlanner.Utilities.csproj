@@ -34,8 +34,11 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="System.Speech">
+    <Reference Include="System.Speech, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <Private>true</Private>
+        <HintPath>..\System.Speech.dll</HintPath>
+        <SpecificVersion>true</SpecificVersion>
+        <EmbedInteropTypes>false</EmbedInteropTypes>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
