@@ -38,7 +38,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
-            if ((MainV2.comPort.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.COMPASS_CALIBRATION) == 0)
+            if (MainV2.comPort.MAV.cs.version >= Version.Parse("3.7.1") &&
+                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane 
+                || Control.ModifierKeys == Keys.Control)
+            {
+                groupBoxonboardcalib.Visible = true;
+                label4.Visible = true;
+                groupBoxmpcalib.Visible = true;
+            }
+            else if ((MainV2.comPort.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.COMPASS_CALIBRATION) == 0)
             {
                 groupBoxonboardcalib.Visible = false;
                 label4.Visible = false;

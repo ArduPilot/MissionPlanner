@@ -1541,7 +1541,7 @@ namespace MissionPlanner
                         MAVLink.FIRMWARE_VERSION_TYPE type =
                             (MAVLink.FIRMWARE_VERSION_TYPE) (version.flight_sw_version & 0xff);
 
-                        this.version = new Version(main, sub, (int) type, rev);
+                        this.version = new Version(main, sub, rev, (int)type);
 
                         try
                         {
