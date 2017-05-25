@@ -6995,5 +6995,10 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             Utilities.CircleSurveyMission.createGrid(MouseDownEnd);
         }
+
+        private void currentPositionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddWPToMap(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, (int) MainV2.comPort.MAV.cs.alt);
+        }
     }
 }
