@@ -42,9 +42,6 @@
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.terminalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rssiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.projectPageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -70,7 +67,10 @@
             resources.GetString("CMB_Baudrate.Items4"),
             resources.GetString("CMB_Baudrate.Items5"),
             resources.GetString("CMB_Baudrate.Items6"),
-            resources.GetString("CMB_Baudrate.Items7")});
+            resources.GetString("CMB_Baudrate.Items7"),
+            resources.GetString("CMB_Baudrate.Items8"),
+            resources.GetString("CMB_Baudrate.Items9"),
+            resources.GetString("CMB_Baudrate.Items10")});
             resources.ApplyResources(this.CMB_Baudrate, "CMB_Baudrate");
             this.CMB_Baudrate.Name = "CMB_Baudrate";
             this.CMB_Baudrate.SelectedIndexChanged += new System.EventHandler(this.CMB_Baudrate_SelectedIndexChanged);
@@ -114,18 +114,17 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackgroundImage = global::SikRadio.Properties.Resources.sik;
             resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
             // menuStrip1
             // 
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.settingsToolStripMenuItem,
             this.terminalToolStripMenuItem,
-            this.rssiToolStripMenuItem,
-            this.aboutToolStripMenuItem});
+            this.rssiToolStripMenuItem});
             resources.ApplyResources(this.menuStrip1, "menuStrip1");
             this.menuStrip1.Name = "menuStrip1";
             // 
@@ -147,30 +146,10 @@
             resources.ApplyResources(this.rssiToolStripMenuItem, "rssiToolStripMenuItem");
             this.rssiToolStripMenuItem.Click += new System.EventHandler(this.rssiToolStripMenuItem_Click);
             // 
-            // aboutToolStripMenuItem
-            // 
-            this.aboutToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.helpToolStripMenuItem,
-            this.projectPageToolStripMenuItem});
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            resources.ApplyResources(this.aboutToolStripMenuItem, "aboutToolStripMenuItem");
-            // 
-            // helpToolStripMenuItem
-            // 
-            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
-            resources.ApplyResources(this.helpToolStripMenuItem, "helpToolStripMenuItem");
-            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
-            // 
-            // projectPageToolStripMenuItem
-            // 
-            this.projectPageToolStripMenuItem.Name = "projectPageToolStripMenuItem";
-            resources.ApplyResources(this.projectPageToolStripMenuItem, "projectPageToolStripMenuItem");
-            this.projectPageToolStripMenuItem.Click += new System.EventHandler(this.projectPageToolStripMenuItem_Click);
-            // 
             // Config
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
@@ -201,9 +180,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem projectPageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem terminalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rssiToolStripMenuItem;

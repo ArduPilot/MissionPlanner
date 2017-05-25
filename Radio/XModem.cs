@@ -60,6 +60,7 @@ namespace MissionPlanner.Radio
                 packet[131] = (byte)(CRC >> 8);
                 packet[132] = (byte)(CRC);
                 Serial.Write(packet, 0, packet.Length);
+                //Console.WriteLine("CRC is " + CRC.ToString());
             }
             else if (bytesRead > 0)
             {
@@ -68,18 +69,21 @@ namespace MissionPlanner.Radio
                 packet[131] = (byte)(CRC >> 8);
                 packet[132] = (byte)(CRC);
                 Serial.Write(packet, 0, packet.Length);
-                Serial.Write("" + EOT);
-                CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //Console.WriteLine("CRC is " + CRC.ToString());
+                Serial.Write(new byte[] { EOT }, 0, 1);
+                //CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else if (bytesRead == 0)
             {
-                Serial.Write("" + EOT);
-                CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Serial.Write(new byte[] { EOT }, 0, 1);
+                //CustomMessageBox.Show("Firmware upgraded successfully.", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
         public static void Upload(string firmwarebin, ICommsSerial comPort)
         {
+            comPort.ReadTimeout = 2000;
+
             using (var fs = new FileStream(firmwarebin, FileMode.Open))
             {
                 var len = (int)fs.Length;
@@ -87,11 +91,13 @@ namespace MissionPlanner.Radio
                 var startlen = len;
 
                 int a = 1;
+                int NoAckCount = 0;
                 while (len > 0)
                 {
                     if (LogEvent != null)
                         LogEvent("Uploading block " + a + "/" + startlen);
 
+                    //comPort.DiscardInBuffer();
                     SendBlock(fs, comPort, a);
                     // responce ACK
                     var ack = comPort.ReadByte();
@@ -100,11 +106,14 @@ namespace MissionPlanner.Radio
 
                     if (ack == ACK)
                     {
+                        //Console.WriteLine("Block number " + a.ToString());
+
+                        NoAckCount = 0;
                         len--;
                         a++;
 
                         if (ProgressEvent != null)
-                            ProgressEvent(len / startlen);
+                            ProgressEvent(1 - ((float)len / (float)startlen));
                     }
                     else if (ack == NAK)
                     {
@@ -112,11 +121,25 @@ namespace MissionPlanner.Radio
                             MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         len = 0;
                     }
+                    else
+                    {
+                        NoAckCount++;
+                        if (NoAckCount >= 10)
+                        {
+                            //Console.WriteLine("Something is wrong");
+                        }
+                    }
                 }
+
+                //Console.WriteLine("Finished " + len.ToString());
             }
 
             // boot
-            comPort.Write("b");
+            Thread.Sleep(100);
+            comPort.Write("\r\n");
+            Thread.Sleep(100);
+            comPort.Write("BOOTNEW\r\n");
+            Thread.Sleep(100);
         }
     }
 }

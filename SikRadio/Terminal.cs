@@ -144,7 +144,7 @@ namespace SikRadio
                     {
                         comPort.Close();
                     }
-                    Console.WriteLine("Comport thread close");
+                    //Console.WriteLine("Comport thread close");
                 });
                 t11.IsBackground = true;
                 t11.Name = "Terminal serial thread";

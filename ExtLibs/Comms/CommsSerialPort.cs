@@ -67,12 +67,12 @@ namespace MissionPlanner.Comms
                 // this causes element not found with bluetooth devices.
                 if (BaudRate > 115200)
                 {
-                    Console.WriteLine("Doing SerialPortFixer");
+                    //Console.WriteLine("Doing SerialPortFixer");
                     SerialPortFixer.Execute(this.PortName);
-                    Console.WriteLine("Done SerialPortFixer");
+                    //Console.WriteLine("Done SerialPortFixer");
                 }
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex) { /*Console.WriteLine(ex.ToString());*/ }
 
             if (PortName.StartsWith("/"))
                 if (!File.Exists(PortName))
@@ -99,13 +99,13 @@ namespace MissionPlanner.Comms
         {
             if (ispx4(this.PortName))
             {
-                Console.WriteLine("PX4 - no DTR");
+                //Console.WriteLine("PX4 - no DTR");
                 return;
             }
 
 
             bool open = this.IsOpen;
-            Console.WriteLine("toggleDTR " + this.IsOpen);
+            //Console.WriteLine("toggleDTR " + this.IsOpen);
             try
             {
                 if (!open)
@@ -130,7 +130,7 @@ namespace MissionPlanner.Comms
                     this.Close();
             }
             catch { }
-            Console.WriteLine("toggleDTR done " + this.IsOpen);
+            //Console.WriteLine("toggleDTR done " + this.IsOpen);
         }
 
         public new static string[] GetPortNames()

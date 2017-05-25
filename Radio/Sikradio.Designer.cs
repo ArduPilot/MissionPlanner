@@ -114,6 +114,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.RSSI = new System.Windows.Forms.TextBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.BUT_SetPPMFailSafe = new MissionPlanner.Controls.MyButton();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -219,6 +220,7 @@
             // 
             // MAVLINK
             // 
+            this.MAVLINK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.MAVLINK, "MAVLINK");
             this.MAVLINK.FormattingEnabled = true;
             this.MAVLINK.Name = "MAVLINK";
@@ -231,6 +233,7 @@
             // 
             // SERIAL_SPEED
             // 
+            this.SERIAL_SPEED.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.SERIAL_SPEED, "SERIAL_SPEED");
             this.SERIAL_SPEED.FormattingEnabled = true;
             this.SERIAL_SPEED.Items.AddRange(new object[] {
@@ -259,6 +262,7 @@
             // 
             // AIR_SPEED
             // 
+            this.AIR_SPEED.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.AIR_SPEED, "AIR_SPEED");
             this.AIR_SPEED.FormattingEnabled = true;
             this.AIR_SPEED.Items.AddRange(new object[] {
@@ -285,6 +289,7 @@
             // 
             // NETID
             // 
+            this.NETID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.NETID, "NETID");
             this.NETID.FormattingEnabled = true;
             this.NETID.Items.AddRange(new object[] {
@@ -328,6 +333,7 @@
             // 
             // TXPOWER
             // 
+            this.TXPOWER.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.TXPOWER, "TXPOWER");
             this.TXPOWER.FormattingEnabled = true;
             this.TXPOWER.Items.AddRange(new object[] {
@@ -427,6 +433,7 @@
             // 
             // MAX_WINDOW
             // 
+            this.MAX_WINDOW.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.MAX_WINDOW, "MAX_WINDOW");
             this.MAX_WINDOW.FormattingEnabled = true;
             this.MAX_WINDOW.Items.AddRange(new object[] {
@@ -471,6 +478,7 @@
             // 
             // MAX_FREQ
             // 
+            this.MAX_FREQ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.MAX_FREQ, "MAX_FREQ");
             this.MAX_FREQ.FormattingEnabled = true;
             this.MAX_FREQ.Items.AddRange(new object[] {
@@ -488,6 +496,7 @@
             // 
             // NUM_CHANNELS
             // 
+            this.NUM_CHANNELS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.NUM_CHANNELS, "NUM_CHANNELS");
             this.NUM_CHANNELS.FormattingEnabled = true;
             this.NUM_CHANNELS.Items.AddRange(new object[] {
@@ -515,6 +524,7 @@
             // 
             // DUTY_CYCLE
             // 
+            this.DUTY_CYCLE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.DUTY_CYCLE, "DUTY_CYCLE");
             this.DUTY_CYCLE.FormattingEnabled = true;
             this.DUTY_CYCLE.Items.AddRange(new object[] {
@@ -538,6 +548,7 @@
             // 
             // LBT_RSSI
             // 
+            this.LBT_RSSI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.LBT_RSSI, "LBT_RSSI");
             this.LBT_RSSI.FormattingEnabled = true;
             this.LBT_RSSI.Items.AddRange(new object[] {
@@ -558,6 +569,7 @@
             // 
             // MIN_FREQ
             // 
+            this.MIN_FREQ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.MIN_FREQ, "MIN_FREQ");
             this.MIN_FREQ.FormattingEnabled = true;
             this.MIN_FREQ.Items.AddRange(new object[] {
@@ -642,6 +654,7 @@
             // 
             // RMAVLINK
             // 
+            this.RMAVLINK.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RMAVLINK, "RMAVLINK");
             this.RMAVLINK.FormattingEnabled = true;
             this.RMAVLINK.Name = "RMAVLINK";
@@ -672,6 +685,7 @@
             // 
             // RSERIAL_SPEED
             // 
+            this.RSERIAL_SPEED.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RSERIAL_SPEED, "RSERIAL_SPEED");
             this.RSERIAL_SPEED.FormattingEnabled = true;
             this.RSERIAL_SPEED.Items.AddRange(new object[] {
@@ -689,6 +703,7 @@
             // 
             // RAIR_SPEED
             // 
+            this.RAIR_SPEED.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RAIR_SPEED, "RAIR_SPEED");
             this.RAIR_SPEED.FormattingEnabled = true;
             this.RAIR_SPEED.Items.AddRange(new object[] {
@@ -710,6 +725,7 @@
             // 
             // RNETID
             // 
+            this.RNETID.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RNETID, "RNETID");
             this.RNETID.FormattingEnabled = true;
             this.RNETID.Items.AddRange(new object[] {
@@ -753,6 +769,7 @@
             // 
             // RTXPOWER
             // 
+            this.RTXPOWER.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RTXPOWER, "RTXPOWER");
             this.RTXPOWER.FormattingEnabled = true;
             this.RTXPOWER.Items.AddRange(new object[] {
@@ -853,6 +870,7 @@
             // 
             // RMAX_WINDOW
             // 
+            this.RMAX_WINDOW.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RMAX_WINDOW, "RMAX_WINDOW");
             this.RMAX_WINDOW.FormattingEnabled = true;
             this.RMAX_WINDOW.Items.AddRange(new object[] {
@@ -897,6 +915,7 @@
             // 
             // RMAX_FREQ
             // 
+            this.RMAX_FREQ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RMAX_FREQ, "RMAX_FREQ");
             this.RMAX_FREQ.FormattingEnabled = true;
             this.RMAX_FREQ.Items.AddRange(new object[] {
@@ -914,6 +933,7 @@
             // 
             // RNUM_CHANNELS
             // 
+            this.RNUM_CHANNELS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RNUM_CHANNELS, "RNUM_CHANNELS");
             this.RNUM_CHANNELS.FormattingEnabled = true;
             this.RNUM_CHANNELS.Items.AddRange(new object[] {
@@ -941,6 +961,7 @@
             // 
             // RDUTY_CYCLE
             // 
+            this.RDUTY_CYCLE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RDUTY_CYCLE, "RDUTY_CYCLE");
             this.RDUTY_CYCLE.FormattingEnabled = true;
             this.RDUTY_CYCLE.Items.AddRange(new object[] {
@@ -959,6 +980,7 @@
             // 
             // RLBT_RSSI
             // 
+            this.RLBT_RSSI.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RLBT_RSSI, "RLBT_RSSI");
             this.RLBT_RSSI.FormattingEnabled = true;
             this.RLBT_RSSI.Items.AddRange(new object[] {
@@ -974,6 +996,7 @@
             // 
             // RMIN_FREQ
             // 
+            this.RMIN_FREQ.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.RMIN_FREQ, "RMIN_FREQ");
             this.RMIN_FREQ.FormattingEnabled = true;
             this.RMIN_FREQ.Items.AddRange(new object[] {
@@ -1029,6 +1052,14 @@
             this.linkLabel1.TabStop = true;
             this.toolTip1.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // BUT_SetPPMFailSafe
+            // 
+            resources.ApplyResources(this.BUT_SetPPMFailSafe, "BUT_SetPPMFailSafe");
+            this.BUT_SetPPMFailSafe.Name = "BUT_SetPPMFailSafe";
+            this.toolTip1.SetToolTip(this.BUT_SetPPMFailSafe, resources.GetString("BUT_SetPPMFailSafe.ToolTip"));
+            this.BUT_SetPPMFailSafe.UseVisualStyleBackColor = true;
+            this.BUT_SetPPMFailSafe.Click += new System.EventHandler(this.BUT_SetPPMFailSafe_Click);
             // 
             // RTI
             // 
@@ -1154,6 +1185,8 @@
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.Progressbar);
+            this.Controls.Add(this.BUT_SetPPMFailSafe);
             this.Controls.Add(this.BUT_loadcustom);
             this.Controls.Add(this.BUT_resettodefault);
             this.Controls.Add(this.linkLabel1);
@@ -1164,11 +1197,9 @@
             this.Controls.Add(this.BUT_savesettings);
             this.Controls.Add(this.BUT_getcurrent);
             this.Controls.Add(this.lbl_status);
-            this.Controls.Add(this.Progressbar);
             this.Controls.Add(this.BUT_upload);
-            this.MinimumSize = new System.Drawing.Size(781, 433);
-            this.Name = "Sikradio";
             resources.ApplyResources(this, "$this");
+            this.Name = "Sikradio";
             this.SPLIT_local.Panel1.ResumeLayout(false);
             this.SPLIT_local.Panel1.PerformLayout();
             this.SPLIT_local.Panel2.ResumeLayout(false);
@@ -1294,5 +1325,6 @@
         private System.Windows.Forms.CheckBox RGPO1_1R_COUT;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.CheckBox RGPI1_1R_CIN;
+        private Controls.MyButton BUT_SetPPMFailSafe;
     }
 }

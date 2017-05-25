@@ -38,7 +38,7 @@ namespace System
         {
             DialogResult answer = DialogResult.Cancel;
 
-            Console.WriteLine("CustomMessageBox thread calling " + System.Threading.Thread.CurrentThread.Name);
+            //Console.WriteLine("CustomMessageBox thread calling " + System.Threading.Thread.CurrentThread.Name);
 
             // ensure we run this on the right thread - mono - mac
             if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
@@ -47,22 +47,22 @@ namespace System
                 {
                     Application.OpenForms[0].Invoke((Action) delegate
                     {
-                        Console.WriteLine("CustomMessageBox thread running invoke " +
-                                          System.Threading.Thread.CurrentThread.Name);
+                        //Console.WriteLine("CustomMessageBox thread running invoke " +
+                                          //System.Threading.Thread.CurrentThread.Name);
                         answer = ShowUI(text, caption, buttons, icon);
                     });
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex);
+                    //Console.WriteLine(ex);
                     // fall back
-                    Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
+                    //Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
                     answer = ShowUI(text, caption, buttons, icon);
                 }
             }
             else
             {
-                Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
+                //Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
                 answer =  ShowUI(text, caption, buttons, icon);
             }
 
