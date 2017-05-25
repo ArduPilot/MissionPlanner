@@ -2470,18 +2470,22 @@ namespace MissionPlanner.GCSViews
                 if (temp.id == (ushort)MAVLink.MAV_CMD.WAYPOINT || temp.id == (ushort)MAVLink.MAV_CMD.SPLINE_WAYPOINT ||
                     temp.id == (ushort)MAVLink.MAV_CMD.TAKEOFF || temp.id == (ushort) MAVLink.MAV_CMD.DO_SET_HOME)
                 {
-                    // check relative and terrain flags
-                    if ((temp.options & 0x9) == 0 && i != 0)
+                    // not home
+                    if (i != 0)
                     {
-                        CMB_altmode.SelectedValue = (int) altmode.Absolute;
-                    } // check terrain flag
-                    else if ((temp.options & 0x8) != 0 && i != 0)
-                    {
-                        CMB_altmode.SelectedValue = (int) altmode.Terrain;
-                    } // check relative flag
-                    else if ((temp.options & 0x1) != 0 && i != 0)
-                    {
-                        CMB_altmode.SelectedValue = (int) altmode.Relative;
+                        // check relative and terrain flags
+                        if ((temp.options & 0x9) == 0)
+                        {
+                            CMB_altmode.SelectedValue = (int) altmode.Absolute;
+                        } // check terrain flag
+                        else if ((temp.options & 0x8) != 0)
+                        {
+                            CMB_altmode.SelectedValue = (int) altmode.Terrain;
+                        } // check relative flag
+                        else if ((temp.options & 0x1) != 0 )
+                        {
+                            CMB_altmode.SelectedValue = (int) altmode.Relative;
+                        }
                     }
                 }
 
@@ -2501,7 +2505,7 @@ namespace MissionPlanner.GCSViews
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
 
-                // convert to utm
+                // convert to utm/other
                 convertFromGeographic(temp.lat, temp.lng);
             }
 
