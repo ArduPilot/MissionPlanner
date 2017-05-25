@@ -173,7 +173,7 @@ namespace MissionPlanner.Wizard
             fw.Progress += fw_Progress;
             string firmwareurl = "";
             if (usebeta)
-                firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+                firmwareurl = "https://raw.github.com/ardupilot/binary/master/dev/firmware2.xml";
 
             List<Utilities.Firmware.software> swlist = fw.getFWList(firmwareurl);
 

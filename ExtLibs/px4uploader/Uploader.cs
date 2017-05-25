@@ -65,6 +65,7 @@ namespace px4uploader
             BOARD_ID = 2,//	# board type
             BOARD_REV = 3,//	# board revision
             FLASH_SIZE = 4,//	# max firmware size in bytes
+            VEC_AREA = 5
         }
 
         public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
@@ -429,6 +430,13 @@ namespace px4uploader
             port.BaseStream.Flush();
             __send(new byte[] { (byte)Code.GET_SYNC, (byte)Code.EOC });
             __getSync();
+        }
+
+        public bool __syncAttempt()
+        {
+            port.BaseStream.Flush();
+            __send(new byte[] { (byte)Code.GET_SYNC, (byte)Code.EOC });
+            return __trySync();
         }
 
         public bool __trySync()

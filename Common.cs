@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using AGaugeApp;
-using System.IO.Ports;
-using System.Threading;
 using MissionPlanner.Attributes;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using System.Security.Cryptography.X509Certificates;
 using System.Net;
-using System.Net.Sockets;
-using System.Xml; // config file
-using System.Runtime.InteropServices; // dll imports
 using log4net;
-using ZedGraph; // Graphs
-using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Utilities;
 using System.IO;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
 
 namespace MissionPlanner
 {
@@ -510,6 +496,35 @@ union px4_custom_mode {
             }
 
             return input;
+        }
+
+        public static bool CheckHTTPFileExists(string url)
+        {
+            bool result = false;
+
+            WebRequest webRequest = WebRequest.Create(url);
+            webRequest.Timeout = 1200; // miliseconds
+            webRequest.Method = "HEAD";
+
+            HttpWebResponse response = null;
+
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+                result = true;
+            }
+            catch (WebException webException)
+            {
+            }
+            finally
+            {
+                if (response != null)
+                {
+                    response.Close();
+                }
+            }
+
+            return result;
         }
 
         public static GMapMarker getMAVMarker(MAVState MAV)

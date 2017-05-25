@@ -7,6 +7,7 @@ using log4net;
 using System.Globalization;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using px4uploader;
 
 namespace MissionPlanner.Utilities
 {
@@ -22,6 +23,7 @@ namespace MissionPlanner.Utilities
             b2560v2, // apm 2+
             px4, // px3
             px4v2, // pixhawk
+            px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
             vrbrainv40,
             vrbrainv45,
@@ -77,6 +79,37 @@ namespace MissionPlanner.Utilities
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
                     {
+                        CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+
+                        var DEADLINE = DateTime.Now.AddSeconds(30);
+
+                        while (DateTime.Now < DEADLINE)
+                        {
+                            try
+                            {
+                                using (var up = new Uploader(port, 115200))
+                                {
+                                    up.identify();
+                                    Console.WriteLine(
+                                        "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
+                                        up.board_type,
+                                        up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                                    if (up.fw_maxsize == 2080768 && up.board_type == 9)
+                                    {
+                                        log.Info("is a px4v3");
+                                        return boards.px4v3;
+                                    }
+                                    else
+                                    {
+                                        log.Info("is a px4v2");
+                                        return boards.px4v2;
+                                    }
+                                }
+                            }
+                            catch { }
+                        }
+
                         log.Info("is a px4v2");
                         return boards.px4v2;
                     }
