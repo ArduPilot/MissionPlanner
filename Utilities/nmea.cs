@@ -34,6 +34,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public bool resetParser()
+        {
+            step = 0;
+            return true;
+        }
+
         public int Read(byte data)
         {
             switch (step)

@@ -502,6 +502,9 @@ namespace MissionPlanner
                             // rtcm
                             if ((seenmsg = rtcm3.Read(buffer[a])) > 0)
                             {
+                                sbp.resetParser();
+                                ubx_m8p.resetParser();
+                                nmea.resetParser();
                                 isrtcm = true;
                                 sendData(rtcm3.packet, (byte) rtcm3.length);
                                 bpsusefull += rtcm3.length;
@@ -517,6 +520,9 @@ namespace MissionPlanner
                             // sbp
                             if ((seenmsg = sbp.read(buffer[a])) > 0)
                             {
+                                rtcm3.resetParser();
+                                ubx_m8p.resetParser();
+                                nmea.resetParser();
                                 issbp = true;
                                 sendData(sbp.packet, (byte) sbp.length);
                                 bpsusefull += sbp.length;
@@ -528,6 +534,9 @@ namespace MissionPlanner
                             // ubx
                             if ((seenmsg = ubx_m8p.Read(buffer[a])) > 0)
                             {
+                                rtcm3.resetParser();
+                                sbp.resetParser();
+                                nmea.resetParser();
                                 ProcessUBXMessage();
                                 string msgname = "Ubx" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
@@ -537,6 +546,9 @@ namespace MissionPlanner
                             // nmea
                             if((seenmsg = nmea.Read(buffer[a])) > 0)
                             {
+                                rtcm3.resetParser();
+                                sbp.resetParser();
+                                ubx_m8p.resetParser();
                                 string msgname = "NMEA";
                                 if (!msgseen.ContainsKey(msgname))
                                     msgseen[msgname] = 0;
@@ -657,7 +669,22 @@ namespace MissionPlanner
                 }
                 else if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x4)
                 {
-                    log.InfoFormat("ubx mon-ver {0} {1}", ubx_m8p.packet[6], ubx_m8p.packet[7]);
+                    var ver = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_mon_ver>(6);//, ubx_m8p.length - 8);
+
+                    Console.WriteLine("ubx mon-ver {0} {1}", ASCIIEncoding.ASCII.GetString(ver.hwVersion),
+                        ASCIIEncoding.ASCII.GetString(ver.swVersion));
+
+                    for (int a = 40 + 6; a < ubx_m8p.length-2; a += 30)
+                    {
+                        var extension = ASCIIEncoding.ASCII.GetString(ubx_m8p.buffer, a, 30);
+                        Console.WriteLine("ubx mon-ver {0}", extension);
+                    }
+                }
+                else if (ubx_m8p.@class == 0xa && ubx_m8p.subclass == 0x9)
+                {
+                    var hw = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_mon_hw>(6);
+
+                    Console.WriteLine("ubx mon-hw noise {0} agc% {1} jam% {2} jamstate {3}", hw.noisePerMS, (hw.agcCnt/8191.0)*100.0, (hw.jamInd/256.0)*100,hw.flags & 0xc);
                 }
                 else if (ubx_m8p.@class == 0xf5)
                 {
@@ -674,7 +701,7 @@ namespace MissionPlanner
 
                     ubxmode = tmode;
 
-                    log.InfoFormat("ubx TMODE3 {0} {1}", (ubx_m8p.ubx_cfg_tmode3.modeflags)tmode.flags, "");
+                    log.InfoFormat("ubx TMODE3 {0} {1}", (ubx_m8p.ubx_cfg_tmode3.modeflags) tmode.flags, "");
                 }
                 else
                 {
@@ -685,6 +712,8 @@ namespace MissionPlanner
                 {
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
                     pollTMODE = DateTime.Now.AddSeconds(60);
+
+                    ubx_m8p.poll_msg(comPort, 0x0a, 0x4);
                 }
             }
             catch (Exception ex)

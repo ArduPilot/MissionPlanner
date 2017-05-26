@@ -64,6 +64,12 @@ namespace MissionPlanner.Utilities
 
         public byte[] packet { get; } = new byte[1024*4];
 
+        public bool resetParser()
+        {
+            step = 0;
+            return true;
+        }
+
         public int Read(byte data)
         {
             switch (step)

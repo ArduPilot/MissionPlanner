@@ -37,6 +37,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public bool resetParser()
+        {
+            step = 0;
+            return true;
+        }
+
         public int Read(byte data)
         {
             switch (step)
@@ -152,6 +158,40 @@ namespace MissionPlanner.Utilities
             return data;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_mon_ver
+        {
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+            public byte[] swVersion;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public Byte[] hwVersion;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+            public byte[] extension;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_mon_hw
+        {
+            public int pinSel;
+            public int pinBank;
+            public int pinDir;
+            public int pinVal;
+            public ushort noisePerMS;
+            public ushort agcCnt;
+            public byte aStatus;
+            public byte aPower;
+            public byte flags;
+            public byte reserved1;
+            public int usedMask;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)]
+            public byte[] VP;
+            public byte jamInd;
+            public ushort reserved3;
+            public int pinIrq;
+            public int pullH;
+            public int pullL;
+        }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct ubx_nav_pvt
@@ -438,6 +478,9 @@ namespace MissionPlanner.Utilities
             // rxm-sfrb/sfrb - 2s
             turnon_off(port, 0x02, 0x13, 2);
             turnon_off(port, 0x02, 0x11, 2);
+
+            // mon-hw - 2s
+            turnon_off(port, 0x0a, 0x09, 2);
 
             System.Threading.Thread.Sleep(100);
         }
