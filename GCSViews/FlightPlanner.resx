@@ -422,7 +422,7 @@
     <value>Commands</value>
   </data>
   <data name="&gt;&gt;Commands.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6354.15394, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyDataGridView, MissionPlanner, Version=1.1.6355.18360, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Commands.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1865,6 +1865,12 @@
   <data name="createCircleSurveyToolStripMenuItem.Text" xml:space="preserve">
     <value>Create Circle Survey</value>
   </data>
+  <data name="surveyGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>179, 22</value>
+  </data>
+  <data name="surveyGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>Survey (Grid)</value>
+  </data>
   <data name="autoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>166, 22</value>
   </data>
@@ -2329,6 +2335,12 @@
   <data name="&gt;&gt;insertWpToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;currentPositionToolStripMenuItem.Name" xml:space="preserve">
+    <value>currentPositionToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;currentPositionToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;insertSplineWPToolStripMenuItem.Name" xml:space="preserve">
     <value>insertSplineWPToolStripMenuItem</value>
   </data>
@@ -2743,10 +2755,10 @@
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;currentPositionToolStripMenuItem.Name" xml:space="preserve">
-    <value>currentPositionToolStripMenuItem</value>
+  <data name="&gt;&gt;surveyGridToolStripMenuItem.Name" xml:space="preserve">
+    <value>surveyGridToolStripMenuItem</value>
   </data>
-  <data name="&gt;&gt;currentPositionToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;surveyGridToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

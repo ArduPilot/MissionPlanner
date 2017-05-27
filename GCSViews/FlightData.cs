@@ -377,7 +377,8 @@ namespace MissionPlanner.GCSViews
             int y = 10;
 
             var list = MainV2.comPort.MAV.cs.GetItemList();
-            
+
+            tabStatus.SuspendLayout();
 
             foreach (var field in list)
             {
@@ -416,17 +417,23 @@ namespace MissionPlanner.GCSViews
 
                 lbl2.Location = new Point(lbl1.Right + 5, y);
                 lbl2.Size = new Size(50, 13);
-                //if (lbl2.Name == "")
-                lbl2.DataBindings.Clear();
-                lbl2.DataBindings.Add(new Binding("Text", bindingSourceStatusTab, field, false,
-                    DataSourceUpdateMode.Never, "0"));
+                if (lbl2.DataBindings.Count == 0)
+                {
+                    lbl2.DataBindings.Add(new Binding("Text", bindingSourceStatusTab, field, false,
+                        DataSourceUpdateMode.Never, "0"));
+                }
                 lbl2.Name = field + "value";
                 lbl2.Visible = true;
                 //lbl2.Text = fieldValue.ToString();
 
-                tabStatus.Controls.Add(lbl1);
-                tabStatus.Controls.Add(lbl2);
-
+                if (!tabStatus.Controls.Contains(lbl1))
+                {
+                    tabStatus.Controls.Add(lbl1);
+                }
+                if (!tabStatus.Controls.Contains(lbl2))
+                {
+                    tabStatus.Controls.Add(lbl2);
+                }
 
                 x += 0;
                 y += 15;
@@ -438,6 +445,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            tabStatus.ResumeLayout();
             tabStatus.Width = x;
 
             ThemeManager.ApplyThemeTo(tabStatus);
@@ -1595,7 +1603,13 @@ namespace MissionPlanner.GCSViews
                 {
                     // this is an attempt to prevent an invoke queue on the binding update on slow machines
                     if (updateBindingSourcecount > 0)
-                    return;
+                    {
+                        if (lastscreenupdate < DateTime.Now.AddSeconds(-5))
+                        {
+                            updateBindingSourcecount = 0;
+                        }
+                        return;
+                    }
 
                     updateBindingSourcecount++;
                     updateBindingSourceThreadName = Thread.CurrentThread.Name;
@@ -2613,7 +2627,11 @@ namespace MissionPlanner.GCSViews
 
             if (tabControlactions.SelectedTab == tabStatus)
             {
+                tabControlactions.Visible = false;
+                tabStatus.Visible = false;
                 tabStatus_Resize(sender, e);
+                tabStatus.Visible = true;
+                tabControlactions.Visible = true;
             }
             else if (tabControlactions.SelectedTab == tabPagemessages)
             {

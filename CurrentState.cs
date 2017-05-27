@@ -1084,7 +1084,7 @@ namespace MissionPlanner
         public float servovoltage { get; set; }
 
         [DisplayText("Voltage Flags")]
-        public MAVLink.MAV_POWER_STATUS voltageflag { get; set; }
+        public uint voltageflag {get;set;}
 
         public ushort i2cerrors { get; set; }
 
@@ -1253,7 +1253,7 @@ namespace MissionPlanner
 
         public float rpm2 { get; set; }
 
-        public MAVLink.MAV_PROTOCOL_CAPABILITY capabilities { get; set; }
+        public uint capabilities { get; set; }
 
         public float speedup { get; set; }
 
@@ -1328,8 +1328,8 @@ namespace MissionPlanner
                 distTraveled = 0;
                 timeInAir = 0;
                 version = new Version();
-                voltageflag = MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
-                capabilities = MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FLOAT;
+                voltageflag = (uint)MAVLink.MAV_POWER_STATUS.USB_CONNECTED;
+                capabilities = (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_FLOAT;
             }
         }
 
@@ -1545,7 +1545,7 @@ namespace MissionPlanner
 
                         try
                         {
-                            capabilities = (MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
+                            capabilities = (uint)(MAVLink.MAV_PROTOCOL_CAPABILITY)version.capabilities;
                         }
                         catch
                         {
@@ -1759,11 +1759,10 @@ namespace MissionPlanner
 
                         try
                         {
-                            voltageflag = (MAVLink.MAV_POWER_STATUS) power.flags;
+                            voltageflag = (uint)((MAVLink.MAV_POWER_STATUS) power.flags);
                         }
                         catch
                         {
-                            
                         }
                     }
 

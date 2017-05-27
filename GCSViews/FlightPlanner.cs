@@ -625,6 +625,16 @@ namespace MissionPlanner.GCSViews
 
             updateCMDParams();
 
+            foreach (DataGridViewColumn commandsColumn in Commands.Columns)
+            {
+                if(commandsColumn is DataGridViewTextBoxColumn)
+                    commandsColumn.CellTemplate.Value = "0";
+            }
+
+            Commands.Columns[Delete.Index].CellTemplate.Value = "X";
+            Commands.Columns[Up.Index].CellTemplate.Value = Resources.up;
+            Commands.Columns[Down.Index].CellTemplate.Value = Resources.down;
+
             Up.Image = Resources.up;
             Down.Image = Resources.down;
 
@@ -1025,7 +1035,10 @@ namespace MissionPlanner.GCSViews
                 string cmd;
                 try
                 {
-                    cmd = Commands[Command.Index, selectedrow].Value.ToString();
+                    if (Commands[Command.Index, selectedrow].Value != null)
+                        cmd = Commands[Command.Index, selectedrow].Value.ToString();
+                    else
+                        cmd = option;
                 }
                 catch
                 {
@@ -2235,7 +2248,7 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
-                bool use_int = (port.MAV.cs.capabilities & MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+                bool use_int = (port.MAV.cs.capabilities & (uint)MAVLink.MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
                 // set wp total
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
@@ -7004,6 +7017,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void currentPositionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddWPToMap(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, (int) MainV2.comPort.MAV.cs.alt);
+        }
+
+        private void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            GridPlugin grid = new GridPlugin();
+            grid.but_Click(sender, e);
         }
     }
 }

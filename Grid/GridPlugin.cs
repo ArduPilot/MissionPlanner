@@ -63,7 +63,7 @@ namespace MissionPlanner
             return true;
         }
 
-        void but_Click(object sender, EventArgs e)
+        public void but_Click(object sender, EventArgs e)
         {
             using (var gridui = new GridUI(this))
             {

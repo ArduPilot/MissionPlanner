@@ -275,6 +275,9 @@
     <Reference Include="SharpDX.DirectInput, Version=3.1.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>packages\SharpDX.DirectInput.3.1.1\lib\net45\SharpDX.DirectInput.dll</HintPath>
     </Reference>
+    <Reference Include="SkiaSharp, Version=1.58.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>packages\SkiaSharp.1.58.0\lib\net45\SkiaSharp.dll</HintPath>
+    </Reference>
     <Reference Include="StreamJsonRpc, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\StreamJsonRpc.1.0.36\lib\net45\StreamJsonRpc.dll</HintPath>
     </Reference>
@@ -295,6 +298,7 @@
       <HintPath>packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Globalization.Calendars, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
@@ -379,7 +383,6 @@
       <HintPath>packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.ReaderWriter, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\System.Xml.ReaderWriter.4.3.0\lib\net46\System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
@@ -389,13 +392,13 @@
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>packages\Xamarin.Forms.3.0.0.100-embeddingpreview\lib\netstandard1.0\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>packages\Xamarin.Forms.3.0.0.100-embeddingpreview\lib\netstandard1.0\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\Xamarin.Forms.2.3.4.231\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Xaml.dll</HintPath>
+      <HintPath>packages\Xamarin.Forms.3.0.0.100-embeddingpreview\lib\netstandard1.0\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Zeroconf, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -443,6 +446,14 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
       <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Grid\Grid.cs" />
+    <Compile Include="Grid\GridPlugin.cs" />
+    <Compile Include="Grid\GridUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Grid\GridUI.Designer.cs">
+      <DependentUpon>GridUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogDownloadscp.cs">
       <SubType>Form</SubType>
@@ -2667,6 +2678,9 @@
     <EmbeddedResource Include="GeoRef\Georefimage.pt.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Grid\GridUI.resx">
+      <DependentUpon>GridUI.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Joystick\JoystickSetup.ar.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
@@ -4704,9 +4718,11 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets'))" />
+    <Error Condition="!Exists('packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets'))" />
+    <Error Condition="!Exists('packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets'))" />
   </Target>
-  <Import Project="packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.2.3.4.231\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
+  <Import Project="packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets')" />
+  <Import Project="packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets" Condition="Exists('packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

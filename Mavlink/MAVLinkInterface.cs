@@ -2241,7 +2241,7 @@ Please check the following
             while (giveComport)
                 Thread.Sleep(100);
 
-            bool use_int = (MAV.cs.capabilities & MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
+            bool use_int = (MAV.cs.capabilities & (uint)MAV_PROTOCOL_CAPABILITY.MISSION_INT) > 0;
 
             object req;
 

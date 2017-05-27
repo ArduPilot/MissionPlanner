@@ -357,7 +357,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
             });
 
+            tableLayoutPanel1.Visible = false;
             tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
+            tableLayoutPanel1.Visible = true;
 
             Console.WriteLine("Add done" + DateTime.Now.ToString("ss.fff"));
 

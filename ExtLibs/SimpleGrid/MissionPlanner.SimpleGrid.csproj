@@ -120,7 +120,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Grid\Grid.cs">
+    <Compile Include="..\..\Grid\Grid.cs">
       <Link>Grid.cs</Link>
     </Compile>
     <Compile Include="SimpleGridUI.cs">

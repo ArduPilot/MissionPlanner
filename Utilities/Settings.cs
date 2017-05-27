@@ -204,6 +204,11 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static string GetDataDirectory()
         {
+            if (Program.MONO)
+            {
+                return GetRunningDirectory();
+            }
+
             var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + "Mission Planner" +
                           Path.DirectorySeparatorChar;
 

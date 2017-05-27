@@ -132,6 +132,7 @@ namespace MissionPlanner.GCSViews
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertWpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertSplineWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterForeverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -204,7 +205,7 @@ namespace MissionPlanner.GCSViews
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.currentPositionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.surveyGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -868,6 +869,12 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.insertWpToolStripMenuItem, "insertWpToolStripMenuItem");
             this.insertWpToolStripMenuItem.Click += new System.EventHandler(this.insertWpToolStripMenuItem_Click);
             // 
+            // currentPositionToolStripMenuItem
+            // 
+            this.currentPositionToolStripMenuItem.Name = "currentPositionToolStripMenuItem";
+            resources.ApplyResources(this.currentPositionToolStripMenuItem, "currentPositionToolStripMenuItem");
+            this.currentPositionToolStripMenuItem.Click += new System.EventHandler(this.currentPositionToolStripMenuItem_Click);
+            // 
             // insertSplineWPToolStripMenuItem
             // 
             this.insertSplineWPToolStripMenuItem.Name = "insertSplineWPToolStripMenuItem";
@@ -1119,7 +1126,8 @@ namespace MissionPlanner.GCSViews
             this.createSplineCircleToolStripMenuItem,
             this.areaToolStripMenuItem1,
             this.textToolStripMenuItem,
-            this.createCircleSurveyToolStripMenuItem});
+            this.createCircleSurveyToolStripMenuItem,
+            this.surveyGridToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
             // 
@@ -1347,11 +1355,11 @@ namespace MissionPlanner.GCSViews
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // currentPositionToolStripMenuItem
+            // surveyGridToolStripMenuItem
             // 
-            this.currentPositionToolStripMenuItem.Name = "currentPositionToolStripMenuItem";
-            resources.ApplyResources(this.currentPositionToolStripMenuItem, "currentPositionToolStripMenuItem");
-            this.currentPositionToolStripMenuItem.Click += new System.EventHandler(this.currentPositionToolStripMenuItem_Click);
+            this.surveyGridToolStripMenuItem.Name = "surveyGridToolStripMenuItem";
+            resources.ApplyResources(this.surveyGridToolStripMenuItem, "surveyGridToolStripMenuItem");
+            this.surveyGridToolStripMenuItem.Click += new System.EventHandler(this.surveyGridToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1532,5 +1540,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createCircleSurveyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentPositionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem surveyGridToolStripMenuItem;
     }
 }
