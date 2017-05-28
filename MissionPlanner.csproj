@@ -4709,10 +4709,8 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets'))" />
     <Error Condition="!Exists('packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets'))" />
   </Target>
-  <Import Project="packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets" Condition="Exists('packages\Xamarin.Forms.3.0.0.100-embeddingpreview\build\netstandard1.0\Xamarin.Forms.targets')" />
   <Import Project="packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets" Condition="Exists('packages\SkiaSharp.1.58.0\build\net45\SkiaSharp.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
