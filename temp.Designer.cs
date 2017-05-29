@@ -245,16 +245,7 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
-            // BUT_driverclean
-            // 
-            this.BUT_driverclean.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.BUT_driverclean.Location = new System.Drawing.Point(3, 318);
-            this.BUT_driverclean.Name = "BUT_driverclean";
-            this.BUT_driverclean.Size = new System.Drawing.Size(113, 15);
-            this.BUT_driverclean.TabIndex = 36;
-            this.BUT_driverclean.Text = "Driver Clean";
-            this.BUT_driverclean.UseVisualStyleBackColor = true;
-            this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
+ 
             // 
             // BUT_sorttlogs
             // 

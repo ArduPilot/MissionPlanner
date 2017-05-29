@@ -250,11 +250,6 @@ namespace MissionPlanner
             new FollowPathControl().Show();
         }
 
-        private void BUT_driverclean_Click(object sender, EventArgs e)
-        {
-            CleanDrivers.Clean();
-        }
-
 
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
         {

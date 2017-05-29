@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.571" />
+    <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
@@ -28,20 +29,19 @@
       <HintPath>..\DirectShowLib-2005.dll</HintPath>
       <Private>true</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\..\..\..\.nuget\packages\SharpZipLib\0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK">
       <HintPath>..\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
-    <Reference Include="System.Speech, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <Private>true</Private>
-        <HintPath>..\System.Speech.dll</HintPath>
-        <SpecificVersion>true</SpecificVersion>
-        <EmbedInteropTypes>false</EmbedInteropTypes>
+    <Reference Include="ProjNet">
+      <HintPath>..\..\..\..\..\.nuget\packages\ProjNet\1.2.0\lib\net20\ProjNet.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 
 

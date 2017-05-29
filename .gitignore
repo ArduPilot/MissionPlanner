@@ -45,3 +45,12 @@ obj/
 /ExtLibs/netcore
 /.vs
 /ExtLibs/Zeroconf
+/ExtLibs/GMap.NET.Core/GMap.NET.Core2.csproj
+/ExtLibs/GDAL/GDAL2.csproj
+/ExtLibs/Core/Core2.csproj
+/ExtLibs/Comms/MissionPlanner.Comms2.csproj
+/ExtLibs/BaseClasses/BaseClasses2.csproj
+/ExtLibs/AviFile/AviFile2.csproj
+/ExtLibs/Arduino/Arduino2.csproj
+/ExtLibs/GeoUtility/GeoUtility2.csproj
+/MissionPlanner2.csproj

@@ -54,7 +54,7 @@ namespace MissionPlanner.Controls
                     noofchars = label.Length;
                     using (Graphics g = Graphics.FromHwnd(this.Handle))
                     {
-                        SizeF textSize = Measure.MeasureString(g, this.Font, value);
+                        SizeF textSize = TextRenderer.MeasureText(g, value, this.Font);
                         this.Width = (int)textSize.Width;
                     }                    
                 }
