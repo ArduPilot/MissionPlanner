@@ -81,11 +81,7 @@ namespace Core.Xml
                 success = true;
             }
             catch (Exception e) {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show("Couldn't serialize to: " + file_path + "\n" + e.ToString());
-#else
-                System.Windows.Forms.MessageBox.Show("Failed to Save Document: "+file_path);
-#endif
+                throw e;
             }
             finally {
                 m_Serializing = false;
@@ -99,7 +95,7 @@ namespace Core.Xml
                     File.Move(streamPath, file_path);
                 }
                 catch (Exception ex) {
-                    System.Windows.Forms.MessageBox.Show("Warning, could not overwrite: " + file_path+"\n"+ex.Message+"\n\nSaved as: "+streamPath);
+                    throw ex;
                 }
             }
         }
@@ -117,9 +113,6 @@ namespace Core.Xml
                 return xs.Deserialize(stream);
             }
             catch (Exception e) {
-#if DEBUG
-                System.Windows.Forms.MessageBox.Show("Couldn't deserialize stream:\n" + e.ToString());
-#endif
                 return null;
             }
             finally {
