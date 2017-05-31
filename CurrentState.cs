@@ -1963,21 +1963,28 @@ namespace MissionPlanner
                     {
                         var bats = mavLinkMessage.ToStructure<MAVLink.mavlink_battery_status_t>();
 
-                        if (bats.voltages[0] != ushort.MaxValue)
+                        if (bats.id == 0)
                         {
-                            battery_cell1 = bats.voltages[0] / 1000.0;
-                            battery_cell2 = bats.voltages[1] / 1000.0;
-                            battery_cell3 = bats.voltages[2] / 1000.0;
-                            battery_cell4 = bats.voltages[3] / 1000.0;
-                            battery_cell5 = bats.voltages[4] / 1000.0;
-                            battery_cell6 = bats.voltages[5] / 1000.0;
-                        }
+                            if (bats.voltages[0] != ushort.MaxValue)
+                            {
+                                battery_cell1 = bats.voltages[0] / 1000.0;
+                                battery_cell2 = bats.voltages[1] / 1000.0;
+                                battery_cell3 = bats.voltages[2] / 1000.0;
+                                battery_cell4 = bats.voltages[3] / 1000.0;
+                                battery_cell5 = bats.voltages[4] / 1000.0;
+                                battery_cell6 = bats.voltages[5] / 1000.0;
+                            }
 
-                        battery_usedmah = bats.current_consumed;
-                        battery_remaining = bats.battery_remaining;
-                        _current = bats.current_battery / 100.0f;
-                        if(bats.temperature != short.MaxValue)
-                            battery_temp = bats.temperature / 100.0;
+                            battery_usedmah = bats.current_consumed;
+                            battery_remaining = bats.battery_remaining;
+                            _current = bats.current_battery / 100.0f;
+                            if (bats.temperature != short.MaxValue)
+                                battery_temp = bats.temperature / 100.0;
+                        }
+                        else if (bats.id == 1)
+                        {
+                            _current2 = bats.current_battery / 100.0f;
+                        }
                     }
 
                     mavLinkMessage = MAV.getPacket((uint) MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE);
