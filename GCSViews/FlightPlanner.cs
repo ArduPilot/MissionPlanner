@@ -2911,6 +2911,10 @@ namespace MissionPlanner.GCSViews
                             // abs MAV_FRAME_GLOBAL_RELATIVE_ALT=3
                             temp.options = 1;
                         }
+                        else if (items[2] == "10")
+                        {
+                            temp.options = 8;
+                        }
                         else
                         {
                             temp.options = 0;
