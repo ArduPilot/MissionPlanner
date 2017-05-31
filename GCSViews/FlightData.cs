@@ -1944,6 +1944,9 @@ namespace MissionPlanner.GCSViews
         {
             if (route != null)
                 route.Points.Clear();
+
+            if (MainV2.comPort.MAV.camerapoints != null)
+                MainV2.comPort.MAV.camerapoints.Clear();
         }
 
         private void BUTactiondo_Click(object sender, EventArgs e)
