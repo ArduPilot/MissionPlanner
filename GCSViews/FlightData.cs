@@ -623,6 +623,8 @@ namespace MissionPlanner.GCSViews
             catch
             {
             }
+
+            center.Position = gMapControl1.Position;
         }
 
         private void FlightData_Load(object sender, EventArgs e)
@@ -2139,13 +2141,13 @@ namespace MissionPlanner.GCSViews
         {
             if (e.Button == MouseButtons.Left)
             {
-                try
-                {
-                    gMapControl1.Core.BeginDrag(new GPoint(e.Location.X, e.Location.Y));
-                }
-                catch
-                {
-                }
+                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+
+                double latdif = MouseDownStart.Lat - point.Lat;
+                double lngdif = MouseDownStart.Lng - point.Lng;
+
+                gMapControl1.Position = new PointLatLng(center.Position.Lat + latdif,
+                    center.Position.Lng + lngdif);
             }
             else
             {
@@ -4173,8 +4175,12 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.doAbortLand();
         }
 
+        GMapMarker center = new GMarkerGoogle(new PointLatLng(0.0, 0.0), GMarkerGoogleType.none);
+
         private void gMapControl1_OnPositionChanged(PointLatLng point)
         {
+            center.Position = point;
+
             UpdateOverlayVisibility();
         }
 
