@@ -185,6 +185,8 @@ namespace MissionPlanner
 
         static List<Tuple<float, float, float>> datacompass3 = new List<Tuple<float, float, float>>();
 
+        private static object _locker = new object();
+
         static bool ReceviedPacket(MAVLink.MAVLinkMessage rawpacket)
         {
             if (rawpacket.msgid == (byte) MAVLink.MAVLINK_MSG_ID.SCALED_IMU2)
@@ -214,7 +216,7 @@ namespace MissionPlanner
                 float rawmz = packet.zmag;
 
                 // add data
-                lock (datacompass2)
+                lock (_locker)
                 {
                     if (rawmx == 0 || rawmy == 0 || rawmz == 0)
                         return true;
@@ -251,7 +253,7 @@ namespace MissionPlanner
                 float rawmz = packet.zmag;
 
                 // add data
-                lock (datacompass3)
+                lock (_locker)
                 {
                     if (rawmx == 0 || rawmy == 0 || rawmz == 0)
                         return true;
@@ -291,7 +293,7 @@ namespace MissionPlanner
                 float rawmz = packet.zmag - (float) MainV2.comPort.MAV.cs.mag_ofs_z;
 
                 // add data
-                lock (datacompass1)
+                lock (_locker)
                 {
                     datacompass1.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
                 }
@@ -420,7 +422,7 @@ namespace MissionPlanner
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
 
                     lastlsq = DateTime.Now;
-                    lock (datacompass1)
+                    lock (_locker)
                     {
                         var lsq = MagCalib.LeastSq(datacompass1, false);
                         // simple validation
@@ -439,7 +441,7 @@ namespace MissionPlanner
                 if (datacompass2.Count > 100 && lastlsq2.Second != DateTime.Now.Second)
                 {
                     lastlsq2 = DateTime.Now;
-                    lock (datacompass2)
+                    lock (_locker)
                     {
                         var lsq = MagCalib.LeastSq(datacompass2, false);
                         // simple validation
@@ -458,7 +460,7 @@ namespace MissionPlanner
                 if (datacompass3.Count > 100 && lastlsq3.Second != DateTime.Now.Second)
                 {
                     lastlsq3 = DateTime.Now;
-                    lock (datacompass3)
+                    lock (_locker)
                     {
                         var lsq = MagCalib.LeastSq(datacompass3, false);
                         // simple validation
