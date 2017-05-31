@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace MissionPlanner.Comms
 {
-    public class CommsNTRIP : CommsBase,  ICommsSerial, IDisposable
+    public class CommsNTRIP : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(typeof(CommsNTRIP));
         public TcpClient client = new TcpClient();
@@ -32,7 +32,11 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return client.GetStream(); } }
+
+        public Stream BaseStream
+        {
+            get { return client.GetStream(); }
+        }
 
         public CommsNTRIP()
         {
@@ -47,33 +51,49 @@ namespace MissionPlanner.Comms
 
         public int ReadTimeout
         {
-            get;// { return client.ReceiveTimeout; }
-            set;// { client.ReceiveTimeout = value; }
+            get; // { return client.ReceiveTimeout; }
+            set; // { client.ReceiveTimeout = value; }
         }
 
-        public int ReadBufferSize {get;set;}
+        public int ReadBufferSize { get; set; }
 
         public int BaudRate { get; set; }
         public StopBits StopBits { get; set; }
-        public  Parity Parity { get; set; }
-        public  int DataBits { get; set; }
+        public Parity Parity { get; set; }
+        public int DataBits { get; set; }
 
         public string PortName { get; set; }
 
-        public  int BytesToRead
+        public int BytesToRead
         {
-            get { /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/ return (int)client.Available; }
+            get
+            {
+                /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/
+                return (int) client.Available;
+            }
         }
 
-        public int BytesToWrite { get { return 0; } }
-
-        public bool IsOpen { get { try { return client.Client.Connected; } catch { return false; } } }
-
-        public bool DtrEnable
+        public int BytesToWrite
         {
-            get;
-            set;
+            get { return 0; }
         }
+
+        public bool IsOpen
+        {
+            get
+            {
+                try
+                {
+                    return client.Client.Connected;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool DtrEnable { get; set; }
 
         public void Open()
         {
@@ -87,7 +107,8 @@ namespace MissionPlanner.Comms
 
             string url = OnSettings("NTRIP_url", "");
 
-            if (OnInputBoxShow("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url) == inputboxreturn.Cancel)
+            if (OnInputBoxShow("remote host", "Enter url (eg http://user:pass@host:port/mount)", ref url) ==
+                inputboxreturn.Cancel)
             {
                 throw new Exception("Canceled by request");
             }
@@ -135,7 +156,7 @@ namespace MissionPlanner.Comms
             Port = remoteUri.Port.ToString();
 
             client = new TcpClient(host, int.Parse(Port));
-            client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true,36000000, 3000), null);
+            client.Client.IOControl(IOControlCode.KeepAliveValues, TcpKeepAlive(true, 36000000, 3000), null);
 
             NetworkStream ns = client.GetStream();
 
@@ -145,7 +166,7 @@ namespace MissionPlanner.Comms
             string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\n"
                           + "User-Agent: NTRIP Mission Planner/1.0\r\n"
                           + "Accept: */*\r\n"
-                          + auth 
+                          + auth
                           + "Connection: close\r\n\r\n";
 
             sw.Write(line);
@@ -155,25 +176,7 @@ namespace MissionPlanner.Comms
             sw.Flush();
 
             // vrs may take up to 60+ seconds to respond
-
-            if (lat != 0 || lng != 0)
-            {
-                double latdms = (int) lat + ((lat - (int) lat)*.6f);
-                double lngdms = (int) lng + ((lng - (int) lng)*.6f);
-
-                line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                 "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
-                 DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
-                 Math.Abs(lngdms * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
-                 1, alt, "M", 0, "M", "");
-
-                string checksum = GetChecksum(line);
-                sw.WriteLine(line + "*" + checksum);
-
-                log.Info(line + "*" + checksum);
-
-                sw.Flush();
-            }
+            SendNMEA();
 
             line = sr.ReadLine();
 
@@ -191,6 +194,33 @@ namespace MissionPlanner.Comms
             VerifyConnected();
         }
 
+        DateTime _lastnmea = DateTime.MinValue;
+
+        private void SendNMEA()
+        {
+            if (lat != 0 || lng != 0)
+            {
+                if (_lastnmea.AddSeconds(30) < DateTime.Now)
+                {
+                    double latdms = (int) lat + ((lat - (int) lat) * .6f);
+                    double lngdms = (int) lng + ((lng - (int) lng) * .6f);
+
+                    var line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
+                        "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
+                        DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
+                        Math.Abs(lngdms * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
+                        1, alt, "M", 0, "M", "");
+
+                    string checksum = GetChecksum(line);
+                    WriteLine(line + "*" + checksum);
+
+                    log.Info(line + "*" + checksum);
+
+                    _lastnmea = DateTime.Now;
+                }
+            }
+
+        }
 
         // Calculates the checksum for a sentence
         string GetChecksum(string sentence)
@@ -252,6 +282,9 @@ namespace MissionPlanner.Comms
         public  int Read(byte[] readto,int offset,int length)
         {
             VerifyConnected();
+
+            SendNMEA();
+
             try
             {
                 if (length < 1) { return 0; }
