@@ -2445,6 +2445,13 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_setmode_Click(object sender, EventArgs e)
         {
+            if (MainV2.comPort.MAV.cs.failsafe)
+            {
+                if (CustomMessageBox.Show("You are in failsafe, are you sure?", "Failsafe",MessageBoxButtons.YesNo) != DialogResult.Yes)
+                {
+                    return;
+                }
+            }
             MainV2.comPort.setMode(CMB_modes.Text);
         }
 
