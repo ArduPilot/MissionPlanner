@@ -11,104 +11,148 @@ namespace MissionPlanner.Utilities
 {
     public class MissionFile
     {
-        public static void test()
-        {
-            var file = File.ReadAllText(@"C:\Users\michael\Desktop\logs\FileFormat.mission");
-
-            var output = JsonConvert.DeserializeObject<Format>(file);
-
-            var fileout = JsonConvert.SerializeObject(output);
-        }
-
-        public static Format ReadFile(string filename)
+        public static RootObject ReadFile(string filename)
         {
             var file = File.ReadAllText(filename);
 
-            var output = JsonConvert.DeserializeObject<Format>(file);
+            var output = JsonConvert.DeserializeObject<RootObject>(file);
 
             return output;
         }
 
-        public static void WriteFile(string filename, Format format)
+        public static void WriteFile(string filename, RootObject format)
         {
             var fileout = JsonConvert.SerializeObject(format, Formatting.Indented);
 
             File.WriteAllText(filename, fileout);
         }
 
-        public static List<Locationwp> ConvertToLocationwps(Format format)
+        public static List<Locationwp> ConvertToLocationwps(RootObject format)
         {
             List<Locationwp> cmds = new List<Locationwp>();
 
-            cmds.Add(ConvertFromMissionItem(format.plannedHomePosition));
+            cmds.Add(ConvertFromMissionItem(format.mission.plannedHomePosition));
 
-            foreach (var missionItem in format.items)
+            foreach (var missionItem in format.mission.items)
             {
+                if (missionItem.type != "SimpleItem")
+                {
+                    if (missionItem.type == "ComplexItem")
+                    {
+                        
+                    }
+                    continue;
+                }
                 cmds.Add(ConvertFromMissionItem(missionItem));
             }
 
             return cmds;
         }
 
-        public static Locationwp ConvertFromMissionItem(MissionItem missionItem)
+        public static Locationwp ConvertFromMissionItem(List<double> missionItem)
+        {
+            return new Locationwp() {alt = (float)missionItem[2], lat = missionItem[0], lng = missionItem[1]};
+        }
+
+        public static Locationwp ConvertFromMissionItem(Item missionItem)
         {
             return missionItem;
         }
 
-        public static MissionItem ConvertFromLocationwp(Locationwp locationwp)
+        public static Item ConvertFromLocationwp(Locationwp locationwp)
         {
             return locationwp;
         }
 
-        public class Format
+        //http://json2csharp.com/#
+        public class GeoFence
         {
-            public int MAV_AUTOPILOT;
-            public List<object> complexItems = new List<object>();
-            public string groundStation;
-            public List<MissionItem> items= new List<MissionItem>();
-            public MissionItem plannedHomePosition;
-            public string version = "1.0";
+            public List<double> breachReturn { get; set; }
+            public List<List<double>> polygon { get; set; }
+            public int version { get; set; }
         }
 
-        public class MissionItem
+        public class Camera
         {
-            public bool autoContinue = true;
-            public UInt16 command;
-            public double[] coordinate = new double[3];
-            public byte frame;
-            public UInt16 id;
-            public Single param1;
-            public Single param2;
-            public Single param3;
-            public Single param4;
-            public string type;
+            public int focalLength { get; set; }
+            public int groundResolution { get; set; }
+            public int imageFrontalOverlap { get; set; }
+            public int imageSideOverlap { get; set; }
+            public string name { get; set; }
+            public bool orientationLandscape { get; set; }
+            public int resolutionHeight { get; set; }
+            public int resolutionWidth { get; set; }
+            public double sensorHeight { get; set; }
+            public double sensorWidth { get; set; }
         }
 
-        public class SurveyItem
+        public class Grid
         {
-            public bool cameraTrigger = false;
-            public double cameraTriggerDistance;
-            public double gridAltitude;
-            public bool gridAltitudeRelative;
-            public double gridAngle;
-            public double gridSpacing;
-            public int id;
-            public List<double[]> polygon = new List<double[]>();
-            public string type;
-            public int version;
+            public double altitude { get; set; }
+            public int angle { get; set; }
+            public bool relativeAltitude { get; set; }
+            public double spacing { get; set; }
+            public int turnAroundDistance { get; set; }
         }
 
-        public static Format ConvertFromLocationwps(List<Locationwp> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
+        public class Item
         {
-            Format temp = new Format()
+            public bool autoContinue { get; set; }
+            public int command { get; set; }
+            public List<double> coordinate { get; set; }
+            public int doJumpId { get; set; }
+            public int frame { get; set; }
+            public List<double> @params { get; set; }
+            public string type { get; set; }
+            public Camera camera { get; set; }
+            public int? cameraTriggerDistance { get; set; }
+            public string complexItemType { get; set; }
+            public bool? fixedValueIsAltitude { get; set; }
+            public Grid grid { get; set; }
+            public bool? hoverAndCapture { get; set; }
+            public bool? manualGrid { get; set; }
+            public List<List<double?>> polygon { get; set; }
+            public bool? refly90Degrees { get; set; }
+            public int? version { get; set; }
+        }
+
+        public class Mission
+        {
+            public int cruiseSpeed { get; set; }
+            public int firmwareType { get; set; }
+            public int hoverSpeed { get; set; }
+            public List<Item> items { get; set; }
+            public List<double> plannedHomePosition { get; set; }
+            public int vehicleType { get; set; }
+            public int version { get; set; }
+        }
+
+        public class RallyPoints
+        {
+            public List<List<double>> points { get; set; }
+            public int version { get; set; }
+        }
+
+        public class RootObject
+        {
+            public string fileType { get; set; }
+            public GeoFence geoFence { get; set; }
+            public string groundStation { get; set; }
+            public Mission mission { get; set; }
+            public RallyPoints rallyPoints { get; set; }
+            public int version { get; set; }
+        }
+
+        public static RootObject ConvertFromLocationwps(List<Locationwp> list, byte frame = (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)
+        {
+            RootObject temp = new RootObject()
             {
-                MAV_AUTOPILOT = (int)MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA,
                 groundStation = "MissionPlanner",
-                version = "1.0"
+                version = 1
             };
 
             if (list.Count>0)
-                temp.plannedHomePosition = ConvertFromLocationwp(list[0]);
+                temp.mission.plannedHomePosition = ConvertFromLocationwp(list[0]).coordinate.ToList();
 
             if (list.Count > 1)
             {
@@ -124,17 +168,15 @@ namespace MissionPlanner.Utilities
 
                     var temploc = ConvertFromLocationwp(item);
 
-                    // set id count
-                    temploc.id = (ushort)a;
                     // set frame type
                     temploc.frame = frame;
 
-                    temp.items.Add(temploc);
+                    temp.mission.items.Add(temploc);
 
                     if (item.Tag != null)
                     {
-                        if (!temp.complexItems.Contains(item.Tag))
-                            temp.complexItems.Add(item.Tag);
+                        //if (!temp.mission.complexItems.Contains(item.Tag))
+                            //temp.complexItems.Add(item.Tag);
                     }
 
                     a++;

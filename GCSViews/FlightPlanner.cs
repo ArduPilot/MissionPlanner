@@ -2832,7 +2832,7 @@ namespace MissionPlanner.GCSViews
         {
             using (OpenFileDialog fd = new OpenFileDialog())
             {
-                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.mission";
+                fd.Filter = "All Supported Types|*.txt;*.waypoints;*.shp;*.plan";
                 DialogResult result = fd.ShowDialog();
                 string file = fd.FileName;
 
