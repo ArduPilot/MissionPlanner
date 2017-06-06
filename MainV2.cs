@@ -22,6 +22,7 @@ using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
 using MissionPlanner.GCSViews.ConfigurationView;
 using WebCamService;
+using static MissionPlanner.Joystick.JoystickProperties;
 
 namespace MissionPlanner
 {
@@ -315,6 +316,11 @@ namespace MissionPlanner
         /// track last joystick packet sent. used to control rate
         /// </summary>
         DateTime lastjoystick = DateTime.Now;
+
+        /// <summary>
+        /// joystick static class
+        /// </summary>
+        public static Joystick.CameraJoystick camerajoystick = null;
 
         /// <summary>
         /// determine if we are running sitl
@@ -1874,6 +1880,14 @@ namespace MissionPlanner
 
                 joystick.Dispose(); //proper clean up of joystick.
             }
+
+            if (camerajoystick != null)
+            {
+                while (!joysendThreadExited)
+                    Thread.Sleep(10);
+
+                camerajoystick.Dispose(); //proper clean up of camerajoystick.
+            }
         }
 
         private void LoadConfig()
@@ -1945,7 +1959,7 @@ namespace MissionPlanner
                     {
                         //joystick stuff
 
-                        if (joystick != null && joystick.enabled)
+                        if (joystick != null && joystick.enabled || (camerajoystick != null && camerajoystick.enabled && camerajoystick.MasterEnabled && camerajoystick.UserEnabled))
                         {
                             if (!joystick.manual_control)
                             {
@@ -1954,22 +1968,43 @@ namespace MissionPlanner
                                 rc.target_component = comPort.MAV.compid;
                                 rc.target_system = comPort.MAV.sysid;
 
-                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(1) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan1_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech1;
-                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(2) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan2_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech2;
-                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(3) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan3_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech3;
-                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(4) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan4_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech4;
-                                if (joystick.getJoystickAxis(5) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(5) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan5_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech5;
-                                if (joystick.getJoystickAxis(6) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(6) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan6_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech6;
-                                if (joystick.getJoystickAxis(7) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(7) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan7_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech7;
-                                if (joystick.getJoystickAxis(8) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(8) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.chan8_raw = (ushort)MainV2.comPort.MAV.cs.rcoverridech8;
+
+
+                                // we do camera joystick after so it can override the main controller
+                                // this is needed for example: if the rudder channel is used for PAN, like on a copter with a 2 axis gimble
+                                // be careful!
+                                // there are options in the config to only override at a threshold from stick center, that is the safety
+                                if (camerajoystick != null && camerajoystick.enabled && camerajoystick.MasterEnabled && camerajoystick.UserEnabled)
+                                {
+                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Pan) != joystickaxis.None)
+                                    {
+                                        setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Pan), ref rc);
+                                    }
+                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Tilt) != joystickaxis.None)
+                                    {
+                                        setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Tilt), ref rc);
+                                    }
+                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Zoom) != joystickaxis.None)
+                                    {
+                                        setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Zoom), ref rc);
+                                    }
+                                }
 
                                 if (lastjoystick.AddMilliseconds(rate) < DateTime.Now)
                                 {
@@ -2027,13 +2062,13 @@ namespace MissionPlanner
 
                                 rc.target = comPort.MAV.compid;
 
-                                if (joystick.getJoystickAxis(1) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(1) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.x = MainV2.comPort.MAV.cs.rcoverridech1;
-                                if (joystick.getJoystickAxis(2) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(2) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.y = MainV2.comPort.MAV.cs.rcoverridech2;
-                                if (joystick.getJoystickAxis(3) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(3) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.z = MainV2.comPort.MAV.cs.rcoverridech3;
-                                if (joystick.getJoystickAxis(4) != Joystick.Joystick.joystickaxis.None)
+                                if (joystick.getJoystickAxis(4) != Joystick.JoystickProperties.joystickaxis.None)
                                     rc.r = MainV2.comPort.MAV.cs.rcoverridech4;
 
                                 if (lastjoystick.AddMilliseconds(rate) < DateTime.Now)
@@ -2065,6 +2100,45 @@ namespace MissionPlanner
                 } // cant fall out
             }
             joysendThreadExited = true; //so we know this thread exited.    
+        }
+
+        private void setRawChForCamera(int ch, ref MAVLink.mavlink_rc_channels_override_t rc)
+        {
+            switch (ch)
+            {
+                case 1:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech1 > 0 || MainV2.comPort.MAV.cs.rcoverridech1 == 0)
+                        rc.chan1_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech1);
+                    break;
+                case 2:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech2 > 0 || MainV2.comPort.MAV.cs.rcoverridech2 == 0)
+                        rc.chan2_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech2);
+                    break;
+                case 3:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech3 > 0 || MainV2.comPort.MAV.cs.rcoverridech3 == 0)
+                        rc.chan3_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech3);
+                    break;
+                case 4:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech4 > 0 || MainV2.comPort.MAV.cs.rcoverridech4 == 0)
+                        rc.chan4_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech4);
+                    break;
+                case 5:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech5 > 0 || MainV2.comPort.MAV.cs.rcoverridech5 == 0)
+                        rc.chan5_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech5);
+                    break;
+                case 6:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech6 > 0 || MainV2.comPort.MAV.cs.rcoverridech6 == 0)
+                        rc.chan6_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech6);
+                    break;
+                case 7:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech7 > 0 || MainV2.comPort.MAV.cs.rcoverridech7 == 0)
+                        rc.chan7_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech7);
+                    break;
+                case 8:
+                    if (MainV2.comPort.MAV.cs.CAMERA_rcoverridech8 > 0 || MainV2.comPort.MAV.cs.rcoverridech8 == 0)
+                        rc.chan8_raw = Convert.ToUInt16(MainV2.comPort.MAV.cs.CAMERA_rcoverridech8);
+                    break;
+            }
         }
 
         /// <summary>

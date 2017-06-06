@@ -899,5 +899,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             Settings.Instance["displayview"] = MainV2.DisplayConfiguration.ConvertToString();
         }
+
+        private void BUT_CameraJoystick_Click(object sender, EventArgs e)
+        {
+            Form joy = new ConfigureCameraJoystick();
+            ThemeManager.ApplyThemeTo(joy);
+            joy.Show();
+        }
     }
 }

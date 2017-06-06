@@ -39,7 +39,7 @@ namespace MissionPlanner.Joystick
             var config = MainV2.joystick.getButton(name);
 
             // change what we modified
-            config.function = Joystick.buttonfunction.ChangeMode;
+            config.function = JoystickProperties.buttonfunction.ChangeMode;
             config.mode = comboBox1.Text.ToString();
 
             // update entry

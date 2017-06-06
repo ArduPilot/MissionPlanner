@@ -98,6 +98,7 @@
             this.but_AAsignin = new MissionPlanner.Controls.MyButton();
             this.CMB_Layout = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.BUT_CameraJoystick = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -639,9 +640,17 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // BUT_CameraJoystick
+            // 
+            resources.ApplyResources(this.BUT_CameraJoystick, "BUT_CameraJoystick");
+            this.BUT_CameraJoystick.Name = "BUT_CameraJoystick";
+            this.BUT_CameraJoystick.UseVisualStyleBackColor = true;
+            this.BUT_CameraJoystick.Click += new System.EventHandler(this.BUT_CameraJoystick_Click);
+            // 
             // ConfigPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.BUT_CameraJoystick);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.CMB_Layout);
             this.Controls.Add(this.but_AAsignin);
@@ -791,5 +800,6 @@
         private Controls.MyButton but_AAsignin;
         public System.Windows.Forms.ComboBox CMB_Layout;
         private System.Windows.Forms.Label label5;
+        private Controls.MyButton BUT_CameraJoystick;
     }
 }

@@ -1277,6 +1277,16 @@ namespace MissionPlanner
         public short rcoverridech7;// { get; set; }
         public short rcoverridech8;// { get; set; }
 
+        // rc override CAMERA
+        public short CAMERA_rcoverridech1;//{ get; set; }
+        public short CAMERA_rcoverridech2;// { get; set; }
+        public short CAMERA_rcoverridech3;//{ get; set; }
+        public short CAMERA_rcoverridech4;//{ get; set; }
+        public short CAMERA_rcoverridech5;// { get; set; }
+        public short CAMERA_rcoverridech6;// { get; set; }
+        public short CAMERA_rcoverridech7;// { get; set; }
+        public short CAMERA_rcoverridech8;// { get; set; }
+
         internal Mavlink_Sensors sensors_enabled = new Mavlink_Sensors();
         internal Mavlink_Sensors sensors_health = new Mavlink_Sensors();
         internal Mavlink_Sensors sensors_present = new Mavlink_Sensors();
