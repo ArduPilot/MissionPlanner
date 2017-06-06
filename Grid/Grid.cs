@@ -13,8 +13,6 @@ namespace MissionPlanner
 {
     public class Grid
     {
-        public static MissionPlanner.Plugin.PluginHost Host2;
-
         const double rad2deg = (180 / Math.PI);
         const double deg2rad = (1.0 / rad2deg);
 
@@ -315,7 +313,7 @@ namespace MissionPlanner
             {
                 default:
                 case StartPosition.Home:
-                    startposutm = new utmpos(Host2.cs.HomeLocation);
+                    startposutm = new utmpos(MainV2.comPort.MAV.cs.HomeLocation);
                     break;
                 case StartPosition.BottomLeft:
                     startposutm = new utmpos(area.Left, area.Bottom, utmzone);

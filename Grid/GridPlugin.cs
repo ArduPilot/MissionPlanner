@@ -35,8 +35,6 @@ namespace MissionPlanner
 
         public override bool Loaded()
         {
-            Grid.Host2 = Host;
-
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             var temp = (string)(resources.GetObject("$this.Text"));
 
