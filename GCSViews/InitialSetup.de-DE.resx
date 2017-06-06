@@ -117,25 +117,61 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Verbinden</value>
+  <data name="backstageViewPageSikradio.Text" xml:space="preserve">
+    <value>SiK Radio</value>
   </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>Log laden</value>
+  <data name="backstageViewPageBatt2.Text" xml:space="preserve">
+    <value>Batterieanzeige 2</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Setup RC-Steuerung</value>
+  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
+    <value>Antennen-Tracker</value>
   </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Trennen</value>
+  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
+    <value>Bluetooth Einstellungen</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>Achtung, CLI funktioniert nur über USB</value>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>Kompass/Motor Kalibrierung</value>
   </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log durchsuchen</value>
+  <data name="backstageViewPageParachute.Text" xml:space="preserve">
+    <value>Fallschirm</value>
   </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Zeige Einstellungen</value>
+  <data name="backstageViewPageopt.Text" xml:space="preserve">
+    <value>Optionale Hardware</value>
+  </data>
+  <data name="backstageViewPageradio.Text" xml:space="preserve">
+    <value>Kalibrierung RC-Steuerung</value>
+  </data>
+  <data name="backstageViewPageframetype.Text" xml:space="preserve">
+    <value>Rahmentyp</value>
+  </data>
+  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
+    <value>Firmware installieren</value>
+  </data>
+  <data name="backstageViewPagefw.Text" xml:space="preserve">
+    <value>Firmware installieren</value>
+  </data>
+  <data name="backstageViewPageaccel.Text" xml:space="preserve">
+    <value>Kalibrierung Beschleunigungssensoren</value>
+  </data>
+  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
+    <value>Batterieanzeige</value>
+  </data>
+  <data name="backstageViewPageESC.Text" xml:space="preserve">
+    <value>Kalibrierung ESC</value>
+  </data>
+  <data name="backstageViewPageflmode.Text" xml:space="preserve">
+    <value>Flugmodi</value>
+  </data>
+  <data name="backstageViewPagecompass.Text" xml:space="preserve">
+    <value>Kompass</value>
+  </data>
+  <data name="backstageViewPagemand.Text" xml:space="preserve">
+    <value>Basis Hardware</value>
+  </data>
+  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
+    <value>Kamera Gimbal</value>
+  </data>
+  <data name="backstageViewPageinstfw.Text" xml:space="preserve">
+    <value>Firmware installieren</value>
   </data>
 </root>

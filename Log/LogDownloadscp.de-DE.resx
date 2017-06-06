@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Verbinden</value>
+  <data name="BUT_clearlogs.ToolTip" xml:space="preserve">
+    <value>Alle Logs auf Drohne löschen</value>
   </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>Log laden</value>
+  <data name="BUT_bintolog.ToolTip" xml:space="preserve">
+    <value>Binärdatei (.bin)  in Textdatei (.log) konvertieren.</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Setup RC-Steuerung</value>
+  <data name="BUT_DLall.Text" xml:space="preserve">
+    <value>Alle Logdaten herunterladen</value>
   </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Trennen</value>
+  <data name="BUT_redokml.Text" xml:space="preserve">
+    <value>KML neu erstellen</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>Achtung, CLI funktioniert nur über USB</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Log Dateien:</value>
   </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log durchsuchen</value>
+  <data name="BUT_DLthese.Text" xml:space="preserve">
+    <value>Ausgewählte Logs herunterladen</value>
   </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Zeige Einstellungen</value>
+  <data name="BUT_clearlogs.Text" xml:space="preserve">
+    <value>Logs löschen</value>
   </data>
 </root>

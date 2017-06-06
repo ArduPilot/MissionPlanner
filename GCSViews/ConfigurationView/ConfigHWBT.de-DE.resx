@@ -117,25 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Verbinden</value>
-  </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>Log laden</value>
-  </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Setup RC-Steuerung</value>
-  </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Trennen</value>
-  </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>Achtung, CLI funktioniert nur über USB</value>
-  </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log durchsuchen</value>
-  </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Zeige Einstellungen</value>
+  <data name="BUT_btsettings.Text" xml:space="preserve">
+    <value>Einstellungen speichern</value>
   </data>
 </root>

@@ -117,25 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Verbinden</value>
+  <data name="mavlinkCheckBox1.Text" xml:space="preserve">
+    <value>Aktivieren</value>
   </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>Log laden</value>
+  <data name="label3enable.Text" xml:space="preserve">
+    <value>Aktivieren</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Setup RC-Steuerung</value>
+  <data name="label5action.Text" xml:space="preserve">
+    <value>Aktion</value>
   </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Trennen</value>
+  <data name="label1gftitle.Text" xml:space="preserve">
+    <value>Geo Zaun</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>Achtung, CLI funktioniert nur über USB</value>
+  <data name="label2rtlalt.Text" xml:space="preserve">
+    <value>RTL Höhe</value>
   </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log durchsuchen</value>
-  </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Zeige Einstellungen</value>
+  <data name="label4type.Text" xml:space="preserve">
+    <value>Typ</value>
   </data>
 </root>

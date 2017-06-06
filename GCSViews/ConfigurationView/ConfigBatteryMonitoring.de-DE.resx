@@ -112,51 +112,42 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
     <value>MP-Alarm bei niedrigem Batteriestand</value>
   </data>
-  <data name="textBox3.Text" xml:space="preserve">
-    <value>Spannungssensor kalibrieren: Miss mit einem Multimeter den BEC deines ESC (dreiadriges Kabel zum APM-Board). Ziehe 0,3V ab und trage es in Feld 1 links ein.</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>mAh</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>4. Strom (gemessen):</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>APM Ver</value>
+    <value>FC Ver.</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
-    <value>Kapazität</value>
+    <value>Bat. Kapazität</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Kalibrierung</value>
   </data>
-  <data name="TXT_battcapacity.Text" xml:space="preserve">
-    <value>2200</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>5. Strom (berechnet)</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>Monitor</value>
+    <value>Anzeige</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
-    <value>2. Gemessene Batteriespannung:</value>
-  </data>
-  <data name="label31.Text" xml:space="preserve">
-    <value>1. APM Eingangsspannung:</value>
+    <value>1. Gemessene Batteriespannung:</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>4. Spannungsteiler (Berechnet):</value>
+    <value>3. Spannungsteiler (berechnet):</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>3. Batterie Spannung (Berechnet):</value>
+    <value>2. Batterie Spannung (berechnet):</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
-    <value>5. Amperw pro Volt:</value>
-  </data>
-  <data name="label47.Text" xml:space="preserve">
-    <value>Sensor</value>
+    <value>6. Ampere/Volt:</value>
   </data>
 </root>

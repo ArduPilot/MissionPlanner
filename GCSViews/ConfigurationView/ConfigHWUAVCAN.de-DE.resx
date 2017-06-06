@@ -117,25 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>Verbinden</value>
+  <data name="but_factoryreset.Text" xml:space="preserve">
+    <value>Konfiguration zurücksetzen</value>
   </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>Log laden</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>HINWEIS: Nach Änderung dieser Option ist ein Neustart nötig.</value>
   </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>Setup RC-Steuerung</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>UAV CAN aktivieren</value>
   </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>Trennen</value>
+  <data name="but_stopenum.Text" xml:space="preserve">
+    <value>Stop Datenerfassung</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>Achtung, CLI funktioniert nur über USB</value>
+  <data name="checkBox1.Text" xml:space="preserve">
+    <value>Werkseinstellung</value>
   </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log durchsuchen</value>
+  <data name="but_startenum.Text" xml:space="preserve">
+    <value>Start Datenerfassung</value>
   </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Zeige Einstellungen</value>
+  <data name="but_saveconfig.Text" xml:space="preserve">
+    <value>Alle Konfigurationen speichern</value>
   </data>
 </root>

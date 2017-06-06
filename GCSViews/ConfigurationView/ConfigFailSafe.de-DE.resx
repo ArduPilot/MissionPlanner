@@ -112,13 +112,13 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
-    <value>Schub Failsafe Aktion</value>
+    <value>Aktion Schub Failsafe</value>
   </data>
   <data name="lbl_currentmode.Text" xml:space="preserve">
     <value>Manuell</value>
@@ -133,34 +133,37 @@
     <value>Langer FailSafe (20 sec)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Pwm</value>
+    <value>FS PWM</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
-    <value>Schub FailSafe</value>
+    <value>Schub FailSafe (FS)</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Radio-Eingang</value>
+    <value>RC-Steuerung-Eingang</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>Failsafe bei GCS-Kommunikationsverlust aktivieren</value>
+    <value>FailSafe (FS) bei GCS-Kommunikationsverlust</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.ToolTip" xml:space="preserve">
     <value>Aus, keine Aktion, An, RTL</value>
   </data>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>Batterie</value>
+  </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Niedriger Ladestand</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>FailSafe Optionen</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Reserve mAh</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>RC-Steuerung</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
-    <value>Niedriger Ladestand-Auslöser</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Text" xml:space="preserve">
-    <value>Akku-Failsafe</value>
+    <value>Niedrig Spannung Trigger</value>
   </data>
   <data name="lbl_gpslock.Text" xml:space="preserve">
-    <value>Kein GPS</value>
+    <value>Kein 'GPS Lock'</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.Text" xml:space="preserve">
     <value>Kurzer FailSafe (1 sec)</value>
@@ -170,24 +173,24 @@
 Arducopter Andere: Wenn GPS verfügbar, RTL, ansonsten landen</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
-    <value>Schub einschalten - pwm</value>
+    <value>Schub einschalten - PWM</value>
+  </data>
+  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
+    <value>GCS FS aktiviert</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
-    <value>Failsafe bei niedrigem Schub-pwm aktivieren</value>
+    <value>FailSafe bei niedrigem Schub-PWM aktivieren</value>
   </data>
   <data name="lbl_armed.Text" xml:space="preserve">
-    <value>Entschärft</value>
+    <value>Unscharf</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
-    <value>GCS FailSafe</value>
+    <value>GCS FailSafe (FS)</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
-    <value>Schub einschalten- pwm</value>
-  </data>
-  <data name="LNK_wiki.Text" xml:space="preserve">
-    <value>Wiki</value>
+    <value>Schub einschalten- PWM</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
-    <value>Failsafe bei niedrigen pwm</value>
+    <value>FailSafe (FS) bei niedrigem PWM</value>
   </data>
 </root>
