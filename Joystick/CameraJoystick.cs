@@ -163,7 +163,7 @@ namespace MissionPlanner.Joystick
                                 doOverride = true;
                             }
 
-                            if (JoyChannels[(int)joystickaxis.Tilt].rateconv)
+                            if (JoyChannels[(int)CameraAxis.Tilt].rateconv)
                             {
                                 // tilt_raw is a vlaue from -500 to 500, which will end up being our rate
                                 tilt_raw = tilt_raw / 5;

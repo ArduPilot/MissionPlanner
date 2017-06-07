@@ -42,9 +42,6 @@ namespace MissionPlanner.Joystick
             Hatlr2,
             Custom1,
             Custom2,
-            Pan,
-            Tilt,
-            Zoom
         }
         public struct JoyChannel
         {
