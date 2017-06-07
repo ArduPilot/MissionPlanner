@@ -1992,15 +1992,15 @@ namespace MissionPlanner
                                 // there are options in the config to only override at a threshold from stick center, that is the safety
                                 if (camerajoystick != null && camerajoystick.enabled && camerajoystick.MasterEnabled && camerajoystick.UserEnabled)
                                 {
-                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Pan) != joystickaxis.None)
+                                    if (camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Pan) != joystickaxis.None)
                                     {
                                         setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Pan), ref rc);
                                     }
-                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Tilt) != joystickaxis.None)
+                                    if (camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Tilt) != joystickaxis.None)
                                     {
                                         setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Tilt), ref rc);
                                     }
-                                    if (camerajoystick.getJoystickAxis((int)Joystick.CameraJoystick.CameraAxis.Zoom) != joystickaxis.None)
+                                    if (camerajoystick.getJoystickAxis(Joystick.CameraJoystick.CameraAxis.Zoom) != joystickaxis.None)
                                     {
                                         setRawChForCamera(camerajoystick.getJoystickChannel(Joystick.CameraJoystick.CameraAxis.Zoom), ref rc);
                                     }
