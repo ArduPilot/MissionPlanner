@@ -14,9 +14,9 @@ namespace MissionPlanner.Joystick
 
         public enum CameraAxis
         {
-            Pan,
-            Tilt,
-            Zoom,
+            Pan = 0,
+            Tilt = 1,
+            Zoom = 2,
         }
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public static CameraJoystick self;
@@ -115,7 +115,7 @@ namespace MissionPlanner.Joystick
 
                     if (MasterEnabled && UserEnabled)
                     {
-                        if (getJoystickAxis((int)CameraAxis.Pan) != joystickaxis.None)
+                        if (getJoystickAxis(CameraAxis.Pan) != joystickaxis.None)
                         {
 
                             short val = pickchannel(JoyChannels[(int)CameraAxis.Pan].channel, JoyChannels[(int)CameraAxis.Pan].axis,
@@ -140,7 +140,7 @@ namespace MissionPlanner.Joystick
 
                             setOverrideCh(JoyChannels[(int)CameraAxis.Pan].channel, doOverride ? val : (short)0);
                         }
-                        if (getJoystickAxis((int)CameraAxis.Tilt) != joystickaxis.None)
+                        if (getJoystickAxis(CameraAxis.Tilt) != joystickaxis.None)
                         {
                             int tilt_raw;
                             short val = pickchannel(JoyChannels[(int)CameraAxis.Tilt].channel, JoyChannels[(int)CameraAxis.Tilt].axis,
@@ -179,7 +179,7 @@ namespace MissionPlanner.Joystick
 
                             setOverrideCh(JoyChannels[(int)CameraAxis.Tilt].channel, doOverride ? val : (short)0);
                         }
-                        if (getJoystickAxis((int)CameraAxis.Zoom) != joystickaxis.None)
+                        if (getJoystickAxis(CameraAxis.Zoom) != joystickaxis.None)
                         {
                             int zoom_raw;
                             short val = pickchannel(JoyChannels[(int)CameraAxis.Zoom].channel, JoyChannels[(int)CameraAxis.Zoom].axis,
@@ -221,9 +221,9 @@ namespace MissionPlanner.Joystick
                     }
                     else
                     {
-                        if (getJoystickAxis((int)CameraAxis.Pan) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Pan].channel, (short)0);
-                        if (getJoystickAxis((int)CameraAxis.Tilt) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Tilt].channel, (short)0);
-                        if (getJoystickAxis((int)CameraAxis.Zoom) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Zoom].channel, (short)0);
+                        if (getJoystickAxis(CameraAxis.Pan) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Pan].channel, (short)0);
+                        if (getJoystickAxis(CameraAxis.Tilt) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Tilt].channel, (short)0);
+                        if (getJoystickAxis(CameraAxis.Zoom) != joystickaxis.None) setOverrideCh(JoyChannels[(int)CameraAxis.Zoom].channel, (short)0);
                     }
 
                     // disable button actions when not connected.
@@ -503,7 +503,7 @@ namespace MissionPlanner.Joystick
             joy.overridecenter = overridecenter;
             joy.rateconv = RateConv;
 
-            JoyChannels[(int)axis] = joy;
+            JoyChannels[(int)camaxis] = joy;
         }
 
         public joystickaxis getJoystickAxis(CameraAxis axis)
