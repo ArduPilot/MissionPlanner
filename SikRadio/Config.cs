@@ -13,6 +13,10 @@ namespace SikRadio
         {
             InitializeComponent();
 
+            var Version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+
+            Text = "RFD900 Tools " + Version.Minor.ToString() + "." + Version.Build.ToString() + " - RFDesign";
+
             loadSettings();
 
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
