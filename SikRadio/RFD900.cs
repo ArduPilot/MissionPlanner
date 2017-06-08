@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace RFD.RFD900
@@ -30,28 +31,25 @@ namespace RFD.RFD900
         public bool WaitForToken(string Token, int MaxWait)
         {
             System.Diagnostics.Stopwatch SW = new System.Diagnostics.Stopwatch();
-            SW.Start();
             string Temp = "";
             int Timeout = _Port.ReadTimeout;
             _Port.ReadTimeout = MaxWait;
+            SW.Start();
 
             while (SW.ElapsedMilliseconds < MaxWait)
             {
-                try
-                {
-                    Temp += (char)_Port.ReadByte();
-                }
-                catch
-                {
-                    _Port.ReadTimeout = Timeout;
-                    return false;
-                }
+                string x = _Port.ReadExisting();
+                Temp += x;
+
                 if (Temp.Contains(Token))
                 {
+                    _Port.ReadTimeout = Timeout;
                     return true;
                 }
-                //Thread.Sleep(100);
+
+                Thread.Sleep(50);
             }
+            _Port.ReadTimeout = Timeout;
             return false;
         }
 
@@ -129,8 +127,11 @@ namespace RFD.RFD900
                 return TMode.AT_COMMAND;
             }
             //Check if already in AT command mode.
-            _Port.Write("\r\nATI\r\n");
-            if (WaitForToken("RFD", 200))
+            _Port.DiscardInBuffer();
+            _Port.Write("\r\n");
+            Thread.Sleep(100);
+            _Port.Write("ATI\r\n");
+            if (WaitForToken("RFD", 400))
             {
                 return TMode.AT_COMMAND;
             }
@@ -212,6 +213,425 @@ namespace RFD.RFD900
                     break;
             }
             return GetMode();
+        }
+
+        /// <summary>
+        /// Parse the setting designator from the given Line and character positon.
+        /// </summary>
+        /// <param name="Line">The ATI5? line.  Must not be null.</param>
+        /// <param name="n">The current character position.</param>
+        /// <returns></returns>
+        string ParseDesignator(string Line, ref int n)
+        {
+            n = 0;
+            string Designator = "";
+
+            if (RFDLib.Text.CheckIsLetter(Line[0]))
+            {
+                Designator += Line[0];
+            }
+            else
+            {
+                return null;
+            }
+
+            n = 1;
+
+            while (Line[n] != ':')
+            {
+                if (RFDLib.Text.CheckIsNumeral(Line[n]))
+                {
+                    Designator += Line[n];
+                }
+                else
+                {
+                    return null;
+                }
+                n++;
+            }
+
+            return Designator;
+        }
+
+        string ParseName(string Line, ref int n)
+        {
+            string Name = "";
+            while (true)
+            {
+                switch (Line[n])
+                {
+                    case '(':
+                    case '=':
+                        return Name;
+                }
+
+                Name += Line[n];
+                n++;
+            }
+        }
+
+        bool ParseType(string Line, ref int n)
+        {
+            for (; Line[n] != ')'; n++)
+            {
+            }
+            n++;
+            return true;
+        }
+
+        bool ParseIntUntil(string Line, ref int n, string Delimiter, out int Value)
+        {
+            string Temp = "";
+            while ((n < Line.Length) && RFDLib.Text.CheckIsNumeral(Line[n]))
+            {
+                Temp += Line[n];
+                n++;
+            }
+            Value = int.Parse(Temp);
+            if (Delimiter == null)
+            {
+                return true;
+            }
+            else
+            {
+                if (Line.IndexOf(Delimiter, n) == n)
+                {
+                    n += Delimiter.Length;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        TSetting.TRange ParseRange(string Line, ref int n)
+        {
+            if (Line[n] != '[')
+            {
+                return null;
+            }
+            n++;
+            int Min;
+            if (!ParseIntUntil(Line, ref n, "..", out Min))
+            {
+                return null;
+            }
+            int Max;
+            if (!ParseIntUntil(Line, ref n, "]", out Max))
+            {
+                return null;
+            }
+            return new TSetting.TRange(Min, Max);
+        }
+
+        bool ParseValue(string Line, ref int n, out int Value)
+        {
+            return ParseIntUntil(Line, ref n, null, out Value);
+        }
+
+        bool CharArrayContains(char[] Array, char x)
+        {
+            foreach (var c in Array)
+            {
+                if (c == x)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        string GetStringUntil(string Line, ref int n, char[] Tokens)
+        {
+            string Result = "";
+            while (!CharArrayContains(Tokens, Line[n]))
+            {
+                Result += Line[n];
+                n++;
+            }
+            return Result;
+        }
+
+        string[] ParseOptions(string Line, ref int n)
+        {
+            if (Line[n] != '{')
+            {
+                return null;
+            }
+            n++;
+            List<string> Options = new List<string>();
+            while (true)
+            {
+                string Temp = GetStringUntil(Line, ref n, new char[] { ',', '}' });
+                if (Temp != null && Temp.Length > 0)
+                {
+                    Options.Add(Temp);
+                }
+                if (Line[n] == '}')
+                {
+                    break;
+                }
+                else
+                {
+                    n++;
+                }
+            }
+
+            return Options.ToArray();
+        }
+
+        int[] CheckIfAllIntegers(string[] Options)
+        {
+            int[] Result = new int[Options.Length];
+
+            for (int n = 0; n < Options.Length; n++)
+            {
+                if (!int.TryParse(Options[n], out Result[n]))
+                {
+                    return null;
+                }
+            }
+            return Result;
+        }
+
+        float GetScaleFactor(string Name)
+        {
+            switch (Name)
+            {
+                case "SERIAL_SPEED":
+                    return 0.001F;
+            }
+            return 1;
+        }
+
+        TSetting.TOption[] CreateOptions(TSetting.TRange Range, string[] Options,
+            string Name)
+        {
+            if (Range == null || Options == null)
+            {
+                return null;
+            }
+
+            int[] Ints = CheckIfAllIntegers(Options);
+            if (Ints != null)
+            {
+                TSetting.TOption[] Result = new TSetting.TOption[Ints.Length];
+                float SF = GetScaleFactor(Name);
+                for (int n = 0; n < Result.Length; n++)
+                {
+                    Result[n] = new TSetting.TOption((int)(SF * Ints[n]), Options[n]);
+                }
+                return Result;
+            }
+
+            //Not all integers.
+            if (Range == null)
+            {
+                return null;
+            }
+            if (Options.Length == 2)
+            {
+                //Match up with min and max.
+                TSetting.TOption[] Result = new TSetting.TOption[2];
+                Result[0] = new TSetting.TOption(Range.Min, Options[0]);
+                Result[1] = new TSetting.TOption(Range.Max, Options[1]);
+                return Result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        int GetIncrement(string Name)
+        {
+            switch (Name)
+            {
+                case "MIN_FREQ":
+                case "MAX_FREQ":
+                    return 500;
+                case "MAX_WINDOW":
+                    return 20;
+                default:
+                    return 1;
+            }
+        }
+
+        /// <summary>
+        /// A valid line looks like one of the following formats:
+        /// Designator:Name:(Type)[Range]=Value{Options}\r\n
+        ///     S2:AIR_SPEED(L)[4..1000]=125{4,64,125,250,500,1000,}<\r><\n>
+        /// Designator:Name=Value\r\n
+        ///     S2:AIR_SPEED=64<\r><\n>
+        /// </summary>
+        /// <param name="Line">The line.  Must not be null.</param>
+        /// <returns>The setting parsed, or null if could not parse setting.</returns>
+        TSetting ParseATI5QueryResponseLine(string Line)
+        {
+            try
+            {
+                int n = 0;
+                string Designator = ParseDesignator(Line, ref n);
+                if (Designator == null)
+                {
+                    return null;
+                }
+
+                n++;
+                string Name = ParseName(Line, ref n);
+                if (Name == null || Name.Length == 0)
+                {
+                    return null;
+                }
+                TSetting.TRange Range = null;
+                if (Line[n] == '(')
+                {
+                    if (!ParseType(Line, ref n))
+                    {
+                        return null;
+                    }
+                    Range = ParseRange(Line, ref n);
+                    if (Range == null)
+                    {
+                        return null;
+                    }
+                    
+                }
+                if (Line[n] != '=')
+                {
+                    return null;
+                }
+                n++;
+                
+                int Value;
+                if (!ParseValue(Line, ref n, out Value))
+                {
+                    return null;
+                }
+                string[] Options = null;
+
+                if (n < Line.Length)
+                {
+                    switch (Line[n])
+                    {
+                        case '\r':
+                            break;
+                        case '{':
+                            Options = ParseOptions(Line, ref n);
+                            break;
+                        default:
+                            return null;
+                    }
+                }
+
+                return new TSetting(Designator, Name, Range, Value, 
+                    CreateOptions(Range, Options, Name), GetIncrement(Name));
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Parse an ATI5 query response, into a list of settings.
+        /// </summary>
+        /// <param name="ATI5Response">The full ATI5 query response.  Must not be null.</param>
+        /// <returns>A dictionary of settings found, with name as key.  Never null.</returns>
+        public Dictionary<string, TSetting> ParseATI5QueryResponse(string ATI5Response)
+        {
+            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
+
+            foreach (var Line in ATI5Response.Split('\n', '\r'))
+            {
+                var S = ParseATI5QueryResponseLine(Line);
+                if (S != null)
+                {
+                    Result[S.Name] = S;
+                }
+            }
+
+            return Result;
+        }
+    }
+
+    public class TSetting
+    {
+        public string Designator;
+        public string Name;
+        /// <summary>
+        /// null if range unknown
+        /// </summary>
+        public TRange Range;
+        public int Value;
+        /// <summary>
+        /// null if options unknown
+        /// </summary>
+        public TOption[] Options;
+        public int Increment;
+
+        public TSetting(string Designator, string Name, TRange Range, int Value, TOption[] Options,
+            int Increment)
+        {
+            this.Designator = Designator;
+            this.Name = Name;
+            this.Range = Range;
+            this.Value = Value;
+            this.Options = Options;
+            this.Increment = Increment;
+        }
+
+        public string[] GetOptionNames()
+        {
+            if (Options == null)
+            {
+                return null;
+            }
+            else
+            {
+                return RFDLib.Array.CherryPickArray(Options, (x) => x.OptionName);
+            }
+        }
+
+        public string GetOptionNameForValue(string Value)
+        {
+            if (Options != null)
+            {
+                foreach (var O in Options)
+                {
+                    if (O.Value.ToString() == Value)
+                    {
+                        return O.OptionName;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public class TRange
+        {
+            public readonly int Min;
+            public readonly int Max;
+
+            public TRange(int Min, int Max)
+            {
+                this.Min = Min;
+                this.Max = Max;
+            }
+        }
+
+        public class TOption
+        {
+            public readonly int Value;
+            public readonly string OptionName;
+
+            public TOption(int Value, string OptionName)
+            {
+                this.Value = Value;
+                this.OptionName = OptionName;
+            }
         }
     }
 

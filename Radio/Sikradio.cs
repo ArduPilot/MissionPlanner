@@ -666,10 +666,11 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
-                                        if (controls[0].Text != values[2].Trim())
+                                        string CBValue = GetCBValue((ComboBox)controls[0]);
+                                        if (CBValue != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -750,10 +751,11 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
-                                        if (controls[0].Text != values[2].Trim())
+                                        string CBValue = GetCBValue((ComboBox)controls[0]);
+                                        if (CBValue != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -871,6 +873,67 @@ S15: MAX_WINDOW=131
             comPort.Close();
         }
 
+        private bool SetupCBWithSetting(ComboBox CB, Dictionary<string, RFD.RFD900.TSetting> Settings,
+            string Value, bool Remote)
+        {
+            string SettingName;
+            if (Remote)
+            {
+                SettingName = CB.Name.Substring(1);
+            }
+            else
+            {
+                SettingName = CB.Name;
+            }
+            if (Settings.ContainsKey(SettingName))
+            {
+                var Setting = Settings[SettingName];
+                if (Setting.Options != null)
+                {
+                    //Use options.
+                    string[] OptionNames = Setting.GetOptionNames();
+                    string OptionName = Setting.GetOptionNameForValue(Value);
+                    if (OptionName == null)
+                    {
+                        Array.Resize(ref OptionNames, OptionNames.Length + 1);
+                        OptionNames[OptionNames.Length - 1] = Value;
+                        OptionName = Value;
+                    }
+                    
+                    CB.DataSource = OptionNames;
+                    CB.Text = OptionName;
+                    CB.Tag = Setting;
+                    return true;
+                }
+                if (Setting.Range != null)
+                {
+                    CB.DataSource = Range(Setting.Range.Min, Setting.Increment, Setting.Range.Max);
+                    CB.Text = Value;
+                    CB.Tag = null;
+                    return true;
+                }
+            }
+            CB.Tag = null;
+            CB.Text = Value;
+            return false;
+        }
+
+        private string GetCBValue(ComboBox CB)
+        {
+            if (CB.Tag != null)
+            {
+                RFD.RFD900.TSetting Setting = (RFD.RFD900.TSetting)CB.Tag;
+                foreach (var O in Setting.Options)
+                {
+                    if (O.OptionName == CB.Text)
+                    {
+                        return O.Value.ToString();
+                    }
+                }
+            }
+            return CB.Text;
+        }
+
         /// <summary>
         /// Load settings button evt hdlr
         /// </summary>
@@ -958,8 +1021,8 @@ S15: MAX_WINDOW=131
                         SERIAL_SPEED.DataSource = new int[] { 1, 2, 4, 9, 19, 38, 57, 115, 230, 460 };
                         RSERIAL_SPEED.DataSource = new int[] { 1, 2, 4, 9, 19, 38, 57, 115, 230, 460 };
 
-                        AIR_SPEED.DataSource = new int[] { 4, 8, 16, 19, 24, 32, 48, 64, 96, 128, 192, 250, 500 };
-                        RAIR_SPEED.DataSource = new int[] { 4, 8, 16, 19, 24, 32, 48, 64, 96, 128, 192, 250, 500 };
+                        AIR_SPEED.DataSource = new int[] { 4, 64, 125, 250, 500 };
+                        RAIR_SPEED.DataSource = new int[] { 4, 64, 125, 250, 500 };
 
                         NETID.DataSource = Range(0, 1, 255);
                         RNETID.DataSource = Range(0, 1, 255);
@@ -1040,6 +1103,8 @@ S15: MAX_WINDOW=131
 
                     var answer = doCommand(comPort, "ATI5", true);
 
+                    var Settings = Session.ParseATI5QueryResponse(doCommand(comPort, "ATI5?", true));
+
                     DisableRFD900xControls();
 
                     var items = answer.Split('\n');
@@ -1082,10 +1147,14 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
-                                        ((ComboBox)controls[0]).Text = values[2].Trim();
-                                        if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                        if (!SetupCBWithSetting((ComboBox)controls[0], Settings, 
+                                            values[2].Trim(), false))
                                         {
-                                            SomeSettingsInvalid = true;
+                                            ((ComboBox)controls[0]).Text = values[2].Trim();
+                                            if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                            {
+                                                SomeSettingsInvalid = true;
+                                            }
                                         }
                                     }
                                 }
@@ -1155,10 +1224,14 @@ S15: MAX_WINDOW=131
                                 }
                                 else if (controls[0] is ComboBox)
                                 {
-                                    ((ComboBox)controls[0]).Text = values[2].Trim();
-                                    if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                    if (!SetupCBWithSetting((ComboBox)controls[0], Settings, 
+                                        values[2].Trim(), true))
                                     {
-                                        SomeSettingsInvalid = true;
+                                        ((ComboBox)controls[0]).Text = values[2].Trim();
+                                        if (((ComboBox)controls[0]).Text != values[2].Trim())
+                                        {
+                                            SomeSettingsInvalid = true;
+                                        }
                                     }
                                 }
                             }
