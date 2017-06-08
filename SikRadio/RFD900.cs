@@ -535,24 +535,62 @@ namespace RFD.RFD900
             }
         }
 
+        TSetting.TOption[] GetBaudRateOptionsGivenRawBaudRates(int[] Rates)
+        {
+            List<TSetting.TOption> Options = new List<TSetting.TOption>();
+            foreach (var Rate in Rates)
+            {
+                Options.Add(new TSetting.TOption(Rate / 1000, Rate.ToString()));
+            }
+            return Options.ToArray();
+        }
+
+        TSetting.TOption[] GetDefaultBaudRateSettingForBoard(uploader.Uploader.Board Board)
+        {
+            switch (Board)
+            {
+                case uploader.Uploader.Board.DEVICE_ID_RFD900X:
+                    return GetBaudRateOptionsGivenRawBaudRates(
+                        new int[] { 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400, 460800 });
+                default:
+                    return GetBaudRateOptionsGivenRawBaudRates(
+                        new int[] { 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200});
+            }
+        }
+
         /// <summary>
         /// Parse an ATI5 query response, into a list of settings.
         /// </summary>
         /// <param name="ATI5Response">The full ATI5 query response.  Must not be null.</param>
         /// <returns>A dictionary of settings found, with name as key.  Never null.</returns>
-        public Dictionary<string, TSetting> ParseATI5QueryResponse(string ATI5Response)
+        Dictionary<string, TSetting> ParseATI5QueryResponse(string ATI5Response,
+            Dictionary<string, TSetting> Dict)
         {
-            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
-
             foreach (var Line in ATI5Response.Split('\n', '\r'))
             {
                 var S = ParseATI5QueryResponseLine(Line);
                 if (S != null)
                 {
-                    Result[S.Name] = S;
+                    Dict[S.Name] = S;
                 }
             }
 
+            return Dict;
+        }
+
+        public Dictionary<string, TSetting> GetSettings(string ATI5Response,
+            uploader.Uploader.Board Board)
+        {
+            Dictionary<string, TSetting> Result = new Dictionary<string, TSetting>();
+            ParseATI5QueryResponse(ATI5Response, Result);
+            string SerialName = "SERIAL_SPEED";
+            if (Result.ContainsKey(SerialName))
+            {
+                if (Result[SerialName].Options == null)
+                {
+                    Result[SerialName].Options = GetDefaultBaudRateSettingForBoard(Board);
+                }
+            }
             return Result;
         }
     }

@@ -1103,7 +1103,9 @@ S15: MAX_WINDOW=131
 
                     var answer = doCommand(comPort, "ATI5", true);
 
-                    var Settings = Session.ParseATI5QueryResponse(doCommand(comPort, "ATI5?", true));
+                    var Settings = Session.GetSettings(
+                        doCommand(comPort, "ATI5?", true),
+                        board);
 
                     DisableRFD900xControls();
 
