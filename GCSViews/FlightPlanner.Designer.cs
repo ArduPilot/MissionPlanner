@@ -124,6 +124,8 @@
             this.BUT_loadwpfile = new MissionPlanner.Controls.MyButton();
             this.BUT_saveWPFile = new MissionPlanner.Controls.MyButton();
             this.Panel_EnergyConsumption = new System.Windows.Forms.Panel();
+            this.lbCapacity = new System.Windows.Forms.Label();
+            this.lbHeaderHoverCurrent = new System.Windows.Forms.Label();
             this.LBL_MinEC = new System.Windows.Forms.Label();
             this.LBL_MaxEC = new System.Windows.Forms.Label();
             this.LBL_MinECText = new System.Windows.Forms.Label();
@@ -782,6 +784,8 @@
             // 
             // Panel_EnergyConsumption
             // 
+            this.Panel_EnergyConsumption.Controls.Add(this.lbCapacity);
+            this.Panel_EnergyConsumption.Controls.Add(this.lbHeaderHoverCurrent);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_MinEC);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_MaxEC);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_MinECText);
@@ -791,6 +795,16 @@
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_TotalECText);
             resources.ApplyResources(this.Panel_EnergyConsumption, "Panel_EnergyConsumption");
             this.Panel_EnergyConsumption.Name = "Panel_EnergyConsumption";
+            // 
+            // lbCapacity
+            // 
+            resources.ApplyResources(this.lbCapacity, "lbCapacity");
+            this.lbCapacity.Name = "lbCapacity";
+            // 
+            // lbHeaderHoverCurrent
+            // 
+            resources.ApplyResources(this.lbHeaderHoverCurrent, "lbHeaderHoverCurrent");
+            this.lbHeaderHoverCurrent.Name = "lbHeaderHoverCurrent";
             // 
             // LBL_MinEC
             // 
@@ -1586,5 +1600,7 @@
         private System.Windows.Forms.Label LBL_MaxECText;
         private System.Windows.Forms.Label LBL_MinEC;
         private System.Windows.Forms.Label LBL_MaxEC;
+        private System.Windows.Forms.Label lbHeaderHoverCurrent;
+        private System.Windows.Forms.Label lbCapacity;
     }
 }

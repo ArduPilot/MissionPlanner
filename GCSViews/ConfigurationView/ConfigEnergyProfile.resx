@@ -121,14 +121,15 @@
     <value>The Energy Consumption Profile allows to estimate the energy consumption when a flight plan is loaded or a flight plan is being created. 
 Values for the Energy Consumption Profile are loaded automatically, if the BRD_SERIAL_NUM parameter is set and a file with this ID is existent.</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
+  <data name="lbVelocityInfo1.Text" xml:space="preserve">
     <value>Upper Limits: 
 The amplitude defines the maximum velocity, whereas the position of 
 the amplitude defines an angle in degree, where the max. velocity is 
 reached. Variance describes the width of the amplitude.</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
+  <data name="lbCurrentInfo2.Text" xml:space="preserve">
+    <value>These current-settings are for movement maneuvers. 
+Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
 is reached. Variance describes the width of amplitude. The lower limit of current sets the lowest possible flowing current. Max. and min define the
 possible deviation of the current, as the current of a copter can vary due to different air conditions.</value>
   </data>

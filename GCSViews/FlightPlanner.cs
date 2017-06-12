@@ -1513,6 +1513,15 @@ namespace MissionPlanner.GCSViews
                 }
 
                 setgradanddistandaz();
+
+                try
+                {
+                    WriteEnergyConsumption();
+                }
+                catch (Exception e)
+                {
+                    CustomMessageBox.Show("Exception from EnergyProfile: " + e);
+                }
             }
             catch (Exception ex)
             {
@@ -2830,8 +2839,6 @@ namespace MissionPlanner.GCSViews
 
                             processToScreen(cmds);
 
-                           // writeEnergyConsumption();
-
                             writeKML();
 
                             MainMap.ZoomAndCenterMarkers("objects");
@@ -2912,14 +2919,10 @@ namespace MissionPlanner.GCSViews
                         CustomMessageBox.Show("Line invalid\n" + line);
                     }
                 }
-
                 sr.Close();
-
                 processToScreen(cmds, append);
 
                 writeKML();
-
-                //writeEnergyConsumption();
 
                 MainMap.ZoomAndCenterMarkers("objects");
             }
@@ -2929,97 +2932,98 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void writeEnergyConsumption()
+        /// <summary>
+        /// calculate the energy consumption
+        /// 1. for each row exclusive (waypoint)
+        /// 2. in the right info panel stands the energy consumption for the total-maximum, total-minium and total-average 
+        /// </summary>
+        private void WriteEnergyConsumption()
         {
-            if(!EnergyProfile.Enabled || !MainV2.comPort.BaseStream.IsOpen) { return; }
-            if (!EnergyProfile.Initialized) { EnergyProfile.Initialize(); }
+            if (!EnergyProfile.Initialized || !MainV2.comPort.BaseStream.IsOpen) { return; }
+            if (!EnergyProfile.Initialized) { EnergyProfile.Initialize(); CustomMessageBox.Show("EnergyProfile.Initialize"); }
 
-            LBL_AvgEC.Text = "0"; //Set total energy consumption to 0
-            LBL_MaxEC.Text = "0";
-            LBL_MinEC.Text = "0";
+            LBL_AvgEC.Text = @"0"; //Set total energy consumption to 0
+            LBL_MaxEC.Text = @"0";
+            LBL_MinEC.Text = @"0";
 
             //var cmds = GetCommandList();
             
             // add history
             //history.Add(currentlist);
 
-            double SumEC = 0.0f;
-            double SumECMax = 0.0f;
-            double SumECMin = 0.0f;
+            double sumEc = 0.0f;
+            double sumEcMax = 0.0f;
+            double sumEcMin = 0.0f;
 
-            string cmd = string.Empty;
+            string cmd;
 
-            double dCurrent, dHoverCurrent, dVelocity;
-            dCurrent = dHoverCurrent = dVelocity = 0.0f;
-            
-            for (int i = 1; i < Commands.Rows.Count; i++)
+            for (int i = 0; i < Commands.Rows.Count; i++)
             {
-                DataGridViewTextBoxCell cell;
-                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
+                var cell = (DataGridViewTextBoxCell) Commands.Rows[i].Cells[EC.Index];
+                if (cell == null) throw new ArgumentNullException(nameof(cell));
 
-                dHoverCurrent = 0.0f;
+                //dHoverCurrent = 0.0f;
+                double dHoverConsumption = 0;
 
                 //identify command
                 cmd = Commands[Command.Index, i].Value.ToString();
 
                 //energy consumption calculation depends on command
-                
                 switch (cmd)
                 {
-                    case "WAYPOINT": case "SPLINE_WAYPOINT":
-                        dHoverCurrent += (double)Commands.Rows[i].Cells[Param1.Index].Value * EnergyProfile.Current["Hover"];    //  the delay in [SPLINE_]WAYPOINT
-                    break;
-
+                    case "WAYPOINT":
+                    case "SPLINE_WAYPOINT":
                     case "LOITER_TIME":
-                        dHoverCurrent += (double)Commands.Rows[i].Cells[Param1.Index].Value * EnergyProfile.Current["Hover"];    //the delay in [SPLINE_]WAYPOINT
-                    break;
-
+                        // Curent on hover-state * Delay-Time
+                        dHoverConsumption = Convert.ToDouble(Commands.Rows[i].Cells[Param1.Index].Value) * Convert.ToDouble(EnergyProfile.Current["Hover"]);    //  the delay in [SPLINE_]WAYPOINT, LOITER_Time
+                        break;
                     default:    //Unsupported commands
                         cell.Value = 0f;
-                    break;
+                        break;
                 }
-
-                dHoverCurrent *= 1000;      //[mAs]
-                dHoverCurrent *= 1 / 3600;  //[mAh]
-
+                // convert in [mAh]
+                dHoverConsumption = Math.Round(dHoverConsumption * 10 / 36, 1, MidpointRounding.AwayFromZero);   //[mAh]
                 //    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.LOITER_UNLIM.ToString();
 
-                cell = Commands.Rows[i].Cells[Dist.Index] as DataGridViewTextBoxCell;   //Distance
+                cell = (DataGridViewTextBoxCell) Commands.Rows[i].Cells[Dist.Index];   //Distance
 
-                double distance = (double)cell.Value;
-
-                double EnergyVal = 0.0f;
-
-                double angle = 0.0f; //read value in waypoint list
+                if (cell != null)
+                {
+                    double distance = Convert.ToDouble(cell.Value);
+                    double EnergyVal = 0.0f;
+                    double angle = 0.0f; //read value in waypoint list
                 
-                //get angle from waypoint
-                cell = Commands.Rows[i].Cells[Angle.Index] as DataGridViewTextBoxCell;
-                
-                angle = float.Parse(cell.Value.ToString());
+                    //get angle from waypoint
+                    cell = (DataGridViewTextBoxCell) Commands.Rows[i].Cells[Angle.Index];
+                    
+                    if (cell != null)
+                    {
+                        angle = float.Parse(cell.Value.ToString());
+                        //Calculate energy consumption
+                        //Average values:
+                        var dCurrent = EnergyProfile.PolyValI(angle);
+                        var dVelocity = EnergyProfile.PolyValV(angle);
+                        EnergyVal = EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverConsumption;
+                        
+                        //Maximum values
+                        dCurrent = EnergyProfile.PolyValI(angle, EnergyProfile.Current["MaxDeviation"]);
+                        sumEcMax += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverConsumption;
 
-                //Calculate energy consumption
-                //Average values:
-                dCurrent = EnergyProfile.PolyValI(angle);
-                dVelocity = EnergyProfile.PolyValV(angle);
-                EnergyVal = EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
+                        //Minimum values
+                        dCurrent = EnergyProfile.PolyValI(angle, -EnergyProfile.Current["MinDeviation"]);
+                        sumEcMin += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverConsumption;
+                    }
 
-                //Maximum values
-                dCurrent = EnergyProfile.PolyValI(angle, EnergyProfile.Current["MaxDeviation"]);
-                SumECMax += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
-
-                //Minimum values
-                dCurrent = EnergyProfile.PolyValI(angle, -EnergyProfile.Current["MinDeviation"]);
-                SumECMin += EnergyProfile.CalculateEnergyConsumption(dCurrent, dVelocity, distance) + dHoverCurrent;
-
-                //EC Cell
-                cell = Commands.Rows[i].Cells[EC.Index] as DataGridViewTextBoxCell;
-                cell.Value = EnergyVal;
-                SumEC += EnergyVal;
+                    //EC Cell
+                    cell = (DataGridViewTextBoxCell) Commands.Rows[i].Cells[EC.Index];
+                    if (cell != null) cell.Value = EnergyVal;
+                    sumEc += EnergyVal;
+                }
 
                 //Display the total energy consumption
-                LBL_AvgEC.Text = SumEC.ToString("0.0") + " mAh";
-                LBL_MaxEC.Text = SumECMax.ToString("0.0") + " mAh";
-                LBL_MinEC.Text = SumECMin.ToString("0.0") + " mAh";
+                LBL_AvgEC.Text = sumEc.ToString("0.0") + " mAh";
+                LBL_MaxEC.Text = sumEcMax.ToString("0.0") + " mAh";
+                LBL_MinEC.Text = sumEcMin.ToString("0.0") + " mAh";
             }
         }
 
@@ -5179,15 +5183,22 @@ namespace MissionPlanner.GCSViews
             //Enable energyprofile only if stream is opened
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                Commands.Columns[EC.Index].Visible = Convert.ToBoolean(EnergyProfile.Enabled);
-                Panel_EnergyConsumption.Visible = Convert.ToBoolean(EnergyProfile.Enabled);
+                Commands.Columns[EC.Index].Visible = EnergyProfile.Enabled;
+                Panel_EnergyConsumption.Visible = EnergyProfile.Enabled;
+                // for infopanel --> capacity of the specific hover
+                lbCapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"] != null ? MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString() + " mAh" : "n.a.";
+                if (Commands.RowCount > 0 && EnergyProfile.Enabled)
+                {
+                    // write EC only if waypoint-list not empty
+                    WriteEnergyConsumption();
+                }
             }
             else
             {
                 Commands.Columns[EC.Index].Visible = false;
                 Panel_EnergyConsumption.Visible = false;
                 EnergyProfile.Enabled = false;
-                EnergyProfile.Initialized = false;  //force reinitialization
+                EnergyProfile.Initialized = false; //force reinitialization
             }
         }
 
