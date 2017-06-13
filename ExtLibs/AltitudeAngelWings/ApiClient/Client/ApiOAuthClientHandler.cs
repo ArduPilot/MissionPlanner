@@ -88,7 +88,7 @@ namespace AltitudeAngelWings.ApiClient.Client
                 state = state ?? client.GetClientAccessToken(scopes);
             }
 
-            return new ClientHandlerInfo(new BearerTokenHttpMessageHandler(state.AccessToken, new HttpClientHandler()), state);
+            return new ClientHandlerInfo(new BearerTokenHttpMessageHandler(client, state, new HttpClientHandler()), state);
         }
 
         internal class BearerTokenHttpMessageHandler : DelegatingHandler
@@ -111,6 +111,11 @@ namespace AltitudeAngelWings.ApiClient.Client
             public BearerTokenHttpMessageHandler(string bearerToken, HttpMessageHandler innerHandler) : base(innerHandler)
             {
                 this.BearerToken = bearerToken;
+            }
+            public BearerTokenHttpMessageHandler(ClientBase client, IAuthorizationState authorization, HttpMessageHandler innerHandler) : base(innerHandler)
+            {
+                this.Client = client;
+                this.Authorization = authorization;
             }
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
             {
