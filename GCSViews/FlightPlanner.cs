@@ -38,6 +38,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using MissionPlanner.Plugin;
 
 namespace MissionPlanner.GCSViews
 {
@@ -7026,6 +7027,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GridPlugin grid = new GridPlugin();
+            grid.Host = new PluginHost();
             grid.but_Click(sender, e);
         }
     }
