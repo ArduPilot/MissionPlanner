@@ -1,5 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OAuth2;
 
@@ -84,7 +88,46 @@ namespace AltitudeAngelWings.ApiClient.Client
                 state = state ?? client.GetClientAccessToken(scopes);
             }
 
-            return new ClientHandlerInfo(client.CreateAuthorizingHandler(state), state);
+            return new ClientHandlerInfo(new BearerTokenHttpMessageHandler(state.AccessToken, new HttpClientHandler()), state);
+        }
+
+        internal class BearerTokenHttpMessageHandler : DelegatingHandler
+        {
+            internal string BearerToken
+            {
+                get;
+                private set;
+            }
+            internal IAuthorizationState Authorization
+            {
+                get;
+                private set;
+            }
+            internal ClientBase Client
+            {
+                get;
+                private set;
+            }
+            public BearerTokenHttpMessageHandler(string bearerToken, HttpMessageHandler innerHandler) : base(innerHandler)
+            {
+                this.BearerToken = bearerToken;
+            }
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                string text = this.BearerToken;
+                if (text == null)
+                {
+                    //ErrorUtilities.VerifyProtocol(!this.Authorization.AccessTokenExpirationUtc.HasValue || this.Authorization.AccessTokenExpirationUtc >= DateTime.UtcNow || this.Authorization.RefreshToken != null, ClientStrings.AuthorizationExpired, new object[0]);
+                    if (this.Authorization.AccessTokenExpirationUtc.HasValue && this.Authorization.AccessTokenExpirationUtc.Value < DateTime.UtcNow)
+                    {
+                        //ErrorUtilities.VerifyProtocol(this.Authorization.RefreshToken != null, ClientStrings.AccessTokenRefreshFailed, new object[0]);
+                        this.Client.RefreshAuthorization(this.Authorization, null);
+                    }
+                    text = this.Authorization.AccessToken;
+                }
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", text);
+                return base.SendAsync(request, cancellationToken);
+            }
         }
 
         private static AuthorizationServerDescription GetServerDescription(string authBaseUri)

@@ -2776,7 +2776,7 @@ namespace MissionPlanner
 
             try
             {
-                /*log.Info("Load AltitudeAngel");
+                log.Info("Load AltitudeAngel");
                 new Utilities.AltitudeAngel.AltitudeAngel();
 
                 // setup as a prompt once dialog
@@ -2793,7 +2793,6 @@ namespace MissionPlanner
                 }
                 
                 log.Info("Load AltitudeAngel... Done");
-                */
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
