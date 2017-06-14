@@ -119,7 +119,7 @@ namespace MissionPlanner
                     sw.WriteLine(line);
 
                     //string line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA", DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.gpsstatus, MainV2.comPort.MAV.cs.satcount, MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.alt, "M", 0, "M", "");
-                    if (line.StartsWith("$GPGGA")) // 
+                    if (line.StartsWith("$GPGGA") || line.StartsWith("$GNGGA")) // 
                     {
                         string[] items = line.Trim().Split(',', '*');
 
