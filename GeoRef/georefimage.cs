@@ -1789,7 +1789,7 @@ namespace MissionPlanner.GeoRef
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
                 TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
-                Application.DoEvents();
+                TXT_outputlog.Refresh();
                 try
                 {
                     using (Image Pic = Image.FromStream(ms))
