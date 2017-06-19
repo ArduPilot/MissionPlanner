@@ -291,6 +291,8 @@ namespace MissionPlanner
         /// </summary>
         public static string comPortName = "";
 
+        public static int comPortBaud = 115200;
+
         /// <summary>
         /// mono detection
         /// </summary>
@@ -583,6 +585,8 @@ namespace MissionPlanner
                 {
                     _connectionControl.CMB_baudrate.Text = temp2;
                 }
+
+                comPortBaud = int.Parse(temp2);
             }
             string temp3 = Settings.Instance.APMFirmware;
             if (!string.IsNullOrEmpty(temp3))
@@ -3349,6 +3353,7 @@ namespace MissionPlanner
 
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
+            comPortBaud = int.Parse(_connectionControl.CMB_baudrate.Text);
             var sb = new StringBuilder();
             int baud = 0;
             for (int i = 0; i < _connectionControl.CMB_baudrate.Text.Length; i++)
