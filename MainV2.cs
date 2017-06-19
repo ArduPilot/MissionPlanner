@@ -2784,7 +2784,7 @@ namespace MissionPlanner
                 new Utilities.AltitudeAngel.AltitudeAngel();
 
                 // setup as a prompt once dialog
-                if (!Settings.Instance.GetBoolean("AACheck"))
+                if (!Settings.Instance.GetBoolean("AACheck2"))
                 {
                     if (CustomMessageBox.Show(
                             "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
@@ -2793,7 +2793,7 @@ namespace MissionPlanner
                         Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
                     }
 
-                    Settings.Instance["AACheck"] = true.ToString();
+                    Settings.Instance["AACheck2"] = true.ToString();
                 }
                 
                 log.Info("Load AltitudeAngel... Done");
