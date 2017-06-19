@@ -340,6 +340,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 var newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
 
+                var readonly1 = ParameterMetaDataRepository.GetParameterMetaData(
+                    Params[Command.Index, e.RowIndex].Value.ToString(),
+                    ParameterMetaDataConstants.ReadOnly, MainV2.comPort.MAV.cs.firmware.ToString());
+                if(!String.IsNullOrEmpty(readonly1))
+                {
+                    var readonly2 = bool.Parse(readonly1);
+                    if (readonly2)
+                    {
+                        CustomMessageBox.Show(
+                            Params[Command.Index, e.RowIndex].Value +
+                            " is marked as ReadOnly, and should not be changed", "ReadOnly",
+                            MessageBoxButtons.OK);
+
+                    }
+                }
+
                 if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(),
                     ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
