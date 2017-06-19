@@ -31,6 +31,7 @@ namespace MissionPlanner.Log
         Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
 
@@ -1214,6 +1215,8 @@ namespace MissionPlanner.Log
                 DrawErrors();
 
                 DrawTime();
+
+                DrawMSG();
             }
             catch
             {
@@ -1352,6 +1355,65 @@ namespace MissionPlanner.Log
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
                             AlignH.Left, AlignV.Bottom);
                         ModeCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    top = !top;
+                }
+                a++;
+            }
+        }
+
+        void DrawMSG()
+        {
+            bool top = false;
+            double a = 0;
+
+            if (MSGCache.Count > 0)
+            {
+                foreach (var item in MSGCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            MSGCache.Clear();
+
+            foreach (var item in logdata.GetEnumeratorType("MSG"))
+            {
+                a = item.lineno;
+
+                if (item.msgtype == "MSG")
+                {
+                    if (!dflog.logformat.ContainsKey("MSG"))
+                        return;
+
+                    int index = dflog.FindMessageOffset("MSG", "Message");
+                    if (index == -1)
+                    {
+                        continue;
+                    }
+
+                    if (chk_time.Checked)
+                    {
+                        XDate date = new XDate(item.time);
+                        a = date.XLDate;
+                    }
+
+                    string mode = item.items[index].ToString().Trim();
+                    if (top)
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Top);
+                        MSGCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    else
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Bottom);
+                        MSGCache.Add(temp);
                         zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     top = !top;
@@ -2025,6 +2087,8 @@ namespace MissionPlanner.Log
                 DrawModes();
                 DrawErrors();
                 DrawTime();
+
+                DrawMSG();
 
                 DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
             }
