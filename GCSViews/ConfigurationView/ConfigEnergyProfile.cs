@@ -45,8 +45,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     EnergyProfile.Initialize();
                 }
-
-                panelIDHover.Enabled = true;
+                panelHover.Enabled = true;
+                panelExpImp.Enabled = true;
                 panelCurrentConfiguration.Enabled = true;
                 panelVelocityConfiguration.Enabled = true;
 
@@ -58,7 +58,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else
             {
-                panelIDHover.Enabled = false;
+                panelHover.Enabled = false;
+                panelExpImp.Enabled = false;
                 panelCurrentConfiguration.Enabled = false;
                 panelVelocityConfiguration.Enabled = false;
                 EnergyProfile.Enabled = false;

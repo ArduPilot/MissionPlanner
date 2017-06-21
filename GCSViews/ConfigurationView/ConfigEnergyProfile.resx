@@ -117,20 +117,51 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <metadata name="panelCDev.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ChartI.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="panelCNeg.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="panelCDev.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ChartI.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="panelCNeg.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="plConfigHover.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="label1.Text" xml:space="preserve">
     <value>The Energy Consumption Profile allows to estimate the energy consumption when a flight plan is loaded or a flight plan is being created. 
 Values for the Energy Consumption Profile are loaded automatically, if the BRD_SERIAL_NUM parameter is set and a file with this ID is existent.</value>
   </data>
+  <metadata name="ChartV.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="panel7.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="ChartV.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="panel7.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="lbVelocityInfo1.Text" xml:space="preserve">
-    <value>Upper Limits: 
-The amplitude defines the maximum velocity, whereas the position of 
-the amplitude defines an angle in degree, where the max. velocity is 
-reached. Variance describes the width of the amplitude.</value>
+    <value>The speed during the execution of a movement command is dependent on the flight angle. 
+Configure parameters of this relation here. This is currently a manual process and values can be
+sampled during test flights.</value>
   </data>
   <data name="lbCurrentInfo2.Text" xml:space="preserve">
-    <value>These current-settings are for movement maneuvers. 
-Amplitude defines the maximum flowing current per angle, whereas the position of the amplitude defines an angle in degree, where the max. velocity 
-is reached. Variance describes the width of amplitude. The lower limit of current sets the lowest possible flowing current. Max. and min define the
-possible deviation of the current, as the current of a copter can vary due to different air conditions.</value>
+    <value>The Current flow during a movement caused by a command is mainly dependent on the movement angle.
+The relation is characterized by two guassian functions, whose properties need to be configured here. 
+This is currently a manual process and values can be sampled during test flights.</value>
   </data>
 </root>
