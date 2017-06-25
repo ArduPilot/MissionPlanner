@@ -142,10 +142,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
-                HS1_REV.setup(-1, 1, new string[] {"HS1_REV", "H_SV1_REV","SERVO1_REVERSED"}, MainV2.comPort.MAV.param);
-                HS2_REV.setup(-1, 1, new string[] { "HS2_REV", "H_SV2_REV", "SERVO2_REVERSED" }, MainV2.comPort.MAV.param);
-                HS3_REV.setup(-1, 1, new string[] { "HS3_REV", "H_SV3_REV", "SERVO3_REVERSED" }, MainV2.comPort.MAV.param);
-                HS4_REV.setup(-1, 1, new string[] { "HS4_REV", "H_SV4_REV", "SERVO4_REVERSED" }, MainV2.comPort.MAV.param);
+                if (MainV2.comPort.MAV.param.ContainsKey("SERVO1_REVERSED"))
+                {
+                    HS1_REV.setup(0, 1, new string[] { "HS1_REV", "H_SV1_REV", "SERVO1_REVERSED" },
+                        MainV2.comPort.MAV.param);
+                    HS2_REV.setup(0, 1, new string[] { "HS2_REV", "H_SV2_REV", "SERVO2_REVERSED" },
+                        MainV2.comPort.MAV.param);
+                    HS3_REV.setup(0, 1, new string[] { "HS3_REV", "H_SV3_REV", "SERVO3_REVERSED" },
+                        MainV2.comPort.MAV.param);
+                    HS4_REV.setup(0, 1, new string[] { "HS4_REV", "H_SV4_REV", "SERVO4_REVERSED" },
+                        MainV2.comPort.MAV.param);
+                }
+                else
+                {
+                    HS1_REV.setup(-1, 1, new string[] {"HS1_REV", "H_SV1_REV", "SERVO1_REVERSED"},
+                        MainV2.comPort.MAV.param);
+                    HS2_REV.setup(-1, 1, new string[] {"HS2_REV", "H_SV2_REV", "SERVO2_REVERSED"},
+                        MainV2.comPort.MAV.param);
+                    HS3_REV.setup(-1, 1, new string[] {"HS3_REV", "H_SV3_REV", "SERVO3_REVERSED"},
+                        MainV2.comPort.MAV.param);
+                    HS4_REV.setup(-1, 1, new string[] {"HS4_REV", "H_SV4_REV", "SERVO4_REVERSED"},
+                        MainV2.comPort.MAV.param);
+                }
                 fbl_modeFBL.setup(0, 1, new string[] { "H_FLYBAR_MODE" }, MainV2.comPort.MAV.param);
 
                 HS1_TRIM.setup(800, 2200, 1, 1, new string[] { "HS1_TRIM", "H_SV1_TRIM", "SERVO1_TRIM" }, MainV2.comPort.MAV.param);
