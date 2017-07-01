@@ -107,11 +107,14 @@ namespace MissionPlanner.Utilities
                                     }
                                 }
                             }
-                            catch { }
+                            catch (Exception ex)
+                            {
+                                log.Error(ex);
+                            }
                         }
 
-                        log.Info("is a px4v2");
-                        return boards.px4v2;
+                        log.Info("Failed to detect px4 board type");
+                        return boards.none;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
@@ -201,6 +204,11 @@ namespace MissionPlanner.Utilities
                             CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v4;
+                        }
+                        if (DialogResult.Yes ==
+                            CustomMessageBox.Show("Is this a CUBE?", "CUBE", MessageBoxButtons.YesNo))
+                        {
+                            return boards.px4v3;
                         }
                         if (DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))

@@ -351,6 +351,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         {
                             boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
                         }
+
+                        if (boardtype == BoardDetect.boards.none)
+                        {
+                            CustomMessageBox.Show(Strings.CantDetectBoardVersion);
+                            return;
+                        }
                     }
                     catch
                     {
