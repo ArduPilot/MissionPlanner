@@ -628,6 +628,9 @@ namespace MissionPlanner.GeoRef
                 StreamWriter swlogloccsv =
                     new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "loglocation.csv"))
             using (
+                StreamWriter swloccsv =
+                    new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.csv"))
+            using (
                 StreamWriter swlockml = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.kml"))
             using (
                 StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
@@ -789,9 +792,9 @@ namespace MissionPlanner.GeoRef
                         coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
                 }
 
-                var ls = new LineString() {Coordinates = coords, AltitudeMode = AltitudeMode.Absolute};
+                var ls = new LineString() { Coordinates = coords, AltitudeMode = AltitudeMode.Absolute };
 
-                SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() {Geometry = ls, Name = "path"};
+                SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "path" };
 
                 kml.AddFeature(pm);
 
@@ -823,14 +826,14 @@ namespace MissionPlanner.GeoRef
                             },
                             StyleSelector = new Style()
                             {
-                                Balloon = new BalloonStyle() {Text = "$[name]<br>$[description]"}
+                                Balloon = new BalloonStyle() { Text = "$[name]<br>$[description]" }
                             }
                         }
                         );
 
                     double lat = picInfo.Lat;
                     double lng = picInfo.Lon;
-                    double alpha = picInfo.Yaw + (double) num_camerarotation.Value;
+                    double alpha = picInfo.Yaw + (double)num_camerarotation.Value;
 
                     RectangleF rect = getboundingbox(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
 
@@ -858,7 +861,7 @@ namespace MissionPlanner.GeoRef
                             AltitudeMode = AltitudeMode.ClampToGround,
                             Bounds = new LatLonBox()
                             {
-                                Rotation = -alpha%360,
+                                Rotation = -alpha % 360,
                                 North = rect.Bottom,
                                 East = rect.Right,
                                 West = rect.Left,
@@ -871,10 +874,20 @@ namespace MissionPlanner.GeoRef
                         }
                         );
 
-                    swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " +
-                                       picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " +
-                                       picInfo.Roll + " " + picInfo.SAlt);
+                    swloctxt.WriteLine(filename + " " + picInfo.Lat.ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.Lon.ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.getAltitude(useAMSLAlt).ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.Yaw.ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.Pitch.ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.Roll.ToString(CultureInfo.InvariantCulture) + " " +
+                                       picInfo.SAlt.ToString(CultureInfo.InvariantCulture));
 
+                    swloccsv.WriteLine(filename + "," + picInfo.Lat.ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.Lon.ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.getAltitude(useAMSLAlt).ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.Yaw.ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.Pitch.ToString(CultureInfo.InvariantCulture) + "," +
+                                       picInfo.Roll.ToString(CultureInfo.InvariantCulture));
 
                     swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" +
                                        picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt));
