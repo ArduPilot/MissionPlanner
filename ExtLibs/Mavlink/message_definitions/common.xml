@@ -59,6 +59,9 @@
       <entry value="17" name="MAV_AUTOPILOT_ASLUAV">
         <description>ASLUAV autopilot -- http://www.asl.ethz.ch</description>
       </entry>
+      <entry value="18" name="MAV_AUTOPILOT_SMARTAP">
+        <description>SmartAP Autopilot - http://sky-drones.com</description>
+      </entry>
     </enum>
     <enum name="MAV_TYPE">
       <entry value="0" name="MAV_TYPE_GENERIC">
@@ -145,6 +148,9 @@
       </entry>
       <entry value="27" name="MAV_TYPE_ADSB">
         <description>Onboard ADSB peripheral</description>
+      </entry>
+      <entry value="28" name="MAV_TYPE_DODECAROTOR">
+        <description>Dodecarotor</description>
       </entry>
     </enum>
     <enum name="FIRMWARE_VERSION_TYPE">
@@ -1137,12 +1143,12 @@
       </entry>
       <entry value="209" name="MAV_CMD_DO_MOTOR_TEST">
         <description>Mission command to perform motor test</description>
-        <param index="1">motor sequence number (a number from 1 to max number of motors on the vehicle)</param>
+        <param index="1">motor number (a number from 1 to max number of motors on the vehicle)</param>
         <param index="2">throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)</param>
         <param index="3">throttle</param>
         <param index="4">timeout (in seconds)</param>
-        <param index="5">Empty</param>
-        <param index="6">Empty</param>
+        <param index="5">motor count (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)</param>
+        <param index="6">motor test order (See MOTOR_TEST_ORDER enum)</param>
         <param index="7">Empty</param>
       </entry>
       <entry value="210" name="MAV_CMD_DO_INVERTED_FLIGHT">
@@ -1222,8 +1228,8 @@
         <param index="2">1: magnetometer calibration</param>
         <param index="3">1: ground pressure calibration</param>
         <param index="4">1: radio RC calibration, 2: RC trim calibration</param>
-        <param index="5">1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration</param>
-        <param index="6">1: APM: compass/motor interference calibration / PX4: airspeed calibration</param>
+        <param index="5">1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration</param>
+        <param index="6">1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration</param>
         <param index="7">1: ESC calibration, 3: barometer temperature calibration</param>
       </entry>
       <entry value="242" name="MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS">
@@ -1954,6 +1960,12 @@
       <entry value="2" name="MAV_DISTANCE_SENSOR_INFRARED">
         <description>Infrared rangefinder, e.g. Sharp units</description>
       </entry>
+      <entry value="3" name="MAV_DISTANCE_SENSOR_RADAR">
+        <description>Radar type, e.g. uLanding units</description>
+      </entry>
+      <entry value="4" name="MAV_DISTANCE_SENSOR_UNKNOWN">
+        <description>Broken or unknown type, e.g. analog units</description>
+      </entry>
     </enum>
     <enum name="MAV_SENSOR_ORIENTATION">
       <description>Enumeration of sensor orientation, according to its rotations</description>
@@ -2224,6 +2236,12 @@
       <entry value="2" name="MAV_LANDED_STATE_IN_AIR">
         <description>MAV is in air</description>
       </entry>
+      <entry value="3" name="MAV_LANDED_STATE_TAKEOFF">
+        <description>MAV currently taking off</description>
+      </entry>
+      <entry value="4" name="MAV_LANDED_STATE_LANDING">
+        <description>MAV currently landing</description>
+      </entry>
     </enum>
     <enum name="ADSB_ALTITUDE_TYPE">
       <description>Enumeration of the ADSB altimeter types</description>
@@ -2311,6 +2329,18 @@
       </entry>
     </enum>
     <!-- motor test type enum -->
+    <enum name="MOTOR_TEST_ORDER">
+      <entry name="MOTOR_TEST_ORDER_DEFAULT" value="0">
+        <description>default autopilot motor test method</description>
+      </entry>
+      <entry name="MOTOR_TEST_ORDER_SEQUENCE" value="1">
+        <description>motor numbers are specified as their index in a predefined vehicle-specific sequence</description>
+      </entry>
+      <entry name="MOTOR_TEST_ORDER_BOARD" value="2">
+        <description>motor numbers are specified as the output as labeled on the board</description>
+      </entry>
+    </enum>
+    <!-- motor test throttle type enum -->
     <enum name="MOTOR_TEST_THROTTLE_TYPE">
       <entry value="0" name="MOTOR_TEST_THROTTLE_PERCENT">
         <description>throttle as a percentage from 0 ~ 100</description>
@@ -2320,6 +2350,9 @@
       </entry>
       <entry value="2" name="MOTOR_TEST_THROTTLE_PILOT">
         <description>throttle pass-through from pilot's transmitter</description>
+      </entry>
+      <entry value="3" name="MOTOR_TEST_COMPASS_CAL">
+        <description>per-motor compass calibration test</description>
       </entry>
     </enum>
     <!-- GPS_INPUT ignore flags enum -->
@@ -3719,7 +3752,7 @@
       <field type="uint8_t" name="satellites_visible">Number of satellites visible.</field>
     </message>
     <message id="233" name="GPS_RTCM_DATA">
-      <description>WORK IN PROGRESS! RTCM message for injecting into the onboard GPS (used for DGPS)</description>
+      <description>RTCM message for injecting into the onboard GPS (used for DGPS)</description>
       <field type="uint8_t" name="flags">LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order.</field>
       <field type="uint8_t" name="len" units="bytes">data length</field>
       <field type="uint8_t[180]" name="data">RTCM message (may be fragmented)</field>

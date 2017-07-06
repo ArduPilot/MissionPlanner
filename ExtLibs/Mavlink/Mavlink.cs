@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Apr 25 2017";
+    public const string MAVLINK_BUILD_DATE = "Thu Jul 06 2017";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -194,6 +194,7 @@ public partial class MAVLink
 		new message_info(192, "MAG_CAL_REPORT", 36, 44, 44, typeof( mavlink_mag_cal_report_t )),
 		new message_info(193, "EKF_STATUS_REPORT", 71, 22, 22, typeof( mavlink_ekf_status_report_t )),
 		new message_info(194, "PID_TUNING", 98, 25, 25, typeof( mavlink_pid_tuning_t )),
+		new message_info(195, "DEEPSTALL", 120, 37, 37, typeof( mavlink_deepstall_t )),
 		new message_info(200, "GIMBAL_REPORT", 134, 42, 42, typeof( mavlink_gimbal_report_t )),
 		new message_info(201, "GIMBAL_CONTROL", 205, 14, 14, typeof( mavlink_gimbal_control_t )),
 		new message_info(214, "GIMBAL_TORQUE_CMD_REPORT", 69, 8, 8, typeof( mavlink_gimbal_torque_cmd_report_t )),
@@ -437,6 +438,7 @@ MAG_CAL_PROGRESS = 191,
 MAG_CAL_REPORT = 192,
 EKF_STATUS_REPORT = 193,
 PID_TUNING = 194,
+DEEPSTALL = 195,
 GIMBAL_REPORT = 200,
 GIMBAL_CONTROL = 201,
 GIMBAL_TORQUE_CMD_REPORT = 214,
@@ -507,6 +509,10 @@ AOA_SSA = 11020,
         NOSEUP=5, 
     	///<summary>  | </summary>
         BACK=6, 
+    	///<summary>  | </summary>
+        SUCCESS=16777215, 
+    	///<summary>  | </summary>
+        FAILED=16777216, 
     
     };
     
@@ -623,7 +629,7 @@ AOA_SSA = 11020,
         DO_FENCE_ENABLE=207, 
     	///<summary> Mission command to trigger a parachute |action (0=disable, 1=enable, 2=release, for some systems see PARACHUTE_ACTION enum, not in general message set.)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_PARACHUTE=208, 
-    	///<summary> Mission command to perform motor test |motor sequence number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| Empty| Empty| Empty|  </summary>
+    	///<summary> Mission command to perform motor test |motor number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| motor count (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)| motor test order (See MOTOR_TEST_ORDER enum)| Empty|  </summary>
         DO_MOTOR_TEST=209, 
     	///<summary> Change to/from inverted flight |inverted (0=normal, 1=inverted)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_INVERTED_FLIGHT=210, 
@@ -643,7 +649,7 @@ AOA_SSA = 11020,
         DO_ENGINE_CONTROL=223, 
     	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_LAST=240, 
-    	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration| 1: APM: compass/motor interference calibration / PX4: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
+    	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
         PREFLIGHT_CALIBRATION=241, 
     	///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
         PREFLIGHT_SET_SENSOR_OFFSETS=242, 
@@ -759,6 +765,8 @@ AOA_SSA = 11020,
         SOLO_BTN_FLY_HOLD=42002, 
     	///<summary> PAUSE button has been clicked. |1 if Solo is in a shot mode, 0 otherwise| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         SOLO_BTN_PAUSE_CLICK=42003, 
+    	///<summary> Magnetometer calibration based on fixed position in earth field |MagDeclinationDegrees| MagInclinationDegrees| MagIntensityMilliGauss| YawDegrees| Empty| Empty| Empty|  </summary>
+        FIXED_MAG_CAL=42004, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay (seconds)| Autoreboot (0=user reboot, 1=autoreboot)| Empty| Empty|  </summary>
         DO_START_MAG_CAL=42424, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1390,6 +1398,26 @@ AOA_SSA = 11020,
     
     };
     
+    ///<summary> Deepstall flight stage </summary>
+    public enum DEEPSTALL_STAGE: byte
+    {
+			///<summary> Flying to the landing point | </summary>
+        FLY_TO_LANDING=0, 
+    	///<summary> Building an estimate of the wind | </summary>
+        ESTIMATE_WIND=1, 
+    	///<summary> Waiting to breakout of the loiter to fly the approach | </summary>
+        WAIT_FOR_BREAKOUT=2, 
+    	///<summary> Flying to the first arc point to turn around to the landing point | </summary>
+        FLY_TO_ARC=3, 
+    	///<summary> Turning around back to the deepstall landing point | </summary>
+        ARC=4, 
+    	///<summary> Approaching the landing point | </summary>
+        APPROACH=5, 
+    	///<summary> Stalling and steering towards the land point | </summary>
+        LAND=6, 
+    
+    };
+    
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
@@ -1430,6 +1458,8 @@ AOA_SSA = 11020,
         AEROB=16, 
     	///<summary> ASLUAV autopilot -- http://www.asl.ethz.ch | </summary>
         ASLUAV=17, 
+    	///<summary> SmartAP Autopilot - http://sky-drones.com | </summary>
+        SMARTAP=18, 
     
     };
     
@@ -1492,6 +1522,8 @@ AOA_SSA = 11020,
         GIMBAL=26, 
     	///<summary> Onboard ADSB peripheral | </summary>
         ADSB=27, 
+    	///<summary> Dodecarotor | </summary>
+        DODECAROTOR=28, 
     
     };
     
@@ -2064,6 +2096,10 @@ AOA_SSA = 11020,
         ULTRASOUND=1, 
     	///<summary> Infrared rangefinder, e.g. Sharp units | </summary>
         INFRARED=2, 
+    	///<summary> Radar type, e.g. uLanding units | </summary>
+        RADAR=3, 
+    	///<summary> Broken or unknown type, e.g. analog units | </summary>
+        UNKNOWN=4, 
     
     };
     
@@ -2276,6 +2312,10 @@ AOA_SSA = 11020,
         ON_GROUND=1, 
     	///<summary> MAV is in air | </summary>
         IN_AIR=2, 
+    	///<summary> MAV currently taking off | </summary>
+        TAKEOFF=3, 
+    	///<summary> MAV currently landing | </summary>
+        LANDING=4, 
     
     };
     
@@ -2392,6 +2432,18 @@ AOA_SSA = 11020,
     };
     
     ///<summary>  </summary>
+    public enum MOTOR_TEST_ORDER: int /*default*/
+    {
+			///<summary> default autopilot motor test method | </summary>
+        DEFAULT=0, 
+    	///<summary> motor numbers are specified as their index in a predefined vehicle-specific sequence | </summary>
+        SEQUENCE=1, 
+    	///<summary> motor numbers are specified as the output as labeled on the board | </summary>
+        BOARD=2, 
+    
+    };
+    
+    ///<summary>  </summary>
     public enum MOTOR_TEST_THROTTLE_TYPE: int /*default*/
     {
 			///<summary> throttle as a percentage from 0 ~ 100 | </summary>
@@ -2400,6 +2452,8 @@ AOA_SSA = 11020,
         MOTOR_TEST_THROTTLE_PWM=1, 
     	///<summary> throttle pass-through from pilot's transmitter | </summary>
         MOTOR_TEST_THROTTLE_PILOT=2, 
+    	///<summary> per-motor compass calibration test | </summary>
+        MOTOR_TEST_COMPASS_CAL=3, 
     
     };
     
@@ -3472,6 +3526,34 @@ AOA_SSA = 11020,
         public  float D;
             /// <summary> axis PID_TUNING_AXIS</summary>
         public  /*PID_TUNING_AXIS*/byte axis;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
+    ///<summary> Deepstall path planning </summary>
+    public struct mavlink_deepstall_t
+    {
+        /// <summary> Landing latitude (deg * 1E7) </summary>
+        public  int landing_lat;
+            /// <summary> Landing longitude (deg * 1E7) </summary>
+        public  int landing_lon;
+            /// <summary> Final heading start point, latitude (deg * 1E7) </summary>
+        public  int path_lat;
+            /// <summary> Final heading start point, longitude (deg * 1E7) </summary>
+        public  int path_lon;
+            /// <summary> Arc entry point, latitude (deg * 1E7) </summary>
+        public  int arc_entry_lat;
+            /// <summary> Arc entry point, longitude (deg * 1E7) </summary>
+        public  int arc_entry_lon;
+            /// <summary> Altitude (meters) </summary>
+        public  float altitude;
+            /// <summary> Distance the aircraft expects to travel during the deepstall </summary>
+        public  float expected_travel_distance;
+            /// <summary> Deepstall cross track error in meters (only valid when in DEEPSTALL_STAGE_LAND) </summary>
+        public  float cross_track_error;
+            /// <summary> Deepstall stage, see enum MAV_DEEPSTALL_STAGE DEEPSTALL_STAGE</summary>
+        public  /*DEEPSTALL_STAGE*/byte stage;
     
     };
 
@@ -6633,7 +6715,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=182)]
-    ///<summary> WORK IN PROGRESS! RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
+    ///<summary> RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_rtcm_data_t
     {
         /// <summary> LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order. </summary>
