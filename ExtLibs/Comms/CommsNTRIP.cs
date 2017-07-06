@@ -69,6 +69,7 @@ namespace MissionPlanner.Comms
             get
             {
                 /*Console.WriteLine(DateTime.Now.Millisecond + " tcp btr " + (client.Available + rbuffer.Length - rbufferread));*/
+                SendNMEA();
                 return (int) client.Available;
             }
         }
@@ -163,9 +164,8 @@ namespace MissionPlanner.Comms
             StreamWriter sw = new StreamWriter(ns);
             StreamReader sr = new StreamReader(ns);
 
-            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.1\r\n"
-                          + "User-Agent: NTRIP Mission Planner/1.0\r\n"
-                          + "Accept: */*\r\n"
+            string line = "GET " + remoteUri.PathAndQuery + " HTTP/1.0\r\n"
+                          + "User-Agent: NTRIP MissionPlanner/1.0\r\n"
                           + auth
                           + "Connection: close\r\n\r\n";
 
@@ -174,9 +174,6 @@ namespace MissionPlanner.Comms
             log.Info(line);
 
             sw.Flush();
-
-            // vrs may take up to 60+ seconds to respond
-            SendNMEA();
 
             line = sr.ReadLine();
 
@@ -190,6 +187,9 @@ namespace MissionPlanner.Comms
 
                 throw new Exception("Bad ntrip Responce\n\n" + line);
             }
+
+            // vrs may take up to 60+ seconds to respond
+            SendNMEA();
 
             VerifyConnected();
         }
@@ -206,10 +206,10 @@ namespace MissionPlanner.Comms
                     double lngdms = (int) lng + ((lng - (int) lng) * .6f);
 
                     var line = string.Format(System.Globalization.CultureInfo.InvariantCulture,
-                        "$GP{0},{1:HHmmss.fff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
+                        "$GP{0},{1:HHmmss.ff},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA",
                         DateTime.Now.ToUniversalTime(), Math.Abs(latdms * 100).ToString("0.00000"), lat < 0 ? "S" : "N",
                         Math.Abs(lngdms * 100).ToString("0.00000"), lng < 0 ? "W" : "E", 1, 10,
-                        1, alt, "M", 0, "M", "");
+                        1, alt, "M", 0, "M", "0.0");
 
                     string checksum = GetChecksum(line);
                     WriteLine(line + "*" + checksum);
@@ -337,7 +337,7 @@ namespace MissionPlanner.Comms
         public  void WriteLine(string line)
         {
             VerifyConnected();
-            line = line + "\n";
+            line = line + "\r\n";
             Write(line);
         }
 

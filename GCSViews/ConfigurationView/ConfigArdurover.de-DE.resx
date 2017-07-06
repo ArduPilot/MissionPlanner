@@ -112,112 +112,46 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label12.Text" xml:space="preserve">
-    <value>Auto WP Rad</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>Closed Loop Nav</value>
+    <value>Fluggeschwindigkeit</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Sonar Auslösedistanz</value>
+    <value>Dämpfung</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Booster</value>
+    <value>Drehgeschwindigkeit</value>
   </data>
-  <data name="label80.Text" xml:space="preserve">
-    <value>Gain (cm)</value>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Periodizität</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>FBW max</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FBW min</value>
+    <value>Drehwinkel</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Verhältnis</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Rover</value>
+    <value>Dreh-Zeit</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Cruise</value>
+    <value>Entprellen</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>2 Servo Steuerung</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>FS Value</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Navigations-Winkel</value>
+    <value>FS Wert</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Schub 0-100%</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Cruise</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>Geschwindigkeit m/s</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Wenden Gain</value>
-  </data>
-  <data name="label64.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label61.Text" xml:space="preserve">
-    <value>INT_MAX</value>
-  </data>
-  <data name="label62.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label63.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
   <data name="groupBox14.Text" xml:space="preserve">
-    <value>Energy/Alt Pid</value>
-  </data>
-  <data name="groupBox15.Text" xml:space="preserve">
-    <value>Xtrack Pids</value>
-  </data>
-  <data name="groupBox11.Text" xml:space="preserve">
-    <value>Nav Roll Pid</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>Nicken Max</value>
-  </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>Neigen Max</value>
-  </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>Nicken Min</value>
-  </data>
-  <data name="label74.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label76.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label75.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label73.Text" xml:space="preserve">
-    <value>INT_MAX</value>
+    <value>Speed 2 Gas</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
-  </data>
-  <data name="label79.Text" xml:space="preserve">
-    <value>Eingangswinkel</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter neu laden</value>

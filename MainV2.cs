@@ -292,6 +292,8 @@ namespace MissionPlanner
         /// </summary>
         public static string comPortName = "";
 
+        public static int comPortBaud = 115200;
+
         /// <summary>
         /// mono detection
         /// </summary>
@@ -589,6 +591,8 @@ namespace MissionPlanner
                 {
                     _connectionControl.CMB_baudrate.Text = temp2;
                 }
+
+                comPortBaud = int.Parse(temp2);
             }
             string temp3 = Settings.Instance.APMFirmware;
             if (!string.IsNullOrEmpty(temp3))
@@ -2850,11 +2854,11 @@ namespace MissionPlanner
 
             try
             {
-                /*log.Info("Load AltitudeAngel");
+                log.Info("Load AltitudeAngel");
                 new Utilities.AltitudeAngel.AltitudeAngel();
 
                 // setup as a prompt once dialog
-                if (!Settings.Instance.GetBoolean("AACheck"))
+                if (!Settings.Instance.GetBoolean("AACheck2"))
                 {
                     if (CustomMessageBox.Show(
                             "Do you wish to enable Altitude Angel airspace management data?\nFor more information visit [link;http://www.altitudeangel.com;www.altitudeangel.com]",
@@ -2863,11 +2867,10 @@ namespace MissionPlanner
                         Utilities.AltitudeAngel.AltitudeAngel.service.SignInAsync();
                     }
 
-                    Settings.Instance["AACheck"] = true.ToString();
+                    Settings.Instance["AACheck2"] = true.ToString();
                 }
                 
                 log.Info("Load AltitudeAngel... Done");
-                */
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
@@ -3424,6 +3427,7 @@ namespace MissionPlanner
 
         private void CMB_baudrate_TextChanged(object sender, EventArgs e)
         {
+            comPortBaud = int.Parse(_connectionControl.CMB_baudrate.Text);
             var sb = new StringBuilder();
             int baud = 0;
             for (int i = 0; i < _connectionControl.CMB_baudrate.Text.Length; i++)

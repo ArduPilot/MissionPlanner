@@ -73,11 +73,13 @@ namespace SikRadio
         private void CMB_SerialPort_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainV2.comPort.BaseStream.PortName = CMB_SerialPort.Text;
+            MainV2.comPortName = CMB_SerialPort.Text;
         }
 
         private void CMB_Baudrate_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainV2.comPort.BaseStream.BaudRate = int.Parse(CMB_Baudrate.Text);
+            MainV2.comPortBaud = int.Parse(CMB_Baudrate.Text);
         }
 
         private void CMB_SerialPort_Click(object sender, EventArgs e)

@@ -2122,9 +2122,6 @@
   <data name="but_AAsignin.Text" xml:space="preserve">
     <value>AltitudeAngel</value>
   </data>
-  <data name="but_AAsignin.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;but_AAsignin.Name" xml:space="preserve">
     <value>but_AAsignin</value>
   </data>

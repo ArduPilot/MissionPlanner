@@ -262,7 +262,7 @@ S15: MAX_WINDOW=131
 
             try
             {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                comPort.PortName = MainV2.comPortName;
                 comPort.BaudRate = 115200;
 
                 comPort.Open();
@@ -494,8 +494,8 @@ S15: MAX_WINDOW=131
                 }
                 else
                 {
-                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                    comPort.PortName = MainV2.comPortName;
+                    comPort.BaudRate = MainV2.comPortBaud;
                 }
 
                 comPort.ReadTimeout = 4000;
@@ -794,8 +794,8 @@ S15: MAX_WINDOW=131
                 }
                 else
                 {
-                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                    comPort.PortName = MainV2.comPortName;
+                    comPort.BaudRate = MainV2.comPortBaud;
                 }
 
                 comPort.ReadTimeout = 4000;
@@ -1231,8 +1231,8 @@ red LED solid - in firmware update mode");
 
             try
             {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                comPort.PortName = MainV2.comPortName;
+                comPort.BaudRate = MainV2.comPortBaud;
 
                 comPort.ReadTimeout = 4000;
 

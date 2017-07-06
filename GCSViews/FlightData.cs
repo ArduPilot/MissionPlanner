@@ -4391,7 +4391,7 @@ namespace MissionPlanner.GCSViews
 
         private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //new Utilities.AltitudeAngel.AASettings().Show(this);
+            new Utilities.AltitudeAngel.AASettings().Show(this);
         }
 
         private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)

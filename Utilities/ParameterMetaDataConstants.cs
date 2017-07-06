@@ -25,6 +25,7 @@
         public const string User = "User";
         public const string RebootRequired = "RebootRequired";
         public const string Bitmask = "Bitmask";
+        public const string ReadOnly = "ReadOnly";
 
         #endregion
 

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using MissionPlanner.Controls;
+using Timer = System.Windows.Forms.Timer;
 
 namespace MissionPlanner
 {
@@ -45,8 +47,6 @@ namespace MissionPlanner
             list.Add(pos.p2.ToLLA());
 
             polygons.Routes.Add(new GMapRoute(list, "test") { Stroke = new System.Drawing.Pen(System.Drawing.Color.Yellow,4) });
-
-            timer.Start();
         }
 
 
@@ -61,9 +61,6 @@ namespace MissionPlanner
                 return;
 
             polygons.Markers.Add(new GMapMarkerWP(pos.ToLLA(), tag));
-
-            timer.Stop();
-            timer.Start();
         }
 
         static void zoomandcentermap()
@@ -78,6 +75,7 @@ namespace MissionPlanner
         static GMapOverlay polygons = new GMapOverlay("polygons");
         static myGMAP map = new myGMAP();
         static Timer timer = new Timer();
+
 
         static void DoDebug()
         {
@@ -447,6 +445,9 @@ namespace MissionPlanner
                     closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
                 }
             }
+
+            // update zoom after 2 seconds
+            timer.Start();
 
             // set the altitude on all points
             ans.ForEach(plla => { plla.Alt = altitude; });

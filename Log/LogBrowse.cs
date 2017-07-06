@@ -31,6 +31,7 @@ namespace MissionPlanner.Log
         Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
 
@@ -1214,6 +1215,8 @@ namespace MissionPlanner.Log
                 DrawErrors();
 
                 DrawTime();
+
+                DrawMSG();
             }
             catch
             {
@@ -1360,6 +1363,65 @@ namespace MissionPlanner.Log
             }
         }
 
+        void DrawMSG()
+        {
+            bool top = false;
+            double a = 0;
+
+            if (MSGCache.Count > 0)
+            {
+                foreach (var item in MSGCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            MSGCache.Clear();
+
+            foreach (var item in logdata.GetEnumeratorType("MSG"))
+            {
+                a = item.lineno;
+
+                if (item.msgtype == "MSG")
+                {
+                    if (!dflog.logformat.ContainsKey("MSG"))
+                        return;
+
+                    int index = dflog.FindMessageOffset("MSG", "Message");
+                    if (index == -1)
+                    {
+                        continue;
+                    }
+
+                    if (chk_time.Checked)
+                    {
+                        XDate date = new XDate(item.time);
+                        a = date.XLDate;
+                    }
+
+                    string mode = item.items[index].ToString().Trim();
+                    if (top)
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Top);
+                        MSGCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    else
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Bottom);
+                        MSGCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    top = !top;
+                }
+                a++;
+            }
+        }
+
         void DrawTime()
         {
             if (chk_time.Checked)
@@ -1449,7 +1511,7 @@ namespace MissionPlanner.Log
             public List<int> samples = new List<int>();
         }
 
-        void DrawMap()
+        void DrawMap(long startline =0, long endline = long.MaxValue)
         {
             int rtcnt = 0;
 
@@ -1484,13 +1546,16 @@ namespace MissionPlanner.Log
                 {
                     i = item.lineno;
 
+                    if(i < startline || i > endline)
+                        continue;
+
                     if (item.msgtype == "GPS")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelist.Add(ans.Value);
+                            routelist.Add(ans);
                             samplelist.Add(i);
 
                             if (routelist.Count > 1000)
@@ -1514,18 +1579,17 @@ namespace MissionPlanner.Log
                                 samplelist.Clear();
                                 firstpoint = i;
                                 samplelist.Add(firstpoint);
-                                routelist.Add(ans.Value);
+                                routelist.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "GPS2")
+                    else if (item.msgtype == "GPS2")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistgps2.Add(ans.Value);
+                            routelistgps2.Add(ans);
                             samplelistgps2.Add(i);
 
                             if (routelistgps2.Count > 1000)
@@ -1549,18 +1613,17 @@ namespace MissionPlanner.Log
                                 samplelistgps2.Clear();
                                 firstpointgps2 = i;
                                 samplelistgps2.Add(firstpointgps2);
-                                routelistgps2.Add(ans.Value);
+                                routelistgps2.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "GPSB")
+                    else if (item.msgtype == "GPSB")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistgpsb.Add(ans.Value);
+                            routelistgpsb.Add(ans);
                             samplelistgpsb.Add(i);
 
                             if (routelistgpsb.Count > 1000)
@@ -1584,18 +1647,17 @@ namespace MissionPlanner.Log
                                 samplelistgpsb.Clear();
                                 firstpointgpsb = i;
                                 samplelistgpsb.Add(firstpointgpsb);
-                                routelistgpsb.Add(ans.Value);
+                                routelistgpsb.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "POS")
+                    else if (item.msgtype == "POS")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistpos.Add(ans.Value);
+                            routelistpos.Add(ans);
                             samplelistpos.Add(i);
 
                             if (routelistpos.Count > 1000)
@@ -1619,7 +1681,7 @@ namespace MissionPlanner.Log
                                 samplelistpos.Clear();
                                 firstpointpos = i;
                                 samplelistpos.Add(firstpointpos);
-                                routelistpos.Add(ans.Value);
+                                routelistpos.Add(ans);
                             }
                         }
                     }
@@ -1692,7 +1754,7 @@ namespace MissionPlanner.Log
                 myGMAP1.RoutesEnabled = true;
         }
 
-        PointLatLng? getPointLatLng(DFLog.DFItem item)
+        PointLatLngAlt getPointLatLng(DFLog.DFItem item)
         {
             if (item.msgtype == "GPS")
             {
@@ -1728,18 +1790,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPS2")
+            else if (item.msgtype == "GPS2")
             {
                 if (!dflog.logformat.ContainsKey("GPS2"))
                     return null;
@@ -1773,18 +1834,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPSB")
+            else if (item.msgtype == "GPSB")
             {
                 if (!dflog.logformat.ContainsKey("GPSB"))
                     return null;
@@ -1818,18 +1878,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "POS")
+            else if (item.msgtype == "POS")
             {
                 if (!dflog.logformat.ContainsKey("POS"))
                     return null;
@@ -1851,10 +1910,10 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
                         return null;
 
@@ -2028,6 +2087,10 @@ namespace MissionPlanner.Log
                 DrawModes();
                 DrawErrors();
                 DrawTime();
+
+                DrawMSG();
+
+                DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
             }
             catch
             {

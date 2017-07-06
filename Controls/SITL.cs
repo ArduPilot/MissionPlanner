@@ -22,7 +22,8 @@ namespace MissionPlanner.Controls
     public partial class SITL : MyUserControl, IActivate
     {
         //https://regex101.com/r/cH3kV3/2
-        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\}]+""default_params_filename""\s*:\s*""([^""]+)""\s*[^\}]*\}");
+        //https://regex101.com/r/cH3kV3/3
+        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
         Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
@@ -226,6 +227,25 @@ namespace MissionPlanner.Controls
                 sitldirectory + "sim_vehicle.py"))
             {
                 var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "sim_vehicle.py"));
+
+                foreach (Match match in matches)
+                {
+                    if (match.Groups[1].Value.ToLower().Equals(model))
+                    {
+                        if (Common.getFilefromNet(
+                            "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                            match.Groups[2].Value.ToString(),
+                            sitldirectory + match.Groups[2].Value.ToString()))
+                            return sitldirectory + match.Groups[2].Value.ToString();
+                    }
+                }
+            }
+
+            if (Common.getFilefromNet(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
+                sitldirectory + "vehicleinfo.py"))
+            {
+                var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "vehicleinfo.py"));
 
                 foreach (Match match in matches)
                 {

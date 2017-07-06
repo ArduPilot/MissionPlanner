@@ -112,199 +112,73 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Effort Lim</value>
-  </data>
   <data name="label49.Text" xml:space="preserve">
     <value>INT_MAX</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>Int Lim</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Int Lim</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>Effort Lim</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label20.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
-  <data name="label21.Text" xml:space="preserve">
-    <value>Int Lim</value>
-  </data>
-  <data name="label22.Text" xml:space="preserve">
-    <value>Effort Lim</value>
-  </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label24.Text" xml:space="preserve">
-    <value>I</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>FBW max</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
   <data name="label3.Text" xml:space="preserve">
     <value>FBW min</value>
-  </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>EH Range</value>
-  </data>
-  <data name="groupBox8.Text" xml:space="preserve">
-    <value>Servo Roll Pid</value>
-  </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>Pitch Min</value>
   </data>
   <data name="groupBox9.Text" xml:space="preserve">
     <value>Servo Pitch Pid</value>
   </data>
-  <data name="label52.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Ratio</value>
   </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>Default Radius</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Servo Yaw Pid</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label29.Text" xml:space="preserve">
-    <value>Orbit Gain</value>
-  </data>
   <data name="groupBox7.Text" xml:space="preserve">
-    <value>Track and Orbit</value>
-  </data>
-  <data name="label50.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Heading to Roll</value>
+    <value>Track und Orbit</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Cruise</value>
   </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Airspeed to Pitch</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>FS Value</value>
-  </data>
   <data name="groupBox2.Text" xml:space="preserve">
     <value>Navigations Winkel</value>
-  </data>
-  <data name="label51.Text" xml:space="preserve">
-    <value>I</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Gas 0-100%</value>
   </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Cruise</value>
-  </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>Geschwindigkeit m/s</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>I</value>
+    <value>Servo Pitch PID</value>
   </data>
   <data name="groupBox12.Text" xml:space="preserve">
-    <value>Nav Pitch AS Pid</value>
-  </data>
-  <data name="label30.Text" xml:space="preserve">
-    <value>Yaw Rate Limit</value>
+    <value>Fluggeschwindigkeit m/s</value>
   </data>
   <data name="groupBox10.Text" xml:space="preserve">
-    <value>Servo Yaw Pid</value>
+    <value>Altimeter Einstellungen</value>
   </data>
   <data name="groupBox13.Text" xml:space="preserve">
-    <value>Nav Pitch Alt Pid</value>
+    <value>Roll zu Elev</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
-    <value>Entry Angle</value>
-  </data>
-  <data name="label31.Text" xml:space="preserve">
-    <value>P</value>
+    <value>Eintrittswinkel</value>
   </data>
   <data name="groupBox11.Text" xml:space="preserve">
-    <value>Nav Roll Pid</value>
-  </data>
-  <data name="label34.Text" xml:space="preserve">
-    <value>Pitch Max</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>Track Gain</value>
-  </data>
-  <data name="label36.Text" xml:space="preserve">
-    <value>Bank Max</value>
-  </data>
-  <data name="label35.Text" xml:space="preserve">
-    <value>Bank Min</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>Pitch Max</value>
-  </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>Bank Max</value>
+    <value>Start/Landung</value>
   </data>
   <data name="label39.Text" xml:space="preserve">
-    <value>Pitch Min</value>
+    <value>Landegeschwindigkeit</value>
   </data>
   <data name="BUT_write_flash.Text" xml:space="preserve">
-    <value>Write Flash</value>
+    <value>Flash speichern</value>
   </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
   </data>
   <data name="BUT_read_flash.Text" xml:space="preserve">
-    <value>Read Flash</value>
-  </data>
-  <data name="label44.Text" xml:space="preserve">
-    <value>Cruise</value>
+    <value>Flash lesen</value>
   </data>
   <data name="label42.Text" xml:space="preserve">
-    <value>Max Airspeed</value>
+    <value>Max Fluggeschwindigkeit</value>
   </data>
   <data name="label43.Text" xml:space="preserve">
-    <value>Min Airspeed</value>
-  </data>
-  <data name="label40.Text" xml:space="preserve">
-    <value>Min TO Pitch</value>
+    <value>Min Fluggeschwindigkeit</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter aktualisieren</value>
