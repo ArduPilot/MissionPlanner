@@ -923,6 +923,39 @@ namespace MissionPlanner.Log
 
         private Color[] colourspastal = new Color[]
         {
+            ConvertFromRange(1.0, 0, 0),
+
+            ConvertFromRange(0, 1.0, 0),
+
+            ConvertFromRange(0, 0, 1.0),
+
+
+
+            ConvertFromRange(0, 1.0, 1.0),
+
+            ConvertFromRange(1.0, 0, 1.0),
+
+            ConvertFromRange(1.0, 1.0, 0),
+
+
+
+            ConvertFromRange(1.0, 0.5, 0),
+
+            ConvertFromRange(1.0, 0, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0),
+
+            ConvertFromRange(0, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0, 1.0),
+
+            ConvertFromRange(0, 0.5, 1.0),
+
+            ConvertFromRange(1.0, 0.5, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0.5, 1.0),
             ConvertFromHex("#5757FF"),
             ConvertFromHex("#62A9FF"),
             ConvertFromHex("#62D0FF"),
@@ -980,6 +1013,11 @@ namespace MissionPlanner.Log
             ConvertFromHex("#BEFEEB"),
             ConvertFromHex("#CAFFD8")
         };
+
+        public static Color ConvertFromRange(double r, double g, double b)
+        {
+            return Color.FromArgb(255, (int) (r * 127.0)+127, (int) (g * 127.0)+127, (int) (b * 127.0)+127);
+        }
 
         public static Color ConvertFromHex(string hex)
         {
@@ -1120,6 +1158,9 @@ namespace MissionPlanner.Log
                     }
                 }
             }
+
+            // clear the filter on add
+            logdatafilter.Clear();
 
             if (!isexpression)
             {
@@ -1385,41 +1426,12 @@ namespace MissionPlanner.Log
             zg1.GraphPane.GraphObjList.Clear();
 
             var prevx = zg1.GraphPane.XAxis.Scale.Min;
-
-            if (ModeCache.Count > 0 && ModePolyCache.Count > 0)
-            {
-                foreach (var item in ModeCache)
-                {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-
-                foreach (var item in ModePolyCache)
-                {
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-
-                // put from last to end of graph as well
-                var poly3 = new PolyObj()
-                {
-                    Points = new[]
-                    {
-                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
-                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Max),// tr
-                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
-                    },
-                    Fill = new Fill(colourspastal[count++]),
-                    ZOrder = ZOrder.E_BehindCurves
-                };
-
-                zg1.GraphPane.GraphObjList.Add(poly3);
-
-                return;
-            }
+            int prevmodeno = 0;
 
             ModePolyCache.Clear();
             ModeCache.Clear();
+
+            int modenum = 0;
 
             foreach (var item in logdata.GetEnumeratorType("MODE"))
             {
@@ -1436,6 +1448,12 @@ namespace MissionPlanner.Log
                         continue;
                     }
 
+                    int indexnum = dflog.FindMessageOffset("MODE", "ModeNum");
+                    if (indexnum == -1)
+                    {
+                        continue;
+                    }
+
                     if (chk_time.Checked)
                     {
                         XDate date = new XDate(item.time);
@@ -1443,6 +1461,10 @@ namespace MissionPlanner.Log
                     }
 
                     string mode = item.items[index].ToString().Trim();
+
+                    prevmodeno = modenum;
+
+                    modenum = int.Parse(item.items[indexnum].ToString().Trim());
 
                     var poly = new PolyObj()
                     {
@@ -1453,7 +1475,7 @@ namespace MissionPlanner.Log
                             new PointD(a, zg1.GraphPane.YAxis.Scale.Max),// tr
                             new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
                         },
-                        Fill = new Fill(colourspastal[count++]),
+                        Fill = new Fill(colourspastal[prevmodeno]),
                         ZOrder = ZOrder.E_BehindCurves
                     };
 
@@ -1488,7 +1510,7 @@ namespace MissionPlanner.Log
                     new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Max),// tr
                     new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
                 },
-                Fill = new Fill(colourspastal[count++]),
+                Fill = new Fill(colourspastal[modenum]),
                 ZOrder = ZOrder.E_BehindCurves
             };
 
@@ -2446,6 +2468,9 @@ namespace MissionPlanner.Log
 
                 if (logdatafilter.Count > 0)
                 {
+                    if (e.RowIndex > logdatafilter.Count)
+                        return;
+
                     item = (DFLog.DFItem) logdatafilter[e.RowIndex];
                 }
 
