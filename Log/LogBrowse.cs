@@ -31,6 +31,7 @@ namespace MissionPlanner.Log
         Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> ModePolyCache = new List<TextObj>();
         List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
@@ -503,7 +504,9 @@ namespace MissionPlanner.Log
 
             ErrorCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
+            ModePolyCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
+            MSGCache = new List<TextObj>();
 
             seenmessagetypes = new Hashtable();
 
@@ -918,6 +921,77 @@ namespace MissionPlanner.Log
             Color.WhiteSmoke
         };
 
+        private Color[] colourspastal = new Color[]
+        {
+            ConvertFromHex("#5757FF"),
+            ConvertFromHex("#62A9FF"),
+            ConvertFromHex("#62D0FF"),
+            ConvertFromHex("#06DCFB"),
+            ConvertFromHex("#01FCEF"),
+            ConvertFromHex("#03EBA6"),
+            ConvertFromHex("#01F33E"),
+            ConvertFromHex("#6A6AFF"),
+            ConvertFromHex("#75B4FF"),
+            ConvertFromHex("#75D6FF"),
+            ConvertFromHex("#24E0FB"),
+            ConvertFromHex("#1FFEF3"),
+            ConvertFromHex("#03F3AB"),
+            ConvertFromHex("#0AFE47"),
+            ConvertFromHex("#7979FF"),
+            ConvertFromHex("#86BCFF"),
+            ConvertFromHex("#8ADCFF"),
+            ConvertFromHex("#3DE4FC"),
+            ConvertFromHex("#5FFEF7"),
+            ConvertFromHex("#33FDC0"),
+            ConvertFromHex("#4BFE78"),
+            ConvertFromHex("#8C8CFF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#99E0FF"),
+            ConvertFromHex("#63E9FC"),
+            ConvertFromHex("#74FEF8"),
+            ConvertFromHex("#62FDCE"),
+            ConvertFromHex("#72FE95"),
+            ConvertFromHex("#9999FF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#A8E4FF"),
+            ConvertFromHex("#75ECFD"),
+            ConvertFromHex("#92FEF9"),
+            ConvertFromHex("#7DFDD7"),
+            ConvertFromHex("#8BFEA8"),
+            ConvertFromHex("#AAAAFF"),
+            ConvertFromHex("#A8CFFF"),
+            ConvertFromHex("#BBEBFF"),
+            ConvertFromHex("#8CEFFD"),
+            ConvertFromHex("#A5FEFA"),
+            ConvertFromHex("#8FFEDD"),
+            ConvertFromHex("#A3FEBA"),
+            ConvertFromHex("#BBBBFF"),
+            ConvertFromHex("#BBDAFF"),
+            ConvertFromHex("#CEF0FF"),
+            ConvertFromHex("#ACF3FD"),
+            ConvertFromHex("#B5FFFC"),
+            ConvertFromHex("#A5FEE3"),
+            ConvertFromHex("#B5FFC8"),
+            ConvertFromHex("#CACAFF"),
+            ConvertFromHex("#D0E6FF"),
+            ConvertFromHex("#D9F3FF"),
+            ConvertFromHex("#C0F7FE"),
+            ConvertFromHex("#CEFFFD"),
+            ConvertFromHex("#BEFEEB"),
+            ConvertFromHex("#CAFFD8")
+        };
+
+        public static Color ConvertFromHex(string hex)
+        {
+            hex = hex.TrimStart('#');
+
+            var r = Convert.ToInt32(hex.Substring(0, 2), 16);
+            var g = Convert.ToInt32(hex.Substring(2, 2), 16);
+            var b = Convert.ToInt32(hex.Substring(4, 2), 16);
+
+            return Color.FromArgb(20, r, g, b);
+        }
+
         public void CreateChart(ZedGraphControl zgc)
         {
             GraphPane myPane = zgc.GraphPane;
@@ -1306,19 +1380,45 @@ namespace MissionPlanner.Log
         {
             bool top = false;
             double a = 0;
+            int count = 0;
 
             zg1.GraphPane.GraphObjList.Clear();
 
-            if (ModeCache.Count > 0)
+            var prevx = zg1.GraphPane.XAxis.Scale.Min;
+
+            if (ModeCache.Count > 0 && ModePolyCache.Count > 0)
             {
                 foreach (var item in ModeCache)
                 {
                     item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
                     zg1.GraphPane.GraphObjList.Add(item);
                 }
+
+                foreach (var item in ModePolyCache)
+                {
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+
+                // put from last to end of graph as well
+                var poly3 = new PolyObj()
+                {
+                    Points = new[]
+                    {
+                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                        new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Max),// tr
+                        new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
+                    },
+                    Fill = new Fill(colourspastal[count++]),
+                    ZOrder = ZOrder.E_BehindCurves
+                };
+
+                zg1.GraphPane.GraphObjList.Add(poly3);
+
                 return;
             }
 
+            ModePolyCache.Clear();
             ModeCache.Clear();
 
             foreach (var item in logdata.GetEnumeratorType("MODE"))
@@ -1343,6 +1443,22 @@ namespace MissionPlanner.Log
                     }
 
                     string mode = item.items[index].ToString().Trim();
+
+                    var poly = new PolyObj()
+                    {
+                        Points = new[]
+                        {
+                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Max),// tr
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
+                        },
+                        Fill = new Fill(colourspastal[count++]),
+                        ZOrder = ZOrder.E_BehindCurves
+                    };
+
+                    zg1.GraphPane.GraphObjList.Add(poly);
+
                     if (top)
                     {
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
@@ -1361,6 +1477,22 @@ namespace MissionPlanner.Log
                 }
                 a++;
             }
+
+            // put from last to end of graph as well
+            var poly2 = new PolyObj()
+            {
+                Points = new[]
+                {
+                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Max),// tr
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
+                },
+                Fill = new Fill(colourspastal[count++]),
+                ZOrder = ZOrder.E_BehindCurves
+            };
+
+            zg1.GraphPane.GraphObjList.Add(poly2);
         }
 
         void DrawMSG()
@@ -2084,13 +2216,21 @@ namespace MissionPlanner.Log
         {
             try
             {
-                DrawModes();
-                DrawErrors();
-                DrawTime();
+                sender.GraphPane.GraphObjList.Clear();
 
-                DrawMSG();
+                if (chk_mode.Checked)
+                    DrawModes();
+                if (chk_errors.Checked)
+                    DrawErrors();
+                if (!chk_time.Checked)
+                    DrawTime();
+
+                if (chk_msg.Checked)
+                    DrawMSG();
 
                 DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+
+                sender.Invalidate();
             }
             catch
             {
@@ -2634,6 +2774,21 @@ namespace MissionPlanner.Log
                     }
                 }
             }
+        }
+
+        private void chk_mode_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_errors_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_msg_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
         }
     }
 }
