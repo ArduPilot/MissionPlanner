@@ -506,6 +506,9 @@
     </Compile>
     <Compile Include="Swarm\FollowLeader\Drone.cs" />
     <Compile Include="Swarm\FollowLeader\DroneGroup.cs" />
+    <Compile Include="Swarm\TD\Controller.cs" />
+    <Compile Include="Swarm\TD\Drone.cs" />
+    <Compile Include="Swarm\TD\DroneGroup.cs" />
     <Compile Include="Swarm\WaypointLeader\WPControl.cs">
       <SubType>Form</SubType>
     </Compile>
