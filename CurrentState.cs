@@ -19,9 +19,9 @@ namespace MissionPlanner
 
         public event EventHandler csCallBack;
 
-        internal MAVState parent;
+        public MAVState parent;
 
-        internal int lastautowp = -1;
+        public int lastautowp = -1;
 
         // multipliers
         public static float multiplierdist = 1;

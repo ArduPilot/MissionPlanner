@@ -280,7 +280,7 @@ namespace MissionPlanner
         /// <summary>
         /// other planes in the area from adsb
         /// </summary>
-        internal object adsblock = new object();
+        public object adsblock = new object();
 
         public ConcurrentDictionary<string,adsb.PointLatLngAltHdg> adsbPlanes = new ConcurrentDictionary<string, adsb.PointLatLngAltHdg>();
 

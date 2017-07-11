@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MissionPlanner.Utilities
 {
-    class GimbalPoint
+    public class GimbalPoint
     {
         public static int yawchannel = 7;
         public static int pitchchannel = 5;
