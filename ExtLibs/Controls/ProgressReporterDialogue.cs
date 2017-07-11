@@ -91,11 +91,11 @@ namespace MissionPlanner.Controls
                 {
                     log.Info("in focus invoke");
                      // if this windows isnt the current active windows, popups inherit the wrong parent.
-                     if (!this.Focused)
-                     {
-                         this.Focus();
-                         Application.DoEvents();
-                     }
+                    if (!this.Focused)
+                    {
+                        this.Focus();
+                        this.Refresh();
+                    }
                 });
             }
             catch { Running = false; return; }
