@@ -4,16 +4,20 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using IronPython.Runtime;
 using MissionPlanner.Utilities;
+using log4net;
 
 namespace MissionPlanner.Controls
 {
     public partial class Loading : Form
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         static Loading Instance;
 
         static object locker = new object();
@@ -35,12 +39,14 @@ namespace MissionPlanner.Controls
                         this.Invoke((MethodInvoker) delegate
                         {
                             label1.Text = value;
+                            this.Focus();
                             this.Refresh();
                         });
                     }
                     else
                     {
                         label1.Text = value;
+                        this.Focus();
                         this.Refresh();
                     }
                 }
@@ -49,17 +55,22 @@ namespace MissionPlanner.Controls
 
         public new static void Close()
         {
+            log.Info("Loading.Close()");
             if (Instance != null)
             {
                 if (!Instance.IsDisposed)
                 {
                     if (Instance.IsHandleCreated)
                     {
-                        Instance.Invoke((MethodInvoker)delegate
+                        lock (locker)
                         {
-                            ((Form) Instance).Close();
-                        });
-                        Instance = null;
+                            MainV2.instance.Invoke((MethodInvoker) delegate
+                            {
+                                ((Form) Instance).Close();
+                            });
+
+                            Instance = null;
+                        }
                     }
                 }
             }
@@ -70,51 +81,51 @@ namespace MissionPlanner.Controls
         /// </summary>
         /// <param name="Text"></param>
         /// <returns></returns>
-        public static Loading ShowLoading(string Text, IWin32Window owner = null)
+        public static void ShowLoading(string Text, IWin32Window owner = null)
         {
+            //if (MainV2.MONO)
+            {
+                log.Info(Text);
+                //return;
+            }
+
             // ensure we only have one instance at a time
             lock (locker)
             {
                 if (Instance != null && !Instance.IsDisposed)
                 {
                     Instance.Text = Text;
-                    return Instance;
+                    return;
                 }
 
-                Loading frm = new Loading();
-                frm.TopMost = true;
-                frm.StartPosition = FormStartPosition.CenterParent;
-                frm.Closing += Frm_Closing;
-
-                // set instance
-                Instance = frm;
-                // set text
-                Instance.label1.Text = Text;
-
-                ThemeManager.ApplyThemeTo(frm);
-
-                // display on ui thread
-                if (MainV2.instance.InvokeRequired)
+                log.Info("Create Instance");
+                // create form on ui thread
+                MainV2.instance.Invoke((MethodInvoker) delegate
                 {
-                    MainV2.instance.Invoke((MethodInvoker) delegate
-                    {
-                        frm.Show(owner);
-                        Application.DoEvents();
-                    });
-                }
-                else
-                {
+                    Loading frm = new Loading();
+                    if(owner == null)
+                        frm.TopMost = true;
+                    frm.StartPosition = FormStartPosition.CenterParent;
+                    frm.Closing += Frm_Closing;
+
+                    // set instance
+                    Instance = frm;
+                    // set text
+                    Instance.label1.Text = Text;
+
+                    ThemeManager.ApplyThemeTo(frm);
                     frm.Show(owner);
-                    Application.DoEvents();
-                }
-
-                return frm;
+                    frm.Focus();
+                });
             }
         }
 
         private static void Frm_Closing(object sender, CancelEventArgs e)
         {
-            Instance = null;
+            lock (locker)
+            {
+                Instance = null;
+            }
         }
     }
 }
