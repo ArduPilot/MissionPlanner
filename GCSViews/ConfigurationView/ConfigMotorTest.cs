@@ -86,6 +86,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             var motormax = 8;
 
+            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.GROUND_ROVER)
+            {
+                return 4;
+            }
+
             var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE") || MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE");
 
             if (!enable)
