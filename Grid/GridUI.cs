@@ -832,7 +832,7 @@ namespace MissionPlanner
 
             }
 
-            {
+            try {
                 // speed m/s
                 var speed = ((float) NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
                 // cmpix cm/pixel
@@ -845,6 +845,7 @@ namespace MissionPlanner
                 var minshutter = speed / minmpix;
                 lbl_minshutter.Text = "1/"+(minshutter - minshutter % 1).ToString();
             }
+            catch { }
 
             double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
 
