@@ -153,6 +153,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.map = new MissionPlanner.Controls.myGMAP();
+            this.lbl_minshutter = new System.Windows.Forms.Label();
+            this.label44 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -190,6 +192,8 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lbl_minshutter);
+            this.groupBox5.Controls.Add(this.label44);
             this.groupBox5.Controls.Add(this.lbl_gndelev);
             this.groupBox5.Controls.Add(this.label40);
             this.groupBox5.Controls.Add(this.lbl_turnrad);
@@ -1259,6 +1263,16 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
+            // lbl_minshutter
+            // 
+            resources.ApplyResources(this.lbl_minshutter, "lbl_minshutter");
+            this.lbl_minshutter.Name = "lbl_minshutter";
+            // 
+            // label44
+            // 
+            resources.ApplyResources(this.label44, "label44");
+            this.label44.Name = "label44";
+            // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1444,5 +1458,7 @@
         private System.Windows.Forms.NumericUpDown num_setservohigh;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.NumericUpDown num_setservono;
+        private System.Windows.Forms.Label lbl_minshutter;
+        private System.Windows.Forms.Label label44;
     }
 }

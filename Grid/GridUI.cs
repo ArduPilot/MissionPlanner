@@ -829,6 +829,21 @@ namespace MissionPlanner
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
                 lbl_turnrad.Text = (turnrad * 2).ToString("0") + " m";
                 lbl_gndelev.Text = mingroundelevation.ToString("0") + "-" + maxgroundelevation.ToString("0") + " m";
+
+            }
+
+            {
+                // speed m/s
+                var speed = ((float) NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
+                // cmpix cm/pixel
+                var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] {'c', 'm', ' '}));
+                // m pix = m/pixel
+                var mpix = cmpix * 0.01;
+                // gsd / 2.0
+                var minmpix = mpix / 2.0;
+                // min sutter speed
+                var minshutter = speed / minmpix;
+                lbl_minshutter.Text = "1/"+(minshutter - minshutter % 1).ToString();
             }
 
             double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
