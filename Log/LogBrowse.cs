@@ -1499,8 +1499,8 @@ namespace MissionPlanner.Log
                         Points = new[]
                         {
                             new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
-                            new PointD(a, zg1.GraphPane.YAxis.Scale.Max),// tr
+                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep), // tl
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Min + + zg1.GraphPane.YAxis.Scale.MinorStep),// tr
                             new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
                         },
                         Fill = new Fill(colourspastal[prevmodeno]),
@@ -1534,8 +1534,8 @@ namespace MissionPlanner.Log
                 Points = new[]
                 {
                     new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Max), // tl
-                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Max),// tr
+                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep), // tl
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep),// tr
                     new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
                 },
                 Fill = new Fill(colourspastal[modenum]),
