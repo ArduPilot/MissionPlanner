@@ -947,7 +947,7 @@ namespace MissionPlanner.Controls
                 if (opengl)
                 {
                     // make this gl window and thread current
-                    if(!Context.IsCurrent)
+                    if(!Context.IsCurrent || DateTime.Now.Second % 5 == 0)
                         MakeCurrent();
 
                     GL.Clear(ClearBufferMask.ColorBufferBit);
