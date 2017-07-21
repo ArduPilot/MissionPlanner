@@ -40,6 +40,7 @@
             this.quickView2 = new MissionPlanner.Controls.QuickView();
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
+            this.BUT_camerajoystick = new MissionPlanner.Controls.MyButton();
             this.modifyandSetLoiterRad = new MissionPlanner.Controls.ModifyandSet();
             this.BUT_abortland = new MissionPlanner.Controls.MyButton();
             this.BUT_resumemis = new MissionPlanner.Controls.MyButton();
@@ -140,6 +141,7 @@
             this.takeOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.onOffCameraOverlapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.altitudeAngelSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.but_disablecamerajoystick = new MissionPlanner.Controls.MyButton();
             this.but_disablejoystick = new MissionPlanner.Controls.MyButton();
             this.distanceBar1 = new MissionPlanner.Controls.DistanceBar();
             this.windDir1 = new MissionPlanner.Controls.WindDir();
@@ -160,6 +162,7 @@
             this.CB_tuning = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.myButton4 = new MissionPlanner.Controls.MyButton();
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -562,6 +565,7 @@
             // 
             // tabActions
             // 
+            this.tabActions.Controls.Add(this.BUT_camerajoystick);
             this.tabActions.Controls.Add(this.modifyandSetLoiterRad);
             this.tabActions.Controls.Add(this.BUT_abortland);
             this.tabActions.Controls.Add(this.BUT_resumemis);
@@ -587,6 +591,17 @@
             resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Name = "tabActions";
             this.tabActions.UseVisualStyleBackColor = true;
+            // 
+            // BUT_camerajoystick
+            // 
+            this.BUT_camerajoystick.ColorMouseDown = System.Drawing.Color.Empty;
+            this.BUT_camerajoystick.ColorMouseOver = System.Drawing.Color.Empty;
+            this.BUT_camerajoystick.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.BUT_camerajoystick, "BUT_camerajoystick");
+            this.BUT_camerajoystick.Name = "BUT_camerajoystick";
+            this.toolTip1.SetToolTip(this.BUT_camerajoystick, resources.GetString("BUT_camerajoystick.ToolTip"));
+            this.BUT_camerajoystick.UseVisualStyleBackColor = true;
+            this.BUT_camerajoystick.Click += new System.EventHandler(this.BUT_camerajoystick_Click);
             // 
             // modifyandSetLoiterRad
             // 
@@ -1800,6 +1815,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
+            this.splitContainer1.Panel2.Controls.Add(this.but_disablecamerajoystick);
             this.splitContainer1.Panel2.Controls.Add(this.but_disablejoystick);
             this.splitContainer1.Panel2.Controls.Add(this.distanceBar1);
             this.splitContainer1.Panel2.Controls.Add(this.windDir1);
@@ -1930,6 +1946,16 @@
             this.altitudeAngelSettingsToolStripMenuItem.Name = "altitudeAngelSettingsToolStripMenuItem";
             resources.ApplyResources(this.altitudeAngelSettingsToolStripMenuItem, "altitudeAngelSettingsToolStripMenuItem");
             this.altitudeAngelSettingsToolStripMenuItem.Click += new System.EventHandler(this.altitudeAngelSettingsToolStripMenuItem_Click);
+            // 
+            // but_disablecamerajoystick
+            // 
+            this.but_disablecamerajoystick.ColorMouseDown = System.Drawing.Color.Empty;
+            this.but_disablecamerajoystick.ColorMouseOver = System.Drawing.Color.Empty;
+            this.but_disablecamerajoystick.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.but_disablecamerajoystick, "but_disablecamerajoystick");
+            this.but_disablecamerajoystick.Name = "but_disablecamerajoystick";
+            this.but_disablecamerajoystick.UseVisualStyleBackColor = true;
+            this.but_disablecamerajoystick.Click += new System.EventHandler(this.but_disablecamerajoystick_Click);
             // 
             // but_disablejoystick
             // 
@@ -2135,6 +2161,16 @@
             // 
             this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
             this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            // 
+            // myButton4
+            // 
+            this.myButton4.ColorMouseDown = System.Drawing.Color.Empty;
+            this.myButton4.ColorMouseOver = System.Drawing.Color.Empty;
+            this.myButton4.ColorNotEnabled = System.Drawing.Color.Empty;
+            resources.ApplyResources(this.myButton4, "myButton4");
+            this.myButton4.Name = "myButton4";
+            this.toolTip1.SetToolTip(this.myButton4, resources.GetString("myButton4.ToolTip"));
+            this.myButton4.UseVisualStyleBackColor = true;
             // 
             // openScriptDialog
             // 
@@ -2391,5 +2427,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripQuickView;
         private System.Windows.Forms.ToolStripMenuItem setViewCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setGStreamerSourceToolStripMenuItem;
+        private Controls.MyButton but_disablecamerajoystick;
+        private Controls.MyButton BUT_camerajoystick;
+        private Controls.MyButton myButton4;
     }
 }

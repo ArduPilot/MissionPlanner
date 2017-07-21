@@ -162,7 +162,7 @@
     <value>0, 0</value>
   </data>
   <data name="hud1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 264</value>
+    <value>392, 264</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="hud1.TabIndex" type="System.Int32, mscorlib">
@@ -229,7 +229,7 @@
     <value>3, 3, 3, 3</value>
   </data>
   <data name="tabQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>350, 164</value>
+    <value>384, 164</value>
   </data>
   <data name="tabQuick.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -249,6 +249,18 @@
   <data name="&gt;&gt;tabQuick.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Name" xml:space="preserve">
+    <value>BUT_camerajoystick</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Parent" xml:space="preserve">
+    <value>tabActions</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.Name" xml:space="preserve">
     <value>modifyandSetLoiterRad</value>
   </data>
@@ -259,7 +271,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.Name" xml:space="preserve">
     <value>BUT_abortland</value>
@@ -271,7 +283,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.Name" xml:space="preserve">
     <value>BUT_resumemis</value>
@@ -283,7 +295,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;CMB_mountmode.Name" xml:space="preserve">
     <value>CMB_mountmode</value>
@@ -295,7 +307,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_mountmode.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.Name" xml:space="preserve">
     <value>BUT_mountmode</value>
@@ -307,7 +319,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.Name" xml:space="preserve">
     <value>modifyandSetSpeed</value>
@@ -319,7 +331,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.Name" xml:space="preserve">
     <value>modifyandSetAlt</value>
@@ -331,7 +343,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.Name" xml:space="preserve">
     <value>BUT_ARM</value>
@@ -343,7 +355,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.Name" xml:space="preserve">
     <value>BUT_joystick</value>
@@ -355,7 +367,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.Name" xml:space="preserve">
     <value>BUT_quickmanual</value>
@@ -367,7 +379,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.Name" xml:space="preserve">
     <value>BUT_quickrtl</value>
@@ -379,7 +391,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.Name" xml:space="preserve">
     <value>BUT_quickauto</value>
@@ -391,7 +403,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="&gt;&gt;CMB_setwp.Name" xml:space="preserve">
     <value>CMB_setwp</value>
@@ -403,7 +415,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_setwp.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.Name" xml:space="preserve">
     <value>BUT_setwp</value>
@@ -415,7 +427,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="&gt;&gt;CMB_modes.Name" xml:space="preserve">
     <value>CMB_modes</value>
@@ -427,7 +439,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_modes.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.Name" xml:space="preserve">
     <value>BUT_setmode</value>
@@ -439,7 +451,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.Name" xml:space="preserve">
     <value>BUT_clear_track</value>
@@ -451,7 +463,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="&gt;&gt;CMB_action.Name" xml:space="preserve">
     <value>CMB_action</value>
@@ -463,7 +475,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_action.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.Name" xml:space="preserve">
     <value>BUT_Homealt</value>
@@ -475,7 +487,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.Name" xml:space="preserve">
     <value>BUT_RAWSensor</value>
@@ -487,7 +499,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.Name" xml:space="preserve">
     <value>BUTrestartmission</value>
@@ -499,7 +511,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.Name" xml:space="preserve">
     <value>BUTactiondo</value>
@@ -511,7 +523,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="tabActions.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 22</value>
@@ -1078,7 +1090,7 @@
     <value>0, 0</value>
   </data>
   <data name="tabControlactions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>358, 190</value>
+    <value>392, 190</value>
   </data>
   <data name="tabControlactions.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -1108,7 +1120,7 @@
     <value>1</value>
   </data>
   <data name="SubMainLeft.Size" type="System.Drawing.Size, System.Drawing">
-    <value>360, 462</value>
+    <value>394, 462</value>
   </data>
   <data name="SubMainLeft.SplitterDistance" type="System.Int32, mscorlib">
     <value>266</value>
@@ -1183,7 +1195,7 @@
     <value>2</value>
   </data>
   <data name="tableMap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>642, 460</value>
+    <value>608, 460</value>
   </data>
   <data name="tableMap.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -1219,7 +1231,7 @@
     <value>1008, 462</value>
   </data>
   <data name="MainH.SplitterDistance" type="System.Int32, mscorlib">
-    <value>360</value>
+    <value>394</value>
   </data>
   <data name="MainH.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -1393,7 +1405,7 @@
     <value>3</value>
   </data>
   <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
-    <value>344, 158</value>
+    <value>378, 158</value>
   </data>
   <data name="tableLayoutPanelQuick.TabIndex" type="System.Int32, mscorlib">
     <value>73</value>
@@ -1432,13 +1444,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 107</value>
+    <value>192, 107</value>
   </data>
   <data name="quickView6.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>183, 48</value>
   </data>
   <data name="quickView6.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1471,7 +1483,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 48</value>
+    <value>183, 48</value>
   </data>
   <data name="quickView5.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -1492,13 +1504,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 55</value>
+    <value>192, 55</value>
   </data>
   <data name="quickView4.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>183, 46</value>
   </data>
   <data name="quickView4.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
@@ -1525,7 +1537,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>183, 46</value>
   </data>
   <data name="quickView3.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -1546,13 +1558,13 @@
     <value>Fill</value>
   </data>
   <data name="quickView2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 3</value>
+    <value>192, 3</value>
   </data>
   <data name="quickView2.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>100, 27</value>
   </data>
   <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>183, 46</value>
   </data>
   <data name="quickView2.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1579,7 +1591,7 @@
     <value>100, 27</value>
   </data>
   <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>166, 46</value>
+    <value>183, 46</value>
   </data>
   <data name="quickView1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -1602,6 +1614,36 @@
   <data name="&gt;&gt;quickView1.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="BUT_camerajoystick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_camerajoystick.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 122</value>
+  </data>
+  <data name="BUT_camerajoystick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 23</value>
+  </data>
+  <data name="BUT_camerajoystick.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="BUT_camerajoystick.Text" xml:space="preserve">
+    <value>Cam Joy</value>
+  </data>
+  <data name="BUT_camerajoystick.ToolTip" xml:space="preserve">
+    <value>Setup and enable your joystick</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Name" xml:space="preserve">
+    <value>BUT_camerajoystick</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.Parent" xml:space="preserve">
+    <value>tabActions</value>
+  </data>
+  <data name="&gt;&gt;BUT_camerajoystick.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="modifyandSetLoiterRad.Location" type="System.Drawing.Point, System.Drawing">
     <value>276, 64</value>
   </data>
@@ -1621,7 +1663,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetLoiterRad.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="BUT_abortland.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1651,7 +1693,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_abortland.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BUT_resumemis.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1678,7 +1720,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_resumemis.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="CMB_mountmode.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 93</value>
@@ -1699,7 +1741,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_mountmode.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BUT_mountmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1729,7 +1771,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_mountmode.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="modifyandSetSpeed.Location" type="System.Drawing.Point, System.Drawing">
     <value>275, 7</value>
@@ -1750,7 +1792,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetSpeed.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="modifyandSetAlt.Location" type="System.Drawing.Point, System.Drawing">
     <value>275, 35</value>
@@ -1771,7 +1813,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;modifyandSetAlt.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="BUT_ARM.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 8.25pt</value>
@@ -1804,7 +1846,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_ARM.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="BUT_joystick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1834,7 +1876,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_joystick.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="BUT_quickmanual.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1864,7 +1906,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickmanual.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="BUT_quickrtl.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1894,7 +1936,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickrtl.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="BUT_quickauto.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1924,7 +1966,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_quickauto.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="CMB_setwp.Items" xml:space="preserve">
     <value>0 (Home)</value>
@@ -1948,7 +1990,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_setwp.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="BUT_setwp.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1978,7 +2020,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_setwp.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="CMB_modes.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 64</value>
@@ -1999,7 +2041,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_modes.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="BUT_setmode.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2029,7 +2071,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_setmode.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="BUT_clear_track.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2059,7 +2101,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_clear_track.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="CMB_action.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 7</value>
@@ -2080,7 +2122,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;CMB_action.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="BUT_Homealt.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2110,7 +2152,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_Homealt.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="BUT_RAWSensor.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2140,7 +2182,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUT_RAWSensor.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="BUTrestartmission.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2170,7 +2212,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUTrestartmission.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="BUTactiondo.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2200,7 +2242,7 @@
     <value>tabActions</value>
   </data>
   <data name="&gt;&gt;BUTactiondo.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="myButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -2962,7 +3004,7 @@
     <value>Top</value>
   </data>
   <data name="lbl_playbackspeed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>312, 69</value>
+    <value>346, 69</value>
   </data>
   <data name="lbl_playbackspeed.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 46</value>
@@ -2989,7 +3031,7 @@
     <value>Top</value>
   </data>
   <data name="lbl_logpercent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>312, 36</value>
+    <value>346, 36</value>
   </data>
   <data name="lbl_logpercent.Size" type="System.Drawing.Size, System.Drawing">
     <value>35, 20</value>
@@ -3022,7 +3064,7 @@
     <value>89, 36</value>
   </data>
   <data name="tracklog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>217, 27</value>
+    <value>251, 27</value>
   </data>
   <data name="tracklog.TabIndex" type="System.Int32, mscorlib">
     <value>75</value>
@@ -3046,7 +3088,7 @@
     <value>89, 3</value>
   </data>
   <data name="LBL_logfn.Size" type="System.Drawing.Size, System.Drawing">
-    <value>258, 27</value>
+    <value>292, 27</value>
   </data>
   <data name="LBL_logfn.TabIndex" type="System.Int32, mscorlib">
     <value>80</value>
@@ -3898,7 +3940,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 210</value>
+    <value>600, 210</value>
   </data>
   <data name="zg1.TabIndex" type="System.Int32, mscorlib">
     <value>67</value>
@@ -4005,6 +4047,36 @@
   <data name="&gt;&gt;contextMenuStripMap.Type" xml:space="preserve">
     <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="but_disablecamerajoystick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="but_disablecamerajoystick.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 96</value>
+  </data>
+  <data name="but_disablecamerajoystick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 23</value>
+  </data>
+  <data name="but_disablecamerajoystick.TabIndex" type="System.Int32, mscorlib">
+    <value>78</value>
+  </data>
+  <data name="but_disablecamerajoystick.Text" xml:space="preserve">
+    <value>Disable Cam Joy</value>
+  </data>
+  <data name="but_disablecamerajoystick.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;but_disablecamerajoystick.Name" xml:space="preserve">
+    <value>but_disablecamerajoystick</value>
+  </data>
+  <data name="&gt;&gt;but_disablecamerajoystick.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;but_disablecamerajoystick.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;but_disablecamerajoystick.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="but_disablejoystick.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 67</value>
   </data>
@@ -4030,7 +4102,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;but_disablejoystick.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="distanceBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -4039,7 +4111,7 @@
     <value>66, 0</value>
   </data>
   <data name="distanceBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>517, 22</value>
+    <value>627, 22</value>
   </data>
   <data name="distanceBar1.TabIndex" type="System.Int32, mscorlib">
     <value>76</value>
@@ -4054,7 +4126,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;distanceBar1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <metadata name="bindingSource1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>307, 17</value>
@@ -4081,7 +4153,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;windDir1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4114,7 +4186,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4147,7 +4219,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4180,7 +4252,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="label4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4213,7 +4285,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="lbl_hdop.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4246,7 +4318,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;lbl_hdop.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="lbl_sats.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -4279,7 +4351,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;lbl_sats.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="gMapControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -4299,7 +4371,7 @@
 </value>
   </data>
   <data name="gMapControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>589, 418</value>
+    <value>555, 418</value>
   </data>
   <data name="gMapControl1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -4314,7 +4386,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;gMapControl1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="TRK_zoom.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Right</value>
@@ -4323,7 +4395,7 @@
     <value>NoControl</value>
   </data>
   <data name="TRK_zoom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>589, 0</value>
+    <value>555, 0</value>
   </data>
   <data name="TRK_zoom.Orientation" type="System.Windows.Forms.Orientation, System.Windows.Forms">
     <value>Vertical</value>
@@ -4344,7 +4416,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;TRK_zoom.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -4359,7 +4431,7 @@
     <value>1</value>
   </data>
   <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 418</value>
+    <value>600, 418</value>
   </data>
   <data name="splitContainer1.SplitterDistance" type="System.Int32, mscorlib">
     <value>210</value>
@@ -4470,7 +4542,7 @@
     <value>0, 0, 0, 0</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>640, 33</value>
+    <value>606, 33</value>
   </data>
   <data name="panel1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -4640,6 +4712,30 @@
   <metadata name="ZedGraphTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>171, 17</value>
   </metadata>
+  <data name="myButton4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="myButton4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 122</value>
+  </data>
+  <data name="myButton4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 23</value>
+  </data>
+  <data name="myButton4.TabIndex" type="System.Int32, mscorlib">
+    <value>88</value>
+  </data>
+  <data name="myButton4.Text" xml:space="preserve">
+    <value>Cam Joy</value>
+  </data>
+  <data name="myButton4.ToolTip" xml:space="preserve">
+    <value>Setup and enable your joystick</value>
+  </data>
+  <data name="&gt;&gt;myButton4.Name" xml:space="preserve">
+    <value>myButton4</value>
+  </data>
+  <data name="&gt;&gt;myButton4.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
   <metadata name="openScriptDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>891, 18</value>
   </metadata>

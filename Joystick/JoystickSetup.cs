@@ -51,14 +51,14 @@ namespace MissionPlanner.Joystick
             {
             }
 
-            CMB_CH1.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH2.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH3.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH4.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH5.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH6.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH7.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
-            CMB_CH8.DataSource = (Enum.GetValues(typeof (Joystick.joystickaxis)));
+            CMB_CH1.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH2.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH3.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH4.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH5.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH6.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH7.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
+            CMB_CH8.DataSource = (Enum.GetValues(typeof (JoystickProperties.joystickaxis)));
 
             try
             {
@@ -186,35 +186,35 @@ namespace MissionPlanner.Joystick
                         joy = new Joystick();
                         if (CMB_CH1.Text != "")
                             joy.setChannel(1,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH1.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH1.Text),
                                 revCH1.Checked, int.Parse(expo_ch1.Text));
                         if (CMB_CH2.Text != "")
                             joy.setChannel(2,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH2.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH2.Text),
                                 revCH2.Checked, int.Parse(expo_ch2.Text));
                         if (CMB_CH3.Text != "")
                             joy.setChannel(3,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH3.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH3.Text),
                                 revCH3.Checked, int.Parse(expo_ch3.Text));
                         if (CMB_CH4.Text != "")
                             joy.setChannel(4,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH4.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH4.Text),
                                 revCH4.Checked, int.Parse(expo_ch4.Text));
                         if (CMB_CH5.Text != "")
                             joy.setChannel(5,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH5.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH5.Text),
                                 revCH5.Checked, int.Parse(expo_ch5.Text));
                         if (CMB_CH6.Text != "")
                             joy.setChannel(6,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH6.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH6.Text),
                                 revCH6.Checked, int.Parse(expo_ch6.Text));
                         if (CMB_CH7.Text != "")
                             joy.setChannel(7,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH7.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH7.Text),
                                 revCH7.Checked, int.Parse(expo_ch7.Text));
                         if (CMB_CH8.Text != "")
                             joy.setChannel(8,
-                                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), CMB_CH8.Text),
+                                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), CMB_CH8.Text),
                                 revCH8.Checked, int.Parse(expo_ch8.Text));
 
                         joy.elevons = CHK_elevons.Checked;
@@ -385,7 +385,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(1,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH2_SelectedIndexChanged(object sender, EventArgs e)
@@ -393,7 +393,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(2,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH3_SelectedIndexChanged(object sender, EventArgs e)
@@ -401,7 +401,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(3,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH4_SelectedIndexChanged(object sender, EventArgs e)
@@ -409,7 +409,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(4,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void cmbbutton_SelectedIndexChanged(object sender, EventArgs e)
@@ -472,7 +472,7 @@ namespace MissionPlanner.Joystick
             cmbaction.Location = new Point(hbar.Right + 5, y);
             cmbaction.Size = new Size(100, 21);
 
-            cmbaction.DataSource = Enum.GetNames(typeof (Joystick.buttonfunction));
+            cmbaction.DataSource = Enum.GetNames(typeof (JoystickProperties.buttonfunction));
                 //Common.getModesList(MainV2.comPort.MAV.cs);
             //cmbaction.ValueMember = "Key";
             //cmbaction.DisplayMember = "Value";
@@ -481,7 +481,7 @@ namespace MissionPlanner.Joystick
             cmbaction.Name = "cmbaction" + name;
             //if (Settings.Instance["butaction" + name] != null)
             //  cmbaction.Text = Settings.Instance["butaction" + name].ToString();
-            //if (config.function != Joystick.buttonfunction.ChangeMode)
+            //if (config.function != JoystickProperties.buttonfunction.ChangeMode)
             cmbaction.Text = config.function.ToString();
             cmbaction.SelectedIndexChanged += cmbaction_SelectedIndexChanged;
 
@@ -501,7 +501,7 @@ namespace MissionPlanner.Joystick
             int num = int.Parse(((Control) sender).Tag.ToString());
             var config = Joystick.self.getButton(num);
             config.function =
-                (Joystick.buttonfunction) Enum.Parse(typeof (Joystick.buttonfunction), ((Control) sender).Text);
+                (JoystickProperties.buttonfunction) Enum.Parse(typeof (JoystickProperties.buttonfunction), ((Control) sender).Text);
             Joystick.self.setButton(num, config);
         }
 
@@ -509,30 +509,30 @@ namespace MissionPlanner.Joystick
         {
             var cmb = ((Control) sender).Tag as ComboBox;
 
-            switch ((Joystick.buttonfunction) Enum.Parse(typeof (Joystick.buttonfunction), cmb.SelectedItem.ToString()))
+            switch ((JoystickProperties.buttonfunction) Enum.Parse(typeof (JoystickProperties.buttonfunction), cmb.SelectedItem.ToString()))
             {
-                case Joystick.buttonfunction.ChangeMode:
+                case JoystickProperties.buttonfunction.ChangeMode:
                     new Joy_ChangeMode((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Mount_Mode:
+                case JoystickProperties.buttonfunction.Mount_Mode:
                     new Joy_Mount_Mode((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Do_Repeat_Relay:
+                case JoystickProperties.buttonfunction.Do_Repeat_Relay:
                     new Joy_Do_Repeat_Relay((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Do_Repeat_Servo:
+                case JoystickProperties.buttonfunction.Do_Repeat_Servo:
                     new Joy_Do_Repeat_Servo((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Do_Set_Relay:
+                case JoystickProperties.buttonfunction.Do_Set_Relay:
                     new Joy_Do_Set_Relay((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Do_Set_Servo:
+                case JoystickProperties.buttonfunction.Do_Set_Servo:
                     new Joy_Do_Set_Servo((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Button_axis0:
+                case JoystickProperties.buttonfunction.Button_axis0:
                     new Joy_Button_axis((string) cmb.Tag).ShowDialog();
                     break;
-                case Joystick.buttonfunction.Button_axis1:
+                case JoystickProperties.buttonfunction.Button_axis1:
                     new Joy_Button_axis((string) cmb.Tag).ShowDialog();
                     break;
                 default:
@@ -578,7 +578,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(5,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH6_SelectedIndexChanged(object sender, EventArgs e)
@@ -586,7 +586,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(6,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH7_SelectedIndexChanged(object sender, EventArgs e)
@@ -594,7 +594,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(7,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void CMB_CH8_SelectedIndexChanged(object sender, EventArgs e)
@@ -602,7 +602,7 @@ namespace MissionPlanner.Joystick
             if (startup || MainV2.joystick == null)
                 return;
             MainV2.joystick.setAxis(8,
-                (Joystick.joystickaxis) Enum.Parse(typeof (Joystick.joystickaxis), ((ComboBox) sender).Text));
+                (JoystickProperties.joystickaxis) Enum.Parse(typeof (JoystickProperties.joystickaxis), ((ComboBox) sender).Text));
         }
 
         private void BUT_detch5_Click(object sender, EventArgs e)
