@@ -1351,19 +1351,7 @@ namespace MissionPlanner.Log
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
 
-            try
-            {
-                DrawModes();
-
-                DrawErrors();
-
-                DrawTime();
-
-                DrawMSG();
-            }
-            catch
-            {
-            }
+            zg1_ZoomEvent(zg1, null, null);
 
             // Force a redraw
             zg1.Refresh();
@@ -1455,6 +1443,9 @@ namespace MissionPlanner.Log
 
             var prevx = zg1.GraphPane.XAxis.Scale.Min;
             int prevmodeno = 0;
+            // 2% of total
+            var modeheighty = zg1.GraphPane.YAxis.Scale.Min +
+                              (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
 
             ModePolyCache.Clear();
             ModeCache.Clear();
@@ -1499,8 +1490,8 @@ namespace MissionPlanner.Log
                         Points = new[]
                         {
                             new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep), // tl
-                            new PointD(a, zg1.GraphPane.YAxis.Scale.Min + + zg1.GraphPane.YAxis.Scale.MinorStep),// tr
+                            new PointD(prevx, modeheighty), // tl
+                            new PointD(a, modeheighty),// tr
                             new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
                         },
                         Fill = new Fill(colourspastal[prevmodeno]),
@@ -1534,8 +1525,8 @@ namespace MissionPlanner.Log
                 Points = new[]
                 {
                     new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
-                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep), // tl
-                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min + zg1.GraphPane.YAxis.Scale.MinorStep),// tr
+                    new PointD(prevx, modeheighty), // tl
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, modeheighty),// tr
                     new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
                 },
                 Fill = new Fill(colourspastal[modenum]),
