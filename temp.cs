@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
@@ -1047,15 +1049,20 @@ namespace MissionPlanner
         {
             Swarm.TD.Controller ctl = new Swarm.TD.Controller();
 
-            ctl.DG.Fence.Add(new PointLatLngAlt(-35.3616248404386 ,149.16618347168));
-            ctl.DG.Fence.Add(new PointLatLngAlt(-35.3635234668124, 149.166499972343));
-            ctl.DG.Fence.Add(new PointLatLngAlt(-35.3638121941007, 149.164354205132));
-            ctl.DG.Fence.Add(new PointLatLngAlt(-35.3617473338101, 149.1641664505));
-            ctl.DG.Fence.Add(new PointLatLngAlt(-35.3616248404386, 149.16618347168));
+            var fencepolygon = new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points);
+
+            ctl.DG.Fence.AddRange(fencepolygon.Cast<PointLatLngAlt>());
+
+            double minalt = 2;
+            double maxalt = 30;
+
+            InputBox.Show("", "Fence Min Alt", ref minalt);
+            InputBox.Show("", "Fence Max Alt", ref maxalt);
+
+            ctl.DG.FenceMinAlt = minalt;
+            ctl.DG.FenceMaxAlt = maxalt;
 
             ctl.Start();
-
-
         }
     }
 }
