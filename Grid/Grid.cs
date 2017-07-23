@@ -127,7 +127,12 @@ namespace MissionPlanner
 
             for (int lane = start; lane <= end; lane++)
             {
-                GenerateOffsetPath(utmpositions, distance * lane, spacing, utmzone)
+                // correct side of the line we are on because of list reversal
+                int multi = 1;
+                if ((lane - start) % 2 == 1)
+                    multi = -1;
+
+                GenerateOffsetPath(utmpositions, distance * multi * lane, spacing, utmzone)
                     .ForEach(pnt => { ans.Add(pnt); });
 
                 utmpositions.Reverse();
