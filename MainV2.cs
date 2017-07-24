@@ -306,12 +306,12 @@ namespace MissionPlanner
         /// <summary>
         /// spech engine static class
         /// </summary>
-        public static Speech speechEngine = null;
+        public static Speech speechEngine { get; set; }
 
         /// <summary>
         /// joystick static class
         /// </summary>
-        public static Joystick.Joystick joystick = null;
+        public static Joystick.Joystick joystick { get; set; }
 
         /// <summary>
         /// track last joystick packet sent. used to control rate
@@ -334,7 +334,7 @@ namespace MissionPlanner
         /// <summary>
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
-        public static WebCamService.Capture cam = null;
+        public static WebCamService.Capture cam { get; set; }
 
         /// <summary>
         /// controls the main serial reader thread

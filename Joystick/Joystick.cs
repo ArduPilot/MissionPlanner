@@ -175,8 +175,6 @@ namespace MissionPlanner.Joystick
 
         public bool manual_control = false;
 
-        public static Joystick self;
-
         string joystickconfigbutton = "joystickbuttons.xml";
         string joystickconfigaxis = "joystickaxis.xml";
 
@@ -301,8 +299,6 @@ namespace MissionPlanner.Joystick
 
         public Joystick()
         {
-            self = this;
-
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
 
@@ -430,7 +426,7 @@ namespace MissionPlanner.Joystick
 
         public bool start(string name)
         {
-            self.name = name;
+            this.name = name;
 
             joystick = AcquireJoystick(name);
 
@@ -452,8 +448,6 @@ namespace MissionPlanner.Joystick
 
         public static joystickaxis getMovingAxis(string name, int threshold)
         {
-            self.name = name;
-
             var joystick = new Joystick().AcquireJoystick(name);
 
             if (joystick == null)
@@ -555,8 +549,6 @@ namespace MissionPlanner.Joystick
 
         public static int getPressedButton(string name)
         {
-            self.name = name;
-
             var joystick = getJoyStickByName(name);
 
             if (joystick == null)
