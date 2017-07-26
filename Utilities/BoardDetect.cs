@@ -81,35 +81,41 @@ namespace MissionPlanner.Utilities
                     {
                         CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
 
-                        var DEADLINE = DateTime.Now.AddSeconds(30);
+                        DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
                         while (DateTime.Now < DEADLINE)
                         {
-                            try
-                            {
-                                using (var up = new Uploader(port, 115200))
-                                {
-                                    up.identify();
-                                    Console.WriteLine(
-                                        "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
-                                        up.board_type,
-                                        up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                            string[] allports = SerialPort.GetPortNames();
 
-                                    if (up.fw_maxsize == 2080768 && up.board_type == 9)
+                            foreach (string port1 in allports)
+                            {
+                                log.Info(DateTime.Now.Millisecond + " Trying Port " + port1);
+                                try
+                                {
+                                    using (var up = new Uploader(port1, 115200))
                                     {
-                                        log.Info("is a px4v3");
-                                        return boards.px4v3;
-                                    }
-                                    else
-                                    {
-                                        log.Info("is a px4v2");
-                                        return boards.px4v2;
+                                        up.identify();
+                                        Console.WriteLine(
+                                            "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
+                                            up.board_type,
+                                            up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+
+                                        if (up.fw_maxsize == 2080768 && up.board_type == 9)
+                                        {
+                                            log.Info("is a px4v3");
+                                            return boards.px4v3;
+                                        }
+                                        else
+                                        {
+                                            log.Info("is a px4v2");
+                                            return boards.px4v2;
+                                        }
                                     }
                                 }
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error(ex);
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
                             }
                         }
 

@@ -781,6 +781,25 @@ namespace MissionPlanner.Utilities
 
         private void AttemptRebootToBootloader()
         {
+            string[] allports = SerialPort.GetPortNames();
+
+            foreach (string port in allports)
+            {
+                log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
+                try
+                {
+                    using (var up = new Uploader(port, 115200))
+                    {
+                        up.identify();
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+
             if (MainV2.comPort.BaseStream is SerialPort)
             {
                 try
