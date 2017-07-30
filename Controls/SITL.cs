@@ -16,6 +16,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MissionPlanner.Controls
 {
@@ -245,20 +247,99 @@ namespace MissionPlanner.Controls
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
                 sitldirectory + "vehicleinfo.py"))
             {
-                var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "vehicleinfo.py"));
+                cleanupJson(sitldirectory + "vehicleinfo.py");
 
-                foreach (Match match in matches)
+                using (Newtonsoft.Json.JsonTextReader reader =
+                    new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
                 {
-                    if (match.Groups[1].Value.ToLower().Equals(model))
+                    JsonSerializer serializer = new JsonSerializer();
+                    var obj = (JObject) serializer.Deserialize(reader);
+
+                    foreach (var fwtype in obj)
                     {
-                        if (Common.getFilefromNet(
-                            "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
-                            match.Groups[2].Value.ToString(),
-                            sitldirectory + match.Groups[2].Value.ToString()))
-                            return sitldirectory + match.Groups[2].Value.ToString();
+                        var frames = fwtype.Value["frames"];
+
+                        if (frames == null)
+                            continue;
+
+                        var config = frames[model];
+
+                        if (config == null)
+                            continue;
+
+                        var configs = config["default_params_filename"];
+
+                        if (configs is JValue)
+                        {
+                            Common.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                configs.ToString(),
+                                sitldirectory + configs.ToString());
+
+                            return sitldirectory + configs.ToString();
+                        }
+
+                        string data = "";
+
+                        foreach (var config1 in configs)
+                        {
+                            Common.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                config1.ToString(),
+                                sitldirectory + config1.ToString());
+
+                            data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                        }
+
+                        var temp = Path.GetTempFileName();
+                        File.WriteAllText(temp, data);
+                        return temp;
                     }
                 }
             }
+            return "";
+        }
+
+        void cleanupJson(string filename)
+        {
+            var content = File.ReadAllText(filename);
+
+            var match = BraceMatch(content, '{', '}');
+
+            match = Regex.Replace(match, @"#.*", "");
+
+            File.WriteAllText(filename, match);
+        }
+
+        static string BraceMatch(string text, char braces, char bracee)
+        {
+            int level = 0;
+            int start = 0;
+            int end = 0;
+
+            int index = -1;
+
+            foreach (char c in text)
+            {
+                index++;
+                if (c == braces)
+                {
+                    if (level == 0)
+                        start = index;
+                    // opening brace detected
+                    level++;
+                }
+
+                if (c == bracee)
+                {
+                    level--;
+                    end = index;
+
+                    if (level == 0)
+                        return text.Substring(start, end - start + 1);
+                }
+            }
+
             return "";
         }
 
