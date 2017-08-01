@@ -52,16 +52,24 @@ namespace MissionPlanner.Utilities
             public UInt32 devid;
 
             // accessors
-            public BusType bus_type { get { return (BusType) (devid & 0x3); } } // : 3;
-            public byte bus { get { return (byte)((devid >> 2) & 0x1f); } } //: 5;    // which instance of the bus type
+            public BusType bus_type { get { return (BusType) (devid & 0x7); } } // : 3;
+            public byte bus { get { return (byte)((devid >> 3) & 0x1f); } } //: 5;    // which instance of the bus type
             public byte address { get { return (byte) ((devid >> 8) & 0xff); } } // address on the bus (eg. I2C address)
             public DevTypes devtype { get { return (DevTypes)((devid >> 16) & 0xff); } } // device class specific device type
+
+            public imu_types devtypeimu { get { return (imu_types)((devid >> 16) & 0xff); } }
 
             public DeviceStructure(UInt32 id)
             {
                 devid = id;
 
-                Console.WriteLine("bus type {0} bus {1} address (i2c addr or spi CS) {2} devtype {3} ", bus_type, bus, address, devtype);
+                Console.WriteLine(ToString());
+            }
+
+            public override string ToString()
+            {
+                return string.Format("bus type {0} bus {1} address (i2c addr or spi CS) {2} devtype {3} or {4} ", bus_type,
+                    bus, address, devtype, devtypeimu);
             }
 
             // from AP_Compass_Backend.h
@@ -76,9 +84,25 @@ namespace MissionPlanner.Utilities
                 DEVTYPE_LIS3MDL = 0x08,
                 DEVTYPE_AK09916 = 0x09,
                 DEVTYPE_IST8310 = 0x0A,
+                DEVTYPE_ICM20948 = 0x0B,
+                DEVTYPE_MMC3416 = 0x0C,
+                DEVTYPE_QMC5883L = 0x0D
+            }
+
+            public enum imu_types
+            {
+                DEVTYPE_BMI160 = 0x09,
+                DEVTYPE_L3G4200D = 0x10,
+                DEVTYPE_ACC_LSM303D = 0x11,
+                DEVTYPE_ACC_BMA180 = 0x12,
+                DEVTYPE_ACC_MPU6000 = 0x13,
+                DEVTYPE_ACC_MPU9250 = 0x16,
+                DEVTYPE_GYR_MPU6000 = 0x21,
+                DEVTYPE_GYR_L3GD20 = 0x22,
+                DEVTYPE_GYR_MPU9250 = 0x24
             };
 
-            public enum px4_i2c_bus
+        public enum px4_i2c_bus
             {
                 PX4_I2C_BUS_ONBOARD=0,
                 PX4_I2C_BUS_EXPANSION=1
