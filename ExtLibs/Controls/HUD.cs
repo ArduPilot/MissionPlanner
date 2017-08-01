@@ -1169,8 +1169,7 @@ namespace MissionPlanner.Controls
                 else
                 {
                     // Otherwise we have to resize img to be POT.
-                    _texture[textureno].bitmap = ResizeImage(img, _texture[textureno].bitmap.Width,
-                        _texture[textureno].bitmap.Height);
+                    _texture[textureno].bitmap = ResizeImage(img, 512, 512);
                 }
 
                 // generate the texture
