@@ -787,7 +787,18 @@ namespace MissionPlanner
             set { _homelocation = value; }
         }
 
-        public PointLatLngAlt MovingBase = null;
+        PointLatLngAlt _movingbase = new PointLatLngAlt();
+
+        public PointLatLngAlt MovingBase
+        {
+            get { return _movingbase; }
+            set
+            {
+                if (_movingbase.Lat != value.Lat || _movingbase.Lng != value.Lng || _movingbase.Alt
+                    != value.Alt)
+                    _movingbase = value;
+            }
+        }
 
         static PointLatLngAlt _trackerloc = new PointLatLngAlt();
 

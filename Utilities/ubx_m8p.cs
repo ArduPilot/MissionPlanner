@@ -253,6 +253,20 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_nav_velned
+        {
+            public uint iTOW;
+            public int velN;
+            public int velE;
+            public int velD;
+            public uint speed;
+            public uint gSpeed;
+            public int heading;
+            public uint sAcc;
+            public uint cAcc;
+        }
+
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 40)]
         public struct ubx_cfg_tmode3
         {
@@ -488,6 +502,9 @@ namespace MissionPlanner.Utilities
 
             // 1230 - 5s
             turnon_off(port, 0xf5, 0xE6, 5);
+
+            // NAV-VELNED - 1s
+            turnon_off(port, 0x01, 0x12, 1);
 
             // rxm-raw/rawx - 1s
             turnon_off(port, 0x02, 0x15, 1);
