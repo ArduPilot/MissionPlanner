@@ -44,6 +44,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.chk_movingbase = new System.Windows.Forms.CheckBox();
             this.but_restartsvin = new MissionPlanner.Controls.MyButton();
             this.chk_m8p_130p = new System.Windows.Forms.CheckBox();
             this.but_save_basepos = new MissionPlanner.Controls.MyButton();
@@ -198,6 +199,7 @@
             // panel2
             // 
             resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Controls.Add(this.chk_movingbase);
             this.panel2.Controls.Add(this.but_restartsvin);
             this.panel2.Controls.Add(this.chk_m8p_130p);
             this.panel2.Controls.Add(this.but_save_basepos);
@@ -207,6 +209,13 @@
             this.panel2.Controls.Add(this.label1);
             this.panel2.Controls.Add(this.txt_surveyinDur);
             this.panel2.Name = "panel2";
+            // 
+            // chk_movingbase
+            // 
+            resources.ApplyResources(this.chk_movingbase, "chk_movingbase");
+            this.chk_movingbase.Name = "chk_movingbase";
+            this.chk_movingbase.UseVisualStyleBackColor = true;
+            this.chk_movingbase.CheckedChanged += new System.EventHandler(this.chk_movingbase_CheckedChanged);
             // 
             // but_restartsvin
             // 
@@ -529,5 +538,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn BaseName1;
         private System.Windows.Forms.DataGridViewButtonColumn Use;
         private System.Windows.Forms.DataGridViewButtonColumn Delete;
+        private System.Windows.Forms.CheckBox chk_movingbase;
     }
 }

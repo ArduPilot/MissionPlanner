@@ -376,7 +376,7 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public void SetupM8P(ICommsSerial port, bool m8p_130plus = false)
+        public void SetupM8P(ICommsSerial port, bool m8p_130plus = false, bool movingbase = false)
         {
             port.BaseStream.Flush();
 
@@ -418,11 +418,18 @@ namespace MissionPlanner.Utilities
             System.Threading.Thread.Sleep(200);
 
             // set navmode to stationary
-            packet = generate(0x6, 0x24, new byte[] { 0xFF ,0xFF ,0x02 ,0x03 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x05 ,0x00
-                ,0xFA ,0x00 ,0xFA ,0x00 ,0x64 ,0x00 ,0x2C ,0x01 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
-                ,0x00 ,0x00 });
-            port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(200);
+            if (!movingbase)
+            {
+                packet = generate(0x6, 0x24,
+                    new byte[]
+                    {
+                        0xFF, 0xFF, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x05, 0x00, 0xFA, 0x00,
+                        0xFA, 0x00, 0x64, 0x00, 0x2C, 0x01, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00
+                    });
+                port.Write(packet, 0, packet.Length);
+                System.Threading.Thread.Sleep(200);
+            }
 
             // turn off all nmea
             for (int a = 0; a <= 0xf; a++)
@@ -468,6 +475,17 @@ namespace MissionPlanner.Utilities
             // 1127 - 1s
             turnon_off(port, 0xf5, 0x7f, rate1);
 
+            if (movingbase)
+            {
+                // 4072
+                turnon_off(port, 0xf5, 0xFE, 1);
+            }
+            else
+            {
+                // 4072
+                turnon_off(port, 0xf5, 0xFE, 0);
+            }
+
             // 1230 - 5s
             turnon_off(port, 0xf5, 0xE6, 5);
 
@@ -485,8 +503,11 @@ namespace MissionPlanner.Utilities
             System.Threading.Thread.Sleep(100);
         }
 
-        public void SetupBasePos(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool disable = false)
+        public void SetupBasePos(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool disable = false, bool movingbase = false)
         {
+            if (movingbase)
+                disable = true;
+
             System.Threading.Thread.Sleep(100);
             System.Threading.Thread.Sleep(100);
 

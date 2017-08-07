@@ -368,10 +368,10 @@ namespace MissionPlanner
                 {
                     this.LogInfo("Setup M8P");
 
-                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
                     if (basepos != PointLatLngAlt.Zero)
-                        ubx_m8p.SetupBasePos(comPort, basepos);
+                        ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
 
                     CMB_baudrate.Text = "115200";
 
@@ -1000,8 +1000,10 @@ namespace MissionPlanner
 
                 if (comPort.IsOpen)
                 {
-                    ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+                    ubx_m8p.SetupBasePos(comPort, basepos,
+                        int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false,
+                        chk_movingbase.Checked);
 
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
                 }
@@ -1071,10 +1073,10 @@ namespace MissionPlanner
 
             if (comPort.IsOpen)
             {
-                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
+                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
 
                 ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false, chk_movingbase.Checked);
             }
         }
 
@@ -1087,6 +1089,12 @@ namespace MissionPlanner
         private void labelmsgseen_Click(object sender, EventArgs e)
         {
             msgseen.Clear();
+        }
+
+        private void chk_movingbase_CheckedChanged(object sender, EventArgs e)
+        {
+            if(comPort.IsOpen)
+                CustomMessageBox.Show("Please Disconnect and Reconnect to apply this change.");
         }
     }
 }
