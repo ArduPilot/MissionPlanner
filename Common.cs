@@ -701,7 +701,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -805,7 +805,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -867,7 +867,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -929,7 +929,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -990,7 +990,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -1087,7 +1087,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
@@ -1171,7 +1171,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
@@ -1228,7 +1228,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
@@ -1278,7 +1278,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
