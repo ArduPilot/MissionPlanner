@@ -4431,6 +4431,7 @@
     <None Include="Resources\uavcanesc.jpg" />
     <None Include="Resources\boat.png" />
     <None Include="Resources\sub.png" />
+    <None Include="Resources\0d92fed790a3a70170e61a86db103f399a595c70.png" />
     <Content Include="Scripts\example7.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

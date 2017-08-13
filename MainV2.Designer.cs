@@ -48,6 +48,7 @@ namespace MissionPlanner
             this.MenuTerminal = new System.Windows.Forms.ToolStripButton();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuDonate = new System.Windows.Forms.ToolStripButton();
+            this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.menu = new MissionPlanner.Controls.MyButton();
@@ -74,7 +75,8 @@ namespace MissionPlanner
             this.MenuHelp,
             this.MenuDonate,
             this.MenuConnect,
-            this.toolStripConnectionControl});
+            this.toolStripConnectionControl,
+            this.MenuArduPilot});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.Stretch = false;
@@ -191,6 +193,18 @@ namespace MissionPlanner
             this.MenuDonate.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuDonate.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
+            // MenuArduPilot
+            // 
+            this.MenuArduPilot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MenuArduPilot.BackColor = System.Drawing.Color.Transparent;
+            this.MenuArduPilot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.MenuArduPilot, "MenuArduPilot");
+            this.MenuArduPilot.ForeColor = System.Drawing.Color.White;
+            this.MenuArduPilot.Image = global::MissionPlanner.Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70;
+            this.MenuArduPilot.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuArduPilot.Name = "MenuArduPilot";
+            this.MenuArduPilot.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            // 
             // MenuConnect
             // 
             this.MenuConnect.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
@@ -267,5 +281,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton MenuArduPilot;
     }
 }

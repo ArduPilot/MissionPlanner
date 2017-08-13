@@ -3194,6 +3194,8 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
             {
+                new Swarm.SRB.Control().Show();
+
                 return true;
             }
             if (keyData == (Keys.Control | Keys.Z))
