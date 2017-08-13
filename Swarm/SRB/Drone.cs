@@ -23,12 +23,18 @@ namespace MissionPlanner.Swarm.SRB
 
         public void SendPositionVelocity(PointLatLngAlt pos, Vector3 vel)
         {
+            if (pos == null || vel == null)
+                return;
+
             MavState.parent.setPositionTargetGlobalInt(MavState.sysid, MavState.compid, true, true, false,
                 MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, pos.Lat, pos.Lng, pos.Alt, vel.x, vel.y, -vel.z);
         }
 
         public void SendVelocity(Vector3 vel)
         {
+            if (vel == null)
+                return;
+
             MavState.parent.setPositionTargetGlobalInt(MavState.sysid, MavState.compid, false, true, false,
                 MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT_INT, 0, 0, 0, vel.x, vel.y, -vel.z);
         }

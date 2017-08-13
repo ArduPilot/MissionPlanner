@@ -282,6 +282,9 @@ namespace MissionPlanner.Swarm.SRB
         {
             var basepos = GetBasePosition();
 
+            if (basepos == null || basepos.Lat == 0 || basepos.Lng == 0)
+                return drone.Location;
+
             double sin = 0;
 
             if (zprogress.ContainsKey(drone))
@@ -304,6 +307,9 @@ namespace MissionPlanner.Swarm.SRB
 
         private adsb.PointLatLngAltHdg GetBasePosition()
         {
+            if (SerialInjectGPS.ubxpvt.fix_type < 3)
+                return null;
+
             return new adsb.PointLatLngAltHdg(SerialInjectGPS.ubxpvt.lat / 1e7, SerialInjectGPS.ubxpvt.lon / 1e7,
                 SerialInjectGPS.ubxpvt.height, SerialInjectGPS.ubxpvt.headVeh, "", DateTime.Now);
         }
