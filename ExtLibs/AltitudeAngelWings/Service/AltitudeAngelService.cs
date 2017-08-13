@@ -69,7 +69,7 @@ namespace AltitudeAngelWings.Service
             IMessagesService messagesService,
             IMissionPlanner missionPlanner,
             FlightDataService flightDataService
-            )
+        )
         {
             _messagesService = messagesService;
             _missionPlanner = missionPlanner;
@@ -82,22 +82,35 @@ namespace AltitudeAngelWings.Service
                 new AltitudeAngelClient(url, apiUrl, state,
                     (authUrl, existingState) => new AltitudeAngelHttpHandlerFactory(authUrl, existingState)));
 
-            _disposer.Add(_missionPlanner.FlightDataMap
-                .MapChanged
-                .Throttle(TimeSpan.FromSeconds(1))
-                .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
+            try
+            {
+                _disposer.Add(_missionPlanner.FlightDataMap
+                    .MapChanged
+                    .Throttle(TimeSpan.FromSeconds(1))
+                    .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightDataMap)));
+            }
+            catch
+            {
+            }
 
-            _disposer.Add(_missionPlanner.FlightPlanningMap
-              .MapChanged
-              .Throttle(TimeSpan.FromSeconds(1))
-              .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightPlanningMap)));
+            try
+            {
+                _disposer.Add(_missionPlanner.FlightPlanningMap
+                    .MapChanged
+                    .Throttle(TimeSpan.FromSeconds(1))
+                    .Subscribe(async i => await UpdateMapData(_missionPlanner.FlightPlanningMap)));
+            }
+            catch
+            {
+            }
 
             try
             {
                 var list = JsonConvert.DeserializeObject<List<string>>(_missionPlanner.LoadSetting("AAWings.Filters"));
 
                 FilteredOut.AddRange(list.Distinct());
-            } catch
+            }
+            catch
             {
 
             }
