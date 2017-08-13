@@ -8,7 +8,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MissionPlanner</RootNamespace>
     <AssemblyName>MissionPlanner</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -506,6 +506,15 @@
     </Compile>
     <Compile Include="Swarm\FollowLeader\Drone.cs" />
     <Compile Include="Swarm\FollowLeader\DroneGroup.cs" />
+    <Compile Include="Swarm\SRB\Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Swarm\SRB\Control.Designer.cs">
+      <DependentUpon>Control.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\SRB\Controller.cs" />
+    <Compile Include="Swarm\SRB\Drone.cs" />
+    <Compile Include="Swarm\SRB\DroneGroup.cs" />
     <Compile Include="Swarm\TD\Controller.cs" />
     <Compile Include="Swarm\TD\Drone.cs" />
     <Compile Include="Swarm\TD\DroneGroup.cs" />
@@ -2910,6 +2919,9 @@
     <EmbeddedResource Include="Swarm\FollowLeader\Control.resx">
       <DependentUpon>Control.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\SRB\Control.resx">
+      <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Swarm\WaypointLeader\WPControl.pt.resx">
       <DependentUpon>WPControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -4813,7 +4825,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
-    <Folder Include="Swarm\SRB\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
