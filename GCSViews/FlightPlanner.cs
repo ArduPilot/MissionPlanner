@@ -1324,6 +1324,7 @@ namespace MissionPlanner.GCSViews
                             command != (ushort)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
                             command != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
                             command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                            command != (ushort)MAVLink.MAV_CMD.DELAY &&
                             command != (ushort) MAVLink.MAV_CMD.GUIDED_ENABLE
                             || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
                         {
