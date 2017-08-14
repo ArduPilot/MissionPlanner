@@ -1,4 +1,10 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+using System.Windows.Forms;
+using DotSpatial.Data;
+using MissionPlanner.Utilities;
+
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigEnergyProfile
     {
@@ -28,90 +34,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 26D);
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "19,0,0");
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
-            this.panelCDev = new System.Windows.Forms.Panel();
-            this.label26 = new System.Windows.Forms.Label();
-            this.tbDeviationMin = new System.Windows.Forms.TextBox();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.tbDeviationMax = new System.Windows.Forms.TextBox();
+            this.LabelDeviationCB = new System.Windows.Forms.Label();
+            this.ComboBoxDeviation = new System.Windows.Forms.ComboBox();
+            this.BtnPlot = new MissionPlanner.Controls.MyButton();
+            this.LbInfoCurrentMove = new System.Windows.Forms.Label();
+            this.CrntTable = new System.Windows.Forms.TableLayoutPanel();
+            this.CrntTblTb411 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb410 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb409 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb408 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb407 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb406 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb405 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb404 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb403 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb402 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb401 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb311 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb310 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb309 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb308 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb307 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb306 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb305 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb304 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb303 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb302 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb301 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb211 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb210 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb209 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb208 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb207 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb206 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb205 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb204 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb203 = new System.Windows.Forms.TextBox();
+            this.CrntTblTb202 = new System.Windows.Forms.TextBox();
+            this.CrntTblRowLbl02 = new System.Windows.Forms.Label();
+            this.CrntTblRowLbl01 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl01 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl02 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl03 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl04 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl05 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl06 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl07 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl08 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl09 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl10 = new System.Windows.Forms.Label();
+            this.CrntTblClmLbl11 = new System.Windows.Forms.Label();
+            this.CrntTblRowLbl03 = new System.Windows.Forms.Label();
+            this.CrntTblRowLbl04 = new System.Windows.Forms.Label();
+            this.CrntTblTb201 = new System.Windows.Forms.TextBox();
             this.ChartI = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbVarIPos = new System.Windows.Forms.TextBox();
-            this.tbAmpIPos = new System.Windows.Forms.TextBox();
-            this.tbAngIPos = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.lblTitleCurrent = new System.Windows.Forms.Label();
-            this.tbLimitI = new System.Windows.Forms.TextBox();
-            this.panelCNeg = new System.Windows.Forms.Panel();
-            this.tbVarINeg = new System.Windows.Forms.TextBox();
-            this.tbAmpINeg = new System.Windows.Forms.TextBox();
-            this.tbAngINeg = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.panelHover = new System.Windows.Forms.Panel();
-            this.label30 = new System.Windows.Forms.Label();
-            this.lbCurrentHover = new System.Windows.Forms.Label();
-            this.tbHoverI = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.panelVelocityConfiguration = new System.Windows.Forms.Panel();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.tbLowerAmp = new System.Windows.Forms.TextBox();
-            this.label18 = new System.Windows.Forms.Label();
-            this.tbGradientV = new System.Windows.Forms.TextBox();
-            this.label16 = new System.Windows.Forms.Label();
-            this.ChartV = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.label19 = new System.Windows.Forms.Label();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.tbVarV = new System.Windows.Forms.TextBox();
-            this.tbAmpV = new System.Windows.Forms.TextBox();
-            this.tbAngV = new System.Windows.Forms.TextBox();
-            this.label20 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.lbVelocityInfo1 = new System.Windows.Forms.Label();
             this.lbCurrentInfo2 = new System.Windows.Forms.Label();
+            this.lblTitleCurrent = new System.Windows.Forms.Label();
+            this.panelHover = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.HoverDevTB = new System.Windows.Forms.TextBox();
+            this.lbCurrentHover = new System.Windows.Forms.Label();
+            this.lbVarianceCurrentHover = new System.Windows.Forms.Label();
+            this.HoverCrntTB = new System.Windows.Forms.TextBox();
+            this.lbCurrentInfo1 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.tbCopterID = new System.Windows.Forms.TextBox();
             this.label24 = new System.Windows.Forms.Label();
             this.panelExpImp = new System.Windows.Forms.Panel();
-            this.btnLoadCopterSettings = new MissionPlanner.Controls.MyButton();
-            this.label29 = new System.Windows.Forms.Label();
-            this.btnSaveCopterSettingsToFile = new MissionPlanner.Controls.MyButton();
-            this.lbCurrentInfo1 = new System.Windows.Forms.Label();
-            this.plConfigHover = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lbVarianceCurrentHover = new System.Windows.Forms.Label();
-            this.tbVarianceCurrentHover = new System.Windows.Forms.TextBox();
+            this.BtnImport = new MissionPlanner.Controls.MyButton();
+            this.BtnExport = new MissionPlanner.Controls.MyButton();
+            this.label29 = new System.Windows.Forms.Label();
+            this.energyProfileModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelCurrentConfiguration.SuspendLayout();
-            this.panelCDev.SuspendLayout();
+            this.CrntTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
-            this.panelCNeg.SuspendLayout();
             this.panelHover.SuspendLayout();
-            this.panelVelocityConfiguration.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
-            this.panel7.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panelExpImp.SuspendLayout();
-            this.plConfigHover.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.energyProfileModelBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -128,316 +147,746 @@
             // panelCurrentConfiguration
             // 
             this.panelCurrentConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelCurrentConfiguration.Controls.Add(this.panelCDev);
+            this.panelCurrentConfiguration.Controls.Add(this.LabelDeviationCB);
+            this.panelCurrentConfiguration.Controls.Add(this.ComboBoxDeviation);
+            this.panelCurrentConfiguration.Controls.Add(this.BtnPlot);
+            this.panelCurrentConfiguration.Controls.Add(this.LbInfoCurrentMove);
+            this.panelCurrentConfiguration.Controls.Add(this.CrntTable);
             this.panelCurrentConfiguration.Controls.Add(this.ChartI);
             this.panelCurrentConfiguration.Controls.Add(this.lbCurrentInfo2);
             this.panelCurrentConfiguration.Controls.Add(this.lblTitleCurrent);
-            this.panelCurrentConfiguration.Controls.Add(this.panelCNeg);
             this.panelCurrentConfiguration.Enabled = false;
-            this.panelCurrentConfiguration.Location = new System.Drawing.Point(16, 145);
+            this.panelCurrentConfiguration.Location = new System.Drawing.Point(17, 141);
             this.panelCurrentConfiguration.Name = "panelCurrentConfiguration";
-            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 350);
+            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 502);
             this.panelCurrentConfiguration.TabIndex = 40;
             // 
-            // panelCDev
+            // LabelDeviationCB
             // 
-            this.panelCDev.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelCDev.Controls.Add(this.label26);
-            this.panelCDev.Controls.Add(this.tbDeviationMin);
-            this.panelCDev.Controls.Add(this.label8);
-            this.panelCDev.Controls.Add(this.tbLimitI);
-            this.panelCDev.Controls.Add(this.label28);
-            this.panelCDev.Controls.Add(this.label27);
-            this.panelCDev.Controls.Add(this.tbDeviationMax);
-            this.panelCDev.Location = new System.Drawing.Point(3, 285);
-            this.panelCDev.Name = "panelCDev";
-            this.panelCDev.Size = new System.Drawing.Size(810, 60);
-            this.panelCDev.TabIndex = 63;
+            this.LabelDeviationCB.AutoSize = true;
+            this.LabelDeviationCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelDeviationCB.Location = new System.Drawing.Point(653, 144);
+            this.LabelDeviationCB.Name = "LabelDeviationCB";
+            this.LabelDeviationCB.Size = new System.Drawing.Size(146, 26);
+            this.LabelDeviationCB.TabIndex = 68;
+            this.LabelDeviationCB.Text = "Fix threshold value from \r\naverrage Current:";
             // 
-            // label26
+            // ComboBoxDeviation
             // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(1, 9);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(132, 13);
-            this.label26.TabIndex = 59;
-            this.label26.Text = "Deviation/Limit Of Current:";
+            this.ComboBoxDeviation.DisplayMember = "0";
+            this.ComboBoxDeviation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxDeviation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ComboBoxDeviation.Location = new System.Drawing.Point(656, 186);
+            this.ComboBoxDeviation.MaxDropDownItems = 5;
+            this.ComboBoxDeviation.Name = "ComboBoxDeviation";
+            this.ComboBoxDeviation.Size = new System.Drawing.Size(49, 21);
+            this.ComboBoxDeviation.TabIndex = 67;
+            this.ComboBoxDeviation.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDeviation_SelectedIndexChanged);
             // 
-            // tbDeviationMin
+            // BtnPlot
             // 
-            this.tbDeviationMin.Location = new System.Drawing.Point(419, 30);
-            this.tbDeviationMin.Name = "tbDeviationMin";
-            this.tbDeviationMin.Size = new System.Drawing.Size(51, 20);
-            this.tbDeviationMin.TabIndex = 62;
-            this.tbDeviationMin.Text = "0";
-            this.tbDeviationMin.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
+            this.BtnPlot.Location = new System.Drawing.Point(715, 310);
+            this.BtnPlot.Name = "BtnPlot";
+            this.BtnPlot.Size = new System.Drawing.Size(84, 26);
+            this.BtnPlot.TabIndex = 52;
+            this.BtnPlot.Text = "Plot";
+            this.BtnPlot.UseVisualStyleBackColor = true;
+            this.BtnPlot.Click += new System.EventHandler(this.BtnPlot_Click);
             // 
-            // label28
+            // LbInfoCurrentMove
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(269, 30);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(112, 13);
-            this.label28.TabIndex = 61;
-            this.label28.Text = "Deviation To Minimum";
+            this.LbInfoCurrentMove.AutoSize = true;
+            this.LbInfoCurrentMove.Location = new System.Drawing.Point(309, 3);
+            this.LbInfoCurrentMove.Name = "LbInfoCurrentMove";
+            this.LbInfoCurrentMove.Size = new System.Drawing.Size(504, 39);
+            this.LbInfoCurrentMove.TabIndex = 66;
+            this.LbInfoCurrentMove.Text = resources.GetString("LbInfoCurrentMove.Text");
             // 
-            // label27
+            // CrntTable
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(3, 30);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(115, 13);
-            this.label27.TabIndex = 60;
-            this.label27.Text = "Deviation To Maximum";
+            this.CrntTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.CrntTable.ColumnCount = 12;
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.CrntTable.Controls.Add(this.CrntTblTb411, 11, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb410, 10, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb409, 9, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb408, 8, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb407, 7, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb406, 6, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb405, 5, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb404, 4, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb403, 3, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb402, 2, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb401, 1, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb311, 11, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb310, 10, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb309, 9, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb308, 8, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb307, 7, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb306, 6, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb305, 5, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb304, 4, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb303, 3, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb302, 2, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb301, 1, 2);
+            this.CrntTable.Controls.Add(this.CrntTblTb211, 11, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb210, 10, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb209, 9, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb208, 8, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb207, 7, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb206, 6, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb205, 5, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb204, 4, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb203, 3, 1);
+            this.CrntTable.Controls.Add(this.CrntTblTb202, 2, 1);
+            this.CrntTable.Controls.Add(this.CrntTblRowLbl02, 0, 1);
+            this.CrntTable.Controls.Add(this.CrntTblRowLbl01, 0, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl01, 1, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl02, 2, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl03, 3, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl04, 4, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl05, 5, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl06, 6, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl07, 7, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl08, 8, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl09, 9, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl10, 10, 0);
+            this.CrntTable.Controls.Add(this.CrntTblClmLbl11, 11, 0);
+            this.CrntTable.Controls.Add(this.CrntTblRowLbl03, 0, 2);
+            this.CrntTable.Controls.Add(this.CrntTblRowLbl04, 0, 3);
+            this.CrntTable.Controls.Add(this.CrntTblTb201, 1, 1);
+            this.CrntTable.Location = new System.Drawing.Point(3, 351);
+            this.CrntTable.Name = "CrntTable";
+            this.CrntTable.RowCount = 4;
+            this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CrntTable.Size = new System.Drawing.Size(810, 146);
+            this.CrntTable.TabIndex = 64;
             // 
-            // tbDeviationMax
+            // CrntTblTb411
             // 
-            this.tbDeviationMax.Location = new System.Drawing.Point(161, 30);
-            this.tbDeviationMax.Name = "tbDeviationMax";
-            this.tbDeviationMax.Size = new System.Drawing.Size(51, 20);
-            this.tbDeviationMax.TabIndex = 58;
-            this.tbDeviationMax.Text = "0";
-            this.tbDeviationMax.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
+            this.CrntTblTb411.Enabled = false;
+            this.CrntTblTb411.Location = new System.Drawing.Point(746, 117);
+            this.CrntTblTb411.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb411.Name = "CrntTblTb411";
+            this.CrntTblTb411.ReadOnly = true;
+            this.CrntTblTb411.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb411.TabIndex = 100;
+            this.CrntTblTb411.Text = "0,00";
+            // 
+            // CrntTblTb410
+            // 
+            this.CrntTblTb410.Enabled = false;
+            this.CrntTblTb410.Location = new System.Drawing.Point(679, 117);
+            this.CrntTblTb410.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb410.Name = "CrntTblTb410";
+            this.CrntTblTb410.ReadOnly = true;
+            this.CrntTblTb410.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb410.TabIndex = 99;
+            this.CrntTblTb410.Text = "0,00";
+            // 
+            // CrntTblTb409
+            // 
+            this.CrntTblTb409.Enabled = false;
+            this.CrntTblTb409.Location = new System.Drawing.Point(612, 117);
+            this.CrntTblTb409.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb409.Name = "CrntTblTb409";
+            this.CrntTblTb409.ReadOnly = true;
+            this.CrntTblTb409.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb409.TabIndex = 98;
+            this.CrntTblTb409.Text = "0,00";
+            // 
+            // CrntTblTb408
+            // 
+            this.CrntTblTb408.Enabled = false;
+            this.CrntTblTb408.Location = new System.Drawing.Point(545, 117);
+            this.CrntTblTb408.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb408.Name = "CrntTblTb408";
+            this.CrntTblTb408.ReadOnly = true;
+            this.CrntTblTb408.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb408.TabIndex = 97;
+            this.CrntTblTb408.Text = "0,00";
+            // 
+            // CrntTblTb407
+            // 
+            this.CrntTblTb407.Enabled = false;
+            this.CrntTblTb407.Location = new System.Drawing.Point(478, 117);
+            this.CrntTblTb407.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb407.Name = "CrntTblTb407";
+            this.CrntTblTb407.ReadOnly = true;
+            this.CrntTblTb407.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb407.TabIndex = 96;
+            this.CrntTblTb407.Text = "0,00";
+            // 
+            // CrntTblTb406
+            // 
+            this.CrntTblTb406.Enabled = false;
+            this.CrntTblTb406.Location = new System.Drawing.Point(411, 117);
+            this.CrntTblTb406.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb406.Name = "CrntTblTb406";
+            this.CrntTblTb406.ReadOnly = true;
+            this.CrntTblTb406.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb406.TabIndex = 95;
+            this.CrntTblTb406.Text = "0,00";
+            // 
+            // CrntTblTb405
+            // 
+            this.CrntTblTb405.Enabled = false;
+            this.CrntTblTb405.Location = new System.Drawing.Point(344, 117);
+            this.CrntTblTb405.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb405.Name = "CrntTblTb405";
+            this.CrntTblTb405.ReadOnly = true;
+            this.CrntTblTb405.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb405.TabIndex = 94;
+            this.CrntTblTb405.Text = "0,00";
+            // 
+            // CrntTblTb404
+            // 
+            this.CrntTblTb404.Enabled = false;
+            this.CrntTblTb404.Location = new System.Drawing.Point(277, 117);
+            this.CrntTblTb404.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb404.Name = "CrntTblTb404";
+            this.CrntTblTb404.ReadOnly = true;
+            this.CrntTblTb404.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb404.TabIndex = 93;
+            this.CrntTblTb404.Text = "0,00";
+            // 
+            // CrntTblTb403
+            // 
+            this.CrntTblTb403.Enabled = false;
+            this.CrntTblTb403.Location = new System.Drawing.Point(210, 117);
+            this.CrntTblTb403.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb403.Name = "CrntTblTb403";
+            this.CrntTblTb403.ReadOnly = true;
+            this.CrntTblTb403.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb403.TabIndex = 92;
+            this.CrntTblTb403.Text = "0,00";
+            // 
+            // CrntTblTb402
+            // 
+            this.CrntTblTb402.Enabled = false;
+            this.CrntTblTb402.Location = new System.Drawing.Point(143, 117);
+            this.CrntTblTb402.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb402.Name = "CrntTblTb402";
+            this.CrntTblTb402.ReadOnly = true;
+            this.CrntTblTb402.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb402.TabIndex = 91;
+            this.CrntTblTb402.Text = "0,00";
+            // 
+            // CrntTblTb401
+            // 
+            this.CrntTblTb401.Enabled = false;
+            this.CrntTblTb401.Location = new System.Drawing.Point(76, 117);
+            this.CrntTblTb401.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb401.Name = "CrntTblTb401";
+            this.CrntTblTb401.ReadOnly = true;
+            this.CrntTblTb401.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb401.TabIndex = 90;
+            this.CrntTblTb401.Text = "0,00";
+            // 
+            // CrntTblTb311
+            // 
+            this.CrntTblTb311.Location = new System.Drawing.Point(746, 81);
+            this.CrntTblTb311.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb311.Name = "CrntTblTb311";
+            this.CrntTblTb311.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb311.TabIndex = 89;
+            this.CrntTblTb311.Text = "0,00";
+            // 
+            // CrntTblTb310
+            // 
+            this.CrntTblTb310.Location = new System.Drawing.Point(679, 81);
+            this.CrntTblTb310.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb310.Name = "CrntTblTb310";
+            this.CrntTblTb310.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb310.TabIndex = 88;
+            this.CrntTblTb310.Text = "0,00";
+            // 
+            // CrntTblTb309
+            // 
+            this.CrntTblTb309.Location = new System.Drawing.Point(612, 81);
+            this.CrntTblTb309.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb309.Name = "CrntTblTb309";
+            this.CrntTblTb309.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb309.TabIndex = 87;
+            this.CrntTblTb309.Text = "0,00";
+            // 
+            // CrntTblTb308
+            // 
+            this.CrntTblTb308.Location = new System.Drawing.Point(545, 81);
+            this.CrntTblTb308.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb308.Name = "CrntTblTb308";
+            this.CrntTblTb308.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb308.TabIndex = 86;
+            this.CrntTblTb308.Text = "0,00";
+            // 
+            // CrntTblTb307
+            // 
+            this.CrntTblTb307.Location = new System.Drawing.Point(478, 81);
+            this.CrntTblTb307.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb307.Name = "CrntTblTb307";
+            this.CrntTblTb307.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb307.TabIndex = 85;
+            this.CrntTblTb307.Text = "0,00";
+            // 
+            // CrntTblTb306
+            // 
+            this.CrntTblTb306.Location = new System.Drawing.Point(411, 81);
+            this.CrntTblTb306.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb306.Name = "CrntTblTb306";
+            this.CrntTblTb306.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb306.TabIndex = 84;
+            this.CrntTblTb306.Text = "0,00";
+            // 
+            // CrntTblTb305
+            // 
+            this.CrntTblTb305.Location = new System.Drawing.Point(344, 81);
+            this.CrntTblTb305.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb305.Name = "CrntTblTb305";
+            this.CrntTblTb305.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb305.TabIndex = 83;
+            this.CrntTblTb305.Text = "0,00";
+            // 
+            // CrntTblTb304
+            // 
+            this.CrntTblTb304.Location = new System.Drawing.Point(277, 81);
+            this.CrntTblTb304.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb304.Name = "CrntTblTb304";
+            this.CrntTblTb304.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb304.TabIndex = 82;
+            this.CrntTblTb304.Text = "0,00";
+            // 
+            // CrntTblTb303
+            // 
+            this.CrntTblTb303.Location = new System.Drawing.Point(210, 81);
+            this.CrntTblTb303.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb303.Name = "CrntTblTb303";
+            this.CrntTblTb303.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb303.TabIndex = 81;
+            this.CrntTblTb303.Text = "0,00";
+            // 
+            // CrntTblTb302
+            // 
+            this.CrntTblTb302.Location = new System.Drawing.Point(143, 81);
+            this.CrntTblTb302.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb302.Name = "CrntTblTb302";
+            this.CrntTblTb302.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb302.TabIndex = 80;
+            this.CrntTblTb302.Text = "0,00";
+            // 
+            // CrntTblTb301
+            // 
+            this.CrntTblTb301.Location = new System.Drawing.Point(76, 81);
+            this.CrntTblTb301.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb301.Name = "CrntTblTb301";
+            this.CrntTblTb301.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb301.TabIndex = 79;
+            this.CrntTblTb301.Text = "0,00";
+            // 
+            // CrntTblTb211
+            // 
+            this.CrntTblTb211.Location = new System.Drawing.Point(746, 45);
+            this.CrntTblTb211.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb211.Name = "CrntTblTb211";
+            this.CrntTblTb211.ReadOnly = true;
+            this.CrntTblTb211.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb211.TabIndex = 78;
+            this.CrntTblTb211.Text = "90";
+            // 
+            // CrntTblTb210
+            // 
+            this.CrntTblTb210.Location = new System.Drawing.Point(679, 45);
+            this.CrntTblTb210.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb210.Name = "CrntTblTb210";
+            this.CrntTblTb210.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb210.TabIndex = 77;
+            this.CrntTblTb210.Text = "0";
+            // 
+            // CrntTblTb209
+            // 
+            this.CrntTblTb209.Location = new System.Drawing.Point(612, 45);
+            this.CrntTblTb209.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb209.Name = "CrntTblTb209";
+            this.CrntTblTb209.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb209.TabIndex = 76;
+            this.CrntTblTb209.Text = "0";
+            // 
+            // CrntTblTb208
+            // 
+            this.CrntTblTb208.Location = new System.Drawing.Point(545, 45);
+            this.CrntTblTb208.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb208.Name = "CrntTblTb208";
+            this.CrntTblTb208.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb208.TabIndex = 75;
+            this.CrntTblTb208.Text = "0";
+            // 
+            // CrntTblTb207
+            // 
+            this.CrntTblTb207.Location = new System.Drawing.Point(478, 45);
+            this.CrntTblTb207.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb207.Name = "CrntTblTb207";
+            this.CrntTblTb207.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb207.TabIndex = 74;
+            this.CrntTblTb207.Text = "0";
+            // 
+            // CrntTblTb206
+            // 
+            this.CrntTblTb206.Location = new System.Drawing.Point(411, 45);
+            this.CrntTblTb206.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb206.Name = "CrntTblTb206";
+            this.CrntTblTb206.ReadOnly = true;
+            this.CrntTblTb206.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb206.TabIndex = 73;
+            this.CrntTblTb206.Text = "0";
+            // 
+            // CrntTblTb205
+            // 
+            this.CrntTblTb205.Location = new System.Drawing.Point(344, 45);
+            this.CrntTblTb205.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb205.Name = "CrntTblTb205";
+            this.CrntTblTb205.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb205.TabIndex = 72;
+            this.CrntTblTb205.Text = "0";
+            // 
+            // CrntTblTb204
+            // 
+            this.CrntTblTb204.Location = new System.Drawing.Point(277, 45);
+            this.CrntTblTb204.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb204.Name = "CrntTblTb204";
+            this.CrntTblTb204.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb204.TabIndex = 71;
+            this.CrntTblTb204.Text = "0";
+            // 
+            // CrntTblTb203
+            // 
+            this.CrntTblTb203.Location = new System.Drawing.Point(210, 45);
+            this.CrntTblTb203.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb203.Name = "CrntTblTb203";
+            this.CrntTblTb203.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb203.TabIndex = 70;
+            this.CrntTblTb203.Text = "0";
+            // 
+            // CrntTblTb202
+            // 
+            this.CrntTblTb202.Location = new System.Drawing.Point(143, 45);
+            this.CrntTblTb202.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb202.Name = "CrntTblTb202";
+            this.CrntTblTb202.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb202.TabIndex = 69;
+            this.CrntTblTb202.Text = "0";
+            // 
+            // CrntTblRowLbl02
+            // 
+            this.CrntTblRowLbl02.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblRowLbl02.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblRowLbl02.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblRowLbl02.Location = new System.Drawing.Point(4, 40);
+            this.CrntTblRowLbl02.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblRowLbl02.Name = "CrntTblRowLbl02";
+            this.CrntTblRowLbl02.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblRowLbl02.TabIndex = 65;
+            this.CrntTblRowLbl02.Text = "Angle";
+            this.CrntTblRowLbl02.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblRowLbl01
+            // 
+            this.CrntTblRowLbl01.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblRowLbl01.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblRowLbl01.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblRowLbl01.Location = new System.Drawing.Point(4, 4);
+            this.CrntTblRowLbl01.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblRowLbl01.Name = "CrntTblRowLbl01";
+            this.CrntTblRowLbl01.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblRowLbl01.TabIndex = 64;
+            this.CrntTblRowLbl01.Text = "Value";
+            this.CrntTblRowLbl01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl01
+            // 
+            this.CrntTblClmLbl01.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl01.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl01.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl01.Location = new System.Drawing.Point(71, 4);
+            this.CrntTblClmLbl01.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl01.Name = "CrntTblClmLbl01";
+            this.CrntTblClmLbl01.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl01.TabIndex = 2;
+            this.CrntTblClmLbl01.Text = "01";
+            this.CrntTblClmLbl01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl02
+            // 
+            this.CrntTblClmLbl02.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl02.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl02.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl02.Location = new System.Drawing.Point(138, 4);
+            this.CrntTblClmLbl02.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl02.Name = "CrntTblClmLbl02";
+            this.CrntTblClmLbl02.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl02.TabIndex = 3;
+            this.CrntTblClmLbl02.Text = "02";
+            this.CrntTblClmLbl02.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl03
+            // 
+            this.CrntTblClmLbl03.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl03.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl03.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl03.Location = new System.Drawing.Point(205, 4);
+            this.CrntTblClmLbl03.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl03.Name = "CrntTblClmLbl03";
+            this.CrntTblClmLbl03.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl03.TabIndex = 4;
+            this.CrntTblClmLbl03.Text = "03";
+            this.CrntTblClmLbl03.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl04
+            // 
+            this.CrntTblClmLbl04.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl04.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl04.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl04.Location = new System.Drawing.Point(272, 4);
+            this.CrntTblClmLbl04.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl04.Name = "CrntTblClmLbl04";
+            this.CrntTblClmLbl04.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl04.TabIndex = 5;
+            this.CrntTblClmLbl04.Text = "04";
+            this.CrntTblClmLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl05
+            // 
+            this.CrntTblClmLbl05.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl05.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl05.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl05.Location = new System.Drawing.Point(339, 4);
+            this.CrntTblClmLbl05.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl05.Name = "CrntTblClmLbl05";
+            this.CrntTblClmLbl05.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl05.TabIndex = 6;
+            this.CrntTblClmLbl05.Text = "05";
+            this.CrntTblClmLbl05.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl06
+            // 
+            this.CrntTblClmLbl06.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl06.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl06.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl06.Location = new System.Drawing.Point(406, 4);
+            this.CrntTblClmLbl06.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl06.Name = "CrntTblClmLbl06";
+            this.CrntTblClmLbl06.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl06.TabIndex = 7;
+            this.CrntTblClmLbl06.Text = "06";
+            this.CrntTblClmLbl06.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl07
+            // 
+            this.CrntTblClmLbl07.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl07.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl07.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl07.Location = new System.Drawing.Point(473, 4);
+            this.CrntTblClmLbl07.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl07.Name = "CrntTblClmLbl07";
+            this.CrntTblClmLbl07.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl07.TabIndex = 8;
+            this.CrntTblClmLbl07.Text = "07";
+            this.CrntTblClmLbl07.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl08
+            // 
+            this.CrntTblClmLbl08.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl08.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl08.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl08.Location = new System.Drawing.Point(540, 4);
+            this.CrntTblClmLbl08.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl08.Name = "CrntTblClmLbl08";
+            this.CrntTblClmLbl08.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl08.TabIndex = 9;
+            this.CrntTblClmLbl08.Text = "08";
+            this.CrntTblClmLbl08.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl09
+            // 
+            this.CrntTblClmLbl09.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl09.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl09.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl09.Location = new System.Drawing.Point(607, 4);
+            this.CrntTblClmLbl09.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl09.Name = "CrntTblClmLbl09";
+            this.CrntTblClmLbl09.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl09.TabIndex = 10;
+            this.CrntTblClmLbl09.Text = "09";
+            this.CrntTblClmLbl09.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl10
+            // 
+            this.CrntTblClmLbl10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl10.Location = new System.Drawing.Point(674, 4);
+            this.CrntTblClmLbl10.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl10.Name = "CrntTblClmLbl10";
+            this.CrntTblClmLbl10.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblClmLbl10.TabIndex = 11;
+            this.CrntTblClmLbl10.Text = "10";
+            this.CrntTblClmLbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblClmLbl11
+            // 
+            this.CrntTblClmLbl11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblClmLbl11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblClmLbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblClmLbl11.Location = new System.Drawing.Point(741, 4);
+            this.CrntTblClmLbl11.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblClmLbl11.Name = "CrntTblClmLbl11";
+            this.CrntTblClmLbl11.Size = new System.Drawing.Size(65, 29);
+            this.CrntTblClmLbl11.TabIndex = 12;
+            this.CrntTblClmLbl11.Text = "11";
+            this.CrntTblClmLbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblRowLbl03
+            // 
+            this.CrntTblRowLbl03.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblRowLbl03.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblRowLbl03.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblRowLbl03.Location = new System.Drawing.Point(4, 76);
+            this.CrntTblRowLbl03.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblRowLbl03.Name = "CrntTblRowLbl03";
+            this.CrntTblRowLbl03.Size = new System.Drawing.Size(60, 29);
+            this.CrntTblRowLbl03.TabIndex = 66;
+            this.CrntTblRowLbl03.Text = "Ø\r\nCurrent";
+            this.CrntTblRowLbl03.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblRowLbl04
+            // 
+            this.CrntTblRowLbl04.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.CrntTblRowLbl04.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CrntTblRowLbl04.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CrntTblRowLbl04.Location = new System.Drawing.Point(4, 112);
+            this.CrntTblRowLbl04.Margin = new System.Windows.Forms.Padding(3);
+            this.CrntTblRowLbl04.Name = "CrntTblRowLbl04";
+            this.CrntTblRowLbl04.Size = new System.Drawing.Size(60, 30);
+            this.CrntTblRowLbl04.TabIndex = 67;
+            this.CrntTblRowLbl04.Text = "Stand.\r\nDev.";
+            this.CrntTblRowLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CrntTblTb201
+            // 
+            this.CrntTblTb201.Location = new System.Drawing.Point(76, 45);
+            this.CrntTblTb201.Margin = new System.Windows.Forms.Padding(8);
+            this.CrntTblTb201.Name = "CrntTblTb201";
+            this.CrntTblTb201.ReadOnly = true;
+            this.CrntTblTb201.Size = new System.Drawing.Size(50, 20);
+            this.CrntTblTb201.TabIndex = 68;
+            this.CrntTblTb201.Text = "-90";
             // 
             // ChartI
             // 
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea3.AxisX.Interval = 22.5D;
-            chartArea3.AxisX.IsLabelAutoFit = false;
-            chartArea3.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea3.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea3.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea3.AxisX.Maximum = 90D;
-            chartArea3.AxisX.Minimum = -90D;
-            chartArea3.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea3.AxisX.Title = "Angle [Degree]";
-            chartArea3.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea3.AxisY.IsLabelAutoFit = false;
-            chartArea3.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea3.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea3.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea3.AxisY.Title = "Current [A]";
-            chartArea3.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea3.BackColor = System.Drawing.Color.Transparent;
-            chartArea3.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea3);
-            this.ChartI.Location = new System.Drawing.Point(276, 52);
+            chartArea1.AxisX.Interval = 22.5D;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisX.Maximum = 90D;
+            chartArea1.AxisX.Minimum = -90D;
+            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea1.AxisX.Title = "Angle [Degree]";
+            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisY.Title = "Current [A]";
+            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea1);
+            legend1.AutoFitMinFontSize = 8;
+            legend1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend1.ForeColor = System.Drawing.SystemColors.Control;
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            this.ChartI.Legends.Add(legend1);
+            this.ChartI.Location = new System.Drawing.Point(3, 52);
             this.ChartI.Name = "ChartI";
-            series5.BorderWidth = 3;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Color = System.Drawing.Color.Orange;
-            series5.Name = "Current";
-            series5.Points.Add(dataPoint5);
-            series6.BorderWidth = 2;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series6.MarkerColor = System.Drawing.Color.White;
-            series6.Name = "Max.  current";
-            dataPoint6.Color = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            series6.Points.Add(dataPoint6);
-            series7.BorderWidth = 2;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series7.Color = System.Drawing.Color.RoyalBlue;
-            series7.Name = "Min. current";
-            series7.Points.Add(dataPoint7);
-            series7.YValuesPerPoint = 3;
-            this.ChartI.Series.Add(series5);
-            this.ChartI.Series.Add(series6);
-            this.ChartI.Series.Add(series7);
-            this.ChartI.Size = new System.Drawing.Size(537, 231);
+            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series1.Color = System.Drawing.Color.Wheat;
+            series1.Legend = "Legend1";
+            series1.Name = "Range";
+            series1.Points.Add(dataPoint1);
+            series1.YValuesPerPoint = 2;
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.LawnGreen;
+            series2.Legend = "Legend1";
+            series2.Name = "AverageCurrent";
+            series2.Points.Add(dataPoint2);
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = System.Drawing.Color.OrangeRed;
+            series3.Legend = "Legend1";
+            series3.MarkerColor = System.Drawing.Color.White;
+            series3.Name = "MaxCurrent";
+            series3.Points.Add(dataPoint3);
+            series4.BorderWidth = 3;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.Cyan;
+            series4.Legend = "Legend1";
+            series4.Name = "MinCurrent";
+            series4.Points.Add(dataPoint4);
+            this.ChartI.Series.Add(series1);
+            this.ChartI.Series.Add(series2);
+            this.ChartI.Series.Add(series3);
+            this.ChartI.Series.Add(series4);
+            this.ChartI.Size = new System.Drawing.Size(810, 293);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
             // 
-            // label8
+            // lbCurrentInfo2
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(592, 30);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(60, 13);
-            this.label8.TabIndex = 52;
-            this.label8.Text = "Lower Limit";
-            // 
-            // tbVarIPos
-            // 
-            this.tbVarIPos.Location = new System.Drawing.Point(161, 194);
-            this.tbVarIPos.Name = "tbVarIPos";
-            this.tbVarIPos.Size = new System.Drawing.Size(51, 20);
-            this.tbVarIPos.TabIndex = 51;
-            this.tbVarIPos.Text = "0";
-            this.tbVarIPos.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // tbAmpIPos
-            // 
-            this.tbAmpIPos.Location = new System.Drawing.Point(161, 168);
-            this.tbAmpIPos.Name = "tbAmpIPos";
-            this.tbAmpIPos.Size = new System.Drawing.Size(51, 20);
-            this.tbAmpIPos.TabIndex = 49;
-            this.tbAmpIPos.Text = "0";
-            this.tbAmpIPos.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // tbAngIPos
-            // 
-            this.tbAngIPos.Location = new System.Drawing.Point(161, 142);
-            this.tbAngIPos.Name = "tbAngIPos";
-            this.tbAngIPos.Size = new System.Drawing.Size(51, 20);
-            this.tbAngIPos.TabIndex = 50;
-            this.tbAngIPos.Text = "0";
-            this.tbAngIPos.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(1, 118);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(138, 13);
-            this.label10.TabIndex = 42;
-            this.label10.Text = "Second Gaussian Function:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(3, 142);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(74, 13);
-            this.label11.TabIndex = 44;
-            this.label11.Text = "Shift To Angle";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(3, 194);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(49, 13);
-            this.label12.TabIndex = 48;
-            this.label12.Text = "Variance";
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(3, 168);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(53, 13);
-            this.label13.TabIndex = 45;
-            this.label13.Text = "Amplitude";
+            this.lbCurrentInfo2.AutoSize = true;
+            this.lbCurrentInfo2.Location = new System.Drawing.Point(273, 3);
+            this.lbCurrentInfo2.Name = "lbCurrentInfo2";
+            this.lbCurrentInfo2.Size = new System.Drawing.Size(0, 13);
+            this.lbCurrentInfo2.TabIndex = 47;
             // 
             // lblTitleCurrent
             // 
             this.lblTitleCurrent.AutoSize = true;
-            this.lblTitleCurrent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitleCurrent.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitleCurrent.Location = new System.Drawing.Point(3, 3);
             this.lblTitleCurrent.Name = "lblTitleCurrent";
             this.lblTitleCurrent.Size = new System.Drawing.Size(196, 26);
             this.lblTitleCurrent.TabIndex = 47;
             this.lblTitleCurrent.Text = "Energy Consumption during Flight\r\n(Movement)";
             // 
-            // tbLimitI
-            // 
-            this.tbLimitI.Location = new System.Drawing.Point(676, 30);
-            this.tbLimitI.Name = "tbLimitI";
-            this.tbLimitI.Size = new System.Drawing.Size(51, 20);
-            this.tbLimitI.TabIndex = 52;
-            this.tbLimitI.Text = "0";
-            this.tbLimitI.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // panelCNeg
-            // 
-            this.panelCNeg.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelCNeg.Controls.Add(this.tbVarIPos);
-            this.panelCNeg.Controls.Add(this.tbVarINeg);
-            this.panelCNeg.Controls.Add(this.label12);
-            this.panelCNeg.Controls.Add(this.tbAngIPos);
-            this.panelCNeg.Controls.Add(this.tbAmpIPos);
-            this.panelCNeg.Controls.Add(this.label11);
-            this.panelCNeg.Controls.Add(this.tbAmpINeg);
-            this.panelCNeg.Controls.Add(this.tbAngINeg);
-            this.panelCNeg.Controls.Add(this.label10);
-            this.panelCNeg.Controls.Add(this.label2);
-            this.panelCNeg.Controls.Add(this.label13);
-            this.panelCNeg.Controls.Add(this.label6);
-            this.panelCNeg.Controls.Add(this.label9);
-            this.panelCNeg.Controls.Add(this.label7);
-            this.panelCNeg.Location = new System.Drawing.Point(3, 52);
-            this.panelCNeg.Name = "panelCNeg";
-            this.panelCNeg.Size = new System.Drawing.Size(271, 231);
-            this.panelCNeg.TabIndex = 52;
-            // 
-            // tbVarINeg
-            // 
-            this.tbVarINeg.Location = new System.Drawing.Point(161, 81);
-            this.tbVarINeg.Name = "tbVarINeg";
-            this.tbVarINeg.Size = new System.Drawing.Size(51, 20);
-            this.tbVarINeg.TabIndex = 51;
-            this.tbVarINeg.Text = "0";
-            this.tbVarINeg.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // tbAmpINeg
-            // 
-            this.tbAmpINeg.Location = new System.Drawing.Point(161, 55);
-            this.tbAmpINeg.Name = "tbAmpINeg";
-            this.tbAmpINeg.Size = new System.Drawing.Size(51, 20);
-            this.tbAmpINeg.TabIndex = 49;
-            this.tbAmpINeg.Text = "0";
-            this.tbAmpINeg.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // tbAngINeg
-            // 
-            this.tbAngINeg.Location = new System.Drawing.Point(161, 29);
-            this.tbAngINeg.Name = "tbAngINeg";
-            this.tbAngINeg.Size = new System.Drawing.Size(51, 20);
-            this.tbAngINeg.TabIndex = 50;
-            this.tbAngINeg.Text = "0";
-            this.tbAngINeg.TextChanged += new System.EventHandler(this.Current_TextBoxes_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(1, 4);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(120, 13);
-            this.label2.TabIndex = 42;
-            this.label2.Text = "First Gaussian Function:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 29);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(74, 13);
-            this.label6.TabIndex = 44;
-            this.label6.Text = "Shift To Angle";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(3, 81);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(49, 13);
-            this.label9.TabIndex = 48;
-            this.label9.Text = "Variance";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 55);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 13);
-            this.label7.TabIndex = 45;
-            this.label7.Text = "Amplitude";
-            // 
             // panelHover
             // 
             this.panelHover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelHover.Controls.Add(this.plConfigHover);
+            this.panelHover.Controls.Add(this.tableLayoutPanel1);
             this.panelHover.Controls.Add(this.lbCurrentInfo1);
             this.panelHover.Controls.Add(this.label30);
             this.panelHover.Enabled = false;
@@ -446,260 +895,102 @@
             this.panelHover.Size = new System.Drawing.Size(450, 78);
             this.panelHover.TabIndex = 53;
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.Controls.Add(this.HoverDevTB, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lbCurrentHover, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lbVarianceCurrentHover, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.HoverCrntTB, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 32);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 41F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(442, 41);
+            this.tableLayoutPanel1.TabIndex = 58;
+            // 
+            // HoverDevTB
+            // 
+            this.HoverDevTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HoverDevTB.Enabled = false;
+            this.HoverDevTB.Location = new System.Drawing.Point(341, 11);
+            this.HoverDevTB.Margin = new System.Windows.Forms.Padding(10);
+            this.HoverDevTB.Name = "HoverDevTB";
+            this.HoverDevTB.Size = new System.Drawing.Size(90, 20);
+            this.HoverDevTB.TabIndex = 52;
+            this.HoverDevTB.Text = "0";
+            // 
+            // lbCurrentHover
+            // 
+            this.lbCurrentHover.AutoSize = true;
+            this.lbCurrentHover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbCurrentHover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbCurrentHover.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbCurrentHover.Location = new System.Drawing.Point(4, 4);
+            this.lbCurrentHover.Margin = new System.Windows.Forms.Padding(3);
+            this.lbCurrentHover.Name = "lbCurrentHover";
+            this.lbCurrentHover.Size = new System.Drawing.Size(103, 34);
+            this.lbCurrentHover.TabIndex = 57;
+            this.lbCurrentHover.Text = "Current [A]";
+            this.lbCurrentHover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbVarianceCurrentHover
+            // 
+            this.lbVarianceCurrentHover.AutoSize = true;
+            this.lbVarianceCurrentHover.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.lbVarianceCurrentHover.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbVarianceCurrentHover.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbVarianceCurrentHover.Location = new System.Drawing.Point(224, 4);
+            this.lbVarianceCurrentHover.Margin = new System.Windows.Forms.Padding(3);
+            this.lbVarianceCurrentHover.Name = "lbVarianceCurrentHover";
+            this.lbVarianceCurrentHover.Size = new System.Drawing.Size(103, 34);
+            this.lbVarianceCurrentHover.TabIndex = 52;
+            this.lbVarianceCurrentHover.Text = "Deviation";
+            this.lbVarianceCurrentHover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // HoverCrntTB
+            // 
+            this.HoverCrntTB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.HoverCrntTB.Location = new System.Drawing.Point(121, 11);
+            this.HoverCrntTB.Margin = new System.Windows.Forms.Padding(10);
+            this.HoverCrntTB.Name = "HoverCrntTB";
+            this.HoverCrntTB.Size = new System.Drawing.Size(89, 20);
+            this.HoverCrntTB.TabIndex = 56;
+            this.HoverCrntTB.Text = "0";
+            // 
+            // lbCurrentInfo1
+            // 
+            this.lbCurrentInfo1.AutoSize = true;
+            this.lbCurrentInfo1.Location = new System.Drawing.Point(213, 2);
+            this.lbCurrentInfo1.Name = "lbCurrentInfo1";
+            this.lbCurrentInfo1.Size = new System.Drawing.Size(232, 26);
+            this.lbCurrentInfo1.TabIndex = 64;
+            this.lbCurrentInfo1.Text = "These settings characterize the flowing current\r\nduring a hover in air / a hold p" +
+    "osition maneuver.";
+            // 
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label30.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label30.Location = new System.Drawing.Point(5, 2);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(199, 26);
             this.label30.TabIndex = 58;
             this.label30.Text = "Energy Consumption during Hover\r\n(No Movement)";
             // 
-            // lbCurrentHover
-            // 
-            this.lbCurrentHover.AutoSize = true;
-            this.lbCurrentHover.Location = new System.Drawing.Point(3, 10);
-            this.lbCurrentHover.Name = "lbCurrentHover";
-            this.lbCurrentHover.Size = new System.Drawing.Size(57, 13);
-            this.lbCurrentHover.TabIndex = 57;
-            this.lbCurrentHover.Text = "Current [A]";
-            // 
-            // tbHoverI
-            // 
-            this.tbHoverI.Location = new System.Drawing.Point(97, 10);
-            this.tbHoverI.Name = "tbHoverI";
-            this.tbHoverI.Size = new System.Drawing.Size(51, 20);
-            this.tbHoverI.TabIndex = 56;
-            this.tbHoverI.Text = "0";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(13, 23);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(681, 26);
+            this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 41;
-            this.label1.Text = resources.GetString("label1.Text");
-            // 
-            // panelVelocityConfiguration
-            // 
-            this.panelVelocityConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelVelocityConfiguration.Controls.Add(this.label14);
-            this.panelVelocityConfiguration.Controls.Add(this.ChartV);
-            this.panelVelocityConfiguration.Controls.Add(this.label19);
-            this.panelVelocityConfiguration.Controls.Add(this.panel7);
-            this.panelVelocityConfiguration.Controls.Add(this.lbVelocityInfo1);
-            this.panelVelocityConfiguration.Enabled = false;
-            this.panelVelocityConfiguration.Location = new System.Drawing.Point(16, 501);
-            this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
-            this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 286);
-            this.panelVelocityConfiguration.TabIndex = 43;
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(4, 176);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(0, 13);
-            this.label14.TabIndex = 53;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(3, 119);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 13);
-            this.label4.TabIndex = 53;
-            this.label4.Text = "Lower Limits:";
-            // 
-            // tbLowerAmp
-            // 
-            this.tbLowerAmp.Location = new System.Drawing.Point(161, 171);
-            this.tbLowerAmp.Name = "tbLowerAmp";
-            this.tbLowerAmp.Size = new System.Drawing.Size(51, 20);
-            this.tbLowerAmp.TabIndex = 49;
-            this.tbLowerAmp.Text = "0";
-            this.tbLowerAmp.TextChanged += new System.EventHandler(this.Velocity_TextBoxes_TextChanged);
-            // 
-            // label18
-            // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 171);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(70, 13);
-            this.label18.TabIndex = 45;
-            this.label18.Text = "Lower Bound";
-            // 
-            // tbGradientV
-            // 
-            this.tbGradientV.Location = new System.Drawing.Point(161, 141);
-            this.tbGradientV.Name = "tbGradientV";
-            this.tbGradientV.Size = new System.Drawing.Size(51, 20);
-            this.tbGradientV.TabIndex = 50;
-            this.tbGradientV.Text = "0";
-            this.tbGradientV.TextChanged += new System.EventHandler(this.Velocity_TextBoxes_TextChanged);
-            // 
-            // label16
-            // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(3, 141);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(47, 13);
-            this.label16.TabIndex = 44;
-            this.label16.Text = "Gradient";
-            // 
-            // ChartV
-            // 
-            this.ChartV.BackColor = System.Drawing.Color.Transparent;
-            this.ChartV.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea4.AxisX.Interval = 22.5D;
-            chartArea4.AxisX.IsLabelAutoFit = false;
-            chartArea4.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea4.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea4.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea4.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea4.AxisX.Maximum = 90D;
-            chartArea4.AxisX.Minimum = -90D;
-            chartArea4.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea4.AxisX.Title = "Angle [Degree]";
-            chartArea4.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea4.AxisY.IsLabelAutoFit = false;
-            chartArea4.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea4.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea4.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea4.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea4.AxisY.Title = "Velocity [m/s]";
-            chartArea4.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea4.BackColor = System.Drawing.Color.Transparent;
-            chartArea4.Name = "ChartArea1";
-            this.ChartV.ChartAreas.Add(chartArea4);
-            this.ChartV.Location = new System.Drawing.Point(276, 50);
-            this.ChartV.Name = "ChartV";
-            series8.BorderWidth = 2;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series8.Color = System.Drawing.Color.Orange;
-            series8.Name = "Series1";
-            series8.Points.Add(dataPoint8);
-            this.ChartV.Series.Add(series8);
-            this.ChartV.Size = new System.Drawing.Size(537, 231);
-            this.ChartV.TabIndex = 58;
-            this.ChartV.Text = "chart3";
-            // 
-            // label19
-            // 
-            this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(4, 4);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(180, 26);
-            this.label19.TabIndex = 54;
-            this.label19.Text = "Speed to Flight Angle Relation\r\n(Movement)";
-            // 
-            // panel7
-            // 
-            this.panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel7.Controls.Add(this.tbLowerAmp);
-            this.panel7.Controls.Add(this.label4);
-            this.panel7.Controls.Add(this.tbGradientV);
-            this.panel7.Controls.Add(this.label18);
-            this.panel7.Controls.Add(this.label3);
-            this.panel7.Controls.Add(this.tbVarV);
-            this.panel7.Controls.Add(this.label16);
-            this.panel7.Controls.Add(this.tbAmpV);
-            this.panel7.Controls.Add(this.tbAngV);
-            this.panel7.Controls.Add(this.label20);
-            this.panel7.Controls.Add(this.label21);
-            this.panel7.Controls.Add(this.label22);
-            this.panel7.Location = new System.Drawing.Point(3, 50);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(271, 231);
-            this.panel7.TabIndex = 56;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 3);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(68, 13);
-            this.label3.TabIndex = 52;
-            this.label3.Text = "Upper Limits:";
-            // 
-            // tbVarV
-            // 
-            this.tbVarV.Location = new System.Drawing.Point(161, 82);
-            this.tbVarV.Name = "tbVarV";
-            this.tbVarV.Size = new System.Drawing.Size(51, 20);
-            this.tbVarV.TabIndex = 51;
-            this.tbVarV.Text = "0";
-            this.tbVarV.TextChanged += new System.EventHandler(this.Velocity_TextBoxes_TextChanged);
-            // 
-            // tbAmpV
-            // 
-            this.tbAmpV.Location = new System.Drawing.Point(161, 55);
-            this.tbAmpV.Name = "tbAmpV";
-            this.tbAmpV.Size = new System.Drawing.Size(51, 20);
-            this.tbAmpV.TabIndex = 49;
-            this.tbAmpV.Text = "0";
-            this.tbAmpV.TextChanged += new System.EventHandler(this.Velocity_TextBoxes_TextChanged);
-            // 
-            // tbAngV
-            // 
-            this.tbAngV.Location = new System.Drawing.Point(161, 27);
-            this.tbAngV.Name = "tbAngV";
-            this.tbAngV.Size = new System.Drawing.Size(51, 20);
-            this.tbAngV.TabIndex = 50;
-            this.tbAngV.Text = "0";
-            this.tbAngV.TextChanged += new System.EventHandler(this.Velocity_TextBoxes_TextChanged);
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(3, 27);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(74, 13);
-            this.label20.TabIndex = 44;
-            this.label20.Text = "Shift To Angle";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(3, 82);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(49, 13);
-            this.label21.TabIndex = 48;
-            this.label21.Text = "Variance";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(3, 55);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(53, 13);
-            this.label22.TabIndex = 45;
-            this.label22.Text = "Amplitude";
-            // 
-            // lbVelocityInfo1
-            // 
-            this.lbVelocityInfo1.AutoSize = true;
-            this.lbVelocityInfo1.Location = new System.Drawing.Point(276, 4);
-            this.lbVelocityInfo1.Name = "lbVelocityInfo1";
-            this.lbVelocityInfo1.Size = new System.Drawing.Size(455, 39);
-            this.lbVelocityInfo1.TabIndex = 44;
-            this.lbVelocityInfo1.Text = resources.GetString("lbVelocityInfo1.Text");
-            // 
-            // lbCurrentInfo2
-            // 
-            this.lbCurrentInfo2.AutoSize = true;
-            this.lbCurrentInfo2.Location = new System.Drawing.Point(273, 3);
-            this.lbCurrentInfo2.Name = "lbCurrentInfo2";
-            this.lbCurrentInfo2.Size = new System.Drawing.Size(501, 39);
-            this.lbCurrentInfo2.TabIndex = 47;
-            this.lbCurrentInfo2.Text = resources.GetString("lbCurrentInfo2.Text");
             // 
             // tbCopterID
             // 
@@ -730,86 +1021,55 @@
             this.panelExpImp.Size = new System.Drawing.Size(367, 78);
             this.panelExpImp.TabIndex = 63;
             // 
-            // btnLoadCopterSettings
-            // 
-            this.btnLoadCopterSettings.Location = new System.Drawing.Point(267, 4);
-            this.btnLoadCopterSettings.Name = "btnLoadCopterSettings";
-            this.btnLoadCopterSettings.Size = new System.Drawing.Size(84, 26);
-            this.btnLoadCopterSettings.TabIndex = 64;
-            this.btnLoadCopterSettings.Text = "Import Profile";
-            this.btnLoadCopterSettings.UseVisualStyleBackColor = true;
-            this.btnLoadCopterSettings.Click += new System.EventHandler(this.btnLoadCopterSettings_Click);
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label29.Location = new System.Drawing.Point(3, 2);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(167, 13);
-            this.label29.TabIndex = 64;
-            this.label29.Text = "Import/Export Energy-Profile";
-            // 
-            // btnSaveCopterSettingsToFile
-            // 
-            this.btnSaveCopterSettingsToFile.Location = new System.Drawing.Point(177, 4);
-            this.btnSaveCopterSettingsToFile.Name = "btnSaveCopterSettingsToFile";
-            this.btnSaveCopterSettingsToFile.Size = new System.Drawing.Size(84, 26);
-            this.btnSaveCopterSettingsToFile.TabIndex = 60;
-            this.btnSaveCopterSettingsToFile.Text = "Export Profile";
-            this.btnSaveCopterSettingsToFile.UseVisualStyleBackColor = true;
-            this.btnSaveCopterSettingsToFile.Click += new System.EventHandler(this.btnSaveCopterSettingsToFile_Click);
-            // 
-            // lbCurrentInfo1
-            // 
-            this.lbCurrentInfo1.AutoSize = true;
-            this.lbCurrentInfo1.Location = new System.Drawing.Point(213, 2);
-            this.lbCurrentInfo1.Name = "lbCurrentInfo1";
-            this.lbCurrentInfo1.Size = new System.Drawing.Size(232, 26);
-            this.lbCurrentInfo1.TabIndex = 64;
-            this.lbCurrentInfo1.Text = "These settings characterize the flowing current\r\nduring a hover in air / a hold p" +
-    "osition maneuver.";
-            // 
-            // plConfigHover
-            // 
-            this.plConfigHover.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.plConfigHover.Controls.Add(this.tbVarianceCurrentHover);
-            this.plConfigHover.Controls.Add(this.lbVarianceCurrentHover);
-            this.plConfigHover.Controls.Add(this.lbCurrentHover);
-            this.plConfigHover.Controls.Add(this.tbHoverI);
-            this.plConfigHover.Location = new System.Drawing.Point(3, 35);
-            this.plConfigHover.Name = "plConfigHover";
-            this.plConfigHover.Size = new System.Drawing.Size(442, 38);
-            this.plConfigHover.TabIndex = 65;
-            // 
             // panel1
             // 
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.label24);
-            this.panel1.Controls.Add(this.btnLoadCopterSettings);
-            this.panel1.Controls.Add(this.btnSaveCopterSettingsToFile);
+            this.panel1.Controls.Add(this.BtnImport);
+            this.panel1.Controls.Add(this.BtnExport);
             this.panel1.Controls.Add(this.tbCopterID);
             this.panel1.Location = new System.Drawing.Point(3, 35);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(359, 38);
             this.panel1.TabIndex = 66;
             // 
-            // lbVarianceCurrentHover
+            // BtnImport
             // 
-            this.lbVarianceCurrentHover.AutoSize = true;
-            this.lbVarianceCurrentHover.Location = new System.Drawing.Point(272, 10);
-            this.lbVarianceCurrentHover.Name = "lbVarianceCurrentHover";
-            this.lbVarianceCurrentHover.Size = new System.Drawing.Size(49, 13);
-            this.lbVarianceCurrentHover.TabIndex = 52;
-            this.lbVarianceCurrentHover.Text = "Variance";
+            this.BtnImport.Location = new System.Drawing.Point(267, 4);
+            this.BtnImport.Name = "BtnImport";
+            this.BtnImport.Size = new System.Drawing.Size(84, 26);
+            this.BtnImport.TabIndex = 64;
+            this.BtnImport.Text = "Import Profile";
+            this.BtnImport.UseVisualStyleBackColor = true;
+            this.BtnImport.Click += new System.EventHandler(this.BtnImport_Click);
             // 
-            // tbVarianceCurrentHover
+            // BtnExport
             // 
-            this.tbVarianceCurrentHover.Location = new System.Drawing.Point(359, 10);
-            this.tbVarianceCurrentHover.Name = "tbVarianceCurrentHover";
-            this.tbVarianceCurrentHover.Size = new System.Drawing.Size(47, 20);
-            this.tbVarianceCurrentHover.TabIndex = 52;
-            this.tbVarianceCurrentHover.Text = "0";
+            this.BtnExport.Location = new System.Drawing.Point(177, 4);
+            this.BtnExport.Name = "BtnExport";
+            this.BtnExport.Size = new System.Drawing.Size(84, 26);
+            this.BtnExport.TabIndex = 60;
+            this.BtnExport.Text = "Export Profile";
+            this.BtnExport.UseVisualStyleBackColor = true;
+            this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label29.Location = new System.Drawing.Point(3, 2);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(167, 13);
+            this.label29.TabIndex = 64;
+            this.label29.Text = "Export/Import Energy-Profile";
+            // 
+            // energyProfileModelBindingSource
+            // 
+            this.energyProfileModelBindingSource.DataSource = typeof(MissionPlanner.Utilities.EnergyProfileModel);
+            // 
+            // currentStateBindingSource
+            // 
+            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // ConfigEnergyProfile
             // 
@@ -822,30 +1082,24 @@
             this.Controls.Add(this.panelCurrentConfiguration);
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.panelVelocityConfiguration);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(862, 793);
+            this.Size = new System.Drawing.Size(864, 669);
             this.Leave += new System.EventHandler(this.ConfigEnergyProfile_Leave);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
-            this.panelCDev.ResumeLayout(false);
-            this.panelCDev.PerformLayout();
+            this.CrntTable.ResumeLayout(false);
+            this.CrntTable.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).EndInit();
-            this.panelCNeg.ResumeLayout(false);
-            this.panelCNeg.PerformLayout();
             this.panelHover.ResumeLayout(false);
             this.panelHover.PerformLayout();
-            this.panelVelocityConfiguration.ResumeLayout(false);
-            this.panelVelocityConfiguration.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
-            this.panel7.ResumeLayout(false);
-            this.panel7.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.panelExpImp.ResumeLayout(false);
             this.panelExpImp.PerformLayout();
-            this.plConfigHover.ResumeLayout(false);
-            this.plConfigHover.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.energyProfileModelBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -855,64 +1109,78 @@
         private System.Windows.Forms.CheckBox CB_EnableEnergyProfile;
         private System.Windows.Forms.Panel panelCurrentConfiguration;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panelVelocityConfiguration;
         private System.Windows.Forms.Label lblTitleCurrent;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox tbAngINeg;
-        private System.Windows.Forms.TextBox tbAmpINeg;
-        private System.Windows.Forms.Panel panelCNeg;
-        private System.Windows.Forms.TextBox tbVarINeg;
-        private System.Windows.Forms.TextBox tbVarIPos;
-        private System.Windows.Forms.TextBox tbAmpIPos;
-        private System.Windows.Forms.TextBox tbAngIPos;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox tbLimitI;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.TextBox tbLowerAmp;
-        private System.Windows.Forms.TextBox tbGradientV;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label18;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.TextBox tbVarV;
-        private System.Windows.Forms.TextBox tbAmpV;
-        private System.Windows.Forms.TextBox tbAngV;
-        private System.Windows.Forms.Label label20;
-        private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.DataVisualization.Charting.Chart ChartI;
-        private System.Windows.Forms.DataVisualization.Charting.Chart ChartV;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox tbHoverI;
-        private System.Windows.Forms.Label lbCurrentHover;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label lbVelocityInfo1;
         private System.Windows.Forms.Label lbCurrentInfo2;
-        private Controls.MyButton btnSaveCopterSettingsToFile;
+        private Controls.MyButton BtnExport;
         private System.Windows.Forms.TextBox tbCopterID;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.Panel panelCDev;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.TextBox tbDeviationMin;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.TextBox tbDeviationMax;
         private System.Windows.Forms.Panel panelExpImp;
         private System.Windows.Forms.Label label29;
-        private Controls.MyButton btnLoadCopterSettings;
+        private Controls.MyButton BtnImport;
         private System.Windows.Forms.Panel panelHover;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label lbCurrentInfo1;
-        private System.Windows.Forms.Panel plConfigHover;
-        private System.Windows.Forms.Label lbVarianceCurrentHover;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.TextBox tbVarianceCurrentHover;
+        private System.Windows.Forms.TableLayoutPanel CrntTable;
+        private System.Windows.Forms.Label CrntTblClmLbl01;
+        private System.Windows.Forms.Label CrntTblClmLbl02;
+        private System.Windows.Forms.Label CrntTblClmLbl03;
+        private System.Windows.Forms.Label CrntTblClmLbl04;
+        private System.Windows.Forms.Label CrntTblClmLbl05;
+        private System.Windows.Forms.Label CrntTblClmLbl06;
+        private System.Windows.Forms.Label CrntTblClmLbl07;
+        private System.Windows.Forms.Label CrntTblClmLbl08;
+        private System.Windows.Forms.Label CrntTblClmLbl09;
+        private System.Windows.Forms.Label CrntTblClmLbl10;
+        private System.Windows.Forms.Label CrntTblClmLbl11;
+        private System.Windows.Forms.Label CrntTblRowLbl02;
+        private System.Windows.Forms.Label CrntTblRowLbl01;
+        private System.Windows.Forms.Label CrntTblRowLbl03;
+        private System.Windows.Forms.Label CrntTblRowLbl04;
+        private System.Windows.Forms.TextBox CrntTblTb201;
+        private System.Windows.Forms.TextBox CrntTblTb410;
+        private System.Windows.Forms.TextBox CrntTblTb409;
+        private System.Windows.Forms.TextBox CrntTblTb408;
+        private System.Windows.Forms.TextBox CrntTblTb407;
+        private System.Windows.Forms.TextBox CrntTblTb406;
+        private System.Windows.Forms.TextBox CrntTblTb405;
+        private System.Windows.Forms.TextBox CrntTblTb404;
+        private System.Windows.Forms.TextBox CrntTblTb403;
+        private System.Windows.Forms.TextBox CrntTblTb402;
+        private System.Windows.Forms.TextBox CrntTblTb401;
+        private System.Windows.Forms.TextBox CrntTblTb311;
+        private System.Windows.Forms.TextBox CrntTblTb310;
+        private System.Windows.Forms.TextBox CrntTblTb309;
+        private System.Windows.Forms.TextBox CrntTblTb308;
+        private System.Windows.Forms.TextBox CrntTblTb307;
+        private System.Windows.Forms.TextBox CrntTblTb306;
+        private System.Windows.Forms.TextBox CrntTblTb305;
+        private System.Windows.Forms.TextBox CrntTblTb304;
+        private System.Windows.Forms.TextBox CrntTblTb303;
+        private System.Windows.Forms.TextBox CrntTblTb302;
+        private System.Windows.Forms.TextBox CrntTblTb301;
+        private System.Windows.Forms.TextBox CrntTblTb211;
+        private System.Windows.Forms.TextBox CrntTblTb210;
+        private System.Windows.Forms.TextBox CrntTblTb209;
+        private System.Windows.Forms.TextBox CrntTblTb208;
+        private System.Windows.Forms.TextBox CrntTblTb207;
+        private System.Windows.Forms.TextBox CrntTblTb206;
+        private System.Windows.Forms.TextBox CrntTblTb205;
+        private System.Windows.Forms.TextBox CrntTblTb204;
+        private System.Windows.Forms.TextBox CrntTblTb203;
+        private System.Windows.Forms.TextBox CrntTblTb202;
+        private System.Windows.Forms.TextBox CrntTblTb411;
+        private Controls.MyButton BtnPlot;
+        private Label LbInfoCurrentMove;
+        private TableLayoutPanel tableLayoutPanel1;
+        private TextBox HoverDevTB;
+        private Label lbCurrentHover;
+        private Label lbVarianceCurrentHover;
+        private TextBox HoverCrntTB;
+        private ComboBox ComboBoxDeviation;
+        private Label LabelDeviationCB;
+        private BindingSource energyProfileModelBindingSource;
+        private BindingSource currentStateBindingSource;
     }
 }

@@ -653,7 +653,7 @@
     <value>BUT_write</value>
   </data>
   <data name="&gt;&gt;BUT_write.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_write.Parent" xml:space="preserve">
     <value>panel5</value>
@@ -680,7 +680,7 @@
     <value>BUT_read</value>
   </data>
   <data name="&gt;&gt;BUT_read.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_read.Parent" xml:space="preserve">
     <value>panel5</value>
@@ -978,7 +978,7 @@
     <value>coords1</value>
   </data>
   <data name="&gt;&gt;coords1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.Coords, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.Coords, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;coords1.Parent" xml:space="preserve">
     <value>panel4</value>
@@ -1176,7 +1176,7 @@
     <value>BUT_Add</value>
   </data>
   <data name="&gt;&gt;BUT_Add.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Add.Parent" xml:space="preserve">
     <value>panelWaypoints</value>
@@ -1407,7 +1407,7 @@
     <value>BUT_loadwpfile</value>
   </data>
   <data name="&gt;&gt;BUT_loadwpfile.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadwpfile.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1434,7 +1434,7 @@
     <value>BUT_saveWPFile</value>
   </data>
   <data name="&gt;&gt;BUT_saveWPFile.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_saveWPFile.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -1463,6 +1463,9 @@
   <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <metadata name="Panel_EnergyConsumption.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <data name="lbCapacity.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1526,36 +1529,6 @@
   <data name="&gt;&gt;lbHeaderHoverCurrent.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
-  <data name="LBL_MinEC.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LBL_MinEC.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LBL_MinEC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 116</value>
-  </data>
-  <data name="LBL_MinEC.Size" type="System.Drawing.Size, System.Drawing">
-    <value>13, 13</value>
-  </data>
-  <data name="LBL_MinEC.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="LBL_MinEC.Text" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinEC.Name" xml:space="preserve">
-    <value>LBL_MinEC</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinEC.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinEC.Parent" xml:space="preserve">
-    <value>Panel_EnergyConsumption</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinEC.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="LBL_MaxEC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1563,7 +1536,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_MaxEC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 70</value>
+    <value>44, 93</value>
   </data>
   <data name="LBL_MaxEC.Size" type="System.Drawing.Size, System.Drawing">
     <value>13, 13</value>
@@ -1584,37 +1557,7 @@
     <value>Panel_EnergyConsumption</value>
   </data>
   <data name="&gt;&gt;LBL_MaxEC.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="LBL_MinECText.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="LBL_MinECText.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="LBL_MinECText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 116</value>
-  </data>
-  <data name="LBL_MinECText.Size" type="System.Drawing.Size, System.Drawing">
-    <value>27, 13</value>
-  </data>
-  <data name="LBL_MinECText.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="LBL_MinECText.Text" xml:space="preserve">
-    <value>Min:</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinECText.Name" xml:space="preserve">
-    <value>LBL_MinECText</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinECText.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinECText.Parent" xml:space="preserve">
-    <value>Panel_EnergyConsumption</value>
-  </data>
-  <data name="&gt;&gt;LBL_MinECText.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="LBL_AvgECText.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1623,7 +1566,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_AvgECText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 93</value>
+    <value>13, 70</value>
   </data>
   <data name="LBL_AvgECText.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 13</value>
@@ -1644,7 +1587,7 @@
     <value>Panel_EnergyConsumption</value>
   </data>
   <data name="&gt;&gt;LBL_AvgECText.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="LBL_MaxECText.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1653,7 +1596,7 @@
     <value>NoControl</value>
   </data>
   <data name="LBL_MaxECText.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 70</value>
+    <value>13, 93</value>
   </data>
   <data name="LBL_MaxECText.Size" type="System.Drawing.Size, System.Drawing">
     <value>30, 13</value>
@@ -1674,13 +1617,13 @@
     <value>Panel_EnergyConsumption</value>
   </data>
   <data name="&gt;&gt;LBL_MaxECText.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="LBL_AvgEC.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="LBL_AvgEC.Location" type="System.Drawing.Point, System.Drawing">
-    <value>40, 93</value>
+    <value>44, 70</value>
   </data>
   <data name="LBL_AvgEC.Size" type="System.Drawing.Size, System.Drawing">
     <value>13, 13</value>
@@ -1701,7 +1644,7 @@
     <value>Panel_EnergyConsumption</value>
   </data>
   <data name="&gt;&gt;LBL_AvgEC.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="LBL_TotalECText.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1734,7 +1677,7 @@
     <value>Panel_EnergyConsumption</value>
   </data>
   <data name="&gt;&gt;LBL_TotalECText.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="Panel_EnergyConsumption.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 376</value>
@@ -2339,7 +2282,7 @@
     <value>MainMap</value>
   </data>
   <data name="&gt;&gt;MainMap.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.myGMAP, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MainMap.Parent" xml:space="preserve">
     <value>panelMap</value>
@@ -2369,7 +2312,7 @@
     <value>trackBar1</value>
   </data>
   <data name="&gt;&gt;trackBar1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyTrackBar, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyTrackBar, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;trackBar1.Parent" xml:space="preserve">
     <value>panelMap</value>
@@ -3041,6 +2984,6 @@
     <value>FlightPlanner</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6339.29277, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6422.17586, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

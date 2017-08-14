@@ -126,9 +126,7 @@
             this.Panel_EnergyConsumption = new System.Windows.Forms.Panel();
             this.lbCapacity = new System.Windows.Forms.Label();
             this.lbHeaderHoverCurrent = new System.Windows.Forms.Label();
-            this.LBL_MinEC = new System.Windows.Forms.Label();
             this.LBL_MaxEC = new System.Windows.Forms.Label();
-            this.LBL_MinECText = new System.Windows.Forms.Label();
             this.LBL_AvgECText = new System.Windows.Forms.Label();
             this.LBL_MaxECText = new System.Windows.Forms.Label();
             this.LBL_AvgEC = new System.Windows.Forms.Label();
@@ -786,9 +784,7 @@
             // 
             this.Panel_EnergyConsumption.Controls.Add(this.lbCapacity);
             this.Panel_EnergyConsumption.Controls.Add(this.lbHeaderHoverCurrent);
-            this.Panel_EnergyConsumption.Controls.Add(this.LBL_MinEC);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_MaxEC);
-            this.Panel_EnergyConsumption.Controls.Add(this.LBL_MinECText);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_AvgECText);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_MaxECText);
             this.Panel_EnergyConsumption.Controls.Add(this.LBL_AvgEC);
@@ -806,20 +802,10 @@
             resources.ApplyResources(this.lbHeaderHoverCurrent, "lbHeaderHoverCurrent");
             this.lbHeaderHoverCurrent.Name = "lbHeaderHoverCurrent";
             // 
-            // LBL_MinEC
-            // 
-            resources.ApplyResources(this.LBL_MinEC, "LBL_MinEC");
-            this.LBL_MinEC.Name = "LBL_MinEC";
-            // 
             // LBL_MaxEC
             // 
             resources.ApplyResources(this.LBL_MaxEC, "LBL_MaxEC");
             this.LBL_MaxEC.Name = "LBL_MaxEC";
-            // 
-            // LBL_MinECText
-            // 
-            resources.ApplyResources(this.LBL_MinECText, "LBL_MinECText");
-            this.LBL_MinECText.Name = "LBL_MinECText";
             // 
             // LBL_AvgECText
             // 
@@ -1595,10 +1581,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AZ;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagData;
         private System.Windows.Forms.DataGridViewTextBoxColumn EC;
-        private System.Windows.Forms.Label LBL_MinECText;
         private System.Windows.Forms.Label LBL_AvgECText;
         private System.Windows.Forms.Label LBL_MaxECText;
-        private System.Windows.Forms.Label LBL_MinEC;
         private System.Windows.Forms.Label LBL_MaxEC;
         private System.Windows.Forms.Label lbHeaderHoverCurrent;
         private System.Windows.Forms.Label lbCapacity;
