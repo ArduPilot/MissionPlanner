@@ -305,18 +305,18 @@ namespace MissionPlanner.Swarm.SRB
             return drone.Location;
         }
 
-        private adsb.PointLatLngAltHdg GetBasePosition()
+        public adsb.PointLatLngAltHdg GetBasePosition()
         {
             if (SerialInjectGPS.ubxpvt.fix_type < 3)
                 return null;
 
             return new adsb.PointLatLngAltHdg(SerialInjectGPS.ubxpvt.lat / 1e7, SerialInjectGPS.ubxpvt.lon / 1e7,
-                SerialInjectGPS.ubxpvt.height, SerialInjectGPS.ubxpvt.headVeh, "", DateTime.Now);
+                SerialInjectGPS.ubxpvt.h_msl/1000.0, (float)(SerialInjectGPS.ubxpvt.head_mot / 1e5), "", DateTime.Now);
         }
 
-        private Vector3 GetBaseVelocity()
+        public Vector3 GetBaseVelocity()
         {
-            return new Vector3(SerialInjectGPS.ubxvelned.velN, SerialInjectGPS.ubxvelned.velE, SerialInjectGPS.ubxvelned.velD);
+            return new Vector3(SerialInjectGPS.ubxvelned.velN/100.0, SerialInjectGPS.ubxvelned.velE / 100.0, SerialInjectGPS.ubxvelned.velD / 100.0);
         }
 
         public float TakeOffAlt { get; set; }
