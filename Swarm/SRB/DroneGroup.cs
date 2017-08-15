@@ -71,10 +71,10 @@ namespace MissionPlanner.Swarm.SRB
                     CurrentMode = Mode.takeoff;
                     break;
                 case Mode.takeoff:
-                    int g = -1;
+                    int g = Drones.Count;
                     foreach (var drone in Drones)
                     {
-                        g++;
+                        g--;
                         var MAV = drone.MavState;
                         try
                         {
@@ -163,7 +163,10 @@ namespace MissionPlanner.Swarm.SRB
                     {
                         // set drone target position
                         drone.TargetLocation = GetDronePosition(drone, a);
+                        drone.TargetLocation.Alt = TakeOffAlt;
                         a++;
+
+                        drone.TargetVelocity = GetBaseVelocity();
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
@@ -179,8 +182,11 @@ namespace MissionPlanner.Swarm.SRB
                     foreach (var drone in Drones)
                     {
                         // set drone target position
-                        drone.TargetLocation = GetDronePosition(drone, d, MaxOffset / 2);
+                        drone.TargetLocation = GetDronePosition(drone, d);
+                        drone.TargetLocation.Alt = TakeOffAlt;
                         d++;
+
+                        drone.TargetVelocity = GetBaseVelocity();
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
@@ -195,7 +201,7 @@ namespace MissionPlanner.Swarm.SRB
                     foreach (var drone in Drones)
                     {
                         drone.TargetLocation = GetDronePosition(drone, e);
-                        drone.TargetLocation.Alt = TakeOffAlt + e;
+                        drone.TargetLocation.Alt = TakeOffAlt + e * 2;
 
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
@@ -290,17 +296,24 @@ namespace MissionPlanner.Swarm.SRB
             if (zprogress.ContainsKey(drone))
             {
                 sin = Math.Sin(zprogress[drone]);
-                zprogress[drone] += 0.1;
+                zprogress[drone] += ZSpeed;
             }
             else
             {
                 zprogress[drone] = 0;
             }
 
+            // 14 - 4 = 10
+            var delta = MaxOffset - MinOffset;
+            var mid = MinOffset + delta / 2;
+
+            // (-1-1)/2 = -0.5 - 0.5 >  * delta = 
+            var sinno = (sin / 2.0 * (delta));
+
             if (a == 0)
-                return basepos.newpos(basepos.Heading + 90, a * MinOffset + distance + (sin/2.0 * (MaxOffset - MinOffset)));
+                return basepos.newpos(basepos.Heading + 90, mid + distance + sinno);
             if (a == 1)
-                return basepos.newpos(basepos.Heading - 90, a * MinOffset + distance + (sin/2.0 * (MaxOffset - MinOffset)));
+                return basepos.newpos(basepos.Heading - 90, mid + distance + sinno);
 
             return drone.Location;
         }
@@ -322,5 +335,7 @@ namespace MissionPlanner.Swarm.SRB
         public float TakeOffAlt { get; set; }
         public float MinOffset { get; set; }
         public float MaxOffset { get; set; }
+
+        public float ZSpeed { get; set; }
     }
 }

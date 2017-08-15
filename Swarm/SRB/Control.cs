@@ -56,5 +56,25 @@ namespace MissionPlanner.Swarm.SRB
 
             label7.Text = "BaseHeading: " + ctl.DG.GetBasePosition()?.Heading.ToString();
         }
+
+        private void num_TakeOffAlt_ValueChanged(object sender, EventArgs e)
+        {
+            ctl.DG.TakeOffAlt = (float)num_TakeOffAlt.Value;
+        }
+
+        private void num_minoffset_ValueChanged(object sender, EventArgs e)
+        {
+            ctl.DG.MinOffset = (float)num_minoffset.Value;
+        }
+
+        private void num_maxoffset_ValueChanged(object sender, EventArgs e)
+        {
+            ctl.DG.MaxOffset = (float)num_maxoffset.Value;
+        }
+
+        private void num_zspeed_ValueChanged(object sender, EventArgs e)
+        {
+            ctl.DG.ZSpeed = (float)num_zspeed.Value;
+        }
     }
 }

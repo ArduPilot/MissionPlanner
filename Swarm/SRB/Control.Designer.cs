@@ -44,9 +44,12 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.num_zspeed = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.num_TakeOffAlt)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_minoffset)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_maxoffset)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_zspeed)).BeginInit();
             this.SuspendLayout();
             // 
             // but_start
@@ -100,6 +103,7 @@
             0,
             0,
             0});
+            this.num_TakeOffAlt.ValueChanged += new System.EventHandler(this.num_TakeOffAlt_ValueChanged);
             // 
             // label1
             // 
@@ -130,6 +134,7 @@
             0,
             0,
             0});
+            this.num_minoffset.ValueChanged += new System.EventHandler(this.num_minoffset_ValueChanged);
             // 
             // label3
             // 
@@ -151,6 +156,7 @@
             0,
             0,
             0});
+            this.num_maxoffset.ValueChanged += new System.EventHandler(this.num_maxoffset_ValueChanged);
             // 
             // label4
             // 
@@ -193,11 +199,36 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "label7";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(30, 168);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(46, 13);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "Z speed";
+            // 
+            // num_zspeed
+            // 
+            this.num_zspeed.DecimalPlaces = 3;
+            this.num_zspeed.Location = new System.Drawing.Point(94, 166);
+            this.num_zspeed.Name = "num_zspeed";
+            this.num_zspeed.Size = new System.Drawing.Size(60, 20);
+            this.num_zspeed.TabIndex = 14;
+            this.num_zspeed.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            131072});
+            this.num_zspeed.ValueChanged += new System.EventHandler(this.num_zspeed_ValueChanged);
+            // 
             // Control
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 261);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.num_zspeed);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -217,6 +248,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_TakeOffAlt)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_minoffset)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_maxoffset)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_zspeed)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,5 +271,7 @@
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.NumericUpDown num_zspeed;
     }
 }
