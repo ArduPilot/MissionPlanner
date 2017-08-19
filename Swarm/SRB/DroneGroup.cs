@@ -124,8 +124,8 @@ namespace MissionPlanner.Swarm.SRB
                             return;
                         }
 
-                        drone.MavState.GuidedMode.x = 0;
-                        drone.MavState.GuidedMode.y = 0;
+                        drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
+                        drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
                         drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
 
                         // wait for takeoff
@@ -136,8 +136,7 @@ namespace MissionPlanner.Swarm.SRB
                             if (!MAV.cs.armed)
                                 return;
 
-                            if (MAV.cs.alt > 1)
-                            {
+
                                 drone.TargetVelocity = GetBaseVelocity();
 
                                 drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
@@ -145,7 +144,6 @@ namespace MissionPlanner.Swarm.SRB
                                 drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
                                 drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
                                 drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
-                            }
 
                             // move on to next drone
                             continue;
@@ -173,16 +171,13 @@ namespace MissionPlanner.Swarm.SRB
                             if (!MAV.cs.armed)
                                 return;
 
-                            if (MAV.cs.alt > 1)
-                            {
-                                drone.TargetVelocity = GetBaseVelocity();
+                            drone.TargetVelocity = GetBaseVelocity();
 
-                                drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
+                            drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
-                                drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
-                                drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
-                                drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
-                            }
+                            drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
+                            drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
+                            drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
 
                             // move on to next drone
                             return;
@@ -286,16 +281,17 @@ namespace MissionPlanner.Swarm.SRB
                             drone.TargetLocation = basePosition;
                             drone.TargetVelocity = basevelocity;
 
-                            if (drone.Location.GetDistance(drone.TargetLocation) < 1)
+                            if (drone.Location.GetDistance(drone.TargetLocation) < 2)
                             {
-                                drone.TargetLocation.Alt = 0;
+                                drone.TargetLocation.Alt = -2;
                             }
                             else
                             {
-                                drone.TargetLocation.Alt = TakeOffAlt;
+                                // same alt
+                                drone.TargetLocation.Alt = drone.Location.Alt;
                             }
 
-                            drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
+                            drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
                             // one drone at a time
                             break;

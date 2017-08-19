@@ -28,6 +28,7 @@ namespace MissionPlanner.Swarm.SRB
             ctl.DG.TakeOffAlt = (float)num_TakeOffAlt.Value;
             ctl.DG.MinOffset = (float)num_minoffset.Value;
             ctl.DG.MaxOffset = (float)num_maxoffset.Value;
+            ctl.DG.ZSpeed = (float)num_zspeed.Value;
 
             ctl.Start();
         }
