@@ -7,7 +7,6 @@ using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Windows.Forms.DataVisualization.Charting;
-using MathNet.Numerics.Interpolation;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -18,13 +17,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private static int ComboBoxIndex { get; set; }
 
         private IConfigEnergyProfile _configEnergyProfile = new EnergyProfileController();
-        
+
         public ConfigEnergyProfile()
         {
             InitializeComponent();
             SetDataSources();
         }
-
+        /// <summary>
+        /// set datasources for percent dev 
+        /// </summary>
         private void SetDataSources()
         {
             ComboBoxDeviation.DataSource = EnergyProfileModel.DeviationInPercentList;
@@ -145,14 +146,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 HoverDevTB.LostFocus += AddText;
             }
         }
-
+        /// <summary>
+        /// Remove text from a specific TextBox
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">Event -> GetFocus</param>
         public void RemoveText(object sender, EventArgs e)
         {
             TextBox myTextBox = ((TextBox)sender);
             if (myTextBox.Text == @"0,00")
                 myTextBox.Text = "";
         }
-
+        /// <summary>
+        /// Add text to a specific TextBox.
+        /// </summary>
+        /// <param name="sender">TextBox</param>
+        /// <param name="e">Event -> LostFocus</param>
         public void AddText(object sender, EventArgs e)
         {
             TextBox myTextBox = ((TextBox)sender);
@@ -246,8 +255,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
         }
-
-        
     }
 }
 

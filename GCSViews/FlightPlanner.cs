@@ -3019,9 +3019,9 @@ namespace MissionPlanner.GCSViews
                 }
 
                 //Display the total energy consumption
-                LBL_AvgEC.Text = sumEc.ToString("0.0") + @" mAh";
-                var maxsumEc = Math.Round(sumEc * (EnergyProfileModel.PercentDev + 1),2);
-                LBL_MaxEC.Text = maxsumEc.ToString("0.0") + @" mAh";
+                LBL_AvgEC.Text = sumEc.ToString("0") + @" mAh";
+                var maxsumEc = Math.Round(sumEc * (EnergyProfileModel.PercentDev + 1),0);
+                LBL_MaxEC.Text = maxsumEc.ToString("0") + @" mAh";
             }
         }
 

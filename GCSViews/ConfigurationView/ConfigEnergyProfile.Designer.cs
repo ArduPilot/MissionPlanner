@@ -34,18 +34,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint5 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
             this.LabelDeviationCB = new System.Windows.Forms.Label();
@@ -120,8 +119,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BtnImport = new MissionPlanner.Controls.MyButton();
             this.BtnExport = new MissionPlanner.Controls.MyButton();
             this.label29 = new System.Windows.Forms.Label();
-            this.energyProfileModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.panelCurrentConfiguration.SuspendLayout();
             this.CrntTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -129,8 +126,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.SuspendLayout();
             this.panelExpImp.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.energyProfileModelBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -167,16 +162,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.LabelDeviationCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LabelDeviationCB.Location = new System.Drawing.Point(653, 144);
             this.LabelDeviationCB.Name = "LabelDeviationCB";
-            this.LabelDeviationCB.Size = new System.Drawing.Size(146, 26);
+            this.LabelDeviationCB.Size = new System.Drawing.Size(141, 13);
             this.LabelDeviationCB.TabIndex = 68;
-            this.LabelDeviationCB.Text = "Fix threshold value from \r\naverrage Current:";
+            this.LabelDeviationCB.Text = "Expected deviation [%]:";
             // 
             // ComboBoxDeviation
             // 
             this.ComboBoxDeviation.DisplayMember = "0";
             this.ComboBoxDeviation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxDeviation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ComboBoxDeviation.Location = new System.Drawing.Point(656, 186);
+            this.ComboBoxDeviation.Location = new System.Drawing.Point(656, 169);
             this.ComboBoxDeviation.MaxDropDownItems = 5;
             this.ComboBoxDeviation.Name = "ComboBoxDeviation";
             this.ComboBoxDeviation.Size = new System.Drawing.Size(49, 21);
@@ -198,7 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.LbInfoCurrentMove.AutoSize = true;
             this.LbInfoCurrentMove.Location = new System.Drawing.Point(309, 3);
             this.LbInfoCurrentMove.Name = "LbInfoCurrentMove";
-            this.LbInfoCurrentMove.Size = new System.Drawing.Size(504, 39);
+            this.LbInfoCurrentMove.Size = new System.Drawing.Size(505, 39);
             this.LbInfoCurrentMove.TabIndex = 66;
             this.LbInfoCurrentMove.Text = resources.GetString("LbInfoCurrentMove.Text");
             // 
@@ -780,7 +775,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CrntTblRowLbl04.Name = "CrntTblRowLbl04";
             this.CrntTblRowLbl04.Size = new System.Drawing.Size(60, 30);
             this.CrntTblRowLbl04.TabIndex = 67;
-            this.CrntTblRowLbl04.Text = "Stand.\r\nDev.";
+            this.CrntTblRowLbl04.Text = "Dev.";
             this.CrntTblRowLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CrntTblTb201
@@ -798,69 +793,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea1.AxisX.Interval = 22.5D;
-            chartArea1.AxisX.IsLabelAutoFit = false;
-            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea1.AxisX.Maximum = 90D;
-            chartArea1.AxisX.Minimum = -90D;
-            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea1.AxisX.Title = "Angle [Degree]";
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.IsLabelAutoFit = false;
-            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea1.AxisY.Title = "Current [A]";
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea1.BackColor = System.Drawing.Color.Transparent;
-            chartArea1.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea1);
-            legend1.AutoFitMinFontSize = 8;
-            legend1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            legend1.ForeColor = System.Drawing.SystemColors.Control;
-            legend1.IsTextAutoFit = false;
-            legend1.Name = "Legend1";
-            this.ChartI.Legends.Add(legend1);
+            chartArea2.AxisX.Interval = 22.5D;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisX.Maximum = 90D;
+            chartArea2.AxisX.Minimum = -90D;
+            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea2.AxisX.Title = "Angle [Degree]";
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisY.Title = "Current [A]";
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea2);
+            legend2.AutoFitMinFontSize = 8;
+            legend2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend2.ForeColor = System.Drawing.SystemColors.Control;
+            legend2.IsTextAutoFit = false;
+            legend2.Name = "Legend1";
+            this.ChartI.Legends.Add(legend2);
             this.ChartI.Location = new System.Drawing.Point(3, 52);
             this.ChartI.Name = "ChartI";
-            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
-            series1.Color = System.Drawing.Color.Wheat;
-            series1.Legend = "Legend1";
-            series1.Name = "Range";
-            series1.Points.Add(dataPoint1);
-            series1.YValuesPerPoint = 2;
-            series2.BorderWidth = 3;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Color = System.Drawing.Color.LawnGreen;
-            series2.Legend = "Legend1";
-            series2.Name = "AverageCurrent";
-            series2.Points.Add(dataPoint2);
-            series3.BorderWidth = 3;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series3.Color = System.Drawing.Color.OrangeRed;
-            series3.Legend = "Legend1";
-            series3.MarkerColor = System.Drawing.Color.White;
-            series3.Name = "MaxCurrent";
-            series3.Points.Add(dataPoint3);
-            series4.BorderWidth = 3;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series4.Color = System.Drawing.Color.Cyan;
-            series4.Legend = "Legend1";
-            series4.Name = "MinCurrent";
-            series4.Points.Add(dataPoint4);
-            this.ChartI.Series.Add(series1);
-            this.ChartI.Series.Add(series2);
-            this.ChartI.Series.Add(series3);
-            this.ChartI.Series.Add(series4);
+            series5.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series5.Color = System.Drawing.Color.Wheat;
+            series5.Legend = "Legend1";
+            series5.Name = "Range";
+            series5.Points.Add(dataPoint5);
+            series5.YValuesPerPoint = 2;
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Color = System.Drawing.Color.LawnGreen;
+            series6.Legend = "Legend1";
+            series6.Name = "AverageCurrent";
+            series6.Points.Add(dataPoint6);
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series7.Color = System.Drawing.Color.OrangeRed;
+            series7.Legend = "Legend1";
+            series7.MarkerColor = System.Drawing.Color.White;
+            series7.Name = "MaxCurrent";
+            series7.Points.Add(dataPoint7);
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series8.Color = System.Drawing.Color.Cyan;
+            series8.Legend = "Legend1";
+            series8.Name = "MinCurrent";
+            series8.Points.Add(dataPoint8);
+            this.ChartI.Series.Add(series5);
+            this.ChartI.Series.Add(series6);
+            this.ChartI.Series.Add(series7);
+            this.ChartI.Series.Add(series8);
             this.ChartI.Size = new System.Drawing.Size(810, 293);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
@@ -937,7 +932,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbCurrentHover.Name = "lbCurrentHover";
             this.lbCurrentHover.Size = new System.Drawing.Size(103, 34);
             this.lbCurrentHover.TabIndex = 57;
-            this.lbCurrentHover.Text = "Current [A]";
+            this.lbCurrentHover.Text = "Current [A]:";
             this.lbCurrentHover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbVarianceCurrentHover
@@ -1063,14 +1058,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label29.TabIndex = 64;
             this.label29.Text = "Export/Import Energy-Profile";
             // 
-            // energyProfileModelBindingSource
-            // 
-            this.energyProfileModelBindingSource.DataSource = typeof(MissionPlanner.Utilities.EnergyProfileModel);
-            // 
-            // currentStateBindingSource
-            // 
-            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1098,8 +1085,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelExpImp.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.energyProfileModelBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1180,7 +1165,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private TextBox HoverCrntTB;
         private ComboBox ComboBoxDeviation;
         private Label LabelDeviationCB;
-        private BindingSource energyProfileModelBindingSource;
-        private BindingSource currentStateBindingSource;
     }
 }

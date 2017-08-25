@@ -350,10 +350,10 @@ namespace MissionPlanner.Utilities
             double current = Convert.ToDouble(EnergyProfileModel.AverageCurrentSplinePoints[index].Y);
             if (hoverTime > 0)
             {
-                hoverEnergyConsumption = Math.Round(EnergyProfileModel.CurrentHover.AverageCurrent * hoverTime * 1000 / 3600, 2, MidpointRounding.AwayFromZero);
+                hoverEnergyConsumption = Math.Round(EnergyProfileModel.CurrentHover.AverageCurrent * hoverTime * 1000 / 3600, 1, MidpointRounding.AwayFromZero);
             }
 
-            var energyConsumption = Math.Round(current * time * 1000 / 3600, 2, MidpointRounding.AwayFromZero);
+            var energyConsumption = Math.Round(current * time * 1000 / 3600, 1, MidpointRounding.AwayFromZero);
             return energyConsumption + hoverEnergyConsumption;
         }
         /// <summary>
@@ -421,7 +421,7 @@ namespace MissionPlanner.Utilities
 
             var energy = Math.Round(energyConsumption.CalculateEnergyConsumption(1, 1, 5, 2.5f, 1.5f, 111, 18, 33, 0), 2);
 
-            Assert.IsEquals(125.81, energy, "Wrong value of Energy-Consumption");
+            Assert.IsEquals(125.8, energy, "Wrong value of Energy-Consumption");
         }
     }
 }

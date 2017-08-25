@@ -28,7 +28,7 @@ namespace MissionPlanner.Utilities
             // Init currentset
             // ===============
 
-            // old pattern for init a flexible dev
+            // pattern for dev
             //CurrentSet.Add(1, new CurrentModel(-90f, 16.22f, 2.7f));
             //CurrentSet.Add(2, new CurrentModel(-72f, 17.91f, 0.67f));
             //CurrentSet.Add(3, new CurrentModel(-54f, 16.89f, 1.35f));
@@ -41,7 +41,7 @@ namespace MissionPlanner.Utilities
             //CurrentSet.Add(10, new CurrentModel(72f, 20.27f, 2.03f));
             //CurrentSet.Add(11, new CurrentModel(90f, 21.62f, 1.35f));
 
-            // new pattern without flex dev
+            // pattern for dev
             //CurrentSet.Add(1, new CurrentModel(-90f, 16.22f));
             //CurrentSet.Add(2, new CurrentModel(-72f, 17.91f));
             //CurrentSet.Add(3, new CurrentModel(-54f, 16.89f));
@@ -55,17 +55,17 @@ namespace MissionPlanner.Utilities
             //CurrentSet.Add(11, new CurrentModel(90f, 21.62f));
 
             // for release
-            CurrentSet.Add(1, new CurrentModel(-90f, 16.22f));
-            CurrentSet.Add(2, new CurrentModel(-72f, 17.91f));
-            CurrentSet.Add(3, new CurrentModel(-54f, 16.89f));
-            CurrentSet.Add(4, new CurrentModel(-36f, 17.23f));
-            CurrentSet.Add(5, new CurrentModel(-18f, 16.22f));
-            CurrentSet.Add(6, new CurrentModel(0.00f, 16.89f));
-            CurrentSet.Add(7, new CurrentModel(18f, 18.24f));
-            CurrentSet.Add(8, new CurrentModel(36f, 19.59f));
-            CurrentSet.Add(9, new CurrentModel(54f, 20.95f));
-            CurrentSet.Add(10, new CurrentModel(72f, 20.27f));
-            CurrentSet.Add(11, new CurrentModel(90f, 21.62f));
+            CurrentSet.Add(1, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(2, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(3, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(4, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(5, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(6, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(7, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(8, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(9, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(10, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(11, new CurrentModel(0.0f, 0.0f));
         }
 
         // Getter & Setter

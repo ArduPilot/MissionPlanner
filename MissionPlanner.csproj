@@ -980,7 +980,8 @@
     <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\Device.cs" />
     <Compile Include="Utilities\dxf.cs" />
-    <Compile Include="Utilities\EnergyProfile.cs" />
+    <Compile Include="Utilities\EnergyProfileController.cs" />
+    <Compile Include="Utilities\EnergyProfileModel.cs" />
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Utilities\GMapMarkerOverlapCount.cs" />
     <Compile Include="Utilities\GMapMarkerPOI.cs" />
@@ -1000,6 +1001,7 @@
     <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerAirport.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
+    <Compile Include="Utilities\IConfigEnergyProfile.cs" />
     <Compile Include="Utilities\ICorrections.cs" />
     <Compile Include="Utilities\ImageProjection.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
