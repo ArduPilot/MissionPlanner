@@ -835,6 +835,8 @@ namespace MissionPlanner.Controls
 
         protected override void OnLoad(EventArgs e)
         {
+            log.Info("OnLoad Start");
+
             if (opengl && !DesignMode)
             {
                 try
@@ -849,18 +851,26 @@ namespace MissionPlanner.Controls
 
                     int[] viewPort = new int[4];
 
+                    log.Debug("GetInteger");
                     GL.GetInteger(GetPName.Viewport, viewPort);
-
+                    log.Debug("MatrixMode");
                     GL.MatrixMode(MatrixMode.Projection);
+                    log.Debug("LoadIdentity");
                     GL.LoadIdentity();
+                    log.Debug("Ortho");
                     GL.Ortho(0, Width, Height, 0, -1, 1);
+                    log.Debug("MatrixMode");
                     GL.MatrixMode(MatrixMode.Modelview);
+                    log.Debug("LoadIdentity");
                     GL.LoadIdentity();
 
+                    log.Debug("PushAttrib");
                     GL.PushAttrib(AttribMask.DepthBufferBit);
+                    log.Debug("Disable");
                     GL.Disable(EnableCap.DepthTest);
-                    //GL.Enable(EnableCap.Texture2D); 
+                    log.Debug("BlendFunc");
                     GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+                    log.Debug("Enable");
                     GL.Enable(EnableCap.Blend);
 
                     string versionString = GL.GetString(StringName.Version);
@@ -875,6 +885,7 @@ namespace MissionPlanner.Controls
 
                 try
                 {
+                    log.Debug("Hint");
                     GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
 
                     GL.Hint(HintTarget.LineSmoothHint, HintMode.Nicest);
@@ -890,7 +901,7 @@ namespace MissionPlanner.Controls
 
                 try
                 {
-
+                    log.Debug("Enable");
                     GL.Enable(EnableCap.LineSmooth);
                     GL.Enable(EnableCap.PointSmooth);
                     GL.Enable(EnableCap.PolygonSmooth);
@@ -901,6 +912,8 @@ namespace MissionPlanner.Controls
                     log.Error("HUD opengl onload 3 ", ex);
                 }
             }
+
+            log.Info("OnLoad Done");
 
             started = true;
         }
