@@ -2900,6 +2900,7 @@ namespace MissionPlanner.GCSViews
                     if (line.StartsWith("#"))
                         continue;
 
+                    //seq/cur/frame/mode
                     string[] items = line.Split(new[] {'\t', ' ', ','}, StringSplitOptions.RemoveEmptyEntries);
 
                     if (items.Length <= 9)
@@ -2907,6 +2908,13 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
+                        // check to see if the first wp is index 0/home.
+                        // if it is not index 0, add a blank home point
+                        if (wp_count == 0 && items[0] != "0")
+                        {
+                            cmds.Add(new Locationwp());
+                        }
+
                         Locationwp temp = new Locationwp();
                         if (items[2] == "3")
                         {
