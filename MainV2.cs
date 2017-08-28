@@ -3675,5 +3675,17 @@ namespace MissionPlanner
         {
             new ConnectionOptions().Show(this);
         }
+
+        private void MenuArduPilot_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("http://ardupilot.org/?utm_source=Menu&utm_campaign=MP");
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to open url http://ardupilot.org");
+            }
+        }
     }
 }
