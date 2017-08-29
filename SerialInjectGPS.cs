@@ -132,6 +132,8 @@ namespace MissionPlanner
             {
                 List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
 
+				if (obs.Count == 0) return;
+				
                 // get system controls
                 Func<char,List<VerticalProgressBar2>> ctls = delegate (char sys)
                 {
