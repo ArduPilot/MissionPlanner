@@ -16,7 +16,10 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Flurl.Util;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -987,6 +990,17 @@ namespace MissionPlanner.GeoRef
                 TXT_outputlog.AppendText("Log file problem. Aborting....\n");
                 return null;
             }
+
+            try
+            {
+                var xmlSerializer = new XmlSerializer(typeof(List<VehicleLocation>),
+                    new[] {typeof(VehicleLocation)});
+
+                using (var fl = File.OpenWrite(logFile + ".xml"))
+                {
+                    xmlSerializer.Serialize(fl, vehicleLocations.Values.ToList());
+                }
+            } catch { }
 
             TXT_outputlog.AppendText("Log locations : " + vehicleLocations.Count + "\n");
 
