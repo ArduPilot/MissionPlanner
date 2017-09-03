@@ -1073,6 +1073,30 @@ namespace MissionPlanner
                             adsb.Alt, adsb.Heading, id,
                             DateTime.Now) {CallSign = adsb.CallSign};
                 }
+
+                try
+                {
+                    MAVLink.mavlink_adsb_vehicle_t packet = new MAVLink.mavlink_adsb_vehicle_t();
+
+                    packet.altitude = (int)(MainV2.instance.adsbPlanes[id].Alt * 1000);
+                    packet.altitude_type = (byte)MAVLink.ADSB_ALTITUDE_TYPE.GEOMETRIC;
+                    packet.callsign = ASCIIEncoding.ASCII.GetBytes(adsb.CallSign);
+                    packet.emitter_type = (byte)MAVLink.ADSB_EMITTER_TYPE.NO_INFO;
+                    packet.heading = (ushort)(MainV2.instance.adsbPlanes[id].Heading * 100);
+                    packet.lat = (int)(MainV2.instance.adsbPlanes[id].Lat * 1e7);
+                    packet.lon = (int)(MainV2.instance.adsbPlanes[id].Lng * 1e7);
+                    packet.ICAO_address = uint.Parse(id, NumberStyles.HexNumber);
+
+                    packet.flags = (ushort)(MAVLink.ADSB_FLAGS.VALID_ALTITUDE | MAVLink.ADSB_FLAGS.VALID_COORDS |
+                        MAVLink.ADSB_FLAGS.VALID_HEADING | MAVLink.ADSB_FLAGS.VALID_CALLSIGN);
+
+                    //send to current connected
+                    MainV2.comPort.sendPacket(packet, MainV2.comPort.MAV.sysid, MainV2.comPort.MAV.compid);
+                }
+                catch
+                {
+
+                }
             }
         }
 
