@@ -201,7 +201,7 @@ namespace MissionPlanner
 
         Controls.MainSwitcher MyView;
 
-        private static DisplayView _displayConfiguration = new DisplayView().Basic();
+        private static DisplayView _displayConfiguration = new DisplayView().Advanced();
 
         public static event EventHandler LayoutChanged;
 
@@ -729,7 +729,7 @@ namespace MissionPlanner
             //set first instance display configuration
             if (DisplayConfiguration == null)
             {
-                DisplayConfiguration = DisplayConfiguration.Basic();
+                DisplayConfiguration = DisplayConfiguration.Advanced();
             }
 
             // load old config
@@ -750,7 +750,7 @@ namespace MissionPlanner
                 }
                 catch
                 {
-                    DisplayConfiguration = DisplayConfiguration.Basic();
+                    DisplayConfiguration = DisplayConfiguration.Advanced();
                 }
             }
 
