@@ -232,6 +232,7 @@ S15: MAX_WINDOW=131
                 // prime the mavlinkserial loop with data.
                 if (comPort != null)
                 {
+                    
                     var test = comPort.BytesToRead;
                     test++;
                 }
@@ -877,6 +878,7 @@ S15: MAX_WINDOW=131
             string Value, bool Remote)
         {
             string SettingName;
+
             if (Remote)
             {
                 SettingName = CB.Name.Substring(1);
@@ -913,6 +915,7 @@ S15: MAX_WINDOW=131
                     return true;
                 }
             }
+            
             CB.Tag = null;
             CB.Text = Value;
             return false;
@@ -942,7 +945,8 @@ S15: MAX_WINDOW=131
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
             ICommsSerial comPort = new SerialPort();
-
+            ResetAllControls(groupBoxLocal);
+            ResetAllControls(groupBoxRemote);
             try
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
@@ -1132,6 +1136,8 @@ S15: MAX_WINDOW=131
                                 //If there's a control with the same name as the setting...
                                 if (controls.Length > 0)
                                 {
+                                    groupBoxLocal.Enabled = true;
+                                    controls[0].Parent.Enabled = true;
                                     controls[0].Enabled = true;
 
                                     if (controls[0] is CheckBox)
@@ -1156,10 +1162,17 @@ S15: MAX_WINDOW=131
                                             if (((ComboBox)controls[0]).Text != values[2].Trim())
                                             {
                                                 SomeSettingsInvalid = true;
+                                                
                                             }
+                                            
                                         }
+                                     
                                     }
+                                    
+                                    
                                 }
+                                
+                               
                             }
                         }
                     }
@@ -1167,8 +1180,10 @@ S15: MAX_WINDOW=131
                     // remote
                     foreach (Control ctl in groupBoxRemote.Controls)
                     {
-                        if (ctl.Name != "RSSI")
+                        if ((ctl.Name != "RSSI")&& (!(ctl is Label)))
+                        {
                             ctl.ResetText();
+                        }
                     }
 
                     comPort.DiscardInBuffer();
@@ -1236,6 +1251,7 @@ S15: MAX_WINDOW=131
                                         }
                                     }
                                 }
+                              
                             }
                             else
                             {
@@ -1286,6 +1302,7 @@ S15: MAX_WINDOW=131
                 //BUT_SetPPMFailSafe.Enabled = true;
 
                 EnableConfigControls(true);
+                
                 EnableProgrammingControls(true);
             }
             catch (Exception ex)
@@ -1557,6 +1574,39 @@ red LED solid - in firmware update mode");
             BUT_getcurrent.Enabled = Enable;
             BUT_savesettings.Enabled = Enable;
             BUT_resettodefault.Enabled = Enable;
+        }
+        public static void ResetAllControls(Control form)
+        {
+            {
+                foreach (Control control in form.Controls)
+                {
+                    control.Enabled = false;
+                    if (control is TextBox)
+                    {
+                        TextBox textBox = (TextBox)control;
+                        textBox.Text = null;
+                    }
+
+                    if (control is ComboBox)
+                    {
+                        ComboBox comboBox = (ComboBox)control;
+                        if (comboBox.Items.Count > 0)
+                            comboBox.SelectedIndex = 0;
+                    }
+
+                    if (control is CheckBox)
+                    {
+                        CheckBox checkBox = (CheckBox)control;
+                        checkBox.Checked = false;
+                    }
+
+                    if (control is ListBox)
+                    {
+                        ListBox listBox = (ListBox)control;
+                        listBox.ClearSelected();
+                    }
+                }
+            }
         }
 
         void EnableProgrammingControls(bool Enable)
