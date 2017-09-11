@@ -10,17 +10,16 @@ namespace MissionPlanner.Utilities
     {
         void ChangeDeviation(int dev);
 
-        void LinearInterpolation();
+        void LinearInterpolation(EnergyProfileController.PlotProfile profile);
 
-        void PlotCurrent_Spline(Chart chart);
+        void Plot_Spline(Chart chart, EnergyProfileController.PlotProfile profile);
 
         void ExportProfile();
 
-        void ImportProfile();
+        bool ImportProfile();
     }
     interface IEnergyConsumption
     {
-        double CalculateEnergyConsumption(double accel_Horizontal, double accel_Vertical, double maxSpeed_Horizontal,
-            double maxSpeed_Vertical_UP, double maxSpeed_Vertical_DN, double distance_Horizontal, double angle, double altitude, double hoverTime);
+        Dictionary<EnergyProfileController.ECID, double> EnergyConsumption(double distance_Horizontal, double angle, double altitudeDiff, double hoverTime);
     }
 }

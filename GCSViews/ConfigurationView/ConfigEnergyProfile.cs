@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     public partial class ConfigEnergyProfile : UserControl, IActivate
     {
         private Dictionary<int, CurrentModel> CurrentSet { get; set; }
+        private Dictionary<int, VelocityModel> VelocitySet { get; set; }
         private CurrentModel CurrentHover { get; set; }
         private static int ComboBoxIndex { get; set; }
 
@@ -28,8 +29,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         private void SetDataSources()
         {
-            ComboBoxDeviation.DataSource = EnergyProfileModel.DeviationInPercentList;
-            ComboBoxDeviation.SelectedItem = EnergyProfileModel.DeviationInPercentList[0];
+            ComboBoxCrntDeviation.DataSource = EnergyProfileModel.DeviationInPercentList;
+            ComboBoxCrntDeviation.SelectedItem = EnergyProfileModel.DeviationInPercentList[0];
         }
         /// <summary>
         /// Set binding on the textboxes
@@ -146,6 +147,90 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 HoverDevTB.LostFocus += AddText;
             }
         }
+
+        /// <summary>
+        /// Set binding on the textboxes
+        /// </summary>
+        private void VelocityTBDatabindings()
+        {
+            VelocitySet = EnergyProfileModel.VelocitySet;
+            if (VelocityTable != null && VelocitySet != null && EnergyProfileModel.Enabled)
+            {
+                //loop over all lines backward
+                for (int j = 4; j > 1; j--)
+                {
+                    //loops over all culomns backward
+                    for (int i = 11; i > 0; i--)
+                    {
+                        if (VelocitySet.ContainsKey(key: i))
+                        {
+                            string tbName;
+                            if (i < 10)
+                                tbName = "VelTblTb" + j + "0" + i;
+                            else
+                            {
+                                tbName = "VelTblTb" + j + i;
+                            }
+
+                            foreach (var textBox in VelocityTable.Controls)
+                            {
+                                if (textBox.GetType() == typeof(TextBox))
+                                {
+                                    if (((TextBox) textBox).Name == tbName)
+                                    {
+                                        ((TextBox) textBox).ResetBindings();
+                                        Binding binding = null;
+                                        switch (j)
+                                        {
+
+                                            case 2:
+                                                binding = new Binding(propertyName: "Text",
+                                                    dataSource: VelocitySet[key: i], dataMember: "Angle");
+                                                binding.Format +=
+                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    {
+                                                        convertEventArgs.Value =
+                                                            ((double) convertEventArgs.Value).ToString("0");
+                                                    };
+                                                break;
+                                            case 3:
+                                                binding = new Binding(propertyName: "Text",
+                                                    dataSource: VelocitySet[key: i], dataMember: "AverageVelocity");
+                                                binding.Format +=
+                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    {
+                                                        convertEventArgs.Value =
+                                                            ((double) convertEventArgs.Value).ToString("0.00")
+                                                            .Replace(".", ","); //convert string
+                                                    };
+                                                break;
+                                            case 4:
+                                                binding = new Binding(propertyName: "Text",
+                                                    dataSource: VelocitySet[key: i], dataMember: "Deviation");
+                                                binding.Format +=
+                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    {
+                                                        convertEventArgs.Value =
+                                                            ((double) convertEventArgs.Value).ToString("0.00")
+                                                            .Replace(".", ","); //convert string
+                                                    };
+
+                                                break;
+                                        }
+                                        if (binding != null && ((TextBox) textBox).DataBindings.Count == 0)
+                                            ((TextBox) textBox).DataBindings.Add(binding);
+                                        ((TextBox) textBox).GotFocus += RemoveText;
+                                        ((TextBox) textBox).LostFocus += AddText;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Remove text from a specific TextBox
         /// </summary>
@@ -189,35 +274,63 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 panelHover.Enabled = true;
                 panelExpImp.Enabled = true;
                 panelCurrentConfiguration.Enabled = true;
+                panelVelocityConfiguration.Enabled = true;
                 if (!EnergyProfileModel.Enabled)
                 {
                     EnergyProfileModel.Enabled = true;
                     CrntTBDatabindings();
+                    VelocityTBDatabindings();
                 }
             }
             else
             {
-                ComboBoxDeviation.SelectedIndex = 0;
+                ComboBoxCrntDeviation.SelectedIndex = 0;
                 panelHover.Enabled = false;
                 panelExpImp.Enabled = false;
                 panelCurrentConfiguration.Enabled = false;
+                panelVelocityConfiguration.Enabled = false;
                 EnergyProfileModel.Enabled = false;
+                ClearChart(new List<Chart> {ChartI, ChartV});
+            }
+        }
+
+        private void ClearChart(List<Chart> chartlist)
+        {
+            if (chartlist.Count > 0)
+            {
+                foreach (Chart chart in chartlist)
+                {
+                    if (chart.Series.Count > 0)
+                    {
+                        foreach (Series serie in chart.Series)
+                        {
+                            serie.Points.Clear();
+                            serie.Points.Add(0, -90);
+                        }
+                    }
+                }
             }
         }
 
         private void ComboBoxDeviation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboBoxIndex = ComboBoxDeviation.SelectedIndex;
-            _configEnergyProfile.ChangeDeviation((int)ComboBoxDeviation.SelectedItem);
+            ComboBoxIndex = ComboBoxCrntDeviation.SelectedIndex;
+            _configEnergyProfile.ChangeDeviation((int)ComboBoxCrntDeviation.SelectedItem);
             CrntTBDatabindings();
+            BtnPlotCrnt.PerformClick();
         }
 
         private void BtnImport_Click(object sender, EventArgs e)
         {
-            _configEnergyProfile.ImportProfile();
-            ComboBoxDeviation.SelectedItem = (int)(EnergyProfileModel.PercentDev * 100);
-            CrntTBDatabindings();
-            _configEnergyProfile.PlotCurrent_Spline(ChartI);
+            bool import = _configEnergyProfile.ImportProfile();
+            if (import)
+            {
+                ComboBoxCrntDeviation.SelectedItem = (int) (EnergyProfileModel.PercentDevCrnt * 100);
+                CrntTBDatabindings();
+                VelocityTBDatabindings();
+                BtnPlotCrnt.PerformClick();
+                BtnPlotVelocity.PerformClick();
+            }
         }
 
         private void BtnExport_Click(object sender, EventArgs e)
@@ -232,12 +345,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <param name="e">leave</param>
         private void ConfigEnergyProfile_Leave(object sender, EventArgs e)
         {
-            _configEnergyProfile.LinearInterpolation();
-        }
-
-        private void BtnPlot_Click(object sender, EventArgs e)
-        {
-            _configEnergyProfile.PlotCurrent_Spline(ChartI);
+            _configEnergyProfile.LinearInterpolation(EnergyProfileController.PlotProfile.Current);
+            _configEnergyProfile.LinearInterpolation(EnergyProfileController.PlotProfile.Velocity);
         }
 
         // Private functions
@@ -249,11 +358,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CB_EnableEnergyProfile.Checked = EnergyProfileModel.Enabled;
             if (EnergyProfileModel.Enabled)
             {
-                ComboBoxDeviation.SelectedIndex = ComboBoxIndex;
+                ComboBoxCrntDeviation.SelectedIndex = ComboBoxIndex;
                 //Write back values to settings page
                 CrntTBDatabindings();
+                VelocityTBDatabindings();
+                BtnPlotCrnt.PerformClick();
+                BtnPlotVelocity.PerformClick();
             }
+        }
 
+        private void BtnCrntPlot_Click(object sender, EventArgs e)
+        {
+            _configEnergyProfile.Plot_Spline(ChartI, EnergyProfileController.PlotProfile.Current);
+        }
+
+        private void BtnPlotVelocity_Click(object sender, EventArgs e)
+        {
+            _configEnergyProfile.Plot_Spline(ChartV, EnergyProfileController.PlotProfile.Velocity);
         }
     }
 }

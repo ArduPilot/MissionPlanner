@@ -34,7 +34,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigEnergyProfile));
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint1 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, "22,18");
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint2 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint3 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint4 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -42,14 +53,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint6 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint7 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
             System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 18D);
+            System.Windows.Forms.DataVisualization.Charting.DataPoint dataPoint8 = new System.Windows.Forms.DataVisualization.Charting.DataPoint(-90D, 22D);
             this.CB_EnableEnergyProfile = new System.Windows.Forms.CheckBox();
             this.panelCurrentConfiguration = new System.Windows.Forms.Panel();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.LabelDeviationCB = new System.Windows.Forms.Label();
-            this.ComboBoxDeviation = new System.Windows.Forms.ComboBox();
-            this.BtnPlot = new MissionPlanner.Controls.MyButton();
+            this.ComboBoxCrntDeviation = new System.Windows.Forms.ComboBox();
+            this.BtnPlotCrnt = new MissionPlanner.Controls.MyButton();
             this.LbInfoCurrentMove = new System.Windows.Forms.Label();
             this.CrntTable = new System.Windows.Forms.TableLayoutPanel();
             this.CrntTblTb411 = new System.Windows.Forms.TextBox();
@@ -119,6 +131,64 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BtnImport = new MissionPlanner.Controls.MyButton();
             this.BtnExport = new MissionPlanner.Controls.MyButton();
             this.label29 = new System.Windows.Forms.Label();
+            this.panelVelocityConfiguration = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ComboBoxVelDeviation = new System.Windows.Forms.ComboBox();
+            this.BtnPlotVelocity = new MissionPlanner.Controls.MyButton();
+            this.LbVelocityInfo = new System.Windows.Forms.Label();
+            this.VelocityTable = new System.Windows.Forms.TableLayoutPanel();
+            this.VelTblTb411 = new System.Windows.Forms.TextBox();
+            this.VelTblTb410 = new System.Windows.Forms.TextBox();
+            this.VelTblTb409 = new System.Windows.Forms.TextBox();
+            this.VelTblTb408 = new System.Windows.Forms.TextBox();
+            this.VelTblTb407 = new System.Windows.Forms.TextBox();
+            this.VelTblTb406 = new System.Windows.Forms.TextBox();
+            this.VelTblTb405 = new System.Windows.Forms.TextBox();
+            this.VelTblTb404 = new System.Windows.Forms.TextBox();
+            this.VelTblTb403 = new System.Windows.Forms.TextBox();
+            this.VelTblTb402 = new System.Windows.Forms.TextBox();
+            this.VelTblTb401 = new System.Windows.Forms.TextBox();
+            this.VelTblTb311 = new System.Windows.Forms.TextBox();
+            this.VelTblTb310 = new System.Windows.Forms.TextBox();
+            this.VelTblTb309 = new System.Windows.Forms.TextBox();
+            this.VelTblTb308 = new System.Windows.Forms.TextBox();
+            this.VelTblTb307 = new System.Windows.Forms.TextBox();
+            this.VelTblTb306 = new System.Windows.Forms.TextBox();
+            this.VelTblTb305 = new System.Windows.Forms.TextBox();
+            this.VelTblTb304 = new System.Windows.Forms.TextBox();
+            this.VelTblTb303 = new System.Windows.Forms.TextBox();
+            this.VelTblTb302 = new System.Windows.Forms.TextBox();
+            this.VelTblTb301 = new System.Windows.Forms.TextBox();
+            this.VelTblTb211 = new System.Windows.Forms.TextBox();
+            this.VelTblTb210 = new System.Windows.Forms.TextBox();
+            this.VelTblTb209 = new System.Windows.Forms.TextBox();
+            this.VelTblTb208 = new System.Windows.Forms.TextBox();
+            this.VelTblTb207 = new System.Windows.Forms.TextBox();
+            this.VelTblTb206 = new System.Windows.Forms.TextBox();
+            this.VelTblTb205 = new System.Windows.Forms.TextBox();
+            this.VelTblTb204 = new System.Windows.Forms.TextBox();
+            this.VelTblTb203 = new System.Windows.Forms.TextBox();
+            this.VelTblTb202 = new System.Windows.Forms.TextBox();
+            this.VelTblRowLbl02 = new System.Windows.Forms.Label();
+            this.VelTblRowLbl01 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl01 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl02 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl03 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl04 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl05 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl06 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl08 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl09 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl10 = new System.Windows.Forms.Label();
+            this.VelTblClmLbl11 = new System.Windows.Forms.Label();
+            this.VelTblRowLbl03 = new System.Windows.Forms.Label();
+            this.VelTblRowLbl04 = new System.Windows.Forms.Label();
+            this.VelTblTb201 = new System.Windows.Forms.TextBox();
+            this.ChartV = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.label19 = new System.Windows.Forms.Label();
+            this.LbTitleVelocity = new System.Windows.Forms.Label();
+            this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelCurrentConfiguration.SuspendLayout();
             this.CrntTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -126,6 +196,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.tableLayoutPanel1.SuspendLayout();
             this.panelExpImp.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panelVelocityConfiguration.SuspendLayout();
+            this.VelocityTable.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -142,9 +215,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // panelCurrentConfiguration
             // 
             this.panelCurrentConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelCurrentConfiguration.Controls.Add(this.checkBox1);
             this.panelCurrentConfiguration.Controls.Add(this.LabelDeviationCB);
-            this.panelCurrentConfiguration.Controls.Add(this.ComboBoxDeviation);
-            this.panelCurrentConfiguration.Controls.Add(this.BtnPlot);
+            this.panelCurrentConfiguration.Controls.Add(this.ComboBoxCrntDeviation);
+            this.panelCurrentConfiguration.Controls.Add(this.BtnPlotCrnt);
             this.panelCurrentConfiguration.Controls.Add(this.LbInfoCurrentMove);
             this.panelCurrentConfiguration.Controls.Add(this.CrntTable);
             this.panelCurrentConfiguration.Controls.Add(this.ChartI);
@@ -153,8 +227,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelCurrentConfiguration.Enabled = false;
             this.panelCurrentConfiguration.Location = new System.Drawing.Point(17, 141);
             this.panelCurrentConfiguration.Name = "panelCurrentConfiguration";
-            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 502);
+            this.panelCurrentConfiguration.Padding = new System.Windows.Forms.Padding(0, 0, 0, 5);
+            this.panelCurrentConfiguration.Size = new System.Drawing.Size(818, 505);
             this.panelCurrentConfiguration.TabIndex = 40;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(656, 208);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(109, 17);
+            this.checkBox1.TabIndex = 69;
+            this.checkBox1.Text = "Flexible Deviation";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.Visible = false;
             // 
             // LabelDeviationCB
             // 
@@ -166,27 +252,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.LabelDeviationCB.TabIndex = 68;
             this.LabelDeviationCB.Text = "Expected deviation [%]:";
             // 
-            // ComboBoxDeviation
+            // ComboBoxCrntDeviation
             // 
-            this.ComboBoxDeviation.DisplayMember = "0";
-            this.ComboBoxDeviation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ComboBoxDeviation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ComboBoxDeviation.Location = new System.Drawing.Point(656, 169);
-            this.ComboBoxDeviation.MaxDropDownItems = 5;
-            this.ComboBoxDeviation.Name = "ComboBoxDeviation";
-            this.ComboBoxDeviation.Size = new System.Drawing.Size(49, 21);
-            this.ComboBoxDeviation.TabIndex = 67;
-            this.ComboBoxDeviation.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDeviation_SelectedIndexChanged);
+            this.ComboBoxCrntDeviation.DisplayMember = "0";
+            this.ComboBoxCrntDeviation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxCrntDeviation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ComboBoxCrntDeviation.Location = new System.Drawing.Point(656, 169);
+            this.ComboBoxCrntDeviation.MaxDropDownItems = 5;
+            this.ComboBoxCrntDeviation.Name = "ComboBoxCrntDeviation";
+            this.ComboBoxCrntDeviation.Size = new System.Drawing.Size(49, 21);
+            this.ComboBoxCrntDeviation.TabIndex = 67;
+            this.ToolTip.SetToolTip(this.ComboBoxCrntDeviation, "Set a fix deviation for all current values.");
+            this.ComboBoxCrntDeviation.SelectedIndexChanged += new System.EventHandler(this.ComboBoxDeviation_SelectedIndexChanged);
             // 
-            // BtnPlot
+            // BtnPlotCrnt
             // 
-            this.BtnPlot.Location = new System.Drawing.Point(715, 310);
-            this.BtnPlot.Name = "BtnPlot";
-            this.BtnPlot.Size = new System.Drawing.Size(84, 26);
-            this.BtnPlot.TabIndex = 52;
-            this.BtnPlot.Text = "Plot";
-            this.BtnPlot.UseVisualStyleBackColor = true;
-            this.BtnPlot.Click += new System.EventHandler(this.BtnPlot_Click);
+            this.BtnPlotCrnt.Location = new System.Drawing.Point(715, 310);
+            this.BtnPlotCrnt.Name = "BtnPlotCrnt";
+            this.BtnPlotCrnt.Size = new System.Drawing.Size(84, 26);
+            this.BtnPlotCrnt.TabIndex = 52;
+            this.BtnPlotCrnt.Text = "Plot";
+            this.ToolTip.SetToolTip(this.BtnPlotCrnt, "Plot the energy consumption during flight.");
+            this.BtnPlotCrnt.UseVisualStyleBackColor = true;
+            this.BtnPlotCrnt.Click += new System.EventHandler(this.BtnCrntPlot_Click);
             // 
             // LbInfoCurrentMove
             // 
@@ -595,6 +683,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CrntTblRowLbl02.TabIndex = 65;
             this.CrntTblRowLbl02.Text = "Angle";
             this.CrntTblRowLbl02.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.CrntTblRowLbl02, "This is the climb angle.");
             // 
             // CrntTblRowLbl01
             // 
@@ -764,6 +853,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CrntTblRowLbl03.TabIndex = 66;
             this.CrntTblRowLbl03.Text = "Ø\r\nCurrent";
             this.CrntTblRowLbl03.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.CrntTblRowLbl03, "This is the mean current.");
             // 
             // CrntTblRowLbl04
             // 
@@ -777,6 +867,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CrntTblRowLbl04.TabIndex = 67;
             this.CrntTblRowLbl04.Text = "Dev.";
             this.CrntTblRowLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.CrntTblRowLbl04, "This is the deviation from mean current.");
             // 
             // CrntTblTb201
             // 
@@ -793,69 +884,69 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.ChartI.BackColor = System.Drawing.Color.Transparent;
             this.ChartI.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ChartI.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
-            chartArea2.AxisX.Interval = 22.5D;
-            chartArea2.AxisX.IsLabelAutoFit = false;
-            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
-            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
-            chartArea2.AxisX.Maximum = 90D;
-            chartArea2.AxisX.Minimum = -90D;
-            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
-            chartArea2.AxisX.Title = "Angle [Degree]";
-            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.IsLabelAutoFit = false;
-            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
-            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
-            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
-            chartArea2.AxisY.Title = "Current [A]";
-            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
-            chartArea2.BackColor = System.Drawing.Color.Transparent;
-            chartArea2.Name = "ChartArea1";
-            this.ChartI.ChartAreas.Add(chartArea2);
-            legend2.AutoFitMinFontSize = 8;
-            legend2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            legend2.ForeColor = System.Drawing.SystemColors.Control;
-            legend2.IsTextAutoFit = false;
-            legend2.Name = "Legend1";
-            this.ChartI.Legends.Add(legend2);
+            chartArea1.AxisX.Interval = 22.5D;
+            chartArea1.AxisX.IsLabelAutoFit = false;
+            chartArea1.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea1.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea1.AxisX.Maximum = 90D;
+            chartArea1.AxisX.Minimum = -90D;
+            chartArea1.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea1.AxisX.Title = "Angle [Degree]";
+            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.IsLabelAutoFit = false;
+            chartArea1.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea1.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea1.AxisY.Title = "Current [A]";
+            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea1.BackColor = System.Drawing.Color.Transparent;
+            chartArea1.Name = "ChartArea1";
+            this.ChartI.ChartAreas.Add(chartArea1);
+            legend1.AutoFitMinFontSize = 8;
+            legend1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend1.ForeColor = System.Drawing.SystemColors.Control;
+            legend1.IsTextAutoFit = false;
+            legend1.Name = "Legend1";
+            this.ChartI.Legends.Add(legend1);
             this.ChartI.Location = new System.Drawing.Point(3, 52);
             this.ChartI.Name = "ChartI";
-            series5.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
-            series5.Color = System.Drawing.Color.Wheat;
-            series5.Legend = "Legend1";
-            series5.Name = "Range";
-            series5.Points.Add(dataPoint5);
-            series5.YValuesPerPoint = 2;
-            series6.BorderWidth = 3;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Color = System.Drawing.Color.LawnGreen;
-            series6.Legend = "Legend1";
-            series6.Name = "AverageCurrent";
-            series6.Points.Add(dataPoint6);
-            series7.BorderWidth = 3;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series7.Color = System.Drawing.Color.OrangeRed;
-            series7.Legend = "Legend1";
-            series7.MarkerColor = System.Drawing.Color.White;
-            series7.Name = "MaxCurrent";
-            series7.Points.Add(dataPoint7);
-            series8.BorderWidth = 3;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series8.Color = System.Drawing.Color.Cyan;
-            series8.Legend = "Legend1";
-            series8.Name = "MinCurrent";
-            series8.Points.Add(dataPoint8);
-            this.ChartI.Series.Add(series5);
-            this.ChartI.Series.Add(series6);
-            this.ChartI.Series.Add(series7);
-            this.ChartI.Series.Add(series8);
+            series1.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series1.Color = System.Drawing.Color.Wheat;
+            series1.Legend = "Legend1";
+            series1.Name = "Range";
+            series1.Points.Add(dataPoint1);
+            series1.YValuesPerPoint = 2;
+            series2.BorderWidth = 3;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.OrangeRed;
+            series2.Legend = "Legend1";
+            series2.MarkerColor = System.Drawing.Color.White;
+            series2.Name = "MaxCurrent";
+            series2.Points.Add(dataPoint2);
+            series3.BorderWidth = 3;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Color = System.Drawing.Color.Cyan;
+            series3.Legend = "Legend1";
+            series3.Name = "MinCurrent";
+            series3.Points.Add(dataPoint3);
+            series4.BorderWidth = 3;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Color = System.Drawing.Color.LawnGreen;
+            series4.Legend = "Legend1";
+            series4.Name = "AverageCurrent";
+            series4.Points.Add(dataPoint4);
+            this.ChartI.Series.Add(series1);
+            this.ChartI.Series.Add(series2);
+            this.ChartI.Series.Add(series3);
+            this.ChartI.Series.Add(series4);
             this.ChartI.Size = new System.Drawing.Size(810, 293);
             this.ChartI.TabIndex = 54;
             this.ChartI.Text = "chart1";
@@ -934,6 +1025,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbCurrentHover.TabIndex = 57;
             this.lbCurrentHover.Text = "Current [A]:";
             this.lbCurrentHover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.lbCurrentHover, "The average current in hover mode.");
             // 
             // lbVarianceCurrentHover
             // 
@@ -948,6 +1040,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbVarianceCurrentHover.TabIndex = 52;
             this.lbVarianceCurrentHover.Text = "Deviation";
             this.lbVarianceCurrentHover.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.lbVarianceCurrentHover, "The deviation from average current in hover mode.");
             // 
             // HoverCrntTB
             // 
@@ -1035,6 +1128,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BtnImport.Size = new System.Drawing.Size(84, 26);
             this.BtnImport.TabIndex = 64;
             this.BtnImport.Text = "Import Profile";
+            this.ToolTip.SetToolTip(this.BtnImport, "Import a energy profile from XML.");
             this.BtnImport.UseVisualStyleBackColor = true;
             this.BtnImport.Click += new System.EventHandler(this.BtnImport_Click);
             // 
@@ -1045,6 +1139,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BtnExport.Size = new System.Drawing.Size(84, 26);
             this.BtnExport.TabIndex = 60;
             this.BtnExport.Text = "Export Profile";
+            this.ToolTip.SetToolTip(this.BtnExport, "Export a energy profile to XML.");
             this.BtnExport.UseVisualStyleBackColor = true;
             this.BtnExport.Click += new System.EventHandler(this.BtnExport_Click);
             // 
@@ -1058,19 +1153,763 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label29.TabIndex = 64;
             this.label29.Text = "Export/Import Energy-Profile";
             // 
+            // panelVelocityConfiguration
+            // 
+            this.panelVelocityConfiguration.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelVelocityConfiguration.Controls.Add(this.label2);
+            this.panelVelocityConfiguration.Controls.Add(this.ComboBoxVelDeviation);
+            this.panelVelocityConfiguration.Controls.Add(this.BtnPlotVelocity);
+            this.panelVelocityConfiguration.Controls.Add(this.LbVelocityInfo);
+            this.panelVelocityConfiguration.Controls.Add(this.VelocityTable);
+            this.panelVelocityConfiguration.Controls.Add(this.ChartV);
+            this.panelVelocityConfiguration.Controls.Add(this.label19);
+            this.panelVelocityConfiguration.Controls.Add(this.LbTitleVelocity);
+            this.panelVelocityConfiguration.Enabled = false;
+            this.panelVelocityConfiguration.Location = new System.Drawing.Point(17, 648);
+            this.panelVelocityConfiguration.Name = "panelVelocityConfiguration";
+            this.panelVelocityConfiguration.Size = new System.Drawing.Size(818, 502);
+            this.panelVelocityConfiguration.TabIndex = 64;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(653, 144);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(141, 13);
+            this.label2.TabIndex = 68;
+            this.label2.Text = "Expected deviation [%]:";
+            this.label2.Visible = false;
+            // 
+            // ComboBoxVelDeviation
+            // 
+            this.ComboBoxVelDeviation.DisplayMember = "0";
+            this.ComboBoxVelDeviation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.ComboBoxVelDeviation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ComboBoxVelDeviation.Location = new System.Drawing.Point(656, 169);
+            this.ComboBoxVelDeviation.MaxDropDownItems = 5;
+            this.ComboBoxVelDeviation.Name = "ComboBoxVelDeviation";
+            this.ComboBoxVelDeviation.Size = new System.Drawing.Size(49, 21);
+            this.ComboBoxVelDeviation.TabIndex = 67;
+            this.ComboBoxVelDeviation.Visible = false;
+            // 
+            // BtnPlotVelocity
+            // 
+            this.BtnPlotVelocity.Location = new System.Drawing.Point(715, 310);
+            this.BtnPlotVelocity.Name = "BtnPlotVelocity";
+            this.BtnPlotVelocity.Size = new System.Drawing.Size(84, 26);
+            this.BtnPlotVelocity.TabIndex = 52;
+            this.BtnPlotVelocity.Text = "Plot";
+            this.ToolTip.SetToolTip(this.BtnPlotVelocity, "Plot the Velocity in flight.");
+            this.BtnPlotVelocity.UseVisualStyleBackColor = true;
+            this.BtnPlotVelocity.Click += new System.EventHandler(this.BtnPlotVelocity_Click);
+            // 
+            // LbVelocityInfo
+            // 
+            this.LbVelocityInfo.AutoSize = true;
+            this.LbVelocityInfo.Location = new System.Drawing.Point(359, 0);
+            this.LbVelocityInfo.Name = "LbVelocityInfo";
+            this.LbVelocityInfo.Size = new System.Drawing.Size(455, 39);
+            this.LbVelocityInfo.TabIndex = 66;
+            this.LbVelocityInfo.Text = resources.GetString("LbVelocityInfo.Text");
+            // 
+            // VelocityTable
+            // 
+            this.VelocityTable.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
+            this.VelocityTable.ColumnCount = 12;
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 8.333332F));
+            this.VelocityTable.Controls.Add(this.VelTblTb411, 11, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb410, 10, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb409, 9, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb408, 8, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb407, 7, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb406, 6, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb405, 5, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb404, 4, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb403, 3, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb402, 2, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb401, 1, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb311, 11, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb310, 10, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb309, 9, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb308, 8, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb307, 7, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb306, 6, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb305, 5, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb304, 4, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb303, 3, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb302, 2, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb301, 1, 2);
+            this.VelocityTable.Controls.Add(this.VelTblTb211, 11, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb210, 10, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb209, 9, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb208, 8, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb207, 7, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb206, 6, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb205, 5, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb204, 4, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb203, 3, 1);
+            this.VelocityTable.Controls.Add(this.VelTblTb202, 2, 1);
+            this.VelocityTable.Controls.Add(this.VelTblRowLbl02, 0, 1);
+            this.VelocityTable.Controls.Add(this.VelTblRowLbl01, 0, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl01, 1, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl02, 2, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl03, 3, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl04, 4, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl05, 5, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl06, 6, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl08, 7, 0);
+            this.VelocityTable.Controls.Add(this.label13, 8, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl09, 9, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl10, 10, 0);
+            this.VelocityTable.Controls.Add(this.VelTblClmLbl11, 11, 0);
+            this.VelocityTable.Controls.Add(this.VelTblRowLbl03, 0, 2);
+            this.VelocityTable.Controls.Add(this.VelTblRowLbl04, 0, 3);
+            this.VelocityTable.Controls.Add(this.VelTblTb201, 1, 1);
+            this.VelocityTable.Location = new System.Drawing.Point(3, 351);
+            this.VelocityTable.Name = "VelocityTable";
+            this.VelocityTable.RowCount = 4;
+            this.VelocityTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.VelocityTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.VelocityTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.VelocityTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.VelocityTable.Size = new System.Drawing.Size(810, 146);
+            this.VelocityTable.TabIndex = 64;
+            // 
+            // VelTblTb411
+            // 
+            this.VelTblTb411.Enabled = false;
+            this.VelTblTb411.Location = new System.Drawing.Point(746, 117);
+            this.VelTblTb411.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb411.Name = "VelTblTb411";
+            this.VelTblTb411.ReadOnly = true;
+            this.VelTblTb411.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb411.TabIndex = 100;
+            this.VelTblTb411.Text = "0,00";
+            // 
+            // VelTblTb410
+            // 
+            this.VelTblTb410.Enabled = false;
+            this.VelTblTb410.Location = new System.Drawing.Point(679, 117);
+            this.VelTblTb410.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb410.Name = "VelTblTb410";
+            this.VelTblTb410.ReadOnly = true;
+            this.VelTblTb410.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb410.TabIndex = 99;
+            this.VelTblTb410.Text = "0,00";
+            // 
+            // VelTblTb409
+            // 
+            this.VelTblTb409.Enabled = false;
+            this.VelTblTb409.Location = new System.Drawing.Point(612, 117);
+            this.VelTblTb409.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb409.Name = "VelTblTb409";
+            this.VelTblTb409.ReadOnly = true;
+            this.VelTblTb409.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb409.TabIndex = 98;
+            this.VelTblTb409.Text = "0,00";
+            // 
+            // VelTblTb408
+            // 
+            this.VelTblTb408.Enabled = false;
+            this.VelTblTb408.Location = new System.Drawing.Point(545, 117);
+            this.VelTblTb408.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb408.Name = "VelTblTb408";
+            this.VelTblTb408.ReadOnly = true;
+            this.VelTblTb408.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb408.TabIndex = 97;
+            this.VelTblTb408.Text = "0,00";
+            // 
+            // VelTblTb407
+            // 
+            this.VelTblTb407.Enabled = false;
+            this.VelTblTb407.Location = new System.Drawing.Point(478, 117);
+            this.VelTblTb407.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb407.Name = "VelTblTb407";
+            this.VelTblTb407.ReadOnly = true;
+            this.VelTblTb407.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb407.TabIndex = 96;
+            this.VelTblTb407.Text = "0,00";
+            // 
+            // VelTblTb406
+            // 
+            this.VelTblTb406.Enabled = false;
+            this.VelTblTb406.Location = new System.Drawing.Point(411, 117);
+            this.VelTblTb406.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb406.Name = "VelTblTb406";
+            this.VelTblTb406.ReadOnly = true;
+            this.VelTblTb406.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb406.TabIndex = 95;
+            this.VelTblTb406.Text = "0,00";
+            // 
+            // VelTblTb405
+            // 
+            this.VelTblTb405.Enabled = false;
+            this.VelTblTb405.Location = new System.Drawing.Point(344, 117);
+            this.VelTblTb405.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb405.Name = "VelTblTb405";
+            this.VelTblTb405.ReadOnly = true;
+            this.VelTblTb405.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb405.TabIndex = 94;
+            this.VelTblTb405.Text = "0,00";
+            // 
+            // VelTblTb404
+            // 
+            this.VelTblTb404.Enabled = false;
+            this.VelTblTb404.Location = new System.Drawing.Point(277, 117);
+            this.VelTblTb404.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb404.Name = "VelTblTb404";
+            this.VelTblTb404.ReadOnly = true;
+            this.VelTblTb404.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb404.TabIndex = 93;
+            this.VelTblTb404.Text = "0,00";
+            // 
+            // VelTblTb403
+            // 
+            this.VelTblTb403.Enabled = false;
+            this.VelTblTb403.Location = new System.Drawing.Point(210, 117);
+            this.VelTblTb403.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb403.Name = "VelTblTb403";
+            this.VelTblTb403.ReadOnly = true;
+            this.VelTblTb403.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb403.TabIndex = 92;
+            this.VelTblTb403.Text = "0,00";
+            // 
+            // VelTblTb402
+            // 
+            this.VelTblTb402.Enabled = false;
+            this.VelTblTb402.Location = new System.Drawing.Point(143, 117);
+            this.VelTblTb402.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb402.Name = "VelTblTb402";
+            this.VelTblTb402.ReadOnly = true;
+            this.VelTblTb402.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb402.TabIndex = 91;
+            this.VelTblTb402.Text = "0,00";
+            // 
+            // VelTblTb401
+            // 
+            this.VelTblTb401.Enabled = false;
+            this.VelTblTb401.Location = new System.Drawing.Point(76, 117);
+            this.VelTblTb401.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb401.Name = "VelTblTb401";
+            this.VelTblTb401.ReadOnly = true;
+            this.VelTblTb401.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb401.TabIndex = 90;
+            this.VelTblTb401.Text = "0,00";
+            // 
+            // VelTblTb311
+            // 
+            this.VelTblTb311.Location = new System.Drawing.Point(746, 81);
+            this.VelTblTb311.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb311.Name = "VelTblTb311";
+            this.VelTblTb311.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb311.TabIndex = 89;
+            this.VelTblTb311.Text = "0,00";
+            // 
+            // VelTblTb310
+            // 
+            this.VelTblTb310.Location = new System.Drawing.Point(679, 81);
+            this.VelTblTb310.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb310.Name = "VelTblTb310";
+            this.VelTblTb310.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb310.TabIndex = 88;
+            this.VelTblTb310.Text = "0,00";
+            // 
+            // VelTblTb309
+            // 
+            this.VelTblTb309.Location = new System.Drawing.Point(612, 81);
+            this.VelTblTb309.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb309.Name = "VelTblTb309";
+            this.VelTblTb309.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb309.TabIndex = 87;
+            this.VelTblTb309.Text = "0,00";
+            // 
+            // VelTblTb308
+            // 
+            this.VelTblTb308.Location = new System.Drawing.Point(545, 81);
+            this.VelTblTb308.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb308.Name = "VelTblTb308";
+            this.VelTblTb308.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb308.TabIndex = 86;
+            this.VelTblTb308.Text = "0,00";
+            // 
+            // VelTblTb307
+            // 
+            this.VelTblTb307.Location = new System.Drawing.Point(478, 81);
+            this.VelTblTb307.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb307.Name = "VelTblTb307";
+            this.VelTblTb307.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb307.TabIndex = 85;
+            this.VelTblTb307.Text = "0,00";
+            // 
+            // VelTblTb306
+            // 
+            this.VelTblTb306.Location = new System.Drawing.Point(411, 81);
+            this.VelTblTb306.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb306.Name = "VelTblTb306";
+            this.VelTblTb306.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb306.TabIndex = 84;
+            this.VelTblTb306.Text = "0,00";
+            // 
+            // VelTblTb305
+            // 
+            this.VelTblTb305.Location = new System.Drawing.Point(344, 81);
+            this.VelTblTb305.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb305.Name = "VelTblTb305";
+            this.VelTblTb305.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb305.TabIndex = 83;
+            this.VelTblTb305.Text = "0,00";
+            // 
+            // VelTblTb304
+            // 
+            this.VelTblTb304.Location = new System.Drawing.Point(277, 81);
+            this.VelTblTb304.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb304.Name = "VelTblTb304";
+            this.VelTblTb304.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb304.TabIndex = 82;
+            this.VelTblTb304.Text = "0,00";
+            // 
+            // VelTblTb303
+            // 
+            this.VelTblTb303.Location = new System.Drawing.Point(210, 81);
+            this.VelTblTb303.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb303.Name = "VelTblTb303";
+            this.VelTblTb303.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb303.TabIndex = 81;
+            this.VelTblTb303.Text = "0,00";
+            // 
+            // VelTblTb302
+            // 
+            this.VelTblTb302.Location = new System.Drawing.Point(143, 81);
+            this.VelTblTb302.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb302.Name = "VelTblTb302";
+            this.VelTblTb302.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb302.TabIndex = 80;
+            this.VelTblTb302.Text = "0,00";
+            // 
+            // VelTblTb301
+            // 
+            this.VelTblTb301.Location = new System.Drawing.Point(76, 81);
+            this.VelTblTb301.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb301.Name = "VelTblTb301";
+            this.VelTblTb301.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb301.TabIndex = 79;
+            this.VelTblTb301.Text = "0,00";
+            // 
+            // VelTblTb211
+            // 
+            this.VelTblTb211.Location = new System.Drawing.Point(746, 45);
+            this.VelTblTb211.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb211.Name = "VelTblTb211";
+            this.VelTblTb211.ReadOnly = true;
+            this.VelTblTb211.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb211.TabIndex = 78;
+            this.VelTblTb211.Text = "90";
+            // 
+            // VelTblTb210
+            // 
+            this.VelTblTb210.Location = new System.Drawing.Point(679, 45);
+            this.VelTblTb210.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb210.Name = "VelTblTb210";
+            this.VelTblTb210.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb210.TabIndex = 77;
+            this.VelTblTb210.Text = "0";
+            // 
+            // VelTblTb209
+            // 
+            this.VelTblTb209.Location = new System.Drawing.Point(612, 45);
+            this.VelTblTb209.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb209.Name = "VelTblTb209";
+            this.VelTblTb209.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb209.TabIndex = 76;
+            this.VelTblTb209.Text = "0";
+            // 
+            // VelTblTb208
+            // 
+            this.VelTblTb208.Location = new System.Drawing.Point(545, 45);
+            this.VelTblTb208.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb208.Name = "VelTblTb208";
+            this.VelTblTb208.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb208.TabIndex = 75;
+            this.VelTblTb208.Text = "0";
+            // 
+            // VelTblTb207
+            // 
+            this.VelTblTb207.Location = new System.Drawing.Point(478, 45);
+            this.VelTblTb207.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb207.Name = "VelTblTb207";
+            this.VelTblTb207.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb207.TabIndex = 74;
+            this.VelTblTb207.Text = "0";
+            // 
+            // VelTblTb206
+            // 
+            this.VelTblTb206.Location = new System.Drawing.Point(411, 45);
+            this.VelTblTb206.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb206.Name = "VelTblTb206";
+            this.VelTblTb206.ReadOnly = true;
+            this.VelTblTb206.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb206.TabIndex = 73;
+            this.VelTblTb206.Text = "0";
+            // 
+            // VelTblTb205
+            // 
+            this.VelTblTb205.Location = new System.Drawing.Point(344, 45);
+            this.VelTblTb205.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb205.Name = "VelTblTb205";
+            this.VelTblTb205.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb205.TabIndex = 72;
+            this.VelTblTb205.Text = "0";
+            // 
+            // VelTblTb204
+            // 
+            this.VelTblTb204.Location = new System.Drawing.Point(277, 45);
+            this.VelTblTb204.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb204.Name = "VelTblTb204";
+            this.VelTblTb204.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb204.TabIndex = 71;
+            this.VelTblTb204.Text = "0";
+            // 
+            // VelTblTb203
+            // 
+            this.VelTblTb203.Location = new System.Drawing.Point(210, 45);
+            this.VelTblTb203.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb203.Name = "VelTblTb203";
+            this.VelTblTb203.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb203.TabIndex = 70;
+            this.VelTblTb203.Text = "0";
+            // 
+            // VelTblTb202
+            // 
+            this.VelTblTb202.Location = new System.Drawing.Point(143, 45);
+            this.VelTblTb202.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb202.Name = "VelTblTb202";
+            this.VelTblTb202.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb202.TabIndex = 69;
+            this.VelTblTb202.Text = "0";
+            // 
+            // VelTblRowLbl02
+            // 
+            this.VelTblRowLbl02.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblRowLbl02.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblRowLbl02.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblRowLbl02.Location = new System.Drawing.Point(4, 40);
+            this.VelTblRowLbl02.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblRowLbl02.Name = "VelTblRowLbl02";
+            this.VelTblRowLbl02.Size = new System.Drawing.Size(60, 29);
+            this.VelTblRowLbl02.TabIndex = 65;
+            this.VelTblRowLbl02.Text = "Angle";
+            this.VelTblRowLbl02.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.VelTblRowLbl02, "This is the climb angle.");
+            // 
+            // VelTblRowLbl01
+            // 
+            this.VelTblRowLbl01.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblRowLbl01.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblRowLbl01.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblRowLbl01.Location = new System.Drawing.Point(4, 4);
+            this.VelTblRowLbl01.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblRowLbl01.Name = "VelTblRowLbl01";
+            this.VelTblRowLbl01.Size = new System.Drawing.Size(60, 29);
+            this.VelTblRowLbl01.TabIndex = 64;
+            this.VelTblRowLbl01.Text = "Value";
+            this.VelTblRowLbl01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl01
+            // 
+            this.VelTblClmLbl01.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl01.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl01.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl01.Location = new System.Drawing.Point(71, 4);
+            this.VelTblClmLbl01.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl01.Name = "VelTblClmLbl01";
+            this.VelTblClmLbl01.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl01.TabIndex = 2;
+            this.VelTblClmLbl01.Text = "01";
+            this.VelTblClmLbl01.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl02
+            // 
+            this.VelTblClmLbl02.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl02.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl02.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl02.Location = new System.Drawing.Point(138, 4);
+            this.VelTblClmLbl02.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl02.Name = "VelTblClmLbl02";
+            this.VelTblClmLbl02.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl02.TabIndex = 3;
+            this.VelTblClmLbl02.Text = "02";
+            this.VelTblClmLbl02.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl03
+            // 
+            this.VelTblClmLbl03.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl03.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl03.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl03.Location = new System.Drawing.Point(205, 4);
+            this.VelTblClmLbl03.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl03.Name = "VelTblClmLbl03";
+            this.VelTblClmLbl03.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl03.TabIndex = 4;
+            this.VelTblClmLbl03.Text = "03";
+            this.VelTblClmLbl03.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl04
+            // 
+            this.VelTblClmLbl04.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl04.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl04.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl04.Location = new System.Drawing.Point(272, 4);
+            this.VelTblClmLbl04.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl04.Name = "VelTblClmLbl04";
+            this.VelTblClmLbl04.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl04.TabIndex = 5;
+            this.VelTblClmLbl04.Text = "04";
+            this.VelTblClmLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl05
+            // 
+            this.VelTblClmLbl05.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl05.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl05.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl05.Location = new System.Drawing.Point(339, 4);
+            this.VelTblClmLbl05.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl05.Name = "VelTblClmLbl05";
+            this.VelTblClmLbl05.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl05.TabIndex = 6;
+            this.VelTblClmLbl05.Text = "05";
+            this.VelTblClmLbl05.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl06
+            // 
+            this.VelTblClmLbl06.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl06.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl06.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl06.Location = new System.Drawing.Point(406, 4);
+            this.VelTblClmLbl06.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl06.Name = "VelTblClmLbl06";
+            this.VelTblClmLbl06.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl06.TabIndex = 7;
+            this.VelTblClmLbl06.Text = "06";
+            this.VelTblClmLbl06.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl08
+            // 
+            this.VelTblClmLbl08.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl08.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl08.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl08.Location = new System.Drawing.Point(473, 4);
+            this.VelTblClmLbl08.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl08.Name = "VelTblClmLbl08";
+            this.VelTblClmLbl08.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl08.TabIndex = 8;
+            this.VelTblClmLbl08.Text = "07";
+            this.VelTblClmLbl08.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label13
+            // 
+            this.label13.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(540, 4);
+            this.label13.Margin = new System.Windows.Forms.Padding(3);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(60, 29);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "08";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl09
+            // 
+            this.VelTblClmLbl09.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl09.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl09.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl09.Location = new System.Drawing.Point(607, 4);
+            this.VelTblClmLbl09.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl09.Name = "VelTblClmLbl09";
+            this.VelTblClmLbl09.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl09.TabIndex = 10;
+            this.VelTblClmLbl09.Text = "09";
+            this.VelTblClmLbl09.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl10
+            // 
+            this.VelTblClmLbl10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl10.Location = new System.Drawing.Point(674, 4);
+            this.VelTblClmLbl10.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl10.Name = "VelTblClmLbl10";
+            this.VelTblClmLbl10.Size = new System.Drawing.Size(60, 29);
+            this.VelTblClmLbl10.TabIndex = 11;
+            this.VelTblClmLbl10.Text = "10";
+            this.VelTblClmLbl10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblClmLbl11
+            // 
+            this.VelTblClmLbl11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblClmLbl11.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblClmLbl11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblClmLbl11.Location = new System.Drawing.Point(741, 4);
+            this.VelTblClmLbl11.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblClmLbl11.Name = "VelTblClmLbl11";
+            this.VelTblClmLbl11.Size = new System.Drawing.Size(65, 29);
+            this.VelTblClmLbl11.TabIndex = 12;
+            this.VelTblClmLbl11.Text = "11";
+            this.VelTblClmLbl11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // VelTblRowLbl03
+            // 
+            this.VelTblRowLbl03.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblRowLbl03.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblRowLbl03.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblRowLbl03.Location = new System.Drawing.Point(4, 76);
+            this.VelTblRowLbl03.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblRowLbl03.Name = "VelTblRowLbl03";
+            this.VelTblRowLbl03.Size = new System.Drawing.Size(60, 29);
+            this.VelTblRowLbl03.TabIndex = 66;
+            this.VelTblRowLbl03.Text = "Ø\r\nVelocity";
+            this.VelTblRowLbl03.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.VelTblRowLbl03, "This is the mean velocity.");
+            // 
+            // VelTblRowLbl04
+            // 
+            this.VelTblRowLbl04.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.VelTblRowLbl04.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.VelTblRowLbl04.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.VelTblRowLbl04.Location = new System.Drawing.Point(4, 112);
+            this.VelTblRowLbl04.Margin = new System.Windows.Forms.Padding(3);
+            this.VelTblRowLbl04.Name = "VelTblRowLbl04";
+            this.VelTblRowLbl04.Size = new System.Drawing.Size(60, 30);
+            this.VelTblRowLbl04.TabIndex = 67;
+            this.VelTblRowLbl04.Text = "Dev.";
+            this.VelTblRowLbl04.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.ToolTip.SetToolTip(this.VelTblRowLbl04, "This is the deviation from mean velocity.");
+            // 
+            // VelTblTb201
+            // 
+            this.VelTblTb201.Location = new System.Drawing.Point(76, 45);
+            this.VelTblTb201.Margin = new System.Windows.Forms.Padding(8);
+            this.VelTblTb201.Name = "VelTblTb201";
+            this.VelTblTb201.ReadOnly = true;
+            this.VelTblTb201.Size = new System.Drawing.Size(50, 20);
+            this.VelTblTb201.TabIndex = 68;
+            this.VelTblTb201.Text = "-90";
+            // 
+            // ChartV
+            // 
+            this.ChartV.BackColor = System.Drawing.Color.Transparent;
+            this.ChartV.BorderlineColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.ChartV.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
+            chartArea2.AxisX.Interval = 22.5D;
+            chartArea2.AxisX.IsLabelAutoFit = false;
+            chartArea2.AxisX.LabelAutoFitMaxFontSize = 8;
+            chartArea2.AxisX.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Gray;
+            chartArea2.AxisX.Maximum = 90D;
+            chartArea2.AxisX.Minimum = -90D;
+            chartArea2.AxisX.TextOrientation = System.Windows.Forms.DataVisualization.Charting.TextOrientation.Horizontal;
+            chartArea2.AxisX.Title = "Angle [Degree]";
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.IsLabelAutoFit = false;
+            chartArea2.AxisY.LabelAutoFitMaxFontSize = 7;
+            chartArea2.AxisY.LabelStyle.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.5F);
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.White;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DimGray;
+            chartArea2.AxisY.Title = "Velocity [m/s]";
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.White;
+            chartArea2.BackColor = System.Drawing.Color.Transparent;
+            chartArea2.Name = "ChartArea1";
+            this.ChartV.ChartAreas.Add(chartArea2);
+            legend2.AutoFitMinFontSize = 8;
+            legend2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            legend2.ForeColor = System.Drawing.SystemColors.Control;
+            legend2.IsTextAutoFit = false;
+            legend2.Name = "Legend1";
+            this.ChartV.Legends.Add(legend2);
+            this.ChartV.Location = new System.Drawing.Point(3, 52);
+            this.ChartV.Name = "ChartV";
+            series5.BackGradientStyle = System.Windows.Forms.DataVisualization.Charting.GradientStyle.TopBottom;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.SplineRange;
+            series5.Color = System.Drawing.Color.Wheat;
+            series5.Legend = "Legend1";
+            series5.Name = "Range";
+            series5.Points.Add(dataPoint5);
+            series5.YValuesPerPoint = 2;
+            series6.BorderWidth = 3;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Color = System.Drawing.Color.OrangeRed;
+            series6.Legend = "Legend1";
+            series6.MarkerColor = System.Drawing.Color.White;
+            series6.Name = "MaxVelocity";
+            series6.Points.Add(dataPoint6);
+            series7.BorderWidth = 3;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series7.Color = System.Drawing.Color.Cyan;
+            series7.Legend = "Legend1";
+            series7.Name = "MinVelocity";
+            series7.Points.Add(dataPoint7);
+            series8.BorderWidth = 3;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series8.Color = System.Drawing.Color.LawnGreen;
+            series8.Legend = "Legend1";
+            series8.Name = "AverageVelocity";
+            series8.Points.Add(dataPoint8);
+            this.ChartV.Series.Add(series5);
+            this.ChartV.Series.Add(series6);
+            this.ChartV.Series.Add(series7);
+            this.ChartV.Series.Add(series8);
+            this.ChartV.Size = new System.Drawing.Size(810, 293);
+            this.ChartV.TabIndex = 54;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(273, 3);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(0, 13);
+            this.label19.TabIndex = 47;
+            // 
+            // LbTitleVelocity
+            // 
+            this.LbTitleVelocity.AutoSize = true;
+            this.LbTitleVelocity.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LbTitleVelocity.Location = new System.Drawing.Point(3, 3);
+            this.LbTitleVelocity.Name = "LbTitleVelocity";
+            this.LbTitleVelocity.Size = new System.Drawing.Size(180, 26);
+            this.LbTitleVelocity.TabIndex = 47;
+            this.LbTitleVelocity.Text = "Speed to Flight Angle Relation\r\n(Movement)";
+            // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.panelVelocityConfiguration);
             this.Controls.Add(this.panelExpImp);
             this.Controls.Add(this.panelHover);
             this.Controls.Add(this.panelCurrentConfiguration);
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Controls.Add(this.label1);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(864, 669);
+            this.Size = new System.Drawing.Size(745, 524);
             this.Leave += new System.EventHandler(this.ConfigEnergyProfile_Leave);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
@@ -1085,12 +1924,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelExpImp.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.panelVelocityConfiguration.ResumeLayout(false);
+            this.panelVelocityConfiguration.PerformLayout();
+            this.VelocityTable.ResumeLayout(false);
+            this.VelocityTable.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
+        private System.Windows.Forms.ToolTip ToolTip;
         private System.Windows.Forms.CheckBox CB_EnableEnergyProfile;
         private System.Windows.Forms.Panel panelCurrentConfiguration;
         private System.Windows.Forms.Label label1;
@@ -1156,14 +2001,72 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.TextBox CrntTblTb203;
         private System.Windows.Forms.TextBox CrntTblTb202;
         private System.Windows.Forms.TextBox CrntTblTb411;
-        private Controls.MyButton BtnPlot;
+        private Controls.MyButton BtnPlotCrnt;
         private Label LbInfoCurrentMove;
         private TableLayoutPanel tableLayoutPanel1;
         private TextBox HoverDevTB;
         private Label lbCurrentHover;
         private Label lbVarianceCurrentHover;
         private TextBox HoverCrntTB;
-        private ComboBox ComboBoxDeviation;
+        private ComboBox ComboBoxCrntDeviation;
         private Label LabelDeviationCB;
+        private Panel panelVelocityConfiguration;
+        private Label label2;
+        private ComboBox ComboBoxVelDeviation;
+        private Controls.MyButton BtnPlotVelocity;
+        private Label LbVelocityInfo;
+        private TableLayoutPanel VelocityTable;
+        private TextBox VelTblTb411;
+        private TextBox VelTblTb410;
+        private TextBox VelTblTb409;
+        private TextBox VelTblTb408;
+        private TextBox VelTblTb407;
+        private TextBox VelTblTb406;
+        private TextBox VelTblTb405;
+        private TextBox VelTblTb404;
+        private TextBox VelTblTb403;
+        private TextBox VelTblTb402;
+        private TextBox VelTblTb401;
+        private TextBox VelTblTb311;
+        private TextBox VelTblTb310;
+        private TextBox VelTblTb309;
+        private TextBox VelTblTb308;
+        private TextBox VelTblTb307;
+        private TextBox VelTblTb306;
+        private TextBox VelTblTb305;
+        private TextBox VelTblTb304;
+        private TextBox VelTblTb303;
+        private TextBox VelTblTb302;
+        private TextBox VelTblTb301;
+        private TextBox VelTblTb211;
+        private TextBox VelTblTb210;
+        private TextBox VelTblTb209;
+        private TextBox VelTblTb208;
+        private TextBox VelTblTb207;
+        private TextBox VelTblTb206;
+        private TextBox VelTblTb205;
+        private TextBox VelTblTb204;
+        private TextBox VelTblTb203;
+        private TextBox VelTblTb202;
+        private Label VelTblRowLbl02;
+        private Label VelTblRowLbl01;
+        private Label VelTblClmLbl01;
+        private Label VelTblClmLbl02;
+        private Label VelTblClmLbl03;
+        private Label VelTblClmLbl04;
+        private Label VelTblClmLbl05;
+        private Label VelTblClmLbl06;
+        private Label VelTblClmLbl08;
+        private Label label13;
+        private Label VelTblClmLbl09;
+        private Label VelTblClmLbl10;
+        private Label VelTblClmLbl11;
+        private Label VelTblRowLbl03;
+        private Label VelTblRowLbl04;
+        private TextBox VelTblTb201;
+        private System.Windows.Forms.DataVisualization.Charting.Chart ChartV;
+        private Label label19;
+        private Label LbTitleVelocity;
+        private CheckBox checkBox1;
     }
 }

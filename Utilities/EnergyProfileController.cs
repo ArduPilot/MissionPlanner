@@ -12,6 +12,7 @@ using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using DotSpatial.Topology.Utilities;
+using log4net.Filter;
 using Microsoft.Scripting.AspNet.MembersInjectors;
 using Org.BouncyCastle.Crypto.Tls;
 
@@ -19,7 +20,47 @@ namespace MissionPlanner.Utilities
 {
     class EnergyProfileController : IConfigEnergyProfile, IEnergyConsumption
     {
-        private string _energyProfilePath = Settings.GetUserDataDirectory() + "EnergyProfile" + Path.DirectorySeparatorChar;
+        private string _energyProfilePath =
+            Settings.GetUserDataDirectory() + "EnergyProfile" + Path.DirectorySeparatorChar;
+
+        public enum PlotProfile
+        {
+            Current,
+            Velocity
+        }
+
+        public enum ECID
+        {
+            AverageCurrent,
+            MaxCurrent,
+            MinCurrent,
+            AverageVelocity,
+            MaxVelocity,
+            MinVelocity,
+            FlightTime,
+            avrCur_avrTime, //Current-Time-Combi 1
+            maxCur_avrTime //Current-Time-Combi 2
+        }
+
+        /// <summary>
+        /// XML-Tags for XML-Database
+        /// </summary>
+        enum XMLTag
+        {
+            Sets,
+            CurrentSet,
+            DevPercent,
+            CurrentModel,
+            ID,
+            Hover,
+            AverageCurrent,
+            Deviation,
+            Angle,
+            VelocitySet,
+            VelocityModel,
+            AverageVelocity
+        }
+
 
         /// <summary>
         /// Export the energy-profile in a xml-file.
@@ -49,13 +90,14 @@ namespace MissionPlanner.Utilities
             {
                 WriteXML(sfd.FileName);
             }
+
         }
+
         /// <summary>
         /// Import the energy-profile from xml-file.
         /// </summary>
-        public void ImportProfile()
+        public bool ImportProfile()
         {
-
             OpenFileDialog ofd = new OpenFileDialog
             {
                 InitialDirectory = _energyProfilePath,
@@ -67,7 +109,9 @@ namespace MissionPlanner.Utilities
             if (DialogResult.OK == ofd.ShowDialog())
             {
                 ReadXML(ofd.FileName);
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -81,87 +125,231 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// This method interpolate points between two nodes. It fills a list with new interpolated spline-points.
         /// </summary>
-        public void LinearInterpolation()
+        public void LinearInterpolation(PlotProfile profile)
         {
-            EnergyProfileModel.AverageCurrentSplinePoints.Clear();
-            for (int points = 1; points < EnergyProfileModel.CurrentSet.Count; points++)
+            switch (profile)
             {
-                // set start and end parameters for each segment
-                double x1 = EnergyProfileModel.CurrentSet[points].Angle;
-                double x2 = EnergyProfileModel.CurrentSet[points + 1].Angle;
-                double y1 = EnergyProfileModel.CurrentSet[points].AverageCurrent;
-                double y2 = EnergyProfileModel.CurrentSet[points + 1].AverageCurrent;
+                case PlotProfile.Current:
+                    EnergyProfileModel.AverageCurrentSplinePoints.Clear();
+                    EnergyProfileModel.MaxCurrentSplinePoints.Clear();
+                    EnergyProfileModel.MinCurrentSplinePoints.Clear();
+                    for (int points = 1; points < EnergyProfileModel.CurrentSet.Count; points++)
+                    {
+                        // set start and end parameters for each segment
+                        double x1 = EnergyProfileModel.CurrentSet[points].Angle;
+                        double x2 = EnergyProfileModel.CurrentSet[points + 1].Angle;
+                        double y1 = EnergyProfileModel.CurrentSet[points].AverageCurrent;
+                        double y2 = EnergyProfileModel.CurrentSet[points + 1].AverageCurrent;
+                        double y1_max = EnergyProfileModel.CurrentSet[points].MaxCurrent;
+                        double y2_max = EnergyProfileModel.CurrentSet[points + 1].MaxCurrent;
+                        double y1_min = EnergyProfileModel.CurrentSet[points].MinCurrent;
+                        double y2_min = EnergyProfileModel.CurrentSet[points + 1].MinCurrent;
 
-                // set default values for interp
-                double n = (x2 - x1);
-                double x = x1;
 
-                // set the first Item
-                if (points == 1)
-                    EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x1, (float)EnergyProfileModel.CurrentSet[points].AverageCurrent));
-                for (int i = 0; i < n; i++)
-                {
-                    // for each degree
-                    x++;
-                    // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
-                    var y = ((y2 - y1) / (x2 - x1)) * x + y1 - ((y2 - y1) / (x2 - x1)) * x1;
-                    EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x, (float)y));
-                }
-                // fill the last parameter
-                EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float)x2, (float)EnergyProfileModel.CurrentSet[points + 1].AverageCurrent));
+                        // set default values for interp
+                        double n = (x2 - x1);
+                        double x = x1;
+
+                        // set the first Item
+                        if (points == 1)
+                        {
+                            EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.CurrentSet[points].AverageCurrent));
+                            EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.CurrentSet[points].MaxCurrent));
+                            EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.CurrentSet[points].MinCurrent));
+                        }
+                        for (int i = 0; i < n - 1; i++)
+                        {
+                            // for each degree
+                            x++;
+                            // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
+                            var y = ((y2 - y1) / (x2 - x1)) * x + y1 - ((y2 - y1) / (x2 - x1)) * x1;
+                            var y_max = ((y2_max - y1_max) / (x2 - x1)) * x + y1_max -
+                                        ((y2_max - y1_max) / (x2 - x1)) * x1;
+                            var y_min = ((y2_min - y1_min) / (x2 - x1)) * x + y1_min -
+                                        ((y2_min - y1_min) / (x2 - x1)) * x1;
+                            EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y, 2)));
+                            EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y_max, 2)));
+                            EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y_min, 2)));
+                        }
+                        // fill the last parameter
+                        EnergyProfileModel.AverageCurrentSplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.CurrentSet[points + 1].AverageCurrent));
+                        EnergyProfileModel.MaxCurrentSplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.CurrentSet[points + 1].MaxCurrent));
+                        EnergyProfileModel.MinCurrentSplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.CurrentSet[points + 1].MinCurrent));
+
+                    }
+                    break;
+                case PlotProfile.Velocity:
+                    EnergyProfileModel.AverageVelocitySplinePoints.Clear();
+                    EnergyProfileModel.MaxVelocitySplinePoints.Clear();
+                    EnergyProfileModel.MinVelocitySplinePoints.Clear();
+                    for (int points = 1; points < EnergyProfileModel.VelocitySet.Count; points++)
+                    {
+                        // set start and end parameters for each segment
+                        double x1 = EnergyProfileModel.VelocitySet[points].Angle;
+                        double x2 = EnergyProfileModel.VelocitySet[points + 1].Angle;
+                        double y1 = EnergyProfileModel.VelocitySet[points].AverageVelocity;
+                        double y2 = EnergyProfileModel.VelocitySet[points + 1].AverageVelocity;
+                        double y1_max = EnergyProfileModel.VelocitySet[points].MaxVelocity;
+                        double y2_max = EnergyProfileModel.VelocitySet[points + 1].MaxVelocity;
+                        double y1_min = EnergyProfileModel.VelocitySet[points].MinVelocity;
+                        double y2_min = EnergyProfileModel.VelocitySet[points + 1].MinVelocity;
+
+                        // set default values for interp
+                        double n = (x2 - x1);
+                        double x = x1;
+
+                        // set the first Item
+                        if (points == 1)
+                        {
+                            EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.VelocitySet[points].AverageVelocity));
+                            EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.VelocitySet[points].MaxVelocity));
+                            EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float) x1,
+                                (float) EnergyProfileModel.VelocitySet[points].MinVelocity));
+                        }
+                        for (int i = 0; i < n - 1; i++)
+                        {
+                            // for each degree
+                            x++;
+                            // formula for linear interpolation (https://en.wikipedia.org/wiki/Linear_interpolation)
+                            var y = ((y2 - y1) / (x2 - x1)) * x + y1 - ((y2 - y1) / (x2 - x1)) * x1;
+                            var y_max = ((y2_max - y1_max) / (x2 - x1)) * x + y1_max -
+                                        ((y2_max - y1_max) / (x2 - x1)) * x1;
+                            var y_min = ((y2_min - y1_min) / (x2 - x1)) * x + y1_min -
+                                        ((y2_min - y1_min) / (x2 - x1)) * x1;
+                            EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y, 2)));
+                            EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y_max, 2)));
+                            EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float) x,
+                                (float) Math.Round(y_min, 2)));
+                        }
+                        // fill the last parameter
+                        EnergyProfileModel.AverageVelocitySplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.VelocitySet[points + 1].AverageVelocity));
+                        EnergyProfileModel.MaxVelocitySplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.VelocitySet[points + 1].MaxVelocity));
+                        EnergyProfileModel.MinVelocitySplinePoints.Add(new PointF((float) x2,
+                            (float) EnergyProfileModel.VelocitySet[points + 1].MinVelocity));
+                    }
+                    break;
             }
+            WritePlotLogfile(profile);
         }
 
         /// <summary>
         /// plot the current
         /// </summary>
-        public void PlotCurrent_Spline(Chart chart)
+        public void Plot_Spline(Chart chart, PlotProfile profile)
         {
             try
             {
-                // init series
-
-                if (chart.Series != null)
+                switch (profile)
                 {
-                    Series avrgCrnt = chart.Series["AverageCurrent"];
-                    Series minCrnt = chart.Series["MinCurrent"];
-                    Series maxCrnt = chart.Series["MaxCurrent"];
-                    Series range = chart.Series["Range"];
+                    case PlotProfile.Current:
+                        // init series
 
-                    // clear series
-                    avrgCrnt.Points.Clear();
-                    maxCrnt.Points.Clear();
-                    minCrnt.Points.Clear();
-                    range.Points.Clear();
+                        if (chart.Series != null)
+                        {
+                            Series avrgCrnt = chart.Series["AverageCurrent"];
+                            Series minCrnt = chart.Series["MinCurrent"];
+                            Series maxCrnt = chart.Series["MaxCurrent"];
+                            Series range = chart.Series["Range"];
 
-                    // set new series
-                    range.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
-                        yValue: EnergyProfileModel.CurrentSet.Values, yFields: "MaxCurrent,MinCurrent");
-                    avrgCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
-                        yValue: EnergyProfileModel.CurrentSet.Values, yFields: "AverageCurrent");
-                    maxCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle", yValue: EnergyProfileModel.CurrentSet.Values,
-                        yFields: "MaxCurrent");
-                    minCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle", yValue: EnergyProfileModel.CurrentSet.Values,
-                        yFields: "MinCurrent");
+                            // clear series
+                            avrgCrnt.Points.Clear();
+                            maxCrnt.Points.Clear();
+                            minCrnt.Points.Clear();
+                            range.Points.Clear();
 
-                    //scale graph
-                    var findMinByValue = minCrnt.Points.FindMinByValue();
-                    if (findMinByValue != null)
-                        chart.ChartAreas[0].AxisY.Minimum = findMinByValue.YValues[0] - 5.00f;
-                    var findMaxByValue = maxCrnt.Points.FindMaxByValue();
-                    if (findMaxByValue != null)
-                        chart.ChartAreas[0].AxisY.Maximum = findMaxByValue.YValues[0] + 5.00f;
+                            // set new series
+                            range.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.CurrentSet.Values, yFields: "MaxCurrent,MinCurrent");
+                            avrgCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.CurrentSet.Values, yFields: "AverageCurrent");
+                            maxCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.CurrentSet.Values,
+                                yFields: "MaxCurrent");
+                            minCrnt.Points.DataBindXY(xValue: EnergyProfileModel.CurrentSet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.CurrentSet.Values,
+                                yFields: "MinCurrent");
+
+                            //scale graph
+                            var findMinByValue = minCrnt.Points.FindMinByValue();
+                            if (findMinByValue != null)
+                                chart.ChartAreas[0].AxisY.Minimum = findMinByValue.YValues[0] - 5.00f;
+                            var findMaxByValue = maxCrnt.Points.FindMaxByValue();
+                            if (findMaxByValue != null)
+                                chart.ChartAreas[0].AxisY.Maximum = findMaxByValue.YValues[0] + 5.00f;
+                        }
+                        else
+                            CustomMessageBox.Show("Error: Empty Chart.");
+
+
+                        break;
+                    case PlotProfile.Velocity:
+                        // init series
+
+                        if (chart.Series != null)
+                        {
+                            Series avrgVel = chart.Series["AverageVelocity"];
+                            Series minVel = chart.Series["MinVelocity"];
+                            Series maxVel = chart.Series["MaxVelocity"];
+                            Series range = chart.Series["Range"];
+
+                            // clear series
+                            avrgVel.Points.Clear();
+                            maxVel.Points.Clear();
+                            minVel.Points.Clear();
+                            range.Points.Clear();
+
+                            // set new series
+                            range.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.VelocitySet.Values, yFields: "MaxVelocity,MinVelocity");
+                            avrgVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.VelocitySet.Values, yFields: "AverageVelocity");
+                            maxVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.VelocitySet.Values,
+                                yFields: "MaxVelocity");
+                            minVel.Points.DataBindXY(xValue: EnergyProfileModel.VelocitySet.Values, xField: "Angle",
+                                yValue: EnergyProfileModel.VelocitySet.Values,
+                                yFields: "MinVelocity");
+
+                            //scale graph
+                            var findMinByValue = minVel.Points.FindMinByValue();
+                            if (findMinByValue != null)
+                                chart.ChartAreas[0].AxisY.Minimum = findMinByValue.YValues[0] - 1.00f;
+                            var findMaxByValue = maxVel.Points.FindMaxByValue();
+                            if (findMaxByValue != null)
+                            {
+                                chart.ChartAreas[0].AxisY.Maximum = findMaxByValue.YValues[0] + 2.00f;
+                            }
+                        }
+                        else
+                            CustomMessageBox.Show("Error: Empty Chart.");
+
+
+                        break;
                 }
-                else
-                    CustomMessageBox.Show("Error: Empty Chart.");
+                LinearInterpolation(profile);
 
-                LinearInterpolation();
             }
             catch (Exception e)
             {
                 CustomMessageBox.Show(e.Message);
             }
         }
+
         /// <summary>
         /// This methode are writing the xml-file.
         /// </summary>
@@ -169,23 +357,40 @@ namespace MissionPlanner.Utilities
         private void WriteXML(string path)
         {
             Dictionary<int, CurrentModel> energyCurrentSet = EnergyProfileModel.CurrentSet;
-            XElement root = new XElement("CurrentSet", new XAttribute("DevPercent", EnergyProfileModel.PercentDev));
+            Dictionary<int, VelocityModel> energyVelocitySet = EnergyProfileModel.VelocitySet;
+            XElement root = new XElement(XMLTag.Sets.ToString());
+            XElement CrntSet = new XElement(XMLTag.CurrentSet.ToString(),
+                new XAttribute(XMLTag.DevPercent.ToString(), EnergyProfileModel.PercentDevCrnt));
+
             var xDoc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"), root);
 
-            XElement xCurrentModelHover = new XElement("CurrentModel",
-                                                    new XAttribute("ID", "Hover"),
-                                                    new XElement("AverageCurrent", EnergyProfileModel.CurrentHover.AverageCurrent),
-                                                    new XElement("Deviation", EnergyProfileModel.CurrentHover.Deviation));
-            root.Add(xCurrentModelHover);
+            XElement xCurrentModelHover = new XElement(XMLTag.CurrentModel.ToString(),
+                new XAttribute(XMLTag.ID.ToString(), XMLTag.Hover.ToString()),
+                new XElement(XMLTag.AverageCurrent.ToString(), EnergyProfileModel.CurrentHover.AverageCurrent),
+                new XElement(XMLTag.Deviation.ToString(), EnergyProfileModel.CurrentHover.Deviation));
+            CrntSet.Add(xCurrentModelHover);
             foreach (KeyValuePair<int, CurrentModel> currentModel in energyCurrentSet)
             {
-                XElement xCurrentModel = new XElement("CurrentModel",
-                                                    new XAttribute("ID", currentModel.Key),
-                                                    new XElement("Angle", currentModel.Value.Angle),
-                                                    new XElement("AverageCurrent", currentModel.Value.AverageCurrent),
-                                                    new XElement("Deviation", currentModel.Value.Deviation));
-                root.Add(xCurrentModel);
+                XElement xCurrentModel = new XElement(XMLTag.CurrentModel.ToString(),
+                    new XAttribute(XMLTag.ID.ToString(), currentModel.Key),
+                    new XElement(XMLTag.Angle.ToString(), currentModel.Value.Angle),
+                    new XElement(XMLTag.AverageCurrent.ToString(), currentModel.Value.AverageCurrent),
+                    new XElement(XMLTag.Deviation.ToString(), currentModel.Value.Deviation));
+                CrntSet.Add(xCurrentModel);
             }
+            root.Add(CrntSet);
+
+            XElement VelSet = new XElement(XMLTag.VelocitySet.ToString());
+            foreach (KeyValuePair<int, VelocityModel> velocityModel in energyVelocitySet)
+            {
+                XElement xVelocitytModel = new XElement(XMLTag.VelocityModel.ToString(),
+                    new XAttribute(XMLTag.ID.ToString(), velocityModel.Key),
+                    new XElement(XMLTag.Angle.ToString(), velocityModel.Value.Angle),
+                    new XElement(XMLTag.AverageVelocity.ToString(), velocityModel.Value.AverageVelocity),
+                    new XElement(XMLTag.Deviation.ToString(), velocityModel.Value.Deviation));
+                VelSet.Add(xVelocitytModel);
+            }
+            root.Add(VelSet);
 
             xDoc.Save(path);
         }
@@ -198,54 +403,80 @@ namespace MissionPlanner.Utilities
         {
             // clear Dictionary Energy-CurrentSet 
             EnergyProfileModel.CurrentSet.Clear();
+            EnergyProfileModel.VelocitySet.Clear();
             // load and set root element
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load(path);
-            XmlNode root = xdoc.SelectSingleNode("CurrentSet");
+            XmlNode root = xdoc.SelectSingleNode("Sets");
             if (root != null)
             {
-                XmlNodeList currentModelList = root.SelectNodes("//CurrentModel");
-                var attributePerc = root.Attributes?["DevPercent"];
-                if (currentModelList != null)
+                XmlNode CrntSet = root.SelectSingleNode(XMLTag.CurrentSet.ToString());
+                if (CrntSet != null)
                 {
-                    foreach (XmlNode currentmodel in currentModelList)
+                    XmlNodeList currentModelList = CrntSet.SelectNodes("//" + XMLTag.CurrentModel);
+                    var attributePerc = CrntSet.Attributes?[XMLTag.DevPercent.ToString()];
+                    if (currentModelList != null)
                     {
-                        
-                        if (currentmodel.Attributes != null)
+                        foreach (XmlNode currentmodel in currentModelList)
                         {
-                            var attributeID = currentmodel.Attributes["ID"];
-                            var xmlElementAngle = currentmodel["Angle"];
-                            var xmlElementCurrent = currentmodel["AverageCurrent"];
-                            var xmlElementDeviation = currentmodel["Deviation"];
-
-                            if (attributePerc != null)
+                            if (currentmodel.Attributes != null)
                             {
-                                EnergyProfileModel.PercentDev = Convert.ToDouble(attributePerc.Value.Replace(".", ","));
+                                var attributeID = currentmodel.Attributes[XMLTag.ID.ToString()];
+                                var xmlElementAngle = currentmodel[XMLTag.Angle.ToString()];
+                                var xmlElementCurrent = currentmodel[XMLTag.AverageCurrent.ToString()];
+                                var xmlElementDeviation = currentmodel[XMLTag.Deviation.ToString()];
 
-                                if (attributeID.Value == "Hover")
+                                if (attributePerc != null)
                                 {
-                                    if (xmlElementCurrent != null)
-                                        EnergyProfileModel.CurrentHover =
-                                            new CurrentModel(0,
-                                                Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ",")));
+                                    EnergyProfileModel.PercentDevCrnt =
+                                        Convert.ToDouble(attributePerc.Value.Replace(".", ","));
+
+                                    if (attributeID.Value == XMLTag.Hover.ToString())
+                                    {
+                                        if (xmlElementCurrent != null)
+                                            EnergyProfileModel.CurrentHover =
+                                                new CurrentModel(0,
+                                                    Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ",")));
+                                    }
+                                    else
+                                    {
+                                        if (xmlElementAngle != null && xmlElementCurrent != null)
+                                            EnergyProfileModel.CurrentSet.Add(Convert.ToInt16(attributeID.Value),
+                                                new CurrentModel(Convert.ToDouble(xmlElementAngle.InnerText),
+                                                    Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ","))));
+                                    }
                                 }
                                 else
                                 {
-                                    if (xmlElementAngle != null && xmlElementCurrent != null)
+                                    if (xmlElementAngle != null &&
+                                        (xmlElementCurrent != null && xmlElementDeviation != null))
                                         EnergyProfileModel.CurrentSet.Add(Convert.ToInt16(attributeID.Value),
                                             new CurrentModel(Convert.ToDouble(xmlElementAngle.InnerText),
-                                                Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ","))));
+                                                Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ",")),
+                                                Convert.ToDouble(xmlElementDeviation.InnerText.Replace(".", ","))));
                                 }
                             }
-                            else
-                            {
-                                if (xmlElementAngle != null &&
-                                    (xmlElementCurrent != null && xmlElementDeviation != null))
-                                    EnergyProfileModel.CurrentSet.Add(Convert.ToInt16(attributeID.Value),
-                                        new CurrentModel(Convert.ToDouble(xmlElementAngle.InnerText),
-                                            Convert.ToDouble(xmlElementCurrent.InnerText.Replace(".", ",")),
-                                            Convert.ToDouble(xmlElementDeviation.InnerText.Replace(".", ","))));
-                            }
+                        }
+                    }
+                }
+                XmlNode velSet = root.SelectSingleNode(XMLTag.VelocitySet.ToString());
+                XmlNodeList velModelList = velSet.SelectNodes("//" + XMLTag.VelocityModel);
+                if (velSet != null)
+                {
+                    foreach (XmlNode velocitymodel in velModelList)
+                    {
+                        if (velocitymodel.Attributes != null)
+                        {
+                            var attributeID = velocitymodel.Attributes[XMLTag.ID.ToString()];
+                            var xmlElementAngle = velocitymodel[XMLTag.Angle.ToString()];
+                            var xmlElementVelocity = velocitymodel[XMLTag.AverageVelocity.ToString()];
+                            var xmlElementDeviation = velocitymodel[XMLTag.Deviation.ToString()];
+                            if (xmlElementAngle != null &&
+                                (xmlElementVelocity != null && xmlElementDeviation != null))
+                                EnergyProfileModel.VelocitySet.Add(Convert.ToInt16(attributeID.Value),
+                                    new VelocityModel(Convert.ToDouble(xmlElementAngle.InnerText),
+                                        Convert.ToDouble(xmlElementVelocity.InnerText.Replace(".", ",")),
+                                        Convert.ToDouble(xmlElementDeviation.InnerText.Replace(".", ","))));
                         }
                     }
                 }
@@ -254,108 +485,110 @@ namespace MissionPlanner.Utilities
 
         public void ChangeDeviation(int dev)
         {
-            EnergyProfileModel.PercentDev = Math.Round(((double)dev / 100), 2);
+            EnergyProfileModel.PercentDevCrnt = Math.Round(((double) dev / 100), 2);
         }
 
         /// <summary>
         /// Calculate the Energy-Consumption of actual part of moving
         /// </summary>
-        /// <param name="accel_Horizontal">horizontal accelaration</param>
-        /// <param name="accel_Vertical">vertical accelaration</param>
-        /// <param name="maxSpeed_Horizontal">maximum horizontal speed</param>
-        /// <param name="maxSpeed_Vertical_UP">maximum vertical upwards speed</param>
-        /// <param name="maxSpeed_Vertical_DN">maximum vertical downwards speed</param>
         /// <param name="distance_Horizontal">distance (only horizontal) between two waypoints</param>
         /// <param name="angle">the angle between two waypoints</param>
-        /// <param name="altitude">result of altitude WP1 and WP2</param>
+        /// <param name="altitudeDiff">result of altitude WP1 and WP2</param>
+        /// <param name="hoverTime">the delay time btw the loiter_Time</param>
         /// <returns>energy-consumption in mAh</returns>
-        public double CalculateEnergyConsumption(double accel_Horizontal, double accel_Vertical, double maxSpeed_Horizontal,
-            double maxSpeed_Vertical_UP, double maxSpeed_Vertical_DN, double distance_Horizontal, double angle, double altitude, double hoverTime)
+        public Dictionary<ECID, double> EnergyConsumption(double distance_Horizontal, double angle,
+            double altitudeDiff, double hoverTime)
         {
-            double time;
-            double timeToMaxSpeedHorizontal = TimeToMaxSpeed(accel_Horizontal, maxSpeed_Horizontal);
-            double timeToMaxSpeedVertical_UP = TimeToMaxSpeed(accel_Vertical, maxSpeed_Vertical_UP);
-            double timeToMaxSpeedVertical_DN = TimeToMaxSpeed(accel_Vertical, maxSpeed_Vertical_DN);
+            // testing the calculating methods
+            TestCalculateClimbDistance();
+            TestCalculateFlightTime();
+            TestCalculateEnergyConsumption();
+
             angle = Math.Round(angle);
 
-            // fly straight
-            if (angle == 0)
-            {
-                // result distance for acceleration and deceleration
-                var doubleDistanceToMaxSpeed = 2 * DistanceToMaxSpeed(accel_Horizontal, timeToMaxSpeedHorizontal);
-                if (distance_Horizontal >= doubleDistanceToMaxSpeed)
-                {
-                    time = CalculateFlyTime(
-                               distance_Horizontal - doubleDistanceToMaxSpeed,
-                               maxSpeed_Horizontal) + 2 * timeToMaxSpeedHorizontal;
-                }
-                else
-                {
-                    time = 2 * Math.Sqrt(distance_Horizontal / accel_Horizontal);
-                }
-            }
-            // fly vertical up
-            else if (angle == 90)
-            {
-                // result distance for acceleration and deceleration
-                var doubleDistanceToMaxSpeedUp = 2 * DistanceToMaxSpeed(accel_Vertical, timeToMaxSpeedVertical_UP);
-                if (altitude >= doubleDistanceToMaxSpeedUp)
-                {
-                    time = CalculateFlyTime(altitude - doubleDistanceToMaxSpeedUp, maxSpeed_Vertical_UP) +
-                           2 * timeToMaxSpeedVertical_UP;
-                }
-                else
-                {
-                    time = 2 * Math.Sqrt(altitude / accel_Vertical);
-                }
-            }
-            // fly vertical down
-            else if (angle == -90)
-            {
-                // result distance for acceleration and deceleration
-                var doubleDistanceToMaxSpeedDown = 2 * DistanceToMaxSpeed(accel_Vertical, timeToMaxSpeedVertical_DN);
-                if (altitude >= doubleDistanceToMaxSpeedDown)
-                {
-                    time = CalculateFlyTime(
-                               altitude - 2 * DistanceToMaxSpeed(accel_Vertical, timeToMaxSpeedVertical_DN),
-                               maxSpeed_Vertical_DN) + 2 * timeToMaxSpeedVertical_DN;
-                }
-                else
-                {
-                    time = 2 * Math.Sqrt(altitude / accel_Vertical);
-                }
-            }
-            // other cases
-            else
-            {
-                var maxClimbSpeed = angle < 0 ? Math.Sqrt(Math.Pow(maxSpeed_Horizontal, 2) + Math.Pow(maxSpeed_Vertical_DN, 2)) : Math.Sqrt(Math.Pow(maxSpeed_Horizontal, 2) + Math.Pow(maxSpeed_Vertical_UP, 2));
-                var maxClimbAccel = Math.Sqrt(Math.Pow(accel_Horizontal, 2) + Math.Pow(accel_Vertical, 2));
-                var climbTime = TimeToMaxSpeed(maxClimbAccel, maxClimbSpeed);
-                var doubleMaxClimbDistance = 2 * DistanceToMaxSpeed(maxClimbAccel, climbTime);
-                var climbDistance = CalculateClimbDistance(distance_Horizontal, angle);
-                if (climbDistance >= doubleMaxClimbDistance)
-                {
-                    var constFlyTime = CalculateFlyTime(climbDistance - doubleMaxClimbDistance, maxClimbSpeed);
-                    time = constFlyTime + 2 * climbTime;
+            var distance = Math.Abs(angle) > 0
+                ? CalculateClimbDistance(distance_Horizontal, angle)
+                : distance_Horizontal;
 
-                }
-                else
+            if (Math.Abs(distance) <= 0.001)
+                distance = altitudeDiff;
+
+            // search current values and add in dict
+            double currentAvrg = (from p in EnergyProfileModel.AverageCurrentSplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+            double currentMax = (from p in EnergyProfileModel.MaxCurrentSplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+            double currentMin = (from p in EnergyProfileModel.MinCurrentSplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+
+            Dictionary<ECID, double> current =
+                new Dictionary<ECID, double>
                 {
-                    time = 2 * Math.Sqrt(doubleMaxClimbDistance / maxClimbAccel);
-                }
-            }
+                    {ECID.AverageCurrent, currentAvrg},
+                    {ECID.MaxCurrent, currentMax},
+                    {ECID.MinCurrent, currentMin}
+                };
+
+            // search for velocity values and calculate the flight times an add in dict
+            double speedAvrg = (from p in EnergyProfileModel.AverageVelocitySplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+            double speedMax = (from p in EnergyProfileModel.MaxVelocitySplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+            double speedMin = (from p in EnergyProfileModel.MinVelocitySplinePoints
+                where Math.Abs(p.X - angle) < 0.6
+                select p.Y).FirstOrDefault();
+
+            double flighttime_avr = CalculateFlghtTime(distance, speedAvrg);
+            double flighttime_max = CalculateFlghtTime(distance, speedMax);
+            double flighttime_min = CalculateFlghtTime(distance, speedMin);
+
+            Dictionary<ECID, double> flightTimes =
+                new Dictionary<ECID, double>
+                {
+                    {ECID.AverageVelocity, flighttime_avr},
+                    {ECID.MaxVelocity, flighttime_max},
+                    {ECID.MinVelocity, flighttime_min}
+                };
             // if delay from hover
             double hoverEnergyConsumption = 0;
-            int index = EnergyProfileModel.AverageCurrentSplinePoints.FindIndex(a => a.X == Convert.ToDouble(angle));
-            double current = Convert.ToDouble(EnergyProfileModel.AverageCurrentSplinePoints[index].Y);
             if (hoverTime > 0)
             {
-                hoverEnergyConsumption = Math.Round(EnergyProfileModel.CurrentHover.AverageCurrent * hoverTime * 1000 / 3600, 1, MidpointRounding.AwayFromZero);
+                hoverEnergyConsumption = CalculateEnergyConsumption(EnergyProfileModel.CurrentHover.AverageCurrent, hoverTime);
             }
 
-            var energyConsumption = Math.Round(current * time * 1000 / 3600, 1, MidpointRounding.AwayFromZero);
-            return energyConsumption + hoverEnergyConsumption;
+            double energyConsumptionAvrg = 0f;
+            double energyConsumptionMax = 0f;
+            double flightTimeAvrg = 0f;
+
+            if (flightTimes.ContainsKey(ECID.AverageVelocity))
+            {
+                flightTimeAvrg = flightTimes[ECID.AverageVelocity];
+
+                if (current.ContainsKey(ECID.AverageCurrent))
+                {
+                    energyConsumptionAvrg =
+                        CalculateEnergyConsumption(current[ECID.AverageCurrent], flightTimes[ECID.AverageVelocity]);
+                }
+                if (current.ContainsKey(ECID.MaxCurrent))
+                    energyConsumptionMax =
+                        CalculateEnergyConsumption(current[ECID.MaxCurrent], flightTimes[ECID.AverageVelocity]);
+            }
+
+            Dictionary<ECID, double> returnValues =
+                new Dictionary<ECID, double>
+                {
+                    {ECID.avrCur_avrTime, energyConsumptionAvrg + hoverEnergyConsumption},
+                    {ECID.maxCur_avrTime, energyConsumptionMax + hoverEnergyConsumption},
+                    {ECID.FlightTime, hoverTime + flightTimeAvrg}
+                };
+            return returnValues;
         }
+
         /// <summary>
         /// calculate the climb distance ... like triangle
         /// </summary>
@@ -364,64 +597,147 @@ namespace MissionPlanner.Utilities
         /// <returns>Returns the diagonale-distance (DOUBLE)</returns>
         private double CalculateClimbDistance(double distance_Horizontal, double angle)
         {
-            double distance = 0.0f;
-            if (Math.Abs(angle) != 90 )
-                distance = distance_Horizontal / Math.Cos(Math.PI/180*angle);
+            double distance = 0.00f;
+            if ((Math.Abs(angle) < 90))
+            {
+                distance = Math.Round(distance_Horizontal / Math.Cos(Math.PI / 180 * angle), 2);
+            }
             return distance;
         }
-        /// <summary>
-        /// How much time passes to the maximum speed.
-        /// </summary>
-        /// <param name="accel">Const. acceleration</param>
-        /// <param name="maxSpeed">maximum speed</param>
-        /// <returns>Returns the time (DOUBLE)</returns>
-        private double TimeToMaxSpeed(double accel, double maxSpeed)
-        {
-            double time = 0.0f;
-            if (accel != 0)
-                time = Math.Abs(maxSpeed / accel);
-            return time;
-        }
-        /// <summary>
-        /// Calculates the distance traveled to the maximum speed.
-        /// </summary>
-        /// <param name="accel">const acceleration</param>
-        /// <param name="time">acceleration time to maximum speed</param>
-        /// <returns></returns>
-        private double DistanceToMaxSpeed(double accel, double time)
-        {
-            double distance = 0.0f;
-            distance = 0.5 * accel * Math.Pow(time, 2);
-            return distance;
-        }
+
         /// <summary>
         /// Calculates the pure flight time without acceleration^.
         /// </summary>
-        /// <param name="distance">const distance</param>
-        /// <param name="maxSpeed">const maximum speed</param>
-        /// <returns></returns>
-        private double CalculateFlyTime(double distance, double maxSpeed)
+        /// <param name="distance">const distance in [m]</param>
+        /// <param name="speed">velocity in [m/s]</param>
+        /// <returns>fligh time in [s]</returns>
+        private double CalculateFlghtTime(double distance, double speed)
         {
-            double time = 0.0f;
-            if (maxSpeed != 0)
-                time = distance / maxSpeed;
-            return time;
+            double flighttime = 0.0f;
+            if (speed > 0 && distance > 0)
+                flighttime = Math.Round(distance / speed);
+            return flighttime;
+        }
+
+        /// <summary>
+        /// Calculate the needed energy from WP1 to WP2
+        /// </summary>
+        /// <param name="current">The current at specific angle.</param>
+        /// <param name="flighttime">The flight time between 2 waypoints.</param>
+        /// <returns>The consumed energy of flight between 2 waypoints</returns>
+        private double CalculateEnergyConsumption(double current, double flighttime)
+        {
+            double ec = 0.00f;
+            if (current > 0 && flighttime > 0)
+            {
+                ec = Math.Round(current * flighttime * 1000 / 3600, 1,
+                    MidpointRounding.AwayFromZero); // conversion from [As] in [mAh]
+            }
+            return ec;
+        }
+
+        /// <summary>
+        /// Write the Splinepoints into a text-file
+        /// </summary>
+        /// <param name="profile">Current or Velocity</param>
+        void WritePlotLogfile(PlotProfile profile)
+        {
+            string path = @"c:\Users\kruets\Documents\Mission Planner\EnergyProfile\";
+            // create dir if not exist
+            if (!Directory.Exists(path))
+            {
+                DirectoryInfo dir = Directory.CreateDirectory(path);
+            }
+
+            List<PointF> splineListAvrg = new List<PointF>();
+            List<PointF> splineListMax = new List<PointF>();
+            List<PointF> splineListMin = new List<PointF>();
+            switch (profile)
+            {
+                case PlotProfile.Current:
+                    splineListAvrg = EnergyProfileModel.AverageCurrentSplinePoints;
+                    splineListMax = EnergyProfileModel.MaxCurrentSplinePoints;
+                    splineListMin = EnergyProfileModel.MinCurrentSplinePoints;
+                    break;
+                case PlotProfile.Velocity:
+                    splineListAvrg = EnergyProfileModel.AverageVelocitySplinePoints;
+                    splineListMax = EnergyProfileModel.MaxVelocitySplinePoints;
+                    splineListMin = EnergyProfileModel.MinVelocitySplinePoints;
+                    break;
+            }
+            StreamWriter file_Avrg = new StreamWriter(path + "Avrg_InterpPoints" + profile + ".txt");
+            foreach (PointF point in splineListAvrg)
+            {
+                file_Avrg.WriteLine(point.X + " --> " + point.Y);
+            }
+            file_Avrg.Close();
+            StreamWriter file_Max = new StreamWriter(path + "Max_InterpPoints" + profile + ".txt");
+            foreach (PointF point in splineListMax)
+            {
+                file_Max.WriteLine(point.X + " --> " + point.Y);
+            }
+            file_Max.Close();
+            StreamWriter file_Min = new StreamWriter(path + "Min_InterpPoints" + profile + ".txt");
+            foreach (PointF point in splineListMin)
+            {
+                file_Min.WriteLine(point.X + " --> " + point.Y);
+            }
+            file_Min.Close();
+        }
+
+        /// <summary>
+        /// Test for calculate climb distance
+        /// </summary>
+        private void TestCalculateClimbDistance()
+        {
+            var distance1 = CalculateClimbDistance(50, -90);
+            var distance2 = CalculateClimbDistance(50, +90);
+            var distance3 = CalculateClimbDistance(100, 0);
+            var distance4 = CalculateClimbDistance(50, -37);
+            var distance5 = CalculateClimbDistance(50, 18);
+
+            Assert.IsEquals((double)0, distance1, "Wrong value (distance1) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, distance2, "Wrong value (distance2) of CalculateClimbDistance");
+            Assert.IsEquals((double)100, distance3, "Wrong value (distance3) of CalculateClimbDistance");
+            Assert.IsEquals(62.61, distance4, "Wrong value (distance4) of CalculateClimbDistance");
+            Assert.IsEquals(52.57, distance5, "Wrong value (distance5) of CalculateClimbDistance");
+        }
+
+        /// <summary>
+        /// Test for calculate flight time
+        /// </summary>
+        private void TestCalculateFlightTime()
+        {
+            var flighttime1 = CalculateFlghtTime(50, 0);
+            var flighttime2 = CalculateFlghtTime(50, 7.95);
+            var flighttime3 = CalculateFlghtTime(-10, 6.92);
+            var flighttime4 = CalculateFlghtTime(50, -37);
+            var flighttime5 = CalculateFlghtTime(-50, -37);
+
+            Assert.IsEquals((double)0, flighttime1, "Wrong value (flighttime1) of CalculateClimbDistance");
+            Assert.IsEquals((double)6, flighttime2, "Wrong value (flighttime2) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime3, "Wrong value (flighttime3) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime4, "Wrong value (flighttime4) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, flighttime5, "Wrong value (flighttime5) of CalculateClimbDistance");
+        }
+
+        /// <summary>
+        /// Test for calculate consumed energy
+        /// </summary>
+        private void TestCalculateEnergyConsumption()
+        {
+            var ec1 = CalculateEnergyConsumption(12.12, -6);
+            var ec2 = CalculateEnergyConsumption(-12.12, 6);
+            var ec3 = CalculateEnergyConsumption(-12.12, -6);
+            var ec4 = CalculateEnergyConsumption(12.12, 6);
+            var ec5 = CalculateEnergyConsumption(12.12, 0);
+
+            Assert.IsEquals((double)0, ec1, "Wrong value (ec1) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, ec2, "Wrong value (ec2) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, ec3, "Wrong value (ec3) of CalculateClimbDistance");
+            Assert.IsEquals((double)20.2, ec4, "Wrong value (ec4) of CalculateClimbDistance");
+            Assert.IsEquals((double)0, ec5, "Wrong value (ec5) of CalculateClimbDistance");
         }
     }
 
-    /// <summary>
-    /// UNITTEST AAA-Test
-    /// UNITTEST AAA-Test
-    /// </summary>
-    public class TestEnergyProfile
-    {
-        public void TestEnergyConsumption()
-        {
-            var energyConsumption = new EnergyProfileController();
-
-            var energy = Math.Round(energyConsumption.CalculateEnergyConsumption(1, 1, 5, 2.5f, 1.5f, 111, 18, 33, 0), 2);
-
-            Assert.IsEquals(125.8, energy, "Wrong value of Energy-Consumption");
-        }
-    }
 }

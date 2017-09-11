@@ -14,17 +14,18 @@ namespace MissionPlanner.Utilities
     public static class EnergyProfileModel
     {
         private static bool _enabled;
-        private static double _percentDev;
+        private static double _percentDevCrnt;
         
         /// <summary>
         /// populate/initialize energyprofile
         /// </summary>
         public static void Initialize()
         {
+            // ===========================
             // Init currentmodel for hover
             // ===========================
             CurrentHover = new CurrentModel(0f, 0f);
-
+            // ===============
             // Init currentset
             // ===============
 
@@ -55,7 +56,7 @@ namespace MissionPlanner.Utilities
             //CurrentSet.Add(11, new CurrentModel(90f, 21.62f));
 
             // for release
-            CurrentSet.Add(1, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(1, new CurrentModel(-90.0f, 0.0f));
             CurrentSet.Add(2, new CurrentModel(0.0f, 0.0f));
             CurrentSet.Add(3, new CurrentModel(0.0f, 0.0f));
             CurrentSet.Add(4, new CurrentModel(0.0f, 0.0f));
@@ -65,11 +66,39 @@ namespace MissionPlanner.Utilities
             CurrentSet.Add(8, new CurrentModel(0.0f, 0.0f));
             CurrentSet.Add(9, new CurrentModel(0.0f, 0.0f));
             CurrentSet.Add(10, new CurrentModel(0.0f, 0.0f));
-            CurrentSet.Add(11, new CurrentModel(0.0f, 0.0f));
+            CurrentSet.Add(11, new CurrentModel(90.0f, 0.0f));
+
+            // =================
+            // Init VelocitySet 
+            // =================
+            // pattern for dev
+            //VelocitySet.Add(1, new VelocityModel(-90f, 2.22f, 0.7f));
+            //VelocitySet.Add(2, new VelocityModel(-72f, 3.91f, 0.67f));
+            //VelocitySet.Add(3, new VelocityModel(-54f, 4.89f, 0.35f));
+            //VelocitySet.Add(4, new VelocityModel(-36f, 5.23f, 0.35f));
+            //VelocitySet.Add(5, new VelocityModel(-18f, 6.22f, 0.36f));
+            //VelocitySet.Add(6, new VelocityModel(0.00f, 8.89f, 0.03f));
+            //VelocitySet.Add(7, new VelocityModel(18f, 6.24f, 0.06f));
+            //VelocitySet.Add(8, new VelocityModel(36f, 5.59f, 0.71f));
+            //VelocitySet.Add(9, new VelocityModel(54f, 4.95f, 0.35f));
+            //VelocitySet.Add(10, new VelocityModel(72f, 3.27f, 0.03f));
+            //VelocitySet.Add(11, new VelocityModel(90f, 2.62f, 0.35f));
+            // for release
+            VelocitySet.Add(1, new VelocityModel(-90f, 0f, 0f));
+            VelocitySet.Add(2, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(3, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(4, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(5, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(6, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(7, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(8, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(9, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(10, new VelocityModel(0f, 0f, 0f));
+            VelocitySet.Add(11, new VelocityModel(90f, 0f, 0f));
+
         }
 
         // Getter & Setter
-
 
         /// <summary>
         /// enable-flag
@@ -97,13 +126,15 @@ namespace MissionPlanner.Utilities
         private static void ClearProperties()
         {
             CurrentSet.Clear();
+            VelocitySet.Clear();
             CurrentHover = null;
-            Current.Clear();
-            Velocity.Clear();
             MinCurrentSplinePoints.Clear();
             AverageCurrentSplinePoints.Clear();
             MaxCurrentSplinePoints.Clear();
-            PercentDev = 0.0f;
+            MinVelocitySplinePoints.Clear();
+            AverageVelocitySplinePoints.Clear();
+            MaxVelocitySplinePoints.Clear();
+            PercentDevCrnt = 0.0f;
         }
 
         /// <summary>
@@ -120,20 +151,25 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// static dictionary for velocity values
         /// </summary>
-        public static Dictionary<string, double> Velocity { get; } = new Dictionary<string, double>();
+        public static Dictionary<int, VelocityModel> VelocitySet { get; set; } = new Dictionary<int, VelocityModel>();
 
-        //Lists of SplinePoints
+        //Lists of CurrentSplinePoints
         public static List<PointF> MinCurrentSplinePoints { get; set; } = new List<PointF>();
         public static List<PointF> AverageCurrentSplinePoints { get; set; } = new List<PointF>();
         public static List<PointF> MaxCurrentSplinePoints { get; set; } = new List<PointF>();
 
+        //Lists of VelocitySplinePoints
+        public static List<PointF> MinVelocitySplinePoints { get; set; } = new List<PointF>();
+        public static List<PointF> AverageVelocitySplinePoints { get; set; } = new List<PointF>();
+        public static List<PointF> MaxVelocitySplinePoints { get; set; } = new List<PointF>();
+
         //gives the deviation from percent
-        public static double PercentDev
+        public static double PercentDevCrnt
         {
-            get { return _percentDev; }
+            get { return _percentDevCrnt; }
             set
             {
-                _percentDev = Math.Round(value, 2);
+                _percentDevCrnt = Math.Round(value, 2);
             }
         }
 
@@ -172,11 +208,11 @@ namespace MissionPlanner.Utilities
                 {
                     return Math.Round(_deviation, 2);
                 }
-                if (Math.Round(AverageCurrent * EnergyProfileModel.PercentDev, 2) == Math.Round(_deviation, 2))
+                if (Math.Round(AverageCurrent * EnergyProfileModel.PercentDevCrnt, 2) == Math.Round(_deviation, 2))
                 {
                     return _deviation;
                 }
-                _deviation = Math.Round(AverageCurrent * EnergyProfileModel.PercentDev, 2);
+                _deviation = Math.Round(AverageCurrent * EnergyProfileModel.PercentDevCrnt, 2);
                 return _deviation;
             }
             set
@@ -203,5 +239,44 @@ namespace MissionPlanner.Utilities
             _averageCurrent = averageCurrent;
             _percentDevFlag = true; // set for a fix dev
         }
+    }
+
+    /// <summary>
+    /// Model for Velocity
+    /// </summary>
+    public class VelocityModel
+    {
+        public double Angle
+        {
+            get { return Math.Round(_angle, 0); }
+            set { _angle = Math.Round(value, 0); }
+        }
+
+        public double AverageVelocity
+        {
+            get { return Math.Round(_averageVelocity, 2); }
+            set { _averageVelocity = Math.Round(value, 2); }
+        }
+
+        public double Deviation
+        {
+            get { return Math.Round(_deviation, 2); }
+            set { _deviation = Math.Round(value, 2); }
+        }
+
+        private double _angle;
+        private double _averageVelocity;
+        private double _deviation;
+
+        public VelocityModel(double angle, double averageVelocity, double deviation)
+        {
+            _angle = angle;
+            _averageVelocity = averageVelocity;
+            _deviation = deviation;
+        }
+
+        public double MaxVelocity => Math.Round(_averageVelocity + _deviation, 2);
+
+        public double MinVelocity => Math.Round(_averageVelocity - _deviation, 2);
     }
 }
