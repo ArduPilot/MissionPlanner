@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO.Ports;
 using System.Reflection;
 using System.Threading;
 using log4net;
@@ -8,7 +9,7 @@ using MissionPlanner.Comms;
 
 namespace MissionPlanner.Arduino
 {
-    public class ArduinoSTK : SerialPort, IArduinoComms
+    public class ArduinoSTK : Comms.SerialPort, IArduinoComms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;

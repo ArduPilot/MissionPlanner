@@ -2824,7 +2824,7 @@ namespace MissionPlanner
             }
             catch (TypeInitializationException) // windows xp lacking patch level
             {
-                CustomMessageBox.Show("Please update your .net version. kb2468871");
+                //CustomMessageBox.Show("Please update your .net version. kb2468871");
             }
             catch (Exception ex)
             {
