@@ -24,8 +24,8 @@
     <EmbeddedResource Remove="Resources\Resource1.resx" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Data.SQLite.Core.MSIL" Version="1.0.105.1" />
-    <PackageReference Include="System.Data.SQLite.MSIL" Version="1.0.105.1" />
+    <PackageReference Include="System.Data.SQLite.Core.MSIL" Version="1.0.105.2" />
+    <PackageReference Include="System.Data.SQLite.MSIL" Version="1.0.105.2" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Resource2.Designer.cs">
