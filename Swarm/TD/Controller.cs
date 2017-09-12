@@ -9,6 +9,7 @@ namespace MissionPlanner.Swarm.TD
     public class Controller
     {
         public DroneGroup DG = new DroneGroup();
+        public List<Joystick.Joystick> Joysticks = new List<Joystick.Joystick>();
         bool threadrun;
 
         public void Start()
