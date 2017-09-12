@@ -13,10 +13,20 @@ namespace MissionPlanner.Controls
     {
         Brush brushbar = new SolidBrush(Color.FromArgb(50, Color.White));
 
+
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.marker_05;
 
+        private float _traveleddist=0;
+
         public float totaldist { get; set; }
-        public float traveleddist { get; set; }
+        public float traveleddist {
+            get { return _traveleddist; }
+            set
+            {
+                _traveleddist = value;
+                this.Invalidate();
+            }
+        }
 
         private object locker = new object();
         private List<float> wpdist = new List<float>();
@@ -78,7 +88,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
+            //base.OnPaint(e);
 
             if (this.Parent != null)
             {
