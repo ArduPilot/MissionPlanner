@@ -283,12 +283,12 @@ namespace MissionPlanner.Swarm.SRB
 
                             if (drone.Location.GetDistance(drone.TargetLocation) < 2)
                             {
-                                drone.TargetLocation.Alt = -2;
+                                drone.TargetLocation.Alt = drone.Location.Alt - 2;
                             }
                             else
                             {
-                                // same alt
-                                drone.TargetLocation.Alt = drone.Location.Alt;
+                                // same alt - 0.4
+                                drone.TargetLocation.Alt = drone.Location.Alt-0.4;
                             }
 
                             drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);

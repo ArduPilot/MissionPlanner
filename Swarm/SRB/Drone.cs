@@ -41,8 +41,11 @@ namespace MissionPlanner.Swarm.SRB
 
         public void SendYaw(float heading)
         {
-            MavState.parent.doCommand(MavState.sysid, MavState.compid, MAVLink.MAV_CMD.CONDITION_YAW, heading,
-                100.0f, 0, 0, 0, 0, 0, false);
+            if ((Math.Abs(MavState.cs.yaw - heading) - 3) > 0)
+            {
+                MavState.parent.doCommand(MavState.sysid, MavState.compid, MAVLink.MAV_CMD.CONDITION_YAW, heading,
+                    100.0f, 0, 0, 0, 0, 0, false);
+            }
         }
     }
 }
