@@ -1047,11 +1047,17 @@ namespace MissionPlanner
 
         private void but_td_Click(object sender, EventArgs e)
         {
+            if (MainV2.instance.FlightPlanner.drawnpolygon.Points.Count == 0)
+            {
+                CustomMessageBox.Show("Please draw a polygon for the fence in flightplanner");
+                return;
+            }
+
             Swarm.TD.Controller ctl = new Swarm.TD.Controller();
 
             var fencepolygon = new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points);
 
-            ctl.DG.Fence.AddRange(fencepolygon.Cast<PointLatLngAlt>());
+            fencepolygon.ForEach(a => { ctl.DG.Fence.Add((PointLatLngAlt) a); });
 
             double minalt = 2;
             double maxalt = 30;
