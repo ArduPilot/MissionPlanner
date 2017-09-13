@@ -72,8 +72,10 @@ namespace MissionPlanner.Swarm.SRB
                     break;
                 case Mode.takeoff:
                     int g = Drones.Count;
+                    int aa = -1;
                     foreach (var drone in Drones)
                     {
+                        aa++;
                         g--;
                         var MAV = drone.MavState;
                         try
@@ -151,37 +153,14 @@ namespace MissionPlanner.Swarm.SRB
 
                         // we should only get here once takeoff alt has been archived by this drone.
 
+                        drone.TargetLocation = GetDronePosition(drone, aa);
+
                         // position control
                         drone.SendPositionVelocity(drone.TargetLocation, Vector3.Zero);
 
                         drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
                         drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
                         drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
-                    }
-                    // wait for all to get within takeoff alt
-                    foreach (var drone in Drones)
-                    {
-                        var MAV = drone.MavState;
-
-                        // wait for takeoff
-                        if (MAV.cs.alt < drone.TargetLocation.Alt - 0.5)
-                        {
-                            Thread.Sleep(100);
-                            // check we are still armed
-                            if (!MAV.cs.armed)
-                                return;
-
-                            drone.TargetVelocity = GetBaseVelocity();
-
-                            drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
-
-                            drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
-                            drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
-                            drone.MavState.GuidedMode.z = (float) drone.TargetLocation.Alt;
-
-                            // move on to next drone
-                            return;
-                        }
                     }
                     CurrentMode = Mode.alongside;
                     break;
