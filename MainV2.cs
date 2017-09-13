@@ -22,6 +22,9 @@ using MissionPlanner.Warnings;
 using System.Collections.Concurrent;
 using MissionPlanner.GCSViews.ConfigurationView;
 using WebCamService;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace MissionPlanner
 {
@@ -2930,7 +2933,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        MainV2.cam = new Capture(int.Parse(cmds["cam"]), null);
+                        MainV2.cam = new WebCamService.Capture(int.Parse(cmds["cam"]), null);
 
                         MainV2.cam.Start();
                     }
@@ -3709,6 +3712,69 @@ namespace MissionPlanner
             catch
             {
                 CustomMessageBox.Show("Failed to open url http://ardupilot.org");
+            }
+        }
+
+        private void connectionListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.ShowDialog();
+
+            if (File.Exists(openFileDialog.FileName))
+            {
+                var lines = File.ReadAllLines(openFileDialog.FileName);
+
+                Regex tcp = new Regex("tcp://(.*):([0-9]+)");
+                Regex udp = new Regex("udp://(.*):([0-9]+)");
+                Regex udpcl = new Regex("udpcl://(.*):([0-9]+)");
+                Regex serial = new Regex("serial:(.*):([0-9]+)");
+
+                //Parallel.ForEach(lines, line =>
+                foreach (var line in lines)
+                {
+                    try
+                    {
+                        MAVLinkInterface mav = new MAVLinkInterface();
+
+                        if (tcp.IsMatch(line))
+                        {
+                            var matches = tcp.Match(line);
+                            var tc = new TcpSerial();
+                            tc.client = new TcpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
+                            mav.BaseStream = tc;
+                        }
+                        if (udp.IsMatch(line))
+                        {
+                            var matches = udp.Match(line);
+                            var uc = new UdpSerial();
+                            uc.client = new UdpClient(int.Parse(matches.Groups[2].Value));
+                            mav.BaseStream = uc;
+                        }
+                        if (udpcl.IsMatch(line))
+                        {
+                            var matches = udpcl.Match(line);
+                            var udc = new UdpSerialConnect();
+                            udc.client = new UdpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
+                            mav.BaseStream = udc;
+                        }
+                        if (serial.IsMatch(line))
+                        {
+                            var matches = serial.Match(line);
+                            var port = new Comms.SerialPort();
+                            port.PortName = matches.Groups[1].Value;
+                            port.BaudRate = int.Parse(matches.Groups[2].Value);
+                            mav.BaseStream = port;
+                            mav.BaseStream.Open();
+                        }
+
+                        doConnect(mav, "preset", "0");
+                        Comports.Add(mav);
+                    }
+                    catch
+                    {
+                    }
+                }
+                //);
             }
         }
     }
