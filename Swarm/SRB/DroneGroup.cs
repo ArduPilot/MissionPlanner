@@ -145,8 +145,8 @@ namespace MissionPlanner.Swarm.SRB
                                 drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
                                 drone.MavState.GuidedMode.z = (float)drone.TargetLocation.Alt;
 
-                            // move on to next drone
-                            continue;
+                            // alt target must be reached
+                            return;
                         }
 
                         // we should only get here once takeoff alt has been archived by this drone.
