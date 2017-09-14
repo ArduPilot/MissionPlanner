@@ -7,10 +7,11 @@ namespace RFD.RFD900
     /// <summary>
     /// For detecting which mode the modem is in, and putting it in to desired modes.
     /// </summary>
-    public class TSession
+    public class TSession : IDisposable
     {
         TMode _Mode = TMode.INIT;
         MissionPlanner.Comms.ICommsSerial _Port;
+        public uploader.Uploader.Board Board = uploader.Uploader.Board.FAILED;
         const int BOOTLOADER_BAUD = 115200;
 
         public TSession(MissionPlanner.Comms.ICommsSerial Port)
@@ -26,6 +27,11 @@ namespace RFD.RFD900
             BOOTLOADER,     //For a,u,+
             BOOTLOADER_X,    //For x
             UNKNOWN
+        }
+
+        public void Dispose()
+        {
+            _Port.Close();
         }
 
         public bool WaitForToken(string Token, int MaxWait)

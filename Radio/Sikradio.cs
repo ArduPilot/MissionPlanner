@@ -28,6 +28,7 @@ namespace MissionPlanner
         private readonly string firmwarefile = Path.GetTempFileName();
         private Dictionary<Control, bool> _DefaultLocalEnabled = new Dictionary<Control, bool>();
         private Dictionary<ComboBox, object> _DefaultCBObjects = new Dictionary<ComboBox, object>();
+        RFD.RFD900.TSession _Session;
 
         /*
 ATI5
@@ -98,6 +99,13 @@ S15: MAX_WINDOW=131
 
             SaveDefaultCBObjects(MAX_WINDOW);
             SaveDefaultCBObjects(RMAX_WINDOW);
+
+            this.Disposed += DisposedEvtHdlr;
+        }
+
+        void DisposedEvtHdlr(object sender, EventArgs e)
+        {
+            EndSession();
         }
 
         private void SaveDefaultCBObjects(ComboBox CB)
@@ -309,191 +317,6 @@ S15: MAX_WINDOW=131
             return false;
         }
 
-        private void BUT_upload_Click(object sender, EventArgs e)
-        {
-            UploadFW(false);
-        }
-
-        private void UploadFW(bool custom = false)
-        {
-            ICommsSerial comPort = new SerialPort();
-
-            var uploader = new Uploader();
-
-            if (MainV2.comPort.BaseStream.IsOpen)
-            {
-                try
-                {
-                    getTelemPortWithRadio(ref comPort);
-
-                    uploader.PROG_MULTI_MAX = 64;
-                }
-                catch (Exception ex)
-                {
-                    CustomMessageBox.Show("Error " + ex);
-                }
-            }
-
-            try
-            {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                comPort.BaudRate = 115200;
-
-                comPort.Open();
-            }
-            catch
-            {
-                CustomMessageBox.Show("Invalid ComPort or in use");
-                return;
-            }
-
-            // prep what we are going to upload
-            var iHex = new IHex();
-
-            iHex.LogEvent += iHex_LogEvent;
-
-            iHex.ProgressEvent += iHex_ProgressEvent;
-
-            var bootloadermode = false;
-
-            // attempt bootloader mode
-            try
-            {
-                if (upload_xmodem(comPort))
-                {
-                    comPort.Close();
-                    return;
-                }
-
-                comPort.BaudRate = 115200;
-
-                uploader_ProgressEvent(0);
-                uploader_LogEvent("Trying Bootloader Mode");
-
-                uploader.port = comPort;
-                uploader.connect_and_sync();
-
-                uploader.ProgressEvent += uploader_ProgressEvent;
-                uploader.LogEvent += uploader_LogEvent;
-
-                uploader_LogEvent("In Bootloader Mode");
-                bootloadermode = true;
-            }
-            catch (Exception ex1)
-            {
-                log.Error(ex1);
-
-                // cleanup bootloader mode fail, and try firmware mode
-                comPort.Close();
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    // default baud... guess
-                    comPort.BaudRate = 57600;
-                }
-                else
-                {
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                }
-                try
-                {
-                    comPort.Open();
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Error opening port", "Error");
-                    return;
-                }
-
-                uploader.ProgressEvent += uploader_ProgressEvent;
-                uploader.LogEvent += uploader_LogEvent;
-
-                uploader_LogEvent("Trying Firmware Mode");
-                bootloadermode = false;
-            }
-
-            // check for either already bootloadermode, or if we can do a ATI to ID the firmware 
-            if (bootloadermode || doConnect(comPort))
-            {
-                // put into bootloader mode/update mode
-                if (!bootloadermode)
-                {
-                    try
-                    {
-                        comPort.Write("AT&UPDATE\r\n");
-                        var left = comPort.ReadExisting();
-                        log.Info(left);
-                        Sleep(700);
-                        comPort.BaudRate = 115200;
-                    }
-                    catch
-                    {
-                    }
-
-                    if (upload_xmodem(comPort))
-                    {
-                        comPort.Close();
-                        return;
-                    }
-
-                    comPort.BaudRate = 115200;
-                }
-
-                try
-                {
-                    // force sync after changing baudrate
-                    uploader.connect_and_sync();
-                }
-                catch
-                {
-                    CustomMessageBox.Show("Failed to sync with Radio");
-                    goto exit;
-                }
-
-                var device = Uploader.Board.FAILED;
-                var freq = Uploader.Frequency.FAILED;
-
-                // get the device type and frequency in the bootloader
-                uploader.getDevice(ref device, ref freq);
-
-                // get firmware for this device
-                if (getFirmware(device, custom))
-                {
-                    // load the hex
-                    try
-                    {
-                        iHex.load(firmwarefile);
-                    }
-                    catch
-                    {
-                        CustomMessageBox.Show("Bad Firmware File");
-                        goto exit;
-                    }
-
-                    // upload the hex and verify
-                    try
-                    {
-                        uploader.upload(comPort, iHex);
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomMessageBox.Show("Upload Failed " + ex.Message);
-                    }
-                }
-                else
-                {
-                    CustomMessageBox.Show("Failed to download new firmware");
-                }
-            }
-            else
-            {
-                CustomMessageBox.Show("Failed to identify Radio");
-            }
-
-            exit:
-            if (comPort.IsOpen)
-                comPort.Close();
-        }
-
         private void iHex_ProgressEvent(double completed)
         {
             try
@@ -558,41 +381,22 @@ S15: MAX_WINDOW=131
 
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
-            ICommsSerial comPort = new SerialPort();
-
-            try
+            var Session = GetSession();
+            if (Session == null)
             {
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    getTelemPortWithRadio(ref comPort);
-                }
-                else
-                {
-                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                }
-
-                comPort.ReadTimeout = 4000;
-
-                comPort.Open();
-            }
-            catch
-            {
-                CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
+
             EnableConfigControls(false);
             EnableProgrammingControls(false);
             lbl_status.Text = "Connecting";
 
-            RFD.RFD900.TSession Session = new RFD.RFD900.TSession(comPort);
-
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(comPort, "AT&T");
+                doCommand(Session.Port, "AT&T");
 
-                comPort.DiscardInBuffer();
+                Session.Port.DiscardInBuffer();
 
                 lbl_status.Text = "Doing Command";
 
@@ -600,7 +404,7 @@ S15: MAX_WINDOW=131
                 if (RTI.Text != "")
                 {
                     // remote
-                    var answer = doCommand(comPort, "RTI5", true);
+                    var answer = doCommand(Session.Port, "RTI5", true);
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -624,7 +428,7 @@ S15: MAX_WINDOW=131
 
                                         if (value != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "RTS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -635,7 +439,7 @@ S15: MAX_WINDOW=131
                                                 if (values[1] == "ENCRYPTION_LEVEL")
                                                 {
                                                     // set this on the local radio as well.
-                                                    doCommand(comPort, "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                    doCommand(Session.Port, "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
                                                     // both radios should now be using the default key
                                                 }
                                                 else
@@ -652,7 +456,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
@@ -670,7 +474,7 @@ S15: MAX_WINDOW=131
                                         string CBValue = GetCBValue((ComboBox)controls[0]);
                                         if (CBValue != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "RTS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -690,11 +494,11 @@ S15: MAX_WINDOW=131
                     Sleep(100);
                 }
 
-                comPort.DiscardInBuffer();
+                Session.Port.DiscardInBuffer();
                 {
                     //local
 
-                    var answer = doCommand(comPort, "ATI5", true);
+                    var answer = doCommand(Session.Port, "ATI5", true);
 
                     var items = answer.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
 
@@ -718,7 +522,7 @@ S15: MAX_WINDOW=131
 
                                         if (value != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -737,7 +541,7 @@ S15: MAX_WINDOW=131
                                     {
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
@@ -755,7 +559,7 @@ S15: MAX_WINDOW=131
                                         string CBValue = GetCBValue((ComboBox)controls[0]);
                                         if (CBValue != values[2].Trim())
                                         {
-                                            var cmdanswer = doCommand(comPort,
+                                            var cmdanswer = doCommand(Session.Port,
                                                 "ATS" + values[0].Trim().TrimStart('S') + "=" + CBValue + "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -776,29 +580,49 @@ S15: MAX_WINDOW=131
                     // we have set encryption to on for both radios, they will be using the default key atm
                     if (RENCRYPTION_LEVEL.Checked)
                     {
-                        doCommand(comPort, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                        if (System.Text.RegularExpressions.Regex.IsMatch(txt_Raeskey.Text, @"\A\b[0-9a-fA-F]+\b\Z")
+                            && (txt_Raeskey.Text.Length <= 32))
+                        {
+                            doCommand(Session.Port, "RT&E=" + txt_Raeskey.Text.PadRight(32, '0'), true);
+                        }
+                        else
+                        {
+                            //Complain that encryption key invalid.
+                            lbl_status.Text = "Fail";
+                            CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                        }
                     }
                     if (ENCRYPTION_LEVEL.Checked)
                     {
-                        doCommand(comPort, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                        if (System.Text.RegularExpressions.Regex.IsMatch(txt_aeskey.Text, @"\A\b[0-9a-fA-F]+\b\Z")
+                            && (txt_aeskey.Text.Length <= 32))
+                        {
+                            doCommand(Session.Port, "AT&E=" + txt_aeskey.Text.PadRight(32, '0'), true);
+                        }
+                        else
+                        {
+                            //Complain that encryption key invalid.
+                            lbl_status.Text = "Fail";
+                            CustomMessageBox.Show("Encryption key not valid hex number <= 32 hex numerals");
+                        }
                     }
 
 
                     if (RTI.Text != "")
                     {
                         // write it
-                        doCommand(comPort, "RT&W");
+                        doCommand(Session.Port, "RT&W");
 
                         // return to normal mode
-                        doCommand(comPort, "RTZ");
+                        doCommand(Session.Port, "RTZ");
                     }
 
                     // write it
-                    doCommand(comPort, "AT&W");
+                    doCommand(Session.Port, "AT&W");
 
 
                     // return to normal mode
-                    doCommand(comPort, "ATZ");
+                    doCommand(Session.Port, "ATZ");
                 }
 
                 lbl_status.Text = "Done";
@@ -806,14 +630,14 @@ S15: MAX_WINDOW=131
             else
             {
                 // return to normal mode
-                doCommand(comPort, "ATZ");
+                doCommand(Session.Port, "ATZ");
 
                 lbl_status.Text = "Fail";
                 CustomMessageBox.Show("Failed to enter command mode");
             }
 
-
-            comPort.Close();
+            //Need to do this because modem rebooted.
+            EndSession();
 
             EnableConfigControls(true);
             EnableProgrammingControls(true);
@@ -944,30 +768,17 @@ S15: MAX_WINDOW=131
         /// <param name="e"></param>
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
-            ICommsSerial comPort = new SerialPort();
-            ResetAllControls(groupBoxLocal);
-            ResetAllControls(groupBoxRemote);
-            try
-            {
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    getTelemPortWithRadio(ref comPort);
-                }
-                else
-                {
-                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                }
+            EndSession();
+            var Session = GetSession();
 
-                comPort.ReadTimeout = 4000;
-
-                comPort.Open();
-            }
-            catch
+            if (Session == null)
             {
-                CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
+
+            ResetAllControls(groupBoxLocal);
+            ResetAllControls(groupBoxRemote);
+            
 
             EnableConfigControls(false);
             EnableProgrammingControls(false);
@@ -975,25 +786,23 @@ S15: MAX_WINDOW=131
 
             try
             {
-                RFD.RFD900.TSession Session = new RFD.RFD900.TSession(comPort);
-
                 if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
                 {
                     bool SomeSettingsInvalid = false;
                     // cleanup
-                    doCommand(comPort, "AT&T");
+                    doCommand(Session.Port, "AT&T");
 
-                    comPort.DiscardInBuffer();
+                    Session.Port.DiscardInBuffer();
 
                     lbl_status.Text = "Doing Command ATI & RTI";
 
                     //Set the text box to show the radio version
-                    ATI.Text = doCommand(comPort, "ATI");
+                    ATI.Text = doCommand(Session.Port, "ATI");
 
                     NumberStyles style = NumberStyles.Any;
 
                     //Get the board frequency.
-                    var freqstring = doCommand(comPort, "ATI3").Trim();
+                    var freqstring = doCommand(Session.Port, "ATI3").Trim();
 
                     if(freqstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
@@ -1007,19 +816,19 @@ S15: MAX_WINDOW=131
 
                     style = NumberStyles.Any;
 
-                    var boardstring = doCommand(comPort, "ATI2").Trim();
+                    var boardstring = doCommand(Session.Port, "ATI2").Trim();
 
                     if (boardstring.ToLower().Contains('x'))
                         style = NumberStyles.AllowHexSpecifier;
 
-                    var board =
+                    Session.Board =
                         (Uploader.Board)
                             Enum.Parse(typeof (Uploader.Board),
                                 int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
 
-                    ATI2.Text = board.ToString();
+                    ATI2.Text = Session.Board.ToString();
 
-                    if (board == Uploader.Board.DEVICE_ID_RFD900X)
+                    if (Session.Board == Uploader.Board.DEVICE_ID_RFD900X)
                     {
                         //RFD900x has a new set of acceptable settings ranges...
                         SERIAL_SPEED.DataSource = new int[] { 1, 2, 4, 9, 19, 38, 57, 115, 230, 460 };
@@ -1074,10 +883,10 @@ S15: MAX_WINDOW=131
                         RMAX_FREQ.DataSource = Range(849000, 1000, 889000);
                     }
 
-                    if (board == Uploader.Board.DEVICE_ID_RFD900 ||
-                            board == Uploader.Board.DEVICE_ID_RFD900A
-                            || board == Uploader.Board.DEVICE_ID_RFD900P ||
-                            board == Uploader.Board.DEVICE_ID_RFD900X)
+                    if (Session.Board == Uploader.Board.DEVICE_ID_RFD900 ||
+                            Session.Board == Uploader.Board.DEVICE_ID_RFD900A
+                            || Session.Board == Uploader.Board.DEVICE_ID_RFD900P ||
+                            Session.Board == Uploader.Board.DEVICE_ID_RFD900X)
                     {
                         TXPOWER.DataSource = Range(0, 1, 30);
                         RTXPOWER.DataSource = Range(0, 1, 30);
@@ -1088,7 +897,7 @@ S15: MAX_WINDOW=131
                         RTXPOWER.DataSource = Range(0, 1, 20);
                     }
 
-                    if (board == Uploader.Board.DEVICE_ID_RFD900X)
+                    if (Session.Board == Uploader.Board.DEVICE_ID_RFD900X)
                     {
                         LBT_RSSI.DataSource = Range(0, 25, 220);
                         RLBT_RSSI.DataSource = Range(0, 25, 220);
@@ -1099,17 +908,17 @@ S15: MAX_WINDOW=131
                         RLBT_RSSI.DataSource = Range(0, 1, 1);
                     }
 
-                    txt_aeskey.Text = doCommand(comPort, "AT&E?").Trim();
+                    txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
 
-                    RSSI.Text = doCommand(comPort, "ATI7").Trim();
+                    RSSI.Text = doCommand(Session.Port, "ATI7").Trim();
 
                     lbl_status.Text = "Doing Command ATI5";
 
-                    var answer = doCommand(comPort, "ATI5", true);
+                    var answer = doCommand(Session.Port, "ATI5", true);
 
                     var Settings = Session.GetSettings(
-                        doCommand(comPort, "ATI5?", true),
-                        board);
+                        doCommand(Session.Port, "ATI5?", true),
+                        Session.Board);
 
                     DisableRFD900xControls();
 
@@ -1186,13 +995,13 @@ S15: MAX_WINDOW=131
                         }
                     }
 
-                    comPort.DiscardInBuffer();
+                    Session.Port.DiscardInBuffer();
 
-                    RTI.Text = doCommand(comPort, "RTI");
+                    RTI.Text = doCommand(Session.Port, "RTI");
 
                     try
                     {
-                        var resp = doCommand(comPort, "RTI2");
+                        var resp = doCommand(Session.Port, "RTI2");
                         if (resp.Trim() != "")
                             RTI2.Text =
                                 ((Uploader.Board)Enum.Parse(typeof(Uploader.Board), resp)).ToString();
@@ -1201,11 +1010,11 @@ S15: MAX_WINDOW=131
                     {
                     }
 
-                    txt_Raeskey.Text = doCommand(comPort, "RT&E?").Trim();
+                    txt_Raeskey.Text = doCommand(Session.Port, "RT&E?").Trim();
 
                     lbl_status.Text = "Doing Command RTI5";
 
-                    answer = doCommand(comPort, "RTI5", true);
+                    answer = doCommand(Session.Port, "RTI5", true);
 
                     items = answer.Split('\n');
 
@@ -1273,7 +1082,7 @@ S15: MAX_WINDOW=131
                     }
 
                     // off hook
-                    doCommand(comPort, "ATO");
+                    //doCommand(Session.Port, "ATO");
 
                     if (SomeSettingsInvalid)
                     {
@@ -1287,13 +1096,11 @@ S15: MAX_WINDOW=131
                 else
                 {
                     // off hook
-                    doCommand(comPort, "ATO");
+                    //doCommand(Session.Port, "ATO");
 
                     lbl_status.Text = "Fail";
                     CustomMessageBox.Show("Failed to enter command mode");
                 }
-
-                comPort.Close();
 
                 //BUT_Syncoptions.Enabled = true;
 
@@ -1309,8 +1116,6 @@ S15: MAX_WINDOW=131
             {
                 try
                 {
-                    if (comPort != null)
-                        comPort.Close();
                 }
                 catch
                 {
@@ -1506,56 +1311,39 @@ red LED solid - in firmware update mode");
 
         private void BUT_resettodefault_Click(object sender, EventArgs e)
         {
-            ICommsSerial comPort = new SerialPort();
-
-            try
+            var Session = GetSession();
+            if (Session == null)
             {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-
-                comPort.ReadTimeout = 4000;
-
-                comPort.Open();
-            }
-            catch
-            {
-                CustomMessageBox.Show("Invalid ComPort or in use");
                 return;
             }
 
             lbl_status.Text = "Connecting";
-            RFD.RFD900.TSession Session = new RFD.RFD900.TSession(comPort);
 
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(comPort, "AT&T");
+                doCommand(Session.Port, "AT&T");
 
-                comPort.DiscardInBuffer();
+                Session.Port.DiscardInBuffer();
 
                 lbl_status.Text = "Doing Command ATI & AT&F";
 
-                doCommand(comPort, "AT&F");
+                doCommand(Session.Port, "AT&F");
 
-                doCommand(comPort, "AT&W");
+                doCommand(Session.Port, "AT&W");
 
                 lbl_status.Text = "Reset";
 
-                doCommand(comPort, "ATZ");
-
-                comPort.Close();
+                doCommand(Session.Port, "ATZ");
             }
             else
             {
                 // off hook
-                doCommand(comPort, "ATO");
+                //doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
                 CustomMessageBox.Show("Failed to enter command mode");
             }
-
-            if (comPort.IsOpen)
-                comPort.Close();
         }
 
         void UpdateStatus(string Status)
@@ -1629,12 +1417,8 @@ red LED solid - in firmware update mode");
             
             try
             {
-                var port = new SerialPort();
-                port.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                port.PortName = MainV2.comPort.BaseStream.PortName;
-                port.Open();
-
-                RFD.RFD900.TSession Session = new RFD.RFD900.TSession(port);
+                EndSession();
+                var Session = GetSession();
                 UpdateStatus("Determining mode...");
                 var Mode = Session.GetMode();
                 UpdateStatus("Mode is " + Mode.ToString());
@@ -1679,8 +1463,6 @@ red LED solid - in firmware update mode");
                         UpdateStatus("Firmware file selection cancelled");
                     }
                 }
-
-                port.Close();
             }
             catch
             {
@@ -1752,46 +1534,28 @@ red LED solid - in firmware update mode");
 
         private void BUT_SetPPMFailSafe_Click(object sender, EventArgs e)
         {
-            ICommsSerial comPort = new SerialPort();
-
-            try
-            {
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    getTelemPortWithRadio(ref comPort);
-                }
-                else
-                {
-                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                }
-
-                comPort.ReadTimeout = 4000;
-
-                comPort.Open();
-            }
-            catch
-            {
-                CustomMessageBox.Show("Invalid ComPort or in use");
-                return;
-            }
 
             lbl_status.Text = "Connecting";
-            RFD.RFD900.TSession Session = new RFD.RFD900.TSession(comPort);
+            RFD.RFD900.TSession Session = GetSession();
+
+            if (Session == null)
+            {
+                return;
+            }
 
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
-                doCommand(comPort, "AT&T");
+                doCommand(Session.Port, "AT&T");
 
-                comPort.DiscardInBuffer();
+                Session.Port.DiscardInBuffer();
 
                 lbl_status.Text = "Doing Command";
 
-                string Result = doCommand(comPort, "RT&R");
+                string Result = doCommand(Session.Port, "RT&R");
 
                 // off hook
-                doCommand(comPort, "ATO");
+                //doCommand(Session.Port, "ATO");
 
                 if (Result.Contains("OK"))
                 {
@@ -1805,13 +1569,152 @@ red LED solid - in firmware update mode");
             else
             {
                 // off hook
-                doCommand(comPort, "ATO");
+                //doCommand(Session.Port, "ATO");
 
                 lbl_status.Text = "Fail";
                 CustomMessageBox.Show("Failed to enter command mode");
             }
+        }
 
-            comPort.Close();
+        RFD.RFD900.TSession GetSession()
+        {
+            if (_Session == null)
+            {
+                ICommsSerial comPort = new SerialPort();
+
+                try
+                {
+                    if (MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        getTelemPortWithRadio(ref comPort);
+                    }
+                    else
+                    {
+                        comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                        comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                    }
+
+                    comPort.ReadTimeout = 4000;
+
+                    comPort.Open();
+
+                    _Session = new RFD.RFD900.TSession(comPort);
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Invalid ComPort or in use");
+                    return null;
+                }
+            }
+            else if (_Session.Port.BaudRate != MainV2.comPort.BaseStream.BaudRate ||
+                _Session.Port.PortName != MainV2.comPort.BaseStream.PortName)
+            {
+                _Session.Dispose();
+                _Session = null;
+                GetSession();
+            }
+            return _Session;
+        }
+
+        private void EndSession()
+        {
+            if (_Session != null)
+            {
+                _Session.Dispose();
+                _Session = null;
+            }
+        }
+
+        bool SetSetting(string Designator, int Value, bool Remote)
+        {
+            var Session = GetSession();
+
+            if (Session == null)
+            {
+                return false;
+            }
+            else
+            {
+                var answer = doCommand(Session.Port, (Remote ? "RT" : "AT")+Designator+"="+Value.ToString(), false);
+                return answer.Contains("OK");
+            }
+        }
+
+        /// <summary>
+        /// Handles a change of the local encryption level check box.
+        /// </summary>
+        /// <param name="sender">ignored</param>
+        /// <param name="e">ignored</param>
+        private void ENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
+        {
+            EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false);
+        }
+
+        /// <summary>
+        /// Handles a change of the remote encryption level check box.
+        /// </summary>
+        /// <param name="sender">ignored</param>
+        /// <param name="e">ignored</param>
+        private void RENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
+        {
+            EncryptionCheckChangedEvtHdlr(RENCRYPTION_LEVEL, "RTI5", "RT&E?", txt_Raeskey, true);
+        }
+
+        bool _AlreadyInEncCheckChangedEvtHdlr = false;
+
+        /// <summary>
+        /// Handles a change of an encryption level check box.
+        /// </summary>
+        /// <param name="CB">The checkbox which was changed.  Must not be null.</param>
+        /// <param name="ATCommand">The AT command to use to get the settings
+        /// from the relevant modem.  Must not be null.</param>
+        void EncryptionCheckChangedEvtHdlr(CheckBox CB, string ATCommand, string EncKeyQuery,
+            TextBox EncKeyTextBox, bool Remote)
+        {
+            if (_AlreadyInEncCheckChangedEvtHdlr)
+            {
+                return;
+            }
+            _AlreadyInEncCheckChangedEvtHdlr = true;
+            try
+            {
+                //Write setting to radio now.
+                var Session = GetSession();
+
+                if (Session == null)
+                {
+                    return;
+                }
+                Session.PutIntoATCommandMode();
+                var answer = doCommand(Session.Port, ATCommand, true);
+                var Settings = Session.GetSettings(answer, Session.Board);
+                if (Settings.ContainsKey("ENCRYPTION_LEVEL"))
+                {
+                    var Setting = Settings["ENCRYPTION_LEVEL"];
+                    if (!SetSetting(Setting.Designator, CB.Checked ? 1 : 0, Remote))
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Something wrong here");
+                }
+
+                //Read AES key back out of modem and display it.  
+                //BUT_getcurrent_Click(this, null);
+                //txt_aeskey.Text = doCommand(Session.Port, "AT&E?").Trim();
+                EncKeyTextBox.Text = doCommand(Session.Port, EncKeyQuery).Trim();
+                if (CB.Checked && EncKeyTextBox.Text.Length == 0)
+                {
+                    Console.WriteLine("Something wrong here");
+                }
+                lbl_status.Text = "Done.";
+            }
+            finally
+            {
+                _AlreadyInEncCheckChangedEvtHdlr = false;
+            }
         }
     }
 }
