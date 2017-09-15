@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Thu Jul 06 2017";
+    public const string MAVLINK_BUILD_DATE = "Fri Sep 15 2017";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -236,6 +236,13 @@ public partial class MAVLink
 		new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
 		new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
 		new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
+		new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
+		new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
+		new message_info(320, "PARAM_EXT_REQUEST_READ", 243, 20, 20, typeof( mavlink_param_ext_request_read_t )),
+		new message_info(321, "PARAM_EXT_REQUEST_LIST", 88, 2, 2, typeof( mavlink_param_ext_request_list_t )),
+		new message_info(322, "PARAM_EXT_VALUE", 243, 149, 149, typeof( mavlink_param_ext_value_t )),
+		new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
+		new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
@@ -480,6 +487,13 @@ MOUNT_ORIENTATION = 265,
 LOGGING_DATA = 266,
 LOGGING_DATA_ACKED = 267,
 LOGGING_ACK = 268,
+UAVCAN_NODE_STATUS = 310,
+UAVCAN_NODE_INFO = 311,
+PARAM_EXT_REQUEST_READ = 320,
+PARAM_EXT_REQUEST_LIST = 321,
+PARAM_EXT_VALUE = 322,
+PARAM_EXT_SET = 323,
+PARAM_EXT_ACK = 324,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -7342,6 +7356,141 @@ AOA_SSA = 11020,
         public  byte target_system;
             /// <summary> component ID of the target </summary>
         public  byte target_component;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message "uavcan.protocol.NodeStatus" for the background information. The UAVCAN specification is available at http://uavcan.org. </summary>
+    public struct mavlink_uavcan_node_status_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  ulong time_usec;
+            /// <summary> The number of seconds since the start-up of the node. </summary>
+        public  uint uptime_sec;
+            /// <summary> Vendor-specific status information. </summary>
+        public  ushort vendor_specific_status_code;
+            /// <summary> Generalized node health status. UAVCAN_NODE_HEALTH</summary>
+        public  /*UAVCAN_NODE_HEALTH*/byte health;
+            /// <summary> Generalized operating mode. UAVCAN_NODE_MODE</summary>
+        public  /*UAVCAN_NODE_MODE*/byte mode;
+            /// <summary> Not used currently. </summary>
+        public  byte sub_mode;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
+    ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service "uavcan.protocol.GetNodeInfo" for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
+    public struct mavlink_uavcan_node_info_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  ulong time_usec;
+            /// <summary> The number of seconds since the start-up of the node. </summary>
+        public  uint uptime_sec;
+            /// <summary> Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown. </summary>
+        public  uint sw_vcs_commit;
+            /// <summary> Node name string. For example, "sapog.px4.io". </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)]
+		public byte[] name;
+            /// <summary> Hardware major version number. </summary>
+        public  byte hw_version_major;
+            /// <summary> Hardware minor version number. </summary>
+        public  byte hw_version_minor;
+            /// <summary> Hardware unique 128-bit ID. </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] hw_unique_id;
+            /// <summary> Software major version number. </summary>
+        public  byte sw_version_major;
+            /// <summary> Software minor version number. </summary>
+        public  byte sw_version_minor;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
+    ///<summary> Request to read the value of a parameter with the either the param_id string id or param_index. </summary>
+    public struct mavlink_param_ext_request_read_t
+    {
+        /// <summary> Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored) </summary>
+        public  short param_index;
+            /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
+    ///<summary> Request all parameters of this component. After this request, all parameters are emitted. </summary>
+    public struct mavlink_param_ext_request_list_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=149)]
+    ///<summary> Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout. </summary>
+    public struct mavlink_param_ext_value_t
+    {
+        /// <summary> Total number of parameters </summary>
+        public  ushort param_count;
+            /// <summary> Index of this parameter </summary>
+        public  ushort param_index;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=147)]
+    ///<summary> Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response. </summary>
+    public struct mavlink_param_ext_set_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=146)]
+    ///<summary> Response from a PARAM_EXT_SET message. </summary>
+    public struct mavlink_param_ext_ack_t
+    {
+        /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+            /// <summary> Result code: see the PARAM_ACK enum for possible codes. PARAM_ACK</summary>
+        public  /*PARAM_ACK*/byte param_result;
     
     };
 
