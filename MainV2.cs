@@ -3282,8 +3282,18 @@ namespace MissionPlanner
                 }*/
                 return true;
             }
+
+            if (ProcessCmdKeyCallback != null)
+            {
+                return ProcessCmdKeyCallback(ref msg, keyData);
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
+        public delegate bool ProcessCmdKeyHandler(ref Message msg, Keys keyData);
+
+        public event ProcessCmdKeyHandler ProcessCmdKeyCallback;
 
         public void changelanguage(CultureInfo ci)
         {
