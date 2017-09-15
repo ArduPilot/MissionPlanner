@@ -141,7 +141,7 @@ namespace MissionPlanner.Swarm.SRB
 
                                 drone.TargetVelocity = GetBaseVelocity();
 
-                                drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
+                                //drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
 
                                 drone.MavState.GuidedMode.x = (float)drone.TargetLocation.Lat;
                                 drone.MavState.GuidedMode.y = (float)drone.TargetLocation.Lng;
