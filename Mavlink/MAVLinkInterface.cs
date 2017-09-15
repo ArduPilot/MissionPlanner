@@ -3736,6 +3736,22 @@ Please check the following
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    if (msgid == (uint) MAVLINK_MSG_ID.UAVCAN_NODE_STATUS)
+                    {
+                        var cannode = message.ToStructure<mavlink_uavcan_node_status_t>();
+
+                        // add a seen sysid
+                        if (!MAVlist.Contains(sysid, compid, false))
+                        {
+                            // ensure its set from connect or log playback
+                            MAVlist.Create(sysid, compid);
+                            MAVlist[sysid, compid].aptype = MAV_TYPE.ONBOARD_CONTROLLER;
+                            MAVlist[sysid, compid].apname = MAV_AUTOPILOT.INVALID;
+                            setAPType(sysid, compid);
+                        }
+                    }
+
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
                     if (msgid == (byte)MAVLINK_MSG_ID.HEARTBEAT)
                     {
                         mavlink_heartbeat_t hb = message.ToStructure<mavlink_heartbeat_t>();
