@@ -1184,7 +1184,8 @@ Please check the following
                 // 4 seconds between valid packets
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
-                    if (retry < 6)
+                    // if we have less than 75% of the total use full list pull
+                    if (retry < 6 && indexsreceived.Count < ((param_total/4) * 3))
                     {
                         retry++;
                         generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
@@ -1275,7 +1276,7 @@ Please check the following
                         // check if we already have it
                         if (indexsreceived.Contains(par.param_index))
                         {
-                            log.Info("Already got " + (par.param_index) + " '" + paramID + "'");
+                            log.Info("Already got " + (par.param_index) + " '" + paramID + "' " + (indexsreceived.Count * 100) / param_total);
                             this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,
                                 "Already Got param " + paramID);
                             continue;
