@@ -485,6 +485,9 @@
     <Compile Include="Grid\GridUI.Designer.cs">
       <DependentUpon>GridUI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Joystick\IJoystickManager.cs" />
+    <Compile Include="Joystick\JoystickUnix.cs" />
+    <Compile Include="Joystick\JoystickWindows.cs" />
     <Compile Include="Log\LogDownloadscp.cs">
       <SubType>Form</SubType>
     </Compile>

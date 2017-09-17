@@ -165,13 +165,13 @@ namespace MissionPlanner.Joystick
     public class Joystick : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        SharpDX.DirectInput.Joystick joystick;
         MyJoystickState state;
-        static DirectInput directInput = new DirectInput();
         public bool enabled = false;
         bool[] buttonpressed = new bool[128];
         public string name;
         public bool elevons = false;
+        public static IJoystickManager JoystickManager = MainV2.MONO ? new JoystickManagerWindows() : (IJoystickManager)new JoystickManagerUnix();
+        private IJoystick joystick;
 
         public bool manual_control = false;
 
@@ -268,24 +268,7 @@ namespace MissionPlanner.Joystick
         /// <param name="disposing"></param>
         virtual protected void Dispose(bool disposing)
         {
-            try
-            {
-                //not sure if this is a problem from the finalizer?
-                if (disposing && joystick != null && joystick.Properties != null)
-                    joystick.Unacquire();
-            }
-            catch
-            {
-            }
-
-            try
-            {
-                if (disposing && joystick != null)
-                    joystick.Dispose();
-            }
-            catch
-            {
-            }
+            joystick.Dispose(disposing);
 
             //tell gc not to call finalize, this object will be GC'd quicker now.
             GC.SuppressFinalize(this);
@@ -390,29 +373,14 @@ namespace MissionPlanner.Joystick
         JoyChannel[] JoyChannels = new JoyChannel[9]; // we are base 1
         JoyButton[] JoyButtons = new JoyButton[128]; // base 0
 
-        public static IList<DeviceInstance> getDevices()
+        public static IList<DeviceInstance> GetDevices()
         {
-            return directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
+            return JoystickManager.GetDevices();
         }
 
-        public static SharpDX.DirectInput.Joystick getJoyStickByName(string name)
+        public IJoystick AcquireJoystick(string name)
         {
-            var joysticklist = directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly);
-
-            foreach (DeviceInstance device in joysticklist)
-            {
-                if (device.ProductName.TrimUnPrintable() == name)
-                {
-                    return new SharpDX.DirectInput.Joystick(directInput, device.InstanceGuid);
-                }
-            }
-
-            return null;
-        }
-
-        public SharpDX.DirectInput.Joystick AcquireJoystick(string name)
-        {
-            joystick = getJoyStickByName(name);
+            joystick = JoystickManager.GetJoyStickByName(name);
 
             if (joystick == null)
                 return null;
@@ -549,7 +517,7 @@ namespace MissionPlanner.Joystick
 
         public static int getPressedButton(string name)
         {
-            var joystick = getJoyStickByName(name);
+            var joystick = JoystickManager.GetJoyStickByName(name);
 
             if (joystick == null)
                 return -1;

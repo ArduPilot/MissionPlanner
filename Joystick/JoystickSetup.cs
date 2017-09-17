@@ -25,7 +25,7 @@ namespace MissionPlanner.Joystick
         {
             try
             {
-                var joysticklist = Joystick.getDevices();
+                var joysticklist = Joystick.GetDevices();
 
                 foreach (DeviceInstance device in joysticklist)
                 {
@@ -333,7 +333,7 @@ namespace MissionPlanner.Joystick
         {
             CMB_joysticks.Items.Clear();
 
-            var joysticklist = Joystick.getDevices();
+            var joysticklist = Joystick.GetDevices();
 
             foreach (DeviceInstance device in joysticklist)
             {
