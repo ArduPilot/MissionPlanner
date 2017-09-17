@@ -113,7 +113,7 @@ namespace MissionPlanner.Swarm.SRB
                         try
                         {
                             // takeoff
-                            if (MAV.cs.alt < drone.TargetLocation.Alt - 0.5 && !drone.takeoffdone)
+                            if (MAV.cs.alt < drone.TargetLocation.Alt - 0.5)
                                 if (MAV.parent.doCommand(MAV.sysid, MAV.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0,
                                     0, (float)drone.TargetLocation.Alt))
                                     drone.takeoffdone = true;
