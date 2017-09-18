@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "solo": {
+      "commandName": "Project",
+      "commandLineArgs": "fw"
+    }
+  }
+}

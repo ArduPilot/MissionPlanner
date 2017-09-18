@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{E64A1A41-A5B0-458E-8284-BB63705354DA}"
 EndProject
@@ -43,9 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Comms", "Ext
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MissionPlanner.Utilities", "ExtLibs\Utilities\MissionPlanner.Utilities.csproj", "{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoUtility", "ExtLibs\GeoUtility\GeoUtility.csproj", "{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoUtility", "ExtLibs\GeoUtility\GeoUtility.csproj", "{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "px4uploader", "ExtLibs\px4uploader\px4uploader.csproj", "{664FC484-2A94-4B0D-808F-A71F88E06B11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "px4uploader", "ExtLibs\px4uploader\px4uploader.csproj", "{664FC484-2A94-4B0D-808F-A71F88E06B11}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GMap.NET.Core", "ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj", "{D0C39D9D-BED0-418B-9A5E-713176CAF40C}"
 EndProject
@@ -72,7 +72,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAdbClient", "ExtLibs\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltitudeAngelWings", "ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj", "{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "solo", "ExtLibs\solo\solo.csproj", "{CF402948-A3F4-4962-8A57-E40B46759D25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "solo", "ExtLibs\solo\solo.csproj", "{CF402948-A3F4-4962-8A57-E40B46759D25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDAL", "ExtLibs\GDAL\GDAL.csproj", "{766FCF85-4809-44DB-B316-6C4902C65245}"
 EndProject
@@ -118,8 +118,8 @@ Global
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x64.ActiveCfg = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x64.Build.0 = Release|Any CPU
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x86.ActiveCfg = Release|x86
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x86.Build.0 = Release|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x86.ActiveCfg = Debug|Any CPU
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Ad-Hoc|x86.Build.0 = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|Any CPU.ActiveCfg = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|Any CPU.Build.0 = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|ARM.ActiveCfg = Release|Any CPU
@@ -130,8 +130,8 @@ Global
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x64.ActiveCfg = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x64.Build.0 = Release|Any CPU
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x86.ActiveCfg = Release|x86
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x86.Build.0 = Release|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x86.ActiveCfg = Debug|Any CPU
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.AppStore|x86.Build.0 = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -142,8 +142,8 @@ Global
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x64.Build.0 = Debug|Any CPU
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.ActiveCfg = Debug|x86
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.Build.0 = Debug|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.Build.0 = Debug|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|ARM.ActiveCfg = Release|Any CPU
@@ -154,8 +154,8 @@ Global
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x64.ActiveCfg = Release|Any CPU
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x64.Build.0 = Release|Any CPU
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x86.ActiveCfg = Release|x86
-		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x86.Build.0 = Release|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x86.ActiveCfg = Release|Any CPU
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x86.Build.0 = Release|Any CPU
 		{E64A1A41-A5B0-458E-8284-BB63705354DA}.Ad-Hoc|Any CPU.ActiveCfg = Release|Any CPU
 		{E64A1A41-A5B0-458E-8284-BB63705354DA}.Ad-Hoc|Any CPU.Build.0 = Release|Any CPU
 		{E64A1A41-A5B0-458E-8284-BB63705354DA}.Ad-Hoc|ARM.ActiveCfg = Release|Any CPU

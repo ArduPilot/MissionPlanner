@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SharpDX.DirectInput;
 
 namespace MissionPlanner.Swarm.TD
 {
     public class Controller
     {
         public DroneGroup DG = new DroneGroup();
-        public List<Joystick.Joystick> Joysticks = new List<Joystick.Joystick>();
+
+        // get device list
+        public static DirectInput directInput = new DirectInput();
+
+        // map of devices to drones
+        public List<SharpDX.DirectInput.Joystick> Joysticks = new List<SharpDX.DirectInput.Joystick>();
+
         bool threadrun;
 
         public void Start()
