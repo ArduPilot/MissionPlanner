@@ -1,18 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net461</TargetFramework>
     <ApplicationIcon>mpdesktop.ico</ApplicationIcon>
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.34.4</Version>
+    <Version>1.3.49.9</Version>
     <Company>Mission Planner</Company>
     <Product>Mission Planner</Product>
     <Description />
     <Copyright>Copyright © Michael Oborne 2010-2017</Copyright>
-    <AssemblyVersion>1.3.49.4</AssemblyVersion>
-    <FileVersion>1.3.49.4</FileVersion>
-
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+<PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
+    <BumpRevision>True</BumpRevision>
+    <BumpResetLabel>dev</BumpResetLabel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
@@ -667,7 +671,7 @@
     <Content Include="Scripts\example1.py">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="version.exe">
+    <None Update="version.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\MinimOSD.jpg" />
@@ -705,7 +709,7 @@
     <Content Include="Resources\MAVCmd.zh-Hans.txt" />
     <None Include="Resources\MAVParam.txt" />
     <Content Include="Resources\MAVParam.zh-Hans.txt" />
-    <None Include="Resources\MAVCmd.txt">
+    <None Update="Resources\MAVCmd.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Resources\new frames-09.png" />
@@ -851,6 +855,7 @@
       <Name>ZedGraph</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+    <ProjectReference Include="Updater\Updater.csproj" />
   </ItemGroup>
  
    <ItemGroup>
@@ -881,6 +886,7 @@
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
+    <PackageReference Include="MSBump" Version="2.3.0" />
 
     <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
     <PackageReference Include="NETStandard.Library" version="2.0.0" targetFramework="net462" />
@@ -899,8 +905,3871 @@
     <PackageReference Include="Xamarin.Forms" version="2.3.4.247" targetFramework="net462" />
     <PackageReference Include="zlib.net" version="1.0.4.0" targetFramework="net40" />
   </ItemGroup>
+
+  <ItemGroup>
  
-   <ItemGroup>
+ 
+ 
+ 
+    <Compile Update="Antenna\Tracker.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Antenna\Tracker.Designer.cs">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ControlSensorsStatus.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\ControlSensorsStatus.Designer.cs">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\MyDataGridView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\Video.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\Video.Designer.cs">
+      <DependentUpon>Video.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameClassType.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameClassType.Designer.cs">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigGPSInject.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigGPSInject.Designer.cs">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </Compile>
+ 
+ 
+    <Compile Update="Grid\GridUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Grid\GridUI.Designer.cs">
+      <DependentUpon>GridUI.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Log\LogDownloadscp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\LogDownloadscp.Designer.cs">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Strings.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Strings.Designer.cs">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Swarm\FollowLeader\Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Swarm\FollowLeader\Control.Designer.cs">
+      <DependentUpon>Control.cs</DependentUpon>
+    </Compile>
+ 
+ 
+    <Compile Update="Swarm\SRB\Control.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Swarm\SRB\Control.Designer.cs">
+      <DependentUpon>Control.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Swarm\WaypointLeader\WPControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Swarm\WaypointLeader\WPControl.Designer.cs">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="Utilities\AltitudeAngel\AASettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Utilities\AltitudeAngel\AASettings.Designer.cs">
+      <DependentUpon>AASettings.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Controls\AuthKeys.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\AuthKeys.Designer.cs">
+      <DependentUpon>AuthKeys.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ConnectionControl.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\ConnectionControl.Designer.cs">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ConnectionStats.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\ConnectionStats.Designer.cs">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ControlTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\ControlTest.Designer.cs">
+      <DependentUpon>ControlTest.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\DistanceBar.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\DistanceBar.Designer.cs">
+      <DependentUpon>DistanceBar.cs</DependentUpon>
+    </Compile>
+ 
+ 
+    <Compile Update="Controls\Loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\Loading.Designer.cs">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\LogAnalyzer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\LogAnalyzer.Designer.cs">
+      <DependentUpon>LogAnalyzer.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\MavlinkCheckBoxBitMask.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\MavlinkCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\MavlinkComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\MavlinkNumericUpDown.cs">
+      <SubType>Component</SubType>
+    </Compile>
+ 
+    <Compile Update="Controls\PreFlight\CheckListControl.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\PreFlight\CheckListControl.Designer.cs">
+      <DependentUpon>CheckListControl.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Controls\PreFlight\CheckListInput.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\PreFlight\CheckListEditor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\PreFlight\CheckListEditor.Designer.cs">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ServoOptions.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\ServoOptions.Designer.cs">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\SITL.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\SITL.Designer.cs">
+      <DependentUpon>SITL.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ThemeColors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\ThemeColors.Designer.cs">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ToolStripConnectionControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="Controls\ModifyandSet.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\ModifyandSet.Designer.cs">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\EKFStatus.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\EKFStatus.Designer.cs">
+      <DependentUpon>EKFStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Vibration.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Controls\Vibration.Designer.cs">
+      <DependentUpon>Vibration.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Controls\DefaultSettings.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Controls\DefaultSettings.Designer.cs">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.Designer.cs">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAC_Fence.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAC_Fence.Designer.cs">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAntennaTracker.Designer.cs">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArducopter.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArducopter.Designer.cs">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArduplane.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArduplane.Designer.cs">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArdurover.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigArdurover.Designer.cs">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryx.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryx.Designer.cs">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryxSensors.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigAteryxSensors.Designer.cs">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.Designer.cs">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.Designer.cs">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigCompassMot.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigCompassMot.Designer.cs">
+      <DependentUpon>ConfigCompassMot.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigESCCalibration.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigESCCalibration.Designer.cs">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFailSafe.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFailSafe.Designer.cs">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmware.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmware.Designer.cs">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.Designer.cs">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFlightModes.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFlightModes.Designer.cs">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameType.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFrameType.Designer.cs">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParams.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParams.Designer.cs">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigFriendlyParamsAdv.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWAirspeed.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWAirspeed.Designer.cs">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWesp8266.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWesp8266.Designer.cs">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWBT.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWBT.Designer.cs">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWCompass.Designer.cs">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.Designer.cs">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.Designer.cs">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOptFlow.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOptFlow.Designer.cs">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOSD.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWOSD.Designer.cs">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWParachute.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWParachute.Designer.cs">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.Designer.cs">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMandatory.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMandatory.Designer.cs">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMotorTest.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMotorTest.Designer.cs">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMount.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigMount.designer.cs">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigOptional.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigOptional.Designer.cs">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlanner.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlanner.Designer.cs">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlannerAdv.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigPlannerAdv.Designer.cs">
+      <DependentUpon>ConfigPlannerAdv.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRadioInput.Designer.cs">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRawParams.Designer.cs">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRawParamsTree.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigRawParamsTree.Designer.cs">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigSimplePids.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigSimplePids.Designer.cs">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigTradHeli.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigTradHeli.Designer.cs">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigWizard.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\FlightData.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\FlightData.Designer.cs">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\FlightPlanner.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\FlightPlanner.Designer.cs">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\Help.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\Help.Designer.cs">
+      <DependentUpon>Help.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\InitialSetup.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\InitialSetup.Designer.cs">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\SoftwareConfig.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\SoftwareConfig.Designer.cs">
+      <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GCSViews\Terminal.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="GCSViews\Terminal.Designer.cs">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GeoRef\Georefimage.Designer.cs">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Joystick\Joy_Do_Repeat_Servo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Repeat_Servo.Designer.cs">
+      <DependentUpon>Joy_Do_Repeat_Servo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_Button_axis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Button_axis.Designer.cs">
+      <DependentUpon>Joy_Button_axis.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Set_Servo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Set_Servo.Designer.cs">
+      <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Repeat_Relay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Repeat_Relay.Designer.cs">
+      <DependentUpon>Joy_Do_Repeat_Relay.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_ChangeMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_ChangeMode.Designer.cs">
+      <DependentUpon>Joy_ChangeMode.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Set_Relay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Do_Set_Relay.Designer.cs">
+      <DependentUpon>Joy_Do_Set_Relay.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Joystick\Joy_Mount_Mode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\Joy_Mount_Mode.Designer.cs">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="Log\LogDownloadMavLink.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\LogDownloadMavLink.Designer.cs">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Log\LogIndex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\LogIndex.Designer.cs">
+      <DependentUpon>LogIndex.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Log\LogStrings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LogStrings.resx</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="MovingBase.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MovingBase.Designer.cs">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="GenOTP.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="GenOTP.Designer.cs">
+      <DependentUpon>GenOTP.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="OpenGLtest2.cs">
+      <SubType>Control</SubType>
+    </Compile>
+ 
+ 
+    <Compile Update="Plugin\PluginUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Plugin\PluginUI.Designer.cs">
+      <DependentUpon>PluginUI.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="ScriptConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ScriptConsole.Designer.cs">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Update="SerialInjectGPS.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="SerialInjectGPS.Designer.cs">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </Compile>
+    <Compile Update="ConnectionOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ConnectionOptions.Designer.cs">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Swarm\FollowPathControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Swarm\FollowPathControl.Designer.cs">
+      <DependentUpon>FollowPathControl.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Utilities\fftui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Utilities\fftui.Designer.cs">
+      <DependentUpon>fftui.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Wizard\10FlightModes.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\10FlightModes.Designer.cs">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\11Verify.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\11Verify.Designer.cs">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\12FailSafe.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\12FailSafe.Designer.cs">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\13GeoFence.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\13GeoFence.Designer.cs">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\1Intro.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\1Intro.Designer.cs">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\2FrameFW.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\2FrameFW.Designer.cs">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\3ConnectAP.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\3ConnectAP.Designer.cs">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\4FrameType.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\4FrameType.Designer.cs">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\5AccelCalib.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\5AccelCalib.Designer.cs">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\6CompassCalib.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\6CompassCalib.Designer.cs">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\7BatteryMonitor.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\7BatteryMonitor.Designer.cs">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\8OptionalItemsAC.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\8OptionalItemsAC.Designer.cs">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\8OptionalItemsAP.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\8OptionalItemsAP.Designer.cs">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\98DontForget.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\98DontForget.Designer.cs">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Wizard\9RadioCalibration.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Wizard\9RadioCalibration.Designer.cs">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Wizard\Wizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Wizard\Wizard.Designer.cs">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Antenna\Tracker.ar.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.pt.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.ar.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.pt.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\AuthKeys.resx">
+      <DependentUpon>AuthKeys.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.ar.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.pt.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.ar.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.pt.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ControlSensorsStatus.resx">
+      <DependentUpon>ControlSensorsStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ControlTest.resx">
+      <DependentUpon>ControlTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.ar.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.pt.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Loading.resx">
+      <DependentUpon>Loading.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.ar.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.pt.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.ar.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.pt.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.ar.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.pt.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Video.resx">
+      <DependentUpon>Video.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.ar.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.pt.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.ar.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.de-DE.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.es-ES.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.fr.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.id-ID.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.it-IT.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.ko-KR.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pl.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.pt.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-Hant.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAccelerometerCalibration.zh-TW.resx">
+      <DependentUpon>ConfigAccelerometerCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.ar.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.de-DE.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.id-ID.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.ja-JP.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.ko-KR.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.pt.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.zh-Hans.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.zh-Hant.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAC_Fence.zh-TW.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.ar.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.de-DE.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.id-ID.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.ja-JP.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.ko-KR.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.pt.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.ar.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.de-DE.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.fr.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.id-ID.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.it-IT.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.ja-JP.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.ko-KR.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.pt.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.zh-Hans.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.zh-Hant.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArducopter.zh-TW.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.ar.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.de-DE.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.fr.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.id-ID.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.it-IT.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.ja-JP.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.ko-KR.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.pt.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.zh-Hans.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.zh-Hant.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArduplane.zh-TW.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.ar.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.de-DE.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.fr.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.id-ID.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.it-IT.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.ja-JP.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.ko-KR.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.pt.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigArdurover.zh-Hans.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.ar.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.de-DE.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.fr.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.id-ID.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.it-IT.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.ja-JP.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.ko-KR.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.pt.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryx.zh-Hans.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.ar.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.de-DE.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.es-ES.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.fr.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.id-ID.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.it-IT.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.ja-JP.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.ko-KR.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.pl.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.pt.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-Hans.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-Hant.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-TW.resx">
+      <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.ar.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.de-DE.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.es-ES.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.fr.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.id-ID.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.it-IT.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.ja-JP.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.ko-KR.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pl.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.pt.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.zh-Hans.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.zh-Hant.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring.zh-TW.resx">
+      <DependentUpon>ConfigBatteryMonitoring.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.ar.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.de-DE.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.es-ES.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.fr.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.id-ID.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.it-IT.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.ja-JP.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.ko-KR.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pl.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.pt.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.zh-Hans.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.zh-Hant.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigBatteryMonitoring2.zh-TW.resx">
+      <DependentUpon>ConfigBatteryMonitoring2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigCompassMot.resx">
+      <DependentUpon>ConfigCompassMot.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.ar.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.de-DE.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.id-ID.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.ko-KR.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.pt.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigESCCalibration.zh-Hans.resx">
+      <DependentUpon>ConfigESCCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.ar.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.de-DE.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.es-ES.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.fr.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.id-ID.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.it-IT.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.ja-JP.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.ko-KR.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.pl.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.pt.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.zh-Hans.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.zh-Hant.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFailSafe.zh-TW.resx">
+      <DependentUpon>ConfigFailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.ar.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.de-DE.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.es-ES.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.fr.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.id-ID.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.it-IT.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.ja-JP.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.ko-KR.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.pl.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.pt.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.ru-RU.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.zh-Hans.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.zh-Hant.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmware.zh-TW.resx">
+      <DependentUpon>ConfigFirmware.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ar.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.de-DE.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.id-ID.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ja-JP.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.ko-KR.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.pt.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFirmwareDisabled.zh-Hans.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.ar.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.de-DE.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.es-ES.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.fr.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.id-ID.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.it-IT.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.ja-JP.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.ko-KR.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.pl.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.pt.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.zh-Hans.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.zh-Hant.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFlightModes.zh-TW.resx">
+      <DependentUpon>ConfigFlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.ar.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.de-DE.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.es-ES.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.fr.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.id-ID.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.it-IT.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.ja-JP.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.ko-KR.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.pl.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.pt.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.zh-Hans.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.zh-Hant.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameClassType.zh-TW.resx">
+      <DependentUpon>ConfigFrameClassType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.ar.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.de-DE.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.es-ES.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.fr.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.id-ID.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.it-IT.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.ja-JP.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.ko-KR.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.pl.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.pt.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.zh-Hans.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.zh-Hant.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFrameType.zh-TW.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.ar.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.de-DE.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.id-ID.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.ja-JP.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.ko-KR.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.pt.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigFriendlyParams.zh-Hans.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigGPSInject.resx">
+      <DependentUpon>ConfigGPSInject.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.ar.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.de-DE.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.es-ES.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.fr.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.id-ID.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.it-IT.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.ja-JP.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.ko-KR.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.pl.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.pt.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-Hans.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-Hant.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-TW.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.ar.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.de-DE.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.pt.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.ar.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.pt.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWESP8266.ar.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWESP8266.de-DE.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWESP8266.pt.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWesp8266.resx">
+      <DependentUpon>ConfigHWesp8266.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.id-ID.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.ja-JP.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.ko-KR.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWBT.zh-Hans.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.de-DE.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.es-ES.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.fr.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.id-ID.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.it-IT.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.ja-JP.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.ko-KR.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.pl.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.zh-Hans.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.zh-Hant.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWCompass.zh-TW.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.ar.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.pt.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.ar.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.pt.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.ar.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.de-DE.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.pt.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.ar.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.de-DE.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.pt.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.ar.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.pt.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.ar.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.de-DE.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.pt.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWUAVCAN.resx">
+      <DependentUpon>ConfigHWUAVCAN.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWPX4Flow.resx">
+      <DependentUpon>ConfigHWPX4Flow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.de-DE.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.es-ES.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.fr.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.id-ID.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.it-IT.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.ja-JP.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.ko-KR.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.pl.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-Hans.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-Hant.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-TW.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.de-DE.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.es-ES.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.fr.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.id-ID.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.it-IT.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.ja-JP.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.ko-KR.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.pl.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hans.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hant.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWOSD.zh-TW.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.id-ID.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.ko-KR.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWParachute.zh-Hans.resx">
+      <DependentUpon>ConfigHWParachute.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.de-DE.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.es-ES.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.fr.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.id-ID.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.it-IT.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.ja-JP.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.ko-KR.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.pl.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hans.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-Hant.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigHWRangeFinder.zh-TW.resx">
+      <DependentUpon>ConfigHWRangeFinder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.ar.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.de-DE.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.id-ID.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.ja-JP.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.ko-KR.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.pt.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMandatory.zh-Hans.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.ar.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.de-DE.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.id-ID.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.ja-JP.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.ko-KR.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.pt.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMotorTest.zh-Hans.resx">
+      <DependentUpon>ConfigMotorTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.ar.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.de-DE.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.fr.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.id-ID.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.it-IT.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.ja-JP.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.ko-KR.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.pt.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.zh-Hans.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.zh-Hant.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigMount.zh-TW.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.ar.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.de-DE.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.id-ID.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.ja-JP.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.ko-KR.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.pt.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigOptional.zh-Hans.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.ar.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.de-DE.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.fr.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.id-ID.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.it-IT.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.ja-JP.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.ko-KR.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.pt.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.zh-Hans.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.zh-Hant.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigPlanner.zh-TW.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.ar.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.de-DE.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.es-ES.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.fr.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.id-ID.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.it-IT.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.ja-JP.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.ko-KR.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.pl.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.pt.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.zh-Hans.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.zh-Hant.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRadioInput.zh-TW.resx">
+      <DependentUpon>ConfigRadioInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.ar.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.de-DE.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.fr.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.id-ID.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.it-IT.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.ja-JP.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.ko-KR.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.pt.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.zh-Hant.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParams.zh-TW.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.ar.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.de-DE.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.fr.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.id-ID.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.it-IT.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.ja-JP.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.ko-KR.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.pt.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hans.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hant.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-TW.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.ar.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.de-DE.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.id-ID.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.ja-JP.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.ko-KR.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.pt.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigSimplePids.zh-Hans.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.ar.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.de-DE.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.es-ES.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.fr.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.id-ID.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.it-IT.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.ja-JP.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.ko-KR.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.pl.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.pt.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.zh-Hans.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
+      <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\ConfigurationView\ConfigWizard.resx">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.ar.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.de-DE.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.es-ES.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.fr.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.id-ID.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.it-IT.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.ja-JP.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.ko-KR.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.pl.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.pt.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.ru-RU.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.zh-Hans.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.zh-Hant.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightData.zh-TW.resx">
+      <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.ar.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.de-DE.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.es-ES.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.fr.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.id-ID.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.it-IT.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.ja-JP.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.ko-KR.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.pl.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.pt.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.ru-RU.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.zh-Hans.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.zh-Hant.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\FlightPlanner.zh-TW.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.ar.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.de-DE.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.es-ES.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.fr.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.id-ID.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.it-IT.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.ja-JP.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.ko-KR.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.pl.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.pt.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.ru-RU.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.zh-Hans.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.zh-Hant.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Help.zh-TW.resx">
+      <DependentUpon>Help.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.ar.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.de-DE.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.id-ID.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.ja-JP.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.ko-KR.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.pt.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.zh-Hans.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.zh-Hant.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\InitialSetup.zh-TW.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\SoftwareConfig.resx">
+      <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.ar.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.de-DE.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.es-ES.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.fr.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.id-ID.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.it-IT.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.ja-JP.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.ko-KR.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.pl.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.pt.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.ru-RU.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.zh-Hans.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.zh-Hant.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GCSViews\Terminal.zh-TW.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.ar.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.pt.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Grid\GridUI.resx">
+      <DependentUpon>GridUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.ar.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.pt.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Mount_Mode.ar.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Mount_Mode.pt.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.ar.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.pt.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.ar.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.pt.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.pt.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadscp.de-DE.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadscp.pt.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadscp.resx">
+      <DependentUpon>LogDownloadscp.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.ar.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogStrings.resx">
+      <LastGenOutput>LogStrings.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.ar.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.pt.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.ar.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.pt.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.ar.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.pt.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.ar.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.zh-Hant.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.zh-TW.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.ar.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.pt.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.ar.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.pt.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.ar.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.de-DE.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.pt.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.ar.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.pt.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.ar.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.pt.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.ar.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.pt.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.de-DE.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.id-ID.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ja-JP.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.ko-KR.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.pt.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strings.zh-Hans.resx">
+      <DependentUpon>Strings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\FollowLeader\Control.resx">
+      <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\SRB\Control.resx">
+      <DependentUpon>Control.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\WaypointLeader\WPControl.pt.resx">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\WaypointLeader\WPControl.resx">
+      <DependentUpon>WPControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utilities\AltitudeAngel\AASettings.resx">
+      <DependentUpon>AASettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.ar.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.id-ID.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.ja-JP.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.ko-KR.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.pt.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.zh-Hans.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.zh-Hant.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\10FlightModes.zh-TW.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.ar.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.id-ID.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.ja-JP.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.ko-KR.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.pt.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.zh-Hans.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.zh-Hant.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\11Verify.zh-TW.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.ar.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.id-ID.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.ja-JP.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.ko-KR.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.pt.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.zh-Hans.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.zh-Hant.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\12FailSafe.zh-TW.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.ar.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.id-ID.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.ja-JP.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.ko-KR.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.pt.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.zh-Hans.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.zh-Hant.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\13GeoFence.zh-TW.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.ar.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.id-ID.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.ja-JP.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.ko-KR.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.pt.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.zh-Hans.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.zh-Hant.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\1Intro.zh-TW.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.ar.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.id-ID.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.ja-JP.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.ko-KR.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.pt.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.zh-Hans.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.zh-Hant.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\2FrameFW.zh-TW.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.ar.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.id-ID.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.ja-JP.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.ko-KR.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.pt.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.zh-Hans.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.zh-Hant.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\3ConnectAP.zh-TW.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.ar.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.id-ID.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.ja-JP.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.ko-KR.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.pt.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.zh-Hans.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.zh-Hant.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\4FrameType.zh-TW.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.ar.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.id-ID.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.ja-JP.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.ko-KR.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.pt.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.zh-Hans.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.zh-Hant.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\5AccelCalib.zh-TW.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.ar.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.id-ID.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.ja-JP.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.ko-KR.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.pt.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.zh-Hans.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.zh-Hant.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\6CompassCalib.zh-TW.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.ar.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.id-ID.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.ja-JP.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.ko-KR.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.pt.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.zh-Hans.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.zh-Hant.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\7BatteryMonitor.zh-TW.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.ar.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.id-ID.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.ja-JP.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.ko-KR.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.pt.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.zh-Hans.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.zh-Hant.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAC.zh-TW.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.ar.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.id-ID.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.ja-JP.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.ko-KR.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.pt.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.zh-Hans.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.zh-Hant.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\8OptionalItemsAP.zh-TW.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.ar.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.id-ID.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.ja-JP.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.ko-KR.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.pt.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.zh-Hans.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.zh-Hant.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\98DontForget.zh-TW.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.ar.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.id-ID.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.ja-JP.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.ko-KR.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.pt.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.zh-Hans.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.zh-Hant.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\9RadioCalibration.zh-TW.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.ar.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.ja-JP.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.ko-KR.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.pt.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.zh-Hans.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.zh-Hant.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Wizard\Wizard.zh-TW.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Update="aot.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\arduinomega2560.cat" />
+    <None Include="Drivers\ArduinoMEGA2560.inf" />
+    <None Update="Drivers\mindpx.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\px4flow.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\px4flow.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\px4fmu.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\px4fmu.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\px4mav.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\ubloxusb.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\ubloxusb.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\ubloxusb64.sys">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\vrbrain.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Drivers\vrflightstop.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\vrhero.cat" />
+    <None Update="Drivers\vrthermal.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\vrubrain.cat" />
+    <None Update="Drivers\vrugimbal.cat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="LogAnalyzer\py2exe\createexe.bat" />
+    <None Include="LogAnalyzer\upload.bat" />
+    <None Include="NoFly\Areas-Lisboa.kmz" />
+    <None Update="NoFly\Regulamento-RPA-ver-3.0.kmz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ph2_serial.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="PRIVACY.md" />
+    <None Include="Utilities\ImageOverFilter.cs" />
+    <EmbeddedResource Update="Antenna\Tracker.id-ID.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.ko-KR.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.zh-Hant.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.zh-TW.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.id-ID.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.ko-KR.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.id-ID.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.ja-JP.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.ko-KR.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.zh-Hans.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.id-ID.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.ja-JP.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.ko-KR.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.zh-Hans.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.id-ID.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.ja-JP.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.ko-KR.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.zh-Hans.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DistanceBar.resx">
+      <DependentUpon>DistanceBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\LogAnalyzer.resx">
+      <DependentUpon>LogAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\MavlinkCheckBoxBitMask.resx">
+      <DependentUpon>MavlinkCheckBoxBitMask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.id-ID.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.ja-JP.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.ko-KR.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\PreFlight\CheckListInput.resx">
+      <DependentUpon>CheckListInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\PreFlight\CheckListEditor.resx">
+      <DependentUpon>CheckListEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.id-ID.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.ja-JP.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.ko-KR.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\SITL.resx">
+      <DependentUpon>SITL.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.zh-Hans.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.id-ID.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.ja-JP.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.ko-KR.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.zh-Hans.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\EKFStatus.resx">
+      <DependentUpon>EKFStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\Vibration.resx">
+      <DependentUpon>Vibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.id-ID.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.ko-KR.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.zh-Hant.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.zh-TW.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.id-ID.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.ja-JP.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.ko-KR.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\georefimage.zh-Hant.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\georefimage.zh-TW.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.id-ID.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.ko-KR.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.zh-Hant.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_ChangeMode.resx">
+      <DependentUpon>Joy_ChangeMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Do_Repeat_Relay.resx">
+      <DependentUpon>Joy_Do_Repeat_Relay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Do_Repeat_Servo.resx">
+      <DependentUpon>Joy_Do_Repeat_Servo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Do_Set_Relay.resx">
+      <DependentUpon>Joy_Do_Set_Relay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Button_axis.resx">
+      <DependentUpon>Joy_Button_axis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Do_Set_Servo.resx">
+      <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Mount_Mode.id-ID.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Mount_Mode.ko-KR.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\Joy_Mount_Mode.resx">
+      <DependentUpon>Joy_Mount_Mode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.id-ID.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.ja-JP.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.ko-KR.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.id-ID.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.ja-JP.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.ko-KR.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.id-ID.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.ja-JP.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.ko-KR.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogIndex.resx">
+      <DependentUpon>LogIndex.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.id-ID.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.ja-JP.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.ko-KR.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.id-ID.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.ja-JP.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.ko-KR.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.zh-Hant.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.zh-TW.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.id-ID.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.ja-JP.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.ko-KR.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.zh-Hant.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.zh-TW.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="OpenGLtest2.resx">
+      <DependentUpon>OpenGLtest2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx" />
+    <EmbeddedResource Update="Radio\Sikradio.it-IT.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.id-ID.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.ja-JP.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.ko-KR.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.zh-Hant.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.zh-TW.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="resedit.zh-Hant.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="resedit.zh-TW.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.id-ID.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.ja-JP.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.ko-KR.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.zh-Hant.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.zh-TW.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.id-ID.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.ja-JP.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.ko-KR.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialInjectGPS.resx">
+      <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ConnectionOptions.zh-Hans.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.id-ID.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.ja-JP.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.ko-KR.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.id-ID.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.ja-JP.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.ko-KR.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.id-ID.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.ja-JP.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.ko-KR.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.zh-Hans.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Utilities\fftui.resx">
+      <DependentUpon>fftui.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Warnings\WarningControl.resx">
+      <DependentUpon>WarningControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Warnings\WarningsManager.resx">
+      <DependentUpon>WarningsManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Update="airports.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="MissionPlanner.sh">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="NoFly\SouthAfricaNoRPASOutlined.kmz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+    <Compile Update="Warnings\WarningControl.cs">
+      <SubType>Control</SubType>
+    </Compile>
+ 
+    <Compile Update="Warnings\WarningsManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Warnings\WarningsManager.Designer.cs">
+      <DependentUpon>WarningsManager.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Swarm\Status.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Swarm\Status.Designer.cs">
+      <DependentUpon>Status.cs</DependentUpon>
+    </Compile>
+ 
+    <EmbeddedResource Update="Antenna\Tracker.it-IT.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionControl.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.it-IT.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.zh-Hans.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\DefaultSettings.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.it-IT.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.zh-Hans.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.de-DE.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.es-ES.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.fr.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.it-IT.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.pl.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.zh-Hans.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownloadMavLink.zh-TW.resx">
+      <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.zh-Hans.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.de-DE.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.es-ES.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.fr.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.it-IT.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.pl.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GenOTP.resx">
+      <DependentUpon>GenOTP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MovingBase.zh-Hans.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Plugin\PluginUI.resx">
+      <DependentUpon>PluginUI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.zh-Hans.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="resedit.zh-Hans.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ScriptConsole.zh-Hans.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\FollowPathControl.resx">
+      <DependentUpon>FollowPathControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\Status.resx">
+      <DependentUpon>Status.cs</DependentUpon>
+    </EmbeddedResource>
+    <Compile Update="SerialOutputPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SerialOutputPass.Designer.cs">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="OpenGLtest.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="OSDVideo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="OSDVideo.Designer.cs">
+      <DependentUpon>OSDVideo.cs</DependentUpon>
+    </Compile>
+    <Compile Update="SerialOutputMD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SerialOutputMD.Designer.cs">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+    <Compile Update="Swarm\FormationControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Swarm\FormationControl.Designer.cs">
+      <DependentUpon>FormationControl.cs</DependentUpon>
+    </Compile>
+ 
+ 
+    <Compile Update="Swarm\Grid.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Swarm\Grid.Designer.cs">
+      <DependentUpon>Grid.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="Radio\Sikradio.cs">
+      <SubType>Control</SubType>
+    </Compile>
+    <Compile Update="Radio\Sikradio.Designer.cs">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="FollowMe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FollowMe.Designer.cs">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="ResEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ResEdit.Designer.cs">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Update="GeoRef\georefimage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+ 
+    <Compile Update="Log\MavlinkLog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\MavlinkLog.Designer.cs">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Joystick\JoystickSetup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Joystick\JoystickSetup.Designer.cs">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="paramcompare.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="paramcompare.Designer.cs">
+      <DependentUpon>paramcompare.cs</DependentUpon>
+    </Compile>
+    <Compile Update="RAW_Sensor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="RAW_Sensor.Designer.cs">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="MainV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainV2.Designer.cs">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="ElevationProfile.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="ElevationProfile.Designer.cs">
+      <DependentUpon>ElevationProfile.cs</DependentUpon>
+    </Compile>
+ 
+    <Compile Update="Log\LogDownload.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\LogDownload.Designer.cs">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Log\LogBrowse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Log\LogBrowse.designer.cs">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+    <Compile Update="SerialOutputNMEA.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SerialOutputNMEA.Designer.cs">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </Compile>
+    <None Include="README.md" />
+    <Compile Update="Splash.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Splash.Designer.cs">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </Compile>
+    <Compile Update="temp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="temp.Designer.cs">
+      <DependentUpon>temp.cs</DependentUpon>
+    </Compile>
+ 
+ 
+ 
+ 
+    <EmbeddedResource Update="Antenna\Tracker.de-DE.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.fr.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Antenna\Tracker.zh-Hans.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ConnectionStats.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ModifyandSet.resx">
+      <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ServoOptions.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Controls\ThemeColors.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputPass.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.de-DE.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.fr.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\Georefimage.de-DE.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.de-DE.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.de-DE.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.de-DE.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.de-DE.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.zh-Hans.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="OpenGLtest.resx">
+      <DependentUpon>OpenGLtest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="OSDVideo.resx">
+      <DependentUpon>OSDVideo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.de-DE.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.fr.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.de-DE.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputMD.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.es-ES.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.es-ES.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.es-ES.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.es-ES.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Radio\Sikradio.zh-Hans.resx">
+      <DependentUpon>Sikradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.es-ES.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.es-ES.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.pl.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="FollowMe.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="GeoRef\georefimage.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.fr.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.it-IT.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.pl.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.zh-TW.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.fr.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.it-IT.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.pl.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.zh-TW.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.fr.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.it-IT.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.pl.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.zh-TW.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.fr.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.it-IT.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.pl.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.fr.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.it-IT.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.pl.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ResEdit.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.ru-RU.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.zh-Hans.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.zh-Hans.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="paramcompare.resx">
+      <DependentUpon>paramcompare.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="RAW_Sensor.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\MavlinkLog.resx">
+      <DependentUpon>MavlinkLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Joystick\JoystickSetup.zh-Hans.resx">
+      <DependentUpon>JoystickSetup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainV2.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="ElevationProfile.resx">
+      <DependentUpon>ElevationProfile.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogDownload.resx">
+      <DependentUpon>LogDownload.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Log\LogBrowse.resx">
+      <DependentUpon>LogBrowse.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SerialOutputNMEA.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Splash.resx">
+      <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\FormationControl.resx">
+      <DependentUpon>FormationControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Swarm\Grid.resx">
+      <DependentUpon>Grid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="temp.resx">
+      <DependentUpon>temp.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Update="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="m3u\GeoRefnetworklink.kml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="m3u\networklink.kml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="mykey.snk" />
+    <None Include="Properties\app.manifest" />
+    <None Include="Properties\DataSources\CurrentState.datasource" />
+    <None Update="block_plane_0.dae">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\Welcome_to_Michael_Oborne.rtf" />
+    <None Update="yuvtorgb_fragment.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="yuvtorgb_vertex.glsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="GCSViews\Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
      <None Update="airports.csv">
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </None>
@@ -914,6 +4783,11 @@
        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
      </None>
    </ItemGroup>
+
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="&quot;$(TargetDir)version.exe&quot; &quot;$(TargetPath)&quot; &gt; &quot;$(TargetDir)version.txt&quot;" />
+  </Target>
 
  
 </Project>

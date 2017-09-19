@@ -6,7 +6,7 @@ del bin\release\MissionPlannerBeta.zip
 echo create appx?
 pause
 
-"C:\Program Files (x86)\Windows Kits\10\bin\x86\makeappx" pack /d bin\release /p MissionPlanner.appx
+"C:\Program Files (x86)\Windows Kits\10\bin\x86\makeappx" pack /d bin\release\net461 /p MissionPlanner.appx
 
 "C:\Program Files (x86)\Windows Kits\10\bin\x86\signtool" sign /a /v /fd SHA256 /t http://timestamp.verisign.com/scripts/timestamp.dll /n "3B1842DF-8664-4A02-B840-61F61DA8A94E" MissionPlanner.appx
 
