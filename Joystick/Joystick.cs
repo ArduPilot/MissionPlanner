@@ -170,7 +170,7 @@ namespace MissionPlanner.Joystick
         bool[] buttonpressed = new bool[128];
         public string name;
         public bool elevons = false;
-        public static IJoystickManager JoystickManager = MainV2.MONO ? new JoystickManagerWindows() : (IJoystickManager)new JoystickManagerUnix();
+        public static IJoystickManager JoystickManager = MainV2.MONO ? (IJoystickManager)new JoystickManagerUnix() : new JoystickManagerWindows();
         private IJoystick joystick;
 
         public bool manual_control = false;
