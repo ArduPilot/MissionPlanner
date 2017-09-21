@@ -236,6 +236,7 @@
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.2.22, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.Threading, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.VisualStudio.Threading.15.0.240\lib\net45\Microsoft.VisualStudio.Threading.dll</HintPath>
     </Reference>
@@ -451,6 +452,9 @@
       <DependentUpon>LogDownloadscp.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\test\MotorFailure.cs" />
+    <Compile Include="SikRadio\RFD900.cs" />
+    <Compile Include="SikRadio\RFDLib\Array.cs" />
+    <Compile Include="SikRadio\RFDLib\Text.cs" />
     <Compile Include="Strings.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -4688,6 +4692,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
+    <Folder Include="RFD\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -10,8 +10,10 @@ using System.Threading;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Comms;
+using MissionPlanner.Controls;
 using MissionPlanner.Radio;
 using uploader;
+using Microsoft.VisualBasic;
 
 namespace MissionPlanner
 {
@@ -837,8 +839,16 @@ S15: MAX_WINDOW=131
                         AIR_SPEED.DataSource = new int[] { 4, 64, 125, 250, 500 };
                         RAIR_SPEED.DataSource = new int[] { 4, 64, 125, 250, 500 };
 
-                        NETID.DataSource = Range(0, 1, 255);
-                        RNETID.DataSource = Range(0, 1, 255);
+                        if (ATI.Text.Contains("ASYNC"))
+                        {
+                            NETID.DataSource = Range(0, 1, 255);
+                            RNETID.DataSource = Range(0, 1, 255);
+                        }
+                        else
+                        {
+                            NETID.DataSource = Range(0, 1, 65535);
+                            RNETID.DataSource = Range(0, 1, 65535);
+                        }
 
                         MIN_FREQ.DataSource = Range(902000, 1000, 927000);
                         RMIN_FREQ.DataSource = Range(902000, 1000, 927000);
@@ -1322,6 +1332,26 @@ red LED solid - in firmware update mode");
             if (Session.PutIntoATCommandMode() == RFD.RFD900.TSession.TMode.AT_COMMAND)
             {
                 // cleanup
+                if (RTI.Text != "")
+                {
+                    doCommand(Session.Port, "RT&T");
+
+                    Session.Port.DiscardInBuffer();
+
+                    lbl_status.Text = "Doing Command RTI & AT&F";
+
+                    doCommand(Session.Port, "RT&F");
+
+                    doCommand(Session.Port, "RT&W");
+
+                    lbl_status.Text = "Reset";
+
+                    doCommand(Session.Port, "RTZ");
+
+                    doCommand(Session.Port, "RT&T");
+                }
+
+
                 doCommand(Session.Port, "AT&T");
 
                 Session.Port.DiscardInBuffer();
@@ -1607,7 +1637,7 @@ red LED solid - in firmware update mode");
                 }
             }
             else if (_Session.Port.BaudRate != MainV2.comPort.BaseStream.BaudRate ||
-                _Session.Port.PortName != MainV2.comPort.BaseStream.PortName)
+                (MainV2.comPort.BaseStream.PortName != "TCP" && (_Session.Port.PortName != MainV2.comPort.BaseStream.PortName)))
             {
                 _Session.Dispose();
                 _Session = null;

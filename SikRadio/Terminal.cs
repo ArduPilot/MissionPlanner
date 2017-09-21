@@ -22,7 +22,7 @@ namespace SikRadio
             InitializeComponent();
 
             if (sw == null)
-                sw = new StreamWriter("Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
+                sw = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Terminal-" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".txt");
         }
 
         private void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)

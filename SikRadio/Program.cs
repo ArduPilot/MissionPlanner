@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+ * Release notes:
+ * 
+ * 2.4 - Terminal window now logs in user's documents folder instead of program files folder, to prevent
+ *          crash caused by folder not being writable.  RFD900x net ID range now defaults to 16 bit for
+ *          p2p firmware and 8 bit for async firmware, if range isn't specified by modem.
+ */
+
+using System;
 using System.Windows.Forms;
 using log4net;
 using log4net.Config;
