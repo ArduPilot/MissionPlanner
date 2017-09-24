@@ -479,6 +479,12 @@ Please check the following
 
                     count++;
 
+                    // if we get no data, try enableing rts/cts
+                    if (buffer.Length == 0 && buffer1.Length == 0 && BaseStream is SerialPort)
+                    {
+                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                    }
+
                     // 2 hbs that match
                     if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
                     {
