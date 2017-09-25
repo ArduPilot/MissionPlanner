@@ -6,7 +6,7 @@
     <OutputType>Exe</OutputType>
     <StartupObject></StartupObject>
     <Authors>Michael Oborne</Authors>
-    <Version>1.3.49.21</Version>
+    <Version>1.3.49.28</Version>
     <Company>Mission Planner</Company>
     <Product>Mission Planner</Product>
     <Description />
@@ -15,7 +15,7 @@
     <FileVersion>1.0.0.0</FileVersion>
   </PropertyGroup>
 <PropertyGroup Condition=" '$(Configuration)'=='Debug' ">
-    <BumpRevision>True</BumpRevision>
+    <BumpRevision>false</BumpRevision>
     <BumpResetLabel>dev</BumpResetLabel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

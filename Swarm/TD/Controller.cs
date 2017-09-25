@@ -15,7 +15,7 @@ namespace MissionPlanner.Swarm.TD
         public static DirectInput directInput = new DirectInput();
 
         // map of devices to drones
-        public List<SharpDX.DirectInput.Joystick> Joysticks = new List<SharpDX.DirectInput.Joystick>();
+        public static List<SharpDX.DirectInput.Joystick> Joysticks = new List<SharpDX.DirectInput.Joystick>();
 
         bool threadrun;
 
@@ -27,6 +27,17 @@ namespace MissionPlanner.Swarm.TD
                 {
                     DG.Drones.Add(new Drone() { MavState = MAV });
                 }
+            }
+
+            foreach (var device in directInput.GetDevices(DeviceClass.GameControl, DeviceEnumerationFlags.AttachedOnly))
+            {
+                var joystick = new SharpDX.DirectInput.Joystick(directInput, device.InstanceGuid);
+
+                joystick.Acquire();
+
+                joystick.Poll();
+
+                Joysticks.Add(joystick);
             }
 
             if (threadrun == true)

@@ -6,6 +6,7 @@ using System.Threading;
 using log4net;
 using MissionPlanner.Controls;
 using MissionPlanner.HIL;
+using MissionPlanner.Joystick;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Swarm.TD
@@ -266,11 +267,19 @@ namespace MissionPlanner.Swarm.TD
                 case Mode.guided:
                     foreach (var drone in Drones)
                     {
-                        // set drone target position
-                        drone.TargetLocation = GetUserPosition(drone);
+                        // get drone target position
+                        var newpos = GetUserPosition(drone);
+
+                        // check for zero
+                        if (newpos == PointLatLngAlt.Zero)
+                            continue;
+
+                        // set the new pos
+                        drone.TargetLocation = newpos;
 
                         // position control
-                        drone.SendPositionVelocity(drone.TargetLocation, drone.TargetVelocity);
+                        drone.SendPositionVelocityYaw(drone.TargetLocation, drone.TargetVelocity,
+                            (float) drone.Location.GetBearing(drone.TargetLocation));
 
                         drone.MavState.GuidedMode.x = (float) drone.TargetLocation.Lat;
                         drone.MavState.GuidedMode.y = (float) drone.TargetLocation.Lng;
@@ -333,13 +342,70 @@ namespace MissionPlanner.Swarm.TD
             }
         }
 
+        static double map(double x, double in_min, double in_max, double out_min, double out_max)
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
+
         private PointLatLngAlt GetUserPosition(Drone drone)
         {
-            // project on current heading 1 seconds ahead - testing
-            var newpos = drone.Location.newpos(drone.Heading, drone.speed);
+            PointLatLngAlt newpos;
+            double yawtarget = drone.MavState.cs.yaw;
 
-            drone.TargetVelocity = new Vector3(Math.Cos(drone.Heading * Math.PI / 180.0),
-                                       Math.Sin(drone.Heading * Math.PI / 180.0), 0).normalized() * drone.speed;
+            var idx = Drones.IndexOf(drone);
+
+            if (idx < Controller.Joysticks.Count && Controller.Joysticks[idx] != null)
+            {
+                Controller.Joysticks[idx].Poll();
+
+                var state = Controller.Joysticks[idx].CurrentJoystickState();
+
+                var x = map(state.X, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+                var y = map(state.Y, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+                var z = map(state.Z, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+                var yaw = map(state.Rz, ushort.MinValue, ushort.MaxValue, short.MinValue, short.MaxValue);
+
+                // matrix with our current copter yaw
+                var Matrix = new Matrix3();
+
+                Matrix.from_euler(0, 0, drone.MavState.cs.yaw * MathHelper.deg2rad);
+
+                // z deadzone
+                if (Math.Abs(z) < 5000)
+                    z = 0;
+
+                // rotated vector based on heading.
+                var vector = new Vector3(x, y, z);
+                vector = Matrix * vector;
+
+                var vectorbase = new Vector3(short.MaxValue, short.MaxValue, 0);
+
+                var lengthscale = vector.length() / vectorbase.length();
+
+                var newvector = vector.normalized() * drone.speed;
+
+               var direction = Math.Atan2(newvector.x, -newvector.y) * (180 / Math.PI);
+
+                // yaw deadzone
+                if (Math.Abs(x) > 5000)
+                    yawtarget = direction;
+
+                newpos = drone.Location.newpos(yawtarget, drone.speed * lengthscale);
+
+                newpos.Alt += newvector.z;
+
+                drone.TargetVelocity =  Vector3.Zero;
+                //new Vector3(Math.Cos(yawtarget * MathHelper.deg2rad) *
+                //drone.speed * lengthscale, Math.Sin(yawtarget * MathHelper.deg2rad) *
+                //drone.speed * lengthscale, 0);
+
+                //drone.TargetVelocity = newvector;
+                //Console.WriteLine("{0} {1} {2} {3} {4} {5}", vector.ToString(), yaw, lengthscale, newvector.ToString(), direction, newpos);
+            }
+            else
+            {
+                return PointLatLngAlt.Zero;
+            }
 
             // can still move around, but alt limited
             if (newpos.Alt > FenceMaxAlt)
@@ -348,7 +414,6 @@ namespace MissionPlanner.Swarm.TD
             // cant move around, as alt is the issue
             if (newpos.Alt < FenceMinAlt + 0.5)
             {
-                newpos = drone.Location;
                 newpos.Alt = FenceMinAlt + 0.5;
             }
 
@@ -360,14 +425,29 @@ namespace MissionPlanner.Swarm.TD
 
             if (!PointInPolygon(newpos, Fence))
             {
-                var bear = drone.Location.GetBearing(Fence.First());
+                var bear = drone.Location.GetBearing(Centroid(Fence));
                 newpos = drone.Location.newpos(bear, 0.2);
                 drone.TargetVelocity = Vector3.Zero;
             }
 
-            Console.WriteLine("{0} {1} {2}",drone.MavState.sysid, newpos, drone.TargetVelocity.ToString());
+            //Console.WriteLine("{0} {1} {2}",drone.MavState.sysid, newpos, drone.TargetVelocity.ToString());
 
             return newpos;
+        }
+
+        static PointLatLngAlt Centroid(List<PointLatLngAlt> poly)
+        {
+            double lat = 0;
+            double lng = 0;
+            double parts = poly.Count;
+
+            poly.ForEach(a =>
+            {
+                lat += (a.Lat / parts);
+                lng += (a.Lng / parts);
+            });
+
+            return new PointLatLngAlt(lat, lng);
         }
 
         static bool PointInPolygon(PointLatLngAlt p, List<PointLatLngAlt> poly)

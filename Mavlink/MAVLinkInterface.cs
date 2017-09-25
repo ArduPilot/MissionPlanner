@@ -3085,12 +3085,14 @@ Please check the following
             giveComport = false;
         }
 
-        public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz)
+        public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, bool yaw, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz, double yawangle, double yawrate)
         {
             // for mavlink SET_POSITION_TARGET messages
             const ushort MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE = ((1 << 0) | (1 << 1) | (1 << 2));
             const ushort MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE = ((1 << 3) | (1 << 4) | (1 << 5));
             const ushort MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE = ((1 << 6) | (1 << 7) | (1 << 8));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_FORCE = ((1 << 9));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_YAW_IGNORE = ((1 << 10) | (1 << 11));
 
             mavlink_set_position_target_global_int_t target = new mavlink_set_position_target_global_int_t()
             {
@@ -3102,17 +3104,21 @@ Please check the following
                 coordinate_frame = (byte) frame,
                 vx = (float) vx,
                 vy = (float) vy,
-                vz = (float) vz
+                vz = (float) vz,
+                yaw = (float)yawangle,
+                yaw_rate = (float)yawrate
             };
 
-            target.type_mask = 7 + 56 + 448;
+            target.type_mask = ushort.MaxValue;
 
             if (pos)
-                target.type_mask -= 7;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE;
             if (vel)
-                target.type_mask -= 56;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE;
             if (acc)
-                target.type_mask -= 448;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE;
+            if (yaw)
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_YAW_IGNORE;
 
             if (pos)
             {
