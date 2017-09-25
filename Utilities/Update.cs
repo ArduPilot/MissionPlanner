@@ -215,7 +215,7 @@ namespace MissionPlanner.Utilities
                 return;
             }
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
             {
                 Text = "Check for Updates",
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -223,7 +223,7 @@ namespace MissionPlanner.Utilities
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
-            frmProgressReporter.DoWork += new ProgressReporterDialogue.DoWorkEventHandler(DoUpdateWorker_DoWork);
+            frmProgressReporter.DoWork += new DoWorkEventHandler(DoUpdateWorker_DoWork);
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");
 

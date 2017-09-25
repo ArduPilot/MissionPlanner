@@ -37,13 +37,13 @@ namespace MissionPlanner.Log
             public string format;
         }
 
-        private ProgressReporterDialogue prd;
+        private IProgressReporterDialogue prd;
         private string inputfn;
         private string outputfn;
         private event convertProgress convertstatus;
         object locker = new object();
 
-        private delegate void convertProgress(ProgressReporterDialogue prd, float progress);
+        private delegate void convertProgress(IProgressReporterDialogue prd, float progress);
 
         Dictionary<string, log_Format> logformat = new Dictionary<string, log_Format>();
 
@@ -78,7 +78,7 @@ namespace MissionPlanner.Log
             prd.Dispose();
         }
 
-        void BinaryLog_convertstatus(ProgressReporterDialogue prd, float progress)
+        void BinaryLog_convertstatus(IProgressReporterDialogue prd, float progress)
         {
             prd.UpdateProgressAndStatus((int) progress, Strings.Converting_bin_to_log);
         }

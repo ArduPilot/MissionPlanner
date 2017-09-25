@@ -132,7 +132,7 @@ namespace MissionPlanner
         /// <summary>
         /// progress form to handle connect and param requests
         /// </summary>
-        ProgressReporterDialogue frmProgressReporter;
+        IProgressReporterDialogue frmProgressReporter;
 
         /// <summary>
         /// used for outbound packet sending
@@ -1721,15 +1721,16 @@ Please check the following
             return doCommand(MAV.sysid, MAV.compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, null);
         }
 
-        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true, MethodInvoker uicallback = null)
+        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
             giveComport = true;
             MAVLinkMessage buffer;
 
             mavlink_command_long_t req = new mavlink_command_long_t();
 
-                req.target_system = sysid;
-                req.target_component = compid;
+            req.target_system = sysid;
+            req.target_component = compid;
 
             req.command = (ushort) actionid;
 
@@ -1822,17 +1823,19 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid && buffer.compid == compid)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid &&
+                        buffer.compid == compid)
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
                         if (ack.command != req.command)
                         {
-                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
+                                (MAV_RESULT) ack.result);
                             continue;
                         }
 
-                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
                         {

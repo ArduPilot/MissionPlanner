@@ -14,12 +14,12 @@ namespace MissionPlanner.Controls
     /// Performs operation excplicitely on a threadpool thread due to 
     /// Mono not playing nice with the BackgroundWorker
     /// </remarks>
-    public partial class ProgressReporterDialogue : Form
+    public partial class ProgressReporterDialogue : Form, IProgressReporterDialogue
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private Exception workerException;
-        public ProgressWorkerEventArgs doWorkArgs;
+        public ProgressWorkerEventArgs doWorkArgs { get; set; }
 
         internal object locker = new object();
         internal int _progress = -1;
@@ -27,8 +27,7 @@ namespace MissionPlanner.Controls
 
         public bool Running = false;
 
-        public delegate void DoWorkEventHandler(object sender, ProgressWorkerEventArgs e, object passdata = null);
-
+  
         // This is the event that will be raised on the BG thread
         public event DoWorkEventHandler DoWork;
 
@@ -327,23 +326,4 @@ namespace MissionPlanner.Controls
 
     }
 
-    public class ProgressWorkerEventArgs : EventArgs
-    {
-        public string ErrorMessage;
-        volatile bool _CancelRequested = false;
-        public bool CancelRequested
-        {
-            get
-            {
-                return _CancelRequested;
-            }
-            set
-            {
-                _CancelRequested = value; if (CancelRequestChanged != null) CancelRequestChanged(this, new PropertyChangedEventArgs("CancelRequested"));
-            }
-        }
-        public volatile bool CancelAcknowledged;
-
-        public event PropertyChangedEventHandler CancelRequestChanged;
-    }
 }

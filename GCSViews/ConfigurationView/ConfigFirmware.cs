@@ -21,7 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string custom_fw_dir = "";
         private string firmwareurl = "";
         private bool firstrun = true;
-        private ProgressReporterDialogue pdr;
+        private IProgressReporterDialogue pdr;
 
         public ConfigFirmware()
         {

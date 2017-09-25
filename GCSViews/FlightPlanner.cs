@@ -1918,7 +1918,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = FormStartPosition.CenterScreen,
                 Text = "Receiving WP's"
