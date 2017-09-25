@@ -3753,21 +3753,21 @@ namespace MissionPlanner
                             tc.client = new TcpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
                             mav.BaseStream = tc;
                         }
-                        if (udp.IsMatch(line))
+                        else if (udp.IsMatch(line))
                         {
                             var matches = udp.Match(line);
                             var uc = new UdpSerial();
                             uc.client = new UdpClient(int.Parse(matches.Groups[2].Value));
                             mav.BaseStream = uc;
                         }
-                        if (udpcl.IsMatch(line))
+                        else if (udpcl.IsMatch(line))
                         {
                             var matches = udpcl.Match(line);
                             var udc = new UdpSerialConnect();
                             udc.client = new UdpClient(matches.Groups[1].Value, int.Parse(matches.Groups[2].Value));
                             mav.BaseStream = udc;
                         }
-                        if (serial.IsMatch(line))
+                        else if (serial.IsMatch(line))
                         {
                             var matches = serial.Match(line);
                             var port = new Comms.SerialPort();
@@ -3775,6 +3775,10 @@ namespace MissionPlanner
                             port.BaudRate = int.Parse(matches.Groups[2].Value);
                             mav.BaseStream = port;
                             mav.BaseStream.Open();
+                        }
+                        else
+                        {
+                            continue;
                         }
 
                         doConnect(mav, "preset", "0");
