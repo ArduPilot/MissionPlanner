@@ -102,12 +102,20 @@ S15: MAX_WINDOW=131
             SaveDefaultCBObjects(MAX_WINDOW);
             SaveDefaultCBObjects(RMAX_WINDOW);
 
+            MissionPlanner.Comms.CommsBase.InputBoxShow += CommsBaseOnInputBoxShow;
             this.Disposed += DisposedEvtHdlr;
         }
 
         void DisposedEvtHdlr(object sender, EventArgs e)
         {
             EndSession();
+        }
+
+        public static inputboxreturn CommsBaseOnInputBoxShow(string title, string prompttext, ref string text)
+        {
+            text = Interaction.InputBox(prompttext, title, "");
+
+            return inputboxreturn.OK;
         }
 
         private void SaveDefaultCBObjects(ComboBox CB)
@@ -1610,23 +1618,34 @@ red LED solid - in firmware update mode");
         {
             if (_Session == null)
             {
-                ICommsSerial comPort = new SerialPort();
+                ICommsSerial comPort;
 
                 try
                 {
-                    if (MainV2.comPort.BaseStream.IsOpen)
+                    if (MainV2.comPort.BaseStream.PortName == "TCP")
                     {
-                        getTelemPortWithRadio(ref comPort);
+                        comPort = new TcpSerial();
+                        comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                        comPort.ReadTimeout = 4000;
+                        comPort.Open();
                     }
                     else
                     {
-                        comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                        comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                        comPort = new SerialPort();
+                        if (MainV2.comPort.BaseStream.IsOpen)
+                        {
+                            getTelemPortWithRadio(ref comPort);
+                        }
+                        else
+                        {
+                            comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                            comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                        }
+
+                        comPort.ReadTimeout = 4000;
+
+                        comPort.Open();
                     }
-
-                    comPort.ReadTimeout = 4000;
-
-                    comPort.Open();
 
                     _Session = new RFD.RFD900.TSession(comPort);
                 }

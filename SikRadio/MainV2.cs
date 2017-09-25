@@ -6,6 +6,7 @@ namespace MissionPlanner
     internal class MainV2
     {
         public static portproxy comPort = new portproxy();
+        public static string comPortStatic;
     }
 
     internal class portproxy : IDisposable

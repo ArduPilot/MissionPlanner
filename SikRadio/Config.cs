@@ -20,6 +20,8 @@ namespace SikRadio
             loadSettings();
 
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
+            CMB_SerialPort.Items.Add("TCP");
+
             if (CMB_SerialPort.Items.Count > 0)
                 CMB_SerialPort.SelectedIndex = 0;
 
@@ -88,6 +90,8 @@ namespace SikRadio
         {
             CMB_SerialPort.Items.Clear();
             CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
+            CMB_SerialPort.Items.Add("TCP");
+       
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
