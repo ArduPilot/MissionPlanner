@@ -508,7 +508,7 @@ namespace MissionPlanner
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 isrtcm = true;
-                                sendData(rtcm3.packet, (byte) rtcm3.length);
+                                sendData(rtcm3.packet, (ushort) rtcm3.length);
                                 bpsusefull += rtcm3.length;
                                 string msgname = "Rtcm" + seenmsg;
                                 if (!msgseen.ContainsKey(msgname))
@@ -866,13 +866,13 @@ namespace MissionPlanner
             }
         }
 
-        private static void sendData(byte[] data, byte length)
+        private static void sendData(byte[] data, ushort length)
         {
             foreach (var port in MainV2.Comports)
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length, rtcm_msg);
+                    port.InjectGpsData(MAV.sysid, MAV.compid, data, length, rtcm_msg);
                 }
             }
         }
