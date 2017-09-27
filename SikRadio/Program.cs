@@ -5,6 +5,7 @@
  *          crash caused by folder not being writable.  RFD900x net ID range now defaults to 16 bit for
  *          p2p firmware and 8 bit for async firmware, if range isn't specified by modem.
  * 2.5 - Added TCP port capability.
+ * 2.6 - Can now generate a random encryption key.
  */
 
 using System;

@@ -1697,6 +1697,7 @@ red LED solid - in firmware update mode");
         private void ENCRYPTION_LEVEL_CheckedChanged(object sender, EventArgs e)
         {
             EncryptionCheckChangedEvtHdlr(ENCRYPTION_LEVEL, "ATI5", "AT&E?", txt_aeskey, false);
+            btnRandom.Enabled = ENCRYPTION_LEVEL.Checked;
         }
 
         /// <summary>
@@ -1756,7 +1757,7 @@ red LED solid - in firmware update mode");
                 EncKeyTextBox.Text = doCommand(Session.Port, EncKeyQuery).Trim();
                 if (CB.Checked && EncKeyTextBox.Text.Length == 0)
                 {
-                    Console.WriteLine("Something wrong here");
+                    //Console.WriteLine("Something wrong here");
                 }
                 lbl_status.Text = "Done.";
             }
@@ -1764,6 +1765,24 @@ red LED solid - in firmware update mode");
             {
                 _AlreadyInEncCheckChangedEvtHdlr = false;
             }
+        }
+
+        string GetRandom32BitKey()
+        {
+            System.Random R = new Random((int)(System.DateTime.Now.Ticks & 0xFFFFFFFF));
+            return R.Next().ToString("X8");
+        }
+
+        string GetRandomKey()
+        {
+            return GetRandom32BitKey() + GetRandom32BitKey() + GetRandom32BitKey() + GetRandom32BitKey();
+        }
+
+        private void btnRandom_Click(object sender, EventArgs e)
+        {
+            //Key is 16 binary bytes (32 hex digits)
+            txt_aeskey.Text = GetRandomKey();
+            txt_Raeskey.Text = txt_aeskey.Text;
         }
     }
 }

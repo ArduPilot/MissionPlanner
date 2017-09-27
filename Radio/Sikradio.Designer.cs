@@ -169,6 +169,7 @@
             this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
+            this.btnRandom = new System.Windows.Forms.Button();
             this.groupBoxLocal.SuspendLayout();
             this.groupBoxRemote.SuspendLayout();
             this.SuspendLayout();
@@ -787,6 +788,7 @@
             // 
             // groupBoxLocal
             // 
+            this.groupBoxLocal.Controls.Add(this.btnRandom);
             this.groupBoxLocal.Controls.Add(this.label61);
             this.groupBoxLocal.Controls.Add(this.label47);
             this.groupBoxLocal.Controls.Add(this.RX_ENCAP_METHOD);
@@ -1447,6 +1449,13 @@
             this.BUT_Syncoptions.UseVisualStyleBackColor = true;
             this.BUT_Syncoptions.Click += new System.EventHandler(this.BUT_Syncoptions_Click);
             // 
+            // btnRandom
+            // 
+            resources.ApplyResources(this.btnRandom, "btnRandom");
+            this.btnRandom.Name = "btnRandom";
+            this.btnRandom.UseVisualStyleBackColor = true;
+            this.btnRandom.Click += new System.EventHandler(this.btnRandom_Click);
+            // 
             // Sikradio
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1615,5 +1624,6 @@
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btnRandom;
     }
 }
