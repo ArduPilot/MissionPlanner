@@ -26,6 +26,8 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static string lastLogDir;
+
         CollectionBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
         Hashtable seenmessagetypes = new Hashtable();
@@ -516,13 +518,13 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.Filter = "Log Files|*.log;*.bin";
                     openFileDialog1.FilterIndex = 2;
-                    openFileDialog1.RestoreDirectory = true;
                     openFileDialog1.Multiselect = true;
-
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
+                    openFileDialog1.InitialDirectory = lastLogDir ?? Settings.Instance.LogDir;
 
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
+                        lastLogDir = Path.GetDirectoryName(openFileDialog1.FileName);
+
                         int a = 0;
                         foreach (var fileName in openFileDialog1.FileNames)
                         {
