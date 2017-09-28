@@ -495,7 +495,7 @@ namespace MissionPlanner
 
                         // if this is raw data transport of unknown packet types
                         if (!(isrtcm || issbp))
-                            sendData(buffer, (byte) read);
+                            sendData(buffer, (ushort) read);
 
                         // check for valid rtcm/sbp/ubx packets
                         for (int a = 0; a < read; a++)
@@ -508,7 +508,7 @@ namespace MissionPlanner
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 isrtcm = true;
-                                sendData(rtcm3.packet, (ushort) rtcm3.length);
+                                sendData(rtcm3.packet, (ushort)rtcm3.length);
                                 bpsusefull += rtcm3.length;
                                 string msgname = "Rtcm" + seenmsg;
                                 if (!msgseen.ContainsKey(msgname))
@@ -526,7 +526,7 @@ namespace MissionPlanner
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 issbp = true;
-                                sendData(sbp.packet, (byte) sbp.length);
+                                sendData(sbp.packet, (ushort) sbp.length);
                                 bpsusefull += sbp.length;
                                 string msgname = "Sbp" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
