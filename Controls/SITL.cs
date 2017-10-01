@@ -190,12 +190,6 @@ namespace MissionPlanner.Controls
 
         private string CheckandGetSITLImage(string filename)
         {
-            if (Program.WindowsStoreApp)
-            {
-                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
-                return "";
-            }
-
             Uri fullurl = new Uri(sitlurl, filename);
 
             var load = Common.LoadingBox("Downloading", "Downloading sitl software");
