@@ -512,7 +512,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v3)
                 {
                     baseurl = temp.urlpx4v3.ToString();
-                    if (!Common.CheckHTTPFileExists(baseurl))
+                    if (String.IsNullOrEmpty(baseurl) || !Common.CheckHTTPFileExists(baseurl))
                     {
                         baseurl = temp.urlpx4v2.ToString();
                     }
