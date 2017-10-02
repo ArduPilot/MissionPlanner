@@ -3485,7 +3485,7 @@ Please check the following
                 return MAVLinkMessage.Invalid;
 
             if (message == null)
-                message = new MAVLinkMessage(buffer);
+                message = new MAVLinkMessage(buffer, DateTime.UtcNow);
 
             uint msgid = message.msgid;
 
@@ -4848,7 +4848,7 @@ Please check the following
                 a++;
             }
 
-            MAVLinkMessage tmp = new MAVLinkMessage(temp);
+            MAVLinkMessage tmp = new MAVLinkMessage(temp, lastlogread);
 
             MAVlist[tmp.sysid, tmp.compid].cs.datetime = lastlogread;
 
