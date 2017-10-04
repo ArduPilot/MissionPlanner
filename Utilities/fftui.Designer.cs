@@ -44,6 +44,7 @@
             this.NUM_startfreq = new System.Windows.Forms.NumericUpDown();
             this.BUT_log2 = new MissionPlanner.Controls.MyButton();
             this.but_fftimu = new MissionPlanner.Controls.MyButton();
+            this.but_ISBH = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_bins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_startfreq)).BeginInit();
@@ -282,10 +283,22 @@
             this.but_fftimu.UseVisualStyleBackColor = true;
             this.but_fftimu.Click += new System.EventHandler(this.but_fftimu_Click);
             // 
+            // but_ISBH
+            // 
+            this.but_ISBH.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.but_ISBH.Location = new System.Drawing.Point(362, 508);
+            this.but_ISBH.Name = "but_ISBH";
+            this.but_ISBH.Size = new System.Drawing.Size(75, 32);
+            this.but_ISBH.TabIndex = 10;
+            this.but_ISBH.Text = "new DF log";
+            this.but_ISBH.UseVisualStyleBackColor = true;
+            this.but_ISBH.Click += new System.EventHandler(this.but_ISBH_Click);
+            // 
             // fftui
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(809, 542);
+            this.Controls.Add(this.but_ISBH);
             this.Controls.Add(this.but_fftimu);
             this.Controls.Add(this.BUT_log2);
             this.Controls.Add(this.label2);
@@ -322,5 +335,6 @@
         private System.Windows.Forms.NumericUpDown NUM_startfreq;
         private Controls.MyButton BUT_log2;
         private Controls.MyButton but_fftimu;
+        private Controls.MyButton but_ISBH;
     }
 }

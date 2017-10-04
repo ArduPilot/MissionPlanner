@@ -37,6 +37,22 @@ namespace MissionPlanner.Log
             public string format;
         }
 
+        [StructLayout(LayoutKind.Explicit)]
+        struct UnionArray
+        {
+            public UnionArray(byte[] bytes)
+            {
+                this.Shorts = null;
+                this.Bytes = bytes;
+            }
+
+            [FieldOffset(0)]
+            public byte[] Bytes;
+
+            [FieldOffset(0)]
+            public short[] Shorts;
+        }
+
         private IProgressReporterDialogue prd;
         private string inputfn;
         private string outputfn;
@@ -554,6 +570,10 @@ namespace MissionPlanner.Log
                         answer.Add(ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] {'\0'}));
                         offset += 64;
                         break;
+                    case 'a':
+                        answer.Add(new UnionArray(message.Skip(offset).Take(64).ToArray()).Shorts.Take(32));
+                        offset += 2 * 32;
+                        break;
                     default:
                         return null;
                 }
@@ -676,6 +696,7 @@ namespace MissionPlanner.Log
     116    +  e   : int32_t * 100  
     117    +  E   : uint32_t * 100  
     118    +  L   : uint32_t latitude/longitude  
+    a : short[32]
     119    + */
 
 
@@ -812,6 +833,10 @@ namespace MissionPlanner.Log
                     case 'Z':
                         line.Append(", " + ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] {'\0'}));
                         offset += 64;
+                        break;
+                    case 'a':
+                        line.Append(", [" + String.Join(" ", new UnionArray(message.Skip(offset).Take(64).ToArray()).Shorts.Take(32).ToList())+"]");
+                        offset += 2 * 32;
                         break;
                     default:
                         return "Bad Conversion";
