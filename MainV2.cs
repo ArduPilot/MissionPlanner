@@ -408,7 +408,7 @@ namespace MissionPlanner
         /// Otiginally seperate controls, each hosted in a toolstip sqaure, combined into this custom
         /// control for layout reasons.
         /// </summary>
-        static internal ConnectionControl _connectionControl;
+        public static ConnectionControl _connectionControl;
 
         public static bool TerminalTheming = true;
 

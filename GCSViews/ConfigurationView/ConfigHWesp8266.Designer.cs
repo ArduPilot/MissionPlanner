@@ -41,7 +41,18 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.cmb_channel = new System.Windows.Forms.ComboBox();
+            this.but_resetdefault = new MissionPlanner.Controls.MyButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.chk_mode = new System.Windows.Forms.CheckBox();
+            this.groupBoxsta = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.txt_ip = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txt_subnet = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txt_gateway = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.groupBoxsta.SuspendLayout();
             this.SuspendLayout();
             // 
             // label6
@@ -136,24 +147,92 @@
             resources.ApplyResources(this.cmb_channel, "cmb_channel");
             this.cmb_channel.Name = "cmb_channel";
             // 
+            // but_resetdefault
+            // 
+            resources.ApplyResources(this.but_resetdefault, "but_resetdefault");
+            this.but_resetdefault.Name = "but_resetdefault";
+            this.but_resetdefault.UseVisualStyleBackColor = true;
+            this.but_resetdefault.Click += new System.EventHandler(this.but_resetdefault_Click);
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // chk_mode
+            // 
+            resources.ApplyResources(this.chk_mode, "chk_mode");
+            this.chk_mode.Name = "chk_mode";
+            this.chk_mode.UseVisualStyleBackColor = true;
+            this.chk_mode.CheckedChanged += new System.EventHandler(this.chk_mode_CheckedChanged);
+            // 
+            // groupBoxsta
+            // 
+            this.groupBoxsta.Controls.Add(this.label9);
+            this.groupBoxsta.Controls.Add(this.txt_gateway);
+            this.groupBoxsta.Controls.Add(this.label8);
+            this.groupBoxsta.Controls.Add(this.txt_subnet);
+            this.groupBoxsta.Controls.Add(this.label7);
+            this.groupBoxsta.Controls.Add(this.txt_ip);
+            resources.ApplyResources(this.groupBoxsta, "groupBoxsta");
+            this.groupBoxsta.Name = "groupBoxsta";
+            this.groupBoxsta.TabStop = false;
+            groupBoxsta.Enabled = false;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // txt_ip
+            // 
+            resources.ApplyResources(this.txt_ip, "txt_ip");
+            this.txt_ip.Name = "txt_ip";
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
+            // txt_subnet
+            // 
+            resources.ApplyResources(this.txt_subnet, "txt_subnet");
+            this.txt_subnet.Name = "txt_subnet";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // txt_gateway
+            // 
+            resources.ApplyResources(this.txt_gateway, "txt_gateway");
+            this.txt_gateway.Name = "txt_gateway";
+            // 
             // ConfigHWESP8266
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.cmb_channel);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.txt_password);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.groupBoxsta);
             this.Controls.Add(this.txt_ssid);
             this.Controls.Add(this.cmb_baud);
+            this.Controls.Add(this.txt_password);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.chk_mode);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.but_resetdefault);
             this.Controls.Add(this.BUT_espsettings);
+            this.Controls.Add(this.cmb_channel);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.pictureBox5);
             this.Name = "ConfigHWESP8266";
+            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            this.groupBoxsta.ResumeLayout(false);
+            this.groupBoxsta.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -173,5 +252,15 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cmb_channel;
+        private Controls.MyButton but_resetdefault;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chk_mode;
+        private System.Windows.Forms.GroupBox groupBoxsta;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txt_ip;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox txt_gateway;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txt_subnet;
     }
 }
