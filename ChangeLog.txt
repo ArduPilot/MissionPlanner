@@ -1,4 +1,86 @@
-﻿* Mission Planner 1.3.49 - 20-7-2017
+﻿*Mission Planner 1.3.50 - 6-10-2017
+HUD: fix intel graphics freeze
+ConfigESP8266: add STA mode
+Drivers: Cube
+fft: add new df format for fft
+MAVLinkMessage: make serializable and add rxtime
+px4uploader: remove redundant file save
+SITL: enable in appstore
+Firmware: check for null url on old firmwares
+Fix for issue #1641. OpenFileDialog remember the last used dir until restart
+LogAnalyzer: update
+SerialInjectGPS: fix buffer length passing
+SerialInjectGPS: match sendData length variable type to InjectGpsData
+MAVLinkInterface: add yaw support to setPositionTargetGlobalInt
+DroneBase: create baseclass
+MainV2: fix connection list on invalid items
+IProgressReporterDialogue: create and use
+MAVLinkInterface: try rts/cts on no data
+MissionPlanner: fix project file globbing
+MissionPlanner: convert project to new format
+solo: add image upload support
+SRB: send multiple takeoffs
+px4uploader: fix for missing cert.xml
+MAVLinkInterface: param switch to one by one when more than 75% of the params have been received
+MainV2: add ProcessCmdKey event
+SRB: straight takeoff
+MAVLinkInterface: support uavcan node status
+Mavlink: add uavcan messages
+GMAP: use sqlite always
+SRB: change takeoff progression
+MainV2: add connection list connect (tcp://|udp://|udpcl://|serial:)
+TD: fix fence cast
+SRB: takeoff one at a time
+NetStandard: convert
+DistanceBar: fix render
+Nuget: cleanup
+Gmap: fix release build
+NetStandard updates
+SRB: yaw and land tweaks
+NetStandard 2.0
+ParameterMetaData: update backup file
+MainV2: display advanced by default #1638
+MainV2: add adsb sending to drone, when used with SDR etc
+georef: create xml of extracted positions
+work around for emlid reach Beidou RTCM message parsing (#1637)
+MainV2: add clickable ardupilot logo
+FlightPlanner: fix wpfile load with no home #1635
+HUD: add more startup logging
+ConfigFlightMode: support mode6 on rover
+SRB: use base velocity after takeoff issued, and fix posible land issue, Set Z speed on init
+SRB: add yaw and moving takeoff
+SRB: speed and fixs
+Logo: update
+SRB: fix base heading
+SRB: null checks
+ArduPilot Logo
+SRB: add
+AltitudeAngel: Exception fix
+FlightPlanner: dont draw DELAY command
+ParameterMetaDataParser: parallel process groups
+Update: parallel download x3
+Kalman3D: future use
+SerialInjectGPS: add ubx velned support
+SerialInjectGPS: add moving baseline support
+Device: fix decoder
+HUD: fix non npot
+ParameterMetaData: update for AC 3.5 changes #1604
+SITL: load correct param files #1607
+FailSafe: update urls #1615
+hud: add try around vsync
+mavgraphs: add magfield vs throttle
+ConfigHWCompass: remove quickselect for new AC versions
+Firmware: scan all ports during bootloader detect
+Joystick: remove self reference
+temp: define TD start sequence
+Grid: fix lane reversal spacing
+LogBrowse: fix modebar height when zoomed and text appearing when it is off when adding a item
+HUD: force makecurrent poll every 5 seconds
+ParameterMetaData: update backup
+AA: OverlayAdapter fix exception on exit
+Grid: corridor support
+Wix: update
+* Mission Planner 1.3.49 - 20-7-2017
 LogBrowse: change to mode color bands
 GridUI: add exception handle
 Grid: add min shutter speed #1601

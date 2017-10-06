@@ -116,7 +116,7 @@ namespace wix
 
             System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
 
-            string fn = outputfilename + "-" + fvi.FileVersion;
+            string fn = outputfilename + "-" + fvi.ProductVersion;
 
             StreamWriter st = new StreamWriter("create.bat", false);
 
@@ -168,16 +168,16 @@ namespace wix
 
             newid = "*";
 
-            StreamReader sr = new StreamReader(File.OpenRead("../Properties/AssemblyInfo.cs"));
+            StreamReader sr = new StreamReader(File.OpenRead("../MissionPlanner.csproj"));
 
             string version = "0";
 
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
-                if (line.Contains("AssemblyFileVersion"))
+                if (line.Contains("<Version>"))
                 {
-                    string[] items = line.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] items = line.Split(new char[] {' ','"', '<', '>'}, StringSplitOptions.RemoveEmptyEntries);
                     version = items[1];
                     break;
                 }
