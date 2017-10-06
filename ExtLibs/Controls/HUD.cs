@@ -2741,7 +2741,7 @@ namespace MissionPlanner.Controls
 
                     //    GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)All.Nearest);
                     //GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)All.Nearest);
-                    GL.Finish();
+                    GL.Flush();
                     bitmap.UnlockBits(data);
 
                     charDict[charid].gltextureid = textureId;
