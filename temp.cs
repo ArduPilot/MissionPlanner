@@ -1095,5 +1095,13 @@ namespace MissionPlanner
 
             ctl.ShowUserControl();
         }
+
+        private void but_gsttest_Click(object sender, EventArgs e)
+        {
+            System.Threading.ThreadPool.QueueUserWorkItem((a) =>
+            {
+                GStreamer.test();
+            });
+        }
     }
 }

@@ -102,6 +102,7 @@
             this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.but_td = new MissionPlanner.Controls.MyButton();
             this.but_dem = new MissionPlanner.Controls.MyButton();
+            this.but_gsttest = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -916,10 +917,21 @@
             this.but_dem.UseVisualStyleBackColor = true;
             this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
             // 
+            // but_gsttest
+            // 
+            this.but_gsttest.Location = new System.Drawing.Point(62, 566);
+            this.but_gsttest.Name = "but_gsttest";
+            this.but_gsttest.Size = new System.Drawing.Size(75, 23);
+            this.but_gsttest.TabIndex = 90;
+            this.but_gsttest.Text = "GST test";
+            this.but_gsttest.UseVisualStyleBackColor = true;
+            this.but_gsttest.Click += new System.EventHandler(this.but_gsttest_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_gsttest);
             this.Controls.Add(this.but_dem);
             this.Controls.Add(this.but_td);
             this.Controls.Add(this.but_logdlscp);
@@ -1030,5 +1042,6 @@
         private Controls.MyButton but_logdlscp;
         private Controls.MyButton but_td;
         private Controls.MyButton but_dem;
+        private Controls.MyButton but_gsttest;
     }
 }
