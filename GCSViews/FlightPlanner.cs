@@ -2014,33 +2014,33 @@ namespace MissionPlanner.GCSViews
             try
             {
                 Invoke((MethodInvoker)delegate
-               {
-                   try
-                   {
-                       log.Info("Process " + cmds.Count);
-                       processToScreen(cmds);
-                   }
-                   catch (Exception exx)
-                   {
-                       log.Info(exx.ToString());
-                   }
+                {
+                    try
+                    {
+                        log.Info("Process " + cmds.Count);
+                        processToScreen(cmds);
+                    }
+                    catch (Exception exx)
+                    {
+                        log.Info(exx.ToString());
+                    }
 
-                   try
-                   {
-                       if (withrally && MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") &&
-                           int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) >= 1)
-                           getRallyPointsToolStripMenuItem_Click(null, null);
-                   }
-                   catch
-                   {
-                   }
+                    try
+                    {
+                        if (withrally && MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") &&
+                            int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) >= 1)
+                            getRallyPointsToolStripMenuItem_Click(null, null);
+                    }
+                    catch
+                    {
+                    }
 
-                   MainV2.comPort.giveComport = false;
+                    MainV2.comPort.giveComport = false;
 
-                   BUT_read.Enabled = true;
+                    BUT_read.Enabled = true;
 
-                   writeKML();
-               });
+                    writeKML();
+                });
             }
             catch (Exception exx)
             {
