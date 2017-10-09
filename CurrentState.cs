@@ -747,6 +747,8 @@ namespace MissionPlanner
 
         public double battery_temp { get; set; }
 
+        public double battery_usedmah2 { get; set; }
+
         [DisplayText("Bat2 Voltage (V)")]
         public double battery_voltage2
         {
@@ -760,14 +762,18 @@ namespace MissionPlanner
 
         internal double _battery_voltage2;
 
+        private DateTime _lastcurrent2 = DateTime.MinValue;
+
         [DisplayText("Bat2 Current (Amps)")]
         public double current2
         {
             get { return _current2; }
             set
             {
-                if (value < 0) return;
+                if (value < 0) return;              
+                battery_usedmah2 += ((value * 1000.0) * (datetime - _lastcurrent2).TotalHours);
                 _current2 = value;
+                _lastcurrent2 = datetime;
             }
         }
 
