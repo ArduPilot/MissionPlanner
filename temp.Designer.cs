@@ -101,6 +101,7 @@
             this.but_sortlogs = new MissionPlanner.Controls.MyButton();
             this.but_logdlscp = new MissionPlanner.Controls.MyButton();
             this.but_td = new MissionPlanner.Controls.MyButton();
+            this.but_dem = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -905,10 +906,21 @@
             this.but_td.UseVisualStyleBackColor = true;
             this.but_td.Click += new System.EventHandler(this.but_td_Click);
             // 
+            // but_dem
+            // 
+            this.but_dem.Location = new System.Drawing.Point(143, 566);
+            this.but_dem.Name = "but_dem";
+            this.but_dem.Size = new System.Drawing.Size(75, 23);
+            this.but_dem.TabIndex = 89;
+            this.but_dem.Text = "DEM";
+            this.but_dem.UseVisualStyleBackColor = true;
+            this.but_dem.Click += new System.EventHandler(this.but_dem_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_dem);
             this.Controls.Add(this.but_td);
             this.Controls.Add(this.but_logdlscp);
             this.Controls.Add(this.but_sortlogs);
@@ -1017,5 +1029,6 @@
         private Controls.MyButton but_sortlogs;
         private Controls.MyButton but_logdlscp;
         private Controls.MyButton but_td;
+        private Controls.MyButton but_dem;
     }
 }

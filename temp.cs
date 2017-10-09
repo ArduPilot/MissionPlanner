@@ -1070,5 +1070,30 @@ namespace MissionPlanner
 
             ctl.Start();
         }
+
+        private void but_dem_Click(object sender, EventArgs e)
+        {
+            UserControl ctl = new UserControl() {Width = 1100, AutoSize = true};
+
+            string line = "";
+
+            foreach (var item in GeoTiff.index)
+            {
+                //log.InfoFormat("Start Point ({0},{1},{2}) --> ({3},{4},{5})", item.i, item.j, item.k, item.x, item.y, item.z);
+
+                line += String.Format("{0} = {1} = {2}*{3} {4}\n", item.FileName, item.Area, item.width, item.height, item.bits,
+                    item.xscale, item.yscale, item.zscale);
+            }
+
+            ctl.Controls.Add(new Label() {Text = line, AutoSize = true, Location = new Point(0, 30)});
+            var butt = new MyButton() {Text = "Open DEM Dir"};
+            butt.Click += (a, ev) =>
+            {
+                System.Diagnostics.Process.Start(@"C:\ProgramData\Mission Planner\srtm\");
+            };
+            ctl.Controls.Add(butt);
+
+            ctl.ShowUserControl();
+        }
     }
 }
