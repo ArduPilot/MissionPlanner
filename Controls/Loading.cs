@@ -27,28 +27,40 @@ namespace MissionPlanner.Controls
             InitializeComponent();
         }
 
+        ~Loading()
+        {
+            Instance = null;
+        }
+
         public new string Text 
         {
             get { return label1.Text; }
             set
             {
-                if (this.IsHandleCreated && !IsDisposed)
+                try
                 {
-                    if (this.InvokeRequired)
+                    if (this.IsHandleCreated && !IsDisposed)
                     {
-                        this.Invoke((MethodInvoker) delegate
+                        if (this.InvokeRequired)
+                        {
+                            this.Invoke((MethodInvoker) delegate
+                            {
+                                label1.Text = value;
+                                this.Focus();
+                                this.Refresh();
+                            });
+                        }
+                        else
                         {
                             label1.Text = value;
                             this.Focus();
                             this.Refresh();
-                        });
+                        }
                     }
-                    else
-                    {
-                        label1.Text = value;
-                        this.Focus();
-                        this.Refresh();
-                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
                 }
             }
         }
