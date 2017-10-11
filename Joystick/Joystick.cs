@@ -1198,6 +1198,16 @@ namespace MissionPlanner.Joystick
             return buts[JoyButtons[buttonno].buttonno];
         }
 
+        public bool isJoyButtonPressed(int buttonno)
+        {
+            var buts = state.GetButtons();
+
+            if (buts == null)
+                return false;
+
+            return buts[buttonno];
+        }
+
         public short getValueForChannel(int channel, string name)
         {
             if (joystick == null)
