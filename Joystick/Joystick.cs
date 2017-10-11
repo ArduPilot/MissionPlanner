@@ -829,12 +829,20 @@ namespace MissionPlanner.Joystick
                         }
                         break;
                     case buttonfunction.Mount_Mode:
-
                         MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker) delegate()
                         {
                             try
                             {
-                                MainV2.comPort.setParam("MNT_MODE", but.p1);
+                                if (MainV2.comPort.MAV.param.ContainsKey("MNT_MODE"))
+                                {
+                                    MainV2.comPort.setParam("MNT_MODE", (int)but.p1);
+                                }
+                                else
+                                {
+                                    // copter 3.3 acks with an error, but is ok
+                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_MOUNT_CONTROL, 0, 0, 0, 0, 0, 0,
+                                        (int)but.p1);
+                                }
                             }
                             catch
                             {
