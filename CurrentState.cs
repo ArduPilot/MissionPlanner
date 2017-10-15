@@ -2318,11 +2318,13 @@ namespace MissionPlanner
                         var deltaimu = timesec - imutime;
 
                         //Console.WriteLine( + " " + deltawall + " " + deltaimu + " " + System.Threading.Thread.CurrentThread.Name);
-                        if (speedup > 0)
-                            speedup = (float) (speedup*0.95 + (deltaimu/deltawall)*0.05);
+                        if (deltaimu > 0 && deltaimu < 10)
+                        {
+                            speedup = (float) (speedup * 0.95 + (deltaimu / deltawall) * 0.05);
 
-                        imutime = timesec;
-                        lastimutime = DateTime.Now;
+                            imutime = timesec;
+                            lastimutime = DateTime.Now;
+                        }
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU);
                     }
