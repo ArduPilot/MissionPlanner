@@ -39,7 +39,7 @@ How to compile
 
 3. Build
 
-- Open MissionPlanner.sln with Visual Studio express 2013 for windows desktop.
+- Open MissionPlanner.sln with Visual Studio Community 2017 for windows desktop.
 - Compile.
 
 
