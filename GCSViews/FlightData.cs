@@ -18,6 +18,7 @@ using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
 using MissionPlanner.Joystick;
 using MissionPlanner.Log;
@@ -2767,6 +2768,9 @@ namespace MissionPlanner.GCSViews
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
 
+            int max_length = 0;
+            List<string> fields = new List<string>();
+
             foreach (var field in test.GetProperties())
             {
                 // field.Name has the field's name.
@@ -2787,68 +2791,75 @@ namespace MissionPlanner.GCSViews
                     continue;
                 }
 
-                if (
-                    !(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 ||
-                      typeCode == TypeCode.UInt16))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || 
+                    typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
+                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                fields.Add(field.Name);
+            }
+            max_length += 15;
+            fields.Sort();
+
+            foreach (var field in fields)
+            {
                 CheckBox chk_box = new CheckBox();
 
                 ThemeManager.ApplyThemeTo(chk_box);
 
-                if (list1item != null && list1item.Name == field.Name)
+                if (list1item != null && list1item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list2item != null && list2item.Name == field.Name)
+                if (list2item != null && list2item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list3item != null && list3item.Name == field.Name)
+                if (list3item != null && list3item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list4item != null && list4item.Name == field.Name)
+                if (list4item != null && list4item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list5item != null && list5item.Name == field.Name)
+                if (list5item != null && list5item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list6item != null && list6item.Name == field.Name)
+                if (list6item != null && list6item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list7item != null && list7item.Name == field.Name)
+                if (list7item != null && list7item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list8item != null && list8item.Name == field.Name)
+                if (list8item != null && list8item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list9item != null && list9item.Name == field.Name)
+                if (list9item != null && list9item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
-                if (list10item != null && list10item.Name == field.Name)
+                if (list10item != null && list10item.Name == field)
                 {
                     chk_box.Checked = true;
                     chk_box.BackColor = Color.Green;
                 }
 
-                chk_box.Text = field.Name;
-                chk_box.Name = field.Name;
+                chk_box.Text = field;
+                chk_box.Name = field;
                 chk_box.Location = new Point(x, y);
                 chk_box.Size = new Size(100, 20);
                 chk_box.CheckedChanged += chk_box_CheckedChanged;
@@ -4384,7 +4395,7 @@ namespace MissionPlanner.GCSViews
 
         private void altitudeAngelSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //new Utilities.AltitudeAngel.AASettings().Show(this);
+            new Utilities.AltitudeAngel.AASettings().Show(this);
         }
 
         private void setViewCountToolStripMenuItem_Click(object sender, EventArgs e)

@@ -512,7 +512,7 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v3)
                 {
                     baseurl = temp.urlpx4v3.ToString();
-                    if (!Common.CheckHTTPFileExists(baseurl))
+                    if (String.IsNullOrEmpty(baseurl) || !Common.CheckHTTPFileExists(baseurl))
                     {
                         baseurl = temp.urlpx4v2.ToString();
                     }
@@ -781,6 +781,25 @@ namespace MissionPlanner.Utilities
 
         private void AttemptRebootToBootloader()
         {
+            string[] allports = SerialPort.GetPortNames();
+
+            foreach (string port in allports)
+            {
+                log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
+                try
+                {
+                    using (var up = new Uploader(port, 115200))
+                    {
+                        up.identify();
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error(ex);
+                }
+            }
+
             if (MainV2.comPort.BaseStream is SerialPort)
             {
                 try

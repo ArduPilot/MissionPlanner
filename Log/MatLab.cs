@@ -248,7 +248,7 @@ namespace MissionPlanner.Log
             foreach (var item in dataCell)
             {
                 // create msg table
-                MLCell temp1 = new MLCell("",new int[] {1 , item.Value.Count});
+                MLCell temp1 = new MLCell("MSG1", new int[] {1, item.Value.Count});
                 int a = 0;
                 // add rows to msg table
                 foreach (var mlCell in item.Value)
@@ -282,7 +282,7 @@ namespace MissionPlanner.Log
             {
                 log.Info("write " + fn + ".mat");
                 log.Info("DoWrite before" + (GC.GetTotalMemory(false)/1024.0/1024.0));
-                MatFileWriter mfw = new MatFileWriter(fn + ".mat", mlList, true);
+                MatFileWriter mfw = new MatFileWriter(fn + ".mat", mlList, false);
                 log.Info("DoWrite done" + (GC.GetTotalMemory(false)/1024.0/1024.0));
             }
             catch (Exception err)
@@ -421,7 +421,7 @@ namespace MissionPlanner.Log
 
             try
             {
-                MatFileWriter mfw = new MatFileWriter(logfile + ".mat", mlList, true);
+                MatFileWriter mfw = new MatFileWriter(logfile + ".mat", mlList, false);
             }
             catch (Exception err)
             {

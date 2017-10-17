@@ -13,6 +13,8 @@
       <entry value="4" name="ACCELCAL_VEHICLE_POS_NOSEDOWN"/>
       <entry value="5" name="ACCELCAL_VEHICLE_POS_NOSEUP"/>
       <entry value="6" name="ACCELCAL_VEHICLE_POS_BACK"/>
+      <entry value="16777215" name="ACCELCAL_VEHICLE_POS_SUCCESS"/>
+      <entry value="16777216" name="ACCELCAL_VEHICLE_POS_FAILED"/>
     </enum>
     <!-- ardupilot specific MAV_CMD_* commands -->
     <enum name="MAV_CMD">
@@ -83,6 +85,16 @@
         <param index="2">Empty</param>
         <param index="3">Empty</param>
         <param index="4">Empty</param>
+        <param index="5">Empty</param>
+        <param index="6">Empty</param>
+        <param index="7">Empty</param>
+      </entry>
+      <entry value="42004" name="MAV_CMD_FIXED_MAG_CAL">
+        <description>Magnetometer calibration based on fixed position in earth field</description>
+        <param index="1">MagDeclinationDegrees</param>
+        <param index="2">MagInclinationDegrees</param>
+        <param index="3">MagIntensityMilliGauss</param>
+        <param index="4">YawDegrees</param>
         <param index="5">Empty</param>
         <param index="6">Empty</param>
         <param index="7">Empty</param>
@@ -848,6 +860,30 @@
         <description>SPI Device operation</description>
       </entry>
     </enum>
+    <enum name="DEEPSTALL_STAGE">
+      <description>Deepstall flight stage</description>
+      <entry value="0" name="DEEPSTALL_STAGE_FLY_TO_LANDING">
+        <description>Flying to the landing point</description>
+      </entry>
+      <entry value="1" name="DEEPSTALL_STAGE_ESTIMATE_WIND">
+        <description>Building an estimate of the wind</description>
+      </entry>
+      <entry value="2" name="DEEPSTALL_STAGE_WAIT_FOR_BREAKOUT">
+        <description>Waiting to breakout of the loiter to fly the approach</description>
+      </entry>
+      <entry value="3" name="DEEPSTALL_STAGE_FLY_TO_ARC">
+        <description>Flying to the first arc point to turn around to the landing point</description>
+      </entry>
+      <entry value="4" name="DEEPSTALL_STAGE_ARC">
+        <description>Turning around back to the deepstall landing point</description>
+      </entry>
+      <entry value="5" name="DEEPSTALL_STAGE_APPROACH">
+        <description>Approaching the landing point</description>
+      </entry>
+      <entry value="6" name="DEEPSTALL_STAGE_LAND">
+        <description>Stalling and steering towards the land point</description>
+      </entry>
+    </enum>
   </enums>
   <messages>
     <message id="150" name="SENSOR_OFFSETS">
@@ -1160,7 +1196,7 @@
       <field type="float" name="roll" units="rad">Roll angle (rad)</field>
       <field type="float" name="pitch" units="rad">Pitch angle (rad)</field>
       <field type="float" name="yaw" units="rad">Yaw angle (rad)</field>
-      <field type="float" name="altitude">Altitude (MSL)</field>
+      <field type="float" name="altitude" units="m">Altitude (MSL)</field>
       <field type="int32_t" name="lat" units="degE7">Latitude in degrees * 1E7</field>
       <field type="int32_t" name="lng" units="degE7">Longitude in degrees * 1E7</field>
       <field type="float" name="v1">test variable1</field>
@@ -1248,6 +1284,19 @@
       <field type="float" name="P">P component</field>
       <field type="float" name="I">I component</field>
       <field type="float" name="D">D component</field>
+    </message>
+    <message id="195" name="DEEPSTALL">
+      <description>Deepstall path planning</description>
+      <field type="int32_t" name="landing_lat" units="degE7">Landing latitude (deg * 1E7)</field>
+      <field type="int32_t" name="landing_lon" units="degE7">Landing longitude (deg * 1E7)</field>
+      <field type="int32_t" name="path_lat" units="degE7">Final heading start point, latitude (deg * 1E7)</field>
+      <field type="int32_t" name="path_lon" units="degE7">Final heading start point, longitude (deg * 1E7)</field>
+      <field type="int32_t" name="arc_entry_lat" units="degE7">Arc entry point, latitude (deg * 1E7)</field>
+      <field type="int32_t" name="arc_entry_lon" units="degE7">Arc entry point, longitude (deg * 1E7)</field>
+      <field type="float" name="altitude" units="m">Altitude (meters)</field>
+      <field type="float" name="expected_travel_distance" units="m">Distance the aircraft expects to travel during the deepstall</field>
+      <field type="float" name="cross_track_error" units="m">Deepstall cross track error in meters (only valid when in DEEPSTALL_STAGE_LAND)</field>
+      <field type="uint8_t" name="stage" enum="DEEPSTALL_STAGE">Deepstall stage, see enum MAV_DEEPSTALL_STAGE</field>
     </message>
     <message id="200" name="GIMBAL_REPORT">
       <description>3 axis gimbal mesuraments</description>

@@ -17,7 +17,7 @@
     <RootNamespace>AviFile</RootNamespace>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <OldToolsVersion>2.0</OldToolsVersion>
     <UpgradeBackupLocation />
     <NuGetPackageImportStamp>

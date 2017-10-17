@@ -11,8 +11,6 @@ using log4net.Config;
 using System.IO;
 using System.Collections.Generic;
 using GMap.NET;
-using System.Windows.Forms;
-using GMap.NET.WindowsForms;
 using GMap.NET.MapProviders;
 using System.Drawing.Drawing2D;
 using OSGeo.OGR;
@@ -445,41 +443,6 @@ namespace GDAL
             }
             Console.WriteLine("");
             return 1;
-        }
-    }
-
-    public static class Program
-    {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        public static void Main(string[] args)
-        {
-            var layout = new PatternLayout("%-4timestamp [%thread] %-5level %logger %ndc - %message%newline");
-            var appender = new ConsoleAppender
-            {
-                Layout = layout
-            };
-            layout.ActivateOptions();
-            appender.ActivateOptions();
-            BasicConfigurator.Configure(appender);
-
-            GDAL.ScanDirectory(Application.StartupPath);
-
-            Form frm = new Form();
-            GMap.NET.WindowsForms.GMapControl map = new GMap.NET.WindowsForms.GMapControl();
-            map.Dock = DockStyle.Fill;
-            frm.Controls.Add(map);
-            map.MapProvider = GDALProvider.Instance;
-
-            map.MaxZoom = 22;
-
-            //map.Manager.Mode = AccessMode.ServerOnly;
-
-            map.Invalidate();
-
-            frm.ShowDialog();
         }
     }
 }

@@ -21,7 +21,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private string custom_fw_dir = "";
         private string firmwareurl = "";
         private bool firstrun = true;
-        private ProgressReporterDialogue pdr;
+        private IProgressReporterDialogue pdr;
 
         public ConfigFirmware()
         {
@@ -350,6 +350,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         else
                         {
                             boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                        }
+
+                        if (boardtype == BoardDetect.boards.none)
+                        {
+                            CustomMessageBox.Show(Strings.CantDetectBoardVersion);
+                            return;
                         }
                     }
                     catch

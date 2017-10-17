@@ -86,11 +86,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/failsafe/"));
+                Process.Start(new ProcessStartInfo("http://ardupilot.org/copter/docs/failsafe-landing-page.html"));
             }
             else
             {
-                Process.Start(new ProcessStartInfo("http://plane.ardupilot.com/wiki/failsafe/"));
+                Process.Start(new ProcessStartInfo("http://ardupilot.org/plane/docs/advanced-failsafe-configuration.html"));
             }
         }
 

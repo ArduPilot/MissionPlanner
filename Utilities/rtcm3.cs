@@ -336,6 +336,19 @@ namespace MissionPlanner.Utilities
             pos[2] = Math.Sqrt(r2 + z*z) - v;
         }
 
+        public static void pos2ecef(double[] pos, ref double[] r)
+        {
+            double sinp = Math.Sin(pos[0]),
+                cosp = Math.Cos(pos[0]),
+                sinl = Math.Sin(pos[1]),
+                cosl = Math.Cos(pos[1]);
+            double e2 = FE_WGS84 * (2.0 - FE_WGS84), v = RE_WGS84 / Math.Sqrt(1.0 - e2 * sinp * sinp);
+
+            r[0] = (v + pos[2]) * cosp * cosl;
+            r[1] = (v + pos[2]) * cosp * sinl;
+            r[2] = (v * (1.0 - e2) + pos[2]) * sinp;
+        }
+
         private static double dot(double[] a, double[] b, int n)
         {
             var c = 0.0;

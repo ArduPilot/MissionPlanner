@@ -38,6 +38,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             startup = true;
 
+            if (MainV2.comPort.MAV.cs.version > Version.Parse("3.2.1") &&
+                MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            {
+                QuickAPM25.Visible = false;
+                buttonAPMExternal.Visible = false;
+                buttonQuickPixhawk.Visible = false;
+                label1.Visible = false;
+            }
+
             if (MainV2.comPort.MAV.cs.version >= Version.Parse("3.7.1") &&
                 MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane 
                 || Control.ModifierKeys == Keys.Control)
@@ -441,7 +450,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalaccept_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_ACCEPT_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_ACCEPT_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR, MessageBoxButtons.OK);
+            }
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);
@@ -451,7 +468,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_OBmagcalcancel_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_CANCEL_MAG_CAL, 0, 0, 1, 0, 0, 0, 0);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.ToString(), Strings.ERROR, MessageBoxButtons.OK);
+            }
 
             MainV2.comPort.UnSubscribeToPacketType(packetsub1);
             MainV2.comPort.UnSubscribeToPacketType(packetsub2);

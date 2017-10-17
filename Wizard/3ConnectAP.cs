@@ -17,7 +17,7 @@ namespace MissionPlanner.Wizard
     public partial class _3ConnectAP : MyUserControl, IWizard, IActivate
     {
         List<KeyValuePair<string, string>> fwmap = new List<KeyValuePair<string, string>>();
-        ProgressReporterDialogue pdr;
+        IProgressReporterDialogue pdr;
         string comport = "";
         bool fwdone = false;
         private bool usebeta;

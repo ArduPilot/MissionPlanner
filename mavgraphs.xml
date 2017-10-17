@@ -244,6 +244,12 @@ Velocity comparison x
     <expression>BARO.Press</expression>
   </graph>
 
+  <graph name='Sensors/Compass/Compass vs Throttle'>
+    <description>Compass vs Throttle</description>
+    <expression>RAW_IMU.xmag RAW_IMU.ymag RAW_IMU.zmag mag_field(RAW_IMU)</expression>
+    <expression>CTUN.ThO:2 sqrt(MAG.MagX**2+MAG.MagY**2+MAG.MagZ**2) sqrt(MAG2.MagX**2+MAG2.MagY**2+MAG2.MagZ**2) sqrt(MAG3.MagX**2+MAG3.MagY**2+MAG3.MagZ**2)</expression>
+  </graph>
+  
   <graph name='Sensors/Compass/Compass'>
     <description>Primary Compass</description>
     <expression>RAW_IMU.xmag RAW_IMU.ymag RAW_IMU.zmag mag_field(RAW_IMU)</expression>

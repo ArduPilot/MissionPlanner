@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="tabRawSensor.Text" xml:space="preserve">
     <value>RAW-Sensor</value>
@@ -135,31 +135,10 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Radio Eingang</value>
   </data>
-  <data name="chkax.Text" xml:space="preserve">
-    <value>Accel X</value>
-  </data>
-  <data name="chkaz.Text" xml:space="preserve">
-    <value>Accel Z</value>
-  </data>
-  <data name="chkay.Text" xml:space="preserve">
-    <value>Accel Y</value>
-  </data>
-  <data name="tabRadio.Text" xml:space="preserve">
-    <value>Radio</value>
-  </data>
   <data name="tabOrientation.Text" xml:space="preserve">
     <value>Flugdaten</value>
   </data>
   <data name="BUT_savecsv.Text" xml:space="preserve">
     <value>CSV speichern</value>
-  </data>
-  <data name="chkgz.Text" xml:space="preserve">
-    <value>Gyro Z</value>
-  </data>
-  <data name="chkgx.Text" xml:space="preserve">
-    <value>Gyro X</value>
-  </data>
-  <data name="chkgy.Text" xml:space="preserve">
-    <value>Gyro Y</value>
   </data>
 </root>

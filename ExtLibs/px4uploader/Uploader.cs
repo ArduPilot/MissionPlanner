@@ -164,7 +164,15 @@ namespace px4uploader
             string vendor = "";
             string publickey = "";
 
-            using (XmlTextReader xmlreader = new XmlTextReader(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
+            var file = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                       Path.DirectorySeparatorChar + @"validcertificates.xml";
+
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            using (XmlTextReader xmlreader = new XmlTextReader(file))
             {
                 while (xmlreader.Read())
                 {

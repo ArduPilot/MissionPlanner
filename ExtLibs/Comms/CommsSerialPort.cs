@@ -4,7 +4,6 @@ using System.Text;
 using System.IO.Ports;
 using System.IO;
 using System.Linq;
-using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;

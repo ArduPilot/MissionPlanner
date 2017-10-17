@@ -611,11 +611,22 @@ namespace MissionPlanner
 
             // new grid system test
 
-            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
-                (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
-                (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
-                (Grid.StartPosition) Enum.Parse(typeof (Grid.StartPosition), CMB_startfrom.Text), false,
-                (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value);
+            if (chk_test.Checked)
+            {
+                grid = Grid.CreateCorridor(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value),
+                    (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value,
+                    (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value,
+                    (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false,
+                    (float)NUM_Lane_Dist.Value, (float)num_corridorwidth.Value, (float)NUM_leadin.Value);
+            }
+            else
+            {
+                grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double) NUM_altitude.Value),
+                    (double) NUM_Distance.Value, (double) NUM_spacing.Value, (double) NUM_angle.Value,
+                    (double) NUM_overshoot.Value, (double) NUM_overshoot2.Value,
+                    (Grid.StartPosition) Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false,
+                    (float) NUM_Lane_Dist.Value, (float) NUM_leadin.Value);
+            }
 
             map.HoldInvalidation = true;
 
@@ -648,6 +659,7 @@ namespace MissionPlanner
             int strips = 0;
             int images = 0;
             int a = 1;
+            PointLatLngAlt prevprevpoint = grid[0];
             PointLatLngAlt prevpoint = grid[0];
             float routetotal = 0;
             List<PointLatLng> segment = new List<PointLatLng>();
@@ -660,6 +672,8 @@ namespace MissionPlanner
                 double currentalt = srtm.getAltitude(item.Lat, item.Lng).alt;
                 mingroundelevation = Math.Min(mingroundelevation, currentalt);
                 maxgroundelevation = Math.Max(maxgroundelevation, currentalt);
+
+                prevprevpoint = prevpoint;
 
                 if (item.Tag == "M")
                 {
@@ -689,7 +703,7 @@ namespace MissionPlanner
 
                                 if (!CHK_camdirection.Checked)
                                 {
-                                    startangle = 90;
+                                    startangle += 90;
                                 }
 
                                 double angle1 = startangle - (Math.Sin((fovh/2.0)/(fovv/2.0))*rad2deg);
@@ -701,6 +715,9 @@ namespace MissionPlanner
                                 {
                                     bearing = Convert.ToInt32(TXT_headinghold.Text);
                                 }
+
+                                if (chk_test.Checked)
+                                    bearing = prevprevpoint.GetBearing(item);
 
                                 double fovha = 0;
                                 double fovva = 0;
@@ -829,7 +846,23 @@ namespace MissionPlanner
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
                 lbl_turnrad.Text = (turnrad * 2).ToString("0") + " m";
                 lbl_gndelev.Text = mingroundelevation.ToString("0") + "-" + maxgroundelevation.ToString("0") + " m";
+
             }
+
+            try {
+                // speed m/s
+                var speed = ((float) NUM_UpDownFlySpeed.Value / CurrentState.multiplierspeed);
+                // cmpix cm/pixel
+                var cmpix = float.Parse(TXT_cmpixel.Text.TrimEnd(new[] {'c', 'm', ' '}));
+                // m pix = m/pixel
+                var mpix = cmpix * 0.01;
+                // gsd / 2.0
+                var minmpix = mpix / 2.0;
+                // min sutter speed
+                var minshutter = speed / minmpix;
+                lbl_minshutter.Text = "1/"+(minshutter - minshutter % 1).ToString();
+            }
+            catch { }
 
             double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
 

@@ -683,5 +683,170 @@ namespace MissionPlanner.Utilities
             // not handled
             return false;
         }
+
+        private void but_ISBH_Click(object sender, EventArgs e)
+        {
+            Utilities.FFT2 fft = new FFT2();
+            using (
+                OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+
+                ofd.ShowDialog();
+
+                if (!File.Exists(ofd.FileName))
+                    return;
+
+                var file = new CollectionBuffer(File.OpenRead(ofd.FileName));
+
+                int bins = (int)NUM_bins.Value;
+
+                int N = 1 << bins;
+
+                Color[] color = new Color[]
+                {Color.Red, Color.Green, Color.Blue, Color.Black, Color.Violet, Color.Orange};
+                ZedGraphControl[] ctls = new ZedGraphControl[]
+                {
+                    zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5,
+                    zedGraphControl6
+                };
+
+                // 3 imus * 2 sets of measurements(gyr/acc)
+                datastate[] alldata = new datastate[3 * 2];
+                for (int a = 0; a < alldata.Length; a++)
+                    alldata[a] = new datastate();
+
+                // state cache
+                int Ns = 0;
+                int type = 0;
+                int instance = 0;
+                int sensorno = 0;
+                double smp_rate = 0;
+
+                foreach (var item in file.GetEnumeratorType(new string[] { "ISBH", "ISBD" }))
+                {
+                    if (item.msgtype == null)
+                    {
+                        continue;
+                    }
+
+                    if (item.msgtype.StartsWith("ISBH"))
+                    {
+                        Ns = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")]);
+                        type = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "type")]);
+                        instance = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "instance")]);
+                        smp_rate = double.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "smp_rate")]);
+
+                        sensorno = type * 3 + instance;
+                        if(type == 0)
+                            alldata[sensorno].type = "ACC"+ instance.ToString();
+                        if (type == 1)
+                            alldata[sensorno].type = "GYR"+ instance.ToString();
+
+                    }
+                    else if (item.msgtype.StartsWith("ISBD"))
+                    {
+                        var Nsdata = int.Parse(item.items[file.dflog.FindMessageOffset(item.msgtype, "N")]);
+
+                        if (Ns != Nsdata)
+                            continue;
+
+                        int offsetX = file.dflog.FindMessageOffset(item.msgtype, "x");
+                        int offsetY = file.dflog.FindMessageOffset(item.msgtype, "y");
+                        int offsetZ = file.dflog.FindMessageOffset(item.msgtype, "z");
+                        int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
+
+                        double time = double.Parse(item.items[offsetTime]) / 1000.0;
+
+                        if (time < alldata[sensorno].lasttime)
+                            continue;
+
+                        if (time != alldata[sensorno].lasttime)
+                            alldata[sensorno].timedelta = alldata[sensorno].timedelta * 0.99 +
+                                                          (time - alldata[sensorno].lasttime) * 0.01;
+
+                        alldata[sensorno].lasttime = time;
+
+                        item.items[offsetX].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datax.Add(double.Parse(aa)); });
+                        item.items[offsetY].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].datay.Add(double.Parse(aa)); });
+                        item.items[offsetZ].Split(new[] { ' ', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).ForEach(aa => { alldata[sensorno].dataz.Add(double.Parse(aa)); });
+                    }
+                }
+
+                int controlindex = 0;
+
+                foreach (var sensordata in alldata)
+                {
+                    if (sensordata.datax.Count <= N)
+                        continue;
+
+                    double samplerate = 0;
+
+                    samplerate = smp_rate;// Math.Round(1000 / sensordata.timedelta, 1);
+
+                    double[] freqt = fft.FreqTable(N, (int)samplerate);
+
+                    double[] avgx = new double[N / 2];
+                    double[] avgy = new double[N / 2];
+                    double[] avgz = new double[N / 2];
+
+                    int totalsamples = sensordata.datax.Count;
+                    int count = totalsamples / N;
+                    int done = 0;
+                    while (count > 1) // skip last part
+                    {
+                        var fftanswerx = fft.rin(sensordata.datax.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswery = fft.rin(sensordata.datay.Skip(N * done).Take(N).ToArray(), (uint)bins);
+                        var fftanswerz = fft.rin(sensordata.dataz.Skip(N * done).Take(N).ToArray(), (uint)bins);
+
+                        for (int b = 0; b < N / 2; b++)
+                        {
+                            if (freqt[b] < (double)NUM_startfreq.Value)
+                                continue;
+
+                            avgx[b] += fftanswerx[b] / (N / 2);
+                            avgy[b] += fftanswery[b] / (N / 2);
+                            avgz[b] += fftanswerz[b] / (N / 2);
+                        }
+
+                        count--;
+                        done++;
+                    }
+
+                    ZedGraph.PointPairList pplx = new ZedGraph.PointPairList(freqt, avgx);
+                    ZedGraph.PointPairList pply = new ZedGraph.PointPairList(freqt, avgy);
+                    ZedGraph.PointPairList pplz = new ZedGraph.PointPairList(freqt, avgz);
+
+                    var curvex = new LineItem(sensordata.type + " x", pplx, color[0], SymbolType.None);
+                    var curvey = new LineItem(sensordata.type + " y", pply, color[1], SymbolType.None);
+                    var curvez = new LineItem(sensordata.type + " z", pplz, color[2], SymbolType.None);
+
+                    ctls[controlindex].GraphPane.Legend.IsVisible = true;
+
+                    ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
+                    ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
+                    ctls[controlindex].GraphPane.Title.Text = "FFT " + sensordata.type + " - " +
+                                                              Path.GetFileName(ofd.FileName) + " - " + samplerate +
+                                                              "hz input";
+
+                    ctls[controlindex].GraphPane.CurveList.Clear();
+
+                    ctls[controlindex].GraphPane.CurveList.Add(curvex);
+                    ctls[controlindex].GraphPane.CurveList.Add(curvey);
+                    ctls[controlindex].GraphPane.CurveList.Add(curvez);
+
+                    ctls[controlindex].Invalidate();
+                    ctls[controlindex].AxisChange();
+
+                    ctls[controlindex].GraphPane.XAxis.Scale.Max = samplerate / 2;
+
+                    ctls[controlindex].Refresh();
+
+                    controlindex++;
+                }
+
+                SetScale(ctls);
+            }
+        }
     }
 }

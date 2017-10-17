@@ -203,8 +203,9 @@ namespace MissionPlanner.Controls
                     {
                         Control.Visible = value;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                     }
                 }
             }

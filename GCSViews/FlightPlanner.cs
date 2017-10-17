@@ -38,6 +38,7 @@ using ILog = log4net.ILog;
 using Placemark = SharpKml.Dom.Placemark;
 using Point = System.Drawing.Point;
 using System.Text.RegularExpressions;
+using MissionPlanner.Plugin;
 
 namespace MissionPlanner.GCSViews
 {
@@ -1323,6 +1324,7 @@ namespace MissionPlanner.GCSViews
                             command != (ushort)MAVLink.MAV_CMD.VTOL_TAKEOFF && // doesnt have a position
                             command != (ushort) MAVLink.MAV_CMD.RETURN_TO_LAUNCH &&
                             command != (ushort) MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                            command != (ushort)MAVLink.MAV_CMD.DELAY &&
                             command != (ushort) MAVLink.MAV_CMD.GUIDED_ENABLE
                             || command == (ushort) MAVLink.MAV_CMD.DO_SET_ROI)
                         {
@@ -1916,7 +1918,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = FormStartPosition.CenterScreen,
                 Text = "Receiving WP's"
@@ -2898,6 +2900,7 @@ namespace MissionPlanner.GCSViews
                     if (line.StartsWith("#"))
                         continue;
 
+                    //seq/cur/frame/mode
                     string[] items = line.Split(new[] {'\t', ' ', ','}, StringSplitOptions.RemoveEmptyEntries);
 
                     if (items.Length <= 9)
@@ -2905,6 +2908,13 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
+                        // check to see if the first wp is index 0/home.
+                        // if it is not index 0, add a blank home point
+                        if (wp_count == 0 && items[0] != "0")
+                        {
+                            cmds.Add(new Locationwp());
+                        }
+
                         Locationwp temp = new Locationwp();
                         if (items[2] == "3")
                         {
@@ -7026,6 +7036,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void surveyGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
             GridPlugin grid = new GridPlugin();
+            grid.Host = new PluginHost();
             grid.but_Click(sender, e);
         }
     }

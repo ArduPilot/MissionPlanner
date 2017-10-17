@@ -23,20 +23,27 @@ namespace MissionPlanner.Utilities
             th.Start();
         }
 
-        private static async void resolverAsync()
+        private static void resolverAsync()
         {
             while (true)
             {
-                var results = await ZeroconfResolver.ResolveAsync("_rtsp._udp.local.");
-
-                if (results != null)
+                try
                 {
-                    foreach (var zeroconfHost in results)
+                    var results = ZeroconfResolver.ResolveAsync("_rtsp._udp.local.");
+
+                    if (results != null)
                     {
-                        Console.WriteLine("Stream " + zeroconfHost);
-                        if (!Hosts.Contains(zeroconfHost))
-                            Hosts.Add(zeroconfHost);
+                        foreach (var zeroconfHost in results.Result)
+                        {
+                            Console.WriteLine("Stream " + zeroconfHost);
+                            if (!Hosts.Contains(zeroconfHost))
+                                Hosts.Add(zeroconfHost);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    
                 }
 
                 Thread.Sleep(4000);

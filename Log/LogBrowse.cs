@@ -26,11 +26,15 @@ namespace MissionPlanner.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static string lastLogDir;
+
         CollectionBuffer logdata;
         Hashtable logdatafilter = new Hashtable();
         Hashtable seenmessagetypes = new Hashtable();
 
         List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> ModePolyCache = new List<TextObj>();
+        List<TextObj> MSGCache = new List<TextObj>();
         List<TextObj> ErrorCache = new List<TextObj>();
         List<TextObj> TimeCache = new List<TextObj>();
 
@@ -502,7 +506,9 @@ namespace MissionPlanner.Log
 
             ErrorCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
+            ModePolyCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
+            MSGCache = new List<TextObj>();
 
             seenmessagetypes = new Hashtable();
 
@@ -512,13 +518,13 @@ namespace MissionPlanner.Log
                 {
                     openFileDialog1.Filter = "Log Files|*.log;*.bin";
                     openFileDialog1.FilterIndex = 2;
-                    openFileDialog1.RestoreDirectory = true;
                     openFileDialog1.Multiselect = true;
-
-                    openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
+                    openFileDialog1.InitialDirectory = lastLogDir ?? Settings.Instance.LogDir;
 
                     if (openFileDialog1.ShowDialog() == DialogResult.OK)
                     {
+                        lastLogDir = Path.GetDirectoryName(openFileDialog1.FileName);
+
                         int a = 0;
                         foreach (var fileName in openFileDialog1.FileNames)
                         {
@@ -545,7 +551,10 @@ namespace MissionPlanner.Log
                     }
                     else
                     {
-                        this.Close();
+                        this.BeginInvoke((Action) delegate
+                        {
+                            this.Close();
+                        });
                         return;
                     }
                 }
@@ -554,10 +563,15 @@ namespace MissionPlanner.Log
             {
                 ThreadPool.QueueUserWorkItem(o => LoadLog(logfilename));
             }
+
+            log.Info("LogBrowse_Load Done");
         }
 
         public void LoadLog(string FileName)
         {
+            while (!this.IsHandleCreated)
+                Thread.Sleep(100);
+
             Loading.ShowLoading(Strings.Scanning_File, this);
 
             try
@@ -599,7 +613,7 @@ namespace MissionPlanner.Log
 
                 log.Info("Done " + (GC.GetTotalMemory(false)/1024.0/1024.0));
 
-                this.Invoke((Action) delegate {
+                this.BeginInvoke((Action) delegate {
                     LoadLog2(FileName, logdata, colcount);
                 });
             }
@@ -608,6 +622,8 @@ namespace MissionPlanner.Log
                 CustomMessageBox.Show("Failed to read File: " + ex.ToString());
                 return;
             }
+
+            log.Info("LoadLog Done");
         }
 
         void LoadLog2(String FileName, CollectionBuffer logdata, int colcount)
@@ -638,7 +654,7 @@ namespace MissionPlanner.Log
                     dataGridView1.RowPrePaint += (sender, args) =>
                     {
                         VBar.Maximum = logdata.Count;
-                        populateRowData(rowstartoffset + args.RowIndex, args.RowIndex);
+                        populateRowData(rowstartoffset, args.RowIndex, args.RowIndex);
                     };
 
                     dataGridView1.ColumnCount = colcount;
@@ -648,7 +664,7 @@ namespace MissionPlanner.Log
                         dataGridView1.Rows.Add();
 
                     // populate first row
-                    populateRowData(0, 0);
+                    populateRowData(0, 0, 0);
 
                     VBar.ValueChanged += (sender, args) =>
                     {
@@ -719,24 +735,40 @@ namespace MissionPlanner.Log
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = null;
             CMB_preselect.DataSource = graphs;
+
+            log.Info("LoadLog2 Done");
         }
 
-        private void populateRowData(int rowIndex, int destDGV = -1)
+        private void populateRowData(int rowstartoffset, int rowIndex, int destDGV = -1)
         {
-            var DGVrow = (destDGV == -1) ? rowIndex : destDGV;
-
-            if (DGVrow > dataGridView1.Rows.Count)
-                return;
+            //Console.WriteLine("populateRowData {0} {1} {2}", rowstartoffset, rowIndex, destDGV);
+            var DGVrow = (destDGV == -1) ? rowstartoffset + rowIndex : destDGV;
 
             var cellcount = dataGridView1.Rows[DGVrow].Cells.Count;
             for (int i = 0; i < cellcount; i++)
             {
-                var data = new DataGridViewCellValueEventArgs(i, rowIndex);
+                if (DGVrow > dataGridView1.Rows.Count)
+                {
+                    dataGridView1.Rows[DGVrow].Cells[i].Value = "";
+                    continue;
+                }
+
+                var data = new DataGridViewCellValueEventArgs(i, rowstartoffset + rowIndex);
 
                 dataGridView1_CellValueNeeded(dataGridView1, data);
 
-                dataGridView1.Rows[DGVrow].Cells[i].Value = data.Value;
+                string existing = dataGridView1.Rows[DGVrow].Cells[i].Value as string;
+                string newvalue = data.Value as string;
+
+                if (existing == newvalue)
+                {
+                    continue;
+                }
+
+                //Console.WriteLine("set data {0} = {1}", dataGridView1.Rows[DGVrow].Cells[i].Value, data.Value);
+                dataGridView1.Rows[DGVrow].Cells[i].Value = String.IsNullOrEmpty(newvalue)  ? "" : newvalue;
             }
+            //Console.WriteLine("populateRowData done {0} {1} {2}", rowstartoffset, rowIndex, destDGV);
         }
 
         private void UntickTreeView()
@@ -917,6 +949,115 @@ namespace MissionPlanner.Log
             Color.WhiteSmoke
         };
 
+        private Color[] colourspastal = new Color[]
+        {
+            ConvertFromRange(1.0, 0, 0),
+
+            ConvertFromRange(0, 1.0, 0),
+
+            ConvertFromRange(0, 0, 1.0),
+
+
+
+            ConvertFromRange(0, 1.0, 1.0),
+
+            ConvertFromRange(1.0, 0, 1.0),
+
+            ConvertFromRange(1.0, 1.0, 0),
+
+
+
+            ConvertFromRange(1.0, 0.5, 0),
+
+            ConvertFromRange(1.0, 0, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0),
+
+            ConvertFromRange(0, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0, 1.0),
+
+            ConvertFromRange(0, 0.5, 1.0),
+
+            ConvertFromRange(1.0, 0.5, 0.5),
+
+            ConvertFromRange(0.5, 1.0, 0.5),
+
+            ConvertFromRange(0.5, 0.5, 1.0),
+            ConvertFromHex("#5757FF"),
+            ConvertFromHex("#62A9FF"),
+            ConvertFromHex("#62D0FF"),
+            ConvertFromHex("#06DCFB"),
+            ConvertFromHex("#01FCEF"),
+            ConvertFromHex("#03EBA6"),
+            ConvertFromHex("#01F33E"),
+            ConvertFromHex("#6A6AFF"),
+            ConvertFromHex("#75B4FF"),
+            ConvertFromHex("#75D6FF"),
+            ConvertFromHex("#24E0FB"),
+            ConvertFromHex("#1FFEF3"),
+            ConvertFromHex("#03F3AB"),
+            ConvertFromHex("#0AFE47"),
+            ConvertFromHex("#7979FF"),
+            ConvertFromHex("#86BCFF"),
+            ConvertFromHex("#8ADCFF"),
+            ConvertFromHex("#3DE4FC"),
+            ConvertFromHex("#5FFEF7"),
+            ConvertFromHex("#33FDC0"),
+            ConvertFromHex("#4BFE78"),
+            ConvertFromHex("#8C8CFF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#99E0FF"),
+            ConvertFromHex("#63E9FC"),
+            ConvertFromHex("#74FEF8"),
+            ConvertFromHex("#62FDCE"),
+            ConvertFromHex("#72FE95"),
+            ConvertFromHex("#9999FF"),
+            ConvertFromHex("#99C7FF"),
+            ConvertFromHex("#A8E4FF"),
+            ConvertFromHex("#75ECFD"),
+            ConvertFromHex("#92FEF9"),
+            ConvertFromHex("#7DFDD7"),
+            ConvertFromHex("#8BFEA8"),
+            ConvertFromHex("#AAAAFF"),
+            ConvertFromHex("#A8CFFF"),
+            ConvertFromHex("#BBEBFF"),
+            ConvertFromHex("#8CEFFD"),
+            ConvertFromHex("#A5FEFA"),
+            ConvertFromHex("#8FFEDD"),
+            ConvertFromHex("#A3FEBA"),
+            ConvertFromHex("#BBBBFF"),
+            ConvertFromHex("#BBDAFF"),
+            ConvertFromHex("#CEF0FF"),
+            ConvertFromHex("#ACF3FD"),
+            ConvertFromHex("#B5FFFC"),
+            ConvertFromHex("#A5FEE3"),
+            ConvertFromHex("#B5FFC8"),
+            ConvertFromHex("#CACAFF"),
+            ConvertFromHex("#D0E6FF"),
+            ConvertFromHex("#D9F3FF"),
+            ConvertFromHex("#C0F7FE"),
+            ConvertFromHex("#CEFFFD"),
+            ConvertFromHex("#BEFEEB"),
+            ConvertFromHex("#CAFFD8")
+        };
+
+        public static Color ConvertFromRange(double r, double g, double b)
+        {
+            return Color.FromArgb(255, (int) (r * 127.0)+127, (int) (g * 127.0)+127, (int) (b * 127.0)+127);
+        }
+
+        public static Color ConvertFromHex(string hex)
+        {
+            hex = hex.TrimStart('#');
+
+            var r = Convert.ToInt32(hex.Substring(0, 2), 16);
+            var g = Convert.ToInt32(hex.Substring(2, 2), 16);
+            var b = Convert.ToInt32(hex.Substring(4, 2), 16);
+
+            return Color.FromArgb(20, r, g, b);
+        }
+
         public void CreateChart(ZedGraphControl zgc)
         {
             GraphPane myPane = zgc.GraphPane;
@@ -953,6 +1094,7 @@ namespace MissionPlanner.Log
             try
             {
                 zg1.AxisChange();
+                zg1.Invalidate();
             }
             catch
             {
@@ -1046,6 +1188,9 @@ namespace MissionPlanner.Log
                 }
             }
 
+            // clear the filter on add
+            logdatafilter.Clear();
+
             if (!isexpression)
             {
                 if (!dflog.logformat.ContainsKey(type))
@@ -1070,6 +1215,7 @@ namespace MissionPlanner.Log
 
         void GraphItem_GetList(string fieldname, string type, DFLog dflog, DataModifer dataModifier, bool left)
         {
+            log.Info("GraphItem_GetList " + type + " " + fieldname);
             int col = dflog.FindMessageOffset(type, fieldname);
 
             // field does not exist
@@ -1207,17 +1353,7 @@ namespace MissionPlanner.Log
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
 
-            try
-            {
-                DrawModes();
-
-                DrawErrors();
-
-                DrawTime();
-            }
-            catch
-            {
-            }
+            zg1_ZoomEvent(zg1, null, null);
 
             // Force a redraw
             zg1.Refresh();
@@ -1303,20 +1439,20 @@ namespace MissionPlanner.Log
         {
             bool top = false;
             double a = 0;
+            int count = 0;
 
             zg1.GraphPane.GraphObjList.Clear();
 
-            if (ModeCache.Count > 0)
-            {
-                foreach (var item in ModeCache)
-                {
-                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
-                    zg1.GraphPane.GraphObjList.Add(item);
-                }
-                return;
-            }
+            var prevx = zg1.GraphPane.XAxis.Scale.Min;
+            int prevmodeno = 0;
+            // 2% of total
+            var modeheighty = zg1.GraphPane.YAxis.Scale.Min +
+                              (zg1.GraphPane.YAxis.Scale.Max - zg1.GraphPane.YAxis.Scale.Min) * 0.02;
 
+            ModePolyCache.Clear();
             ModeCache.Clear();
+
+            int modenum = 0;
 
             foreach (var item in logdata.GetEnumeratorType("MODE"))
             {
@@ -1333,6 +1469,12 @@ namespace MissionPlanner.Log
                         continue;
                     }
 
+                    int indexnum = dflog.FindMessageOffset("MODE", "ModeNum");
+                    if (indexnum == -1)
+                    {
+                        continue;
+                    }
+
                     if (chk_time.Checked)
                     {
                         XDate date = new XDate(item.time);
@@ -1340,6 +1482,26 @@ namespace MissionPlanner.Log
                     }
 
                     string mode = item.items[index].ToString().Trim();
+
+                    prevmodeno = modenum;
+
+                    modenum = int.Parse(item.items[indexnum].ToString().Trim());
+
+                    var poly = new PolyObj()
+                    {
+                        Points = new[]
+                        {
+                            new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                            new PointD(prevx, modeheighty), // tl
+                            new PointD(a, modeheighty),// tr
+                            new PointD(a, zg1.GraphPane.YAxis.Scale.Min), // br
+                        },
+                        Fill = new Fill(colourspastal[prevmodeno]),
+                        ZOrder = ZOrder.E_BehindCurves
+                    };
+
+                    zg1.GraphPane.GraphObjList.Add(poly);
+
                     if (top)
                     {
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
@@ -1352,6 +1514,81 @@ namespace MissionPlanner.Log
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
                             AlignH.Left, AlignV.Bottom);
                         ModeCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    top = !top;
+                }
+                a++;
+            }
+
+            // put from last to end of graph as well
+            var poly2 = new PolyObj()
+            {
+                Points = new[]
+                {
+                    new PointD(prevx, zg1.GraphPane.YAxis.Scale.Min), // bl
+                    new PointD(prevx, modeheighty), // tl
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, modeheighty),// tr
+                    new PointD(zg1.GraphPane.XAxis.Scale.Max, zg1.GraphPane.YAxis.Scale.Min), // br
+                },
+                Fill = new Fill(colourspastal[modenum]),
+                ZOrder = ZOrder.E_BehindCurves
+            };
+
+            zg1.GraphPane.GraphObjList.Add(poly2);
+        }
+
+        void DrawMSG()
+        {
+            bool top = false;
+            double a = 0;
+
+            if (MSGCache.Count > 0)
+            {
+                foreach (var item in MSGCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            MSGCache.Clear();
+
+            foreach (var item in logdata.GetEnumeratorType("MSG"))
+            {
+                a = item.lineno;
+
+                if (item.msgtype == "MSG")
+                {
+                    if (!dflog.logformat.ContainsKey("MSG"))
+                        return;
+
+                    int index = dflog.FindMessageOffset("MSG", "Message");
+                    if (index == -1)
+                    {
+                        continue;
+                    }
+
+                    if (chk_time.Checked)
+                    {
+                        XDate date = new XDate(item.time);
+                        a = date.XLDate;
+                    }
+
+                    string mode = item.items[index].ToString().Trim();
+                    if (top)
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Top);
+                        MSGCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
+                    }
+                    else
+                    {
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale,
+                            AlignH.Left, AlignV.Bottom);
+                        MSGCache.Add(temp);
                         zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     top = !top;
@@ -1449,7 +1686,7 @@ namespace MissionPlanner.Log
             public List<int> samples = new List<int>();
         }
 
-        void DrawMap()
+        void DrawMap(long startline =0, long endline = long.MaxValue)
         {
             int rtcnt = 0;
 
@@ -1484,13 +1721,16 @@ namespace MissionPlanner.Log
                 {
                     i = item.lineno;
 
+                    if(i < startline || i > endline)
+                        continue;
+
                     if (item.msgtype == "GPS")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelist.Add(ans.Value);
+                            routelist.Add(ans);
                             samplelist.Add(i);
 
                             if (routelist.Count > 1000)
@@ -1514,18 +1754,17 @@ namespace MissionPlanner.Log
                                 samplelist.Clear();
                                 firstpoint = i;
                                 samplelist.Add(firstpoint);
-                                routelist.Add(ans.Value);
+                                routelist.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "GPS2")
+                    else if (item.msgtype == "GPS2")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistgps2.Add(ans.Value);
+                            routelistgps2.Add(ans);
                             samplelistgps2.Add(i);
 
                             if (routelistgps2.Count > 1000)
@@ -1549,18 +1788,17 @@ namespace MissionPlanner.Log
                                 samplelistgps2.Clear();
                                 firstpointgps2 = i;
                                 samplelistgps2.Add(firstpointgps2);
-                                routelistgps2.Add(ans.Value);
+                                routelistgps2.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "GPSB")
+                    else if (item.msgtype == "GPSB")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistgpsb.Add(ans.Value);
+                            routelistgpsb.Add(ans);
                             samplelistgpsb.Add(i);
 
                             if (routelistgpsb.Count > 1000)
@@ -1584,18 +1822,17 @@ namespace MissionPlanner.Log
                                 samplelistgpsb.Clear();
                                 firstpointgpsb = i;
                                 samplelistgpsb.Add(firstpointgpsb);
-                                routelistgpsb.Add(ans.Value);
+                                routelistgpsb.Add(ans);
                             }
                         }
                     }
-
-                    if (item.msgtype == "POS")
+                    else if (item.msgtype == "POS")
                     {
                         var ans = getPointLatLng(item);
 
-                        if (ans.HasValue)
+                        if (ans != null)
                         {
-                            routelistpos.Add(ans.Value);
+                            routelistpos.Add(ans);
                             samplelistpos.Add(i);
 
                             if (routelistpos.Count > 1000)
@@ -1619,7 +1856,7 @@ namespace MissionPlanner.Log
                                 samplelistpos.Clear();
                                 firstpointpos = i;
                                 samplelistpos.Add(firstpointpos);
-                                routelistpos.Add(ans.Value);
+                                routelistpos.Add(ans);
                             }
                         }
                     }
@@ -1692,7 +1929,7 @@ namespace MissionPlanner.Log
                 myGMAP1.RoutesEnabled = true;
         }
 
-        PointLatLng? getPointLatLng(DFLog.DFItem item)
+        PointLatLngAlt getPointLatLng(DFLog.DFItem item)
         {
             if (item.msgtype == "GPS")
             {
@@ -1728,18 +1965,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPS2")
+            else if (item.msgtype == "GPS2")
             {
                 if (!dflog.logformat.ContainsKey("GPS2"))
                     return null;
@@ -1773,18 +2009,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "GPSB")
+            else if (item.msgtype == "GPSB")
             {
                 if (!dflog.logformat.ContainsKey("GPSB"))
                     return null;
@@ -1818,18 +2053,17 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() { };
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     return pnt;
                 }
                 catch
                 {
                 }
             }
-
-            if (item.msgtype == "POS")
+            else if (item.msgtype == "POS")
             {
                 if (!dflog.logformat.ContainsKey("POS"))
                     return null;
@@ -1851,10 +2085,10 @@ namespace MissionPlanner.Log
                     string lat = item.items[index].ToString();
                     string lng = item.items[index2].ToString();
 
-                    PointLatLng pnt = new PointLatLng() {};
+                    PointLatLngAlt pnt = new PointLatLngAlt() { };
                     pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
                     pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
+                    pnt.Tag = item.lineno.ToString();
                     if (Math.Abs(pnt.Lat) > 90 || Math.Abs(pnt.Lng) > 180)
                         return null;
 
@@ -2025,9 +2259,21 @@ namespace MissionPlanner.Log
         {
             try
             {
-                DrawModes();
-                DrawErrors();
-                DrawTime();
+                sender.GraphPane.GraphObjList.Clear();
+
+                if (chk_mode.Checked)
+                    DrawModes();
+                if (chk_errors.Checked)
+                    DrawErrors();
+                if (!chk_time.Checked)
+                    DrawTime();
+
+                if (chk_msg.Checked)
+                    DrawMSG();
+
+                DrawMap((long)sender.GraphPane.XAxis.Scale.Min, (long)sender.GraphPane.XAxis.Scale.Max);
+
+                sender.Invalidate();
             }
             catch
             {
@@ -2193,6 +2439,8 @@ namespace MissionPlanner.Log
                 {
                 }
             }
+
+            this.Invalidate();
         }
 
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
@@ -2243,6 +2491,9 @@ namespace MissionPlanner.Log
 
                 if (logdatafilter.Count > 0)
                 {
+                    if (e.RowIndex > logdatafilter.Count)
+                        return;
+
                     item = (DFLog.DFItem) logdatafilter[e.RowIndex];
                 }
 
@@ -2571,6 +2822,37 @@ namespace MissionPlanner.Log
                     }
                 }
             }
+        }
+
+        private void chk_mode_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_errors_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void chk_msg_CheckedChanged(object sender, EventArgs e)
+        {
+            zg1_ZoomEvent(zg1, null, null);
+        }
+
+        private void splitContainer2_Resize(object sender, EventArgs e)
+        {
+            splitContainer2.Visible = false;
+            splitContainer2.Visible = true;
+            splitContainer2.Panel1.Invalidate();
+            splitContainer2.Panel2.Invalidate();
+        }
+
+        private void splitContainer1_Resize(object sender, EventArgs e)
+        {
+            splitContainer1.Visible = false;
+            splitContainer1.Visible = true;
+            splitContainer1.Panel1.Invalidate();
+            splitContainer1.Panel2.Invalidate();
         }
     }
 }

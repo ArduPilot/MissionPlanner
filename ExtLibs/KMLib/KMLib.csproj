@@ -1,146 +1,21 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{29976BA4-A04D-4A80-A866-098C879C2FDE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>KMLib</RootNamespace>
-    <AssemblyName>KMLib</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputTypeEx>library</OutputTypeEx>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>0</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
+    <Compile Remove="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Abstract\AColorStyle.cs" />
-    <Compile Include="Abstract\AContainer.cs" />
-    <Compile Include="Abstract\AFeature.cs" />
-    <Compile Include="Abstract\AGeometry.cs" />
-    <Compile Include="Abstract\ALink.cs" />
-    <Compile Include="Abstract\AObject.cs" />
-    <Compile Include="Abstract\AOverlay.cs" />
-    <Compile Include="Abstract\ASchemaField.cs" />
-    <Compile Include="Abstract\AStyleSelector.cs" />
-    <Compile Include="Abstract\ATimePrimitive.cs" />
-    <Compile Include="Feature\Document.cs" />
-    <Compile Include="Feature\Folder.cs" />
-    <Compile Include="Feature\GroundOverlay.cs" />
-    <Compile Include="Feature\ScreenOverlay.cs" />
-    <Compile Include="Geometry\Model.cs" />
-    <Compile Include="Geometry\MultiGeometry.cs" />
-    <Compile Include="Geometry\Point.cs" />
-    <Compile Include="Icon.cs" />
-    <Compile Include="Metadata.cs" />
-    <Compile Include="Snippet.cs" />
-    <Compile Include="Support\AGeomParent.cs" />
-    <Compile Include="BoundaryIs.cs" />
-    <Compile Include="Coordinates.cs" />
-    <Compile Include="CoordManager.cs" />
-    <Compile Include="Document.cs" />
-    <Compile Include="Support\enums etc.cs" />
-    <Compile Include="kml.cs" />
-    <Compile Include="LatLonAltBox.cs" />
-    <Compile Include="Geometry\LinearRing.cs" />
-    <Compile Include="Geometry\LineString.cs" />
-    <Compile Include="Link.cs" />
-    <Compile Include="Lod.cs" />
-    <Compile Include="LookAt.cs" />
-    <Compile Include="Feature\NetworkLink.cs" />
-    <Compile Include="Feature\Placemark.cs" />
-    <Compile Include="Geometry\Polygon.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="mykey.pfx" />
-    <Compile Include="Region.cs" />
-    <Compile Include="Style.cs" />
-    <Compile Include="Support\Wrappers.cs" />
-    <Compile Include="TimeSpan.cs" />
-    <Compile Include="TimeStamp.cs" />
-    <None Include="mykey.snk" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
+    <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Core\Core.csproj">
-      <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
-      <Name>Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+
 </Project>

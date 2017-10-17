@@ -59,6 +59,9 @@
       <entry value="17" name="MAV_AUTOPILOT_ASLUAV">
         <description>ASLUAV autopilot -- http://www.asl.ethz.ch</description>
       </entry>
+      <entry value="18" name="MAV_AUTOPILOT_SMARTAP">
+        <description>SmartAP Autopilot - http://sky-drones.com</description>
+      </entry>
     </enum>
     <enum name="MAV_TYPE">
       <entry value="0" name="MAV_TYPE_GENERIC">
@@ -145,6 +148,9 @@
       </entry>
       <entry value="27" name="MAV_TYPE_ADSB">
         <description>Onboard ADSB peripheral</description>
+      </entry>
+      <entry value="28" name="MAV_TYPE_DODECAROTOR">
+        <description>Dodecarotor</description>
       </entry>
     </enum>
     <enum name="FIRMWARE_VERSION_TYPE">
@@ -1137,12 +1143,12 @@
       </entry>
       <entry value="209" name="MAV_CMD_DO_MOTOR_TEST">
         <description>Mission command to perform motor test</description>
-        <param index="1">motor sequence number (a number from 1 to max number of motors on the vehicle)</param>
+        <param index="1">motor number (a number from 1 to max number of motors on the vehicle)</param>
         <param index="2">throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)</param>
         <param index="3">throttle</param>
         <param index="4">timeout (in seconds)</param>
-        <param index="5">Empty</param>
-        <param index="6">Empty</param>
+        <param index="5">motor count (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)</param>
+        <param index="6">motor test order (See MOTOR_TEST_ORDER enum)</param>
         <param index="7">Empty</param>
       </entry>
       <entry value="210" name="MAV_CMD_DO_INVERTED_FLIGHT">
@@ -1222,8 +1228,8 @@
         <param index="2">1: magnetometer calibration</param>
         <param index="3">1: ground pressure calibration</param>
         <param index="4">1: radio RC calibration, 2: RC trim calibration</param>
-        <param index="5">1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration</param>
-        <param index="6">1: APM: compass/motor interference calibration / PX4: airspeed calibration</param>
+        <param index="5">1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration</param>
+        <param index="6">1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration</param>
         <param index="7">1: ESC calibration, 3: barometer temperature calibration</param>
       </entry>
       <entry value="242" name="MAV_CMD_PREFLIGHT_SET_SENSOR_OFFSETS">
@@ -1502,6 +1508,7 @@
         <param index="6">Longitude</param>
         <param index="7">Altitude</param>
       </entry>
+
       <!-- VALUES FROM 0-40000 are reserved for the common message set. Values from 40000 to UINT16_MAX are available for dialects -->
       <!-- BEGIN of payload range (30000 to 30999) -->
       <entry value="30001" name="MAV_CMD_PAYLOAD_PREPARE_DEPLOY">
@@ -1954,6 +1961,12 @@
       <entry value="2" name="MAV_DISTANCE_SENSOR_INFRARED">
         <description>Infrared rangefinder, e.g. Sharp units</description>
       </entry>
+      <entry value="3" name="MAV_DISTANCE_SENSOR_RADAR">
+        <description>Radar type, e.g. uLanding units</description>
+      </entry>
+      <entry value="4" name="MAV_DISTANCE_SENSOR_UNKNOWN">
+        <description>Broken or unknown type, e.g. analog units</description>
+      </entry>
     </enum>
     <enum name="MAV_SENSOR_ORIENTATION">
       <description>Enumeration of sensor orientation, according to its rotations</description>
@@ -2224,6 +2237,12 @@
       <entry value="2" name="MAV_LANDED_STATE_IN_AIR">
         <description>MAV is in air</description>
       </entry>
+      <entry value="3" name="MAV_LANDED_STATE_TAKEOFF">
+        <description>MAV currently taking off</description>
+      </entry>
+      <entry value="4" name="MAV_LANDED_STATE_LANDING">
+        <description>MAV currently landing</description>
+      </entry>
     </enum>
     <enum name="ADSB_ALTITUDE_TYPE">
       <description>Enumeration of the ADSB altimeter types</description>
@@ -2311,6 +2330,18 @@
       </entry>
     </enum>
     <!-- motor test type enum -->
+    <enum name="MOTOR_TEST_ORDER">
+      <entry name="MOTOR_TEST_ORDER_DEFAULT" value="0">
+        <description>default autopilot motor test method</description>
+      </entry>
+      <entry name="MOTOR_TEST_ORDER_SEQUENCE" value="1">
+        <description>motor numbers are specified as their index in a predefined vehicle-specific sequence</description>
+      </entry>
+      <entry name="MOTOR_TEST_ORDER_BOARD" value="2">
+        <description>motor numbers are specified as the output as labeled on the board</description>
+      </entry>
+    </enum>
+    <!-- motor test throttle type enum -->
     <enum name="MOTOR_TEST_THROTTLE_TYPE">
       <entry value="0" name="MOTOR_TEST_THROTTLE_PERCENT">
         <description>throttle as a percentage from 0 ~ 100</description>
@@ -2320,6 +2351,9 @@
       </entry>
       <entry value="2" name="MOTOR_TEST_THROTTLE_PILOT">
         <description>throttle pass-through from pilot's transmitter</description>
+      </entry>
+      <entry value="3" name="MOTOR_TEST_COMPASS_CAL">
+        <description>per-motor compass calibration test</description>
       </entry>
     </enum>
     <!-- GPS_INPUT ignore flags enum -->
@@ -3719,7 +3753,7 @@
       <field type="uint8_t" name="satellites_visible">Number of satellites visible.</field>
     </message>
     <message id="233" name="GPS_RTCM_DATA">
-      <description>WORK IN PROGRESS! RTCM message for injecting into the onboard GPS (used for DGPS)</description>
+      <description>RTCM message for injecting into the onboard GPS (used for DGPS)</description>
       <field type="uint8_t" name="flags">LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order.</field>
       <field type="uint8_t" name="len" units="bytes">data length</field>
       <field type="uint8_t[180]" name="data">RTCM message (may be fragmented)</field>
@@ -3995,6 +4029,63 @@
       <field type="uint8_t" name="target_system">system ID of the target</field>
       <field type="uint8_t" name="target_component">component ID of the target</field>
       <field type="uint16_t" name="sequence">sequence number (must match the one in LOGGING_DATA_ACKED)</field>
+    </message>
+    <!-- UAVCAN related messages. Please keep the range [310, 320) reserved for UAVCAN. -->
+    <message id="310" name="UAVCAN_NODE_STATUS">
+      <description>General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message "uavcan.protocol.NodeStatus" for the background information. The UAVCAN specification is available at http://uavcan.org.</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (microseconds since UNIX epoch or microseconds since system boot)</field>
+      <field type="uint32_t" name="uptime_sec" units="s">The number of seconds since the start-up of the node.</field>
+      <field type="uint8_t" name="health" enum="UAVCAN_NODE_HEALTH">Generalized node health status.</field>
+      <field type="uint8_t" name="mode" enum="UAVCAN_NODE_MODE">Generalized operating mode.</field>
+      <field type="uint8_t" name="sub_mode">Not used currently.</field>
+      <field type="uint16_t" name="vendor_specific_status_code">Vendor-specific status information.</field>
+    </message>
+    <message id="311" name="UAVCAN_NODE_INFO">
+      <description>General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service "uavcan.protocol.GetNodeInfo" for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org.</description>
+      <field type="uint64_t" name="time_usec" units="us">Timestamp (microseconds since UNIX epoch or microseconds since system boot)</field>
+      <field type="uint32_t" name="uptime_sec" units="s">The number of seconds since the start-up of the node.</field>
+      <field type="char[80]" name="name">Node name string. For example, "sapog.px4.io".</field>
+      <field type="uint8_t" name="hw_version_major">Hardware major version number.</field>
+      <field type="uint8_t" name="hw_version_minor">Hardware minor version number.</field>
+      <field type="uint8_t[16]" name="hw_unique_id">Hardware unique 128-bit ID.</field>
+      <field type="uint8_t" name="sw_version_major">Software major version number.</field>
+      <field type="uint8_t" name="sw_version_minor">Software minor version number.</field>
+      <field type="uint32_t" name="sw_vcs_commit">Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown.</field>
+    </message>
+    <message id="320" name="PARAM_EXT_REQUEST_READ">
+      <description>Request to read the value of a parameter with the either the param_id string id or param_index.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="int16_t" name="param_index">Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored)</field>
+    </message>
+    <message id="321" name="PARAM_EXT_REQUEST_LIST">
+      <description>Request all parameters of this component. After this request, all parameters are emitted.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+    </message>
+    <message id="322" name="PARAM_EXT_VALUE">
+      <description>Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout.</description>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
+      <field type="uint16_t" name="param_count">Total number of parameters</field>
+      <field type="uint16_t" name="param_index">Index of this parameter</field>
+    </message>
+    <message id="323" name="PARAM_EXT_SET">
+      <description>Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response.</description>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
+    </message>
+    <message id="324" name="PARAM_EXT_ACK">
+      <description>Response from a PARAM_EXT_SET message.</description>
+      <field type="char[16]" name="param_id">Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string</field>
+      <field type="char[128]" name="param_value">Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise)</field>
+      <field type="uint8_t" name="param_type" enum="MAV_PARAM_TYPE">Parameter type: see the MAV_PARAM_TYPE enum for supported data types.</field>
+      <field type="uint8_t" name="param_result" enum="PARAM_ACK">Result code: see the PARAM_ACK enum for possible codes.</field>
     </message>
   </messages>
 </mavlink>

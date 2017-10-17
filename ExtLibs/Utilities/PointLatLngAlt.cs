@@ -133,7 +133,7 @@ namespace MissionPlanner.Utilities
 
         public override string ToString()
         {
-            return Lat + "," + Lng + "," + Alt;
+            return Lat + "," + Lng + "," + Alt + "," + Tag;
         }
 
         public int GetUTMZone()

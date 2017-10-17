@@ -50,8 +50,10 @@ namespace MissionPlanner
             this.MenuDonate = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
+            this.MenuArduPilot = new System.Windows.Forms.ToolStripButton();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.connectionListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -74,7 +76,8 @@ namespace MissionPlanner
             this.MenuHelp,
             this.MenuDonate,
             this.MenuConnect,
-            this.toolStripConnectionControl});
+            this.toolStripConnectionControl,
+            this.MenuArduPilot});
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.Stretch = false;
@@ -87,7 +90,8 @@ namespace MissionPlanner
             this.autoHideToolStripMenuItem,
             this.fullScreenToolStripMenuItem,
             this.readonlyToolStripMenuItem,
-            this.connectionOptionsToolStripMenuItem});
+            this.connectionOptionsToolStripMenuItem,
+            this.connectionListToolStripMenuItem});
             this.CTX_mainmenu.Name = "CTX_mainmenu";
             resources.ApplyResources(this.CTX_mainmenu, "CTX_mainmenu");
             // 
@@ -211,6 +215,19 @@ namespace MissionPlanner
             resources.ApplyResources(this.toolStripConnectionControl, "toolStripConnectionControl");
             this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
+            // MenuArduPilot
+            // 
+            this.MenuArduPilot.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.MenuArduPilot.BackColor = System.Drawing.Color.Transparent;
+            this.MenuArduPilot.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.MenuArduPilot, "MenuArduPilot");
+            this.MenuArduPilot.ForeColor = System.Drawing.Color.White;
+            this.MenuArduPilot.Image = global::MissionPlanner.Properties.Resources._0d92fed790a3a70170e61a86db103f399a595c70;
+            this.MenuArduPilot.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuArduPilot.Name = "MenuArduPilot";
+            this.MenuArduPilot.Overflow = System.Windows.Forms.ToolStripItemOverflow.Never;
+            this.MenuArduPilot.Click += new System.EventHandler(this.MenuArduPilot_Click);
+            // 
             // menu
             // 
             resources.ApplyResources(this.menu, "menu");
@@ -225,6 +242,12 @@ namespace MissionPlanner
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // connectionListToolStripMenuItem
+            // 
+            this.connectionListToolStripMenuItem.Name = "connectionListToolStripMenuItem";
+            resources.ApplyResources(this.connectionListToolStripMenuItem, "connectionListToolStripMenuItem");
+            this.connectionListToolStripMenuItem.Click += new System.EventHandler(this.connectionListToolStripMenuItem_Click);
             // 
             // MainV2
             // 
@@ -267,5 +290,7 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectionOptionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton MenuArduPilot;
+        private System.Windows.Forms.ToolStripMenuItem connectionListToolStripMenuItem;
     }
 }

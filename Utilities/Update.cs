@@ -69,11 +69,17 @@ namespace MissionPlanner.Utilities
                 }
                 if (frmProgressReporter != null)
                     frmProgressReporter.UpdateProgressAndStatus(-1, "Starting Updater");
-                log.Info("Starting new process: " + process.StartInfo.FileName + " with " + process.StartInfo.Arguments);
+                log.Info("Starting new process: " + process.StartInfo.FileName + " with " +
+                         process.StartInfo.Arguments);
                 process.Start();
                 log.Info("Quitting existing process");
 
                 frmProgressReporter.BeginInvoke((Action) delegate { Application.Exit(); });
+            }
+            catch (AggregateException ex)
+            {
+                log.Error("Update Failed", ex.InnerException);
+                CustomMessageBox.Show("Update Failed " + ex.InnerException?.Message);
             }
             catch (Exception ex)
             {
@@ -181,7 +187,8 @@ namespace MissionPlanner.Utilities
                     DialogResult dr = DialogResult.Cancel;
 
 
-                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
+                    dr = CustomMessageBox.Show(
+                        extra + Strings.UpdateFound + " [link;" + baseurl + "/ChangeLog.txt;ChangeLog]",
                         Strings.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == DialogResult.Yes)
@@ -208,7 +215,7 @@ namespace MissionPlanner.Utilities
                 return;
             }
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
+            IProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue()
             {
                 Text = "Check for Updates",
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -216,7 +223,7 @@ namespace MissionPlanner.Utilities
 
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
-            frmProgressReporter.DoWork += new ProgressReporterDialogue.DoWorkEventHandler(DoUpdateWorker_DoWork);
+            frmProgressReporter.DoWork += new DoWorkEventHandler(DoUpdateWorker_DoWork);
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");
 
@@ -259,6 +266,7 @@ namespace MissionPlanner.Utilities
 
             if (regex.IsMatch(responseFromServer))
             {
+                // background md5
                 List<Tuple<string, string, Task<bool>>> tasklist = new List<Tuple<string, string, Task<bool>>>();
 
                 MatchCollection matchs = regex.Matches(responseFromServer);
@@ -272,7 +280,11 @@ namespace MissionPlanner.Utilities
                     tasklist.Add(new Tuple<string, string, Task<bool>>(file, hash, ismatch));
                 }
 
-                foreach (var task in tasklist)
+                // parallel download
+                ParallelOptions opt = new ParallelOptions() { MaxDegreeOfParallelism = 3 };
+
+                Parallel.ForEach(tasklist, opt, task =>
+                    //foreach (var task in tasklist)
                 {
                     string file = task.Item1;
                     string hash = task.Item2;
@@ -292,8 +304,8 @@ namespace MissionPlanner.Utilities
 
                             string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
-                            subdir = subdir.Replace(""+Path.DirectorySeparatorChar + Path.DirectorySeparatorChar,
-                                ""+Path.DirectorySeparatorChar);
+                            subdir = subdir.Replace("" + Path.DirectorySeparatorChar + Path.DirectorySeparatorChar,
+                                "" + Path.DirectorySeparatorChar);
 
                             GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir,
                                 Path.GetFileName(file));
@@ -316,7 +328,7 @@ namespace MissionPlanner.Utilities
                         if (frmProgressReporter != null)
                             frmProgressReporter.UpdateProgressAndStatus(-1, Strings.Checking + file);
                     }
-                }
+                });
             }
         }
 
@@ -331,7 +343,11 @@ namespace MissionPlanner.Utilities
                 {
                     using (var stream = File.OpenRead(filename))
                     {
-                        return hash == BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+                        var answer = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
+
+                        log.Debug(filename + "," + hash + "," + answer);
+
+                        return hash == answer;
                     }
                 }
             }
@@ -406,7 +422,7 @@ namespace MissionPlanner.Utilities
                         {
                             DateTime dt = DateTime.Now;
 
-                            log.Debug(file + " " + bytes);
+                            log.Debug("ContentLength: " + file + " " + bytes);
 
                             while (dataStream.CanRead)
                             {
@@ -416,9 +432,10 @@ namespace MissionPlanner.Utilities
                                     {
                                         if (frmProgressReporter != null)
                                             frmProgressReporter.UpdateProgressAndStatus(
-                                                (int) (((double) (contlen - bytes)/(double) contlen)*100),
+                                                (int) (((double) (contlen - bytes) / (double) contlen) * 100),
                                                 Strings.Getting + file + ": " +
-                                                (((double) (contlen - bytes)/(double) contlen)*100).ToString("0.0") +
+                                                (((double) (contlen - bytes) / (double) contlen) * 100)
+                                                .ToString("0.0") +
                                                 "%"); //+ Math.Abs(bytes) + " bytes");
                                         dt = DateTime.Now;
                                     }
@@ -426,23 +443,29 @@ namespace MissionPlanner.Utilities
                                 catch
                                 {
                                 }
-                                
+
                                 int len = dataStream.Read(buf1, 0, buf1.Length);
                                 if (len == 0)
+                                {
+                                    log.Debug("GetNewFile: 0 byte read " + file);
                                     break;
+                                }
                                 bytes -= len;
                                 fs.Write(buf1, 0, len);
                             }
+
+                            log.Info("GetNewFile: " + file + " Done with length: " + fs.Length);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
+                    log.Error(ex);
                     fail = ex;
                     attempt++;
                     continue;
                 }
-
+  
                 // break if we have no exception
                 break;
             }
@@ -478,9 +501,11 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                File.WriteAllText(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "writetest.txt", "this is a test");
+                File.WriteAllText(
+                    Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "writetest.txt",
+                    "this is a test");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Info("Write test failed");
                 throw new Exception("Unable to write to the install directory", ex);
@@ -489,7 +514,8 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    File.Delete(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "writetest.txt");
+                    File.Delete(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
+                                "writetest.txt");
                 }
                 catch
                 {
@@ -506,273 +532,6 @@ namespace MissionPlanner.Utilities
             {
                 updateCheckMain(progressReporterDialogue);
             }
-        }
-
-        private static bool updateCheck(ProgressReporterDialogue frmProgressReporter, string baseurl, string subdir)
-        {
-            bool update = false;
-            List<string> files = new List<string>();
-
-            // Create a request using a URL that can receive a post. 
-            log.Info(baseurl);
-            WebRequest request = WebRequest.Create(baseurl);
-            request.Timeout = 10000;
-            // Set the Method property of the request to POST.
-            request.Method = "GET";
-            // Get the request stream.
-            Stream dataStream; //= request.GetRequestStream();
-            // Get the response.
-            using (WebResponse response = request.GetResponse())
-            {
-                // Display the status.
-                log.Info(((HttpWebResponse) response).StatusDescription);
-                // Get the stream containing content returned by the server.
-                using (dataStream = response.GetResponseStream())
-                {
-                    // Open the stream using a StreamReader for easy access.
-                    using (StreamReader reader = new StreamReader(dataStream))
-                    {
-                        // Read the content.
-                        string responseFromServer = reader.ReadToEnd();
-                        // Display the content.
-                        Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
-
-                        Uri baseuri = new Uri(baseurl, UriKind.Absolute);
-
-                        if (regex.IsMatch(responseFromServer))
-                        {
-                            MatchCollection matchs = regex.Matches(responseFromServer);
-                            for (int i = 0; i < matchs.Count; i++)
-                            {
-                                if (matchs[i].Groups[1].Value.ToString().Contains(".."))
-                                    continue;
-                                if (matchs[i].Groups[1].Value.ToString().Contains("http"))
-                                    continue;
-                                if (matchs[i].Groups[1].Value.ToString().StartsWith("?"))
-                                    continue;
-                                if (matchs[i].Groups[1].Value.ToString().ToLower().Contains(".etag"))
-                                    continue;
-
-                                //                     
-                                {
-                                    string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
-                                    Uri newuri = new Uri(baseuri, url);
-                                    files.Add(baseuri.MakeRelativeUri(newuri).ToString());
-                                }
-
-
-                                // dirs
-                                if (matchs[i].Groups[1].Value.ToString().Contains("tree/master/"))
-                                {
-                                    string url =
-                                        System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString()) + "/";
-                                    Uri newuri = new Uri(baseuri, url);
-                                    files.Add(baseuri.MakeRelativeUri(newuri).ToString());
-                                }
-                                // files
-                                if (matchs[i].Groups[1].Value.ToString().Contains("blob/master/"))
-                                {
-                                    string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
-                                    Uri newuri = new Uri(baseuri, url);
-                                    files.Add(
-                                        System.Web.HttpUtility.UrlDecode(newuri.Segments[newuri.Segments.Length - 1]));
-                                }
-                            }
-                        }
-
-                        //Console.WriteLine(responseFromServer);
-                        // Clean up the streams.
-                    }
-                }
-            }
-
-            string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
-            foreach (string file in files)
-            {
-                if (frmProgressReporter.doWorkArgs.CancelRequested)
-                {
-                    frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
-                    throw new Exception("Cancel");
-                }
-
-
-                if (file.Equals("/") || file.Equals("") || file.StartsWith("../"))
-                {
-                    continue;
-                }
-                if (file.EndsWith("/"))
-                {
-                    update =
-                        updateCheck(frmProgressReporter, baseurl + file,
-                            subdir.Replace('/', Path.DirectorySeparatorChar) + file) && update;
-                    continue;
-                }
-                if (frmProgressReporter != null)
-                    frmProgressReporter.UpdateProgressAndStatus(-1, "Checking " + file);
-
-                string path = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir +
-                              file;
-
-                //   baseurl = baseurl.Replace("//github.com", "//raw.github.com");
-                //   baseurl = baseurl.Replace("/tree/", "/");
-
-                Exception fail = null;
-                int attempt = 0;
-
-                while (attempt < 2)
-                {
-                    try
-                    {
-                        // Create a request using a URL that can receive a post. 
-                        request = WebRequest.Create(baseurl + file);
-                        log.Info(baseurl + file + " ");
-                        // Set the Method property of the request to POST.
-                        request.Method = "GET";
-
-                        ((HttpWebRequest) request).AutomaticDecompression = DecompressionMethods.GZip |
-                                                                            DecompressionMethods.Deflate;
-
-                        request.Headers.Add("Accept-Encoding", "gzip,deflate");
-
-                        // Get the response.
-                        using (WebResponse response = request.GetResponse())
-                        {
-                            // Display the status.
-                            log.Info(((HttpWebResponse) response).StatusDescription);
-                            // Get the stream containing content returned by the server.
-                            using (dataStream = response.GetResponseStream())
-                            {
-                                // Open the stream using a StreamReader for easy access.
-
-                                bool updateThisFile = false;
-
-                                if (File.Exists(path))
-                                {
-                                    FileInfo fi = new FileInfo(path);
-
-                                    //log.Info(response.Headers[HttpResponseHeader.ETag]);
-                                    string CurrentEtag = "";
-
-                                    if (File.Exists(path + ".etag"))
-                                    {
-                                        using (Stream fs = File.OpenRead(path + ".etag"))
-                                        {
-                                            using (StreamReader sr = new StreamReader(fs))
-                                            {
-                                                CurrentEtag = sr.ReadLine();
-                                            }
-                                        }
-                                    }
-
-                                    log.Debug("New file Check: " + fi.Length + " vs " + response.ContentLength + " " +
-                                              response.Headers[HttpResponseHeader.ETag] + " vs " + CurrentEtag);
-
-                                    if (fi.Length != response.ContentLength ||
-                                        response.Headers[HttpResponseHeader.ETag] != CurrentEtag)
-                                    {
-                                        using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
-                                        {
-                                            sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
-                                        }
-                                        updateThisFile = true;
-                                        log.Info("NEW FILE " + file);
-                                    }
-                                }
-                                else
-                                {
-                                    updateThisFile = true;
-                                    log.Info("NEW FILE " + file);
-                                    using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
-                                    {
-                                        sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
-                                    }
-                                    // get it
-                                }
-
-                                if (updateThisFile)
-                                {
-                                    if (!update)
-                                    {
-                                        //DialogResult dr = MessageBox.Show("Update Found\n\nDo you wish to update now?", "Update Now", MessageBoxButtons.YesNo);
-                                        //if (dr == DialogResult.Yes)
-                                        {
-                                            update = true;
-                                        }
-                                        //else
-                                        {
-                                            //    return;
-                                        }
-                                    }
-                                    if (frmProgressReporter != null)
-                                        frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
-
-                                    // from head
-                                    long bytes = response.ContentLength;
-
-                                    long contlen = bytes;
-
-                                    byte[] buf1 = new byte[4096];
-
-                                    using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
-                                    {
-                                        DateTime dt = DateTime.Now;
-
-                                        //dataStream.ReadTimeout = 30000;
-
-                                        while (dataStream.CanRead)
-                                        {
-                                            try
-                                            {
-                                                if (dt.Second != DateTime.Now.Second)
-                                                {
-                                                    if (frmProgressReporter != null)
-                                                        frmProgressReporter.UpdateProgressAndStatus(
-                                                            (int) (((double) (contlen - bytes)/(double) contlen)*100),
-                                                            "Getting " + file + ": " +
-                                                            (((double) (contlen - bytes)/(double) contlen)*100).ToString
-                                                                ("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
-                                                    dt = DateTime.Now;
-                                                }
-                                            }
-                                            catch
-                                            {
-                                            }
-                                            log.Debug(file + " " + bytes);
-                                            int len = dataStream.Read(buf1, 0, buf1.Length);
-                                            if (len == 0)
-                                                break;
-                                            bytes -= len;
-                                            fs.Write(buf1, 0, len);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        fail = ex;
-                        attempt++;
-                        update = false;
-                        continue;
-                    }
-
-                    // break if we have no exception
-                    break;
-                }
-
-                if (attempt == 2)
-                {
-                    throw fail;
-                }
-            }
-
-
-            //P.StartInfo.CreateNoWindow = true;
-            //P.StartInfo.RedirectStandardOutput = true;
-            return update;
         }
     }
 }

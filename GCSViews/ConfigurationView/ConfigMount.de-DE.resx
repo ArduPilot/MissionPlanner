@@ -112,46 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Servo-Limits</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>Max</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>Winkel-Limits</value>
   </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="label17.Text" xml:space="preserve">
     <value>Servo-Limits</value>
-  </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>Pan</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="label20.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label21.Text" xml:space="preserve">
-    <value>Min</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>Eingangskanal</value>
@@ -168,71 +141,29 @@
   <data name="label2.Text" xml:space="preserve">
     <value>Servo-Limits</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>X</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>Y</value>
-  </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>Z</value>
-  </data>
   <data name="CHK_stab_tilt.Text" xml:space="preserve">
     <value>Tilt stabilisieren</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Winkel-Limits</value>
   </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>Z</value>
-  </data>
   <data name="groupBox6.Text" xml:space="preserve">
-    <value>Winkel kontrollieren</value>
+    <value>Steuerungswinkel</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Rollen</value>
   </data>
-  <data name="label29.Text" xml:space="preserve">
-    <value>Y</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="groupBox4.Text" xml:space="preserve">
     <value>Einfahrwinkel</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Min</value>
   </data>
   <data name="groupBox5.Text" xml:space="preserve">
     <value>Neutrale Winkel</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Tilt</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Winkel-Limits</value>
   </data>
-  <data name="label30.Text" xml:space="preserve">
-    <value>X</value>
-  </data>
-  <data name="label32.Text" xml:space="preserve">
-    <value>Y</value>
-  </data>
-  <data name="label31.Text" xml:space="preserve">
-    <value>Z</value>
-  </data>
   <data name="label34.Text" xml:space="preserve">
     <value>Dauer (1/10 sec)</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>X</value>
   </data>
   <data name="label36.Text" xml:space="preserve">
     <value>Servo-Limits</value>
@@ -249,9 +180,6 @@
   <data name="label37.Text" xml:space="preserve">
     <value>Nicht gedrüclt</value>
   </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="mavlinkCheckBoxTR.Text" xml:space="preserve">
     <value>Umkehren</value>
   </data>
@@ -261,14 +189,14 @@
   <data name="CHK_stab_pan.Text" xml:space="preserve">
     <value>Pan stabilisieren</value>
   </data>
-  <data name="LNK_wiki.Text" xml:space="preserve">
-    <value>Wiki</value>
+  <data name="label44.Text" xml:space="preserve">
+    <value>HINWEIS: Neuer Gimbaltyp ist erst nach Neustart des Autopiloten aktiv.</value>
   </data>
   <data name="label42.Text" xml:space="preserve">
-    <value>ch7 auf "Kamera auslösen" setzen</value>
+    <value>CH7 auf "Kamera auslösen" setzen</value>
   </data>
-  <data name="label40.Text" xml:space="preserve">
-    <value>Min</value>
+  <data name="label43.Text" xml:space="preserve">
+    <value>Typ</value>
   </data>
   <data name="label41.Text" xml:space="preserve">
     <value>Auslöser</value>

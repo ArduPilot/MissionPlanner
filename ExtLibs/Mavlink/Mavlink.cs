@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Apr 25 2017";
+    public const string MAVLINK_BUILD_DATE = "Fri Sep 15 2017";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -194,6 +194,7 @@ public partial class MAVLink
 		new message_info(192, "MAG_CAL_REPORT", 36, 44, 44, typeof( mavlink_mag_cal_report_t )),
 		new message_info(193, "EKF_STATUS_REPORT", 71, 22, 22, typeof( mavlink_ekf_status_report_t )),
 		new message_info(194, "PID_TUNING", 98, 25, 25, typeof( mavlink_pid_tuning_t )),
+		new message_info(195, "DEEPSTALL", 120, 37, 37, typeof( mavlink_deepstall_t )),
 		new message_info(200, "GIMBAL_REPORT", 134, 42, 42, typeof( mavlink_gimbal_report_t )),
 		new message_info(201, "GIMBAL_CONTROL", 205, 14, 14, typeof( mavlink_gimbal_control_t )),
 		new message_info(214, "GIMBAL_TORQUE_CMD_REPORT", 69, 8, 8, typeof( mavlink_gimbal_torque_cmd_report_t )),
@@ -235,6 +236,13 @@ public partial class MAVLink
 		new message_info(266, "LOGGING_DATA", 193, 255, 255, typeof( mavlink_logging_data_t )),
 		new message_info(267, "LOGGING_DATA_ACKED", 35, 255, 255, typeof( mavlink_logging_data_acked_t )),
 		new message_info(268, "LOGGING_ACK", 14, 4, 4, typeof( mavlink_logging_ack_t )),
+		new message_info(310, "UAVCAN_NODE_STATUS", 28, 17, 17, typeof( mavlink_uavcan_node_status_t )),
+		new message_info(311, "UAVCAN_NODE_INFO", 95, 116, 116, typeof( mavlink_uavcan_node_info_t )),
+		new message_info(320, "PARAM_EXT_REQUEST_READ", 243, 20, 20, typeof( mavlink_param_ext_request_read_t )),
+		new message_info(321, "PARAM_EXT_REQUEST_LIST", 88, 2, 2, typeof( mavlink_param_ext_request_list_t )),
+		new message_info(322, "PARAM_EXT_VALUE", 243, 149, 149, typeof( mavlink_param_ext_value_t )),
+		new message_info(323, "PARAM_EXT_SET", 78, 147, 147, typeof( mavlink_param_ext_set_t )),
+		new message_info(324, "PARAM_EXT_ACK", 132, 146, 146, typeof( mavlink_param_ext_ack_t )),
 		new message_info(10001, "UAVIONIX_ADSB_OUT_CFG", 209, 20, 20, typeof( mavlink_uavionix_adsb_out_cfg_t )),
 		new message_info(10002, "UAVIONIX_ADSB_OUT_DYNAMIC", 186, 41, 41, typeof( mavlink_uavionix_adsb_out_dynamic_t )),
 		new message_info(10003, "UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT", 4, 1, 1, typeof( mavlink_uavionix_adsb_transceiver_health_report_t )),
@@ -437,6 +445,7 @@ MAG_CAL_PROGRESS = 191,
 MAG_CAL_REPORT = 192,
 EKF_STATUS_REPORT = 193,
 PID_TUNING = 194,
+DEEPSTALL = 195,
 GIMBAL_REPORT = 200,
 GIMBAL_CONTROL = 201,
 GIMBAL_TORQUE_CMD_REPORT = 214,
@@ -478,6 +487,13 @@ MOUNT_ORIENTATION = 265,
 LOGGING_DATA = 266,
 LOGGING_DATA_ACKED = 267,
 LOGGING_ACK = 268,
+UAVCAN_NODE_STATUS = 310,
+UAVCAN_NODE_INFO = 311,
+PARAM_EXT_REQUEST_READ = 320,
+PARAM_EXT_REQUEST_LIST = 321,
+PARAM_EXT_VALUE = 322,
+PARAM_EXT_SET = 323,
+PARAM_EXT_ACK = 324,
 UAVIONIX_ADSB_OUT_CFG = 10001,
 UAVIONIX_ADSB_OUT_DYNAMIC = 10002,
 UAVIONIX_ADSB_TRANSCEIVER_HEALTH_REPORT = 10003,
@@ -507,6 +523,10 @@ AOA_SSA = 11020,
         NOSEUP=5, 
     	///<summary>  | </summary>
         BACK=6, 
+    	///<summary>  | </summary>
+        SUCCESS=16777215, 
+    	///<summary>  | </summary>
+        FAILED=16777216, 
     
     };
     
@@ -623,7 +643,7 @@ AOA_SSA = 11020,
         DO_FENCE_ENABLE=207, 
     	///<summary> Mission command to trigger a parachute |action (0=disable, 1=enable, 2=release, for some systems see PARACHUTE_ACTION enum, not in general message set.)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_PARACHUTE=208, 
-    	///<summary> Mission command to perform motor test |motor sequence number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| Empty| Empty| Empty|  </summary>
+    	///<summary> Mission command to perform motor test |motor number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| motor count (number of motors to test to test in sequence, waiting for the timeout above between them; 0=1 motor, 1=1 motor, 2=2 motors...)| motor test order (See MOTOR_TEST_ORDER enum)| Empty|  </summary>
         DO_MOTOR_TEST=209, 
     	///<summary> Change to/from inverted flight |inverted (0=normal, 1=inverted)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_INVERTED_FLIGHT=210, 
@@ -643,7 +663,7 @@ AOA_SSA = 11020,
         DO_ENGINE_CONTROL=223, 
     	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_LAST=240, 
-    	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration| 1: APM: compass/motor interference calibration / PX4: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
+    	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. Except for Temperature Calibration, only one sensor should be set in a single message and all others should be zero. |1: gyro calibration, 3: gyro temperature calibration| 1: magnetometer calibration| 1: ground pressure calibration| 1: radio RC calibration, 2: RC trim calibration| 1: accelerometer calibration, 2: board level calibration, 3: accelerometer temperature calibration, 4: simple accelerometer calibration| 1: APM: compass/motor interference calibration (PX4: airspeed calibration, deprecated), 2: airspeed calibration| 1: ESC calibration, 3: barometer temperature calibration|  </summary>
         PREFLIGHT_CALIBRATION=241, 
     	///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow, 5: second magnetometer, 6: third magnetometer| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
         PREFLIGHT_SET_SENSOR_OFFSETS=242, 
@@ -759,6 +779,8 @@ AOA_SSA = 11020,
         SOLO_BTN_FLY_HOLD=42002, 
     	///<summary> PAUSE button has been clicked. |1 if Solo is in a shot mode, 0 otherwise| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         SOLO_BTN_PAUSE_CLICK=42003, 
+    	///<summary> Magnetometer calibration based on fixed position in earth field |MagDeclinationDegrees| MagInclinationDegrees| MagIntensityMilliGauss| YawDegrees| Empty| Empty| Empty|  </summary>
+        FIXED_MAG_CAL=42004, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Automatically retry on failure (0=no retry, 1=retry).| Save without user input (0=require input, 1=autosave).| Delay (seconds)| Autoreboot (0=user reboot, 1=autoreboot)| Empty| Empty|  </summary>
         DO_START_MAG_CAL=42424, 
     	///<summary> Initiate a magnetometer calibration |uint8_t bitmask of magnetometers (0 means all)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -1390,6 +1412,26 @@ AOA_SSA = 11020,
     
     };
     
+    ///<summary> Deepstall flight stage </summary>
+    public enum DEEPSTALL_STAGE: byte
+    {
+			///<summary> Flying to the landing point | </summary>
+        FLY_TO_LANDING=0, 
+    	///<summary> Building an estimate of the wind | </summary>
+        ESTIMATE_WIND=1, 
+    	///<summary> Waiting to breakout of the loiter to fly the approach | </summary>
+        WAIT_FOR_BREAKOUT=2, 
+    	///<summary> Flying to the first arc point to turn around to the landing point | </summary>
+        FLY_TO_ARC=3, 
+    	///<summary> Turning around back to the deepstall landing point | </summary>
+        ARC=4, 
+    	///<summary> Approaching the landing point | </summary>
+        APPROACH=5, 
+    	///<summary> Stalling and steering towards the land point | </summary>
+        LAND=6, 
+    
+    };
+    
     
     ///<summary> Micro air vehicle / autopilot classes. This identifies the individual model. </summary>
     public enum MAV_AUTOPILOT: byte
@@ -1430,6 +1472,8 @@ AOA_SSA = 11020,
         AEROB=16, 
     	///<summary> ASLUAV autopilot -- http://www.asl.ethz.ch | </summary>
         ASLUAV=17, 
+    	///<summary> SmartAP Autopilot - http://sky-drones.com | </summary>
+        SMARTAP=18, 
     
     };
     
@@ -1492,6 +1536,8 @@ AOA_SSA = 11020,
         GIMBAL=26, 
     	///<summary> Onboard ADSB peripheral | </summary>
         ADSB=27, 
+    	///<summary> Dodecarotor | </summary>
+        DODECAROTOR=28, 
     
     };
     
@@ -2064,6 +2110,10 @@ AOA_SSA = 11020,
         ULTRASOUND=1, 
     	///<summary> Infrared rangefinder, e.g. Sharp units | </summary>
         INFRARED=2, 
+    	///<summary> Radar type, e.g. uLanding units | </summary>
+        RADAR=3, 
+    	///<summary> Broken or unknown type, e.g. analog units | </summary>
+        UNKNOWN=4, 
     
     };
     
@@ -2276,6 +2326,10 @@ AOA_SSA = 11020,
         ON_GROUND=1, 
     	///<summary> MAV is in air | </summary>
         IN_AIR=2, 
+    	///<summary> MAV currently taking off | </summary>
+        TAKEOFF=3, 
+    	///<summary> MAV currently landing | </summary>
+        LANDING=4, 
     
     };
     
@@ -2392,6 +2446,18 @@ AOA_SSA = 11020,
     };
     
     ///<summary>  </summary>
+    public enum MOTOR_TEST_ORDER: int /*default*/
+    {
+			///<summary> default autopilot motor test method | </summary>
+        DEFAULT=0, 
+    	///<summary> motor numbers are specified as their index in a predefined vehicle-specific sequence | </summary>
+        SEQUENCE=1, 
+    	///<summary> motor numbers are specified as the output as labeled on the board | </summary>
+        BOARD=2, 
+    
+    };
+    
+    ///<summary>  </summary>
     public enum MOTOR_TEST_THROTTLE_TYPE: int /*default*/
     {
 			///<summary> throttle as a percentage from 0 ~ 100 | </summary>
@@ -2400,6 +2466,8 @@ AOA_SSA = 11020,
         MOTOR_TEST_THROTTLE_PWM=1, 
     	///<summary> throttle pass-through from pilot's transmitter | </summary>
         MOTOR_TEST_THROTTLE_PILOT=2, 
+    	///<summary> per-motor compass calibration test | </summary>
+        MOTOR_TEST_COMPASS_CAL=3, 
     
     };
     
@@ -3472,6 +3540,34 @@ AOA_SSA = 11020,
         public  float D;
             /// <summary> axis PID_TUNING_AXIS</summary>
         public  /*PID_TUNING_AXIS*/byte axis;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
+    ///<summary> Deepstall path planning </summary>
+    public struct mavlink_deepstall_t
+    {
+        /// <summary> Landing latitude (deg * 1E7) </summary>
+        public  int landing_lat;
+            /// <summary> Landing longitude (deg * 1E7) </summary>
+        public  int landing_lon;
+            /// <summary> Final heading start point, latitude (deg * 1E7) </summary>
+        public  int path_lat;
+            /// <summary> Final heading start point, longitude (deg * 1E7) </summary>
+        public  int path_lon;
+            /// <summary> Arc entry point, latitude (deg * 1E7) </summary>
+        public  int arc_entry_lat;
+            /// <summary> Arc entry point, longitude (deg * 1E7) </summary>
+        public  int arc_entry_lon;
+            /// <summary> Altitude (meters) </summary>
+        public  float altitude;
+            /// <summary> Distance the aircraft expects to travel during the deepstall </summary>
+        public  float expected_travel_distance;
+            /// <summary> Deepstall cross track error in meters (only valid when in DEEPSTALL_STAGE_LAND) </summary>
+        public  float cross_track_error;
+            /// <summary> Deepstall stage, see enum MAV_DEEPSTALL_STAGE DEEPSTALL_STAGE</summary>
+        public  /*DEEPSTALL_STAGE*/byte stage;
     
     };
 
@@ -6633,7 +6729,7 @@ AOA_SSA = 11020,
 
 
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=182)]
-    ///<summary> WORK IN PROGRESS! RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
+    ///<summary> RTCM message for injecting into the onboard GPS (used for DGPS) </summary>
     public struct mavlink_gps_rtcm_data_t
     {
         /// <summary> LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the GPS when the entire message has been reconstructed on the autopilot. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt RTCM data, and to recover from a unreliable transport delivery order. </summary>
@@ -7260,6 +7356,141 @@ AOA_SSA = 11020,
         public  byte target_system;
             /// <summary> component ID of the target </summary>
         public  byte target_component;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> General status information of an UAVCAN node. Please refer to the definition of the UAVCAN message "uavcan.protocol.NodeStatus" for the background information. The UAVCAN specification is available at http://uavcan.org. </summary>
+    public struct mavlink_uavcan_node_status_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  ulong time_usec;
+            /// <summary> The number of seconds since the start-up of the node. </summary>
+        public  uint uptime_sec;
+            /// <summary> Vendor-specific status information. </summary>
+        public  ushort vendor_specific_status_code;
+            /// <summary> Generalized node health status. UAVCAN_NODE_HEALTH</summary>
+        public  /*UAVCAN_NODE_HEALTH*/byte health;
+            /// <summary> Generalized operating mode. UAVCAN_NODE_MODE</summary>
+        public  /*UAVCAN_NODE_MODE*/byte mode;
+            /// <summary> Not used currently. </summary>
+        public  byte sub_mode;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=116)]
+    ///<summary> General information describing a particular UAVCAN node. Please refer to the definition of the UAVCAN service "uavcan.protocol.GetNodeInfo" for the background information. This message should be emitted by the system whenever a new node appears online, or an existing node reboots. Additionally, it can be emitted upon request from the other end of the MAVLink channel (see MAV_CMD_UAVCAN_GET_NODE_INFO). It is also not prohibited to emit this message unconditionally at a low frequency. The UAVCAN specification is available at http://uavcan.org. </summary>
+    public struct mavlink_uavcan_node_info_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  ulong time_usec;
+            /// <summary> The number of seconds since the start-up of the node. </summary>
+        public  uint uptime_sec;
+            /// <summary> Version control system (VCS) revision identifier (e.g. git short commit hash). Zero if unknown. </summary>
+        public  uint sw_vcs_commit;
+            /// <summary> Node name string. For example, "sapog.px4.io". </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=80)]
+		public byte[] name;
+            /// <summary> Hardware major version number. </summary>
+        public  byte hw_version_major;
+            /// <summary> Hardware minor version number. </summary>
+        public  byte hw_version_minor;
+            /// <summary> Hardware unique 128-bit ID. </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] hw_unique_id;
+            /// <summary> Software major version number. </summary>
+        public  byte sw_version_major;
+            /// <summary> Software minor version number. </summary>
+        public  byte sw_version_minor;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=20)]
+    ///<summary> Request to read the value of a parameter with the either the param_id string id or param_index. </summary>
+    public struct mavlink_param_ext_request_read_t
+    {
+        /// <summary> Parameter index. Set to -1 to use the Parameter ID field as identifier (else param_id will be ignored) </summary>
+        public  short param_index;
+            /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=2)]
+    ///<summary> Request all parameters of this component. After this request, all parameters are emitted. </summary>
+    public struct mavlink_param_ext_request_list_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=149)]
+    ///<summary> Emit the value of a parameter. The inclusion of param_count and param_index in the message allows the recipient to keep track of received parameters and allows them to re-request missing parameters after a loss or timeout. </summary>
+    public struct mavlink_param_ext_value_t
+    {
+        /// <summary> Total number of parameters </summary>
+        public  ushort param_count;
+            /// <summary> Index of this parameter </summary>
+        public  ushort param_index;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=147)]
+    ///<summary> Set a parameter value. In order to deal with message loss (and retransmission of PARAM_EXT_SET), when setting a parameter value and the new value is the same as the current value, you will immediately get a PARAM_ACK_ACCEPTED response. If the current state is PARAM_ACK_IN_PROGRESS, you will accordingly receive a PARAM_ACK_IN_PROGRESS in response. </summary>
+    public struct mavlink_param_ext_set_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=146)]
+    ///<summary> Response from a PARAM_EXT_SET message. </summary>
+    public struct mavlink_param_ext_ack_t
+    {
+        /// <summary> Parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=16)]
+		public byte[] param_id;
+            /// <summary> Parameter value (new value if PARAM_ACK_ACCEPTED, current value otherwise) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=128)]
+		public byte[] param_value;
+            /// <summary> Parameter type: see the MAV_PARAM_TYPE enum for supported data types. MAV_PARAM_TYPE</summary>
+        public  /*MAV_PARAM_TYPE*/byte param_type;
+            /// <summary> Result code: see the PARAM_ACK enum for possible codes. PARAM_ACK</summary>
+        public  /*PARAM_ACK*/byte param_result;
     
     };
 

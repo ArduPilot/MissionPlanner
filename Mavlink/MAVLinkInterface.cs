@@ -132,7 +132,7 @@ namespace MissionPlanner
         /// <summary>
         /// progress form to handle connect and param requests
         /// </summary>
-        ProgressReporterDialogue frmProgressReporter;
+        IProgressReporterDialogue frmProgressReporter;
 
         /// <summary>
         /// used for outbound packet sending
@@ -478,6 +478,12 @@ Please check the following
                         hbseen = true;
 
                     count++;
+
+                    // if we get no data, try enableing rts/cts
+                    if (buffer.Length == 0 && buffer1.Length == 0 && BaseStream is SerialPort)
+                    {
+                        BaseStream.RtsEnable = !BaseStream.RtsEnable;
+                    }
 
                     // 2 hbs that match
                     if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
@@ -1184,7 +1190,8 @@ Please check the following
                 // 4 seconds between valid packets
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
-                    if (retry < 6)
+                    // if we have less than 75% of the total use full list pull
+                    if (retry < 6 && indexsreceived.Count < ((param_total/4) * 3))
                     {
                         retry++;
                         generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
@@ -1275,7 +1282,7 @@ Please check the following
                         // check if we already have it
                         if (indexsreceived.Contains(par.param_index))
                         {
-                            log.Info("Already got " + (par.param_index) + " '" + paramID + "'");
+                            log.Info("Already got " + (par.param_index) + " '" + paramID + "' " + (indexsreceived.Count * 100) / param_total);
                             this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count*100)/param_total,
                                 "Already Got param " + paramID);
                             continue;
@@ -1714,15 +1721,16 @@ Please check the following
             return doCommand(MAV.sysid, MAV.compid, actionid, p1, p2, p3, p4, p5, p6, p7, requireack, null);
         }
 
-        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7, bool requireack = true, MethodInvoker uicallback = null)
+        public bool doCommand(byte sysid, byte compid, MAV_CMD actionid, float p1, float p2, float p3, float p4,
+            float p5, float p6, float p7, bool requireack = true, Action uicallback = null)
         {
             giveComport = true;
             MAVLinkMessage buffer;
 
             mavlink_command_long_t req = new mavlink_command_long_t();
 
-                req.target_system = sysid;
-                req.target_component = compid;
+            req.target_system = sysid;
+            req.target_component = compid;
 
             req.command = (ushort) actionid;
 
@@ -1815,17 +1823,19 @@ Please check the following
                 buffer = readPacket();
                 if (buffer.Length > 5)
                 {
-                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid && buffer.compid == compid)
+                    if (buffer.msgid == (byte) MAVLINK_MSG_ID.COMMAND_ACK && buffer.sysid == sysid &&
+                        buffer.compid == compid)
                     {
                         var ack = buffer.ToStructure<mavlink_command_ack_t>();
 
                         if (ack.command != req.command)
                         {
-                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                            log.InfoFormat("doCommand cmd resp {0} - {1} - Commands dont match", (MAV_CMD) ack.command,
+                                (MAV_RESULT) ack.result);
                             continue;
                         }
 
-                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD)ack.command, (MAV_RESULT)ack.result);
+                        log.InfoFormat("doCommand cmd resp {0} - {1}", (MAV_CMD) ack.command, (MAV_RESULT) ack.result);
 
                         if (ack.result == (byte) MAV_RESULT.ACCEPTED)
                         {
@@ -3075,12 +3085,14 @@ Please check the following
             giveComport = false;
         }
 
-        public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz)
+        public void setPositionTargetGlobalInt(byte sysid, byte compid, bool pos, bool vel, bool acc, bool yaw, MAV_FRAME frame, double lat, double lng, double alt, double vx, double vy, double vz, double yawangle, double yawrate)
         {
             // for mavlink SET_POSITION_TARGET messages
             const ushort MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE = ((1 << 0) | (1 << 1) | (1 << 2));
             const ushort MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE = ((1 << 3) | (1 << 4) | (1 << 5));
             const ushort MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE = ((1 << 6) | (1 << 7) | (1 << 8));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_FORCE = ((1 << 9));
+            const ushort MAVLINK_SET_POS_TYPE_MASK_YAW_IGNORE = ((1 << 10) | (1 << 11));
 
             mavlink_set_position_target_global_int_t target = new mavlink_set_position_target_global_int_t()
             {
@@ -3092,17 +3104,21 @@ Please check the following
                 coordinate_frame = (byte) frame,
                 vx = (float) vx,
                 vy = (float) vy,
-                vz = (float) vz
+                vz = (float) vz,
+                yaw = (float)yawangle,
+                yaw_rate = (float)yawrate
             };
 
-            target.type_mask = 7 + 56 + 448;
+            target.type_mask = ushort.MaxValue;
 
             if (pos)
-                target.type_mask -= 7;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_POS_IGNORE;
             if (vel)
-                target.type_mask -= 56;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_VEL_IGNORE;
             if (acc)
-                target.type_mask -= 448;
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_ACC_IGNORE;
+            if (yaw)
+                target.type_mask -= MAVLINK_SET_POS_TYPE_MASK_YAW_IGNORE;
 
             if (pos)
             {
@@ -3469,7 +3485,7 @@ Please check the following
                 return MAVLinkMessage.Invalid;
 
             if (message == null)
-                message = new MAVLinkMessage(buffer);
+                message = new MAVLinkMessage(buffer, DateTime.UtcNow);
 
             uint msgid = message.msgid;
 
@@ -3732,6 +3748,22 @@ Please check the following
                             {
                                 ((adsb.PointLatLngAltHdg) MainV2.instance.adsbPlanes[id]).ThreatLevel = threat_level;
                             }
+                        }
+                    }
+
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    if (msgid == (uint) MAVLINK_MSG_ID.UAVCAN_NODE_STATUS)
+                    {
+                        var cannode = message.ToStructure<mavlink_uavcan_node_status_t>();
+
+                        // add a seen sysid
+                        if (!MAVlist.Contains(sysid, compid, false))
+                        {
+                            // ensure its set from connect or log playback
+                            MAVlist.Create(sysid, compid);
+                            MAVlist[sysid, compid].aptype = MAV_TYPE.ONBOARD_CONTROLLER;
+                            MAVlist[sysid, compid].apname = MAV_AUTOPILOT.INVALID;
+                            setAPType(sysid, compid);
                         }
                     }
 
@@ -4816,7 +4848,7 @@ Please check the following
                 a++;
             }
 
-            MAVLinkMessage tmp = new MAVLinkMessage(temp);
+            MAVLinkMessage tmp = new MAVLinkMessage(temp, lastlogread);
 
             MAVlist[tmp.sysid, tmp.compid].cs.datetime = lastlogread;
 

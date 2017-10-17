@@ -38,7 +38,15 @@ namespace MissionPlanner.Wizard
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
+            try
+            {
+                System.Diagnostics.Process.Start(((LinkLabel) sender).Tag.ToString());
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Failed to open the link " + ((LinkLabel) sender).Tag.ToString(), Strings.ERROR,
+                    MessageBoxButtons.OK);
+            }
         }
     }
 }

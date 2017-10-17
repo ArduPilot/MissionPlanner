@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using MissionPlanner.Utilities;
@@ -23,6 +25,7 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        static Dictionary<string, string> cachequeue = new Dictionary<string, string>();
         static Dictionary<string, string> cache = new Dictionary<string, string>();
 
         /// <summary>
@@ -51,6 +54,10 @@ namespace MissionPlanner.Utilities
             {
                 var parameterLocations = parameterLocationsString.Split(';').ToList();
                 parameterLocations.RemoveAll(String.IsNullOrEmpty);
+
+                // precache all the base urls
+                Parallel.ForEach(parameterLocations,
+                    parameterLocation => { ReadDataFromAddress(parameterLocation.Trim()); });
 
                 using (var objXmlTextWriter = new XmlTextWriter(XMLFileName, null))
                 {
@@ -145,7 +152,7 @@ namespace MissionPlanner.Utilities
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
                 // node is the prefix of the parameter group here
-                parsedInformation.ForEach(node =>
+                Parallel.ForEach(parsedInformation, node =>
                 {
                     // node.Value is a nested dictionary containing the additional meta data
                     // In this case we are looking for the @Path key
@@ -201,18 +208,22 @@ namespace MissionPlanner.Utilities
                 {
                     parameterPrefix = parameterPrefix.Replace('(', '_');
                     parameterPrefix = parameterPrefix.Replace(')', '_');
-                    objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix.Replace(" ", "_"), node.Key.Replace(" ","_")));
-                    if (node.Value != null && node.Value.Count > 0)
+                    lock (objXmlTextWriter)
                     {
-                        node.Value.ForEach(meta =>
+                        objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix.Replace(" ", "_"),
+                            node.Key.Replace(" ", "_")));
+                        if (node.Value != null && node.Value.Count > 0)
                         {
-                            // Write the key value pair to XML
-                            objXmlTextWriter.WriteStartElement(meta.Key);
-                            objXmlTextWriter.WriteString(meta.Value);
-                            objXmlTextWriter.WriteEndElement();
-                        });
+                            node.Value.ForEach(meta =>
+                            {
+                                // Write the key value pair to XML
+                                objXmlTextWriter.WriteStartElement(meta.Key);
+                                objXmlTextWriter.WriteString(meta.Value);
+                                objXmlTextWriter.WriteEndElement();
+                            });
+                        }
+                        objXmlTextWriter.WriteEndElement();
                     }
-                    objXmlTextWriter.WriteEndElement();
                 });
             }
         }
@@ -346,6 +357,10 @@ namespace MissionPlanner.Utilities
             if (attempt > 2)
             {
                 log.Error(String.Format("Failed {0}", address));
+                lock (cachequeue)
+                {
+                    cachequeue.Remove(address);
+                }
                 return String.Empty;
             }
 
@@ -353,9 +368,24 @@ namespace MissionPlanner.Utilities
 
             log.Info(address);
 
+            while (cachequeue.ContainsKey(address))
+            {
+                Console.WriteLine("ReadDataFromAddress Queued "+ address);
+                Thread.Sleep(200);
+            }
+
+            lock (cachequeue)
+            {
+                cachequeue[address] = "";
+            }
+
             if (cache.ContainsKey(address))
             {
                 log.Info("using cache " + address);
+                lock (cachequeue)
+                {
+                    cachequeue.Remove(address);
+                }
                 return cache[address];
             }
 
@@ -402,7 +432,19 @@ namespace MissionPlanner.Utilities
 
                 attempt++;
 
+                lock (cachequeue)
+                {
+                    cachequeue.Remove(address);
+                }
+
                 return ReadDataFromAddress(address, attempt);
+            }
+            finally
+            {
+                lock (cachequeue)
+                {
+                    cachequeue.Remove(address);
+                }
             }
         }
     }

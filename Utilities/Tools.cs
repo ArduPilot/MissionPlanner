@@ -412,7 +412,7 @@ namespace AT.MIN
                         w = FormatNumber((flagGroupThousands ? "n" : "d"), flagAlternate,
                             fieldLength, int.MinValue, flagLeft2Right,
                             flagPositiveSign, flagPositiveSpace,
-                            paddingCharacter, o);
+                            paddingCharacter, o == null ? String.Empty : o);
                         defaultParamIx++;
                         break;
                         #endregion

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 
 namespace GDAL
 {
-    using System;
-    using GMap.NET.Projections;
-    using System.Globalization;
-    using GMap.NET.MapProviders;
     using GMap.NET;
+    using GMap.NET.MapProviders;
+    using GMap.NET.Projections;
+    using System;
     using System.Reflection;
-    using GMap.NET.WindowsForms;
 
     /// <summary>
     /// GDAL Custom
@@ -94,6 +91,17 @@ namespace GDAL
             bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
 
             return new GMapImage() { Img = bmp, Data = ms };
+        }
+    }
+
+    public class GMapImage : PureImage
+    {
+        public Image Img { get; set; }
+
+        public override void Dispose()
+        {
+            Img.Dispose();
+            Data.Dispose();
         }
     }
 }

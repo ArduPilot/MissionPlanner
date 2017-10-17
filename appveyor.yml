@@ -1,0 +1,25 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+clone_depth: 1
+clone_folder: c:\MP\
+init:
+- cmd: 
+cache: packages
+build_script:
+- cmd: >-
+
+    c:\mp\.nuget\nuget.exe update -self
+    
+    c:\mp\.nuget\nuget.exe restore
+    
+    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /tv:15.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    
+test: off
+artifacts:
+- path: bin\Release
+  name: MissionPlannerBeta
+deploy: off
+notifications:
+- provider: Webhook
+  url: https://webhooks.gitter.im/e/e12df81fc82d8b11e3d8

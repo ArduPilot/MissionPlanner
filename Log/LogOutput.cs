@@ -282,7 +282,7 @@ namespace MissionPlanner.Log
                 // 1 speed = 0.1    10 / 1  = 0.1
                 data.Append(@"
         <gx:FlyTo>
-            <gx:duration>" + ((gpspackets - lastgpspacket)*0.1) + @"</gx:duration>
+            <gx:duration>" + ((gpspackets - lastgpspacket)*0.1).ToString(new System.Globalization.CultureInfo("en-US")) + @"</gx:duration>
             <gx:flyToMode>smooth</gx:flyToMode>
             <Camera>
                 <longitude>" + mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")) +

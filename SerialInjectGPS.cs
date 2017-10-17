@@ -132,6 +132,8 @@ namespace MissionPlanner
             {
                 List<rtcm3.ob> obs = sender as List<rtcm3.ob>;
 
+                if (obs.Count == 0) return;
+				
                 // get system controls
                 Func<char,List<VerticalProgressBar2>> ctls = delegate (char sys)
                 {
@@ -368,10 +370,10 @@ namespace MissionPlanner
                 {
                     this.LogInfo("Setup M8P");
 
-                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked);
+                    ubx_m8p.SetupM8P(comPort, chk_m8p_130p.Checked, chk_movingbase.Checked);
 
                     if (basepos != PointLatLngAlt.Zero)
-                        ubx_m8p.SetupBasePos(comPort, basepos);
+                        ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, false, chk_movingbase.Checked);
 
                     CMB_baudrate.Text = "115200";
 
@@ -493,7 +495,7 @@ namespace MissionPlanner
 
                         // if this is raw data transport of unknown packet types
                         if (!(isrtcm || issbp))
-                            sendData(buffer, (byte) read);
+                            sendData(buffer, (ushort) read);
 
                         // check for valid rtcm/sbp/ubx packets
                         for (int a = 0; a < read; a++)
@@ -506,7 +508,7 @@ namespace MissionPlanner
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 isrtcm = true;
-                                sendData(rtcm3.packet, (byte) rtcm3.length);
+                                sendData(rtcm3.packet, (ushort)rtcm3.length);
                                 bpsusefull += rtcm3.length;
                                 string msgname = "Rtcm" + seenmsg;
                                 if (!msgseen.ContainsKey(msgname))
@@ -524,7 +526,7 @@ namespace MissionPlanner
                                 ubx_m8p.resetParser();
                                 nmea.resetParser();
                                 issbp = true;
-                                sendData(sbp.packet, (byte) sbp.length);
+                                sendData(sbp.packet, (ushort) sbp.length);
                                 bpsusefull += sbp.length;
                                 string msgname = "Sbp" + seenmsg.ToString("X4");
                                 if (!msgseen.ContainsKey(msgname))
@@ -591,6 +593,7 @@ namespace MissionPlanner
                         break;
                     case 1005:
                     case 1006:
+                    case 4072: // ublox moving base
                         Instance.labelbase.BackColor = Color.Green;
                         ExpireType.Set(Instance.labelbase, 20);
                         break;
@@ -656,8 +659,11 @@ namespace MissionPlanner
                 else if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x7)
                 {
                     var pvt = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_pvt>(6);
-
-                    //MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
+                    if (pvt.fix_type >= 0x3 && (pvt.flags & 1) > 0)
+                    {
+                        MainV2.comPort.MAV.cs.MovingBase = new Utilities.PointLatLngAlt(pvt.lat / 1e7, pvt.lon / 1e7, pvt.height / 1000.0);
+                    }
+                    ubxpvt = pvt;
                 }
                 else if (ubx_m8p.@class == 0x5 && ubx_m8p.subclass == 0x1)
                 {
@@ -684,7 +690,15 @@ namespace MissionPlanner
                 {
                     var hw = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_mon_hw>(6);
 
-                    Console.WriteLine("ubx mon-hw noise {0} agc% {1} jam% {2} jamstate {3}", hw.noisePerMS, (hw.agcCnt/8191.0)*100.0, (hw.jamInd/256.0)*100,hw.flags & 0xc);
+                    Console.WriteLine("ubx mon-hw noise {0} agc% {1} jam% {2} jamstate {3}", hw.noisePerMS, (hw.agcCnt / 8191.0) * 100.0, (hw.jamInd / 256.0) * 100, hw.flags & 0xc);
+                }
+                else if (ubx_m8p.@class == 0x1 && ubx_m8p.subclass == 0x12)
+                {
+                    var velned = ubx_m8p.packet.ByteArrayToStructure<Utilities.ubx_m8p.ubx_nav_velned>(6);
+
+                    var time = (velned.iTOW - ubxvelned.iTOW) / 1000.0;
+
+                    ubxvelned = velned;
                 }
                 else if (ubx_m8p.@class == 0xf5)
                 {
@@ -711,7 +725,7 @@ namespace MissionPlanner
                 if(pollTMODE < DateTime.Now)
                 {
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
-                    pollTMODE = DateTime.Now.AddSeconds(60);
+                    pollTMODE = DateTime.Now.AddSeconds(30);
 
                     ubx_m8p.poll_msg(comPort, 0x0a, 0x4);
                 }
@@ -725,6 +739,8 @@ namespace MissionPlanner
         static DateTime pollTMODE = DateTime.MinValue;
         static ubx_m8p.ubx_cfg_tmode3 ubxmode;
         static ubx_m8p.ubx_nav_svin ubxsvin;
+        internal static ubx_m8p.ubx_nav_velned ubxvelned;
+        internal static ubx_m8p.ubx_nav_pvt ubxpvt;
 
         private static void updateSVINLabel(bool valid, bool active, uint dur, uint obs, double acc)
         {
@@ -850,13 +866,13 @@ namespace MissionPlanner
             }
         }
 
-        private static void sendData(byte[] data, byte length)
+        private static void sendData(byte[] data, ushort length)
         {
             foreach (var port in MainV2.Comports)
             {
                 foreach (var MAV in port.MAVlist)
                 {
-                    port.InjectGpsData(MAV.sysid, MAV.compid, data, (byte) length, rtcm_msg);
+                    port.InjectGpsData(MAV.sysid, MAV.compid, data, length, rtcm_msg);
                 }
             }
         }
@@ -1000,8 +1016,10 @@ namespace MissionPlanner
 
                 if (comPort.IsOpen)
                 {
-                    ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+                    ubx_m8p.SetupBasePos(comPort, basepos,
+                        int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
+                        double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false,
+                        chk_movingbase.Checked);
 
                     ubx_m8p.poll_msg(comPort, 0x06, 0x71);
                 }
@@ -1071,10 +1089,10 @@ namespace MissionPlanner
 
             if (comPort.IsOpen)
             {
-                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true);
+                ubx_m8p.SetupBasePos(comPort, basepos, 0, 0, true, chk_movingbase.Checked);
 
                 ubx_m8p.SetupBasePos(comPort, basepos, int.Parse(txt_surveyinDur.Text, CultureInfo.InvariantCulture),
-                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture));
+                    double.Parse(txt_surveyinAcc.Text, CultureInfo.InvariantCulture), false, chk_movingbase.Checked);
             }
         }
 
@@ -1087,6 +1105,12 @@ namespace MissionPlanner
         private void labelmsgseen_Click(object sender, EventArgs e)
         {
             msgseen.Clear();
+        }
+
+        private void chk_movingbase_CheckedChanged(object sender, EventArgs e)
+        {
+            if(comPort.IsOpen)
+                CustomMessageBox.Show("Please Disconnect and Reconnect to apply this change.");
         }
     }
 }
