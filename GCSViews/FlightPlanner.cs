@@ -523,6 +523,24 @@ namespace MissionPlanner.GCSViews
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.M))
+            {
+                // get the command list from the datagrid
+                var commandlist = GetCommandList();
+                MainV2.comPort.MAV.wps[0] = new Locationwp().Set(MainV2.comPort.MAV.cs.HomeLocation.Lat,
+                    MainV2.comPort.MAV.cs.HomeLocation.Lng, MainV2.comPort.MAV.cs.HomeLocation.Alt, 0);
+                int a = 1;
+                commandlist.ForEach(i =>
+                {
+                    MAVLink.mavlink_mission_item_t item = (MAVLink.mavlink_mission_item_t) i;
+                    item.seq = (ushort)a;
+                    MainV2.comPort.MAV.wps[a] = item;
+                    a++;
+                });
+
+                return true;
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
