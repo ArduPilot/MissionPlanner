@@ -49,6 +49,7 @@ namespace MissionPlanner.Utilities
             public string urlpx4v2;
             public string urlpx4v3;
             public string urlpx4v4;
+            public string urlpx4v4pro;
             public string urlvrbrainv40;
             public string urlvrbrainv45;
             public string urlvrbrainv50;
@@ -159,6 +160,7 @@ namespace MissionPlanner.Utilities
             string px4v2 = "";
             string px4v3 = "";
             string px4v4 = "";
+            string px4v4pro = "";
             string vrbrainv40 = "";
             string vrbrainv45 = "";
             string vrbrainv50 = "";
@@ -216,6 +218,9 @@ namespace MissionPlanner.Utilities
                             case "urlpx4v4":
                                 px4v4 = xmlreader.ReadString();
                                 break;
+                            case "urlpx4v4pro":
+                                px4v4pro = xmlreader.ReadString();
+                                break;								
                             case "urlvrbrainv40":
                                 vrbrainv40 = xmlreader.ReadString();
                                 break;
@@ -267,6 +272,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlpx4v2 = px4v2;
                                     temp.urlpx4v3 = px4v3;
                                     temp.urlpx4v4 = px4v4;
+                                    temp.urlpx4v4 = px4v4pro;
                                     temp.urlvrbrainv40 = vrbrainv40;
                                     temp.urlvrbrainv45 = vrbrainv45;
                                     temp.urlvrbrainv50 = vrbrainv50;
@@ -315,6 +321,7 @@ namespace MissionPlanner.Utilities
                                 px4v2 = "";
                                 px4v3 = "";
                                 px4v4 = "";
+                                px4v4pro = "";
                                 vrbrainv40 = "";
                                 vrbrainv45 = "";
                                 vrbrainv50 = "";
@@ -521,6 +528,10 @@ namespace MissionPlanner.Utilities
                 {
                     baseurl = temp.urlpx4v4.ToString();
                 }
+                else if (board == BoardDetect.boards.px4v4pro)
+                {
+                    baseurl = temp.urlpx4v4pro.ToString();
+                }				
                 else if (board == BoardDetect.boards.vrbrainv40)
                 {
                     baseurl = temp.urlvrbrainv40.ToString();
@@ -1289,7 +1300,8 @@ namespace MissionPlanner.Utilities
         public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 ||
-                board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4)
+                board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
+				board == BoardDetect.boards.px4v4pro)
             {
                 try
                 {

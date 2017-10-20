@@ -25,6 +25,7 @@ namespace MissionPlanner.Utilities
             px4v2, // pixhawk
             px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
+            px4v4pro, // Pixhawk 3 Pro
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
@@ -127,6 +128,12 @@ namespace MissionPlanner.Utilities
                     {
                         log.Info("is a px4v4 pixracer");
                         return boards.px4v4;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013"))
+                    {
+                        log.Info("is a px4v4pro pixhawk 3 pro");
+                        return boards.px4v4pro;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
