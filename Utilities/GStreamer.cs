@@ -256,23 +256,16 @@ namespace MissionPlanner.Utilities
             uint v1 = 0, v2 = 0, v3 = 0, v4 = 0;
             gst_version(ref v1, ref v2, ref v3, ref v4);
 
-            var pipeline = gst_pipeline_new("player");
-            var source = GStreamer.gst_element_factory_make("filesrc", "file-source");
-            var demuxer = GStreamer.gst_element_factory_make("oggdemux", "ogg-demuxer");
-            var decoder = GStreamer.gst_element_factory_make("vorbisdec", "vorbis-decoder");
-            var conv = GStreamer.gst_element_factory_make("audioconvert", "converter");
-            var sink = GStreamer.gst_element_factory_make("autoaudiosink", "audio-output");
-            var appsink = GStreamer.gst_element_factory_make("appsink", "app-sink");
-
             /* Set up the pipeline */
 
-            pipeline = gst_parse_launch(
-                @"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! clockoverlay ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+            var pipeline = gst_parse_launch(
+                //@"videotestsrc ! video/x-raw, width=1280, height=720, framerate=30/1 ! clockoverlay ! x264enc speed-preset=1 threads=1 sliced-threads=1 mb-tree=0 rc-lookahead=0 sync-lookahead=0 bframes=0 ! rtph264pay ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
+                @"-v udpsrc port=5601 buffer-size=300000 ! application/x-rtp ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGRA ! appsink name=outsink",
                 out error);
 
             Console.WriteLine(error);
 
-            appsink = gst_bin_get_by_name(pipeline, "outsink");
+            var appsink = gst_bin_get_by_name(pipeline, "outsink");
 
             /* Start playing */
             gst_element_set_state(pipeline, GstState.GST_STATE_PLAYING);
