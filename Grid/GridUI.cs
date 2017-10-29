@@ -1593,12 +1593,12 @@ namespace MissionPlanner
 
                     while (wpstart != 0 && wpstart < grid.Count && grid[wpstart].Tag != "E")
                     {
-                        wpstart++;
+                        wpstart--;
                     }
 
-                    while (wpend < grid.Count && grid[wpend].Tag != "S")
+                    while (wpend > 0 && wpend < grid.Count && grid[wpend].Tag != "S")
                     {
-                        wpend++;
+                        wpend--;
                     }
 
                     if (CHK_toandland.Checked)
