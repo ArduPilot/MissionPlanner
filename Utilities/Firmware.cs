@@ -272,7 +272,7 @@ namespace MissionPlanner.Utilities
                                     temp.urlpx4v2 = px4v2;
                                     temp.urlpx4v3 = px4v3;
                                     temp.urlpx4v4 = px4v4;
-                                    temp.urlpx4v4 = px4v4pro;
+                                    temp.urlpx4v4pro = px4v4pro;
                                     temp.urlvrbrainv40 = vrbrainv40;
                                     temp.urlvrbrainv45 = vrbrainv45;
                                     temp.urlvrbrainv50 = vrbrainv50;
