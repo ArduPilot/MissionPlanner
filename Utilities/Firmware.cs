@@ -1301,7 +1301,7 @@ namespace MissionPlanner.Utilities
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2 ||
                 board == BoardDetect.boards.px4v3 || board == BoardDetect.boards.px4v4 ||
-				board == BoardDetect.boards.px4v4pro)
+                board == BoardDetect.boards.px4v4pro)
             {
                 try
                 {
