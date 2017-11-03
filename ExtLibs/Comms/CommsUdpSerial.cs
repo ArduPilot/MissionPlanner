@@ -13,7 +13,14 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public UdpClient client = new UdpClient();
+        /// <summary>
+        /// this is the remote endpoint we send messages too. this class does not support multiple remote endpoints.
+        /// </summary>
         public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        /// <summary>
+        /// all remote addresses for the listern
+        /// </summary>
+        public IPEndPoint AnyRemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
@@ -138,6 +145,9 @@ namespace MissionPlanner.Comms
 
             try
             {
+                // reset any previous connection
+                RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                 client.Receive(ref RemoteIpEndPoint);
                 log.InfoFormat("UDPSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
                 _isopen = true;
@@ -181,7 +191,7 @@ namespace MissionPlanner.Comms
                         // read more
                         while (client.Available > 0 && r.Length < (1024 * 1024))
                         {
-                            Byte[] b = client.Receive(ref RemoteIpEndPoint);
+                            Byte[] b = client.Receive(ref AnyRemoteIpEndPoint);
                             r.Write(b, 0, b.Length);
                         }
                         // copy mem stream to byte array.
