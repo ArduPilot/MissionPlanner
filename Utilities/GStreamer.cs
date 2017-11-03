@@ -936,7 +936,8 @@ namespace MissionPlanner.Utilities
 
                 if (run != null)
                 {
-                    run.Kill();
+                    if (!run.CloseMainWindow())
+                        run.Kill();
                     run.Close();
                 }
             }

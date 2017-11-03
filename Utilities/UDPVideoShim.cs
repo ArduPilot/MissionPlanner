@@ -148,6 +148,7 @@ namespace MissionPlanner.Utilities
         public static void Start()
         {
             ThreadPool.QueueUserWorkItem(tcpsolo);
+            ThreadPool.QueueUserWorkItem(skyviper);
         }
 
         private static void tcpsolo(object state)
@@ -159,6 +160,27 @@ namespace MissionPlanner.Utilities
                 {
                     // solo video
                     tcpclient = new TcpClient("10.1.1.1", 5502);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+        }
+
+        private static void skyviper(object state)
+        {
+            try
+            {
+                if (Ping("192.168.99.1"))
+                {
+                    // skyviper video
+                    var test = new WebClient().DownloadString("http://192.168.99.1/");
+
+                    if (test.Contains("SkyViper"))
+                    {
+                        GStreamer.Start("rtspsrc location=rtsp://192.168.99.1/media/stream2 debug=false buffer-mode=0 ! application/x-rtp ! rtph264depay ! avdec_h264 ! avenc_mjpeg ");
+                    }
                 }
             }
             catch (Exception ex)
