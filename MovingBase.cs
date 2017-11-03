@@ -11,6 +11,7 @@ using System.Globalization;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.IO;
+using System.Net.Sockets;
 
 namespace MissionPlanner
 {
@@ -19,7 +20,8 @@ namespace MissionPlanner
         System.Threading.Thread t12;
         static bool threadrun = false;
         static MovingBase Instance;
-        static internal SerialPort comPort = new SerialPort();
+        static TcpListener listener;
+        static ICommsSerial comPort = new SerialPort();
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
         static internal int intalt = 100;
@@ -32,7 +34,11 @@ namespace MissionPlanner
 
             InitializeComponent();
 
-            CMB_serialport.DataSource = SerialPort.GetPortNames();
+            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
+            CMB_serialport.Items.Add("TCP Host - 14551");
+            CMB_serialport.Items.Add("TCP Client");
+            CMB_serialport.Items.Add("UDP Host - 14551");
+            CMB_serialport.Items.Add("UDP Client");
 
             CMB_updaterate.SelectedItem = updaterate;
 
@@ -64,11 +70,38 @@ namespace MissionPlanner
             {
                 try
                 {
-                    comPort.PortName = CMB_serialport.Text;
+                    switch (CMB_serialport.Text)
+                    {
+                        case "TCP Host - 14551":
+                        case "TCP Host":
+                            comPort = new TcpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
+                            listener = new TcpListener(System.Net.IPAddress.Any, 14551);
+                            listener.Start(0);
+                            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+                            BUT_connect.Text = Strings.Stop;
+                            break;
+                        case "TCP Client":
+                            comPort = new TcpSerial() { retrys = 999999, autoReconnect = true };
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        case "UDP Host - 14551":
+                            comPort = new UdpSerial();
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        case "UDP Client":
+                            comPort = new UdpSerialConnect();
+                            CMB_baudrate.SelectedIndex = 0;
+                            break;
+                        default:
+                            comPort = new SerialPort();
+                            comPort.PortName = CMB_serialport.Text;
+                            break;
+                    }
                 }
                 catch
                 {
-                    CustomMessageBox.Show(Strings.InvalidPortName, Strings.ERROR);
+                    CustomMessageBox.Show(Strings.InvalidPortName);
                     return;
                 }
                 try
@@ -82,7 +115,8 @@ namespace MissionPlanner
                 }
                 try
                 {
-                    comPort.Open();
+                    if (listener == null)
+                        comPort.Open();
                 }
                 catch (Exception ex)
                 {
@@ -99,6 +133,24 @@ namespace MissionPlanner
 
                 BUT_connect.Text = Strings.Stop;
             }
+        }
+
+        void DoAcceptTcpClientCallback(IAsyncResult ar)
+        {
+            // Get the listener that handles the client request.
+            TcpListener listener = (TcpListener)ar.AsyncState;
+
+            try
+            {
+                // End the operation and display the received data on  
+                // the console.
+                TcpClient client = listener.EndAcceptTcpClient(ar);
+
+                ((TcpSerial)comPort).client = client;
+
+                listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+            }
+            catch { }
         }
 
         void mainloop()
