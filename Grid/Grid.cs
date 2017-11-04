@@ -121,7 +121,7 @@ namespace MissionPlanner
             // utm position list
             List<utmpos> utmpositions = utmpos.ToList(PointLatLngAlt.ToUTM(utmzone, polygon), utmzone);
 
-            var lanes = (width / distance) + 2;
+            var lanes = (width / distance);
             var start = (int) ((lanes / 2) * -1);
             var end = start * -1;
 
