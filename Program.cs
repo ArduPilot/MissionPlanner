@@ -148,6 +148,7 @@ namespace MissionPlanner
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Statkart_Topo2.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Eniro_Topo.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapBox.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.MapboxNoFly.Instance);
             // optionally add gdal support

@@ -13,19 +13,19 @@ namespace MissionPlanner.Maps
     using System.Reflection;
 
     /// <summary>
-    /// Statkart_Topo2 Custom
+    /// Eniro_Topo Custom
     /// </summary>
-    public class Statkart_Topo2 : GMapProvider
+    public class Eniro_Topo : GMapProvider
     {
-        public static readonly Statkart_Topo2 Instance;
+        public static readonly Eniro_Topo Instance;
 
-        Statkart_Topo2()
+        Eniro_Topo()
         {
         }
 
-        static Statkart_Topo2()
+        static Eniro_Topo()
         {
-            Instance = new Statkart_Topo2();
+            Instance = new Eniro_Topo();
 
             Type mytype = typeof (GMapProviders);
             FieldInfo field = mytype.GetField("DbHash", BindingFlags.Static | BindingFlags.NonPublic);
@@ -36,14 +36,14 @@ namespace MissionPlanner.Maps
 
         #region GMapProvider Members
 
-        readonly Guid id = new Guid("24855c2f-7f75-4074-a30b-ac3ce3287237");
+        readonly Guid id = new Guid("9056b8f1-977d-4def-b814-616c0415941b");
 
         public override Guid Id
         {
             get { return id; }
         }
 
-        readonly string name = "Statkart_Topo2";
+        readonly string name = "Eniro_Topo";
 
         public override string Name
         {
@@ -82,16 +82,16 @@ namespace MissionPlanner.Maps
         {
             string ret;
 
-            this.RefererUrl = "http://www.norgeskart.no/";
+            this.RefererUrl = "http://eniro.se/";
 
-            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, zoom, pos.X, pos.Y);
+            ret = string.Format(CultureInfo.InvariantCulture, CustomURL, zoom, pos.X, (1 << zoom) - 1 - pos.Y);
 
             return ret;
         }
 
-        //http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom=%1&x=%2&y=%3              
+        //http://map.eniro.com/geowebcache/service/tms1.0.0/map/%1/%2/%3.png             
 
         public static string CustomURL =
-            "http://opencache.statkart.no/gatekeeper/gk/gk.open_gmaps?layers=topo2&zoom={0}&x={1}&y={2}";
+            "http://map.eniro.com/geowebcache/service/tms1.0.0/map/{0}/{1}/{2}.png";
     }
 }
