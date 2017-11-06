@@ -438,7 +438,17 @@ namespace MissionPlanner.Utilities
 
         private static bool isrunning
         {
-            get { return processList != null && processList.Count > 0 && !processList.Any(a => a.HasExited); }
+            get { return processList != null && processList.Count > 0 && !processList.Any(a =>
+            {
+                try
+                {
+                    return a.HasExited;
+                }
+                catch
+                {
+                    return true;
+                }
+            }); }
         }
 
         public static Process Start(string custompipelinesrc = "", bool externalpipeline = false,
