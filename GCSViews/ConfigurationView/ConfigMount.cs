@@ -117,6 +117,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
+            startup = true;
+
             CMB_shuttertype.SelectedItem = Enum.GetName(typeof(ChannelCameraShutter),
                 (Int32)MainV2.comPort.MAV.param["CAM_TRIGG_TYPE"]);
 
