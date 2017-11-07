@@ -14,6 +14,7 @@ using log4net;
 using MissionPlanner.Utilities;
 using SharpKml.Base;
 using SharpKml.Dom;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
@@ -745,6 +746,17 @@ namespace MissionPlanner.Utilities
 
                         object[] data = new object[20];
 
+                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
+                        {
+                            var tmsg = MainV2.comPort.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
+                                .ToStructure<MAVLink.mavlink_attitude_t>();
+
+                            var json = JsonConvert.SerializeObject(tmsg);
+
+                            var name = MAVLink.MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint) MAVLink.MAVLINK_MSG_ID.ATTITUDE).name;
+
+
+                        }
 
                         Messagejson message = new Messagejson();
 
