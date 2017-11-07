@@ -138,7 +138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_serialport.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 13</value>
@@ -156,13 +156,13 @@
     <value>BUT_connect</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
   </data>
   <data name="&gt;&gt;BUT_connect.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CMB_baudrate.Items" xml:space="preserve">
     <value>4800</value>
@@ -207,14 +207,50 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_baudrate.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CMB_updaterate.Items" xml:space="preserve">
+    <value>10hz</value>
+  </data>
+  <data name="CMB_updaterate.Items1" xml:space="preserve">
+    <value>5hz</value>
+  </data>
+  <data name="CMB_updaterate.Items2" xml:space="preserve">
+    <value>2hz</value>
+  </data>
+  <data name="CMB_updaterate.Items3" xml:space="preserve">
+    <value>1hz</value>
+  </data>
+  <data name="CMB_updaterate.Items4" xml:space="preserve">
+    <value>0.5hz</value>
+  </data>
+  <data name="CMB_updaterate.Items5" xml:space="preserve">
+    <value>0.25hz</value>
+  </data>
+  <data name="CMB_updaterate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>141, 40</value>
+  </data>
+  <data name="CMB_updaterate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 21</value>
+  </data>
+  <data name="CMB_updaterate.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CMB_updaterate.Name" xml:space="preserve">
+    <value>CMB_updaterate</value>
+  </data>
+  <data name="&gt;&gt;CMB_updaterate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_updaterate.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CMB_updaterate.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>228, 75</value>
   </data>

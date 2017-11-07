@@ -1,9 +1,9 @@
 MissionPlanner
 ==============
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ArduPilot/MissionPlanner?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ArduPilot/MissionPlanner?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build status](https://ci.appveyor.com/api/projects/status/2c5tbxr2wvcguihp?svg=true)](https://ci.appveyor.com/project/meee1/missionplanner)
 
-Website : http://planner.ardupilot.com/  
+Website : http://ardupilot.org/planner/  
   
 Forum : http://discuss.ardupilot.org/c/ground-control-software/mission-planner
   
@@ -27,8 +27,9 @@ How to compile
   https://tortoisegit.org/
 - Visual Studio
   http://www.visualstudio.com/downloads/download-visual-studio-vs
-  Select "Visual Studio Express 2013 for Windows Desktop"
+  Select "Visual Studio Community 2017 for Windows Desktop" version 15.3 or newer (to include .NET standard 2.0).
 - Microsoft .NET 4.0
+- .NET standard 2.0
 
 2. Check out
 
@@ -39,7 +40,7 @@ How to compile
 
 3. Build
 
-- Open MissionPlanner.sln with Visual Studio express 2013 for windows desktop.
+- Open MissionPlanner.sln with Visual Studio 2017 for windows desktop.
 - Compile.
 
 

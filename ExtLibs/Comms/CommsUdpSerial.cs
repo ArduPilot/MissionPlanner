@@ -6,22 +6,28 @@ using log4net;
 using System.IO.Ports;
 using System.IO;
 using System;
-using MissionPlanner.Controls;
+using System.Collections.Generic;
 
 namespace MissionPlanner.Comms
 {
     public class UdpSerial : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        UdpClient client = new UdpClient();
-        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        public UdpClient client = new UdpClient();
+        /// <summary>
+        /// this is the remote endpoint we send messages too. this class does not support multiple remote endpoints.
+        /// </summary>
+        public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
+        private List<IPEndPoint> EndPointList = new List<IPEndPoint>();
+
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return this.BaseStream; } }
+        public Stream BaseStream { get { return Stream.Null; } }
 
         public UdpSerial()
         {
@@ -29,6 +35,14 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
             Port = "14550";
+            ReadTimeout = 500;
+        }
+
+        public UdpSerial(UdpClient client)
+        {
+            this.client = client;
+            _isopen = true;
+            ReadTimeout = 500;
         }
 
         public void toggleDTR()
@@ -63,7 +77,7 @@ namespace MissionPlanner.Comms
         public int BytesToWrite { get {return 0;} }
 
         private bool _isopen = false;
-        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } }
+        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } set { _isopen = value; } }
 
         public bool DtrEnable
         {
@@ -71,11 +85,13 @@ namespace MissionPlanner.Comms
             set;
         }
 
+        public bool CancelConnect = false;
+
         public void Open()
         {
-            if (client.Client.Connected)
+            if (client.Client.Connected || IsOpen)
             {
-                log.Info("udpserial socket already open");
+                log.Info("UDPSerial socket already open");
                 return;
             }
 
@@ -85,7 +101,7 @@ namespace MissionPlanner.Comms
 
             dest = OnSettings("UDP_port", dest);
 
-            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            if (inputboxreturn.Cancel == OnInputBoxShow("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
             {
                 return;
             }
@@ -93,23 +109,8 @@ namespace MissionPlanner.Comms
 
             OnSettings("UDP_port", Port, true);
 
-            ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
-            {
-                StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = "Connecting UDP"
-            };
+            //######################################
 
-            frmProgressReporter.DoWork += frmProgressReporter_DoWork;
-
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting UDP");
-
-            frmProgressReporter.RunBackgroundOperationAsync();
-
-            frmProgressReporter.Dispose();
-        }
-
-        void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
-        {
             try
             {
                 if (client != null)
@@ -123,12 +124,10 @@ namespace MissionPlanner.Comms
 
             while (true)
             {
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Waiting for UDP");
                 System.Threading.Thread.Sleep(500);
 
-                if (((ProgressReporterDialogue)sender).doWorkArgs.CancelRequested)
+                if (CancelConnect)
                 {
-                    ((ProgressReporterDialogue)sender).doWorkArgs.CancelAcknowledged = true;
                     try
                     {
                         client.Close();
@@ -146,8 +145,12 @@ namespace MissionPlanner.Comms
 
             try
             {
+                // reset any previous connection
+                RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                 client.Receive(ref RemoteIpEndPoint);
-                log.InfoFormat("NetSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                log.InfoFormat("UDPSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                EndPointList.Add(RemoteIpEndPoint);
                 _isopen = true;
             }
             catch (Exception ex)
@@ -158,7 +161,7 @@ namespace MissionPlanner.Comms
                 }
                 log.Info(ex.ToString());
                 //CustomMessageBox.Show("Please check your Firewall settings\nPlease try running this command\n1.    Run the following command in an elevated command prompt to disable Windows Firewall temporarily:\n    \nNetsh advfirewall set allprofiles state off\n    \nNote: This is just for test; please turn it back on with the command 'Netsh advfirewall set allprofiles state on'.\n", "Error");
-                throw new Exception("The socket/serialproxy is closed " + e);
+                throw new Exception("The socket/UDPSerial is closed " + ex);
             }
         }
 
@@ -189,8 +192,13 @@ namespace MissionPlanner.Comms
                         // read more
                         while (client.Available > 0 && r.Length < (1024 * 1024))
                         {
-                            Byte[] b = client.Receive(ref RemoteIpEndPoint);
+                            var currentRemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                            // assumes the udp packets are mavlink aligned, if we are receiving from more than one source
+                            Byte[] b = client.Receive(ref currentRemoteIpEndPoint);
                             r.Write(b, 0, b.Length);
+
+                            if(!EndPointList.Contains(currentRemoteIpEndPoint))
+                                EndPointList.Add(currentRemoteIpEndPoint);
                         }
                         // copy mem stream to byte array.
                         rbuffer = r.ToArray();
@@ -264,11 +272,15 @@ namespace MissionPlanner.Comms
         public  void Write(byte[] write, int offset, int length)
         {
             VerifyConnected();
-            try
+            // this is not ideal. but works
+            foreach (var ipEndPoint in EndPointList)
             {
-                client.Send(write, length, RemoteIpEndPoint);
+                try
+                {
+                    client.Send(write, length, ipEndPoint);
+                }
+                catch { }//throw new Exception("Comport / Socket Closed"); }
             }
-            catch { }//throw new Exception("Comport / Socket Closed"); }
         }
 
         public  void DiscardInBuffer()

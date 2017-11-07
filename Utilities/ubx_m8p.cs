@@ -37,6 +37,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        public bool resetParser()
+        {
+            step = 0;
+            return true;
+        }
+
         public int Read(byte data)
         {
             switch (step)
@@ -152,6 +158,40 @@ namespace MissionPlanner.Utilities
             return data;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_mon_ver
+        {
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+            public byte[] swVersion;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public Byte[] hwVersion;
+
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+            public byte[] extension;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_mon_hw
+        {
+            public int pinSel;
+            public int pinBank;
+            public int pinDir;
+            public int pinVal;
+            public ushort noisePerMS;
+            public ushort agcCnt;
+            public byte aStatus;
+            public byte aPower;
+            public byte flags;
+            public byte reserved1;
+            public int usedMask;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 17)]
+            public byte[] VP;
+            public byte jamInd;
+            public ushort reserved3;
+            public int pinIrq;
+            public int pullH;
+            public int pullL;
+        }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct ubx_nav_pvt
@@ -202,6 +242,29 @@ namespace MissionPlanner.Utilities
             public uint8_t active;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 2)]
             public uint8_t[] reserved3;
+
+            public double[] getECEF()
+            {
+                var X = meanX / 100.0 + meanXHP * 0.0001;
+                var Y = meanY / 100.0 + meanYHP * 0.0001;
+                var Z = meanZ / 100.0 + meanZHP * 0.0001;
+
+                return new double[] { X, Y, Z };
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct ubx_nav_velned
+        {
+            public uint iTOW;
+            public int velN;
+            public int velE;
+            public int velD;
+            public uint speed;
+            public uint gSpeed;
+            public int heading;
+            public uint sAcc;
+            public uint cAcc;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 40)]
@@ -211,13 +274,24 @@ namespace MissionPlanner.Utilities
             {
                 version = 0;
                 reserved1 = 0;
-                flags = 256 + 2; // lla + fixed mode
-                ecefXorLat = (int)(lat * 1e7);
-                ecefYorLon = (int)(lng * 1e7);
-                ecefZorAlt = (int)(alt * 100.0);
-                ecefXOrLatHP = (sbyte)((lat * 1e7 - ecefXorLat) * 100.0);
-                ecefYOrLonHP = (sbyte)((lng * 1e7 - ecefYorLon) * 100.0);
-                ecefZOrAltHP = (sbyte)((alt * 100.0 - ecefZorAlt) * 100.0);
+                if (Math.Abs(lat) > 90)
+                {
+                    flags = 2; // fixed mode ecef
+                    ecefXorLat = (int)(lat*100);
+                    ecefYorLon = (int)(lng * 100);
+                    ecefZorAlt = (int)(alt * 100);
+                    ecefXOrLatHP = (sbyte)((lat * 100 - ecefXorLat) * 100.0);
+                    ecefYOrLonHP = (sbyte)((lng * 100 - ecefYorLon) * 100.0);
+                    ecefZOrAltHP = (sbyte)((alt * 100 - ecefZorAlt) * 100.0);
+                } else {
+                    flags = 256 + 2; // lla + fixed mode
+                    ecefXorLat = (int)(lat * 1e7);
+                    ecefYorLon = (int)(lng * 1e7);
+                    ecefZorAlt = (int)(alt * 100.0);
+                    ecefXOrLatHP = (sbyte)((lat * 1e7 - ecefXorLat) * 100.0);
+                    ecefYOrLonHP = (sbyte)((lng * 1e7 - ecefYorLon) * 100.0);
+                    ecefZOrAltHP = (sbyte)((alt * 100.0 - ecefZorAlt) * 100.0);
+                }
                 reserved2 = 0;
                 fixedPosAcc = (uint)(acc * 1000.0);
                 svinMinDur = 60;
@@ -243,9 +317,30 @@ namespace MissionPlanner.Utilities
                 reserved3 = new byte[8];
             }
 
+            public static ubx_cfg_tmode3 Disable
+            {
+                get
+                {
+                    return new ubx_cfg_tmode3()
+                    {
+                        flags = 0, // disable
+                        reserved3 = new byte[8]
+                    };
+                }
+            }
+
             public static implicit operator byte[] (ubx_cfg_tmode3 input)
             {
                 return MavlinkUtil.StructureToByteArray(input);
+            }
+
+            public enum modeflags
+            {
+                Disabled =0,
+                SurveyIn=1,
+                FixedECEF=2,
+                LLA=256,
+                FixedLLA=258
             }
 
             public byte version;
@@ -263,14 +358,64 @@ namespace MissionPlanner.Utilities
             public uint svinAccLimit;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
             public byte[] reserved3;
+
+            public PointLatLngAlt getPointLatLngAlt()
+            {
+                double lat = 0;
+                double lng = 0;
+                double alt = 0;
+
+                if (flags == 2)
+                {
+                    var X = ecefXorLat / 100.0 + ecefXOrLatHP * 0.0001;
+                    var Y = ecefYorLon / 100.0 + ecefYOrLonHP * 0.0001;
+                    var Z = ecefZorAlt / 100.0 + ecefZOrAltHP * 0.0001;
+
+                    var pos = new double[] { X, Y, Z };
+
+                    return new PointLatLngAlt(pos);
+                }
+                else if (flags == 258)
+                {
+                    var X = ecefXorLat / 1e7 + ecefXOrLatHP / 1e9;
+                    var Y = ecefYorLon / 1e7 + ecefYOrLonHP / 1e9;
+                    var Z = ecefZorAlt / 100.0 + ecefZOrAltHP * 0.0001;
+
+                    var pos = new double[] { X, Y, Z };
+
+                    return new PointLatLngAlt(pos);
+                }
+
+                return null;
+            }
         }
 
-        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0)
+        public void SetupM8P(ICommsSerial port, bool m8p_130plus = false, bool movingbase = false)
         {
             port.BaseStream.Flush();
 
+            port.BaudRate = 9600;
+
+            System.Threading.Thread.Sleep(100);
+
             // port config - 115200 - uart1
             var packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
+                0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            port.Write(packet, 0, packet.Length);
+            System.Threading.Thread.Sleep(300);
+
+            // port config - usb
+            packet = generate(0x6, 0x00, new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                0x00, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
+            port.Write(packet, 0, packet.Length);
+            System.Threading.Thread.Sleep(300);
+
+            port.BaseStream.Flush();
+
+            port.BaudRate = 115200;
+
+            // port config - 115200 - uart1
+            packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
                 0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
             System.Threading.Thread.Sleep(300);
@@ -287,11 +432,18 @@ namespace MissionPlanner.Utilities
             System.Threading.Thread.Sleep(200);
 
             // set navmode to stationary
-            packet = generate(0x6, 0x24, new byte[] { 0xFF ,0xFF ,0x02 ,0x03 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x05 ,0x00
-                ,0xFA ,0x00 ,0xFA ,0x00 ,0x64 ,0x00 ,0x2C ,0x01 ,0x00 ,0x00 ,0x00 ,0x00 ,0x10 ,0x27 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00 ,0x00
-                ,0x00 ,0x00 });
-            port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(200);
+            if (!movingbase)
+            {
+                packet = generate(0x6, 0x24,
+                    new byte[]
+                    {
+                        0xFF, 0xFF, 0x02, 0x03, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x05, 0x00, 0xFA, 0x00,
+                        0xFA, 0x00, 0x64, 0x00, 0x2C, 0x01, 0x00, 0x00, 0x00, 0x00, 0x10, 0x27, 0x00, 0x00, 0x00, 0x00,
+                        0x00, 0x00, 0x00, 0x00
+                    });
+                port.Write(packet, 0, packet.Length);
+                System.Threading.Thread.Sleep(200);
+            }
 
             // turn off all nmea
             for (int a = 0; a <= 0xf; a++)
@@ -313,38 +465,94 @@ namespace MissionPlanner.Utilities
             // 1005 - 5s
             turnon_off(port, 0xf5, 0x05, 5);
 
-            // 1077 - 1s
-            turnon_off(port, 0xf5, 0x4d, 1);
+            byte rate1 = 1;
+            byte rate2 = 0;
 
+            if (m8p_130plus)
+            {
+                rate1 = 0;
+                rate2 = 1;
+            }
+
+            // 1074 - 1s
+            turnon_off(port, 0xf5, 0x4a, rate2);
+            // 1077 - 1s
+            turnon_off(port, 0xf5, 0x4d, rate1);
+
+            // 1084 - 1s
+            turnon_off(port, 0xf5, 0x54, rate2);
             // 1087 - 1s
-            turnon_off(port, 0xf5, 0x57, 1);
+            turnon_off(port, 0xf5, 0x57, rate1);
+
+            // 1124 - 1s
+            turnon_off(port, 0xf5, 0x7c, rate2);
+            // 1127 - 1s
+            turnon_off(port, 0xf5, 0x7f, rate1);
+
+            if (movingbase)
+            {
+                // 4072
+                turnon_off(port, 0xf5, 0xFE, 1);
+            }
+            else
+            {
+                // 4072
+                turnon_off(port, 0xf5, 0xFE, 0);
+            }
+
+            // 1230 - 5s
+            turnon_off(port, 0xf5, 0xE6, 5);
+
+            // NAV-VELNED - 1s
+            turnon_off(port, 0x01, 0x12, 1);
 
             // rxm-raw/rawx - 1s
             turnon_off(port, 0x02, 0x15, 1);
             turnon_off(port, 0x02, 0x10, 1);
 
-            // rxm-sfrb/sfrb - 5s
-            turnon_off(port, 0x02, 0x13, 5);
-            turnon_off(port, 0x02, 0x11, 5);
+            // rxm-sfrb/sfrb - 2s
+            turnon_off(port, 0x02, 0x13, 2);
+            turnon_off(port, 0x02, 0x11, 2);
 
+            // mon-hw - 2s
+            turnon_off(port, 0x0a, 0x09, 2);
+
+            System.Threading.Thread.Sleep(100);
+        }
+
+        public void SetupBasePos(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool disable = false, bool movingbase = false)
+        {
+            if (movingbase)
+                disable = true;
 
             System.Threading.Thread.Sleep(100);
             System.Threading.Thread.Sleep(100);
+
+            if (surveyindur == 0)
+                surveyindur = 60;
+            if (surveyinacc == 0)
+                surveyinacc = 2;
+
+            if (disable)
+            {
+                var packet = generate(0x6, 0x71, ubx_cfg_tmode3.Disable);
+                port.Write(packet, 0, packet.Length);
+                return;
+            }
 
             if (basepos == PointLatLngAlt.Zero)
             {
-                // survey in config - 60s and < 2m
-                packet = generate(0x6, 0x71, new ubx_cfg_tmode3((uint)surveyindur, surveyinacc));
+                // survey in config
+                var packet = generate(0x6, 0x71, new ubx_cfg_tmode3((uint)surveyindur, surveyinacc));
                 port.Write(packet, 0, packet.Length);
             }
             else
             {
                 byte[] data = new ubx_cfg_tmode3(basepos.Lat, basepos.Lng, basepos.Alt);
-                packet = generate(0x6, 0x71, data);
+                var packet = generate(0x6, 0x71, data);
                 port.Write(packet, 0, packet.Length);
             }
 
-            System.Threading.Thread.Sleep(100);
         }
 
         public void turnon_off(ICommsSerial port, byte clas, byte subclass, byte every_xsamples)

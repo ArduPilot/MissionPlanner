@@ -46,7 +46,7 @@ namespace MissionPlanner.Controls
 
             label7.Text = "";
 
-            for (int a = 1; a < (int) MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
+            for (int a = 1; a <= (int) MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS; a = a << 1)
             {
                 int currentbit = (MainV2.comPort.MAV.cs.ekfflags & a);
 

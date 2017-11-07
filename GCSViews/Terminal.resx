@@ -169,7 +169,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTsetupshow</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Parent" xml:space="preserve">
     <value>$this</value>
@@ -193,7 +193,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTradiosetup</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Parent" xml:space="preserve">
     <value>$this</value>
@@ -217,7 +217,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUTtests</value>
   </data>
   <data name="&gt;&gt;BUTtests.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTtests.Parent" xml:space="preserve">
     <value>$this</value>
@@ -241,7 +241,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>Logs</value>
   </data>
   <data name="&gt;&gt;Logs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Logs.Parent" xml:space="preserve">
     <value>$this</value>
@@ -265,7 +265,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_logbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Parent" xml:space="preserve">
     <value>$this</value>
@@ -292,7 +292,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_ConnectAPM</value>
   </data>
   <data name="&gt;&gt;BUT_ConnectAPM.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_ConnectAPM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -325,7 +325,7 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>BUT_disconnect</value>
   </data>
   <data name="&gt;&gt;BUT_disconnect.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_disconnect.Parent" xml:space="preserve">
     <value>$this</value>
@@ -379,6 +379,6 @@ Newer versions only support log download via mavlink, please see the flightdata 
     <value>Terminal</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6113.15414, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.6179.26089, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

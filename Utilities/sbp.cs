@@ -36,10 +36,17 @@ namespace MissionPlanner.Utilities
             public byte[] buffer = new byte[4096];
         }
 
+        public bool resetParser()
+        {
+            state = 0;
+            return true;
+        }
+
         public int read(byte data)
         {
             switch (state)
             {
+                default:
                 case 0:
                     if (data == 0x55)
                     {

@@ -11,7 +11,6 @@ using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
 using System.Xml;
-using System.Windows.Forms;
 
 namespace px4uploader
 {
@@ -66,6 +65,7 @@ namespace px4uploader
             BOARD_ID = 2,//	# board type
             BOARD_REV = 3,//	# board revision
             FLASH_SIZE = 4,//	# max firmware size in bytes
+            VEC_AREA = 5
         }
 
         public const byte BL_REV_MIN = 2;//	# minimum supported bootloader protocol 
@@ -164,7 +164,15 @@ namespace px4uploader
             string vendor = "";
             string publickey = "";
 
-            using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
+            var file = System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) +
+                       Path.DirectorySeparatorChar + @"validcertificates.xml";
+
+            if (!File.Exists(file))
+            {
+                return;
+            }
+
+            using (XmlTextReader xmlreader = new XmlTextReader(file))
             {
                 while (xmlreader.Read())
                 {
@@ -430,6 +438,13 @@ namespace px4uploader
             port.BaseStream.Flush();
             __send(new byte[] { (byte)Code.GET_SYNC, (byte)Code.EOC });
             __getSync();
+        }
+
+        public bool __syncAttempt()
+        {
+            port.BaseStream.Flush();
+            __send(new byte[] { (byte)Code.GET_SYNC, (byte)Code.EOC });
+            return __trySync();
         }
 
         public bool __trySync()

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using log4net;
@@ -34,13 +36,6 @@ namespace MissionPlanner.Log
             createFileList(Settings.Instance.LogDir);
 
             System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
-            System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
         }
 
         List<string> files = new List<string>();
@@ -60,58 +55,29 @@ namespace MissionPlanner.Log
             files.AddRange(files3);
         }
 
-        List<Thread> threads = new List<Thread>();
-
-        void queueRunner(object nothing)
+        private void queueRunner(object nothing)
         {
-            lock (threads)
-                threads.Add(Thread.CurrentThread);
-
-            while (true)
-            {
-                string file = "";
-                lock (files)
-                {
-                    if (IsDisposed)
-                        return;
-
-                    if (files.Count == 0)
-                    {
-                        break;
-                    }
-
-                    Loading.ShowLoading("Files loading left " + files.Count, this);
-
-                    file = files[0];
-                    files.RemoveAt(0);
-                }
-
-                if (File.Exists(file))
-                    processbg(file);
-            }
-
-            if (threads[0] != Thread.CurrentThread)
-                return;
-
-            while (threads.Count > 1)
-            {
-                threads[1].Join();
-                threads.RemoveAt(1);
-                System.Threading.Thread.Sleep(1000);
-                Loading.ShowLoading("Waiting for threads to finish", this);
-            }
+            Parallel.ForEach(files, file => { ProcessFile(file); });
 
             Loading.ShowLoading("Populating Data", this);
-            
+
             objectListView1.AddObjects(logs);
 
             Loading.Close();
+        }
+
+        private void ProcessFile(string file)
+        {
+            if (File.Exists(file))
+                processbg(file);
         }
 
         List<object> logs = new List<object>();
 
         void processbg(string file)
         {
+            Loading.ShowLoading(file, this);
+
             if (!File.Exists(file + ".jpg"))
             {
                 LogMap.MapLogs(new string[] {file});
@@ -121,7 +87,15 @@ namespace MissionPlanner.Log
 
             loginfo.fullname = file;
 
-            loginfo.Size = new FileInfo(file).Length;
+            try
+            {
+                // file not found exception even though it passes the exists check above.
+                loginfo.Size = new FileInfo(file).Length;
+            }
+            catch
+            {
+                
+            }
 
             if (File.Exists(file + ".jpg"))
             {
@@ -146,6 +120,10 @@ namespace MissionPlanner.Log
                     mine.logreadmode = true;
                     mine.speechenabled = false;
 
+                    // file is to small
+                    if (mine.logplaybackfile.BaseStream.Length < 1024*4)
+                        return;
+
                     mine.getHeartBeat();
 
                     loginfo.Date = mine.lastlogread;
@@ -169,11 +147,19 @@ namespace MissionPlanner.Log
 
                     var a = 0;
 
-                    while (mine.logplaybackfile.BaseStream.Position < length)
+                    // abandon last 100 bytes
+                    while (mine.logplaybackfile.BaseStream.Position < (length-100))
                     {
                         var packet = mine.readPacket();
 
-                        if(a % 5 == 0)
+                        // gcs
+                        if(packet.sysid == 255)
+                            continue;
+
+                        if (packet.msgid == (uint)MAVLink.MAVLINK_MSG_ID.CAMERA_FEEDBACK)
+                            loginfo.CamMSG++;
+
+                        if (a % 10 == 0)
                             mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
 
                         a++;
@@ -189,6 +175,68 @@ namespace MissionPlanner.Log
                     loginfo.DistTraveled = mine.MAV.cs.distTraveled;
 
                     loginfo.Duration = (end - start).ToString();
+                }
+            }
+            else if (file.ToLower().EndsWith(".bin") || file.ToLower().EndsWith(".log"))
+            {
+                using (CollectionBuffer colbuf = new CollectionBuffer(File.OpenRead(file)))
+                {
+                    PointLatLngAlt lastpos = null;
+                    DateTime start = DateTime.MinValue;
+                    DateTime end = DateTime.MinValue;
+                    DateTime tia = DateTime.MinValue;
+                    // set time in air/home/distancetraveled
+                    foreach (var dfItem in colbuf.GetEnumeratorType("GPS"))
+                    {
+                        if (dfItem["Status"] != null)
+                        {
+                            var status = int.Parse(dfItem["Status"]);
+                            if (status >= 3)
+                            {
+                                var pos = new PointLatLngAlt(
+                                    double.Parse(dfItem["Lat"], CultureInfo.InvariantCulture),
+                                    double.Parse(dfItem["Lng"], CultureInfo.InvariantCulture),
+                                    double.Parse(dfItem["Alt"], CultureInfo.InvariantCulture));
+
+                                if (lastpos == null)
+                                    lastpos = pos;
+
+                                if (start == DateTime.MinValue)
+                                {
+                                    loginfo.Date = dfItem.time;
+                                    start = dfItem.time;
+                                }
+
+                                end = dfItem.time;
+
+                                // add distance
+                                loginfo.DistTraveled += (float)lastpos.GetDistance(pos);
+
+                                // set home
+                                if (loginfo.Home == null)
+                                    loginfo.Home = pos;
+
+                                if (dfItem.time > tia.AddSeconds(1))
+                                {
+                                    // ground speed  > 0.2 or  alt > homelat+2
+                                    if (double.Parse(dfItem["Spd"], CultureInfo.InvariantCulture) > 0.2 ||
+                                        pos.Alt > (loginfo.Home.Alt + 2))
+                                    {
+                                        loginfo.TimeInAir++;
+                                    }
+                                    tia = dfItem.time;
+                                }
+                            }
+                        }
+                    }
+
+                    loginfo.Duration = (end - start).ToString();
+
+                    loginfo.CamMSG = colbuf.GetEnumeratorType("CAM").Count();
+
+                    loginfo.Aircraft = 0;//colbuf.dflog.param[""];
+
+                    loginfo.Frame = "Unknown";//mine.MAV.aptype.ToString();
                 }
             }
 
@@ -223,6 +271,8 @@ namespace MissionPlanner.Log
             public float TimeInAir { get; set; }
 
             public float DistTraveled { get; set; }
+
+            public int CamMSG { get; set; }
 
             public loginfo()
             {
@@ -270,8 +320,9 @@ namespace MissionPlanner.Log
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                processbg(fbd.SelectedPath);
-                //System.Threading.ThreadPool.QueueUserWorkItem(processbg, fbd.SelectedPath);
+                files.Clear();
+                createFileList(fbd.SelectedPath);
+                System.Threading.ThreadPool.QueueUserWorkItem(queueRunner);
             }
         }
     }

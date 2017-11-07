@@ -87,5 +87,10 @@ namespace MissionPlanner.Controls
         {
             dataGridView1[Use.Index, e.RowIndex].Value = "Use";
         }
+
+        private void but_disablesigning_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setupSigning("");
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace MissionPlanner.Maps
     using System.Reflection;
 
     /// <summary>
-    /// EarthBuilder Custom
+    /// Statkart_Topo2 Custom
     /// </summary>
     public class Statkart_Topo2 : GMapProvider
     {

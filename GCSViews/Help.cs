@@ -13,6 +13,7 @@ namespace MissionPlanner.GCSViews
         public Help()
         {
             InitializeComponent();
+            PIC_wizard.Image = MainV2.displayicons.wizard;
         }
 
         public void Activate()
@@ -23,6 +24,12 @@ namespace MissionPlanner.GCSViews
             }
             catch
             {
+            }
+
+            if (Program.WindowsStoreApp)
+            {
+                BUT_betaupdate.Visible = false;
+                BUT_updatecheck.Visible = false;
             }
         }
 

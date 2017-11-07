@@ -134,7 +134,7 @@ namespace Core.CommonObjects
                 m_Color = value;
             }
         }
-
+        
         [XmlAttribute("Color"), Browsable(false)]
         public string Color_XML
         {
@@ -147,7 +147,7 @@ namespace Core.CommonObjects
                 Color = ColorTranslator.FromHtml(value);
             }
         }
-
+        
         public void MatchIdNameColor(IIdNameColorItem item)
         {
             m_Id = item.Id;

@@ -7,6 +7,7 @@ using log4net;
 using System.Globalization;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
+using px4uploader;
 
 namespace MissionPlanner.Utilities
 {
@@ -22,7 +23,9 @@ namespace MissionPlanner.Utilities
             b2560v2, // apm 2+
             px4, // px3
             px4v2, // pixhawk
+            px4v3, // cube/pixhawk with 2mb flash
             px4v4, // pixracer
+            px4v4pro, // Pixhawk 3 Pro
             vrbrainv40,
             vrbrainv45,
             vrbrainv50,
@@ -32,7 +35,8 @@ namespace MissionPlanner.Utilities
             vrubrainv51,
             vrubrainv52,
             bebop2,
-            disco
+            disco,
+            solo
         }
 
         /// <summary>
@@ -76,14 +80,60 @@ namespace MissionPlanner.Utilities
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
                     {
-                        log.Info("is a px4v2");
-                        return boards.px4v2;
+                        CustomMessageBox.Show(Strings.PleaseUnplugTheBoardAnd);
+
+                        DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+
+                        while (DateTime.Now < DEADLINE)
+                        {
+                            string[] allports = SerialPort.GetPortNames();
+
+                            foreach (string port1 in allports)
+                            {
+                                log.Info(DateTime.Now.Millisecond + " Trying Port " + port1);
+                                try
+                                {
+                                    using (var up = new Uploader(port1, 115200))
+                                    {
+                                        up.identify();
+                                        Console.WriteLine(
+                                            "Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}",
+                                            up.board_type,
+                                            up.board_rev, up.bl_rev, up.fw_maxsize, port1);
+
+                                        if (up.fw_maxsize == 2080768 && up.board_type == 9)
+                                        {
+                                            log.Info("is a px4v3");
+                                            return boards.px4v3;
+                                        }
+                                        else
+                                        {
+                                            log.Info("is a px4v2");
+                                            return boards.px4v2;
+                                        }
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error(ex);
+                                }
+                            }
+                        }
+
+                        log.Info("Failed to detect px4 board type");
+                        return boards.none;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012"))
                     {
                         log.Info("is a px4v4 pixracer");
                         return boards.px4v4;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013"))
+                    {
+                        log.Info("is a px4v4pro pixhawk 3 pro");
+                        return boards.px4v4pro;
                     }
 
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0001"))
@@ -167,6 +217,11 @@ namespace MissionPlanner.Utilities
                             CustomMessageBox.Show("Is this a PIXRACER?", "PIXRACER", MessageBoxButtons.YesNo))
                         {
                             return boards.px4v4;
+                        }
+                        if (DialogResult.Yes ==
+                            CustomMessageBox.Show("Is this a CUBE?", "CUBE", MessageBoxButtons.YesNo))
+                        {
+                            return boards.px4v3;
                         }
                         if (DialogResult.Yes ==
                             CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))

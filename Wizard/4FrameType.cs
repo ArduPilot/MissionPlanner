@@ -15,6 +15,18 @@ namespace MissionPlanner.Wizard
     {
         bool selected = false;
 
+        enum frame_class
+        {
+            none = ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_UNDEFINED,
+            tri = ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_TRI,
+            quad= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_QUAD,
+            trap= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_QUAD,
+            hexa= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_HEXA,
+            x8= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_OCTAQUAD,
+            octa= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_OCTA,
+            y6= ConfigFrameClassType.motor_frame_class.MOTOR_FRAME_Y6
+        }
+
         public _4FrameType()
         {
             InitializeComponent();
@@ -43,18 +55,28 @@ namespace MissionPlanner.Wizard
             {
                 case "x":
                     MainV2.comPort.setParam("FRAME", (int) ConfigFrameType.Frame.X);
+                    MainV2.comPort.setParam("FRAME_CLASS", (int) (frame_class) Enum.Parse(typeof (frame_class), Wizard.config["fwframe"].ToString()));
+                    MainV2.comPort.setParam("FRAME_TYPE", (int)ConfigFrameType.Frame.X);
                     break;
                 case "+":
                     MainV2.comPort.setParam("FRAME", (int) ConfigFrameType.Frame.Plus);
+                    MainV2.comPort.setParam("FRAME_CLASS", (int)(frame_class)Enum.Parse(typeof(frame_class), Wizard.config["fwframe"].ToString()));
+                    MainV2.comPort.setParam("FRAME_TYPE", (int)ConfigFrameType.Frame.Plus);
                     break;
                 case "trap":
                     MainV2.comPort.setParam("FRAME", (int) ConfigFrameType.Frame.V);
+                    MainV2.comPort.setParam("FRAME_CLASS", (int)(frame_class)Enum.Parse(typeof(frame_class), Wizard.config["fwframe"].ToString()));
+                    MainV2.comPort.setParam("FRAME_TYPE", (int)ConfigFrameType.Frame.V);
                     break;
                 case "h":
                     MainV2.comPort.setParam("FRAME", (int) ConfigFrameType.Frame.H);
+                    MainV2.comPort.setParam("FRAME_CLASS", (int)(frame_class)Enum.Parse(typeof(frame_class), Wizard.config["fwframe"].ToString()));
+                    MainV2.comPort.setParam("FRAME_TYPE", (int)ConfigFrameType.Frame.H);
                     break;
                 case "y6b":
                     MainV2.comPort.setParam("FRAME", (int) ConfigFrameType.Frame.Y);
+                    MainV2.comPort.setParam("FRAME_CLASS", (int)(frame_class)Enum.Parse(typeof(frame_class), Wizard.config["fwframe"].ToString()));
+                    MainV2.comPort.setParam("FRAME_TYPE", (int)ConfigFrameType.Frame.Y);
                     break;
             }
         }

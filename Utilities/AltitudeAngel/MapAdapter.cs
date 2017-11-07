@@ -62,13 +62,20 @@ namespace MissionPlanner.Utilities.AltitudeAngel
 
         private void MapControl_OnPolygonEnter(GMapPolygon item)
         {
+            item.Overlay.Markers.Clear();
+
             if (marker != null)
                 item.Overlay.Markers.Remove(marker);
 
             var point = item.Overlay.Control.PointToClient(Control.MousePosition);
             var pos = item.Overlay.Control.FromLocalToLatLng(point.X, point.Y);
 
-            marker = new GMapMarkerRect(pos) { ToolTipMode = MarkerTooltipMode.Always, ToolTipText = createMessage(item.Tag), IsHitTestVisible = false };
+            marker = new GMapMarkerRect(pos)
+            {
+                ToolTipMode = MarkerTooltipMode.Always,
+                ToolTipText = createMessage(item.Tag),
+                IsHitTestVisible = false
+            };
             item.Overlay.Markers.Add(marker);
         }
 
@@ -88,7 +95,12 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             var point = item.Overlay.Control.PointToClient(Control.MousePosition);
             var pos = item.Overlay.Control.FromLocalToLatLng(point.X, point.Y);
 
-            marker = new GMapMarkerRect(pos) { ToolTipMode = MarkerTooltipMode.Always, ToolTipText = createMessage(item.Tag), IsHitTestVisible = false };
+            marker = new GMapMarkerRect(pos)
+            {
+                ToolTipMode = MarkerTooltipMode.Always,
+                ToolTipText = createMessage(item.Tag),
+                IsHitTestVisible = false
+            };
             item.Overlay.Markers.Add(marker);
         }
 
@@ -101,7 +113,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             if (item is Feature)
             {
-                var prop = ((Feature)item).Properties;
+                var prop = ((Feature) item).Properties;
 
                 var display = prop["display"] as Newtonsoft.Json.Linq.JObject;
 
@@ -151,7 +163,7 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             {
                 if (item.Tag is Feature)
                 {
-                    var st = createMessage(item.Tag); ;
+                    var st = createMessage(item.Tag);
 
                     CustomMessageBox.Show(st, "Info", MessageBoxButtons.OK);
                 }
@@ -168,7 +180,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         {
             PointLatLng pointLatLng = default(PointLatLng);
 
-            _context.Send(_ => pointLatLng = _mapControl.Position, null);
+            try
+            {
+                _context.Send(_ => pointLatLng = _mapControl.Position, null);
+            }
+            catch (Exception ex)
+            {
+            }
 
             return pointLatLng;
         }
@@ -176,9 +194,13 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         public RectLatLng GetViewArea()
         {
             RectLatLng rectLatLng = default(RectLatLng);
-
-            _context.Send(_ => rectLatLng = _mapControl.ViewArea, null);
-
+            try
+            {
+                _context.Send(_ => rectLatLng = _mapControl.ViewArea, null);
+            }
+            catch (Exception ex)
+            {
+            }
             if (rectLatLng.WidthLng < 0.03)
                 rectLatLng.Inflate(0, (0.03 - rectLatLng.WidthLng) / 2);
             if (rectLatLng.HeightLat < 0.03)
@@ -212,24 +234,30 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         public IOverlay GetOverlay(string name, bool createIfNotExists = false)
         {
             IOverlay result = null;
-            _context.Send(_ =>
+            try
             {
-                GMapOverlay overlay = _mapControl.Overlays.FirstOrDefault(i => i.Id == name);
-
-                if (overlay == null)
+                _context.Send(_ =>
                 {
-                    if (createIfNotExists)
+                    GMapOverlay overlay = _mapControl.Overlays.FirstOrDefault(i => i.Id == name);
+
+                    if (overlay == null)
                     {
-                        AddOverlay(name);
-                        result = GetOverlay(name);
-                        return;
+                        if (createIfNotExists)
+                        {
+                            AddOverlay(name);
+                            result = GetOverlay(name);
+                            return;
+                        }
+
+                        throw new ArgumentException($"Overlay {name} not found.");
                     }
 
-                    throw new ArgumentException($"Overlay {name} not found.");
-                }
-
-                result = new OverlayAdapter(overlay);
-            }, null);
+                    result = new OverlayAdapter(overlay);
+                }, null);
+            }
+            catch (Exception ex)
+            {
+            }
 
             return result;
         }
@@ -248,5 +276,10 @@ namespace MissionPlanner.Utilities.AltitudeAngel
         private CompositeDisposable _disposer = new CompositeDisposable();
         private readonly SynchronizationContext _context;
         public IObservable<Unit> MapChanged { get; }
+
+        public void Invalidate()
+        {
+            _mapControl.Invalidate();
+        }
     }
 }

@@ -112,33 +112,24 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
-    <value>Calibrate Accel</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>'Plus'</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>'X'</value>
+    <value>Beschl. kalib.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Rahmen Einstellungen</value>
+    <value>Autopilot ausrichten um Standard-Offsets zu ermitteln (1 Achse/AHRS Trims). Autopilot horizontal/flach ausrichten.</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Level den Multicopter um den Beschleunigungsmesser zu Kalibrieren</value>
+    <value>Autopilot ausrichten um Min/Max-Offsets zu ermitteln (3 Achsen. Autopilot horizontal/flach ausrichten.</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Beschleunigungsmesser Kalibrieren</value>
+    <value>Beschleunigungssensoren kalibirieren</value>
   </data>
-  <data name="lbl_Accel_user.Text" xml:space="preserve">
-    <value>ArduCopter 2.9+</value>
-  </data>
-  <data name="BUT_levelac2.Text" xml:space="preserve">
-    <value>Jetzt Kalibrieren</value>
+  <data name="BUT_level.Text" xml:space="preserve">
+    <value>Nivellierung kalibrieren</value>
   </data>
 </root>

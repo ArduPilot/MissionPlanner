@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MissionPlanner.HIL;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
@@ -71,7 +72,7 @@ namespace MissionPlanner.HIL
             double roll = 0, pitch = 0, yaw = 0;
             //'''rotate to the given yaw'''
             dcm.to_euler(ref roll, ref pitch, ref yaw);
-            yaw = (yaw_degrees*deg2rad);
+            yaw = (yaw_degrees*MathHelper.deg2rad);
             self.dcm.from_euler(roll, pitch, yaw);
         }
     }

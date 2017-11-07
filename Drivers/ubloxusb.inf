@@ -1,0 +1,138 @@
+; Installation file for ubloxusb driver
+; u-blox USB driver V1.2.0.8
+; Copyright (c) u-blox AG. All rights reserved.
+
+
+[Version]
+Signature=$CHICAGO$
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%PROVNAME%
+CatalogFile=ubloxusb.cat
+DriverVer=07/03/2013,1.2.0.8
+
+[Manufacturer]
+%MFGNAME%=DeviceList,ntx86,ntamd64
+
+[DestinationDirs]
+DefaultDestDir=12
+
+[SourceDisksFiles]
+ubloxusb.sys=1
+ubloxusb64.sys=1
+
+[SourceDisksNames]
+1=%INSTDISK%,,,
+
+[DeviceList] ; Windows 2000
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_03A8&MI_00
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_03A7&MI_00
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_01A8
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_01A7
+%DESCRIPTIONU6%=DriverInstallU5,USB\VID_1546&PID_01A6
+%DESCRIPTIONU5%=DriverInstallU5,USB\VID_1546&PID_01A5
+%DESCRIPTIONA4%=DriverInstallA4,USB\VID_1546&PID_01A4
+
+[DeviceList.ntx86]
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_03A8&MI_00
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_03A7&MI_00
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_01A8
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_01A7
+%DESCRIPTIONU6%=DriverInstallU5,USB\VID_1546&PID_01A6
+%DESCRIPTIONU5%=DriverInstallU5,USB\VID_1546&PID_01A5
+%DESCRIPTIONA4%=DriverInstallA4,USB\VID_1546&PID_01A4
+
+[DeviceList.ntamd64]
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_03A8&MI_00
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_03A7&MI_00
+%DESCRIPTIONU8%=DriverInstallU5,USB\VID_1546&PID_01A8
+%DESCRIPTIONU7%=DriverInstallU5,USB\VID_1546&PID_01A7
+%DESCRIPTIONU6%=DriverInstallU5,USB\VID_1546&PID_01A6
+%DESCRIPTIONU5%=DriverInstallU5,USB\VID_1546&PID_01A5
+%DESCRIPTIONA4%=DriverInstallA4,USB\VID_1546&PID_01A4
+
+;------------------------------------------------------------------------------
+;  Windows 2000/XP Sections
+;------------------------------------------------------------------------------
+
+[DriverInstallU5.ntx86]
+CopyFiles=DriverCopyFiles
+AddReg=DriverAddReg
+[DriverInstallA4.ntx86]
+CopyFiles=DriverCopyFiles
+AddReg=DriverAddReg
+
+[DriverCopyFiles]
+ubloxusb.sys,,,2
+
+[DriverAddreg]
+HKR,,EnumPropPages32,,"msports.dll,SerialPortPropPageProvider"
+
+[DriverInstallU5.ntx86.Services]
+AddService=ubloxusb,2,DriverService
+[DriverInstallA4.ntx86.Services]
+AddService=ubloxusb,2,DriverService
+
+[DriverService]
+ServiceType=1
+StartType=3
+ErrorControl=1
+ServiceBinary=%12%\ubloxusb.sys
+
+[DriverInstallU5.ntx86.hw]
+AddReg=DriverHwAddRegU5
+[DriverInstallA4.ntx86.hw]
+AddReg=DriverHwAddRegA4
+
+[DriverHwAddRegU5]
+HKR,,HandshakeControl,0x00010001, 01,00,00,00
+;HKR,,DtrHandshake, 0x00010001, 00,00,00,00		; if HandshakeControl==2, this setting controls DTR line
+;HKR,,RtsHandshake, 0x00010001, 00,00,00,00		; if HandshakeControl==2, this setting controls RTS line
+;HKR,,DsrCtsFixed, 0x00010001, 00,00,00,00
+;HKR,,DsrIndicate, 0x00010001, 01,00,00,00		; if DsrCtsFixed==1, this setting controls indicated DSR signal
+;HKR,,CtsIndicate, 0x00010001, 01,00,00,00		; if DsrCtsFixed==1, this setting controls indicated CTS signal
+[DriverHwAddRegA4]
+HKR,,HandshakeControl,0x00010001, 02,00,00,00
+HKR,,DtrHandshake, 0x00010001, 01,00,00,00		; if HandshakeControl==2, this setting controls DTR line
+HKR,,RtsHandshake, 0x00010001, 01,00,00,00		; if HandshakeControl==2, this setting controls RTS line
+;HKR,,DsrCtsFixed, 0x00010001, 00,00,00,00
+;HKR,,DsrIndicate, 0x00010001, 01,00,00,00		; if DsrCtsFixed==1, this setting controls indicated DSR signal
+;HKR,,CtsIndicate, 0x00010001, 01,00,00,00		; if DsrCtsFixed==1, this setting controls indicated CTS signal
+
+;------------------------------------------------------------------------------
+;  AMD64 Sections
+;------------------------------------------------------------------------------
+
+[DriverInstallU5.ntamd64]
+CopyFiles=DriverCopyFiles64
+AddReg=DriverAddReg
+[DriverInstallA4.ntamd64]
+CopyFiles=DriverCopyFiles64
+AddReg=DriverAddReg
+
+[DriverCopyFiles64]
+ubloxusb.sys,ubloxusb64.sys
+
+[DriverInstallU5.ntamd64.Services]
+AddService=ubloxusb,2,DriverService
+[DriverInstallA4.ntamd64.Services]
+AddService=ubloxusb,2,DriverService
+
+[DriverInstallU5.ntamd64.hw]
+AddReg=DriverHwAddRegU5
+[DriverInstallA4.ntamd64.hw]
+AddReg=DriverHwAddRegA4
+
+;------------------------------------------------------------------------------
+;  String Definitions
+;------------------------------------------------------------------------------
+
+[Strings]
+PROVNAME="u-blox AG"
+MFGNAME="u-blox AG"
+INSTDISK="Installation Disc"
+DESCRIPTIONU8="u-blox GNSS Receiver"
+DESCRIPTIONU7="u-blox 7 GPS/GNSS Receiver"
+DESCRIPTIONU6="u-blox 6 GPS Receiver"
+DESCRIPTIONU5="u-blox 5 GPS and GALILEO Receiver"
+DESCRIPTIONA4="u-blox ANTARIS 4 GPS Receiver"

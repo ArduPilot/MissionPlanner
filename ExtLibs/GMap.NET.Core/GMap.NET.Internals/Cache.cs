@@ -8,7 +8,7 @@ namespace GMap.NET.Internals
    using GMap.NET.CacheProviders;
     using System.Security.Cryptography;
 
-   internal class CacheLocator
+   public class CacheLocator
    {
       private static string location;
       public static string Location

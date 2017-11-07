@@ -1,33 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-using AGaugeApp;
-using System.IO.Ports;
-using System.Threading;
 using MissionPlanner.Attributes;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
 using System.Security.Cryptography.X509Certificates;
 using System.Net;
-using System.Net.Sockets;
-using System.Xml; // config file
-using System.Runtime.InteropServices; // dll imports
 using log4net;
-using ZedGraph; // Graphs
-using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Utilities;
 using System.IO;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
-using ProjNet.CoordinateSystems.Transformations;
-using ProjNet.CoordinateSystems;
 
 namespace MissionPlanner
 {
@@ -389,7 +375,7 @@ union px4_custom_mode {
             chk.Checked = true;
             chk.Location = new Point(9, 80);
 
-            if (Settings.Instance.GetBoolean((string)chk.Tag) == false)
+            if (Settings.Instance.ContainsKey((string)chk.Tag) && Settings.Instance.GetBoolean((string)chk.Tag) == false)
             // skip it
             {
                 form.Dispose();
@@ -512,6 +498,35 @@ union px4_custom_mode {
             return input;
         }
 
+        public static bool CheckHTTPFileExists(string url)
+        {
+            bool result = false;
+
+            WebRequest webRequest = WebRequest.Create(url);
+            webRequest.Timeout = 1200; // miliseconds
+            webRequest.Method = "HEAD";
+
+            HttpWebResponse response = null;
+
+            try
+            {
+                response = (HttpWebResponse)webRequest.GetResponse();
+                result = true;
+            }
+            catch (WebException webException)
+            {
+            }
+            finally
+            {
+                if (response != null)
+                {
+                    response.Close();
+                }
+            }
+
+            return result;
+        }
+
         public static GMapMarker getMAVMarker(MAVState MAV)
         {
             PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
@@ -533,6 +548,11 @@ union px4_custom_mode {
             else if (MAV.aptype == MAVLink.MAV_TYPE.SURFACE_BOAT)
             { 
                 return (new GMapMarkerBoat(portlocation, MAV.cs.yaw,
+                    MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+            }
+            else if (MAV.aptype == MAVLink.MAV_TYPE.SUBMARINE)
+            {
+                return (new GMapMarkerSub(portlocation, MAV.cs.yaw,
                     MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
             }
             else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
@@ -645,7 +665,7 @@ union px4_custom_mode {
             GPoint loc = new GPoint((int) (LocalPosition.X - (m2pixelwidth*wprad*2)), LocalPosition.Y);
                 // MainMap.FromLatLngToLocal(wpradposition);
 
-            if (m2pixelheight > 0.5)
+            if (m2pixelheight > 0.5 && !double.IsInfinity(m2pixelheight))
                 g.DrawArc(Pen,
                     new System.Drawing.Rectangle(
                         LocalPosition.X - Offset.X - (int) (Math.Abs(loc.X - LocalPosition.X)/2),
@@ -657,9 +677,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerADSBPlane : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         private static readonly Bitmap icong = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01, new Size(40, 40));
         private static readonly Bitmap iconr = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_011, new Size(40, 40));
         private static readonly Bitmap icono = new Bitmap(global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_012, new Size(40, 40));
@@ -684,7 +701,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -767,9 +784,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerRover : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width,
                 global::MissionPlanner.Properties.Resources.rover.Height);
@@ -791,7 +805,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -800,18 +814,18 @@ union px4_custom_mode {
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
-                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*MathHelper.deg2rad)*length);
             }
             catch
             {
             }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*deg2rad)*length,
-                (float) Math.Sin((nav_bearing - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
-                (float) Math.Sin((cog - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
-                (float) Math.Sin((target - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((nav_bearing - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((cog - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((target - 90)*MathHelper.deg2rad)*length);
             // anti NaN
 
             try
@@ -832,9 +846,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerBoat : GMapMarker
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
         static readonly System.Drawing.Size SizeSt =
             new System.Drawing.Size(global::MissionPlanner.Properties.Resources.boat.Width,
                 global::MissionPlanner.Properties.Resources.boat.Height);
@@ -856,7 +867,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -865,18 +876,18 @@ union px4_custom_mode {
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
-                    (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
             }
             catch
             {
             }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length,
-                (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
-                (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
-                (float)Math.Sin((target - 90) * deg2rad) * length);
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((target - 90) * MathHelper.deg2rad) * length);
             // anti NaN
 
             try
@@ -894,13 +905,70 @@ union px4_custom_mode {
         }
     }
 
+    [Serializable]
+    public class GMapMarkerSub : GMapMarker
+    {
+        private static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(59, 59);
+
+        private static Bitmap imagecache = new Bitmap(global::MissionPlanner.Properties.Resources.sub, SizeSt);
+
+        float heading = 0;
+        float cog = -1;
+        float target = -1;
+        float nav_bearing = -1;
+
+        public GMapMarkerSub(PointLatLng p, float heading, float cog, float nav_bearing, float target)
+            : base(p)
+        {
+            this.heading = heading;
+            this.cog = cog;
+            this.target = target;
+            this.nav_bearing = nav_bearing;
+            Size = SizeSt;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            var temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.RotateTransform(-Overlay.Control.Bearing);
+
+            int length = 500;
+            // anti NaN
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
+            }
+            catch
+            {
+            }
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((target - 90) * MathHelper.deg2rad) * length);
+            // anti NaN
+
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch
+            {
+            }
+            g.DrawImageUnscaled(imagecache, 59/-2, 59/-2);
+
+            g.Transform = temp;
+        }
+    }
+
 
     [Serializable]
     public class GMapMarkerPlane : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
 
         float heading = 0;
@@ -922,7 +990,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             g.RotateTransform(-Overlay.Control.Bearing);
@@ -931,18 +999,18 @@ union px4_custom_mode {
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
-                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*MathHelper.deg2rad)*length);
             }
             catch
             {
             }
-            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*deg2rad)*length,
-                (float) Math.Sin((nav_bearing - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
-                (float) Math.Sin((cog - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
-                (float) Math.Sin((target - 90)*deg2rad)*length);
+            g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float) Math.Cos((nav_bearing - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((nav_bearing - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((cog - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((target - 90)*MathHelper.deg2rad)*length);
             // anti NaN
             try
             {
@@ -953,15 +1021,15 @@ union px4_custom_mode {
                         Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0))*1000.0);
                 double m2pixelwidth = Overlay.Control.Width/width;
 
-                float alpha = ((desired_lead_dist * (float)m2pixelwidth) / radius) * rad2deg;
+                float alpha = (float)(((desired_lead_dist * (float)m2pixelwidth) / radius) * MathHelper.rad2deg);
 
                 if (radius < -1 && alpha > 1)
                 {
                     // fixme 
 
-                    float p1 = (float)Math.Cos((cog) * deg2rad) * radius + radius;
+                    float p1 = (float)Math.Cos((cog) * MathHelper.deg2rad) * radius + radius;
 
-                    float p2 = (float)Math.Sin((cog) * deg2rad) * radius + radius;
+                    float p2 = (float)Math.Sin((cog) * MathHelper.deg2rad) * radius + radius;
 
                     g.DrawArc(new Pen(Color.HotPink, 2), p1, p2, Math.Abs(radius) * 2, Math.Abs(radius) * 2, cog, alpha);
                 }
@@ -970,9 +1038,9 @@ union px4_custom_mode {
                 {
                     // correct
 
-                    float p1 = (float)Math.Cos((cog - 180) * deg2rad) * radius + radius;
+                    float p1 = (float)Math.Cos((cog - 180) * MathHelper.deg2rad) * radius + radius;
 
-                    float p2 = (float)Math.Sin((cog - 180) * deg2rad) * radius + radius;
+                    float p2 = (float)Math.Sin((cog - 180) * MathHelper.deg2rad) * radius + radius;
 
                     g.DrawArc(new Pen(Color.HotPink, 2), -p1, -p2, radius * 2, radius * 2, cog - 180, alpha);
                 }
@@ -997,9 +1065,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerQuad : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
 
         float heading = 0;
@@ -1022,24 +1087,24 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
-                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*MathHelper.deg2rad)*length);
             }
             catch
             {
             }
-            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
-                (float) Math.Sin((cog - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
-                (float) Math.Sin((target - 90)*deg2rad)*length);
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((cog - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((target - 90)*MathHelper.deg2rad)*length);
             // anti NaN
             try
             {
@@ -1087,9 +1152,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerSingle : GMapMarker
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.redsinglecopter2;
 
         float heading = 0;
@@ -1109,24 +1171,24 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length,
-                    (float)Math.Sin((heading - 90) * deg2rad) * length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * MathHelper.deg2rad) * length,
+                    (float)Math.Sin((heading - 90) * MathHelper.deg2rad) * length);
             }
             catch
             {
             }
-            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length,
-                (float)Math.Sin((cog - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length,
-                (float)Math.Sin((target - 90) * deg2rad) * length);
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((cog - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * MathHelper.deg2rad) * length,
+                (float)Math.Sin((target - 90) * MathHelper.deg2rad) * length);
             // anti NaN
             try
             {
@@ -1149,9 +1211,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerHeli : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.heli;
 
         float heading = 0;
@@ -1169,24 +1228,24 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
             // anti NaN
             try
             {
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
-                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*MathHelper.deg2rad)*length);
             }
             catch
             {
             }
-            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
-            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*deg2rad)*length,
-                (float) Math.Sin((cog - 90)*deg2rad)*length);
-            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
-                (float) Math.Sin((target - 90)*deg2rad)*length);
+            //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * MathHelper.deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * MathHelper.deg2rad) * length);
+            g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float) Math.Cos((cog - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((cog - 90)*MathHelper.deg2rad)*length);
+            g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*MathHelper.deg2rad)*length,
+                (float) Math.Sin((target - 90)*MathHelper.deg2rad)*length);
             // anti NaN
             try
             {
@@ -1204,9 +1263,6 @@ union px4_custom_mode {
     [Serializable]
     public class GMapMarkerAntennaTracker : GMapMarker
     {
-        const float rad2deg = (float) (180/Math.PI);
-        const float deg2rad = (float) (1.0/rad2deg);
-
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
 
         float heading = 0;
@@ -1222,7 +1278,7 @@ union px4_custom_mode {
 
         public override void OnRender(Graphics g)
         {
-            Matrix temp = g.Transform;
+            var temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
@@ -1230,12 +1286,12 @@ union px4_custom_mode {
             try
             {
                 // heading
-                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*deg2rad)*length,
-                    (float) Math.Sin((heading - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float) Math.Cos((heading - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((heading - 90)*MathHelper.deg2rad)*length);
 
                 // target
-                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*deg2rad)*length,
-                    (float) Math.Sin((target - 90)*deg2rad)*length);
+                g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float) Math.Cos((target - 90)*MathHelper.deg2rad)*length,
+                    (float) Math.Sin((target - 90)*MathHelper.deg2rad)*length);
             }
             catch
             {

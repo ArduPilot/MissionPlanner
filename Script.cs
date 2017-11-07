@@ -38,6 +38,7 @@ namespace MissionPlanner
 
             var all = System.Reflection.Assembly.GetExecutingAssembly();
             engine.Runtime.LoadAssembly(all);
+            scope.SetVariable("Ports", MainV2.Comports);
             scope.SetVariable("MAV", MainV2.comPort);
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
             scope.SetVariable("Script", this);
@@ -155,41 +156,41 @@ namespace MissionPlanner
             return true;
         }
 
-        public bool SendRC(int channel, ushort pwm, bool sendnow)
+        public bool SendRC(int channel, short pwm, bool sendnow)
         {
             switch (channel)
             {
                 case 1:
                     MainV2.comPort.MAV.cs.rcoverridech1 = pwm;
-                    rc.chan1_raw = pwm;
+                    rc.chan1_raw = (ushort)pwm;
                     break;
                 case 2:
                     MainV2.comPort.MAV.cs.rcoverridech2 = pwm;
-                    rc.chan2_raw = pwm;
+                    rc.chan2_raw = (ushort)pwm;
                     break;
                 case 3:
                     MainV2.comPort.MAV.cs.rcoverridech3 = pwm;
-                    rc.chan3_raw = pwm;
+                    rc.chan3_raw = (ushort)pwm;
                     break;
                 case 4:
                     MainV2.comPort.MAV.cs.rcoverridech4 = pwm;
-                    rc.chan4_raw = pwm;
+                    rc.chan4_raw = (ushort)pwm;
                     break;
                 case 5:
                     MainV2.comPort.MAV.cs.rcoverridech5 = pwm;
-                    rc.chan5_raw = pwm;
+                    rc.chan5_raw = (ushort)pwm;
                     break;
                 case 6:
                     MainV2.comPort.MAV.cs.rcoverridech6 = pwm;
-                    rc.chan6_raw = pwm;
+                    rc.chan6_raw = (ushort)pwm;
                     break;
                 case 7:
                     MainV2.comPort.MAV.cs.rcoverridech7 = pwm;
-                    rc.chan7_raw = pwm;
+                    rc.chan7_raw = (ushort)pwm;
                     break;
                 case 8:
                     MainV2.comPort.MAV.cs.rcoverridech8 = pwm;
-                    rc.chan8_raw = pwm;
+                    rc.chan8_raw = (ushort)pwm;
                     break;
             }
 

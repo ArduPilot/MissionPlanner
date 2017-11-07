@@ -79,8 +79,18 @@ namespace MissionPlanner.Utilities
 
         public string BaudRate
         {
-            get { return this["baudrate"]; }
-            set { this["baudrate"] = value; }
+            get
+            {
+                try
+                {
+                    return this[ComPort + "_BAUD"];
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            set { this[ComPort + "_BAUD"] = value; }
         }
 
         public string LogDir
@@ -194,6 +204,11 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         public static string GetDataDirectory()
         {
+            if (Program.MONO)
+            {
+                return GetRunningDirectory();
+            }
+
             var path = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + Path.DirectorySeparatorChar + "Mission Planner" +
                           Path.DirectorySeparatorChar;
 

@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Flurl.Http;
 using Flurl.Util;
@@ -13,16 +16,112 @@ namespace solo
 {
     public class Solo
     {
+        public static string soloip = "10.1.1.10";
+        public static string controllerip = "10.1.1.1";
+        public static string username = "root";
+        public static string password = "TjSDBkAu";
+
         public static bool is_solo_alive
         {
             get { return Ping("10.1.1.10"); }
+        }
+
+        public static bool is_controller_alive
+        {
+            get { return Ping("10.1.1.1"); }
+        }
+
+        public static List<string> GetLogNames()
+        {
+            var ans = new List<string>();
+
+            ///log/dataflash
+
+            if (is_solo_alive)
+            {
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
+                {
+                    client.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                    client.Connect();
+
+                    if (!client.IsConnected)
+                        throw new Exception("Failed to connect ssh");
+
+                    var cmd = client.CreateCommand("ls -al /log/dataflash");
+                    cmd.Execute();
+
+                    Regex lsregex = new Regex(@"^[drwx-]+\s+[0-9]+\s+[^\s]+\s+[^\s]+\s+([0-9]+)\s+[^\s]+\s+[^\s]+\s+[^\s]+\s+([^\*\s]+).*$", RegexOptions.Multiline);
+
+                    var matches = lsregex.Matches(cmd.Result);
+
+                    foreach (Match match in matches)
+                    {
+                        var size = match.Groups[1].Value;
+                        var name = match.Groups[2].Value;
+                        if (name.ToLower().EndsWith(".bin"))
+                            ans.Add(name);
+                    }
+
+                    /*
+                    var files = cmd.Result.Split(new char[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
+
+                    foreach (var file in files)
+                    {
+                        if(file.ToLower().EndsWith(".bin"))
+                            ans.Add(file);
+                    }
+                    */
+                }
+            }
+            else
+            {
+                throw new Exception("Solo is not responding to pings");
+            }
+
+            return ans;
+        }
+
+        public static void DownloadDFLog(string source, string destination)
+        {
+            if (is_solo_alive)
+            {
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
+                {
+                    client.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                    client.Connect();
+
+                    if (!client.IsConnected)
+                        throw new Exception("Failed to connect ssh");
+                    
+                    using (ScpClient scpClient = new ScpClient(client.ConnectionInfo))
+                    {
+                        scpClient.Connect();
+
+                        if (!scpClient.IsConnected)
+                            throw new Exception("Failed to connect scp");
+
+                        scpClient.Downloading += ScpClient_Downloading;
+
+                        scpClient.Download("/log/dataflash/" + source, new FileInfo(destination));
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("Solo is not responding to pings");
+            }
+        }
+
+        private static void ScpClient_Downloading(object sender, Renci.SshNet.Common.ScpDownloadEventArgs e)
+        {
+            Console.WriteLine("{0} - {1} {2}",e.Filename,e.Downloaded, (e.Downloaded/(double)e.Size)*100);
         }
 
         public static void flash_px4(string firmware_file)
         {
             if (is_solo_alive)
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                using (SshClient client = new SshClient(Solo.soloip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();
@@ -71,11 +170,16 @@ namespace solo
             }
         }
 
-        public static void flash(string firmware_file, string firmware_md5, bool clean = false)
+        public static void flash(string firmware_file, string firmware_md5 = "", bool solo = true, bool clean = false)
         {
-            if (is_solo_alive)
+            var ip = Solo.soloip;
+            if (solo == false)
+                ip = Solo.controllerip;
+
+            if ((is_solo_alive && solo) ||(is_controller_alive && !solo))
             {
-                using (SshClient client = new SshClient("10.1.1.10", 22, "root", "TjSDBkAu"))
+                Console.WriteLine("About to connect "+ ip);
+                using (SshClient client = new SshClient(ip, 22, Solo.username, Solo.password))
                 {
                     client.KeepAliveInterval = TimeSpan.FromSeconds(5);
                     client.Connect();
@@ -83,10 +187,12 @@ namespace solo
                     if (!client.IsConnected)
                         throw new Exception("Failed to connect ssh");
 
+                    Console.WriteLine("run update-prepare");
                     var retcode = client.RunCommand("sololink_config --update-prepare sololink");
 
                     if (retcode.ExitStatus != 0)
                     {
+                        Console.WriteLine("run cleanup");
                         client.RunCommand("rm -rf /log/updates && mkdir -p /log/updates");
                     }
 
@@ -97,6 +203,21 @@ namespace solo
                         if (!scpClient.IsConnected)
                             throw new Exception("Failed to connect scp");
 
+                        if (firmware_md5 == "")
+                        {
+                            using (var md5 = MD5.Create())
+                            using (var fs = File.OpenRead(firmware_file))
+                            {
+                                var hash = md5.ComputeHash(fs);
+
+                                File.WriteAllText(firmware_file + ".md5",
+                                    ByteArrayToString(hash) + "  " + Path.GetFileName(firmware_file) + "\n");
+                            }
+
+                            firmware_md5 = firmware_file + ".md5";
+                        }
+
+                        Console.WriteLine("upload firmware");
                         scpClient.Upload(new FileInfo(firmware_file), "/log/updates/" + Path.GetFileName(firmware_file));
                         scpClient.Upload(new FileInfo(firmware_md5), "/log/updates/" + Path.GetFileName(firmware_md5));
                     }
@@ -107,6 +228,7 @@ namespace solo
                     }
                     else
                     {
+                        Console.WriteLine("update-apply");
                         retcode = client.RunCommand("sololink_config --update-apply sololink");
                     }
 
@@ -120,6 +242,7 @@ namespace solo
                         }
                         else
                         {
+                            Console.WriteLine("reboot");
                             retcode = client.RunCommand("touch /log/updates/UPDATE && shutdown -r now");
                         }
                     }
@@ -131,6 +254,12 @@ namespace solo
             {
                 throw new Exception("Solo is not responding to pings");
             }
+        }
+
+        public static string ByteArrayToString(byte[] ba)
+        {
+            string hex = BitConverter.ToString(ba);
+            return hex.Replace("-", "").ToLower();
         }
 
         public static async Task<string> getFirmwareUrl()

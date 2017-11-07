@@ -112,76 +112,19 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>PWM 0 - 1230</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>PWM 1621 - 1749</value>
-  </data>
   <data name="label13.Text" xml:space="preserve">
     <value>Aktueller Modus</value>
-  </data>
-  <data name="CB_simple5.Text" xml:space="preserve">
-    <value>Simple Mode</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>PWM 1750 +</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>Current PWM:</value>
-  </data>
-  <data name="CB_simple4.Text" xml:space="preserve">
-    <value>Simple Mode</value>
-  </data>
-  <data name="CB_simple1.Text" xml:space="preserve">
-    <value>Simple Mode</value>
-  </data>
-  <data name="CB_simple6.Text" xml:space="preserve">
-    <value>Simple Mode</value>
-  </data>
-  <data name="CB_simple3.Text" xml:space="preserve">
-    <value>Simple Mode</value>
-  </data>
-  <data name="CB_simple2.Text" xml:space="preserve">
-    <value>Simple Mode</value>
   </data>
   <data name="lbl_currentmode.Text" xml:space="preserve">
     <value>Manuell</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Flugmodus 2</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Flugmodus 3</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Flugmodus 1</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Flugmodus 6</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>PWM 1231 - 1360</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Flugmodus 4</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Flugmodus 5</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>PWM 1361 - 1490</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>PWM 1491 - 1620</value>
-  </data>
-  <data name="LBL_flightmodepwm.Text" xml:space="preserve">
-    <value>0</value>
+  <data name="linkLabel1_ss.Text" xml:space="preserve">
+    <value>Beschreibung 'Simple' and 'Super Simple'</value>
   </data>
   <data name="BUT_SaveModes.Text" xml:space="preserve">
     <value>Modus speichern</value>

@@ -933,11 +933,11 @@ namespace ZedGraph
 				ref _superScriptFont );
 
 			// Get the width and height of the text
-            SizeF size10 = g.MeasureStringCache("10", _font);
-            SizeF sizeText = g.MeasureStringCache(text, _superScriptFont);
+            SizeF size10 = g.MeasureString("10", _font);
+            SizeF sizeText = g.MeasureString(text, _superScriptFont);
 			SizeF totSize = new SizeF( size10.Width + sizeText.Width,
 									size10.Height + sizeText.Height * Default.SuperShift );
-            float charWidth = g.MeasureStringCache("x", _superScriptFont).Width;
+            float charWidth = g.MeasureString("x", _superScriptFont).Width;
 
 			// Save the old transform matrix for later restoration
 			Matrix saveMatrix = g.Transform;
@@ -1023,7 +1023,7 @@ namespace ZedGraph
 		public float GetWidth( Graphics g, float scaleFactor )
 		{
 			Remake( scaleFactor, this.Size, ref _scaledSize, ref _font );
-            return g.MeasureStringCache("x", _font).Width;
+            return g.MeasureString("x", _font).Width;
 		}
 
 		/// <summary>
@@ -1045,7 +1045,7 @@ namespace ZedGraph
 		public float GetWidth( Graphics g, string text, float scaleFactor )
 		{
 			Remake( scaleFactor, this.Size, ref _scaledSize, ref _font );
-            float width = g.MeasureStringCache(text, _font).Width;
+            float width = g.MeasureString(text, _font).Width;
 			if ( _isDropShadow )
 				width += (float)( Math.Cos( _dropShadowAngle ) * _dropShadowOffset * _font.Height );
 			return width;
@@ -1071,7 +1071,7 @@ namespace ZedGraph
 		public SizeF MeasureString( Graphics g, string text, float scaleFactor )
 		{
 			Remake( scaleFactor, this.Size, ref _scaledSize, ref _font );
-			SizeF size = g.MeasureStringCache(text, _font);
+			SizeF size = g.MeasureString(text, _font);
 			if ( _isDropShadow )
 			{
 				size.Width += (float)( Math.Cos( _dropShadowAngle ) *
@@ -1111,7 +1111,7 @@ namespace ZedGraph
 		public SizeF MeasureString( Graphics g, string text, float scaleFactor, SizeF layoutArea )
 		{
 			Remake( scaleFactor, this.Size, ref _scaledSize, ref _font );
-			SizeF size = g.MeasureStringCache( text, _font, layoutArea );
+			SizeF size = g.MeasureString( text, _font, layoutArea );
 			if ( _isDropShadow )
 			{
 				size.Width += (float)( Math.Cos( _dropShadowAngle ) *
@@ -1229,7 +1229,7 @@ namespace ZedGraph
 
 			// Get the width and height of the text
 			SizeF size10 = MeasureString( g, "10", scaleFactor );
-            SizeF sizeText = g.MeasureStringCache(text, _superScriptFont);
+            SizeF sizeText = g.MeasureString(text, _superScriptFont);
 
 			if ( _isDropShadow )
 			{
@@ -1331,9 +1331,9 @@ namespace ZedGraph
 			// Get the width and height of the text
 			SizeF sizeF;
 			if ( layoutArea.IsEmpty )
-                sizeF = g.MeasureStringCache(text, _font);
+                sizeF = g.MeasureString(text, _font);
 			else
-                sizeF = g.MeasureStringCache(text, _font, layoutArea);
+                sizeF = g.MeasureString(text, _font, layoutArea);
 
 			// Create a bounding box rectangle for the text
 			RectangleF rect = new RectangleF( new PointF( -sizeF.Width / 2.0F, 0.0F ), sizeF );
@@ -1477,9 +1477,9 @@ namespace ZedGraph
 			// Get the width and height of the text
 			SizeF sizeF;
 			if ( layoutArea.IsEmpty )
-                sizeF = g.MeasureStringCache(text, _font);
+                sizeF = g.MeasureString(text, _font);
 			else
-                sizeF = g.MeasureStringCache(text, _font, layoutArea);
+                sizeF = g.MeasureString(text, _font, layoutArea);
 
 			// Create a bounding box rectangle for the text
 			RectangleF rect = new RectangleF( new PointF( -sizeF.Width / 2.0F, 0.0F ), sizeF );

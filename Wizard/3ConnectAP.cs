@@ -17,7 +17,7 @@ namespace MissionPlanner.Wizard
     public partial class _3ConnectAP : MyUserControl, IWizard, IActivate
     {
         List<KeyValuePair<string, string>> fwmap = new List<KeyValuePair<string, string>>();
-        ProgressReporterDialogue pdr;
+        IProgressReporterDialogue pdr;
         string comport = "";
         bool fwdone = false;
         private bool usebeta;
@@ -95,6 +95,10 @@ namespace MissionPlanner.Wizard
                 return 0;
             }
 
+            // ensure we are using a comport
+            if (!(MainV2.comPort.BaseStream is SerialPort))
+                MainV2.comPort.BaseStream = new SerialPort();
+
             if (!fwdone)
             {
                 pdr = new ProgressReporterDialogue();
@@ -112,7 +116,9 @@ namespace MissionPlanner.Wizard
             }
 
             if (MainV2.comPort.BaseStream.IsOpen)
+            {
                 MainV2.comPort.BaseStream.Close();
+            }
 
             // setup for over usb
             MainV2.comPort.BaseStream.BaudRate = 115200;
@@ -140,10 +146,10 @@ namespace MissionPlanner.Wizard
                         // check if its a tri, and skip the frame type screen
                         return 2;
                 }
-                if (Wizard.config["fwtype"].ToString() == "copter")
+                if (Wizard.config.ContainsKey("fwtype") && Wizard.config["fwtype"].ToString() == "copter")
                     // check if its a quad, and show the frame type screen
                     return 1;
-                if (Wizard.config["fwtype"].ToString() == "rover")
+                if (Wizard.config.ContainsKey("fwtype") && Wizard.config["fwtype"].ToString() == "rover")
                     // check if its a rover, and show the compass cal screen - skip accel
                     return 3;
                 else
@@ -167,7 +173,7 @@ namespace MissionPlanner.Wizard
             fw.Progress += fw_Progress;
             string firmwareurl = "";
             if (usebeta)
-                firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+                firmwareurl = "https://raw.github.com/ardupilot/binary/master/dev/firmware2.xml";
 
             List<Utilities.Firmware.software> swlist = fw.getFWList(firmwareurl);
 

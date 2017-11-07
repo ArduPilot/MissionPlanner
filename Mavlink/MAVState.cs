@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 using GMap.NET;
 using log4net;
 using MissionPlanner.Utilities;
-using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
@@ -17,14 +14,14 @@ namespace MissionPlanner
 
         public MAVLinkInterface parent;
 
-        public MAVState(MAVLinkInterface mavLinkInterface)
+        public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
         {
             this.parent = mavLinkInterface;
-            this.packetspersecond = new double[0x100];
-            this.packetspersecondbuild = new DateTime[0x100];
+            this.sysid = sysid;
+            this.compid = compid;
+            this.packetspersecond = new Dictionary<uint, double>();
+            this.packetspersecondbuild = new Dictionary<uint, DateTime>();
             this.lastvalidpacket = DateTime.MinValue;
-            this.sysid = 0;
-            this.compid = 0;
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
@@ -36,7 +33,8 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
-            this.Proximity = new Proximity(this);
+            if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
+                this.Proximity = new Proximity(this);
 
             camerapoints.Clear();
 
@@ -70,10 +68,15 @@ namespace MissionPlanner
         /// </summary>
         public CurrentState cs = new CurrentState();
 
+        private byte _sysid;
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
-        public byte sysid { get; set; }
+        public byte sysid
+        {
+            get { return _sysid; }
+            set { _sysid = value; }
+        }
 
         /// <summary>
         /// mavlink remove compid
@@ -152,7 +155,8 @@ namespace MissionPlanner
 
         public void Dispose()
         {
-             Proximity.Dispose();
+            if (Proximity != null)
+                Proximity.Dispose();
         }
 
         /// <summary>
@@ -163,12 +167,12 @@ namespace MissionPlanner
         /// <summary>
         /// used to calc packets per second on any single message type - used for stream rate comparaison
         /// </summary>
-        public double[] packetspersecond { get; set; }
+        public Dictionary<uint,double> packetspersecond { get; set; }
 
         /// <summary>
         /// time last seen a packet of a type
         /// </summary>
-        public DateTime[] packetspersecondbuild = new DateTime[256];
+        public Dictionary<uint, DateTime> packetspersecondbuild { get; set; }
 
         /// <summary>
         /// mavlink ap type
@@ -207,5 +211,11 @@ namespace MissionPlanner
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
+        public Int64 time_offset_ns { get; set; }
+
+        public override string ToString()
+        {
+            return sysid.ToString();
+        }
     }
 }

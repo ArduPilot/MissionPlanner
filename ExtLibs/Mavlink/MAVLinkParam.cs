@@ -31,11 +31,11 @@ public partial class MAVLink
         /// </summary>
         public MAV_PARAM_TYPE Type { get; set; }
 
-        private MAV_PARAM_TYPE _typeap = MAV_PARAM_TYPE.ENUM_END;
+        private MAV_PARAM_TYPE _typeap = 0;
         public MAV_PARAM_TYPE TypeAP {
             get 
             { 
-                if (_typeap != MAV_PARAM_TYPE.ENUM_END) 
+                if (_typeap != 0) 
                     return _typeap;
                 return Type;
             }

@@ -174,7 +174,7 @@ begin
   CIEb = 200 * ( var_Y - var_Z );
 end;
          */
-
+         /*
         public static Color GetRandomNamedColor(Random r) {
             Color clr = Color.FromKnownColor(KnownColor.Control);
             Array clrs = Enum.GetValues(typeof(KnownColor));
@@ -183,7 +183,7 @@ end;
             }
             return clr;
         }
-
+        */
         /*public static Color Invert(Color aColor)
         {
             int r = 255 - Convert.ToInt32(aColor.R);
@@ -198,7 +198,7 @@ end;
             int b = Convert.ToInt32(aColor.B);
             return ((r + g + b) > 255) ? Color.Black : Color.White;
         }
-
+        /*
         public static List<Color> GetNamedColors() {
             List<Color> colors = new List<Color>();
             foreach (string n in Enum.GetNames(typeof(KnownColor))) {
@@ -209,7 +209,7 @@ end;
             }
             return colors;
         }
-
+        */
         /// <summary>
         /// Gets a list of colors that are theoretically all distinguishable from each other. Colors at the beginning of the list are easily distinguished from each other.
         /// </summary>
@@ -285,7 +285,7 @@ end;
             colors.Add(Color.White);
             return colors;
         }
-
+        
         public static bool ColorsMatch(Color a, Color b, double distance) {
             CIELAB aLab = ConvertToCIELAB(a);
             return aLab.DistanceTo(b) < distance;

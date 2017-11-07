@@ -8,8 +8,10 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Timers;
 using System.Windows.Forms;
 using log4net;
+using Microsoft.Scripting.Utils;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -91,7 +93,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 AddExtension = true,
                 DefaultExt = ".param",
                 RestoreDirectory = true,
-                Filter = "Param List|*.param;*.parm"
+                Filter = ParamFile.FileMask
             })
             {
                 var dr = ofd.ShowDialog();
@@ -263,14 +265,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_compare_Click(object sender, EventArgs e)
         {
-            var param2 = new Hashtable();
+            var param2 = new Dictionary<string, double>();
 
             using (var ofd = new OpenFileDialog
             {
                 AddExtension = true,
                 DefaultExt = ".param",
                 RestoreDirectory = true,
-                Filter = "Param List|*.param;*.parm"
+                Filter = ParamFile.FileMask
             })
             {
                 var dr = ofd.ShowDialog();
@@ -337,6 +339,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 var value = (string) Params[e.ColumnIndex, e.RowIndex].Value;
 
                 var newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
+
+                var readonly1 = ParameterMetaDataRepository.GetParameterMetaData(
+                    Params[Command.Index, e.RowIndex].Value.ToString(),
+                    ParameterMetaDataConstants.ReadOnly, MainV2.comPort.MAV.cs.firmware.ToString());
+                if(!String.IsNullOrEmpty(readonly1))
+                {
+                    var readonly2 = bool.Parse(readonly1);
+                    if (readonly2)
+                    {
+                        CustomMessageBox.Show(
+                            Params[Command.Index, e.RowIndex].Value +
+                            " is marked as ReadOnly, and should not be changed", "ReadOnly",
+                            MessageBoxButtons.OK);
+
+                    }
+                }
 
                 if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(),
                     ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString()))
@@ -579,9 +597,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public float scale;
         }
 
+        private System.Timers.Timer filterTimer = new System.Timers.Timer();
+
         private void txt_search_TextChanged(object sender, EventArgs e)
         {
-            filterList(txt_search.Text);
+            filterTimer.Elapsed -= FilterTimerOnElapsed;
+            filterTimer.Stop();
+            filterTimer.Interval = 500;
+            filterTimer.Elapsed += FilterTimerOnElapsed;
+            filterTimer.Start();
+        }
+
+        private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
+        {
+            filterTimer.Stop();
+            Invoke((Action) delegate
+            {
+                filterList(txt_search.Text);
+            });
         }
 
         private void Params_CellContentClick(object sender, DataGridViewCellEventArgs e)

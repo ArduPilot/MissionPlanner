@@ -132,7 +132,7 @@ namespace tlogThumbnailHandler
             string jpgfile = m_filename + ".jpg";
 
             Bitmap bmp = new Bitmap(m_size.Width, m_size.Height);
-            using (Graphics g = Graphics.FromImage(bmp))
+             Graphics g = Graphics.FromImage(bmp);
             {
                 g.Clear(Color.White);
 
@@ -142,7 +142,8 @@ namespace tlogThumbnailHandler
                 {
                     using (FileStream stream = File.OpenRead(jpgfile))
                     {
-                        using (Image map = Bitmap.FromFile(m_filename + ".jpg"))
+                         Image map = Bitmap.FromFile(m_filename + ".jpg")
+                        ;
                         {
                             g.DrawImage(map, 0, 0, m_size.Width, m_size.Height);
                         }

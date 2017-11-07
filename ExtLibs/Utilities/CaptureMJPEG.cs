@@ -50,11 +50,18 @@ namespace MissionPlanner.Utilities
         {
             StringBuilder sb = new StringBuilder();
 
-            while (true) {
-                byte by = br.ReadByte();
-                sb.Append((char)by);
-                if (by == '\n')
-                    break;
+            DateTime deadline = DateTime.Now.AddSeconds(5);
+
+            while (DateTime.Now < deadline) {
+                try
+                {
+                    byte by = br.ReadByte();
+                    deadline = DateTime.Now.AddSeconds(5);
+                    sb.Append((char) by);
+                    if (by == '\n')
+                        break;
+                }
+                catch { }
             }
 
             sb = sb.Replace("\r\n", "");
@@ -182,12 +189,6 @@ namespace MissionPlanner.Utilities
             catch (Exception ex) { log.Error(ex); }
 
             running = false;
-        }
-
-        static void getUrlRTSP()
-        {
-
-        
         }
 
         static Dictionary<string, string> getHeader(BinaryReader stream)

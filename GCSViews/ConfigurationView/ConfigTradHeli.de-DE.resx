@@ -112,40 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_HS4save.Text" xml:space="preserve">
-    <value>Manuell</value>
-  </data>
-  <data name="H_SV3_POS.Text" xml:space="preserve">
-    <value>180</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>kritisch</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Swash-Servo position</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label20.Text" xml:space="preserve">
-    <value>3</value>
+    <value>Swash-Servo Position</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
     <value>Oben</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>Swash Travel</value>
-  </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>Rudder Travel</value>
-  </data>
-  <data name="label24.Text" xml:space="preserve">
-    <value>Max</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Max</value>
@@ -159,77 +141,20 @@
   <data name="label1.Text" xml:space="preserve">
     <value>Min</value>
   </data>
-  <data name="H_GYR_GAIN.Text" xml:space="preserve">
-    <value>1000</value>
-  </data>
-  <data name="HS4_MIN.Text" xml:space="preserve">
-    <value>1500</value>
-  </data>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>Swash Type</value>
-  </data>
   <data name="groupBox3.Text" xml:space="preserve">
     <value>Externen Kreisel</value>
   </data>
-  <data name="HS4_MAX.Text" xml:space="preserve">
-    <value>1500</value>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>V-Kurve</value>
   </data>
-  <data name="BUT_0collective.Text" xml:space="preserve">
-    <value>Null</value>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>Kurve</value>
   </data>
-  <data name="label36.Text" xml:space="preserve">
-    <value>Servo</value>
+  <data name="groupBox11.Text" xml:space="preserve">
+    <value>Gas Ausgang</value>
   </data>
-  <data name="H_SV2_POS.Text" xml:space="preserve">
-    <value>60</value>
-  </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>Rev</value>
-  </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>Position</value>
-  </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>Trim</value>
-  </data>
-  <data name="H_COL_MAX.Text" xml:space="preserve">
-    <value>1500</value>
-  </data>
-  <data name="CCPM.Text" xml:space="preserve">
-    <value>CCPM</value>
-  </data>
-  <data name="H_SV1_POS.Text" xml:space="preserve">
-    <value>-60</value>
-  </data>
-  <data name="H_SWASH_TYPE.Text" xml:space="preserve">
-    <value>H1</value>
-  </data>
-  <data name="H_COL_MIN.Text" xml:space="preserve">
-    <value>1500</value>
-  </data>
-  <data name="H_COL_MID.Text" xml:space="preserve">
-    <value>1500</value>
-  </data>
-  <data name="label46.Text" xml:space="preserve">
-    <value>Verstärkung</value>
-  </data>
-  <data name="label44.Text" xml:space="preserve">
-    <value>Trim</value>
-  </data>
-  <data name="label45.Text" xml:space="preserve">
-    <value>Aktivieren</value>
-  </data>
-  <data name="BUT_swash_manual.Text" xml:space="preserve">
-    <value>Manuell</value>
-  </data>
-  <data name="label42.Text" xml:space="preserve">
-    <value>Ruder</value>
-  </data>
-  <data name="label43.Text" xml:space="preserve">
-    <value>Rev</value>
-  </data>
-  <data name="label40.Text" xml:space="preserve">
-    <value>Min</value>
+  <data name="myButtonH_SV_MAN.Text" xml:space="preserve">
+    <value>aktiv</value>
   </data>
   <data name="label41.Text" xml:space="preserve">
     <value>Basis</value>

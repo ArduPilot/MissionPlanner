@@ -907,8 +907,8 @@
             // 
             // ConfigArducopter
             // 
-            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.myLabel4);
             this.Controls.Add(this.CH8_OPT);
             this.Controls.Add(this.BUT_refreshpart);

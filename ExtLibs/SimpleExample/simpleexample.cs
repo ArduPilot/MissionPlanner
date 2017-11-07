@@ -63,7 +63,7 @@ namespace SimpleExample
                     lock (readlock)
                     {
                         // read any valid packet from the port
-                        packet = mavlink.ReadPacketObj(serialPort1.BaseStream);
+                        packet = mavlink.ReadPacket(serialPort1.BaseStream);
                         
                         // check its valid
                         if (packet == null || packet.data == null)
@@ -80,7 +80,7 @@ namespace SimpleExample
                         compid = packet.compid;
 
                         // request streams at 2 hz
-                        mavlink.GenerateMAVLinkPacket(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
+                        mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.REQUEST_DATA_STREAM,
                             new MAVLink.mavlink_request_data_stream_t()
                             {
                                 req_message_rate = 2,
@@ -95,7 +95,7 @@ namespace SimpleExample
                     if (sysid != packet.sysid || compid != packet.compid)
                         continue;
                     
-                    if (packet.messid == (byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
+                    if (packet.msgid == (byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
                     //or
                     //if (packet.data.GetType() == typeof(MAVLink.mavlink_attitude_t))
                     {
@@ -121,7 +121,7 @@ namespace SimpleExample
                 // read the current buffered bytes
                 while (DateTime.Now < deadline)
                 {
-                    var packet = mavlink.ReadPacketObj(serialPort1.BaseStream);
+                    var packet = mavlink.ReadPacket(serialPort1.BaseStream);
 
                     // check its not null, and its addressed to us
                     if (packet == null || sysid != packet.sysid || compid != packet.compid)
@@ -159,7 +159,7 @@ namespace SimpleExample
             req.param7 = p7;
             */
 
-            byte[] packet = mavlink.GenerateMAVLinkPacket(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, req);
+            byte[] packet = mavlink.GenerateMAVLinkPacket10(MAVLink.MAVLINK_MSG_ID.COMMAND_LONG, req);
 
             serialPort1.Write(packet, 0, packet.Length);
 

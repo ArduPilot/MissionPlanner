@@ -6,7 +6,7 @@ using System.Text;
 
 namespace MissionPlanner.Utilities
 {
-    class GimbalPoint
+    public class GimbalPoint
     {
         public static int yawchannel = 7;
         public static int pitchchannel = 5;
@@ -112,9 +112,6 @@ namespace MissionPlanner.Utilities
             return result;
         }
 
-        public const double rad2deg = (180/System.Math.PI);
-        public const double deg2rad = (1.0/rad2deg);
-
         public static PointLatLngAlt ProjectPoint()
         {
             MainV2.comPort.GetMountStatus();
@@ -149,7 +146,7 @@ namespace MissionPlanner.Utilities
                 //rollangle = ConvertPwmtoAngle(axis.roll);
                 pitchangle = ConvertPwmtoAngle(axis.pitch) + MainV2.comPort.MAV.cs.pitch;
 
-                pitchangle -= Math.Sin(yawangle*deg2rad)*MainV2.comPort.MAV.cs.roll;
+                pitchangle -= Math.Sin(yawangle*MathHelper.deg2rad)*MainV2.comPort.MAV.cs.roll;
             }
 
             // tan (o/a)
@@ -158,7 +155,7 @@ namespace MissionPlanner.Utilities
             int distout = 10;
             PointLatLngAlt newpos = PointLatLngAlt.Zero;
 
-            //dist = Math.Tan((90 + pitchangle) * deg2rad) * (MainV2.comPort.MAV.cs.alt);
+            //dist = Math.Tan((90 + pitchangle) * MathHelper.deg2rad) * (MainV2.comPort.MAV.cs.alt);
 
             while (distout < 1000)
             {
@@ -171,7 +168,7 @@ namespace MissionPlanner.Utilities
                 newposdist2.Alt = srtm.getAltitude(newposdist2.Lat, newposdist2.Lng).alt;
 
                 // get the flat terrain distance out - at 0 alt
-                double distflat = Math.Tan((90 + pitchangle)*deg2rad)*(MainV2.comPort.MAV.cs.altasl);
+                double distflat = Math.Tan((90 + pitchangle)*MathHelper.deg2rad)*(MainV2.comPort.MAV.cs.altasl);
 
                 // x is dist from plane, y is alt
                 var newpoint = FindLineIntersection(new PointF(0, MainV2.comPort.MAV.cs.altasl),

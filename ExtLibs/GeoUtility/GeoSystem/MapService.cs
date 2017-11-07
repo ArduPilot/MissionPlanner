@@ -420,7 +420,7 @@ namespace GeoUtility.GeoSystem
 
         /// <summary><para>Die Eigenschaft bindet die Klasse <see cref="Helper.Images"/> ein, und stellt deren Funktionalitäten zur 
         /// Verfügung. Nähere Angaben und Beispiele siehe unter <see cref="Helper.Images"/>.</para></summary>
-        public Helper.Images Images { get { return new Helper.Images(this); } }
+        //public Helper.Images Images { get { return new Helper.Images(this); } }
 
         #endregion ==================== Eigenschaften ====================
 
@@ -948,7 +948,7 @@ namespace GeoUtility.GeoSystem
                 { 
                     result = true;                                              // MapService-Objekte sind Wertgleich
                 }
-                else if ((MapService.Helper.Images.Cache.Enabled == true) && (MapService.Helper.Images.Cache.EqualityMode == Helper.Images.CacheEqualityMode.Image))
+                /*else if ((MapService.Helper.Images.Cache.Enabled == true) && (MapService.Helper.Images.Cache.EqualityMode == Helper.Images.CacheEqualityMode.Image))
                 {
                     if ((this.TileInfo.InternalMap.Key) == (map.TileInfo.InternalMap.Key))
                     {
@@ -957,7 +957,7 @@ namespace GeoUtility.GeoSystem
                         else if ((this.Center == false) && (map.TileInfo.GeoPosition.X == half_size) && (map.TileInfo.GeoPosition.Y == half_size)) result = true;
                         else if ((map.Center == false) && (this.TileInfo.GeoPosition.X == half_size) && (this.TileInfo.GeoPosition.Y == half_size)) result = true;
                     }
-                }
+                }*/
             } 
             return result;
         }

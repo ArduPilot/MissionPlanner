@@ -41,12 +41,15 @@ namespace MissionPlanner.GeoRef
             this.label27 = new System.Windows.Forms.Label();
             this.chk_cammsg = new System.Windows.Forms.CheckBox();
             this.RDIO_trigmsg = new System.Windows.Forms.RadioButton();
+            this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.PANEL_TIME_OFFSET.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).BeginInit();
             this.panel3.SuspendLayout();
             this.PANEL_SHUTTER_LAG.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -297,9 +300,41 @@ namespace MissionPlanner.GeoRef
             this.RDIO_trigmsg.UseVisualStyleBackColor = true;
             this.RDIO_trigmsg.CheckedChanged += new System.EventHandler(this.ProcessType_CheckedChanged);
             // 
+            // myGMAP1
+            // 
+            resources.ApplyResources(this.myGMAP1, "myGMAP1");
+            this.myGMAP1.Bearing = 0F;
+            this.myGMAP1.CanDragMap = true;
+            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.myGMAP1.GrayScaleMode = false;
+            this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.myGMAP1.LevelsKeepInMemmory = 5;
+            this.myGMAP1.MarkersEnabled = true;
+            this.myGMAP1.MaxZoom = 2;
+            this.myGMAP1.MinZoom = 2;
+            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.myGMAP1.Name = "myGMAP1";
+            this.myGMAP1.NegativeMode = false;
+            this.myGMAP1.PolygonsEnabled = true;
+            this.myGMAP1.RetryLoadTile = 0;
+            this.myGMAP1.RoutesEnabled = true;
+            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            
+            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.myGMAP1.ShowTileGridLines = false;
+            this.myGMAP1.Zoom = 2D;
+            // 
+            // pictureBox1
+            // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.TabStop = false;
+            // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.myGMAP1);
             this.Controls.Add(this.RDIO_trigmsg);
             this.Controls.Add(this.chk_cammsg);
             this.Controls.Add(this.PANEL_SHUTTER_LAG);
@@ -327,6 +362,7 @@ namespace MissionPlanner.GeoRef
             this.panel3.PerformLayout();
             this.PANEL_SHUTTER_LAG.ResumeLayout(false);
             this.PANEL_SHUTTER_LAG.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -363,5 +399,7 @@ namespace MissionPlanner.GeoRef
         private PROCESSING_MODE selectedProcessingMode;
         private CheckBox chk_usegps2;
         private RadioButton RDIO_trigmsg;
+        private Controls.myGMAP myGMAP1;
+        private PictureBox pictureBox1;
     }
 }

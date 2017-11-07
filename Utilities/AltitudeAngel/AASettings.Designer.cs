@@ -68,7 +68,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             this.chk_airdata.TabIndex = 2;
             this.chk_airdata.Text = "Air Data";
             this.chk_airdata.UseVisualStyleBackColor = true;
-            this.chk_airdata.Visible = false;
             this.chk_airdata.CheckedChanged += new System.EventHandler(this.chk_airdata_CheckedChanged);
             // 
             // chk_grounddata
@@ -80,7 +79,6 @@ namespace MissionPlanner.Utilities.AltitudeAngel
             this.chk_grounddata.TabIndex = 3;
             this.chk_grounddata.Text = "Ground Data";
             this.chk_grounddata.UseVisualStyleBackColor = true;
-            this.chk_grounddata.Visible = false;
             this.chk_grounddata.CheckedChanged += new System.EventHandler(this.chk_grounddata_CheckedChanged);
             // 
             // chklb_layers

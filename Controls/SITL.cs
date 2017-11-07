@@ -13,15 +13,19 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MissionPlanner.Controls
 {
     public partial class SITL : MyUserControl, IActivate
     {
         //https://regex101.com/r/cH3kV3/2
-        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\}]+""default_params_filename""\s*:\s*""([^""]+)""\s*[^\}]*\}");
+        //https://regex101.com/r/cH3kV3/3
+        Regex default_params_regex = new Regex(@"""([^""]+)""\s*:\s*\{\s*[^\{}]+""default_params_filename""\s*:\s*\[*""([^""]+)""\s*[^\}]*\}");
 
         Uri sitlurl = new Uri("http://firmware.ardupilot.org/Tools/MissionPlanner/sitl/");
 
@@ -232,6 +236,104 @@ namespace MissionPlanner.Controls
                     }
                 }
             }
+
+            if (Common.getFilefromNet(
+                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
+                sitldirectory + "vehicleinfo.py"))
+            {
+                cleanupJson(sitldirectory + "vehicleinfo.py");
+
+                using (Newtonsoft.Json.JsonTextReader reader =
+                    new JsonTextReader(File.OpenText(sitldirectory + "vehicleinfo.py")))
+                {
+                    JsonSerializer serializer = new JsonSerializer();
+                    var obj = (JObject) serializer.Deserialize(reader);
+
+                    foreach (var fwtype in obj)
+                    {
+                        var frames = fwtype.Value["frames"];
+
+                        if (frames == null)
+                            continue;
+
+                        var config = frames[model];
+
+                        if (config == null)
+                            continue;
+
+                        var configs = config["default_params_filename"];
+
+                        if (configs is JValue)
+                        {
+                            Common.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                configs.ToString(),
+                                sitldirectory + configs.ToString());
+
+                            return sitldirectory + configs.ToString();
+                        }
+
+                        string data = "";
+
+                        foreach (var config1 in configs)
+                        {
+                            Common.getFilefromNet(
+                                "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
+                                config1.ToString(),
+                                sitldirectory + config1.ToString());
+
+                            data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                        }
+
+                        var temp = Path.GetTempFileName();
+                        File.WriteAllText(temp, data);
+                        return temp;
+                    }
+                }
+            }
+            return "";
+        }
+
+        void cleanupJson(string filename)
+        {
+            var content = File.ReadAllText(filename);
+
+            var match = BraceMatch(content, '{', '}');
+
+            match = Regex.Replace(match, @"#.*", "");
+
+            File.WriteAllText(filename, match);
+        }
+
+        static string BraceMatch(string text, char braces, char bracee)
+        {
+            int level = 0;
+            int start = 0;
+            int end = 0;
+
+            int index = -1;
+
+            foreach (char c in text)
+            {
+                index++;
+                if (c == braces)
+                {
+                    if (level == 0)
+                        start = index;
+                    // opening brace detected
+                    level++;
+                }
+
+                if (c == bracee)
+                {
+                    level--;
+                    end = index;
+
+                    if (level == 0)
+                        return text.Substring(start, end - start + 1);
+                }
+            }
+
             return "";
         }
 
@@ -267,6 +369,11 @@ namespace MissionPlanner.Controls
 
             if (!string.IsNullOrEmpty(config))
                 extraargs += @" --defaults """ + config+@"""";
+
+            extraargs += " " + txt_cmdline.Text + " ";
+
+            if (chk_wipe.Checked)
+                extraargs += " --wipe ";
 
             string simdir = sitldirectory + model + Path.DirectorySeparatorChar;
 
@@ -308,6 +415,8 @@ namespace MissionPlanner.Controls
                 MainV2.comPort.BaseStream = client;
 
                 SITLSEND = new UdpClient("127.0.0.1", 5501);
+
+                Thread.Sleep(200);
 
                 MainV2.instance.doConnect(MainV2.comPort, "preset", "5760");
             }

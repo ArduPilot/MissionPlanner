@@ -15,12 +15,9 @@ namespace MissionPlanner.Utilities
 {
     public class ImageProjection
     {
-        public const double rad2deg = (180 / System.Math.PI);
-        public const double deg2rad = (1.0 / rad2deg);
-
         static double fovCalc(double fov, double distance)
         {
-            return distance * Math.Tan(fov * deg2rad);
+            return distance * Math.Tan(fov * MathHelper.deg2rad);
         }
 
         //http://www.chrobotics.com/library/understanding-euler-angles
@@ -39,15 +36,15 @@ namespace MissionPlanner.Utilities
             if (R == 0 && P == 0)
             {
                 // calc fov in m on the ground at 0 alt
-                var fovh = Math.Tan(hfov / 2.0 * deg2rad) * plla.Alt;
-                var fovv = Math.Tan(vfov / 2.0 * deg2rad) * plla.Alt;
+                var fovh = Math.Tan(hfov / 2.0 * MathHelper.deg2rad) * plla.Alt;
+                var fovv = Math.Tan(vfov / 2.0 * MathHelper.deg2rad) * plla.Alt;
                 var fovd = Math.Sqrt(fovh * fovh + fovv * fovv);
 
                 // where we put our footprint
                 var ans2 = new List<PointLatLngAlt>();
 
                 // calc bearing from center to corner
-                var bearing1 = Math.Atan2(fovh, fovv) * rad2deg;
+                var bearing1 = Math.Atan2(fovh, fovv) * MathHelper.rad2deg;
 
                 // calc first corner point
                 var newpos1 = plla.newpos(bearing1 + Y, Math.Sqrt(fovh * fovh + fovv * fovv));
@@ -98,14 +95,14 @@ namespace MissionPlanner.Utilities
 
             Matrix3 dcm = new Matrix3();
 
-            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
+            dcm.from_euler(R * MathHelper.deg2rad, P * MathHelper.deg2rad, Y * MathHelper.deg2rad);
             dcm.normalize();
 
             Vector3 center1 = new Vector3(0, 0, 10000);
 
             var test = dcm * center1;
 
-            var bearing2 = Math.Atan2(test.y, test.x) * rad2deg;
+            var bearing2 = Math.Atan2(test.y, test.x) * MathHelper.rad2deg;
 
             var newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
@@ -118,19 +115,19 @@ namespace MissionPlanner.Utilities
             addtomap(cen, "center "+ dist.ToString("0"));
 
             //
-            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
-            dcm.rotate(new Vector3(rightangle * deg2rad, 0, 0));
+            dcm.from_euler(R * MathHelper.deg2rad, P * MathHelper.deg2rad, Y * MathHelper.deg2rad);
+            dcm.rotate(new Vector3(rightangle * MathHelper.deg2rad, 0, 0));
             dcm.normalize();
-            dcm.rotate(new Vector3(0, frontangle * deg2rad, 0));
+            dcm.rotate(new Vector3(0, frontangle * MathHelper.deg2rad, 0));
             dcm.normalize();
             /*
             var mx = new Matrix3();
             var my = new Matrix3();
             var mz = new Matrix3();
 
-            mx.from_euler((rightangle + R) * deg2rad, 0, 0);
-            my.from_euler(0, (frontangle + P) * deg2rad, 0);
-            mz.from_euler(0, 0, Y * deg2rad);
+            mx.from_euler((rightangle + R) * MathHelper.deg2rad, 0, 0);
+            my.from_euler(0, (frontangle + P) * MathHelper.deg2rad, 0);
+            mz.from_euler(0, 0, Y * MathHelper.deg2rad);
 
             printdcm(mx);
             printdcm(my);
@@ -142,7 +139,7 @@ namespace MissionPlanner.Utilities
             */
             test = dcm * center1;  
               
-            bearing2 = (Math.Atan2(test.y, test.x) * rad2deg);
+            bearing2 = (Math.Atan2(test.y, test.x) * MathHelper.rad2deg);
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
@@ -157,15 +154,15 @@ namespace MissionPlanner.Utilities
             addtomap(groundpointtr, "tr");
 
             //
-            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
-            dcm.rotate(new Vector3(leftangle * deg2rad, 0, 0));
+            dcm.from_euler(R * MathHelper.deg2rad, P * MathHelper.deg2rad, Y * MathHelper.deg2rad);
+            dcm.rotate(new Vector3(leftangle * MathHelper.deg2rad, 0, 0));
             dcm.normalize();
-            dcm.rotate(new Vector3(0, frontangle * deg2rad, 0));
+            dcm.rotate(new Vector3(0, frontangle * MathHelper.deg2rad, 0));
             dcm.normalize();
 
             test = dcm * center1;
 
-            bearing2 = Math.Atan2(test.y, test.x)*rad2deg;
+            bearing2 = Math.Atan2(test.y, test.x)*MathHelper.rad2deg;
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
@@ -178,15 +175,15 @@ namespace MissionPlanner.Utilities
             addtomap(groundpointtl, "tl");
 
             //
-            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
-            dcm.rotate(new Vector3(leftangle * deg2rad, 0, 0));
+            dcm.from_euler(R * MathHelper.deg2rad, P * MathHelper.deg2rad, Y * MathHelper.deg2rad);
+            dcm.rotate(new Vector3(leftangle * MathHelper.deg2rad, 0, 0));
             dcm.normalize();
-            dcm.rotate(new Vector3(0, backangle * deg2rad, 0));
+            dcm.rotate(new Vector3(0, backangle * MathHelper.deg2rad, 0));
             dcm.normalize();
 
             test = dcm * center1;
 
-            bearing2 = Math.Atan2(test.y, test.x) * rad2deg;
+            bearing2 = Math.Atan2(test.y, test.x) * MathHelper.rad2deg;
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
@@ -199,15 +196,15 @@ namespace MissionPlanner.Utilities
             addtomap(groundpointbl, "bl");
 
             //
-            dcm.from_euler(R * deg2rad, P * deg2rad, Y * deg2rad);
-            dcm.rotate(new Vector3(rightangle * deg2rad, 0, 0));
+            dcm.from_euler(R * MathHelper.deg2rad, P * MathHelper.deg2rad, Y * MathHelper.deg2rad);
+            dcm.rotate(new Vector3(rightangle * MathHelper.deg2rad, 0, 0));
             dcm.normalize();
-            dcm.rotate(new Vector3(0, backangle * deg2rad, 0));
+            dcm.rotate(new Vector3(0, backangle * MathHelper.deg2rad, 0));
             dcm.normalize(); 
 
             test = dcm * center1;
 
-            bearing2 = Math.Atan2(test.y, test.x) * rad2deg;
+            bearing2 = Math.Atan2(test.y, test.x) * MathHelper.rad2deg;
 
             newpos2 = plla.newpos(bearing2, Math.Sqrt(test.x * test.x + test.y * test.y));
 
@@ -241,7 +238,7 @@ namespace MissionPlanner.Utilities
 
             dcm.to_euler(ref R, ref P, ref Y);
 
-            Console.WriteLine("{0} {1} {2}", R * rad2deg, P * rad2deg, Y * rad2deg);
+            Console.WriteLine("{0} {1} {2}", R * MathHelper.rad2deg, P * MathHelper.rad2deg, Y * MathHelper.rad2deg);
         }
 
         // polar to rectangular
@@ -250,8 +247,8 @@ namespace MissionPlanner.Utilities
             double degN = 90 - bearing;
             if (degN < 0)
                 degN += 360;
-            x = x + distance * Math.Cos(degN * deg2rad);
-            y = y + distance * Math.Sin(degN * deg2rad);
+            x = x + distance * Math.Cos(degN * MathHelper.deg2rad);
+            y = y + distance * Math.Sin(degN * MathHelper.deg2rad);
         }
 
         // polar to rectangular
@@ -260,8 +257,8 @@ namespace MissionPlanner.Utilities
             double degN = 90 - bearing;
             if (degN < 0)
                 degN += 360;
-            double x = input.x + distance * Math.Cos(degN * deg2rad);
-            double y = input.y + distance * Math.Sin(degN * deg2rad);
+            double x = input.x + distance * Math.Cos(degN * MathHelper.deg2rad);
+            double y = input.y + distance * Math.Sin(degN * MathHelper.deg2rad);
 
             return new utmpos(x, y, input.zone);
         }

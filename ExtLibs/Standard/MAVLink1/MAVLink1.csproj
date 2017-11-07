@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Mavlink\Mavlink.cs" Link="Mavlink.cs" />
+    <Compile Include="..\..\Mavlink\MavlinkCRC.cs" Link="MavlinkCRC.cs" />
+    <Compile Include="..\..\Mavlink\MAVLinkMessage.cs" Link="MAVLinkMessage.cs" />
+    <Compile Include="..\..\Mavlink\MAVLinkParam.cs" Link="MAVLinkParam.cs" />
+    <Compile Include="..\..\Mavlink\MAVLinkParamList.cs" Link="MAVLinkParamList.cs" />
+    <Compile Include="..\..\Mavlink\MavlinkParse.cs" Link="MavlinkParse.cs" />
+    <Compile Include="..\..\Mavlink\MavlinkUtil.cs" Link="MavlinkUtil.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+  </ItemGroup>
+
+</Project>

@@ -15,6 +15,9 @@ namespace MissionPlanner.Controls
 
         public static event ThemeManager ApplyTheme;
 
+        public delegate void TrackingEventHandler(string page, string title);
+        public static event TrackingEventHandler Tracking;
+
         public List<Screen> screens = new List<Screen>();
         public Screen current;
         UserControl MainControl = new UserControl();
@@ -145,7 +148,7 @@ namespace MissionPlanner.Controls
 
             nextscreen.Control.Dock = DockStyle.Fill;
 
-            MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
+            Tracking?.Invoke(nextscreen.Control.GetType().ToString(), name);
 
             if (nextscreen.Control is IActivate)
             {
@@ -200,8 +203,9 @@ namespace MissionPlanner.Controls
                     {
                         Control.Visible = value;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        Console.WriteLine(ex);
                     }
                 }
             }
