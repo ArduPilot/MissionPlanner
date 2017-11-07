@@ -1,6 +1,4 @@
-﻿using MissionPlanner.Controls;
-
-namespace MissionPlanner.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigPlannerAdv
     {
@@ -32,7 +30,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.Params = new MyDataGridView();
+            this.Params = new System.Windows.Forms.DataGridView();
             this.Name1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
@@ -112,7 +110,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         #endregion
 
-        private Controls.MyDataGridView Params;
+        private System.Windows.Forms.DataGridView Params;
         private System.Windows.Forms.DataGridViewTextBoxColumn Name1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Value;
         private System.Windows.Forms.Label label1;

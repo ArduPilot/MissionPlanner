@@ -14,9 +14,9 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static Dictionary<string, double> loadParamFile(string Filename)
+        public static Hashtable loadParamFile(string Filename)
         {
-            Dictionary<string, double> param = new Dictionary<string, double>();
+            Hashtable param = new Hashtable();
 
             using (StreamReader sr = new StreamReader(Filename))
             {

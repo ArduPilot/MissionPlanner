@@ -33,32 +33,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayAdvancedParams { get; set; }
         public Boolean displayFullParamList { get; set; }
         public Boolean displayFullParamTree { get; set; }
-        public Boolean displayBaudCMB { get; set; }
-        public Boolean displaySerialPortCMB { get; set; }
         public bool isAdvancedMode { get; set; }
-
-        public DisplayView()
-        {
-            // default to basic.
-            //also when a new field is added/created this defines the template for missing options
-            displayName = DisplayNames.Basic;
-            displaySimulation = false;
-            displayTerminal = false;
-            displayDonate = true;
-            displayHelp = true;
-            displayAnenometer = true;
-            displayAdvActionsTab = false;
-            displaySimpleActionsTab = true;
-            displayStatusTab = false;
-            displayServoTab = false;
-            displayScriptsTab = false;
-            displayAdvancedParams = false;
-            displayFullParamList = false;
-            displayFullParamTree = false;
-            displayBaudCMB = true;
-            displaySerialPortCMB = true;
-            isAdvancedMode = false;
-        }
     }
     public static class DisplayViewExtensions
     {
@@ -75,7 +50,7 @@ namespace MissionPlanner.Utilities
                     result = (DisplayView)serializer.Deserialize(reader);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
                     return false;
                 }
@@ -108,8 +83,6 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = false,
                 displayFullParamList = false,
                 displayFullParamTree = false,
-                displayBaudCMB = true,
-                displaySerialPortCMB = true,
                 isAdvancedMode = false
             };
         }
@@ -131,8 +104,6 @@ namespace MissionPlanner.Utilities
                 displayAdvancedParams = true,
                 displayFullParamList = true,
                 displayFullParamTree = true,
-                displayBaudCMB = true,
-                displaySerialPortCMB = true,
                 isAdvancedMode = true
             };
         }

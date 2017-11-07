@@ -32,17 +32,7 @@ namespace MissionPlanner
             public string altsource = "";
         }
 
-        private static string _datadirectory = "./srtm/";
-
-        public static string datadirectory
-        {
-            get { return _datadirectory; }
-            set
-            {
-                log.Info(value);
-                _datadirectory = value;
-            }
-        }
+        public static string datadirectory = "./srtm/";
 
         static object objlock = new object();
 
@@ -62,8 +52,6 @@ namespace MissionPlanner
 
         static srtm()
         {
-            log.Info(".cctor");
-
             // running tostring at a high rate was costing cpu
             for (int y = -90; y <= 90; y++)
             {
@@ -360,9 +348,8 @@ namespace MissionPlanner
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                log.Error(ex);
                 return altresponce.Invalid;
             }
 
@@ -381,8 +368,6 @@ namespace MissionPlanner
 
         static MemoryStream readFile(string filename)
         {
-            log.Info(filename);
-
             if (filecache.ContainsKey(filename))
             {
                 return (MemoryStream) filecache[filename];
@@ -404,8 +389,6 @@ namespace MissionPlanner
 
         static void requestRunner()
         {
-            log.Info("requestRunner start");
-
             requestThreadrun = true;
 
             while (requestThreadrun)
@@ -423,7 +406,6 @@ namespace MissionPlanner
 
                     if (item != "")
                     {
-                        log.Info(item);
                         get3secfile(item);
                         lock (objlock)
                         {

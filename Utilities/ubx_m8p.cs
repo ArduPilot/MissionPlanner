@@ -265,32 +265,12 @@ namespace MissionPlanner.Utilities
             public byte[] reserved3;
         }
 
-        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0, bool m8p_130plus = false)
+        public void SetupM8P(ICommsSerial port, PointLatLngAlt basepos, int surveyindur = 0, double surveyinacc = 0)
         {
             port.BaseStream.Flush();
 
-            port.BaudRate = 9600;
-
-            System.Threading.Thread.Sleep(100);
-
             // port config - 115200 - uart1
             var packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
-                0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(300);
-
-            // port config - usb
-            packet = generate(0x6, 0x00, new byte[] { 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
-            port.Write(packet, 0, packet.Length);
-            System.Threading.Thread.Sleep(300);
-
-            port.BaseStream.Flush();
-
-            port.BaudRate = 115200;
-
-            // port config - 115200 - uart1
-            packet = generate(0x6, 0x00, new byte[] { 0x01, 0x00, 0x00, 0x00, 0xD0, 0x08, 0x00, 0x00, 0x00, 0xC2,
                 0x01, 0x00, 0x23, 0x00, 0x23, 0x00, 0x00, 0x00, 0x00, 0x00 });
             port.Write(packet, 0, packet.Length);
             System.Threading.Thread.Sleep(300);
@@ -333,40 +313,19 @@ namespace MissionPlanner.Utilities
             // 1005 - 5s
             turnon_off(port, 0xf5, 0x05, 5);
 
-            byte rate1 = 1;
-            byte rate2 = 0;
-
-            if (m8p_130plus)
-            {
-                rate1 = 0;
-                rate2 = 1;
-            }
-
-            // 1074 - 1s
-            turnon_off(port, 0xf5, 0x4a, rate2);
             // 1077 - 1s
-            turnon_off(port, 0xf5, 0x4d, rate1);
+            turnon_off(port, 0xf5, 0x4d, 1);
 
-            // 1084 - 1s
-            turnon_off(port, 0xf5, 0x54, rate2);
             // 1087 - 1s
-            turnon_off(port, 0xf5, 0x57, rate1);
-
-            // 1124 - 1s
-            turnon_off(port, 0xf5, 0x7c, rate2);
-            // 1127 - 1s
-            turnon_off(port, 0xf5, 0x7f, rate1);
-
-            // 1230 - 5s
-            turnon_off(port, 0xf5, 0xE6, 5);
+            turnon_off(port, 0xf5, 0x57, 1);
 
             // rxm-raw/rawx - 1s
             turnon_off(port, 0x02, 0x15, 1);
             turnon_off(port, 0x02, 0x10, 1);
 
-            // rxm-sfrb/sfrb - 2s
-            turnon_off(port, 0x02, 0x13, 2);
-            turnon_off(port, 0x02, 0x11, 2);
+            // rxm-sfrb/sfrb - 5s
+            turnon_off(port, 0x02, 0x13, 5);
+            turnon_off(port, 0x02, 0x11, 5);
 
 
             System.Threading.Thread.Sleep(100);

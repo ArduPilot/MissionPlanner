@@ -51,16 +51,17 @@ namespace MissionPlanner.Wizard
             // 
             // panel1
             // 
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.flowLayoutPanel1);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
-            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
             // flowLayoutPanel1
             // 
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Controls.Add(this.linkLabel1);
             this.flowLayoutPanel1.Controls.Add(this.linkLabel2);
             this.flowLayoutPanel1.Controls.Add(this.linkLabel3);
@@ -70,7 +71,6 @@ namespace MissionPlanner.Wizard
             this.flowLayoutPanel1.Controls.Add(this.linkLabel6);
             this.flowLayoutPanel1.Controls.Add(this.linkLabel7);
             this.flowLayoutPanel1.Controls.Add(this.linkLabel9);
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
             // linkLabel1
@@ -79,7 +79,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel1.LinkColor = System.Drawing.Color.White;
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Tag = "http://ardupilot.org/";
+            this.linkLabel1.Tag = "http://ardupilot.com/";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel2
@@ -88,7 +88,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel2.LinkColor = System.Drawing.Color.White;
             this.linkLabel2.Name = "linkLabel2";
             this.linkLabel2.TabStop = true;
-            this.linkLabel2.Tag = "http://ardupilot.org/copter/";
+            this.linkLabel2.Tag = "http://copter.ardupilot.com/";
             this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel3
@@ -97,7 +97,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel3.LinkColor = System.Drawing.Color.White;
             this.linkLabel3.Name = "linkLabel3";
             this.linkLabel3.TabStop = true;
-            this.linkLabel3.Tag = "http://ardupilot.org/plane/";
+            this.linkLabel3.Tag = "http://plane.ardupilot.com/";
             this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel8
@@ -106,7 +106,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel8.LinkColor = System.Drawing.Color.White;
             this.linkLabel8.Name = "linkLabel8";
             this.linkLabel8.TabStop = true;
-            this.linkLabel8.Tag = "http://ardupilot.org/rover/";
+            this.linkLabel8.Tag = "http://rover.ardupilot.com/";
             this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel4
@@ -115,7 +115,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel4.LinkColor = System.Drawing.Color.White;
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.TabStop = true;
-            this.linkLabel4.Tag = "http://ardupilot.org/planner/";
+            this.linkLabel4.Tag = "http://planner.ardupilot.com/";
             this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel5
@@ -124,7 +124,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel5.LinkColor = System.Drawing.Color.White;
             this.linkLabel5.Name = "linkLabel5";
             this.linkLabel5.TabStop = true;
-            this.linkLabel5.Tag = "http://ardupilot.org/copter/docs/esc-calibration.html";
+            this.linkLabel5.Tag = "http://copter.ardupilot.com/wiki/initial-setup/esc-motor/";
             this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel6
@@ -133,7 +133,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel6.LinkColor = System.Drawing.Color.White;
             this.linkLabel6.Name = "linkLabel6";
             this.linkLabel6.TabStop = true;
-            this.linkLabel6.Tag = "http://ardupilot.org/copter/docs/initial-setup.html#";
+            this.linkLabel6.Tag = "http://copter.ardupilot.com/wiki/initial-setup/";
             this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel7
@@ -142,7 +142,7 @@ namespace MissionPlanner.Wizard
             this.linkLabel7.LinkColor = System.Drawing.Color.White;
             this.linkLabel7.Name = "linkLabel7";
             this.linkLabel7.TabStop = true;
-            this.linkLabel7.Tag = "http://ardupilot.org/copter/docs/flying-arducopter.html";
+            this.linkLabel7.Tag = "http://copter.ardupilot.com/wiki/flying-arducopter/";
             this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // linkLabel9
@@ -165,40 +165,63 @@ namespace MissionPlanner.Wizard
             // 
             // radialGradientBG1
             // 
+            resources.ApplyResources(this.radialGradientBG1, "radialGradientBG1");
             this.radialGradientBG1.BackColor = System.Drawing.Color.Black;
             this.radialGradientBG1.CenterColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(164)))), ((int)(((byte)(33)))));
             // 
             // 
             // 
+            this.radialGradientBG1.Image.AccessibleDescription = resources.GetString("radialGradientBG1.Image.AccessibleDescription");
+            this.radialGradientBG1.Image.AccessibleName = resources.GetString("radialGradientBG1.Image.AccessibleName");
+            this.radialGradientBG1.Image.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radialGradientBG1.Image.Anchor")));
             this.radialGradientBG1.Image.BackColor = System.Drawing.Color.Transparent;
+            this.radialGradientBG1.Image.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radialGradientBG1.Image.BackgroundImage")));
+            this.radialGradientBG1.Image.BackgroundImageLayout = ((System.Windows.Forms.ImageLayout)(resources.GetObject("radialGradientBG1.Image.BackgroundImageLayout")));
+            this.radialGradientBG1.Image.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radialGradientBG1.Image.Dock")));
+            this.radialGradientBG1.Image.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Image.Font")));
+            this.radialGradientBG1.Image.ImageLocation = resources.GetString("radialGradientBG1.Image.ImageLocation");
             this.radialGradientBG1.Image.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radialGradientBG1.Image.ImeMode")));
             this.radialGradientBG1.Image.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Image.Location")));
             this.radialGradientBG1.Image.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MaximumSize")));
             this.radialGradientBG1.Image.MinimumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MinimumSize")));
             this.radialGradientBG1.Image.Name = "_Image";
+            this.radialGradientBG1.Image.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radialGradientBG1.Image.RightToLeft")));
             this.radialGradientBG1.Image.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.Size")));
+            this.radialGradientBG1.Image.SizeMode = ((System.Windows.Forms.PictureBoxSizeMode)(resources.GetObject("radialGradientBG1.Image.SizeMode")));
             this.radialGradientBG1.Image.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Image.TabIndex")));
             this.radialGradientBG1.Image.TabStop = false;
             this.radialGradientBG1.Image.Visible = ((bool)(resources.GetObject("radialGradientBG1.Image.Visible")));
+            this.radialGradientBG1.Image.WaitOnLoad = ((bool)(resources.GetObject("radialGradientBG1.Image.WaitOnLoad")));
             // 
             // 
             // 
+            this.radialGradientBG1.Label.AccessibleDescription = resources.GetString("radialGradientBG1.Label.AccessibleDescription");
+            this.radialGradientBG1.Label.AccessibleName = resources.GetString("radialGradientBG1.Label.AccessibleName");
+            this.radialGradientBG1.Label.Anchor = ((System.Windows.Forms.AnchorStyles)(resources.GetObject("radialGradientBG1.Label.Anchor")));
             this.radialGradientBG1.Label.AutoSize = ((bool)(resources.GetObject("radialGradientBG1.Label.AutoSize")));
             this.radialGradientBG1.Label.BackColor = System.Drawing.Color.Transparent;
+            this.radialGradientBG1.Label.BackgroundImageLayout = ((System.Windows.Forms.ImageLayout)(resources.GetObject("radialGradientBG1.Label.BackgroundImageLayout")));
+            this.radialGradientBG1.Label.Dock = ((System.Windows.Forms.DockStyle)(resources.GetObject("radialGradientBG1.Label.Dock")));
             this.radialGradientBG1.Label.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Label.Font")));
             this.radialGradientBG1.Label.ForeColor = System.Drawing.Color.Black;
+            this.radialGradientBG1.Label.ImageAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radialGradientBG1.Label.ImageAlign")));
+            this.radialGradientBG1.Label.ImageIndex = ((int)(resources.GetObject("radialGradientBG1.Label.ImageIndex")));
+            this.radialGradientBG1.Label.ImageKey = resources.GetString("radialGradientBG1.Label.ImageKey");
             this.radialGradientBG1.Label.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radialGradientBG1.Label.ImeMode")));
             this.radialGradientBG1.Label.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Label.Location")));
+            this.radialGradientBG1.Label.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.MaximumSize")));
             this.radialGradientBG1.Label.Name = "_Label";
+            this.radialGradientBG1.Label.RightToLeft = ((System.Windows.Forms.RightToLeft)(resources.GetObject("radialGradientBG1.Label.RightToLeft")));
             this.radialGradientBG1.Label.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.Size")));
             this.radialGradientBG1.Label.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Label.TabIndex")));
             this.radialGradientBG1.Label.Text = resources.GetString("radialGradientBG1.Label.Text");
-            resources.ApplyResources(this.radialGradientBG1, "radialGradientBG1");
+            this.radialGradientBG1.Label.TextAlign = ((System.Drawing.ContentAlignment)(resources.GetObject("radialGradientBG1.Label.TextAlign")));
             this.radialGradientBG1.Name = "radialGradientBG1";
             this.radialGradientBG1.OutsideColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(107)))), ((int)(((byte)(10)))));
             // 
             // _98DontForget
             // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.BackgroundImage = global::MissionPlanner.Properties.Resources.planebackground;
@@ -206,7 +229,6 @@ namespace MissionPlanner.Wizard
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "_98DontForget";
-            resources.ApplyResources(this, "$this");
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);

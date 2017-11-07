@@ -157,10 +157,7 @@
     <value>GPS: 3D dgps</value>
   </data>
   <data name="GPS5" xml:space="preserve">
-    <value>GPS: rtk Float</value>
-  </data>
-    <data name="GPS6" xml:space="preserve">
-    <value>GPS: rtk Fixed</value>
+    <value>GPS: 3D rtk</value>
   </data>
   <data name="GS" xml:space="preserve">
     <value>GS </value>

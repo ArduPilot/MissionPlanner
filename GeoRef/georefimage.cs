@@ -16,13 +16,8 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using System.Threading.Tasks;
-using GMap.NET;
-using GMap.NET.WindowsForms;
-using GMap.NET.WindowsForms.Markers;
 using MissionPlanner.Log;
 using MissionPlanner.Utilities;
-using Placemark = SharpKml.Dom.Placemark;
 
 namespace MissionPlanner.GeoRef
 {
@@ -31,14 +26,18 @@ namespace MissionPlanner.GeoRef
         private enum PROCESSING_MODE
         {
             TIME_OFFSET,
-            CAM_MSG, // via digital feedback
-            TRIG // camera was triggered
+            CAM_MSG,
+            TRIG
         }
 
         private const string PHOTO_FILES_FILTER = "*.jpg;*.tif";
         private const int JXL_ID_OFFSET = 10;
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        // CONSTS
+        private const float rad2deg = (float) (180/Math.PI);
+        private const float deg2rad = (float) (1.0/rad2deg);
 
         // Key = path of file, Value = object with picture information
         private Dictionary<string, PictureInformation> picturesInfo;
@@ -70,29 +69,6 @@ namespace MissionPlanner.GeoRef
             selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
-
-            myGMAP1.MapProvider = MainV2.instance.FlightData.gMapControl1.MapProvider;
-            myGMAP1.MinZoom = MainV2.instance.FlightData.gMapControl1.MinZoom;
-            myGMAP1.MaxZoom = MainV2.instance.FlightData.gMapControl1.MaxZoom;
-
-            GMapOverlay overlay = new GMapOverlay();
-            myGMAP1.Overlays.Add(overlay);
-
-            myGMAP1.OnMarkerClick += MyGMAP1_OnMarkerClick;
-        }
-
-        private void MyGMAP1_OnMarkerClick(GMapMarker item, MouseEventArgs e)
-        {
-            foreach (var pictureInformation in picturesInfo)
-            {
-                if (item.ToolTipText == Path.GetFileName(pictureInformation.Value.Path))
-                {
-                    //pictureBox1.Image = new Bitmap(pictureInformation.Value.Path);
-                    pictureBox1.ImageLocation = pictureInformation.Value.Path;
-                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-                    return;
-                }
-            }
         }
 
         /// <summary>
@@ -218,10 +194,6 @@ namespace MissionPlanner.GeoRef
 
                         cs.UpdateCurrentSettings(null, true, mine);
 
-                        // check for valid lock
-                        if (!(cs.gpsstatus >=3 || cs.gpsstatus2 >= 3))
-                            continue;
-
                         VehicleLocation location = new VehicleLocation();
                         location.Time = cs.datetime;
                         location.Lat = cs.lat;
@@ -269,7 +241,6 @@ namespace MissionPlanner.GeoRef
                             int latindex = sr.dflog.FindMessageOffset(gpstouse, "Lat");
                             int lngindex = sr.dflog.FindMessageOffset(gpstouse, "Lng");
                             int altindex = sr.dflog.FindMessageOffset(gpstouse, "Alt");
-                            int statusindex = sr.dflog.FindMessageOffset(gpstouse, "Status");
                             int raltindex = sr.dflog.FindMessageOffset(gpstouse, "RAlt");
                             if (raltindex == -1)
                                 raltindex = sr.dflog.FindMessageOffset(gpstouse, "RelAlt");
@@ -279,13 +250,6 @@ namespace MissionPlanner.GeoRef
                             try
                             {
                                 location.Time = item.time;
-
-                                if (statusindex != -1)
-                                {
-                                    // check for valid lock
-                                    if (double.Parse(item.items[statusindex], CultureInfo.InvariantCulture) < 3)
-                                        continue;
-                                }
                                 if (latindex != -1)
                                     location.Lat = double.Parse(item.items[latindex], CultureInfo.InvariantCulture);
                                 if (lngindex != -1)
@@ -997,16 +961,14 @@ namespace MissionPlanner.GeoRef
                 return null;
             }
 
-            // load all image info
-            Parallel.ForEach(files, filename => { getPhotoTime(filename); });
-
-            // sort
             Array.Sort(files, compareFileByPhotoTime);
 
             // Each file corresponds to one CAM message
             // We assume that picture names are in ascending order in time
-            Parallel.ForEach(files, filename =>
+            for (int i = 0; i < files.Length; i++)
             {
+                string filename = files[i];
+
                 PictureInformation p = new PictureInformation();
 
                 // Fill shot time in Picture
@@ -1018,7 +980,7 @@ namespace MissionPlanner.GeoRef
 
                 if (shotLocation == null)
                 {
-                    AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
                                              " NOT PROCESSED. No GPS match in the log file. Please take care\n");
                 }
                 else
@@ -1039,23 +1001,16 @@ namespace MissionPlanner.GeoRef
 
                     p.Path = filename;
 
-                    lock(this)
-                        picturesInformationTemp.Add(filename, p);
 
-                    AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
+                    picturesInformationTemp.Add(filename, p);
+
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) +
                                              " PROCESSED with GPS position found " +
                                              (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
                 }
-            });
+            }
 
             return picturesInformationTemp;
-        }
-
-        private void AppendText(string text)
-        {
-            var inv = new MethodInvoker(delegate { TXT_outputlog.AppendText(text); });
-
-            this.BeginInvoke(inv);
         }
 
         private int compareFileByPhotoTime(string x, string y)
@@ -1301,7 +1256,7 @@ namespace MissionPlanner.GeoRef
             JXL_StationIDs.Add(photoStationID);
 
             // conver tto rads
-            yaw = -yaw*MathHelper.deg2rad;
+            yaw = -yaw*deg2rad;
 
             swloctrim.WriteStartElement("PhotoStationRecord");
             swloctrim.WriteAttributeString("ID", (photoStationID).ToString("0000000"));
@@ -1420,12 +1375,12 @@ namespace MissionPlanner.GeoRef
 
         public static double radians(double val)
         {
-            return val*MathHelper.deg2rad;
+            return val*deg2rad;
         }
 
         public static double degrees(double val)
         {
-            return val*MathHelper.rad2deg;
+            return val*rad2deg;
         }
 
         private void newpos(ref double lat, ref double lon, double bearing, double distance)
@@ -1593,38 +1548,6 @@ namespace MissionPlanner.GeoRef
                 TXT_outputlog.AppendText("Error " + ex.ToString());
             }
 
-
-            GMapRoute route = new GMapRoute("vehicle");
-            if (vehicleLocations != null)
-            {
-                foreach (var vehicleLocation in vehicleLocations)
-                {
-                    route.Points.Add(new PointLatLngAlt(vehicleLocation.Value.Lat, vehicleLocation.Value.Lon,
-                        vehicleLocation.Value.AltAMSL));
-                }
-            }
-
-            myGMAP1.Overlays[0].Markers.Clear();
-            if (picturesInfo != null)
-            {
-                foreach (var pictureLocation in picturesInfo)
-                {
-                    myGMAP1.Overlays[0].Markers.Add(
-                        new GMarkerGoogle(new PointLatLngAlt(pictureLocation.Value.Lat, pictureLocation.Value.Lon,
-                            pictureLocation.Value.AltAMSL), GMarkerGoogleType.green)
-                        {
-                            IsHitTestVisible = true,
-                            ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                            ToolTipText = Path.GetFileName(pictureLocation.Value.Path)
-                        });
-                }
-            }
-
-            myGMAP1.Overlays[0].Routes.Clear();
-            myGMAP1.Overlays[0].Routes.Add(route);
-
-            myGMAP1.ZoomAndCenterRoutes(myGMAP1.Overlays[0].Id);
-
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
         }
@@ -1790,81 +1713,74 @@ namespace MissionPlanner.GeoRef
             {
                 TXT_outputlog.AppendText("GeoTagging " + Filename + "\n");
                 Application.DoEvents();
-                try
+                
+                using (Image Pic = Image.FromStream(ms))
                 {
-                    using (Image Pic = Image.FromStream(ms))
+                    PropertyItem[] pi = Pic.PropertyItems;
+
+                    pi[0].Id = 0x0004;
+                    pi[0].Type = 5;
+                    pi[0].Len = sizeof(ulong) * 3;
+                    pi[0].Value = coordtobytearray(dLong);
+                    Pic.SetPropertyItem(pi[0]);
+
+                    pi[0].Id = 0x0002;
+                    pi[0].Type = 5;
+                    pi[0].Len = sizeof(ulong) * 3;
+                    pi[0].Value = coordtobytearray(dLat);
+                    Pic.SetPropertyItem(pi[0]);
+
+                    pi[0].Id = 0x0006;
+                    pi[0].Type = 5;
+                    pi[0].Len = 8;
+                    pi[0].Value = new Rational(alt).GetBytes();
+                    Pic.SetPropertyItem(pi[0]);
+
+                    pi[0].Id = 1;
+                    pi[0].Len = 2;
+                    pi[0].Type = 2;
+
+                    if (dLat < 0)
                     {
-                        PropertyItem[] pi = Pic.PropertyItems;
-
-                        pi[0].Id = 0x0004;
-                        pi[0].Type = 5;
-                        pi[0].Len = sizeof (ulong)*3;
-                        pi[0].Value = coordtobytearray(dLong);
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 0x0002;
-                        pi[0].Type = 5;
-                        pi[0].Len = sizeof (ulong)*3;
-                        pi[0].Value = coordtobytearray(dLat);
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 0x0006;
-                        pi[0].Type = 5;
-                        pi[0].Len = 8;
-                        pi[0].Value = new Rational(alt).GetBytes();
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 1;
-                        pi[0].Len = 2;
-                        pi[0].Type = 2;
-
-                        if (dLat < 0)
-                        {
-                            pi[0].Value = new byte[] {(byte) 'S', 0};
-                        }
-                        else
-                        {
-                            pi[0].Value = new byte[] {(byte) 'N', 0};
-                        }
-
-                        Pic.SetPropertyItem(pi[0]);
-
-                        pi[0].Id = 3;
-                        pi[0].Len = 2;
-                        pi[0].Type = 2;
-                        if (dLong < 0)
-                        {
-                            pi[0].Value = new byte[] {(byte) 'W', 0};
-                        }
-                        else
-                        {
-                            pi[0].Value = new byte[] {(byte) 'E', 0};
-                        }
-                        Pic.SetPropertyItem(pi[0]);
-
-                        // Save file into Geotag folder
-                        string rootFolder = TXT_jpgdir.Text;
-                        string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
-
-                        string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
-                                                Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
-                                                Path.GetExtension(Filename);
-
-                        // Just in case
-                        if (File.Exists(outputfilename))
-                            File.Delete(outputfilename);
-
-                        ImageCodecInfo ici = GetImageCodec("image/jpeg");
-                        EncoderParameters eps = new EncoderParameters(1);
-                        eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
-
-                        Pic.Save(outputfilename);
+                        pi[0].Value = new byte[] { (byte)'S', 0 };
                     }
-                }
-                catch (Exception ex)
-                {
-                    TXT_outputlog.AppendText("There was a problem with image " + Filename);
-                    this.LogError(ex);
+                    else
+                    {
+                        pi[0].Value = new byte[] { (byte)'N', 0 };
+                    }
+
+                    Pic.SetPropertyItem(pi[0]);
+
+                    pi[0].Id = 3;
+                    pi[0].Len = 2;
+                    pi[0].Type = 2;
+                    if (dLong < 0)
+                    {
+                        pi[0].Value = new byte[] { (byte)'W', 0 };
+                    }
+                    else
+                    {
+                        pi[0].Value = new byte[] { (byte)'E', 0 };
+                    }
+                    Pic.SetPropertyItem(pi[0]);
+
+                    // Save file into Geotag folder
+                    string rootFolder = TXT_jpgdir.Text;
+                    string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
+
+                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar +
+                                            Path.GetFileNameWithoutExtension(Filename) + "_geotag" +
+                                            Path.GetExtension(Filename);
+
+                    // Just in case
+                    if (File.Exists(outputfilename))
+                        File.Delete(outputfilename);
+
+                    ImageCodecInfo ici = GetImageCodec("image/jpeg");
+                    EncoderParameters eps = new EncoderParameters(1);
+                    eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 100L);
+
+                    Pic.Save(outputfilename);
                 }
             }
         }

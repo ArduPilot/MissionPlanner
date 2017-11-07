@@ -17,21 +17,6 @@ namespace MissionPlanner.Controls
 
         public static event EventHandler TextChanged;
 
-        public static DialogResult Show(string title, string promptText, ref int value, bool password = false)
-        {
-            string answer = value.ToString();
-            var dialog = Show(title, promptText, ref answer, password);
-            value = int.Parse(answer);
-            return dialog;
-        }
-
-        public static DialogResult Show(string title, string promptText, ref double value, bool password = false)
-        {
-            string answer = value.ToString();
-            var dialog = Show(title, promptText, ref answer, password);
-            value = double.Parse(answer);
-            return dialog;
-        }
         //from http://www.csharp-examples.net/inputbox/
         public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
         {

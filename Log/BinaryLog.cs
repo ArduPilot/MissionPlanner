@@ -818,7 +818,8 @@ namespace MissionPlanner.Log
                 }
             }
 
-            return line.ToString().Trim() + "\r\n";
+            line.Append("\r\n");
+            return line.ToString();
         }
     }
 }

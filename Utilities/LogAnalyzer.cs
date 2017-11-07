@@ -22,12 +22,6 @@ namespace MissionPlanner.Utilities
 
         public static string CheckLogFile(string FileName)
         {
-            if (Program.WindowsStoreApp)
-            {
-                CustomMessageBox.Show(Strings.Not_available_when_used_as_a_windows_store_app);
-                return "";
-            }
-
             var dir = Settings.GetDataDirectory() + "LogAnalyzer" +
                       Path.DirectorySeparatorChar;
 
@@ -65,11 +59,8 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    if (!File.Exists(runner))
-                    {
-                        CustomMessageBox.Show("Failed to download LogAnalyzer");
-                        return "";
-                    }
+                    CustomMessageBox.Show("Failed to download LogAnalyzer");
+                    return "";
                 }
 
             }

@@ -67,7 +67,6 @@
             this.zedGraphControl1.Size = new System.Drawing.Size(255, 238);
             this.zedGraphControl1.TabIndex = 0;
             this.zedGraphControl1.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl1.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // BUT_run
             // 
@@ -132,7 +131,6 @@
             this.zedGraphControl6.Size = new System.Drawing.Size(257, 239);
             this.zedGraphControl6.TabIndex = 5;
             this.zedGraphControl6.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl6.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // zedGraphControl5
             // 
@@ -152,7 +150,6 @@
             this.zedGraphControl5.Size = new System.Drawing.Size(255, 239);
             this.zedGraphControl5.TabIndex = 4;
             this.zedGraphControl5.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl5.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // zedGraphControl4
             // 
@@ -172,7 +169,6 @@
             this.zedGraphControl4.Size = new System.Drawing.Size(255, 239);
             this.zedGraphControl4.TabIndex = 3;
             this.zedGraphControl4.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl4.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // zedGraphControl3
             // 
@@ -192,7 +188,6 @@
             this.zedGraphControl3.Size = new System.Drawing.Size(257, 238);
             this.zedGraphControl3.TabIndex = 2;
             this.zedGraphControl3.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl3.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // zedGraphControl2
             // 
@@ -212,7 +207,6 @@
             this.zedGraphControl2.Size = new System.Drawing.Size(255, 238);
             this.zedGraphControl2.TabIndex = 1;
             this.zedGraphControl2.PointValueEvent += new ZedGraph.ZedGraphControl.PointValueHandler(this.zedGraphControl_PointValueEvent);
-            this.zedGraphControl2.MouseMoveEvent += new ZedGraph.ZedGraphControl.ZedMouseEventHandler(this.zedGraphControl1_MouseMoveEvent);
             // 
             // NUM_bins
             // 
@@ -284,6 +278,7 @@
             // 
             // fftui
             // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(809, 542);
             this.Controls.Add(this.but_fftimu);

@@ -115,11 +115,11 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                IMU_t IMU = new IMU_t();
-                ATT_t ATT = new ATT_t();
-
                 foreach (var item in logdata.GetEnumeratorType(msglist.ToArray()))
                 {
+                    IMU_t IMU = new IMU_t();
+                    ATT_t ATT = new ATT_t();
+
                     if (item.msgtype == "ATT")
                     {
                         ATT.Roll = double.Parse(item.items[dflog.FindMessageOffset("ATT", "Roll")]);

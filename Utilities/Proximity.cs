@@ -109,7 +109,7 @@ namespace MissionPlanner.Utilities
 
                 Pen redpen = new Pen(Color.Red, 3);
                 float move = 5;
-                var font = new Font(Control.DefaultFont.FontFamily, Control.DefaultFont.Size+2, FontStyle.Bold);
+                var font = new Font(Control.DefaultFont.FontFamily, Control.DefaultFont.Size, FontStyle.Bold);
 
                 switch (temp.Orientation)
                 {

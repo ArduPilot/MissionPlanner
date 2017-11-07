@@ -11,7 +11,6 @@ using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
 using GMap.NET.Projections;
-using MathHelper = MissionPlanner.Utilities.MathHelper;
 
 namespace MissionPlanner.Controls
 {
@@ -195,6 +194,8 @@ namespace MissionPlanner.Controls
             }
         }
         */
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
 
         public Vector3 Normal(Vector3 a, Vector3 b, Vector3 c)
         {
@@ -325,7 +326,7 @@ namespace MissionPlanner.Controls
 
             otherzoomlevel = zoom - 4;
 
-            //Console.WriteLine("zoom {0}", zoom);
+            Console.WriteLine("zoom {0}", zoom);
 
             // update once per seconds - we only read from disk, so need to let cahce settle
             if (lastrefresh.AddSeconds(0.5) < DateTime.Now)
@@ -351,12 +352,11 @@ namespace MissionPlanner.Controls
 
             float screenscale = this.Width/(float) this.Height;
 
-            if(!Context.IsCurrent)
-                MakeCurrent();
+            MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView((float)(120*MathHelper.deg2rad), screenscale, 0.00001f,
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(120*deg2rad, screenscale, 0.00001f,
                 (float) step*20000);
             GL.LoadMatrix(ref projection);
 
@@ -365,9 +365,9 @@ namespace MissionPlanner.Controls
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ((float)(rpy.X*MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X*deg2rad));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((float)((rpy.Y - 15)*-MathHelper.deg2rad)));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((rpy.Y - 15)*-deg2rad));
 
             GL.LoadMatrix(ref modelview);
 
@@ -585,7 +585,7 @@ namespace MissionPlanner.Controls
                 this.SwapBuffers();
 
 
-                //Context.MakeCurrent(null);
+                Context.MakeCurrent(null);
             }
             catch
             {

@@ -33,7 +33,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigTradHeli));
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.fbl_modeFBL = new MavlinkCheckBox();
+            this.fbl_modeFBL = new System.Windows.Forms.CheckBox();
             this.H_SWASH_TYPE = new System.Windows.Forms.RadioButton();
             this.CCPM = new System.Windows.Forms.RadioButton();
             this.label41 = new System.Windows.Forms.Label();
@@ -54,13 +54,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.HS4_MIN = new System.Windows.Forms.TextBox();
             this.HS4_MAX = new System.Windows.Forms.TextBox();
             this.label40 = new System.Windows.Forms.Label();
-            this.HS4_REV = new MavlinkCheckBox();
+            this.HS4_REV = new System.Windows.Forms.CheckBox();
             this.label43 = new System.Windows.Forms.Label();
-            this.HS4_TRIM = new MavlinkNumericUpDown();
+            this.HS4_TRIM = new System.Windows.Forms.NumericUpDown();
             this.label44 = new System.Windows.Forms.Label();
-            this.HS3_TRIM = new MavlinkNumericUpDown();
-            this.HS2_TRIM = new MavlinkNumericUpDown();
-            this.HS1_TRIM = new MavlinkNumericUpDown();
+            this.HS3_TRIM = new System.Windows.Forms.NumericUpDown();
+            this.HS2_TRIM = new System.Windows.Forms.NumericUpDown();
+            this.HS1_TRIM = new System.Windows.Forms.NumericUpDown();
             this.label39 = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
@@ -73,9 +73,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.H_SV3_POS = new System.Windows.Forms.TextBox();
             this.H_SV2_POS = new System.Windows.Forms.TextBox();
             this.H_SV1_POS = new System.Windows.Forms.TextBox();
-            this.HS3_REV = new MavlinkCheckBox();
-            this.HS2_REV = new MavlinkCheckBox();
-            this.HS1_REV = new MavlinkCheckBox();
+            this.HS3_REV = new System.Windows.Forms.CheckBox();
+            this.HS2_REV = new System.Windows.Forms.CheckBox();
+            this.HS1_REV = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.H_COLYAW = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -203,7 +203,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.fbl_modeFBL, "fbl_modeFBL");
             this.fbl_modeFBL.Name = "fbl_modeFBL";
             this.fbl_modeFBL.UseVisualStyleBackColor = true;
-            
+            this.fbl_modeFBL.CheckedChanged += new System.EventHandler(this.fbl_modeFBL_CheckedChanged);
             // 
             // H_SWASH_TYPE
             // 
@@ -354,7 +354,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.HS4_REV, "HS4_REV");
             this.HS4_REV.Name = "HS4_REV";
             this.HS4_REV.UseVisualStyleBackColor = true;
-    
+            this.HS4_REV.CheckedChanged += new System.EventHandler(this.HS4_REV_CheckedChanged);
             // 
             // label43
             // 
@@ -380,7 +380,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0,
             0});
-  
+            this.HS4_TRIM.ValueChanged += new System.EventHandler(this.HS4_TRIM_ValueChanged);
             // 
             // label44
             // 
@@ -406,7 +406,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0,
             0});
- 
+            this.HS3_TRIM.ValueChanged += new System.EventHandler(this.HS3_TRIM_ValueChanged);
             // 
             // HS2_TRIM
             // 
@@ -427,7 +427,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0,
             0});
-    
+            this.HS2_TRIM.ValueChanged += new System.EventHandler(this.HS2_TRIM_ValueChanged);
             // 
             // HS1_TRIM
             // 
@@ -448,7 +448,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             0,
             0,
             0});
-      
+            this.HS1_TRIM.ValueChanged += new System.EventHandler(this.HS1_TRIM_ValueChanged);
             // 
             // label39
             // 
@@ -518,18 +518,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.HS3_REV, "HS3_REV");
             this.HS3_REV.Name = "HS3_REV";
             this.HS3_REV.UseVisualStyleBackColor = true;
-          // 
+            this.HS3_REV.CheckedChanged += new System.EventHandler(this.HS3_REV_CheckedChanged);
+            // 
             // HS2_REV
             // 
             resources.ApplyResources(this.HS2_REV, "HS2_REV");
             this.HS2_REV.Name = "HS2_REV";
             this.HS2_REV.UseVisualStyleBackColor = true;
-           // 
+            this.HS2_REV.CheckedChanged += new System.EventHandler(this.HS2_REV_CheckedChanged);
+            // 
             // HS1_REV
             // 
             resources.ApplyResources(this.HS1_REV, "HS1_REV");
             this.HS1_REV.Name = "HS1_REV";
-    
+            this.HS1_REV.UseVisualStyleBackColor = true;
+            this.HS1_REV.CheckedChanged += new System.EventHandler(this.HS1_REV_CheckedChanged);
             // 
             // label17
             // 
@@ -1369,9 +1372,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.TextBox HS4_MIN;
         private System.Windows.Forms.TextBox HS4_MAX;
         private System.Windows.Forms.Label label40;
-        private MavlinkNumericUpDown HS3_TRIM;
-        private MavlinkNumericUpDown HS2_TRIM;
-        private MavlinkNumericUpDown HS1_TRIM;
+        private System.Windows.Forms.NumericUpDown HS3_TRIM;
+        private System.Windows.Forms.NumericUpDown HS2_TRIM;
+        private System.Windows.Forms.NumericUpDown HS1_TRIM;
         private System.Windows.Forms.Label label39;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.Label label37;
@@ -1384,9 +1387,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.TextBox H_SV3_POS;
         private System.Windows.Forms.TextBox H_SV2_POS;
         private System.Windows.Forms.TextBox H_SV1_POS;
-        private MavlinkCheckBox HS3_REV;
-        private MavlinkCheckBox HS2_REV;
-        private MavlinkCheckBox HS1_REV;
+        private System.Windows.Forms.CheckBox HS3_REV;
+        private System.Windows.Forms.CheckBox HS2_REV;
+        private System.Windows.Forms.CheckBox HS1_REV;
         private System.Windows.Forms.Label label17;
         private HorizontalProgressBar2 HS4;
         private VerticalProgressBar2 HS3;
@@ -1394,9 +1397,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.BindingSource currentStateBindingSource;
         private System.Windows.Forms.Label label44;
         private System.Windows.Forms.Label label43;
-        private MavlinkNumericUpDown HS4_TRIM;
-        private MavlinkCheckBox HS4_REV;
-        private MavlinkCheckBox fbl_modeFBL;
+        private System.Windows.Forms.NumericUpDown HS4_TRIM;
+        private System.Windows.Forms.CheckBox HS4_REV;
+        private System.Windows.Forms.CheckBox fbl_modeFBL;
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.MavlinkNumericUpDown H_COLYAW;
         private System.Windows.Forms.Panel panel1;

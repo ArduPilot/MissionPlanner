@@ -49,7 +49,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 but.Click += but_Click;
                 but.Tag = a;
 
-                groupBox1.Controls.Add(but);
+                Controls.Add(but);
 
                 y += 25;
             }
@@ -59,7 +59,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAll;
-            groupBox1.Controls.Add(but);
+            Controls.Add(but);
 
             y += 39;
 
@@ -68,7 +68,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_StopAll;
-            groupBox1.Controls.Add(but);
+            Controls.Add(but);
 
             y += 39;
 
@@ -77,16 +77,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             but.Location = new Point(x, y);
             but.Size = new Size(75, 37);
             but.Click += but_TestAllSeq;
-            groupBox1.Controls.Add(but);
-
-            Utilities.ThemeManager.ApplyThemeTo(this);
+            Controls.Add(but);
         }
 
         private int get_motormax()
         {
             var motormax = 8;
 
-            var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE") || MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE");
+            var enable = MainV2.comPort.MAV.param.ContainsKey("FRAME") || MainV2.comPort.MAV.param.ContainsKey("Q_FRAME_TYPE");
 
             if (!enable)
             {
@@ -118,15 +116,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 frame_type = (int)MainV2.comPort.MAV.param["Q_FRAME_TYPE"].Value;
             }
-            else if (MainV2.comPort.MAV.param.ContainsKey("FRAME"))
+            else
             {
                 type = MainV2.comPort.MAV.aptype;
                 frame_type = (int)MainV2.comPort.MAV.param["FRAME"].Value;
-            }
-            else if (MainV2.comPort.MAV.param.ContainsKey("FRAME_TYPE"))
-            {
-                type = MainV2.comPort.MAV.aptype;
-                frame_type = (int)MainV2.comPort.MAV.param["FRAME_TYPE"].Value;
             }
 
             var motors = new Motor[0];

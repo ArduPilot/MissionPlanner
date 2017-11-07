@@ -1,6 +1,4 @@
-﻿using MissionPlanner.Controls;
-
-namespace MissionPlanner.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigRawParams
     {
@@ -42,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.BUT_load = new MissionPlanner.Controls.MyButton();
-            this.Params = new MyDataGridView();
+            this.Params = new System.Windows.Forms.DataGridView();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
@@ -242,7 +240,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyButton BUT_writePIDS;
         private Controls.MyButton BUT_save;
         private Controls.MyButton BUT_load;
-        private Controls.MyDataGridView Params;
+        private System.Windows.Forms.DataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
         private Controls.MyButton BUT_paramfileload;

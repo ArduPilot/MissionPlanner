@@ -16,7 +16,6 @@ namespace MissionPlanner.Utilities
     {
         public fftui()
         {
-            this.DoubleBuffered = true;
             InitializeComponent();
         }
 
@@ -352,9 +351,6 @@ namespace MissionPlanner.Utilities
 
                         double time = double.Parse(item.items[offsetTime])/1000.0;
 
-                        if (time < alldata[sensorno].lasttime)
-                            continue;
-
                         if (time != alldata[sensorno].lasttime)
                             alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
                                                           (time - alldata[sensorno].lasttime)*0.01;
@@ -376,9 +372,6 @@ namespace MissionPlanner.Utilities
                         int offsetTime = file.dflog.FindMessageOffset(item.msgtype, "TimeUS");
 
                         double time = double.Parse(item.items[offsetTime])/1000.0;
-
-                        if(time < alldata[sensorno].lasttime)
-                            continue;
 
                         if (time != alldata[sensorno].lasttime)
                             alldata[sensorno].timedelta = alldata[sensorno].timedelta*0.99 +
@@ -629,23 +622,6 @@ namespace MissionPlanner.Utilities
                     controlindex++;
                 }
             }
-        }
-
-        double prevMouseX = 0; 
-        double prevMouseY = 0;  
-
-        private bool zedGraphControl1_MouseMoveEvent(ZedGraphControl sender, MouseEventArgs e)
-        {
-            // debounce for mousemove and tooltip label
-
-            if (e.X == prevMouseX && e.Y == prevMouseY)
-                return true;
-
-            prevMouseX = e.X;
-            prevMouseY = e.Y;
-
-            // not handled
-            return false;
         }
     }
 }

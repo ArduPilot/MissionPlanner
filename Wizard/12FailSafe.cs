@@ -38,9 +38,8 @@ namespace MissionPlanner.Wizard
                 {
                     try
                     {
-                        if (MainV2.comPort.MAV.param[item] != null)
-                            createValueControl(new KeyValuePair<string, string>(item,
-                                MainV2.comPort.MAV.param[item].ToString()));
+                        createValueControl(new KeyValuePair<string, string>(item,
+                            MainV2.comPort.MAV.param[item].ToString()));
                     }
                     catch
                     {
@@ -53,8 +52,7 @@ namespace MissionPlanner.Wizard
                 {
                     try
                     {
-                        if (MainV2.comPort.MAV.param[item] != null)
-                            createValueControl(new KeyValuePair<string, string>(item, ""));
+                        createValueControl(new KeyValuePair<string, string>(item, ""));
                     }
                     catch
                     {

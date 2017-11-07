@@ -3,11 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Timers;
 using System.Windows.Forms;
 using BrightIdeasSoftware;
 using log4net;
@@ -216,7 +214,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_compare_Click(object sender, EventArgs e)
         {
-            var param2 = new Dictionary<string, double>();
+            var param2 = new Hashtable();
 
             using (var ofd = new OpenFileDialog
             {
@@ -425,37 +423,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (searchfor.Length >= 2 || searchfor.Length == 0)
             {
-                var expanded = Params.ExpandedObjects.OfType<object>().Where((o, i) =>
-                {
-                    var count = Params.VirtualListDataSource.GetObjectCount();
-                    for (int a = 0; a < count; a++)
-                    {
-                        var obj = Params.VirtualListDataSource.GetNthObject(a);
-                        if (obj == o)
-                            return true;
-                    }
-
-                    return false;
-                }) .ToArray();
-
-                Params.Visible = false;
                 Params.UseFiltering = false;
-                Params.ExpandAll();
                 Params.ModelFilter = TextMatchFilter.Regex(Params, searchfor.ToLower());
                 Params.DefaultRenderer = new HighlightTextRenderer((TextMatchFilter) Params.ModelFilter);
                 Params.UseFiltering = true;
-
-                if (Params.Items.Count > 0)
-                {
-                    if(searchfor.Length == 0)
-                        Params.CollapseAll();
-
-                    foreach (var row in expanded)
-                    {
-                        Params.Expand(row);
-                    }
-                }
-                Params.Visible = true;
             }
         }
 
@@ -484,7 +455,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 // no activate the user needs to click write.
                 //this.Activate();
-            } 
+            }
             catch (Exception ex)
             {
                 CustomMessageBox.Show("Failed to load file.\n" + ex);
@@ -622,24 +593,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public string Value;
         }
 
-        private System.Timers.Timer filterTimer = new System.Timers.Timer();
-
         private void txt_search_TextChanged(object sender, EventArgs e)
         {
-            filterTimer.Elapsed -= FilterTimerOnElapsed;
-            filterTimer.Stop();
-            filterTimer.Interval = 500;
-            filterTimer.Elapsed += FilterTimerOnElapsed;
-            filterTimer.Start();
-        }
-
-        private void FilterTimerOnElapsed(object sender, ElapsedEventArgs elapsedEventArgs)
-        {
-            filterTimer.Stop();
-            Invoke((Action)delegate
-            {
-                filterList(txt_search.Text);
-            });
+            filterList(txt_search.Text);
         }
 
         private void Params_CellClick(object sender, CellClickEventArgs e)

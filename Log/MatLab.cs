@@ -76,28 +76,7 @@ namespace MissionPlanner.Log
         {
             MLCell cell = new MLCell(name, new int[] {names.Length, 1});
             for (int i = 0; i < names.Length; i++)
-                cell[i] = new MLChar(null, names[i].Trim());
-            return cell;
-        }
-
-        private static MLCell CreateCellArrayCustom(string name, string[] items)
-        {
-            var cell = new MLCell(name, new int[] { items.Length, 1 });
-            int i = 0;
-            foreach (var item in items)
-            {
-                double ans = 0;
-                if (double.TryParse(items[i], out ans))
-                {
-                    cell[i] = new MLDouble(null, new double[] { ans }, 1);
-                    i++;
-                    continue;
-                }
-
-                cell[i] = new MLChar(null, (string)items[i].Trim());
-
-                i++;
-            }
+                cell[i] = new MLChar(null, names[i]);
             return cell;
         }
 
@@ -110,8 +89,6 @@ namespace MissionPlanner.Log
                 List<MLArray> mlList = new List<MLArray>();
                 // store data to putinto the arrays
                 Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
-
-                Dictionary<string, List<MLCell>> dataCell = new Dictionary<string, List<MLCell>>();
                 // store line item lengths
                 Hashtable len = new Hashtable();
                 // store whats we have seen in the log
@@ -127,11 +104,8 @@ namespace MissionPlanner.Log
                 foreach (var line in colbuf)
                 {
                     a++;
-                    if (a%1000 == 0)
-                    {
-                        Console.Write(a + "/" + colbuf.Count + "\r");
-                        MissionPlanner.Controls.Loading.ShowLoading("Processing "+a + "/" + colbuf.Count);
-                    }
+                    if (a%100 == 0)
+                        Console.Write(a + "\r");
 
                     string strLine = line.Replace(", ", ",");
                     strLine = strLine.Replace(": ", ":");
@@ -146,7 +120,7 @@ namespace MissionPlanner.Log
                         names[0] = "LineNo";
                         Array.ConstrainedCopy(items, 5, names, 1, names.Length - 1);
 
-                        MLArray format = CreateCellArray(items[3].Trim() + "_label", names);
+                        MLArray format = CreateCellArray(items[3] + "_label", names);
 
                         if (items[3] == "PARM")
                         {
@@ -162,7 +136,7 @@ namespace MissionPlanner.Log
                     {
                         try
                         {
-                            param[items[colbuf.dflog.FindMessageOffset("PARM", "Name")]] = double.Parse(items[colbuf.dflog.FindMessageOffset("PARM", "Value")], CultureInfo.InvariantCulture);
+                            param[items[2]] = double.Parse(items[3], CultureInfo.InvariantCulture);
                         }
                         catch
                         {
@@ -180,17 +154,8 @@ namespace MissionPlanner.Log
                         if (items.Length != (int) len[items[0]])
                             continue;
 
-                        // mark it as being seen
+                        // make it as being seen
                         seen[items[0]] = 1;
-                        if (items[0].ToLower().Equals("msg"))
-                        {
-                            var cells = CreateCellArrayCustom(items[0], items);
-
-                            if (!dataCell.ContainsKey(items[0]))
-                                dataCell[items[0]] = new List<MLCell>();
-
-                            dataCell[items[0]].Add(cells);
-                        }
 
                         double[] dbarray = new double[items.Length];
 
@@ -216,22 +181,20 @@ namespace MissionPlanner.Log
                     if (a%2000000 == 0 && !Environment.Is64BitProcess)
                     {
                         GC.Collect();
-                        DoWrite(fn + "-" + a, data, dataCell, param, mlList, seen);
+                        DoWrite(fn + "-" + a, data, param, mlList, seen);
                         mlList.Clear();
                         data.Clear();
-                        dataCell.Clear();
                         param.Clear();
                         seen.Clear();
                         GC.Collect();
                     }
                 }
 
-                MissionPlanner.Controls.Loading.Close();
-                DoWrite(fn + "-" + a, data, dataCell, param, mlList, seen);
+                DoWrite(fn + "-" + a, data, param, mlList, seen);
             }
         }
 
-        static void DoWrite(string fn, Dictionary<string, DoubleList> data, Dictionary<string, List<MLCell>> dataCell, SortedDictionary<string, double> param,
+        static void DoWrite(string fn, Dictionary<string, DoubleList> data, SortedDictionary<string, double> param,
             List<MLArray> mlList, Hashtable seen)
         {
             log.Info("DoWrite start " + (GC.GetTotalMemory(false)/1024.0/1024.0));
@@ -241,24 +204,7 @@ namespace MissionPlanner.Log
                 double[][] temp = item.Value.ToArray();
                 MLArray dbarray = new MLDouble(item.Key, temp);
                 mlList.Add(dbarray);
-                log.Info("DoWrite Double " + item.Key + " " + (GC.GetTotalMemory(false)/1024.0/1024.0));
-            }
-
-            // datacell contains rows
-            foreach (var item in dataCell)
-            {
-                // create msg table
-                MLCell temp1 = new MLCell("",new int[] {1 , item.Value.Count});
-                int a = 0;
-                // add rows to msg table
-                foreach (var mlCell in item.Value)
-                {
-                    temp1[a] = item.Value[a];
-                    a++;
-                }
-                // add table to masterlist
-                mlList.Add(temp1);
-                log.Info("DoWrite Cell " + item.Key + " " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));            
+                log.Info("DoWrite " + item.Key + " " + (GC.GetTotalMemory(false)/1024.0/1024.0));
             }
 
             log.Info("DoWrite mllist " + (GC.GetTotalMemory(false)/1024.0/1024.0));
@@ -448,11 +394,6 @@ namespace MissionPlanner.Log
             return answer;
         }
 
-        /// <summary>
-        /// File backed list
-        /// One file for data (double)
-        /// One file for offsets (long)
-        /// </summary>
         public class DoubleList : IDisposable
         {
             Stream file;

@@ -36,7 +36,7 @@ namespace MissionPlanner.Swarm
             get { return this.lbl_guided; }
         }
 
-        public Label Location1
+        public Label Location
         {
             get { return this.lbl_loc; }
         }

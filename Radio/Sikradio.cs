@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -529,7 +528,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        //if (item.StartsWith("S"))
+                        if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -548,7 +547,7 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                "RT" + values[0].Trim() + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -558,7 +557,7 @@ S15: MAX_WINDOW=131
                                                 if (values[1] == "ENCRYPTION_LEVEL")
                                                 {
                                                     // set this on the local radio as well.
-                                                    doCommand(comPort, "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                    doCommand(comPort, "AT" + values[0].Trim() + "=" + value + "\r");
                                                     // both radios should now be using the default key
                                                 }
                                                 else
@@ -576,7 +575,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "RT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -593,7 +592,7 @@ S15: MAX_WINDOW=131
                                         if (controls[0].Text != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "RTS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                                "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -622,7 +621,7 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        //if (item.StartsWith("S"))
+                        if (item.StartsWith("S"))
                         {
                             var values = item.Split(':', '=');
 
@@ -641,7 +640,7 @@ S15: MAX_WINDOW=131
                                         if (value != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + value + "\r");
+                                                "AT" + values[0].Trim() + "=" + value + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -660,7 +659,7 @@ S15: MAX_WINDOW=131
                                         if (((ComboBox) controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + ((ComboBox) controls[0]).SelectedValue +
+                                                "AT" + values[0].Trim() + "=" + ((ComboBox) controls[0]).SelectedValue +
                                                 "\r");
 
                                             if (cmdanswer.Contains("OK"))
@@ -677,7 +676,7 @@ S15: MAX_WINDOW=131
                                         if (controls[0].Text != values[2].Trim())
                                         {
                                             var cmdanswer = doCommand(comPort,
-                                                "ATS" + values[0].Trim().TrimStart('S') + "=" + controls[0].Text + "\r");
+                                                "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
                                             if (cmdanswer.Contains("OK"))
                                             {
@@ -823,31 +822,14 @@ S15: MAX_WINDOW=131
 
                     ATI.Text = doCommand(comPort, "ATI");
 
-                    NumberStyles style = NumberStyles.Any;
-
-                    var freqstring = doCommand(comPort, "ATI3").Trim();
-
-                    if(freqstring.ToLower().Contains('x'))
-                        style = NumberStyles.AllowHexSpecifier;
-
                     var freq =
                         (Uploader.Frequency)
-                            Enum.Parse(typeof (Uploader.Frequency),
-                                int.Parse(freqstring.ToLower().Replace("x", ""), style).ToString());
-
-                    ATI3.Text = freq.ToString();
-
-                    style = NumberStyles.Any;
-
-                    var boardstring = doCommand(comPort, "ATI2").Trim();
-
-                    if (boardstring.ToLower().Contains('x'))
-                        style = NumberStyles.AllowHexSpecifier;
-
+                            Enum.Parse(typeof (Uploader.Frequency), doCommand(comPort, "ATI3"));
                     var board =
                         (Uploader.Board)
-                            Enum.Parse(typeof (Uploader.Board),
-                                int.Parse(boardstring.ToLower().Replace("x", ""), style).ToString());
+                            Enum.Parse(typeof (Uploader.Board), doCommand(comPort, "ATI2"));
+
+                    ATI3.Text = freq.ToString();
 
                     ATI2.Text = board.ToString();
 
@@ -899,9 +881,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        //if (item.StartsWith("S"))
+                        if (item.StartsWith("S"))
                         {
-                            var values = item.Split(new char[] { ':', '='}, StringSplitOptions.RemoveEmptyEntries);
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {
@@ -967,9 +949,9 @@ S15: MAX_WINDOW=131
 
                     foreach (var item in items)
                     {
-                        //if (item.StartsWith("S"))
+                        if (item.StartsWith("S"))
                         {
-                            var values = item.Split(new char[] { ':', '=' }, StringSplitOptions.RemoveEmptyEntries);
+                            var values = item.Split(':', '=');
 
                             if (values.Length == 3)
                             {

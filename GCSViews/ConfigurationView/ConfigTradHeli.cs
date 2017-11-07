@@ -97,6 +97,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     H_SWASH_TYPE.Checked = !CCPM.Checked;
                 }
 
+                if (MainV2.comPort.MAV.param.ContainsKey("H_FLYBAR_MODE"))
+                {
+                    fbl_modeFBL.Checked = MainV2.comPort.MAV.param["H_FLYBAR_MODE"].ToString() == "0" ? true : false;
+                }
+
                 foreach (string value in MainV2.comPort.MAV.param.Keys)
                 {
                     if (value == "")
@@ -132,16 +137,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
 
-                HS1_REV.setup(-1, 1, new string[] {"HS1_REV", "H_SV1_REV"}, MainV2.comPort.MAV.param);
-                HS2_REV.setup(-1, 1, new string[] { "HS2_REV", "H_SV2_REV" }, MainV2.comPort.MAV.param);
-                HS3_REV.setup(-1, 1, new string[] { "HS3_REV", "H_SV3_REV" }, MainV2.comPort.MAV.param);
-                HS4_REV.setup(-1, 1, new string[] { "HS4_REV", "H_SV4_REV" }, MainV2.comPort.MAV.param);
-                fbl_modeFBL.setup(0, 1, new string[] { "H_FLYBAR_MODE" }, MainV2.comPort.MAV.param);
-
-                HS1_TRIM.setup(800, 2200, 1, 1, new string[] { "HS1_TRIM", "H_SV1_TRIM"}, MainV2.comPort.MAV.param);
-                HS2_TRIM.setup(800, 2200, 1, 1, new string[] { "HS2_TRIM", "H_SV2_TRIM" }, MainV2.comPort.MAV.param);
-                HS3_TRIM.setup(800, 2200, 1, 1, new string[] { "HS3_TRIM", "H_SV3_TRIM" }, MainV2.comPort.MAV.param);
-                HS4_TRIM.setup(800, 2200, 1, 1, new string[] { "HS4_TRIM", "H_SV4_TRIM" }, MainV2.comPort.MAV.param);
+                HS1_REV.Checked = MainV2.comPort.MAV.param["HS1_REV"].ToString() == "-1";
+                HS2_REV.Checked = MainV2.comPort.MAV.param["HS2_REV"].ToString() == "-1";
+                HS3_REV.Checked = MainV2.comPort.MAV.param["HS3_REV"].ToString() == "-1";
+                HS4_REV.Checked = MainV2.comPort.MAV.param["HS4_REV"].ToString() == "-1";
             }
             catch
             {
@@ -391,7 +390,63 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show("Set " + ((TextBox) sender).Name + " failed");
             }
         }
-        
+
+        private void HS1_REV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+        }
+
+        private void HS2_REV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+        }
+
+        private void HS3_REV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+        }
+
+        private void HS4_REV_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((CheckBox) sender).Name, ((CheckBox) sender).Checked == false ? 1.0f : -1.0f);
+        }
+
+        private void HS1_TRIM_ValueChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+        }
+
+        private void HS2_TRIM_ValueChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+        }
+
+        private void HS3_TRIM_ValueChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+        }
+
+        private void HS4_TRIM_ValueChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.comPort.setParam(((NumericUpDown) sender).Name, (float) ((NumericUpDown) sender).Value);
+        }
+
 
         private void GYR_GAIN__Validating(object sender, CancelEventArgs e)
         {
@@ -460,7 +515,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
-        
+
+        private void fbl_modeFBL_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_FLYBAR_MODE"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware);
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_FLYBAR_MODE", fbl_modeFBL.Checked ? 0 : 1);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show("Set H_FLYBAR_MODE Failed");
+            }
+        }
+
         private void myButtonH_SV_MAN_Click(object sender, EventArgs e)
         {
             try

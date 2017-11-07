@@ -36,7 +36,7 @@ namespace MissionPlanner.Log
         Model runmodel = new Model();
         List<string> modelist = new List<string>();
 
-        SortedDictionary<string, string> paramlist = new SortedDictionary<string, string>();
+        Dictionary<string, string> paramlist = new Dictionary<string, string>();
 
         List<Core.Geometry.Point3D>[] position = new List<Core.Geometry.Point3D>[200];
         int positionindex = 0;

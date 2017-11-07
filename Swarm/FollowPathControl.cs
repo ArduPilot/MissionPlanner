@@ -23,21 +23,9 @@ namespace MissionPlanner.Swarm
 
             SwarmInterface = new FollowPath();
 
-            Dictionary<String, MAVState> mavStates = new Dictionary<string, MAVState>();
-
-            foreach (var port in MainV2.Comports)
-            {
-                foreach (var mav in port.MAVlist)
-                {
-                    mavStates.Add(port.BaseStream.PortName + " " + mav.sysid + " " + mav.compid, mav);
-                }
-            }
-
-            bindingSource1.DataSource = mavStates;
+            bindingSource1.DataSource = MainV2.Comports;
 
             CMB_mavs.DataSource = bindingSource1;
-            CMB_mavs.ValueMember = "Value";
-            CMB_mavs.DisplayMember = "Key";
 
             MessageBox.Show("this is beta, use at own risk");
 
@@ -124,14 +112,14 @@ namespace MissionPlanner.Swarm
         {
             if (SwarmInterface != null)
             {
-                SwarmInterface.setLeader(MainV2.comPort.MAV);
+                SwarmInterface.setLeader(MainV2.comPort);
                 BUT_Start.Enabled = true;
             }
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(true);
+            Comms.CommsSerialScan.Scan(false);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
@@ -145,6 +133,15 @@ namespace MissionPlanner.Swarm
                     return;
                 }
             }
+
+            MAVLinkInterface com2 = new MAVLinkInterface();
+
+            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
+            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
+
+            com2.Open(true);
+
+            MainV2.Comports.Add(com2);
 
             bindingSource1.ResetBindings(false);
         }

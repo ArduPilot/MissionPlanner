@@ -8,7 +8,7 @@ public partial class MAVLink
 {
     public class MAVLinkParamList: List<MAVLinkParam>
     {
-        object locker = new object();
+        static object locker = new object();
 
         public int TotalReported { get; set; }
 
@@ -58,9 +58,12 @@ public partial class MAVLink
         {
             get
             {
-                foreach (MAVLinkParam item in this.ToArray())
+                lock (locker)
                 {
-                    yield return item.Name;
+                    foreach (MAVLinkParam item in this)
+                    {
+                        yield return item.Name;
+                    }
                 }
             }
         }
@@ -104,15 +107,18 @@ public partial class MAVLink
             }
         }
 
-        public static implicit operator Dictionary<string,double>(MAVLinkParamList list)
+        public static implicit operator Hashtable(MAVLinkParamList list)
         {
-            var copy = new Dictionary<string, double>();
-            foreach (MAVLinkParam item in list.ToArray())
+            lock (locker)
             {
-                copy[item.Name] = item.Value;
-            }
+                Hashtable copy = new Hashtable();
+                foreach (MAVLinkParam item in list)
+                {
+                    copy[item.Name] = item.Value;
+                }
 
-            return copy;
+                return copy;
+            }
         }
     }
 }

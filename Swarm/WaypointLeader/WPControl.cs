@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Flurl.Util;
 using ZedGraph;
 
 namespace MissionPlanner.Swarm.WaypointLeader
@@ -215,7 +216,7 @@ namespace MissionPlanner.Swarm.WaypointLeader
                             ((Status) ctl).MAV.Text = String.Format("MAV {0}-{1}",MAV.sysid,MAV.compid);
                             ((Status) ctl).Guided.Text = MAV.GuidedMode.x + "," + MAV.GuidedMode.y + "," +
                                                          MAV.GuidedMode.z;
-                            ((Status)ctl).Location1.Text = MAV.cs.lat.ToString("0.00000") + "," + MAV.cs.lng.ToString("0.00000") + "," +
+                            ((Status)ctl).Location.Text = MAV.cs.lat.ToString("0.00000") + "," + MAV.cs.lng.ToString("0.00000") + "," +
                                                       MAV.cs.alt;
                             ((Status)ctl).Speed.Text = MAV.cs.groundspeed.ToString("0.00");
 

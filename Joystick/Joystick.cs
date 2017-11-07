@@ -173,8 +173,6 @@ namespace MissionPlanner.Joystick
         public string name;
         public bool elevons = false;
 
-        public bool manual_control = false;
-
         public static Joystick self;
 
         string joystickconfigbutton = "joystickbuttons.xml";
@@ -672,13 +670,11 @@ namespace MissionPlanner.Joystick
         /// </summary>
         void mainloop()
         {
-            while (enabled && joystick != null && !joystick.IsDisposed)
+            while (enabled)
             {
                 try
                 {
                     System.Threading.Thread.Sleep(50);
-                    if (joystick.IsDisposed)
-                        return;
                     //joystick stuff
                     joystick.Poll();
                     state = joystick.CurrentJoystickState();
@@ -715,17 +711,17 @@ namespace MissionPlanner.Joystick
                     {
                         //g.channel_roll.set_pwm(BOOL_TO_SIGN(g.reverse_elevons) * (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) - BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
                         //g.channel_pitch.set_pwm(                                 (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) + BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
-                        short roll = pickchannel(1, JoyChannels[1].axis, false, JoyChannels[1].expo);
-                        short pitch = pickchannel(2, JoyChannels[2].axis, false, JoyChannels[2].expo);
+                        ushort roll = pickchannel(1, JoyChannels[1].axis, false, JoyChannels[1].expo);
+                        ushort pitch = pickchannel(2, JoyChannels[2].axis, false, JoyChannels[2].expo);
 
                         if (getJoystickAxis(1) != Joystick.joystickaxis.None)
                             MainV2.comPort.MAV.cs.rcoverridech1 =
-                                (short)
+                                (ushort)
                                     (BOOL_TO_SIGN(JoyChannels[1].reverse)*((int) (pitch - 1500) - (int) (roll - 1500))/2 +
                                      1500);
                         if (getJoystickAxis(2) != Joystick.joystickaxis.None)
                             MainV2.comPort.MAV.cs.rcoverridech2 =
-                                (short)
+                                (ushort)
                                     (BOOL_TO_SIGN(JoyChannels[2].reverse)*((int) (pitch - 1500) + (int) (roll - 1500))/2 +
                                      1500);
                     }
@@ -1231,7 +1227,7 @@ namespace MissionPlanner.Joystick
             return buts[JoyButtons[buttonno].buttonno];
         }
 
-        public short getValueForChannel(int channel, string name)
+        public ushort getValueForChannel(int channel, string name)
         {
             if (joystick == null)
                 return 0;
@@ -1240,13 +1236,13 @@ namespace MissionPlanner.Joystick
 
             state = joystick.CurrentJoystickState();
 
-            short ans = pickchannel(channel, JoyChannels[channel].axis, JoyChannels[channel].reverse,
+            ushort ans = pickchannel(channel, JoyChannels[channel].axis, JoyChannels[channel].reverse,
                 JoyChannels[channel].expo);
             log.DebugFormat("{0} = {1} = {2}", channel, ans, state.X);
             return ans;
         }
 
-        public short getRawValueForChannel(int channel)
+        public ushort getRawValueForChannel(int channel)
         {
             if (joystick == null)
                 return 0;
@@ -1255,12 +1251,12 @@ namespace MissionPlanner.Joystick
 
             state = joystick.CurrentJoystickState();
 
-            short ans = pickchannel(channel, JoyChannels[channel].axis, false, 0);
+            ushort ans = pickchannel(channel, JoyChannels[channel].axis, false, 0);
             log.DebugFormat("{0} = {1} = {2}", channel, ans, state.X);
             return ans;
         }
 
-        short pickchannel(int chan, joystickaxis axis, bool rev, int expo)
+        ushort pickchannel(int chan, joystickaxis axis, bool rev, int expo)
         {
             int min, max, trim = 0;
 
@@ -1294,14 +1290,6 @@ namespace MissionPlanner.Joystick
                 max = 2000;
                 trim = 1500;
             }
-
-            if (manual_control)
-            {
-                min = -1000;
-                max = 1000;
-                trim = 0;
-            }
-
             if (chan == 3)
             {
                 trim = (min + max)/2;
@@ -1447,7 +1435,7 @@ namespace MissionPlanner.Joystick
                     break;
             }
             // between 0 and 65535 - convert to int -500 to 500
-            working = (int) (working/65.535) - range/2;
+            working = (int) (working/65.535) - 500;
 
             if (rev)
                 working *= -1;
@@ -1489,7 +1477,7 @@ namespace MissionPlanner.Joystick
             working = Math.Max(min, working);
             working = Math.Min(max, working);
 
-            return (short) working;
+            return (ushort) working;
         }
 
         public static double Expo(double input, double expo, double min, double max, double mid)

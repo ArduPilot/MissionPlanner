@@ -7,15 +7,11 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using log4net;
 
 namespace MissionPlanner.Utilities
 {
     public static class ParameterMetaDataRepositoryAPM
     {
-        private static readonly ILog log =
-            LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
         private static XDocument _parameterMetaDataXML;
 
         /// <summary>
@@ -40,10 +36,8 @@ namespace MissionPlanner.Utilities
                     _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
 
             }
-            catch (Exception ex)
+            catch
             {
-                log.Error(ex);
-                Tracking.AddException(ex);
             }
 
             try

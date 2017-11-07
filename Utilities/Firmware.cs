@@ -15,7 +15,6 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
-using solo;
 
 namespace MissionPlanner.Utilities
 {
@@ -430,8 +429,6 @@ namespace MissionPlanner.Utilities
                         var index = softwares.IndexOf(temp);
                         // get item to modify
                         var item = softwares[index];
-                        // move existing name
-                        item.desc = item.name;
                         // change name
                         item.name = line.Substring(line.IndexOf(':') + 2);
                         // save back to list
@@ -554,7 +551,10 @@ namespace MissionPlanner.Utilities
 
                 if (board < BoardDetect.boards.px4)
                 {
-                    CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired, Strings.Note);
+                    if (temp.name.ToLower().Contains("arducopter"))
+                    {
+                        CustomMessageBox.Show(Strings.ThisBoardHasBeenRetired, Strings.Note);
+                    }
                 }
 
                 if (historyhash != "")
@@ -1279,19 +1279,7 @@ namespace MissionPlanner.Utilities
                 return UploadParrot(filename, board);
             }
 
-            if (board == BoardDetect.boards.solo)
-            {
-                return UploadSolo(filename, board);
-            }
-
             return UploadArduino(comport, filename, board);
-        }
-
-        private bool UploadSolo(string filename, BoardDetect.boards board)
-        {
-            Solo.flash_px4(filename);
-
-            return true;
         }
 
         public bool UploadArduino(string comport, string filename, BoardDetect.boards board)

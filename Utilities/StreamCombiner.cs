@@ -67,9 +67,9 @@ namespace MissionPlanner.Utilities
             };
             th.Start();
 
-            //MainV2.comPort.BaseStream = new TcpSerial() {client = new TcpClient("127.0.0.1", 5750) };
+            MainV2.comPort.BaseStream = new TcpSerial() {client = new TcpClient("127.0.0.1", 5750) };
 
-            //MainV2.instance.doConnect(MainV2.comPort, "preset", "5750");
+            MainV2.instance.doConnect(MainV2.comPort, "preset", "5750");
         }
 
         public static void Stop()
@@ -208,16 +208,9 @@ namespace MissionPlanner.Utilities
                     {
                     }
 
-                    //mav = null;
+                    mav = null;
 
-                    MainV2.instance.Invoke((Action) delegate
-                    {
-                        MainV2.instance.doConnect(mav, "preset",
-                            localsysid.ToString());
-
-                        MainV2.Comports.Add(mav);
-                    });
-                    //clients.Add(client);
+                    clients.Add(client);
                 }
             }
         }

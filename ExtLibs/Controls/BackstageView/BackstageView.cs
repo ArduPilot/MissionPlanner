@@ -35,9 +35,6 @@ namespace MissionPlanner.Controls.BackstageView
 
         public BackstageViewPage SelectedPage { get { return _activePage; } }
 
-        public delegate void TrackingEventHandler(string page, string title);
-        public static event TrackingEventHandler Tracking;
-
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BackstageViewCollection Pages { get { return _items; } }
 
@@ -450,7 +447,7 @@ namespace MissionPlanner.Controls.BackstageView
                 return;
             }
 
-            Tracking?.Invoke(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
+            MissionPlanner.Utilities.Tracking.AddPage(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
 
             this.SuspendLayout();
             associatedPage.Page.SuspendLayout();
@@ -542,26 +539,11 @@ namespace MissionPlanner.Controls.BackstageView
                     {
                         log.Error(ex);
                     }
-
-                    try
-                    {
-                        ((BackstageViewPage)page).Page.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
+                    ((BackstageViewPage)page).Page.Dispose();
                 }
                 else
                 {
-                    try
-                    {
-                        ((BackstageViewPage)page).Page.Dispose();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error(ex);
-                    }
+                    ((BackstageViewPage)page).Page.Dispose();
                 }
             }
         }

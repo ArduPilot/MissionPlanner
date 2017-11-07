@@ -93,7 +93,7 @@ namespace MissionPlanner.Utilities
             int widtharc = (int) Math.Abs(loc.X - LocalPosition.X);
             int heightarc = (int) Math.Abs(loc.X - LocalPosition.X);
 
-            if (widtharc > 0 && widtharc < 200000000 && Overlay.Control.Zoom > 3)
+            if (widtharc > 0 && Overlay.Control.Zoom > 3)
             {
                 //g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
 

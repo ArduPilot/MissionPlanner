@@ -8,6 +8,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
     public partial class ConfigHWRangeFinder : UserControl, IActivate, IDeactivate
     {
         bool startup = true;
+        private const float rad2deg = (float) (180/Math.PI);
+        private const float deg2rad = (float) (1.0/rad2deg);
 
         public ConfigHWRangeFinder()
         {

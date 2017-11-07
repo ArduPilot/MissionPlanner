@@ -169,7 +169,7 @@
     <value>6: 3DR HV Power Module APM</value>
   </data>
   <data name="CMB_batmonsensortype.Items7" xml:space="preserve">
-    <value>7: ProfiCNC HV Power Module PX4</value>
+    <value>7: 3DR HV Power Module PX4</value>
   </data>
   <data name="CMB_batmonsensortype.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 68</value>
@@ -834,6 +834,9 @@
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>518, 322</value>
   </data>

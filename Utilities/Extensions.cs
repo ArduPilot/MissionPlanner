@@ -37,37 +37,5 @@ namespace MissionPlanner.Utilities
 
             log.Error(ex);
         }
-
-        public static void ShowUserControl(this UserControl ctl)
-        {
-            Form frm = new Form();
-            int header = frm.Height - frm.ClientRectangle.Height;
-            frm.Text = ctl.Text;
-            frm.Size = ctl.Size;
-            // add the header height
-            frm.Height += header;
-            frm.Tag = ctl;
-            ctl.Dock = DockStyle.Fill;
-            frm.Controls.Add(ctl);
-            frm.Load += Frm_Load;
-            frm.Closing += Frm_Closing;
-            frm.Show();
-        }
-
-        private static void Frm_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (((Form)sender).Tag is MissionPlanner.Controls.IDeactivate)
-            {
-                ((MissionPlanner.Controls.IDeactivate)((Form)sender).Tag).Deactivate();
-            }
-        }
-
-        private static void Frm_Load(object sender, EventArgs e)
-        {
-            if (((Form)sender).Tag is MissionPlanner.Controls.IActivate)
-            {
-                ((MissionPlanner.Controls.IActivate)((Form)sender).Tag).Activate();
-            }
-        }
     }
 }

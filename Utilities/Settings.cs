@@ -79,18 +79,8 @@ namespace MissionPlanner.Utilities
 
         public string BaudRate
         {
-            get
-            {
-                try
-                {
-                    return this[ComPort + "_BAUD"];
-                }
-                catch
-                {
-                    return "";
-                }
-            }
-            set { this[ComPort + "_BAUD"] = value; }
+            get { return this["baudrate"]; }
+            set { this["baudrate"] = value; }
         }
 
         public string LogDir

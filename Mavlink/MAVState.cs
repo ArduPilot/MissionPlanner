@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using GMap.NET;
 using log4net;
 using MissionPlanner.Utilities;
+using System.Collections.Concurrent;
 
 namespace MissionPlanner
 {
@@ -14,14 +17,14 @@ namespace MissionPlanner
 
         public MAVLinkInterface parent;
 
-        public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
+        public MAVState(MAVLinkInterface mavLinkInterface)
         {
             this.parent = mavLinkInterface;
-            this.sysid = sysid;
-            this.compid = compid;
             this.packetspersecond = new double[0x100];
             this.packetspersecondbuild = new DateTime[0x100];
             this.lastvalidpacket = DateTime.MinValue;
+            this.sysid = 0;
+            this.compid = 0;
             sendlinkid = (byte)(new Random().Next(256));
             signing = false;
             this.param = new MAVLinkParamList();
@@ -33,8 +36,7 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
-            if (sysid != 255 && !(compid == 0 && sysid == 0)) // && !parent.logreadmode)
-                this.Proximity = new Proximity(this);
+            this.Proximity = new Proximity(this);
 
             camerapoints.Clear();
 
@@ -68,15 +70,10 @@ namespace MissionPlanner
         /// </summary>
         public CurrentState cs = new CurrentState();
 
-        private byte _sysid;
         /// <summary>
         /// mavlink remote sysid
         /// </summary>
-        public byte sysid
-        {
-            get { return _sysid; }
-            set { _sysid = value; }
-        }
+        public byte sysid { get; set; }
 
         /// <summary>
         /// mavlink remove compid
@@ -155,8 +152,7 @@ namespace MissionPlanner
 
         public void Dispose()
         {
-            if (Proximity != null)
-                Proximity.Dispose();
+             Proximity.Dispose();
         }
 
         /// <summary>
@@ -211,6 +207,5 @@ namespace MissionPlanner
         public Proximity Proximity;
 
         internal int recvpacketcount = 0;
-        public Int64 time_offset_ns { get; set; }
     }
 }

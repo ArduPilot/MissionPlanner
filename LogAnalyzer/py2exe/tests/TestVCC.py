@@ -25,8 +25,10 @@ class TestVCC(Test):
             vccMin  = logdata.channels["CURR"]["Vcc"].min()
             vccMax  = logdata.channels["CURR"]["Vcc"].max()
         except KeyError as e:
-            vccMin  = logdata.channels["POWR"]["Vcc"].min()
-            vccMax  = logdata.channels["POWR"]["Vcc"].max()
+            # Vcc was renamed to Volts at some stage...
+            vccMin  = logdata.channels["CURR"]["Volt"].min()
+            vccMax  = logdata.channels["CURR"]["Volt"].max()
+            # apparently it also changed to mV:
             vccMin *= 1000
             vccMax *= 1000
 

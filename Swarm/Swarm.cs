@@ -12,14 +12,14 @@ namespace MissionPlanner.Swarm
     abstract class Swarm
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        internal MAVState Leader = null;
+        internal MAVLinkInterface Leader = null;
 
-        public void setLeader(MAVState lead)
+        public void setLeader(MAVLinkInterface lead)
         {
             Leader = lead;
         }
 
-        public MAVState getLeader()
+        public MAVLinkInterface getLeader()
         {
             return Leader;
         }
@@ -28,13 +28,10 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                foreach (var mav in port.MAVlist)
-                {
-                    if (mav == Leader)
-                        continue;
+                if (port == Leader)
+                    continue;
 
-                    port.doARM(mav.sysid, mav.compid, true);
-                }
+                port.doARM(true);
             }
         }
 
@@ -42,13 +39,10 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                foreach (var mav in port.MAVlist)
-                {
-                    if (mav == Leader)
-                        continue;
+                if (port == Leader)
+                    continue;
 
-                    port.doARM(mav.sysid, mav.compid, false);
-                }
+                port.doARM(false);
             }
         }
 
@@ -56,15 +50,16 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                foreach (var mav in port.MAVlist)
-                {
-                    if (mav == Leader)
-                        continue;
+                if (port == Leader)
+                    continue;
 
-                    port.setMode(mav.sysid,mav.compid,"GUIDED");
+                port.setMode("GUIDED");
 
-                    port.doCommand(mav.sysid, mav.compid, MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
-                }
+                port.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
+
+                /*if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
+                    port.setGuidedModeWP(new Locationwp() {alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng});
+                 */
             }
         }
 
@@ -72,29 +67,12 @@ namespace MissionPlanner.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
-                foreach (var mav in port.MAVlist)
-                {
-                    port.setMode(mav.sysid, mav.compid, "Land");
-                }
+                port.setMode("Land");
             }
         }
 
         public void Stop()
         {
-        }
-
-        public void GuidedMode()
-        {
-            foreach (var port in MainV2.Comports)
-            {
-                foreach (var mav in port.MAVlist)
-                {
-                    if (mav == Leader)
-                        continue;
-
-                    port.setMode(mav.sysid, mav.compid, "GUIDED");
-                }
-            }
         }
 
         public abstract void Update();

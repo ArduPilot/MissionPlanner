@@ -79,14 +79,16 @@ namespace MissionPlanner.Comms
             currentbps += count;
             int ret = BaseStream.Read(buffer, offset, count);
 
+            if (buffer[0] != 254 && offset == 0)
+                return 0;
             if (buffer[0] == 254 && offset == 1)
                 step = buffer[1] + 5 + 2; // + header + checksum
 
             step -= ret;
 
             // read the timestamp
-            //if (step == 0)
-                //BaseStream.Read(new byte[8], 0, 8);
+            if (step == 0)
+                BaseStream.Read(new byte[8], 0, 8);
 
             return ret;
         }

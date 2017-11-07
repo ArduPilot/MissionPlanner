@@ -16,7 +16,7 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private static Dictionary<string, float[,]> cache = new Dictionary<string, float[,]>();
+        private static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
         private static List<geotiffdata> index = new List<geotiffdata>();
 
@@ -147,7 +147,7 @@ namespace MissionPlanner.Utilities
                     // add to cache
                     if (!cache.ContainsKey(geotiffdata.FileName))
                     {
-                        float[,] altdata = new float[geotiffdata.height, geotiffdata.width];
+                        short[,] altdata = new short[geotiffdata.height, geotiffdata.width];
 
                         using (Tiff tiff = Tiff.Open(geotiffdata.FileName, "r"))
                         {
@@ -165,7 +165,7 @@ namespace MissionPlanner.Utilities
                                     }
                                     else if (geotiffdata.bits == 32)
                                     {
-                                        altdata[row, col] = (float) BitConverter.ToSingle(scanline, col*4);
+                                        altdata[row, col] = (short) BitConverter.ToSingle(scanline, col*4);
                                     }
                                 }
                             }

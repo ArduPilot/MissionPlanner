@@ -1,5 +1,5 @@
-﻿using System.Windows.Forms;
-using MissionPlanner.Controls;
+﻿using MissionPlanner.Controls;
+using MissionPlanner.Presenter;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -108,7 +108,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CHK_stab_tilt = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_stab_roll = new MissionPlanner.Controls.MavlinkCheckBox();
             this.CHK_stab_pan = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.CMB_shuttertype =  new ComboBox();
+            this.CMB_shuttertype = new System.Windows.Forms.ComboBox();
             this.label35 = new System.Windows.Forms.Label();
             this.label36 = new System.Windows.Forms.Label();
             this.label37 = new System.Windows.Forms.Label();
@@ -1477,6 +1477,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkCheckBox CHK_stab_tilt;
         private MavlinkCheckBox CHK_stab_roll;
         private MavlinkCheckBox CHK_stab_pan;
+        private System.Windows.Forms.ComboBox CMB_shuttertype;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label label36;
         private System.Windows.Forms.Label label37;
@@ -1496,6 +1497,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MavlinkComboBox CMB_mnt_type;
         private System.Windows.Forms.Label label43;
         private System.Windows.Forms.Label label44;
-        private ComboBox CMB_shuttertype;
+
     }
 }

@@ -307,7 +307,7 @@
             1,
             0,
             0,
-            65536});
+            0});
             this.NUM_Distance.Name = "NUM_Distance";
             this.NUM_Distance.Value = new decimal(new int[] {
             50,

@@ -45,8 +45,6 @@ namespace MissionPlanner.Utilities
                 var bytes = macAddr.GetAddressBytes();
 
                 Array.Copy(bytes, IV, bytes.Length);
-
-                Array.Copy(bytes, Key, bytes.Length);
             }
             catch
             {

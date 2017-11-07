@@ -9,6 +9,7 @@ using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
 using System.IO;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
@@ -16,7 +17,7 @@ namespace MissionPlanner.Comms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public UdpClient client = new UdpClient();
-        public IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
@@ -25,12 +26,11 @@ namespace MissionPlanner.Comms
         public int WriteBufferSize { get; set; }
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
-        public Stream BaseStream { get { return Stream.Null; } }
+        public Stream BaseStream { get { return this.BaseStream; } }
 
         public UdpSerialConnect()
         {
             Port = "14550";
-            ReadTimeout = 500;
         }
 
         public void toggleDTR()
@@ -91,11 +91,11 @@ namespace MissionPlanner.Comms
 
             //if (!MainV2.MONO)
             {
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
                 {
                     throw new Exception("Canceled by request");
                 }
-                if (inputboxreturn.Cancel == OnInputBoxShow("remote Port", "Enter remote port", ref dest))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote Port", "Enter remote port", ref dest))
                 {
                     throw new Exception("Canceled by request");
                 }

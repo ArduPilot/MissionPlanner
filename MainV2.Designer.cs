@@ -47,9 +47,9 @@ namespace MissionPlanner
             this.MenuSimulation = new System.Windows.Forms.ToolStripButton();
             this.MenuTerminal = new System.Windows.Forms.ToolStripButton();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
-            this.MenuDonate = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
+            this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MainMenu.SuspendLayout();
@@ -61,7 +61,6 @@ namespace MissionPlanner
             // 
             this.MainMenu.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.MainMenu.ContextMenuStrip = this.CTX_mainmenu;
-            resources.ApplyResources(this.MainMenu, "MainMenu");
             this.MainMenu.GripMargin = new System.Windows.Forms.Padding(0);
             this.MainMenu.ImageScalingSize = new System.Drawing.Size(0, 0);
             this.MainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -72,11 +71,11 @@ namespace MissionPlanner
             this.MenuSimulation,
             this.MenuTerminal,
             this.MenuHelp,
-            this.MenuDonate,
             this.MenuConnect,
-            this.toolStripConnectionControl});
+            this.toolStripConnectionControl,
+            this.MenuDonate});
+            resources.ApplyResources(this.MainMenu, "MainMenu");
             this.MainMenu.Name = "MainMenu";
-            this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.Stretch = false;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
             this.MainMenu.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
@@ -124,7 +123,6 @@ namespace MissionPlanner
             this.MenuFlightData.ForeColor = System.Drawing.Color.White;
             this.MenuFlightData.Margin = new System.Windows.Forms.Padding(0);
             this.MenuFlightData.Name = "MenuFlightData";
-            this.MenuFlightData.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuFlightData.Click += new System.EventHandler(this.MenuFlightData_Click);
             // 
             // MenuFlightPlanner
@@ -133,7 +131,6 @@ namespace MissionPlanner
             this.MenuFlightPlanner.ForeColor = System.Drawing.Color.White;
             this.MenuFlightPlanner.Margin = new System.Windows.Forms.Padding(0);
             this.MenuFlightPlanner.Name = "MenuFlightPlanner";
-            this.MenuFlightPlanner.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuFlightPlanner.Click += new System.EventHandler(this.MenuFlightPlanner_Click);
             // 
             // MenuInitConfig
@@ -142,7 +139,6 @@ namespace MissionPlanner
             this.MenuInitConfig.ForeColor = System.Drawing.Color.White;
             this.MenuInitConfig.Margin = new System.Windows.Forms.Padding(0);
             this.MenuInitConfig.Name = "MenuInitConfig";
-            this.MenuInitConfig.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuInitConfig.Click += new System.EventHandler(this.MenuSetup_Click);
             // 
             // MenuConfigTune
@@ -151,7 +147,7 @@ namespace MissionPlanner
             this.MenuConfigTune.ForeColor = System.Drawing.Color.White;
             this.MenuConfigTune.Margin = new System.Windows.Forms.Padding(0);
             this.MenuConfigTune.Name = "MenuConfigTune";
-            this.MenuConfigTune.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.MenuConfigTune.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
             this.MenuConfigTune.Click += new System.EventHandler(this.MenuTuning_Click);
             // 
             // MenuSimulation
@@ -160,7 +156,7 @@ namespace MissionPlanner
             this.MenuSimulation.ForeColor = System.Drawing.Color.White;
             this.MenuSimulation.Margin = new System.Windows.Forms.Padding(0);
             this.MenuSimulation.Name = "MenuSimulation";
-            this.MenuSimulation.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.MenuSimulation.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.MenuSimulation.Click += new System.EventHandler(this.MenuSimulation_Click);
             // 
             // MenuTerminal
@@ -169,7 +165,7 @@ namespace MissionPlanner
             this.MenuTerminal.ForeColor = System.Drawing.Color.White;
             this.MenuTerminal.Margin = new System.Windows.Forms.Padding(0);
             this.MenuTerminal.Name = "MenuTerminal";
-            this.MenuTerminal.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.MenuTerminal.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.MenuTerminal.Click += new System.EventHandler(this.MenuTerminal_Click);
             // 
             // MenuHelp
@@ -178,18 +174,8 @@ namespace MissionPlanner
             this.MenuHelp.ForeColor = System.Drawing.Color.White;
             this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
             this.MenuHelp.Name = "MenuHelp";
-            this.MenuHelp.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.MenuHelp.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
-            // 
-            // MenuDonate
-            // 
-            resources.ApplyResources(this.MenuDonate, "MenuDonate");
-            this.MenuDonate.ForeColor = System.Drawing.Color.White;
-            this.MenuDonate.Image = global::MissionPlanner.Properties.Resources.donate;
-            this.MenuDonate.Margin = new System.Windows.Forms.Padding(0);
-            this.MenuDonate.Name = "MenuDonate";
-            this.MenuDonate.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.MenuDonate.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // MenuConnect
             // 
@@ -198,7 +184,6 @@ namespace MissionPlanner
             this.MenuConnect.ForeColor = System.Drawing.Color.White;
             this.MenuConnect.Margin = new System.Windows.Forms.Padding(0);
             this.MenuConnect.Name = "MenuConnect";
-            this.MenuConnect.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.MenuConnect.Click += new System.EventHandler(this.MenuConnect_Click);
             // 
             // toolStripConnectionControl
@@ -210,6 +195,15 @@ namespace MissionPlanner
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";
             resources.ApplyResources(this.toolStripConnectionControl, "toolStripConnectionControl");
             this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // MenuDonate
+            // 
+            resources.ApplyResources(this.MenuDonate, "MenuDonate");
+            this.MenuDonate.ForeColor = System.Drawing.Color.White;
+            this.MenuDonate.Image = global::MissionPlanner.Properties.Resources.donate;
+            this.MenuDonate.Name = "MenuDonate";
+            this.MenuDonate.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.MenuDonate.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // menu
             // 
@@ -262,7 +256,7 @@ namespace MissionPlanner
         public System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ContextMenuStrip CTX_mainmenu;
         private System.Windows.Forms.ToolStripMenuItem autoHideToolStripMenuItem;
-        private System.Windows.Forms.ToolStripButton MenuDonate;
+        private System.Windows.Forms.ToolStripMenuItem MenuDonate;
         public System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;

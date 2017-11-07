@@ -22,7 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            var copy = new Dictionary<string, double>((Dictionary<string, double>) MainV2.comPort.MAV.param);
+            var copy = new Hashtable((Hashtable) MainV2.comPort.MAV.param);
 
             foreach (string item in copy.Keys)
             {

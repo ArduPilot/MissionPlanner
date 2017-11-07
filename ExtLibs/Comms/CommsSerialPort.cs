@@ -83,16 +83,10 @@ namespace MissionPlanner.Comms
                 base.Open();
             }
             catch {
-                try { Close(); }
+                try { base.Close(); }
                 catch { }
                 throw;
             }
-        }
-
-        public new void Close()
-        {
-            log.Info("Closing port " + PortName);
-            base.Close();
         }
 
         public void toggleDTR()

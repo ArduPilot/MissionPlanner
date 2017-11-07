@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
+
 using com.drew.lang;
 using com.drew.metadata.iptc;
 using com.utils.bundle;
@@ -601,12 +601,12 @@ namespace com.drew.metadata
 			else if (lcObj is string) 
 			{
 				string lcDateString = (string) lcObj;
-				try
+				try 
 				{
-				    DateTime res = DateTime.Today;
-				    if (DateTime.TryParse(lcDateString, out res))
-				        return res;
-		
+					return DateTime.Parse(lcDateString);
+				} 
+				catch (FormatException) 
+				{
                     // Was not able to parse date using standard format
                     // We try the following format 
                     DateTime resu = AbstractDirectory.ParseDate(lcDateString);
@@ -616,7 +616,6 @@ namespace com.drew.metadata
                     }
                     return resu;
 				}
-                catch { }
 			}
             throw new MetadataException("Obj is :" + lcObj.GetType() + " and look like:" + lcObj.ToString());
 		}
@@ -637,11 +636,7 @@ namespace com.drew.metadata
             {
                 try
                 {
-                    DateTime res = DateTime.Today;
-                    if (DateTime.TryParseExact(aDate, DATE_FORMATS[i], null, DateTimeStyles.None, out res))
-                    {
-                        return res;
-                    }
+                    return DateTime.ParseExact(aDate, DATE_FORMATS[i], null);
                 }
                 catch (FormatException)
                 {

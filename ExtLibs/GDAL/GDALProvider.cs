@@ -15,7 +15,7 @@ namespace GDAL
     using GMap.NET.WindowsForms;
 
     /// <summary>
-    /// GDAL Custom
+    /// WMS Custom
     /// </summary>
     public class GDALProvider : GMapProvider
     {

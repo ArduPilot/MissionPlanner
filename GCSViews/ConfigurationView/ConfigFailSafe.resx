@@ -130,7 +130,7 @@
     <value>342, 5</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 13</value>
+    <value>95, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -160,7 +160,7 @@
     <value>84, 5</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 13</value>
+    <value>53, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>103</value>
@@ -229,7 +229,7 @@
     <value>657, 5</value>
   </data>
   <data name="LNK_wiki.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 13</value>
+    <value>29, 12</value>
   </data>
   <data name="LNK_wiki.TabIndex" type="System.Int32, mscorlib">
     <value>143</value>
@@ -259,7 +259,7 @@
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>100, 21</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -271,7 +271,7 @@
     <value>mavlinkNumericUpDownlow_voltage</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Parent" xml:space="preserve">
     <value>PNL_low_bat</value>
@@ -292,7 +292,7 @@
     <value>6, 58</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 17</value>
+    <value>156, 16</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.TabIndex" type="System.Int32, mscorlib">
     <value>146</value>
@@ -310,7 +310,7 @@
     <value>mavlinkCheckBoxlong_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -331,7 +331,7 @@
     <value>6, 43</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 17</value>
+    <value>156, 16</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -349,7 +349,7 @@
     <value>mavlinkCheckBoxshort_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -370,7 +370,7 @@
     <value>6, 29</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 17</value>
+    <value>96, 16</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -388,7 +388,7 @@
     <value>mavlinkCheckBoxgcs_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -409,7 +409,7 @@
     <value>6, 77</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 17</value>
+    <value>168, 16</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.TabIndex" type="System.Int32, mscorlib">
     <value>147</value>
@@ -428,7 +428,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs_action</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -446,7 +446,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>3, 0</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 20</value>
+    <value>93, 21</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -461,7 +461,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownfs_thr_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -479,7 +479,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 20</value>
+    <value>103, 21</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.TabIndex" type="System.Int32, mscorlib">
     <value>142</value>
@@ -494,7 +494,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownthr_fs_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -515,7 +515,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>6, 60</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
+    <value>126, 16</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -533,7 +533,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -551,7 +551,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>3, 3, 3, 6</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 21</value>
+    <value>193, 20</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.TabIndex" type="System.Int32, mscorlib">
     <value>151</value>
@@ -566,7 +566,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBox_fs_thr_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -584,7 +584,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>3, 3, 3, 6</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 21</value>
+    <value>199, 20</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.TabIndex" type="System.Int32, mscorlib">
     <value>158</value>
@@ -596,7 +596,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBoxfs_batt_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -617,7 +617,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>6, 14</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 17</value>
+    <value>102, 16</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.TabIndex" type="System.Int32, mscorlib">
     <value>156</value>
@@ -632,7 +632,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxFS_GCS_ENABLE</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -650,7 +650,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>4, 3</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 13</value>
+    <value>77, 12</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>154</value>
@@ -677,7 +677,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>100, 21</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -686,7 +686,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownFS_BATT_MAH</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.6278.13288, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5626.41543, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Parent" xml:space="preserve">
     <value>pnlmah</value>
@@ -728,7 +728,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>4, 3</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+    <value>71, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>154</value>
@@ -785,7 +785,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>0, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
+    <value>41, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>148</value>
@@ -848,7 +848,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>lbl_armed</value>
   </data>
   <data name="&gt;&gt;lbl_armed.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_armed.Parent" xml:space="preserve">
     <value>$this</value>
@@ -878,7 +878,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>lbl_gpslock</value>
   </data>
   <data name="&gt;&gt;lbl_gpslock.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.MyLabel, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_gpslock.Parent" xml:space="preserve">
     <value>$this</value>
@@ -902,7 +902,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar9</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Parent" xml:space="preserve">
     <value>$this</value>
@@ -926,7 +926,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar10</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Parent" xml:space="preserve">
     <value>$this</value>
@@ -950,7 +950,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar11</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Parent" xml:space="preserve">
     <value>$this</value>
@@ -974,7 +974,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar12</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Parent" xml:space="preserve">
     <value>$this</value>
@@ -998,7 +998,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar13</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1022,7 +1022,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar14</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1046,7 +1046,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar15</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1070,7 +1070,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar16</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1094,7 +1094,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar8</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1118,7 +1118,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar7</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1142,7 +1142,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar6</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1166,7 +1166,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar5</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1190,7 +1190,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar4</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1214,7 +1214,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar3</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1238,7 +1238,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar2</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1262,7 +1262,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar1</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.6277.35251, Culture=neutral, PublicKeyToken=38326cb7e06851fc</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1345,6 +1345,9 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>688, 414</value>
   </data>

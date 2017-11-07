@@ -38,6 +38,3 @@ obj/
 /ExtLibs/Portable/Portable
 /ExtLibs/AltitudeAngelWings/Keys.config
 /MissionPlannerBeta.zip
-*.vspx
-/ExtLibs/Android
-/Utilities/w3w1.cs

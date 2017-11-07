@@ -49,10 +49,7 @@
     <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>mykey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>mykey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -106,7 +103,6 @@
     <Compile Include="Support\Wrappers.cs" />
     <Compile Include="TimeSpan.cs" />
     <Compile Include="TimeStamp.cs" />
-    <None Include="mykey.snk" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

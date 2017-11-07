@@ -90,7 +90,6 @@ namespace MissionPlanner.Joystick
             this.BUT_detch7 = new MissionPlanner.Controls.MyButton();
             this.ProgressBarCH7 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.label14 = new System.Windows.Forms.Label();
-            this.chk_manualcontrol = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_joysticks
@@ -387,7 +386,6 @@ namespace MissionPlanner.Joystick
             // 
             // ProgressBarCH8
             // 
-            this.ProgressBarCH8.DrawLabel = true;
             resources.ApplyResources(this.ProgressBarCH8, "ProgressBarCH8");
             this.ProgressBarCH8.Label = null;
             this.ProgressBarCH8.Maximum = 2200;
@@ -441,7 +439,6 @@ namespace MissionPlanner.Joystick
             // 
             // progressBarRudder
             // 
-            this.progressBarRudder.DrawLabel = true;
             resources.ApplyResources(this.progressBarRudder, "progressBarRudder");
             this.progressBarRudder.Label = null;
             this.progressBarRudder.Maximum = 2200;
@@ -453,7 +450,6 @@ namespace MissionPlanner.Joystick
             // 
             // progressBarThrottle
             // 
-            this.progressBarThrottle.DrawLabel = true;
             resources.ApplyResources(this.progressBarThrottle, "progressBarThrottle");
             this.progressBarThrottle.Label = null;
             this.progressBarThrottle.Maximum = 2200;
@@ -465,7 +461,6 @@ namespace MissionPlanner.Joystick
             // 
             // progressBarPith
             // 
-            this.progressBarPith.DrawLabel = true;
             resources.ApplyResources(this.progressBarPith, "progressBarPith");
             this.progressBarPith.Label = null;
             this.progressBarPith.Maximum = 2200;
@@ -477,7 +472,6 @@ namespace MissionPlanner.Joystick
             // 
             // progressBarRoll
             // 
-            this.progressBarRoll.DrawLabel = true;
             resources.ApplyResources(this.progressBarRoll, "progressBarRoll");
             this.progressBarRoll.Label = null;
             this.progressBarRoll.Maximum = 2200;
@@ -496,7 +490,6 @@ namespace MissionPlanner.Joystick
             // 
             // ProgressBarCH5
             // 
-            this.ProgressBarCH5.DrawLabel = true;
             resources.ApplyResources(this.ProgressBarCH5, "ProgressBarCH5");
             this.ProgressBarCH5.Label = null;
             this.ProgressBarCH5.Maximum = 2200;
@@ -515,7 +508,6 @@ namespace MissionPlanner.Joystick
             // 
             // ProgressBarCH6
             // 
-            this.ProgressBarCH6.DrawLabel = true;
             resources.ApplyResources(this.ProgressBarCH6, "ProgressBarCH6");
             this.ProgressBarCH6.Label = null;
             this.ProgressBarCH6.Maximum = 2200;
@@ -534,7 +526,6 @@ namespace MissionPlanner.Joystick
             // 
             // ProgressBarCH7
             // 
-            this.ProgressBarCH7.DrawLabel = true;
             resources.ApplyResources(this.ProgressBarCH7, "ProgressBarCH7");
             this.ProgressBarCH7.Label = null;
             this.ProgressBarCH7.Maximum = 2200;
@@ -549,18 +540,10 @@ namespace MissionPlanner.Joystick
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
             // 
-            // chk_manualcontrol
-            // 
-            resources.ApplyResources(this.chk_manualcontrol, "chk_manualcontrol");
-            this.chk_manualcontrol.Name = "chk_manualcontrol";
-            this.chk_manualcontrol.UseVisualStyleBackColor = true;
-            this.chk_manualcontrol.CheckedChanged += new System.EventHandler(this.chk_manualcontrol_CheckedChanged);
-            // 
             // JoystickSetup
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.chk_manualcontrol);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.label14);
             this.Controls.Add(this.BUT_detch8);
             this.Controls.Add(this.revCH8);
@@ -688,6 +671,5 @@ namespace MissionPlanner.Joystick
         private HorizontalProgressBar ProgressBarCH8;
         private System.Windows.Forms.ComboBox CMB_CH8;
         private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.CheckBox chk_manualcontrol;
     }
 }

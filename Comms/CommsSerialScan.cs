@@ -1,40 +1,49 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms;
+using System.Linq;
+using System.Text;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Comms
 {
     public class CommsSerialScan
     {
         static public bool foundport = false;
-        public static ConcurrentBag<ICommsSerial> portinterface;
+        static public ICommsSerial portinterface;
 
         static object runlock = new object();
         public static int run = 0;
         public static int running = 0;
         static bool connect = false;
 
-        static int[] bauds = new int[] {0, 115200, 57600, 38400, 19200, 9600};
+        static int[] bauds = new int[] {115200, 57600, 38400, 19200, 9600};
 
         static public void Scan(bool connect = false)
         {
             foundport = false;
-            portinterface = new ConcurrentBag<ICommsSerial>();
+            portinterface = null;
             lock (runlock)
             {
-                run = 1;
+                run = 0;
                 running = 0;
             }
             CommsSerialScan.connect = connect;
 
+            List<MAVLinkInterface> scanports = new List<MAVLinkInterface>();
+
             string[] portlist = SerialPort.GetPortNames();
 
-            foreach (var portname in portlist)
+            foreach (string port in portlist)
             {
-                new Thread(o => { doread(portname.Clone()); }).Start();
+                scanports.Add(new MAVLinkInterface()
+                {
+                    BaseStream = new SerialPort() {PortName = port, BaudRate = bauds[0]}
+                });
+            }
+
+            foreach (MAVLinkInterface inter in scanports)
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem(doread, inter);
             }
         }
 
@@ -42,122 +51,110 @@ namespace MissionPlanner.Comms
         {
             lock (runlock)
             {
+                run++;
                 running++;
             }
 
-            var portname = (string) o;
-
-            Console.WriteLine("Scanning {0}", portname);
+            MAVLinkInterface port = (MAVLinkInterface) o;
 
             try
             {
-                SerialPort port = new SerialPort();
+                port.BaseStream.Open();
+
+                int baud = 0;
+
+                redo:
+
+                lock (runlock)
                 {
-                    port.PortName = portname;
+                    if (run == 0)
+                        return;
+                }
 
-                    foreach (var baud in bauds)
+                DateTime deadline = DateTime.Now.AddSeconds(5);
+
+                while (DateTime.Now < deadline)
+                {
+                    Console.WriteLine("Scan port {0} at {1}", port.BaseStream.PortName, port.BaseStream.BaudRate);
+
+                    MAVLink.MAVLinkMessage packet;
+
+                    try
                     {
-                        // try default baud
-                        if(baud != 0)
-                            port.BaudRate = baud;
+                        packet = port.readPacket();
+                    }
+                    catch
+                    {
+                        continue;
+                    }
 
-                        port.Open();
-                        port.DiscardInBuffer();
+                    if (packet.Length > 0)
+                    {
+                        port.BaseStream.Close();
 
-                        // let data flow in
-                        Thread.Sleep(2000);
+                        Console.WriteLine("Found Mavlink on port {0} at {1}", port.BaseStream.PortName,
+                            port.BaseStream.BaudRate);
+
+                        foundport = true;
+                        portinterface = port.BaseStream;
+
+                        if (CommsSerialScan.connect)
+                        {
+                            MainV2.comPort.BaseStream = port.BaseStream;
+
+                            doconnect();
+                        }
 
                         lock (runlock)
                         {
-                            if (run == 0)
-                            {
-                                port.Close();
-                                return;
-                            }
+                            running--;
                         }
 
-                        int available = port.BytesToRead;
-                        var buffer = new byte[available];
-                        int read = port.Read(buffer, 0, available);
-
-                        Console.WriteLine("{0} {1}", portname, read);
-
-                        if (read > 0)
-                        {
-                            using (MemoryStream ms = new MemoryStream(buffer, 0, read))
-                            {
-                                MAVLink.MavlinkParse mav = new MAVLink.MavlinkParse();
-
-                                try
-                                {
-                                    again:
-
-                                    var packet = mav.ReadPacket(ms);
-
-                                    if (packet != null && packet.Length > 0)
-                                    {
-                                        port.Close();
-
-                                        Console.WriteLine("Found Mavlink on port {0} at {1}", port.PortName,
-                                            port.BaudRate);
-
-                                        foundport = true;
-                                        portinterface.Add(port);
-
-                                        if (connect)
-                                        {
-                                            doconnect(port);
-                                        }
-
-                                        break;
-                                    }
-                                    Console.WriteLine(portname + " crc: " + mav.badCRC);
-                                    goto again;
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(portname + " " + ex.ToString());
-                                }
-                            }
-                        }
-
-                        try
-                        {
-                            port.Close();
-                        }
-                        catch ( Exception ex)
-                        {
-                            Console.WriteLine(ex.ToString());
-                        }
-
-                        if (foundport)
-                            break;
+                        return;
                     }
+
+                    if (foundport)
+                        break;
+                }
+
+
+                if (!foundport && port.BaseStream.BaudRate > 0)
+                {
+                    baud++;
+                    if (baud < bauds.Length)
+                    {
+                        port.BaseStream.BaudRate = bauds[baud];
+                        goto redo;
+                    }
+                }
+
+                try
+                {
+                    port.BaseStream.Close();
+                }
+                catch
+                {
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(portname + " " + ex.ToString());
+                Console.WriteLine(ex.ToString());
             }
             finally
             {
                 lock (runlock)
                 {
                     running--;
-
-                    if (running == 0)
-                        run = 0;
                 }
             }
 
-            Console.WriteLine("Scan port {0} Finished!!", portname);
+            Console.WriteLine("Scan port {0} Finished!!", port.BaseStream.PortName);
         }
 
-        static void doconnect(SerialPort port)
+        static void doconnect()
         {
             if (MainV2.instance == null)
             {
-                MainV2.comPort.BaseStream = port;
                 MainV2.comPort.Open(false);
             }
             else
@@ -165,20 +162,11 @@ namespace MissionPlanner.Comms
                 if (MainV2.instance.InvokeRequired)
                 {
                     MainV2.instance.BeginInvoke(
-                        (MethodInvoker) delegate()
-                        {
-                            MAVLinkInterface mav = new MAVLinkInterface();
-                            mav.BaseStream = port;
-                            MainV2.instance.doConnect(mav, "preset", "0");
-                            MainV2.Comports.Add(mav);
-                        });
+                        (System.Windows.Forms.MethodInvoker) delegate() { MainV2.comPort.Open(true); });
                 }
                 else
                 {
-                    MAVLinkInterface mav = new MAVLinkInterface();
-                    mav.BaseStream = port;
-                    MainV2.instance.doConnect(mav, "preset", "0");
-                    MainV2.Comports.Add(mav);
+                    MainV2.comPort.Open(true);
                 }
             }
         }

@@ -79,6 +79,9 @@ namespace MissionPlanner
             }
         }
 
+        const float rad2deg = (float) (180/Math.PI);
+        const float deg2rad = (float) (1.0/rad2deg);
+
         void mainloop()
         {
             threadrun = true;
@@ -141,12 +144,12 @@ namespace MissionPlanner
                         MainV2.comPort.MAV.cs.gpshdop + 0.01, MainV2.comPort.MAV.cs.satcount));
 
                     writeline(string.Format("#6,{0},{1},{2},{3},",
-                        MainV2.comPort.MAV.cs.groundspeed*Math.Sin(MainV2.comPort.MAV.cs.groundcourse*MathHelper.deg2rad),
-                        MainV2.comPort.MAV.cs.groundspeed*Math.Cos(MainV2.comPort.MAV.cs.groundcourse*MathHelper.deg2rad),
+                        MainV2.comPort.MAV.cs.groundspeed*Math.Sin(MainV2.comPort.MAV.cs.groundcourse*deg2rad),
+                        MainV2.comPort.MAV.cs.groundspeed*Math.Cos(MainV2.comPort.MAV.cs.groundcourse*deg2rad),
                         MainV2.comPort.MAV.cs.verticalspeed, 2));
 
-                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll*MathHelper.deg2rad,
-                        MainV2.comPort.MAV.cs.pitch*MathHelper.deg2rad, MainV2.comPort.MAV.cs.yaw*MathHelper.deg2rad));
+                    writeline(string.Format("#7,{0},{1},{2},", MainV2.comPort.MAV.cs.roll*deg2rad,
+                        MainV2.comPort.MAV.cs.pitch*deg2rad, MainV2.comPort.MAV.cs.yaw*deg2rad));
 
                     writeline(string.Format("#8,{0},{1},{2},", MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.alt,
                         MainV2.comPort.MAV.cs.press_temp));
@@ -204,10 +207,10 @@ namespace MissionPlanner
             double wgs84f = 1.0/298.257223563;
             double wgs84b = wgs84a*(1.0 - wgs84f);
 
-            double clat = Math.Cos(MathHelper.deg2rad*latitude);
-            double slat = Math.Sin(MathHelper.deg2rad*latitude);
-            double clon = Math.Cos(MathHelper.deg2rad*longitude);
-            double slon = Math.Sin(MathHelper.deg2rad*longitude);
+            double clat = Math.Cos(deg2rad*latitude);
+            double slat = Math.Sin(deg2rad*latitude);
+            double clon = Math.Cos(deg2rad*longitude);
+            double slon = Math.Sin(deg2rad*longitude);
 
             var ecc = Math.Sqrt(2*wgs84f - Math.Pow(wgs84f, 2));
             var esq = ecc*ecc;

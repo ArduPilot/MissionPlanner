@@ -9,7 +9,6 @@ using System.Text;
 using System.Windows.Forms;
 using Ionic.Zip;
 using MissionPlanner.Utilities;
-using SharpKml.Dom;
 
 namespace MissionPlanner.NoFly
 {
@@ -101,7 +100,6 @@ namespace MissionPlanner.NoFly
             SharpKml.Dom.Folder folder = Element as SharpKml.Dom.Folder;
             SharpKml.Dom.Polygon polygon = Element as SharpKml.Dom.Polygon;
             SharpKml.Dom.LineString ls = Element as SharpKml.Dom.LineString;
-            MultipleGeometry geom = Element as MultipleGeometry;
 
             if (doc != null)
             {
@@ -149,13 +147,6 @@ namespace MissionPlanner.NoFly
                 }
 
                 kmlpolygonsoverlay.Routes.Add(kmlroute);
-            }
-            else if (geom != null)
-            {
-                foreach (var geometry in geom.Geometry)
-                {
-                    processKML(geometry);
-                }
             }
         }
     }

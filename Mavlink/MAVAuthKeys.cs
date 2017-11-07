@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Cryptography;
 using System.Text;
+using System.Xml.Serialization;
 using log4net;
 using MissionPlanner.Utilities;
 
@@ -15,7 +17,7 @@ namespace MissionPlanner.Mavlink
         private static readonly ILog log =
     LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        static string keyfile = Settings.GetUserDataDirectory() + "authkeys.xml";
+        static string keyfile = "authkeys.xml";
 
         static Crypto Rij = new Crypto();
 

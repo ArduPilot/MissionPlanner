@@ -12,6 +12,5 @@ namespace AltitudeAngel.IsolatedPlugin.Common.Maps
         void DeleteOverlay(string name);
         IOverlay GetOverlay(string name, bool createIfNotExists = false);
         IObservable<Unit> MapChanged { get; }
-        void Invalidate();
     }
 }

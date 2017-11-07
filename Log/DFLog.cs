@@ -32,19 +32,6 @@ namespace MissionPlanner.Log
             public string[] items;
             public int timems;
             public int lineno;
-
-            internal DFLog parent;
-
-            public string this[string item]
-            {
-                get
-                {
-                    var index = parent.FindMessageOffset(msgtype, item);
-                    if (index == -1)
-                        return null;
-                    return items[index];
-                }
-            }
         }
 
         public enum error_subsystem
@@ -68,11 +55,37 @@ namespace MissionPlanner.Log
             FAILSAFE_EKF = 17,
             BARO = 18,
             CPU = 19,
-            ADSB = 20,
-            TERRAIN = 21,
-            NAVIGATION = 22,
-            FAILSAFE_TERRAIN = 23,
-            EKF_PRIMARY = 24,
+        }
+
+        public enum error_code
+        {
+            ERROR_RESOLVED = 0,
+            FAILED_TO_INITIALISE = 1,
+            // subsystem specific error codes -- radio
+            RADIO_LATE_FRAME = 2,
+            // subsystem specific error codes -- failsafe_thr, batt, gps
+            FAILSAFE_RESOLVED = 0,
+            FAILSAFE_OCCURRED = 1,
+            // subsystem specific error codes -- compass
+            COMPASS_FAILED_TO_READ = 2,
+            // subsystem specific error codes -- gps
+            GPS_GLITCH = 2,
+            // subsystem specific error codes -- main
+            MAIN_INS_DELAY = 1,
+            // subsystem specific error codes -- crash checker
+            CRASH_CHECK_CRASH = 1,
+            CRASH_CHECK_LOSS_OF_CONTROL = 2,
+            // subsystem specific error codes -- flip
+            FLIP_ABANDONED = 2,
+            // subsystem specific error codes -- autotune
+            AUTOTUNE_BAD_GAINS = 2,
+            // parachute failed to deploy because of low altitude
+            PARACHUTE_TOO_LOW = 2,
+            // EKF check definitions
+            EKF_CHECK_BAD_VARIANCE = 2,
+            EKF_CHECK_BAD_VARIANCE_CLEARED = 0,
+            // Baro specific error codes
+            BARO_GLITCH = 2,
         }
 
         public enum events
@@ -115,9 +128,9 @@ namespace MissionPlanner.Log
             DATA_ACRO_TRAINER_DISABLED = 43,
             DATA_ACRO_TRAINER_LEVELING = 44,
             DATA_ACRO_TRAINER_LIMITED = 45,
-            DATA_GRIPPER_GRAB = 46,
-            DATA_GRIPPER_RELEASE = 47,
-            DATA_GRIPPER_NEUTRAL = 48,
+            DATA_EPM_ON = 46,
+            DATA_EPM_OFF = 47,
+            DATA_EPM_NEUTRAL = 48,
             DATA_PARACHUTE_DISABLED = 49,
             DATA_PARACHUTE_ENABLED = 50,
             DATA_PARACHUTE_RELEASED = 51,
@@ -344,7 +357,7 @@ namespace MissionPlanner.Log
             {
             }
 
-            DFItem item = new DFItem() {parent = this};
+            DFItem item = new DFItem();
             try
             {
                 item.lineno = lineno;
@@ -503,7 +516,7 @@ namespace MissionPlanner.Log
 
         public int FindMessageOffset(string linetype, string find)
         {
-            if (logformat.ContainsKey(linetype.ToUpper()))
+            if (logformat.ContainsKey(linetype))
                 return Log.DFLog.FindInArray(logformat[linetype].FieldNames, find);
 
             return -1;
@@ -514,7 +527,7 @@ namespace MissionPlanner.Log
             int a = 1;
             foreach (string item in array)
             {
-                if (item.ToUpper() == find.ToUpper())
+                if (item == find)
                 {
                     return a;
                 }

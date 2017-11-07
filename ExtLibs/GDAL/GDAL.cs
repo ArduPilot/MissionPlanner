@@ -15,7 +15,6 @@ using System.Windows.Forms;
 using GMap.NET.WindowsForms;
 using GMap.NET.MapProviders;
 using System.Drawing.Drawing2D;
-using OSGeo.OGR;
 
 namespace GDAL
 {
@@ -50,7 +49,7 @@ namespace GDAL
                         continue;
 
                     if (OnProgress != null)
-                        OnProgress((i - 1) / (double)files.Length, file);
+                        OnProgress((i-1) / (double)files.Length, file);
 
                     var info = GDAL.LoadImageInfo(file);
 
@@ -75,7 +74,7 @@ namespace GDAL
                 log.InfoFormat("  RasterCount: " + ds.RasterCount);
                 log.InfoFormat("  RasterSize (" + ds.RasterXSize + "," + ds.RasterYSize + ")");
 
-                OSGeo.GDAL.Driver drv = ds.GetDriver();
+                Driver drv = ds.GetDriver();
 
                 log.InfoFormat("Using driver " + drv.LongName);
 
@@ -186,7 +185,7 @@ namespace GDAL
         public static Bitmap GetBitmap(double lng1, double lat1, double lng2, double lat2, long width, long height)
         {
             if (_cache.Count == 0)
-                return null;
+                return null;                
 
             Bitmap output = new Bitmap((int)width, (int)height, PixelFormat.Format32bppArgb);
 
@@ -224,7 +223,7 @@ namespace GDAL
                             cleared = true;
                         }
 
-                        if (image.Resolution < (res / 3))
+                        if (image.Resolution < (res/3))
                             continue;
 
                         //Console.WriteLine("{0} <= {1} && {2} <= {3} || {4} >= {5} && {6} >= {7} ", rect.Left, image.RasterXSize, rect.Top, image.RasterYSize, rect.Right, 0, rect.Bottom, 0);
@@ -233,9 +232,6 @@ namespace GDAL
                         {
                             lock (locker)
                             {
-                                if (image.Bitmap == null)
-                                    continue;
-
                                 // this is wrong
                                 g.DrawImage(image.Bitmap, new RectangleF(0, 0, width, height), rect, GraphicsUnit.Pixel);
 
@@ -269,47 +265,39 @@ namespace GDAL
 
         public static Bitmap LoadImage(string file)
         {
-            lock (locker)
+            using (var ds = OSGeo.GDAL.Gdal.Open(file, OSGeo.GDAL.Access.GA_ReadOnly))
             {
-                using (var ds = OSGeo.GDAL.Gdal.Open(file, OSGeo.GDAL.Access.GA_ReadOnly))
+                // Get the GDAL Band objects from the Dataset
+                Band band = ds.GetRasterBand(1);
+                if (band == null)
+                    return null;
+                ColorTable ct = band.GetRasterColorTable();
+                // Create a Bitmap to store the GDAL image in
+                Bitmap bitmap = new Bitmap(ds.RasterXSize, ds.RasterYSize, PixelFormat.Format8bppIndexed);
+                // Obtaining the bitmap buffer
+                BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, ds.RasterXSize, ds.RasterYSize), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+                try
                 {
-                    // Get the GDAL Band objects from the Dataset
-                    Band band = ds.GetRasterBand(1);
-                    if (band == null)
-                        return null;
-                    ColorTable ct = band.GetRasterColorTable();
-                    // Create a Bitmap to store the GDAL image in
-                    Bitmap bitmap = new Bitmap(ds.RasterXSize, ds.RasterYSize, PixelFormat.Format8bppIndexed);
-                    // Obtaining the bitmap buffer
-                    BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, ds.RasterXSize, ds.RasterYSize),
-                        ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
-                    try
+                    int iCol = ct.GetCount();
+                    ColorPalette pal = bitmap.Palette;
+                    for (int i = 0; i < iCol; i++)
                     {
-                        if (ct != null)
-                        {
-                            int iCol = ct.GetCount();
-                            ColorPalette pal = bitmap.Palette;
-                            for (int i = 0; i < iCol; i++)
-                            {
-                                ColorEntry ce = ct.GetColorEntry(i);
-                                pal.Entries[i] = Color.FromArgb(ce.c4, ce.c1, ce.c2, ce.c3);
-                            }
-                            bitmap.Palette = pal;
-                        }
-
-                        int stride = bitmapData.Stride;
-                        IntPtr buf = bitmapData.Scan0;
-
-                        band.ReadRaster(0, 0, ds.RasterXSize, ds.RasterYSize, buf, ds.RasterXSize, ds.RasterYSize,
-                            DataType.GDT_Byte, 1, stride);
+                        ColorEntry ce = ct.GetColorEntry(i);
+                        pal.Entries[i] = Color.FromArgb(ce.c4, ce.c1, ce.c2, ce.c3);
                     }
-                    finally
-                    {
-                        bitmap.UnlockBits(bitmapData);
-                    }
+                    bitmap.Palette = pal;
 
-                    return bitmap;
+                    int stride = bitmapData.Stride;
+                    IntPtr buf = bitmapData.Scan0;
+
+                    band.ReadRaster(0, 0, ds.RasterXSize, ds.RasterYSize, buf, ds.RasterXSize, ds.RasterYSize, DataType.GDT_Byte, 1, stride);
                 }
+                finally
+                {
+                    bitmap.UnlockBits(bitmapData);
+                }
+
+                return bitmap;
             }
         }
 
@@ -341,18 +329,7 @@ namespace GDAL
         {
             Bitmap _bitmap = null;
             // load on demand
-            public Bitmap Bitmap
-            {
-                get
-                {
-                    lock (this)
-                    {
-                        if (_bitmap == null) _bitmap = LoadImage(File);
-                        return _bitmap;
-                    }
-                }
-            }
-
+            public Bitmap Bitmap { get { if (_bitmap == null) _bitmap = LoadImage(File); return _bitmap; } }
             public GMap.NET.RectLatLng Rect;
             public string File;
             public int RasterXSize;
@@ -367,84 +344,6 @@ namespace GDAL
                 this.RasterYSize = rasterYSize;
                 Rect = new GMap.NET.RectLatLng(Top, Left, Right - Left, Top - Bottom);
             }
-        }
-
-        //http://www.gisremotesensing.com/2015/09/vector-to-raster-conversion-using-gdal-c.html
-        public static void Rasterize(string inputFeature, string outRaster, string fieldName, int cellSize)
-        {
-            // Define pixel_size and NoData value of new raster  
-            int rasterCellSize = cellSize;
-            const double noDataValue = -9999;
-            string outputRasterFile = outRaster;
-            //Register the vector drivers  
-            Ogr.RegisterAll();
-            //Reading the vector data  
-            DataSource dataSource = Ogr.Open(inputFeature, 0);
-            var count = dataSource.GetLayerCount();
-            Layer layer = dataSource.GetLayerByIndex(0);
-            var litems = layer.GetFeatureCount(0);
-            var lname= layer.GetName();
-            Envelope envelope = new Envelope();
-            layer.GetExtent(envelope, 0);
-            //Compute the out raster cell resolutions  
-            int x_res = Convert.ToInt32((envelope.MaxX - envelope.MinX) / rasterCellSize);
-            int y_res = Convert.ToInt32((envelope.MaxY - envelope.MinY) / rasterCellSize);
-            Console.WriteLine("Extent: " + envelope.MaxX + " " + envelope.MinX + " " + envelope.MaxY + " " + envelope.MinY);
-            Console.WriteLine("X resolution: " + x_res);
-            Console.WriteLine("X resolution: " + y_res);
-            //Register the raster drivers  
-            Gdal.AllRegister();
-            //Check if output raster exists & delete (optional)  
-            if (File.Exists(outputRasterFile))
-            {
-                File.Delete(outputRasterFile);
-            }
-            //Create new tiff   
-            OSGeo.GDAL.Driver outputDriver = Gdal.GetDriverByName("GTiff");
-            Dataset outputDataset = outputDriver.Create(outputRasterFile, x_res, y_res, 1, DataType.GDT_Float64, null);
-            //Extrac srs from input feature   
-            string inputShapeSrs;
-            SpatialReference spatialRefrence = layer.GetSpatialRef();
-            spatialRefrence.ExportToWkt(out inputShapeSrs);
-            //Assign input feature srs to outpur raster  
-            outputDataset.SetProjection(inputShapeSrs);
-            //Geotransform  
-            double[] argin = new double[] { envelope.MinX, rasterCellSize, 0, envelope.MaxY, 0, -rasterCellSize };
-            outputDataset.SetGeoTransform(argin);
-            //Set no data  
-            Band band = outputDataset.GetRasterBand(1);
-            band.SetNoDataValue(noDataValue);
-            //close tiff  
-            outputDataset.FlushCache();
-            outputDataset.Dispose();
-            //Feature to raster rasterize layer options  
-            //No of bands (1)  
-            int[] bandlist = new int[] { 1 };
-            //Values to be burn on raster (10.0)  
-            double[] burnValues = new double[] { 10.0 };
-            Dataset myDataset = Gdal.Open(outputRasterFile, Access.GA_Update);
-            //additional options  
-            string[] rasterizeOptions;
-            //rasterizeOptions = new string[] { "ALL_TOUCHED=TRUE", "ATTRIBUTE=" + fieldName }; //To set all touched pixels into raster pixel  
-            rasterizeOptions = new string[] { "ATTRIBUTE=" + fieldName };
-            //Rasterize layer  
-            //Gdal.RasterizeLayer(myDataset, 1, bandlist, layer, IntPtr.Zero, IntPtr.Zero, 1, burnValues, null, null, null); // To burn the given burn values instead of feature attributes  
-            Gdal.RasterizeLayer(myDataset, 1, bandlist, layer, IntPtr.Zero, IntPtr.Zero, 1, burnValues, rasterizeOptions, new Gdal.GDALProgressFuncDelegate(ProgressFunc), "Raster conversion");
-        }
-
-        private static int ProgressFunc(double complete, IntPtr message, IntPtr data)
-        {
-            Console.Write("Processing ... " + complete * 100 + "% Completed.");
-            if (message != IntPtr.Zero)
-            {
-                Console.Write(" Message:" + System.Runtime.InteropServices.Marshal.PtrToStringAnsi(message));
-            }
-            if (data != IntPtr.Zero)
-            {
-                Console.Write(" Data:" + System.Runtime.InteropServices.Marshal.PtrToStringAnsi(data));
-            }
-            Console.WriteLine("");
-            return 1;
         }
     }
 

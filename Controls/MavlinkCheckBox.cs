@@ -31,34 +31,6 @@ namespace MissionPlanner.Controls
             this.Enabled = false;
         }
 
-        public void setup(double[] OnValue, double[] OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
-            Control enabledisable = null)
-        {
-            int idx = 0;
-            foreach (var s in paramname)
-            {
-                if (paramlist.ContainsKey(s))
-                {
-                    setup(OnValue[idx], OffValue[idx], s, paramlist, enabledisable);
-                    return;
-                }
-                idx++;
-            }
-        }
-
-        public void setup(double OnValue, double OffValue, string[] paramname, MAVLink.MAVLinkParamList paramlist,
-            Control enabledisable = null)
-        {
-            foreach (var s in paramname)
-            {
-                if (paramlist.ContainsKey(s))
-                {
-                    setup(OnValue, OffValue, s, paramlist, enabledisable);
-                    return;
-                }
-            }
-        }
-
         public void setup(double OnValue, double OffValue, string paramname, MAVLink.MAVLinkParamList paramlist,
             Control enabledisable = null)
         {

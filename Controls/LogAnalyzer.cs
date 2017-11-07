@@ -15,7 +15,7 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
-            var start = String.Format(@"Log File {0}
+            textBox1.Text = String.Format(@"Log File {0}
 Size (kb) {1}
 No of lines {2}
 Duration {3}
@@ -25,11 +25,10 @@ Firmware Hash {6}
 Hardware Type {7}
 Free Mem {8}
 Skipped Lines {9}
+
 ", analysis.logfile, analysis.sizekb, analysis.sizelines, analysis.duration, analysis.vehicletype,
                 analysis.firmwareversion, analysis.firmwarehash, analysis.hardwaretype, analysis.freemem,
-                analysis.skippedlines).Replace("\n", Environment.NewLine);
-
-            textBox1.Text = start;
+                analysis.skippedlines);
 
             foreach (var item in analysis.results)
             {

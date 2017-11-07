@@ -9,6 +9,9 @@ namespace MissionPlanner.Swarm.FollowLeader
 {
     public class DroneGroup
     {
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
         List<PointLatLngAlt> trail = new List<PointLatLngAlt>();
 
         public List<Drone> Drones = new List<Drone>();
@@ -46,8 +49,8 @@ namespace MissionPlanner.Swarm.FollowLeader
                 drone.Location.Alt = drone.MavState.cs.alt;
                 if (drone.Velocity == null)
                     drone.Velocity = new Vector3();
-                drone.Velocity.x = Math.Cos(drone.MavState.cs.groundcourse*MathHelper.deg2rad)*drone.MavState.cs.groundspeed;
-                drone.Velocity.y = Math.Sin(drone.MavState.cs.groundcourse*MathHelper.deg2rad)*drone.MavState.cs.groundspeed;
+                drone.Velocity.x = Math.Cos(drone.MavState.cs.groundcourse*deg2rad)*drone.MavState.cs.groundspeed;
+                drone.Velocity.y = Math.Sin(drone.MavState.cs.groundcourse*deg2rad)*drone.MavState.cs.groundspeed;
                 drone.Velocity.z = drone.MavState.cs.verticalspeed;
 
                 drone.TargetVelocity = GroundMasterDrone.Velocity;
@@ -79,9 +82,9 @@ namespace MissionPlanner.Swarm.FollowLeader
                         //targetbearing = bearing;
                     }
 
-                    AirMasterDrone.TargetVelocity.x = Math.Cos(targetbearing*MathHelper.deg2rad)*
+                    AirMasterDrone.TargetVelocity.x = Math.Cos(targetbearing*deg2rad)*
                                                       GroundMasterDrone.MavState.cs.groundspeed;
-                    AirMasterDrone.TargetVelocity.y = Math.Sin(targetbearing*MathHelper.deg2rad)*
+                    AirMasterDrone.TargetVelocity.y = Math.Sin(targetbearing*deg2rad)*
                                                       GroundMasterDrone.MavState.cs.groundspeed;
                 }
                 catch
