@@ -9,7 +9,9 @@ using MissionPlanner.Attributes;
 using MissionPlanner;
 using System.Collections;
 using System.Linq;
+using System.Runtime.Serialization;
 using DirectShowLib;
+using Newtonsoft.Json;
 
 namespace MissionPlanner
 {
@@ -19,6 +21,8 @@ namespace MissionPlanner
 
         public event EventHandler csCallBack;
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MAVState parent;
 
         public int lastautowp = -1;

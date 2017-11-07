@@ -202,15 +202,25 @@ namespace MissionPlanner.Utilities
                                     Console.Write(stream.ReadByte());
                                 }
 
-                                byte[] packet = new byte[1024];
+                                byte[] packet = new byte[1024*32];
 
-                                string sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," + MainV2.comPort.MAV.cs.yaw
+                                var cs = JsonConvert.SerializeObject(MainV2.comPort.MAV.cs);
+
+                                string sendme = cs;
+
+                               /* 
+                                sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," + MainV2.comPort.MAV.cs.yaw
                                                 + "," + MainV2.comPort.MAV.cs.lat + "," + MainV2.comPort.MAV.cs.lng + "," + MainV2.comPort.MAV.cs.alt;
+                                                */
 
-                                packet[0] = 0x81; // fin - binary
-                                packet[1] = (byte) sendme.Length;
+                                var tosend = sendme.Length;
+                                packet[0] = 0x81; // fin - utf
 
-                                int i = 2;
+                                packet[1] = 126; // 2 byte length
+                                packet[2] = (byte)(tosend >> 8);
+                                packet[3] = (byte)(tosend & 0xff);
+
+                                int i = 4;
                                 foreach (char ch in sendme)
                                 {
                                     packet[i++] = (byte) ch;
