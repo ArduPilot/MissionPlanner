@@ -194,41 +194,44 @@ namespace MissionPlanner.Utilities
 
                             while (client.Connected)
                             {
-                                Thread.Sleep(200);
                                 log.Debug(stream.DataAvailable + " " + client.Available);
 
                                 while (client.Available > 0)
                                 {
-                                    Console.Write(stream.ReadByte());
+                                    Console.Write(stream.ReadByte().ToString("X2"));
                                 }
 
-                                byte[] packet = new byte[1024*32];
+                                byte[] packet = new byte[1024 * 32];
 
-                                var cs = JsonConvert.SerializeObject(MainV2.comPort.MAV.cs);
+                                var mav = JsonConvert.SerializeObject(MainV2.comPort.MAV);
 
-                                string sendme = cs;
-
-                               /* 
-                                sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," + MainV2.comPort.MAV.cs.yaw
-                                                + "," + MainV2.comPort.MAV.cs.lat + "," + MainV2.comPort.MAV.cs.lng + "," + MainV2.comPort.MAV.cs.alt;
-                                                */
-
-                                var tosend = sendme.Length;
-                                packet[0] = 0x81; // fin - utf
-
-                                packet[1] = 126; // 2 byte length
-                                packet[2] = (byte)(tosend >> 8);
-                                packet[3] = (byte)(tosend & 0xff);
-
-                                int i = 4;
-                                foreach (char ch in sendme)
+                                foreach (var sendme in new[] { mav })
                                 {
-                                    packet[i++] = (byte) ch;
+                                    int i = 0;
+                                    var tosend = sendme.Length;
+                                    packet[i++] = 0x81; // fin - utf
+                                    
+                                    if (tosend <= 125)
+                                    {
+                                        packet[i++] = (byte)(tosend);
+                                    }
+                                    else
+                                    {
+                                        packet[i++] = 126; // nomask -  2 byte length
+                                        packet[i++] = (byte)(tosend >> 8);
+                                        packet[i++] = (byte)(tosend & 0xff);
+                                    }
+                                    
+                                    foreach (char ch in sendme)
+                                    {
+                                        packet[i++] = (byte)ch;
+                                    }
+
+                                    stream.Write(packet, 0, i);
+                                    stream.Flush();
                                 }
 
-                                stream.Write(packet, 0, i);
-
-                                //break;
+                                Thread.Sleep(200);
                             }
                         }
                     }

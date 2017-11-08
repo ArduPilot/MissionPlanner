@@ -113,6 +113,8 @@ namespace MissionPlanner
         /// <summary>
         /// storage for whole paramater list
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MAVLinkParamList param { get; set; }
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
