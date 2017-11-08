@@ -220,7 +220,7 @@ namespace MissionPlanner.Controls
         {
             if (Common.getFilefromNet(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/sim_vehicle.py",
-                sitldirectory + "sim_vehicle.py"))
+                sitldirectory + "sim_vehicle.py") || File.Exists(sitldirectory + "sim_vehicle.py"))
             {
                 var matches = default_params_regex.Matches(File.ReadAllText(sitldirectory + "sim_vehicle.py"));
 
@@ -231,7 +231,7 @@ namespace MissionPlanner.Controls
                         if (Common.getFilefromNet(
                             "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                             match.Groups[2].Value.ToString(),
-                            sitldirectory + match.Groups[2].Value.ToString()))
+                            sitldirectory + match.Groups[2].Value.ToString()) || File.Exists(sitldirectory + match.Groups[2].Value.ToString()))
                             return sitldirectory + match.Groups[2].Value.ToString();
                     }
                 }
@@ -239,7 +239,7 @@ namespace MissionPlanner.Controls
 
             if (Common.getFilefromNet(
                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/pysim/vehicleinfo.py",
-                sitldirectory + "vehicleinfo.py"))
+                sitldirectory + "vehicleinfo.py") || File.Exists(sitldirectory + "vehicleinfo.py"))
             {
                 cleanupJson(sitldirectory + "vehicleinfo.py");
 
@@ -265,24 +265,26 @@ namespace MissionPlanner.Controls
 
                         if (configs is JValue)
                         {
-                            Common.getFilefromNet(
+                            if (Common.getFilefromNet(
                                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                 configs.ToString(),
-                                sitldirectory + configs.ToString());
-
-                            return sitldirectory + configs.ToString();
+                                sitldirectory + configs.ToString()) || File.Exists(sitldirectory + configs.ToString()))
+                            {
+                                return sitldirectory + configs.ToString();
+                            }
                         }
 
                         string data = "";
 
                         foreach (var config1 in configs)
                         {
-                            Common.getFilefromNet(
+                            if (Common.getFilefromNet(
                                 "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/Tools/autotest/" +
                                 config1.ToString(),
-                                sitldirectory + config1.ToString());
-
-                            data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                                sitldirectory + config1.ToString()) || File.Exists(sitldirectory + config1.ToString()))
+                            {
+                                data += "\r\n" + File.ReadAllText(sitldirectory + config1.ToString());
+                            }
                         }
 
                         var temp = Path.GetTempFileName();
