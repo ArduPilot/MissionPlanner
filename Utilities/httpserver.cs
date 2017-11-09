@@ -203,9 +203,11 @@ namespace MissionPlanner.Utilities
 
                                 byte[] packet = new byte[1024 * 32];
 
-                                var mav = JsonConvert.SerializeObject(MainV2.comPort.MAV);
+                                var cs = JsonConvert.SerializeObject(MainV2.comPort.MAV.cs);
+                                var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
+                                //var mav = JsonConvert.SerializeObject(MainV2.comPort.MAV);
 
-                                foreach (var sendme in new[] { mav })
+                                foreach (var sendme in new[] { cs,wps })
                                 {
                                     int i = 0;
                                     var tosend = sendme.Length;

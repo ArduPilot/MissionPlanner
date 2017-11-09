@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>Hud</title>
-    <script src="http://smoothiecharts.org/smoothie.js"></script>
+    <meta name="format-detection" content="telephone=no">
+<title>Hud</title>
+<script src="http://smoothiecharts.org/smoothie.js"></script>
+    
+<script src="/mav/Cesium/Cesium.js"></script>
+<style>
+    @import url(/mav/Cesium/Widgets/widgets.css);
+</style>
 
-    <script type="application/x-javascript">
+<script type="application/x-javascript">
                 <!--
                     var deg2rad = Math.PI / 180;
                     var rad2deg = 180 / Math.PI;
@@ -54,159 +60,195 @@
                     socket.onopen    = function(msg){ document.getElementById("serverStatus").innerHTML = "onopen"; jsoncount=0; };
                     socket.onmessage = function(msg){
                         jsoncount++;
-                        var MAV = JSON.parse(msg.data);
 
-                        if(!MAV.hasOwnProperty('FrameString'))
-                            return;
+                        var data = JSON.parse(msg.data);
 
-                        var wpscoords = [];
-                        for (i in MAV.wps)
+                        if(data.hasOwnProperty('FrameString'))
                         {
-                            if (MAV.wps[i].x != 0 && MAV.wps[i].y != 0)
-                            {
-                                wpscoords.push({lat: MAV.wps[i].x, lng: MAV.wps[i].y, label: MAV.wps[i].seq });
-                            }
+                            MAV = data;
                         }
-
-                    if(wpmarkers.length == wpscoords.length)
-                    {
-                        i=0;
-                        wpmarkers.forEach(function(element)
+                        else if(data.hasOwnProperty('rateattitude'))
                         {
+                            cs = data;
+
+
+                            var status = "<ul style='columns: 3;'>";
+
+                            a=1;
+
+                var sortable = [];
+                    for (i in cs)
+                            {
+                            sortable.push(i);
+                            }
+
+                            sortable.sort(function (a, b) {
+                    return a.toLowerCase().localeCompare(b.toLowerCase());
+                });
+
+                            for (i in sortable)
+                            {
+                                var name = sortable[i];
+                                var data = cs[sortable[i]];
+
+                                if(typeof data != 'object')
+                                    status += "<li style='overflow:hidden; white-space: nowrap;'><b onclick=graphitem('" + name + "')>" + name + ":</b><br> " + data + "</li>";
+
+                                //if(a%3==0)
+                                    //status += "<br>";
+
+                                a++;
+                            }
+
+                            status+="</ul>";
+
+                            document.getElementById("serverStatus").innerHTML = status;
+
+                            map.setCenter({lat: cs.lat, lng: cs.lng});
+
+                            if(jsoncount < 5)
+                            {
+                                map.setZoom(18);
+                            }
+
+                            roll = cs.roll;
+                            pitch = cs.pitch;
+                            yaw = cs.yaw;
+
+                            lat = cs.lat;
+                            lng = cs.lng;
+                            alt = cs.alt;
+
+                            try {
+
+                        var myLatLng = {lat: lat, lng: lng};
+
+                    if(markers.length > 0)
+                    {
+                        markers[0].setPosition(myLatLng);
+                    } else {
+                        var marker = new google.maps.Marker({
+                            position: myLatLng,
+                            map: map,
+                            title: 'ArduPilot',
+                            label: MAV.sysid+''
+                       });
+
+                        markers.push(marker);
+                    }
+
+                    map.setOptions({maxZoom: 21});
+
+                          //socket.send("test "+pitch+"\n");
+                          } catch (ex){ }// alert(ex); }
+
+                          line1.append(new Date().getTime(), eval(line1item));
+                          line2.append(new Date().getTime(), eval(line2item));
+
+
+                            pathHistory.push({lat: lat, lng: lng});
+
+                            pathHistory = pathHistory.slice(-200,200);
+
+
+                            if(pathHistoryPoly == null) {
+                            pathHistoryPoly = new google.maps.Polyline({
+                              path: pathHistory,
+                              geodesic: true,
+                              strokeColor: '#191970',
+                              strokeOpacity: 0.56,
+                              strokeWeight: 4
+                            });
+
+                            pathHistoryPoly.setMap(map);
+                            } else {
+                                pathHistoryPoly.setPath(pathHistory);
+                            }
+                        }else if(data[0].hasOwnProperty('mission_type'))
+                        {
+                            wps = data;
+
+                            var wpscoords = [];
+                            for (i in wps)
+                            {
+                            if (wps[i].x != 0 && wps[i].y != 0)
+                            {
+                            wpscoords.push({lat: wps[i].x, lng: wps[i].y, alt: wps[i].z, frame: wps[i].frame, label: wps[i].seq });
+                            }
+                            }
+
+                            if(wpmarkers.length == wpscoords.length)
+                            {
+                            i=0;
+                            wpmarkers.forEach(function(element)
+                            {
                             element.setPosition(wpscoords[i]);
                             i++;
-                        });
-                    } else {
-                        wpmarkers.forEach(function(element)
-                        {element.setMap(null)});
-                        wpmarkers = [];
-                        // Create markers.
-                        wpscoords.forEach(function(feature) {
+                            });
+                            } else {
+                            wpmarkers.forEach(function(element)
+                            {element.setMap(null)});
+                            wpmarkers = [];
+                            // Create markers.
+                            wpscoords.forEach(function(feature) {
                             var marker = new google.maps.Marker({
-                                position: feature,
-                                icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/green.png',
-                                map: map,
-                                label: (feature.label == 0) ? "Home" : feature.label+"",
-                                draggable:true,
-                                title: (feature.label == 0) ? "Home" : feature.label+""
+                            position: feature,
+                            icon: 'https://maps.gstatic.com/mapfiles/ms2/micons/green.png',
+                            map: map,
+                            label: (feature.label == 0) ? "Home" : feature.label+"",
+                            draggable:true,
+                            title: (feature.label == 0) ? "Home" : feature.label+""
                             });
                             wpmarkers.push(marker);
 
                             google.maps.event.addListener(marker, 'dragend', function (event) {
-                                document.getElementById("latbox").value = event.latLng.lat();
-                                document.getElementById("lngbox").value = event.latLng.lng();
+                            document.getElementById("latbox").value = event.latLng.lat();
+                            document.getElementById("lngbox").value = event.latLng.lng();
                             });
-                        });
-                    }
+                            });
+                            }
 
-                        if(flightPath == null) {
-                        flightPath = new google.maps.Polyline({
-                          path: wpscoords,
-                          geodesic: true,
-                          strokeColor: '#FFFF00',
-                          strokeOpacity: 1.0,
-                          strokeWeight: 4
-                        });
+    var pnts = [];
+    wpscoords.forEach(function(feature)
+    {
+        pnts.push(feature.lng);
+        pnts.push(feature.lat);
+        pnts.push(feature.alt + cs.HomeAlt);
+    });
 
-                        flightPath.setMap(map);
-                        } else {
+        var orangeOutlined = viewer.entities.add({
+        name : 'Orange line with black outline at height and following the surface',
+        polyline : {
+            positions : Cesium.Cartesian3.fromDegreesArrayHeights(pnts),
+            width : 4,
+            material : new Cesium.PolylineOutlineMaterialProperty({
+                color : Cesium.Color.ORANGE,
+                outlineWidth : 2,
+                outlineColor : Cesium.Color.BLACK
+            })
+        }
+    });
+
+    orangeOutlined.position = Cesium.Cartesian3.fromDegrees(lng, lat);
+
+    viewer.trackedEntity = orangeOutlined;
+
+                            if(flightPath == null) {
+                            flightPath = new google.maps.Polyline({
+                            path: wpscoords,
+                            geodesic: true,
+                            strokeColor: '#FFFF00',
+                            strokeOpacity: 1.0,
+                            strokeWeight: 4
+                            });
+
+                            flightPath.setMap(map);
+                            } else {
                             flightPath.setPath(wpscoords);
-                        }
+                            }
 
-                        var cs = MAV.cs;
+                        } else { return; }
 
-                        var status = "<ul style='columns: 3;'>";
-
-                        a=1;
-
-            var sortable = [];
-                for (i in cs)
-                        {
-                        sortable.push(i);
-                        }
-
-                        sortable.sort(function (a, b) {
-                return a.toLowerCase().localeCompare(b.toLowerCase());
-            });
-
-                        for (i in sortable)
-                        {
-                            var name = sortable[i];
-                            var data = cs[sortable[i]];
-
-                            if(typeof data != 'object')
-                                status += "<li style='overflow:hidden; white-space: nowrap;'><b onclick=graphitem('" + name + "')>" + name + ":</b> " + data + "</li>";
-
-                            //if(a%3==0)
-                                //status += "<br>";
-
-                            a++;
-                        }
-
-                        status+="</ul>";
-
-                        document.getElementById("serverStatus").innerHTML = status;
-
-                        map.setCenter({lat: cs.lat, lng: cs.lng});
-
-                        if(jsoncount < 5)
-                        {
-                            map.setZoom(18);
-                        }
-
-                        roll = cs.roll;
-                        pitch = cs.pitch;
-                        yaw = cs.yaw;
-
-                        lat = cs.lat;
-                        lng = cs.lng;
-                        alt = cs.alt;
-
-                        try {
-
-                    var myLatLng = {lat: lat, lng: lng};
-
-                if(markers.length > 0)
-                {
-                    markers[0].setPosition(myLatLng);
-                } else {
-                    var marker = new google.maps.Marker({
-                        position: myLatLng,
-                        map: map,
-                        title: 'ArduPilot',
-                        label: MAV.sysid+''
-                   });
-
-                    markers.push(marker);
-                }
-
-                map.setOptions({maxZoom: 21});
-
-                      //socket.send("test "+pitch+"\n");
-                      } catch (ex){ }// alert(ex); }
-
-                      line1.append(new Date().getTime(), eval(line1item));
-                      line2.append(new Date().getTime(), eval(line2item));
-
-
-                        pathHistory.push({lat: lat, lng: lng});
-
-                        pathHistory = pathHistory.slice(-200,200);
-
-
-                        if(pathHistoryPoly == null) {
-                        pathHistoryPoly = new google.maps.Polyline({
-                          path: pathHistory,
-                          geodesic: true,
-                          strokeColor: '#191970',
-                          strokeOpacity: 0.56,
-                          strokeWeight: 4
-                        });
-
-                        pathHistoryPoly.setMap(map);
-                        } else {
-                            pathHistoryPoly.setPath(pathHistory);
-                        }
 
                     };
                     socket.onerror   = function(msg){ document.getElementById("serverStatus").innerHTML = "Error: "+msg.data; };
@@ -381,14 +423,14 @@
                             for (var a = start; a <= _heading + 60; a += 1)
                             {
                                 // target heading
-                                if (( (a + 360) % 360) ==  _targetheading)
+                                if (( (a + 360) % 360) ==  Math.round(_targetheading))
                                 {
 
                                     DrawLine(ctx,"green", 2, headbg.Left + 5 + space * (a - start),
                                         headbg.Bottom, headbg.Left + 5 + space * (a - start), headbg.Top);
                                 }
 
-                                if (( (a + 360) % 360) ==  _groundcourse)
+                                if (( (a + 360) % 360) ==  Math.round(_groundcourse))
                                 {
 
                                     DrawLine(ctx,"black", 2, headbg.Left + 5 + space * (a - start),
@@ -467,28 +509,6 @@
                                         headbg.Bottom - 5, headbg.Left + 5 + space * (a - start), headbg.Bottom - 10);
                                 }
                             }
-        /*
-                            RectangleF rect = new RectangleF(headbg.Width / 2 - (fontsize * 2.4f) / 2, 0, (fontsize * 2.4f),
-                                headbg.Height);
-
-                            //DrawRectangle(whitePen, rect);
-                            FillRectangle(SlightlyTransparentWhiteBrush, rect);
-
-                            if (Math.Abs(_heading - _targetheading) < 4)
-                            {
-                                drawstring(graphicsObject, String.Format("{0,3}", (int) (heading % 360)), font, fontsize,
-                                    _whiteBrush, headbg.Width / 2 - (fontsize * 1f),
-                                    headbg.Bottom - 24 - (int) (fontoffset * 1.7));
-                            }
-                            else
-                            {
-                                drawstring(graphicsObject, String.Format("{0,3}", (int) (heading % 360)), font, fontsize,
-                                    _whiteBrush, headbg.Width / 2 - (fontsize * 1f),
-                                    headbg.Bottom - 24 - (int) (fontoffset * 1.7));
-                            }
-        */
-
-
 
                       }
 
@@ -549,34 +569,43 @@
 
                     -->
     </script>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
-        #map {
-            height: 100%;
-        }
-    </style>
+    #map {
+        height: 100%;
+    }
+</style>
 
 </head>
 <body onload="init();">
-    <div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal;overflow: auto;">
-        <div style="float: left;">
-            <canvas id="canvas" width="640" height="480">
-                <p>
-                    This example requires a browser that supports the
-                    <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
-                    &lt;canvas&gt; feature.
-                </p>
-            </canvas><br>
-            Lat:     <input id="latbox" name="lat" val="40.713956" />Long:     <input id="lngbox" name="long" val="74.006653" />    <br />
-            <canvas id="graphcanvas" width="640" height="80"></canvas>
-        </div>
-        <div id="serverStatus" style="width: 640px; overflow-y: auto; flex-grow: 0;"></div>
+<div style="height: 100%; display: flex; flex-direction: column; float: left; resize: horizontal;overflow: auto;">
+    <div style="float: left;">
+        <canvas id="canvas" width="500" height="375">
+            <p>
+                This example requires a browser that supports the
+                <a href="http://www.w3.org/html/wg/html5/">HTML5</a>
+                &lt;canvas&gt; feature.
+            </p>
+        </canvas><br>
+        Lat:     <input id="latbox" name="lat" val="40.713956" />Long:     <input id="lngbox" name="long" val="74.006653" />    <br />
+        <canvas id="graphcanvas" width="500" height="80"></canvas><br/>
     </div>
+    <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
+</div>
+<div id="cesiumContainer" style="float: right; height: 700px;"></div>
+<script>
+    var viewer = new Cesium.Viewer('cesiumContainer');
+
+    var terrainProvider = new Cesium.CesiumTerrainProvider({
+        url : '//assets.agi.com/stk-terrain/world'
+    });
+    viewer.terrainProvider = terrainProvider;
+</script>
     <div id="map"></div>
     <script>
         var map;

@@ -23,3 +23,7 @@ deploy: off
 notifications:
 - provider: Webhook
   url: https://webhooks.gitter.im/e/e12df81fc82d8b11e3d8
+  method: POST
+  on_build_success: true
+  on_build_failure: false
+  on_build_status_changed: false
