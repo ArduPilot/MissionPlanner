@@ -116,7 +116,8 @@ namespace MissionPlanner
         [JsonIgnore]
         [IgnoreDataMember]
         public MAVLinkParamList param { get; set; }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
         /// <summary>
@@ -173,11 +174,15 @@ namespace MissionPlanner
         /// <summary>
         /// used to calc packets per second on any single message type - used for stream rate comparaison
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<uint,double> packetspersecond { get; set; }
 
         /// <summary>
         /// time last seen a packet of a type
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<uint, DateTime> packetspersecondbuild { get; set; }
 
         /// <summary>
