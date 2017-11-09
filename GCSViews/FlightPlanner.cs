@@ -6051,6 +6051,11 @@ namespace MissionPlanner.GCSViews
                 if (Math.Abs(deltax)/100 < 40)
                     gridsize = 100;
 
+                if (Math.Abs(deltax) / 10 < 40)
+                    gridsize = 10;
+
+                if (Math.Abs(deltax) / 1 < 40)
+                    gridsize = 1;
 
                 // round it - x
                 utm1[0] = utm1[0] - (utm1[0]%gridsize);
