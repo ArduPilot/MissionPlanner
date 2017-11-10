@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Microsoft.Scripting.Utils;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -172,9 +174,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 if (textBox.GetType() == typeof(TextBox))
                                 {
-                                    if (((TextBox) textBox).Name == tbName)
+                                    if (((TextBox)textBox).Name == tbName)
                                     {
-                                        ((TextBox) textBox).ResetBindings();
+                                        ((TextBox)textBox).ResetBindings();
                                         Binding binding = null;
                                         switch (j)
                                         {
@@ -183,20 +185,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                                 binding = new Binding(propertyName: "Text",
                                                     dataSource: VelocitySet[key: i], dataMember: "Angle");
                                                 binding.Format +=
-                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    delegate (object sentFrom, ConvertEventArgs convertEventArgs)
                                                     {
                                                         convertEventArgs.Value =
-                                                            ((double) convertEventArgs.Value).ToString("0");
+                                                            ((double)convertEventArgs.Value).ToString("0");
                                                     };
                                                 break;
                                             case 3:
                                                 binding = new Binding(propertyName: "Text",
                                                     dataSource: VelocitySet[key: i], dataMember: "AverageVelocity");
                                                 binding.Format +=
-                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    delegate (object sentFrom, ConvertEventArgs convertEventArgs)
                                                     {
                                                         convertEventArgs.Value =
-                                                            ((double) convertEventArgs.Value).ToString("0.00")
+                                                            ((double)convertEventArgs.Value).ToString("0.00")
                                                             .Replace(".", ","); //convert string
                                                     };
                                                 break;
@@ -204,19 +206,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                                 binding = new Binding(propertyName: "Text",
                                                     dataSource: VelocitySet[key: i], dataMember: "Deviation");
                                                 binding.Format +=
-                                                    delegate(object sentFrom, ConvertEventArgs convertEventArgs)
+                                                    delegate (object sentFrom, ConvertEventArgs convertEventArgs)
                                                     {
                                                         convertEventArgs.Value =
-                                                            ((double) convertEventArgs.Value).ToString("0.00")
+                                                            ((double)convertEventArgs.Value).ToString("0.00")
                                                             .Replace(".", ","); //convert string
                                                     };
 
                                                 break;
                                         }
-                                        if (binding != null && ((TextBox) textBox).DataBindings.Count == 0)
-                                            ((TextBox) textBox).DataBindings.Add(binding);
-                                        ((TextBox) textBox).GotFocus += RemoveText;
-                                        ((TextBox) textBox).LostFocus += AddText;
+                                        if (binding != null && ((TextBox)textBox).DataBindings.Count == 0)
+                                            ((TextBox)textBox).DataBindings.Add(binding);
+                                        ((TextBox)textBox).GotFocus += RemoveText;
+                                        ((TextBox)textBox).LostFocus += AddText;
                                         break;
                                     }
                                 }
@@ -271,11 +273,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 panelExpImp.Enabled = true;
                 panelCurrentConfiguration.Enabled = true;
                 panelVelocityConfiguration.Enabled = true;
+                Panel_LogAnalyzer.Enabled = true;
+                Lb_LogAnalyzer.BackColor = System.Drawing.SystemColors.Window;
                 if (!EnergyProfileModel.Enabled)
                 {
                     EnergyProfileModel.Enabled = true;
-                    CrntTBDatabindings();
-                    VelocityTBDatabindings();
+                    UpdateTables(2);
                 }
             }
             else
@@ -285,8 +288,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 panelExpImp.Enabled = false;
                 panelCurrentConfiguration.Enabled = false;
                 panelVelocityConfiguration.Enabled = false;
+                Panel_LogAnalyzer.Enabled = false;
+                Lb_LogAnalyzer.BackColor = System.Drawing.SystemColors.WindowFrame;
                 EnergyProfileModel.Enabled = false;
-                ClearChart(new List<Chart> {ChartI, ChartV});
+                ClearChart(new List<Chart> { ChartI, ChartV });
             }
         }
 
@@ -312,8 +317,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             ComboBoxIndex = ComboBoxCrntDeviation.SelectedIndex;
             _configEnergyProfile.ChangeDeviation((int)ComboBoxCrntDeviation.SelectedItem);
-            CrntTBDatabindings();
-            BtnPlotCrnt.PerformClick();
+            UpdateTables(1);
         }
 
         private void BtnImport_Click(object sender, EventArgs e)
@@ -321,11 +325,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             bool import = _configEnergyProfile.ImportProfile();
             if (import)
             {
-                ComboBoxCrntDeviation.SelectedItem = (int) (EnergyProfileModel.PercentDevCrnt * 100);
-                CrntTBDatabindings();
-                VelocityTBDatabindings();
-                BtnPlotCrnt.PerformClick();
-                BtnPlotVelocity.PerformClick();
+                ComboBoxCrntDeviation.SelectedItem = (int)(EnergyProfileModel.PercentDevCrnt * 100);
+                UpdateTables();
             }
         }
 
@@ -356,10 +357,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 ComboBoxCrntDeviation.SelectedIndex = ComboBoxIndex;
                 //Write back values to settings page
-                CrntTBDatabindings();
-                VelocityTBDatabindings();
-                BtnPlotCrnt.PerformClick();
-                BtnPlotVelocity.PerformClick();
+                UpdateTables();
             }
         }
 
@@ -371,6 +369,101 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void BtnPlotVelocity_Click(object sender, EventArgs e)
         {
             _configEnergyProfile.Plot_Spline(ChartV, EnergyProfileController.PlotProfile.Velocity);
+        }
+
+        private void Btn_LoadLogfile_Click(object sender, EventArgs e)
+        {
+            ArrayList selectedItems = new ArrayList();
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
+            {
+                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+
+                openFileDialog1.InitialDirectory = Settings.Instance.LogDir;
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (var fileName in openFileDialog1.FileNames)
+                    {
+                        bool doubleEntree = false;
+                        string file = System.IO.Path.GetFileName(fileName);
+                        foreach (var item in Lb_LogAnalyzer.Items)
+                        {
+                            if (System.IO.Path.GetFileName(item.ToString()).Equals(file))
+                            {
+                                doubleEntree = true;
+                                break;
+                            }
+                        }
+                        if (!doubleEntree)
+                            selectedItems.Add(fileName);
+
+                    }
+                }
+            }
+            selectedItems.AddRange(Lb_LogAnalyzer.Items);
+            selectedItems.Sort();
+            Lb_LogAnalyzer.Items.Clear();
+            foreach (object selectedItem in selectedItems)
+            {
+                Lb_LogAnalyzer.Items.Add(selectedItem);
+            }
+            if (Lb_LogAnalyzer.Items.Count > 0)
+                Btn_Analyze.Enabled = true;
+        }
+
+        private void Btn_DeleteLogfile_Click(object sender, EventArgs e)
+        {
+            if (Lb_LogAnalyzer.SelectedItems.Count.Equals(Lb_LogAnalyzer.Items.Count))
+            {
+                Lb_LogAnalyzer.Items.Clear();
+                Btn_Analyze.Enabled = false;
+            }
+            else
+            {
+                for (int selectedIndex = Lb_LogAnalyzer.SelectedIndices.Count - 1; selectedIndex >= 0; selectedIndex--)
+                {
+                    Lb_LogAnalyzer.Items.RemoveAt(Lb_LogAnalyzer.SelectedIndices[selectedIndex]);
+                }
+            }
+        }
+
+        private void Btn_Analyze_Click(object sender, EventArgs e)
+        {
+            List<string> filenames = new List<string>();
+            foreach (var item in Lb_LogAnalyzer.Items)
+            {
+                filenames.Add(item.ToString());
+            }
+            
+            _configEnergyProfile.AnalyzeLogs(filenames, Convert.ToInt16(tb_minval.Text), Convert.ToInt16(tb_transtime.Text));
+
+            // update view
+            UpdateTables();
+        }
+
+        private void UpdateTables(int section = 0)
+        {
+            switch (section)
+            {
+                case 0:
+                    CrntTBDatabindings();
+                    VelocityTBDatabindings();
+                    BtnPlotCrnt.PerformClick();
+                    BtnPlotVelocity.PerformClick();
+                    break;
+                case 1:
+                    CrntTBDatabindings();
+                    BtnPlotCrnt.PerformClick();
+                    break;
+                case 2:
+                    CrntTBDatabindings();
+                    VelocityTBDatabindings();
+                    break;
+
+            }
         }
     }
 }

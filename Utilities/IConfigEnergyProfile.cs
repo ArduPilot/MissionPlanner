@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.UI.WebControls;
 using System.Windows.Forms.DataVisualization.Charting;
 
 namespace MissionPlanner.Utilities
@@ -17,6 +19,9 @@ namespace MissionPlanner.Utilities
         void ExportProfile();
 
         bool ImportProfile();
+
+        void AnalyzeLogs(List<string> filenames, int minval, int transtime);
+
     }
     interface IEnergyConsumption
     {

@@ -190,6 +190,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label19 = new System.Windows.Forms.Label();
             this.LbTitleVelocity = new System.Windows.Forms.Label();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.Btn_Analyze = new MissionPlanner.Controls.MyButton();
+            this.Btn_LoadLogfile = new MissionPlanner.Controls.MyButton();
+            this.Btn_DeleteLogfile = new MissionPlanner.Controls.MyButton();
+            this.Panel_LogAnalyzer = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.lb_transtime = new System.Windows.Forms.Label();
+            this.lb_minvalues = new System.Windows.Forms.Label();
+            this.tb_transtime = new System.Windows.Forms.TextBox();
+            this.tb_minval = new System.Windows.Forms.TextBox();
+            this.Lb_LogAnalyzer = new System.Windows.Forms.ListBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.Lbl_Head_LogfileAnalyzer = new System.Windows.Forms.Label();
             this.panelCurrentConfiguration.SuspendLayout();
             this.CrntTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartI)).BeginInit();
@@ -200,6 +213,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panelVelocityConfiguration.SuspendLayout();
             this.VelocityTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).BeginInit();
+            this.Panel_LogAnalyzer.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_EnableEnergyProfile
@@ -268,7 +283,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // BtnPlotCrnt
             // 
-            this.BtnPlotCrnt.Location = new System.Drawing.Point(715, 310);
+            this.BtnPlotCrnt.Location = new System.Drawing.Point(722, 310);
             this.BtnPlotCrnt.Name = "BtnPlotCrnt";
             this.BtnPlotCrnt.Size = new System.Drawing.Size(84, 26);
             this.BtnPlotCrnt.TabIndex = 52;
@@ -357,6 +372,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.CrntTable.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.CrntTable.Size = new System.Drawing.Size(810, 146);
             this.CrntTable.TabIndex = 64;
             // 
@@ -1196,7 +1212,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // BtnPlotVelocity
             // 
-            this.BtnPlotVelocity.Location = new System.Drawing.Point(715, 310);
+            this.BtnPlotVelocity.Location = new System.Drawing.Point(722, 310);
             this.BtnPlotVelocity.Name = "BtnPlotVelocity";
             this.BtnPlotVelocity.Size = new System.Drawing.Size(84, 26);
             this.BtnPlotVelocity.TabIndex = 52;
@@ -1900,12 +1916,151 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.LbTitleVelocity.TabIndex = 47;
             this.LbTitleVelocity.Text = "Speed to Flight Angle Relation\r\n(Movement)";
             // 
+            // Btn_Analyze
+            // 
+            this.Btn_Analyze.Enabled = false;
+            this.Btn_Analyze.Location = new System.Drawing.Point(726, 231);
+            this.Btn_Analyze.Name = "Btn_Analyze";
+            this.Btn_Analyze.Size = new System.Drawing.Size(84, 26);
+            this.Btn_Analyze.TabIndex = 52;
+            this.Btn_Analyze.Text = "Analyze";
+            this.ToolTip.SetToolTip(this.Btn_Analyze, "Analyze all logfiles in listbox.");
+            this.Btn_Analyze.UseVisualStyleBackColor = true;
+            this.Btn_Analyze.Click += new System.EventHandler(this.Btn_Analyze_Click);
+            // 
+            // Btn_LoadLogfile
+            // 
+            this.Btn_LoadLogfile.Location = new System.Drawing.Point(726, 32);
+            this.Btn_LoadLogfile.Name = "Btn_LoadLogfile";
+            this.Btn_LoadLogfile.Size = new System.Drawing.Size(84, 26);
+            this.Btn_LoadLogfile.TabIndex = 68;
+            this.Btn_LoadLogfile.Text = "Add Logfile";
+            this.ToolTip.SetToolTip(this.Btn_LoadLogfile, "Add logfile to listbox.");
+            this.Btn_LoadLogfile.UseVisualStyleBackColor = true;
+            this.Btn_LoadLogfile.Click += new System.EventHandler(this.Btn_LoadLogfile_Click);
+            // 
+            // Btn_DeleteLogfile
+            // 
+            this.Btn_DeleteLogfile.Location = new System.Drawing.Point(726, 64);
+            this.Btn_DeleteLogfile.Name = "Btn_DeleteLogfile";
+            this.Btn_DeleteLogfile.Size = new System.Drawing.Size(84, 26);
+            this.Btn_DeleteLogfile.TabIndex = 69;
+            this.Btn_DeleteLogfile.Text = "Delete Logfile";
+            this.ToolTip.SetToolTip(this.Btn_DeleteLogfile, "Delete marked lofiles from listbox.");
+            this.Btn_DeleteLogfile.UseVisualStyleBackColor = true;
+            this.Btn_DeleteLogfile.Click += new System.EventHandler(this.Btn_DeleteLogfile_Click);
+            // 
+            // Panel_LogAnalyzer
+            // 
+            this.Panel_LogAnalyzer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Panel_LogAnalyzer.Controls.Add(this.panel2);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_DeleteLogfile);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_LoadLogfile);
+            this.Panel_LogAnalyzer.Controls.Add(this.Lb_LogAnalyzer);
+            this.Panel_LogAnalyzer.Controls.Add(this.Btn_Analyze);
+            this.Panel_LogAnalyzer.Controls.Add(this.label4);
+            this.Panel_LogAnalyzer.Controls.Add(this.label22);
+            this.Panel_LogAnalyzer.Controls.Add(this.Lbl_Head_LogfileAnalyzer);
+            this.Panel_LogAnalyzer.Enabled = false;
+            this.Panel_LogAnalyzer.Location = new System.Drawing.Point(17, 1152);
+            this.Panel_LogAnalyzer.Name = "Panel_LogAnalyzer";
+            this.Panel_LogAnalyzer.Size = new System.Drawing.Size(818, 266);
+            this.Panel_LogAnalyzer.TabIndex = 65;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.lb_transtime);
+            this.panel2.Controls.Add(this.lb_minvalues);
+            this.panel2.Controls.Add(this.tb_transtime);
+            this.panel2.Controls.Add(this.tb_minval);
+            this.panel2.Location = new System.Drawing.Point(3, 185);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(204, 66);
+            this.panel2.TabIndex = 72;
+            // 
+            // lb_transtime
+            // 
+            this.lb_transtime.AutoSize = true;
+            this.lb_transtime.Location = new System.Drawing.Point(3, 41);
+            this.lb_transtime.Name = "lb_transtime";
+            this.lb_transtime.Size = new System.Drawing.Size(82, 13);
+            this.lb_transtime.TabIndex = 72;
+            this.lb_transtime.Text = "Transition Time:";
+            // 
+            // lb_minvalues
+            // 
+            this.lb_minvalues.AutoSize = true;
+            this.lb_minvalues.Location = new System.Drawing.Point(3, 10);
+            this.lb_minvalues.Name = "lb_minvalues";
+            this.lb_minvalues.Size = new System.Drawing.Size(64, 13);
+            this.lb_minvalues.TabIndex = 61;
+            this.lb_minvalues.Text = "min. Values:";
+            // 
+            // tb_transtime
+            // 
+            this.tb_transtime.Location = new System.Drawing.Point(95, 34);
+            this.tb_transtime.Margin = new System.Windows.Forms.Padding(10);
+            this.tb_transtime.Name = "tb_transtime";
+            this.tb_transtime.Size = new System.Drawing.Size(89, 20);
+            this.tb_transtime.TabIndex = 71;
+            this.tb_transtime.Text = "3000";
+            this.tb_transtime.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // tb_minval
+            // 
+            this.tb_minval.Location = new System.Drawing.Point(95, 3);
+            this.tb_minval.Margin = new System.Windows.Forms.Padding(10);
+            this.tb_minval.Name = "tb_minval";
+            this.tb_minval.Size = new System.Drawing.Size(89, 20);
+            this.tb_minval.TabIndex = 70;
+            this.tb_minval.Text = "30";
+            this.tb_minval.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // Lb_LogAnalyzer
+            // 
+            this.Lb_LogAnalyzer.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.Lb_LogAnalyzer.FormattingEnabled = true;
+            this.Lb_LogAnalyzer.Location = new System.Drawing.Point(3, 32);
+            this.Lb_LogAnalyzer.Name = "Lb_LogAnalyzer";
+            this.Lb_LogAnalyzer.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
+            this.Lb_LogAnalyzer.Size = new System.Drawing.Size(702, 147);
+            this.Lb_LogAnalyzer.TabIndex = 67;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(359, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(172, 13);
+            this.label4.TabIndex = 66;
+            this.label4.Text = "Text for Discription Logfile Analyzer";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(273, 3);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(0, 13);
+            this.label22.TabIndex = 47;
+            // 
+            // Lbl_Head_LogfileAnalyzer
+            // 
+            this.Lbl_Head_LogfileAnalyzer.AutoSize = true;
+            this.Lbl_Head_LogfileAnalyzer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Head_LogfileAnalyzer.Location = new System.Drawing.Point(3, 3);
+            this.Lbl_Head_LogfileAnalyzer.Name = "Lbl_Head_LogfileAnalyzer";
+            this.Lbl_Head_LogfileAnalyzer.Size = new System.Drawing.Size(97, 13);
+            this.Lbl_Head_LogfileAnalyzer.TabIndex = 47;
+            this.Lbl_Head_LogfileAnalyzer.Text = "Logfile Analyzer";
+            // 
             // ConfigEnergyProfile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.SystemColors.Control;
+            this.Controls.Add(this.Panel_LogAnalyzer);
             this.Controls.Add(this.panelVelocityConfiguration);
             this.Controls.Add(this.panelExpImp);
             this.Controls.Add(this.panelHover);
@@ -1913,7 +2068,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.CB_EnableEnergyProfile);
             this.Controls.Add(this.label1);
             this.Name = "ConfigEnergyProfile";
-            this.Size = new System.Drawing.Size(816, 948);
+            this.Size = new System.Drawing.Size(961, 1523);
             this.Leave += new System.EventHandler(this.ConfigEnergyProfile_Leave);
             this.panelCurrentConfiguration.ResumeLayout(false);
             this.panelCurrentConfiguration.PerformLayout();
@@ -1933,6 +2088,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.VelocityTable.ResumeLayout(false);
             this.VelocityTable.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ChartV)).EndInit();
+            this.Panel_LogAnalyzer.ResumeLayout(false);
+            this.Panel_LogAnalyzer.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2072,5 +2231,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Label label19;
         private Label LbTitleVelocity;
         private CheckBox checkBox1;
+        private Panel Panel_LogAnalyzer;
+        private Controls.MyButton Btn_DeleteLogfile;
+        private Controls.MyButton Btn_LoadLogfile;
+        private ListBox Lb_LogAnalyzer;
+        private Controls.MyButton Btn_Analyze;
+        private Label label4;
+        private Label label22;
+        private Label Lbl_Head_LogfileAnalyzer;
+        private Panel panel2;
+        private Label lb_transtime;
+        private Label lb_minvalues;
+        private TextBox tb_transtime;
+        private TextBox tb_minval;
     }
 }

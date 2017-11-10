@@ -15,12 +15,14 @@ namespace MissionPlanner.Utilities
     {
         private static bool _enabled;
         private static double _percentDevCrnt;
-        
+
         /// <summary>
         /// populate/initialize energyprofile
         /// </summary>
         public static void Initialize()
         {
+            if (!CurrentSet.Equals(null) || !VelocitySet.Equals(null))
+                ClearProperties();
             // ===========================
             // Init currentmodel for hover
             // ===========================
@@ -174,7 +176,7 @@ namespace MissionPlanner.Utilities
         }
 
         // list of items for dropdown in configview
-        public static List<int> DeviationInPercentList { get;  } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8 , 9, 10 , 15, 20, 25};
+        public static List<int> DeviationInPercentList { get; } = new List<int> { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25 };
     }
 
     // set datamodel for current
@@ -232,7 +234,7 @@ namespace MissionPlanner.Utilities
             _averageCurrent = averageCurrent;
             _deviation = deviation;
         }
-        
+
         public CurrentModel(double angle, double averageCurrent)
         {
             _angle = angle;
@@ -268,7 +270,7 @@ namespace MissionPlanner.Utilities
         private double _averageVelocity;
         private double _deviation;
 
-        public VelocityModel(double angle, double averageVelocity, double deviation)
+        public VelocityModel(double angle, double averageVelocity, double deviation = 0)
         {
             _angle = angle;
             _averageVelocity = averageVelocity;
@@ -278,5 +280,156 @@ namespace MissionPlanner.Utilities
         public double MaxVelocity => Math.Round(_averageVelocity + _deviation, 2);
 
         public double MinVelocity => Math.Round(_averageVelocity - _deviation, 2);
+    }
+
+    public class LogAnalizerModel
+    {
+        // tempvalues for calculations
+        public Dictionary<double, Dictionary<SectionType, List<double>>> AngleSection { get; set; }
+        public List<double> HoverCurrentList { get; set; }
+
+        // for endvalues
+        public Dictionary<double, double> Angle_MeanCurrent { get; set; }
+        public double Angle_MeanCurrent_Hover { get; set; }
+        public  Dictionary<double, double> Angle_MeanSpeed { get; set; }
+
+        public LogAnalizerModel()
+        {
+            Dictionary<string, EnergyLogFileModel> allLogfiles = new Dictionary<string, EnergyLogFileModel>();
+            AllLogfiles = allLogfiles;
+            AngleSection = new Dictionary<double, Dictionary<SectionType, List<double>>>();
+            HoverCurrentList = new List<double>();
+            Angle_MeanCurrent = new Dictionary<double, double>();
+            Angle_MeanSpeed = new Dictionary<double, double>();
+        }
+
+        public Dictionary<string, EnergyLogFileModel> AllLogfiles { get; }
+
+    }
+
+    public enum SectionType
+    {
+        Speed,
+        Current,
+        Hover,
+        None
+    }
+
+    public class EnergyLogFileModel
+    {
+        public int StartTime { get; set; }
+        public List<CMD_Model> CMD_Lines { get; set; }
+        public List<GPS_Model> GPS_Lines { get; set; }
+        public List<CURR_Model> CURR_Lines { get; set; }
+        public List<MODE_Model> MODE_Lines { get; set; }
+
+
+
+        public EnergyLogFileModel()
+        {
+            CMD_Lines = new List<CMD_Model>();
+            GPS_Lines = new List<GPS_Model>();
+            CURR_Lines = new List<CURR_Model>();
+            MODE_Lines = new List<MODE_Model>();
+
+        }
+
+        public IEnumerator<EnergyLogFileModel> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class CMD_Model
+    {
+        public int Time_ms { get; set; }
+        public string[] Param { get; }
+        public string CmdId { get; }
+        public int CNum { get; }
+        public string Latitude { get; }
+        public string Longitude { get; }
+        public string Altitude { get; }
+
+        public double Angle { get; set; }
+        public double Distance { get; set; }
+        public string FlightMode { get; set; }
+        public double Speed { get; set; }
+
+        public int GPS_START_Index { get; set; }
+        public int GPS_END_Index { get; set; }
+
+
+        public double CurrentMean { get; set; }
+        public int CurrentCount { get; set; }
+        public List<double> currentList { get; set; }
+        public List<double> currentHoverList { get; set; }
+
+        public CMD_Model(int timems, int cnum, string cmdid, string[] para, string latitude, string longitude, string altitude)
+        {
+            Time_ms = timems;
+            CNum = cnum;
+            CmdId = cmdid;
+            Param = para;
+            Latitude = latitude;
+            Longitude = longitude;
+            Altitude = altitude;
+            currentList = new List<double>();
+            currentHoverList = new List<double>();
+        }
+    }
+
+    public class GPS_Model
+    {
+        public int Time_ms { get; set; }
+        public string HDop { get; }
+        public string Latitude { get; }
+        public string Longitude { get; }
+        public string Altitude { get; }
+
+        public bool start_point { get; }
+        public bool end_point { get; }
+
+
+        public GPS_Model(int time, string hDop, string latitude, string longitude, string altitude, bool startPoint, bool endPoint)
+        {
+            Time_ms = time;
+            HDop = hDop;
+            Latitude = latitude;
+            Longitude = longitude;
+            Altitude = altitude;
+            start_point = startPoint;
+            end_point = endPoint;
+        }
+    }
+
+    public class CURR_Model
+    {
+        public int Time_ms { get; }
+        public string Voltage { get; }
+        public string Current { get; }
+        //public string CurrPower { get; }
+
+        public CURR_Model(int time, string voltage, string current)
+        {
+            Time_ms = time;
+            Voltage = voltage;
+            Current = current;
+            //CurrPower = currPower;
+        }
+    }
+
+    public class MODE_Model
+    {
+        public int Time_ms { get; }
+        public string Mode { get; }
+        public string ModeNum { get; }
+
+
+        public MODE_Model(int time, string mode, string modenum)
+        {
+            Time_ms = time;
+            Mode = mode;
+            ModeNum = modenum;
+        }
     }
 }
