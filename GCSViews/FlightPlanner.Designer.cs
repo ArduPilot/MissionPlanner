@@ -37,7 +37,7 @@ namespace MissionPlanner.GCSViews
             if (drawnpolygonsoverlay != null)
                 drawnpolygonsoverlay.Dispose();
             if (center != null)
-                center.Dispose(); 
+                center.Dispose();
 
             base.Dispose(disposing);
         }
@@ -82,6 +82,19 @@ namespace MissionPlanner.GCSViews
             this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AZ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TagData = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EC = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FlightTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Panel_EnergyConsumption = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbFlightTime = new System.Windows.Forms.Label();
+            this.lbCapacity = new System.Windows.Forms.Label();
+            this.lbFlightTimeText = new System.Windows.Forms.Label();
+            this.LBL_AvgECText = new System.Windows.Forms.Label();
+            this.LBL_AvgEC = new System.Windows.Forms.Label();
+            this.LBL_MaxEC = new System.Windows.Forms.Label();
+            this.LBL_MaxECText = new System.Windows.Forms.Label();
+            this.lbBatCapText = new System.Windows.Forms.Label();
+            this.LBL_TotalECText = new System.Windows.Forms.Label();
             this.CHK_verifyheight = new System.Windows.Forms.CheckBox();
             this.TXT_WPRad = new System.Windows.Forms.TextBox();
             this.TXT_DefaultAlt = new System.Windows.Forms.TextBox();
@@ -215,6 +228,8 @@ namespace MissionPlanner.GCSViews
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.Panel_EnergyConsumption.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.panelMap.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -254,7 +269,9 @@ namespace MissionPlanner.GCSViews
             this.Angle,
             this.Dist,
             this.AZ,
-            this.TagData});
+            this.TagData,
+            this.EC,
+            this.FlightTime});
             this.Commands.Name = "Commands";
             dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
@@ -418,6 +435,22 @@ namespace MissionPlanner.GCSViews
             resources.ApplyResources(this.TagData, "TagData");
             this.TagData.Name = "TagData";
             this.TagData.ReadOnly = true;
+            // 
+            // EC
+            // 
+            this.EC.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.EC, "EC");
+            this.EC.Name = "EC";
+            this.EC.ReadOnly = true;
+            this.EC.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // FlightTime
+            // 
+            this.FlightTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.FlightTime, "FlightTime");
+            this.FlightTime.Name = "FlightTime";
+            this.FlightTime.ReadOnly = true;
+            this.FlightTime.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CHK_verifyheight
             // 
@@ -701,6 +734,7 @@ namespace MissionPlanner.GCSViews
             this.flowLayoutPanel1.Controls.Add(this.panel2);
             this.flowLayoutPanel1.Controls.Add(this.panel5);
             this.flowLayoutPanel1.Controls.Add(this.panel1);
+            this.flowLayoutPanel1.Controls.Add(this.Panel_EnergyConsumption);
             resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
@@ -767,6 +801,75 @@ namespace MissionPlanner.GCSViews
             this.BUT_saveWPFile.Name = "BUT_saveWPFile";
             this.BUT_saveWPFile.UseVisualStyleBackColor = true;
             this.BUT_saveWPFile.Click += new System.EventHandler(this.BUT_saveWPFile_Click);
+            // 
+            // Panel_EnergyConsumption
+            // 
+            this.Panel_EnergyConsumption.Controls.Add(this.tableLayoutPanel1);
+            this.Panel_EnergyConsumption.Controls.Add(this.LBL_TotalECText);
+            resources.ApplyResources(this.Panel_EnergyConsumption, "Panel_EnergyConsumption");
+            this.Panel_EnergyConsumption.Name = "Panel_EnergyConsumption";
+            // 
+            // tableLayoutPanel1
+            // 
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
+            this.tableLayoutPanel1.Controls.Add(this.lbFlightTime, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lbCapacity, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.lbFlightTimeText, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_AvgECText, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_AvgEC, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_MaxEC, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.LBL_MaxECText, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.lbBatCapText, 0, 0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // lbFlightTime
+            // 
+            resources.ApplyResources(this.lbFlightTime, "lbFlightTime");
+            this.lbFlightTime.Name = "lbFlightTime";
+            // 
+            // lbCapacity
+            // 
+            resources.ApplyResources(this.lbCapacity, "lbCapacity");
+            this.lbCapacity.Name = "lbCapacity";
+            // 
+            // lbFlightTimeText
+            // 
+            resources.ApplyResources(this.lbFlightTimeText, "lbFlightTimeText");
+            this.lbFlightTimeText.Name = "lbFlightTimeText";
+            this.toolTip1.SetToolTip(this.lbFlightTimeText, resources.GetString("lbFlightTimeText.ToolTip"));
+            // 
+            // LBL_AvgECText
+            // 
+            resources.ApplyResources(this.LBL_AvgECText, "LBL_AvgECText");
+            this.LBL_AvgECText.Name = "LBL_AvgECText";
+            this.toolTip1.SetToolTip(this.LBL_AvgECText, resources.GetString("LBL_AvgECText.ToolTip"));
+            // 
+            // LBL_AvgEC
+            // 
+            resources.ApplyResources(this.LBL_AvgEC, "LBL_AvgEC");
+            this.LBL_AvgEC.Name = "LBL_AvgEC";
+            // 
+            // LBL_MaxEC
+            // 
+            resources.ApplyResources(this.LBL_MaxEC, "LBL_MaxEC");
+            this.LBL_MaxEC.Name = "LBL_MaxEC";
+            // 
+            // LBL_MaxECText
+            // 
+            resources.ApplyResources(this.LBL_MaxECText, "LBL_MaxECText");
+            this.LBL_MaxECText.Name = "LBL_MaxECText";
+            this.toolTip1.SetToolTip(this.LBL_MaxECText, resources.GetString("LBL_MaxECText.ToolTip"));
+            // 
+            // lbBatCapText
+            // 
+            resources.ApplyResources(this.lbBatCapText, "lbBatCapText");
+            this.lbBatCapText.Name = "lbBatCapText";
+            this.toolTip1.SetToolTip(this.lbBatCapText, resources.GetString("lbBatCapText.ToolTip"));
+            // 
+            // LBL_TotalECText
+            // 
+            resources.ApplyResources(this.LBL_TotalECText, "LBL_TotalECText");
+            this.LBL_TotalECText.Name = "LBL_TotalECText";
             // 
             // panelMap
             // 
@@ -1384,6 +1487,10 @@ namespace MissionPlanner.GCSViews
             this.panel3.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.Panel_EnergyConsumption.ResumeLayout(false);
+            this.Panel_EnergyConsumption.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.panelMap.ResumeLayout(false);
             this.panelMap.PerformLayout();
             this.contextMenuStrip1.ResumeLayout(false);
@@ -1517,6 +1624,17 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ToolStripMenuItem areaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem areaToolStripMenuItem1;
+        private System.Windows.Forms.Panel Panel_EnergyConsumption;
+        private System.Windows.Forms.Label LBL_TotalECText;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label lbFlightTime;
+        private System.Windows.Forms.Label lbCapacity;
+        private System.Windows.Forms.Label lbFlightTimeText;
+        private System.Windows.Forms.Label LBL_AvgECText;
+        private System.Windows.Forms.Label LBL_AvgEC;
+        private System.Windows.Forms.Label LBL_MaxEC;
+        private System.Windows.Forms.Label LBL_MaxECText;
+        private System.Windows.Forms.Label lbBatCapText;
         private System.Windows.Forms.DataGridViewComboBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param2;
@@ -1537,6 +1655,8 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.DataGridViewTextBoxColumn Dist;
         private System.Windows.Forms.DataGridViewTextBoxColumn AZ;
         private System.Windows.Forms.DataGridViewTextBoxColumn TagData;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EC;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FlightTime;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createCircleSurveyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem currentPositionToolStripMenuItem;

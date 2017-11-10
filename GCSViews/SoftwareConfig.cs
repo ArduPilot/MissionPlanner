@@ -94,6 +94,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     AddBackstageViewPage(typeof( ConfigPlanner), "Planner");
+                    AddBackstageViewPage(typeof(ConfigEnergyProfile), "Energyprofile");
                 }
                 else
                 {
