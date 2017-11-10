@@ -583,10 +583,14 @@ namespace MissionPlanner
             string temp2 = Settings.Instance.BaudRate;
             if (!string.IsNullOrEmpty(temp2))
             {
-                _connectionControl.CMB_baudrate.SelectedIndex = _connectionControl.CMB_baudrate.FindString(temp2);
-                if (_connectionControl.CMB_baudrate.SelectedIndex == -1)
+                var idx =  _connectionControl.CMB_baudrate.FindString(temp2);
+                if (idx == -1)
                 {
                     _connectionControl.CMB_baudrate.Text = temp2;
+                }
+                else
+                {
+                    _connectionControl.CMB_baudrate.SelectedIndex = idx;
                 }
 
                 comPortBaud = int.Parse(temp2);
