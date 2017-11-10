@@ -82,7 +82,6 @@ namespace MissionPlanner
             this.MainMenu.ShowItemToolTips = true;
             this.MainMenu.Stretch = false;
             this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
-            this.MainMenu.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
             // CTX_mainmenu
             // 
@@ -213,7 +212,6 @@ namespace MissionPlanner
             this.toolStripConnectionControl.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";
             resources.ApplyResources(this.toolStripConnectionControl, "toolStripConnectionControl");
-            this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
             // MenuArduPilot
             // 
@@ -241,7 +239,6 @@ namespace MissionPlanner
             this.panel1.Controls.Add(this.MainMenu);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
             // connectionListToolStripMenuItem
             // 

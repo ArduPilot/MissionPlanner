@@ -3458,7 +3458,7 @@ namespace MissionPlanner
                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
                 panel1.MouseLeave -= MainMenu_MouseLeave;
                 toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
-                this.ResumeLayout(false);
+                this.ResumeLayout();
             }
             else
             {
@@ -3470,7 +3470,7 @@ namespace MissionPlanner
                 toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
                 menu.Visible = true;
                 menu.SendToBack();
-                this.ResumeLayout(false);
+                this.ResumeLayout();
             }
         }
 
