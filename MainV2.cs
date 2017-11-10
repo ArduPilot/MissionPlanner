@@ -420,6 +420,14 @@ namespace MissionPlanner
             MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
+            if (Settings.Instance.GetBoolean("menu_autohide") != DisplayConfiguration.autoHideMenuForce)
+            {
+                AutoHideMenu(DisplayConfiguration.autoHideMenuForce);
+                Settings.Instance["menu_autohide"] = DisplayConfiguration.autoHideMenuForce.ToString();
+            }
+
+            autoHideToolStripMenuItem.Visible = !DisplayConfiguration.autoHideMenuForce;
+
             //Flight data page
             if (MainV2.instance.FlightData != null)
             {
