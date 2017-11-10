@@ -2,9 +2,11 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
 using GMap.NET;
 using log4net;
 using MissionPlanner.Utilities;
+using Newtonsoft.Json;
 
 namespace MissionPlanner
 {
@@ -12,6 +14,8 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MAVLinkInterface parent;
 
         public MAVState(MAVLinkInterface mavLinkInterface, byte sysid, byte compid)
@@ -109,8 +113,11 @@ namespace MissionPlanner
         /// <summary>
         /// storage for whole paramater list
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MAVLinkParamList param { get; set; }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
         /// <summary>
@@ -167,11 +174,15 @@ namespace MissionPlanner
         /// <summary>
         /// used to calc packets per second on any single message type - used for stream rate comparaison
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<uint,double> packetspersecond { get; set; }
 
         /// <summary>
         /// time last seen a packet of a type
         /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
         public Dictionary<uint, DateTime> packetspersecondbuild { get; set; }
 
         /// <summary>

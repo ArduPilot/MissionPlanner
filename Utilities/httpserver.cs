@@ -14,6 +14,7 @@ using log4net;
 using MissionPlanner.Utilities;
 using SharpKml.Base;
 using SharpKml.Dom;
+using Newtonsoft.Json;
 
 namespace MissionPlanner.Utilities
 {
@@ -193,31 +194,46 @@ namespace MissionPlanner.Utilities
 
                             while (client.Connected)
                             {
-                                Thread.Sleep(200);
                                 log.Debug(stream.DataAvailable + " " + client.Available);
 
                                 while (client.Available > 0)
                                 {
-                                    Console.Write(stream.ReadByte());
+                                    Console.Write(stream.ReadByte().ToString("X2"));
                                 }
 
-                                byte[] packet = new byte[1024];
+                                byte[] packet = new byte[1024 * 32];
 
-                                string sendme = MainV2.comPort.MAV.cs.roll + "," + MainV2.comPort.MAV.cs.pitch + "," + MainV2.comPort.MAV.cs.yaw
-                                                + "," + MainV2.comPort.MAV.cs.lat + "," + MainV2.comPort.MAV.cs.lng + "," + MainV2.comPort.MAV.cs.alt;
+                                var cs = JsonConvert.SerializeObject(MainV2.comPort.MAV.cs);
+                                var wps = JsonConvert.SerializeObject(MainV2.comPort.MAV.wps);
+                                //var mav = JsonConvert.SerializeObject(MainV2.comPort.MAV);
 
-                                packet[0] = 0x81; // fin - binary
-                                packet[1] = (byte) sendme.Length;
-
-                                int i = 2;
-                                foreach (char ch in sendme)
+                                foreach (var sendme in new[] { cs,wps })
                                 {
-                                    packet[i++] = (byte) ch;
+                                    int i = 0;
+                                    var tosend = sendme.Length;
+                                    packet[i++] = 0x81; // fin - utf
+                                    
+                                    if (tosend <= 125)
+                                    {
+                                        packet[i++] = (byte)(tosend);
+                                    }
+                                    else
+                                    {
+                                        packet[i++] = 126; // nomask -  2 byte length
+                                        packet[i++] = (byte)(tosend >> 8);
+                                        packet[i++] = (byte)(tosend & 0xff);
+                                    }
+                                    
+                                    foreach (char ch in sendme)
+                                    {
+                                        packet[i++] = (byte)ch;
+                                    }
+
+                                    stream.Write(packet, 0, i);
+                                    stream.Flush();
                                 }
 
-                                stream.Write(packet, 0, i);
-
-                                //break;
+                                Thread.Sleep(200);
                             }
                         }
                     }
@@ -745,6 +761,17 @@ namespace MissionPlanner.Utilities
 
                         object[] data = new object[20];
 
+                        if (MainV2.comPort.MAV.getPacket((byte) MAVLink.MAVLINK_MSG_ID.ATTITUDE) != null)
+                        {
+                            var tmsg = MainV2.comPort.MAV.getPacket((uint)MAVLink.MAVLINK_MSG_ID.ATTITUDE)
+                                .ToStructure<MAVLink.mavlink_attitude_t>();
+
+                            var json = JsonConvert.SerializeObject(tmsg);
+
+                            var name = MAVLink.MAVLINK_MESSAGE_INFOS.GetMessageInfo((uint) MAVLink.MAVLINK_MSG_ID.ATTITUDE).name;
+
+
+                        }
 
                         Messagejson message = new Messagejson();
 

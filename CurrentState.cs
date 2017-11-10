@@ -9,7 +9,9 @@ using MissionPlanner.Attributes;
 using MissionPlanner;
 using System.Collections;
 using System.Linq;
+using System.Runtime.Serialization;
 using DirectShowLib;
+using Newtonsoft.Json;
 
 namespace MissionPlanner
 {
@@ -19,6 +21,8 @@ namespace MissionPlanner
 
         public event EventHandler csCallBack;
 
+        [JsonIgnore]
+        [IgnoreDataMember]
         public MAVState parent;
 
         public int lastautowp = -1;
@@ -682,7 +686,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage == 0) _battery_voltage = value;
-                _battery_voltage = value*0.2f + _battery_voltage*0.8f;
+                _battery_voltage = value*0.4f + _battery_voltage*0.6f;
             }
         }
 
@@ -756,7 +760,7 @@ namespace MissionPlanner
             set
             {
                 if (_battery_voltage2 == 0) _battery_voltage2 = value;
-                _battery_voltage2 = value*0.2f + _battery_voltage2*0.8f;
+                _battery_voltage2 = value*0.4f + _battery_voltage2*0.6f;
             }
         }
 
