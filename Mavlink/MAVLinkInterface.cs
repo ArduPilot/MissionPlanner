@@ -57,6 +57,7 @@ namespace MissionPlanner
             }
         }
 
+        public event EventHandler<MAVLinkMessage> OnPacketReceived;
 
         public ICommsSerial MirrorStream { get; set; }
         public bool MirrorStreamWrite { get; set; }
@@ -3798,6 +3799,8 @@ Please check the following
                     // only process for active mav
                     if (sysidcurrent == sysid && compidcurrent == compid)
                         PacketReceived(message);
+
+                    OnPacketReceived?.Invoke(this, message);
 
                     if (debugmavlink)
                         DebugPacket(message);
