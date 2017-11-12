@@ -1,10 +1,11 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no">
 <title>Hud</title>
 <script src="http://smoothiecharts.org/smoothie.js"></script>
-    
+
 <script src="/mav/Cesium/Cesium.js"></script>
 <style>
     @import url(/mav/Cesium/Widgets/widgets.css);
@@ -26,6 +27,7 @@
                     var pathHistoryPoly;
                     var pathHistory = [];
                     var socket;
+					var socket2;
 
                     var line1item = "cs.altasl";
                     var line2item = "cs.ter_alt";
@@ -164,7 +166,8 @@
                             } else {
                                 pathHistoryPoly.setPath(pathHistory);
                             }
-                        }else if(data[0].hasOwnProperty('mission_type'))
+                        }
+						else if(data[0].hasOwnProperty('mission_type'))
                         {
                             wps = data;
 
@@ -229,9 +232,9 @@
         }
     });
 
-    orangeOutlined.position = Cesium.Cartesian3.fromDegrees(lng, lat);
+    //orangeOutlined.position = Cesium.Cartesian3.fromDegrees(lng, lat);
 
-    viewer.trackedEntity = orangeOutlined;
+    //viewer.trackedEntity = orangeOutlined;
 
                             if(flightPath == null) {
                             flightPath = new google.maps.Polyline({
@@ -597,16 +600,15 @@
     </div>
     <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
 </div>
-<div id="cesiumContainer" style="float: right; height: 700px;"></div>
-<script>
-    var viewer = new Cesium.Viewer('cesiumContainer');
+<div style="height: 100%; display: flex; flex-direction: column; resize: horizontal; overflow: auto;">
 
-    var terrainProvider = new Cesium.CesiumTerrainProvider({
-        url : '//assets.agi.com/stk-terrain/world'
-    });
-    viewer.terrainProvider = terrainProvider;
-</script>
+    <!--<canvas id="canvas" width="300" height="200" style=""></canvas><br>
+
+    <div id="log"></div>
+    -->
+    <div id="cesiumContainer" style="height: 50%; display: none;"></div>
     <div id="map"></div>
+</div>
     <script>
         var map;
 
@@ -623,6 +625,85 @@
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc&callback=initMap" async defer></script>
+<script>
+    var viewer = new Cesium.Viewer('cesiumContainer');
+</script>
+    
+    
+<script type="text/javascript">
+
+    var jsilConfig = {
+
+        printStackTrace: true,
+
+        xna: 4,
+		
+		showProgressBar: true,
+		
+		winForms: true,
+
+        libraryRoot: "/mav/Libraries/",
+		
+		scriptRoot: "/mav/mavlink/",
+		
+		fileRoot: "/mav/file/",
+		
+		bclMode11: "translated",
+
+        manifests: [
+            "/mav/mavlink/MAVLink.dll"
+        ],
+
+    };
+
+</script> 
+<script src="/mav/Libraries/JSIL.js" type="text/javascript"></script>
+
+<script>
+
+	onLoad();
+
+	JSIL.Initialize();
+
+    var asm = JSIL.GetAssembly("MAVLink");
+
+	function runMain() 
+	{
+	
+//################################################
+					try {
+					  var host = "ws://"+window.location.hostname+":56781/websocket/raw";
+                        if(window.location.hostname == "")
+                            host = "ws://localhost:56781/websocket/raw";
+                    socket2 = new WebSocket(host);
+                    //log('WebSocket - status '+socket.readyState);
+                    socket2.onopen    = function(msg){ document.getElementById("serverStatus").innerHTML = "onopen"; };
+                    socket2.onmessage = function(msg){
+						var reader = new FileReader();
+                        reader.addEventListener("loadend", function() {
+						   			
+							var ms = new System.IO.MemoryStream(new Uint8Array(this.result), false);
+							
+							var parse = new asm.MAVLink_MavlinkParse();
+							
+							//var packet = parse.ReadPacket(ms);
+						});
+						//reader.readAsArrayBuffer(msg.data);			
+                    };
+                    socket2.onerror   = function(msg){ document.getElementById("serverStatus").innerHTML = "Error: "+msg.data; };
+                    socket2.onclose   = function(msg){ document.getElementById("serverStatus").innerHTML = "Disconnected - status "+this.readyState; setTimeout ( "runMain()", 1000 );  };
+                    }
+                    catch(ex){ if (window.console) console.log(exception);  document.getElementById("serverStatus").innerHTML = ex; }
+					
+					//############################################################
+		var test = new asm.MAVLink();
+
+		var test2 = new asm.MAVLink_MAVLinkMessage();
+		
+		var parse = new asm.MAVLink_MavlinkParse();
+	}	
+</script>
+    
 
 </body>
 </html>
