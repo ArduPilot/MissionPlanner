@@ -48,56 +48,60 @@ namespace MissionPlanner.GCSViews
                     start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                        AddBackstageViewPage(typeof( ConfigAC_Fence), Strings.GeoFence);
+                        AddBackstageViewPage(typeof(ConfigAC_Fence), Strings.GeoFence);
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        start = AddBackstageViewPage(typeof( ConfigSimplePids), Strings.BasicTuning);
+                        start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
 
-                        AddBackstageViewPage(typeof( ConfigArducopter), Strings.ExtendedTuning);
+                        AddBackstageViewPage(typeof(ConfigArducopter), Strings.ExtendedTuning);
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
-                        start = AddBackstageViewPage(typeof( ConfigArduplane), Strings.BasicTuning);
+                        start = AddBackstageViewPage(typeof(ConfigArduplane), Strings.BasicTuning);
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                     {
-                        start = AddBackstageViewPage(typeof( ConfigArdurover), Strings.BasicTuning);
+                        start = AddBackstageViewPage(typeof(ConfigArdurover), Strings.BasicTuning);
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
                     {
-                        start = AddBackstageViewPage(typeof( ConfigAntennaTracker), Strings.ExtendedTuning);
+                        start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
                     }
-                    AddBackstageViewPage(typeof (ConfigFriendlyParams), Strings.StandardParams);
+                    AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
 
                     if (MainV2.DisplayConfiguration.displayAdvancedParams)
                     {
-                        AddBackstageViewPage(typeof (ConfigFriendlyParamsAdv), Strings.AdvancedParams, null, true);
+                        AddBackstageViewPage(typeof(ConfigFriendlyParamsAdv), Strings.AdvancedParams, null, true);
                     }
-                    if (MainV2.DisplayConfiguration.displayFullParamList)
-                    {
-                        AddBackstageViewPage(typeof (ConfigRawParams), Strings.FullParameterList, null, true);
-                    }
-                    if (MainV2.DisplayConfiguration.displayFullParamTree && !Program.MONO)
-                    {
-                        AddBackstageViewPage(typeof (ConfigRawParamsTree), Strings.FullParameterTree, null, true);
-                    }                    
+                }
 
+                if (MainV2.DisplayConfiguration.displayFullParamList)
+                {
+                    AddBackstageViewPage(typeof(ConfigRawParams), Strings.FullParameterList, null, true);
+                }
+                if (MainV2.DisplayConfiguration.displayFullParamTree && !Program.MONO)
+                {
+                    AddBackstageViewPage(typeof(ConfigRawParamsTree), Strings.FullParameterTree, null, true);
+                }
+
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     {
-                        start = AddBackstageViewPage(typeof( ConfigFlightModes), Strings.FlightModes);
-                        AddBackstageViewPage(typeof( ConfigAteryxSensors), "Ateryx Zero Sensors");
-                        AddBackstageViewPage(typeof( ConfigAteryx), "Ateryx Pids");
+                        start = AddBackstageViewPage(typeof(ConfigFlightModes), Strings.FlightModes);
+                        AddBackstageViewPage(typeof(ConfigAteryxSensors), "Ateryx Zero Sensors");
+                        AddBackstageViewPage(typeof(ConfigAteryx), "Ateryx Pids");
                     }
 
-                    AddBackstageViewPage(typeof( ConfigPlanner), "Planner");
+                    AddBackstageViewPage(typeof(ConfigPlanner), "Planner");
                 }
                 else
                 {
-                    start = AddBackstageViewPage(typeof( ConfigPlanner), "Planner");
+                    start = AddBackstageViewPage(typeof(ConfigPlanner), "Planner");
                 }
 
                 // apply theme before trying to display it
