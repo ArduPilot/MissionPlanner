@@ -115,7 +115,7 @@ namespace MissionPlanner.Utilities
 
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ThreadPool.QueueUserWorkItem(ProcessClient, client);
+            new Thread(ProcessClient).Start(client);
 
             // Signal the calling thread to continue.
             tcpClientConnected.Set();
@@ -269,14 +269,14 @@ namespace MissionPlanner.Utilities
                             EventHandler<MAVLink.MAVLinkMessage> action = null;
                             action = (sender, message) =>
                             {
-                                var sendme = JsonConvert.SerializeObject(message);
+                                var sendme = message.buffer;
                                 try
                                 {
                                     byte[] packet = new byte[1024 * 32];
 
                                     int i = 0;
                                     var tosend = sendme.Length;
-                                    packet[i++] = 0x81; // fin - utf
+                                    packet[i++] = 0x82; // fin - data
 
                                     if (tosend <= 125)
                                     {
@@ -952,7 +952,21 @@ namespace MissionPlanner.Utilities
 
                                 var fileinfo = new FileInfo(mavelous_web + fileurl);
 
-                                header += "Connection: Keep-Alive\r\nContent-Length: " + fileinfo.Length + "\r\n\r\n";
+                                var filetime = fileinfo.LastWriteTimeUtc.ToString("ddd, dd MMM yyyy HH:mm:ss") + " GMT";
+                                var modified = Regex.Match(head, "If-Modified-Since:(.*)", RegexOptions.IgnoreCase);
+                                if (modified.Success && modified.Groups[1].Value.Trim().ToLower() == filetime.ToLower())
+                                {
+                                    string header2 = "HTTP/1.1 304 not modified\r\nConnection: Keep-Alive\r\n\r\n";
+                                    byte[] temp2 = asciiEncoding.GetBytes(header2);
+                                    stream.Write(temp2, 0, temp2.Length);
+
+                                    stream.Flush();
+
+                                    goto again;
+                                }
+
+                                header += "Connection: keep-alive\r\nLast-Modified: " + filetime + "\r\nContent-Length: " + fileinfo.Length + "\r\n\r\n";
+
 
                                 byte[] temp = asciiEncoding.GetBytes(header);
                                 stream.Write(temp, 0, temp.Length);
