@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
 
         bool ImportProfile();
 
-        void AnalyzeLogs(List<string> filenames, int minval, int transtime);
+        bool AnalyzeLogs(List<string> filenames, int minval, int transtime);
 
     }
     interface IEnergyConsumption

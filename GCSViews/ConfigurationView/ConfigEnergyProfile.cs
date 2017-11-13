@@ -11,12 +11,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigEnergyProfile : UserControl, IActivate
     {
+        // Init variables for instance
         private Dictionary<int, CurrentModel> CurrentSet { get; set; }
         private Dictionary<int, VelocityModel> VelocitySet { get; set; }
         private CurrentModel CurrentHover { get; set; }
         private static int ComboBoxIndex { get; set; }
         private IConfigEnergyProfile _configEnergyProfile = new EnergyProfileController();
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ConfigEnergyProfile()
         {
             InitializeComponent();
@@ -295,6 +299,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Clear all charts in list.
+        /// </summary>
+        /// <param name="chartlist">A list of charts.</param>
         private void ClearChart(List<Chart> chartlist)
         {
             if (chartlist.Count > 0)
@@ -313,6 +321,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Select a fix deviation for current.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ComboBoxDeviation_SelectedIndexChanged(object sender, EventArgs e)
         {
             ComboBoxIndex = ComboBoxCrntDeviation.SelectedIndex;
@@ -320,6 +333,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             UpdateTables(1);
         }
 
+        /// <summary>
+        /// Button for import an energy-profile from .xml.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnImport_Click(object sender, EventArgs e)
         {
             bool import = _configEnergyProfile.ImportProfile();
@@ -330,6 +348,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Button for export the energy-profile into .xml.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnExport_Click(object sender, EventArgs e)
         {
             _configEnergyProfile.ExportProfile();
@@ -361,16 +384,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Plot current-chart.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnCrntPlot_Click(object sender, EventArgs e)
         {
             _configEnergyProfile.Plot_Spline(ChartI, EnergyProfileController.PlotProfile.Current);
         }
 
+        /// <summary>
+        /// Plot velocity-chart.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnPlotVelocity_Click(object sender, EventArgs e)
         {
             _configEnergyProfile.Plot_Spline(ChartV, EnergyProfileController.PlotProfile.Velocity);
         }
 
+        /// <summary>
+        /// Button for loading logfiles into list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_LoadLogfile_Click(object sender, EventArgs e)
         {
             ArrayList selectedItems = new ArrayList();
@@ -414,6 +452,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Btn_Analyze.Enabled = true;
         }
 
+        /// <summary>
+        /// Button for delete logfiles from list.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_DeleteLogfile_Click(object sender, EventArgs e)
         {
             if (Lb_LogAnalyzer.SelectedItems.Count.Equals(Lb_LogAnalyzer.Items.Count))
@@ -430,20 +473,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        /// <summary>
+        /// Button for Logfile - Analyze
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_Analyze_Click(object sender, EventArgs e)
         {
+            // clear actual charts
+            ClearChart(new List<Chart> { ChartI, ChartV });
             List<string> filenames = new List<string>();
             foreach (var item in Lb_LogAnalyzer.Items)
             {
                 filenames.Add(item.ToString());
             }
             
-            _configEnergyProfile.AnalyzeLogs(filenames, Convert.ToInt16(tb_minval.Text), Convert.ToInt16(tb_transtime.Text));
+            bool validAnalyze = _configEnergyProfile.AnalyzeLogs(filenames, Convert.ToInt16(tb_minval.Text), Convert.ToInt16(tb_transtime.Text));
 
             // update view
-            UpdateTables();
+            if (validAnalyze)
+            {
+                UpdateTables();
+            }
+            else
+            {
+                // plot only if analyse is valid, that user don't confused
+                UpdateTables(2);
+            }
         }
 
+        /// <summary>
+        /// Update the Tables an Charts.
+        /// </summary>
+        /// <param name="section">0 = all table and charts (default), 1 = only current-table and plot, 2 = only current and velocity tables without ploting</param>
         private void UpdateTables(int section = 0)
         {
             switch (section)
@@ -462,7 +524,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CrntTBDatabindings();
                     VelocityTBDatabindings();
                     break;
-
             }
         }
     }

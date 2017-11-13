@@ -86,17 +86,17 @@ namespace MissionPlanner.Utilities
             //VelocitySet.Add(10, new VelocityModel(72f, 3.27f, 0.03f));
             //VelocitySet.Add(11, new VelocityModel(90f, 2.62f, 0.35f));
             // for release
-            VelocitySet.Add(1, new VelocityModel(-90f, 0f, 0f));
-            VelocitySet.Add(2, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(3, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(4, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(5, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(6, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(7, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(8, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(9, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(10, new VelocityModel(0f, 0f, 0f));
-            VelocitySet.Add(11, new VelocityModel(90f, 0f, 0f));
+            VelocitySet.Add(1, new VelocityModel(-90f, 0f));
+            VelocitySet.Add(2, new VelocityModel(0f, 0f));
+            VelocitySet.Add(3, new VelocityModel(0f, 0f));
+            VelocitySet.Add(4, new VelocityModel(0f, 0f));
+            VelocitySet.Add(5, new VelocityModel(0f, 0f));
+            VelocitySet.Add(6, new VelocityModel(0f, 0f));
+            VelocitySet.Add(7, new VelocityModel(0f, 0f));
+            VelocitySet.Add(8, new VelocityModel(0f, 0f));
+            VelocitySet.Add(9, new VelocityModel(0f, 0f));
+            VelocitySet.Add(10, new VelocityModel(0f, 0f));
+            VelocitySet.Add(11, new VelocityModel(90f, 0f));
 
         }
 
@@ -107,7 +107,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static bool Enabled
         {
-            get { return _enabled; }
+            get => _enabled;
             set
             {
                 if (value == false)
@@ -168,11 +168,8 @@ namespace MissionPlanner.Utilities
         //gives the deviation from percent
         public static double PercentDevCrnt
         {
-            get { return _percentDevCrnt; }
-            set
-            {
-                _percentDevCrnt = Math.Round(value, 2);
-            }
+            get => _percentDevCrnt;
+            set => _percentDevCrnt = Math.Round(value, 2);
         }
 
         // list of items for dropdown in configview
@@ -191,14 +188,14 @@ namespace MissionPlanner.Utilities
 
         public double Angle
         {
-            get { return Math.Round(_angle, 0); }
-            set { _angle = Math.Round(value, 0); }
+            get => Math.Round(_angle, 0);
+            set => _angle = Math.Round(value, 0);
         }
 
         public double AverageCurrent
         {
-            get { return Math.Round(_averageCurrent, 2); }
-            set { _averageCurrent = Math.Round(value, 2); }
+            get => Math.Round(_averageCurrent, 2);
+            set => _averageCurrent = Math.Round(value, 2);
         }
 
         public double Deviation
@@ -210,7 +207,7 @@ namespace MissionPlanner.Utilities
                 {
                     return Math.Round(_deviation, 2);
                 }
-                if (Math.Round(AverageCurrent * EnergyProfileModel.PercentDevCrnt, 2) == Math.Round(_deviation, 2))
+                if (Math.Round(AverageCurrent * EnergyProfileModel.PercentDevCrnt, 2).Equals(Math.Round(_deviation, 2)))
                 {
                     return _deviation;
                 }
@@ -250,20 +247,20 @@ namespace MissionPlanner.Utilities
     {
         public double Angle
         {
-            get { return Math.Round(_angle, 0); }
-            set { _angle = Math.Round(value, 0); }
+            get => Math.Round(_angle, 0);
+            set => _angle = Math.Round(value, 0);
         }
 
         public double AverageVelocity
         {
-            get { return Math.Round(_averageVelocity, 2); }
-            set { _averageVelocity = Math.Round(value, 2); }
+            get => Math.Round(_averageVelocity, 2);
+            set => _averageVelocity = Math.Round(value, 2);
         }
 
         public double Deviation
         {
-            get { return Math.Round(_deviation, 2); }
-            set { _deviation = Math.Round(value, 2); }
+            get => Math.Round(_deviation, 2);
+            set => _deviation = Math.Round(value, 2);
         }
 
         private double _angle;
@@ -282,6 +279,10 @@ namespace MissionPlanner.Utilities
         public double MinVelocity => Math.Round(_averageVelocity - _deviation, 2);
     }
 
+    /// <summary>
+    /// This is the overall logfile model. In this model are all Logfiles with selected values.
+    /// After calculation and analysis get this model the result mean-values of current, speed and hover_current and the sample counts.
+    /// </summary>
     public class LogAnalizerModel
     {
         // tempvalues for calculations
@@ -290,8 +291,11 @@ namespace MissionPlanner.Utilities
 
         // for endvalues
         public Dictionary<double, double> Angle_MeanCurrent { get; set; }
-        public double Angle_MeanCurrent_Hover { get; set; }
+        public Dictionary<double, int> Angle_MeanCurrent_SampleCounts { get; set; } // angle --> current-sample-count
+        public double MeanCurrent_Hover { get; set; } 
+        public int Hover_SampleCounts { get; set; } // hover --> current-sample-count
         public  Dictionary<double, double> Angle_MeanSpeed { get; set; }
+        public Dictionary<double, int> Angle_MeanSpeed_SampleCounts { get; set; } // angle --> speed-sample-count
 
         public LogAnalizerModel()
         {
@@ -301,12 +305,17 @@ namespace MissionPlanner.Utilities
             HoverCurrentList = new List<double>();
             Angle_MeanCurrent = new Dictionary<double, double>();
             Angle_MeanSpeed = new Dictionary<double, double>();
+            Angle_MeanCurrent_SampleCounts = new Dictionary<double, int>();
+            Angle_MeanSpeed_SampleCounts = new Dictionary<double, int>();
         }
 
         public Dictionary<string, EnergyLogFileModel> AllLogfiles { get; }
 
     }
 
+    /// <summary>
+    /// What Section for Samples
+    /// </summary>
     public enum SectionType
     {
         Speed,
@@ -315,6 +324,9 @@ namespace MissionPlanner.Utilities
         None
     }
 
+    /// <summary>
+    /// This is the result Model for one Logfile with important values
+    /// </summary>
     public class EnergyLogFileModel
     {
         public int StartTime { get; set; }
@@ -322,24 +334,20 @@ namespace MissionPlanner.Utilities
         public List<GPS_Model> GPS_Lines { get; set; }
         public List<CURR_Model> CURR_Lines { get; set; }
         public List<MODE_Model> MODE_Lines { get; set; }
-
-
-
+        
         public EnergyLogFileModel()
         {
             CMD_Lines = new List<CMD_Model>();
             GPS_Lines = new List<GPS_Model>();
             CURR_Lines = new List<CURR_Model>();
             MODE_Lines = new List<MODE_Model>();
-
         }
 
-        public IEnumerator<EnergyLogFileModel> GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 
+    /// <summary>
+    /// This is the Command_Model for cmd_line from logfile with important values.
+    /// </summary>
     public class CMD_Model
     {
         public int Time_ms { get; set; }
@@ -378,6 +386,9 @@ namespace MissionPlanner.Utilities
         }
     }
 
+    /// <summary>
+    /// This is the GPS_Model for gps_line in logfile and the important values. 
+    /// </summary>
     public class GPS_Model
     {
         public int Time_ms { get; set; }
@@ -402,6 +413,9 @@ namespace MissionPlanner.Utilities
         }
     }
 
+    /// <summary>
+    /// This is the Current_Model for curr_line in logfile and the important values. 
+    /// </summary>
     public class CURR_Model
     {
         public int Time_ms { get; }
@@ -418,12 +432,14 @@ namespace MissionPlanner.Utilities
         }
     }
 
+    /// <summary>
+    /// This is the Mode_Model for mode_line in logfile and the important values. 
+    /// </summary>
     public class MODE_Model
     {
         public int Time_ms { get; }
         public string Mode { get; }
         public string ModeNum { get; }
-
 
         public MODE_Model(int time, string mode, string modenum)
         {

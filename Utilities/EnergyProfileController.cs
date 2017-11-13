@@ -79,10 +79,11 @@ namespace MissionPlanner.Utilities
         //  variables and enums for LogAnalyzer
         // -------------------------------------
 
-        private int guiltyValues;
+        private int validMinValues;
         private int transitionTime;
         private int ampfactor = 100;
         LogAnalizerModel logAnalizerModel;
+        private bool validAnalysis;
 
         public enum PlotProfile
         {
@@ -96,12 +97,10 @@ namespace MissionPlanner.Utilities
         enum RowType
         {
             FMT,
-            STRT,
             GPS,
             MODE,
             CURR,
-            CMD,
-            None
+            CMD
         }
 
         /// <summary>
@@ -130,7 +129,6 @@ namespace MissionPlanner.Utilities
             Lat,
             Lng,
             RelAlt,
-            Alt,
             None
         }
 
@@ -150,13 +148,13 @@ namespace MissionPlanner.Utilities
         enum FlightMode
         {
             Hover,
+            Delay_at_Waypoint,
             StraigtForward,
             StraightUP,
             StraightDOWN,
             Climb,
             Descent,
-            Warning,
-            None
+            Warning
         }
 
         enum ESearchFlag
@@ -164,7 +162,6 @@ namespace MissionPlanner.Utilities
             First,
             Start,
             End,
-            None,
         }
 
 
@@ -570,6 +567,7 @@ namespace MissionPlanner.Utilities
                     }
                 }
                 XmlNode velSet = root.SelectSingleNode(XMLTag.VelocitySet.ToString());
+                // ReSharper disable once UseNullPropagation
                 if (velSet != null)
                 {
                     XmlNodeList velModelList = velSet.SelectNodes("//" + XMLTag.VelocityModel);
@@ -864,7 +862,6 @@ namespace MissionPlanner.Utilities
         private EnergyLogFileModel LogDatas(CollectionBuffer logData)
         {
             Dictionary<string, string[]> Columns_Data = new Dictionary<string, string[]>();
-            RowType type = RowType.None;
 
             int timedelay = transitionTime;
 
@@ -913,12 +910,10 @@ namespace MissionPlanner.Utilities
             }
             foreach (var cmditem in logData.GetEnumeratorType(RowType.CMD.ToString()))
             {
-
                 string[] x = cmditem.items; //tempArray
 
                 // zipping 2 list to 1 dict
-                var dict = Columns_Data[RowType.CMD.ToString()].Zip(x.Skip(1), (s, i) => new { s, i })
-                    .ToDictionary(itemt => itemt.s, itemt => itemt.i);
+                var dict = Columns_Data[RowType.CMD.ToString()].Zip(x.Skip(1), (s, i) => new { s, i }).ToDictionary(itemt => itemt.s, itemt => itemt.i);
 
                 int time = cmditem.timems; // time in ms
                 string[] paras = new string[4]; // 4 command-parameters
@@ -969,7 +964,6 @@ namespace MissionPlanner.Utilities
             // fill datas from lines to specific headers "GPS"
             foreach (var gpsitem in logData.GetEnumeratorType(RowType.GPS.ToString()))
             {
-
                 string[] x = gpsitem.items; //tempArray
                 // zipping 2 list to 1 dict
                 var dict = Columns_Data[RowType.GPS.ToString()].Zip(x.Skip(1), (s, i) => new { s, i })
@@ -989,7 +983,7 @@ namespace MissionPlanner.Utilities
                         cmdindex++;
                         break;
                     case ESearchFlag.Start: // loiter time in param1 + cmd_time + timedelay
-                        int param1 = 0; // for cmd waypoint delay prm1
+                        int param1; // for cmd waypoint delay prm1
 
                         try
                         {
@@ -1034,16 +1028,15 @@ namespace MissionPlanner.Utilities
             return energyLogfileModel;
         }
 
-
-
         /// <summary>
         /// Analyze the logfiles from listbox
         /// </summary>
-        public void AnalyzeLogs(List<string> filenames, int gvalues, int transtime)
+        public bool AnalyzeLogs(List<string> filenames, int gvalues, int transtime)
         {
             // init values
-            guiltyValues = gvalues;
+            validMinValues = gvalues;
             transitionTime = transtime;
+            validAnalysis = false;
             GC.Collect();
             Loading.ShowLoading("Analyze Logfiles ..."); // show loading window
             // make a threadppol
@@ -1061,6 +1054,7 @@ namespace MissionPlanner.Utilities
                             }
                             finally
                             {
+                                // ReSharper disable once AccessToDisposedClosure
                                 finished.Signal(); // Signal that the work item is complete.
                             }
                         }, null);
@@ -1089,10 +1083,134 @@ namespace MissionPlanner.Utilities
 
             Loading.Close(); // close loading window after analyze
 
+            // Giv the user a feedback after analyze the logfiles
+            Feedback();
+
             // clean memory
             logAnalizerModel = null;
             GC.Collect();
+
+            // return weather the analyis was successful
+            return validAnalysis;
         }
+
+        /// <summary>
+        /// Check if all necessary data are in the tables of energyprofilemodel. 
+        /// </summary>
+        /// <returns>A dictionary with counts of missing values of current, speed aqnd hover. Best Case if all type has count = 0.</returns>
+        private Dictionary<SectionType, int> CheckValidValues()
+        {
+            // check currentset
+            Dictionary<SectionType, int> missingvaluesdict = new Dictionary<SectionType, int>();
+            int missingvalues = 0;
+            foreach (KeyValuePair<int, CurrentModel> keyValuePair in EnergyProfileModel.CurrentSet)
+            {
+                if (keyValuePair.Value.AverageCurrent.Equals(0) || (keyValuePair.Value.Angle.Equals(0) && !keyValuePair.Key.Equals(6)))
+                {
+                    missingvalues++;
+                }
+            }
+            missingvaluesdict.Add(SectionType.Current, missingvalues);
+
+            // check velocityset
+            missingvalues = 0;
+            foreach (KeyValuePair<int, VelocityModel> keyValuePair in EnergyProfileModel.VelocitySet)
+            {
+                if (keyValuePair.Value.AverageVelocity.Equals(0) || (keyValuePair.Value.Angle.Equals(0) && !keyValuePair.Key.Equals(6)))
+                {
+                    missingvalues++;
+                }
+            }
+            missingvaluesdict.Add(SectionType.Speed, missingvalues);
+
+            // check hover
+            missingvalues = 0;
+            if (EnergyProfileModel.CurrentHover.AverageCurrent.Equals(0))
+            {
+                missingvalues++;
+            }
+            missingvaluesdict.Add(SectionType.Hover, missingvalues);
+            return missingvaluesdict;
+        }
+
+
+        /// <summary>
+        /// Create a CustomMessageBox with a feedback-string for user.
+        /// In this string stands the result angle --> meancurrent/meanspeed and the samples of each current/speed to specific angle.
+        /// </summary>
+        private void Feedback()
+        {
+            // start of the string, if all necessary values would be found or not.
+            string feedback;
+            Dictionary<SectionType, int> missingdict = CheckValidValues();
+            if (!missingdict[SectionType.Current].Equals(0) || !missingdict[SectionType.Speed].Equals(0) ||
+                !missingdict[SectionType.Hover].Equals(0))
+            {
+                feedback = "At least one valid value is missing: (type : missing counts)" + Environment.NewLine;
+                feedback += SectionType.Current.ToString() + "   : " + missingdict[SectionType.Current] +
+                            Environment.NewLine;
+                feedback += SectionType.Speed.ToString() + "    : " + missingdict[SectionType.Speed] +
+                            Environment.NewLine;
+                feedback += SectionType.Hover.ToString() + "     : " + missingdict[SectionType.Hover] +
+                            Environment.NewLine;
+            }
+            else
+            {
+                feedback = "Sufficient values for analysis were found." + Environment.NewLine;
+                validAnalysis = true;
+            }
+            // string for angle to current and the samples
+            var keysindict = logAnalizerModel.Angle_MeanCurrent_SampleCounts.Keys.ToList();
+            keysindict.Sort();
+            string current = Environment.NewLine + "This values are found for current: angle [°] --> meanvalue of current [A] (samples)";
+            if (keysindict.Count > 0)
+            {
+                foreach (var key in keysindict)
+                {
+                    current += Environment.NewLine + key.ToString("00") + "     -->     " +
+                               logAnalizerModel.Angle_MeanCurrent[key].ToString("0.00").Replace(".", ",") + " ( " +
+                               logAnalizerModel.Angle_MeanCurrent_SampleCounts[key] + " ) ";
+
+                }
+            }
+            else
+            {
+                current += Environment.NewLine + "nothing found";
+            }
+            // string for angle to speed and the samples
+            keysindict = logAnalizerModel.Angle_MeanSpeed_SampleCounts.Keys.ToList();
+            keysindict.Sort();
+            string speed = Environment.NewLine + Environment.NewLine + "This values are found for speed: angle [°] --> meanvalue of speed [m/s] (samples)";
+            if (keysindict.Count > 0)
+            {
+                foreach (var key in keysindict)
+                {
+                    speed += Environment.NewLine + key.ToString("00") + "     -->     " +
+                             logAnalizerModel.Angle_MeanSpeed[key].ToString("0.00").Replace(".", ",") + " ( " +
+                             logAnalizerModel.Angle_MeanSpeed_SampleCounts[key] + " ) ";
+                }
+            }
+            else
+            {
+                speed += Environment.NewLine + "nothing found";
+            }
+            // string for hover samples
+            string hover = Environment.NewLine + Environment.NewLine + "This values are found for hover: meanvalue of current (samples)";
+            if (logAnalizerModel.Hover_SampleCounts.Equals(0))
+            {
+                hover += Environment.NewLine + "nothing found";
+            }
+            else
+            {
+                hover += Environment.NewLine + logAnalizerModel.MeanCurrent_Hover + " ( " + logAnalizerModel.Hover_SampleCounts + " ) ";
+            }
+            // link to one string
+            feedback += current;
+            feedback += speed;
+            feedback += hover;
+            CustomMessageBox.Show(feedback);
+        }
+
 
         /// <summary>
         /// Load each logfile and fill it into LogDictionary 
@@ -1108,20 +1226,15 @@ namespace MissionPlanner.Utilities
             try
             {
                 Stream stream = File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
                 CollectionBuffer logdata = new CollectionBuffer(stream);
-                //    Loading.ShowLoading("LOGANALZYER");
-
                 // fill all datas to specific logfile into a dict 
-                logAnalizerModel.AllLogfiles.Add(System.IO.Path.GetFileName(FileName), LogDatas(logdata));
+                logAnalizerModel.AllLogfiles.Add(Path.GetFileName(FileName), LogDatas(logdata));
                 logdata.Clear();
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to read File: " + ex.ToString());
-                return;
+                CustomMessageBox.Show("Failed to read File: " + ex);
             }
-            //Loading.Close();
         }
 
         /// <summary>
@@ -1140,13 +1253,7 @@ namespace MissionPlanner.Utilities
                         // set act position points
                         double lat_actpos = Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex - 1].Latitude);
                         double lng_actpos = Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex - 1].Longitude);
-                        double alt_actpos;
-                        if (cmdindex.Equals(1))
-                            alt_actpos = 0;
-                        else
-                        {
-                            alt_actpos = Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex - 1].Altitude);
-                        }
+                        var alt_actpos = cmdindex.Equals(1) ? 0 : Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex - 1].Altitude);
                         // set post position points
                         double lat_postpos = Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex].Latitude);
                         double lng_postpos = Convert.ToDouble(logfilemodel.Value.CMD_Lines[cmdindex].Longitude);
@@ -1189,11 +1296,6 @@ namespace MissionPlanner.Utilities
                             logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.Climb.ToString();
                         }
                         else if (logfilemodel.Value.CMD_Lines[cmdindex].Angle.Equals(0) &&
-                                 logfilemodel.Value.CMD_Lines[cmdindex].Distance.Equals(0))
-                        {
-                            logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.Hover.ToString(); // ToDo
-                        }
-                        else if (logfilemodel.Value.CMD_Lines[cmdindex].Angle.Equals(0) &&
                                  !logfilemodel.Value.CMD_Lines[cmdindex].Distance.Equals(0))
                         {
                             logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.StraigtForward.ToString();
@@ -1208,6 +1310,7 @@ namespace MissionPlanner.Utilities
                             //if (!logfilemodel.Value.CMD_Lines[cmdindex].FlightMode.Equals(FlightMode.Hover.ToString()))
                             if (Convert.ToByte(logfilemodel.Value.CMD_Lines[cmdindex].CmdId).Equals(16))
                             {
+                                logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.Delay_at_Waypoint.ToString();
                                 // hover from delay - param1
                                 int delaytime = Convert.ToInt16(logfilemodel.Value.CMD_Lines[cmdindex].Param[0]) *
                                                 1000; // in milliseconds
@@ -1234,7 +1337,7 @@ namespace MissionPlanner.Utilities
                                     logfilemodel.Value.CMD_Lines[cmdindex].CurrentMean = CalcMeanCurrent(
                                         logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
                                         logfilemodel.Value.CMD_Lines[cmdindex + 1].Time_ms,
-                                        guiltyValues); // only for one Command
+                                        validMinValues); // only for one Command
 
                                     logfilemodel.Value.CMD_Lines[cmdindex].currentList = GetCurrentList(
                                         logfilemodel.Value.CURR_Lines, logfilemodel.Value.CMD_Lines[cmdindex].Time_ms,
@@ -1246,6 +1349,7 @@ namespace MissionPlanner.Utilities
                             }
                             else if (Convert.ToByte(logfilemodel.Value.CMD_Lines[cmdindex].CmdId).Equals(19)) // only values for Hover in Loiter_Time
                             {
+                                logfilemodel.Value.CMD_Lines[cmdindex].FlightMode = FlightMode.Hover.ToString();
                                 int delaytime = Convert.ToInt16(logfilemodel.Value.CMD_Lines[cmdindex + 1].Param[0]) *
                                                 1000; // in milliseconds
                                 if (delaytime > 0)
@@ -1381,9 +1485,9 @@ namespace MissionPlanner.Utilities
         /// <param name="Curr_List">All values for calculate the mean.</param>
         /// <param name="starttime">Starttime for begin the interval.</param>
         /// <param name="endtime">Endtime for end of interval.</param>
-        /// <param name="guilty_Values">Calculate only if even more guilty values</param>
+        /// <param name="valid_min_values">Minimum of samples for validation.</param>
         /// <returns>The mean-current value</returns>
-        private double CalcMeanCurrent(List<CURR_Model> Curr_List, int starttime, int endtime, int guilty_Values)
+        private double CalcMeanCurrent(List<CURR_Model> Curr_List, int starttime, int endtime, int valid_min_values)
         {
             double mean_current = 0;
             int valueCount = 0;
@@ -1395,7 +1499,7 @@ namespace MissionPlanner.Utilities
                     valueCount++;
                 }
             }
-            if (valueCount >= guilty_Values)
+            if (valueCount >= valid_min_values)
             {
                 mean_current = mean_current / valueCount;
             }
@@ -1429,6 +1533,7 @@ namespace MissionPlanner.Utilities
 
         /// <summary>
         /// Calculate at the End of parsing logfiles the meancurrent und meanspeed of all founding angles
+        /// Important: Here is a choice of valid values. 
         /// </summary>
         private void CalcMeanCurrentAndSpeed()
         {
@@ -1452,11 +1557,14 @@ namespace MissionPlanner.Utilities
                                 }
                             }
                             if (count > 0)
-                                mean = sectionValue / count;
+                            {
+                                mean = Math.Round(sectionValue / count, 2);
+                                logAnalizerModel.Angle_MeanSpeed_SampleCounts.Add(anglepair.Key, count);
+                            }
                             logAnalizerModel.Angle_MeanSpeed.Add(anglepair.Key, mean);
                             break;
                         case SectionType.Current: // only current section
-                            if (sectiontype.Value.Count > guiltyValues)
+                            if (sectiontype.Value.Count > validMinValues)
                             {
                                 foreach (var currentvalue in sectiontype.Value)
                                 {
@@ -1467,7 +1575,10 @@ namespace MissionPlanner.Utilities
                                     }
                                 }
                                 if (count > 0)
+                                {
                                     mean = Math.Round(sectionValue / (count * ampfactor), 2);
+                                    logAnalizerModel.Angle_MeanCurrent_SampleCounts.Add(anglepair.Key, count);
+                                }
                                 logAnalizerModel.Angle_MeanCurrent.Add(anglepair.Key, mean);
                             }
                             break;
@@ -1479,13 +1590,13 @@ namespace MissionPlanner.Utilities
             if (logAnalizerModel.HoverCurrentList.Count > 0)
             {
                 double value = 0;
-
+                logAnalizerModel.Hover_SampleCounts = logAnalizerModel.HoverCurrentList.Count;
                 foreach (var current in logAnalizerModel.HoverCurrentList)
                 {
                     value += current;
                 }
 
-                logAnalizerModel.Angle_MeanCurrent_Hover = Math.Round(value / (logAnalizerModel.HoverCurrentList.Count * ampfactor), 2);
+                logAnalizerModel.MeanCurrent_Hover = Math.Round(value / (logAnalizerModel.HoverCurrentList.Count * ampfactor), 2);
             }
         }
 
@@ -1673,7 +1784,7 @@ namespace MissionPlanner.Utilities
         }
 
         /// <summary>
-        /// lear the existing models.
+        /// Clear the existing models.
         /// </summary>
         private void ClearModelSets()
         {
@@ -1681,17 +1792,17 @@ namespace MissionPlanner.Utilities
             EnergyProfileModel.CurrentSet.Clear();
             EnergyProfileModel.CurrentHover = new CurrentModel(0f, 0f);
 
-            EnergyProfileModel.VelocitySet.Add(1, new VelocityModel(-90f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(2, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(3, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(4, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(5, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(6, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(7, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(8, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(9, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(10, new VelocityModel(0f, 0f, 0f));
-            EnergyProfileModel.VelocitySet.Add(11, new VelocityModel(90f, 0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(1, new VelocityModel(-90f, 0f));
+            EnergyProfileModel.VelocitySet.Add(2, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(3, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(4, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(5, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(6, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(7, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(8, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(9, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(10, new VelocityModel(0f, 0f));
+            EnergyProfileModel.VelocitySet.Add(11, new VelocityModel(90f, 0f));
 
             EnergyProfileModel.CurrentSet.Add(1, new CurrentModel(-90.0f, 0.0f));
             EnergyProfileModel.CurrentSet.Add(2, new CurrentModel(0.0f, 0.0f));
@@ -1711,9 +1822,9 @@ namespace MissionPlanner.Utilities
         /// </summary>
         private void SelectHoverValue()
         {
-            EnergyProfileModel.CurrentHover.AverageCurrent = logAnalizerModel.Angle_MeanCurrent_Hover;
+            EnergyProfileModel.CurrentHover.AverageCurrent = logAnalizerModel.MeanCurrent_Hover;
         }
-        
+
         /// <summary>
         /// Set best values for speed to specific angle into "VelocitySet" in "EnergyProfileModel".
         /// </summary>
@@ -1735,6 +1846,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[1] = new VelocityModel(-90, anglepair.Value);
                         }
                     }
+                    // only values between -90 and -63 degrees and set best value of near at -72 degree
                     else if (anglepair.Key > -90 && anglepair.Key <= -63)
                     {
                         if (!EnergyProfileModel.VelocitySet[2].Equals(null))
@@ -1751,6 +1863,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[2] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values between -62 and -45 degrees and set best value of near at -54 degree
                     else if (anglepair.Key > -63 && anglepair.Key <= -45)
                     {
                         if (!EnergyProfileModel.VelocitySet[3].Equals(null))
@@ -1767,6 +1880,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[3] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values between -44 and -27 degrees and set best value of near at -36 degree
                     else if (anglepair.Key > -45 && anglepair.Key <= -27)
                     {
                         if (!EnergyProfileModel.VelocitySet[4].Equals(null))
@@ -1784,6 +1898,7 @@ namespace MissionPlanner.Utilities
                         }
 
                     }
+                    // only values between -26 and 0 degrees and set best value of near at -18 degree
                     else if (anglepair.Key > -27 && anglepair.Key < 0)
                     {
                         if (!EnergyProfileModel.VelocitySet[5].Equals(null))
@@ -1800,6 +1915,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[5] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // set value at 0 degree --> straight forward
                     else if (anglepair.Key.Equals(0))
                     {
                         if (!EnergyProfileModel.VelocitySet[6].Equals(null))
@@ -1812,6 +1928,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[6] = new VelocityModel(0, anglepair.Value);
                         }
                     }
+                    // only values between 1 and -27 degrees and set best value of near at 18 degree
                     else if (anglepair.Key > 0 && anglepair.Key < 27)
                     {
                         if (!EnergyProfileModel.VelocitySet[7].Equals(null))
@@ -1827,6 +1944,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[7] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values between 28 and 45 degrees and set best value of near at 36 degree
                     else if (anglepair.Key >= 27 && anglepair.Key < 45)
                     {
                         if (!EnergyProfileModel.VelocitySet[8].Equals(null))
@@ -1842,6 +1960,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[8] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values between 46 and 63 degrees and set best value of near at 54 degree
                     else if (anglepair.Key >= 45 && anglepair.Key < 63)
                     {
                         if (!EnergyProfileModel.VelocitySet[9].Equals(null))
@@ -1857,6 +1976,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[9] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values between 64 and 90 degrees and set best value of near at 72 degree
                     else if (anglepair.Key >= 63 && anglepair.Key < 90)
                     {
                         if (!EnergyProfileModel.VelocitySet[10].Equals(null))
@@ -1872,6 +1992,7 @@ namespace MissionPlanner.Utilities
                             EnergyProfileModel.VelocitySet[10] = new VelocityModel(anglepair.Key, anglepair.Value);
                         }
                     }
+                    // only values at 90 degree --> straight up
                     else if (anglepair.Key.Equals(90))
                     {
                         if (!EnergyProfileModel.VelocitySet[11].Equals(null))
@@ -1887,6 +2008,12 @@ namespace MissionPlanner.Utilities
             }
         }
 
+        /// <summary>
+        /// This is for better statistic analisis.
+        /// Write the values of a specific model in a csv-file and save it with a timestamp.
+        /// </summary>
+        /// <param name="model">Specific model of Current or Speed</param>
+        /// <param name="sectiontype">Current, Speed or Hover</param>
         private void PrintCSV(object model, SectionType sectiontype)
         {
             string path = Settings.Instance.LogDir + @"\CSV\";
@@ -1900,8 +2027,8 @@ namespace MissionPlanner.Utilities
             }
             if (model.GetType() == typeof(Dictionary<double, double>))
             {
-                using (System.IO.StreamWriter file =
-                new System.IO.StreamWriter(path + filename + "_Angle_Mean" + sectiontype + ".csv"))
+                using (StreamWriter file =
+                new StreamWriter(path + filename + "_Angle_Mean" + sectiontype + ".csv"))
                 {
 
                     foreach (var line in (Dictionary<double, double>)model)
@@ -1914,8 +2041,8 @@ namespace MissionPlanner.Utilities
             else if (model.GetType() == typeof(Dictionary<double, Dictionary<SectionType, List<double>>>))
             {
 
-                using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(path + filename + "_Angle_" + sectiontype + ".csv"))
+                using (StreamWriter file =
+                    new StreamWriter(path + filename + "_Angle_" + sectiontype + ".csv"))
                 {
                     file.WriteLine("angle; " + sectiontype);
                     foreach (var anglepair in (Dictionary<double, Dictionary<SectionType, List<double>>>)model)
@@ -1939,8 +2066,8 @@ namespace MissionPlanner.Utilities
             }
             else if (model.GetType() == typeof(List<double>))
             {
-                using (System.IO.StreamWriter file =
-                    new System.IO.StreamWriter(path + filename + "_" + sectiontype + "_Current" + ".csv"))
+                using (StreamWriter file =
+                    new StreamWriter(path + filename + "_" + sectiontype + "_Current" + ".csv"))
                 {
 
                     foreach (var line in (List<double>)model)
@@ -1950,198 +2077,5 @@ namespace MissionPlanner.Utilities
                 }
             }
         }
-
-        // todo for testing 
-
-        private void SetNewValuesInModel(SectionType section)
-        {
-            Dictionary<double, double> sectionDict = new Dictionary<double, double>();
-            object energydict;
-            Type castType;
-            switch (section)
-            {
-                case SectionType.Current:
-                    sectionDict = logAnalizerModel.Angle_MeanCurrent;
-                    //energydict = EnergyProfileModel.CurrentSet;
-                    break;
-                case SectionType.Speed:
-                    sectionDict = logAnalizerModel.Angle_MeanSpeed;
-                    castType = EnergyProfileModel.VelocitySet.GetType();
-                    energydict = new Dictionary<int, VelocityModel>(EnergyProfileModel.VelocitySet);
-
-                    break;
-                case SectionType.Hover:
-                    EnergyProfileModel.CurrentHover.AverageCurrent = logAnalizerModel.Angle_MeanCurrent_Hover;
-                    return;
-            }
-
-            foreach (KeyValuePair<double, double> anglepair in sectionDict)
-            {
-                if (!anglepair.Value.Equals(0))
-                {
-                    // only values at -90 degree --> straight down
-                    if (anglepair.Key.Equals(-90))
-                    {
-                        //if (!energydict[1].Equals(null))
-                        //{
-                        //    (Dictionary<int, VelocityModel>)energydict[1].AverageVelocity = anglepair.Value;
-                        //}
-                        //else
-                        //{
-                        //    EnergyProfileModel.VelocitySet[1] = new VelocityModel(-90, anglepair.Value);
-                        //}
-                    }
-                    else if (anglepair.Key > -90 && anglepair.Key <= -63)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[2].Equals(null))
-                        {
-                            if (Math.Abs(Math.Abs(EnergyProfileModel.VelocitySet[2].Angle) - 72) >
-                                Math.Abs(Math.Abs(anglepair.Key) - 72))
-                            {
-                                EnergyProfileModel.VelocitySet[2].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[2].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[2] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key > -63 && anglepair.Key <= -45)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[3].Equals(null))
-                        {
-                            if (Math.Abs(Math.Abs(EnergyProfileModel.VelocitySet[3].Angle) - 54) >
-                                Math.Abs(Math.Abs(anglepair.Key) - 54))
-                            {
-                                EnergyProfileModel.VelocitySet[3].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[3].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[3] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key > -45 && anglepair.Key <= -27)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[4].Equals(null))
-                        {
-                            if (Math.Abs(Math.Abs(EnergyProfileModel.VelocitySet[4].Angle) - 36) >
-                                Math.Abs(Math.Abs(anglepair.Key) - 36))
-                            {
-                                EnergyProfileModel.VelocitySet[4].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[4].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[4] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-
-                    }
-                    else if (anglepair.Key > -27 && anglepair.Key < 0)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[5].Equals(null))
-                        {
-                            if (Math.Abs(Math.Abs(EnergyProfileModel.VelocitySet[5].Angle) - 18) >
-                                Math.Abs(Math.Abs(anglepair.Key) - 18))
-                            {
-                                EnergyProfileModel.VelocitySet[5].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[5].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[5] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key.Equals(0))
-                    {
-                        if (!EnergyProfileModel.VelocitySet[6].Equals(null))
-                        {
-                            EnergyProfileModel.VelocitySet[6].AverageVelocity = anglepair.Value;
-
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[6] = new VelocityModel(0, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key > 0 && anglepair.Key < 27)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[7].Equals(null))
-                        {
-                            if (Math.Abs(EnergyProfileModel.VelocitySet[7].Angle - 18) > Math.Abs(anglepair.Key - 18))
-                            {
-                                EnergyProfileModel.VelocitySet[7].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[7].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[7] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key >= 27 && anglepair.Key < 45)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[8].Equals(null))
-                        {
-                            if (Math.Abs(EnergyProfileModel.VelocitySet[8].Angle - 36) > Math.Abs(anglepair.Key - 36))
-                            {
-                                EnergyProfileModel.VelocitySet[8].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[8].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[8] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key >= 45 && anglepair.Key < 63)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[9].Equals(null))
-                        {
-                            if (Math.Abs(EnergyProfileModel.VelocitySet[9].Angle - 54) > Math.Abs(anglepair.Key - 54))
-                            {
-                                EnergyProfileModel.VelocitySet[9].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[9].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[9] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key >= 63 && anglepair.Key < 90)
-                    {
-                        if (!EnergyProfileModel.VelocitySet[10].Equals(null))
-                        {
-                            if (Math.Abs(EnergyProfileModel.VelocitySet[10].Angle - 72) > Math.Abs(anglepair.Key - 72))
-                            {
-                                EnergyProfileModel.VelocitySet[10].Angle = anglepair.Key;
-                                EnergyProfileModel.VelocitySet[10].AverageVelocity = anglepair.Value;
-                            }
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[10] = new VelocityModel(anglepair.Key, anglepair.Value);
-                        }
-                    }
-                    else if (anglepair.Key.Equals(90))
-                    {
-                        if (!EnergyProfileModel.VelocitySet[11].Equals(null))
-                        {
-                            EnergyProfileModel.VelocitySet[11].AverageVelocity = anglepair.Value;
-                        }
-                        else
-                        {
-                            EnergyProfileModel.VelocitySet[11] = new VelocityModel(90, anglepair.Value);
-                        }
-                    }
-                }
-            }
-        }
-
     }
 }
