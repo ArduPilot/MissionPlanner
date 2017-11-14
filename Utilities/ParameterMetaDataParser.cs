@@ -17,8 +17,8 @@ namespace MissionPlanner.Utilities
     public static class ParameterMetaDataParser
     {
         private static readonly Regex _paramMetaRegex =
-            new Regex(String.Format("{0}(?<MetaKey>[^:\\s]+):(?<MetaValue>.+)",
-                ParameterMetaDataConstants.ParamDelimeter));
+            new Regex(ParameterMetaDataConstants.ParamDelimeter +
+                      @"(?<MetaKey>\w+)(?:{(?<MetaFrame>[^:]+)})?:(?<MetaValue>.+)");
 
         private static readonly Regex _parentDirectoryRegex = new Regex("(?<ParentDirectory>[../]*)(?<Path>.+)");
 
@@ -27,6 +27,18 @@ namespace MissionPlanner.Utilities
 
         static Dictionary<string, string> cachequeue = new Dictionary<string, string>();
         static Dictionary<string, string> cache = new Dictionary<string, string>();
+
+        private static Dictionary<string, string> truename_map = new Dictionary<string, string>()
+        {
+            {"ArduCopter2", "Copter"},
+            {"ArduRover", "Rover"},
+
+            {"APMrover2", "Rover"},
+            {"ArduSub", "Sub"},
+            {"ArduCopter", "Copter"},
+            {"ArduPlane", "Plane"},
+            {"AntennaTracker", "Tracker"},
+        };
 
         /// <summary>
         /// retrived parameter info from the net
@@ -102,8 +114,8 @@ namespace MissionPlanner.Utilities
 
                         // Write the start element for this parameter location
                         objXmlTextWriter.WriteStartElement(element);
-                        ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty);
-                        ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim());
+                        ParseParameterInformation(dataFromAddress, objXmlTextWriter, string.Empty, string.Empty, element);
+                        ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation.Trim(), string.Empty, element);
 
                         // Write the end element for this parameter location
                         objXmlTextWriter.WriteEndElement();
@@ -126,7 +138,7 @@ namespace MissionPlanner.Utilities
         /// <param name="objXmlTextWriter">The obj XML text writer.</param>
         /// <param name="parameterLocation">The parameter location.</param>
         private static void ParseGroupInformation(string fileContents, XmlTextWriter objXmlTextWriter,
-            string parameterLocation, string parameterPrefix ="")
+            string parameterLocation, string parameterPrefix, string vehicleType)
         {
             var NestedGroups = Regex.Match(fileContents, ParameterMetaDataConstants.NestedGroup);
 
@@ -143,12 +155,12 @@ namespace MissionPlanner.Utilities
                     var newPath = parameterLocation.Replace(currentfn, newfn);
                     var dataFromAddress = ReadDataFromAddress(newPath);
                     log.Info("Nested Group " + NestedGroups.Groups[1]);
-                    ParseParameterInformation(dataFromAddress, objXmlTextWriter, parameterPrefix);
-                    ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix);
+                    ParseParameterInformation(dataFromAddress, objXmlTextWriter, parameterPrefix, string.Empty, vehicleType);
+                    ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix, vehicleType);
                 }
             }
 
-            var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Group);
+            var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Group, vehicleType);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
                 // node is the prefix of the parameter group here
@@ -183,9 +195,9 @@ namespace MissionPlanner.Utilities
 
                                             // Parse the param info from the newly constructed URL
                                             ParseParameterInformation(dataFromAddress,
-                                                objXmlTextWriter, parameterPrefix+node.Key, newPath);
+                                                objXmlTextWriter, parameterPrefix+node.Key, newPath, vehicleType);
 
-                                            ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix + node.Key);
+                                            ParseGroupInformation(dataFromAddress, objXmlTextWriter, newPath, parameterPrefix + node.Key, vehicleType);
                                         }));
                     }
                 });
@@ -199,9 +211,9 @@ namespace MissionPlanner.Utilities
         /// <param name="objXmlTextWriter">The obj XML text writer.</param>
         /// <param name="parameterPrefix">The parameter prefix.</param>
         private static void ParseParameterInformation(string fileContents, XmlTextWriter objXmlTextWriter,
-            string parameterPrefix, string url = "")
+            string parameterPrefix, string url, string vehicleType)
         {
-            var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Param);
+            var parsedInformation = ParseKeyValuePairs(fileContents, ParameterMetaDataConstants.Param, vehicleType);
             if (parsedInformation != null && parsedInformation.Count > 0)
             {
                 parsedInformation.ForEach(node =>
@@ -235,7 +247,7 @@ namespace MissionPlanner.Utilities
         /// <param name="nodeKey">The node key.</param>
         /// <returns></returns>
         private static Dictionary<string, Dictionary<string, string>> ParseKeyValuePairs(string fileContents,
-            string nodeKey)
+            string nodeKey, string vehicleType)
         {
             var returnDict = new Dictionary<string, Dictionary<string, string>>();
 
@@ -297,6 +309,21 @@ namespace MissionPlanner.Utilities
                                             {
                                                 metaDict.Add(metaKey,
                                                     metaMatch.Groups["MetaValue"].Value.Trim(new char[] {' '}));
+                                            }
+                                            else if (metaMatch?.Groups["MetaFrame"]?.Value != "")
+                                            {
+                                                var metaframe = metaMatch?.Groups["MetaFrame"]?.Value.ToString();
+                                                try
+                                                {
+                                                    var mapname = truename_map.First(a =>
+                                                        a.Value.ToLower() == metaframe.ToLower());
+
+                                                    if (mapname.Key.ToLower() == vehicleType.ToLower())
+                                                    {
+                                                        metaDict[metaKey] = metaMatch.Groups["MetaValue"].Value
+                                                            .Trim(new char[] {' '});
+                                                    }
+                                                } catch { log.Error("Invalid MetaFrame " + metaframe); }
                                             }
                                         }
                                     }
