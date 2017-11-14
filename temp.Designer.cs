@@ -103,6 +103,7 @@
             this.but_td = new MissionPlanner.Controls.MyButton();
             this.but_dem = new MissionPlanner.Controls.MyButton();
             this.but_gsttest = new MissionPlanner.Controls.MyButton();
+            this.but_proximity = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -927,10 +928,21 @@
             this.but_gsttest.UseVisualStyleBackColor = true;
             this.but_gsttest.Click += new System.EventHandler(this.but_gsttest_Click);
             // 
+            // but_proximity
+            // 
+            this.but_proximity.Location = new System.Drawing.Point(467, 501);
+            this.but_proximity.Name = "but_proximity";
+            this.but_proximity.Size = new System.Drawing.Size(75, 23);
+            this.but_proximity.TabIndex = 91;
+            this.but_proximity.Text = "Proximity";
+            this.but_proximity.UseVisualStyleBackColor = true;
+            this.but_proximity.Click += new System.EventHandler(this.but_proximity_Click);
+            // 
             // temp
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(830, 595);
+            this.Controls.Add(this.but_proximity);
             this.Controls.Add(this.but_gsttest);
             this.Controls.Add(this.but_dem);
             this.Controls.Add(this.but_td);
@@ -1043,5 +1055,6 @@
         private Controls.MyButton but_td;
         private Controls.MyButton but_dem;
         private Controls.MyButton but_gsttest;
+        private Controls.MyButton but_proximity;
     }
 }

@@ -184,16 +184,23 @@ namespace MissionPlanner.Utilities
                 {
                     temp.Invalidate();
                 }
-                else
-                {
-                    if (!temp.IsDisposed)
-                    {
-                        MainV2.instance.Invoke((MethodInvoker)delegate { temp.Show(); });
-                    }
-                }
             }
 
             return true;
+        }
+
+        public void Show()
+        {
+            if (!temp.IsDisposed)
+            {
+                temp.Show();
+            }
+            else
+            {
+                Dispose();
+                _parent.Proximity = new Proximity(_parent);
+                _parent.Proximity.Show();
+            }
         }
 
         public void Dispose()

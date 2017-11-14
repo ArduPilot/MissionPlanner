@@ -1110,5 +1110,10 @@ namespace MissionPlanner
                 GStreamer.test();
             });
         }
+
+        private void but_proximity_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.MAV.Proximity.Show();
+        }
     }
 }
