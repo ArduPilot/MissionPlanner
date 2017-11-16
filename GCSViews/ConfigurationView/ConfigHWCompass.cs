@@ -125,6 +125,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                         ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT_Z"]).ToString();
             }
 
+            if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+            {
+                CHK_compass1_use.Enabled = false;
+                CHK_compass1_external.Enabled = false;
+                CMB_compass1_orient.Enabled = false;
+            }
 
             // Compass 2 settings
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_EXTERN2"))
@@ -161,6 +167,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                             ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Y"]).ToString() +
                                             ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT2_Z"]).ToString();
                 }
+
+                if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+                {
+                    CHK_compass2_use.Enabled = false;
+                    CHK_compass2_external.Enabled = false;
+                    CMB_compass2_orient.Enabled = false;
+                }
+
             }
             else
             {
@@ -199,6 +213,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                             ",   Y: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Y"]).ToString() +
                                             ",   Z: " + ((int) MainV2.comPort.MAV.param["COMPASS_MOT3_Z"]).ToString();
                 }
+
+                if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+                {
+                    CHK_compass3_use.Enabled = false;
+                    CHK_compass3_external.Enabled = false;
+                    CMB_compass3_orient.Enabled = false;
+                }
             }
             else
             {
@@ -209,6 +230,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.MAV.cs.firmware.ToString()), "COMPASS_CAL_FIT", MainV2.comPort.MAV.param);
 
             ShowRelevantFields();
+
+            if (!MainV2.DisplayConfiguration.displayCompassConfiguration)
+            {
+                CHK_enablecompass.Enabled = false;
+                CHK_compass_learn.Enabled = false;
+                CHK_autodec.Enabled = false;
+                CMB_primary_compass.Enabled = false;
+            }
 
             startup = false;
         }
