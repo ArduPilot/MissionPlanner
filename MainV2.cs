@@ -417,12 +417,29 @@ namespace MissionPlanner
             MenuSimulation.Visible = DisplayConfiguration.displaySimulation;
             MenuTerminal.Visible = DisplayConfiguration.displayTerminal;
             MenuHelp.Visible = DisplayConfiguration.displayHelp;
+            MenuDonate.Visible = DisplayConfiguration.displayDonate;
             MissionPlanner.Controls.BackstageView.BackstageView.Advanced = DisplayConfiguration.isAdvancedMode;
 
+            //Flight data page
             if (MainV2.instance.FlightData != null)
             {
                 TabControl t = MainV2.instance.FlightData.tabControlactions;
-
+                if (DisplayConfiguration.displayQuickTab && !t.TabPages.Contains(FlightData.tabQuick))
+                {
+                    t.TabPages.Add(FlightData.tabQuick);
+                }
+                else if (!DisplayConfiguration.displayQuickTab && t.TabPages.Contains(FlightData.tabQuick))
+                {
+                    t.TabPages.Remove(FlightData.tabQuick);
+                }
+                if (DisplayConfiguration.displayPreFlightTab && !t.TabPages.Contains(FlightData.tabPagePreFlight))
+                {
+                    t.TabPages.Add(FlightData.tabPagePreFlight);
+                }
+                else if (!DisplayConfiguration.displayPreFlightTab && t.TabPages.Contains(FlightData.tabPagePreFlight))
+                {
+                    t.TabPages.Remove(FlightData.tabPagePreFlight);
+                }
                 if (DisplayConfiguration.displayAdvActionsTab && !t.TabPages.Contains(FlightData.tabActions))
                 {
                     t.TabPages.Add(FlightData.tabActions);
@@ -438,6 +455,14 @@ namespace MissionPlanner
                 else if (!DisplayConfiguration.displaySimpleActionsTab && t.TabPages.Contains(FlightData.tabActionsSimple))
                 {
                     t.TabPages.Remove(FlightData.tabActionsSimple);
+                }
+                if (DisplayConfiguration.displayGaugesTab && !t.TabPages.Contains(FlightData.tabGauges))
+                {
+                    t.TabPages.Add(FlightData.tabGauges);
+                }
+                else if (!DisplayConfiguration.displayGaugesTab && t.TabPages.Contains(FlightData.tabGauges))
+                {
+                    t.TabPages.Remove(FlightData.tabGauges);
                 }
                 if (DisplayConfiguration.displayStatusTab && !t.TabPages.Contains(FlightData.tabStatus))
                 {
@@ -463,6 +488,31 @@ namespace MissionPlanner
                 {
                     t.TabPages.Remove(FlightData.tabScripts);
                 }
+                if (DisplayConfiguration.displayTelemetryTab && !t.TabPages.Contains(FlightData.tabTLogs))
+                {
+                    t.TabPages.Add(FlightData.tabTLogs);
+                }
+                else if (!DisplayConfiguration.displayTelemetryTab && t.TabPages.Contains(FlightData.tabTLogs))
+                {
+                    t.TabPages.Remove(FlightData.tabTLogs);
+                }
+                if (DisplayConfiguration.displayDataflashTab && !t.TabPages.Contains(FlightData.tablogbrowse))
+                {
+                    t.TabPages.Add(FlightData.tablogbrowse);
+                }
+                else if (!DisplayConfiguration.displayDataflashTab && t.TabPages.Contains(FlightData.tablogbrowse))
+                {
+                    t.TabPages.Remove(FlightData.tablogbrowse);
+                }
+                if (DisplayConfiguration.displayMessagesTab && !t.TabPages.Contains(FlightData.tabPagemessages))
+                {
+                    t.TabPages.Add(FlightData.tabPagemessages);
+                }
+                else if (!DisplayConfiguration.displayDataflashTab && t.TabPages.Contains(FlightData.tabPagemessages))
+                {
+                    t.TabPages.Remove(FlightData.tabPagemessages);
+                }
+                t.SelectedIndex = 0;
             }
         }
         

@@ -52,9 +52,14 @@ namespace MissionPlanner.GCSViews
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
-
-                        AddBackstageViewPage(typeof(ConfigArducopter), Strings.ExtendedTuning);
+                        if (MainV2.DisplayConfiguration.displayBasicTuning)
+                        { 
+                            start = AddBackstageViewPage(typeof(ConfigSimplePids), Strings.BasicTuning);
+                        }
+                        if (MainV2.DisplayConfiguration.displayExtendedTuning)
+                        {
+                            AddBackstageViewPage(typeof(ConfigArducopter), Strings.ExtendedTuning);
+                        }
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
@@ -71,7 +76,11 @@ namespace MissionPlanner.GCSViews
                     {
                         start = AddBackstageViewPage(typeof(ConfigAntennaTracker), Strings.ExtendedTuning);
                     }
-                    AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
+
+                    if (MainV2.DisplayConfiguration.displayBasicTuning)
+                    {
+                        AddBackstageViewPage(typeof(ConfigFriendlyParams), Strings.StandardParams);
+                    }
 
                     if (MainV2.DisplayConfiguration.displayAdvancedParams)
                     {
