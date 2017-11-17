@@ -55,16 +55,11 @@
     <None Remove="wix\**" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="alglibnet2">
-      <HintPath>packages\alglibnet2.0.0.0\lib\alglibnet2.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="BitMiracle.LibTiff.NET">
-      <HintPath>packages\BitMiracle.LibTiff.NET.2.4.571\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <HintPath>packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
-      <Private>True</Private>
+    <None Remove="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="BitMiracle.LibTiff.NetStandard">
+      <HintPath>..\..\..\.nuget\packages\bitmiracle.libtiff.net\2.4.584.1\lib\netstandard1.3\BitMiracle.LibTiff.NetStandard.dll</HintPath>
     </Reference>
     <Reference Include="Community.CsharpSqlite">
       <HintPath>packages\Community.CsharpSqlite.SQLiteClient.3.7.7.3\lib\net45\Community.CsharpSqlite.dll</HintPath>
@@ -76,58 +71,15 @@
       <HintPath>packages\CSMatIO.1.0.2\lib\net40\csmatio.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DirectShowLib-2005">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
-    </Reference>
     <Reference Include="DotNetZip">
       <HintPath>packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="DotSpatial.Data">
-      <HintPath>packages\DotSpatial.Data.1.9\lib\net40-Client\DotSpatial.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Data.Forms">
-      <HintPath>packages\DotSpatial.Data.Forms.1.9\lib\net40-Client\DotSpatial.Data.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Extensions">
-      <HintPath>packages\DotSpatial.Extensions.1.9\lib\net40-Client\DotSpatial.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Modeling.Forms">
-      <HintPath>packages\DotSpatial.Modeling.Forms.1.9\lib\net40-Client\DotSpatial.Modeling.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Mono">
-      <HintPath>packages\DotSpatial.Mono.1.9\lib\net40-Client\DotSpatial.Mono.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Projections">
-      <HintPath>packages\DotSpatial.Projections.1.9\lib\net40-Client\DotSpatial.Projections.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Projections.Forms">
-      <HintPath>packages\DotSpatial.Projections.Forms.1.9\lib\net40-Client\DotSpatial.Projections.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Serialization">
-      <HintPath>packages\DotSpatial.Serialization.1.9\lib\net40-Client\DotSpatial.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Symbology">
-      <HintPath>packages\DotSpatial.Symbology.1.9\lib\net40-Client\DotSpatial.Symbology.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Symbology.Forms">
-      <HintPath>packages\DotSpatial.Symbology.Forms.1.9\lib\net40-Client\DotSpatial.Symbology.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="DotSpatial.Topology">
-      <HintPath>packages\DotSpatial.Topology.1.9\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
     </Reference>
     <Reference Include="Flurl">
       <HintPath>packages\Flurl.2.5.0\lib\net40\Flurl.dll</HintPath>
     </Reference>
     <Reference Include="Flurl.Http">
       <HintPath>packages\Flurl.Http.1.2.0\lib\net45\Flurl.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="gdalconst_csharp">
-      <HintPath>packages\GDAL.1.11.1\lib\net40\gdalconst_csharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gdal_csharp">
-      <HintPath>packages\GDAL.1.11.1\lib\net40\gdal_csharp.dll</HintPath>
     </Reference>
     <Reference Include="GeoJSON.Net">
       <HintPath>packages\GeoJSON.Net.0.1.56\lib\portable-net40+sl5+wp80+win8+wpa81\GeoJSON.Net.dll</HintPath>
@@ -146,9 +98,6 @@
     </Reference>
     <Reference Include="IronPython.Wpf">
       <HintPath>packages\IronPython.2.7.7\lib\Net45\IronPython.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dynamic">
       <HintPath>packages\DynamicLanguageRuntime.1.1.2\lib\Net45\Microsoft.Dynamic.dll</HintPath>
@@ -230,7 +179,10 @@
       <HintPath>packages\System.Diagnostics.Tracing.4.3.0\lib\net462\System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
     <Reference Include="System.DirectoryServices" />
-    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing">
+      <Aliases></Aliases>
+      <EmbedInteropTypes>false</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Globalization.Calendars">
       <HintPath>packages\System.Globalization.Calendars.4.3.0\lib\net46\System.Globalization.Calendars.dll</HintPath>
     </Reference>
@@ -262,20 +214,8 @@
       <HintPath>packages\System.Net.Sockets.4.3.0\lib\net46\System.Net.Sockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Reactive.Core">
-      <HintPath>packages\System.Reactive.Core.3.1.1\lib\net46\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces">
-      <HintPath>packages\System.Reactive.Interfaces.3.1.1\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
     <Reference Include="System.Reactive.Linq">
       <HintPath>packages\System.Reactive.Linq.3.1.1\lib\net46\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices">
-      <HintPath>packages\System.Reactive.PlatformServices.3.1.1\lib\net46\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading">
-      <HintPath>packages\System.Reactive.Windows.Threading.3.1.1\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection">
       <HintPath>packages\System.Reflection.4.3.0\lib\net462\System.Reflection.dll</HintPath>
@@ -790,10 +730,7 @@
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="ExtLibs\GDAL\GDAL.csproj">
-      <Project>{766fcf85-4809-44db-b316-6c4902c65245}</Project>
-      <Name>GDAL</Name>
-    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GDAL\GDAL.NET.csproj" />
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
       <Name>GeoUtility</Name>
@@ -860,10 +797,11 @@
  
    <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
-    <PackageReference Include="BitMiracle.LibTiff.NET" version="2.4.571" targetFramework="net462" />
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
     <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
     <PackageReference Include="CSMatIO" version="1.0.2" targetFramework="net40" requireReinstallation="true" />
+    <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="DotNetZip" version="1.10.1" targetFramework="net40" />
     <PackageReference Include="DotSpatial.Data" version="1.9" targetFramework="net462" />
     <PackageReference Include="DotSpatial.Data.Forms" version="1.9" targetFramework="net462" />
@@ -898,8 +836,11 @@
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
     <PackageReference Include="SkiaSharp" version="1.58.0" targetFramework="net462" />
     <PackageReference Include="SSH.NET" version="2016.0.0" targetFramework="net40" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
+    <PackageReference Include="System.Reactive" Version="3.1.1" />
     <PackageReference Include="System.Reactive.Core" Version="3.1.1" />
+    <PackageReference Include="System.Reactive.Linq" Version="3.1.1" />
  
     <PackageReference Include="Unofficial.ObjectListView" version="2.6.0" targetFramework="net40" />
     <PackageReference Include="Xamarin.Forms" version="2.3.4.247" targetFramework="net462" />
@@ -4239,9 +4180,6 @@
     </None>
     <None Update="NoFly\SouthAfricaNoRPASOutlined.kmz">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="packages.config">
-      <SubType>Designer</SubType>
     </None>
  
  

@@ -10,21 +10,19 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Michael Oborne</Authors>
     <Company>Michael Oborne</Company>
+    <AssemblyName>GDAL.NET</AssemblyName>
+    <RootNamespace>GDAL</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="PackageManager.cs" />
-  </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Mono.Posix" Version="4.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="Mono.Posix, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Mono.Posix.4.0.0.0\lib\net40\Mono.Posix.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-  </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="GDAL" Version="1.11.1" />
+    <PackageReference Include="GDAL.Native" Version="1.11.1" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj" />
+	
+  </ItemGroup>
 </Project>

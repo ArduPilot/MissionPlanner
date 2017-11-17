@@ -7,6 +7,9 @@
 <script src="http://smoothiecharts.org/smoothie.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="/mav/Cesium/Cesium.js"></script>
+
+<script src="/mav/bundle.js"></script>
+
 <style>
     @import url(/mav/Cesium/Widgets/widgets.css);
 </style>
@@ -41,7 +44,7 @@
 
                             var smoothie = new SmoothieChart();
 
-                    smoothie.streamTo(document.getElementById("graphcanvas"));
+                    smoothie.streamTo(document.getElementById("graphcanvas"),250);
 
                     // Data
                     var line1 = new TimeSeries();
@@ -148,6 +151,8 @@
                           line1.append(new Date().getTime(), eval(line1item));
                           line2.append(new Date().getTime(), eval(line2item));
 
+                          addData();
+
 
                             pathHistory.push({lat: lat, lng: lng});
 
@@ -220,7 +225,7 @@
         pnts.push(feature.alt + cs.HomeAlt);
     });
 
-     if (viewer != null) {
+     if (typeof viewer !== 'undefined') {
         var orangeOutlined = viewer.entities.add({
         name : 'Orange line with black outline at height and following the surface',
         polyline : {
@@ -601,7 +606,7 @@
         </canvas><br>
         Lat: <input id="latbox" name="lat" val="40.713956"/>Long: <input id="lngbox" name="long" val="74.006653"/> <br/>
         <canvas id="graphcanvas" width="500" height="80"></canvas><br/>
-        <div id="curve_chart" style="width: 500px; height: 400px; display: none;"></div>
+        <div id="curve_chart" style="width: 500px; height: 200px;"></div>
     </div>
     <div id="serverStatus" style="width: 500px; overflow-y: auto; flex-grow: 0;"></div>
 </div>
@@ -631,29 +636,54 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc&callback=initMap" async defer></script>
 <script>
-    var viewer = new Cesium.Viewer('cesiumContainer');
+   // var viewer = new Cesium.Viewer('cesiumContainer');
 </script>
     
 <script>
     google.charts.load('current', { 'packages': ['corechart'] });
     google.charts.setOnLoadCallback(drawChart);
+	var options;
+	var data;
+	var chart;
 
     function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-            ['Year', 'Sales', 'Expenses'],
-            ['2004', 1000, 400],
-            ['2005', 1170, 460],
-            ['2006', 660, 1120],
-            ['2007', 1030, 540]
-        ]);
+		data = new google.visualization.DataTable();
+		data.addColumn('date', 'Time');
+		data.addColumn('number', line1item);
+		data.addColumn('number', line2item);
+	
+        data.addRows([]);
 
-        var options = {
-            title: 'Company Performance',
+        options = {
+            title: 'Graph',
             curveType: 'function',
-            legend: { position: 'bottom' }
+            legend: { position: 'top' },
+			hAxis: {
+				format: 'hh:mm:ss',
+				gridlines: {count: 15}			
+			},
+			chartArea: {left: '5%', top: '15%', width: '90%', height: '80%'}
         };
 
-        var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+
+        chart.draw(data, options);
+
+        setTimeout("redrawchart()", 1000);
+    }
+	
+	function addData() {
+		if(data.getNumberOfRows() > 200)
+			data.removeRow(0);
+		
+		data.addRows([
+			[new Date(), eval(line1item), eval(line2item)]
+		]);
+    }
+
+    function redrawchart()
+    {
+        setTimeout("redrawchart()", 1000);
 
         chart.draw(data, options);
     }
@@ -687,15 +717,18 @@
     };
 
 </script>
+<!--
 <script src="/mav/Libraries/JSIL.js" type="text/javascript"></script>
-
+-->
 <script>
 
-    onLoad();
+//runMain();
 
-    JSIL.Initialize();
+    //onLoad();
 
-    var asm = JSIL.GetAssembly("MAVLink");
+    //JSIL.Initialize();
+
+    //var asm = JSIL.GetAssembly("MAVLink");
 
     function runMain() {
 
@@ -711,12 +744,17 @@
                 var reader = new FileReader();
                 reader.addEventListener("loadend", function() {
 	
-                    var packet = new asm.MAVLink_MAVLinkMessage(new Uint8Array(this.result));
+				 var m = new MAVLink();
+				 var buf = Buffer.from(this.result);
+	    var msg2 = m.parseBuffer(buf);
 
-                    document.getElementById("message").innerHTML = packet.msgtypename+'';
+	
+                    //var packet = new asm.MAVLink_MAVLinkMessage(new Uint8Array(this.result));
+
+                    document.getElementById("message").innerHTML = msg2[0].name+'';
                             
                 });
-                reader.readAsArrayBuffer(msg.data);				
+                reader.readAsArrayBuffer(msg.data);
             };
             socket2.onerror = function(msg) {
                 document.getElementById("serverStatus").innerHTML = "Error: " + msg.data;
@@ -731,11 +769,11 @@
         }
 
         //############################################################
-        var test = new asm.MAVLink();
+        //var test = new asm.MAVLink();
 
-        var test2 = new asm.MAVLink_MAVLinkMessage();
+        //var test2 = new asm.MAVLink_MAVLinkMessage();
 
-        var parse = new asm.MAVLink_MavlinkParse();
+        //var parse = new asm.MAVLink_MavlinkParse();
     }
 </script>
 

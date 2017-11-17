@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExtLibs", "ExtLibs", "{7E26
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AviFile", "ExtLibs\AviFile\AviFile.csproj", "{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "ExtLibs\Core\Core.csproj", "{59129078-7B12-4198-B93E-0AA08D0BB7ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "ExtLibs\Core\Core.csproj", "{59129078-7B12-4198-B93E-0AA08D0BB7ED}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KMLib", "ExtLibs\KMLib\KMLib.csproj", "{29976BA4-A04D-4A80-A866-098C879C2FDE}"
 EndProject
@@ -58,7 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A21E0
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tlogThumbnailHandler", "ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj", "{ABA78B2E-77C3-4377-8568-9542AC227971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "tlogThumbnailHandler", "ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj", "{ABA78B2E-77C3-4377-8568-9542AC227971}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtGuided", "ExtLibs\ExtGuided\ExtGuided.csproj", "{B5211B56-CA30-4B2A-843B-832849F18CEA}"
 EndProject
@@ -68,13 +68,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SikRadio", "SikRadio\SikRad
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ManagedNativeWifi.Simple", "ExtLibs\ManagedNativeWifi.Simple\ManagedNativeWifi.Simple.csproj", "{CCE510F7-1DA6-40F2-8921-B86ED41BB85E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpAdbClient", "ExtLibs\SharpAdbClient\SharpAdbClient.csproj", "{65473257-E70F-410B-9269-D0C0F771EA87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpAdbClient", "ExtLibs\SharpAdbClient\SharpAdbClient.csproj", "{65473257-E70F-410B-9269-D0C0F771EA87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AltitudeAngelWings", "ExtLibs\AltitudeAngelWings\AltitudeAngelWings.csproj", "{098F542C-7C70-4B9C-B2E2-AC5DC5E0294B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "solo", "ExtLibs\solo\solo.csproj", "{CF402948-A3F4-4962-8A57-E40B46759D25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDAL", "ExtLibs\GDAL\GDAL.csproj", "{766FCF85-4809-44DB-B316-6C4902C65245}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GDAL.NET", "ExtLibs\GDAL\GDAL.NET.csproj", "{766FCF85-4809-44DB-B316-6C4902C65245}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MAVLink", "ExtLibs\Mavlink\MAVLink.csproj", "{13D2EC90-C41F-48A1-AADA-859B6DC24EDC}"
 EndProject

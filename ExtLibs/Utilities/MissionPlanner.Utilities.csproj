@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard20</TargetFramework>
     <ApplicationIcon />
     <OutputTypeEx>library</OutputTypeEx>
     <StartupObject />
@@ -11,11 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.571" />
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
+    <PackageReference Include="DirectShowLib" Version="1.0.0" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="ProjNet" Version="1.2.0" />
     <PackageReference Include="SharpZipLib" Version="0.86.0" />
+    <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="DirectShowLib-2005">
-      <HintPath>..\DirectShowLib-2005.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>..\..\..\..\..\.nuget\packages\SharpZipLib\0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
