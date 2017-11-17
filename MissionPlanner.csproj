@@ -792,12 +792,13 @@
       <Name>ZedGraph</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Zeroconf\Zeroconf\Zeroconf.csproj" />
     <ProjectReference Include="Updater\Updater.csproj" />
   </ItemGroup>
  
    <ItemGroup>
     <PackageReference Include="alglibnet2" version="0.0.0" targetFramework="net40" />
-    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.584.1" />
+    <PackageReference Include="BitMiracle.LibTiff.NET" Version="2.4.560" />
     <PackageReference Include="BouncyCastle" version="1.8.1" targetFramework="net40" />
     <PackageReference Include="Community.CsharpSqlite.SQLiteClient" version="3.7.7.3" targetFramework="net462" />
     <PackageReference Include="CSMatIO" version="1.0.2" targetFramework="net40" requireReinstallation="true" />
@@ -824,7 +825,6 @@
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.4.0" />
-    <PackageReference Include="MSBump" Version="2.3.0" />
 
     <PackageReference Include="netDXF" version="2.0.2" targetFramework="net462" />
     <PackageReference Include="NETStandard.Library" version="2.0.0" targetFramework="net462" />
