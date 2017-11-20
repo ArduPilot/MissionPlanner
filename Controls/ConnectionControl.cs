@@ -130,8 +130,9 @@ namespace MissionPlanner.Controls
                     MainV2.comPort.sysidcurrent = temp.sysid;
                     MainV2.comPort.compidcurrent = temp.compid;
 
-                    if (MainV2.comPort.MAV.param.Count == 0 && !(Control.ModifierKeys == Keys.Control))
-                        MainV2.comPort.getParamList();
+                    //force param update and reload view to prevent missing information in config pages
+                    MainV2.comPort.getParamList();
+                    MainV2.View.Reload();
                 }
             }
         }
@@ -139,12 +140,30 @@ namespace MissionPlanner.Controls
         private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
         {
             var temp = (port_sysid) e.Value;
+            MAVLink.MAV_COMPONENT compid = (MAVLink.MAV_COMPONENT)temp.compid;
+            string mavComponentHeader = "MAV_COMP_ID_";
+            string mavComponentString = null;
 
             foreach (var port in MainV2.Comports)
             {
                 if (port == temp.port)
                 {
-                    e.Value = temp.port.BaseStream.PortName + "-" + port.MAVlist[temp.sysid, temp.compid].aptype.ToString() + "-" + ((int)temp.sysid);
+                    if (compid == (MAVLink.MAV_COMPONENT)1)
+                    {
+                        //use Autopilot type as displaystring instead of "FCS1"
+                        mavComponentString = port.MAVlist[temp.sysid, temp.compid].aptype.ToString();
+                    }
+                    else
+                    {
+                        //use name from enum if it exists, use the component ID otherwise
+                        mavComponentString = compid.ToString();
+                        if (mavComponentString.Length > mavComponentHeader.Length)
+                        {
+                            //remove "MAV_COMP_ID_" header
+                            mavComponentString = mavComponentString.Remove(0, mavComponentHeader.Length);
+                        }
+                    }
+                    e.Value = ((int)temp.sysid) + "-" + mavComponentString.Replace("_"," ");
                 }
             }
         }

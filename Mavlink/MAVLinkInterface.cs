@@ -404,7 +404,6 @@ namespace MissionPlanner
                 }
 
                 MAVLinkMessage buffer = MAVLinkMessage.Invalid;
-                MAVLinkMessage buffer1 = MAVLinkMessage.Invalid;
 
                 DateTime start = DateTime.Now;
                 DateTime deadline = start.AddSeconds(CONNECT_TIMEOUT_SECONDS);
@@ -421,9 +420,9 @@ namespace MissionPlanner
                 // px4 native
                 BaseStream.WriteLine("sh /etc/init.d/rc.usb");
 
-                int count = 0;
+                int flightControllerHBCount = 0;
 
-                while (true)
+                while (flightControllerHBCount < 5)
                 {
                     if (progressWorkerEventArgs.CancelRequested)
                     {
@@ -446,7 +445,7 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            progressWorkerEventArgs.ErrorMessage = Strings.Only1Hb;
+                            progressWorkerEventArgs.ErrorMessage = "No FlightController board detected";
                             throw new Exception(Strings.Only1HbD);
                         }
                         else
@@ -464,61 +463,31 @@ Please check the following
 
                     Thread.Sleep(1);
 
-                    // can see 2 heartbeat packets at any time, and will connect - was one after the other
+                    // listen for heartbeats from component id 1 (flight controller) only ensures that at least one flight controller is operational
+                    buffer = getHeartBeat();
 
-                    if (buffer.Length == 0)
-                        buffer = getHeartBeat();
-
-                    Thread.Sleep(1);
-
-                    if (buffer1.Length == 0)
-                        buffer1 = getHeartBeat();
-
-
-                    if (buffer.Length > 0 || buffer1.Length > 0)
+                    if (buffer.Length > 0)
                         hbseen = true;
 
-                    count++;
-
                     // if we get no data, try enableing rts/cts
-                    if (buffer.Length == 0 && buffer1.Length == 0 && BaseStream is SerialPort)
+                    if (buffer.Length == 0 && BaseStream is SerialPort)
                     {
                         BaseStream.RtsEnable = !BaseStream.RtsEnable;
                     }
 
                     // 2 hbs that match
-                    if (buffer.Length > 5 && buffer1.Length > 5 && buffer.sysid == buffer1.sysid && buffer.compid == buffer1.compid)
+                    if (buffer.Length > 5)
                     {
                         mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
 
-                        if (hb.type != (byte) MAV_TYPE.GCS)
+                        if (buffer.compid == 1 && hb.type != (byte)MAV_TYPE.GCS)
                         {
-                            SetupMavConnect(buffer, hb);
-                            break;
-                        }
-                    }
-
-                    // 2 hb's that dont match. more than one sysid here
-                    if (buffer.Length > 5 && buffer1.Length > 5 && (buffer.sysid == buffer1.sysid || buffer.compid == buffer1.compid))
-                    {
-                        mavlink_heartbeat_t hb = buffer.ToStructure<mavlink_heartbeat_t>();
-
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
-                        {
-                            SetupMavConnect(buffer, hb);
-                            break;
-                        }
-
-                        hb = buffer1.ToStructure<mavlink_heartbeat_t>();
-
-                        if (hb.type != (byte) MAV_TYPE.ANTENNA_TRACKER && hb.type != (byte) MAV_TYPE.GCS)
-                        {
-                            SetupMavConnect(buffer1, hb);
-                            break;
+                            flightControllerHBCount++;
+                            sysidcurrent = buffer.sysid;
+                            compidcurrent = buffer.compid;
                         }
                     }
                 }
-
                 countDown.Stop();
 
                 byte[] temp = ASCIIEncoding.ASCII.GetBytes("Mission Planner " + getAppVersion() + "\0");
@@ -602,9 +571,6 @@ Please check the following
 
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
         {
-            sysidcurrent = message.sysid;
-            compidcurrent = message.compid;
-
             mavlinkversion = hb.mavlink_version;
             MAV.aptype = (MAV_TYPE) hb.type;
             MAV.apname = (MAV_AUTOPILOT) hb.autopilot;
@@ -3784,14 +3750,6 @@ Please check the following
                                 MAVlist[sysid, compid].aptype = (MAV_TYPE) hb.type;
                                 MAVlist[sysid, compid].apname = (MAV_AUTOPILOT) hb.autopilot;
                                 setAPType(sysid, compid);
-                            }
-
-                            // attach to the only remote device. / default to first device seen
-                            if (MAVlist.Count == 1)
-                            {
-                                // set it private as compidset will trigger new mavstate
-                                _sysidcurrent = sysid;
-                                compidcurrent = compid;
                             }
                         }
                     }
