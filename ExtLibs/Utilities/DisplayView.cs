@@ -42,6 +42,14 @@ namespace MissionPlanner.Utilities
         public Boolean displayMessagesTab { get; set; }
 
         //flight plan
+        public Boolean displayRallyPointsMenu { get; set; }
+        public Boolean displayGeoFenceMenu { get; set; }
+        public Boolean displaySplineCircleAutoWp { get; set; }
+        public Boolean displayTextAutoWp { get; set; }
+        public Boolean displayCircleSurveyAutoWp { get; set; }
+        public Boolean displayPoiMenu { get; set; }
+        public Boolean displayTrackerHomeMenu { get; set; }
+        public Boolean displayCheckHeightBox { get; set; }
 
         //initial setup
         public Boolean displayInstallFirmware { get; set; }
@@ -108,7 +116,15 @@ namespace MissionPlanner.Utilities
             displayDataflashTab = true;
             displayMessagesTab = true;
 
-             //flight plan
+            //flight plan
+            displayRallyPointsMenu = true;
+            displayGeoFenceMenu = true;
+            displaySplineCircleAutoWp = true;
+            displayTextAutoWp = true;
+            displayCircleSurveyAutoWp = true;
+            displayPoiMenu = true;
+            displayTrackerHomeMenu = true;
+            displayCheckHeightBox = true;
 
             //initial setup
             displayInstallFirmware = true;
@@ -205,6 +221,14 @@ namespace MissionPlanner.Utilities
                 displayMessagesTab = true,
 
                 //flight plan
+                displayRallyPointsMenu = false,
+                displayGeoFenceMenu = false,
+                displaySplineCircleAutoWp = false,
+                displayCircleSurveyAutoWp = false,
+                displayTextAutoWp = false,
+                displayPoiMenu = false,
+                displayTrackerHomeMenu = false,
+                displayCheckHeightBox = false,
 
                 //initial setup
                 displayInstallFirmware = true,
@@ -271,6 +295,14 @@ namespace MissionPlanner.Utilities
                 displayMessagesTab = true,
 
                 //flight plan
+                displayRallyPointsMenu = true,
+                displayGeoFenceMenu = true,
+                displaySplineCircleAutoWp = true,
+                displayTextAutoWp = true,
+                displayCircleSurveyAutoWp = true,
+                displayPoiMenu = true,
+                displayTrackerHomeMenu = true,
+                displayCheckHeightBox = true,
 
                 //initial setup
                 displayInstallFirmware = true,
