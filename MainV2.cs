@@ -514,6 +514,12 @@ namespace MissionPlanner
                 }
                 t.SelectedIndex = 0;
             }
+
+            if (MainV2.instance.FlightPlanner != null)
+            {
+                //hide menu items 
+                MainV2.instance.FlightPlanner.updateDisplayView();
+            }
         }
         
 

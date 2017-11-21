@@ -944,7 +944,30 @@ namespace MissionPlanner.GCSViews
 
             Visible = true;
 
+            //hide menu items 
+            rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
+            geoFenceToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayGeoFenceMenu;
+            createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
+            textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
+            createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
+            pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
+            trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
+            CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+
             timer1.Start();
+        }
+
+
+        public void updateDisplayView()
+        {
+            rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
+            geoFenceToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayGeoFenceMenu;
+            createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
+            textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
+            createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
+            pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
+            trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
+            CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
         }
 
         void POI_POIModified(object sender, EventArgs e)
