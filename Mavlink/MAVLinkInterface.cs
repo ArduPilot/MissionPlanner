@@ -572,15 +572,15 @@ Please check the following
         void SetupMavConnect(MAVLinkMessage message, mavlink_heartbeat_t hb)
         {
             mavlinkversion = hb.mavlink_version;
-            MAV.aptype = (MAV_TYPE) hb.type;
-            MAV.apname = (MAV_AUTOPILOT) hb.autopilot;
+            MAVlist[message.sysid, message.compid].aptype = (MAV_TYPE) hb.type;
+            MAVlist[message.sysid, message.compid].apname = (MAV_AUTOPILOT) hb.autopilot;
 
             setAPType(message.sysid, message.compid);
 
-            MAV.sysid = message.sysid;
-            MAV.compid = message.compid;
-            MAV.recvpacketcount = message.seq;
-            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", MAV.sysid, MAV.compid, mavlinkversion,
+            MAVlist[message.sysid, message.compid].sysid = message.sysid;
+            MAVlist[message.sysid, message.compid].compid = message.compid;
+            MAVlist[message.sysid, message.compid].recvpacketcount = message.seq;
+            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", message.sysid, message.compid, mavlinkversion,
                 MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
@@ -4082,7 +4082,7 @@ Please check the following
 
                 MAVlist[sysid, compid].param_types[st] = (MAV_PARAM_TYPE)value.param_type;
 
-                if (MAV.apname == MAV_AUTOPILOT.ARDUPILOTMEGA && buffer.compid != (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
+                if (MAVlist[sysid, compid].apname == MAV_AUTOPILOT.ARDUPILOTMEGA && buffer.compid != (byte)MAV_COMPONENT.MAV_COMP_ID_UDP_BRIDGE)
                 {
                     var offset = Marshal.OffsetOf(typeof (mavlink_param_value_t), "param_value");
                     MAVlist[sysid, compid].param[st] = new MAVLinkParam(st, BitConverter.GetBytes(value.param_value),
