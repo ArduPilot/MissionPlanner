@@ -118,6 +118,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
             {
+                if (MainV2.DisplayConfiguration.standardFlightModesOnly)
+                {
+                    CB_simple1.Visible = false;
+                    CB_simple2.Visible = false;
+                    CB_simple3.Visible = false;
+                    CB_simple4.Visible = false;
+                    CB_simple5.Visible = false;
+                    CB_simple6.Visible = false;
+
+                    chk_ss1.Visible = false;
+                    chk_ss2.Visible = false;
+                    chk_ss3.Visible = false;
+                    chk_ss4.Visible = false;
+                    chk_ss5.Visible = false;
+                    chk_ss6.Visible = false;
+
+                    linkLabel1_ss.Visible = false;
+                }
                 try
                 {
                     updateDropDown(CMB_fmode1, "FLTMODE1");
