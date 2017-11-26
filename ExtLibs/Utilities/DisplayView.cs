@@ -87,6 +87,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayFullParamTree { get; set; }
         public Boolean displayBaudCMB { get; set; }
         public Boolean displaySerialPortCMB { get; set; }
+        public Boolean standardFlightModesOnly { get; set; }
         public bool isAdvancedMode { get; set; }
 
         public DisplayView()
@@ -161,6 +162,7 @@ namespace MissionPlanner.Utilities
             displayFullParamList = false;
             displayFullParamTree = false;
             displayBaudCMB = true;
+            standardFlightModesOnly = false;
             displaySerialPortCMB = true;
             isAdvancedMode = false;
         }
@@ -266,6 +268,7 @@ namespace MissionPlanner.Utilities
                 displayFullParamTree = false,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
+                standardFlightModesOnly = false,
                 isAdvancedMode = false
             };
         }
@@ -340,6 +343,7 @@ namespace MissionPlanner.Utilities
                 displayFullParamTree = true,
                 displayBaudCMB = true,
                 displaySerialPortCMB = true,
+                standardFlightModesOnly =  false,
                 isAdvancedMode = true
             };
         }
