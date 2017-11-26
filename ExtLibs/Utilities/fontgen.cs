@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.Utilities;
 using System.IO;
-using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
@@ -14,7 +13,7 @@ namespace MissionPlanner.Utilities
         public static int width = 8;
         public static int height = 16;
 
-        private static Font FindBestFitFont(Graphics g, String text, Font font, Size proposedSize, TextFormatFlags flags)
+        private static Font FindBestFitFont(Graphics g, String text, Font font, Size proposedSize)
         {
             // Compute actual size, shrink if needed
             while (true)

@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Core.ExtendedObjects;
-using MissionPlanner.GCSViews;
 using Zeroconf;
 
 namespace MissionPlanner.Utilities

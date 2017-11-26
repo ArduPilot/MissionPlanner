@@ -8,7 +8,7 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    class VersionDetection
+    public class VersionDetection
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

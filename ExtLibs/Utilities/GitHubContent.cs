@@ -6,6 +6,8 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using log4net;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MissionPlanner.Utilities
 {
@@ -42,10 +44,14 @@ namespace MissionPlanner.Utilities
 
             foreach (var kv in dict)
             {
-                if (type.GetField(kv.Key) != null)
-                    type.GetField(kv.Key).SetValue(obj, kv.Value);
-                if (type.GetProperty(kv.Key) != null)
-                    type.GetProperty(kv.Key).SetValue(obj, kv.Value, null);
+                try
+                {
+                    if (type.GetField(kv.Key) != null)
+                        type.GetField(kv.Key).SetValue(obj, kv.Value);
+                    if (type.GetProperty(kv.Key) != null)
+                        type.GetProperty(kv.Key).SetValue(obj, kv.Value, null);
+                }
+                catch { }
             }
             return (T) obj;
         }
@@ -76,10 +82,11 @@ namespace MissionPlanner.Utilities
             //WebClient wc = new WebClient();
             //string content = wc.DownloadString(url);
 
-            var output = fastJSON.JSON.Instance.ToObject<object[]>(content);
+            var output = JsonConvert.DeserializeObject<object[]>(content);
 
-            foreach (Dictionary<string, object> item in output)
+            foreach (JObject itemjobject in output)
             {
+                var item = itemjobject.ToObject<Dictionary<string, object>>();
                 FileInfo fi = (FileInfo) GetObject<FileInfo>(item);
                 //   string t1 = item["type"].ToString();
                 //   string t2 =item["path"].ToString();
@@ -114,7 +121,7 @@ namespace MissionPlanner.Utilities
 
                 respstream.Close();
 
-                Dictionary<string, object> output = (Dictionary<string, object>) fastJSON.JSON.Instance.Parse(content);
+                Dictionary<string, object> output = JsonConvert.DeserializeObject<Dictionary<string, object>>(content);
 
                 if (output == null)
                     return null;
