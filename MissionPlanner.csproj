@@ -814,10 +814,10 @@
     <PackageReference Include="DotSpatial.Topology" version="1.9" targetFramework="net462" />
   
     <PackageReference Include="Flurl" version="2.5.0" targetFramework="net462" />
-    <PackageReference Include="Flurl.Http" version="1.2.0" targetFramework="net462" />
+    <PackageReference Include="Flurl.Http" version="2.0.1" targetFramework="net462" />
     <PackageReference Include="GDAL" version="1.11.1" targetFramework="net462" />
     <PackageReference Include="GDAL.Native" version="1.11.1" targetFramework="net462" />
-    <PackageReference Include="GeoJSON.Net" version="0.1.56" targetFramework="net462" />
+    <PackageReference Include="GeoJSON.Net" version="1.1.64" targetFramework="net462" />
     <PackageReference Include="IronPython" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="IronPython.StdLib" version="2.7.7" targetFramework="net462" />
     <PackageReference Include="log4net" version="2.0.8" targetFramework="net462" />
