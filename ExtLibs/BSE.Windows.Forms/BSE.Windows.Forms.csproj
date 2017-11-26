@@ -191,9 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ChevronDown.png" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\ChevronRight.png" />
     <None Include="Resources\ChevronLeft.png" />
     <Content Include="Resources\ChevronUp.png" />
