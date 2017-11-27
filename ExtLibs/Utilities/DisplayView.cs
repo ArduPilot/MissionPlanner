@@ -50,6 +50,7 @@ namespace MissionPlanner.Utilities
         public Boolean displayPoiMenu { get; set; }
         public Boolean displayTrackerHomeMenu { get; set; }
         public Boolean displayCheckHeightBox { get; set; }
+        public Boolean displayPluginAutoWp { get; set; }
 
         //initial setup
         public Boolean displayInstallFirmware { get; set; }
@@ -126,6 +127,7 @@ namespace MissionPlanner.Utilities
             displayPoiMenu = true;
             displayTrackerHomeMenu = true;
             displayCheckHeightBox = true;
+            displayPluginAutoWp = true;
 
             //initial setup
             displayInstallFirmware = true;
@@ -223,14 +225,15 @@ namespace MissionPlanner.Utilities
                 displayMessagesTab = true,
 
                 //flight plan
-                displayRallyPointsMenu = false,
-                displayGeoFenceMenu = false,
-                displaySplineCircleAutoWp = false,
-                displayCircleSurveyAutoWp = false,
-                displayTextAutoWp = false,
-                displayPoiMenu = false,
-                displayTrackerHomeMenu = false,
-                displayCheckHeightBox = false,
+                displayRallyPointsMenu = true,
+                displayGeoFenceMenu = true,
+                displaySplineCircleAutoWp = true,
+                displayCircleSurveyAutoWp = true,
+                displayTextAutoWp = true,
+                displayPoiMenu = true,
+                displayTrackerHomeMenu = true,
+                displayCheckHeightBox = true,
+                displayPluginAutoWp = true,
 
                 //initial setup
                 displayInstallFirmware = true,
@@ -306,6 +309,7 @@ namespace MissionPlanner.Utilities
                 displayPoiMenu = true,
                 displayTrackerHomeMenu = true,
                 displayCheckHeightBox = true,
+                displayPluginAutoWp = true,
 
                 //initial setup
                 displayInstallFirmware = true,

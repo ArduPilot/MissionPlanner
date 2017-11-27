@@ -943,16 +943,7 @@ namespace MissionPlanner.GCSViews
             }
 
             Visible = true;
-
-            //hide menu items 
-            rallyPointsToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayRallyPointsMenu;
-            geoFenceToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayGeoFenceMenu;
-            createSplineCircleToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displaySplineCircleAutoWp;
-            textToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTextAutoWp;
-            createCircleSurveyToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayCircleSurveyAutoWp;
-            pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
-            trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
-            CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+            updateDisplayView();
 
             timer1.Start();
         }
@@ -968,6 +959,15 @@ namespace MissionPlanner.GCSViews
             pOIToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayPoiMenu;
             trackerHomeToolStripMenuItem.Visible = MainV2.DisplayConfiguration.displayTrackerHomeMenu;
             CHK_verifyheight.Visible = MainV2.DisplayConfiguration.displayCheckHeightBox;
+
+            //hide dynamically generated toolstrip items in the auto WP dropdown (these do not have name objects populated)
+            foreach (ToolStripItem item in autoWPToolStripMenuItem.DropDownItems)
+            {
+                if (item.Name.Equals(""))
+                {
+                    item.Visible = MainV2.DisplayConfiguration.displayPluginAutoWp;
+                }
+            }
         }
 
         void POI_POIModified(object sender, EventArgs e)
