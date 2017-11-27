@@ -8,16 +8,18 @@ init:
 cache: packages
 build_script:
 - cmd: >-
+    dotnet --info
 
     c:\mp\.nuget\nuget.exe update -self
     
     c:\mp\.nuget\nuget.exe restore
     
-    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /tv:15.0 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+    "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin\MSBuild.exe" MissionPlanner.sln /m /p:Configuration=Release /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
     
+    dir c:\mp\bin\Release\net461
 test: off
 artifacts:
-- path: bin\Release
+- path: bin\Release\net461
   name: MissionPlannerBeta
 deploy: off
 notifications:
