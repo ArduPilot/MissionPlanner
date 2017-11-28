@@ -831,7 +831,6 @@
     <PackageReference Include="SharpDX" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpDX.DirectInput" version="4.0.1" targetFramework="net462" />
     <PackageReference Include="SharpZipLib" version="0.86.0" targetFramework="net40" />
-    <PackageReference Include="SkiaSharp" version="1.58.0" targetFramework="net462" />
     <PackageReference Include="SSH.NET" version="2016.0.0" targetFramework="net40" />
     <PackageReference Include="System.Drawing.Common" Version="4.5.0-preview1-25914-04" />
     <PackageReference Include="System.IO.Ports" Version="4.4.0" />
