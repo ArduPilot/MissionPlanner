@@ -789,24 +789,24 @@ namespace MissionPlanner
 
             log.InfoFormat("magcal 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
             
-            x = LeastSq(data,true);
+            //x = LeastSq(data,true);
 
-            log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
+            //log.InfoFormat("magcalel 1 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x[0], x[1], x[2], x[3], ofsDoubles[0], ofsDoubles[1], ofsDoubles[2]);
 
             if (data2.Count > 0)
             {
                 double[] x2 = LeastSq(data2, false);
                 log.InfoFormat("magcal 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
-                x2 = LeastSq(data2, true);
-                log.InfoFormat("magcalel 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
+                //x2 = LeastSq(data2, true);
+                //log.InfoFormat("magcalel 2 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x2[0], x2[1], x2[2], x2[3], ofsDoubles2[0], ofsDoubles2[1], ofsDoubles2[2]);
             }
 
             if (data3.Count > 0)
             {
                 double[] x3 = LeastSq(data3, false);
                 log.InfoFormat("magcal 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
-                x3 = LeastSq(data3, true);
-                log.InfoFormat("magcalel 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
+                //x3 = LeastSq(data3, true);
+                //log.InfoFormat("magcalel 3 ofs {0},{1},{2} strength {3} old ofs {4},{5},{6}", x3[0], x3[1], x3[2], x3[3], ofsDoubles3[0], ofsDoubles3[1], ofsDoubles3[2]);
             }
 
 
