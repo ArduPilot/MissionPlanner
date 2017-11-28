@@ -205,7 +205,7 @@ namespace MissionPlanner.Utilities
             {
                 displayName = DisplayNames.Basic,
                 //MainV2 buttons
-                displaySimulation = false,
+                displaySimulation = true,
                 displayTerminal = false,
                 displayDonate = true,
                 displayHelp = true,
@@ -281,8 +281,8 @@ namespace MissionPlanner.Utilities
             {
                 displayName = DisplayNames.Advanced,
                 //MainV2 buttons
-                displaySimulation = false,
-                displayTerminal = false,
+                displaySimulation = true,
+                displayTerminal = true,
                 displayDonate = true,
                 displayHelp = true,
 
@@ -291,7 +291,7 @@ namespace MissionPlanner.Utilities
                 displayQuickTab = true,
                 displayPreFlightTab = true,
                 displayAdvActionsTab = true,
-                displaySimpleActionsTab = true,
+                displaySimpleActionsTab = false,
                 displayGaugesTab = true,
                 displayStatusTab = true,
                 displayServoTab = true,
